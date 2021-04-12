@@ -1,7 +1,5 @@
 ### Welcome to my page! 👋
 
-#### Just a novice coder looking to learn more!
-
 ---
 
 🔭 I’m currently working on getting into the USSF Software Development Immersive
