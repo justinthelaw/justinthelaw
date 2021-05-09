@@ -2,7 +2,7 @@
 
 ---
 
-🔭 I’m currently working on acceptance into the USSF SDI
+🔭 I’m currently in a USSF software development immersive with Galvanize
 
 🌱 I’m currently learning JavaScript
 
