@@ -2,7 +2,7 @@
 
 ---
 
-🔭 I’m currently in a USSF software development immersive with Galvanize
+🔭 I’m currently in a US Space Force (USSF) Software Development Immersive (SDI)
 
 🌱 I’m currently learning JavaScript
 
