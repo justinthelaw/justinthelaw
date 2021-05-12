@@ -2,7 +2,7 @@
 
 ---
 
-🔭 I’m currently in a US Space Force (USSF) Software Development Immersive (SDI)
+🔭 I’m currently in the United States Space Force (USSF) Software Development Immersive (SDI)
 
 🌱 I’m currently learning JavaScript
 
