@@ -2,9 +2,11 @@
 
 ---
 
-🔭 I’m currently in the United States Space Force (USSF) Software Development Immersive (SDI)
+💼 I'm a Developmental Engineer (62E) in the United States Space Force (USSF)
 
 🌱 I’m currently learning JavaScript
+
+🔭 I’m currently in the United States Space Force (USSF) Software Development Immersive (SDI)
 
 👉 Connect with me on [LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)
 
