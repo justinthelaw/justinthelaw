@@ -4,7 +4,7 @@
 
 💼 I'm a Developmental Engineer (62E) in the United States Space Force (USSF)
 
-🌱 I’m currently learning JavaScript
+🌱 I’m currently learning fullstack JavaScript development
 
 🔭 I’m currently in the United States Space Force (USSF) Software Development Immersive (SDI)
 
