@@ -6,8 +6,6 @@
 
 🔭 I’m currently in the United States Space Force (USSF) Software Development Immersive (SDI)
 
-🌱 I’m a student learning full stack JavaScript development
-
 🔥 I'm interested in videogames, running, and traveling
 
 👉 Connect with me on [LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)
