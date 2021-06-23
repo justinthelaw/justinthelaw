@@ -12,8 +12,6 @@
 
 👉 Connect with me on [LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)
 
----
-
 ## Justin's Github Statistics
 
 [![justinthelaw's GitHub stats](https://github-readme-stats.vercel.app/api?username=justinthelaw&count_private=true&show_icons=true&hide=stars,issues&theme=onedark)](https://github.com/anuraghazra/github-readme-stats)
