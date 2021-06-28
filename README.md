@@ -5,8 +5,6 @@
 
 💼 I'm working as a United States Space Force (USSF) Developmental Engineer (62E)
 
-🔭 I’m currently in the United States Space Force (USSF) Software Development Immersive (SDI)
-
 🔥 I'm interested in videogames, running, and traveling
 
 🐰 I have a pet rabbit named Cheeseball
