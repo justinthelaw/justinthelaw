@@ -3,7 +3,7 @@
 
 ## About Justin
 
-💼 I'm working as a United States Space Force (USSF) Developmental Engineer (62E)
+💼 I'm working as a United States Space Force Developmental Engineer (62E)
 
 🔥 I'm interested in videogames, running, and traveling
 
