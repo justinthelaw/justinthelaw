@@ -1,16 +1,14 @@
 # Welcome to Justin's GitHub page! 👋
 
-
 ## About Justin
 
-💼 I'm working as a United States Space Force Developmental Engineer (62E)
+💼 I'm a United States Space Force Developmental Engineer (62E)
 
 🔥 I'm interested in videogames, running, and traveling
 
 🐰 I have a pet rabbit named Cheeseball
 
 👉 Connect with me on [LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)
-
 
 ## Justin's Github Statistics
 
