@@ -14,7 +14,7 @@
 
 [![justinthelaw's GitHub stats](https://github-readme-stats.vercel.app/api?username=justinthelaw&count_private=true&show_icons=true&hide=stars,issues&theme=onedark)](https://github.com/anuraghazra/github-readme-stats)
 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=justinthelaw&langs_count=6&layout=compact&theme=onedark&exclude_repo=annDigIC)](https://github.com/anuraghazra/github-readme-stats)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=justinthelaw&langs_count=8&layout=compact&theme=onedark&exclude_repo=annDigIC)](https://github.com/anuraghazra/github-readme-stats)
 
 
 <!--
