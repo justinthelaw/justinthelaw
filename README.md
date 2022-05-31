@@ -2,7 +2,7 @@
 
 ## About Justin
 
-💼 I'm a United States Space Force Developmental Engineer (62E)
+💼 I'm a United States Space Force Software Developmental Engineer (Z62E)
 
 🔥 I'm interested in videogames, running, and traveling
 
