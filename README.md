@@ -2,11 +2,13 @@
 
 ## About Justin
 
-💼 I'm a United States Space Force Software Developmental Engineer (Z62E)
+💼 Currently a Software Engineer at [Rise8](https://rise8.us/)
 
-🔥 I'm interested in videogames, running, and traveling
+🚀 Veteran United States Space Force Officer
 
-🐰 I have a pet rabbit named Cheeseball
+🔥 Interested in videogames, running, and traveling
+
+🐰 Father of a pet rabbit named Cheeseball
 
 👉 Connect with me on [LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)
 
