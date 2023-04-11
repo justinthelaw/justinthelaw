@@ -4,9 +4,9 @@
 
 💼 Currently a Software Engineer at [Rise8](https://rise8.us/)
 
-🚀 Veteran United States Space Force Officer
+🚀 Veteran [United States Space Force](https://www.spaceforce.com/) Officer
 
-🔥 Interested in videogames, running, and traveling
+🔥 Interested in videogames, hiking, running, and traveling
 
 🐰 Father of a pet rabbit named Cheeseball
 
