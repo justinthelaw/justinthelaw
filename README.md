@@ -2,7 +2,7 @@
 
 ## About Justin
 
-💼 Currently a Software Engineer at [Rise8](https://rise8.us/)
+💼 Software Engineer at [Rise8](https://rise8.us/)
 
 🚀 Veteran [United States Space Force](https://www.spaceforce.com/) Officer
 
