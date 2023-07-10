@@ -2,9 +2,9 @@
 
 ## About Justin
 
-💼 Software Engineer at [Rise8](https://rise8.us/)
+💼 Software Engineer at USSF Kobayashi Maru's [Section 31](https://www.linkedin.com/company/section-thirty-one/mycompany/)
 
-🚀 Veteran [United States Space Force](https://www.spaceforce.com/) Officer
+🚀 [United States Space Force](https://www.spaceforce.com/) Officer
 
 🔥 Interested in videogames, hiking, running, and traveling
 
