@@ -2,9 +2,9 @@
 
 ## About Justin
 
-💼 Software Engineer at USSF Kobayashi Maru's [Section 31](https://www.linkedin.com/company/section-thirty-one/mycompany/)
+🚀 [United States Space Force](https://www.spaceforce.com/) (USSF) Officer
 
-🚀 [United States Space Force](https://www.spaceforce.com/) Officer
+💼 Software Engineer at USSF [Section 31](https://www.linkedin.com/company/section-thirty-one/mycompany/)
 
 🔥 Interested in videogames, hiking, running, and traveling
 
