@@ -14,7 +14,7 @@
 
 ## Justin's Github Stats
 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=justinthelaw&langs_count=10&layout=compact&theme=onedark&exclude_repo=annDigIC)](https://github.com/anuraghazra/github-readme-stats)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=justinthelaw&langs_count=8&layout=compact&theme=onedark&exclude_repo=annDigIC)](https://github.com/anuraghazra/github-readme-stats)
 
 <!--
 **justinthelaw/justinthelaw** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
