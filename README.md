@@ -8,8 +8,6 @@
 
 🔥 Interested in videogames, hiking, running, and traveling
 
-🐰 Father of a pet rabbit named Cheeseball
-
 👉 Connect with me on [LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)
 
 ## Justin's Github Stats
