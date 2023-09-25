@@ -2,7 +2,7 @@
 
 ## About Justin
 
-💼 Software Engineer at [Defense Unicorns](https://www.defenseunicorns.com/)
+💼 AI Software Engineer at [Defense Unicorns](https://www.defenseunicorns.com/)
 
 🚀 Veteran [United States Air and Space Force](https://www.spaceforce.com/) Officer
 
