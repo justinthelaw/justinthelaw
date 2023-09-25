@@ -2,9 +2,9 @@
 
 ## About Justin
 
-🚀 [United States Space Force](https://www.spaceforce.com/) (USSF) Officer
+💼 Software Engineer at [Defense Unicorns](https://www.defenseunicorns.com/)
 
-💼 Software Engineer at USSF [Section 31](https://www.linkedin.com/company/section-thirty-one/mycompany/)
+🚀 Veteran [United States Air and Space Force](https://www.spaceforce.com/) Officer
 
 🔥 Interested in videogames, hiking, running, and traveling
 
