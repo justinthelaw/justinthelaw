@@ -1,5 +1,8 @@
 # Welcome to Justin's GitHub page! 👋
 
+> [!NOTE]
+> Many of my contributions and projects are now in private repositories! If you are curious about what I am working on, please don't hesitate to reach out to me via my LinkedIn.
+
 ## About Justin
 
 💼 AI Software Engineer at [Defense Unicorns 🦄](https://www.defenseunicorns.com/)
