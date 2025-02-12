@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 overflow-hidden">
-      <div className="text-center text-5xl font-bold mb-8">Justin Law</div>
+      <div className="text-center text-5xl font-bold">Justin Law</div>
 
       <main className="row-start-2 flex flex-col items-center justify-center w-full flex-grow">
         <div
@@ -29,7 +29,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+      <footer className="row-start-3 flex gap-7 flex-wrap items-center justify-center">
         <a
           href="https://github.com/justinthelaw"
           target="_blank"
