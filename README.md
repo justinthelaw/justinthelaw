@@ -1,6 +1,6 @@
 # Welcome to Justin's GitHub page! 👋
 
-Checkout my personal website here: <https://justinthelaw.github.io/justinthelaw/>
+Checkout my [personal website](https://justinthelaw.github.io/justinthelaw/)!
 
 ## About Justin
 
