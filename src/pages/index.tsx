@@ -16,8 +16,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 overflow-hidden">
-      <div className="text-center text-5xl font-bold">Justin Law</div>
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-10 gap-16 sm:p-20">
+      <div className="row-start-1 text-center text-5xl font-bold">Justin Law</div>
       {/* NOTE: Prevents hydration issue when rendering iframe */}
       {isClient && (
         <>
@@ -34,7 +34,7 @@ export default function Home() {
             </div>
           </main>
 
-          <footer className="row-start-3 flex gap-7 flex-wrap items-center justify-center">
+          <footer className="row-start-3 flex gap-7 flex-wrap items-center justify-center p-10 mb-5">
             <a
               href="https://github.com/justinthelaw"
               target="_blank"
