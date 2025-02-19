@@ -76,9 +76,7 @@ export default function ChatBox({ onClose, loadChat }: ChatBoxProps) {
           }}
         />
         <div className="bg-gray-700 p-2 rounded h-32 overflow-y-auto text-white whitespace-pre-line">
-          {!ready ? (
-            "Loading..."
-          ) : loading ? (
+          {!ready || loading ? (
             <div className="w-6 h-6 border-4 border-gray-300 border-t-gray-500 rounded-full animate-spin"></div>
           ) : (
             result

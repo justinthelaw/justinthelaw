@@ -1,9 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+
 import ChatConfirmationModal from "../components/ChatConfirmationModal";
+import LinkIconButton from "@/components/LinkIconButton";
 
 // Dynamically load ChatBox (client-side only)
 const ChatBox = dynamic(() => import("../components/ChatBox"), { ssr: false });
@@ -11,17 +12,11 @@ const ChatBox = dynamic(() => import("../components/ChatBox"), { ssr: false });
 export default function Home() {
   // Prevent hydration mismatch by ensuring client-side only changes.
   const [isClient, setIsClient] = useState(false);
-  const [path, setPath] = useState("");
   const [showChatModal, setShowChatModal] = useState(false);
   const [loadChat, setLoadChat] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-    if (process.env.NODE_ENV === "production") {
-      setPath(
-        "https://raw.githubusercontent.com/justinthelaw/justinthelaw/refs/heads/main/public"
-      );
-    }
   }, []);
 
   const handleChatConfirm = () => {
@@ -35,9 +30,15 @@ export default function Home() {
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] h-screen gap-2">
-      <header className="text-center text-3xl sm:text-5xl font-bold p-6 mt-4">
-        Justin Law
-      </header>
+      <div className="p-4 mt-6">
+        <header className="text-center text-3xl sm:text-5xl font-bold ">
+          Justin Law
+        </header>
+        <p className="text-center mt-4">
+          A truly full-stack engineer, with expertise ranging from bare metal
+          infrastructure to frontend development, and everything in between!
+        </p>
+      </div>
       {isClient && (
         <>
           <main className="flex items-center justify-center overflow-hidden">
@@ -49,63 +50,27 @@ export default function Home() {
               />
             </div>
           </main>
-          <footer className="flex gap-4 p-6 justify-center mb-4">
-            <a
-              href="https://github.com/justinthelaw"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="relative w-8 h-8">
-                <Image
-                  src={`${path}/github.png`}
-                  alt="GitHub icon"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/justinwingchunglaw"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="relative w-8 h-8">
-                <Image
-                  src={`${path}/linkedin.png`}
-                  alt="LinkedIn icon"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </a>
-            <a
-              href="https://huggingface.co/justinthelaw"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="relative w-8 h-8">
-                <Image
-                  src={`${path}/huggingface.png`}
-                  alt="Hugging Face icon"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </a>
-            <a
-              href="https://repo1.dso.mil/justinthelaw"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="relative w-8 h-8">
-                <Image
-                  src={`${path}/gitlab.png`}
-                  alt="GitLab icon"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </a>
+          <footer className="flex gap-4 p-4 justify-center mb-6">
+            <LinkIconButton
+              link="https://github.com/justinthelaw"
+              altText="Justin's GitHub Profile"
+              filename="github.png"
+            />
+            <LinkIconButton
+              link="https://www.linkedin.com/in/justinwingchunglaw"
+              altText="Justin's LinkedIn Profile"
+              filename="linkedin.png"
+            />
+            <LinkIconButton
+              link="https://huggingface.co/justinthelaw"
+              altText="Justin's HuggingFace Profile"
+              filename="huggingface.png"
+            />
+            <LinkIconButton
+              link="https://repo1.dso.mil/justinthelaw"
+              altText="Justin's GitLab Profile"
+              filename="gitlab.png"
+            />
           </footer>
         </>
       )}
