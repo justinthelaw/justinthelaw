@@ -4,6 +4,7 @@
   "description": "Justin Law's (justinthelaw) personal website",
   "private": true,
   "scripts": {
+    "setup": "python -m pip install -r public/model/requirements.txt && python public/model/download.py",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -11,6 +12,7 @@
     "deploy": "npm run build && gh-pages -d out"
   },
   "dependencies": {
+    "@huggingface/transformers": "^3.3.3",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
