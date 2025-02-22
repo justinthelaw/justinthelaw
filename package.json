@@ -12,6 +12,7 @@
     "deploy": "npm run build && gh-pages -d out"
   },
   "dependencies": {
+    "@deemlol/next-icons": "^0.1.9",
     "@huggingface/transformers": "^3.3.3",
     "next": "15.1.7",
     "react": "^19.0.0",
