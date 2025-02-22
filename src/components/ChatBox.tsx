@@ -38,7 +38,7 @@ export default function ChatBox({ onClose, showChatBox }: ChatBoxProps) {
           setReady(true);
           break;
         case "complete":
-          setResult(e.data.output);
+          setResult(e.data.response);
           setLoading(false);
           break;
       }
@@ -66,8 +66,8 @@ export default function ChatBox({ onClose, showChatBox }: ChatBoxProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-end justify-end z-50 p-4">
-      <div className="border bg-black rounded-lg shadow-lg p-4 w-80 relative">
+    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-end justify-end z-50 p-6">
+      <div className="border bg-black rounded-lg shadow-lg p-4 relative">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-white bg-transparent hover:bg-gray-800 rounded-full w-8 h-8 pb-0.5 items-center justify-center"
@@ -79,7 +79,7 @@ export default function ChatBox({ onClose, showChatBox }: ChatBoxProps) {
           <input
             ref={inputRef}
             type="text"
-            className="bg-gray-700 w-full p-2 border rounded text-white"
+            className="bg-gray-700 w-full p-2 border rounded text-white "
             placeholder={!ready ? "Loading..." : "Enter a question..."}
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
@@ -96,7 +96,7 @@ export default function ChatBox({ onClose, showChatBox }: ChatBoxProps) {
             Send
           </button>
         </div>
-        <div className="bg-gray-700 p-2 rounded h-32 overflow-y-auto text-white whitespace-pre-line mt-2">
+        <div className="bg-gray-700 p-2 rounded text-white whitespace-pre-line mt-2 overflow-auto max-h-[65vh] max-w-[100vw] lg:xl:w-[40vw]">
           {!ready || loading ? (
             <div className="w-6 h-6 border-4 border-gray-300 border-t-gray-500 rounded-full animate-spin" />
           ) : (

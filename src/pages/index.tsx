@@ -78,12 +78,10 @@ export default function Home() {
         </button>
       )}
       {showChatBox && (
-        <div className="fixed bottom-4 right-4">
           <ChatBox
             onClose={() => setShowChatBox(false)}
             showChatBox={showChatBox}
           />
-        </div>
       )}
     </div>
   );

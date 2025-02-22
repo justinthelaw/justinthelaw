@@ -47,17 +47,14 @@ self.addEventListener("message", async (event) => {
       max_new_tokens: 128,
     });
 
-    console.log(output);
     const extractedOutput = output[0].generated_text;
-    console.log(extractedOutput);
-    const splitOutput = extractedOutput.split(`${assistantRole}\n\n`);
-    console.log(splitOutput);
-    const finalMessage =
-      splitOutput.length > 1 ? splitOutput[1].trim() : splitOutput.trim();
+    const splitOutput = extractedOutput.split(`${assistantRole}\n`);
+    const assistantMessage = splitOutput[1];
+    const response = assistantMessage.trim();
 
     self.postMessage({
       status: "complete",
-      output: finalMessage,
+      response: response,
     });
   }
 });
