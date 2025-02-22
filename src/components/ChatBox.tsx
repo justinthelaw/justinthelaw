@@ -72,7 +72,7 @@ export default function ChatBox({ onClose, showChatBox }: ChatBoxProps) {
           onClick={onClose}
           className="absolute top-2 right-2 text-white bg-transparent hover:bg-gray-800 rounded-full w-8 h-8 pb-0.5 items-center justify-center"
         >
-          🗙
+          &times;
         </button>
         <h3 className="text-lg font-bold mb-3 text-white">AI Chatbot 🤖</h3>
         <div className="flex gap-2 mb-3">
