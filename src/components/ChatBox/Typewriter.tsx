@@ -10,9 +10,10 @@ const Typewriter = ({ text, delay }: TypewriterProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (currentIndex < text.length) {
+    const words = text.split(" ");
+    if (currentIndex < words.length) {
       const timeout = setTimeout(() => {
-        setCurrentText((prevText) => prevText + text[currentIndex]);
+        setCurrentText((prevText) => prevText + words[currentIndex] + " ");
         setCurrentIndex((prevIndex) => prevIndex + 1);
       }, delay);
 

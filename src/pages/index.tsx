@@ -8,7 +8,7 @@ import GitHubProfileDescription from "@/components/GitHubProfileDescription";
 import ResumeCoverLetterViewer from "@/components/ResumeCoverLetterViewer";
 
 // NOTE: Dynamically load ChatBox only when user wants AI chat
-const ChatBox = dynamic(() => import("../components/ChatBox"), { ssr: false });
+const ChatBox = dynamic(() => import("../components/ChatBox/ChatBox"), { ssr: false });
 
 export default function Home() {
   const [showChatBox, setShowChatBox] = useState(false);
@@ -22,14 +22,14 @@ export default function Home() {
   useEffect(() => {
     /* 
     NOTE: This ensures this component (index.tsx) is mounted prior to final hydration.
-          Mainly concerns the PDF from Google Drive and Link Icons hosted on GitHub
+          This mainly concerns the PDF from Google Drive and Link Icons hosted on GitHub.
     */
     setIsMounted(true);
   }, []);
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] h-screen gap-2 py-6">
-      <div className="px-5 py-2 flex flex-col items-center gap-4">
+    <div className="grid grid-rows-[auto_1fr_auto] h-screen gap-2 pb-4 pt-8">
+      <div className="flex flex-col items-center gap-4">
         <header className="text-center text-3xl sm:text-5xl font-bold">
           Justin Law
         </header>
@@ -41,7 +41,7 @@ export default function Home() {
           <main className="flex items-center justify-center overflow-hidden">
             <ResumeCoverLetterViewer />
           </main>
-          <footer className="flex gap-1 sm:gap-1 md:gap-2 lg:gap-3 justify-center py-2">
+          <footer className="flex gap-1 sm:gap-1 md:gap-2 lg:gap-3 justify-center pb-2">
             <LinkIconButton
               link="https://github.com/justinthelaw"
               altText="Justin's GitHub Profile"
@@ -77,12 +77,7 @@ export default function Home() {
           <span className="hidden sm:inline">AI Chatbot</span> 💬
         </button>
       )}
-      {showChatBox && (
-          <ChatBox
-            onClose={() => setShowChatBox(false)}
-            showChatBox={showChatBox}
-          />
-      )}
+      {showChatBox && <ChatBox onClose={() => setShowChatBox(false)} />}
     </div>
   );
 }
