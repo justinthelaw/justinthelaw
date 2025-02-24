@@ -4,7 +4,7 @@
 
 Learn more about me on my [GitHub pages website](https://justinthelaw.github.io/justinthelaw/). You can even ask an AI chatbot questions about me!
 
-<img src="docs/website_demo.gif" width="60%"/>
+<img src="docs/website_demo.gif" width="80%"/>
 
 ## About Justin
 
