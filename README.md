@@ -1,6 +1,10 @@
 # Welcome to Justin's GitHub page! 👋
 
-Checkout my [personal website](https://justinthelaw.github.io/justinthelaw/) to learn more about me!
+## Personal Website
+
+Learn more about me on my [GitHub pages website](https://justinthelaw.github.io/justinthelaw/). You can even ask an AI chatbot questions about me!
+
+<img src="docs/website_demo.gif" width="60%"/>
 
 ## About Justin
 

@@ -14,7 +14,7 @@ export default function GitHubProfileDescription() {
           setBio(data.bio);
         }
       } catch (error) {
-        console.error("Error fetching GitHub Bio:", error);
+        console.error("Error fetching GitHub Bio: ", error);
       }
     };
 
@@ -22,7 +22,7 @@ export default function GitHubProfileDescription() {
   }, []);
 
   return (
-    <p className="text-center text-sm sm:text-sm md:text-base lg:text-base">
+    <p className="text-center text-sm sm:text-sm md:text-base lg:text-base mx-4">
       {bio}
     </p>
   );
