@@ -14,7 +14,9 @@ export default function ChatBox({ onClose }: ChatBoxProps) {
         >
           &times;
         </button>
-        <h3 className="text-lg font-bold mb-3 text-white">AI Chatbot 🤖</h3>
+        <h3 className="text-lg font-bold mb-3 text-white">
+          AI Chatbot 🤖
+        </h3>
         <ChatBoxInputArea />
       </div>
     </div>
