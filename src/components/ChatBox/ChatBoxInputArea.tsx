@@ -6,13 +6,14 @@ export default function ChatBoxInput() {
   const [inputText, setInputText] = useState<string>(""); // Controlled input state
   const [result, setResult] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingMessage, setLoadingMessage] = useState<string | null>(null);
 
   const worker = useRef<Worker | null>(null);
   const inputRef = useRef<HTMLInputElement>(null); // Ref for input field
 
   useEffect(() => {
     worker.current = new Worker(
-      new URL("@/components/ChatBox/generation.ts", import.meta.url),
+      new URL("@/components/ChatBox/utils/generation.ts", import.meta.url),
       {
         type: "module",
       }
@@ -28,6 +29,14 @@ export default function ChatBoxInput() {
           break;
         case "initiate":
           setResult("");
+          setLoading(true);
+          break;
+        case "reading":
+          setLoadingMessage("Reading the documents...");
+          setLoading(true);
+          break;
+        case "answering":
+          setLoadingMessage("Generating an answer...");
           setLoading(true);
           break;
         case "stream":
@@ -62,7 +71,7 @@ export default function ChatBoxInput() {
           ref={inputRef}
           type="text"
           className="bg-gray-700 w-full p-2 border rounded text-white "
-          placeholder={loading ? "Loading..." : "Enter a question..."}
+          placeholder={loading ? "Loading models..." : "Enter a question..."}
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyUp={(e) => {
@@ -78,7 +87,11 @@ export default function ChatBoxInput() {
           Send
         </button>
       </div>
-      <ChatBoxInputResultArea result={result} loading={loading} />
+      <ChatBoxInputResultArea
+        loadingMessage={loadingMessage}
+        result={result}
+        loading={loading}
+      />
     </Fragment>
   );
 }
