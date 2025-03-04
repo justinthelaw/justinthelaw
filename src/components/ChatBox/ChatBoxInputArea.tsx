@@ -3,17 +3,21 @@ import { useState, useEffect, useRef, useCallback, Fragment } from "react";
 import ChatBoxInputResultArea from "@/components/ChatBox/ChatBoxInputResultArea";
 
 export default function ChatBoxInput() {
-  const [inputText, setInputText] = useState<string>(""); // Controlled input state
-  const [result, setResult] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
   const [loadingMessage, setLoadingMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [answering, setAnswering] = useState<boolean>(false);
+  const [inputText, setInputText] = useState<string>("");
+  const [result, setResult] = useState<string>("");
 
   const worker = useRef<Worker | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null); // Ref for input field
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     worker.current = new Worker(
-      new URL("@/components/ChatBox/utils/generation.ts", import.meta.url),
+      new URL(
+        "@/components/ChatBox/utils/answerGeneration.ts",
+        import.meta.url
+      ),
       {
         type: "module",
       }
@@ -24,23 +28,35 @@ export default function ChatBoxInput() {
       const response = e.data.response;
 
       switch (status) {
+        case "load":
+          setLoading(true);
+          if (response?.progress && response?.name) {
+            setLoadingMessage(
+              `Downloading \`${response.name}\`... (${Math.round(
+                response.progress
+              )}%)`
+            );
+          }
+          break;
         case "done":
           setLoading(false);
+          setLoadingMessage(null);
+          setAnswering(false);
           break;
-        case "initiate":
+        case "read":
+          setLoading(true);
+          setLoadingMessage("Reading context...");
           setResult("");
-          setLoading(true);
           break;
-        case "reading":
-          setLoadingMessage("Reading the documents...");
+        case "answer":
           setLoading(true);
-          break;
-        case "answering":
           setLoadingMessage("Generating an answer...");
-          setLoading(true);
+          setResult("");
           break;
         case "stream":
           setLoading(false);
+          setLoadingMessage(null);
+          setAnswering(true);
           setResult((prev) => prev + response);
           break;
       }
@@ -70,14 +86,16 @@ export default function ChatBoxInput() {
         <input
           ref={inputRef}
           type="text"
-          className="bg-gray-700 w-full p-2 border rounded text-white "
-          placeholder={loading ? "Loading models..." : "Enter a question..."}
+          className={`w-full p-2 text-white rounded bg-gray-700 ${
+            loading ? "" : "border"
+          }`}
+          placeholder={loading ? "Loading..." : "Enter a question..."}
           value={inputText}
+          disabled={loading || answering}
           onChange={(e) => setInputText(e.target.value)}
           onKeyUp={(e) => {
             if (e.key === "Enter") handleSend();
           }}
-          disabled={loading}
         />
         <button
           onClick={handleSend}

@@ -1,10 +1,10 @@
 import {
-  env,
+  DataArray,
   FeatureExtractionPipeline,
   Tensor,
 } from "@huggingface/transformers";
 
-env.allowLocalModels = false;
+import loadModel from "@/components/ChatBox/utils/loadModel";
 
 interface DocumentEmbedding {
   text: string;
@@ -17,46 +17,43 @@ export async function fetchEmbeddings(): Promise<DocumentEmbedding[]> {
   return res.json();
 }
 
-function dotProduct(a: number[], b: number[]): number {
-  return a.reduce((sum, ai, i) => sum + ai * b[i], 0);
+function cosineSimilarity(a: DataArray, b: number[]): number {
+  let dot = 0;
+  let normA = 0;
+  let normB = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    normA += a[i] * a[i];
+    normB += b[i] * b[i];
+  }
+  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
-function cosineSimilarity(a: number[], b: number[]): number {
-  const dot = dotProduct(a, b);
-  const normA = Math.sqrt(a.reduce((sum, ai) => sum + ai * ai, 0));
-  const normB = Math.sqrt(b.reduce((sum, bi) => sum + bi * bi, 0));
-  return dot / (normA * normB);
-}
+export async function searchResults(
+  embeddingModel: string,
+  query: string,
+  topK: number = 3
+): Promise<string> {
+  const textEmbedder = (await loadModel(
+    "feature-extraction",
+    embeddingModel,
+    "fp32"
+  )) as FeatureExtractionPipeline;
 
-function normalizeVector(vec: number[]): number[] {
-  const magnitude = Math.sqrt(vec.reduce((sum, v) => sum + v * v, 0));
-  return vec.map((v) => v / magnitude);
-}
+  const docs = await fetchEmbeddings();
 
-export async function getRelevantChunks(
-  userQuery: string,
-  embedder: FeatureExtractionPipeline
-): Promise<string[]> {
-  const embeddings = await fetchEmbeddings();
-
-  const queryEmbeddingTensor: Tensor = await embedder(userQuery, {
-    pooling: "mean",
+  const rawEmbedding: Tensor = await textEmbedder(query, {
     normalize: true,
   });
+  const queryEmbedding: DataArray = rawEmbedding.data;
 
-  const queryEmbedding = queryEmbeddingTensor.tolist();
-  const normalizedQueryEmbedding = normalizeVector(queryEmbedding);
-
-  const similarities = embeddings.map((doc) => ({
+  const scored = docs.map((doc) => ({
     text: doc.text,
-    score: cosineSimilarity(normalizedQueryEmbedding, doc.embedding),
+    score: cosineSimilarity(queryEmbedding, doc.embedding),
   }));
 
-  return similarities
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 10)
-    .map((item, index) => {
-      console.info(`Relevant chunk #${index + 1}:\n`, item.text);
-      return item.text;
-    });
+  scored.sort((a, b) => b.score - a.score);
+  const finalList = scored.slice(0, topK);
+
+  return finalList.map((chunk) => chunk.text).join("\n");
 }
