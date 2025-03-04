@@ -21,14 +21,16 @@ export default function ChatBoxInputResultArea({
       }`}
     >
       {loading || loadingMessage ? (
-        <div className="flex items-center gap-1">
-          <div className="w-6 h-6 border-4 border-gray-300 border-t-gray-500 rounded-full animate-spin mr-1" />
+        <div className="flex items-center gap-2">
+          <span>
+            <div className="w-6 h-6 border-4 border-gray-300 border-t-gray-500 rounded-full animate-spin" />
+          </span>
           <p className="text-stone-400">{loadingMessage}</p>
         </div>
       ) : !result?.length ? (
         <Typewriter text={defaultMessage} delay={200} />
       ) : (
-        <span>{result}</span>
+        <p>{result}</p>
       )}
     </div>
   );

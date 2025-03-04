@@ -14,7 +14,10 @@ export default function ChatBoxInput() {
 
   useEffect(() => {
     worker.current = new Worker(
-      new URL("@/components/ChatBox/utils/generation.ts", import.meta.url),
+      new URL(
+        "@/components/ChatBox/utils/answerGeneration.ts",
+        import.meta.url
+      ),
       {
         type: "module",
       }
@@ -27,19 +30,27 @@ export default function ChatBoxInput() {
       switch (status) {
         case "load":
           setLoading(true);
-          if (response && response?.progress)
+          if (response?.progress && response?.name) {
             setLoadingMessage(
-              `Downloading model... (${Math.round(response.progress)}%)`
+              `Downloading \`${response.name}\`... (${Math.round(
+                response.progress
+              )}%)`
             );
+          }
           break;
         case "done":
           setLoading(false);
           setLoadingMessage(null);
           setAnswering(false);
           break;
-        case "initiate":
+        case "read":
+          setLoadingMessage("Reading context...");
           setLoading(true);
+          setResult("");
+          break;
+        case "answer":
           setLoadingMessage("Generating an answer...");
+          setLoading(true);
           setResult("");
           break;
         case "stream":
@@ -78,7 +89,7 @@ export default function ChatBoxInput() {
           className={`w-full p-2 text-white rounded bg-gray-700 ${
             loading ? "" : "border"
           }`}
-          placeholder={loading ? "" : "Enter a question..."}
+          placeholder={loading ? "Loading..." : "Enter a question..."}
           value={inputText}
           disabled={loading || answering}
           onChange={(e) => setInputText(e.target.value)}
