@@ -10,8 +10,10 @@ import { searchResults } from "@/components/ChatBox/utils/embeddingsSearch";
 
 env.allowLocalModels = false;
 
-const TEXT_GENERATION_MODEL = "HuggingFaceTB/SmolLM2-360M-Instruct";
+const TEXT_GENERATION_MODEL = "onnx-community/Phi-3.5-mini-instruct-ONNX-GQA";
+const TEXT_GENERATION_MODEL_DTYPE = "q4";
 const EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2";
+const EMBEDDING_MODEL_DTYPE = "fp32";
 
 const cleanInput = (input?: string): string => {
   return input ? input.replace(/`/g, "").trim() : "";
@@ -26,8 +28,16 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
   const { action, input } = event.data;
 
   if (action === "load") {
-    await loadModel("text-generation", TEXT_GENERATION_MODEL, "fp16");
-    await loadModel("feature-extraction", EMBEDDING_MODEL, "fp32");
+    await loadModel(
+      "text-generation",
+      TEXT_GENERATION_MODEL,
+      TEXT_GENERATION_MODEL_DTYPE
+    );
+    await loadModel(
+      "feature-extraction",
+      EMBEDDING_MODEL,
+      EMBEDDING_MODEL_DTYPE
+    );
     self.postMessage({ status: "done" });
     return;
   }
@@ -38,7 +48,12 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
 
   let context: string = "";
   try {
-    context = await searchResults(EMBEDDING_MODEL, cleanedInput, 3);
+    context = await searchResults(
+      EMBEDDING_MODEL,
+      EMBEDDING_MODEL_DTYPE,
+      cleanedInput,
+      30
+    );
     console.info(context);
   } catch (e) {
     const error = `Error retrieving context: ${e}`;
@@ -74,7 +89,7 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
     const textGenerator = (await loadModel(
       "text-generation",
       TEXT_GENERATION_MODEL,
-      "fp16"
+      TEXT_GENERATION_MODEL_DTYPE
     )) as TextGenerationPipeline;
 
     const streamer = new TextStreamer(textGenerator.tokenizer, {
@@ -90,7 +105,7 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
 
     try {
       await textGenerator(messages, {
-        temperature: 0,
+        temperature: 0.5,
         max_new_tokens: 512,
         streamer,
       });

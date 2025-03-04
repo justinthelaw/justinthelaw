@@ -31,13 +31,36 @@ function cosineSimilarity(a: DataArray, b: number[]): number {
 
 export async function searchResults(
   embeddingModel: string,
+  dtype:
+    | "auto"
+    | "fp32"
+    | "fp16"
+    | "q8"
+    | "int8"
+    | "uint8"
+    | "q4"
+    | "bnb4"
+    | "q4f16"
+    | Record<
+        string,
+        | "auto"
+        | "fp32"
+        | "fp16"
+        | "q8"
+        | "int8"
+        | "uint8"
+        | "q4"
+        | "bnb4"
+        | "q4f16"
+      >
+    | undefined,
   query: string,
   topK: number = 3
 ): Promise<string> {
   const textEmbedder = (await loadModel(
     "feature-extraction",
     embeddingModel,
-    "fp32"
+    dtype
   )) as FeatureExtractionPipeline;
 
   const docs = await fetchEmbeddings();

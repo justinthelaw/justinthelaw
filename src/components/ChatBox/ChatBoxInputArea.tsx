@@ -44,13 +44,13 @@ export default function ChatBoxInput() {
           setAnswering(false);
           break;
         case "read":
-          setLoading(true);
           setLoadingMessage("Reading context...");
+          setLoading(true);
           setResult("");
           break;
         case "answer":
-          setLoading(true);
           setLoadingMessage("Generating an answer...");
+          setLoading(true);
           setResult("");
           break;
         case "stream":
