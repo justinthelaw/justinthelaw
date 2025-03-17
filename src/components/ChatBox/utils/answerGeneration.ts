@@ -6,14 +6,11 @@ import {
 } from "@huggingface/transformers";
 
 import loadModel from "@/components/ChatBox/utils/loadModel";
-import { searchResults } from "@/components/ChatBox/utils/embeddingsSearch";
 
 env.allowLocalModels = false;
 
-const TEXT_GENERATION_MODEL = "onnx-community/Phi-3.5-mini-instruct-ONNX-GQA";
-const TEXT_GENERATION_MODEL_DTYPE = "q4";
-const EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2";
-const EMBEDDING_MODEL_DTYPE = "fp32";
+const TEXT_GENERATION_MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct";
+const TEXT_GENERATION_MODEL_DTYPE = "fp16";
 
 const cleanInput = (input?: string): string => {
   return input ? input.replace(/`/g, "").trim() : "";
@@ -33,11 +30,6 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
       TEXT_GENERATION_MODEL,
       TEXT_GENERATION_MODEL_DTYPE
     );
-    await loadModel(
-      "feature-extraction",
-      EMBEDDING_MODEL,
-      EMBEDDING_MODEL_DTYPE
-    );
     self.postMessage({ status: "done" });
     return;
   }
@@ -46,22 +38,6 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
 
   const cleanedInput = cleanInput(input);
 
-  let context: string = "";
-  try {
-    context = await searchResults(
-      EMBEDDING_MODEL,
-      EMBEDDING_MODEL_DTYPE,
-      cleanedInput,
-      30
-    );
-    console.info(context);
-  } catch (e) {
-    const error = `Error retrieving context: ${e}`;
-    self.postMessage({ status: "stream", response: error });
-    console.error(error);
-    return;
-  }
-
   if (cleanedInput.length > 0) {
     self.postMessage({ status: "answer" });
 
@@ -69,20 +45,13 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
       {
         role: "system",
         content: [
-          "You are an AI assistant created by Justin Law.",
-          "Answer queries using only the context in Justin's resume.",
-          "Answer queries using full sentences, being as succinct possible.",
-          "Do not answer queries that are inappropriate, explicit, violent or sexual in nature.",
+          "You are Justin Law's AI assistant, tasked with answering questions about Justin Law.",
+          "Answer questions using full sentences, being as succinct possible.",
         ].join(" "),
       },
       {
         role: "user",
-        content: [
-          "The following is my query:",
-          cleanedInput,
-          "Answer my query using the following context from Justin Law's resume:",
-          context,
-        ].join("\n"),
+        content: `Answer this user's query about Justin Law: "${cleanedInput}"`,
       },
     ];
 
@@ -105,7 +74,7 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
 
     try {
       await textGenerator(messages, {
-        temperature: 0.5,
+        temperature: 0.1,
         max_new_tokens: 512,
         streamer,
       });
@@ -114,5 +83,12 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
       self.postMessage({ status: "stream", response: error });
       console.error(error);
     }
+  } else {
+    console.error("The user sent a mis-formatted or empty message.");
+    self.postMessage({
+      status: "stream",
+      response:
+        "Sorry, I didn't quite catch that. Please send me another question!",
+    });
   }
 });

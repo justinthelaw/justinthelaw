@@ -32,7 +32,7 @@ export default function ChatBoxInput() {
           setLoading(true);
           if (response?.progress && response?.name) {
             setLoadingMessage(
-              `Downloading \`${response.name}\`... (${Math.round(
+              `Loading \`${response.name}\`... (${Math.round(
                 response.progress
               )}%)`
             );
@@ -82,6 +82,13 @@ export default function ChatBoxInput() {
 
   return (
     <Fragment>
+      <div className="gap-2 mb-3">
+        <ChatBoxInputResultArea
+          loadingMessage={loadingMessage}
+          result={result}
+          loading={loading}
+        />
+      </div>
       <div className="flex gap-2 mb-3">
         <input
           ref={inputRef}
@@ -105,11 +112,6 @@ export default function ChatBoxInput() {
           Send
         </button>
       </div>
-      <ChatBoxInputResultArea
-        loadingMessage={loadingMessage}
-        result={result}
-        loading={loading}
-      />
     </Fragment>
   );
 }
