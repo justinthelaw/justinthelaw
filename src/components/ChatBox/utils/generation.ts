@@ -2,7 +2,7 @@ import { pipeline, TextStreamer, env } from "@huggingface/transformers";
 
 env.allowLocalModels = false;
 
-const TEXT_GENERATION_MODEL = "HuggingFaceTB/SmolLM2-360M-Instruct";
+const TEXT_GENERATION_MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct";
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 let generator: any = null;
@@ -12,7 +12,7 @@ async function loadGenerator(): Promise<any> {
   try {
     if (!generator) {
       generator = await pipeline("text-generation", TEXT_GENERATION_MODEL, {
-        dtype: "fp16",
+        dtype: "fp32",
         progress_callback: (x) =>
           self.postMessage({ status: "load", response: x }),
       });
