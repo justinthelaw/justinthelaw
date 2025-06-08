@@ -1,8 +1,14 @@
+/**
+ * This file handles the generation of text using the SmolLM2 models from HuggingFace.
+ * 
+ * The model selection logic has been moved to modelSelection.ts for better organization
+ * and reusability. This file focuses solely on text generation using the selected model.
+ */
 import { pipeline, TextStreamer, env } from "@huggingface/transformers";
+import { MODEL_SELECTION } from "./modelSelection";
+import { generateConversationMessages, cleanInput } from "./contextProvider";
 
 env.allowLocalModels = false;
-
-const TEXT_GENERATION_MODEL = "HuggingFaceTB/SmolLM2-360M-Instruct";
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 let generator: any = null;
@@ -11,23 +17,50 @@ let generator: any = null;
 async function loadGenerator(): Promise<any> {
   try {
     if (!generator) {
-      generator = await pipeline("text-generation", TEXT_GENERATION_MODEL, {
-        dtype: "fp32",
-        progress_callback: (x) =>
+      const pipelineOptions = {
+        // Use dtype from the model selection, or fall back to fp32
+        dtype: MODEL_SELECTION.dtype || "fp32", 
+        progress_callback: (x: any) =>
           self.postMessage({ status: "load", response: x }),
-      });
+      };
+      
+      // Log the model and quantization being loaded
+      console.log(`Loading ${MODEL_SELECTION.model} with ${pipelineOptions.dtype} precision`);
+      
+      generator = await pipeline(
+        "text-generation", 
+        MODEL_SELECTION.model, 
+        pipelineOptions
+      );
     }
   } catch (e) {
     const error = `Error loading text-generation pipeline: ${e}`;
     self.postMessage({ status: "stream", response: error });
     console.error(error);
+    
+    // Attempt fallback to smaller model if loading fails
+    try {
+      console.log("Attempting fallback to smallest model with highest quantization");
+      const fallbackModel = "HuggingFaceTB/SmolLM2-135M-Instruct";
+      const fallbackOptions = {
+        dtype: "int8" as "int8",
+        progress_callback: (x: any) =>
+          self.postMessage({ status: "load", response: x }),
+      };
+      
+      generator = await pipeline(
+        "text-generation", 
+        fallbackModel, 
+        fallbackOptions
+      );
+    } catch (fallbackError) {
+      const criticalError = `Critical error: Failed to load fallback model: ${fallbackError}`;
+      self.postMessage({ status: "stream", response: criticalError });
+      console.error(criticalError);
+    }
   }
   return generator;
 }
-
-const cleanInput = (input?: string): string => {
-  return input ? input.replace(/`/g, "").trim() : "";
-};
 
 interface MessageData {
   action: string;
@@ -36,21 +69,6 @@ interface MessageData {
 
 self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
   const { action, input } = event.data;
-
-  const context = [
-    "He is currently an AI/ML Software Engineer at Defense Unicorns.",
-    "At Defense Unicorns, he currently works on full-stack AI applications and MLOps and GenAIOps platforms.\n",
-    "He is veteran of the United States Air and Space Forces.",
-    "He was a Captain (O3) in the United States Air and Space Forces, originally assigned as a Developmental Engineer (62E).",
-    "He was honorably discharged and is no longer a member of the military.\n",
-    "He holds a bachelor's degree in Mechanical Engineering, a minor in Communications, and a minor in Military Leadership.",
-    "He completed the bachelor's degree and minors at Rochester Institute of Technology (RIT)",
-    "He has completed some master's level graduate studies in Computer Science, with focuses in Enterprise and Web computing, and AI.",
-    "He completed these master's level graduate studies at John's Hopkins University and Georgia Tech.\n",
-    "In his free time, he likes to run, cook, play video games, travel, and work on personal coding projects.",
-    "He is an organized, disciplined, and diligent person.\n",
-    "You can find more information about him, including his contact info, in the PDF on the website you are currently on.",
-  ].join(" ");
 
   /* 
     NOTE: Loads the generator for the first time, downloading and caching the model
@@ -68,42 +86,7 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
   if (cleanedInput.length > 0) {
     self.postMessage({ status: "initiate" });
 
-    const messages = [
-      {
-        role: "system",
-        content: [
-          "You are an AI assistant created by Justin Law.",
-          "Answer queries using full sentences, being as terse possible.",
-          "Answer queries using only the context in Justin's background, and nothing else.",
-          "Do not answer if the question contains inappropriate, explicit, violent or sexual content.",
-        ].join(" "),
-      },
-      {
-        role: "user",
-        content: "Tell me about Justin Law!",
-      },
-      {
-        role: "assistant",
-        content: `Sure, here is Justin's background: \"${context}\"`,
-      },
-      {
-        role: "user",
-        content: [
-          `Using Justin Law's background, answer the query: \"What is Justin's current job?\".`,
-        ].join(" "),
-      },
-      {
-        role: "assistant",
-        content:
-          "He is currently an AI/ML Software Engineer at Defense Unicorns, where he works on full-stack AI applications and MLOps and GenAIOps platforms.",
-      },
-      {
-        role: "user",
-        content: [
-          `Using Justin Law's background, answer the query: \"${cleanedInput}\".`,
-        ].join(" "),
-      },
-    ];
+    const messages = generateConversationMessages(cleanedInput);
 
     const streamer = new TextStreamer(generator.tokenizer, {
       skip_prompt: true,
