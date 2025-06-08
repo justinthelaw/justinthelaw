@@ -4,23 +4,21 @@
  * The model selection logic has been moved to modelSelection.ts for better organization
  * and reusability. This file focuses solely on text generation using the selected model.
  */
-import { pipeline, TextStreamer, env } from "@huggingface/transformers";
+import { pipeline, TextStreamer, env, type TextGenerationPipeline } from "@huggingface/transformers";
 import { MODEL_SELECTION } from "./modelSelection";
 import { generateConversationMessages, cleanInput } from "./contextProvider";
 
 env.allowLocalModels = false;
 
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-let generator: any = null;
+let generator: TextGenerationPipeline | null = null;
 
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-async function loadGenerator(): Promise<any> {
+async function loadGenerator(): Promise<TextGenerationPipeline | null> {
   try {
     if (!generator) {
       const pipelineOptions = {
         // Use dtype from the model selection, or fall back to fp32
         dtype: MODEL_SELECTION.dtype || "fp32", 
-        progress_callback: (x: any) =>
+        progress_callback: (x: unknown) =>
           self.postMessage({ status: "load", response: x }),
       };
       
@@ -43,8 +41,8 @@ async function loadGenerator(): Promise<any> {
       console.log("Attempting fallback to smallest model with highest quantization");
       const fallbackModel = "HuggingFaceTB/SmolLM2-135M-Instruct";
       const fallbackOptions = {
-        dtype: "int8" as "int8",
-        progress_callback: (x: any) =>
+        dtype: "int8" as const,
+        progress_callback: (x: unknown) =>
           self.postMessage({ status: "load", response: x }),
       };
       
@@ -87,6 +85,12 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
     self.postMessage({ status: "initiate" });
 
     const messages = generateConversationMessages(cleanedInput);
+
+    if (!generator) {
+      self.postMessage({ status: "stream", response: "Error: Model not loaded" });
+      self.postMessage({ status: "done" });
+      return;
+    }
 
     const streamer = new TextStreamer(generator.tokenizer, {
       skip_prompt: true,

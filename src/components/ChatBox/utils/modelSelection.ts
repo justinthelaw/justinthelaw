@@ -71,7 +71,7 @@ export interface ModelSelection {
 export function isWebGPUAvailable(): boolean {
   return typeof navigator !== "undefined" && 
          "gpu" in navigator && 
-         typeof (navigator as any).gpu?.requestAdapter === "function";
+         typeof (navigator as Navigator & { gpu?: { requestAdapter: () => Promise<unknown> } }).gpu?.requestAdapter === "function";
 }
 
 // Function to detect device capabilities and select appropriate model with quantization
@@ -83,7 +83,7 @@ export function selectModelBasedOnDevice(): ModelSelection {
 
   try {
     // Check device memory (in GB)
-    const deviceMemory = (navigator as any).deviceMemory || 4; // Default to 4GB if not available
+    const deviceMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory || 4; // Default to 4GB if not available
     const memoryInMB = deviceMemory * 1024;
     
     // Factor of safety - we don't want to use more than 60% of available memory
@@ -103,11 +103,14 @@ export function selectModelBasedOnDevice(): ModelSelection {
 
     // Run a quick performance test
     const startTime = performance.now();
-    let result = 0;
+    let benchmarkResult = 0;
     for (let i = 0; i < 1000000; i++) {
-      result += Math.sqrt(i);
+      benchmarkResult += Math.sqrt(i);
     }
     const endTime = performance.now();
+    
+    // This is just to ensure the loop isn't optimized away by the JS engine
+    if (benchmarkResult < 0) console.log("This should never happen:", benchmarkResult);
     const perfScore = 1000000 / (endTime - startTime); // Higher is better
 
     console.log(`Device specs: Memory: ${deviceMemory}GB (Safe: ${Math.round(safeMemory)}MB), Cores: ${logicalProcessors}, Mobile: ${isMobile}, WebGPU: ${hasWebGPU}, Performance score: ${perfScore.toFixed(2)}`);
