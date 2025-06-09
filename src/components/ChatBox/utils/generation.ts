@@ -62,7 +62,7 @@ async function loadGenerator(): Promise<TextGenerationPipeline | null> {
             const data = progressData as { progress?: number };
 
             if (data.progress !== undefined) {
-              const progressPercent = data.progress * 100;
+              const progressPercent = data.progress;
 
               self.postMessage({
                 status: "load",
