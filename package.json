@@ -4,7 +4,6 @@
   "description": "Justin Law's (justinthelaw) personal website",
   "private": true,
   "scripts": {
-    "setup": "python -m pip install -r public/model/requirements.txt && python public/model/download.py",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
