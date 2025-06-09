@@ -9,7 +9,6 @@ import { generateConversationMessages, cleanInput } from "./contextProvider";
 
 // Model options to reference in the worker
 const MODEL_OPTIONS = {
-  LARGE: "HuggingFaceTB/SmolLM2-1.7B-Instruct",
   MEDIUM: "HuggingFaceTB/SmolLM2-360M-Instruct",
   SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct"
 };
@@ -40,12 +39,10 @@ async function loadGenerator(): Promise<TextGenerationPipeline | null> {
       });
       
       // Check if we need to automatically downgrade model size due to previous failures
-      const isLargeModel = MODEL_SELECTION.model.includes("1.7B");
       const isMediumModel = MODEL_SELECTION.model.includes("360M");
-      
-      // If we're still trying to use the large or medium model after errors, downgrade
-      if ((self as any).modelLoadFailed && (isLargeModel || isMediumModel)) {
-        const newModel = isLargeModel ? MODEL_OPTIONS.MEDIUM : MODEL_OPTIONS.SMALL;
+      // If we're still trying to use the medium model after errors, downgrade
+      if (modelLoadFailed && isMediumModel) {
+        const newModel = MODEL_OPTIONS.SMALL;
         console.log(`Downgrading from ${MODEL_SELECTION.model} to ${newModel} due to previous failures`);
         self.postMessage({
           status: "load",
@@ -99,7 +96,7 @@ async function loadGenerator(): Promise<TextGenerationPipeline | null> {
     }
   } catch (e) {
     // Mark that we've had a model load failure to enable auto-downgrade on next attempt
-    (self as any).modelLoadFailed = true;
+    modelLoadFailed = true;
     
     // Check for specific error types
     const errorStr = String(e);
@@ -135,7 +132,7 @@ async function loadGenerator(): Promise<TextGenerationPipeline | null> {
 
     // Don't send stream error for window issues since we'll handle it with fallback
     if (!isWindowError) {
-      self.postMessage({ status: "stream", response: error });
+      self.postMessage({ status: "stream", response: errorMessage });
     }
 
     // Attempt fallback to smaller model if loading fails
@@ -242,27 +239,16 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
       // Try loading with progressive fallbacks if needed
       let modelGenerator = null;
       let attempts = 0;
-      const maxAttempts = 3;
-      
+      const maxAttempts = 2;
       // Track what models we've tried
       const triedModels = new Set();
-
       while (!modelGenerator && attempts < maxAttempts) {
         attempts++;
         try {
           if (attempts > 1) {
             console.log(`Attempt ${attempts} to load model`);
-            
-            // On second attempt, try medium if we were using large
-            if (attempts === 2 && MODEL_SELECTION.model === MODEL_OPTIONS.LARGE) {
-              MODEL_SELECTION.model = MODEL_OPTIONS.MEDIUM;
-              self.postMessage({
-                status: "load",
-                response: { message: `Trying medium-sized model instead...` }
-              });
-            } 
-            // On third attempt, always use small model
-            else if (attempts === 3) {
+            // On second attempt, always use small model
+            if (attempts === 2) {
               MODEL_SELECTION.model = MODEL_OPTIONS.SMALL;
               self.postMessage({
                 status: "load",
@@ -275,22 +261,17 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
               });
             }
           }
-          
           // Track models we've tried to avoid duplicates
           triedModels.add(MODEL_SELECTION.model);
-          
           modelGenerator = await loadGenerator();
         } catch (attemptError) {
           console.error(`Load attempt ${attempts} failed:`, attemptError);
-          
           const error = String(attemptError);
-          const isMemoryError = error.includes('memory') || error.match(/^\d+$/) || error.includes('allocation');
-          
+          const isMemoryError = error.includes('memory') || error.match(/^[\d]+$/) || error.includes('allocation');
           // If it's a memory error and we haven't tried smaller models, continue to next attempt
           if (attempts < maxAttempts && isMemoryError) {
             continue;
           }
-          
           // For non-memory errors on final attempt, give up
           if (attempts >= maxAttempts) {
             throw attemptError;
@@ -369,3 +350,14 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
     }
   }
 });
+
+// Remove modelLoadFailed from self and use a local variable instead
+let modelLoadFailed = false;
+
+// Add a type-safe way to store modelLoadFailed on self
+interface ModelWorkerGlobalScope extends ServiceWorkerGlobalScope {
+  [x: string]: unknown; // Changed from any to unknown for better type safety
+  modelLoadFailed?: boolean;
+}
+
+declare const self: ModelWorkerGlobalScope;

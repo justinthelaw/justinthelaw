@@ -20,11 +20,11 @@ export default function ChatBoxInput() {
       // Send fresh model selection on retry
       const workerModelSelection = {
         model: MODEL_SELECTION.model,
-        dtype: MODEL_SELECTION.dtype || "fp32"
+        dtype: MODEL_SELECTION.dtype || "fp32",
       };
-      worker.current.postMessage({ 
-        action: "init", 
-        modelSelection: workerModelSelection 
+      worker.current.postMessage({
+        action: "init",
+        modelSelection: workerModelSelection,
       });
       worker.current.postMessage({ action: "load" });
     }
@@ -38,14 +38,14 @@ export default function ChatBoxInput() {
         type: "module",
       }
     );
-    
+
     // Add event listener for retry button
-    document.addEventListener('retryModelLoad', handleRetry);
-    
+    document.addEventListener("retryModelLoad", handleRetry);
+
     // Send model selection to worker - safe non-window-dependent version for worker
     const workerModelSelection = {
       model: MODEL_SELECTION.model,
-      dtype: MODEL_SELECTION.dtype || "fp32"
+      dtype: MODEL_SELECTION.dtype || "fp32",
     };
 
     const handleMessage = (e: MessageEvent) => {
@@ -55,13 +55,12 @@ export default function ChatBoxInput() {
       switch (status) {
         case "load":
           setLoading(true);
-          if (response && typeof response === 'object') {
+          if (response && typeof response === "object") {
             if (response.progress !== undefined) {
               // Set loading message with progress percentage
               const progressPercent = Math.round(response.progress / 100);
-              setLoadingMessage(
-                `Downloading model... (${progressPercent}%)`
-              );
+              if (progressPercent >= 1 && progressPercent <= 99)
+                setLoadingMessage(`Downloading model... (${progressPercent}%)`);
             } else if (response.error) {
               // Handle error messages
               const errorMessage = `Error loading model: ${response.error}`;
@@ -97,18 +96,18 @@ export default function ChatBoxInput() {
 
     if (worker.current) {
       worker.current.addEventListener("message", handleMessage);
-      
+
       // Add error handling for worker
       worker.current.addEventListener("error", (error) => {
         console.error("Worker error:", error);
         setLoadingMessage(`Error initializing model: ${error.message}`);
       });
-      
+
       console.log("Starting model load process...");
       // First send the model selection, then load the model
-      worker.current.postMessage({ 
-        action: "init", 
-        modelSelection: workerModelSelection 
+      worker.current.postMessage({
+        action: "init",
+        modelSelection: workerModelSelection,
       });
       worker.current.postMessage({ action: "load" });
       setLoadingMessage("Initializing model...");
@@ -116,11 +115,11 @@ export default function ChatBoxInput() {
 
     // Save current worker reference to avoid closure issues
     const currentWorker = worker.current;
-    
+
     return () => {
       // Remove the retry event listener
-      document.removeEventListener('retryModelLoad', handleRetry);
-      
+      document.removeEventListener("retryModelLoad", handleRetry);
+
       // Clean up worker if it exists
       if (currentWorker) {
         currentWorker.removeEventListener("message", handleMessage);
@@ -128,7 +127,7 @@ export default function ChatBoxInput() {
         currentWorker.terminate();
       }
     };
-  }, []);
+  }, [handleRetry]);
 
   const textGeneration = useCallback((input: string) => {
     if (worker.current) {

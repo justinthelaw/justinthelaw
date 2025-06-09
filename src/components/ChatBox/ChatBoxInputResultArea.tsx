@@ -26,10 +26,10 @@ export default function ChatBoxInputResultArea({
           </div>
           {loadingMessage && loadingMessage.includes("%") && (
             <div className="w-64 h-2 bg-black rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-black transition-all duration-300" 
-                style={{ 
-                  width: `${parseInt(loadingMessage.match(/\d+/)?.[0] || "0")}%` 
+              <div
+                className="h-full bg-black transition-all duration-300"
+                style={{
+                  width: `${parseInt(loadingMessage.match(/\d+/)?.[0] || "0")}%`,
                 }}
               />
             </div>
@@ -38,7 +38,7 @@ export default function ChatBoxInputResultArea({
             <div className="mt-3 flex flex-col items-center gap-2">
               {loadingMessage.includes("memory") && (
                 <p className="text-sm text-red-400 text-center max-w-xs">
-                  Your device doesn't have enough available memory to run this model.
+                  Your device doesn&apos;t have enough available memory to run this model.
                   Try closing other tabs or applications to free up memory.
                 </p>
               )}

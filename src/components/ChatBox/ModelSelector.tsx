@@ -16,7 +16,7 @@ interface ModelSelectorProps {
 export default function ModelSelector({ onClose }: ModelSelectorProps) {
   const [selectedModel, setSelectedModel] = useState<ModelSizeKey | null>(null);
   const [showSettings, setShowSettings] = useState(false);
-  
+
   useEffect(() => {
     // Load the current model preference when component mounts
     const currentPreference = getPreferredModelSize();
@@ -24,17 +24,19 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
       setSelectedModel(currentPreference);
     }
   }, []);
-  
+
   const handleModelChange = (modelSize: ModelSizeKey) => {
     setSelectedModel(modelSize);
     setPreferredModelSize(modelSize);
   };
-  
+
   const handleResetPreference = () => {
     clearModelPreference();
     setSelectedModel(null);
   };
-  
+
+  const allowedModels: ModelSizeKey[] = ['MEDIUM', 'SMALL'];
+
   if (!showSettings) {
     return (
       <button 
@@ -45,7 +47,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
       </button>
     );
   }
-  
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
       <div className="bg-black p-4 rounded-lg w-full max-w-md mx-auto shadow-xl">
@@ -61,11 +63,11 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
         
         <div className="mb-4">
           <p className="text-sm text-gray-300 mb-2">
-            Select a model based on your device's capabilities:
+            Select a model based on your device&apos;s capabilities:
           </p>
           
           <div className="flex flex-col space-y-3">
-            {Object.entries(MODEL_SIZE_NAMES).map(([key, name]) => (
+            {allowedModels.map((key) => (
               <label 
                 key={key} 
                 className="flex items-center cursor-pointer text-sm text-gray-200 hover:text-white"
@@ -74,10 +76,10 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                   type="radio"
                   name="modelSize"
                   checked={selectedModel === key}
-                  onChange={() => handleModelChange(key as ModelSizeKey)}
+                  onChange={() => handleModelChange(key)}
                   className="mr-3 h-4 w-4"
                 />
-                {name}
+                {MODEL_SIZE_NAMES[key]}
               </label>
             ))}
           </div>

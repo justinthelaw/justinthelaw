@@ -1,6 +1,5 @@
 import ChatBoxInputArea from "@/components/ChatBox/ChatBoxInputArea";
 import ModelSelector from "@/components/ChatBox/ModelSelector";
-import { useState } from "react";
 
 interface ChatBoxProps {
   onClose: () => void;
