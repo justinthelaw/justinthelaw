@@ -56,23 +56,25 @@ export default function ChatBoxInput() {
         case "load":
           setLoading(true);
           if (response && typeof response === "object") {
-            if (response.progress !== undefined) {
-              // Set loading message with progress percentage
-              const progressPercent = Math.round(response.progress / 100);
-              if (progressPercent >= 1 && progressPercent <= 99)
-                setLoadingMessage(`Downloading model... (${progressPercent}%)`);
-            } else if (response.error) {
-              // Handle error messages
+            // Corrected logic:
+            // Prioritize displaying an error message if one exists.
+            // Otherwise, display the message from the worker (which includes progress).
+            // Fallback to a generic message if neither is present.
+            if (response.error) {
               const errorMessage = `Error loading model: ${response.error}`;
               setLoadingMessage(errorMessage);
-              console.error(errorMessage);
+              console.error(errorMessage); // Keep console error for debugging
+            } else if (response.message) {
+              // This handles progress messages (e.g., "Downloading model... (70%)")
+              // and other status messages (e.g., "Model loaded successfully", "Starting model download")
+              setLoadingMessage(response.message);
             } else {
-              // Generic loading message if no progress data
-              setLoadingMessage("Loading model...");
+              // Fallback if response is unusual (e.g., empty but no error/message)
+              setLoadingMessage("Processing model status...");
             }
           } else {
-            // Generic loading message if no response data
-            setLoadingMessage("Loading model...");
+            // Fallback if response itself is not a valid object or is missing
+            setLoadingMessage("Receiving model status...");
           }
           break;
         case "done":

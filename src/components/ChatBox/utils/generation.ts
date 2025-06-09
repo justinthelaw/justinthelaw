@@ -55,7 +55,7 @@ async function loadGenerator(): Promise<TextGenerationPipeline | null> {
       }
 
       const pipelineOptions = {
-        dtype: "fp32",
+        dtype: "fp32" as const,
         progress_callback: (progressData: unknown) => {
           // Properly format and send progress data to the main thread
           if (typeof progressData === 'object' && progressData !== null) {
@@ -354,10 +354,3 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
 // Remove modelLoadFailed from self and use a local variable instead
 let modelLoadFailed = false;
 
-// Add a type-safe way to store modelLoadFailed on self
-interface ModelWorkerGlobalScope extends ServiceWorkerGlobalScope {
-  [x: string]: unknown; // Changed from any to unknown for better type safety
-  modelLoadFailed?: boolean;
-}
-
-declare const self: ModelWorkerGlobalScope;
