@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef, useCallback, Fragment } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 import ChatBoxInputResultArea from "@/components/ChatBox/ChatBoxInputResultArea";
 import { MODEL_SELECTION } from "@/components/ChatBox/utils/modelSelection";
+import { getMessageHistory, addMessage, ChatMessage } from "@/components/ChatBox/utils/messageHistory";
 
 export default function ChatBoxInput() {
   const [loadingMessage, setLoadingMessage] = useState<string | null>(null);
@@ -9,9 +10,51 @@ export default function ChatBoxInput() {
   const [answering, setAnswering] = useState<boolean>(false);
   const [inputText, setInputText] = useState<string>("");
   const [result, setResult] = useState<string>("");
+  const [messageHistory, setMessageHistory] = useState<ChatMessage[]>([]);
 
   const worker = useRef<Worker | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom when new messages are added
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messageHistory, result, answering]);
+
+  // Also scroll when a message starts generating
+  useEffect(() => {
+    if (answering && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [answering]);
+
+  // Load message history on component mount
+  useEffect(() => {
+    setMessageHistory(getMessageHistory());
+    
+    // Listen for clear history events
+    const handleClearHistory = () => {
+      setMessageHistory([]);
+      setResult("");
+    };
+    
+    document.addEventListener('clearChatHistory', handleClearHistory);
+    
+    return () => {
+      document.removeEventListener('clearChatHistory', handleClearHistory);
+    };
+  }, []);
+
+  // Save AI response to history when it's complete
+  useEffect(() => {
+    if (!answering && result.trim() && !loading) {
+      const aiMessage = addMessage('ai', result.trim());
+      setMessageHistory(prev => [...prev, aiMessage]);
+      setResult(""); // Clear result after saving to history
+    }
+  }, [answering, result, loading]);
 
   // Define retry handler outside of effect for closure consistency
   const handleRetry = useCallback(() => {
@@ -65,7 +108,7 @@ export default function ChatBoxInput() {
               setLoadingMessage(errorMessage);
               console.error(errorMessage); // Keep console error for debugging
             } else if (response.message) {
-              // This handles progress messages (e.g., "Downloading model... (70%)")
+              // This handles progress messages (e.g., "Loading model... (70%)")
               // and other status messages (e.g., "Model loaded successfully", "Starting model download")
               setLoadingMessage(response.message);
             } else {
@@ -140,17 +183,45 @@ export default function ChatBoxInput() {
   }, []);
 
   const handleSend = () => {
-    textGeneration(inputText);
+    if (!inputText.trim()) return;
+    
+    // Save user message to history
+    const userMessage = addMessage('user', inputText.trim());
+    setMessageHistory(prev => [...prev, userMessage]);
+    
+    // Send only the current message to the AI (no conversation context)
+    textGeneration(inputText.trim());
+    setInputText(""); // Clear input after sending
+    
+    // Immediately scroll to bottom after sending
+    setTimeout(() => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   return (
-    <Fragment>
-      <div className="flex gap-2 mb-3">
+    <div className="flex flex-col h-full p-4">
+      {/* Chat messages area - takes up available space */}
+      <div className="flex-1 overflow-y-auto mb-3">
+        <ChatBoxInputResultArea
+          loadingMessage={loadingMessage}
+          result={result}
+          loading={loading}
+          messageHistory={messageHistory}
+          answering={answering}
+        />
+        <div ref={messagesEndRef} />
+      </div>
+      
+      {/* Input area - fixed at bottom */}
+      <div className="flex gap-2 border-t border-gray-700 pt-3">
         <input
           ref={inputRef}
           type="text"
-          className={`w-full p-2 text-white rounded border border-gray-800 bg-black focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-500`}
-          placeholder={loading ? "Loading model..." : "Enter a question..."}
+          className={`w-full p-3 text-white rounded-md border border-gray-700 bg-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500`}
+          placeholder={loading ? "Loading model..." : "Type your message..."}
           value={inputText}
           disabled={loading || answering}
           onChange={(e) => setInputText(e.target.value)}
@@ -160,17 +231,15 @@ export default function ChatBoxInput() {
         />
         <button
           onClick={handleSend}
-          className="bg-gray-800 hover:bg-gray-800 text-white px-4 py-2 rounded disabled:opacity-50 transition"
+          className="border border-black bg-blue-600 hover:bg-blue-700 text-white px-3 py-3 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center h-[52px] w-[52px]"
           disabled={loading || !inputText.trim()}
+          aria-label="Send message"
         >
-          Send
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+          </svg>
         </button>
       </div>
-      <ChatBoxInputResultArea
-        loadingMessage={loadingMessage}
-        result={result}
-        loading={loading}
-      />
-    </Fragment>
+    </div>
   );
 }

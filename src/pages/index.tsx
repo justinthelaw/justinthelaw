@@ -71,10 +71,13 @@ export default function Home() {
       )}
       {!showChatBox && (
         <button
-          className="fixed border bottom-4 right-4 bg-black text-white p-2 rounded-lg shadow-lg hover:bg-gray-800"
+          className="fixed border bottom-4 right-4 bg-black text-white p-3 rounded-lg shadow-lg hover:bg-gray-800 transition-colors duration-200 flex items-center gap-2"
           onClick={() => setShowChatBox(true)}
         >
-          <span className="hidden sm:inline">AI Chatbot</span> 💬
+          <span className="text-lg hidden sm:inline">AI Chatbot</span>
+          <svg className="w-5 h-5" fill="currentColor" viewBox="2 0 20 26">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.546 20.2A1 1 0 003.8 21.454l3.032-.892A9.958 9.958 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm-3 9a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"/>
+          </svg>
         </button>
       )}
       {showChatBox && <ChatBox onClose={() => setShowChatBox(false)} />}

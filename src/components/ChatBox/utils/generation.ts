@@ -68,7 +68,7 @@ async function loadGenerator(): Promise<TextGenerationPipeline | null> {
                 status: "load",
                 response: {
                   progress: progressPercent, // Convert to percentage
-                  message: `Downloading model... ${progressPercent.toFixed(0)}%`
+                  message: `Loading model... ${progressPercent.toFixed(0)}%`
                 }
               });
             }

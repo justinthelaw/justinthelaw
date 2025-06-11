@@ -4,9 +4,18 @@
  * on their specific device.
  */
 
-import { MODEL_SIZE_NAMES } from './modelSelection';
+import { MODEL_SIZE_NAMES, selectModelBasedOnDevice, MODEL_OPTIONS } from './modelSelection';
 
 export type ModelSizeKey = 'MEDIUM' | 'SMALL';
+
+/**
+ * Gets the auto-detected model size based on device capabilities
+ * @returns The auto-detected model size
+ */
+export function getAutoDetectedModelSize(): ModelSizeKey {
+  const autoSelection = selectModelBasedOnDevice();
+  return autoSelection.model === MODEL_OPTIONS.MEDIUM ? 'MEDIUM' : 'SMALL';
+}
 
 /**
  * Sets the preferred model size in localStorage
