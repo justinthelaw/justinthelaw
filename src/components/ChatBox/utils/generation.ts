@@ -170,14 +170,14 @@ async function loadGenerator(): Promise<TextGenerationPipeline | null> {
           if (typeof progressData === 'object' && progressData !== null) {
             const data = progressData as { progress?: number };
             if (data.progress !== undefined) {
-              const progressPercent = data.progress * 100;
-              console.log(`Fallback model download progress: ${progressPercent.toFixed(2)}%`);
+              const progressPercent = data.progress;
+              console.log(`Fallback model download progress: ${progressPercent.toFixed(0)}%`);
 
               self.postMessage({
                 status: "load",
                 response: {
                   progress: progressPercent, // Convert to percentage
-                  message: `Downloading fallback model... ${progressPercent.toFixed(0)}%`,
+                  message: `Loading fallback model... ${progressPercent.toFixed(0)}%`,
                   fallback: true
                 }
               });
