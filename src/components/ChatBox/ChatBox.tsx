@@ -73,17 +73,6 @@ export default function ChatBox({ onClose }: ChatBoxProps) {
             <div className="flex justify-between items-center p-4 border-b border-gray-700">
               <h3 className="text-lg font-bold text-white flex items-center">
                 <span className="mr-2">AI Chatbot</span>
-                <svg
-                  className="w-5 h-5 text-blue-400"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zm6 7a1 1 0 11-2 0 1 1 0 012 0zM7 8a1 1 0 000 2h2a1 1 0 100-2H7zm0 4a1 1 0 100 2h6a1 1 0 100-2H7z"
-                    clipRule="evenodd"
-                  />
-                </svg>
               </h3>
               <div className="flex space-x-2 items-center">
                 <ModelSelector />

@@ -16,14 +16,6 @@ export default function ChatBoxInputResultArea({
   messageHistory,
   answering,
 }: ChatBoxInputResultAreaProps) {
-  const defaultMessages = [
-    "Hello, I am Justin's AI assistant! Got any questions for me?",
-    "Hey there! Got any questions about Justin for me?",
-    "Hi! Interested in learning more about Justin?",
-    "What would you like to know about my boss, Justin?",
-    "I heard you had questions about Justin - ask away!",
-  ];
-
   const quirkMessages = [
     "Digging into Justin's history...",
     "Consulting my Justin database...",
@@ -36,10 +28,6 @@ export default function ChatBoxInputResultArea({
 
   const getRandomQuirkMessage = () => {
     return quirkMessages[Math.floor(Math.random() * quirkMessages.length)];
-  };
-
-  const getRandomDefaultMessage = () => {
-    return defaultMessages[Math.floor(Math.random() * defaultMessages.length)];
   };
 
   return (
@@ -82,19 +70,6 @@ export default function ChatBoxInputResultArea({
         </div>
       ) : (
         <>
-          {/* Show welcome message if no history and not generating */}
-          {messageHistory.length === 0 &&
-            !result &&
-            !answering &&
-            !loadingMessage?.includes("Generating") && (
-              <div className="bg-gray-800 rounded-lg p-3 max-w-[80%]">
-                <div className="text-gray-300 text-sm mb-1">AI Assistant</div>
-                <div className="text-white">
-                  <Typewriter text={getRandomDefaultMessage()} delay={200} />
-                </div>
-              </div>
-            )}
-
           {/* Display message history */}
           {messageHistory.map((message) => (
             <div
@@ -114,7 +89,14 @@ export default function ChatBoxInputResultArea({
                   {message.type === "user" ? "You" : "AI Assistant"}
                 </div>
                 <div className="leading-relaxed whitespace-pre-line">
-                  {message.content}
+                  {/* Show typewriter effect only for the first AI message if it's the welcome message */}
+                  {message.type === "ai" && 
+                   messageHistory.length === 1 && 
+                   message.id === messageHistory[0].id ? (
+                    <Typewriter text={message.content} delay={200} />
+                  ) : (
+                    message.content
+                  )}
                 </div>
               </div>
             </div>

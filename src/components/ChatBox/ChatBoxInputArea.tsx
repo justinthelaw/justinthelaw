@@ -16,6 +16,22 @@ export default function ChatBoxInput() {
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Function to create and add a welcome message
+  const addWelcomeMessage = useCallback(() => {
+    const welcomeMessages = [
+      "Hello, I am Justin's AI assistant! Got any questions for me?",
+      "Hey there! Got any questions about Justin for me?",
+      "Hi! Interested in learning more about Justin?",
+      "What would you like to know about my boss, Justin?",
+      "I heard you had questions about Justin - ask away!",
+    ];
+    
+    const randomWelcomeMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+    const welcomeMessage = addMessage('ai', randomWelcomeMessage);
+    setMessageHistory([welcomeMessage]);
+    return welcomeMessage;
+  }, []);
+
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -32,12 +48,21 @@ export default function ChatBoxInput() {
 
   // Load message history on component mount
   useEffect(() => {
-    setMessageHistory(getMessageHistory());
+    const existingHistory = getMessageHistory();
+    setMessageHistory(existingHistory);
+    
+    // If there's no existing history, add the welcome message
+    if (existingHistory.length === 0) {
+      addWelcomeMessage();
+    }
     
     // Listen for clear history events
     const handleClearHistory = () => {
       setMessageHistory([]);
       setResult("");
+      
+      // Add welcome message back after clearing
+      setTimeout(() => addWelcomeMessage(), 0);
     };
     
     document.addEventListener('clearChatHistory', handleClearHistory);
@@ -45,7 +70,7 @@ export default function ChatBoxInput() {
     return () => {
       document.removeEventListener('clearChatHistory', handleClearHistory);
     };
-  }, []);
+  }, [addWelcomeMessage]);
 
   // Save AI response to history when it's complete
   useEffect(() => {

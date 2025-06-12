@@ -1,4 +1,3 @@
-
 export interface ChatMessage {
   id: string;
   type: 'user' | 'ai';

@@ -1,20 +1,17 @@
-/**
- * This file handles the generation of text using the SmolLM2 models from HuggingFace.
- * 
- * The model selection logic has been moved to modelSelection.ts for better organization
- * and reusability. This file focuses solely on text generation using the selected model.
- */
 import { pipeline, TextStreamer, env, type TextGenerationPipeline } from "@huggingface/transformers";
 import { generateConversationMessages, cleanInput } from "./contextProvider";
 
 // Model options to reference in the worker
 const MODEL_OPTIONS = {
+  LARGE: "HuggingFaceTB/SmolLM2-1.7B-Instruct",
   MEDIUM: "HuggingFaceTB/SmolLM2-360M-Instruct",
-  SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct"
+  SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct",
+  TINY: "HuggingFaceTB/SmolLM2-135M-Instruct"
 };
 
 // This will be populated from the main thread
-let MODEL_SELECTION = {
+// eslint-disable-next-line prefer-const
+let MODEL_SELECTION: { model: string; dtype: "fp32" | "fp16" | "q4" } = {
   model: MODEL_OPTIONS.MEDIUM, // Default fallback if not specified 
   dtype: "fp32"
 };
@@ -39,23 +36,44 @@ async function loadGenerator(): Promise<TextGenerationPipeline | null> {
       });
       
       // Check if we need to automatically downgrade model size due to previous failures
+      const isLargeModel = MODEL_SELECTION.model.includes("1.7B");
       const isMediumModel = MODEL_SELECTION.model.includes("360M");
-      // If we're still trying to use the medium model after errors, downgrade
-      if (modelLoadFailed && isMediumModel) {
-        const newModel = MODEL_OPTIONS.SMALL;
-        console.log(`Downgrading from ${MODEL_SELECTION.model} to ${newModel} due to previous failures`);
-        self.postMessage({
-          status: "load",
-          response: { 
-            message: `Automatically switching to smaller model for compatibility...`,
-            autoDowngrade: true 
-          }
-        });
-        MODEL_SELECTION.model = newModel;
+      const isSmallModel = MODEL_SELECTION.model.includes("135M") && MODEL_SELECTION.dtype === "fp32";
+      
+      // Progressive downgrade: LARGE -> MEDIUM -> SMALL -> TINY
+      if (modelLoadFailed) {
+        let newModel = MODEL_SELECTION.model;
+        let newDtype = MODEL_SELECTION.dtype;
+        
+        if (isLargeModel) {
+          newModel = MODEL_OPTIONS.MEDIUM;
+          newDtype = "fp32";
+          console.log(`Downgrading from Large to Medium model due to previous failures`);
+        } else if (isMediumModel) {
+          newModel = MODEL_OPTIONS.SMALL;
+          newDtype = "fp32";
+          console.log(`Downgrading from Medium to Small model due to previous failures`);
+        } else if (isSmallModel) {
+          newModel = MODEL_OPTIONS.TINY;
+          newDtype = "fp16";
+          console.log(`Downgrading from Small to Tiny (half precision) model due to previous failures`);
+        }
+        
+        if (newModel !== MODEL_SELECTION.model || newDtype !== MODEL_SELECTION.dtype) {
+          self.postMessage({
+            status: "load",
+            response: { 
+              message: `Automatically switching to smaller model for compatibility...`,
+              autoDowngrade: true 
+            }
+          });
+          MODEL_SELECTION.model = newModel;
+          MODEL_SELECTION.dtype = newDtype;
+        }
       }
 
       const pipelineOptions = {
-        dtype: "fp32" as const,
+        dtype: MODEL_SELECTION.dtype,
         progress_callback: (progressData: unknown) => {
           // Properly format and send progress data to the main thread
           if (typeof progressData === 'object' && progressData !== null) {
@@ -77,7 +95,7 @@ async function loadGenerator(): Promise<TextGenerationPipeline | null> {
       };
 
       // Log the model and quantization being loaded
-      console.log(`Loading ${MODEL_SELECTION.model} with ${pipelineOptions.dtype} precision`);
+      console.log(`Loading ${MODEL_SELECTION.model} with ${MODEL_SELECTION.dtype} precision`);
 
       // Also send this information to the main thread
       self.postMessage({
@@ -210,7 +228,7 @@ interface MessageData {
   input?: string;
   modelSelection?: {
     model: string;
-    dtype: string;
+    dtype: "fp32" | "fp16" | "q4";
   };
 }
 
@@ -220,7 +238,10 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
   // Handle initialization with model selection
   if (action === "init" && modelSelection) {
     console.log(`Setting model to ${modelSelection.model} with ${modelSelection.dtype} precision`);
-    MODEL_SELECTION = modelSelection;
+    if (modelSelection.dtype === "fp32" || modelSelection.dtype === "q4") {
+      MODEL_SELECTION.model = modelSelection.model;
+      MODEL_SELECTION.dtype = modelSelection.dtype;
+    }
     return;
   }
 
@@ -336,8 +357,8 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
 
     try {
       await generator(messages, {
-        temperature: 0.5,
-        max_new_tokens: 512,
+        temperature: 0.0,
+        max_new_tokens: 128,
         early_stopping: true,
         streamer,
       });

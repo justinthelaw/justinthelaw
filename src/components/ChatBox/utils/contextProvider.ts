@@ -33,7 +33,6 @@ export function getSystemInstructions(): string {
 
 // Generate conversation messages for the AI assistant
 export function generateConversationMessages(userInput: string): Array<{role: string, content: string}> {
-  const context = getJustinLawContext();
   const cleanedInput = userInput ? userInput.replace(/`/g, "").trim() : "";
   
   return [
@@ -47,7 +46,7 @@ export function generateConversationMessages(userInput: string): Array<{role: st
     },
     {
       role: "assistant",
-      content: `Sure, here is Justin's background: \"${context}\"`,
+      content: `Sure, here is Justin's background: \"${getJustinLawContext()}\"`,
     },
     {
       role: "user",

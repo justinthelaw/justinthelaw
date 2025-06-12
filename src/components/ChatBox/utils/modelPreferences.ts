@@ -1,12 +1,6 @@
-/**
- * This file provides utilities to manage user preferences for model selection.
- * It allows users to manually override automatic model selection for better performance
- * on their specific device.
- */
-
 import { MODEL_SIZE_NAMES, selectModelBasedOnDevice, MODEL_OPTIONS } from './modelSelection';
 
-export type ModelSizeKey = 'MEDIUM' | 'SMALL';
+export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
 
 /**
  * Gets the auto-detected model size based on device capabilities
@@ -36,7 +30,7 @@ export function getPreferredModelSize(): ModelSizeKey | null {
   if (typeof window === 'undefined' || !window.localStorage) return null;
   
   const preference = window.localStorage.getItem('preferredModelSize') as ModelSizeKey;
-  if (preference && ['MEDIUM', 'SMALL'].includes(preference)) {
+  if (preference && ['LARGE', 'MEDIUM', 'SMALL', 'TINY'].includes(preference)) {
     return preference;
   }
   return null;

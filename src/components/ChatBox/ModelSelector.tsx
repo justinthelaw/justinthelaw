@@ -17,15 +17,19 @@ interface ModelSelectorProps {
 export default function ModelSelector({ onClose }: ModelSelectorProps) {
   const [selectedModel, setSelectedModel] = useState<ModelSizeKey | null>(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [autoDetectedModel, setAutoDetectedModel] = useState<ModelSizeKey | null>(null);
 
   useEffect(() => {
+    // Get and store the auto-detected model
+    const autoDetected = getAutoDetectedModelSize();
+    setAutoDetectedModel(autoDetected);
+    
     // Load the current model preference when component mounts
     const currentPreference = getPreferredModelSize();
     if (currentPreference) {
       setSelectedModel(currentPreference);
     } else {
       // If no manual preference, use auto-detected model as default
-      const autoDetected = getAutoDetectedModelSize();
       setSelectedModel(autoDetected);
     }
   }, []);
@@ -38,11 +42,10 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
   const handleResetPreference = () => {
     clearModelPreference();
     // Set to auto-detected model after clearing preference
-    const autoDetected = getAutoDetectedModelSize();
-    setSelectedModel(autoDetected);
+    setSelectedModel(autoDetectedModel);
   };
 
-  const allowedModels: ModelSizeKey[] = ['MEDIUM', 'SMALL'];
+  const allowedModels: ModelSizeKey[] = ['LARGE', 'MEDIUM', 'SMALL', 'TINY'];
 
   if (!showSettings) {
     return (
@@ -116,7 +119,39 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                     </div>
                   </div>
                   <div className="ml-3 flex-1">
-                    <span className="text-white font-medium">{MODEL_SIZE_NAMES[key]}</span>
+                    <div className="flex items-center">
+                      <span className="text-white font-medium">{MODEL_SIZE_NAMES[key]}</span>
+                      {key === 'LARGE' && (
+                        <span className="ml-2 px-2 py-1 text-xs bg-red-600 text-white rounded-full">
+                          High Memory
+                        </span>
+                      )}
+                      {key === 'TINY' && (
+                        <span className="ml-2 px-2 py-1 text-xs bg-green-600 text-white rounded-full">
+                          Mobile Optimized
+                        </span>
+                      )}
+                    </div>
+                    {key === 'LARGE' && (
+                      <p className="text-xs text-gray-400 mt-1">
+                        Memory requirement: ~3.4GB
+                      </p>
+                    )}
+                    {key === 'MEDIUM' && (
+                      <p className="text-xs text-gray-400 mt-1">
+                        Memory requirement: ~750MB
+                      </p>
+                    )}
+                    {key === 'SMALL' && (
+                      <p className="text-xs text-gray-400 mt-1">
+                        Memory requirement: ~280MB
+                      </p>
+                    )}
+                    {key === 'TINY' && (
+                      <p className="text-xs text-gray-400 mt-1">
+                        Memory requirement: ~135MB
+                      </p>
+                    )}
                   </div>
                 </label>
               ))}
@@ -126,26 +161,35 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
           {/* Status */}
           <div className="bg-gray-800 rounded-lg p-4 mb-6">
             <div className="flex items-start">
-              <div className="w-5 h-5 mt-0.5 mr-3 text-blue-400">
-                <svg fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm text-gray-300 mb-2">
-                  {getPreferredModelSize() ? 
-                    `Currently using ${MODEL_SIZE_NAMES[selectedModel!]} model (manually selected)` : 
-                    `Currently using ${MODEL_SIZE_NAMES[selectedModel!]} model (auto-selected)`}
-                </p>
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 mr-2 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
-                  <p className="text-xs text-yellow-400">
-                    Changes will take effect on next page load
-                  </p>
-                </div>
-              </div>
+              {selectedModel !== autoDetectedModel ? (
+                <>
+                  <div className="w-5 h-5 mt-0.5 mr-3 text-yellow-400">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-yellow-400">
+                      Changes will take effect on next page load
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="w-5 h-5 mt-0.5 mr-3 text-blue-400">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-300">
+                      {selectedModel === autoDetectedModel ? 
+                        `Currently using ${MODEL_SIZE_NAMES[selectedModel!]} model (auto-selected)` : 
+                        `Currently using ${MODEL_SIZE_NAMES[selectedModel!]} model (manually selected)`}
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
           
