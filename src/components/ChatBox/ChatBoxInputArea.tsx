@@ -1,8 +1,15 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
 import ChatBoxInputResultArea from "@/components/ChatBox/ChatBoxInputResultArea";
-import { MODEL_SELECTION } from "@/components/ChatBox/utils/modelSelection";
-import { getMessageHistory, addMessage, ChatMessage } from "@/components/ChatBox/utils/messageHistory";
+import {
+  getInitialModelSelection,
+  selectModelBasedOnDevice,
+} from "@/components/ChatBox/utils/modelSelection";
+import {
+  getMessageHistory,
+  addMessage,
+  ChatMessage,
+} from "@/components/ChatBox/utils/messageHistory";
 
 export default function ChatBoxInput() {
   const [loadingMessage, setLoadingMessage] = useState<string | null>(null);
@@ -11,6 +18,13 @@ export default function ChatBoxInput() {
   const [inputText, setInputText] = useState<string>("");
   const [result, setResult] = useState<string>("");
   const [messageHistory, setMessageHistory] = useState<ChatMessage[]>([]);
+  // Add model selection state
+  const [modelSelection, setModelSelection] = useState(() => {
+    if (typeof window !== "undefined") {
+      return selectModelBasedOnDevice();
+    }
+    return getInitialModelSelection();
+  });
 
   const worker = useRef<Worker | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -23,11 +37,13 @@ export default function ChatBoxInput() {
       "Hey there! Got any questions about Justin for me?",
       "Hi! Interested in learning more about Justin?",
       "What would you like to know about my boss, Justin?",
-      "I heard you had questions about Justin - ask away!",
+      "I heard you had questions about Justin? Just ask away!",
+      "Thanks for visiting! Do you want to learn more about Justin?",
     ];
-    
-    const randomWelcomeMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
-    const welcomeMessage = addMessage('ai', randomWelcomeMessage);
+
+    const randomWelcomeMessage =
+      welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+    const welcomeMessage = addMessage("ai", randomWelcomeMessage);
     setMessageHistory([welcomeMessage]);
     return welcomeMessage;
   }, []);
@@ -48,47 +64,48 @@ export default function ChatBoxInput() {
 
   // Load message history on component mount
   useEffect(() => {
+    // Only set message history or add welcome message, never both
     const existingHistory = getMessageHistory();
-    setMessageHistory(existingHistory);
-    
-    // If there's no existing history, add the welcome message
-    if (existingHistory.length === 0) {
+    if (existingHistory.length > 0) {
+      setMessageHistory(existingHistory);
+    } else {
+      // Clear any possible previous state before adding welcome
+      setMessageHistory([]);
       addWelcomeMessage();
     }
-    
+
     // Listen for clear history events
     const handleClearHistory = () => {
       setMessageHistory([]);
       setResult("");
-      
+
       // Add welcome message back after clearing
       setTimeout(() => addWelcomeMessage(), 0);
     };
-    
-    document.addEventListener('clearChatHistory', handleClearHistory);
-    
+
+    document.addEventListener("clearChatHistory", handleClearHistory);
+
     return () => {
-      document.removeEventListener('clearChatHistory', handleClearHistory);
+      document.removeEventListener("clearChatHistory", handleClearHistory);
     };
   }, [addWelcomeMessage]);
 
   // Save AI response to history when it's complete
   useEffect(() => {
     if (!answering && result.trim() && !loading) {
-      const aiMessage = addMessage('ai', result.trim());
-      setMessageHistory(prev => [...prev, aiMessage]);
+      const aiMessage = addMessage("ai", result.trim());
+      setMessageHistory((prev) => [...prev, aiMessage]);
       setResult(""); // Clear result after saving to history
     }
   }, [answering, result, loading]);
 
   // Define retry handler outside of effect for closure consistency
-  const handleRetry = useCallback(() => {
+  const handleRetryRef = useRef<() => void>(() => {});
+  handleRetryRef.current = () => {
     if (worker.current) {
-      setLoadingMessage("Retrying model download...");
-      // Send fresh model selection on retry
       const workerModelSelection = {
-        model: MODEL_SELECTION.model,
-        dtype: MODEL_SELECTION.dtype || "fp32",
+        model: modelSelection.model,
+        dtype: modelSelection.dtype || "fp32",
       };
       worker.current.postMessage({
         action: "init",
@@ -96,7 +113,7 @@ export default function ChatBoxInput() {
       });
       worker.current.postMessage({ action: "load" });
     }
-  }, []);
+  };
 
   useEffect(() => {
     console.log("Initializing worker for model loading...");
@@ -108,12 +125,14 @@ export default function ChatBoxInput() {
     );
 
     // Add event listener for retry button
-    document.addEventListener("retryModelLoad", handleRetry);
+    const retryListener = () =>
+      handleRetryRef.current && handleRetryRef.current();
+    document.addEventListener("retryModelLoad", retryListener);
 
     // Send model selection to worker - safe non-window-dependent version for worker
     const workerModelSelection = {
-      model: MODEL_SELECTION.model,
-      dtype: MODEL_SELECTION.dtype || "fp32",
+      model: modelSelection.model,
+      dtype: modelSelection.dtype || "fp32",
     };
 
     const handleMessage = (e: MessageEvent) => {
@@ -121,30 +140,16 @@ export default function ChatBoxInput() {
       const response = e.data.response;
 
       switch (status) {
-        case "load":
-          setLoading(true);
-          if (response && typeof response === "object") {
-            // Corrected logic:
-            // Prioritize displaying an error message if one exists.
-            // Otherwise, display the message from the worker (which includes progress).
-            // Fallback to a generic message if neither is present.
-            if (response.error) {
-              const errorMessage = `Error loading model: ${response.error}`;
-              setLoadingMessage(errorMessage);
-              console.error(errorMessage); // Keep console error for debugging
-            } else if (response.message) {
-              // This handles progress messages (e.g., "Loading model... (70%)")
-              // and other status messages (e.g., "Model loaded successfully", "Starting model download")
-              setLoadingMessage(response.message);
-            } else {
-              // Fallback if response is unusual (e.g., empty but no error/message)
-              setLoadingMessage("Processing model status...");
-            }
-          } else {
-            // Fallback if response itself is not a valid object or is missing
-            setLoadingMessage("Receiving model status...");
+        case "fallback-model":
+          if (response && response.model && response.dtype) {
+            setModelSelection({ model: response.model, dtype: response.dtype });
           }
           break;
+        case "load": {
+          setLoading(true);
+          setLoadingMessage(response.message);
+          break;
+        }
         case "done":
           setLoading(false);
           setLoadingMessage(null);
@@ -170,7 +175,7 @@ export default function ChatBoxInput() {
       // Add error handling for worker
       worker.current.addEventListener("error", (error) => {
         console.error("Worker error:", error);
-        setLoadingMessage(`Error initializing model: ${error.message}`);
+        setLoadingMessage(null);
       });
 
       console.log("Starting model load process...");
@@ -180,7 +185,6 @@ export default function ChatBoxInput() {
         modelSelection: workerModelSelection,
       });
       worker.current.postMessage({ action: "load" });
-      setLoadingMessage("Initializing model...");
     }
 
     // Save current worker reference to avoid closure issues
@@ -188,7 +192,7 @@ export default function ChatBoxInput() {
 
     return () => {
       // Remove the retry event listener
-      document.removeEventListener("retryModelLoad", handleRetry);
+      document.removeEventListener("retryModelLoad", retryListener);
 
       // Clean up worker if it exists
       if (currentWorker) {
@@ -197,7 +201,7 @@ export default function ChatBoxInput() {
         currentWorker.terminate();
       }
     };
-  }, [handleRetry]);
+  }, [modelSelection.model, modelSelection.dtype]);
 
   const textGeneration = useCallback((input: string) => {
     if (worker.current) {
@@ -209,15 +213,15 @@ export default function ChatBoxInput() {
 
   const handleSend = () => {
     if (!inputText.trim()) return;
-    
+
     // Save user message to history
-    const userMessage = addMessage('user', inputText.trim());
-    setMessageHistory(prev => [...prev, userMessage]);
-    
+    const userMessage = addMessage("user", inputText.trim());
+    setMessageHistory((prev) => [...prev, userMessage]);
+
     // Send only the current message to the AI (no conversation context)
     textGeneration(inputText.trim());
     setInputText(""); // Clear input after sending
-    
+
     // Immediately scroll to bottom after sending
     setTimeout(() => {
       if (messagesEndRef.current) {
@@ -239,7 +243,7 @@ export default function ChatBoxInput() {
         />
         <div ref={messagesEndRef} />
       </div>
-      
+
       {/* Input area - fixed at bottom */}
       <div className="flex gap-2 border-t border-gray-700 pt-3">
         <input

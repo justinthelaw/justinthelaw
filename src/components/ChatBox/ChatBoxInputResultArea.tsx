@@ -24,6 +24,9 @@ export default function ChatBoxInputResultArea({
     "Checking Justin's secret diary...",
     "Analyzing Justin's preferences...",
     "Decoding Justin's GitHub commits...",
+    "Making up an answer for you...",
+    "Searching the dark web...",
+    "Wondering the same thing you are...",
   ];
 
   const getRandomQuirkMessage = () => {
@@ -90,9 +93,9 @@ export default function ChatBoxInputResultArea({
                 </div>
                 <div className="leading-relaxed whitespace-pre-line">
                   {/* Show typewriter effect only for the first AI message if it's the welcome message */}
-                  {message.type === "ai" && 
-                   messageHistory.length === 1 && 
-                   message.id === messageHistory[0].id ? (
+                  {message.type === "ai" &&
+                  messageHistory.length === 1 &&
+                  message.id === messageHistory[0].id ? (
                     <Typewriter text={message.content} delay={200} />
                   ) : (
                     message.content

@@ -16,13 +16,13 @@
  * 6. Uses relaxed safety factors for better performance
  */
 
-// Model size options with precision variants
+// Model options and selection logic for text generation models
 export const MODEL_OPTIONS = {
   LARGE: "HuggingFaceTB/SmolLM2-1.7B-Instruct",
   MEDIUM: "HuggingFaceTB/SmolLM2-360M-Instruct",
   SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct",
   TINY: "HuggingFaceTB/SmolLM2-135M-Instruct"
-};
+} as const;
 
 // Model size names for user-friendly display
 export const MODEL_SIZE_NAMES = {
@@ -45,15 +45,17 @@ export const MODEL_DTYPES = {
   LARGE: "fp32" as const,
   MEDIUM: "fp32" as const,
   SMALL: "fp32" as const,
-  TINY: "fp16" as const
+  TINY: "q4" as const // Always use q4 for Tiny
 };
 
 // Type for model selection result
 export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
 
+export type ModelDType = "fp32" | "fp16" | "q4";
+
 export interface ModelSelection {
   model: string;
-  dtype: "fp32" | "fp16" | "q4";
+  dtype: ModelDType;
 }
 
 // Function to detect device capabilities and select appropriate model
@@ -165,5 +167,24 @@ export function selectModelBasedOnDevice(): ModelSelection {
   }
 }
 
-// Export a singleton instance of the model selection
-export const MODEL_SELECTION = selectModelBasedOnDevice();
+// Initial model selection for new users or reset state
+export function getInitialModelSelection(): ModelSelection {
+  return {
+    model: MODEL_OPTIONS.MEDIUM,
+    dtype: "fp32"
+  };
+}
+
+// Get the next model selection based on current, for cycling through models or fallback
+// In getNextModelSelection, always use q4 for Tiny
+export function getNextModelSelection(current: ModelSelection): ModelSelection {
+  if (current.model === MODEL_OPTIONS.LARGE) {
+    return { model: MODEL_OPTIONS.MEDIUM, dtype: MODEL_DTYPES.MEDIUM };
+  } else if (current.model === MODEL_OPTIONS.MEDIUM) {
+    return { model: MODEL_OPTIONS.SMALL, dtype: MODEL_DTYPES.SMALL };
+  } else if (current.model === MODEL_OPTIONS.SMALL && current.dtype === "fp32") {
+    return { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY };
+  }
+  // Already at smallest
+  return current;
+}
