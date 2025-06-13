@@ -1,6 +1,6 @@
 import { selectModelBasedOnDevice, MODEL_OPTIONS } from './modelSelection';
 
-export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
+export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL';
 
 /**
  * Gets the auto-detected model size based on device capabilities or fallback state.
@@ -12,20 +12,18 @@ export function getAutoDetectedModelSize(currentSelection?: { model: string; dty
   if (currentSelection) {
     if (currentSelection.model === MODEL_OPTIONS.LARGE) return 'LARGE';
     if (currentSelection.model === MODEL_OPTIONS.MEDIUM) return 'MEDIUM';
-    if (currentSelection.model === MODEL_OPTIONS.SMALL) return 'SMALL';
-    return 'TINY';
+    return 'SMALL';
   } else {
     autoSelection = selectModelBasedOnDevice();
     if (autoSelection.model === MODEL_OPTIONS.LARGE) return 'LARGE';
     if (autoSelection.model === MODEL_OPTIONS.MEDIUM) return 'MEDIUM';
-    if (autoSelection.model === MODEL_OPTIONS.SMALL) return 'SMALL';
-    return 'TINY';
+    return 'SMALL';
   }
 }
 
 /**
  * Sets the preferred model size in localStorage
- * @param size The size of model to use (MEDIUM, SMALL)
+ * @param size The size of model to use (LARGE, MEDIUM, SMALL)
  */
 export function setPreferredModelSize(size: ModelSizeKey): void {
   if (typeof window === 'undefined' || !window.localStorage) return;

@@ -1,55 +1,33 @@
-/**
- * This file handles the selection of appropriate SmolLM2 models based on device capabilities.
- * 
- * Model Memory Requirements (approximate):
- * - SmolLM2-1.7B-Instruct (fp32): ~3.4GB
- * - SmolLM2-360M-Instruct (fp32): ~723MB
- * - SmolLM2-135M-Instruct (fp32): ~269MB
- * - SmolLM2-135M-Instruct (fp16): ~135MB (half precision for mobile)
- * 
- * The model selection algorithm:
- * 1. Checks for manual override in localStorage (if available)
- * 2. Detects device capabilities (memory, cores, mobile/desktop)
- * 3. Runs a quick performance benchmark
- * 4. Selects the optimal model size based on available CPU resources
- * 5. Prioritizes TINY (fp16) model for mobile devices
- * 6. Uses relaxed safety factors for better performance
- */
-
 // Model options and selection logic for text generation models
 export const MODEL_OPTIONS = {
-  LARGE: "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+  LARGE: "Mozilla/Qwen2.5-0.5B-Instruct",
   MEDIUM: "HuggingFaceTB/SmolLM2-360M-Instruct",
-  SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct",
-  TINY: "HuggingFaceTB/SmolLM2-135M-Instruct"
+  SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct"
 } as const;
 
 // Model size names for user-friendly display
 export const MODEL_SIZE_NAMES = {
   LARGE: "Large",
   MEDIUM: "Medium",
-  SMALL: "Small",
-  TINY: "Tiny"
+  SMALL: "Small"
 };
 
 // Approximate memory requirements in MB
 export const MODEL_MEMORY_REQUIREMENTS = {
-  LARGE: 3400,  // ~3.4GB for 1.7B model (fp32)
-  MEDIUM: 750,  // ~723MB (fp32)
-  SMALL: 280,   // ~269MB (fp32)
-  TINY: 135     // ~135MB (fp16 half precision)
+  LARGE: 2500,  // ~2.5GB for 0.5B model (fp32)
+  MEDIUM: 1500, // ~1.5GB for 360M model (fp32) 
+  SMALL: 600    // ~600MB for 135M model (fp32)
 };
 
-// Data types for each model
+// Data types for each model - all fp32 now
 export const MODEL_DTYPES = {
   LARGE: "fp32" as const,
   MEDIUM: "fp32" as const,
-  SMALL: "fp32" as const,
-  TINY: "q4" as const // Always use q4 for Tiny
+  SMALL: "fp32" as const
 };
 
 // Type for model selection result
-export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
+export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL';
 
 export type ModelDType = "fp32" | "fp16" | "q4";
 
@@ -71,8 +49,6 @@ export function selectModelBasedOnDevice(): ModelSelection {
         return { model: MODEL_OPTIONS.MEDIUM, dtype: MODEL_DTYPES.MEDIUM };
       } else if (manualOverride === 'SMALL') {
         return { model: MODEL_OPTIONS.SMALL, dtype: MODEL_DTYPES.SMALL };
-      } else if (manualOverride === 'TINY') {
-        return { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY };
       }
     }
   }
@@ -111,7 +87,6 @@ export function selectModelBasedOnDevice(): ModelSelection {
     const memoryInMB = Math.max(estimatedMemoryInGB, 2) * 1024; // Minimum 2GB estimate (reduced from 4GB)
     
     // Relaxed safety factor - we can use up to 90% of available memory
-    // This is much more aggressive than the previous 40-75% to maximize model capabilities
     const safeMemory = memoryInMB * 0.9;
 
     // Check logical processors
@@ -135,55 +110,46 @@ export function selectModelBasedOnDevice(): ModelSelection {
     // Select model based on device capabilities with relaxed requirements
     let selectedModel: ModelSelection;
 
-    // Very high-end devices - try the largest model first
+    // High-end devices - try the largest model first
     if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.LARGE * 0.8 && // Only need 80% of memory requirement
         (perfScore > 100 && logicalProcessors >= 4)) {         // Relaxed CPU requirements
       selectedModel = { model: MODEL_OPTIONS.LARGE, dtype: MODEL_DTYPES.LARGE };
-      console.log("Using large model (1.7B) with full precision based on device capabilities");
+      console.log("Using large model (Mozilla Qwen 0.5B) with full precision based on device capabilities");
     }
-    // High-end devices - relaxed requirements for medium model
+    // Mid-range devices - relaxed requirements for medium model
     else if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.MEDIUM * 0.5 || // Only need 50% of memory requirement
         (perfScore > 50 && logicalProcessors >= 2)) {               // Much more relaxed requirements
       selectedModel = { model: MODEL_OPTIONS.MEDIUM, dtype: MODEL_DTYPES.MEDIUM };
-      console.log("Using medium model (360M) with full precision based on device capabilities");
+      console.log("Using medium model (SmolLM2 360M) with full precision based on device capabilities");
     }
-    // Mid-range devices - relaxed requirements for small model
-    else if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.SMALL * 0.5 || // Only need 50% of memory requirement
-        perfScore > 25) {                                           // Very relaxed performance requirement
-      selectedModel = { model: MODEL_OPTIONS.SMALL, dtype: MODEL_DTYPES.SMALL };
-      console.log("Using small model (135M) with full precision based on device capabilities");
-    }
-    // Low-end devices and mobile - use half precision tiny model
+    // Low-end devices and mobile - use small model (optimized for mobile)
     else {
-      selectedModel = { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY };
-      console.log("Using tiny model (135M half precision) for low-end/mobile device");
+      selectedModel = { model: MODEL_OPTIONS.SMALL, dtype: MODEL_DTYPES.SMALL };
+      console.log("Using small model (SmolLM2 135M) optimized for mobile/low-end devices");
     }
     
     return selectedModel;
   } catch (error) {
     console.error("Error detecting device capabilities:", error);
-    // Fallback to tiny model for safety
-    return { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY };
+    // Fallback to small model for safety
+    return { model: MODEL_OPTIONS.SMALL, dtype: MODEL_DTYPES.SMALL };
   }
 }
 
 // Initial model selection for new users or reset state
 export function getInitialModelSelection(): ModelSelection {
   return {
-    model: MODEL_OPTIONS.MEDIUM,
+    model: MODEL_OPTIONS.SMALL, // Default to smallest model
     dtype: "fp32"
   };
 }
 
 // Get the next model selection based on current, for cycling through models or fallback
-// In getNextModelSelection, always use q4 for Tiny
 export function getNextModelSelection(current: ModelSelection): ModelSelection {
   if (current.model === MODEL_OPTIONS.LARGE) {
     return { model: MODEL_OPTIONS.MEDIUM, dtype: MODEL_DTYPES.MEDIUM };
   } else if (current.model === MODEL_OPTIONS.MEDIUM) {
     return { model: MODEL_OPTIONS.SMALL, dtype: MODEL_DTYPES.SMALL };
-  } else if (current.model === MODEL_OPTIONS.SMALL && current.dtype === "fp32") {
-    return { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY };
   }
   // Already at smallest
   return current;

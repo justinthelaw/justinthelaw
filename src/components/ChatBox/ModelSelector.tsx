@@ -18,10 +18,9 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
   // Use selectModelBasedOnDevice to get the actual model in use (including manual override)
   const [currentModelInUse, setCurrentModelInUse] = useState<ModelSizeKey>(() => {
     const inUse = selectModelBasedOnDevice();
-    if (inUse.model === "HuggingFaceTB/SmolLM2-1.7B-Instruct") return "LARGE";
+    if (inUse.model === "Mozilla/Qwen2.5-0.5B-Instruct") return "LARGE";
     if (inUse.model === "HuggingFaceTB/SmolLM2-360M-Instruct") return "MEDIUM";
-    if (inUse.model === "HuggingFaceTB/SmolLM2-135M-Instruct" && inUse.dtype === "fp32") return "SMALL";
-    return "TINY";
+    return "SMALL";
   });
 
   useEffect(() => {
@@ -29,10 +28,9 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
       // On open, sync to the current in-use model
       const inUse = selectModelBasedOnDevice();
       let key: ModelSizeKey;
-      if (inUse.model === "HuggingFaceTB/SmolLM2-1.7B-Instruct") key = "LARGE";
+      if (inUse.model === "Mozilla/Qwen2.5-0.5B-Instruct") key = "LARGE";
       else if (inUse.model === "HuggingFaceTB/SmolLM2-360M-Instruct") key = "MEDIUM";
-      else if (inUse.model === "HuggingFaceTB/SmolLM2-135M-Instruct" && inUse.dtype === "fp32") key = "SMALL";
-      else key = "TINY";
+      else key = "SMALL";
       setSelectedModel(key);
       setCurrentModelInUse(key);
     }
@@ -48,7 +46,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
     setSelectedModel(currentModelInUse); // Reset to the model in use
   };
 
-  const allowedModels: ModelSizeKey[] = ["LARGE", "MEDIUM", "SMALL", "TINY"];
+  const allowedModels: ModelSizeKey[] = ["LARGE", "MEDIUM", "SMALL"];
   // Show reload message if the selected model is different from the model currently in use
   const showReloadMessage = selectedModel !== null && selectedModel !== currentModelInUse;
 
@@ -135,11 +133,6 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
         {/* Content */}
         <div className="p-6">
           <div className="mb-6">
-            <p className="text-sm text-gray-300 mb-4">
-              Choose a model that matches your device&apos;s capabilities for
-              optimal performance:
-            </p>
-
             <div className="space-y-3">
               {allowedModels.map((key) => (
                 <label
@@ -155,11 +148,10 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                       className="sr-only"
                     />
                     <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
-                        selectedModel === key
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${selectedModel === key
                           ? "border-blue-500 bg-blue-500"
                           : "border-gray-500 group-hover:border-gray-400"
-                      }`}
+                        }`}
                     >
                       {selectedModel === key && (
                         <div className="w-2 h-2 bg-white rounded-full"></div>
@@ -172,34 +164,34 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                         {MODEL_SIZE_NAMES[key]}
                       </span>
                       {key === "LARGE" && (
-                        <span className="ml-2 px-2 py-1 text-xs bg-red-600 text-white rounded-full">
-                          High Memory
+                        <span className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded-full">
+                          Better Quality
                         </span>
                       )}
-                      {key === "TINY" && (
+                      {key === "MEDIUM" && (
+                        <span className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full">
+                          Balanced Option
+                        </span>
+                      )}
+                      {key === "SMALL" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-green-600 text-white rounded-full">
-                          Mobile Optimized
+                          Better Speed
                         </span>
                       )}
                     </div>
                     {key === "LARGE" && (
                       <p className="text-xs text-gray-400 mt-1">
-                        Memory requirement: ~3.4GB
+                        Memory requirement: ~2.5GB
                       </p>
                     )}
                     {key === "MEDIUM" && (
                       <p className="text-xs text-gray-400 mt-1">
-                        Memory requirement: ~750MB
+                        Memory requirement: ~1.5GB
                       </p>
                     )}
                     {key === "SMALL" && (
                       <p className="text-xs text-gray-400 mt-1">
-                        Memory requirement: ~280MB
-                      </p>
-                    )}
-                    {key === "TINY" && (
-                      <p className="text-xs text-gray-400 mt-1">
-                        Memory requirement: ~135MB
+                        Memory requirement: ~600MB
                       </p>
                     )}
                   </div>
@@ -229,7 +221,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-gray-300">
-                      Currently using {MODEL_SIZE_NAMES[selectedModel!]} model
+                      Currently using the {MODEL_SIZE_NAMES[selectedModel!]} model
                     </p>
                   </div>
                 </>
