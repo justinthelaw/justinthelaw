@@ -25,6 +25,19 @@ export default function Home() {
           This mainly concerns the PDF from Google Drive and Link Icons hosted on GitHub.
     */
     setIsMounted(true);
+
+    // Check if we should reopen the chat after a refresh
+    if (typeof window !== 'undefined') {
+      const shouldReopenChat = localStorage.getItem('reopenChatAfterRefresh');
+      if (shouldReopenChat === 'true') {
+        // Remove the flag and open the chat
+        localStorage.removeItem('reopenChatAfterRefresh');
+        // Use a small delay to ensure the component is fully mounted
+        setTimeout(() => {
+          setShowChatBox(true);
+        }, 100);
+      }
+    }
   }, []);
 
   return (

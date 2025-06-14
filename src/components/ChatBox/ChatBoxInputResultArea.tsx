@@ -20,7 +20,7 @@ export default function ChatBoxInputResultArea({
     "Digging into Justin's history...",
     "Consulting my Justin database...",
     "Channeling my inner Justin...",
-    "Reading Justin's mind from afar...",
+    "Reading Justin's mind...",
     "Checking Justin's secret diary...",
     "Analyzing Justin's preferences...",
     "Decoding Justin's GitHub commits...",

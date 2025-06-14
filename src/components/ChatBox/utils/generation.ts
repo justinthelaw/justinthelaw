@@ -55,7 +55,7 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
     try {
       await generator!(messages, {
         temperature: 0.0,
-        max_new_tokens: 128,
+        max_new_tokens: 1028,
         early_stopping: true,
         streamer,
       });

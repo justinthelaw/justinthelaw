@@ -36,7 +36,7 @@ export default function ChatBoxInput() {
       "Hello, I am Justin's AI assistant! Got any questions for me?",
       "Hey there! Got any questions about Justin for me?",
       "Hi! Interested in learning more about Justin?",
-      "What would you like to know about my boss, Justin?",
+      "What would you like to know about Justin?",
       "I heard you had questions about Justin? Just ask away!",
       "Thanks for visiting! Do you want to learn more about Justin?",
     ];

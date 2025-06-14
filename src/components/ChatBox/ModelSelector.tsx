@@ -7,6 +7,7 @@ import {
   getAutoDetectedModelSize,
 } from "@/components/ChatBox/utils/modelPreferences";
 import { selectModelBasedOnDevice } from "@/components/ChatBox/utils/modelSelection";
+import { clearMessageHistory } from "@/components/ChatBox/utils/messageHistory";
 
 interface ModelSelectorProps {
   onClose?: () => void;
@@ -199,44 +200,52 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
               ))}
             </div>
             {showReloadMessage && (
-              <div className="mt-2 text-xs text-yellow-400">
-                Changes take effect on the next page reload.
-              </div>
-            )}
-          </div>
-
-          {/* Status */}
-          <div className="bg-gray-800 rounded-lg p-4 mb-6">
-            <div className="flex items-start">
-              {selectedModel && (
-                <>
-                  <div className="w-5 h-5 mt-0.5 mr-3 text-blue-400">
+              <div className="mt-5 p-2 bg-yellow-900/20 border border-yellow-600/30 rounded-md">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 text-yellow-400 flex-shrink-0">
                     <svg fill="currentColor" viewBox="0 0 20 20">
                       <path
                         fillRule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
                         clipRule="evenodd"
                       />
                     </svg>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-300">
-                      Currently using the {MODEL_SIZE_NAMES[selectedModel!]} model
-                    </p>
-                  </div>
-                </>
-              )}
-            </div>
+                  <p className="text-xs text-yellow-300">
+                    Changes take effect on the next page reload.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Actions */}
           <div className="flex justify-between items-center">
-            <button
-              onClick={handleResetPreference}
-              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors duration-200 font-medium"
-            >
-              Reset to Auto
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={handleResetPreference}
+                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors duration-200 font-medium"
+              >
+                Reset to Auto
+              </button>
+              {showReloadMessage && (
+                <button
+                  onClick={() => {
+                    // Clear chat history before refresh
+                    clearMessageHistory();
+                    // Store flag to reopen chat after refresh
+                    if (typeof window !== 'undefined') {
+                      localStorage.setItem('reopenChatAfterRefresh', 'true');
+                    }
+                    // Refresh the page
+                    window.location.reload();
+                  }}
+                  className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white text-sm rounded-lg transition-colors duration-200 font-medium"
+                >
+                  Reload
+                </button>
+              )}
+            </div>
             <button
               onClick={() => {
                 setShowSettings(false);
