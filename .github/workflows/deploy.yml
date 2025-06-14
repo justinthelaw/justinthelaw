@@ -3,6 +3,11 @@ name: Deploy
 on:
   push:
     branches: ["main"]
+    paths:
+      - "src/**"
+      - "*.json"
+      - "*.ts"
+      - "*.mjs"
   workflow_dispatch:
 
 permissions:
