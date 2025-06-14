@@ -5,6 +5,7 @@ on:
     branches: ["main"]
     paths:
       - "src/**"
+      - "public/**"
       - "*.json"
       - "*.ts"
       - "*.mjs"
