@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MODEL_SIZE_NAMES } from "@/components/ChatBox/utils/modelSelection";
+import { MODEL_SIZE_NAMES, getModelSizeFromSelection } from "@/components/ChatBox/utils/modelSelection";
 import {
   setPreferredModelSize,
   clearModelPreference,
@@ -19,19 +19,14 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
   // Use selectModelBasedOnDevice to get the actual model in use (including manual override)
   const [currentModelInUse, setCurrentModelInUse] = useState<ModelSizeKey>(() => {
     const inUse = selectModelBasedOnDevice();
-    if (inUse.model === "Mozilla/Qwen2.5-0.5B-Instruct") return "LARGE";
-    if (inUse.model === "HuggingFaceTB/SmolLM2-360M-Instruct") return "MEDIUM";
-    return "SMALL";
+    return getModelSizeFromSelection(inUse);
   });
 
   useEffect(() => {
     if (showSettings) {
       // On open, sync to the current in-use model
       const inUse = selectModelBasedOnDevice();
-      let key: ModelSizeKey;
-      if (inUse.model === "Mozilla/Qwen2.5-0.5B-Instruct") key = "LARGE";
-      else if (inUse.model === "HuggingFaceTB/SmolLM2-360M-Instruct") key = "MEDIUM";
-      else key = "SMALL";
+      const key = getModelSizeFromSelection(inUse);
       setSelectedModel(key);
       setCurrentModelInUse(key);
     }
@@ -180,21 +175,6 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                         </span>
                       )}
                     </div>
-                    {key === "LARGE" && (
-                      <p className="text-xs text-gray-400 mt-1">
-                        Memory requirement: ~2.5GB
-                      </p>
-                    )}
-                    {key === "MEDIUM" && (
-                      <p className="text-xs text-gray-400 mt-1">
-                        Memory requirement: ~1.5GB
-                      </p>
-                    )}
-                    {key === "SMALL" && (
-                      <p className="text-xs text-gray-400 mt-1">
-                        Memory requirement: ~600MB
-                      </p>
-                    )}
                   </div>
                 </label>
               ))}

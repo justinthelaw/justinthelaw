@@ -14,7 +14,7 @@ export default function GitHubProfileDescription() {
           setBio(data.bio);
         }
       } catch (error) {
-        console.error("Error fetching GitHub Bio: ", error);
+        console.error("Error fetching GitHub Bio:", error);
       }
     };
 

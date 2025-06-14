@@ -11,11 +11,10 @@ import {
 import type { MessageData } from "./types";
 import { loadModelWithFallback } from "./modelLoader";
 
-// Model selection state
-let MODEL_SELECTION: ModelSelection = getInitialModelSelection();
-
 env.allowLocalModels = false;
 
+// Model selection and generator states
+let MODEL_SELECTION: ModelSelection = getInitialModelSelection();
 let generator: TextGenerationPipeline | null = null;
 
 self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
@@ -54,9 +53,12 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
     });
     try {
       await generator!(messages, {
-        temperature: 0.0,
-        max_new_tokens: 1028,
-        early_stopping: true,
+        temperature: 0.1,           // Slightly higher than 0 for more natural responses
+        max_new_tokens: 512,
+        do_sample: true,
+        top_p: 0.9,                 // Focus on most likely tokens
+        repetition_penalty: 1.2,    // Reduce repetition
+        early_stopping: true, 
         streamer,
       });
     } catch (e) {

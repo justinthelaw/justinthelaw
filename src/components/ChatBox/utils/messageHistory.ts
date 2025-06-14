@@ -5,18 +5,11 @@ export interface ChatMessage {
   timestamp: number;
 }
 
-const HISTORY_KEY = 'chat_message_history';
+// In-memory storage - will be cleared on every page reload/revisit
+let messageHistory: ChatMessage[] = [];
 
 export function getMessageHistory(): ChatMessage[] {
-  if (typeof window === 'undefined') return [];
-  
-  try {
-    const stored = sessionStorage.getItem(HISTORY_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch (error) {
-    console.error('Error reading message history:', error);
-    return [];
-  }
+  return [...messageHistory]; // Return a copy to prevent external mutations
 }
 
 export function addMessage(type: 'user' | 'ai', content: string): ChatMessage {
@@ -27,25 +20,19 @@ export function addMessage(type: 'user' | 'ai', content: string): ChatMessage {
     timestamp: Date.now()
   };
 
-  if (typeof window !== 'undefined') {
-    try {
-      const history = getMessageHistory();
-      const newHistory = [...history, message];
-      sessionStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory));
-    } catch (error) {
-      console.error('Error saving message to history:', error);
+  // Prevent duplicate consecutive messages from the same sender
+  if (messageHistory.length > 0) {
+    const lastMessage = messageHistory[messageHistory.length - 1];
+    if (lastMessage.type === type && lastMessage.content.trim() === content.trim()) {
+      // Return the existing message instead of adding a duplicate
+      return lastMessage;
     }
   }
 
+  messageHistory.push(message);
   return message;
 }
 
 export function clearMessageHistory(): void {
-  if (typeof window !== 'undefined') {
-    try {
-      sessionStorage.removeItem(HISTORY_KEY);
-    } catch (error) {
-      console.error('Error clearing message history:', error);
-    }
-  }
+  messageHistory = [];
 }

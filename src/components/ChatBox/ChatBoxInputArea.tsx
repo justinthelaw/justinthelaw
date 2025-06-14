@@ -105,7 +105,7 @@ export default function ChatBoxInput() {
     if (worker.current) {
       const workerModelSelection = {
         model: modelSelection.model,
-        dtype: modelSelection.dtype || "fp32",
+        dtype: modelSelection.dtype,
       };
       worker.current.postMessage({
         action: "init",
@@ -116,7 +116,6 @@ export default function ChatBoxInput() {
   };
 
   useEffect(() => {
-    console.log("Initializing worker for model loading...");
     worker.current = new Worker(
       new URL("@/components/ChatBox/utils/generation.ts", import.meta.url),
       {
@@ -132,7 +131,7 @@ export default function ChatBoxInput() {
     // Send model selection to worker - safe non-window-dependent version for worker
     const workerModelSelection = {
       model: modelSelection.model,
-      dtype: modelSelection.dtype || "fp32",
+      dtype: modelSelection.dtype,
     };
 
     const handleMessage = (e: MessageEvent) => {
@@ -178,7 +177,6 @@ export default function ChatBoxInput() {
         setLoadingMessage(null);
       });
 
-      console.log("Starting model load process...");
       // First send the model selection, then load the model
       worker.current.postMessage({
         action: "init",
