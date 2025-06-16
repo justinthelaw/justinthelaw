@@ -1,12 +1,32 @@
+import { useState, useEffect } from "react";
 import ChatBoxInputArea from "@/components/ChatBox/ChatBoxInputArea";
 import ModelSelector from "@/components/ChatBox/ModelSelector";
-import { clearMessageHistory } from "@/components/ChatBox/utils/messageHistory";
+import { clearMessageHistory, getIsGenerating } from "@/components/ChatBox/utils/messageHistory";
 
 interface ChatBoxProps {
   onClose: () => void;
 }
 
 export default function ChatBox({ onClose }: ChatBoxProps) {
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  // Check generation status periodically
+  useEffect(() => {
+    const checkGenerationStatus = () => {
+      setIsGenerating(getIsGenerating());
+    };
+
+    // Check immediately
+    checkGenerationStatus();
+
+    // Set up interval to check periodically
+    const interval = setInterval(checkGenerationStatus, 100);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   const handleClearHistory = () => {
     clearMessageHistory();
     // Dispatch a custom event to notify input area to refresh
@@ -28,9 +48,14 @@ export default function ChatBox({ onClose }: ChatBoxProps) {
               <ModelSelector />
               <button
                 onClick={handleClearHistory}
-                className="text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 rounded-md w-8 h-8 flex items-center justify-center transition-colors duration-200"
+                disabled={isGenerating}
+                className={`${
+                  isGenerating 
+                    ? 'text-gray-600 bg-gray-900 cursor-not-allowed' 
+                    : 'text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700'
+                } rounded-md w-8 h-8 flex items-center justify-center transition-colors duration-200`}
                 aria-label="Clear chat history"
-                title="Clear chat history"
+                title={isGenerating ? "Cannot clear history while generating" : "Clear chat history"}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -78,9 +103,14 @@ export default function ChatBox({ onClose }: ChatBoxProps) {
                 <ModelSelector />
                 <button
                   onClick={handleClearHistory}
-                  className="text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 rounded-md w-8 h-8 flex items-center justify-center transition-colors duration-200"
+                  disabled={isGenerating}
+                  className={`${
+                    isGenerating 
+                      ? 'text-gray-600 bg-gray-900 cursor-not-allowed' 
+                      : 'text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700'
+                  } rounded-md w-8 h-8 flex items-center justify-center transition-colors duration-200`}
                   aria-label="Clear chat history"
-                  title="Clear chat history"
+                  title={isGenerating ? "Cannot clear history while generating" : "Clear chat history"}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

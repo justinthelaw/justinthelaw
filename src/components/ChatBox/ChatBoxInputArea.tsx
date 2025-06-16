@@ -9,6 +9,7 @@ import {
   getMessageHistory,
   addMessage,
   ChatMessage,
+  setGenerating,
 } from "@/components/ChatBox/utils/messageHistory";
 
 export default function ChatBoxInput() {
@@ -100,7 +101,7 @@ export default function ChatBoxInput() {
   }, [answering, result, loading]);
 
   // Define retry handler outside of effect for closure consistency
-  const handleRetryRef = useRef<() => void>(() => {});
+  const handleRetryRef = useRef<() => void>(() => { });
   handleRetryRef.current = () => {
     if (worker.current) {
       const workerModelSelection = {
@@ -114,6 +115,12 @@ export default function ChatBoxInput() {
       worker.current.postMessage({ action: "load" });
     }
   };
+
+  const handleHelperText = () => {
+    if (loading) return "Loading model..."
+    if (answering) return "Generating answer...";
+    return "Type your message..."
+  }
 
   useEffect(() => {
     worker.current = new Worker(
@@ -153,16 +160,19 @@ export default function ChatBoxInput() {
           setLoading(false);
           setLoadingMessage(null);
           setAnswering(false);
+          setGenerating(false);
           break;
         case "initiate":
           setLoading(true);
           setLoadingMessage("Generating an answer...");
           setResult("");
+          setGenerating(true);
           break;
         case "stream":
           setLoading(false);
           setLoadingMessage(null);
           setAnswering(true);
+          setGenerating(true);
           setResult((prev) => prev + response);
           break;
       }
@@ -175,6 +185,8 @@ export default function ChatBoxInput() {
       worker.current.addEventListener("error", (error) => {
         console.error("Worker error:", error);
         setLoadingMessage(null);
+        setAnswering(false);
+        setGenerating(false);
       });
 
       // First send the model selection, then load the model
@@ -248,7 +260,7 @@ export default function ChatBoxInput() {
           ref={inputRef}
           type="text"
           className={`w-full p-3 text-white rounded-md border border-gray-700 bg-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500`}
-          placeholder={loading ? "Loading model..." : "Type your message..."}
+          placeholder={handleHelperText()}
           value={inputText}
           disabled={loading || answering}
           onChange={(e) => setInputText(e.target.value)}

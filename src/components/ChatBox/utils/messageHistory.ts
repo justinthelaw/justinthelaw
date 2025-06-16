@@ -7,6 +7,7 @@ export interface ChatMessage {
 
 // In-memory storage - will be cleared on every page reload/revisit
 let messageHistory: ChatMessage[] = [];
+let isGenerating: boolean = false;
 
 export function getMessageHistory(): ChatMessage[] {
   return [...messageHistory]; // Return a copy to prevent external mutations
@@ -33,6 +34,20 @@ export function addMessage(type: 'user' | 'ai', content: string): ChatMessage {
   return message;
 }
 
+export function setGenerating(generating: boolean): void {
+  isGenerating = generating;
+}
+
+export function getIsGenerating(): boolean {
+  return isGenerating;
+}
+
+export function canClearHistory(): boolean {
+  return !isGenerating;
+}
+
 export function clearMessageHistory(): void {
-  messageHistory = [];
+  if (canClearHistory()) {
+    messageHistory = [];
+  }
 }
