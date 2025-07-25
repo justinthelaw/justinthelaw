@@ -14,7 +14,8 @@ export default function GitHubProfileDescription() {
           setBio(data.bio);
         }
       } catch (error) {
-        console.error("Error fetching GitHub Bio:", error);
+        console.warn("Error fetching Justin's GitHub Bio:", error);
+        setBio("Oops! It seems like GitHub's API might be down so the website can't grab Justin's GitHub bio. Anyway, let's just assume that that Justin is really cool!");
       }
     };
 
