@@ -42,7 +42,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
     setSelectedModel(currentModelInUse); // Reset to the model in use
   };
 
-  const allowedModels: ModelSizeKey[] = ["LARGE", "MEDIUM", "SMALL"];
+  const allowedModels: ModelSizeKey[] = ["LARGE", "MEDIUM", "SMALL", "TINY"];
   // Show reload message if the selected model is different from the model currently in use
   const showReloadMessage = selectedModel !== null && selectedModel !== currentModelInUse;
 
@@ -172,6 +172,11 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                       {key === "SMALL" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-green-600 text-white rounded-full">
                           Better Speed
+                        </span>
+                      )}
+                      {key === "TINY" && (
+                        <span className="ml-2 px-2 py-1 text-xs bg-orange-600 text-white rounded-full">
+                          Mobile Optimized
                         </span>
                       )}
                     </div>

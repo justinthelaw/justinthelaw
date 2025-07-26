@@ -2,37 +2,41 @@
 export const MODEL_OPTIONS = {
   LARGE: "Mozilla/Qwen2.5-0.5B-Instruct",
   MEDIUM: "HuggingFaceTB/SmolLM2-360M-Instruct",
-  SMALL: "HuggingFaceTB/SmolLM2-360M-Instruct"
+  SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct",
+  TINY: "microsoft/DialoGPT-small"
 } as const;
 
 // Model size names for user-friendly display
 export const MODEL_SIZE_NAMES = {
   LARGE: "Large",
   MEDIUM: "Medium",
-  SMALL: "Small"
+  SMALL: "Small",
+  TINY: "Tiny"
 };
 
 // Data types for each model
 export const MODEL_DTYPES = {
   LARGE: "fp32" as const,
   MEDIUM: "fp32" as const,
-  SMALL: "q4" as const
+  SMALL: "q4" as const,
+  TINY: "int8" as const
 };
 
 // Approximate memory requirements in MB, based on parameters and data types
 export const MODEL_MEMORY_REQUIREMENTS = {
   LARGE: 1300,  // ~1.3GB for large model
   MEDIUM: 800,  // ~0.8GB for medium model 
-  SMALL: 400    // ~0.4GB for small model
+  SMALL: 250,   // ~0.25GB for small model (135M with q4)
+  TINY: 120     // ~0.12GB for tiny model (DialoGPT-small with int8)
 };
 
 // All defaults should fall back on the smallest model
-const DEFAULT_SELECTION = { model: MODEL_OPTIONS.SMALL, dtype: MODEL_DTYPES.SMALL }
+const DEFAULT_SELECTION = { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY }
 
 // Type for model selection result
-export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL';
+export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
 
-export type ModelDType = "fp32" | "fp16" | "q4";
+export type ModelDType = "fp32" | "fp16" | "q4" | "int8";
 
 export interface ModelSelection {
   model: string;
@@ -43,20 +47,18 @@ export interface ModelSelection {
 export function getModelSizeFromModelName(modelName: string): ModelSizeKey {
   if (modelName === MODEL_OPTIONS.LARGE) return 'LARGE';
   if (modelName === MODEL_OPTIONS.MEDIUM) return 'MEDIUM';
-  return 'SMALL';
+  if (modelName === MODEL_OPTIONS.SMALL) return 'SMALL';
+  return 'TINY';
 }
 
 // Enhanced function that considers both model name and dtype
 export function getModelSizeFromSelection(selection: ModelSelection): ModelSizeKey {
   if (selection.model === MODEL_OPTIONS.LARGE) return 'LARGE';
+  if (selection.model === MODEL_OPTIONS.MEDIUM) return 'MEDIUM';
+  if (selection.model === MODEL_OPTIONS.SMALL) return 'SMALL';
+  if (selection.model === MODEL_OPTIONS.TINY) return 'TINY';
   
-  // Handle case where MEDIUM and SMALL use the same model but different dtypes
-  if (selection.model === MODEL_OPTIONS.MEDIUM || selection.model === MODEL_OPTIONS.SMALL) {
-    if (selection.dtype === MODEL_DTYPES.MEDIUM) return 'MEDIUM';
-    if (selection.dtype === MODEL_DTYPES.SMALL) return 'SMALL';
-  }
-  
-  return 'SMALL'; // Default fallback
+  return 'TINY'; // Default fallback
 }
 
 export function getModelSelectionFromSizeKey(sizeKey: ModelSizeKey): ModelSelection {
@@ -66,8 +68,10 @@ export function getModelSelectionFromSizeKey(sizeKey: ModelSizeKey): ModelSelect
     case 'MEDIUM':
       return { model: MODEL_OPTIONS.MEDIUM, dtype: MODEL_DTYPES.MEDIUM };
     case 'SMALL':
-    default:
       return { model: MODEL_OPTIONS.SMALL, dtype: MODEL_DTYPES.SMALL };
+    case 'TINY':
+    default:
+      return { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY };
   }
 }
 
@@ -105,27 +109,35 @@ export function selectModelBasedOnDevice(): ModelSelection {
       const endTime = performance.now();
       const perfScore = 1000000 / (endTime - startTime); // Higher is better
 
-      // Use performance to estimate available memory with relaxed criteria
-      if (perfScore > 10000) {
-        estimatedMemoryInGB = 4; // Fast machine, likely has decent memory
+      // Use performance to estimate available memory with conservative criteria
+      if (perfScore > 15000) {
+        estimatedMemoryInGB = 4; // Very fast machine, likely has decent memory
+      } else if (perfScore > 8000) {
+        estimatedMemoryInGB = 2; // Decent machine
       } else {
-        estimatedMemoryInGB = 2; // Slower machine
+        estimatedMemoryInGB = 1; // Slower machine, likely mobile or old device
       }
     }
-
-    // Estimate for machines that might have browser limitations
-    const memoryInMB = Math.max(estimatedMemoryInGB, 2) * 1024;
-
-    // Use up to 70% of available memory
-    const safeMemory = memoryInMB * 0.7;
-
-    // Check logical processors
-    const logicalProcessors = navigator.hardwareConcurrency || 4; // Default to 4 cores if not available
 
     // Check if device is mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
     );
+
+    // Check for very old mobile devices (like Samsung Galaxy S3)
+    const isVeryOldMobile = /Android [1-4]\.|iPhone OS [1-8]_|iPad.*OS [1-8]_|BlackBerry|Windows Phone|webOS/i.test(
+      navigator.userAgent
+    );
+
+    // Estimate for machines that might have browser limitations
+    const memoryInMB = Math.max(estimatedMemoryInGB, 1) * 1024;
+
+    // Use more conservative memory allocation for mobile devices
+    const memoryMultiplier = isMobile ? 0.4 : 0.7; // Mobile devices get much less memory allocation
+    const safeMemory = memoryInMB * memoryMultiplier;
+
+    // Check logical processors
+    const logicalProcessors = navigator.hardwareConcurrency || 4; // Default to 4 cores if not available
 
     // Run a quick performance test
     const startTime = performance.now();
@@ -135,27 +147,57 @@ export function selectModelBasedOnDevice(): ModelSelection {
     const endTime = performance.now();
     const perfScore = 1000000 / (endTime - startTime); // Higher is better
 
-    console.log(`Device specs: Memory: ${estimatedMemoryInGB}GB (Safe: ${Math.round(safeMemory)}MB), Cores: ${logicalProcessors}, Mobile: ${isMobile}, Performance score: ${perfScore.toFixed(2)}`);
+    console.log(`Device specs: Memory: ${estimatedMemoryInGB}GB (Safe: ${Math.round(safeMemory)}MB), Cores: ${logicalProcessors}, Mobile: ${isMobile}, Very old mobile: ${isVeryOldMobile}, Performance score: ${perfScore.toFixed(2)}`);
 
-    // Select model based on device capabilities with relaxed requirements
+    // Select model based on device capabilities with more stringent requirements
     let selectedModel: ModelSelection;
 
-    // High-end devices - try the largest model first
-    if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.LARGE * 0.8 &&  // Only need 80% of memory requirement
-      (perfScore > 100 && logicalProcessors >= 4)) {
-      selectedModel = getModelSelectionFromSizeKey('LARGE');
-      console.log("Using large model with full precision based on device capabilities");
-    }
-    // Mid-range devices
-    else if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.MEDIUM * 0.8 ||  // Only need 80% of memory requirement
-      (perfScore > 50 && logicalProcessors >= 2)) {
-      selectedModel = getModelSelectionFromSizeKey('MEDIUM');
-      console.log("Using medium model with full precision based on device capabilities");
-    }
-    // Low-end devices and mobile - use small model (optimized for mobile)
-    else {
+    // Force very old mobile devices to use tiny model
+    if (isVeryOldMobile || (isMobile && estimatedMemoryInGB <= 1)) {
       selectedModel = DEFAULT_SELECTION;
-      console.log("Using small model optimized for mobile/low-end devices");
+      console.log("Using tiny model for very old or low-memory mobile device");
+    }
+    // Force all mobile devices to use small or medium model at most
+    else if (isMobile) {
+      if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.MEDIUM && 
+          perfScore > 80 && 
+          logicalProcessors >= 4 && 
+          estimatedMemoryInGB >= 3) {
+        selectedModel = getModelSelectionFromSizeKey('MEDIUM');
+        console.log("Using medium model for high-end mobile device");
+      } else if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.SMALL &&
+                 perfScore > 40 &&
+                 estimatedMemoryInGB >= 2) {
+        selectedModel = getModelSelectionFromSizeKey('SMALL');
+        console.log("Using small model for mid-range mobile device");
+      } else {
+        selectedModel = DEFAULT_SELECTION;
+        console.log("Using tiny model for low-end mobile device");
+      }
+    }
+    // Desktop/laptop devices with more stringent requirements
+    else {
+      // High-end devices - require full memory and strong performance
+      if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.LARGE &&
+          perfScore > 120 && 
+          logicalProcessors >= 6 && 
+          estimatedMemoryInGB >= 4) {
+        selectedModel = getModelSelectionFromSizeKey('LARGE');
+        console.log("Using large model for high-end desktop device");
+      }
+      // Mid-range devices - require both memory AND performance
+      else if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.MEDIUM &&
+               perfScore > 80 && 
+               logicalProcessors >= 4 && 
+               estimatedMemoryInGB >= 2) {
+        selectedModel = getModelSelectionFromSizeKey('MEDIUM');
+        console.log("Using medium model for mid-range desktop device");
+      }
+      // Low-end devices - use small model
+      else {
+        selectedModel = getModelSelectionFromSizeKey('SMALL');
+        console.log("Using small model for low-end desktop device");
+      }
     }
 
     return selectedModel;
@@ -177,6 +219,8 @@ export function getNextModelSelection(current: ModelSelection): ModelSelection {
   if (currentSize === 'LARGE') {
     return getModelSelectionFromSizeKey('MEDIUM');
   } else if (currentSize === 'MEDIUM') {
+    return getModelSelectionFromSizeKey('SMALL');
+  } else if (currentSize === 'SMALL') {
     return DEFAULT_SELECTION;
   }
   // Already at smallest

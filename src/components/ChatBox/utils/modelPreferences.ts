@@ -1,6 +1,6 @@
 import { selectModelBasedOnDevice, getModelSizeFromSelection, ModelSelection } from './modelSelection';
 
-export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL';
+export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
 
 /**
  * Gets the auto-detected model size based on device capabilities or fallback state.
