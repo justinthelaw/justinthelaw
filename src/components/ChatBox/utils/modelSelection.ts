@@ -2,7 +2,7 @@
 export const MODEL_OPTIONS = {
   LARGE: "Mozilla/Qwen2.5-0.5B-Instruct",
   MEDIUM: "HuggingFaceTB/SmolLM2-360M-Instruct",
-  SMALL: "HuggingFaceTB/SmolLM2-360M-Instruct"
+  SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct"
 } as const;
 
 // Model size names for user-friendly display
@@ -23,7 +23,7 @@ export const MODEL_DTYPES = {
 export const MODEL_MEMORY_REQUIREMENTS = {
   LARGE: 1300,  // ~1.3GB for large model
   MEDIUM: 800,  // ~0.8GB for medium model 
-  SMALL: 400    // ~0.4GB for small model
+  SMALL: 250    // ~0.25GB for small model (reduced from 135M params)
 };
 
 // All defaults should fall back on the smallest model
@@ -105,27 +105,35 @@ export function selectModelBasedOnDevice(): ModelSelection {
       const endTime = performance.now();
       const perfScore = 1000000 / (endTime - startTime); // Higher is better
 
-      // Use performance to estimate available memory with relaxed criteria
-      if (perfScore > 10000) {
-        estimatedMemoryInGB = 4; // Fast machine, likely has decent memory
+      // Use performance to estimate available memory with conservative criteria
+      if (perfScore > 15000) {
+        estimatedMemoryInGB = 4; // Very fast machine, likely has decent memory
+      } else if (perfScore > 8000) {
+        estimatedMemoryInGB = 2; // Decent machine
       } else {
-        estimatedMemoryInGB = 2; // Slower machine
+        estimatedMemoryInGB = 1; // Slower machine, likely mobile or old device
       }
     }
-
-    // Estimate for machines that might have browser limitations
-    const memoryInMB = Math.max(estimatedMemoryInGB, 2) * 1024;
-
-    // Use up to 70% of available memory
-    const safeMemory = memoryInMB * 0.7;
-
-    // Check logical processors
-    const logicalProcessors = navigator.hardwareConcurrency || 4; // Default to 4 cores if not available
 
     // Check if device is mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
     );
+
+    // Check for very old mobile devices (like Samsung Galaxy S3)
+    const isVeryOldMobile = /Android [1-4]\.|iPhone OS [1-8]_|iPad.*OS [1-8]_|BlackBerry|Windows Phone|webOS/i.test(
+      navigator.userAgent
+    );
+
+    // Estimate for machines that might have browser limitations
+    const memoryInMB = Math.max(estimatedMemoryInGB, 1) * 1024;
+
+    // Use more conservative memory allocation for mobile devices
+    const memoryMultiplier = isMobile ? 0.4 : 0.7; // Mobile devices get much less memory allocation
+    const safeMemory = memoryInMB * memoryMultiplier;
+
+    // Check logical processors
+    const logicalProcessors = navigator.hardwareConcurrency || 4; // Default to 4 cores if not available
 
     // Run a quick performance test
     const startTime = performance.now();
@@ -135,27 +143,52 @@ export function selectModelBasedOnDevice(): ModelSelection {
     const endTime = performance.now();
     const perfScore = 1000000 / (endTime - startTime); // Higher is better
 
-    console.log(`Device specs: Memory: ${estimatedMemoryInGB}GB (Safe: ${Math.round(safeMemory)}MB), Cores: ${logicalProcessors}, Mobile: ${isMobile}, Performance score: ${perfScore.toFixed(2)}`);
+    console.log(`Device specs: Memory: ${estimatedMemoryInGB}GB (Safe: ${Math.round(safeMemory)}MB), Cores: ${logicalProcessors}, Mobile: ${isMobile}, Very old mobile: ${isVeryOldMobile}, Performance score: ${perfScore.toFixed(2)}`);
 
-    // Select model based on device capabilities with relaxed requirements
+    // Select model based on device capabilities with more stringent requirements
     let selectedModel: ModelSelection;
 
-    // High-end devices - try the largest model first
-    if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.LARGE * 0.8 &&  // Only need 80% of memory requirement
-      (perfScore > 100 && logicalProcessors >= 4)) {
-      selectedModel = getModelSelectionFromSizeKey('LARGE');
-      console.log("Using large model with full precision based on device capabilities");
-    }
-    // Mid-range devices
-    else if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.MEDIUM * 0.8 ||  // Only need 80% of memory requirement
-      (perfScore > 50 && logicalProcessors >= 2)) {
-      selectedModel = getModelSelectionFromSizeKey('MEDIUM');
-      console.log("Using medium model with full precision based on device capabilities");
-    }
-    // Low-end devices and mobile - use small model (optimized for mobile)
-    else {
+    // Force very old mobile devices to use small model
+    if (isVeryOldMobile || (isMobile && estimatedMemoryInGB <= 1)) {
       selectedModel = DEFAULT_SELECTION;
-      console.log("Using small model optimized for mobile/low-end devices");
+      console.log("Using small model for very old or low-memory mobile device");
+    }
+    // Force all mobile devices to use small or medium model at most
+    else if (isMobile) {
+      if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.MEDIUM && 
+          perfScore > 80 && 
+          logicalProcessors >= 4 && 
+          estimatedMemoryInGB >= 3) {
+        selectedModel = getModelSelectionFromSizeKey('MEDIUM');
+        console.log("Using medium model for high-end mobile device");
+      } else {
+        selectedModel = DEFAULT_SELECTION;
+        console.log("Using small model for mobile device");
+      }
+    }
+    // Desktop/laptop devices with more stringent requirements
+    else {
+      // High-end devices - require full memory and strong performance
+      if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.LARGE &&
+          perfScore > 120 && 
+          logicalProcessors >= 6 && 
+          estimatedMemoryInGB >= 4) {
+        selectedModel = getModelSelectionFromSizeKey('LARGE');
+        console.log("Using large model for high-end desktop device");
+      }
+      // Mid-range devices - require both memory AND performance
+      else if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.MEDIUM &&
+               perfScore > 80 && 
+               logicalProcessors >= 4 && 
+               estimatedMemoryInGB >= 2) {
+        selectedModel = getModelSelectionFromSizeKey('MEDIUM');
+        console.log("Using medium model for mid-range desktop device");
+      }
+      // Low-end devices - use small model
+      else {
+        selectedModel = DEFAULT_SELECTION;
+        console.log("Using small model for low-end device");
+      }
     }
 
     return selectedModel;
