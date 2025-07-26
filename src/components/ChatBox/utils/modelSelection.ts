@@ -2,37 +2,41 @@
 export const MODEL_OPTIONS = {
   LARGE: "Mozilla/Qwen2.5-0.5B-Instruct",
   MEDIUM: "HuggingFaceTB/SmolLM2-360M-Instruct",
-  SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct"
+  SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct",
+  TINY: "microsoft/DialoGPT-small"
 } as const;
 
 // Model size names for user-friendly display
 export const MODEL_SIZE_NAMES = {
   LARGE: "Large",
   MEDIUM: "Medium",
-  SMALL: "Small"
+  SMALL: "Small",
+  TINY: "Tiny"
 };
 
 // Data types for each model
 export const MODEL_DTYPES = {
   LARGE: "fp32" as const,
   MEDIUM: "fp32" as const,
-  SMALL: "q4" as const
+  SMALL: "q4" as const,
+  TINY: "int8" as const
 };
 
 // Approximate memory requirements in MB, based on parameters and data types
 export const MODEL_MEMORY_REQUIREMENTS = {
   LARGE: 1300,  // ~1.3GB for large model
   MEDIUM: 800,  // ~0.8GB for medium model 
-  SMALL: 250    // ~0.25GB for small model (reduced from 135M params)
+  SMALL: 250,   // ~0.25GB for small model (135M with q4)
+  TINY: 120     // ~0.12GB for tiny model (DialoGPT-small with int8)
 };
 
 // All defaults should fall back on the smallest model
-const DEFAULT_SELECTION = { model: MODEL_OPTIONS.SMALL, dtype: MODEL_DTYPES.SMALL }
+const DEFAULT_SELECTION = { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY }
 
 // Type for model selection result
-export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL';
+export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
 
-export type ModelDType = "fp32" | "fp16" | "q4";
+export type ModelDType = "fp32" | "fp16" | "q4" | "int8";
 
 export interface ModelSelection {
   model: string;
@@ -43,20 +47,18 @@ export interface ModelSelection {
 export function getModelSizeFromModelName(modelName: string): ModelSizeKey {
   if (modelName === MODEL_OPTIONS.LARGE) return 'LARGE';
   if (modelName === MODEL_OPTIONS.MEDIUM) return 'MEDIUM';
-  return 'SMALL';
+  if (modelName === MODEL_OPTIONS.SMALL) return 'SMALL';
+  return 'TINY';
 }
 
 // Enhanced function that considers both model name and dtype
 export function getModelSizeFromSelection(selection: ModelSelection): ModelSizeKey {
   if (selection.model === MODEL_OPTIONS.LARGE) return 'LARGE';
+  if (selection.model === MODEL_OPTIONS.MEDIUM) return 'MEDIUM';
+  if (selection.model === MODEL_OPTIONS.SMALL) return 'SMALL';
+  if (selection.model === MODEL_OPTIONS.TINY) return 'TINY';
   
-  // Handle case where MEDIUM and SMALL use the same model but different dtypes
-  if (selection.model === MODEL_OPTIONS.MEDIUM || selection.model === MODEL_OPTIONS.SMALL) {
-    if (selection.dtype === MODEL_DTYPES.MEDIUM) return 'MEDIUM';
-    if (selection.dtype === MODEL_DTYPES.SMALL) return 'SMALL';
-  }
-  
-  return 'SMALL'; // Default fallback
+  return 'TINY'; // Default fallback
 }
 
 export function getModelSelectionFromSizeKey(sizeKey: ModelSizeKey): ModelSelection {
@@ -66,8 +68,10 @@ export function getModelSelectionFromSizeKey(sizeKey: ModelSizeKey): ModelSelect
     case 'MEDIUM':
       return { model: MODEL_OPTIONS.MEDIUM, dtype: MODEL_DTYPES.MEDIUM };
     case 'SMALL':
-    default:
       return { model: MODEL_OPTIONS.SMALL, dtype: MODEL_DTYPES.SMALL };
+    case 'TINY':
+    default:
+      return { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY };
   }
 }
 
@@ -148,10 +152,10 @@ export function selectModelBasedOnDevice(): ModelSelection {
     // Select model based on device capabilities with more stringent requirements
     let selectedModel: ModelSelection;
 
-    // Force very old mobile devices to use small model
+    // Force very old mobile devices to use tiny model
     if (isVeryOldMobile || (isMobile && estimatedMemoryInGB <= 1)) {
       selectedModel = DEFAULT_SELECTION;
-      console.log("Using small model for very old or low-memory mobile device");
+      console.log("Using tiny model for very old or low-memory mobile device");
     }
     // Force all mobile devices to use small or medium model at most
     else if (isMobile) {
@@ -161,9 +165,14 @@ export function selectModelBasedOnDevice(): ModelSelection {
           estimatedMemoryInGB >= 3) {
         selectedModel = getModelSelectionFromSizeKey('MEDIUM');
         console.log("Using medium model for high-end mobile device");
+      } else if (safeMemory >= MODEL_MEMORY_REQUIREMENTS.SMALL &&
+                 perfScore > 40 &&
+                 estimatedMemoryInGB >= 2) {
+        selectedModel = getModelSelectionFromSizeKey('SMALL');
+        console.log("Using small model for mid-range mobile device");
       } else {
         selectedModel = DEFAULT_SELECTION;
-        console.log("Using small model for mobile device");
+        console.log("Using tiny model for low-end mobile device");
       }
     }
     // Desktop/laptop devices with more stringent requirements
@@ -186,8 +195,8 @@ export function selectModelBasedOnDevice(): ModelSelection {
       }
       // Low-end devices - use small model
       else {
-        selectedModel = DEFAULT_SELECTION;
-        console.log("Using small model for low-end device");
+        selectedModel = getModelSelectionFromSizeKey('SMALL');
+        console.log("Using small model for low-end desktop device");
       }
     }
 
@@ -210,6 +219,8 @@ export function getNextModelSelection(current: ModelSelection): ModelSelection {
   if (currentSize === 'LARGE') {
     return getModelSelectionFromSizeKey('MEDIUM');
   } else if (currentSize === 'MEDIUM') {
+    return getModelSelectionFromSizeKey('SMALL');
+  } else if (currentSize === 'SMALL') {
     return DEFAULT_SELECTION;
   }
   // Already at smallest
