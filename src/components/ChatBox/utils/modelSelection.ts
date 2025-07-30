@@ -1,33 +1,34 @@
 // Model options and selection logic for text generation models
+// Using only SmolLM2 chat variants at different precisions and parameter counts
 export const MODEL_OPTIONS = {
-  LARGE: "Mozilla/Qwen2.5-0.5B-Instruct",
+  LARGE: "HuggingFaceTB/SmolLM2-360M-Instruct",
   MEDIUM: "HuggingFaceTB/SmolLM2-360M-Instruct",
   SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct",
-  TINY: "microsoft/DialoGPT-small"
+  TINY: "HuggingFaceTB/SmolLM2-135M-Instruct"
 } as const;
 
 // Model size names for user-friendly display
 export const MODEL_SIZE_NAMES = {
-  LARGE: "Large",
-  MEDIUM: "Medium",
-  SMALL: "Small",
-  TINY: "Tiny"
+  LARGE: "Large (360M-FP16)",
+  MEDIUM: "Medium (360M)",
+  SMALL: "Small (135M)",
+  TINY: "Tiny (135M-Q8)"
 };
 
-// Data types for each model
+// Data types for each model - different precisions for SmolLM2 variants
 export const MODEL_DTYPES = {
-  LARGE: "fp32" as const,
-  MEDIUM: "fp32" as const,
-  SMALL: "q4" as const,
-  TINY: "int8" as const
+  LARGE: "fp16" as const,  // 1.7B model with fp16 precision
+  MEDIUM: "fp32" as const, // 360M model with fp32 precision
+  SMALL: "fp32" as const,  // 135M model with fp32 precision
+  TINY: "q8" as const      // 135M model with int8 quantization
 };
 
-// Approximate memory requirements in MB, based on parameters and data types
+// Approximate memory requirements in MB, based on SmolLM2 model parameters and data types
 export const MODEL_MEMORY_REQUIREMENTS = {
-  LARGE: 1300,  // ~1.3GB for large model
-  MEDIUM: 800,  // ~0.8GB for medium model 
-  SMALL: 250,   // ~0.25GB for small model (135M with q4)
-  TINY: 120     // ~0.12GB for tiny model (DialoGPT-small with int8)
+  LARGE: 900,   // ~0.9GB for 360M model with fp16
+  MEDIUM: 1500, // ~1.5GB for 360M model with fp32
+  SMALL: 600,   // ~0.6GB for 135M model with fp32
+  TINY: 200     // ~0.2GB for 135M model with int8 quantization
 };
 
 // All defaults should fall back on the smallest model
@@ -36,7 +37,7 @@ const DEFAULT_SELECTION = { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY 
 // Type for model selection result
 export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
 
-export type ModelDType = "fp32" | "fp16" | "q4" | "int8";
+export type ModelDType = "fp32" | "fp16" | "q4" | "q8" | "int8";
 
 export interface ModelSelection {
   model: string;
