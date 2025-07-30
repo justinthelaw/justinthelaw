@@ -46,12 +46,24 @@ export async function loadModelWithFallback(
       const isMemoryError =
         errorStr.includes("memory") || errorStr.includes("allocation");
 
+      console.error(`Model loading attempt ${attempts} failed:`, errorStr);
+
       if (isMemoryError) {
         const nextSelection = getNextModelSelection(currentSelection);
-        currentSelection = nextSelection
+        // If fallback returned the same selection, we're at the smallest model
+        if (nextSelection.model === currentSelection.model && nextSelection.dtype === currentSelection.dtype) {
+          console.error("Already at smallest model, cannot fallback further");
+          break;
+        }
+        currentSelection = nextSelection;
         onSelectionChange(nextSelection);
+        console.log(`Falling back to smaller model: ${nextSelection.model} with dtype: ${nextSelection.dtype}`);
+        // Continue the loop to try the next smaller model
+      } else {
+        // Non-memory errors should break the loop as they won't be fixed by smaller models
+        console.error("Non-memory error encountered, stopping fallback attempts:", errorStr);
+        break;
       }
-      break;
     }
   }
   return null;

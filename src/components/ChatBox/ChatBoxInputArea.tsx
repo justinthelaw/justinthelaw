@@ -245,8 +245,10 @@ export default function ChatBoxInput() {
   const handleSend = () => {
     if (!inputText.trim()) return;
 
-    // If there's a model error, try to refresh the page
+    // If there's a model error, clear storage and refresh the page
     if (modelError) {
+      // Clear localStorage to ensure fresh model download
+      localStorage.clear();
       window.location.reload();
       return;
     }
