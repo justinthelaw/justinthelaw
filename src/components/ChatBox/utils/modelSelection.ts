@@ -1,33 +1,34 @@
 // Model options and selection logic for text generation models
+// Using only SmolVLM2-1.7B variants at different precisions for consistent performance
 export const MODEL_OPTIONS = {
-  LARGE: "Mozilla/Qwen2.5-0.5B-Instruct",
-  MEDIUM: "HuggingFaceTB/SmolLM2-360M-Instruct",
-  SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct",
-  TINY: "microsoft/DialoGPT-small"
+  LARGE: "HuggingFaceTB/SmolVLM2-1.7B-Instruct",
+  MEDIUM: "HuggingFaceTB/SmolVLM2-360M-Instruct",
+  SMALL: "HuggingFaceTB/SmolVLM2-160M-Instruct",
+  TINY: "HuggingFaceTB/SmolVLM2-160M-Instruct"
 } as const;
 
 // Model size names for user-friendly display
 export const MODEL_SIZE_NAMES = {
-  LARGE: "Large",
-  MEDIUM: "Medium",
-  SMALL: "Small",
-  TINY: "Tiny"
+  LARGE: "Large (1.7B)",
+  MEDIUM: "Medium (360M)",
+  SMALL: "Small (160M)",
+  TINY: "Tiny (160M-Q8)"
 };
 
-// Data types for each model
+// Data types for each model - different precisions for SmolVLM2-1.7B variants
 export const MODEL_DTYPES = {
-  LARGE: "fp32" as const,
-  MEDIUM: "fp32" as const,
-  SMALL: "q4" as const,
-  TINY: "int8" as const
+  LARGE: "fp32" as const,  // 1.7B model with fp32 precision (full precision)
+  MEDIUM: "fp32" as const, // 360M model with fp32 precision  
+  SMALL: "fp32" as const,    // 160M model with fp32 quantization
+  TINY: "q8" as const      // 160M model with int8 quantization
 };
 
-// Approximate memory requirements in MB, based on parameters and data types
+// Approximate memory requirements in MB, based on model parameters and data types
 export const MODEL_MEMORY_REQUIREMENTS = {
-  LARGE: 1300,  // ~1.3GB for large model
-  MEDIUM: 800,  // ~0.8GB for medium model 
-  SMALL: 250,   // ~0.25GB for small model (135M with q4)
-  TINY: 120     // ~0.12GB for tiny model (DialoGPT-small with int8)
+  LARGE: 3400,  // ~3.4GB for 1.7B model with fp32
+  MEDIUM: 1440, // ~1.44GB for 360M model with fp32
+  SMALL: 640,   // ~640MB for 160M model with fp32
+  TINY: 160     // ~160MB for 160M model with q8
 };
 
 // All defaults should fall back on the smallest model
@@ -36,7 +37,7 @@ const DEFAULT_SELECTION = { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY 
 // Type for model selection result
 export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
 
-export type ModelDType = "fp32" | "fp16" | "q4" | "int8";
+export type ModelDType = "fp32" | "q8";
 
 export interface ModelSelection {
   model: string;
