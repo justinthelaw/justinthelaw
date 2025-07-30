@@ -31,10 +31,36 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
         MODEL_SELECTION,
         (newSelection: ModelSelection) => {
           MODEL_SELECTION = newSelection;
+          // Notify about fallback model selection
+          self.postMessage({
+            status: "fallback-model",
+            response: { model: newSelection.model, dtype: newSelection.dtype }
+          });
         }
       );
+      
+      if (generator) {
+        self.postMessage({ 
+          status: "load", 
+          response: { message: "Model loaded successfully!" } 
+        });
+      } else {
+        self.postMessage({ 
+          status: "load", 
+          response: { 
+            error: "Failed to load model. All fallback attempts failed.",
+            message: "Model loading failed. Please refresh the page to try again."
+          } 
+        });
+      }
     } catch (error) {
-      self.postMessage({ status: "load", response: { error: String(error) } });
+      self.postMessage({ 
+        status: "load", 
+        response: { 
+          error: String(error),
+          message: "Model loading failed. Please refresh the page to try again."
+        } 
+      });
     }
     self.postMessage({ status: "done" });
     return;
@@ -42,9 +68,29 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
 
   const cleanedInput = cleanInput(input);
   if (cleanedInput.length > 0) {
+    // Check if model is loaded before proceeding
+    if (!generator) {
+      self.postMessage({
+        status: "stream",
+        response: "Model not loaded yet. Please wait for the model to finish loading before sending messages.",
+      });
+      self.postMessage({ status: "done" });
+      return;
+    }
+
+    // Check if tokenizer is available
+    if (!generator.tokenizer) {
+      self.postMessage({
+        status: "stream",
+        response: "Model tokenizer not available. Please try reloading the page.",
+      });
+      self.postMessage({ status: "done" });
+      return;
+    }
+
     self.postMessage({ status: "initiate" });
     const messages = generateConversationMessages(cleanedInput);
-    const streamer = new TextStreamer(generator!.tokenizer, {
+    const streamer = new TextStreamer(generator.tokenizer, {
       skip_prompt: true,
       skip_special_tokens: true,
       callback_function: (text: string) => {
@@ -52,7 +98,7 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
       },
     });
     try {
-      await generator!(messages, {
+      await generator(messages, {
         temperature: 0.1,           // Slightly higher than 0 for more natural responses
         max_new_tokens: 512,
         do_sample: true,

@@ -19,6 +19,8 @@ export default function ChatBoxInput() {
   const [inputText, setInputText] = useState<string>("");
   const [result, setResult] = useState<string>("");
   const [messageHistory, setMessageHistory] = useState<ChatMessage[]>([]);
+  const [modelReady, setModelReady] = useState<boolean>(false);
+  const [modelError, setModelError] = useState<string | null>(null);
   // Add model selection state
   const [modelSelection, setModelSelection] = useState(() => {
     if (typeof window !== "undefined") {
@@ -117,9 +119,11 @@ export default function ChatBoxInput() {
   };
 
   const handleHelperText = () => {
-    if (loading) return "Loading model..."
+    if (modelError) return "Model failed to load. Please refresh the page.";
+    if (loading && !modelReady) return "Loading model...";
     if (answering) return "Generating answer...";
-    return "Type your message..."
+    if (!modelReady) return "Model not ready...";
+    return "Type your message...";
   }
 
   useEffect(() => {
@@ -152,12 +156,29 @@ export default function ChatBoxInput() {
           }
           break;
         case "load": {
-          setLoading(true);
-          setLoadingMessage(response.message);
+          if (response.error) {
+            setLoading(false);
+            setModelReady(false);
+            setModelError(response.error);
+            setLoadingMessage(response.message || "Model loading failed");
+          } else {
+            setLoading(response.message !== "Model loaded successfully!");
+            setLoadingMessage(response.message);
+            if (response.message === "Model loaded successfully!") {
+              setModelReady(true);
+              setModelError(null);
+            }
+          }
           break;
         }
         case "done":
-          setLoading(false);
+          // Only set loading to false if we're not in a model loading error state
+          if (!modelError) {
+            setLoading(false);
+            if (!modelReady && !response?.error) {
+              setModelReady(true);
+            }
+          }
           setLoadingMessage(null);
           setAnswering(false);
           setGenerating(false);
@@ -211,7 +232,7 @@ export default function ChatBoxInput() {
         currentWorker.terminate();
       }
     };
-  }, [modelSelection.model, modelSelection.dtype]);
+  }, [modelSelection.model, modelSelection.dtype]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const textGeneration = useCallback((input: string) => {
     if (worker.current) {
@@ -223,6 +244,17 @@ export default function ChatBoxInput() {
 
   const handleSend = () => {
     if (!inputText.trim()) return;
+
+    // If there's a model error, try to refresh the page
+    if (modelError) {
+      window.location.reload();
+      return;
+    }
+
+    // Don't allow sending if model isn't ready
+    if (!modelReady) {
+      return;
+    }
 
     // Save user message to history
     const userMessage = addMessage("user", inputText.trim());
@@ -259,10 +291,12 @@ export default function ChatBoxInput() {
         <input
           ref={inputRef}
           type="text"
-          className={`w-full p-3 text-white rounded-md border border-gray-700 bg-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500`}
+          className={`w-full p-3 text-white rounded-md border border-gray-700 bg-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 ${
+            !!modelError ? 'border-red-500 bg-red-900/20' : ''
+          }`}
           placeholder={handleHelperText()}
           value={inputText}
-          disabled={loading || answering}
+          disabled={loading || answering || !modelReady || !!modelError}
           onChange={(e) => setInputText(e.target.value)}
           onKeyUp={(e) => {
             if (e.key === "Enter") handleSend();
@@ -270,13 +304,24 @@ export default function ChatBoxInput() {
         />
         <button
           onClick={handleSend}
-          className="border border-black bg-blue-600 hover:bg-blue-700 text-white px-3 py-3 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center h-[52px] w-[52px]"
-          disabled={loading || !inputText.trim()}
-          aria-label="Send message"
+          className={`border border-black ${
+            !!modelError 
+              ? 'bg-red-600 hover:bg-red-700' 
+              : 'bg-blue-600 hover:bg-blue-700'
+          } text-white px-3 py-3 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center h-[52px] w-[52px]`}
+          disabled={loading || !inputText.trim() || !modelReady || !!modelError}
+          aria-label={!!modelError ? "Refresh page to retry" : "Send message"}
+          title={!!modelError ? "Model failed to load. Please refresh the page." : ""}
         >
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-          </svg>
+          {!!modelError ? (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 4V2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10c0-1.19-.22-2.33-.6-3.38L20.05 9.95C20.64 10.93 21 12.07 21 13.33c0 4.96-4.04 9-9 9s-9-4.04-9-9 4.04-9 9-9v2l4-3-4-3z"/>
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+            </svg>
+          )}
         </button>
       </div>
     </div>
