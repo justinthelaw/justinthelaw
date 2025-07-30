@@ -10,25 +10,25 @@ export const MODEL_OPTIONS = {
 // Model size names for user-friendly display
 export const MODEL_SIZE_NAMES = {
   LARGE: "Large (1.7B)",
-  MEDIUM: "Medium (1.7B)",
-  SMALL: "Small (1.7B)",
-  TINY: "Tiny (1.7B-Q8)"
+  MEDIUM: "Medium (360M)",
+  SMALL: "Small (160M)",
+  TINY: "Tiny (160M)"
 };
 
 // Data types for each model - different precisions for SmolVLM2-1.7B variants
 export const MODEL_DTYPES = {
   LARGE: "fp32" as const,  // 1.7B model with fp32 precision (full precision)
-  MEDIUM: "fp32" as const, // 1.7B model with fp32 precision  
-  SMALL: "fp32" as const,  // 1.7B model with fp32 precision
-  TINY: "q8" as const      // 1.7B model with int8 quantization
+  MEDIUM: "fp32" as const, // 360M model with fp32 precision  
+  SMALL: "q8" as const,    // 160M model with int8 quantization
+  TINY: "q8" as const      // 160M model with int8 quantization
 };
 
-// Approximate memory requirements in MB, based on SmolVLM2-1.7B model parameters and data types
+// Approximate memory requirements in MB, based on model parameters and data types
 export const MODEL_MEMORY_REQUIREMENTS = {
   LARGE: 3400,  // ~3.4GB for 1.7B model with fp32
-  MEDIUM: 3400, // ~3.4GB for 1.7B model with fp32
-  SMALL: 3400,  // ~3.4GB for 1.7B model with fp32
-  TINY: 1700    // ~1.7GB for 1.7B model with int8 quantization
+  MEDIUM: 720,  // ~720MB for 360M model with fp32
+  SMALL: 320,   // ~320MB for 160M model with q8
+  TINY: 320     // ~320MB for 160M model with q8
 };
 
 // All defaults should fall back on the smallest model
@@ -37,7 +37,7 @@ const DEFAULT_SELECTION = { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY 
 // Type for model selection result
 export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
 
-export type ModelDType = "fp32" | "q4" | "q8" | "int8";
+export type ModelDType = "fp32" | "q8";
 
 export interface ModelSelection {
   model: string;
