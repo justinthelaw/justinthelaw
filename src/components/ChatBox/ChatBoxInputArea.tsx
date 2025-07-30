@@ -309,7 +309,7 @@ export default function ChatBoxInput() {
               ? 'bg-red-600 hover:bg-red-700' 
               : 'bg-blue-600 hover:bg-blue-700'
           } text-white px-3 py-3 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center h-[52px] w-[52px]`}
-          disabled={loading || !inputText.trim() || !modelReady || !!modelError}
+          disabled={loading || (!!modelError ? false : (!inputText.trim() || !modelReady))}
           aria-label={!!modelError ? "Refresh page to retry" : "Send message"}
           title={!!modelError ? "Model failed to load. Please refresh the page." : ""}
         >
