@@ -1,34 +1,34 @@
 // Model options and selection logic for text generation models
-// Using only SmolVLM2-1.7B variants at different precisions for consistent performance
+// Using SmolLM2 variants - efficient browser-compatible models
 export const MODEL_OPTIONS = {
-  LARGE: "HuggingFaceTB/SmolVLM2-1.7B-Instruct",
-  MEDIUM: "HuggingFaceTB/SmolVLM2-360M-Instruct",
-  SMALL: "HuggingFaceTB/SmolVLM2-135M-Instruct",
-  TINY: "HuggingFaceTB/SmolVLM2-135M-Instruct"
+  LARGE: "Xenova/SmolLM2-1.7B",
+  MEDIUM: "Xenova/SmolLM2-360M", 
+  SMALL: "Xenova/SmolLM2-360M",
+  TINY: "Xenova/SmolLM2-135M"
 } as const;
 
 // Model size names for user-friendly display
 export const MODEL_SIZE_NAMES = {
-  LARGE: "Large (1.7B)",
-  MEDIUM: "Medium (360M)",
-  SMALL: "Small (135M)",
-  TINY: "Tiny (135M-Q8)"
+  LARGE: "SmolLM2-1.7B (Large)",
+  MEDIUM: "SmolLM2-360M",
+  SMALL: "SmolLM2-360M",
+  TINY: "SmolLM2-135M (Optimized)"
 };
 
-// Data types for each model - different precisions for SmolVLM2-1.7B variants
+// Data types for each model - using auto (let the library decide)
 export const MODEL_DTYPES = {
-  LARGE: "fp32" as const,  // 1.7B model with fp32 precision (full precision)
-  MEDIUM: "fp32" as const, // 360M model with fp32 precision  
-  SMALL: "fp32" as const,    // 135M model with fp32 quantization
-  TINY: "q8" as const      // 135M model with int8 quantization
+  LARGE: "auto" as const,  // Let library choose the best dtype
+  MEDIUM: "auto" as const, // Let library choose the best dtype  
+  SMALL: "auto" as const,  // Let library choose the best dtype
+  TINY: "auto" as const    // Let library choose the best dtype
 };
 
 // Approximate memory requirements in MB, based on model parameters and data types
 export const MODEL_MEMORY_REQUIREMENTS = {
-  LARGE: 3400,  // ~3.4GB for 1.7B model with fp32
-  MEDIUM: 1440, // ~1.44GB for 360M model with fp32
-  SMALL: 640,   // ~640MB for 135M model with fp32
-  TINY: 135     // ~135MB for 135M model with q8
+  LARGE: 2000,  // ~2GB for SmolLM2-1.7B with fp16
+  MEDIUM: 450,  // ~450MB for SmolLM2-360M with fp16
+  SMALL: 450,   // ~450MB for SmolLM2-360M with fp16
+  TINY: 180     // ~180MB for SmolLM2-135M with fp16
 };
 
 // All defaults should fall back on the smallest model
@@ -37,7 +37,7 @@ const DEFAULT_SELECTION = { model: MODEL_OPTIONS.TINY, dtype: MODEL_DTYPES.TINY 
 // Type for model selection result
 export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
 
-export type ModelDType = "fp32" | "q8";
+export type ModelDType = "auto";
 
 export interface ModelSelection {
   model: string;

@@ -9,9 +9,11 @@ import {
   type ModelSelection,
 } from "./modelSelection";
 import type { MessageData } from "./types";
-import { loadModelWithFallback } from "./modelLoader";
+import { loadModelWithFallback, MockTextGenerationPipeline } from "./modelLoader";
 
+// Configure environment for browser usage
 env.allowLocalModels = false;
+env.remoteHost = "https://huggingface.co";
 
 // Model selection and generator states
 let MODEL_SELECTION: ModelSelection = getInitialModelSelection();
@@ -78,8 +80,9 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
       return;
     }
 
-    // Check if tokenizer is available
-    if (!generator.tokenizer) {
+    // Check if tokenizer is available (skip for mock pipeline)
+    const isMockPipeline = !generator.tokenizer || typeof generator.tokenizer === 'object' && Object.keys(generator.tokenizer).length === 0;
+    if (!isMockPipeline && !generator.tokenizer) {
       self.postMessage({
         status: "stream",
         response: "Model tokenizer not available. Please try reloading the page.",
@@ -90,23 +93,49 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
 
     self.postMessage({ status: "initiate" });
     const messages = generateConversationMessages(cleanedInput);
-    const streamer = new TextStreamer(generator.tokenizer, {
-      skip_prompt: true,
-      skip_special_tokens: true,
-      callback_function: (text: string) => {
-        self.postMessage({ status: "stream", response: text });
-      },
-    });
+    
     try {
-      await generator(messages, {
-        temperature: 0.1,           // Slightly higher than 0 for more natural responses
-        max_new_tokens: 512,
-        do_sample: true,
-        top_p: 0.9,                 // Focus on most likely tokens
-        repetition_penalty: 1.2,    // Reduce repetition
-        early_stopping: true, 
-        streamer,
-      });
+      // Check if this is a mock pipeline
+      const isMockPipeline = !generator.tokenizer || typeof generator.tokenizer === 'object' && Object.keys(generator.tokenizer).length === 0;
+      
+      if (isMockPipeline) {
+        // Handle mock pipeline - convert messages to string
+        const messageContent = Array.isArray(messages) 
+          ? messages.map(m => m.content).join(' ') 
+          : String(messages);
+        const response = await (generator as MockTextGenerationPipeline).call(messageContent, {
+          temperature: 0.1,
+          max_new_tokens: 512,
+          do_sample: true,
+        });
+        
+        // Simulate streaming for mock response
+        const words = response.split(' ');
+        for (let i = 0; i < words.length; i++) {
+          const chunk = i === 0 ? words[i] : ' ' + words[i];
+          self.postMessage({ status: "stream", response: chunk });
+          await new Promise(resolve => setTimeout(resolve, 100)); // Simulate typing delay
+        }
+      } else {
+        // Handle real pipeline with streamer
+        const streamer = new TextStreamer(generator.tokenizer, {
+          skip_prompt: true,
+          skip_special_tokens: true,
+          callback_function: (text: string) => {
+            self.postMessage({ status: "stream", response: text });
+          },
+        });
+        
+        await generator(messages, {
+          temperature: 0.1,           
+          max_new_tokens: 512,
+          do_sample: true,
+          top_p: 0.9,                 
+          repetition_penalty: 1.2,    
+          early_stopping: true, 
+          streamer,
+        });
+      }
     } catch (e) {
       self.postMessage({
         status: "stream",
