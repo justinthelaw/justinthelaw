@@ -9,12 +9,11 @@ import {
   type ModelSelection,
 } from "./modelSelection";
 import type { MessageData } from "./types";
-import { loadModelWithFallback } from "./modelLoader";
+import { loadModelWithFallback, MockTextGenerationPipeline } from "./modelLoader";
 
 // Configure environment for browser usage
 env.allowLocalModels = false;
 env.remoteHost = "https://huggingface.co";
-env.remoteURL = "https://huggingface.co/";
 
 // Model selection and generator states
 let MODEL_SELECTION: ModelSelection = getInitialModelSelection();
@@ -100,8 +99,11 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
       const isMockPipeline = !generator.tokenizer || typeof generator.tokenizer === 'object' && Object.keys(generator.tokenizer).length === 0;
       
       if (isMockPipeline) {
-        // Handle mock pipeline
-        const response = await (generator as any).call(messages, {
+        // Handle mock pipeline - convert messages to string
+        const messageContent = Array.isArray(messages) 
+          ? messages.map(m => m.content).join(' ') 
+          : String(messages);
+        const response = await (generator as MockTextGenerationPipeline).call(messageContent, {
           temperature: 0.1,
           max_new_tokens: 512,
           do_sample: true,

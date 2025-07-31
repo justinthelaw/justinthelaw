@@ -1,18 +1,18 @@
 // Model options and selection logic for text generation models
-// Using simple, proven browser-compatible models
+// Using SmolLM2 variants - efficient browser-compatible models
 export const MODEL_OPTIONS = {
-  LARGE: "Xenova/gpt2",
-  MEDIUM: "Xenova/distilgpt2", 
-  SMALL: "Xenova/distilgpt2",
-  TINY: "Xenova/distilgpt2"
+  LARGE: "Xenova/SmolLM2-1.7B",
+  MEDIUM: "Xenova/SmolLM2-360M", 
+  SMALL: "Xenova/SmolLM2-360M",
+  TINY: "Xenova/SmolLM2-135M"
 } as const;
 
 // Model size names for user-friendly display
 export const MODEL_SIZE_NAMES = {
-  LARGE: "GPT-2 (Large)",
-  MEDIUM: "DistilGPT-2",
-  SMALL: "DistilGPT-2",
-  TINY: "DistilGPT-2 (Optimized)"
+  LARGE: "SmolLM2-1.7B (Large)",
+  MEDIUM: "SmolLM2-360M",
+  SMALL: "SmolLM2-360M",
+  TINY: "SmolLM2-135M (Optimized)"
 };
 
 // Data types for each model - using auto (let the library decide)
@@ -25,10 +25,10 @@ export const MODEL_DTYPES = {
 
 // Approximate memory requirements in MB, based on model parameters and data types
 export const MODEL_MEMORY_REQUIREMENTS = {
-  LARGE: 1200,  // ~1.2GB for GPT-2 with fp16
-  MEDIUM: 600,  // ~600MB for DistilGPT-2 with fp16
-  SMALL: 600,   // ~600MB for DistilGPT-2 with fp16
-  TINY: 150     // ~150MB for DistilGPT-2 with q8
+  LARGE: 2000,  // ~2GB for SmolLM2-1.7B with fp16
+  MEDIUM: 450,  // ~450MB for SmolLM2-360M with fp16
+  SMALL: 450,   // ~450MB for SmolLM2-360M with fp16
+  TINY: 180     // ~180MB for SmolLM2-135M with fp16
 };
 
 // All defaults should fall back on the smallest model

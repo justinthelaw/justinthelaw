@@ -8,15 +8,15 @@ import { type ModelSelection, getNextModelSelection } from "./modelSelection";
 // Configure environment for browser usage
 env.allowLocalModels = false;
 env.remoteHost = "https://huggingface.co";
-env.remoteURL = "https://huggingface.co/";
 
 /**
  * Mock text generation pipeline for when HuggingFace is not accessible
  */
-class MockTextGenerationPipeline {
+export class MockTextGenerationPipeline {
   tokenizer = { /* mock tokenizer */ };
   
-  async call(input: string, options: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async call(input: string, options: unknown) {
     // Simulate generation delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
@@ -88,7 +88,7 @@ export async function loadModelWithFallback(
         }
         
         // Return mock pipeline
-        return new MockTextGenerationPipeline() as any;
+        return new MockTextGenerationPipeline() as TextGenerationPipeline;
       }
 
       const isMemoryError = errorStr.includes("memory") || errorStr.includes("allocation");
