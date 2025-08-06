@@ -42,7 +42,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
     setSelectedModel(currentModelInUse); // Reset to the model in use
   };
 
-  const allowedModels: ModelSizeKey[] = ["LARGE", "MEDIUM", "SMALL", "TINY"];
+  const allowedModels: ModelSizeKey[] = ["TINY", "SMALL", "MEDIUM", "LARGE"];
   // Show reload message if the selected model is different from the model currently in use
   const showReloadMessage = selectedModel !== null && selectedModel !== currentModelInUse;
 
