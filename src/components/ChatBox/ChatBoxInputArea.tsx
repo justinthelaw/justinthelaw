@@ -227,13 +227,13 @@ export default function ChatBoxInput() {
         localStorage.clear();
         if ("caches" in window) {
           caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key)))).finally(() => {
-            window.location.reload();
+            (window as Window).location.reload();
           });
         } else {
-          window.location.reload();
+          (window as Window).location.reload();
         }
       } catch {
-        window.location.reload();
+        (window as Window).location.reload();
       }
       return;
     }
