@@ -52,22 +52,6 @@ export default function ChatBoxInputResultArea({
                   memory.
                 </p>
               )}
-              <button
-                onClick={() => {
-                  // Force reload the model - using parent's retry handler instead of custom event
-                  if (typeof window !== "undefined" && window.parent) {
-                    const event = new Event("retryModelLoad", {
-                      bubbles: true,
-                    });
-                    document.dispatchEvent(event);
-                  }
-                }}
-                className="mt-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors duration-200"
-              >
-                {loadingMessage.includes("memory")
-                  ? "Try Smaller Model"
-                  : "Retry Model Download"}
-              </button>
             </div>
           )}
         </div>

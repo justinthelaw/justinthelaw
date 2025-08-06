@@ -1,18 +1,18 @@
 // Model options and selection logic for text generation models
-// Using SmolLM2 variants - efficient browser-compatible models
+// Using ONNX-compatible SmolLM2 variants
 export const MODEL_OPTIONS = {
-  LARGE: "Xenova/SmolLM2-1.7B",
-  MEDIUM: "Xenova/SmolLM2-360M", 
-  SMALL: "Xenova/SmolLM2-360M",
-  TINY: "Xenova/SmolLM2-135M"
+  LARGE: "sledgedev/SmolLM2-1.7B-Instruct-ONNX-ARM64",
+  MEDIUM: "onnx-community/SmolLM2-360M-Instruct-ONNX", 
+  SMALL: "onnx-community/SmolLM2-135M-Instruct-ONNX",
+  TINY: "onnx-community/SmolLM2-135M-Instruct-ONNX"
 } as const;
 
 // Model size names for user-friendly display
 export const MODEL_SIZE_NAMES = {
-  LARGE: "SmolLM2-1.7B (Large)",
-  MEDIUM: "SmolLM2-360M",
-  SMALL: "SmolLM2-360M",
-  TINY: "SmolLM2-135M (Optimized)"
+  LARGE: "large",
+  MEDIUM: "medium",
+  SMALL: "small",
+  TINY: "tiny",
 };
 
 // Data types for each model - using auto (let the library decide)
@@ -25,10 +25,10 @@ export const MODEL_DTYPES = {
 
 // Approximate memory requirements in MB, based on model parameters and data types
 export const MODEL_MEMORY_REQUIREMENTS = {
-  LARGE: 2000,  // ~2GB for SmolLM2-1.7B with fp16
-  MEDIUM: 450,  // ~450MB for SmolLM2-360M with fp16
-  SMALL: 450,   // ~450MB for SmolLM2-360M with fp16
-  TINY: 180     // ~180MB for SmolLM2-135M with fp16
+  LARGE: 3500,
+  MEDIUM: 800,
+  SMALL: 300,
+  TINY: 300,
 };
 
 // All defaults should fall back on the smallest model

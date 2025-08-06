@@ -102,22 +102,6 @@ export default function ChatBoxInput() {
     }
   }, [answering, result, loading]);
 
-  // Define retry handler outside of effect for closure consistency
-  const handleRetryRef = useRef<() => void>(() => { });
-  handleRetryRef.current = () => {
-    if (worker.current) {
-      const workerModelSelection = {
-        model: modelSelection.model,
-        dtype: modelSelection.dtype,
-      };
-      worker.current.postMessage({
-        action: "init",
-        modelSelection: workerModelSelection,
-      });
-      worker.current.postMessage({ action: "load" });
-    }
-  };
-
   const handleHelperText = () => {
     if (modelError) return "Model failed to load. Please refresh the page.";
     if (loading && !modelReady) return "Loading model...";
@@ -133,11 +117,6 @@ export default function ChatBoxInput() {
         type: "module",
       }
     );
-
-    // Add event listener for retry button
-    const retryListener = () =>
-      handleRetryRef.current && handleRetryRef.current();
-    document.addEventListener("retryModelLoad", retryListener);
 
     // Send model selection to worker - safe non-window-dependent version for worker
     const workerModelSelection = {
@@ -222,9 +201,6 @@ export default function ChatBoxInput() {
     const currentWorker = worker.current;
 
     return () => {
-      // Remove the retry event listener
-      document.removeEventListener("retryModelLoad", retryListener);
-
       // Clean up worker if it exists
       if (currentWorker) {
         currentWorker.removeEventListener("message", handleMessage);
@@ -247,9 +223,18 @@ export default function ChatBoxInput() {
 
     // If there's a model error, clear storage and refresh the page
     if (modelError) {
-      // Clear localStorage to ensure fresh model download
-      localStorage.clear();
-      window.location.reload();
+      try {
+        localStorage.clear();
+        if ("caches" in window) {
+          caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key)))).finally(() => {
+            window.location.reload();
+          });
+        } else {
+          window.location.reload();
+        }
+      } catch {
+        window.location.reload();
+      }
       return;
     }
 
