@@ -45,15 +45,26 @@ function getJustinProfile(): JustinProfile {
 }
 
 // Generate structured context optimized for SmolLM2 instruction format
-function generateStructuredContext(modelSize: ModelSizeKey): string {
+function generateStructuredContext(modelSize: ModelSizeKey, userQuery?: string): string {
   const profile = getJustinProfile();
   
   // For smaller models, use more concise formatting
   if (modelSize === 'SMALL') {
+    // Use prioritized context for small models when query is available
+    if (userQuery) {
+      const prioritizedContext = prioritizeContextForQuery(userQuery, profile);
+      return prioritizedContext.length < 150 ? prioritizedContext : 
+        `Justin Law - ${profile.role}. ${profile.company}. Education: ${profile.education}. Military: ${profile.military}. Interests: ${profile.interests}.`;
+    }
     return `Justin Law - ${profile.role}. ${profile.company}. Education: ${profile.education}. Military: ${profile.military}. Interests: ${profile.interests}.`;
   }
   
-  // For medium/large models, provide more structured detail
+  // For medium/large models, provide more structured detail with prioritization
+  if (userQuery) {
+    const prioritizedContext = prioritizeContextForQuery(userQuery, profile);
+    return `About Justin Law:\n${prioritizedContext}\n- Personality: ${profile.personality}`;
+  }
+  
   return `About Justin Law:
 - Role: ${profile.role}  
 - Company: ${profile.company}
@@ -138,8 +149,8 @@ export function generateConversationMessages(userInput: string, modelSelection?:
   // Get context limit for this model
   const contextLimit = MODEL_CONTEXT_LIMITS[modelSize];
   
-  // Build structured context
-  const profileContext = generateStructuredContext(modelSize);
+  // Build structured context with query-aware prioritization
+  const profileContext = generateStructuredContext(modelSize, question);
   const conversationContext = buildConversationContext(modelSize);
   const fullContext = profileContext + conversationContext;
   
@@ -207,10 +218,96 @@ export function getGenerationParameters(modelSize: ModelSizeKey) {
   }
 }
 
-// Legacy exports for backwards compatibility during transition
-export { getJustinProfile as getJustinBackground };
+// Response quality validation for SmolLM2 models
+export function validateResponse(response: string, modelSize: ModelSizeKey): { isValid: boolean; confidence: number; issues: string[] } {
+  const issues: string[] = [];
+  let confidence = 1.0;
+  
+  // Basic sanity checks
+  if (!response.trim()) {
+    issues.push("Empty response");
+    confidence = 0;
+  }
+  
+  // Check for excessive repetition (common SmolLM2 issue)
+  const words = response.toLowerCase().split(/\s+/);
+  const uniqueWords = new Set(words);
+  const repetitionRatio = words.length > 0 ? uniqueWords.size / words.length : 1;
+  
+  if (repetitionRatio < 0.5) {
+    issues.push("High repetition detected");
+    confidence *= 0.6;
+  }
+  
+  // Check for gibberish patterns
+  const gibberishPattern = /(.)\1{4,}|[^\w\s,.!?-]{3,}|^\W+$/;
+  if (gibberishPattern.test(response)) {
+    issues.push("Gibberish pattern detected");
+    confidence *= 0.3;
+  }
+  
+  // Check response length appropriateness for model size
+  const expectedMaxLength = modelSize === 'SMALL' ? 100 : modelSize === 'MEDIUM' ? 150 : 200;
+  if (response.length > expectedMaxLength * 1.5) {
+    issues.push("Response too verbose for model size");
+    confidence *= 0.8;
+  }
+  
+  // Check if response seems relevant (contains key context clues)
+  const relevantTerms = ['justin', 'defense unicorns', 'engineer', 'air force', 'space force'];
+  const containsRelevantInfo = relevantTerms.some(term => 
+    response.toLowerCase().includes(term.toLowerCase())
+  );
+  
+  if (!containsRelevantInfo && response.length > 20) {
+    issues.push("Response may lack context relevance");
+    confidence *= 0.7;
+  }
+  
+  return {
+    isValid: confidence > 0.6 && issues.length < 2,
+    confidence,
+    issues
+  };
+}
+
+// Advanced context prioritization for better relevance
+export function prioritizeContextForQuery(query: string, profile: JustinProfile): string {
+  const queryLower = query.toLowerCase();
+  const priorities: { section: keyof JustinProfile; keywords: string[]; weight: number }[] = [
+    { section: 'role', keywords: ['job', 'work', 'position', 'role', 'title'], weight: 2.0 },
+    { section: 'company', keywords: ['defense unicorns', 'company', 'employer', 'work'], weight: 2.0 },
+    { section: 'education', keywords: ['education', 'school', 'university', 'degree', 'study'], weight: 1.8 },
+    { section: 'military', keywords: ['military', 'air force', 'space force', 'veteran', 'captain'], weight: 1.8 },
+    { section: 'skills', keywords: ['skill', 'technology', 'programming', 'ai', 'ml'], weight: 1.5 },
+    { section: 'background', keywords: ['background', 'experience', 'career'], weight: 1.3 },
+    { section: 'personality', keywords: ['personality', 'character', 'person', 'like'], weight: 1.2 },
+    { section: 'interests', keywords: ['hobby', 'interest', 'free time', 'enjoy'], weight: 1.0 }
+  ];
+  
+  // Score each section based on query relevance
+  const scoredSections = priorities.map(({ section, keywords, weight }) => {
+    const relevanceScore = keywords.reduce((score, keyword) => {
+      return queryLower.includes(keyword) ? score + weight : score;
+    }, 0);
+    
+    return { section, score: relevanceScore, content: profile[section] };
+  }).sort((a, b) => b.score - a.score);
+  
+  // Build prioritized context
+  const topSections = scoredSections.filter(s => s.score > 0).slice(0, 4);
+  if (topSections.length === 0) {
+    // No specific relevance found, return balanced summary
+    return `${profile.role} at ${profile.company}. ${profile.background} ${profile.education}`;
+  }
+  
+  return topSections.map(s => `${s.section}: ${s.content}`).join('. ');
+}
 
 // Legacy function for backwards compatibility
 export function getSystemInstructions(): string {
   return "You are Justin Law's AI assistant. Answer questions about Justin using only the provided context. Provide brief, accurate responses based on the context. Limit to 2-3 sentences.";
 }
+
+// Legacy exports for backwards compatibility
+export { getJustinProfile as getJustinBackground };
