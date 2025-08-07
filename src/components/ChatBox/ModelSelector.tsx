@@ -27,14 +27,12 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
   });
 
   useEffect(() => {
-    if (showSettings) {
-      // On open, sync to the current in-use model
-      const inUse = selectModelBasedOnDevice();
-      const key = getModelSizeFromSelection(inUse);
-      setSelectedModel(key);
-      setCurrentModelInUse(key);
-    }
-  }, [showSettings]);
+    const inUse = selectModelBasedOnDevice();
+    const key = getModelSizeFromSelection(inUse);
+    setSelectedModel(key);
+    setCurrentModelInUse(key);
+    // eslint-disable-next-line
+  }, []);
 
   const handleModelChange = (modelSize: ModelSizeKey) => {
     setSelectedModel(modelSize);
@@ -165,17 +163,17 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                       </span>
                       {key === "LARGE" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded-full">
-                          Highest Quality
+                          Quality
                         </span>
                       )}
                       {key === "MEDIUM" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full">
-                          Balanced
+                          Balance
                         </span>
                       )}
                       {key === "SMALL" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-green-600 text-white rounded-full">
-                          Fast
+                          Speed
                         </span>
                       )}
                     </div>
