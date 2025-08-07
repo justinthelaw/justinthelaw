@@ -92,7 +92,12 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
 
     self.postMessage({ status: "initiate" });
     const messages = generateConversationMessages(cleanedInput);
-    
+    const prompt =
+      messages
+        .map(({ role, content }) => `${role.toUpperCase()}: ${content}`)
+        .join("\n") +
+      "\nASSISTANT:";
+
     try {
       // Handle real pipeline with streamer
       const streamer = new TextStreamer(generator.tokenizer, {
@@ -103,11 +108,10 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
         },
       });
 
-      await generator(messages, {
-        temperature: 0.1,
-        max_new_tokens: 512,
-        do_sample: true,
-        top_p: 0.9,
+      await generator(prompt, {
+        temperature: 0.2,
+        max_new_tokens: 128,
+        do_sample: false,
         repetition_penalty: 1.2,
         early_stopping: true,
         streamer,
