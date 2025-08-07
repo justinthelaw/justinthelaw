@@ -3,18 +3,26 @@
 import { useEffect, useState } from "react";
 
 export default function ResumeCoverLetterViewer() {
-  const [isClient, setIsClient] = useState(false);
+  const pdfUrl =
+    process.env.NEXT_PUBLIC_RESUME_PDF_URL ||
+    "https://raw.githubusercontent.com/justinthelaw/resume/main/Justin_Law_Resume.pdf";
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    const fetchPdf = async () => {
+      try {
+        const response = await fetch(pdfUrl);
+        const blob = await response.blob();
+        setPdfBlobUrl(URL.createObjectURL(blob));
+      } catch (error) {
+        console.error("Failed to load PDF", error);
+      }
+    };
 
-  const pdfUrl =
-    "https://drive.google.com/uc?export=download&id=1o3hw7mOlJ5JB9XfoDQNdv8aBdCVPl8cp";
-  const driveUrl =
-    "https://drive.google.com/file/d/1o3hw7mOlJ5JB9XfoDQNdv8aBdCVPl8cp/view";
+    fetchPdf();
+  }, [pdfUrl]);
 
-  if (!isClient) {
+  if (!pdfBlobUrl) {
     return (
       <div className="w-full max-w-5xl h-full p-4 flex flex-col items-center justify-center">
         <div className="text-center">
@@ -28,11 +36,9 @@ export default function ResumeCoverLetterViewer() {
   return (
     <div className="w-full max-w-5xl h-full p-4 flex flex-col items-center">
       <div className="w-full max-w-4xl h-full border border-gray-300 rounded-lg overflow-hidden shadow-lg mb-4">
-        <embed
-          src={pdfUrl}
-          type="application/pdf"
-          width="100%"
-          height="100%"
+        <iframe
+          src={pdfBlobUrl}
+          title="Resume PDF"
           className="w-full h-full"
         />
       </div>
@@ -47,7 +53,7 @@ export default function ResumeCoverLetterViewer() {
             📄 Download PDF
           </a>
           <a
-            href={driveUrl}
+            href={pdfUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm"
