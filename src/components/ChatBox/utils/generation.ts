@@ -3,9 +3,10 @@ import {
   env,
   type TextGenerationPipeline,
 } from "@huggingface/transformers";
-import { generateConversationMessages, cleanInput } from "./contextProvider";
+import { generateConversationMessages, cleanInput, getGenerationParameters } from "./contextProvider";
 import {
   getInitialModelSelection,
+  getModelSizeFromSelection,
   type ModelSelection,
 } from "./modelSelection";
 import type { MessageData } from "./types";
@@ -91,7 +92,13 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
     }
 
     self.postMessage({ status: "initiate" });
-    const messages = generateConversationMessages(cleanedInput);
+    
+    // Generate conversation messages with model-specific optimization
+    const messages = generateConversationMessages(cleanedInput, MODEL_SELECTION);
+    
+    // Get model-specific generation parameters for optimal SmolLM2 performance
+    const modelSize = getModelSizeFromSelection(MODEL_SELECTION);
+    const generationParams = getGenerationParameters(modelSize);
 
     try {
       // Handle real pipeline with streamer
@@ -103,13 +110,9 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
         },
       });
 
-      // Pass messages directly to the pipeline - transformers.js v3.x handles chat template internally
+      // Use model-optimized parameters for better SmolLM2 performance
       await generator(messages, {
-        temperature: 0.2,
-        max_new_tokens: 128,
-        do_sample: false,
-        repetition_penalty: 1.2,
-        early_stopping: true,
+        ...generationParams,
         streamer,
       });
     } catch (e) {
