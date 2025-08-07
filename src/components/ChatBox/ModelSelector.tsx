@@ -27,14 +27,12 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
   });
 
   useEffect(() => {
-    if (showSettings) {
-      // On open, sync to the current in-use model
-      const inUse = selectModelBasedOnDevice();
-      const key = getModelSizeFromSelection(inUse);
-      setSelectedModel(key);
-      setCurrentModelInUse(key);
-    }
-  }, [showSettings]);
+    const inUse = selectModelBasedOnDevice();
+    const key = getModelSizeFromSelection(inUse);
+    setSelectedModel(key);
+    setCurrentModelInUse(key);
+    // eslint-disable-next-line
+  }, []);
 
   const handleModelChange = (modelSize: ModelSizeKey) => {
     setSelectedModel(modelSize);
