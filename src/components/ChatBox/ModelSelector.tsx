@@ -165,7 +165,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                       </span>
                       {key === "LARGE" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded-full">
-                          Highest Quality
+                          Quality
                         </span>
                       )}
                       {key === "MEDIUM" && (
@@ -175,7 +175,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                       )}
                       {key === "SMALL" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-green-600 text-white rounded-full">
-                          Fast
+                          Speed
                         </span>
                       )}
                     </div>
