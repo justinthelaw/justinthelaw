@@ -11,7 +11,7 @@ export interface ModelSelection {
 
 export const MODEL_OPTIONS: Record<ModelSizeKey, string> = {
   SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct",
-  MEDIUM: HuggingFaceTB/SmolLM2-360M-Instruct",
+  MEDIUM: "HuggingFaceTB/SmolLM2-360M-Instruct",
   LARGE: "HuggingFaceTB/SmolLM2-1.7B-Instruct",
 };
 
