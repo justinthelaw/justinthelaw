@@ -10,9 +10,9 @@ export interface ModelSelection {
 }
 
 export const MODEL_OPTIONS: Record<ModelSizeKey, string> = {
-  SMALL: "onnx-community/SmolLM2-135M-Instruct-ONNX",
-  MEDIUM: "onnx-community/SmolLM2-360M-Instruct-ONNX",
-  LARGE: "sledgedev/SmolLM2-1.7B-Instruct-ONNX-ARM64",
+  SMALL: "HuggingFaceTB/SmolLM2-135M-Instruct",
+  MEDIUM: HuggingFaceTB/SmolLM2-360M-Instruct",
+  LARGE: "HuggingFaceTB/SmolLM2-1.7B-Instruct",
 };
 
 // Model size names for user-friendly display
