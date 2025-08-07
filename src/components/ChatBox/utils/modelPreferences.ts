@@ -1,20 +1,22 @@
-import { selectModelBasedOnDevice, getModelSizeFromSelection, ModelSelection } from './modelSelection';
+import {
+  selectModelBasedOnDevice,
+  getModelSizeFromSelection,
+  type ModelSelection,
+  type ModelSizeKey,
+} from "./modelSelection";
 
-export type ModelSizeKey = 'LARGE' | 'MEDIUM' | 'SMALL' | 'TINY';
+export type { ModelSizeKey };
 
 /**
  * Gets the auto-detected model size based on device capabilities or fallback state.
  * Optionally accepts a ModelSelection to reflect the current fallback.
  */
-export function getAutoDetectedModelSize(currentSelection?: ModelSelection): ModelSizeKey {
-  // Only use device detection, no manual override logic
-  let autoSelection;
-  if (currentSelection) {
-    return getModelSizeFromSelection(currentSelection);
-  } else {
-    autoSelection = selectModelBasedOnDevice();
-    return getModelSizeFromSelection(autoSelection);
-  }
+export function getAutoDetectedModelSize(
+  currentSelection?: ModelSelection
+): ModelSizeKey {
+  return currentSelection
+    ? getModelSizeFromSelection(currentSelection)
+    : getModelSizeFromSelection(selectModelBasedOnDevice());
 }
 
 /**
