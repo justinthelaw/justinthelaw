@@ -3,9 +3,10 @@ import {
   env,
   type TextGenerationPipeline,
 } from "@huggingface/transformers";
-import { generateConversationMessages, cleanInput } from "./contextProvider";
+import { generateConversationMessages, cleanInput, getGenerationParameters, validateResponse } from "./contextProvider";
 import {
   getInitialModelSelection,
+  getModelSizeFromSelection,
   type ModelSelection,
 } from "./modelSelection";
 import type { MessageData } from "./types";
@@ -91,27 +92,58 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
     }
 
     self.postMessage({ status: "initiate" });
-    const messages = generateConversationMessages(cleanedInput);
+    
+    // Generate conversation messages with model-specific optimization
+    const messages = generateConversationMessages(cleanedInput, MODEL_SELECTION);
+    
+    // Get model-specific generation parameters for optimal SmolLM2 performance
+    const modelSize = getModelSizeFromSelection(MODEL_SELECTION);
+    const generationParams = getGenerationParameters(modelSize);
+    
+    let fullResponse = "";
+    let isResponseValid = false;
+    let retryCount = 0;
+    const maxRetries = modelSize === 'SMALL' ? 2 : 1; // More retries for small model
 
     try {
-      // Handle real pipeline with streamer
-      const streamer = new TextStreamer(generator.tokenizer, {
-        skip_prompt: true,
-        skip_special_tokens: true,
-        callback_function: (text: string) => {
-          self.postMessage({ status: "stream", response: text });
-        },
-      });
+      while (!isResponseValid && retryCount <= maxRetries) {
+        fullResponse = "";
+        
+        // Handle real pipeline with streamer
+        const streamer = new TextStreamer(generator.tokenizer, {
+          skip_prompt: true,
+          skip_special_tokens: true,
+          callback_function: (text: string) => {
+            fullResponse += text;
+            self.postMessage({ status: "stream", response: text });
+          },
+        });
 
-      // Pass messages directly to the pipeline - transformers.js v3.x handles chat template internally
-      await generator(messages, {
-        temperature: 0.2,
-        max_new_tokens: 128,
-        do_sample: false,
-        repetition_penalty: 1.2,
-        early_stopping: true,
-        streamer,
-      });
+        // Use model-optimized parameters for better SmolLM2 performance
+        await generator(messages, {
+          ...generationParams,
+          streamer,
+        });
+        
+        // Validate response quality for SmolLM2
+        const validation = validateResponse(fullResponse.trim(), modelSize);
+        isResponseValid = validation.isValid;
+        
+        if (!isResponseValid && retryCount < maxRetries) {
+          retryCount++;
+          self.postMessage({ 
+            status: "stream", 
+            response: `\n[Improving response quality... attempt ${retryCount + 1}]\n` 
+          });
+          
+          // Add slight variation to generation params for retry
+          generationParams.temperature = Math.min(generationParams.temperature * 1.2, 0.3);
+          generationParams.repetition_penalty = Math.min(generationParams.repetition_penalty * 1.1, 1.5);
+        } else if (!isResponseValid && validation.issues.length > 0) {
+          // Log validation issues for debugging
+          console.warn(`Response validation failed for ${modelSize} model:`, validation.issues);
+        }
+      }
     } catch (e) {
       self.postMessage({
         status: "stream",
