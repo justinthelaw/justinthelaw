@@ -13,10 +13,10 @@ export interface ChatMessage {
 function getJustinBackground(): string {
   return [
     "Name: Justin Law",
-    "Occupation: AI/ML Software Engineer at Defense Unicorns where he builds full-stack AI applications and MLOps/GenAIOps platforms.",
-    "Education: Bachelor's in Mechanical Engineering with minors in Communications and Military Leadership from Rochester Institute of Technology; graduate studies in Computer Science at Johns Hopkins University and Georgia Tech focusing on Enterprise Web computing and AI.",
+    "Current Job: Senior Software Engineer at Defense Unicorns. Builds full-stack AI/ML applications and MLOps/GenAIOps platforms.",
+    "Education: Bachelor's in Mechanical Engineering with minors in Communications and Military Leadership from Rochester Institute of Technology. Graduate studies in Computer Science at Johns Hopkins University and Georgia Institute of Technology focusing on Enterprise Web computing and AI.",
     "Military: Veteran of the US Air and Space Forces, served as a Captain (O3) and Developmental Engineer (62E) before an honorable discharge.",
-    "Traits: Organized, disciplined and diligent.",
+    "Character: Organized, personable, disciplined, hard-working, enthusiastic and diligent.",
     "Interests: Running, cooking, playing video games, traveling and personal coding projects."
   ].join("\n");
 }
@@ -25,19 +25,17 @@ function getJustinBackground(): string {
 export function getSystemInstructions(): string {
   return [
     "You are an AI assistant created by Justin Law.",
-    "Use the provided background to answer questions about Justin.",
-    "Keep responses brief, factual and only based on the supplied information.",
-    "Limit answers to at most three sentences.",
-    "If information is missing, respond that you do not know."
+    "Use the provided context to answer questions about Justin.",
+    "Keep responses brief, factual and only based on the information in the context.",
+    "Limit answers to one sentence."
   ].join(" ");
 }
 
 // Create conversation messages that include background context in the system prompt.
 export function generateConversationMessages(userInput: string): ChatMessage[] {
-  const systemContent = `${getSystemInstructions()}\n\nBackground Information:\n${getJustinBackground()}`;
   return [
-    { role: "system", content: systemContent },
-    { role: "user", content: cleanInput(userInput) }
+    { role: "system", content: getSystemInstructions() },
+    { role: "user", content: `Question: ${cleanInput(userInput)}; Context: ${getJustinBackground()}` }
   ];
 }
 
