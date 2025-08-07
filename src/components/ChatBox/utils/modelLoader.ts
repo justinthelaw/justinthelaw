@@ -3,7 +3,11 @@ import {
   env,
   type TextGenerationPipeline,
 } from "@huggingface/transformers";
-import { type ModelSelection, getNextModelSelection } from "./modelSelection";
+import {
+  type ModelSelection,
+  getNextModelSelection,
+  MODEL_SIZES,
+} from "./modelSelection";
 
 // Configure environment for browser usage
 env.allowLocalModels = false;
@@ -21,7 +25,7 @@ export async function loadModelWithFallback(
   let currentSelection = { ...selection };
   let generator: TextGenerationPipeline | null = null;
   let attempts = 0;
-  const maxAttempts = 4;
+  const maxAttempts = MODEL_SIZES.length;
 
   while (!generator && attempts < maxAttempts) {
     attempts++;

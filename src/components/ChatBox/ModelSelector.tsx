@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
-import { MODEL_SIZE_NAMES, getModelSizeFromSelection } from "@/components/ChatBox/utils/modelSelection";
+import {
+  MODEL_SIZE_NAMES,
+  MODEL_SIZES,
+  getModelSizeFromSelection,
+  selectModelBasedOnDevice,
+  type ModelSizeKey,
+} from "@/components/ChatBox/utils/modelSelection";
 import {
   setPreferredModelSize,
   clearModelPreference,
-  ModelSizeKey,
   getAutoDetectedModelSize,
 } from "@/components/ChatBox/utils/modelPreferences";
-import { selectModelBasedOnDevice } from "@/components/ChatBox/utils/modelSelection";
 import { clearMessageHistory } from "@/components/ChatBox/utils/messageHistory";
 
 interface ModelSelectorProps {
@@ -42,9 +46,9 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
     setSelectedModel(currentModelInUse); // Reset to the model in use
   };
 
-  const allowedModels: ModelSizeKey[] = ["TINY", "SMALL", "MEDIUM", "LARGE"];
   // Show reload message if the selected model is different from the model currently in use
-  const showReloadMessage = selectedModel !== null && selectedModel !== currentModelInUse;
+  const showReloadMessage =
+    selectedModel !== null && selectedModel !== currentModelInUse;
 
   if (!showSettings) {
     return (
@@ -130,7 +134,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
         <div className="p-6">
           <div className="mb-6">
             <div className="space-y-3">
-              {allowedModels.map((key) => (
+              {MODEL_SIZES.map((key) => (
                 <label
                   key={key}
                   className="flex items-center p-3 rounded-lg border border-gray-700 hover:border-gray-600 hover:bg-gray-800 cursor-pointer transition-all duration-200 group"
@@ -172,11 +176,6 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                       {key === "SMALL" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-green-600 text-white rounded-full">
                           Fast
-                        </span>
-                      )}
-                      {key === "TINY" && (
-                        <span className="ml-2 px-2 py-1 text-xs bg-orange-600 text-white rounded-full">
-                          Ultra Fast
                         </span>
                       )}
                     </div>
