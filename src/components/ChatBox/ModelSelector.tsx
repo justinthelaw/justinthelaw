@@ -170,7 +170,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                       )}
                       {key === "MEDIUM" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full">
-                          Balanced
+                          Balance
                         </span>
                       )}
                       {key === "SMALL" && (
