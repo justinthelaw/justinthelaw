@@ -3,7 +3,7 @@ import {
   env,
   type TextGenerationPipeline,
 } from "@huggingface/transformers";
-import { generateConversationMessages, cleanInput } from "./contextProvider";
+import { generateConversationMessages, cleanInput, type ChatMessage } from "./contextProvider";
 import {
   getInitialModelSelection,
   type ModelSelection,
@@ -92,11 +92,28 @@ self.addEventListener("message", async (event: MessageEvent<MessageData>) => {
 
     self.postMessage({ status: "initiate" });
     const messages = generateConversationMessages(cleanedInput);
-    const prompt =
-      messages
-        .map(({ role, content }) => `${role.toUpperCase()}: ${content}`)
-        .join("\n") +
-      "\nASSISTANT:";
+    let prompt: string;
+
+    // Use model-specific chat template when available
+    const tokenizer = generator.tokenizer as unknown as {
+      apply_chat_template?: (
+        messages: ChatMessage[],
+        options: { add_generation_prompt: boolean }
+      ) => string;
+    };
+
+    if (typeof tokenizer.apply_chat_template === "function") {
+      prompt = tokenizer.apply_chat_template(messages, {
+        add_generation_prompt: true,
+      });
+    } else {
+      // Fallback to a simple template if chat template is unavailable
+      prompt =
+        messages
+          .map(({ role, content }) => `${role.toUpperCase()}: ${content}`)
+          .join("\n") +
+        "\nASSISTANT:";
+    }
 
     try {
       // Handle real pipeline with streamer
