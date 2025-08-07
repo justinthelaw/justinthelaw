@@ -6,10 +6,8 @@ export default function ResumeCoverLetterViewer() {
   // Google Drive file ID extracted from the provided URL
   const googleDriveFileId = "1o3hw7mOlJ5JB9XfoDQNdv8aBdCVPl8cp";
   
-  // Google Drive URLs for different purposes
+  // Google Drive URL for PDF preview
   const pdfEmbedUrl = `https://drive.google.com/file/d/${googleDriveFileId}/preview`;
-  const pdfDownloadUrl = `https://drive.google.com/uc?export=download&id=${googleDriveFileId}`;
-  const pdfViewUrl = `https://drive.google.com/file/d/${googleDriveFileId}/view`;
   
   const [showFallback, setShowFallback] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,25 +38,7 @@ export default function ResumeCoverLetterViewer() {
         <div className="text-center">
           <h3 className="text-lg font-semibold mb-4">Resume</h3>
           <div className="text-gray-500 mb-4">
-            📄 The PDF preview may be blocked by your browser&apos;s security settings. 
-            <br />
-            Please use the buttons below to view or download the resume.
-          </div>
-          <div className="flex gap-2 items-center justify-center">
-            <a
-              href={pdfDownloadUrl}
-              className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
-            >
-              📄 Download PDF
-            </a>
-            <a
-              href={pdfViewUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm"
-            >
-              🔗 Open in New Tab
-            </a>
+            📄 The PDF preview may be blocked by your browser&apos;s security settings.
           </div>
         </div>
       </div>
@@ -84,25 +64,6 @@ export default function ResumeCoverLetterViewer() {
           onError={handleIframeError}
           allow="autoplay"
         />
-      </div>
-
-      <div className="text-center">
-        <div className="flex gap-2 items-center justify-center">
-          <a
-            href={pdfDownloadUrl}
-            className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
-          >
-            📄 Download PDF
-          </a>
-          <a
-            href={pdfViewUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm"
-          >
-            🔗 Open in New Tab
-          </a>
-        </div>
       </div>
     </div>
   );
