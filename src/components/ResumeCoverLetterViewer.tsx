@@ -15,29 +15,18 @@ export default function ResumeCoverLetterViewer() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Set a timeout to show fallback if iframe doesn't load within reasonable time
+    // Set a timeout to stop loading indicator if iframe doesn't trigger onLoad
     const timer = setTimeout(() => {
       setIsLoading(false);
-      setShowFallback(true);
-    }, 5000); // 5 seconds timeout
+    }, 10000); // 10 seconds timeout for loading indicator only
 
     return () => clearTimeout(timer);
   }, []);
 
   const handleIframeLoad = () => {
     setIsLoading(false);
-    // Check if iframe content is accessible (not blocked)
-    // This is a simple heuristic - if we can't access the iframe, show fallback
-    try {
-      const iframe = document.querySelector('iframe[title="Resume PDF"]') as HTMLIFrameElement;
-      if (iframe?.contentWindow) {
-        // If we reach here without error, the iframe loaded successfully
-        setShowFallback(false);
-      }
-    } catch {
-      // If we get a security error, the content is likely blocked
-      setShowFallback(true);
-    }
+    // Simply set loading to false when iframe loads
+    // Don't try to access cross-origin iframe content
   };
 
   const handleIframeError = () => {
