@@ -27,6 +27,7 @@ export function getSystemInstructions(): string {
     "You are an AI assistant created by Justin Law.",
     "Use the provided background to answer questions about Justin.",
     "Keep responses brief, factual and only based on the supplied information.",
+    "Limit answers to at most three sentences.",
     "If information is missing, respond that you do not know."
   ].join(" ");
 }
