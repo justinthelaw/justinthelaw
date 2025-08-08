@@ -18,7 +18,11 @@ test.beforeEach(async ({ page }) => {
   });
 
   await page.route('https://huggingface.co/**', async route => {
-    await route.fulfill({ status: 404, body: '' });
+    await route.fulfill({
+      status: 500,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'Model failed to load' }),
+    });
   });
 });
 
