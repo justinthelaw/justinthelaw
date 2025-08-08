@@ -71,7 +71,8 @@ After making any changes, **ALWAYS**:
 ├── public/                   # Static assets (social media icons)
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml        # GitHub Actions CI/CD
+│       ├── ci.yml           # Lint, build, and test workflow
+│       └── deploy.yml       # GitHub Pages deployment
 ├── next.config.ts            # Next.js configuration (GitHub Pages setup)
 ├── package.json              # Dependencies and scripts
 └── tailwind.config.ts        # Tailwind CSS configuration
@@ -85,9 +86,9 @@ After making any changes, **ALWAYS**:
 
 ## Deployment and CI/CD
 
-### GitHub Actions Workflow
-- **Trigger**: Push to main branch with changes to src/, public/, or config files
-- **Process**: Install dependencies → Build → Deploy to GitHub Pages
+### GitHub Actions Workflows
+- **CI (`ci.yml`)**: Runs on pull requests touching source, test, or config files and on pushes to `main`. Executes lint, build, and Playwright tests.
+- **Deploy (`deploy.yml`)**: Builds and publishes to GitHub Pages after the CI workflow succeeds on `main`.
 - **Node Version**: Uses Node.js 20 with npm
 - **Cache**: Optimizes builds with Next.js cache and dependency cache
 

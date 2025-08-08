@@ -82,6 +82,9 @@ npm run lint            # ESLint validation
 npm run test            # Playwright E2E tests (requires `npx playwright install` once)
 # Tests live in e2e/ and mock external APIs (GitHub, Google Drive, HuggingFace)
 
+### Continuous Integration
+- `.github/workflows/ci.yml` runs lint, build, and Playwright tests on PRs touching code or tests and on pushes to `main`.
+- `.github/workflows/deploy.yml` publishes the site after the CI workflow succeeds on `main`.
 
 # Local production testing
 npm run build && npx serve@latest out
