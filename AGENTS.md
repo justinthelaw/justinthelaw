@@ -78,6 +78,11 @@ npm run build           # Creates static files in out/
 # Code quality
 npm run lint            # ESLint validation
 
+# End-to-end tests
+npm run test            # Playwright E2E tests (requires `npx playwright install` once)
+# Tests live in e2e/ and mock external APIs (GitHub, Google Drive, HuggingFace)
+
+
 # Local production testing
 npm run build && npx serve@latest out
 ```
@@ -310,11 +315,12 @@ const App: React.FC = () => {
 After any code changes, verify:
 1. `npm run lint` passes with only the known ModelSelector.tsx warning
 2. `npm run build` completes successfully
-3. `npm run dev` starts development server
-4. Main page loads with "Justin Law" header
-5. Social media icons appear in footer
-6. AI Chatbot button appears and functions
-7. Resume/cover letter viewer displays
+3. `npm run test` passes
+4. `npm run dev` starts development server
+5. Main page loads with "Justin Law" header
+6. Social media icons appear in footer
+7. AI Chatbot button appears and functions
+8. Resume/cover letter viewer displays
 
 ### Expected Development Behaviors
 - **External APIs**: GitHub API and HuggingFace may fail in sandboxed environments
