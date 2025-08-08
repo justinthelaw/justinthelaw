@@ -15,13 +15,15 @@ Justin Law's personal website built with Next.js, React, TypeScript, and Tailwin
 - Start development server: `npm run dev` -- starts on http://localhost:3000 in ~2 seconds
 - Build for production: `npm run build` -- takes ~20 seconds. NEVER CANCEL. Set timeout to 2+ minutes.
 - Lint code: `npm run lint` -- takes ~3 seconds (has 1 known warning in ModelSelector.tsx)
+- Run E2E tests: `npm run test` -- executes Playwright suite (run `npx playwright install` once)
+  (Tests live in `e2e/` and intercept external API calls for GitHub, Google Drive and HuggingFace.)
 - Deploy: `npm run deploy` -- builds and deploys to GitHub Pages via gh-pages
 
 ### Production and Testing
 - **IMPORTANT**: `npm run start` does NOT work - this is a static export configuration
 - To serve production build locally: `npx serve@latest out` after running `npm run build`
 - **NEVER CANCEL** any build commands - wait for completion
-- No test suite exists in this repository
+- E2E tests: `npm run test` (requires `npx playwright install` once)
 
 ## Validation
 
@@ -29,8 +31,9 @@ Justin Law's personal website built with Next.js, React, TypeScript, and Tailwin
 After making any changes, **ALWAYS**:
 1. Run `npm run lint` to check for linting issues
 2. Run `npm run build` to ensure production build succeeds
-3. Test the development server with `npm run dev`
-4. Open http://localhost:3000 and verify:
+3. Run `npm run test` to execute Playwright E2E tests
+4. Test the development server with `npm run dev`
+5. Open http://localhost:3000 and verify:
    - Main page loads with "Justin Law" header
    - Social media icons appear in footer (GitHub, LinkedIn, HuggingFace, GitLab)
    - AI Chatbot button appears in bottom right
