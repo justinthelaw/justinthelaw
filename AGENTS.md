@@ -1,10 +1,12 @@
-# Justin Law Personal Website - OpenAI Codex Instructions
+# AGENTS.md - Justin Law Personal Website
 
-Justin Law's personal website built with Next.js, React, TypeScript, and Tailwind CSS. Features an AI-powered chatbot using HuggingFace transformers for answering questions about Justin's background and experience.
+Project coding guidelines and rules for AI agents (Codex, Cursor, etc.) working on Justin Law's personal website.
 
-**These instructions optimize OpenAI Codex for effective code generation, completion, and development assistance within this project's context.**
+Built with Next.js, React, TypeScript, and Tailwind CSS. Features an AI-powered chatbot using HuggingFace transformers.
 
-## Code Generation Guidelines
+**Follow these rules and patterns when generating, completing, or modifying code in this project.**
+
+## Coding Rules and Guidelines
 
 ### Project Context and Constraints
 - **Static Site**: This is a Next.js static export for GitHub Pages deployment
