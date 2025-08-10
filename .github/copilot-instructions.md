@@ -15,6 +15,7 @@ Justin Law's personal website built with Next.js, React, TypeScript, and Tailwin
 - Start development server: `npm run dev` -- starts on http://localhost:3000 in ~2 seconds
 - Build for production: `npm run build` -- takes ~20 seconds. NEVER CANCEL. Set timeout to 2+ minutes.
 - Lint code: `npm run lint` -- takes ~3 seconds (has 1 known warning in ModelSelector.tsx)
+- Run E2E tests: `npm run test` -- runs Playwright tests against dev server
 - Deploy: `npm run deploy` -- builds and deploys to GitHub Pages via gh-pages
 
 ### Production and Testing
@@ -29,8 +30,9 @@ Justin Law's personal website built with Next.js, React, TypeScript, and Tailwin
 After making any changes, **ALWAYS**:
 1. Run `npm run lint` to check for linting issues
 2. Run `npm run build` to ensure production build succeeds
-3. Test the development server with `npm run dev`
-4. Open http://localhost:3000 and verify:
+3. Run `npm run test` to verify E2E tests pass (may fail in restricted environments)
+4. Test the development server with `npm run dev`
+5. Open http://localhost:3000 and verify:
    - Main page loads with "Justin Law" header
    - Social media icons appear in footer (GitHub, LinkedIn, HuggingFace, GitLab)
    - AI Chatbot button appears in bottom right
@@ -41,6 +43,7 @@ After making any changes, **ALWAYS**:
 - **External API limitations**: GitHub API and HuggingFace model loading may fail in sandboxed environments
 - **PDF viewer**: Resume viewer may show "blocked by Chrome" in development due to CORS
 - **AI Chatbot**: May display "Model failed to load" due to external dependencies
+- **E2E Tests**: Playwright tests may fail in sandboxed/restricted environments due to browser installation issues
 - These are expected behaviors in constrained environments
 
 ## Technology Stack and Architecture
@@ -51,6 +54,7 @@ After making any changes, **ALWAYS**:
 - **TypeScript 5**: Type safety and development experience
 - **Tailwind CSS 3.4+**: Utility-first CSS framework
 - **HuggingFace Transformers**: AI model integration for chatbot
+- **Playwright**: End-to-end testing framework for browser automation
 
 ### Key Files and Structure
 ```
@@ -65,10 +69,14 @@ After making any changes, **ALWAYS**:
 │   │   └── index.tsx         # Main homepage
 │   └── styles/
 │       └── globals.css       # Global CSS styles
+├── tests/
+│   └── example.spec.ts       # Playwright E2E tests
 ├── public/                   # Static assets (social media icons)
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml        # GitHub Actions CI/CD
+│       ├── deploy.yml        # GitHub Actions CI/CD for deployment
+│       └── test.yml          # GitHub Actions for E2E testing
+├── playwright.config.ts      # Playwright test configuration
 ├── next.config.ts            # Next.js configuration (GitHub Pages setup)
 ├── package.json              # Dependencies and scripts
 └── tailwind.config.ts        # Tailwind CSS configuration
@@ -87,6 +95,28 @@ After making any changes, **ALWAYS**:
 - **Process**: Install dependencies → Build → Deploy to GitHub Pages
 - **Node Version**: Uses Node.js 20 with npm
 - **Cache**: Optimizes builds with Next.js cache and dependency cache
+
+### E2E Testing Workflow  
+- **Trigger**: Pull requests to main branch
+- **Process**: Install dependencies → Install Playwright browsers → Run E2E tests
+- **Browsers**: Tests run on Chromium, Firefox, and WebKit
+- **Reports**: Test artifacts uploaded on failure for debugging
+
+### E2E Testing Patterns
+```typescript
+// Use data-testid for stable selectors
+const header = page.getByTestId('main-header');
+await expect(header).toBeVisible();
+
+// Test user interactions
+await page.getByTestId('ai-chatbot-button').click();
+
+// Handle dynamic content with timeouts
+await expect(page.getByTestId('github-bio')).toBeVisible({ timeout: 10000 });
+
+// Verify external links
+await expect(page.locator('a[href*="github.com"]')).toBeVisible();
+```
 
 ### Local Development vs Production
 - **Development**: Use `npm run dev` with hot reload on localhost:3000
