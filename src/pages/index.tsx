@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 
 import LinkIconButton from "@/components/LinkIconButton";
 import GitHubProfileDescription from "@/components/GitHubProfileDescription";
@@ -41,7 +42,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] h-screen gap-2 pb-4 pt-8">
+    <>
+      <Head>
+        <title>Justin Law - Personal Website</title>
+        <meta name="description" content="Justin Law's personal website showcasing experience and AI-powered chat" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <div className="grid grid-rows-[auto_1fr_auto] h-screen gap-2 pb-4 pt-8">
       <div className="flex flex-col items-center gap-4">
         <header className="text-center text-3xl sm:text-5xl font-bold" data-testid="main-header">
           Justin Law
@@ -96,5 +103,6 @@ export default function Home() {
       )}
       {showChatBox && <ChatBox onClose={() => setShowChatBox(false)} />}
     </div>
+    </>
   );
 }
