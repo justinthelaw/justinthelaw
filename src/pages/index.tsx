@@ -44,7 +44,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Justin Law - Personal Website</title>
+        <title>Justin Law</title>
         <meta name="description" content="Justin Law's personal website showcasing experience and AI-powered chat" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
