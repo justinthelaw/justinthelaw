@@ -49,4 +49,31 @@ test.describe('Homepage E2E Tests', () => {
     // Should contain some text (either actual bio or fallback)
     await expect(bioElement).not.toBeEmpty();
   });
+
+  test('should display resume fallback when iframe is blocked', async ({ page }) => {
+    await page.goto('/');
+
+    // Initially, the resume viewer should be visible
+    await expect(page.getByTestId('resume-viewer')).toBeVisible();
+
+    // The loading state should be shown first
+    await expect(page.getByTestId('resume-loading')).toBeVisible();
+
+    // Wait for the fallback to appear (timeout is 5 seconds)
+    await expect(page.getByTestId('resume-fallback')).toBeVisible({ timeout: 7000 });
+
+    // Verify fallback content is displayed
+    await expect(page.getByText('Resume')).toBeVisible();
+    await expect(page.getByText('The PDF preview may be blocked by your browser\'s security settings')).toBeVisible();
+
+    // Verify the "View Resume" link is present and has correct attributes
+    const resumeLink = page.getByTestId('resume-view-link');
+    await expect(resumeLink).toBeVisible();
+    await expect(resumeLink).toHaveText('View Resume');
+    await expect(resumeLink).toHaveAttribute('href', 'https://drive.google.com/file/d/1o3hw7mOlJ5JB9XfoDQNdv8aBdCVPl8cp/view');
+    await expect(resumeLink).toHaveAttribute('target', '_blank');
+
+    // Verify instruction text is present
+    await expect(page.getByText('Click above to open the PDF in a new tab')).toBeVisible();
+  });
 });
