@@ -59,8 +59,8 @@ test.describe('Homepage E2E Tests', () => {
     // The loading state should be shown first
     await expect(page.getByTestId('resume-loading')).toBeVisible();
 
-    // Wait for the fallback to appear (timeout is 5 seconds)
-    await expect(page.getByTestId('resume-fallback')).toBeVisible({ timeout: 7000 });
+    // Wait for the fallback to appear (timeout is now 10 seconds, so wait up to 12)
+    await expect(page.getByTestId('resume-fallback')).toBeVisible({ timeout: 12000 });
 
     // Verify fallback content is displayed
     await expect(page.getByText('Resume')).toBeVisible();
@@ -73,7 +73,11 @@ test.describe('Homepage E2E Tests', () => {
     await expect(resumeLink).toHaveAttribute('href', 'https://drive.google.com/file/d/1o3hw7mOlJ5JB9XfoDQNdv8aBdCVPl8cp/view');
     await expect(resumeLink).toHaveAttribute('target', '_blank');
 
-    // Verify instruction text is present
-    await expect(page.getByText('Click above to open the PDF in a new tab')).toBeVisible();
+    // Verify additional UI elements are present
+    await expect(page.getByText('Download PDF')).toBeVisible();
+    await expect(page.getByText('Try Again')).toBeVisible();
+
+    // Verify instruction text is present (updated text)
+    await expect(page.getByText(/Click above to open the PDF in a new tab/)).toBeVisible();
   });
 });
