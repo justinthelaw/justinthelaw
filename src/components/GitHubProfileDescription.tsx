@@ -23,7 +23,7 @@ export default function GitHubProfileDescription() {
   }, []);
 
   return (
-    <p className="text-center text-sm sm:text-sm md:text-base lg:text-base mx-4">
+    <p className="text-center text-sm sm:text-sm md:text-base lg:text-base mx-4" data-testid="github-bio">
       {bio}
     </p>
   );

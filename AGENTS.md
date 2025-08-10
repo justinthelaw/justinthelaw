@@ -78,6 +78,9 @@ npm run build           # Creates static files in out/
 # Code quality
 npm run lint            # ESLint validation
 
+# End-to-end testing
+npm run test            # Run Playwright E2E tests
+
 # Local production testing
 npm run build && npx serve@latest out
 ```
@@ -110,15 +113,21 @@ interface ListProps<T extends { id: string }> {
 - Implement proper error boundaries for components that may fail
 - Prefer composition over inheritance
 - Use React.memo for performance optimization when appropriate
+- Add data-testid attributes to key elements for E2E testing stability
 
 ```typescript
-// Good: Memoized component with dependency array
+// Good: Memoized component with dependency array and test attributes
 const ExpensiveComponent = React.memo<Props>(({ data, onUpdate }) => {
   const processedData = useMemo(() => {
     return data.map(item => ({ ...item, processed: true }));
   }, [data]);
   
-  return <div>{/* render logic */}</div>;
+  return (
+    <div data-testid="expensive-component">
+      <h2 data-testid="component-title">{title}</h2>
+      {/* render logic */}
+    </div>
+  );
 });
 ```
 
@@ -271,6 +280,21 @@ const fetchGitHubProfile = async (username: string): Promise<GitHubProfile> => {
 
 ## Build and Deployment Considerations
 
+### CI/CD Workflows
+The project includes two GitHub Actions workflows:
+
+#### Deploy Workflow (`.github/workflows/deploy.yml`)
+- **Trigger**: Push to main branch with changes to src/, public/, or config files
+- **Process**: Install dependencies → Build → Deploy to GitHub Pages
+- **Node Version**: Uses Node.js 20 with npm cache
+- **Optimization**: Includes Next.js cache and dependency cache
+
+#### Test Workflow (`.github/workflows/test.yml`)  
+- **Trigger**: Pull requests to main branch
+- **Process**: Install dependencies → Install Playwright browsers → Run E2E tests
+- **Artifacts**: Uploads test reports for failed runs
+- **Timeout**: 60 minutes maximum execution time
+
 ### Static Export Configuration
 ```typescript
 // next.config.ts - Key configurations
@@ -306,15 +330,54 @@ const App: React.FC = () => {
 
 ## Testing and Validation
 
+### End-to-End Testing with Playwright
+The project uses Playwright for E2E testing to ensure the application works correctly across different browsers:
+
+```bash
+# Run all E2E tests
+npm run test
+
+# Run tests in specific browser  
+npx playwright test --project=chromium
+
+# Run tests with UI mode
+npx playwright test --ui
+
+# Generate test report
+npx playwright show-report
+```
+
+#### Test Structure
+```
+tests/
+└── example.spec.ts       # Homepage E2E tests
+```
+
+#### Key Test Patterns
+```typescript
+// Use data-testid attributes for stable selectors
+await expect(page.getByTestId('main-header')).toBeVisible();
+
+// Test user interactions
+await page.getByTestId('ai-chatbot-button').click();
+
+// Wait for dynamic content
+await expect(page.getByTestId('github-bio')).toBeVisible({ timeout: 10000 });
+
+// Verify external links
+await expect(page.locator('a[href*="github.com/justinthelaw"]')).toBeVisible();
+```
+
 ### Manual Testing Checklist
 After any code changes, verify:
 1. `npm run lint` passes with only the known ModelSelector.tsx warning
 2. `npm run build` completes successfully
 3. `npm run dev` starts development server
-4. Main page loads with "Justin Law" header
-5. Social media icons appear in footer
-6. AI Chatbot button appears and functions
-7. Resume/cover letter viewer displays
+4. `npm run test` passes (E2E tests)
+5. Main page loads with "Justin Law" header
+6. Social media icons appear in footer
+7. AI Chatbot button appears and functions
+8. Resume/cover letter viewer displays
 
 ### Expected Development Behaviors
 - **External APIs**: GitHub API and HuggingFace may fail in sandboxed environments

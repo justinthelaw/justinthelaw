@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] h-screen gap-2 pb-4 pt-8">
       <div className="flex flex-col items-center gap-4">
-        <header className="text-center text-3xl sm:text-5xl font-bold">
+        <header className="text-center text-3xl sm:text-5xl font-bold" data-testid="main-header">
           Justin Law
         </header>
         <GitHubProfileDescription />
@@ -54,7 +54,7 @@ export default function Home() {
           <main className="flex items-center justify-center overflow-hidden">
             <ResumeCoverLetterViewer />
           </main>
-          <footer className="flex gap-1 sm:gap-1 md:gap-2 lg:gap-3 justify-center pb-2">
+          <footer className="flex gap-1 sm:gap-1 md:gap-2 lg:gap-3 justify-center pb-2" data-testid="social-footer">
             <LinkIconButton
               link="https://github.com/justinthelaw"
               altText="Justin's GitHub Profile"
@@ -86,6 +86,7 @@ export default function Home() {
         <button
           className="fixed border bottom-4 right-4 bg-black text-white p-3 rounded-lg shadow-lg hover:bg-gray-800 transition-colors duration-200 flex items-center gap-2"
           onClick={() => setShowChatBox(true)}
+          data-testid="ai-chatbot-button"
         >
           <span className="text-lg hidden sm:inline">AI Chatbot</span>
           <svg className="w-5 h-5" fill="currentColor" viewBox="2 0 20 26">
