@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@deemlol/next-icons": "^0.1.9",
-    "@huggingface/transformers": "^3.3.3",
+    "@huggingface/transformers": "^3.7.1",
     "next": "^15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.1.1"
