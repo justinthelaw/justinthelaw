@@ -1,8 +1,8 @@
 import {
   pipeline,
   env,
-  type TextGenerationPipeline,
 } from "@huggingface/transformers";
+import type { TextGenerationPipeline } from "@huggingface/transformers";
 import {
   type ModelSelection,
   getNextModelSelection,
@@ -30,7 +30,8 @@ export async function loadModelWithFallback(
   while (!generator && attempts < maxAttempts) {
     attempts++;
     try {
-      generator = await pipeline("text-generation", currentSelection.model, {
+      // Use explicit typing to help TypeScript resolve the pipeline function
+      const pipelineResult = await pipeline("text-generation", currentSelection.model, {
         progress_callback: (progressData: unknown) => {
           if (typeof progressData === "object" && progressData !== null) {
             const data = progressData as { progress?: number };
@@ -45,6 +46,7 @@ export async function loadModelWithFallback(
           }
         },
       });
+      generator = pipelineResult as TextGenerationPipeline;
       return generator;
     } catch (e) {
       const errorStr = String(e);
