@@ -10,6 +10,7 @@ import {
   MODEL_MEMORY_REQUIREMENTS,
   getModelSizeFromSelection,
 } from "./modelSelection";
+import { recordLargeModelFailure } from "./modelPreferences";
 
 // Configure environment for browser usage
 env.allowLocalModels = false;
@@ -170,6 +171,12 @@ export async function loadModelWithFallback(
 
       // Be more aggressive with fallbacks for large models and memory issues
       if (isMemoryError || isTimeoutError || isLargeModelError) {
+        // Record failure if this was a large model
+        if (modelSize === 'LARGE') {
+          recordLargeModelFailure();
+          console.log('Recorded large model failure for future reference');
+        }
+        
         const nextSelection = getNextModelSelection(currentSelection);
         
         // If fallback returned the same selection, we're at the smallest model

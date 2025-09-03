@@ -62,11 +62,23 @@ export function getModelSelectionFromSizeKey(
  */
 export function selectModelBasedOnDevice(): ModelSelection {
   if (typeof window !== "undefined" && window.localStorage) {
+    // Check if large model has previously failed on this device
+    const hasLargeModelFailed = window.localStorage.getItem('largeModelFailed') === 'true';
+    
     const override = window.localStorage.getItem(
       "preferredModelSize"
     ) as ModelSizeKey | null;
     if (override && MODEL_SIZES.includes(override)) {
+      // If user manually selected large model but it failed before, warn them
+      if (override === 'LARGE' && hasLargeModelFailed) {
+        console.warn('Large model previously failed on this device, but user manually selected it');
+      }
       return getModelSelectionFromSizeKey(override);
+    }
+    
+    // If large model failed before, avoid auto-selecting it
+    if (hasLargeModelFailed) {
+      console.log('Large model previously failed, avoiding auto-selection');
     }
   }
 
@@ -81,9 +93,14 @@ export function selectModelBasedOnDevice(): ModelSelection {
     navigator.userAgent
   );
 
+  // Check if large model has previously failed on this device
+  const hasLargeModelFailed = typeof window !== "undefined" && 
+    window.localStorage?.getItem('largeModelFailed') === 'true';
+
   // Be more conservative with large model selection due to browser memory constraints
   // Only select large model for very powerful devices with confirmed high memory
-  if (!isMobile && deviceMemory >= 16 && cores >= 8) {
+  // and if it hasn't failed before
+  if (!isMobile && !hasLargeModelFailed && deviceMemory >= 16 && cores >= 8) {
     return getModelSelectionFromSizeKey("LARGE");
   }
   if (!isMobile && deviceMemory >= 6 && cores >= 4) {
