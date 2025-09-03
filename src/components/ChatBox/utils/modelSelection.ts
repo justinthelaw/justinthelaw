@@ -81,10 +81,12 @@ export function selectModelBasedOnDevice(): ModelSelection {
     navigator.userAgent
   );
 
-  if (!isMobile && deviceMemory >= 8 && cores >= 6) {
+  // Be more conservative with large model selection due to browser memory constraints
+  // Only select large model for very powerful devices with confirmed high memory
+  if (!isMobile && deviceMemory >= 16 && cores >= 8) {
     return getModelSelectionFromSizeKey("LARGE");
   }
-  if (deviceMemory >= 4 && cores >= 4) {
+  if (!isMobile && deviceMemory >= 6 && cores >= 4) {
     return getModelSelectionFromSizeKey("MEDIUM");
   }
   return DEFAULT_SELECTION;
