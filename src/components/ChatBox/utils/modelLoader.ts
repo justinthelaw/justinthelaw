@@ -7,6 +7,7 @@ import {
   type ModelSelection,
   getNextModelSelection,
   MODEL_SIZES,
+  getModelSizeFromSelection,
 } from "./modelSelection";
 
 // Configure environment for browser usage
@@ -32,14 +33,16 @@ export async function loadModelWithFallback(
     try {
       // Use explicit typing to help TypeScript resolve the pipeline function
       const pipelineResult = await pipeline("text-generation", currentSelection.model, {
+        dtype: currentSelection.dtype,
         progress_callback: (progressData: unknown) => {
           if (typeof progressData === "object" && progressData !== null) {
             const data = progressData as { progress?: number };
             if (data.progress !== undefined) {
+              const modelSize = getModelSizeFromSelection(currentSelection);
               self.postMessage({
                 status: "load",
                 response: {
-                  message: `Loading model... ${Math.round(data.progress)}%`,
+                  message: `Loading ${modelSize} model... ${Math.round(data.progress)}%`,
                 },
               });
             }
@@ -50,30 +53,46 @@ export async function loadModelWithFallback(
       return generator;
     } catch (e) {
       const errorStr = String(e);
+      const modelSize = getModelSizeFromSelection(currentSelection);
       console.error(`Model loading attempt ${attempts} failed:`, errorStr);
 
-      const isMemoryError =
-        errorStr.includes("memory") || errorStr.includes("allocation");
-
-      if (isMemoryError) {
+      // If LARGE model fails, immediately provide error message and recommend MEDIUM
+      if (modelSize === "LARGE") {
+        self.postMessage({
+          status: "error",
+          response: {
+            message: "Large model failed to load. We recommend using the Medium model for better compatibility with your device.",
+          },
+        });
         const nextSelection = getNextModelSelection(currentSelection);
-        // If fallback returned the same selection, we're at the smallest model
-        if (
-          nextSelection.model === currentSelection.model &&
-          nextSelection.dtype === currentSelection.dtype
-        ) {
-          console.error("Already at smallest model, cannot fallback further");
-          break;
-        }
         currentSelection = nextSelection;
         onSelectionChange(nextSelection);
-        console.log(
-          `Falling back to smaller model: ${nextSelection.model} with dtype: ${nextSelection.dtype}`
-        );
-        // Continue the loop to try the next smaller model
+        console.log(`Large model failed, falling back to: ${nextSelection.model} with dtype: ${nextSelection.dtype}`);
+        // Continue the loop to try the medium model
       } else {
-        // Non-memory errors or network issues should stop attempts
-        break;
+        const isMemoryError =
+          errorStr.includes("memory") || errorStr.includes("allocation");
+
+        if (isMemoryError) {
+          const nextSelection = getNextModelSelection(currentSelection);
+          // If fallback returned the same selection, we're at the smallest model
+          if (
+            nextSelection.model === currentSelection.model &&
+            nextSelection.dtype === currentSelection.dtype
+          ) {
+            console.error("Already at smallest model, cannot fallback further");
+            break;
+          }
+          currentSelection = nextSelection;
+          onSelectionChange(nextSelection);
+          console.log(
+            `Falling back to smaller model: ${nextSelection.model} with dtype: ${nextSelection.dtype}`
+          );
+          // Continue the loop to try the next smaller model
+        } else {
+          // Non-memory errors or network issues should stop attempts
+          break;
+        }
       }
     }
   }

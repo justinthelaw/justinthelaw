@@ -6,7 +6,7 @@ export type ModelSizeKey = typeof MODEL_SIZES[number];
 
 export interface ModelSelection {
   model: string;
-  dtype: "auto";
+  dtype: "auto" | "fp32";
 }
 
 export const MODEL_OPTIONS: Record<ModelSizeKey, string> = {
@@ -22,10 +22,10 @@ export const MODEL_SIZE_NAMES: Record<ModelSizeKey, string> = {
   LARGE: "Large",
 };
 
-export const MODEL_DTYPES: Record<ModelSizeKey, "auto"> = {
+export const MODEL_DTYPES: Record<ModelSizeKey, "auto" | "fp32"> = {
   SMALL: "auto",
   MEDIUM: "auto",
-  LARGE: "auto",
+  LARGE: "fp32",
 };
 
 // Approximate memory requirements in MB
