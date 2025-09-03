@@ -31,7 +31,6 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
     const key = getModelSizeFromSelection(inUse);
     setSelectedModel(key);
     setCurrentModelInUse(key);
-    // eslint-disable-next-line
   }, []);
 
   const handleModelChange = (modelSize: ModelSizeKey) => {
