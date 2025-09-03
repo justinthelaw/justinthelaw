@@ -10,7 +10,6 @@ import {
   setPreferredModelSize,
   clearModelPreference,
   getAutoDetectedModelSize,
-  hasLargeModelPreviouslyFailed,
 } from "@/components/ChatBox/utils/modelPreferences";
 import { clearMessageHistory } from "@/components/ChatBox/utils/messageHistory";
 
@@ -26,14 +25,12 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
     const inUse = selectModelBasedOnDevice();
     return getModelSizeFromSelection(inUse);
   });
-  const [hasLargeModelFailed, setHasLargeModelFailed] = useState(false);
 
   useEffect(() => {
     const inUse = selectModelBasedOnDevice();
     const key = getModelSizeFromSelection(inUse);
     setSelectedModel(key);
     setCurrentModelInUse(key);
-    setHasLargeModelFailed(hasLargeModelPreviouslyFailed());
   }, []);
 
   const handleModelChange = (modelSize: ModelSizeKey) => {
@@ -164,16 +161,9 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                         {MODEL_SIZE_NAMES[key]}
                       </span>
                       {key === "LARGE" && (
-                        <>
-                          <span className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded-full">
-                            Quality
-                          </span>
-                          {hasLargeModelFailed && (
-                            <span className="ml-2 px-2 py-1 text-xs bg-red-600 text-white rounded-full">
-                              ⚠ Failed Before
-                            </span>
-                          )}
-                        </>
+                        <span className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded-full">
+                          Quality
+                        </span>
                       )}
                       {key === "MEDIUM" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full">
@@ -186,11 +176,6 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                         </span>
                       )}
                     </div>
-                    {key === "LARGE" && hasLargeModelFailed && (
-                      <div className="text-xs text-red-400 mt-1">
-                        Large model failed to load on this device before. Consider using Medium for better reliability.
-                      </div>
-                    )}
                   </div>
                 </label>
               ))}

@@ -6,7 +6,7 @@ export type ModelSizeKey = typeof MODEL_SIZES[number];
 
 export interface ModelSelection {
   model: string;
-  dtype: "auto" | "fp32" | "int8" | "uint8" | "q8" | "q4";
+  dtype: "auto" | "fp32";
 }
 
 export const MODEL_OPTIONS: Record<ModelSizeKey, string> = {
@@ -22,17 +22,17 @@ export const MODEL_SIZE_NAMES: Record<ModelSizeKey, string> = {
   LARGE: "Large",
 };
 
-export const MODEL_DTYPES: Record<ModelSizeKey, "auto" | "fp32" | "int8" | "uint8" | "q8" | "q4"> = {
+export const MODEL_DTYPES: Record<ModelSizeKey, "auto" | "fp32"> = {
   SMALL: "auto",
   MEDIUM: "auto",
-  LARGE: "q8", // Use 8-bit quantization for large model to reduce memory usage
+  LARGE: "fp32",
 };
 
 // Approximate memory requirements in MB
 export const MODEL_MEMORY_REQUIREMENTS: Record<ModelSizeKey, number> = {
   SMALL: 300,
   MEDIUM: 800,
-  LARGE: 1750, // Reduced from 3500MB due to q8 quantization (~50% reduction)
+  LARGE: 3500,
 };
 
 // Small model is the default and smallest option
@@ -62,23 +62,11 @@ export function getModelSelectionFromSizeKey(
  */
 export function selectModelBasedOnDevice(): ModelSelection {
   if (typeof window !== "undefined" && window.localStorage) {
-    // Check if large model has previously failed on this device
-    const hasLargeModelFailed = window.localStorage.getItem('largeModelFailed') === 'true';
-    
     const override = window.localStorage.getItem(
       "preferredModelSize"
     ) as ModelSizeKey | null;
     if (override && MODEL_SIZES.includes(override)) {
-      // If user manually selected large model but it failed before, warn them
-      if (override === 'LARGE' && hasLargeModelFailed) {
-        console.warn('Large model previously failed on this device, but user manually selected it');
-      }
       return getModelSelectionFromSizeKey(override);
-    }
-    
-    // If large model failed before, avoid auto-selecting it
-    if (hasLargeModelFailed) {
-      console.log('Large model previously failed, avoiding auto-selection');
     }
   }
 
@@ -93,17 +81,10 @@ export function selectModelBasedOnDevice(): ModelSelection {
     navigator.userAgent
   );
 
-  // Check if large model has previously failed on this device
-  const hasLargeModelFailed = typeof window !== "undefined" && 
-    window.localStorage?.getItem('largeModelFailed') === 'true';
-
-  // Be more conservative with large model selection due to browser memory constraints
-  // Only select large model for very powerful devices with confirmed high memory
-  // and if it hasn't failed before
-  if (!isMobile && !hasLargeModelFailed && deviceMemory >= 16 && cores >= 8) {
+  if (!isMobile && deviceMemory >= 8 && cores >= 6) {
     return getModelSelectionFromSizeKey("LARGE");
   }
-  if (!isMobile && deviceMemory >= 6 && cores >= 4) {
+  if (deviceMemory >= 4 && cores >= 4) {
     return getModelSelectionFromSizeKey("MEDIUM");
   }
   return DEFAULT_SELECTION;
