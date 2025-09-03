@@ -119,6 +119,7 @@ export async function loadModelWithFallback(
       
       // Create pipeline loading promise with timeout
       const pipelinePromise = pipeline("text-generation", currentSelection.model, {
+        dtype: currentSelection.dtype,
         progress_callback: (progressData: unknown) => {
           if (typeof progressData === "object" && progressData !== null) {
             const data = progressData as { progress?: number };
