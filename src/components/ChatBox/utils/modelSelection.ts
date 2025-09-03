@@ -6,7 +6,7 @@ export type ModelSizeKey = typeof MODEL_SIZES[number];
 
 export interface ModelSelection {
   model: string;
-  dtype: "auto";
+  dtype: "auto" | "fp32" | "int8" | "uint8" | "q8" | "q4";
 }
 
 export const MODEL_OPTIONS: Record<ModelSizeKey, string> = {
@@ -22,17 +22,17 @@ export const MODEL_SIZE_NAMES: Record<ModelSizeKey, string> = {
   LARGE: "Large",
 };
 
-export const MODEL_DTYPES: Record<ModelSizeKey, "auto"> = {
+export const MODEL_DTYPES: Record<ModelSizeKey, "auto" | "fp32" | "int8" | "uint8" | "q8" | "q4"> = {
   SMALL: "auto",
   MEDIUM: "auto",
-  LARGE: "auto",
+  LARGE: "q8", // Use 8-bit quantization for large model to reduce memory usage
 };
 
 // Approximate memory requirements in MB
 export const MODEL_MEMORY_REQUIREMENTS: Record<ModelSizeKey, number> = {
   SMALL: 300,
   MEDIUM: 800,
-  LARGE: 3500,
+  LARGE: 1750, // Reduced from 3500MB due to q8 quantization (~50% reduction)
 };
 
 // Small model is the default and smallest option
