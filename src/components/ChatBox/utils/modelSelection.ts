@@ -25,14 +25,14 @@ export const MODEL_SIZE_NAMES: Record<ModelSizeKey, string> = {
 export const MODEL_DTYPES: Record<ModelSizeKey, "auto" | "fp32"> = {
   SMALL: "auto",
   MEDIUM: "auto",
-  LARGE: "fp32",
+  LARGE: "auto",
 };
 
 // Approximate memory requirements in MB
 export const MODEL_MEMORY_REQUIREMENTS: Record<ModelSizeKey, number> = {
   SMALL: 300,
   MEDIUM: 800,
-  LARGE: 3500,
+  LARGE: 2000,
 };
 
 // Small model is the default and smallest option
