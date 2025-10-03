@@ -47,6 +47,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
         onClick={() => setShowSettings(true)}
         className="text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 rounded-md w-8 h-8 flex items-center justify-center transition-colors duration-200"
         aria-label="Model settings"
+        data-testid="model-settings-button"
       >
         <svg
           className="w-4 h-4"
@@ -72,7 +73,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80" data-testid="model-selector-modal">
       <div className="bg-black border border-gray-700 rounded-xl w-full max-w-md mx-4 shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="bg-black border-b border-gray-700 px-6 py-4">
@@ -160,7 +161,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                         </span>
                       )}
                       {key === "MEDIUM" && (
-                        <span className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full">
+                        <span className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full" data-testid="model-tag-balanced">
                           Balanced
                         </span>
                       )}
