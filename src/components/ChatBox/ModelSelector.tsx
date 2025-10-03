@@ -8,7 +8,6 @@ import {
 } from "@/components/ChatBox/utils/modelSelection";
 import {
   setPreferredModelSize,
-  clearModelPreference,
   getAutoDetectedModelSize,
 } from "@/components/ChatBox/utils/modelPreferences";
 import { clearMessageHistory } from "@/components/ChatBox/utils/messageHistory";
@@ -36,11 +35,6 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
   const handleModelChange = (modelSize: ModelSizeKey) => {
     setSelectedModel(modelSize);
     setPreferredModelSize(modelSize);
-  };
-
-  const handleResetPreference = () => {
-    clearModelPreference();
-    setSelectedModel(currentModelInUse); // Reset to the model in use
   };
 
   // Show reload message if the selected model is different from the model currently in use
@@ -167,7 +161,7 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
                       )}
                       {key === "MEDIUM" && (
                         <span className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full">
-                          Balance
+                          Balanced
                         </span>
                       )}
                       {key === "SMALL" && (
@@ -203,12 +197,6 @@ export default function ModelSelector({ onClose }: ModelSelectorProps) {
           {/* Actions */}
           <div className="flex justify-between items-center">
             <div className="flex gap-2">
-              <button
-                onClick={handleResetPreference}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors duration-200 font-medium"
-              >
-                Reset to Auto
-              </button>
               {showReloadMessage && (
                 <button
                   onClick={() => {

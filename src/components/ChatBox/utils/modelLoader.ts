@@ -42,7 +42,7 @@ export async function loadModelWithFallback(
               self.postMessage({
                 status: "load",
                 response: {
-                  message: `Loading ${modelSize} model... ${Math.round(data.progress)}%`,
+                  message: `Loading model... ${Math.round(data.progress)}%`,
                 },
               });
             }

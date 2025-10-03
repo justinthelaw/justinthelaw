@@ -51,19 +51,12 @@ export default function ChatBoxInput() {
     return welcomeMessage;
   }, []);
 
-  // Auto-scroll to bottom when new messages are added
+  // Auto-scroll to bottom when new messages are added or result is being generated
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messageHistory, result, answering]);
-
-  // Also scroll when a message starts generating
-  useEffect(() => {
-    if (answering && messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [answering]);
+  }, [messageHistory, result, answering, loading]);
 
   // Load message history on component mount
   useEffect(() => {
