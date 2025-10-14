@@ -14,7 +14,7 @@
   "dependencies": {
     "@deemlol/next-icons": "^0.1.9",
     "@huggingface/transformers": "^3.7.5",
-    "next": "^15.5.4",
+    "next": "^15.5.5",
     "react": "^19.0.0",
     "react-dom": "^19.2.0"
   },
