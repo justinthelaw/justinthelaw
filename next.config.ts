@@ -7,8 +7,14 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   basePath: isProd ? "/justinthelaw.github.io" : "",
   assetPrefix: isProd ? "/justinthelaw.github.io/" : "",
+  turbopack: {
+    resolveAlias: {
+      sharp: false,
+      "onnxruntime-node": false,
+    },
+  },
   webpack: (config) => {
-    // See https://webpack.js.org/configuration/resolve/#resolvealias
+    // Webpack config for backward compatibility
     config.resolve.alias = {
       ...config.resolve.alias,
       sharp$: false,
