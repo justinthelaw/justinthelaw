@@ -3,60 +3,60 @@
  * System instructions and prompt templates optimized for SmolLM2 models
  */
 
-import { ModelSize, type GenerationParams } from '@/types';
-import { MODEL_CONTEXT_LIMITS } from './models';
+import { ModelSize, type GenerationParams } from "@/types";
+import { MODEL_CONTEXT_LIMITS } from "./models";
+import { SITE_CONFIG } from "./site";
 
 /**
  * Model-specific generation parameters for optimal SmolLM2 performance
  */
 export const GENERATION_PARAMS: Record<ModelSize, GenerationParams> = {
   [ModelSize.DUMBER]: {
-    temperature: 0.15,
-    maxTokens: 96,
+    temperature: 0.1,
+    maxTokens: 128,
     topK: 50,
-    repetitionPenalty: 1.15,
+    repetitionPenalty: 1.3,
   },
   [ModelSize.SMARTER]: {
     temperature: 0.2,
-    maxTokens: 128,
+    maxTokens: 256,
     topK: 50,
-    repetitionPenalty: 1.2,
+    repetitionPenalty: 1.1,
   },
 };
 
 /**
  * Base system instruction for all models
  */
-export const BASE_SYSTEM_INSTRUCTION =
-  "You are Justin Law's AI assistant. Answer questions about Justin using only the provided context.";
+export const BASE_SYSTEM_INSTRUCTION = `You are ${SITE_CONFIG.name}'s AI assistant. Answer questions about ${SITE_CONFIG.name} using only the provided context. Give informative but concise answers. Stay factual and context-based.`;
 
 /**
  * Model-specific system instructions
  */
 export const SYSTEM_INSTRUCTIONS: Record<ModelSize, string> = {
-  [ModelSize.DUMBER]: `${BASE_SYSTEM_INSTRUCTION} Provide brief, accurate responses based on the context. Limit to 2-3 sentences.`,
-  [ModelSize.SMARTER]: `${BASE_SYSTEM_INSTRUCTION} Give informative but concise answers. Stay factual and context-based.`,
+  [ModelSize.DUMBER]: `${BASE_SYSTEM_INSTRUCTION} Limit to 1-3 short sentences.`,
+  [ModelSize.SMARTER]: `${BASE_SYSTEM_INSTRUCTION} Limit to 3-4 short sentences.`,
 };
 
 /**
  * Chat history limits by model size
  */
 export const HISTORY_LIMITS: Record<ModelSize, number> = {
-  [ModelSize.DUMBER]: 4,
-  [ModelSize.SMARTER]: 6,
+  [ModelSize.DUMBER]: 3,
+  [ModelSize.SMARTER]: 5,
 };
 
 /**
  * Context allocation ratios (how much of token limit to use for context)
  */
-export const CONTEXT_ALLOCATION_RATIO = 0.7;
+export const CONTEXT_ALLOCATION_RATIO = 0.75;
 
 /**
  * Input sanitization limits
  */
 export const INPUT_CONSTRAINTS = {
-  MAX_LENGTH: 200,
-  MAX_WORDS: 50,
+  MAX_LENGTH: 256,
+  MAX_WORDS: 64,
 } as const;
 
 /**
@@ -74,8 +74,8 @@ export const VALIDATION_THRESHOLDS = {
  * Expected response lengths by model size
  */
 export const EXPECTED_RESPONSE_LENGTHS: Record<ModelSize, number> = {
-  [ModelSize.DUMBER]: 150,
-  [ModelSize.SMARTER]: 200,
+  [ModelSize.DUMBER]: 128,
+  [ModelSize.SMARTER]: 256,
 };
 
 /**

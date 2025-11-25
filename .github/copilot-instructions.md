@@ -20,12 +20,11 @@ Next.js static site for GitHub Pages with AI chatbot (HuggingFace transformers).
 
 - `npm run dev` - Runs the development server
 - `npm run deploy` - Builds and deploys to GitHub Pages
-- `npm run flight-check` - Use this to run the commands below in the order that they appear
+- `npm run flight-check` - Use this to perform final checks on all changes across the repository
   - `npm run clean` - Deletes temporary build, dev, and test files
   - `npm run lint` - Runs the ESLint
   - `npm run build` - Runs the Next.js build
   - `npm run test` - Runs the E2E Playwright tests
-
 
 ## Code Standards
 
@@ -90,3 +89,11 @@ After changes run: `npm run lint` → `npm run build` → `npm run test` → ver
 2. Types defined?
 3. Responsive design?
 4. Error handling?
+
+## Documentation
+
+Update documentation in the following areas as necessary:
+
+1. /README.md
+2. /.github/copilot-instructions.md
+2. /docs/CUSTOMIZATION.md

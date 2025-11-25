@@ -5,10 +5,10 @@
 
 import { ModelSize, type ProfileSection } from '@/types';
 import {
-  JUSTIN_PROFILE,
+  PROFILE,
   RELEVANT_TERMS,
   CONTEXT_PRIORITIES,
-} from '@/config/profile';
+} from '@/config/site';
 import {
   SYSTEM_INSTRUCTIONS,
   HISTORY_LIMITS,
@@ -36,7 +36,7 @@ function generateStructuredContext(
   modelSize: ModelSize,
   userQuery?: string
 ): string {
-  const profile = JUSTIN_PROFILE;
+  const profile = PROFILE;
 
   // Provide structured detail with query-aware prioritization
   if (userQuery) {

@@ -6,9 +6,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { SITE_CONFIG } from '@/config/site';
 
-const GOOGLE_DRIVE_FILE_ID = '1o3hw7mOlJ5JB9XfoDQNdv8aBdCVPl8cp';
-const PDF_EMBED_URL = `https://drive.google.com/file/d/${GOOGLE_DRIVE_FILE_ID}/preview`;
+const PDF_EMBED_URL = `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/preview`;
 const LOADING_TIMEOUT_MS = 10000;
 
 export function ResumeViewer(): React.ReactElement {
