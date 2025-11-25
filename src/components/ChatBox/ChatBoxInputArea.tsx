@@ -272,7 +272,7 @@ export default function ChatBoxInput() {
           ref={inputRef}
           type="text"
           className={`w-full p-3 text-white rounded-md border border-gray-700 bg-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 ${
-            !!modelError ? 'border-red-500 bg-red-900/20' : ''
+            modelError ? 'border-red-500 bg-red-900/20' : ''
           }`}
           placeholder={handleHelperText()}
           value={inputText}
@@ -285,15 +285,15 @@ export default function ChatBoxInput() {
         <button
           onClick={handleSend}
           className={`border border-black ${
-            !!modelError 
+            modelError 
               ? 'bg-red-600 hover:bg-red-700' 
               : 'bg-blue-600 hover:bg-blue-700'
           } text-white px-3 py-3 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center h-[52px] w-[52px]`}
-          disabled={loading || (!!modelError ? false : (!inputText.trim() || !modelReady))}
-          aria-label={!!modelError ? "Refresh page to retry" : "Send message"}
-          title={!!modelError ? "Model failed to load. Please refresh the page." : ""}
+          disabled={loading || (modelError ? false : (!inputText.trim() || !modelReady))}
+          aria-label={modelError ? "Refresh page to retry" : "Send message"}
+          title={modelError ? "Model failed to load. Please refresh the page." : ""}
         >
-          {!!modelError ? (
+          {modelError ? (
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 4V2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10c0-1.19-.22-2.33-.6-3.38L20.05 9.95C20.64 10.93 21 12.07 21 13.33c0 4.96-4.04 9-9 9s-9-4.04-9-9 4.04-9 9-9v2l4-3-4-3z"/>
             </svg>
