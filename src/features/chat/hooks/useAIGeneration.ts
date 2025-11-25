@@ -72,6 +72,7 @@ export function useAIGeneration(): UseAIGenerationReturn {
   }, [setIsGenerating, updateCurrentResponse, addMessage]);
 
   const generate = useCallback((input: string) => {
+    console.log('[useAIGeneration] generate called with:', input);
     if (!input.trim()) return;
 
     const aiService = getAIService();
@@ -81,6 +82,7 @@ export function useAIGeneration(): UseAIGenerationReturn {
       return;
     }
 
+    console.log('[useAIGeneration] Adding user message and starting generation');
     // Add user message to history
     addMessage('user', input.trim());
     

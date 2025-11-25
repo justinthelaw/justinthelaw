@@ -62,6 +62,7 @@ export class AIService {
       return;
     }
 
+    console.log('[AIService] Posting GENERATE message with input:', input);
     this.worker.postMessage({
       action: WorkerAction.GENERATE,
       input,
