@@ -176,7 +176,8 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
           );
         } else if (!isResponseValid && validation.issues.length > 0) {
           console.warn(
-            `Response validation failed for ${modelSize} model:`,
+            'Response validation failed for %s model:',
+            modelSize,
             validation.issues
           );
         }
