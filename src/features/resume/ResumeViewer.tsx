@@ -1,14 +1,17 @@
-"use client";
+/**
+ * ResumeViewer Component
+ * Displays PDF resume from Google Drive with fallback handling
+ */
 
-import { useEffect, useState } from "react";
+'use client';
 
-export default function ResumeCoverLetterViewer() {
-  // Google Drive file ID extracted from the provided URL
-  const googleDriveFileId = "1o3hw7mOlJ5JB9XfoDQNdv8aBdCVPl8cp";
-  
-  // Google Drive URL for PDF preview
-  const pdfEmbedUrl = `https://drive.google.com/file/d/${googleDriveFileId}/preview`;
-  
+import React, { useEffect, useState } from 'react';
+
+const GOOGLE_DRIVE_FILE_ID = '1o3hw7mOlJ5JB9XfoDQNdv8aBdCVPl8cp';
+const PDF_EMBED_URL = `https://drive.google.com/file/d/${GOOGLE_DRIVE_FILE_ID}/preview`;
+const LOADING_TIMEOUT_MS = 10000;
+
+export function ResumeViewer(): React.ReactElement {
   const [showFallback, setShowFallback] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -16,15 +19,13 @@ export default function ResumeCoverLetterViewer() {
     // Set a timeout to stop loading indicator if iframe doesn't trigger onLoad
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 10000); // 10 seconds timeout for loading indicator only
+    }, LOADING_TIMEOUT_MS);
 
     return () => clearTimeout(timer);
   }, []);
 
   const handleIframeLoad = () => {
     setIsLoading(false);
-    // Simply set loading to false when iframe loads
-    // Don't try to access cross-origin iframe content
   };
 
   const handleIframeError = () => {
@@ -38,7 +39,8 @@ export default function ResumeCoverLetterViewer() {
         <div className="text-center">
           <h3 className="text-lg font-semibold mb-4">Resume</h3>
           <div className="text-gray-500 mb-4">
-            📄 The PDF preview may be blocked by your browser&apos;s security settings.
+            📄 The PDF preview may be blocked by your browser&apos;s security
+            settings.
           </div>
         </div>
       </div>
@@ -57,7 +59,7 @@ export default function ResumeCoverLetterViewer() {
           </div>
         )}
         <iframe
-          src={pdfEmbedUrl}
+          src={PDF_EMBED_URL}
           title="Resume PDF"
           className="w-full h-full"
           onLoad={handleIframeLoad}
@@ -68,4 +70,3 @@ export default function ResumeCoverLetterViewer() {
     </div>
   );
 }
-
