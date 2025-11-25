@@ -1,20 +1,26 @@
-import Image from "next/image";
+/**
+ * LinkIconButton Component
+ * Reusable button with icon image for external links
+ */
 
-interface LinkIconButton {
+import React from 'react';
+import Image from 'next/image';
+
+export interface LinkIconButtonProps {
   link: string;
   altText: string;
   filename: string;
   path: string;
 }
 
-export default function LinkIconButton({
+export function LinkIconButton({
   link,
   altText,
   filename,
   path,
-}: LinkIconButton) {
+}: LinkIconButtonProps): React.ReactElement {
   return (
-    <a href={`${link}`} target="_blank" rel="noopener noreferrer">
+    <a href={link} target="_blank" rel="noopener noreferrer">
       <div className="flex items-center justify-center relative w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded hover:bg-gray-800">
         <div className="relative w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8">
           <Image

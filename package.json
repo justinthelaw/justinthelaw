@@ -1,6 +1,6 @@
 {
   "name": "justinthelaw",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Justin Law's (justinthelaw) personal website",
   "private": true,
   "scripts": {
@@ -11,6 +11,7 @@
     "test": "playwright test",
     "deploy": "npm run build && gh-pages -d out",
     "clean": "rm -rf out test-results playwright-report .next next-env.d.ts node_modules",
+    "flight-check": "npm run clean && npm ci && npm run lint && npm run build && npm run test",
     "post-install": "playwright install"
   },
   "dependencies": {
@@ -18,7 +19,8 @@
     "@huggingface/transformers": "^3.8.0",
     "next": "^16.0.4",
     "react": "^19.0.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@eslint/compat": "^2.0.0",

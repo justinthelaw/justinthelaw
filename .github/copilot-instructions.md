@@ -8,6 +8,7 @@ Next.js static site for GitHub Pages with AI chatbot (HuggingFace transformers).
 - **React 19** + **TypeScript 5**
 - **Tailwind CSS 4.1.17**
 - **Playwright 1.57.0** (E2E tests)
+- **Zustand 5.0.2** (state management)
 
 ## Critical Constraints
 
@@ -18,46 +19,65 @@ Next.js static site for GitHub Pages with AI chatbot (HuggingFace transformers).
 ## Commands
 
 - `npm run dev` - Runs the development server
-- `npm run build` - Runs the Next.js build
-- `npm run lint` - Runs the ESLint
-- `npm run test` - Runs the E2E Playwright tests
 - `npm run deploy` - Builds and deploys to GitHub Pages
-- `npm run clean` - Deletes temporary build, dev, and test files
+- `npm run flight-check` - Use this to run the commands below in the order that they appear
+  - `npm run clean` - Deletes temporary build, dev, and test files
+  - `npm run lint` - Runs the ESLint
+  - `npm run build` - Runs the Next.js build
+  - `npm run test` - Runs the E2E Playwright tests
+
 
 ## Code Standards
 
 - **TypeScript**: Explicit types, interfaces over types, no `any`
-- **React**: Functional components, hooks, add `data-testid` for tests
+- **React**: Functional components, custom hooks for logic, add `data-testid` for tests
 - **Tailwind**: Use utilities, responsive (`sm:`, `md:`, `lg:`), group logically
-- **Files**: Complex components in folders (`ComponentName/index.tsx`), simple as files
+- **State**: Zustand stores for global state, avoid localStorage directly
+- **Architecture**: Feature-based organization, separate concerns (UI/logic/services)
 
 ## Key Patterns
 
 ```typescript
 // Props with explicit types
 interface Props { title: string; onUpdate: (id: string) => void; }
-const Component: React.FC<Props> = ({ title, onUpdate }) => { ... }
+export function Component({ title, onUpdate }: Props): React.ReactElement { ... }
+
+// Custom hooks for business logic
+export function useFeature() {
+  const { state, actions } = useStore();
+  // ... logic
+  return { data, isLoading, error };
+}
+
+// Zustand store
+import { create } from 'zustand';
+export const useStore = create<State>((set) => ({
+  data: [],
+  setData: (data) => set({ data }),
+}));
 
 // Error handling
 const [error, setError] = useState<string | null>(null);
 try { ... } catch (err) { setError(err instanceof Error ? err.message : 'Unknown'); }
 ```
 
-## Structure
+## Architecture Principles
 
-```
-src/
-├── components/ChatBox/      # AI chatbot + utils
-├── pages/                   # _app.tsx, index.tsx
-└── styles/globals.css
-tests/                       # Playwright specs
-```
+1. **Feature-based organization** - group by feature (chat, profile, resume), not by technical type
+2. **Separation of concerns** - UI components, business logic (hooks/services), state (stores), config separate
+3. **Custom hooks** - extract complex logic from components into reusable hooks
+4. **Service layer** - isolate external dependencies (AI worker, GitHub API) behind clean interfaces
+5. **Typed worker messages** - use enums for worker communication instead of magic strings
+6. **Zustand for state** - global state in stores, avoid localStorage/module-level state
+7. **Barrel exports** - index.ts files for clean imports (`@/features/chat` vs `@/features/chat/components/ChatContainer`)
 
 ## Testing
 
 After changes run: `npm run lint` → `npm run build` → `npm run test` → verify localhost:3000
 
-**Expected issues**: GitHub API/HuggingFace may fail in sandboxed envs, PDF viewer CORS errors in dev, lint warning in modelLoader.ts (safe to ignore)
+**Expected issues**: GitHub API/HuggingFace may fail in sandboxed envs, PDF viewer CORS errors in dev
+
+**Test structure**: Mirror `src/` organization in `tests/` (e.g., `tests/features/chat/` for chat tests)
 
 ## Deployment
 

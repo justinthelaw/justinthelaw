@@ -8,13 +8,21 @@ const nextConfig: NextConfig = {
   basePath: isProd ? "/justinthelaw.github.io" : "",
   assetPrefix: isProd ? "/justinthelaw.github.io/" : "",
   turbopack: {},
-  webpack: (config) => {
-    // Fallback for webpack mode (if explicitly used with --webpack)
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      sharp$: false,
-      "onnxruntime-node$": false,
-    };
+  webpack: (config, { isServer }) => {
+    // Don't process worker files on the server
+    if (!isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        sharp$: false,
+        "onnxruntime-node$": false,
+      };
+      
+      // Add worker-loader for .worker.ts files
+      config.module.rules.push({
+        test: /\.worker\.ts$/,
+        use: { loader: "worker-loader" },
+      });
+    }
     return config;
   },
 };
