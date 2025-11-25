@@ -1,6 +1,7 @@
 /**
  * Model Store
  * Zustand store for managing model selection and preferences
+ * Defaults to fine-tuned (SMARTER) model
  */
 
 import { create } from 'zustand';

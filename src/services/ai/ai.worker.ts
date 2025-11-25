@@ -23,7 +23,7 @@ env.allowLocalModels = false;
 env.remoteHost = 'https://huggingface.co';
 
 // Worker state
-let modelSize: ModelSize = ModelSize.MEDIUM;
+let modelSize: ModelSize = ModelSize.SMARTER;
 let generator: TextGenerationPipeline | null = null;
 
 self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {

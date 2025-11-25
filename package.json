@@ -11,7 +11,7 @@
     "test": "playwright test",
     "deploy": "npm run build && gh-pages -d out",
     "clean": "rm -rf out test-results playwright-report .next next-env.d.ts node_modules",
-    "flight-check": "npm run clean && npm ci && npm run lint && npm run build && npm run test",
+    "flight-check": "npm run clean && npm install && npm run lint && npm run build && npm run test",
     "post-install": "playwright install"
   },
   "dependencies": {

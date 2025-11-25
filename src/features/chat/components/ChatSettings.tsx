@@ -3,11 +3,11 @@
  * Modal for selecting AI model size with reload functionality
  */
 
-import React, { useState } from 'react';
-import { ModelSize } from '@/types';
-import { MODEL_DISPLAY_NAMES, MODEL_SIZES } from '@/config/models';
-import { useModelStore } from '@/stores/modelStore';
-import { useChatStore } from '@/stores/chatStore';
+import React, { useState } from "react";
+import { ModelSize } from "@/types";
+import { MODEL_DISPLAY_NAMES, MODEL_SIZES } from "@/config/models";
+import { useModelStore } from "@/stores/modelStore";
+import { useChatStore } from "@/stores/chatStore";
 
 export interface ChatSettingsProps {
   onClose?: () => void;
@@ -28,7 +28,7 @@ export function ChatSettings({
 
   const handleModelChange = (modelSize: ModelSize) => {
     setSelectedModel(modelSize);
-    
+
     // If model changed from current, reload immediately
     if (modelSize !== initialModelSize) {
       // Clear chat history
@@ -144,8 +144,8 @@ export function ChatSettings({
                     <div
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
                         selectedModel === size
-                          ? 'border-blue-500 bg-blue-500'
-                          : 'border-gray-500 group-hover:border-gray-400'
+                          ? "border-blue-500 bg-blue-500"
+                          : "border-gray-500 group-hover:border-gray-400"
                       }`}
                     >
                       {selectedModel === size && (
@@ -158,17 +158,17 @@ export function ChatSettings({
                       <span className="text-white font-medium">
                         {MODEL_DISPLAY_NAMES[size]}
                       </span>
-                      {size === ModelSize.LARGE && (
+                      {size === ModelSize.SMARTER && (
                         <span className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded-full">
-                          Quality
+                          Fine-Tuned
                         </span>
                       )}
-                      {size === ModelSize.MEDIUM && (
+                      {size === ModelSize.DUMBER && (
                         <span
                           className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full"
-                          data-testid="model-tag-medium"
+                          data-testid="model-tag-dumber"
                         >
-                          Balanced
+                          Generic
                         </span>
                       )}
                     </div>

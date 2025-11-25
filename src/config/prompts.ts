@@ -10,13 +10,13 @@ import { MODEL_CONTEXT_LIMITS } from './models';
  * Model-specific generation parameters for optimal SmolLM2 performance
  */
 export const GENERATION_PARAMS: Record<ModelSize, GenerationParams> = {
-  [ModelSize.MEDIUM]: {
+  [ModelSize.DUMBER]: {
     temperature: 0.15,
     maxTokens: 96,
     topK: 50,
     repetitionPenalty: 1.15,
   },
-  [ModelSize.LARGE]: {
+  [ModelSize.SMARTER]: {
     temperature: 0.2,
     maxTokens: 128,
     topK: 50,
@@ -34,16 +34,16 @@ export const BASE_SYSTEM_INSTRUCTION =
  * Model-specific system instructions
  */
 export const SYSTEM_INSTRUCTIONS: Record<ModelSize, string> = {
-  [ModelSize.MEDIUM]: `${BASE_SYSTEM_INSTRUCTION} Provide brief, accurate responses based on the context. Limit to 2-3 sentences.`,
-  [ModelSize.LARGE]: `${BASE_SYSTEM_INSTRUCTION} Give informative but concise answers. Stay factual and context-based.`,
+  [ModelSize.DUMBER]: `${BASE_SYSTEM_INSTRUCTION} Provide brief, accurate responses based on the context. Limit to 2-3 sentences.`,
+  [ModelSize.SMARTER]: `${BASE_SYSTEM_INSTRUCTION} Give informative but concise answers. Stay factual and context-based.`,
 };
 
 /**
  * Chat history limits by model size
  */
 export const HISTORY_LIMITS: Record<ModelSize, number> = {
-  [ModelSize.MEDIUM]: 4,
-  [ModelSize.LARGE]: 6,
+  [ModelSize.DUMBER]: 4,
+  [ModelSize.SMARTER]: 6,
 };
 
 /**
@@ -74,8 +74,8 @@ export const VALIDATION_THRESHOLDS = {
  * Expected response lengths by model size
  */
 export const EXPECTED_RESPONSE_LENGTHS: Record<ModelSize, number> = {
-  [ModelSize.MEDIUM]: 150,
-  [ModelSize.LARGE]: 200,
+  [ModelSize.DUMBER]: 150,
+  [ModelSize.SMARTER]: 200,
 };
 
 /**

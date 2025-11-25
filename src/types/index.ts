@@ -17,8 +17,8 @@ export interface ChatMessage {
  * Model size options
  */
 export enum ModelSize {
-  MEDIUM = 'MEDIUM',
-  LARGE = 'LARGE',
+  DUMBER = 'DUMBER',
+  SMARTER = 'SMARTER',
 }
 
 /**
@@ -54,15 +54,6 @@ export interface GenerationParams {
   maxTokens: number;
   topK: number;
   repetitionPenalty: number;
-}
-
-/**
- * Device capabilities for model selection
- */
-export interface DeviceCapabilities {
-  memory: number;
-  cores: number;
-  isMobile: boolean;
 }
 
 /**

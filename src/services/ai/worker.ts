@@ -7,26 +7,30 @@ import {
   TextStreamer,
   env,
   type TextGenerationPipeline,
-} from '@huggingface/transformers';
-import { WorkerAction, WorkerStatus, type WorkerRequest } from '../../types/worker';
-import { ModelSize } from '../../types';
-import { GENERATION_PARAMS } from '../../config/prompts';
+} from "@huggingface/transformers";
+import {
+  WorkerAction,
+  WorkerStatus,
+  type WorkerRequest,
+} from "../../types/worker";
+import { ModelSize } from "../../types";
+import { GENERATION_PARAMS } from "../../config/prompts";
 import {
   generateConversationMessages,
   cleanInput,
   validateResponse,
-} from './contextProvider';
-import { loadModelWithFallback } from './modelLoader';
+} from "./contextProvider";
+import { loadModelWithFallback } from "./modelLoader";
 
 // Configure environment for browser usage
 env.allowLocalModels = false;
-env.remoteHost = 'https://huggingface.co';
+env.remoteHost = "https://huggingface.co";
 
 // Worker state
-let modelSize: ModelSize = ModelSize.MEDIUM;
+let modelSize: ModelSize = ModelSize.SMARTER;
 let generator: TextGenerationPipeline | null = null;
 
-self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
+self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
   const { action, input, modelSelection } = event.data;
 
   // Initialize model selection
@@ -64,21 +68,21 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
       if (generator) {
         self.postMessage({
           status: WorkerStatus.LOAD,
-          message: 'Model loaded successfully!',
+          message: "Model loaded successfully!",
         });
       } else {
         self.postMessage({
           status: WorkerStatus.ERROR,
-          error: 'Failed to load model. All fallback attempts failed.',
+          error: "Failed to load model. All fallback attempts failed.",
           message:
-            'Model loading failed. Please refresh the page to try again.',
+            "Model loading failed. Please refresh the page to try again.",
         });
       }
     } catch (error) {
       self.postMessage({
         status: WorkerStatus.ERROR,
         error: String(error),
-        message: 'Model loading failed. Please refresh the page to try again.',
+        message: "Model loading failed. Please refresh the page to try again.",
       });
     }
     self.postMessage({ status: WorkerStatus.DONE });
@@ -88,7 +92,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
   // Generate text
   if (action === WorkerAction.GENERATE) {
     const cleanedInput = cleanInput(input);
-    
+
     if (cleanedInput.length === 0) {
       self.postMessage({ status: WorkerStatus.DONE });
       return;
@@ -99,7 +103,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
       self.postMessage({
         status: WorkerStatus.STREAM,
         response:
-          'Model not loaded yet. Please wait for the model to finish loading before sending messages.',
+          "Model not loaded yet. Please wait for the model to finish loading before sending messages.",
       });
       self.postMessage({ status: WorkerStatus.DONE });
       return;
@@ -110,7 +114,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
       self.postMessage({
         status: WorkerStatus.STREAM,
         response:
-          'Model tokenizer not available. Please try reloading the page.',
+          "Model tokenizer not available. Please try reloading the page.",
       });
       self.postMessage({ status: WorkerStatus.DONE });
       return;
@@ -124,14 +128,14 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
     // Get model-specific generation parameters
     const generationParams = GENERATION_PARAMS[modelSize];
 
-    let fullResponse = '';
+    let fullResponse = "";
     let isResponseValid = false;
     let retryCount = 0;
     const maxRetries = 1;
 
     try {
       while (!isResponseValid && retryCount <= maxRetries) {
-        fullResponse = '';
+        fullResponse = "";
 
         // Create streamer for real-time output
         const streamer = new TextStreamer(generator.tokenizer, {
@@ -162,7 +166,9 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
           retryCount++;
           self.postMessage({
             status: WorkerStatus.STREAM,
-            response: `\n[Improving response quality... attempt ${retryCount + 1}]\n`,
+            response: `\n[Improving response quality... attempt ${
+              retryCount + 1
+            }]\n`,
           });
 
           // Adjust params for retry
@@ -176,7 +182,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
           );
         } else if (!isResponseValid && validation.issues.length > 0) {
           console.warn(
-            'Response validation failed for %s model:',
+            "Response validation failed for %s model:",
             modelSize,
             validation.issues
           );
