@@ -38,7 +38,6 @@ export async function loadModelWithFallback(
           if (typeof progressData === "object" && progressData !== null) {
             const data = progressData as { progress?: number };
             if (data.progress !== undefined) {
-              const modelSize = getModelSizeFromSelection(currentSelection);
               self.postMessage({
                 status: "load",
                 response: {
