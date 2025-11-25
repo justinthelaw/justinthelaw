@@ -62,7 +62,6 @@ export class AIService {
       return;
     }
 
-    console.log('[AIService] Posting GENERATE message with input:', input);
     this.worker.postMessage({
       action: WorkerAction.GENERATE,
       input,
@@ -89,7 +88,7 @@ export class AIService {
       this.worker.terminate();
       this.worker = null;
     }
-    this.callbacks.clear();
+    // Don't clear callbacks - they should persist across worker restarts
   }
 
   /**

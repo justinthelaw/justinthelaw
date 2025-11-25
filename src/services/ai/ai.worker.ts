@@ -87,19 +87,15 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
 
   // Generate text
   if (action === WorkerAction.GENERATE) {
-    console.log('[Worker] GENERATE action received, input:', input);
     const cleanedInput = cleanInput(input);
-    console.log('[Worker] Cleaned input:', cleanedInput);
     
     if (cleanedInput.length === 0) {
-      console.log('[Worker] Empty input, sending DONE');
       self.postMessage({ status: WorkerStatus.DONE });
       return;
     }
 
     // Check if model is loaded
     if (!generator) {
-      console.log('[Worker] Generator not loaded');
       self.postMessage({
         status: WorkerStatus.STREAM,
         response:
@@ -111,7 +107,6 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
 
     // Ensure tokenizer is available
     if (!generator.tokenizer) {
-      console.log('[Worker] Tokenizer not available');
       self.postMessage({
         status: WorkerStatus.STREAM,
         response:
@@ -121,16 +116,13 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
       return;
     }
 
-    console.log('[Worker] Sending INITIATE status');
     self.postMessage({ status: WorkerStatus.INITIATE });
 
     // Generate conversation messages with model-specific optimization
     const messages = generateConversationMessages(cleanedInput, modelSize);
-    console.log('[Worker] Generated messages:', messages);
 
     // Get model-specific generation parameters
     const generationParams = { ...GENERATION_PARAMS[modelSize] };
-    console.log('[Worker] Generation params:', generationParams);
 
     let fullResponse = '';
     let isResponseValid = false;
@@ -138,7 +130,6 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
     const maxRetries = 0; // Disable retries - just accept the first response
 
     try {
-      console.log('[Worker] Starting generation loop');
       while (!isResponseValid && retryCount <= maxRetries) {
         fullResponse = '';
 
@@ -147,13 +138,11 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
           skip_prompt: true,
           skip_special_tokens: true,
           callback_function: (text: string) => {
-            console.log('[Worker] Streamer callback, text:', text);
             fullResponse += text;
             self.postMessage({ status: WorkerStatus.STREAM, response: text });
           },
         });
 
-        console.log('[Worker] Calling generator with params');
         // Generate with model-optimized parameters
         await generator(messages, {
           temperature: generationParams.temperature,

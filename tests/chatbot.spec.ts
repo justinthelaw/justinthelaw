@@ -8,8 +8,11 @@ test.describe('Chatbot UI Tests', () => {
     await expect(chatbotButton).toBeVisible();
     await chatbotButton.click();
 
-    const modelSettingsButton = page.getByTestId('model-settings-button').first();
-    await modelSettingsButton.click();
+    // Wait for chatbot to open and be ready
+    await page.waitForTimeout(500);
+
+    // Click model settings - Playwright will automatically click the visible one
+    await page.getByTestId('model-settings-button').click();
 
     const modal = page.getByTestId('model-selector-modal');
     await expect(modal).toBeVisible();
@@ -25,8 +28,11 @@ test.describe('Chatbot UI Tests', () => {
     const chatbotButton = page.getByTestId('ai-chatbot-button');
     await chatbotButton.click();
 
-    const modelSettingsButton = page.getByTestId('model-settings-button').first();
-    await modelSettingsButton.click();
+    // Wait for chatbot to open and be ready
+    await page.waitForTimeout(500);
+
+    // Click model settings - Playwright will automatically click the visible one
+    await page.getByTestId('model-settings-button').click();
 
     const modal = page.getByTestId('model-selector-modal');
     await expect(modal).toBeVisible();
@@ -50,8 +56,10 @@ test.describe('Chatbot UI Tests', () => {
     const chatbotButton = page.getByTestId('ai-chatbot-button');
     await chatbotButton.click();
 
+    // Wait for chatbot to load
     await page.waitForTimeout(2000);
 
+    // Get the visible chat window
     const chatWindow = page.locator('.overflow-y-auto').first();
     await expect(chatWindow).toBeVisible();
   });
@@ -64,7 +72,10 @@ test.describe('Chatbot UI Tests', () => {
     // Click chatbot button
     await page.getByTestId('ai-chatbot-button').click();
 
-    // Wait for model settings button to be visible (indicates chat is open)
+    // Wait for chatbot to open and be ready
+    await page.waitForTimeout(500);
+
+    // Click the visible model settings button
     const settingsButton = page.getByTestId('model-settings-button').first();
     await expect(settingsButton).toBeVisible();
     await settingsButton.click();
