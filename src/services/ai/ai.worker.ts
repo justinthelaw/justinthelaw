@@ -174,7 +174,8 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
           isResponseValid = true;
           if (validation.issues.length > 0) {
             console.log(
-              `Accepting response with validation warnings for ${modelSize} model:`,
+              'Accepting response with validation warnings for %s model:',
+              modelSize,
               validation.issues
             );
           }
