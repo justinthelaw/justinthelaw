@@ -3,18 +3,19 @@
  * Displays chat message history and current AI response
  */
 
-import React, { useState } from 'react';
-import type { ChatMessage } from '@/types';
-import { Typewriter } from './Typewriter';
+import React, { useState } from "react";
+import type { ChatMessage } from "@/types";
+import { Typewriter } from "./Typewriter";
+import { SITE_CONFIG } from "@/config";
 
 const QUIRK_MESSAGES = [
-  "Digging into Justin's history...",
-  "Consulting my Justin database...",
-  "Channeling my inner Justin...",
-  "Reading Justin's mind...",
-  "Checking Justin's secret diary...",
-  "Analyzing Justin's preferences...",
-  "Decoding Justin's GitHub commits...",
+  `Digging into ${SITE_CONFIG.name}'s history...`,
+  `Consulting my ${SITE_CONFIG.name} database...`,
+  `Channeling my inner ${SITE_CONFIG.name}...`,
+  `Reading ${SITE_CONFIG.name}'s mind...`,
+  `Checking ${SITE_CONFIG.name}'s secret diary...`,
+  `Analyzing ${SITE_CONFIG.name}'s preferences...`,
+  `Decoding ${SITE_CONFIG.name}'s GitHub commits...`,
   "Making up an answer for you...",
   "Searching the dark web...",
   "Wondering the same thing you are...",
@@ -35,23 +36,23 @@ export function ChatMessages({
   isLoading,
   loadingMessage,
 }: ChatMessagesProps): React.ReactElement {
-  const [randomQuirkMessage] = useState(() =>
-    QUIRK_MESSAGES[Math.floor(Math.random() * QUIRK_MESSAGES.length)]
+  const [randomQuirkMessage] = useState(
+    () => QUIRK_MESSAGES[Math.floor(Math.random() * QUIRK_MESSAGES.length)]
   );
 
   return (
     <div className="space-y-4">
       {/* Loading state - only for initial model loading */}
       {(isLoading || loadingMessage) &&
-      !loadingMessage?.includes('Generating') ? (
+      !loadingMessage?.includes("Generating") ? (
         <div className="flex flex-col items-center gap-3 py-8">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin" />
-            <p className="text-gray-300">{loadingMessage || 'Loading...'}</p>
+            <p className="text-gray-300">{loadingMessage || "Loading..."}</p>
           </div>
-          {loadingMessage && loadingMessage.includes('Error') && (
+          {loadingMessage && loadingMessage.includes("Error") && (
             <div className="mt-3 flex flex-col items-center gap-2">
-              {loadingMessage.includes('memory') && (
+              {loadingMessage.includes("memory") && (
                 <p className="text-sm text-red-400 text-center max-w-xs">
                   Your device doesn&apos;t have enough available memory to run
                   this model. Try closing other tabs or applications to free up
@@ -68,22 +69,22 @@ export function ChatMessages({
             <div
               key={message.id}
               className={`flex ${
-                message.type === 'user' ? 'justify-end' : 'justify-start'
+                message.type === "user" ? "justify-end" : "justify-start"
               }`}
             >
               <div
                 className={`rounded-lg p-3 max-w-[80%] ${
-                  message.type === 'user'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-800 text-white'
+                  message.type === "user"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-800 text-white"
                 }`}
               >
                 <div className="text-xs mb-1 opacity-70">
-                  {message.type === 'user' ? 'You' : 'AI Assistant'}
+                  {message.type === "user" ? "You" : "AI Assistant"}
                 </div>
                 <div className="leading-relaxed whitespace-pre-line">
                   {/* Show typewriter effect only for the first AI message (welcome message) */}
-                  {message.type === 'ai' &&
+                  {message.type === "ai" &&
                   messages.length === 1 &&
                   message.id === messages[0].id ? (
                     <Typewriter text={message.content} delay={100} />

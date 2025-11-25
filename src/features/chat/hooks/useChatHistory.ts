@@ -6,14 +6,15 @@
 import { useEffect, useCallback } from "react";
 import type { ChatMessage } from "@/types";
 import { useChatStore } from "@/stores/chatStore";
+import { SITE_CONFIG } from "@/config";
 
 const WELCOME_MESSAGES = [
-  "Hello, I am Justin's AI assistant! Got any questions for me?",
-  "Hey there! Got any questions about Justin for me?",
-  "Hi! Interested in learning more about Justin?",
-  "What would you like to know about Justin?",
-  "I heard you had questions about Justin? Just ask away!",
-  "Thanks for visiting! Do you want to learn more about Justin?",
+  `Hello, I am ${SITE_CONFIG.name}'s AI assistant! Got any questions for me?`,
+  `Hey there! Got any questions about ${SITE_CONFIG.name} for me?`,
+  `Hi! Interested in learning more about ${SITE_CONFIG.name}?`,
+  `What would you like to know about ${SITE_CONFIG.name}?`,
+  `I heard you had questions about ${SITE_CONFIG.name}? Just ask away!`,
+  `Thanks for visiting! Do you want to learn more about ${SITE_CONFIG.name}?`,
 ];
 
 function getRandomWelcomeMessage(): string {

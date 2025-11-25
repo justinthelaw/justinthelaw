@@ -17,6 +17,20 @@ export const SITE_CONFIG = {
   name: "Justin Law",
   githubUsername: "justinthelaw",
 
+  // Repository Configuration (for GitHub Pages deployment)
+  // Update these if you rename your repository or change ownership
+  repository: {
+    owner: "justinthelaw",
+    name: "justinthelaw", // Repository name (also used for GitHub Pages basePath)
+    defaultBranch: "main",
+  },
+
+  // Copyright Information
+  copyright: {
+    year: "2025",
+    holder: "Justin Law",
+  },
+
   // Resume Configuration
   // For Google Drive: Use the file ID from the shareable link
   // Example: https://drive.google.com/file/d/[FILE_ID]/view
@@ -38,6 +52,46 @@ export const SITE_CONFIG = {
     title: "Justin Law",
     description:
       "Justin Law's personal website showcasing experience and AI-powered chat",
+  },
+} as const;
+
+/**
+ * Derived Configuration
+ * These values are computed from SITE_CONFIG and should not be modified directly
+ */
+export const DERIVED_CONFIG = {
+  // GitHub Pages deployment URLs
+  get basePath() {
+    return process.env.NODE_ENV === "production"
+      ? `/${SITE_CONFIG.repository.name}.github.io`
+      : "";
+  },
+  get assetPrefix() {
+    return process.env.NODE_ENV === "production"
+      ? `/${SITE_CONFIG.repository.name}.github.io/`
+      : "";
+  },
+  // GitHub raw content URL for production
+  get publicAssetsUrl() {
+    return process.env.NODE_ENV === "production"
+      ? `https://raw.githubusercontent.com/${SITE_CONFIG.repository.owner}/${SITE_CONFIG.repository.name}/refs/heads/${SITE_CONFIG.repository.defaultBranch}/public`
+      : "";
+  },
+  // Full GitHub Pages URL
+  get siteUrl() {
+    return `https://${SITE_CONFIG.repository.owner}.github.io/${SITE_CONFIG.repository.name}/`;
+  },
+  // Repository URL
+  get repositoryUrl() {
+    return `https://github.com/${SITE_CONFIG.repository.owner}/${SITE_CONFIG.repository.name}`;
+  },
+  // Possessive helper for names ending with "s"
+  get possessiveName() {
+    const trimmedName = SITE_CONFIG.name.trim();
+    if (!trimmedName) {
+      return "";
+    }
+    return trimmedName.endsWith("s") ? `${trimmedName}'` : `${trimmedName}'s`;
   },
 } as const;
 

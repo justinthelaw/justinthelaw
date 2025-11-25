@@ -8,14 +8,20 @@ import { ModelSize } from "@/types";
 import { MODEL_DISPLAY_NAMES, MODEL_SIZES } from "@/config/models";
 import { useModelStore } from "@/stores/modelStore";
 import { useChatStore } from "@/stores/chatStore";
+import { SITE_CONFIG, DERIVED_CONFIG } from "@/config/site";
+
+const PERSON_NAME = SITE_CONFIG.name || "this person";
+const POSSESSIVE_NAME =
+  DERIVED_CONFIG.possessiveName ||
+  (SITE_CONFIG.name ? `${SITE_CONFIG.name}'s` : "their");
 
 const WELCOME_MESSAGES = [
-  "Hello, I am Justin's AI assistant! Got any questions for me?",
-  "Hey there! Got any questions about Justin for me?",
-  "Hi! Interested in learning more about Justin?",
-  "What would you like to know about Justin?",
-  "I heard you had questions about Justin? Just ask away!",
-  "Thanks for visiting! Do you want to learn more about Justin?",
+  `Hello, I am ${POSSESSIVE_NAME} AI assistant! Got any questions for me?`,
+  `Hey there! Got any questions about ${PERSON_NAME} for me?`,
+  `Hi! Interested in learning more about ${PERSON_NAME}?`,
+  `What would you like to know about ${PERSON_NAME}?`,
+  `I heard you had questions about ${PERSON_NAME}? Just ask away!`,
+  `Thanks for visiting! Do you want to learn more about ${PERSON_NAME}?`,
 ];
 
 function getRandomWelcomeMessage(): string {

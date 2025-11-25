@@ -10,6 +10,7 @@ import {
 } from "@huggingface/transformers";
 import { ModelSize } from "@/types";
 import { MODEL_IDS, MODEL_DTYPE, MODEL_SIZES } from "@/config/models";
+import { SITE_CONFIG } from "@/config/site";
 
 // Configure environment for browser usage
 env.allowLocalModels = false;
@@ -88,7 +89,7 @@ export async function loadModelWithFallback(
       if (currentSize === ModelSize.SMARTER) {
         if (callbacks.onError) {
           callbacks.onError(
-            `Sorry, we couldn't load the smarter model, so now you are talking with me - the dumber one! However, I am still able to answer basic questions about Justin, so please ask away!`
+            `Sorry, we couldn't load the smarter model, so now you are talking with me - the dumber one! However, I am still able to answer basic questions about ${SITE_CONFIG.name || "this person"}, so please ask away!`
           );
           console.error(errorStr);
         }

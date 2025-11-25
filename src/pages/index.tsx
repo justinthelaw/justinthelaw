@@ -3,7 +3,7 @@
 import { Fragment, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { SITE_CONFIG } from '@/config/site';
+import { SITE_CONFIG, DERIVED_CONFIG } from '@/config/site';
 
 import { LinkIconButton } from '@/components/shared';
 import { GitHubProfile } from '@/features/profile';
@@ -18,11 +18,7 @@ const ChatContainer = dynamic(() => import('@/features/chat').then((mod) => ({ d
 export default function Home() {
   const [showChatBox, setShowChatBox] = useState(false);
   const { shouldReopenChat, setShouldReopenChat } = useModelStore();
-  const [path] = useState(
-    process.env.NODE_ENV === 'production'
-      ? 'https://raw.githubusercontent.com/justinthelaw/justinthelaw/refs/heads/main/public'
-      : ''
-  );
+  const [path] = useState(DERIVED_CONFIG.publicAssetsUrl);
 
   // Initialize and check for chat reopen flag
   const [isMounted] = useState(() => {

@@ -9,8 +9,8 @@ For development guidance, see [`.github/copilot-instructions.md`](../.github/cop
 ### 1. Fork & Configure Repository
 
 - [ ] Fork this repository to your GitHub account
-- [ ] Rename to `[your-username].github.io` (optional)
-- [ ] Update `basePath` in `next.config.ts` if you changed the repo name
+- [ ] Rename to `[your-username]` (recommended for simplicity)
+- [ ] Enable GitHub Pages: Settings → Pages → Source: `gh-pages` / `root`
 
 ### 2. Update `src/config/site.ts`
 
@@ -18,6 +18,11 @@ For development guidance, see [`.github/copilot-instructions.md`](../.github/cop
 
 - [ ] `name` - Your full name
 - [ ] `githubUsername` - Your GitHub username (auto-fetches bio)
+- [ ] `repository.owner` - Your GitHub username
+- [ ] `repository.name` - Your repository name (used for GitHub Pages URL)
+- [ ] `repository.defaultBranch` - Usually "main" or "master"
+- [ ] `copyright.year` - Current year
+- [ ] `copyright.holder` - Your name or organization
 - [ ] `seo.title` and `seo.description` - SEO metadata
 
 #### Resume
@@ -70,8 +75,9 @@ npm run flight-check           # Full verification (clean, install, lint, build,
 npm run deploy                 # Builds and pushes to gh-pages branch
 ```
 
-- [ ] Enable GitHub Pages: Settings → Pages → Source: `gh-pages` / `root`
-- [ ] Verify live at `https://your-username.github.io/your-repo-name/`
+- [ ] Verify live at the URL generated from your `repository` config
+- [ ] URL format: `https://{repository.owner}.github.io/{repository.name}/`
+- [ ] All URLs and paths are automatically generated from `src/config/site.ts`
 
 ## Common Customizations
 
