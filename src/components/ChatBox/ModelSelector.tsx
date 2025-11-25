@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   MODEL_SIZE_NAMES,
   MODEL_SIZES,
@@ -8,7 +8,6 @@ import {
 } from "@/components/ChatBox/utils/modelSelection";
 import {
   setPreferredModelSize,
-  getAutoDetectedModelSize,
 } from "@/components/ChatBox/utils/modelPreferences";
 import { clearMessageHistory } from "@/components/ChatBox/utils/messageHistory";
 
@@ -17,29 +16,24 @@ interface ModelSelectorProps {
 }
 
 export default function ModelSelector({ onClose }: ModelSelectorProps) {
-  const [selectedModel, setSelectedModel] = useState<ModelSizeKey | null>(() => getAutoDetectedModelSize());
-  const [showSettings, setShowSettings] = useState(false);
-  // Use selectModelBasedOnDevice to get the actual model in use (including manual override)
-  const [currentModelInUse, setCurrentModelInUse] = useState<ModelSizeKey>(() => {
+  // Track the model that was in use when the modal was first opened
+  const [initialModelInUse] = useState<ModelSizeKey>(() => {
     const inUse = selectModelBasedOnDevice();
     return getModelSizeFromSelection(inUse);
   });
-
-  useEffect(() => {
-    const inUse = selectModelBasedOnDevice();
-    const key = getModelSizeFromSelection(inUse);
-    setSelectedModel(key);
-    setCurrentModelInUse(key);
-  }, []);
+  
+  // Initialize selected model from the initial model in use
+  const [selectedModel, setSelectedModel] = useState<ModelSizeKey | null>(initialModelInUse);
+  const [showSettings, setShowSettings] = useState(false);
 
   const handleModelChange = (modelSize: ModelSizeKey) => {
     setSelectedModel(modelSize);
     setPreferredModelSize(modelSize);
   };
 
-  // Show reload message if the selected model is different from the model currently in use
+  // Show reload message if the selected model is different from the initial model in use
   const showReloadMessage =
-    selectedModel !== null && selectedModel !== currentModelInUse;
+    selectedModel !== null && selectedModel !== initialModelInUse;
 
   if (!showSettings) {
     return (

@@ -18,7 +18,6 @@ export default function ChatBoxInput() {
   const [answering, setAnswering] = useState<boolean>(false);
   const [inputText, setInputText] = useState<string>("");
   const [result, setResult] = useState<string>("");
-  const [messageHistory, setMessageHistory] = useState<ChatMessage[]>([]);
   const [modelReady, setModelReady] = useState<boolean>(false);
   const [modelError, setModelError] = useState<string | null>(null);
   // Add model selection state
@@ -29,12 +28,14 @@ export default function ChatBoxInput() {
     return getInitialModelSelection();
   });
 
-  const worker = useRef<Worker | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Function to create and add a welcome message
-  const addWelcomeMessage = useCallback(() => {
+  // Initialize message history from storage or with a welcome message
+  const [messageHistory, setMessageHistory] = useState<ChatMessage[]>(() => {
+    const existingHistory = getMessageHistory();
+    if (existingHistory.length > 0) {
+      return existingHistory;
+    }
+    
+    // Create welcome message
     const welcomeMessages = [
       "Hello, I am Justin's AI assistant! Got any questions for me?",
       "Hey there! Got any questions about Justin for me?",
@@ -43,13 +44,16 @@ export default function ChatBoxInput() {
       "I heard you had questions about Justin? Just ask away!",
       "Thanks for visiting! Do you want to learn more about Justin?",
     ];
-
     const randomWelcomeMessage =
       welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
     const welcomeMessage = addMessage("ai", randomWelcomeMessage);
-    setMessageHistory([welcomeMessage]);
-    return welcomeMessage;
-  }, []);
+    return [welcomeMessage];
+  });
+
+  const worker = useRef<Worker | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const currentResultRef = useRef<string>("");
 
   // Auto-scroll to bottom when new messages are added or result is being generated
   useEffect(() => {
@@ -58,25 +62,24 @@ export default function ChatBoxInput() {
     }
   }, [messageHistory, result, answering, loading]);
 
-  // Load message history on component mount
+  // Listen for clear history events
   useEffect(() => {
-    // Only set message history or add welcome message, never both
-    const existingHistory = getMessageHistory();
-    if (existingHistory.length > 0) {
-      setMessageHistory(existingHistory);
-    } else {
-      // Clear any possible previous state before adding welcome
-      setMessageHistory([]);
-      addWelcomeMessage();
-    }
-
-    // Listen for clear history events
     const handleClearHistory = () => {
-      setMessageHistory([]);
+      // Create new welcome message
+      const welcomeMessages = [
+        "Hello, I am Justin's AI assistant! Got any questions for me?",
+        "Hey there! Got any questions about Justin for me?",
+        "Hi! Interested in learning more about Justin?",
+        "What would you like to know about Justin?",
+        "I heard you had questions about Justin? Just ask away!",
+        "Thanks for visiting! Do you want to learn more about Justin?",
+      ];
+      const randomWelcomeMessage =
+        welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+      const welcomeMessage = addMessage("ai", randomWelcomeMessage);
+      
+      setMessageHistory([welcomeMessage]);
       setResult("");
-
-      // Add welcome message back after clearing
-      setTimeout(() => addWelcomeMessage(), 0);
     };
 
     document.addEventListener("clearChatHistory", handleClearHistory);
@@ -84,16 +87,7 @@ export default function ChatBoxInput() {
     return () => {
       document.removeEventListener("clearChatHistory", handleClearHistory);
     };
-  }, [addWelcomeMessage]);
-
-  // Save AI response to history when it's complete
-  useEffect(() => {
-    if (!answering && result.trim() && !loading) {
-      const aiMessage = addMessage("ai", result.trim());
-      setMessageHistory((prev) => [...prev, aiMessage]);
-      setResult(""); // Clear result after saving to history
-    }
-  }, [answering, result, loading]);
+  }, []);
 
   const handleHelperText = () => {
     if (modelError) return "Model failed to load. Please refresh the page.";
@@ -144,6 +138,14 @@ export default function ChatBoxInput() {
           break;
         }
         case "done":
+          // Save the AI response to history when generation completes
+          if (currentResultRef.current.trim()) {
+            const aiMessage = addMessage("ai", currentResultRef.current.trim());
+            setMessageHistory((prev) => [...prev, aiMessage]);
+            currentResultRef.current = "";
+            setResult("");
+          }
+          
           // Only set loading to false if we're not in a model loading error state
           if (!modelError) {
             setLoading(false);
@@ -159,6 +161,7 @@ export default function ChatBoxInput() {
           setLoading(true);
           setLoadingMessage("Generating an answer...");
           setResult("");
+          currentResultRef.current = "";
           setGenerating(true);
           break;
         case "stream":
@@ -166,6 +169,7 @@ export default function ChatBoxInput() {
           setLoadingMessage(null);
           setAnswering(true);
           setGenerating(true);
+          currentResultRef.current += response;
           setResult((prev) => prev + response);
           break;
       }

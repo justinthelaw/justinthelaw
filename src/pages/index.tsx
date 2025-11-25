@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 
@@ -18,28 +18,22 @@ export default function Home() {
       ? "https://raw.githubusercontent.com/justinthelaw/justinthelaw/refs/heads/main/public"
       : ""
   );
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    /* 
-    NOTE: This ensures this component (index.tsx) is mounted prior to final hydration.
-          This mainly concerns the PDF from Google Drive and Link Icons hosted on GitHub.
-    */
-    setIsMounted(true);
-
-    // Check if we should reopen the chat after a refresh
-    if (typeof window !== 'undefined') {
+  
+  // Initialize isMounted immediately as true (since we're always on client after hydration)
+  // and check for chat reopen flag
+  const [isMounted] = useState(() => {
+    if (typeof window !== "undefined") {
       const shouldReopenChat = localStorage.getItem('reopenChatAfterRefresh');
       if (shouldReopenChat === 'true') {
-        // Remove the flag and open the chat
         localStorage.removeItem('reopenChatAfterRefresh');
-        // Use a small delay to ensure the component is fully mounted
+        // Schedule chat to open after initial render
         setTimeout(() => {
           setShowChatBox(true);
         }, 100);
       }
     }
-  }, []);
+    return true;
+  });
 
   return (
     <>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Typewriter from "@/components/ChatBox/Typewriter";
 import { ChatMessage } from "@/components/ChatBox/utils/messageHistory";
 
@@ -9,6 +10,20 @@ interface ChatBoxInputResultAreaProps {
   answering: boolean;
 }
 
+// Move quirkMessages outside component to avoid dependency issues
+const QUIRK_MESSAGES = [
+  "Digging into Justin's history...",
+  "Consulting my Justin database...",
+  "Channeling my inner Justin...",
+  "Reading Justin's mind...",
+  "Checking Justin's secret diary...",
+  "Analyzing Justin's preferences...",
+  "Decoding Justin's GitHub commits...",
+  "Making up an answer for you...",
+  "Searching the dark web...",
+  "Wondering the same thing you are...",
+];
+
 export default function ChatBoxInputResultArea({
   loading,
   result,
@@ -16,22 +31,10 @@ export default function ChatBoxInputResultArea({
   messageHistory,
   answering,
 }: ChatBoxInputResultAreaProps) {
-  const quirkMessages = [
-    "Digging into Justin's history...",
-    "Consulting my Justin database...",
-    "Channeling my inner Justin...",
-    "Reading Justin's mind...",
-    "Checking Justin's secret diary...",
-    "Analyzing Justin's preferences...",
-    "Decoding Justin's GitHub commits...",
-    "Making up an answer for you...",
-    "Searching the dark web...",
-    "Wondering the same thing you are...",
-  ];
-
-  const getRandomQuirkMessage = () => {
-    return quirkMessages[Math.floor(Math.random() * quirkMessages.length)];
-  };
+  // Generate random message once on component mount to avoid impurity issues
+  const [randomQuirkMessage] = useState(() => 
+    QUIRK_MESSAGES[Math.floor(Math.random() * QUIRK_MESSAGES.length)]
+  );
 
   return (
     <div className="space-y-4">
@@ -98,7 +101,7 @@ export default function ChatBoxInputResultArea({
                   {loadingMessage?.includes("Generating") ? (
                     <div className="flex items-center gap-2 text-gray-400 text-sm">
                       <div className="w-3 h-3 border-2 border-blue-200 border-t-blue-500 rounded-full animate-spin" />
-                      <span>{getRandomQuirkMessage()}</span>
+                      <span>{randomQuirkMessage}</span>
                     </div>
                   ) : (
                     <>
