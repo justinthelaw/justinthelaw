@@ -86,7 +86,7 @@ export function ChatMessages({
                   {message.type === 'ai' &&
                   messages.length === 1 &&
                   message.id === messages[0].id ? (
-                    <Typewriter text={message.content} delay={200} />
+                    <Typewriter text={message.content} delay={100} />
                   ) : (
                     message.content
                   )}

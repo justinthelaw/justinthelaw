@@ -15,10 +15,18 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: "npm"
-      - name: End-to-End Test and Lint
-        run: npm run flight-check
+      - name: Install dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build
+      - name: Lint code
+        run: npm run lint
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npm run test
       - uses: actions/upload-artifact@v5
         if: always()
         with:

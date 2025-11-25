@@ -24,8 +24,8 @@ export const MODEL_IDS: Record<ModelSize, string> = {
  * User-friendly display names
  */
 export const MODEL_DISPLAY_NAMES: Record<ModelSize, string> = {
-  [ModelSize.DUMBER]: 'Medium',
-  [ModelSize.SMARTER]: 'Large',
+  [ModelSize.DUMBER]: 'Dumber',
+  [ModelSize.SMARTER]: 'Smarter',
 };
 
 /**

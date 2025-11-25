@@ -9,6 +9,19 @@ import { MODEL_DISPLAY_NAMES, MODEL_SIZES } from "@/config/models";
 import { useModelStore } from "@/stores/modelStore";
 import { useChatStore } from "@/stores/chatStore";
 
+const WELCOME_MESSAGES = [
+  "Hello, I am Justin's AI assistant! Got any questions for me?",
+  "Hey there! Got any questions about Justin for me?",
+  "Hi! Interested in learning more about Justin?",
+  "What would you like to know about Justin?",
+  "I heard you had questions about Justin? Just ask away!",
+  "Thanks for visiting! Do you want to learn more about Justin?",
+];
+
+function getRandomWelcomeMessage(): string {
+  return WELCOME_MESSAGES[Math.floor(Math.random() * WELCOME_MESSAGES.length)];
+}
+
 export interface ChatSettingsProps {
   onClose?: () => void;
   initialModelSize: ModelSize;
@@ -23,7 +36,7 @@ export function ChatSettings({
   onReload,
 }: ChatSettingsProps): React.ReactElement {
   const { selectedModel, setSelectedModel } = useModelStore();
-  const { clearMessages } = useChatStore();
+  const { clearMessages, addMessage } = useChatStore();
   const [showSettings, setShowSettings] = useState(false);
 
   const handleModelChange = (modelSize: ModelSize) => {
@@ -33,6 +46,8 @@ export function ChatSettings({
     if (modelSize !== initialModelSize) {
       // Clear chat history
       clearMessages();
+      // Add welcome message for new model
+      addMessage("ai", getRandomWelcomeMessage());
       // Switch to new model
       onReload();
       // Close settings

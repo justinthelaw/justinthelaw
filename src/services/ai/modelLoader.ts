@@ -88,7 +88,7 @@ export async function loadModelWithFallback(
       if (currentSize === ModelSize.SMARTER) {
         if (callbacks.onError) {
           callbacks.onError(
-            `Sorry, we couldn't the smarter model, so now you are talking with me - the dumber one! However, I am still able to answer basic questions about Justin, so please ask away!`
+            `Sorry, we couldn't load the smarter model, so now you are talking with me - the dumber one! However, I am still able to answer basic questions about Justin, so please ask away!`
           );
           console.error(errorStr);
         }
@@ -100,7 +100,7 @@ export async function loadModelWithFallback(
             callbacks.onFallback(nextSize);
           }
           console.log(
-            `Large model failed, falling back to: ${MODEL_IDS[nextSize]}`
+            `Loading smarter model failed, falling back to: ${MODEL_IDS[nextSize]}`
           );
         } else {
           break;
@@ -113,7 +113,7 @@ export async function loadModelWithFallback(
           const nextSize = getNextSmallerModel(currentSize);
 
           if (!nextSize) {
-            console.error("Already at Medium model, cannot fallback further");
+            console.error("Already at Dumber model, cannot fallback further");
             break;
           }
 
