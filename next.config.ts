@@ -1,12 +1,11 @@
 import type { NextConfig } from "next";
-
-const isProd = process.env.NODE_ENV === "production";
+import { DERIVED_CONFIG } from "./src/config/site";
 
 const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
-  basePath: isProd ? "/justinthelaw.github.io" : "",
-  assetPrefix: isProd ? "/justinthelaw.github.io/" : "",
+  basePath: DERIVED_CONFIG.basePath,
+  assetPrefix: DERIVED_CONFIG.assetPrefix,
   turbopack: {},
   webpack: (config, { isServer }) => {
     // Don't process worker files on the server

@@ -3,6 +3,7 @@
 import { Fragment, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { SITE_CONFIG, DERIVED_CONFIG } from '@/config/site';
 
 import { LinkIconButton } from '@/components/shared';
 import { GitHubProfile } from '@/features/profile';
@@ -17,11 +18,7 @@ const ChatContainer = dynamic(() => import('@/features/chat').then((mod) => ({ d
 export default function Home() {
   const [showChatBox, setShowChatBox] = useState(false);
   const { shouldReopenChat, setShouldReopenChat } = useModelStore();
-  const [path] = useState(
-    process.env.NODE_ENV === 'production'
-      ? 'https://raw.githubusercontent.com/justinthelaw/justinthelaw/refs/heads/main/public'
-      : ''
-  );
+  const [path] = useState(DERIVED_CONFIG.publicAssetsUrl);
 
   // Initialize and check for chat reopen flag
   const [isMounted] = useState(() => {
@@ -38,10 +35,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Justin Law</title>
+        <title>{SITE_CONFIG.seo.title}</title>
         <meta
           name="description"
-          content="Justin Law's personal website showcasing experience and AI-powered chat"
+          content={SITE_CONFIG.seo.description}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -51,7 +48,7 @@ export default function Home() {
             className="text-center text-3xl sm:text-5xl font-bold"
             data-testid="main-header"
           >
-            Justin Law
+            {SITE_CONFIG.name}
           </header>
           <GitHubProfile />
         </div>
@@ -65,30 +62,38 @@ export default function Home() {
               className="flex gap-1 sm:gap-1 md:gap-2 lg:gap-3 justify-center pb-2"
               data-testid="social-footer"
             >
-              <LinkIconButton
-                link="https://github.com/justinthelaw"
-                altText="Justin's GitHub Profile"
-                filename="github.png"
-                path={path}
-              />
-              <LinkIconButton
-                link="https://www.linkedin.com/in/justinwingchunglaw"
-                altText="Justin's LinkedIn Profile"
-                filename="linkedin.png"
-                path={path}
-              />
-              <LinkIconButton
-                link="https://huggingface.co/justinthelaw"
-                altText="Justin's HuggingFace Profile"
-                filename="huggingface.png"
-                path={path}
-              />
-              <LinkIconButton
-                link="https://repo1.dso.mil/justinthelaw"
-                altText="Justin's GitLab Profile"
-                filename="gitlab.png"
-                path={path}
-              />
+              {SITE_CONFIG.socialLinks.github && (
+                <LinkIconButton
+                  link={SITE_CONFIG.socialLinks.github}
+                  altText={`${SITE_CONFIG.name}'s GitHub Profile`}
+                  filename="github.png"
+                  path={path}
+                />
+              )}
+              {SITE_CONFIG.socialLinks.linkedin && (
+                <LinkIconButton
+                  link={SITE_CONFIG.socialLinks.linkedin}
+                  altText={`${SITE_CONFIG.name}'s LinkedIn Profile`}
+                  filename="linkedin.png"
+                  path={path}
+                />
+              )}
+              {SITE_CONFIG.socialLinks.huggingface && (
+                <LinkIconButton
+                  link={SITE_CONFIG.socialLinks.huggingface}
+                  altText={`${SITE_CONFIG.name}'s HuggingFace Profile`}
+                  filename="huggingface.png"
+                  path={path}
+                />
+              )}
+              {SITE_CONFIG.socialLinks.gitlab && (
+                <LinkIconButton
+                  link={SITE_CONFIG.socialLinks.gitlab}
+                  altText={`${SITE_CONFIG.name}'s GitLab Profile`}
+                  filename="gitlab.png"
+                  path={path}
+                />
+              )}
             </footer>
           </Fragment>
         )}

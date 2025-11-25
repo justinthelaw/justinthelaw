@@ -5,15 +5,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { fetchGitHubBio } from '@/services/github';
-
-const GITHUB_USERNAME = 'justinthelaw';
+import { SITE_CONFIG } from '@/config/site';
 
 export function GitHubProfile(): React.ReactElement {
   const [bio, setBio] = useState('');
 
   useEffect(() => {
     const loadBio = async () => {
-      const fetchedBio = await fetchGitHubBio(GITHUB_USERNAME);
+      const fetchedBio = await fetchGitHubBio(SITE_CONFIG.githubUsername);
       setBio(fetchedBio);
     };
 

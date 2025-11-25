@@ -1,7 +1,7 @@
 {
   "name": "justinthelaw",
   "version": "1.0.0",
-  "description": "Justin Law's (justinthelaw) personal website",
+  "description": "Justin Law's personal website - customizable Next.js static site with AI chatbot",
   "private": true,
   "scripts": {
     "dev": "next dev",

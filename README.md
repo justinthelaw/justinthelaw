@@ -2,7 +2,9 @@
 
 ## Personal Website
 
-Learn more about me on my [GitHub pages website](https://justinthelaw.github.io/justinthelaw/). You can even ask an AI chatbot questions about me!
+Learn more about me on my [GitHub pages website](https://justinthelaw.github.io/justinthelaw/)[^1]. You can even ask an AI chatbot questions about me!
+
+[^1]: ⚙️ Want to create your own version of my personal website? Check out the [customization guide](docs/CUSTOMIZATION.md) to learn how to personalize this repository website for yourself.
 
 ## About Justin
 

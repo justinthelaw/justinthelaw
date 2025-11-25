@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { SITE_CONFIG } from '../src/config/site';
 
 test.describe('Homepage E2E Tests', () => {
   test('should load homepage and display key elements', async ({ page }) => {
@@ -6,11 +7,11 @@ test.describe('Homepage E2E Tests', () => {
     await page.goto('/');
 
     // Verify the page loads without errors (no 404 or 500 status)
-    await expect(page).toHaveTitle(/Justin Law/);
+    await expect(page).toHaveTitle(new RegExp(SITE_CONFIG.name));
 
-    // Assert that the main header "Justin Law" is visible
+    // Assert that the main header is visible with the configured name
     await expect(page.getByTestId('main-header')).toBeVisible();
-    await expect(page.getByTestId('main-header')).toHaveText('Justin Law');
+    await expect(page.getByTestId('main-header')).toHaveText(SITE_CONFIG.name);
 
     // Assert that the AI Chatbot button is visible
     await expect(page.getByTestId('ai-chatbot-button')).toBeVisible();
@@ -18,11 +19,19 @@ test.describe('Homepage E2E Tests', () => {
     // Verify social media icons are present in footer
     await expect(page.getByTestId('social-footer')).toBeVisible();
 
-    // Check for GitHub, LinkedIn, HuggingFace, and GitLab links
-    await expect(page.locator('a[href*="github.com/justinthelaw"]')).toBeVisible();
-    await expect(page.locator('a[href*="linkedin.com/in/justinwingchunglaw"]')).toBeVisible();
-    await expect(page.locator('a[href*="huggingface.co/justinthelaw"]')).toBeVisible();
-    await expect(page.locator('a[href*="repo1.dso.mil/justinthelaw"]')).toBeVisible();
+    // Check for configured social links (only if they are set)
+    if (SITE_CONFIG.socialLinks.github) {
+      await expect(page.locator(`a[href*="github.com/${SITE_CONFIG.githubUsername}"]`)).toBeVisible();
+    }
+    if (SITE_CONFIG.socialLinks.linkedin) {
+      await expect(page.locator(`a[href="${SITE_CONFIG.socialLinks.linkedin}"]`)).toBeVisible();
+    }
+    if (SITE_CONFIG.socialLinks.huggingface) {
+      await expect(page.locator(`a[href="${SITE_CONFIG.socialLinks.huggingface}"]`)).toBeVisible();
+    }
+    if (SITE_CONFIG.socialLinks.gitlab) {
+      await expect(page.locator(`a[href="${SITE_CONFIG.socialLinks.gitlab}"]`)).toBeVisible();
+    }
   });
 
   test('should open AI chatbot when button is clicked', async ({ page }) => {
