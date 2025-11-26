@@ -17,7 +17,7 @@ const WELCOME_MESSAGES = [
   `Thanks for visiting! Do you want to learn more about ${SITE_CONFIG.name}?`,
 ];
 
-function getRandomWelcomeMessage(): string {
+export function getRandomWelcomeMessage(): string {
   return WELCOME_MESSAGES[Math.floor(Math.random() * WELCOME_MESSAGES.length)];
 }
 

@@ -3,15 +3,11 @@
  * Handles GitHub API calls for user profile information
  */
 
-import { SITE_CONFIG, DERIVED_CONFIG } from "@/config/site";
+import { SITE_CONFIG } from "@/config/site";
 
 const GITHUB_API_BASE = "https://api.github.com";
 const PERSON_NAME = SITE_CONFIG.name || "this person";
-const PERSON_POSSESSIVE =
-  DERIVED_CONFIG.possessiveName ||
-  (SITE_CONFIG.name ? `${SITE_CONFIG.name}'s` : "their");
-const DEFAULT_BIO_FALLBACK =
-  `Oops! It seems like GitHub's API might be down so the website can't grab ${PERSON_POSSESSIVE} GitHub bio. Anyway, let's just assume that ${PERSON_NAME} is really cool!`;
+const DEFAULT_BIO_FALLBACK = `Oops! It seems like GitHub's API might be down so the website can't grab ${PERSON_NAME}'s GitHub bio. Anyway, let's just assume that ${PERSON_NAME} is really cool!`;
 
 export interface GitHubUser {
   bio: string | null;
@@ -29,11 +25,11 @@ export interface GitHubUser {
  */
 export async function fetchGitHubUser(username: string): Promise<GitHubUser> {
   const response = await fetch(`${GITHUB_API_BASE}/users/${username}`);
-  
+
   if (!response.ok) {
     throw new Error(`GitHub API error: ${response.status}`);
   }
-  
+
   const data = await response.json();
   return data as GitHubUser;
 }

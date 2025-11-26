@@ -25,7 +25,7 @@ export class AIService {
 
     // Create new worker
     this.worker = new Worker(
-      new URL('./ai.worker.ts', import.meta.url),
+      new URL('./worker.ts', import.meta.url),
       { type: 'module' }
     );
 

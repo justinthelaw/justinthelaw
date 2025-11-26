@@ -99,17 +99,17 @@ export const DERIVED_CONFIG = {
  * Profile Data for AI Chatbot Context
  */
 export const PROFILE: ProfileSection = {
-  role: "Senior Software Engineer at Defense Unicorns",
+  role: "Senior Software Engineer at Defense Unicorns, builds full-stack AI/ML applications and platforms",
   company:
-    "Defense Unicorns - builds full-stack AI/ML applications and AI/ML platforms",
+    "Defense Unicorns, delivers applications and platforms to critical operations using the Unicorn Delivery Service (UDS)",
   background:
-    "Mechanical Engineer turned Software Engineer specializing in AI/ML",
+    "Mechanical Engineer turned Software Engineer specializing in AI/ML applications and platforms",
   education:
-    "Bachelor's in Mechanical Engineering from RIT with minors in Communications and Military Leadership. Graduate studies in Computer Science at Johns Hopkins and Georgia Tech focusing on Enterprise Web computing and AI",
+    "Bachelor's in Mechanical Engineering from RIT with minors in Communications and Military Leadership. Graduate, master's level studies in Computer Science at Johns Hopkins University and Georgia Institute of Technology, focusing on enterprise web computing and AI/ML",
   military:
-    "US Air and Space Forces veteran, served as Captain (O3) and Developmental Engineer (62E), honorable discharge",
+    "United States Air and Space Forces veteran, served as Captain (O3) and Developmental Engineer (62E), honorable discharge",
   skills:
-    "Full-stack development, AI/ML applications, MLOps platforms, Public Speaking, Leadership, Project Management",
+    "Full-stack development, AI/ML applications, platforms engineering, Public Speaking, Leadership, Project Management",
   personality:
     "Organized, personable, disciplined, hard-working, enthusiastic, diligent",
   interests:
@@ -145,12 +145,27 @@ export const CONTEXT_PRIORITIES = [
   },
   {
     section: "education" as keyof ProfileSection,
-    keywords: ["education", "school", "university", "degree", "study"],
+    keywords: [
+      "education",
+      "school",
+      "university",
+      "degree",
+      "study",
+      "master",
+      "college",
+    ],
     weight: 1.8,
   },
   {
     section: "military" as keyof ProfileSection,
-    keywords: ["military", "air force", "space force", "veteran", "captain"],
+    keywords: [
+      "military",
+      "air force",
+      "space force",
+      "veteran",
+      "captain",
+      "service",
+    ],
     weight: 1.8,
   },
   {
