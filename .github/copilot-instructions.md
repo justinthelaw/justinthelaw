@@ -20,7 +20,7 @@ Next.js static site for GitHub Pages with AI chatbot (HuggingFace transformers).
 
 - `npm run dev` - Runs the development server
 - `npm run deploy` - Builds and deploys to GitHub Pages
-- `npm run flight-check` - Use this to perform final checks on all changes across the repository
+- `npm run flight-check` - This runs all the sub-commands below
   - `npm run clean` - Deletes temporary build, dev, and test files
   - `npm run lint` - Runs the ESLint
   - `npm run build` - Runs the Next.js build
@@ -32,7 +32,7 @@ Next.js static site for GitHub Pages with AI chatbot (HuggingFace transformers).
 - **React**: Functional components, custom hooks for logic, add `data-testid` for tests
 - **Tailwind**: Use utilities, responsive (`sm:`, `md:`, `lg:`), group logically
 - **State**: Zustand stores for global state, avoid localStorage directly
-- **Architecture**: Feature-based organization, separate concerns (UI/logic/services)
+- **Architecture**: Component-based organization, separate concerns (UI/logic/services)
 
 ## Key Patterns
 
@@ -68,15 +68,15 @@ try { ... } catch (err) { setError(err instanceof Error ? err.message : 'Unknown
 4. **Service layer** - isolate external dependencies (AI worker, GitHub API) behind clean interfaces
 5. **Typed worker messages** - use enums for worker communication instead of magic strings
 6. **Zustand for state** - global state in stores, avoid localStorage/module-level state
-7. **Barrel exports** - index.ts files for clean imports (`@/features/chat` vs `@/features/chat/components/ChatContainer`)
+7. **Barrel exports** - index.ts files for clean imports
 
 ## Testing
 
-After changes run: `npm run lint` → `npm run build` → `npm run test` → verify localhost:3000
+After changes run: `npm run flight-check`
 
-**Expected issues**: GitHub API/HuggingFace may fail in sandboxed envs, PDF viewer CORS errors in dev
+**Expected issues**: GitHub API and HuggingFace may fail in sandboxed envs, PDF viewer CORS errors in dev
 
-**Test structure**: Mirror `src/` organization in `tests/` (e.g., `tests/features/chat/` for chat tests)
+**Test structure**: Uses playwright, testing chat and homepage components against mobile and desktop baselines
 
 ## Deployment
 
@@ -96,4 +96,4 @@ Update documentation in the following areas as necessary:
 
 1. /README.md
 2. /.github/copilot-instructions.md
-2. /docs/CUSTOMIZATION.md
+3. /docs/CUSTOMIZATION.md

@@ -5,13 +5,13 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { SITE_CONFIG, DERIVED_CONFIG } from '@/config/site';
 
-import { LinkIconButton } from '@/components/shared';
-import { GitHubProfile } from '@/features/profile';
-import { ResumeViewer } from '@/features/resume';
+import { LinkIconButton } from '@/components/links';
+import { GitHubProfile } from '@/components/profile';
+import { ResumeViewer } from '@/components/resume';
 import { useModelStore } from '@/stores/modelStore';
 
 // Dynamically load ChatContainer only when user wants AI chat
-const ChatContainer = dynamic(() => import('@/features/chat').then((mod) => ({ default: mod.ChatContainer })), {
+const ChatContainer = dynamic(() => import('@/components/chat').then((mod) => ({ default: mod.ChatContainer })), {
   ssr: false,
 });
 
