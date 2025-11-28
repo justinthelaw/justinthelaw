@@ -82,7 +82,7 @@ make serve && make generate && make stop && make train && make merge
 | Setting                | Default | Increase for better memorization |
 | ---------------------- | ------- | -------------------------------- |
 | `samples_per_category` | 500     | 750+                             |
-| `sft.epochs`           | 10      | 15+                              |
+| `sft.epochs`           | 5       | 15+                              |
 | `lora.r`               | 32      | 64                               |
 
 ## Troubleshooting
