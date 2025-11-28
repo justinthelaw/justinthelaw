@@ -4,19 +4,19 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { ModelSize } from '@/types';
+import { ModelType } from '@/types';
 import { WorkerStatus, type WorkerResponse } from '@/types/worker';
 import { useModelStore } from '@/stores/modelStore';
 import { getAIService } from '@/services/ai';
 
 export interface UseModelManagementReturn {
-  modelSize: ModelSize;
+  modelType: ModelType;
   isLoading: boolean;
   isReady: boolean;
   error: string | null;
   loadingMessage: string | null;
   needsReload: boolean;
-  setModelSize: (size: ModelSize) => void;
+  setModelType: (size: ModelType) => void;
   reloadWithNewModel: () => void;
 }
 
@@ -28,7 +28,7 @@ export function useModelManagement(): UseModelManagementReturn {
   const [loadingMessage, setLoadingMessage] = useState<string | null>(
     'Initializing...'
   );
-  const [loadedModel, setLoadedModel] = useState<ModelSize | null>(null);
+  const [loadedModel, setLoadedModel] = useState<ModelType | null>(null);
 
   const needsReload = selectedModel !== loadedModel;
 
@@ -64,7 +64,7 @@ export function useModelManagement(): UseModelManagementReturn {
           
         case WorkerStatus.FALLBACK_MODEL:
           if (response.fallbackModel) {
-            setSelectedModel(response.fallbackModel as ModelSize);
+            setSelectedModel(response.fallbackModel as ModelType);
           }
           break;
           
@@ -132,7 +132,7 @@ export function useModelManagement(): UseModelManagementReturn {
           
         case WorkerStatus.FALLBACK_MODEL:
           if (response.fallbackModel) {
-            setSelectedModel(response.fallbackModel as ModelSize);
+            setSelectedModel(response.fallbackModel as ModelType);
           }
           break;
           
@@ -158,18 +158,18 @@ export function useModelManagement(): UseModelManagementReturn {
     aiService.loadModel();
   }, [selectedModel, setSelectedModel, isLoading, error]);
 
-  const handleSetModelSize = useCallback((size: ModelSize) => {
+  const handleSetModelType = useCallback((size: ModelType) => {
     setSelectedModel(size);
   }, [setSelectedModel]);
 
   return {
-    modelSize: selectedModel,
+    modelType: selectedModel,
     isLoading,
     isReady,
     error,
     loadingMessage,
     needsReload,
-    setModelSize: handleSetModelSize,
+    setModelType: handleSetModelType,
     reloadWithNewModel,
   };
 }

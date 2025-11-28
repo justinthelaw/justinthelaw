@@ -1,0 +1,19 @@
+# Pipeline artifacts (large files)
+data/*
+!data/.gitkeep
+models/*
+!models/.gitkeep
+
+# llama-server
+.llama-server.pid
+.llama-server.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.uv/
+
+# Resume (user-provided, gitignored for privacy)
+resume/*
+!resume/.gitkeep

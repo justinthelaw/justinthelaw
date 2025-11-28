@@ -9,7 +9,7 @@ import {
   type TextGenerationPipeline,
 } from "@huggingface/transformers";
 import { WorkerAction, WorkerStatus, type WorkerRequest } from "@/types/worker";
-import { ModelSize } from "@/types";
+import { ModelType } from "@/types";
 import { GENERATION_PARAMS } from "@/config/prompts";
 import {
   generateConversationMessages,
@@ -23,7 +23,7 @@ env.allowLocalModels = false;
 env.remoteHost = "https://huggingface.co";
 
 // Worker state
-let modelSize: ModelSize = ModelSize.SMARTER;
+let modelType: ModelType = ModelType.SMARTER;
 let generator: TextGenerationPipeline | null = null;
 
 self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
@@ -31,14 +31,14 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
 
   // Initialize model selection
   if (action === WorkerAction.INIT && modelSelection) {
-    modelSize = modelSelection as ModelSize;
+    modelType = modelSelection as ModelType;
     return;
   }
 
   // Load the model
   if (action === WorkerAction.LOAD) {
     try {
-      generator = await loadModelWithFallback(modelSize, {
+      generator = await loadModelWithFallback(modelType, {
         onProgress: (progress, message) => {
           self.postMessage({
             status: WorkerStatus.LOAD,
@@ -47,7 +47,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
           });
         },
         onFallback: (newSize) => {
-          modelSize = newSize;
+          modelType = newSize;
           self.postMessage({
             status: WorkerStatus.FALLBACK_MODEL,
             fallbackModel: newSize,
@@ -119,10 +119,10 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
     self.postMessage({ status: WorkerStatus.INITIATE });
 
     // Generate conversation messages with model-specific optimization
-    const messages = generateConversationMessages(cleanedInput, modelSize);
+    const messages = generateConversationMessages(cleanedInput, modelType);
 
     // Get model-specific generation parameters
-    const generationParams = { ...GENERATION_PARAMS[modelSize] };
+    const generationParams = { ...GENERATION_PARAMS[modelType] };
 
     let fullResponse = "";
     let isResponseValid = false;
@@ -155,7 +155,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
         });
 
         // Validate response quality (but be lenient)
-        const validation = validateResponse(fullResponse.trim(), modelSize);
+        const validation = validateResponse(fullResponse.trim(), modelType);
         isResponseValid = validation.isValid;
 
         // If we've hit max retries, accept the response anyway
@@ -164,7 +164,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
           if (validation.issues.length > 0) {
             console.log(
               "Accepting response with validation warnings for %s model:",
-              modelSize,
+              modelType,
               validation.issues
             );
           }

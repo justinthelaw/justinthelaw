@@ -1,11 +1,16 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Chatbot UI Tests", () => {
+  // Clear localStorage before each test to ensure clean state
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/");
+    await page.evaluate(() => localStorage.clear());
+    await page.reload();
+  });
+
   test('should display "Generic" tag for dumber model in model selector', async ({
     page,
   }) => {
-    await page.goto("/");
-
     const chatbotButton = page.getByTestId("ai-chatbot-button");
     await expect(chatbotButton).toBeVisible();
     await chatbotButton.click();
@@ -33,8 +38,6 @@ test.describe("Chatbot UI Tests", () => {
   test("should display model loading message without model size", async ({
     page,
   }) => {
-    await page.goto("/");
-
     const chatbotButton = page.getByTestId("ai-chatbot-button");
     await chatbotButton.click();
 
@@ -44,8 +47,6 @@ test.describe("Chatbot UI Tests", () => {
   test("should maintain scroll position at bottom when messages are sent", async ({
     page,
   }) => {
-    await page.goto("/");
-
     const chatbotButton = page.getByTestId("ai-chatbot-button");
     await chatbotButton.click();
 
@@ -60,8 +61,6 @@ test.describe("Chatbot UI Tests", () => {
   test("should automatically reload when model selection changes", async ({
     page,
   }) => {
-    await page.goto("/");
-
     // Click chatbot button
     await page.getByTestId("ai-chatbot-button").click();
 
@@ -80,7 +79,8 @@ test.describe("Chatbot UI Tests", () => {
     const modelSelectorModal = page.getByTestId("model-selector-modal");
     await expect(modelSelectorModal).toBeVisible();
 
-    // Find all radio inputs
+    // Find all model option labels (which contain the radio inputs)
+    const modelLabels = modelSelectorModal.locator('label');
     const radioInputs = modelSelectorModal.locator('input[type="radio"]');
     const radioCount = await radioInputs.count();
     expect(radioCount).toBeGreaterThan(0);
@@ -95,9 +95,9 @@ test.describe("Chatbot UI Tests", () => {
     }
     expect(currentlySelectedIndex).toBeGreaterThanOrEqual(0);
 
-    // Select a different model (next one in list)
+    // Select a different model (next one in list) by clicking the label
     const newIndex = (currentlySelectedIndex + 1) % radioCount;
-    await radioInputs.nth(newIndex).click({ force: true });
+    await modelLabels.nth(newIndex).click();
 
     // Modal should close automatically and model should start loading
     await expect(modelSelectorModal).not.toBeVisible();

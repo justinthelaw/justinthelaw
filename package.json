@@ -1,8 +1,9 @@
 {
   "name": "justinthelaw",
   "version": "1.0.0",
-  "description": "Justin Law's personal website - customizable Next.js static site with AI chatbot",
+  "description": "Justin Law's customizable personal website with an AI chatbot",
   "private": true,
+  "license": "Apache-2.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +11,7 @@
     "lint": "eslint .",
     "test": "playwright test",
     "deploy": "npm run build && gh-pages -d out",
-    "clean": "rm -rf out test-results playwright-report .next next-env.d.ts node_modules",
+    "clean": "rm -rf out test-results playwright-report .next next-env.d.ts node_modules test-results.json",
     "flight-check": "npm run clean && npm install && npm run lint && npm run build && npm run test",
     "post-install": "playwright install"
   },
@@ -30,6 +31,7 @@
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "baseline-browser-mapping": "^2.8.32",
     "eslint": "^9",
     "eslint-config-next": "16.0.4",
     "eslint-plugin-react": "^7.37.5",

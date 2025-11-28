@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react";
-import { ModelSize } from "@/types";
+import { ModelType } from "@/types";
 import { MODEL_DISPLAY_NAMES, MODEL_SIZES } from "@/config/models";
 import { useModelStore } from "@/stores/modelStore";
 import { useChatStore } from "@/stores/chatStore";
@@ -12,31 +12,30 @@ import { getRandomWelcomeMessage } from "@/components/chat";
 
 export interface ChatSettingsProps {
   onClose?: () => void;
-  initialModelSize: ModelSize;
-  currentModelSize: ModelSize;
+  initialModelType: ModelType;
+  currentModelType: ModelType;
   onReload: () => void;
 }
 
 export function ChatSettings({
   onClose,
-  initialModelSize,
-  currentModelSize: _currentModelSize,
+  initialModelType: _initialModelType,
+  currentModelType: _currentModelType,
   onReload,
 }: ChatSettingsProps): React.ReactElement {
   const { selectedModel, setSelectedModel } = useModelStore();
   const { clearMessages, addMessage } = useChatStore();
   const [showSettings, setShowSettings] = useState(false);
 
-  const handleModelChange = (modelSize: ModelSize) => {
-    setSelectedModel(modelSize);
-
-    // If model changed from current, reload immediately
-    if (modelSize !== initialModelSize) {
+  const handleModelChange = (modelType: ModelType) => {
+    // Only act if selecting a different model than currently selected
+    if (modelType !== selectedModel) {
+      setSelectedModel(modelType);
       // Clear chat history
       clearMessages();
       // Add welcome message for new model
       addMessage("ai", getRandomWelcomeMessage());
-      // Switch to new model
+      // Load the new model
       onReload();
       // Close settings
       setShowSettings(false);
@@ -135,13 +134,14 @@ export function ChatSettings({
                 <label
                   key={size}
                   className="flex items-center p-3 rounded-lg border border-gray-700 hover:border-gray-600 hover:bg-gray-800 cursor-pointer transition-all duration-200 group"
+                  onClick={() => handleModelChange(size)}
                 >
                   <div className="relative flex items-center">
                     <input
                       type="radio"
-                      name="modelSize"
+                      name="modelType"
                       checked={selectedModel === size}
-                      onChange={() => handleModelChange(size)}
+                      onChange={() => {}}
                       className="sr-only"
                     />
                     <div
@@ -161,12 +161,12 @@ export function ChatSettings({
                       <span className="text-white font-medium">
                         {MODEL_DISPLAY_NAMES[size]}
                       </span>
-                      {size === ModelSize.SMARTER && (
+                      {size === ModelType.SMARTER && (
                         <span className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded-full">
                           Fine-Tuned
                         </span>
                       )}
-                      {size === ModelSize.DUMBER && (
+                      {size === ModelType.DUMBER && (
                         <span
                           className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full"
                           data-testid="model-tag-dumber"

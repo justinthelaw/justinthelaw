@@ -6,19 +6,11 @@
 import { useEffect, useCallback } from "react";
 import type { ChatMessage } from "@/types";
 import { useChatStore } from "@/stores/chatStore";
-import { SITE_CONFIG } from "@/config";
-
-const WELCOME_MESSAGES = [
-  `Hello, I am ${SITE_CONFIG.name}'s AI assistant! Got any questions for me?`,
-  `Hey there! Got any questions about ${SITE_CONFIG.name} for me?`,
-  `Hi! Interested in learning more about ${SITE_CONFIG.name}?`,
-  `What would you like to know about ${SITE_CONFIG.name}?`,
-  `I heard you had questions about ${SITE_CONFIG.name}? Just ask away!`,
-  `Thanks for visiting! Do you want to learn more about ${SITE_CONFIG.name}?`,
-];
+import { CHATBOT_CONFIG } from "@/config";
 
 export function getRandomWelcomeMessage(): string {
-  return WELCOME_MESSAGES[Math.floor(Math.random() * WELCOME_MESSAGES.length)];
+  const messages = CHATBOT_CONFIG.welcomeMessages;
+  return messages[Math.floor(Math.random() * messages.length)];
 }
 
 export interface UseChatHistoryReturn {
@@ -35,10 +27,7 @@ export function useChatHistory(): UseChatHistoryReturn {
   useEffect(() => {
     // Only add welcome message if no messages exist
     if (messages.length === 0) {
-      addMessage(
-        "ai",
-        "Hello! I'm your AI assistant. Feel free to ask me anything!"
-      );
+      addMessage("ai", getRandomWelcomeMessage());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

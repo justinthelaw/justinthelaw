@@ -8,7 +8,7 @@ import {
   env,
   type TextGenerationPipeline,
 } from "@huggingface/transformers";
-import { ModelSize } from "@/types";
+import { ModelType } from "@/types";
 import { MODEL_IDS, MODEL_DTYPE, MODEL_SIZES } from "@/config/models";
 import { SITE_CONFIG } from "@/config/site";
 
@@ -18,15 +18,15 @@ env.remoteHost = "https://huggingface.co";
 
 export interface LoaderCallbacks {
   onProgress?: (progress: number, message: string) => void;
-  onFallback?: (newModel: ModelSize) => void;
+  onFallback?: (newModel: ModelType) => void;
   onError?: (message: string) => void;
 }
 
 /**
  * Get the next smaller model size for fallback
  */
-export function getNextSmallerModel(currentSize: ModelSize): ModelSize | null {
-  if (currentSize === ModelSize.SMARTER) return ModelSize.DUMBER;
+export function getNextSmallerModel(currentSize: ModelType): ModelType | null {
+  if (currentSize === ModelType.SMARTER) return ModelType.DUMBER;
   return null; // Already at smallest (DUMBER)
 }
 
@@ -34,10 +34,10 @@ export function getNextSmallerModel(currentSize: ModelSize): ModelSize | null {
  * Loads a text generation model with progressive fallback on failure
  */
 export async function loadModelWithFallback(
-  modelSize: ModelSize,
+  modelType: ModelType,
   callbacks: LoaderCallbacks = {}
 ): Promise<TextGenerationPipeline | null> {
-  let currentSize = modelSize;
+  let currentSize = modelType;
   let generator: TextGenerationPipeline | null = null;
   let attempts = 0;
   const maxAttempts = MODEL_SIZES.length;
@@ -50,8 +50,9 @@ export async function loadModelWithFallback(
       // Track if we're in download phase (first time seeing progress)
       let isDownloading = true;
 
-      // Load pipeline with progress tracking
-      const pipelineResult = await pipeline("text-generation", modelId, {
+      // For custom fine-tuned model (SMARTER), use non-quantized ONNX
+      // The model is exported as model.onnx, not model_quantized.onnx
+      const pipelineOptions: Record<string, unknown> = {
         dtype: MODEL_DTYPE,
         progress_callback: (progressData: unknown) => {
           if (typeof progressData === "object" && progressData !== null) {
@@ -77,7 +78,13 @@ export async function loadModelWithFallback(
             }
           }
         },
-      });
+      };
+
+      const pipelineResult = await pipeline(
+        "text-generation",
+        modelId,
+        pipelineOptions
+      );
 
       generator = pipelineResult as TextGenerationPipeline;
       return generator;
@@ -86,7 +93,7 @@ export async function loadModelWithFallback(
       console.error(`Model loading attempt ${attempts} failed:`, errorStr);
 
       // If SMARTER model fails, provide context-specific error and fall back
-      if (currentSize === ModelSize.SMARTER) {
+      if (currentSize === ModelType.SMARTER) {
         if (callbacks.onError) {
           callbacks.onError(
             `Sorry, we couldn't load the smarter model, so now you are talking with me - the dumber one! However, I am still able to answer basic questions about ${SITE_CONFIG.name || "this person"}, so please ask away!`

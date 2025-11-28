@@ -1,154 +1,104 @@
 # Customization Guide
 
-Make this website your own by updating **`src/config/site.ts`** - a single file containing all customizable values.
+Make this website your own with an AI chatbot that answers questions about you.
 
-For development guidance, see [`.github/copilot-instructions.md`](../.github/copilot-instructions.md).
+## Two AI Models
+
+| Model       | Description                        | Setup                     |
+| ----------- | ---------------------------------- | ------------------------- |
+| **DUMBER**  | Generic model with profile context | Edit `src/config/site.ts` |
+| **SMARTER** | Fine-tuned on your resume          | Run `/pipeline`           |
+
+**Start with DUMBER**, then upgrade to SMARTER for better responses.
 
 ## Quick Setup Checklist
 
-### 1. Fork & Configure Repository
+### 1. Fork Repository (~5 min)
 
-- [ ] Fork this repository to your GitHub account
-- [ ] Rename to `[your-username]` (recommended for simplicity)
+- [ ] Fork this repo to your GitHub account
+- [ ] Rename to `[your-username]` (recommended)
 - [ ] Enable GitHub Pages: Settings → Pages → Source: `gh-pages` / `root`
 
-### 2. Update `src/config/site.ts`
+### 2. Configure Website (~10 min)
 
-#### Basic Information
+Edit `src/config/site.ts`:
 
-- [ ] `name` - Your full name
-- [ ] `githubUsername` - Your GitHub username (auto-fetches bio)
-- [ ] `repository.owner` - Your GitHub username
-- [ ] `repository.name` - Your repository name (used for GitHub Pages URL)
-- [ ] `repository.defaultBranch` - Usually "main" or "master"
-- [ ] `copyright.year` - Current year
-- [ ] `copyright.holder` - Your name or organization
-- [ ] `seo.title` and `seo.description` - SEO metadata
+- [ ] Set `name` to your name
+- [ ] Set `githubUsername` to your username
+- [ ] Set `repository.owner` and `repository.name`
+- [ ] Set `resumeFileId` (from Google Drive share link)
+- [ ] Update `socialLinks` (empty string hides a link)
+- [ ] Update `PROFILE` object for DUMBER model context
+- [ ] Update `CHATBOT_CONFIG.welcomeMessages`
 
-#### Resume
+### 3. Upload Resume (~2 min)
 
-- [ ] Upload resume PDF to Google Drive → Share → "Anyone with the link"
-- [ ] Copy file ID from URL: `https://drive.google.com/file/d/[FILE_ID]/view`
-- [ ] Update `resumeFileId` with your file ID
+- [ ] Upload PDF to Google Drive
+- [ ] Share → "Anyone with the link"
+- [ ] Copy file ID from URL: `drive.google.com/file/d/[FILE_ID]/view`
+- [ ] Paste into `SITE_CONFIG.resumeFileId`
 
-#### Social Links
+### 4. Test & Deploy (~5 min)
 
-- [ ] Update URLs for `github`, `linkedin`, `huggingface`, `gitlab`
-- [ ] Set to `""` to hide a link
-- [ ] To add new links: update `socialLinks` + add icon to `public/` + edit `src/pages/index.tsx`
+- [ ] `npm install`
+- [ ] `npm run dev` (test at localhost:3000)
+- [ ] `npm run flight-check`
+- [ ] `npm run deploy`
 
-#### AI Chatbot Profile
+## Upgrade to SMARTER Model (~3-4 hours)
 
-Update the `PROFILE` object with your information:
+See [`/pipeline/README.md`](../pipeline/README.md) for full instructions.
 
-```typescript
-export const PROFILE: ProfileSection = {
-  role: "Your Job Title at Company",
-  company: "Company description",
-  background: "Professional background",
-  education: "Education details",
-  military: "Military service (or remove this field)",
-  skills: "Key skills",
-  personality: "Personality traits",
-  interests: "Hobbies and interests",
-};
-```
+### Quick Steps
 
-- [ ] Update all fields with your information
-- [ ] Remove non-applicable fields (e.g., `military`)
-- [ ] Update `RELEVANT_TERMS` with keywords about you
-- [ ] Adjust `CONTEXT_PRIORITIES` weights/keywords if needed
+- [ ] `cd pipeline && make setup`
+- [ ] Edit `config.yaml` with your info
+- [ ] Copy resume to `resume/resume.pdf`
+- [ ] `make serve && make generate && make stop`
+- [ ] `make train && make merge`
+- [ ] `huggingface-cli login && make push-model`
+- [ ] Update `src/config/models.ts` with your model ID
+- [ ] `npm run flight-check && npm run deploy`
 
-### 3. Assets
+## Configuration Files
 
-- [ ] Verify social icons exist in `public/` (github.png, linkedin.png, etc.)
-- [ ] Add any custom 48x48px PNG icons needed
-
-### 4. Test & Deploy
-
-```bash
-# Test locally
-npm run dev                    # Development at localhost:3000
-npm run flight-check           # Full verification (clean, install, lint, build, test)
-
-# Deploy
-npm run deploy                 # Builds and pushes to gh-pages branch
-```
-
-- [ ] Verify live at the URL generated from your `repository` config
-- [ ] URL format: `https://{repository.owner}.github.io/{repository.name}/`
-- [ ] All URLs and paths are automatically generated from `src/config/site.ts`
+| File                    | Purpose                                  |
+| ----------------------- | ---------------------------------------- |
+| `src/config/site.ts`    | Personal info, profile, chatbot messages |
+| `src/config/models.ts`  | AI model IDs                             |
+| `src/config/prompts.ts` | Generation parameters                    |
+| `pipeline/config.yaml`  | Fine-tuning settings                     |
 
 ## Common Customizations
 
-### Hide a social link
+### Hide a Social Link
 
 ```typescript
 socialLinks: {
-  huggingface: "", // Hides HuggingFace icon
+  huggingface: "", // Empty = hidden
 }
 ```
 
-### Add a social link
+### Add a Social Link
 
-1. Add to `SITE_CONFIG.socialLinks`
-2. Add icon PNG to `public/`
-3. Add `LinkIconButton` in `src/pages/index.tsx`
+- [ ] Add URL to `SITE_CONFIG.socialLinks`
+- [ ] Add 48x48px PNG icon to `public/`
+- [ ] Add `<LinkIconButton>` in `src/pages/index.tsx`
 
-### Change AI model
+### Tune AI Responses
 
-Edit `DEFAULT_MODEL_SIZE` in `src/config/models.ts`
+Edit `src/config/prompts.ts`:
 
-### Customize AI prompts
-
-Edit `SYSTEM_INSTRUCTIONS` in `src/config/prompts.ts`
-
-### Styling
-
-- Global styles: `src/styles/globals.css`
-- Tailwind config: `tailwind.config.ts`
-- Follow patterns in `.github/copilot-instructions.md`
+```typescript
+[ModelType.SMARTER]: {
+  temperature: 0.1,      // Lower = more consistent
+  maxTokens: 150,        // Response length
+  repetitionPenalty: 1.4 // Higher = less repetition
+}
+```
 
 ## Troubleshooting
 
-### Resume not displaying
-
-- Verify Google Drive link is public
-- Check browser console for CORS errors
-- Consider hosting PDF elsewhere and updating `ResumeViewer.tsx`
-
-### GitHub bio not loading
-
-- Verify `githubUsername` is correct
-- Check GitHub API rate limits
-
-### Icons not appearing
-
-- Verify files exist in `public/` (case-sensitive)
-- Ensure PNG format
-
-### Build/deployment issues
-
-- Check `basePath` in `next.config.ts` matches repo name
-- Review GitHub Actions logs
-- Ensure `gh-pages` branch exists
-
-## Architecture
-
-**Configuration**: All customizable values in `src/config/`
-
-- `site.ts` - Personal info, resume, social links, profile
-- `models.ts` - AI model configuration
-- `prompts.ts` - AI prompt templates
-
-**Features**: Organized by domain (`chat`, `profile`, `resume`)
-
-**Services**: External integrations (AI worker, GitHub API)
-
-**Testing**: `npm run flight-check` runs full validation suite
-
-See [`.github/copilot-instructions.md`](../.github/copilot-instructions.md) for detailed architecture, code standards, and development patterns.
-
-## Support
-
-Issues or questions? Open an issue on the [original repository](https://github.com/justinthelaw/justinthelaw).
+- **Resume not displaying**: Check Google Drive link is public
+- **Chatbot not responding**: Check browser console, verify model ID
+- **Build failures**: Run `npm run flight-check` for details

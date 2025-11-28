@@ -18,7 +18,7 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
   const { messages, clearHistory, canClear } = useChatHistory();
   const { isGenerating, currentResponse, generate } = useAIGeneration();
   const {
-    modelSize,
+    modelType,
     isLoading,
     isReady,
     error,
@@ -27,7 +27,7 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
   } = useModelManagement();
 
   // State to track initial model size
-  const [initialModelSize] = useState(modelSize);
+  const [initialModelType] = useState(modelType);
 
   // Refs
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -98,8 +98,8 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
             </h3>
             <div className="flex space-x-2 items-center">
               <ChatSettings
-                initialModelSize={initialModelSize}
-                currentModelSize={modelSize}
+                initialModelType={initialModelType}
+                currentModelType={modelType}
                 onReload={reloadWithNewModel}
               />
               <button
@@ -185,8 +185,8 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
               </h3>
               <div className="flex space-x-2 items-center">
                 <ChatSettings
-                  initialModelSize={initialModelSize}
-                  currentModelSize={modelSize}
+                  initialModelType={initialModelType}
+                  currentModelType={modelType}
                   onReload={reloadWithNewModel}
                 />
                 <button
