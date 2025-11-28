@@ -47,7 +47,7 @@ function buildDumberSystemMessage(): string {
     PROFILE.interests ? `- Interests: ${PROFILE.interests}` : null,
   ]
     .filter(Boolean)
-    .join("\\n");
+    .join("\n");
 
   return `${CHATBOT_CONFIG.dumberSystemPrompt}
 

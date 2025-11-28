@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Merge LoRA adapter with base model and export to ONNX."""
 
+import json
 import shutil
 import sys
 import warnings
@@ -70,9 +71,6 @@ def main() -> int:
     tokenizer.save_pretrained(str(merged_path))
 
     # Explicitly save chat_template to tokenizer_config.json
-    # (save_pretrained doesn't always include it)
-    import json
-
     tokenizer_config_path = merged_path / "tokenizer_config.json"
     if tokenizer_config_path.exists():
         config = json.loads(tokenizer_config_path.read_text())

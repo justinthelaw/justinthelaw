@@ -50,14 +50,12 @@ The model is trained using a two-stage approach optimized for factual memorizati
 - Epochs: {sft_epochs}
 - Batch Size: {sft_batch_size}
 - Learning Rate: {sft_learning_rate}
-- Max Length: {sft_max_length}
 
 #### DPO Training Configuration
 
 - Epochs: {training_epochs}
 - Batch Size: {training_batch_size}
 - Learning Rate: {training_learning_rate}
-- Max Length: {training_max_length}
 - Beta: {dpo_beta}
 - Loss Type: {dpo_loss_type}
 
