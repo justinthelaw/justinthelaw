@@ -32,7 +32,80 @@ test.describe("Chatbot UI Tests", () => {
 
     const dumberTag = page.getByTestId("model-tag-dumber");
     await expect(dumberTag).toBeVisible();
-    await expect(dumberTag).toHaveText("Generic");
+    await expect(dumberTag).toContainText("Generic");
+  });
+
+  test('should display "Fine-Tuned" tag for smarter model in model selector', async ({
+    page,
+  }) => {
+    const chatbotButton = page.getByTestId("ai-chatbot-button");
+    await expect(chatbotButton).toBeVisible();
+    await chatbotButton.click();
+
+    // Wait for chatbot to open and be ready
+    await page.waitForTimeout(500);
+
+    // Click model settings button
+    const viewportSize = page.viewportSize();
+    const isMobile = viewportSize && viewportSize.width < 1024;
+    const settingsButton = isMobile
+      ? page.getByTestId("model-settings-button").last()
+      : page.getByTestId("model-settings-button").first();
+    await settingsButton.click();
+
+    const modal = page.getByTestId("model-selector-modal");
+    await expect(modal).toBeVisible();
+
+    // Check for Fine-Tuned tag on SMARTER model
+    const fineTunedTag = modal.getByText("Fine-Tuned");
+    await expect(fineTunedTag).toBeVisible();
+  });
+
+  test("should display HuggingFace links on model tags", async ({ page }) => {
+    const chatbotButton = page.getByTestId("ai-chatbot-button");
+    await chatbotButton.click();
+
+    // Wait for chatbot to open and be ready
+    await page.waitForTimeout(500);
+
+    // Click model settings button
+    const viewportSize = page.viewportSize();
+    const isMobile = viewportSize && viewportSize.width < 1024;
+    const settingsButton = isMobile
+      ? page.getByTestId("model-settings-button").last()
+      : page.getByTestId("model-settings-button").first();
+    await settingsButton.click();
+
+    const modal = page.getByTestId("model-selector-modal");
+    await expect(modal).toBeVisible();
+
+    // Check that HuggingFace links exist for model tags
+    const huggingFaceLinks = modal.locator('a[href*="huggingface.co"]');
+    const linkCount = await huggingFaceLinks.count();
+    expect(linkCount).toBeGreaterThanOrEqual(2); // Both models have HuggingFace links
+  });
+
+  test("should display AI disclaimer message in chat input", async ({
+    page,
+  }) => {
+    const chatbotButton = page.getByTestId("ai-chatbot-button");
+    await chatbotButton.click();
+
+    // Wait for chatbot to open
+    await page.waitForTimeout(500);
+
+    // Check for the AI disclaimer message
+    // Use viewport-aware selector since there are mobile/desktop layouts
+    const viewportSize = page.viewportSize();
+    const isMobile = viewportSize && viewportSize.width < 1024;
+    const disclaimer = isMobile
+      ? page
+          .getByText("AI can make mistakes. Always verify the information.")
+          .last()
+      : page
+          .getByText("AI can make mistakes. Always verify the information.")
+          .first();
+    await expect(disclaimer).toBeVisible();
   });
 
   test("should display model loading message without model size", async ({
@@ -42,6 +115,30 @@ test.describe("Chatbot UI Tests", () => {
     await chatbotButton.click();
 
     await page.waitForTimeout(1000);
+  });
+
+  test("should have SMARTER model selected by default", async ({ page }) => {
+    const chatbotButton = page.getByTestId("ai-chatbot-button");
+    await chatbotButton.click();
+
+    // Wait for chatbot to open and be ready
+    await page.waitForTimeout(500);
+
+    // Click model settings button
+    const viewportSize = page.viewportSize();
+    const isMobile = viewportSize && viewportSize.width < 1024;
+    const settingsButton = isMobile
+      ? page.getByTestId("model-settings-button").last()
+      : page.getByTestId("model-settings-button").first();
+    await settingsButton.click();
+
+    const modal = page.getByTestId("model-selector-modal");
+    await expect(modal).toBeVisible();
+
+    // The "Smarter" option should be checked by default
+    const smarterLabel = modal.locator('label:has-text("Smarter")');
+    const smarterRadio = smarterLabel.locator('input[type="radio"]');
+    await expect(smarterRadio).toBeChecked();
   });
 
   test("should maintain scroll position at bottom when messages are sent", async ({

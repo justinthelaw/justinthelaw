@@ -5,7 +5,7 @@
 
 import React, { useState } from "react";
 import { ModelType } from "@/types";
-import { MODEL_DISPLAY_NAMES, MODEL_SIZES } from "@/config/models";
+import { MODEL_DISPLAY_NAMES, MODEL_SIZES, MODEL_IDS } from "@/config/models";
 import { useModelStore } from "@/stores/modelStore";
 import { useChatStore } from "@/stores/chatStore";
 import { getRandomWelcomeMessage } from "@/components/chat";
@@ -162,16 +162,60 @@ export function ChatSettings({
                         {MODEL_DISPLAY_NAMES[size]}
                       </span>
                       {size === ModelType.SMARTER && (
-                        <span className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded-full">
+                        <span className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded-full inline-flex items-center gap-1">
                           Fine-Tuned
+                          <a
+                            href={`https://huggingface.co/${MODEL_IDS[size]}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="hover:text-blue-200"
+                            aria-label="View model on HuggingFace"
+                          >
+                            <svg
+                              className="w-3 h-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                              />
+                            </svg>
+                          </a>
                         </span>
                       )}
                       {size === ModelType.DUMBER && (
                         <span
-                          className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full"
+                          className="ml-2 px-2 py-1 text-xs bg-purple-600 text-white rounded-full inline-flex items-center gap-1"
                           data-testid="model-tag-dumber"
                         >
                           Generic
+                          <a
+                            href={`https://huggingface.co/${MODEL_IDS[size]}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="hover:text-purple-200"
+                            aria-label="View model on HuggingFace"
+                          >
+                            <svg
+                              className="w-3 h-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                              />
+                            </svg>
+                          </a>
                         </span>
                       )}
                     </div>

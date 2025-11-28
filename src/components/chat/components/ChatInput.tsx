@@ -3,7 +3,7 @@
  * Input field and send button for user messages
  */
 
-import React, { useState, useRef, KeyboardEvent } from 'react';
+import React, { useState, useRef, KeyboardEvent } from "react";
 
 export interface ChatInputProps {
   onSend: (message: string) => void;
@@ -16,15 +16,15 @@ export function ChatInput({
   isDisabled,
   placeholder,
 }: ChatInputProps): React.ReactElement {
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSend = () => {
     if (!inputText.trim() || isDisabled) return;
 
     onSend(inputText.trim());
-    setInputText('');
-    
+    setInputText("");
+
     // Refocus input after sending
     setTimeout(() => {
       inputRef.current?.focus();
@@ -32,7 +32,7 @@ export function ChatInput({
   };
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
@@ -61,6 +61,9 @@ export function ChatInput({
           Send
         </button>
       </div>
+      <p className="text-xs text-gray-500 mt-2 text-center">
+        AI can make mistakes. Always verify the information.
+      </p>
     </div>
   );
 }
