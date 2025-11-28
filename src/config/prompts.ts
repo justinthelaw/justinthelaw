@@ -8,24 +8,25 @@ import { ModelType, type GenerationParams } from "@/types";
 /**
  * Model-specific generation parameters for optimal SmolLM2 performance
  *
- * SMARTER (fine-tuned): Lower temperature for consistent factual recall,
- * higher repetition penalty to avoid loops, moderate max tokens
+ * SMARTER (fine-tuned): Uses greedy decoding (do_sample=false) for consistent
+ * factual recall. Parameters match pipeline/scripts/test_model.py test_onnx().
  *
  * DUMBER (base model): Needs slightly higher temp for creativity since
- * it relies on context, lower repetition penalty
+ * it relies on context injection rather than fine-tuned knowledge.
  */
 export const GENERATION_PARAMS: Record<ModelType, GenerationParams> = {
   [ModelType.DUMBER]: {
-    temperature: 0.2,
+    temperature: 0.3,
     maxTokens: 128,
-    topK: 40,
+    topK: 30,
     repetitionPenalty: 1.2,
   },
   [ModelType.SMARTER]: {
-    temperature: 0.1,  // Ignored when do_sample=false (greedy decoding)
-    maxTokens: 80,     // Shorter for concise factual answers
-    topK: 30,          // Ignored when do_sample=false (greedy decoding)
-    repetitionPenalty: 1.2,  // Match test script for consistent behavior
+    // Match pipeline/scripts/test_model.py test_onnx() parameters
+    temperature: 0.0,
+    maxTokens: 80,
+    topK: 0,
+    repetitionPenalty: 1.2,
   },
 };
 

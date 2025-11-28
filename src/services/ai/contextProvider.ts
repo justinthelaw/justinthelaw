@@ -56,69 +56,28 @@ ${profileLines}`;
 }
 
 /**
- * Number of recent user/assistant message pairs to include for SMARTER model
- */
-const SMARTER_HISTORY_PAIRS = 2;
-
-/**
  * Generate conversation messages based on model type
+ * Single-turn only - no conversation history is passed
  */
 export function generateConversationMessages(
   userInput: string,
-  modelType: ModelType,
-  messageHistory: Array<{ type: string; content: string }> = []
+  modelType: ModelType
 ): ChatMessage[] {
   const question = cleanInput(userInput);
 
-  // SMARTER model: fine-tuned, needs minimal system context + recent history
+  // SMARTER model: fine-tuned, uses only the training system message
   if (modelType === ModelType.SMARTER) {
-    const messages: ChatMessage[] = [];
-
-    // Add minimal system message for identity context
-    messages.push({ role: "system", content: buildSmarterSystemMessage() });
-
-    // Add last 2 user/assistant pairs from history
-    const historyMessages = buildHistoryMessages(
-      messageHistory,
-      SMARTER_HISTORY_PAIRS
-    );
-    messages.push(...historyMessages);
-
-    // Add current user question
-    messages.push({ role: "user", content: question });
-
-    return messages;
+    return [
+      { role: "system", content: buildSmarterSystemMessage() },
+      { role: "user", content: question },
+    ];
   }
 
-  // DUMBER model: needs full context in system message, no history
+  // DUMBER model: needs full context in system message
   return [
     { role: "system", content: buildDumberSystemMessage() },
     { role: "user", content: question },
   ];
-}
-
-/**
- * Build chat history messages from recent conversation pairs
- */
-function buildHistoryMessages(
-  messageHistory: Array<{ type: string; content: string }>,
-  pairCount: number
-): ChatMessage[] {
-  if (messageHistory.length === 0) return [];
-
-  // Filter to only user and ai messages
-  const relevantMessages = messageHistory.filter(
-    (msg) => msg.type === "user" || msg.type === "ai"
-  );
-
-  // Take the last N pairs (2 * pairCount messages)
-  const messageCount = pairCount * 2;
-  const recentMessages = relevantMessages.slice(-messageCount);
-
-  return recentMessages.map((msg) => ({
-    role: msg.type === "user" ? "user" : "assistant",
-    content: msg.content,
-  }));
 }
 
 /**
