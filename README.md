@@ -2,11 +2,12 @@
 
 ## Personal Website
 
-Learn more about me on my [GitHub pages website](https://justinthelaw.github.io/justinthelaw/) - you can even ask an AI chatbot questions about me![^1]
+Learn more about me on my [GitHub pages website](https://justinthelaw.github.io/justinthelaw/)! On my website, you can interact with an [AI chatbot](https://huggingface.co/justinthelaw/SmolLM2-360M-Instruct_Resume-SFT-DPO) that is fine-tuned on [datasets generated from my resume and cover letter](https://huggingface.co/datasets/justinthelaw/Resume-DPO-SFT-Dataset).
 
-[^1]: ⚙️ Want to create your own version of my personal website? Check out the [customization guide](docs/CUSTOMIZATION.md) to learn how to personalize the website for yourself!
+> [!NOTE]
+> You can fork and personalize my website by checking out the [customization guide](docs/CUSTOMIZATION.md). The guide will show you how to configure the repository to use your information, and it will also walk you through the steps for fine-tuning an LLM on your own data.
 
-## About Me
+## Quick Facts
 
 💼 AI Software Engineer at [Defense Unicorns 🦄](https://www.defenseunicorns.com/)
 
@@ -14,6 +15,6 @@ Learn more about me on my [GitHub pages website](https://justinthelaw.github.io/
 
 🔥 Interested in videogames, hiking, running, and traveling
 
-## Contact
+## Contact Information
 
 👉 Connect with me on [LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)

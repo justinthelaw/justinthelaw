@@ -3,7 +3,7 @@
  * Clean API for interacting with the AI worker
  */
 
-import { ModelSize } from '@/types';
+import { ModelType } from '@/types';
 import { WorkerAction, type WorkerResponse } from '@/types/worker';
 
 export type AIServiceCallback = (response: WorkerResponse) => void;
@@ -15,7 +15,7 @@ export class AIService {
   /**
    * Initialize the AI service with a specific model size
    */
-  initialize(modelSize: ModelSize): void {
+  initialize(modelType: ModelType): void {
     if (typeof window === 'undefined') {
       return;
     }
@@ -37,7 +37,7 @@ export class AIService {
     // Initialize with model selection
     this.worker.postMessage({
       action: WorkerAction.INIT,
-      modelSelection: modelSize,
+      modelSelection: modelType,
     });
   }
 

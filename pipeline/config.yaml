@@ -1,0 +1,77 @@
+# Fine-tuning Pipeline Configuration
+# Align with frontend: src/config/prompts.ts, src/services/ai/contextProvider.ts
+
+person_name: "Justin"
+person_full_name: "Justin Law"
+
+# Paths
+resume_path: "resume/resume.pdf"
+dataset_output: "data"
+model_output: "models/lora"
+merged_output: "models/merged"
+onnx_output: "models/onnx"
+
+# llama-server for dataset generation
+server:
+  host: "http://localhost"
+  port: 8080
+  timeout: 120
+
+# Dataset Generation
+dataset:
+  hub_id: "justinthelaw/Resume-DPO-SFT-Dataset"
+  samples_per_category: 500
+  include_military: true
+  variations_per_question: 3
+  temperatures:
+    question: 0.9
+    answer: 0.2
+    rejected: 0.95
+    variation: 0.85
+  train_split: 0.9
+  seed: 42
+
+# Base Model
+model:
+  base: "HuggingFaceTB/SmolLM2-360M-Instruct"
+  hub_id: "justinthelaw/SmolLM2-360M-Instruct_Resume-SFT-DPO"
+
+# LoRA Config
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+# SFT Training (Stage 1)
+sft:
+  epochs: 5
+  batch_size: 8
+  gradient_accumulation: 2
+  learning_rate: 1.0e-4
+  max_length: 384
+  warmup_ratio: 0.1
+  seed: 42
+  weight_decay: 0.01
+
+# DPO Training (Stage 2)
+training:
+  epochs: 1
+  batch_size: 4
+  gradient_accumulation: 4
+  learning_rate: 5.0e-6
+  warmup_ratio: 0.1
+  seed: 42
+
+dpo:
+  beta: 0.05
+  loss_type: "sigmoid"
+  label_smoothing: 0.1
+  max_target_length: 150

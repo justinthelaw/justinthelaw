@@ -1,23 +1,11 @@
 /**
  * AI Context Provider
- * Generates conversation context and messages optimized for SmolLM2 models
+ * Generates conversation messages for SmolLM2 models
  */
 
-import { ModelSize, type ProfileSection } from "@/types";
-import {
-  PROFILE,
-  RELEVANT_TERMS,
-  CONTEXT_PRIORITIES,
-  SITE_CONFIG,
-} from "@/config/site";
-import {
-  SYSTEM_INSTRUCTIONS,
-  HISTORY_LIMITS,
-  getAllocatedContextTokens,
-  INPUT_CONSTRAINTS,
-  VALIDATION_THRESHOLDS,
-  EXPECTED_RESPONSE_LENGTHS,
-} from "@/config/prompts";
+import { ModelType } from "@/types";
+import { PROFILE, SITE_CONFIG, CHATBOT_CONFIG } from "@/config/site";
+import { INPUT_CONSTRAINTS } from "@/config/prompts";
 
 export interface ChatMessage {
   role: string;
@@ -26,231 +14,117 @@ export interface ChatMessage {
 
 export interface ResponseValidation {
   isValid: boolean;
-  confidence: number;
   issues: string[];
 }
 
 /**
- * Generate structured context optimized for SmolLM2 instruction format
+ * Minimal system message for SMARTER (fine-tuned) model
+ * The model has learned facts about the person during training,
+ * but needs a brief identity reminder for proper association
+ * NOTE: Must match the system prompt used in training (pipeline/config.yaml)
  */
-function generateStructuredContext(
-  modelSize: ModelSize,
-  userQuery?: string
-): string {
-  const profile = PROFILE;
-
-  // Provide structured detail with query-aware prioritization
-  if (userQuery) {
-    const prioritizedContext = prioritizeContextForQuery(userQuery, profile);
-    return `About ${SITE_CONFIG.name}:\n${prioritizedContext}\n- Personality: ${profile.personality}`;
-  }
-
-  return `About ${SITE_CONFIG.name}:
-- Role: ${profile.role}  
-- Company: ${profile.company}
-- Background: ${profile.background}
-- Education: ${profile.education}
-- Military Service: ${profile.military}
-- Technical Skills: ${profile.skills}
-- Personality: ${profile.personality}
-- Interests: ${profile.interests}`;
+function buildSmarterSystemMessage(): string {
+  // Training uses full name for "X's AI assistant" and short name for "about X"
+  // This matches: "You are Justin Law's AI assistant. Answer questions about Justin accurately and concisely."
+  const fullName = SITE_CONFIG.name; // "Justin Law"
+  const shortName = SITE_CONFIG.name.split(" ")[0]; // "Justin"
+  return `You are ${fullName}'s AI assistant. Answer questions about ${shortName} accurately and concisely.`;
 }
 
 /**
- * Truncate text to fit model context limits while preserving important information
+ * System message for DUMBER model with full profile context
+ * Built dynamically from site config and profile data
  */
-function truncateForModel(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text;
-
-  // Try to truncate at sentence boundaries
-  const sentences = text.split(/[.!?]+/);
-  let result = "";
-
-  for (const sentence of sentences) {
-    const withSentence = result + sentence + ".";
-    if (withSentence.length > maxLength) break;
-    result = withSentence;
-  }
-
-  // If no complete sentences fit, truncate at word boundaries
-  if (result.length < maxLength * 0.5) {
-    const words = text.split(" ");
-    result = "";
-    for (const word of words) {
-      const withWord = result + (result ? " " : "") + word;
-      if (withWord.length > maxLength - 10) break;
-      result = withWord;
-    }
-    result += "...";
-  }
-
-  return result;
-}
-
-/**
- * Build conversation history context for continuity
- */
-export function buildConversationContext(
-  modelSize: ModelSize,
-  messageHistory: Array<{ type: string; content: string }>
-): string {
-  if (messageHistory.length === 0) return "";
-
-  const historyLimit = HISTORY_LIMITS[modelSize];
-  const recentHistory = messageHistory.slice(-historyLimit);
-
-  const contextPairs = recentHistory
-    .filter((msg) => msg.type === "user" || msg.type === "ai")
-    .map(
-      (msg) => `${msg.type === "user" ? "Human" : "Assistant"}: ${msg.content}`
-    )
+function buildDumberSystemMessage(): string {
+  const profileLines = [
+    PROFILE.role ? `- Role: ${PROFILE.role}` : null,
+    PROFILE.company ? `- Company: ${PROFILE.company}` : null,
+    PROFILE.background ? `- Background: ${PROFILE.background}` : null,
+    PROFILE.education ? `- Education: ${PROFILE.education}` : null,
+    PROFILE.military ? `- Military Service: ${PROFILE.military}` : null,
+    PROFILE.skills ? `- Technical Skills: ${PROFILE.skills}` : null,
+    PROFILE.personality ? `- Personality: ${PROFILE.personality}` : null,
+    PROFILE.interests ? `- Interests: ${PROFILE.interests}` : null,
+  ]
+    .filter(Boolean)
     .join("\n");
 
-  return contextPairs ? `\nRecent conversation:\n${contextPairs}\n` : "";
+  return `${CHATBOT_CONFIG.dumberSystemPrompt}
+
+About ${SITE_CONFIG.name}:
+${profileLines}`;
 }
 
 /**
- * Enhanced conversation message generation with model-aware optimization
+ * Generate conversation messages based on model type
+ * Single-turn only - no conversation history is passed
  */
 export function generateConversationMessages(
   userInput: string,
-  modelSize: ModelSize,
-  messageHistory: Array<{ type: string; content: string }> = []
+  modelType: ModelType
 ): ChatMessage[] {
   const question = cleanInput(userInput);
-  const contextLimit = getAllocatedContextTokens(modelSize);
 
-  // Build structured context with query-aware prioritization
-  const profileContext = generateStructuredContext(modelSize, question);
-  const conversationContext = buildConversationContext(
-    modelSize,
-    messageHistory
-  );
-  const fullContext = profileContext + conversationContext;
+  // SMARTER model: fine-tuned, uses only the training system message
+  if (modelType === ModelType.SMARTER) {
+    return [
+      { role: "system", content: buildSmarterSystemMessage() },
+      { role: "user", content: question },
+    ];
+  }
 
-  // Truncate context if needed
-  const truncatedContext = truncateForModel(fullContext, contextLimit);
-
-  // Build optimized system message
-  const systemInstructions = SYSTEM_INSTRUCTIONS[modelSize];
-  const systemMessage = `${systemInstructions}\n\nContext: ${truncatedContext}`;
-
+  // DUMBER model: needs full context in system message
   return [
-    { role: "system", content: systemMessage },
+    { role: "system", content: buildDumberSystemMessage() },
     { role: "user", content: question },
   ];
 }
 
 /**
- * Enhanced input sanitization with better cleaning
+ * Sanitize user input
  */
 export function cleanInput(input?: string): string {
   if (!input) return "";
 
   return input
-    .replace(/`/g, "") // Remove backticks
-    .replace(/[<>]/g, "") // Remove potential HTML/XML tags
-    .replace(/\s+/g, " ") // Normalize whitespace
+    .replace(/`/g, "")
+    .replace(/[<>]/g, "")
+    .replace(/\s+/g, " ")
     .trim()
-    .slice(0, INPUT_CONSTRAINTS.MAX_LENGTH); // Limit input length
+    .slice(0, INPUT_CONSTRAINTS.MAX_LENGTH);
 }
 
 /**
- * Response quality validation for SmolLM2 models
+ * Basic response validation
  */
 export function validateResponse(
   response: string,
-  modelSize: ModelSize
+  _modelType: ModelType
 ): ResponseValidation {
   const issues: string[] = [];
-  let confidence = 1.0;
 
-  // Basic sanity checks
   if (!response.trim()) {
     issues.push("Empty response");
-    confidence = 0;
   }
 
-  // Check for excessive repetition (common SmolLM2 issue)
+  // Check for excessive repetition
   const words = response.toLowerCase().split(/\s+/);
   const uniqueWords = new Set(words);
   const repetitionRatio =
     words.length > 0 ? uniqueWords.size / words.length : 1;
 
-  if (repetitionRatio < VALIDATION_THRESHOLDS.MIN_REPETITION_RATIO) {
+  if (repetitionRatio < 0.3) {
     issues.push("High repetition detected");
-    confidence *= 0.6;
   }
 
   // Check for gibberish patterns
   const gibberishPattern = /(.)\1{4,}|[^\w\s,.!?-]{3,}|^\W+$/;
   if (gibberishPattern.test(response)) {
     issues.push("Gibberish pattern detected");
-    confidence *= 0.3;
-  }
-
-  // Check response length appropriateness for model size
-  const expectedMaxLength = EXPECTED_RESPONSE_LENGTHS[modelSize];
-  if (
-    response.length >
-    expectedMaxLength * VALIDATION_THRESHOLDS.MAX_LENGTH_MULTIPLIER
-  ) {
-    issues.push("Response too verbose for model size");
-    confidence *= 0.8;
-  }
-
-  // Check if response seems relevant (contains key context clues)
-  const containsRelevantInfo = RELEVANT_TERMS.some((term) =>
-    response.toLowerCase().includes(term.toLowerCase())
-  );
-
-  if (
-    !containsRelevantInfo &&
-    response.length > VALIDATION_THRESHOLDS.MIN_RELEVANCE_LENGTH
-  ) {
-    issues.push("Response may lack context relevance");
-    confidence *= 0.7;
   }
 
   return {
-    isValid:
-      confidence > VALIDATION_THRESHOLDS.MIN_CONFIDENCE &&
-      issues.length < VALIDATION_THRESHOLDS.MAX_ISSUES,
-    confidence,
+    isValid: issues.length === 0,
     issues,
   };
-}
-
-/**
- * Advanced context prioritization for better relevance
- */
-export function prioritizeContextForQuery(
-  query: string,
-  profile: ProfileSection
-): string {
-  const queryLower = query.toLowerCase();
-
-  // Score each section based on query relevance
-  const scoredSections = CONTEXT_PRIORITIES.map(
-    ({ section, keywords, weight }) => {
-      const relevanceScore = keywords.reduce((score, keyword) => {
-        return queryLower.includes(keyword) ? score + weight : score;
-      }, 0);
-
-      return {
-        section,
-        score: relevanceScore,
-        content: profile[section] || "",
-      };
-    }
-  ).sort((a, b) => b.score - a.score);
-
-  // Build prioritized context
-  const topSections = scoredSections.filter((s) => s.score > 0).slice(0, 4);
-  if (topSections.length === 0) {
-    // No specific relevance found, return balanced summary
-    return `${profile.role} at ${profile.company}. ${profile.background} ${profile.education}`;
-  }
-
-  return topSections.map((s) => `${s.section}: ${s.content}`).join(". ");
 }

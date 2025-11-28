@@ -1,0 +1,25 @@
+[project]
+name = "resume-finetuning"
+version = "0.1.0"
+description = "DPO fine-tuning pipeline for resume Q&A models"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "torch>=2.1.0",
+  "transformers>=4.40.0",
+  "accelerate>=0.27.0",
+  "peft>=0.10.0",
+  "trl>=0.8.0",
+  "datasets>=2.18.0",
+  "safetensors>=0.4.0",
+  "pymupdf>=1.24.0",
+  "pyyaml>=6.0.0",
+  "requests>=2.31.0",
+  "tqdm>=4.66.0",
+  "huggingface-hub>=0.21.0",
+  "optimum[onnxruntime]>=1.17.0",
+  "onnx>=1.15.0",
+]
+
+[tool.uv]
+dev-dependencies = []

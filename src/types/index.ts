@@ -16,7 +16,7 @@ export interface ChatMessage {
 /**
  * Model size options
  */
-export enum ModelSize {
+export enum ModelType {
   DUMBER = 'DUMBER',
   SMARTER = 'SMARTER',
 }
@@ -26,7 +26,7 @@ export enum ModelSize {
  */
 export interface ModelConfig {
   id: string;
-  size: ModelSize;
+  size: ModelType;
   memoryRequirement: number;
   tokenLimit: number;
   quantization: string;

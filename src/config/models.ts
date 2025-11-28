@@ -5,28 +5,27 @@
  * SMARTER = Fine-tuned model (fine-tuned for better performance)
  */
 
-import { ModelSize, type ModelConfig } from "@/types";
+import { ModelType, type ModelConfig } from "@/types";
 
 /**
  * Available model sizes
  */
-export const MODEL_SIZES = [ModelSize.DUMBER, ModelSize.SMARTER] as const;
+export const MODEL_SIZES = [ModelType.DUMBER, ModelType.SMARTER] as const;
 
 /**
  * HuggingFace model IDs for each size
  */
-// TODO: Create a fine-tuned model for `SMARTER`, and replace `DUMBER` with SmolLM2
-export const MODEL_IDS: Record<ModelSize, string> = {
-  [ModelSize.DUMBER]: "HuggingFaceTB/SmolLM-360M-Instruct",
-  [ModelSize.SMARTER]: "HuggingFaceTB/SmolLM2-360M-Instruct",
+export const MODEL_IDS: Record<ModelType, string> = {
+  [ModelType.DUMBER]: "HuggingFaceTB/SmolLM2-360M-Instruct",
+  [ModelType.SMARTER]: "justinthelaw/SmolLM2-360M-Instruct_Resume-SFT-DPO",
 };
 
 /**
  * User-friendly display names
  */
-export const MODEL_DISPLAY_NAMES: Record<ModelSize, string> = {
-  [ModelSize.DUMBER]: "Dumber",
-  [ModelSize.SMARTER]: "Smarter",
+export const MODEL_DISPLAY_NAMES: Record<ModelType, string> = {
+  [ModelType.DUMBER]: "Dumber",
+  [ModelType.SMARTER]: "Smarter",
 };
 
 /**
@@ -36,36 +35,38 @@ export const MODEL_DTYPE = "auto" as const;
 
 /**
  * Approximate memory requirements in MB
+ * Note: Fine-tuned model may be slightly larger due to additional weights
  */
-export const MODEL_MEMORY_REQUIREMENTS: Record<ModelSize, number> = {
-  [ModelSize.DUMBER]: 800,
-  [ModelSize.SMARTER]: 2000,
+export const MODEL_MEMORY_REQUIREMENTS: Record<ModelType, number> = {
+  [ModelType.DUMBER]: 800,
+  [ModelType.SMARTER]: 900,
 };
 
 /**
  * Context length limits by model size (conservative estimates)
+ * Reduced for fine-tuned model since it trained with max_length=384
  */
-export const MODEL_CONTEXT_LIMITS: Record<ModelSize, number> = {
-  [ModelSize.DUMBER]: 768,
-  [ModelSize.SMARTER]: 1024,
+export const MODEL_CONTEXT_LIMITS: Record<ModelType, number> = {
+  [ModelType.DUMBER]: 768,
+  [ModelType.SMARTER]: 512,
 };
 
 /**
  * Full model configurations
  */
-export const MODEL_CONFIGS: Record<ModelSize, ModelConfig> = {
-  [ModelSize.DUMBER]: {
-    id: MODEL_IDS[ModelSize.DUMBER],
-    size: ModelSize.DUMBER,
-    memoryRequirement: MODEL_MEMORY_REQUIREMENTS[ModelSize.DUMBER],
-    tokenLimit: MODEL_CONTEXT_LIMITS[ModelSize.DUMBER],
+export const MODEL_CONFIGS: Record<ModelType, ModelConfig> = {
+  [ModelType.DUMBER]: {
+    id: MODEL_IDS[ModelType.DUMBER],
+    size: ModelType.DUMBER,
+    memoryRequirement: MODEL_MEMORY_REQUIREMENTS[ModelType.DUMBER],
+    tokenLimit: MODEL_CONTEXT_LIMITS[ModelType.DUMBER],
     quantization: MODEL_DTYPE,
   },
-  [ModelSize.SMARTER]: {
-    id: MODEL_IDS[ModelSize.SMARTER],
-    size: ModelSize.SMARTER,
-    memoryRequirement: MODEL_MEMORY_REQUIREMENTS[ModelSize.SMARTER],
-    tokenLimit: MODEL_CONTEXT_LIMITS[ModelSize.SMARTER],
+  [ModelType.SMARTER]: {
+    id: MODEL_IDS[ModelType.SMARTER],
+    size: ModelType.SMARTER,
+    memoryRequirement: MODEL_MEMORY_REQUIREMENTS[ModelType.SMARTER],
+    tokenLimit: MODEL_CONTEXT_LIMITS[ModelType.SMARTER],
     quantization: MODEL_DTYPE,
   },
 };
@@ -73,4 +74,4 @@ export const MODEL_CONFIGS: Record<ModelSize, ModelConfig> = {
 /**
  * Default model selection (always use fine-tuned model)
  */
-export const DEFAULT_MODEL_SIZE = ModelSize.SMARTER;
+export const DEFAULT_MODEL_SIZE = ModelType.SMARTER;

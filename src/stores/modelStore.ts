@@ -6,15 +6,15 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ModelSize } from '@/types';
+import { ModelType } from '@/types';
 import { DEFAULT_MODEL_SIZE } from '@/config/models';
 
 interface ModelState {
   // Current model selection
-  selectedModel: ModelSize;
+  selectedModel: ModelType;
   
   // Model that's actually loaded in the worker
-  loadedModel: ModelSize | null;
+  loadedModel: ModelType | null;
   
   // Flag to show reload prompt when selection changes
   needsReload: boolean;
@@ -23,8 +23,8 @@ interface ModelState {
   shouldReopenChat: boolean;
   
   // Actions
-  setSelectedModel: (model: ModelSize) => void;
-  setLoadedModel: (model: ModelSize) => void;
+  setSelectedModel: (model: ModelType) => void;
+  setLoadedModel: (model: ModelType) => void;
   setShouldReopenChat: (shouldReopen: boolean) => void;
   resetModelState: () => void;
 }

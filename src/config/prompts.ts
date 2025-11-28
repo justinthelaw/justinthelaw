@@ -3,53 +3,32 @@
  * System instructions and prompt templates optimized for SmolLM2 models
  */
 
-import { ModelSize, type GenerationParams } from "@/types";
-import { MODEL_CONTEXT_LIMITS } from "./models";
-import { SITE_CONFIG } from "./site";
+import { ModelType, type GenerationParams } from "@/types";
 
 /**
  * Model-specific generation parameters for optimal SmolLM2 performance
+ *
+ * SMARTER (fine-tuned): Uses greedy decoding (do_sample=false) for consistent
+ * factual recall. Parameters match pipeline/scripts/test_model.py test_onnx().
+ *
+ * DUMBER (base model): Needs slightly higher temp for creativity since
+ * it relies on context injection rather than fine-tuned knowledge.
  */
-export const GENERATION_PARAMS: Record<ModelSize, GenerationParams> = {
-  [ModelSize.DUMBER]: {
-    temperature: 0.1,
+export const GENERATION_PARAMS: Record<ModelType, GenerationParams> = {
+  [ModelType.DUMBER]: {
+    temperature: 0.3,
     maxTokens: 128,
-    topK: 50,
-    repetitionPenalty: 1.3,
+    topK: 30,
+    repetitionPenalty: 1.2,
   },
-  [ModelSize.SMARTER]: {
-    temperature: 0.2,
-    maxTokens: 256,
-    topK: 50,
-    repetitionPenalty: 1.1,
+  [ModelType.SMARTER]: {
+    // Match pipeline/scripts/test_model.py test_onnx() parameters
+    temperature: 0.0,
+    maxTokens: 80,
+    topK: 0,
+    repetitionPenalty: 1.2,
   },
 };
-
-/**
- * Base system instruction for all models
- */
-export const BASE_SYSTEM_INSTRUCTION = `You are ${SITE_CONFIG.name}'s AI assistant. Answer questions about ${SITE_CONFIG.name} using only the provided context. Give informative but concise answers. Stay factual and context-based.`;
-
-/**
- * Model-specific system instructions
- */
-export const SYSTEM_INSTRUCTIONS: Record<ModelSize, string> = {
-  [ModelSize.DUMBER]: `${BASE_SYSTEM_INSTRUCTION} Limit to 1-3 short sentences.`,
-  [ModelSize.SMARTER]: `${BASE_SYSTEM_INSTRUCTION} Limit to 3-4 short sentences.`,
-};
-
-/**
- * Chat history limits by model size
- */
-export const HISTORY_LIMITS: Record<ModelSize, number> = {
-  [ModelSize.DUMBER]: 3,
-  [ModelSize.SMARTER]: 5,
-};
-
-/**
- * Context allocation ratios (how much of token limit to use for context)
- */
-export const CONTEXT_ALLOCATION_RATIO = 0.75;
 
 /**
  * Input sanitization limits
@@ -58,36 +37,3 @@ export const INPUT_CONSTRAINTS = {
   MAX_LENGTH: 256,
   MAX_WORDS: 64,
 } as const;
-
-/**
- * Response validation thresholds
- */
-export const VALIDATION_THRESHOLDS = {
-  MIN_CONFIDENCE: 0.3,
-  MAX_ISSUES: 3,
-  MIN_REPETITION_RATIO: 0.3,
-  MAX_LENGTH_MULTIPLIER: 3.0,
-  MIN_RELEVANCE_LENGTH: 28,
-} as const;
-
-/**
- * Expected response lengths by model size
- */
-export const EXPECTED_RESPONSE_LENGTHS: Record<ModelSize, number> = {
-  [ModelSize.DUMBER]: 128,
-  [ModelSize.SMARTER]: 256,
-};
-
-/**
- * Get context limit for a model size
- */
-export function getContextLimit(modelSize: ModelSize): number {
-  return MODEL_CONTEXT_LIMITS[modelSize];
-}
-
-/**
- * Get allocated context tokens for a model size
- */
-export function getAllocatedContextTokens(modelSize: ModelSize): number {
-  return Math.floor(getContextLimit(modelSize) * CONTEXT_ALLOCATION_RATIO);
-}

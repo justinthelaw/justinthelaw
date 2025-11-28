@@ -96,7 +96,30 @@ export const DERIVED_CONFIG = {
 } as const;
 
 /**
+ * AI Chatbot Configuration
+ * Customize the chatbot behavior and messages
+ */
+export const CHATBOT_CONFIG = {
+  // Welcome messages shown randomly when chat opens or resets
+  welcomeMessages: [
+    `Hello, I am ${SITE_CONFIG.name}'s AI assistant! Got any questions for me?`,
+    `Hey there! Got any questions about ${SITE_CONFIG.name} for me?`,
+    `Hi! Interested in learning more about ${SITE_CONFIG.name}?`,
+    `What would you like to know about ${SITE_CONFIG.name}?`,
+    `I heard you had questions about ${SITE_CONFIG.name}? Just ask away!`,
+    `Thanks for visiting! Do you want to learn more about ${SITE_CONFIG.name}?`,
+  ],
+
+  // System prompt template for DUMBER model (generic, not fine-tuned)
+  // Uses profile data to provide context about the person
+  // The SMARTER model is fine-tuned on resume data and doesn't need this
+  dumberSystemPrompt: `You are ${SITE_CONFIG.name}'s AI assistant. Answer questions about ${SITE_CONFIG.name} using only the provided context. Give informative but concise answers in 1-3 short sentences.`,
+} as const;
+
+/**
  * Profile Data for AI Chatbot Context
+ * This data is used by the DUMBER model to answer questions
+ * The SMARTER model is fine-tuned on resume data and uses this only for supplemental context
  */
 export const PROFILE: ProfileSection = {
   role: "Senior Software Engineer at Defense Unicorns, builds full-stack AI/ML applications and platforms",
@@ -115,77 +138,3 @@ export const PROFILE: ProfileSection = {
   interests:
     "Running, cooking, video games, traveling, personal coding projects",
 };
-
-/**
- * Relevant terms for context validation
- * Update these to match your profile information
- */
-export const RELEVANT_TERMS = [
-  "justin",
-  "defense unicorns",
-  "engineer",
-  "air force",
-  "space force",
-];
-
-/**
- * Context priorities for query matching
- * Adjust weights to prioritize different sections of your profile
- */
-export const CONTEXT_PRIORITIES = [
-  {
-    section: "role" as keyof ProfileSection,
-    keywords: ["job", "work", "position", "role", "title"],
-    weight: 2.0,
-  },
-  {
-    section: "company" as keyof ProfileSection,
-    keywords: ["defense unicorns", "company", "employer", "work"],
-    weight: 2.0,
-  },
-  {
-    section: "education" as keyof ProfileSection,
-    keywords: [
-      "education",
-      "school",
-      "university",
-      "degree",
-      "study",
-      "master",
-      "college",
-    ],
-    weight: 1.8,
-  },
-  {
-    section: "military" as keyof ProfileSection,
-    keywords: [
-      "military",
-      "air force",
-      "space force",
-      "veteran",
-      "captain",
-      "service",
-    ],
-    weight: 1.8,
-  },
-  {
-    section: "skills" as keyof ProfileSection,
-    keywords: ["skill", "technology", "programming", "ai", "ml"],
-    weight: 1.5,
-  },
-  {
-    section: "background" as keyof ProfileSection,
-    keywords: ["background", "experience", "career"],
-    weight: 1.3,
-  },
-  {
-    section: "personality" as keyof ProfileSection,
-    keywords: ["personality", "character", "person", "like"],
-    weight: 1.2,
-  },
-  {
-    section: "interests" as keyof ProfileSection,
-    keywords: ["hobby", "interest", "free time", "enjoy"],
-    weight: 1.0,
-  },
-] as const;
