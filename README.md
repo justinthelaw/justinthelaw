@@ -2,11 +2,10 @@
 
 ## Personal Website
 
-Learn more about me on my [GitHub pages website](https://justinthelaw.github.io/justinthelaw/). There, you can choose between a fine-tuned or generic LLM to ask questions about me!
+Learn more about me on my [GitHub pages website](https://justinthelaw.github.io/justinthelaw/)! On my website, you can interact with an [AI chatbot](https://huggingface.co/justinthelaw/SmolLM2-360M-Instruct_Resume-SFT-DPO) that is fine-tuned on [datasets generated from my resume and cover letter](https://huggingface.co/datasets/justinthelaw/Resume-DPO-SFT-Dataset).
 
-### Customization
-
-Want to create your own version of my personal website, and an accompanying LLM fine-tuned on your resume? If the answer is yes, then check out the [customization guide](docs/CUSTOMIZATION.md) to learn how for yourself!
+> [!NOTE]
+> You can fork and personalize my website by checking out the [customization guide](docs/CUSTOMIZATION.md). The guide will show you how to configure the repository to use your information, and it will also walk you through the steps for fine-tuning an LLM on your own data.
 
 ## Quick Facts
 
