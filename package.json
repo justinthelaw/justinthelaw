@@ -21,7 +21,7 @@
     "next": "^16.0.5",
     "react": "^19.0.0",
     "react-dom": "^19.2.0",
-    "zustand": "^5.0.2"
+    "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@eslint/compat": "^2.0.0",
