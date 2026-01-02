@@ -34,7 +34,7 @@ export const SITE_CONFIG = {
   // Resume Configuration
   // For Google Drive: Use the file ID from the shareable link
   // Example: https://drive.google.com/file/d/[FILE_ID]/view
-  resumeFileId: "1o3hw7mOlJ5JB9XfoDQNdv8aBdCVPl8cp",
+  resumeFileId: "1oFI8htHE1E4CmQvlcmJWY7jsznqt90Pi",
   resumeProvider: "google-drive" as const, // or "direct-url" for custom hosting
 
   // Social Links
