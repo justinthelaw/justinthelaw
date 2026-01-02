@@ -20,16 +20,16 @@ server:
 # Dataset Generation
 dataset:
   hub_id: "justinthelaw/Resume-DPO-SFT-Dataset"
-  samples_per_category: 500
+  samples_per_category: 1000
   include_military: true
   variations_per_question: 3
   temperatures:
     question: 0.9
-    answer: 0.2
-    rejected: 0.95
-    variation: 0.85
+    answer: 0.1
+    rejected: 1.0
+    variation: 1.0
   train_split: 0.9
-  seed: 42
+  seed: 88
 
 # Base Model
 model:
@@ -38,7 +38,7 @@ model:
 
 # LoRA Config
 lora:
-  r: 32
+  r: 64
   alpha: 64
   dropout: 0.05
   target_modules:
@@ -52,13 +52,13 @@ lora:
 
 # SFT Training (Stage 1)
 sft:
-  epochs: 5
+  epochs: 8
   batch_size: 8
   gradient_accumulation: 2
-  learning_rate: 1.0e-4
+  learning_rate: 1.0e-5
   max_length: 384
   warmup_ratio: 0.1
-  seed: 42
+  seed: 88
   weight_decay: 0.01
 
 # DPO Training (Stage 2)
@@ -68,7 +68,7 @@ training:
   gradient_accumulation: 4
   learning_rate: 5.0e-6
   warmup_ratio: 0.1
-  seed: 42
+  seed: 88
 
 dpo:
   beta: 0.05

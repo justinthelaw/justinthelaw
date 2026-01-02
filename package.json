@@ -17,11 +17,11 @@
   },
   "dependencies": {
     "@deemlol/next-icons": "^0.1.9",
-    "@huggingface/transformers": "^3.8.0",
-    "next": "^16.0.5",
+    "@huggingface/transformers": "^3.8.1",
+    "next": "^16.0.7",
     "react": "^19.0.0",
     "react-dom": "^19.2.0",
-    "zustand": "^5.0.2"
+    "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@eslint/compat": "^2.0.0",
@@ -33,13 +33,13 @@
     "@types/react-dom": "^19",
     "baseline-browser-mapping": "^2.8.32",
     "eslint": "^9",
-    "eslint-config-next": "16.0.5",
+    "eslint-config-next": "16.0.6",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "gh-pages": "^6.3.0",
     "postcss": "^8",
     "tailwindcss": "^4.1.17",
     "typescript": "^5",
-    "typescript-eslint": "^8.48.0"
+    "typescript-eslint": "^8.48.1"
   }
 }
