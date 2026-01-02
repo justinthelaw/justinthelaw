@@ -35,11 +35,11 @@ export const MODEL_DTYPE = "auto" as const;
 
 /**
  * Approximate memory requirements in MB
- * Note: Fine-tuned model may be slightly larger due to additional weights
+ * The fine-tuned model is larger due to non-quantization
  */
 export const MODEL_MEMORY_REQUIREMENTS: Record<ModelType, number> = {
   [ModelType.DUMBER]: 800,
-  [ModelType.SMARTER]: 900,
+  [ModelType.SMARTER]: 1600,
 };
 
 /**
@@ -47,8 +47,8 @@ export const MODEL_MEMORY_REQUIREMENTS: Record<ModelType, number> = {
  * Reduced for fine-tuned model since it trained with max_length=384
  */
 export const MODEL_CONTEXT_LIMITS: Record<ModelType, number> = {
-  [ModelType.DUMBER]: 768,
-  [ModelType.SMARTER]: 512,
+  [ModelType.DUMBER]: 1024,
+  [ModelType.SMARTER]: 384,
 };
 
 /**
