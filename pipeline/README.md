@@ -27,6 +27,10 @@ Edit `config.yaml`:
 - [ ] Set `model.hub_id` to `your-username/Your-Model`
 - [ ] Set `include_military: false` if not applicable
 
+Edit the `Makefile`:
+
+- [ ] Read and override environment variables, if applicable
+
 ### 3. Generate Dataset (~1-2 hours)
 
 - [ ] Copy resume: `cp /path/to/resume.pdf resume/resume.pdf`
@@ -81,9 +85,9 @@ make serve && make generate && make stop && make train && make merge
 
 | Setting                | Default | Increase for better memorization |
 | ---------------------- | ------- | -------------------------------- |
-| `samples_per_category` | 500     | 750+                             |
-| `sft.epochs`           | 5       | 15+                              |
-| `lora.r`               | 32      | 64                               |
+| `samples_per_category` | 1000    | 5000+                            |
+| `sft.epochs`           | 8       | 15+                              |
+| `lora.r`               | 64      | 64+                              |
 
 ## Troubleshooting
 
@@ -97,6 +101,7 @@ make serve && make generate && make stop && make train && make merge
 ```text
 pipeline/
 ├── config.yaml     # Configuration
+├── Makefile        # Orchestration
 ├── resume/         # Your resume.pdf
 ├── data/           # Generated datasets (sft/, dpo/)
 ├── models/         # Trained models (lora/, merged/, onnx/)
