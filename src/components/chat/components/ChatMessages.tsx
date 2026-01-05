@@ -3,7 +3,7 @@
  * Displays chat message history and current AI response
  */
 
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import type { ChatMessage } from "@/types";
 import { Typewriter } from "./Typewriter";
 import { SITE_CONFIG } from "@/config";
@@ -63,7 +63,7 @@ export function ChatMessages({
           )}
         </div>
       ) : (
-        <>
+        <Fragment>
           {/* Display message history */}
           {messages.map((message) => (
             <div
@@ -108,16 +108,16 @@ export function ChatMessages({
                       <span>{randomQuirkMessage}</span>
                     </div>
                   ) : (
-                    <>
+                    <Fragment>
                       {currentResponse}
                       <span className="animate-pulse">|</span>
-                    </>
+                    </Fragment>
                   )}
                 </div>
               </div>
             </div>
           )}
-        </>
+        </Fragment>
       )}
     </div>
   );
