@@ -14,6 +14,9 @@ from transformers import AutoTokenizer
 PIPELINE_DIR = Path(__file__).parent.parent
 CONFIG = yaml.safe_load((PIPELINE_DIR / "config.yaml").read_text())
 
+# Match frontend's `src/config/prompts.ts` (`CHATBOT_CONFIG.systemPrompt`), does not include additional profile context
+SYSTEM_PROMPT = f"You are {CONFIG.get('person_full_name', CONFIG['person_name'])}'s AI assistant. Answer questions about {CONFIG['person_name']} using only the provided context. Give informative but concise answers in 1-3 short sentences."
+
 
 def test_onnx(onnx_path: Path, question: str) -> str:
     """Test with ONNX model."""
@@ -22,10 +25,8 @@ def test_onnx(onnx_path: Path, question: str) -> str:
     tokenizer = AutoTokenizer.from_pretrained(str(onnx_path))
     model = ORTModelForCausalLM.from_pretrained(str(onnx_path))
 
-    # Match frontend's src/config/prompts.ts
-    system_prompt = f"You are {CONFIG.get('person_full_name', CONFIG['person_name'])}'s AI assistant. Answer questions about {CONFIG['person_name']} using only the provided context. Give informative but concise answers in 1-3 short sentences."
     messages = [
-        {"role": "system", "content": system_prompt},
+        {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": question},
     ]
     prompt = tokenizer.apply_chat_template(
@@ -62,10 +63,8 @@ def test_pytorch(model_path: Path, question: str) -> str:
         torch_dtype="auto",
     )
 
-    # Match frontend's `CHATBOT_CONFIG.systemPrompt`, does not include additional profile context
-    system_prompt = f"You are {CONFIG.get('person_full_name', CONFIG['person_name'])}'s AI assistant. Answer questions about {CONFIG['person_name']} accurately and concisely."
     messages = [
-        {"role": "system", "content": system_prompt},
+        {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": question},
     ]
     prompt = tokenizer.apply_chat_template(
