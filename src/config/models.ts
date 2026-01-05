@@ -5,7 +5,7 @@
  * SMARTER = Fine-tuned model (fine-tuned for better performance)
  */
 
-import { ModelType, type ModelConfig } from "@/types";
+import { ModelType } from "@/types";
 
 /**
  * Available model sizes
@@ -39,36 +39,15 @@ export const MODEL_DTYPE = "auto" as const;
  */
 export const MODEL_MEMORY_REQUIREMENTS: Record<ModelType, number> = {
   [ModelType.DUMBER]: 800,
-  [ModelType.SMARTER]: 1600,
+  [ModelType.SMARTER]: 2000,
 };
 
 /**
  * Context length limits by model size (conservative estimates)
- * Reduced for fine-tuned model since it trained with max_length=384
  */
 export const MODEL_CONTEXT_LIMITS: Record<ModelType, number> = {
-  [ModelType.DUMBER]: 1024,
-  [ModelType.SMARTER]: 384,
-};
-
-/**
- * Full model configurations
- */
-export const MODEL_CONFIGS: Record<ModelType, ModelConfig> = {
-  [ModelType.DUMBER]: {
-    id: MODEL_IDS[ModelType.DUMBER],
-    size: ModelType.DUMBER,
-    memoryRequirement: MODEL_MEMORY_REQUIREMENTS[ModelType.DUMBER],
-    tokenLimit: MODEL_CONTEXT_LIMITS[ModelType.DUMBER],
-    quantization: MODEL_DTYPE,
-  },
-  [ModelType.SMARTER]: {
-    id: MODEL_IDS[ModelType.SMARTER],
-    size: ModelType.SMARTER,
-    memoryRequirement: MODEL_MEMORY_REQUIREMENTS[ModelType.SMARTER],
-    tokenLimit: MODEL_CONTEXT_LIMITS[ModelType.SMARTER],
-    quantization: MODEL_DTYPE,
-  },
+  [ModelType.DUMBER]: 512,
+  [ModelType.SMARTER]: 1024,
 };
 
 /**

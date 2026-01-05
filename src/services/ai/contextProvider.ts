@@ -4,7 +4,8 @@
  */
 
 import { ModelType } from "@/types";
-import { PROFILE, SITE_CONFIG, CHATBOT_CONFIG } from "@/config/site";
+import { PROFILE, SITE_CONFIG } from "@/config/site";
+import { CHATBOT_CONFIG } from "@/config/prompts";
 import { INPUT_CONSTRAINTS } from "@/config/prompts";
 
 export interface ChatMessage {
@@ -18,24 +19,10 @@ export interface ResponseValidation {
 }
 
 /**
- * Minimal system message for SMARTER (fine-tuned) model
- * The model has learned facts about the person during training,
- * but needs a brief identity reminder for proper association
- * NOTE: Must match the system prompt used in training (pipeline/config.yaml)
- */
-function buildSmarterSystemMessage(): string {
-  // Training uses full name for "X's AI assistant" and short name for "about X"
-  // This matches: "You are Justin Law's AI assistant. Answer questions about Justin accurately and concisely."
-  const fullName = SITE_CONFIG.name; // "Justin Law"
-  const shortName = SITE_CONFIG.name.split(" ")[0]; // "Justin"
-  return `You are ${fullName}'s AI assistant. Answer questions about ${shortName} accurately and concisely.`;
-}
-
-/**
  * System message for DUMBER model with full profile context
  * Built dynamically from site config and profile data
  */
-function buildDumberSystemMessage(): string {
+function buildSystemMessage(): string {
   const profileLines = [
     PROFILE.role ? `- Role: ${PROFILE.role}` : null,
     PROFILE.company ? `- Company: ${PROFILE.company}` : null,
@@ -49,7 +36,7 @@ function buildDumberSystemMessage(): string {
     .filter(Boolean)
     .join("\n");
 
-  return `${CHATBOT_CONFIG.dumberSystemPrompt}
+  return `${CHATBOT_CONFIG.systemPrompt}
 
 About ${SITE_CONFIG.name}:
 ${profileLines}`;
@@ -59,23 +46,11 @@ ${profileLines}`;
  * Generate conversation messages based on model type
  * Single-turn only - no conversation history is passed
  */
-export function generateConversationMessages(
-  userInput: string,
-  modelType: ModelType
-): ChatMessage[] {
+export function generateConversationMessages(userInput: string): ChatMessage[] {
   const question = cleanInput(userInput);
 
-  // SMARTER model: fine-tuned, uses only the training system message
-  if (modelType === ModelType.SMARTER) {
-    return [
-      { role: "system", content: buildSmarterSystemMessage() },
-      { role: "user", content: question },
-    ];
-  }
-
-  // DUMBER model: needs full context in system message
   return [
-    { role: "system", content: buildDumberSystemMessage() },
+    { role: "system", content: buildSystemMessage() },
     { role: "user", content: question },
   ];
 }

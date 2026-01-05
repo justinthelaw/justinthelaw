@@ -119,7 +119,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
     self.postMessage({ status: WorkerStatus.INITIATE });
 
     // Generate conversation messages with model-specific optimization
-    const messages = generateConversationMessages(cleanedInput, modelType);
+    const messages = generateConversationMessages(cleanedInput);
 
     // Get model-specific generation parameters
     const generationParams = { ...GENERATION_PARAMS[modelType] };

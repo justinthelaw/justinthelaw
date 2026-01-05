@@ -96,30 +96,7 @@ export const DERIVED_CONFIG = {
 } as const;
 
 /**
- * AI Chatbot Configuration
- * Customize the chatbot behavior and messages
- */
-export const CHATBOT_CONFIG = {
-  // Welcome messages shown randomly when chat opens or resets
-  welcomeMessages: [
-    `Hello, I am ${SITE_CONFIG.name}'s AI assistant! Got any questions for me?`,
-    `Hey there! Got any questions about ${SITE_CONFIG.name} for me?`,
-    `Hi! Interested in learning more about ${SITE_CONFIG.name}?`,
-    `What would you like to know about ${SITE_CONFIG.name}?`,
-    `I heard you had questions about ${SITE_CONFIG.name}? Just ask away!`,
-    `Thanks for visiting! Do you want to learn more about ${SITE_CONFIG.name}?`,
-  ],
-
-  // System prompt template for DUMBER model (generic, not fine-tuned)
-  // Uses profile data to provide context about the person
-  // The SMARTER model is fine-tuned on resume data and doesn't need this
-  dumberSystemPrompt: `You are ${SITE_CONFIG.name}'s AI assistant. Answer questions about ${SITE_CONFIG.name} using only the provided context. Give informative but concise answers in 1-3 short sentences.`,
-} as const;
-
-/**
  * Profile Data for AI Chatbot Context
- * This data is used by the DUMBER model to answer questions
- * The SMARTER model is fine-tuned on resume data and uses this only for supplemental context
  */
 export const PROFILE: ProfileSection = {
   role: "Senior Software Engineer at Defense Unicorns, builds full-stack AI/ML applications and platforms",

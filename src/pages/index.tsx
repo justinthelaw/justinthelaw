@@ -33,7 +33,7 @@ export default function Home() {
   });
 
   return (
-    <>
+    <Fragment>
       <Head>
         <title>{SITE_CONFIG.seo.title}</title>
         <meta
@@ -111,6 +111,6 @@ export default function Home() {
         )}
         {showChatBox && <ChatContainer onClose={() => setShowChatBox(false)} />}
       </div>
-    </>
+    </Fragment>
   );
 }

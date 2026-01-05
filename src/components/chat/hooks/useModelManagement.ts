@@ -93,7 +93,7 @@ export function useModelManagement(): UseModelManagementReturn {
     return () => {
       unsubscribe();
     };
-    // selectedModel triggers reinit, setSelectedModel for fallback updates
+    // selectedModel triggers re-init, setSelectedModel for fallback updates
     // error and isLoading are managed within subscription callbacks
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedModel, setSelectedModel]);
