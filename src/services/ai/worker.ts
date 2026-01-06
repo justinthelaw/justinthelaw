@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Worker state
-let modelType: ModelType = ModelType.SMARTER;
+let modelType: ModelType = ModelType.DUMBER;
 let generator: TextGenerationPipeline | null = null;
 
 self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
