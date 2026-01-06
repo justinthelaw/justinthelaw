@@ -158,6 +158,9 @@ export async function loadModelWithFallback(
       // The model is exported as model.onnx, not model_quantized.onnx
       const pipelineOptions: Record<string, unknown> = {
         dtype: MODEL_DTYPE,
+        device: "auto",
+        subfolder: "onnx",
+        model_file_name: "model_quantized",
         progress_callback: (progressData: unknown) => {
           if (typeof progressData === "object" && progressData !== null) {
             const data = progressData as { progress?: number; status?: string };
