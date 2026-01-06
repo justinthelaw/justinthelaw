@@ -21,7 +21,7 @@ Make this website your own with an AI chatbot that answers questions about you.
 
 ### 2. Configure Website (~10 min)
 
-Edit `src/config/site.ts`:
+Edit `src/config/site.ts` and `src/config/prompts.ts`:
 
 - [ ] Set `name` to your name
 - [ ] Set `githubUsername` to your username
@@ -44,6 +44,7 @@ Edit `src/config/site.ts`:
 - [ ] `npm run dev` (test at localhost:3000)
 - [ ] `npm run flight-check`
 - [ ] `npm run deploy`
+- [ ] Go to localhost:6006 to check Phoenix OTEL traces for a quick LLM output vibe check
 
 ## Upgrade to SMARTER Model (~3-4 hours)
 

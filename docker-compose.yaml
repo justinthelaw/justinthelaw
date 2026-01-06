@@ -1,0 +1,10 @@
+name: justinthelaw-dev
+
+services:
+  phoenix:
+    image: arizephoenix/phoenix:version-12.27.0-debug
+    ports:
+      - "6006:6006" # UI and OTLP HTTP collector
+      - "4317:4317" # OTLP gRPC collector
+    environment:
+      - PHOENIX_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
