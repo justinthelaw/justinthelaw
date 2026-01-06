@@ -14,7 +14,8 @@ import type { ProfileSection } from "@/types";
  */
 export const SITE_CONFIG = {
   // Basic Information
-  name: "Justin Law",
+  name: "Justin",
+  fullName: "Justin Law",
   githubUsername: "justinthelaw",
 
   // Repository Configuration (for GitHub Pages deployment)

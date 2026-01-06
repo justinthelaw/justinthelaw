@@ -45,7 +45,7 @@ export function ResumeViewer(): React.ReactElement {
           <div className="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
             <div className="text-center">
               <div className="text-gray-500">
-                Loading {SITE_CONFIG.name}&apos;s resume...
+                Loading {SITE_CONFIG.fullName}&apos;s resume...
               </div>
             </div>
           </div>
@@ -55,7 +55,7 @@ export function ResumeViewer(): React.ReactElement {
             <div className="text-center mt-2">
               <p className="text-sm text-gray-600">
                 Unable to display PDF in browser. You can download{" "}
-                {SITE_CONFIG.name}&apos;s resume{" "}
+                {SITE_CONFIG.fullName}&apos;s resume{" "}
                 <a
                   href={`https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/view?usp=sharing`}
                   target="_blank"

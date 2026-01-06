@@ -7,11 +7,11 @@ test.describe('Homepage E2E Tests', () => {
     await page.goto('/');
 
     // Verify the page loads without errors (no 404 or 500 status)
-    await expect(page).toHaveTitle(new RegExp(SITE_CONFIG.name));
+    await expect(page).toHaveTitle(new RegExp(SITE_CONFIG.fullName));
 
     // Assert that the main header is visible with the configured name
     await expect(page.getByTestId('main-header')).toBeVisible();
-    await expect(page.getByTestId('main-header')).toHaveText(SITE_CONFIG.name);
+    await expect(page.getByTestId('main-header')).toHaveText(SITE_CONFIG.fullName);
 
     // Assert that the AI Chatbot button is visible
     await expect(page.getByTestId('ai-chatbot-button')).toBeVisible();

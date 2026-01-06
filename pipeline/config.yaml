@@ -22,6 +22,7 @@ dataset:
   hub_id: "justinthelaw/Resume-Cover-Letter-SFT-Dataset"
   samples_per_category: 1000
   include_military: true
+  has_recommendations: true
   variations_per_question: 3
   temperatures:
     question: 0.9

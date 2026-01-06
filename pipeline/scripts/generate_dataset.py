@@ -23,10 +23,10 @@ SAMPLES_FILE = DATA_DIR / "sft_samples.jsonl"
 RAW_TEXT_FILE = PIPELINE_DIR / "resume" / "resume_raw.txt"
 
 PERSON_NAME = CONFIG["person_name"]
-PERSON_FULL_NAME = CONFIG.get("person_full_name", PERSON_NAME)
+PERSON_FULL_NAME = CONFIG["person_full_name"]
 
 # Must match frontend's buildSmarterSystemMessage() in src/services/ai/contextProvider.ts
-TRAINING_SYSTEM = f"You are {PERSON_FULL_NAME}'s AI assistant. Answer questions about {PERSON_NAME} accurately and concisely."
+TRAINING_SYSTEM = f"You are {PERSON_FULL_NAME}'s AI assistant. Answer questions about {PERSON_NAME} using only the provided context. Give informative but concise answers in 1-3 short sentences."
 
 
 class SFTSample(TypedDict):
@@ -35,37 +35,28 @@ class SFTSample(TypedDict):
     messages: list[dict[str, str]]
 
 
-# LLM prompts for synthetic data generation
-QUESTION_PROMPT = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-Generate a SHORT, SIMPLE question about {name} (5-12 words max). The question MUST include "{name}" or "{name}'s". Make it casual like someone asking a friend. Examples of good questions:
+# LLM prompts for synthetic data generation (model-agnostic)
+QUESTION_SYSTEM = """Generate a SHORT, SIMPLE question about {name} (5-12 words max). The question MUST include "{name}" or "{name}'s". Make it casual like someone asking a friend. Examples of good questions:
 - "What is {name} like?"
 - "Where did {name} go to school?"
 - "What does {name} do for work?"
 - "How do people describe {name}?"
 - "What are {name}'s main skills?"
-Output ONLY the question, nothing else.<|eot_id|>
-<|start_header_id|>user<|end_header_id|>
-Resume context: {context}
+Output ONLY the question, nothing else."""
 
-Generate a short question about {name}'s {category}.<|eot_id|>
-<|start_header_id|>assistant<|end_header_id|>
-"""
+QUESTION_USER = """Resume context: {context}
 
-VARIATION_PROMPT = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-Rephrase this question about {name} in a SHORTER, SIMPLER way (5-12 words max). Keep "{name}" or "{name}'s" in it. Make it sound casual and conversational. Output ONLY the rephrased question.<|eot_id|>
-<|start_header_id|>user<|end_header_id|>
-Original question: {question}<|eot_id|>
-<|start_header_id|>assistant<|end_header_id|>
-"""
+Generate a short question about {name}'s {category}."""
 
-ANSWER_PROMPT = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-Answer using ONLY the resume context. Use third-person (e.g., "{name} works at..."). STRICT LIMIT: 1-2 sentences, under 50 words total. Be direct and factual. No filler words or elaboration.<|eot_id|>
-<|start_header_id|>user<|end_header_id|>
-Resume: {context}
+VARIATION_SYSTEM = """Rephrase this question about {name} in a SHORTER, SIMPLER way (5-12 words max). Keep "{name}" or "{name}'s" in it. Make it sound casual and conversational. Output ONLY the rephrased question."""
 
-Question: {question}<|eot_id|>
-<|start_header_id|>assistant<|end_header_id|>
-"""
+VARIATION_USER = """Original question: {question}"""
+
+ANSWER_SYSTEM = """Answer using ONLY the resume context. Use third-person (e.g., "{name} works at..."). STRICT LIMIT: 1-2 sentences, under 50 words total. Be direct and factual. No filler words or elaboration."""
+
+ANSWER_USER = """Resume: {context}
+
+Question: {question}"""
 
 QUESTION_CATEGORIES = {
     "work experience": [
@@ -117,6 +108,7 @@ QUESTION_CATEGORIES = {
         "interests",
         "personality traits",
         "hobbies",
+        "recommendations"
     ],
 }
 
@@ -192,25 +184,26 @@ def clean_text(text: str) -> str:
     return text.strip()
 
 
-def llm_call(prompt: str, temperature: float = 0.7, max_tokens: int = 128) -> str:
-    """Call llama-server."""
+def llm_call(
+    messages: list[dict[str, str]], temperature: float = 0.7, max_tokens: int = 128
+) -> str:
+    """Call llama-server using OpenAI-compatible chat completions endpoint."""
     server = CONFIG["server"]
     try:
         resp = requests.post(
-            f"{server['host']}:{server['port']}/completion",
+            f"{server['host']}:{server['port']}/v1/chat/completions",
             json={
-                "prompt": prompt,
+                "messages": messages,
                 "temperature": temperature,
-                "n_predict": max_tokens,
-                "stop": ["<|eot_id|>", "<|end_of_text|>", "\n\n\n", "Question:"],
+                "max_tokens": max_tokens,
+                "stop": ["\n\n\n", "Question:"],
                 "stream": False,
             },
             timeout=server["timeout"],
         )
         resp.raise_for_status()
-        response_json: dict[str, str | int | bool] = resp.json()  # type: ignore[assignment]
-        content = str(response_json.get("content", "")).strip()
-        content = re.sub(r"<\|.*?\|>", "", content).strip()
+        response_json = resp.json()
+        content = response_json["choices"][0]["message"]["content"].strip()
         return content
     except Exception as e:
         print(f"LLM error: {e}")
@@ -265,8 +258,11 @@ def generate_question_variations(
     variations = [question]
 
     for _ in range(num_variations - 1):
-        prompt = VARIATION_PROMPT.format(name=PERSON_NAME, question=question)
-        variation = llm_call(prompt, temperature=temperature, max_tokens=64)
+        messages = [
+            {"role": "system", "content": VARIATION_SYSTEM.format(name=PERSON_NAME)},
+            {"role": "user", "content": VARIATION_USER.format(question=question)},
+        ]
+        variation = llm_call(messages, temperature=temperature, max_tokens=64)
         variation = variation.strip().strip('"').rstrip("?") + "?"
 
         # Validate
@@ -323,11 +319,17 @@ def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
                 focus = random.choice(subcategories)  # noqa: S311
 
                 # Generate base question
-                q_prompt = QUESTION_PROMPT.format(
-                    context=context, category=f"{category} ({focus})", name=PERSON_NAME
-                )
+                messages = [
+                    {"role": "system", "content": QUESTION_SYSTEM.format(name=PERSON_NAME)},
+                    {
+                        "role": "user",
+                        "content": QUESTION_USER.format(
+                            context=context, category=f"{category} ({focus})", name=PERSON_NAME
+                        ),
+                    },
+                ]
                 question = llm_call(
-                    q_prompt, temperature=temps["question"], max_tokens=64
+                    messages, temperature=temps["question"], max_tokens=64
                 )
                 question = question.strip().strip('"').rstrip("?") + "?"
 
@@ -351,10 +353,14 @@ def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
                     continue
 
                 # Generate answer with context
-                a_prompt = ANSWER_PROMPT.format(
-                    context=context, question=question, name=PERSON_NAME
-                )
-                answer = llm_call(a_prompt, temperature=temps["answer"], max_tokens=80)
+                messages = [
+                    {"role": "system", "content": ANSWER_SYSTEM.format(name=PERSON_NAME)},
+                    {
+                        "role": "user",
+                        "content": ANSWER_USER.format(context=context, question=question),
+                    },
+                ]
+                answer = llm_call(messages, temperature=temps["answer"], max_tokens=80)
                 answer = clean_response(answer, max_sentences=2, max_words=50)
 
                 if not answer or len(answer) < 15:

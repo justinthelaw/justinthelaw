@@ -57,5 +57,5 @@ export const CHATBOT_CONFIG = {
   // System prompt template for DUMBER model (generic, not fine-tuned)
   // Uses profile data to provide context about the person
   // The SMARTER model is fine-tuned on resume data and doesn't need this
-  systemPrompt: `You are ${SITE_CONFIG.name}'s AI assistant. Answer questions about ${SITE_CONFIG.name} using only the provided context. Give informative but concise answers in 1-3 short sentences.`,
+  systemPrompt: `You are ${SITE_CONFIG.fullName}'s AI assistant. Answer questions about ${SITE_CONFIG.name} using only the provided context. Give informative but concise answers in 1-3 short sentences.`,
 } as const;
