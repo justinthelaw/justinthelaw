@@ -17,10 +17,19 @@ import {
   validateResponse,
 } from "./contextProvider";
 import { loadModelWithFallback } from "./modelLoader";
+import { initTracing, traceLLMGeneration, traceModelLoad } from "./tracing";
+import { MODEL_IDS } from "@/config/models";
 
 // Configure environment for browser usage
 env.allowLocalModels = false;
 env.remoteHost = "https://huggingface.co";
+
+// Initialize Phoenix tracing (dev-only)
+if (process.env.NODE_ENV === "development") {
+  initTracing().catch((err) =>
+    console.warn("[Worker] Failed to initialize tracing:", err)
+  );
+}
 
 // Worker state
 let modelType: ModelType = ModelType.SMARTER;
@@ -38,28 +47,38 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
   // Load the model
   if (action === WorkerAction.LOAD) {
     try {
-      generator = await loadModelWithFallback(modelType, {
-        onProgress: (progress, message) => {
-          self.postMessage({
-            status: WorkerStatus.LOAD,
-            message,
-            progress,
-          });
+      const loadOperation = async () => {
+        return await loadModelWithFallback(modelType, {
+          onProgress: (progress, message) => {
+            self.postMessage({
+              status: WorkerStatus.LOAD,
+              message,
+              progress,
+            });
+          },
+          onFallback: (newSize) => {
+            modelType = newSize;
+            self.postMessage({
+              status: WorkerStatus.FALLBACK_MODEL,
+              fallbackModel: newSize,
+            });
+          },
+          onError: (message) => {
+            self.postMessage({
+              status: WorkerStatus.ERROR,
+              error: message,
+            });
+          },
+        });
+      };
+
+      generator = await traceModelLoad(
+        {
+          modelType,
+          modelId: MODEL_IDS[modelType],
         },
-        onFallback: (newSize) => {
-          modelType = newSize;
-          self.postMessage({
-            status: WorkerStatus.FALLBACK_MODEL,
-            fallbackModel: newSize,
-          });
-        },
-        onError: (message) => {
-          self.postMessage({
-            status: WorkerStatus.ERROR,
-            error: message,
-          });
-        },
-      });
+        loadOperation
+      );
 
       if (generator) {
         self.postMessage({
@@ -120,6 +139,10 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
 
     // Generate conversation messages with model-specific optimization
     const messages = generateConversationMessages(cleanedInput);
+    
+    // Extract system message and user input for tracing
+    const systemMessage = messages.find(m => m.role === "system")?.content;
+    const userMessage = messages.find(m => m.role === "user")?.content || cleanedInput;
 
     // Get model-specific generation parameters
     const generationParams = { ...GENERATION_PARAMS[modelType] };
@@ -130,59 +153,99 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
     const maxRetries = 0; // Disable retries - just accept the first response
 
     try {
-      while (!isResponseValid && retryCount <= maxRetries) {
-        fullResponse = "";
+      const generateOperation = async () => {
+        // Type guard - generator is checked above but needed for closure
+        if (!generator || !generator.tokenizer) {
+          throw new Error("Generator not available");
+        }
 
-        // Create streamer for real-time output
-        const streamer = new TextStreamer(generator.tokenizer, {
-          skip_prompt: true,
-          skip_special_tokens: true,
-          callback_function: (text: string) => {
-            fullResponse += text;
-            self.postMessage({ status: WorkerStatus.STREAM, response: text });
-          },
-        });
+        // Count input tokens for tracing
+        const inputTokenIds = generator.tokenizer(
+          messages.map(m => `${m.role}: ${m.content}`).join("\n"),
+          { return_tensor: false }
+        );
+        const promptTokens = Array.isArray(inputTokenIds.input_ids)
+          ? inputTokenIds.input_ids.length
+          : inputTokenIds.input_ids.data.length;
 
-        // Generate with model-optimized parameters
-        await generator(messages, {
-          temperature: generationParams.temperature,
-          max_new_tokens: generationParams.maxTokens,
-          do_sample: false,
-          repetition_penalty: generationParams.repetitionPenalty,
-          top_k: generationParams.topK,
-          early_stopping: true,
-          streamer,
-        });
+        while (!isResponseValid && retryCount <= maxRetries) {
+          fullResponse = "";
 
-        // Validate response quality (but be lenient)
-        const validation = validateResponse(fullResponse.trim(), modelType);
-        isResponseValid = validation.isValid;
-
-        // If we've hit max retries, accept the response anyway
-        if (retryCount >= maxRetries) {
-          isResponseValid = true;
-          if (validation.issues.length > 0) {
-            console.log(
-              "Accepting response with validation warnings for %s model:",
-              modelType,
-              validation.issues
-            );
-          }
-        } else if (!isResponseValid && retryCount < maxRetries) {
-          retryCount++;
-          self.postMessage({
-            status: WorkerStatus.STREAM,
-            response: `\n[Improving response quality... attempt ${
-              retryCount + 1
-            }]\n`,
+          // Create streamer for real-time output
+          const streamer = new TextStreamer(generator.tokenizer, {
+            skip_prompt: true,
+            skip_special_tokens: true,
+            callback_function: (text: string) => {
+              fullResponse += text;
+              self.postMessage({ status: WorkerStatus.STREAM, response: text });
+            },
           });
 
-          // Adjust params for retry
-          generationParams.temperature = generationParams.temperature * 1.1;
-          generationParams.repetitionPenalty =
-            generationParams.repetitionPenalty * 1.1;
+          // Generate with model-optimized parameters
+          await generator(messages, {
+            temperature: generationParams.temperature,
+            max_new_tokens: generationParams.maxTokens,
+            do_sample: false,
+            repetition_penalty: generationParams.repetitionPenalty,
+            top_k: generationParams.topK,
+            early_stopping: true,
+            streamer,
+          });
+
+          // Validate response quality (but be lenient)
+          const validation = validateResponse(fullResponse.trim(), modelType);
+          isResponseValid = validation.isValid;
+
+          // If we've hit max retries, accept the response anyway
+          if (retryCount >= maxRetries) {
+            isResponseValid = true;
+            if (validation.issues.length > 0) {
+              console.log(
+                "Accepting response with validation warnings for %s model:",
+                modelType,
+                validation.issues
+              );
+            }
+          } else if (!isResponseValid && retryCount < maxRetries) {
+            retryCount++;
+            self.postMessage({
+              status: WorkerStatus.STREAM,
+              response: `\n[Improving response quality... attempt ${
+                retryCount + 1
+              }]\n`,
+            });
+
+            // Adjust params for retry
+            generationParams.temperature = generationParams.temperature * 1.1;
+            generationParams.repetitionPenalty =
+              generationParams.repetitionPenalty * 1.1;
+          }
         }
-      }
+
+        // Count output tokens for tracing
+        const outputTokenIds = generator.tokenizer(fullResponse, {
+          return_tensor: false,
+        });
+        const completionTokens = Array.isArray(outputTokenIds.input_ids)
+          ? outputTokenIds.input_ids.length
+          : outputTokenIds.input_ids.data.length;
+
+        return { output: fullResponse, fullResponse, promptTokens, completionTokens };
+      };
+
+      await traceLLMGeneration(
+        {
+          modelType,
+          modelId: MODEL_IDS[modelType],
+          systemMessage,
+          input: userMessage,
+          temperature: generationParams.temperature,
+          maxTokens: generationParams.maxTokens,
+          topK: generationParams.topK,
+          repetitionPenalty: generationParams.repetitionPenalty,
+        },
+        generateOperation
+      );
     } catch (e) {
       self.postMessage({
         status: WorkerStatus.STREAM,
