@@ -50,17 +50,6 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 
 See [`/pipeline/README.md`](../pipeline/README.md) for full instructions.
 
-### Quick Steps
-
-- [ ] `cd pipeline && make setup`
-- [ ] Edit `config.yaml` with your info
-- [ ] Copy resume to `resume/resume.pdf`
-- [ ] `make serve && make generate && make stop`
-- [ ] `make train && make merge`
-- [ ] `huggingface-cli login && make push-model`
-- [ ] Update `src/config/models.ts` with your model ID
-- [ ] `npm run flight-check && npm run deploy`
-
 ## Configuration Files
 
 | File                    | Purpose                                  |
