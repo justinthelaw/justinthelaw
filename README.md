@@ -4,7 +4,7 @@
 
 <https://justinthelaw.github.io/justinthelaw/>
 
-At the linked website above, you will find an AI chatbot that is fine-tuned on synthetic datasets generated from my resume and cover letter, alongside a downloadable resume and cover letter viewer.
+At the linked website above, you will find an AI chatbot that is fine-tuned on synthetic datasets generated from my resume and cover letter, alongside a viewable and downloadable PDF version of my resume and cover letter.
 
 > [!NOTE]
 > You can fork and personalize my website by checking out the [customization guide](docs/CUSTOMIZATION.md). The guide will show you how to configure the repository to use your information, and it will also walk you through the steps for fine-tuning an LLM on your own data.
