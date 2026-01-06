@@ -1,7 +1,7 @@
 /**
  * Model Store
  * Zustand store for managing model selection and preferences
- * Defaults to generic (DUMBER) model for broader device compatibility
+ * Defaults to SMARTER, auto-downgrades based on available RAM
  */
 
 import { create } from 'zustand';

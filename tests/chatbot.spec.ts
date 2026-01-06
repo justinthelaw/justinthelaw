@@ -117,7 +117,7 @@ test.describe("Chatbot UI Tests", () => {
     await page.waitForTimeout(1000);
   });
 
-  test("should have DUMBER model selected by default", async ({ page }) => {
+  test("should select model based on available RAM", async ({ page }) => {
     const chatbotButton = page.getByTestId("ai-chatbot-button");
     await chatbotButton.click();
 
@@ -135,10 +135,11 @@ test.describe("Chatbot UI Tests", () => {
     const modal = page.getByTestId("model-selector-modal");
     await expect(modal).toBeVisible();
 
-    // The "Dumber" option should be checked by default
-    const dumberLabel = modal.locator('label:has-text("Dumber")');
-    const dumberRadio = dumberLabel.locator('input[type="radio"]');
-    await expect(dumberRadio).toBeChecked();
+    // In test environment with sufficient RAM, SMARTER should be selected
+    // (The system starts with SMARTER and downgrades only if RAM is insufficient)
+    const smarterLabel = modal.locator('label:has-text("Smarter")');
+    const smarterRadio = smarterLabel.locator('input[type="radio"]');
+    await expect(smarterRadio).toBeChecked();
   });
 
   test("should maintain scroll position at bottom when messages are sent", async ({

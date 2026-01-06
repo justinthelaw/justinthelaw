@@ -51,6 +51,6 @@ export const MODEL_CONTEXT_LIMITS: Record<ModelType, number> = {
 };
 
 /**
- * Default model selection (use generic model for broader device compatibility)
+ * Default model selection (use SMARTER, will auto-downgrade based on RAM)
  */
-export const DEFAULT_MODEL_SIZE = ModelType.DUMBER;
+export const DEFAULT_MODEL_SIZE = ModelType.SMARTER;
