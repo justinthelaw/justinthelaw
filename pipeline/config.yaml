@@ -19,7 +19,7 @@ server:
 
 # Dataset Generation
 dataset:
-  hub_id: "justinthelaw/Resume-DPO-SFT-Dataset"
+  hub_id: "justinthelaw/Resume-SFT-DPO-Dataset"
   samples_per_category: 1000
   include_military: true
   variations_per_question: 3
