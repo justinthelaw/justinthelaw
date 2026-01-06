@@ -35,6 +35,7 @@ Edit the `Makefile`:
 
 - [ ] Copy resume: `cp /path/to/resume.pdf resume/resume.pdf`
 - [ ] Start llama.cpp server: `make serve`
+- [ ] Preview resume extraction: `make preview`
 - [ ] Generate data: `make generate-dataset`
 - [ ] Stop llama.cpp server: `make stop`
 
@@ -63,17 +64,18 @@ make serve && make generate-dataset && make stop && make train-model && make tes
 
 ## Commands
 
-| Command                 | Description                   | Time      |
-| ----------------------- | ----------------------------- | --------- |
-| `make setup`            | Install dependencies          | 1 min     |
-| `make serve`            | Start llama.cpp LLM server    | 1-5 min   |
-| `make stop`             | Stop llama.cpp LLM server     | <1 min    |
-| `make generate-dataset` | Generate training data        | 1-3 hrs   |
-| `make train-model`      | Fine-tune the base model      | 30-60 min |
-| `make test-model`       | Test the model (ONNX)         | 1-2 min   |
-| `make push-model`       | Upload model to HuggingFace   | 1-2 min   |
-| `make push-dataset`     | Upload dataset to HuggingFace | 1-2 min   |
-| `make clean`            | Remove generated files        | <1 min    |
+| Command                 | Description                    | Time      |
+| ----------------------- | ------------------------------ | --------- |
+| `make setup`            | Install dependencies           | 1 min     |
+| `make serve`            | Start llama.cpp LLM server     | 1-5 min   |
+| `make stop`             | Stop llama.cpp LLM server      | <1 min    |
+| `make preview`          | Preview resume data extraction | <1 min    |
+| `make generate-dataset` | Generate training data         | 1-3 hrs   |
+| `make train-model`      | Fine-tune the base model       | 30-60 min |
+| `make test-model`       | Test the model (ONNX)          | 1-2 min   |
+| `make push-model`       | Upload model to HuggingFace    | 1-2 min   |
+| `make push-dataset`     | Upload dataset to HuggingFace  | 1-2 min   |
+| `make clean`            | Remove generated files         | <1 min    |
 
 ## Troubleshooting
 

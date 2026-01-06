@@ -8,10 +8,10 @@ import sys
 from pathlib import Path
 from typing import TypedDict
 
-import fitz  # type: ignore[import-untyped]
+import fitz
 import requests
 import yaml
-from datasets import Dataset, DatasetDict  # type: ignore[import-untyped]
+from datasets import Dataset, DatasetDict
 from tqdm import tqdm
 
 PIPELINE_DIR = Path(__file__).parent.parent
@@ -19,8 +19,7 @@ CONFIG = yaml.safe_load((PIPELINE_DIR / "config.yaml").read_text())
 
 # Output paths
 DATA_DIR = PIPELINE_DIR / CONFIG["dataset_output"]
-SAMPLES_FILE = DATA_DIR / "dpo_samples.jsonl"
-SFT_FILE = DATA_DIR / "sft_samples.jsonl"
+SAMPLES_FILE = DATA_DIR / "sft_samples.jsonl"
 RAW_TEXT_FILE = PIPELINE_DIR / "resume" / "resume_raw.txt"
 
 PERSON_NAME = CONFIG["person_name"]
@@ -28,14 +27,6 @@ PERSON_FULL_NAME = CONFIG.get("person_full_name", PERSON_NAME)
 
 # Must match frontend's buildSmarterSystemMessage() in src/services/ai/contextProvider.ts
 TRAINING_SYSTEM = f"You are {PERSON_FULL_NAME}'s AI assistant. Answer questions about {PERSON_NAME} accurately and concisely."
-
-
-class Sample(TypedDict):
-    """DPO sample structure."""
-
-    prompt: str
-    chosen: str
-    rejected: str
 
 
 class SFTSample(TypedDict):
@@ -73,14 +64,6 @@ Answer using ONLY the resume context. Use third-person (e.g., "{name} works at..
 Resume: {context}
 
 Question: {question}<|eot_id|>
-<|start_header_id|>assistant<|end_header_id|>
-"""
-
-# No context - hallucination for DPO rejected samples
-REJECT_PROMPT = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-Answer this question about {name}. Make a plausible but INCORRECT guess. STRICT LIMIT: 1-2 sentences, under 50 words. Be direct.<|eot_id|>
-<|start_header_id|>user<|end_header_id|>
-{question}<|eot_id|>
 <|start_header_id|>assistant<|end_header_id|>
 """
 
@@ -130,11 +113,10 @@ QUESTION_CATEGORIES = {
         "notable achievements",
         "milestones",
     ],
-    "certifications": [
-        "professional certifications",
-        "credentials",
-        "licenses",
-        "training certificates",
+    "character": [
+        "interests",
+        "personality traits",
+        "hobbies",
     ],
 }
 
@@ -148,7 +130,6 @@ def get_question_categories() -> dict[str, list[str]]:
             "service branch",
             "military rank",
             "military experience",
-            "veteran status",
         ]
     return categories
 
@@ -227,7 +208,8 @@ def llm_call(prompt: str, temperature: float = 0.7, max_tokens: int = 128) -> st
             timeout=server["timeout"],
         )
         resp.raise_for_status()
-        content = resp.json().get("content", "").strip()
+        response_json: dict[str, str | int | bool] = resp.json()  # type: ignore[assignment]
+        content = str(response_json.get("content", "")).strip()
         content = re.sub(r"<\|.*?\|>", "", content).strip()
         return content
     except Exception as e:
@@ -265,7 +247,7 @@ def load_existing_samples(file_path: Path) -> list[dict]:
         return []
 
     samples: list[dict] = []
-    with open(file_path, "r", encoding="utf-8") as f:
+    with file_path.open(encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if line:
@@ -302,22 +284,22 @@ def generate_question_variations(
     return variations
 
 
-def generate_dataset(context: str, total_samples: int) -> tuple[list[Sample], list[SFTSample]]:
-    """Generate DPO and SFT samples."""
+def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
+    """Generate SFT samples."""
     cfg = CONFIG["dataset"]
     temps = cfg["temperatures"]
 
     # Load existing
-    existing_dpo = load_existing_samples(SAMPLES_FILE)
-    existing_sft = load_existing_samples(SFT_FILE)
+    existing_sft = load_existing_samples(SAMPLES_FILE)
     existing_questions: set[str] = set()
 
-    for s in existing_dpo:
-        if "prompt" in s:
-            existing_questions.add(s["prompt"].lower())
+    for s in existing_sft:
+        if "messages" in s and len(s["messages"]) >= 2:
+            # Extract question from user message
+            user_msg = next((m for m in s["messages"] if m["role"] == "user"), None)
+            if user_msg:
+                existing_questions.add(user_msg["content"].lower())
 
-    if existing_dpo:
-        print(f"Resuming: {len(existing_dpo)} existing DPO samples")
     if existing_sft:
         print(f"Resuming: {len(existing_sft)} existing SFT samples")
 
@@ -327,13 +309,10 @@ def generate_dataset(context: str, total_samples: int) -> tuple[list[Sample], li
     samples_per_category = total_samples // len(categories)
     variations_per_q = cfg.get("variations_per_question", 3)
 
-    dpo_samples: list[Sample] = []
     sft_samples: list[SFTSample] = []
     generated = 0
 
-    with open(SAMPLES_FILE, "a", encoding="utf-8") as dpo_f, open(
-        SFT_FILE, "a", encoding="utf-8"
-    ) as sft_f:
+    with SAMPLES_FILE.open("a", encoding="utf-8") as sft_f:
         for category, subcategories in categories.items():
             print(f"\nCategory: {category}")
 
@@ -341,7 +320,7 @@ def generate_dataset(context: str, total_samples: int) -> tuple[list[Sample], li
                 range(samples_per_category // variations_per_q), desc="Generating"
             ):
                 # Pick a random subcategory focus
-                focus = random.choice(subcategories)
+                focus = random.choice(subcategories)  # noqa: S311
 
                 # Generate base question
                 q_prompt = QUESTION_PROMPT.format(
@@ -368,31 +347,17 @@ def generate_dataset(context: str, total_samples: int) -> tuple[list[Sample], li
                     continue
                 # Prefer short questions
                 word_count = len(question.split())
-                if word_count > 15 and random.random() > 0.1:
+                if word_count > 15 and random.random() > 0.1:  # noqa: S311
                     continue
 
                 # Generate answer with context
                 a_prompt = ANSWER_PROMPT.format(
                     context=context, question=question, name=PERSON_NAME
                 )
-                chosen = llm_call(a_prompt, temperature=temps["answer"], max_tokens=80)
-                chosen = clean_response(chosen, max_sentences=2, max_words=50)
+                answer = llm_call(a_prompt, temperature=temps["answer"], max_tokens=80)
+                answer = clean_response(answer, max_sentences=2, max_words=50)
 
-                if not chosen or len(chosen) < 15:
-                    continue
-
-                # Generate rejected (no context - hallucination)
-                r_prompt = REJECT_PROMPT.format(question=question, name=PERSON_NAME)
-                rejected = llm_call(
-                    r_prompt, temperature=temps["rejected"], max_tokens=80
-                )
-                rejected = clean_response(rejected, max_sentences=2, max_words=50)
-
-                if not rejected or len(rejected) < 15:
-                    continue
-
-                # Skip if too similar
-                if chosen.lower()[:50] == rejected.lower()[:50]:
+                if not answer or len(answer) < 15:
                     continue
 
                 # Generate question variations
@@ -404,91 +369,54 @@ def generate_dataset(context: str, total_samples: int) -> tuple[list[Sample], li
                     if q_var.lower() in existing_questions:
                         continue
 
-                    dpo_sample: Sample = {
-                        "prompt": q_var,
-                        "chosen": chosen,
-                        "rejected": rejected,
-                    }
-
                     sft_sample: SFTSample = {
                         "messages": [
                             {"role": "system", "content": TRAINING_SYSTEM},
                             {"role": "user", "content": q_var},
-                            {"role": "assistant", "content": chosen},
+                            {"role": "assistant", "content": answer},
                         ]
                     }
 
-                    dpo_f.write(json.dumps(dpo_sample) + "\n")
                     sft_f.write(json.dumps(sft_sample) + "\n")
-                    dpo_f.flush()
                     sft_f.flush()
 
-                    dpo_samples.append(dpo_sample)
                     sft_samples.append(sft_sample)
                     existing_questions.add(q_var.lower())
                     generated += 1
 
     print(f"\nGenerated {generated} new samples")
-    return (
-        load_existing_samples(SAMPLES_FILE),  # type: ignore
-        load_existing_samples(SFT_FILE),  # type: ignore
-    )
+    loaded_samples = load_existing_samples(SAMPLES_FILE)
+    # Type cast to SFTSample list (samples are already in correct format)
+    return [SFTSample(messages=s["messages"]) for s in loaded_samples]
 
 
-def save_dataset(
-    dpo_samples: list[Sample], sft_samples: list[SFTSample]
-) -> None:
-    """Convert to HuggingFace Dataset format for both SFT and DPO."""
+def save_dataset(sft_samples: list[SFTSample]) -> None:
+    """Convert to HuggingFace Dataset format for SFT."""
     cfg = CONFIG["dataset"]
 
-    if not dpo_samples or not sft_samples:
+    if not sft_samples:
         print("Error: No samples to save")
         return
 
     random.seed(cfg["seed"])
+    random.shuffle(sft_samples)  # noqa: S311
 
-    # Shuffle both in sync
-    combined = list(zip(dpo_samples, sft_samples))
-    random.shuffle(combined)
-    dpo_samples, sft_samples = zip(*combined)  # type: ignore
-    dpo_samples = list(dpo_samples)
-    sft_samples = list(sft_samples)
-
-    split = int(len(dpo_samples) * cfg["train_split"])
-
-    # Save DPO dataset
-    dpo_train, dpo_val = dpo_samples[:split], dpo_samples[split:]
-    dpo_dataset = DatasetDict(
-        {
-            "train": Dataset.from_list(dpo_train),
-            "validation": Dataset.from_list(dpo_val),
-        }
-    )
-    dpo_path = DATA_DIR / "dpo"
-    dpo_dataset.save_to_disk(str(dpo_path))
-    print(f"Saved DPO: {len(dpo_train)} train, {len(dpo_val)} validation -> {dpo_path}")
+    split = int(len(sft_samples) * cfg["train_split"])
 
     # Save SFT dataset
     sft_train, sft_val = sft_samples[:split], sft_samples[split:]
+    # Convert TypedDict to dict for Dataset.from_list
+    train_dicts = [dict(s) for s in sft_train]
+    val_dicts = [dict(s) for s in sft_val]
     sft_dataset = DatasetDict(
         {
-            "train": Dataset.from_list(sft_train),
-            "validation": Dataset.from_list(sft_val),
+            "train": Dataset.from_list(train_dicts),
+            "validation": Dataset.from_list(val_dicts),
         }
     )
     sft_path = DATA_DIR / "sft"
     sft_dataset.save_to_disk(str(sft_path))
     print(f"Saved SFT: {len(sft_train)} train, {len(sft_val)} validation -> {sft_path}")
-
-    # Also save combined dataset for backwards compatibility
-    combined_dataset = DatasetDict(
-        {
-            "train": Dataset.from_list(dpo_train),
-            "validation": Dataset.from_list(dpo_val),
-        }
-    )
-    combined_dataset.save_to_disk(str(DATA_DIR))
-    print(f"Saved combined dataset -> {DATA_DIR}")
 
 
 def main() -> int:
@@ -539,14 +467,14 @@ def main() -> int:
     print(f"Output: {DATA_DIR}")
     print("(Safe to cancel - progress saved)\n")
 
-    dpo_samples, sft_samples = generate_dataset(context, total)
+    sft_samples = generate_dataset(context, total)
 
-    if not dpo_samples:
+    if not sft_samples:
         print("Error: No samples generated")
         return 1
 
-    print(f"\nTotal: {len(dpo_samples)} DPO samples, {len(sft_samples)} SFT samples")
-    save_dataset(dpo_samples, sft_samples)
+    print(f"\nTotal: {len(sft_samples)} SFT samples")
+    save_dataset(sft_samples)
     print("Done!")
     return 0
 

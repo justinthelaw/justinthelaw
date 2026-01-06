@@ -13,6 +13,10 @@ from huggingface_hub import HfApi, create_repo
 PIPELINE_DIR = Path(__file__).parent.parent
 CONFIG = yaml.safe_load((PIPELINE_DIR / "config.yaml").read_text())
 TEMPLATES_DIR = PIPELINE_DIR / "templates"
+# Import categories from generate_dataset.py
+sys.path.insert(0, str(PIPELINE_DIR / "scripts"))
+
+from generate_dataset import get_question_categories  # noqa: E402
 
 DEFAULT_COMMIT_MESSAGE = "WIP, commit model weights and metadata"
 
@@ -67,18 +71,9 @@ def _generate_dataset_card() -> str:
     samples_per_cat = CONFIG["dataset"]["samples_per_category"]
     train_split = CONFIG["dataset"]["train_split"]
 
-    # Category count and total samples (mirrors QUESTION_CATEGORIES)
-    categories = [
-        "Work Experience",
-        "Technical Skills",
-        "Education",
-        "Projects",
-        "Leadership",
-        "Achievements",
-        "Certifications",
-    ]
-    if CONFIG["dataset"].get("include_military", False):
-        categories.append("Military Service")
+    # Get categories directly from generate_dataset.py
+    question_categories = get_question_categories()
+    categories = [cat.title() for cat in question_categories.keys()]
 
     total_samples = len(categories) * samples_per_cat
     categories_list = "\n".join(f"- {cat}" for cat in categories)

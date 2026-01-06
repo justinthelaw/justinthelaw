@@ -19,14 +19,13 @@ server:
 
 # Dataset Generation
 dataset:
-  hub_id: "justinthelaw/Resume-SFT-DPO-Dataset"
+  hub_id: "justinthelaw/Resume-Cover-Letter-SFT-Dataset"
   samples_per_category: 1000
   include_military: true
   variations_per_question: 3
   temperatures:
     question: 0.9
     answer: 0.1
-    rejected: 1.0
     variation: 1.0
   train_split: 0.9
   seed: 88
@@ -34,7 +33,7 @@ dataset:
 # Base Model
 model:
   base: "HuggingFaceTB/SmolLM2-360M-Instruct"
-  hub_id: "justinthelaw/SmolLM2-360M-Instruct_Resume-SFT-DPO"
+  hub_id: "justinthelaw/SmolLM2-360M-Instruct-Resume-Cover-Letter-SFT"
 
 # LoRA Config
 lora:
@@ -50,7 +49,7 @@ lora:
     - up_proj
     - down_proj
 
-# SFT Training (Stage 1)
+# SFT Training with LoRA
 sft:
   epochs: 8
   batch_size: 8
@@ -60,18 +59,3 @@ sft:
   warmup_ratio: 0.1
   seed: 88
   weight_decay: 0.01
-
-# DPO Training (Stage 2)
-training:
-  epochs: 1
-  batch_size: 4
-  gradient_accumulation: 4
-  learning_rate: 5.0e-6
-  warmup_ratio: 0.1
-  seed: 88
-
-dpo:
-  beta: 0.05
-  loss_type: "sigmoid"
-  label_smoothing: 0.1
-  max_target_length: 150
