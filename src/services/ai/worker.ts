@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === "development") {
   );
 }
 
-// Worker state
+// Worker state (defaults to SMARTER, will auto-downgrade based on RAM)
 let modelType: ModelType = ModelType.SMARTER;
 let generator: TextGenerationPipeline | null = null;
 

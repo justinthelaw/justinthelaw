@@ -40,7 +40,7 @@ def main() -> int:
     model = AutoModelForCausalLM.from_pretrained(
         base_model,
         torch_dtype=torch.float16,
-        device_map="cpu",
+        device_map="auto",
         trust_remote_code=True,
     )
 

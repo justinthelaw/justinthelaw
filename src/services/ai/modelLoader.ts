@@ -90,7 +90,7 @@ export async function selectModelForAvailableRAM(
   const availableMB = await getAvailableRAMMB();
   let model = requestedModel;
 
-  console.log(`Estimated available browser RAM: ${availableMB}`);
+  console.log(`Estimated available browser RAM (MB): ${availableMB}`);
 
   if (availableMB === null) {
     return { model, availableMB };
@@ -150,14 +150,14 @@ export async function loadModelWithFallback(
     attempts++;
     try {
       const modelId = MODEL_IDS[currentSize];
+      console.log(`Loading ${currentSize} model: ${modelId}`);
 
       // Track if we're in download phase (first time seeing progress)
       let isDownloading = true;
 
-      // For custom fine-tuned model (SMARTER), use non-quantized ONNX
-      // The model is exported as model.onnx, not model_quantized.onnx
       const pipelineOptions: Record<string, unknown> = {
         dtype: MODEL_DTYPE,
+        device: "wasm",
         progress_callback: (progressData: unknown) => {
           if (typeof progressData === "object" && progressData !== null) {
             const data = progressData as { progress?: number; status?: string };

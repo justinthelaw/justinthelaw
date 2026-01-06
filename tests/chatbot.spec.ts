@@ -117,7 +117,7 @@ test.describe("Chatbot UI Tests", () => {
     await page.waitForTimeout(1000);
   });
 
-  test("should have SMARTER model selected by default", async ({ page }) => {
+  test("should select model based on available RAM", async ({ page }) => {
     const chatbotButton = page.getByTestId("ai-chatbot-button");
     await chatbotButton.click();
 
@@ -135,7 +135,8 @@ test.describe("Chatbot UI Tests", () => {
     const modal = page.getByTestId("model-selector-modal");
     await expect(modal).toBeVisible();
 
-    // The "Smarter" option should be checked by default
+    // In test environment with sufficient RAM, SMARTER should be selected
+    // (The system starts with SMARTER and downgrades only if RAM is insufficient)
     const smarterLabel = modal.locator('label:has-text("Smarter")');
     const smarterRadio = smarterLabel.locator('input[type="radio"]');
     await expect(smarterRadio).toBeChecked();
