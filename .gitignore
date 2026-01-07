@@ -47,6 +47,3 @@ next-env.d.ts
 
 # avoid committing generated or external documents
 public/*.pdf
-
-# ruff
-.ruff_cache

@@ -10,23 +10,37 @@ from typing import TypedDict
 
 import fitz
 import requests
-import yaml
 from datasets import Dataset, DatasetDict
 from tqdm import tqdm
-
-PIPELINE_DIR = Path(__file__).parent.parent
-CONFIG = yaml.safe_load((PIPELINE_DIR / "config.yaml").read_text())
+from utils import (
+    CONFIG,
+    ANSWER_MAX_TOKENS,
+    CONTEXT_TOKEN_WARN,
+    HEALTH_CHECK_TIMEOUT,
+    LLM_DEFAULT_MAX_TOKENS,
+    LLM_DEFAULT_TEMPERATURE,
+    LLM_VARIATION_MAX_TOKENS,
+    LONG_QUESTION_SKIP_PROB,
+    MAX_ANSWER_SENTENCES,
+    MAX_ANSWER_WORDS,
+    MAX_QUESTION_WORDS,
+    MIN_ANSWER_LENGTH,
+    MIN_QUESTION_LENGTH,
+    MIN_VARIATION_LENGTH,
+    PIPELINE_DIR,
+    QUESTION_MAX_TOKENS,
+    STOP_SEQUENCES,
+    SYSTEM_PROMPT,
+)
 
 # Output paths
 DATA_DIR = PIPELINE_DIR / CONFIG["dataset_output"]
 SAMPLES_FILE = DATA_DIR / "sft_samples.jsonl"
+METADATA_FILE = DATA_DIR / "metadata.json"
 RAW_TEXT_FILE = PIPELINE_DIR / "resume" / "resume_raw.txt"
 
 PERSON_NAME = CONFIG["person_name"]
 PERSON_FULL_NAME = CONFIG["person_full_name"]
-
-# Must match frontend's buildSmarterSystemMessage() in src/services/ai/contextProvider.ts
-TRAINING_SYSTEM = f"You are {PERSON_FULL_NAME}'s AI assistant. Answer questions about {PERSON_NAME} using only the provided context. Give informative but concise answers in 1-3 short sentences."
 
 
 class SFTSample(TypedDict):
@@ -128,11 +142,11 @@ def get_question_categories() -> dict[str, list[str]]:
 
 def extract_pdf(path: Path) -> str:
     """Extract text from PDF."""
-    doc = fitz.open(path)
+    doc = fitz.open(path)  # type: ignore
     all_text: list[str] = []
 
     for page in doc:
-        text: str = page.get_text("text")
+        text: str = page.get_text("text")  # type: ignore[assignment]
         if text.strip():
             all_text.append(text)
 
@@ -185,7 +199,9 @@ def clean_text(text: str) -> str:
 
 
 def llm_call(
-    messages: list[dict[str, str]], temperature: float = 0.7, max_tokens: int = 128
+    messages: list[dict[str, str]],
+    temperature: float = LLM_DEFAULT_TEMPERATURE,
+    max_tokens: int = LLM_DEFAULT_MAX_TOKENS,
 ) -> str:
     """Call llama-server using OpenAI-compatible chat completions endpoint."""
     server = CONFIG["server"]
@@ -196,7 +212,7 @@ def llm_call(
                 "messages": messages,
                 "temperature": temperature,
                 "max_tokens": max_tokens,
-                "stop": ["\n\n\n", "Question:"],
+                "stop": STOP_SEQUENCES,
                 "stream": False,
             },
             timeout=server["timeout"],
@@ -205,12 +221,20 @@ def llm_call(
         response_json = resp.json()
         content = response_json["choices"][0]["message"]["content"].strip()
         return content
-    except Exception as e:
+    except requests.exceptions.Timeout:
+        print(f"LLM error: Request timeout after {server['timeout']}s")
+        return ""
+    except requests.exceptions.RequestException as e:
         print(f"LLM error: {e}")
+        return ""
+    except (KeyError, IndexError) as e:
+        print(f"LLM error: Unexpected response format - {e}")
         return ""
 
 
-def clean_response(text: str, max_sentences: int = 2, max_words: int = 50) -> str:
+def clean_response(
+    text: str, max_sentences: int = MAX_ANSWER_SENTENCES, max_words: int = MAX_ANSWER_WORDS
+) -> str:
     """Clean and truncate response."""
     text = re.sub(r"\(?\d+-\d+ sentences?\)?\.?", "", text, flags=re.IGNORECASE)
     text = re.sub(r"\(?Note:.*?\)?", "", text, flags=re.IGNORECASE | re.DOTALL)
@@ -251,6 +275,46 @@ def load_existing_samples(file_path: Path) -> list[dict]:
     return samples
 
 
+class ProgressMetadata(TypedDict):
+    """Progress tracking metadata."""
+
+    samples_per_category_target: int
+    variations_per_question: int
+    category_progress: dict[str, dict[str, int]]  # {category: {completed_iterations, samples_generated}}
+
+
+def load_metadata() -> ProgressMetadata | None:
+    """Load progress metadata from disk."""
+    if not METADATA_FILE.exists():
+        return None
+
+    try:
+        with METADATA_FILE.open(encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, KeyError):
+        return None
+
+
+def save_metadata(metadata: ProgressMetadata) -> None:
+    """Save progress metadata to disk."""
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    with METADATA_FILE.open("w", encoding="utf-8") as f:
+        json.dump(metadata, f, indent=2)
+
+
+def init_metadata(
+    samples_per_category: int, variations_per_q: int, categories: dict[str, list[str]]
+) -> ProgressMetadata:
+    """Initialize metadata structure."""
+    return ProgressMetadata(
+        samples_per_category_target=samples_per_category,
+        variations_per_question=variations_per_q,
+        category_progress={
+            cat: {"completed_iterations": 0, "samples_generated": 0} for cat in categories
+        },
+    )
+
+
 def generate_question_variations(
     question: str, num_variations: int, temperature: float
 ) -> list[str]:
@@ -262,15 +326,15 @@ def generate_question_variations(
             {"role": "system", "content": VARIATION_SYSTEM.format(name=PERSON_NAME)},
             {"role": "user", "content": VARIATION_USER.format(question=question)},
         ]
-        variation = llm_call(messages, temperature=temperature, max_tokens=64)
+        variation = llm_call(messages, temperature=temperature, max_tokens=LLM_VARIATION_MAX_TOKENS)
         variation = variation.strip().strip('"').rstrip("?") + "?"
 
         # Validate
         word_count = len(variation.split())
         if (
             variation
-            and len(variation) > 15
-            and word_count <= 15  # Keep variations short
+            and len(variation) > MIN_VARIATION_LENGTH
+            and word_count <= MAX_QUESTION_WORDS
             and PERSON_NAME.lower() in variation.lower()
             and variation.lower() != question.lower()
             and variation not in variations
@@ -297,24 +361,57 @@ def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
                 existing_questions.add(user_msg["content"].lower())
 
     if existing_sft:
-        print(f"Resuming: {len(existing_sft)} existing SFT samples")
+        print(f"Loaded: {len(existing_sft)} existing SFT samples")
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     categories = get_question_categories()
     samples_per_category = total_samples // len(categories)
     variations_per_q = cfg.get("variations_per_question", 3)
+    target_iterations = samples_per_category // variations_per_q
+
+    # Load or initialize metadata
+    metadata = load_metadata()
+    if metadata is None:
+        metadata = init_metadata(samples_per_category, variations_per_q, categories)
+        print("Starting fresh generation")
+    else:
+        # Check if config changed (backfill needed)
+        config_changed = (
+            metadata["samples_per_category_target"] != samples_per_category
+            or metadata["variations_per_question"] != variations_per_q
+        )
+        if config_changed:
+            print(
+                f"Config changed: {metadata['samples_per_category_target']} → {samples_per_category} samples/category"
+            )
+            metadata["samples_per_category_target"] = samples_per_category
+            metadata["variations_per_question"] = variations_per_q
+        # Add any new categories
+        for cat in categories:
+            if cat not in metadata["category_progress"]:
+                metadata["category_progress"][cat] = {"completed_iterations": 0, "samples_generated": 0}
+                print(f"New category detected: {cat}")
 
     sft_samples: list[SFTSample] = []
     generated = 0
 
     with SAMPLES_FILE.open("a", encoding="utf-8") as sft_f:
         for category, subcategories in categories.items():
-            print(f"\nCategory: {category}")
+            cat_progress = metadata["category_progress"][category]
+            completed = cat_progress["completed_iterations"]
+            remaining = max(0, target_iterations - completed)
 
-            for _ in tqdm(
-                range(samples_per_category // variations_per_q), desc="Generating"
-            ):
+            if remaining == 0:
+                print(f"\nCategory: {category} (✓ complete: {cat_progress['samples_generated']} samples)")
+                continue
+
+            print(
+                f"\nCategory: {category} (resuming: {completed}/{target_iterations} iterations, "
+                f"{cat_progress['samples_generated']} samples)"
+            )
+
+            for _ in tqdm(range(remaining), desc="Generating"):
                 # Pick a random subcategory focus
                 focus = random.choice(subcategories)  # noqa: S311
 
@@ -329,14 +426,14 @@ def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
                     },
                 ]
                 question = llm_call(
-                    messages, temperature=temps["question"], max_tokens=64
+                    messages, temperature=temps["question"], max_tokens=QUESTION_MAX_TOKENS
                 )
                 question = question.strip().strip('"').rstrip("?") + "?"
 
                 # Validate question
                 if (
                     not question
-                    or len(question) < 15
+                    or len(question) < MIN_QUESTION_LENGTH
                     or question.lower() in existing_questions
                 ):
                     continue
@@ -349,7 +446,7 @@ def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
                     continue
                 # Prefer short questions
                 word_count = len(question.split())
-                if word_count > 15 and random.random() > 0.1:  # noqa: S311
+                if word_count > MAX_QUESTION_WORDS and random.random() > LONG_QUESTION_SKIP_PROB:  # noqa: S311
                     continue
 
                 # Generate answer with context
@@ -360,10 +457,12 @@ def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
                         "content": ANSWER_USER.format(context=context, question=question),
                     },
                 ]
-                answer = llm_call(messages, temperature=temps["answer"], max_tokens=80)
-                answer = clean_response(answer, max_sentences=2, max_words=50)
+                answer = llm_call(
+                    messages, temperature=temps["answer"], max_tokens=ANSWER_MAX_TOKENS
+                )
+                answer = clean_response(answer, max_sentences=MAX_ANSWER_SENTENCES, max_words=MAX_ANSWER_WORDS)
 
-                if not answer or len(answer) < 15:
+                if not answer or len(answer) < MIN_ANSWER_LENGTH:
                     continue
 
                 # Generate question variations
@@ -377,7 +476,7 @@ def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
 
                     sft_sample: SFTSample = {
                         "messages": [
-                            {"role": "system", "content": TRAINING_SYSTEM},
+                            {"role": "system", "content": SYSTEM_PROMPT},
                             {"role": "user", "content": q_var},
                             {"role": "assistant", "content": answer},
                         ]
@@ -389,6 +488,11 @@ def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
                     sft_samples.append(sft_sample)
                     existing_questions.add(q_var.lower())
                     generated += 1
+                    cat_progress["samples_generated"] += 1
+
+                # Update progress after each iteration
+                cat_progress["completed_iterations"] += 1
+                save_metadata(metadata)
 
     print(f"\nGenerated {generated} new samples")
     loaded_samples = load_existing_samples(SAMPLES_FILE)
@@ -439,7 +543,7 @@ def main() -> int:
     print(f"Extracted {len(context)} chars (~{token_estimate} tokens)")
 
     # Warn if context is large
-    if token_estimate > 2000:
+    if token_estimate > CONTEXT_TOKEN_WARN:
         print(
             f"⚠️  Warning: Large context ({token_estimate} tokens). "
             "Consider shortening resume for better results."
@@ -460,20 +564,27 @@ def main() -> int:
     server = CONFIG["server"]
     try:
         requests.get(
-            f"{server['host']}:{server['port']}/health", timeout=5
+            f"{server['host']}:{server['port']}/health", timeout=HEALTH_CHECK_TIMEOUT
         ).raise_for_status()
-    except Exception:
-        print("Error: llama-server not running")
+    except requests.exceptions.RequestException as e:
+        print(f"Error: llama-server not running - {e}")
         return 1
 
     # Generate
     categories = get_question_categories()
-    total = CONFIG["dataset"]["samples_per_category"] * len(categories)
-    print(f"\nGenerating ~{total} samples ({len(categories)} categories)...")
+    samples_per_cat = CONFIG["dataset"]["samples_per_category"]
+    variations = CONFIG["dataset"]["variations_per_question"]
+    # Actual iterations: samples_per_category // variations_per_question per category
+    # Each iteration attempts to generate 'variations' samples (some may be skipped)
+    base_questions = samples_per_cat // variations
+    target_samples = base_questions * variations * len(categories)
+    print(f"\nGenerating ~{target_samples} samples ({len(categories)} categories)")
+    print(f"  • {base_questions} base questions × {variations} variations per category")
+    print("  • Actual output may be lower due to validation filters")
     print(f"Output: {DATA_DIR}")
     print("(Safe to cancel - progress saved)\n")
 
-    sft_samples = generate_dataset(context, total)
+    sft_samples = generate_dataset(context, target_samples)
 
     if not sft_samples:
         print("Error: No samples generated")

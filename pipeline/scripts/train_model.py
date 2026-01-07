@@ -10,20 +10,23 @@ from pathlib import Path
 
 import onnx
 import torch
-import yaml
 from datasets import load_from_disk
 from onnxruntime.quantization import QuantType, quantize_dynamic
 from onnxruntime.quantization.matmul_nbits_quantizer import MatMulNBitsQuantizer
-from onnxruntime.quantization.onnx_model import ONNXModel
-from onnxruntime.transformers.float16 import convert_float_to_float16
 from optimum.onnxruntime import ORTModelForCausalLM
 from peft import LoraConfig, PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl.trainer.sft_config import SFTConfig
 from trl.trainer.sft_trainer import SFTTrainer
+from utils import CONFIG, PIPELINE_DIR, QUANTIZATION_ACCURACY_LEVEL, QUANTIZATION_BLOCK_SIZE, get_model_size_mb
 
-PIPELINE_DIR = Path(__file__).parent.parent
-CONFIG = yaml.safe_load((PIPELINE_DIR / "config.yaml").read_text())
+# ChatML template constant
+CHATML_TEMPLATE = (
+    "{% for message in messages %}"
+    "{{'<|im_start|>' + message['role'] + '\\n' + message['content'] + '<|im_end|>\\n'}}"
+    "{% endfor %}"
+    "{% if add_generation_prompt %}{{ '<|im_start|>assistant\\n' }}{% endif %}"
+)
 
 
 def clean_directory(path: Path) -> None:
@@ -100,10 +103,10 @@ def train_sft_lora() -> int:
         bf16=use_bf16,
         fp16=use_fp16,
         gradient_checkpointing=use_gradient_checkpointing,
-        logging_steps=10,
+        logging_steps=sft_cfg.get("logging_steps", 10),
         eval_strategy="epoch",
         save_strategy="epoch",
-        save_total_limit=2,
+        save_total_limit=sft_cfg.get("save_total_limit", 2),
         load_best_model_at_end=True,
         metric_for_best_model="eval_loss",
         greater_is_better=False,
@@ -142,6 +145,60 @@ def train_sft_lora() -> int:
     return 0
 
 
+def _save_tokenizer_with_template(tokenizer: AutoTokenizer, save_path: Path) -> None:  # type: ignore[type-arg]
+    """Save tokenizer with ChatML template to both tokenizer files and config JSON."""
+    tokenizer.chat_template = CHATML_TEMPLATE  # type: ignore[attr-defined]
+    tokenizer.save_pretrained(str(save_path))  # type: ignore[attr-defined]
+
+    # Explicitly save chat_template to tokenizer_config.json
+    tokenizer_config_path = save_path / "tokenizer_config.json"
+    if tokenizer_config_path.exists():
+        config = json.loads(tokenizer_config_path.read_text())
+        config["chat_template"] = CHATML_TEMPLATE
+        tokenizer_config_path.write_text(json.dumps(config, indent=2))
+
+
+def _merge_lora_adapter(adapter_path: Path, merged_path: Path, base_model: str) -> AutoModelForCausalLM:  # type: ignore[type-arg]
+    """Load base model, merge LoRA adapter, and save merged model."""
+    print(f"Loading base model: {base_model}")
+    model = AutoModelForCausalLM.from_pretrained(
+        base_model,
+        torch_dtype=torch.float16,
+        device_map="auto",
+        trust_remote_code=True,
+    )
+
+    print(f"Loading LoRA adapter from {adapter_path}")
+    model = PeftModel.from_pretrained(model, str(adapter_path))  # type: ignore[assignment]
+
+    print("Merging LoRA weights into base model...")
+    model = model.merge_and_unload()  # type: ignore[assignment]
+
+    print(f"Saving merged model to {merged_path}")
+    clean_directory(merged_path)
+    model.save_pretrained(str(merged_path))  # type: ignore[attr-defined]
+
+    return model  # type: ignore[return-value]
+
+
+def _export_to_onnx(merged_path: Path, onnx_path: Path) -> None:
+    """Export merged model to ONNX format."""
+    print("Exporting to ONNX (fp32)...")
+    clean_directory(onnx_path)
+
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=UserWarning)
+        warnings.filterwarnings("ignore", message=".*TracerWarning.*")
+        warnings.filterwarnings("ignore", message=".*tied weights.*")
+        onnx_model = ORTModelForCausalLM.from_pretrained(
+            str(merged_path),
+            export=True,
+            trust_remote_code=True,
+        )
+
+    onnx_model.save_pretrained(str(onnx_path))
+
+
 def merge_and_export() -> int:
     """Stage 2: Merge LoRA adapter and export to multi-quantized ONNX."""
     print("=" * 60)
@@ -157,69 +214,20 @@ def merge_and_export() -> int:
         print(f"Error: LoRA adapter not found at {adapter_path}")
         return 1
 
-    # Load and merge
-    print(f"Loading base model: {base_model}")
-    model = AutoModelForCausalLM.from_pretrained(
-        base_model,
-        torch_dtype=torch.float16,
-        device_map="auto",
-        trust_remote_code=True,
-    )
+    # Merge LoRA adapter
+    _merge_lora_adapter(adapter_path, merged_path, base_model)
 
-    print(f"Loading LoRA adapter from {adapter_path}")
-    model = PeftModel.from_pretrained(model, str(adapter_path))
-
-    print("Merging LoRA weights into base model...")
-    model = model.merge_and_unload()
-
-    # Save merged model
-    print(f"Saving merged model to {merged_path}")
-    clean_directory(merged_path)
-    model.save_pretrained(str(merged_path))  # type: ignore[call-overload]
-
-    # Tokenizer with ChatML template
+    # Save tokenizer with ChatML template for merged model
     tokenizer = AutoTokenizer.from_pretrained(base_model)
-    chat_template = (
-        "{% for message in messages %}"
-        "{{'<|im_start|>' + message['role'] + '\\n' + message['content'] + '<|im_end|>\\n'}}"
-        "{% endfor %}"
-        "{% if add_generation_prompt %}{{ '<|im_start|>assistant\\n' }}{% endif %}"
-    )
-    tokenizer.chat_template = chat_template
-    tokenizer.save_pretrained(str(merged_path))
-
-    # Save chat_template explicitly
-    tokenizer_config_path = merged_path / "tokenizer_config.json"
-    if tokenizer_config_path.exists():
-        config = json.loads(tokenizer_config_path.read_text())
-        config["chat_template"] = chat_template
-        tokenizer_config_path.write_text(json.dumps(config, indent=2))
+    _save_tokenizer_with_template(tokenizer, merged_path)
 
     print("✓ Merge complete!\n")
 
     # Export to ONNX
-    print("Exporting to ONNX (fp32)...")
-    clean_directory(onnx_path)
+    _export_to_onnx(merged_path, onnx_path)
 
-    with warnings.catch_warnings():
-        warnings.filterwarnings("ignore", category=UserWarning)
-        warnings.filterwarnings("ignore", message=".*TracerWarning.*")
-        warnings.filterwarnings("ignore", message=".*tied weights.*")
-        onnx_model = ORTModelForCausalLM.from_pretrained(
-            str(merged_path),
-            export=True,
-            trust_remote_code=True,
-        )
-
-    onnx_model.save_pretrained(str(onnx_path))
-    tokenizer.save_pretrained(str(onnx_path))
-
-    # Save chat_template to ONNX tokenizer config
-    onnx_tokenizer_config_path = onnx_path / "tokenizer_config.json"
-    if onnx_tokenizer_config_path.exists():
-        onnx_config = json.loads(onnx_tokenizer_config_path.read_text())
-        onnx_config["chat_template"] = chat_template
-        onnx_tokenizer_config_path.write_text(json.dumps(onnx_config, indent=2))
+    # Save tokenizer with ChatML template for ONNX model
+    _save_tokenizer_with_template(tokenizer, onnx_path)
 
     print("✓ ONNX export complete!\n")
     return 0
@@ -240,7 +248,7 @@ def quantize_models() -> int:
         print("Run without --only-quantize to generate ONNX models first")
         return 1
 
-    print(f"Source model: {model_fp32.name} ({model_fp32.stat().st_size / 1024 / 1024:.1f} MB)\n")
+    print(f"Source model: {model_fp32.name} ({get_model_size_mb(model_fp32):.1f} MB)\n")
 
     # 1. INT8 dynamic quantization (signed)
     model_int8 = onnx_path / "model_int8.onnx"
@@ -255,9 +263,9 @@ def quantize_models() -> int:
                 "MatMulConstBOnly": True,
             },
         )
-        print(f"  ✓ Saved: {model_int8.name} ({model_int8.stat().st_size / 1024 / 1024:.1f} MB)\n")
+        print(f"  ✓ Saved: {model_int8.name} ({get_model_size_mb(model_int8):.1f} MB)\n")
     else:
-        print(f"✓ Using existing {model_int8.name} ({model_int8.stat().st_size / 1024 / 1024:.1f} MB)\n")
+        print(f"✓ Using existing {model_int8.name} ({get_model_size_mb(model_int8):.1f} MB)\n")
 
     # 2. UINT8 dynamic quantization (unsigned)
     model_uint8 = onnx_path / "model_uint8.onnx"
@@ -272,9 +280,9 @@ def quantize_models() -> int:
                 "MatMulConstBOnly": True,
             },
         )
-        print(f"  ✓ Saved: {model_uint8.name} ({model_uint8.stat().st_size / 1024 / 1024:.1f} MB)\n")
+        print(f"  ✓ Saved: {model_uint8.name} ({get_model_size_mb(model_uint8):.1f} MB)\n")
     else:
-        print(f"✓ Using existing {model_uint8.name} ({model_uint8.stat().st_size / 1024 / 1024:.1f} MB)\n")
+        print(f"✓ Using existing {model_uint8.name} ({get_model_size_mb(model_uint8):.1f} MB)\n")
 
     # 3. 4-bit quantization (4-bit weights)
     model_q4 = onnx_path / "model_q4.onnx"
@@ -285,23 +293,23 @@ def quantize_models() -> int:
             fp32_proto = onnx.load(str(model_fp32))
             quantizer = MatMulNBitsQuantizer(
                 model=fp32_proto,
-                block_size=32,  # Smaller block size for better accuracy
+                block_size=QUANTIZATION_BLOCK_SIZE,
                 is_symmetric=False,
-                accuracy_level=4,
+                accuracy_level=QUANTIZATION_ACCURACY_LEVEL,
             )
             quantizer.process()
-            quantizer.model.save_model_to_file(str(model_q4), use_external_data_format=True)
-            print(f"  ✓ Saved: {model_q4.name} ({model_q4.stat().st_size / 1024 / 1024:.1f} MB)\n")
-        except Exception as e:
+            quantizer.model.save_model_to_file(str(model_q4), use_external_data_format=True)  # type: ignore[attr-defined]
+            print(f"  ✓ Saved: {model_q4.name} ({get_model_size_mb(model_q4):.1f} MB)\n")
+        except (OSError, RuntimeError, ValueError) as e:
             print(f"  ✗ Failed to generate 4-bit model: {e}")
             print("    Skipping 4-bit quantization\n")
     else:
-        print(f"✓ Using existing {model_q4.name} ({model_q4.stat().st_size / 1024 / 1024:.1f} MB)\n")
+        print(f"✓ Using existing {model_q4.name} ({get_model_size_mb(model_q4):.1f} MB)\n")
 
     print("✓ Quantization complete!\n")
     print("Available models:")
     for model_file in sorted(onnx_path.glob("model*.onnx")):
-        size_mb = model_file.stat().st_size / 1024 / 1024
+        size_mb = get_model_size_mb(model_file)
         print(f"  • {model_file.name:25s} {size_mb:>8.1f} MB")
     print()
     

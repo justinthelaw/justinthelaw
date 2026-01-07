@@ -34,12 +34,11 @@ indent-width = 4
 exclude = [
   ".pyenv",
   ".venv",
-  "archive/**",
-  "backend/alembic/**",
-  "backend/backend/baml_client/**",
   "**/.ipynb_checkpoints/**",
-  "temp/**",
-  "tmp/**",
+  "**/__pycache__/**",
+  "data/**",
+  "models/**",
+  "templates/**",
 ]
 
 select = ["E", "F", "I", "N", "D", "UP", "ANN", "S", "B", "A", "TID", "T100"]
@@ -67,25 +66,23 @@ indent-style = "space"
 exclude = [
   ".pyenv",
   ".venv",
-  "archive/**",
-  "backend/alembic/**",
-  "backend/backend/baml_client/**",
   "**/.ipynb_checkpoints/**",
-  "temp/**",
-  "tmp/**",
+  "**/__pycache__/**",
+  "data/**",
+  "models/**",
+  "templates/**",
 ]
 
 [tool.pyright]
-include = ["backend/backend"]
+include = ["scripts"]
 exclude = [
   ".pyenv",
   ".venv",
-  "archive/**",
-  "backend/alembic/**",
-  "backend/backend/baml_client/**",
   "**/.ipynb_checkpoints/**",
-  "temp/**",
-  "tmp/**",
+  "**/__pycache__/**",
+  "data/**",
+  "models/**",
+  "templates/**",
 ]
 strictListInference = true
 strictDictionaryInference = true
@@ -122,4 +119,3 @@ reportIncompleteStub = "error"
 reportUnusedExpression = "error"
 reportUnnecessaryTypeIgnoreComment = "error"
 reportMatchNotExhaustive = "error"
-reportShadowedImports = "error"

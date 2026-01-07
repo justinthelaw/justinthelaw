@@ -5,16 +5,19 @@ import random
 import sys
 from pathlib import Path
 
-import yaml
 from datasets import load_from_disk
 from optimum.onnxruntime import ORTModelForCausalLM
 from transformers import AutoTokenizer
-
-PIPELINE_DIR = Path(__file__).parent.parent
-CONFIG = yaml.safe_load((PIPELINE_DIR / "config.yaml").read_text())
-
-# Match frontend's `src/config/prompts.ts` (`CHATBOT_CONFIG.systemPrompt`), does not include additional profile context
-SYSTEM_PROMPT = f"You are {CONFIG['person_full_name']}'s AI assistant. Answer questions about {CONFIG['person_name']} using only the provided context. Give informative but concise answers in 1-3 short sentences."
+from utils import (
+    CONFIG,
+    INFERENCE_MAX_NEW_TOKENS,
+    INFERENCE_REPETITION_PENALTY,
+    INFERENCE_TEMPERATURE,
+    INFERENCE_TOP_K,
+    PIPELINE_DIR,
+    SYSTEM_PROMPT,
+    get_model_size_mb,
+)
 
 
 def test_onnx_model(onnx_path: Path, model_file: str, question: str, expected: str) -> None:
@@ -25,7 +28,7 @@ def test_onnx_model(onnx_path: Path, model_file: str, question: str, expected: s
         print(f"  ⚠️  Model not found: {model_file}")
         return
 
-    model_size_mb = model_path.stat().st_size / 1024 / 1024
+    model_size_mb = get_model_size_mb(model_path)
 
     print(f"\n{'='*60}")
     print(f"Testing: {model_file} ({model_size_mb:.1f} MB)")
@@ -51,9 +54,11 @@ def test_onnx_model(onnx_path: Path, model_file: str, question: str, expected: s
     inputs = tokenizer(prompt, return_tensors="pt")
     outputs = model.generate(
         **inputs,
-        max_new_tokens=128,
+        temperature=INFERENCE_TEMPERATURE,
+        max_new_tokens=INFERENCE_MAX_NEW_TOKENS,
         do_sample=False,
-        repetition_penalty=1.2,
+        repetition_penalty=INFERENCE_REPETITION_PENALTY,
+        top_k=INFERENCE_TOP_K,
         pad_token_id=tokenizer.eos_token_id,
     )
 

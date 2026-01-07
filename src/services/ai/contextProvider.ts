@@ -6,7 +6,7 @@
 import { ModelType } from "@/types";
 import { PROFILE, SITE_CONFIG } from "@/config/site";
 import { CHATBOT_CONFIG } from "@/config/prompts";
-import { INPUT_CONSTRAINTS } from "@/config/prompts";
+import { MAX_SINGLE_MESSAGE_LENGTH } from "@/config/prompts";
 
 export interface ChatMessage {
   role: string;
@@ -70,5 +70,5 @@ export function cleanInput(input?: string): string {
     .replace(/[<>]/g, "")
     .replace(/\s+/g, " ")
     .trim()
-    .slice(0, INPUT_CONSTRAINTS.MAX_LENGTH);
+    .slice(0, MAX_SINGLE_MESSAGE_LENGTH);
 }

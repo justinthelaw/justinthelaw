@@ -13,6 +13,7 @@ __pycache__/
 *.pyc
 .venv/
 .uv/
+.ruff_cache
 
 # Resume (user-provided, gitignored for privacy)
 resume/*
