@@ -33,7 +33,7 @@ def test_onnx_model(onnx_path: Path, model_file: str, question: str, expected: s
 
     tokenizer = AutoTokenizer.from_pretrained(str(onnx_path))
     
-    # Load specific quantized model by passing file_name
+    # Load specific quantized model
     model = ORTModelForCausalLM.from_pretrained(
         str(onnx_path),
         file_name=model_file,
@@ -95,15 +95,19 @@ def main() -> int:
 
     # Test all quantization levels
     quantizations = [
-        "model_q4f16.onnx",       # 4-bit weights + fp16 (smallest, for mobile)
-        "model_quantized.onnx",   # INT8 (balanced, for WASM)
-        "model_fp16.onnx",        # FP16 (highest quality)
+        "model.onnx",        # FP32 (base, unquantized)
+        "model_int8.onnx",   # INT8 signed (WASM/CPU)
+        "model_uint8.onnx",  # UINT8 unsigned
+        "model_q4.onnx",     # 4-bit (ultra-compact)
     ]
 
     print("\nTesting all quantization levels with same prompt:")
     print(f"System: {SYSTEM_PROMPT}\n")
 
     for model_file in quantizations:
+        if not (onnx_path / model_file).exists():
+            print(f"⊘ Skipping {model_file} (not found)\n")
+            continue
         test_onnx_model(onnx_path, model_file, question, expected)
 
     print(f"\n{'='*60}")

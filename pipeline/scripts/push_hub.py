@@ -89,7 +89,6 @@ def _generate_dataset_card() -> str:
         "{categories_list}": categories_list,
         "{temp_question}": str(CONFIG["dataset"]["temperatures"]["question"]),
         "{temp_answer}": str(CONFIG["dataset"]["temperatures"]["answer"]),
-        "{temp_rejected}": str(CONFIG["dataset"]["temperatures"]["rejected"]),
         "{temp_variation}": str(CONFIG["dataset"]["temperatures"].get("variation", 0.85)),
         "{seed}": str(CONFIG["dataset"]["seed"]),
         "{github_username}": hf_username,

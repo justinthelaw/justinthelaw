@@ -79,6 +79,8 @@ make serve && make generate-dataset && make stop && make train-model && make tes
 
 ## Troubleshooting
 
+Please review the Python-based CLI tools that the Make targets run for details on more complex use cases (e.g., run the quantization step only).
+
 - **Model not accurate**: Increase `samples_per_category` and `sft.epochs`
 - **Model hallucinating**: Lower `temperature` in `src/config/prompts.ts`
 - **ONNX export fails**: Need 16GB+ RAM, close other apps

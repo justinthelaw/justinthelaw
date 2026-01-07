@@ -20,7 +20,7 @@ server:
 # Dataset Generation
 dataset:
   hub_id: "justinthelaw/Resume-Cover-Letter-SFT-Dataset"
-  samples_per_category: 1000
+  samples_per_category: 2000
   include_military: true
   has_recommendations: true
   variations_per_question: 3
@@ -38,8 +38,8 @@ model:
 
 # LoRA Config
 lora:
-  r: 64
-  alpha: 64
+  r: 128
+  alpha: 256
   dropout: 0.05
   target_modules:
     - q_proj
@@ -52,11 +52,11 @@ lora:
 
 # SFT Training with LoRA
 sft:
-  epochs: 8
-  batch_size: 8
-  gradient_accumulation: 2
-  learning_rate: 1.0e-5
+  epochs: 16
+  batch_size: 16
+  gradient_accumulation: 4
+  learning_rate: 2.0e-5
   max_length: 384
-  warmup_ratio: 0.1
+  warmup_ratio: 0.05
   seed: 88
-  weight_decay: 0.01
+  weight_decay: 0.0

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Complete training pipeline: SFT with LoRA → merge → multi-quantized ONNX export."""
 
+import argparse
 import json
 import shutil
 import sys
@@ -12,6 +13,7 @@ import torch
 import yaml
 from datasets import load_from_disk
 from onnxruntime.quantization import QuantType, quantize_dynamic
+from onnxruntime.quantization.matmul_nbits_quantizer import MatMulNBitsQuantizer
 from onnxruntime.quantization.onnx_model import ONNXModel
 from onnxruntime.transformers.float16 import convert_float_to_float16
 from optimum.onnxruntime import ORTModelForCausalLM
@@ -19,17 +21,6 @@ from peft import LoraConfig, PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl.trainer.sft_config import SFTConfig
 from trl.trainer.sft_trainer import SFTTrainer
-
-try:
-    from onnxruntime.quantization.matmul_4bits_quantizer import (  # type: ignore[import-not-found]
-        MatMul4BitsQuantizer,
-    )
-
-    matmul_4bits_available = True
-except ImportError:
-    # Fallback for older onnxruntime versions
-    MatMul4BitsQuantizer = None
-    matmul_4bits_available = False
 
 PIPELINE_DIR = Path(__file__).parent.parent
 CONFIG = yaml.safe_load((PIPELINE_DIR / "config.yaml").read_text())
@@ -244,78 +235,115 @@ def quantize_models() -> int:
     onnx_path = PIPELINE_DIR / CONFIG.get("onnx_output", "models/onnx")
     model_fp32 = onnx_path / "model.onnx"
 
+    # Check if we have fp32 base model
     if not model_fp32.exists():
         print(f"Error: Base ONNX model not found at {model_fp32}")
+        print("Run without --only-quantize to generate ONNX models first")
         return 1
 
-    # 1. FP16 quantization
-    print("Generating model_fp16.onnx (fp16)...")
-    model_fp16 = onnx_path / "model_fp16.onnx"
-    model_proto = onnx.load(str(model_fp32))
-    onnx_model_fp16_wrapper = ONNXModel(model_proto)
-    onnx_model_fp16_converted = convert_float_to_float16(
-        onnx_model_fp16_wrapper,
-        keep_io_types=True,
-    )
-    # Save the converted model
-    if hasattr(onnx_model_fp16_converted, "model"):
-        onnx.save(onnx_model_fp16_converted.model, str(model_fp16))
-    print(f"  ✓ Saved: {model_fp16.name} ({model_fp16.stat().st_size / 1024 / 1024:.1f} MB)")
+    print(f"Source model: {model_fp32.name} ({model_fp32.stat().st_size / 1024 / 1024:.1f} MB)\n")
 
-    # 2. INT8 dynamic quantization
-    print("\nGenerating model_quantized.onnx (int8)...")
-    model_int8 = onnx_path / "model_quantized.onnx"
-    quantize_dynamic(
-        model_input=str(model_fp32),
-        model_output=str(model_int8),
-        weight_type=QuantType.QInt8,
-        extra_options={
-            "WeightSymmetric": True,
-            "MatMulConstBOnly": True,
-        },
-    )
-    print(f"  ✓ Saved: {model_int8.name} ({model_int8.stat().st_size / 1024 / 1024:.1f} MB)")
-
-    # 3. 4-bit quantization
-    if matmul_4bits_available and MatMul4BitsQuantizer is not None:
-        print("\nGenerating model_q4f16.onnx (4-bit weights + fp16)...")
-        model_q4f16 = onnx_path / "model_q4f16.onnx"
-        quant = MatMul4BitsQuantizer(
-            model=onnx.load(str(model_fp16)),
-            block_size=128,
-            is_symmetric=True,
-            accuracy_level=4,
+    # 1. INT8 dynamic quantization (signed)
+    model_int8 = onnx_path / "model_int8.onnx"
+    if not model_int8.exists():
+        print("Generating model_int8.onnx (int8 signed)...")
+        quantize_dynamic(
+            model_input=str(model_fp32),
+            model_output=str(model_int8),
+            weight_type=QuantType.QInt8,
+            extra_options={
+                "WeightSymmetric": True,
+                "MatMulConstBOnly": True,
+            },
         )
-        quant.process()
-        quant.model.save_model_to_file(str(model_q4f16), use_external_data_format=False)
-        print(f"  ✓ Saved: {model_q4f16.name} ({model_q4f16.stat().st_size / 1024 / 1024:.1f} MB)")
+        print(f"  ✓ Saved: {model_int8.name} ({model_int8.stat().st_size / 1024 / 1024:.1f} MB)\n")
     else:
-        print("\n⚠️  Skipping 4-bit quantization (requires onnxruntime>=1.18.0)")
+        print(f"✓ Using existing {model_int8.name} ({model_int8.stat().st_size / 1024 / 1024:.1f} MB)\n")
 
-    # Remove unquantized fp32 to save space
-    if model_fp32.exists():
-        model_fp32.unlink()
-        print(f"\n  Removed {model_fp32.name} (saved space)")
+    # 2. UINT8 dynamic quantization (unsigned)
+    model_uint8 = onnx_path / "model_uint8.onnx"
+    if not model_uint8.exists():
+        print("Generating model_uint8.onnx (uint8 unsigned)...")
+        quantize_dynamic(
+            model_input=str(model_fp32),
+            model_output=str(model_uint8),
+            weight_type=QuantType.QUInt8,
+            extra_options={
+                "ActivationSymmetric": False,
+                "MatMulConstBOnly": True,
+            },
+        )
+        print(f"  ✓ Saved: {model_uint8.name} ({model_uint8.stat().st_size / 1024 / 1024:.1f} MB)\n")
+    else:
+        print(f"✓ Using existing {model_uint8.name} ({model_uint8.stat().st_size / 1024 / 1024:.1f} MB)\n")
 
-    print("\n✓ Quantization complete!\n")
+    # 3. 4-bit quantization (4-bit weights)
+    model_q4 = onnx_path / "model_q4.onnx"
+    if not model_q4.exists():
+        print("Generating model_q4.onnx (4-bit weights)...")
+        try:
+            # Load fp32 for 4-bit quantization
+            fp32_proto = onnx.load(str(model_fp32))
+            quantizer = MatMulNBitsQuantizer(
+                model=fp32_proto,
+                block_size=32,  # Smaller block size for better accuracy
+                is_symmetric=False,
+                accuracy_level=4,
+            )
+            quantizer.process()
+            quantizer.model.save_model_to_file(str(model_q4), use_external_data_format=True)
+            print(f"  ✓ Saved: {model_q4.name} ({model_q4.stat().st_size / 1024 / 1024:.1f} MB)\n")
+        except Exception as e:
+            print(f"  ✗ Failed to generate 4-bit model: {e}")
+            print("    Skipping 4-bit quantization\n")
+    else:
+        print(f"✓ Using existing {model_q4.name} ({model_q4.stat().st_size / 1024 / 1024:.1f} MB)\n")
+
+    print("✓ Quantization complete!\n")
+    print("Available models:")
+    for model_file in sorted(onnx_path.glob("model*.onnx")):
+        size_mb = model_file.stat().st_size / 1024 / 1024
+        print(f"  • {model_file.name:25s} {size_mb:>8.1f} MB")
+    print()
+    
     return 0
 
 
 def main() -> int:
     """Run complete training pipeline."""
+    parser = argparse.ArgumentParser(description="SmolLM2 Fine-tuning Pipeline")
+    parser.add_argument(
+        "--skip-train",
+        action="store_true",
+        help="Skip SFT training (use existing LoRA adapter)",
+    )
+    parser.add_argument(
+        "--skip-merge",
+        action="store_true",
+        help="Skip merging and ONNX export (use existing ONNX model)",
+    )
+    parser.add_argument(
+        "--only-quantize",
+        action="store_true",
+        help="Only run quantization (skip training and merging)",
+    )
+    args = parser.parse_args()
+
     print("\n" + "=" * 60)
     print("SmolLM2-360M Fine-tuning Pipeline")
     print("=" * 60 + "\n")
 
     # Stage 1: SFT Training with LoRA
-    ret = train_sft_lora()
-    if ret != 0:
-        return ret
+    if not (args.skip_train or args.only_quantize):
+        ret = train_sft_lora()
+        if ret != 0:
+            return ret
 
     # Stage 2: Merge and export to ONNX
-    ret = merge_and_export()
-    if ret != 0:
-        return ret
+    if not (args.skip_merge or args.only_quantize):
+        ret = merge_and_export()
+        if ret != 0:
+            return ret
 
     # Stage 3: Quantize ONNX models
     ret = quantize_models()
@@ -328,9 +356,10 @@ def main() -> int:
     print("TRAINING COMPLETE!")
     print("=" * 60)
     print(f"\nONNX models saved to: {onnx_path}")
-    print("  • model_q4f16.onnx      - 4-bit (mobile/WebGPU)")
-    print("  • model_quantized.onnx  - INT8 (WASM/CPU)")
-    print("  • model_fp16.onnx       - FP16 (quality)")
+    print("  • model.onnx       - FP32 (unquantized base)")
+    print("  • model_int8.onnx  - INT8 signed (WASM/CPU)")
+    print("  • model_uint8.onnx - UINT8 unsigned")
+    print("  • model_q4.onnx    - 4-bit (ultra-compact)")
     print("\nNext steps:")
     print("  1. Test models:  make test-model")
     print("  2. Push to Hub:  make push-model")
