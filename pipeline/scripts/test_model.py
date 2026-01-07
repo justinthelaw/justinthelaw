@@ -74,13 +74,11 @@ def main() -> int:
     # Check dataset exists
     if not sft_dataset_path.exists():
         print(f"Error: SFT dataset not found at {sft_dataset_path}")
-        print("Run 'make generate-dataset' first")
         return 1
 
     # Check ONNX path exists
     if not onnx_path.exists():
         print(f"Error: ONNX models not found at {onnx_path}")
-        print("Run 'make train-model' first")
         return 1
 
     # Load dataset and pick random question

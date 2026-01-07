@@ -44,7 +44,6 @@ def train_sft_lora() -> int:
 
     if not sft_dataset_path.exists():
         print(f"Error: SFT dataset not found at {sft_dataset_path}")
-        print("Run 'make generate-dataset' first")
         return 1
 
     # Load dataset
@@ -360,9 +359,6 @@ def main() -> int:
     print("  • model_int8.onnx  - INT8 signed (WASM/CPU)")
     print("  • model_uint8.onnx - UINT8 unsigned")
     print("  • model_q4.onnx    - 4-bit (ultra-compact)")
-    print("\nNext steps:")
-    print("  1. Test models:  make test-model")
-    print("  2. Push to Hub:  make push-model")
     print()
 
     return 0

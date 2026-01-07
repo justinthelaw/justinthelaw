@@ -463,7 +463,7 @@ def main() -> int:
             f"{server['host']}:{server['port']}/health", timeout=5
         ).raise_for_status()
     except Exception:
-        print("Error: llama-server not running. Start with: make serve")
+        print("Error: llama-server not running")
         return 1
 
     # Generate

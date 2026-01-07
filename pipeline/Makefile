@@ -41,9 +41,10 @@ setup:
 	uv sync
 	@echo ""
 	@echo "Setup complete!"
-	@echo "Prerequisites:"
+	@echo "Next steps:"
 	@echo "  1. brew install llama.cpp"
 	@echo "  2. Place resume at: resume/resume.pdf"
+	@echo "  3. make serve"
 
 serve:
 	@if [ -f .llama-server.pid ] && ps -p $$(cat .llama-server.pid) >/dev/null 2>&1; then \
@@ -62,6 +63,8 @@ serve:
 		sleep 5; \
 	done
 	@echo "Server ready!"
+	@echo "Next steps:"
+	@echo "  1. make preview"
 
 stop:
 	@if [ -f .llama-server.pid ]; then \
@@ -75,21 +78,30 @@ stop:
 preview:
 	@[ -f resume/resume.pdf ] || { echo "Error: Place resume at resume/resume.pdf"; exit 1; }
 	uv run python scripts/generate_dataset.py --preview
+	@echo "Next steps:"
+	@echo "  1. make generate-dataset"
 
 generate-dataset:
 	@[ -f resume/resume.pdf ] || { echo "Error: Place resume at resume/resume.pdf"; exit 1; }
 	@curl -s http://localhost:$(PORT)/health >/dev/null || { echo "Error: Start server first with 'make serve'"; exit 1; }
 	uv run python scripts/generate_dataset.py
+	@echo "Next steps:"
+	@echo "  1. make push-dataset"
+	@echo "  2. make train-model"
 
 # Single-step training: SFT with LoRA → merge → multi-level ONNX quantization
 train-model:
 	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
 	uv run python scripts/train_model.py
+	@echo "Next steps:"
+	@echo "  1. make test-model"
 
 test-model:
 	@[ -d models/onnx ] || { echo "Error: Run 'make train-model' first"; exit 1; }
 	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
 	uv run python scripts/test_model.py
+	@echo "Next steps:"
+	@echo "  1. make push-model"
 
 push-model:
 	@[ -d models/onnx ] || { echo "Error: Run 'make merge' first"; exit 1; }

@@ -107,16 +107,6 @@ def push_model(commit_message: str) -> int:
     onnx_path = PIPELINE_DIR / CONFIG.get("onnx_output", "models/onnx")
     repo_id = CONFIG["model"]["hub_id"]
 
-    if not merged_path.exists():
-        print(f"Error: Merged model not found at {merged_path}")
-        print("Run 'make merge' first")
-        return 1
-
-    if not onnx_path.exists():
-        print(f"Error: ONNX model not found at {onnx_path}")
-        print("Run 'make merge' first")
-        return 1
-
     print(f"Preparing upload to {repo_id}...")
 
     api = HfApi()
@@ -165,7 +155,6 @@ def push_dataset(commit_message: str) -> int:
 
     if not dataset_path.exists():
         print(f"Error: Dataset not found at {dataset_path}")
-        print("Run 'make generate' first")
         return 1
 
     print(f"Preparing upload to {repo_id}...")
