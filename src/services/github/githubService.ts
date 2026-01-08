@@ -6,7 +6,7 @@
 import { SITE_CONFIG } from "@/config/site";
 
 const GITHUB_API_BASE = "https://api.github.com";
-const PERSON_NAME = SITE_CONFIG.name || "this person";
+const PERSON_NAME = SITE_CONFIG.fullName || "this person";
 const DEFAULT_BIO_FALLBACK = `Oops! It seems like GitHub's API might be down so the website can't grab ${PERSON_NAME}'s GitHub bio. Anyway, let's just assume that ${PERSON_NAME} is really cool!`;
 
 export interface GitHubUser {

@@ -15,7 +15,7 @@ const QUIRK_MESSAGES = [
   `Reading ${SITE_CONFIG.name}'s mind...`,
   `Checking ${SITE_CONFIG.name}'s secret diary...`,
   `Analyzing ${SITE_CONFIG.name}'s preferences...`,
-  `Decoding ${SITE_CONFIG.name}'s GitHub commits...`,
+  `Decoding ${SITE_CONFIG.name}'s commits...`,
   "Making up an answer for you...",
   "Searching the dark web...",
   "Wondering the same thing you are...",
@@ -50,7 +50,7 @@ export function ChatMessages({
             <div className="w-6 h-6 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin" />
             <p className="text-gray-300">{loadingMessage || "Loading..."}</p>
           </div>
-          {loadingMessage && loadingMessage.includes("Error") && (
+          {loadingMessage && loadingMessage.trim().toLowerCase().includes("error") && (
             <div className="mt-3 flex flex-col items-center gap-2">
               {loadingMessage.includes("memory") && (
                 <p className="text-sm text-red-400 text-center max-w-xs">

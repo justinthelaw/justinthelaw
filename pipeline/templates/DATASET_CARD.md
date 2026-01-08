@@ -7,10 +7,9 @@ task_categories:
   - question-answering
 tags:
   - sft
-  - dpo
+  - lora
   - resume
   - chatbot
-  - preference-learning
   - fine-tuning
   - conversational
 size_categories:
@@ -19,26 +18,14 @@ size_categories:
 
 # {dataset_hub_id}
 
-A combined SFT and DPO dataset generated from **{person_name}**'s resume for fine-tuning language models to answer questions about professional background, skills, and experience.
+An Supervised Fine-Tuning (SFT) dataset generated from **{person_name}**'s resume for fine-tuning language models to answer questions about professional background, skills, and experience. This dataset consists of synthetically generated QA pairs.
 
-## Dataset Description
-
-This dataset contains two formats optimized for a two-stage training pipeline:
-
-1. **SFT (Supervised Fine-Tuning)**: Conversation-formatted QA pairs for factual memorization
-2. **DPO (Direct Preference Optimization)**: Preference pairs with chosen/rejected responses for alignment
-
-### Dataset Statistics
+## Dataset Statistics
 
 - **Total Samples**: ~{total_samples} (estimated, with {variations_per_question}x variations per unique question)
 - **Train Split**: {train_split_percent}%
 - **Validation Split**: {val_split_percent}%
 - **Samples per Category**: {samples_per_category}
-
-### Question Categories
-
-The dataset covers the following categories:
-{categories_list}
 
 ## Dataset Structure
 
@@ -60,24 +47,6 @@ Conversation-formatted samples for supervised fine-tuning:
 }
 ```
 
-### DPO Format (`dpo/`)
-
-Preference pairs for Direct Preference Optimization:
-
-| Field      | Type   | Description                                    |
-| ---------- | ------ | ---------------------------------------------- |
-| `prompt`   | string | The question being asked                       |
-| `chosen`   | string | The preferred (correct) response               |
-| `rejected` | string | The rejected (incorrect/hallucinated) response |
-
-```json
-{
-  "prompt": "What is {person_name}'s current role?",
-  "chosen": "[Detailed, accurate response based on resume]",
-  "rejected": "[Generic or incorrect response]"
-}
-```
-
 ## Dataset Creation
 
 ### Generation Process
@@ -86,34 +55,18 @@ Preference pairs for Direct Preference Optimization:
 2. **Question Generation**: LLM-generated questions across multiple categories using llama-server
 3. **Question Variations**: Multiple paraphrases per question for training robustness
 4. **Answer Generation**: Accurate answers generated with full resume context
-5. **Rejected Response Generation**: Plausible but incorrect responses generated without context
-6. **Dual Format Export**: Data formatted for both SFT and DPO training stages
-
-### Generation Configuration
-
-- **Question Temperature**: {temp_question} (higher for diverse questions)
-- **Answer Temperature**: {temp_answer} (lower for consistent factual answers)
-- **Rejected Temperature**: {temp_rejected} (high for varied hallucinations)
-- **Variation Temperature**: {temp_variation} (for question paraphrasing)
-- **Variations per Question**: {variations_per_question}
-- **Random Seed**: {seed}
 
 ### Source Data
 
 The dataset was generated from {person_name}'s professional resume, which includes information about:
 
-- Work experience and roles
-- Education and certifications
-- Technical skills and expertise
-- Projects and achievements
-- Leadership experience
-- Military service (if applicable)
+{categories_list}
 
 ## Intended Use
 
 This dataset is intended for:
 
-- Two-stage fine-tuning (SFT → DPO) for personalized Q&A models
+- Supervised fine-tuning for personalized Q&A models
 - Training resume chatbots with factual memorization
 - Demonstrating preference learning techniques for small language models
 

@@ -7,19 +7,24 @@ import sys
 import tempfile
 from pathlib import Path
 
-import yaml
+from generate_dataset import get_question_categories
 from huggingface_hub import HfApi, create_repo
+from utils import CONFIG, PIPELINE_DIR
 
-PIPELINE_DIR = Path(__file__).parent.parent
-CONFIG = yaml.safe_load((PIPELINE_DIR / "config.yaml").read_text())
 TEMPLATES_DIR = PIPELINE_DIR / "templates"
-
 DEFAULT_COMMIT_MESSAGE = "WIP, commit model weights and metadata"
 
 
 def _extract_username(hub_id: str) -> str:
     """Extract username from hub_id."""
     return hub_id.split("/")[0]
+
+
+def _apply_template_replacements(template: str, replacements: dict[str, str]) -> str:
+    """Apply all replacements to a template string."""
+    for placeholder, value in replacements.items():
+        template = template.replace(placeholder, value)
+    return template
 
 
 def _generate_model_card() -> str:
@@ -39,24 +44,19 @@ def _generate_model_card() -> str:
         "{lora_alpha}": str(CONFIG["lora"]["alpha"]),
         "{lora_dropout}": str(CONFIG["lora"]["dropout"]),
         "{lora_target_modules}": target_modules,
-        # SFT config
         "{sft_epochs}": str(CONFIG["sft"]["epochs"]),
         "{sft_batch_size}": str(CONFIG["sft"]["batch_size"]),
         "{sft_learning_rate}": str(CONFIG["sft"]["learning_rate"]),
-        # DPO config
-        "{training_epochs}": str(CONFIG["training"]["epochs"]),
-        "{training_batch_size}": str(CONFIG["training"]["batch_size"]),
-        "{training_learning_rate}": str(CONFIG["training"]["learning_rate"]),
-        "{dpo_beta}": str(CONFIG["dpo"]["beta"]),
-        "{dpo_loss_type}": CONFIG["dpo"]["loss_type"],
+        "{training_epochs}": str(CONFIG.get("training", {}).get("epochs", "N/A")),
+        "{training_batch_size}": str(CONFIG.get("training", {}).get("batch_size", "N/A")),
+        "{training_learning_rate}": str(CONFIG.get("training", {}).get("learning_rate", "N/A")),
+        "{dpo_beta}": str(CONFIG.get("dpo", {}).get("beta", "N/A")),
+        "{dpo_loss_type}": CONFIG.get("dpo", {}).get("loss_type", "N/A"),
         "{github_username}": hf_username,
         "{hf_username}": hf_username,
     }
 
-    for placeholder, value in replacements.items():
-        template = template.replace(placeholder, value)
-
-    return template
+    return _apply_template_replacements(template, replacements)
 
 
 def _generate_dataset_card() -> str:
@@ -67,18 +67,9 @@ def _generate_dataset_card() -> str:
     samples_per_cat = CONFIG["dataset"]["samples_per_category"]
     train_split = CONFIG["dataset"]["train_split"]
 
-    # Category count and total samples (mirrors QUESTION_CATEGORIES)
-    categories = [
-        "Work Experience",
-        "Technical Skills",
-        "Education",
-        "Projects",
-        "Leadership",
-        "Achievements",
-        "Certifications",
-    ]
-    if CONFIG["dataset"].get("include_military", False):
-        categories.append("Military Service")
+    # Get categories directly from generate_dataset.py
+    question_categories = get_question_categories()
+    categories = [cat.title() for cat in question_categories.keys()]
 
     total_samples = len(categories) * samples_per_cat
     categories_list = "\n".join(f"- {cat}" for cat in categories)
@@ -94,17 +85,88 @@ def _generate_dataset_card() -> str:
         "{categories_list}": categories_list,
         "{temp_question}": str(CONFIG["dataset"]["temperatures"]["question"]),
         "{temp_answer}": str(CONFIG["dataset"]["temperatures"]["answer"]),
-        "{temp_rejected}": str(CONFIG["dataset"]["temperatures"]["rejected"]),
         "{temp_variation}": str(CONFIG["dataset"]["temperatures"].get("variation", 0.85)),
         "{seed}": str(CONFIG["dataset"]["seed"]),
         "{github_username}": hf_username,
         "{hf_username}": hf_username,
     }
 
-    for placeholder, value in replacements.items():
-        template = template.replace(placeholder, value)
+    return _apply_template_replacements(template, replacements)
 
-    return template
+
+def _push_to_hub(
+    source_paths: list[tuple[Path, str]],
+    repo_id: str,
+    readme_content: str,
+    commit_message: str,
+    repo_type: str = "model",
+) -> int:
+    """Generic function to push content to HuggingFace Hub.
+    
+    Args:
+        source_paths: List of (source_path, target_subdir) tuples to stage
+        repo_id: HuggingFace repository ID
+        readme_content: Generated README content
+        commit_message: Commit message
+        repo_type: "model" or "dataset"
+    """
+    print(f"Preparing upload to {repo_id}...")
+
+    api = HfApi()
+    try:
+        if repo_type == "dataset":
+            create_repo(repo_id, repo_type="dataset", exist_ok=True)
+        else:
+            create_repo(repo_id, exist_ok=True)
+    except Exception as e:
+        print(f"Note: {e}")
+
+    # Stage all files for single-commit upload
+    with tempfile.TemporaryDirectory() as staging_dir:
+        staging_path = Path(staging_dir)
+
+        # Copy source files to staging
+        for source_path, target_subdir in source_paths:
+            if not source_path.exists():
+                print(f"Error: Source path not found at {source_path}")
+                return 1
+
+            print(f"Staging from {source_path}...")
+            if target_subdir:
+                target = staging_path / target_subdir
+                target.mkdir(parents=True, exist_ok=True)
+            else:
+                target = staging_path
+
+            for item in source_path.iterdir():
+                if item.is_file():
+                    shutil.copy2(item, target / item.name)
+                elif item.is_dir():
+                    shutil.copytree(item, target / item.name)
+
+        # Write README
+        print("Writing README...")
+        (staging_path / "README.md").write_text(readme_content)
+
+        # Upload
+        print(f"Uploading to {repo_id}...")
+        if repo_type == "dataset":
+            api.upload_folder(
+                folder_path=str(staging_path),
+                repo_id=repo_id,
+                repo_type="dataset",
+                commit_message=commit_message,
+            )
+        else:
+            api.upload_folder(
+                folder_path=str(staging_path),
+                repo_id=repo_id,
+                commit_message=commit_message,
+            )
+
+    url_prefix = "https://huggingface.co/datasets/" if repo_type == "dataset" else "https://huggingface.co/"
+    print(f"\nUploaded to {url_prefix}{repo_id}")
+    return 0
 
 
 def push_model(commit_message: str) -> int:
@@ -113,55 +175,15 @@ def push_model(commit_message: str) -> int:
     onnx_path = PIPELINE_DIR / CONFIG.get("onnx_output", "models/onnx")
     repo_id = CONFIG["model"]["hub_id"]
 
-    if not merged_path.exists():
-        print(f"Error: Merged model not found at {merged_path}")
-        print("Run 'make merge' first")
-        return 1
+    model_card = _generate_model_card()
 
-    if not onnx_path.exists():
-        print(f"Error: ONNX model not found at {onnx_path}")
-        print("Run 'make merge' first")
-        return 1
+    # Source paths: (path, target_subdirectory)
+    source_paths = [
+        (merged_path, ""),  # Merged model at root
+        (onnx_path, "onnx"),  # ONNX models in /onnx subdirectory
+    ]
 
-    print(f"Preparing upload to {repo_id}...")
-
-    api = HfApi()
-    try:
-        create_repo(repo_id, exist_ok=True)
-    except Exception as e:
-        print(f"Note: {e}")
-
-    # Stage all files for single-commit upload
-    with tempfile.TemporaryDirectory() as staging_dir:
-        staging_path = Path(staging_dir)
-
-        print(f"Staging merged model from {merged_path}...")
-        for f in merged_path.iterdir():
-            if f.is_file():
-                shutil.copy2(f, staging_path / f.name)
-
-        onnx_staging = staging_path / "onnx"
-        onnx_staging.mkdir()
-        print(f"Staging ONNX model from {onnx_path}...")
-        for f in onnx_path.iterdir():
-            if f.is_file():
-                shutil.copy2(f, onnx_staging / f.name)
-
-        # Generate and write model card
-        print("Generating model card...")
-        model_card = _generate_model_card()
-        (staging_path / "README.md").write_text(model_card)
-
-        print(f"Uploading to {repo_id}...")
-        api.upload_folder(
-            folder_path=str(staging_path),
-            repo_id=repo_id,
-            commit_message=commit_message,
-        )
-
-    print(f"\nUploaded to https://huggingface.co/{repo_id}")
-    print("Model includes SafeTensors, ONNX, and model card.")
-    return 0
+    return _push_to_hub(source_paths, repo_id, model_card, commit_message, repo_type="model")
 
 
 def push_dataset(commit_message: str) -> int:
@@ -169,44 +191,13 @@ def push_dataset(commit_message: str) -> int:
     dataset_path = PIPELINE_DIR / CONFIG["dataset_output"]
     repo_id = CONFIG["dataset"]["hub_id"]
 
-    if not dataset_path.exists():
-        print(f"Error: Dataset not found at {dataset_path}")
-        print("Run 'make generate' first")
-        return 1
+    dataset_card = _generate_dataset_card()
 
-    print(f"Preparing upload to {repo_id}...")
+    source_paths = [
+        (dataset_path, ""),  # Dataset at root
+    ]
 
-    api = HfApi()
-    try:
-        create_repo(repo_id, repo_type="dataset", exist_ok=True)
-    except Exception as e:
-        print(f"Note: {e}")
-
-    with tempfile.TemporaryDirectory() as staging_dir:
-        staging_path = Path(staging_dir)
-
-        print(f"Staging dataset from {dataset_path}...")
-        for item in dataset_path.iterdir():
-            if item.is_file():
-                shutil.copy2(item, staging_path / item.name)
-            elif item.is_dir():
-                shutil.copytree(item, staging_path / item.name)
-
-        # Generate and write dataset card
-        print("Generating dataset card...")
-        dataset_card = _generate_dataset_card()
-        (staging_path / "README.md").write_text(dataset_card)
-
-        print(f"Uploading to {repo_id}...")
-        api.upload_folder(
-            folder_path=str(staging_path),
-            repo_id=repo_id,
-            repo_type="dataset",
-            commit_message=commit_message,
-        )
-
-    print(f"\nUploaded to https://huggingface.co/datasets/{repo_id}")
-    return 0
+    return _push_to_hub(source_paths, repo_id, dataset_card, commit_message, repo_type="dataset")
 
 
 def main() -> int:

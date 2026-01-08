@@ -1,7 +1,7 @@
 [project]
 name = "resume-finetuning"
 version = "0.1.0"
-description = "DPO fine-tuning pipeline for resume Q&A models"
+description = "SFT LoRA fine-tuning pipeline for resume Q&A models"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -19,7 +19,103 @@ dependencies = [
   "huggingface-hub>=0.21.0",
   "optimum[onnxruntime]>=1.17.0",
   "onnx>=1.15.0",
+  "onnxruntime>=1.17.0",
+  "ruff>=0.7.1",
+  "pyright>=1.1.387",
 ]
 
-[tool.uv]
-dev-dependencies = []
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+indent-width = 4
+
+[tool.ruff.lint]
+exclude = [
+  ".pyenv",
+  ".venv",
+  "**/.ipynb_checkpoints/**",
+  "**/__pycache__/**",
+  "data/**",
+  "models/**",
+  "templates/**",
+]
+
+select = ["E", "F", "I", "N", "D", "UP", "ANN", "S", "B", "A", "TID", "T100"]
+ignore = [
+  "D203",
+  "D212",
+  "D100",
+  "D101",
+  "D102",
+  "D103",
+  "D104",
+  "D105",
+  "D107",
+  "E501",
+  "A002",
+  "S101",
+]
+pydocstyle.convention = "google"
+flake8-tidy-imports.ban-relative-imports = "all"
+flake8-bugbear.extend-immutable-calls = ["fastapi.Depends", "fastapi.Body"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+exclude = [
+  ".pyenv",
+  ".venv",
+  "**/.ipynb_checkpoints/**",
+  "**/__pycache__/**",
+  "data/**",
+  "models/**",
+  "templates/**",
+]
+
+[tool.pyright]
+include = ["scripts"]
+exclude = [
+  ".pyenv",
+  ".venv",
+  "**/.ipynb_checkpoints/**",
+  "**/__pycache__/**",
+  "data/**",
+  "models/**",
+  "templates/**",
+]
+strictListInference = true
+strictDictionaryInference = true
+strictSetInference = true
+deprecateTypingAliases = true
+enableReachabilityAnalysis = true
+reportPropertyTypeMismatch = "error"
+reportImportCycles = "error"
+reportUnusedImport = "error"
+reportUnusedClass = "error"
+reportUnusedFunction = "error"
+reportUntypedFunctionDecorator = "error"
+reportUntypedClassDecorator = "error"
+reportUntypedBaseClass = "error"
+reportUntypedNamedTuple = "error"
+reportPrivateUsage = "error"
+reportTypeCommentUsage = "error"
+reportConstantRedefinition = "error"
+reportDeprecated = "error"
+reportInconsistentConstructor = "error"
+reportMissingSuperCall = "warning"
+reportUninitializedInstanceVariable = "error"
+reportInvalidStringEscapeSequence = "error"
+reportMissingParameterType = "error"
+reportInvalidTypeVarUse = "error"
+reportUnnecessaryIsInstance = "error"
+reportUnnecessaryCast = "error"
+reportUnnecessaryComparison = "error"
+reportUnnecessaryContains = "error"
+reportAssertAlwaysTrue = "error"
+reportSelfClsParameterName = "error"
+reportInvalidStubStatement = "error"
+reportIncompleteStub = "error"
+reportUnusedExpression = "error"
+reportUnnecessaryTypeIgnoreComment = "error"
+reportMatchNotExhaustive = "error"

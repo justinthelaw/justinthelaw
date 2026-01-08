@@ -16,17 +16,40 @@ server:
   host: "http://localhost"
   port: 8080
   timeout: 120
+  health_check_timeout: 5
+
+validation:
+  context_token_warn: 2000
+
+generation_limits:
+  question_max_tokens: 64
+  answer_max_tokens: 80
+  min_question_length: 15
+  min_answer_length: 15
+  min_variation_length: 15
+  max_question_words: 15
+  max_answer_sentences: 2
+  max_answer_words: 50
+
+llm_defaults:
+  temperature: 0.7
+  max_tokens: 128
+  variation_max_tokens: 64
+  long_question_skip_prob: 0.1
+  stop_sequences:
+    - "\n\n\n"
+    - "Question:"
 
 # Dataset Generation
 dataset:
-  hub_id: "justinthelaw/Resume-DPO-SFT-Dataset"
-  samples_per_category: 1000
+  hub_id: "justinthelaw/Resume-Cover-Letter-SFT-Dataset"
+  samples_per_category: 2000
   include_military: true
+  has_recommendations: true
   variations_per_question: 3
   temperatures:
     question: 0.9
     answer: 0.1
-    rejected: 1.0
     variation: 1.0
   train_split: 0.9
   seed: 88
@@ -34,12 +57,12 @@ dataset:
 # Base Model
 model:
   base: "HuggingFaceTB/SmolLM2-360M-Instruct"
-  hub_id: "justinthelaw/SmolLM2-360M-Instruct_Resume-SFT-DPO"
+  hub_id: "justinthelaw/SmolLM2-360M-Instruct-Resume-Cover-Letter-SFT"
 
 # LoRA Config
 lora:
-  r: 64
-  alpha: 64
+  r: 128
+  alpha: 256
   dropout: 0.05
   target_modules:
     - q_proj
@@ -50,28 +73,23 @@ lora:
     - up_proj
     - down_proj
 
-# SFT Training (Stage 1)
+# SFT Training with LoRA
 sft:
-  epochs: 8
-  batch_size: 8
-  gradient_accumulation: 2
-  learning_rate: 1.0e-5
-  max_length: 384
-  warmup_ratio: 0.1
-  seed: 88
-  weight_decay: 0.01
-
-# DPO Training (Stage 2)
-training:
-  epochs: 1
-  batch_size: 4
+  epochs: 16
+  batch_size: 16
   gradient_accumulation: 4
-  learning_rate: 5.0e-6
-  warmup_ratio: 0.1
+  learning_rate: 2.0e-5
+  max_length: 384
+  warmup_ratio: 0.05
   seed: 88
+  weight_decay: 0.0
+  logging_steps: 10
+  save_total_limit: 2
 
-dpo:
-  beta: 0.05
-  loss_type: "sigmoid"
-  label_smoothing: 0.1
-  max_target_length: 150
+inference:
+  max_new_tokens: 128
+  repetition_penalty: 1.2
+
+quantization:
+  block_size: 32
+  accuracy_level: 4

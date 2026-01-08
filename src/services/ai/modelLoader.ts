@@ -9,12 +9,7 @@ import {
   type TextGenerationPipeline,
 } from "@huggingface/transformers";
 import { ModelType } from "@/types";
-import {
-  MODEL_IDS,
-  MODEL_DTYPE,
-  MODEL_SIZES,
-  MODEL_MEMORY_REQUIREMENTS,
-} from "@/config/models";
+import { MODEL_IDS, MODEL_DTYPE_OPTIONS } from "@/config/models";
 import { SITE_CONFIG } from "@/config/site";
 
 // Configure environment for browser usage
@@ -36,209 +31,131 @@ export function getNextSmallerModel(currentSize: ModelType): ModelType | null {
 }
 
 /**
- * Get approximate available RAM in MB on the current device.
- * Returns null when unavailable.
- */
-export async function getAvailableRAMMB(): Promise<number | null> {
-  try {
-    // Browser: navigator.deviceMemory reports GB
-    if (typeof navigator !== "undefined" && "deviceMemory" in navigator) {
-      const dm = (navigator as unknown as { deviceMemory?: number })
-        .deviceMemory;
-      if (typeof dm === "number") {
-        console.log("Using browser `navigator.deviceMemory` API");
-        return Math.floor(dm * 1024);
-      }
-    }
-
-    // Browser: use performance.memory.jsHeapSizeLimit as a conservative estimate (bytes)
-    const perfMem =
-      typeof performance !== "undefined"
-        ? (performance as unknown as { memory?: { jsHeapSizeLimit?: number } })
-            .memory
-        : undefined;
-    if (perfMem && perfMem.jsHeapSizeLimit) {
-      const heapLimit = perfMem.jsHeapSizeLimit;
-      console.log("Using browser `performance.memory.jsHeapSizeLimit` API");
-      return Math.floor(heapLimit / 1024 / 1024);
-    }
-
-    // Node.js: use os.totalmem()
-    if (
-      typeof process !== "undefined" &&
-      typeof process.versions !== "undefined" &&
-      process.versions.node
-    ) {
-      const os = await import("os");
-      console.log("Using Node.js `os.totalmem` API");
-
-      return Math.floor(os.totalmem() / 1024 / 1024);
-    }
-  } catch (err) {
-    console.warn("Unable to determine available RAM:", err);
-  }
-
-  return null;
-}
-
-/**
- * Select the largest model that fits available RAM starting from requested model.
- */
-export async function selectModelForAvailableRAM(
-  requestedModel: ModelType
-): Promise<{ model: ModelType; availableMB: number | null }> {
-  const availableMB = await getAvailableRAMMB();
-  let model = requestedModel;
-
-  console.log(`Estimated available browser RAM (MB): ${availableMB}`);
-
-  if (availableMB === null) {
-    return { model, availableMB };
-  }
-
-  while (true) {
-    const required = MODEL_MEMORY_REQUIREMENTS[model];
-    if (required <= availableMB) return { model, availableMB };
-
-    const next = getNextSmallerModel(model);
-    if (!next) return { model, availableMB }; // already smallest
-    model = next;
-  }
-}
-
-/**
  * Loads a text generation model with progressive fallback on failure
  */
 export async function loadModelWithFallback(
   modelType: ModelType,
   callbacks: LoaderCallbacks = {}
 ): Promise<TextGenerationPipeline | null> {
-  let currentSize = modelType;
-
-  // Pick a model that fits available RAM when possible
-  try {
-    if (callbacks.onProgress)
-      callbacks.onProgress(0, "Checking device RAM to select best model...");
-    const { model: selectedModel, availableMB } =
-      await selectModelForAvailableRAM(currentSize);
-    if (selectedModel !== currentSize) {
-      currentSize = selectedModel;
-      if (callbacks.onFallback) callbacks.onFallback(selectedModel);
-      if (callbacks.onProgress) {
-        callbacks.onProgress(
-          0,
-          `Selecting model based on available RAM (${
-            availableMB ?? "unknown"
-          } MB)...`
-        );
-      }
-      console.log(
-        `Adjusted model selection based on RAM: selected ${
-          MODEL_IDS[selectedModel]
-        } (available: ${availableMB ?? "unknown"}MB)`
-      );
-    }
-  } catch (err) {
-    console.warn("RAM-based model selection failed:", err);
-  }
-
   let generator: TextGenerationPipeline | null = null;
   let attempts = 0;
-  const maxAttempts = MODEL_SIZES.length;
+  let shouldAbort = false;
+  let smarterErrorReported = false;
 
-  while (!generator && attempts < maxAttempts) {
-    attempts++;
-    try {
-      const modelId = MODEL_IDS[currentSize];
-      console.log(`Loading ${currentSize} model: ${modelId}`);
+  for (
+    let dtypeIndex = 0;
+    dtypeIndex < MODEL_DTYPE_OPTIONS.length && !generator && !shouldAbort;
+    dtypeIndex++
+  ) {
+    const currentDtype = MODEL_DTYPE_OPTIONS[dtypeIndex];
+    let currentSize: ModelType | null = modelType;
 
-      // Track if we're in download phase (first time seeing progress)
-      let isDownloading = true;
+    while (currentSize && !generator && !shouldAbort) {
+      attempts++;
 
-      const pipelineOptions: Record<string, unknown> = {
-        dtype: MODEL_DTYPE,
-        device: "wasm",
-        progress_callback: (progressData: unknown) => {
-          if (typeof progressData === "object" && progressData !== null) {
-            const data = progressData as { progress?: number; status?: string };
-            if (data.progress !== undefined && callbacks.onProgress) {
-              const progress = Math.round(data.progress);
+      try {
+        const modelId = MODEL_IDS[currentSize];
+        console.log(`Loading ${currentSize} model (${currentDtype}): ${modelId}`);
 
-              // Differentiate between download and loading into memory
-              let message: string;
-              if (data.status === "progress") {
-                message = `Downloading model... ${progress}%`;
-                isDownloading = true;
-              } else if (data.status === "done" || progress === 100) {
-                message = `Loading into memory... ${progress}%`;
-                isDownloading = false;
-              } else {
-                message = isDownloading
-                  ? `Downloading model... ${progress}%`
-                  : `Loading into memory... ${progress}%`;
+        // Track if we're in download phase (first time seeing progress)
+        let isDownloading = true;
+
+        const pipelineOptions: Record<string, unknown> = {
+          dtype: currentDtype,
+          device: "wasm",
+          progress_callback: (progressData: unknown) => {
+            if (typeof progressData === "object" && progressData !== null) {
+              const data = progressData as {
+                progress?: number;
+                status?: string;
+              };
+              if (data.progress !== undefined && callbacks.onProgress) {
+                const progress = Math.round(data.progress);
+
+                // Differentiate between download and loading into memory
+                let message: string;
+                if (data.status === "progress") {
+                  message = `Downloading model... ${progress}%`;
+                  isDownloading = true;
+                } else if (data.status === "done" || progress === 100) {
+                  message = `Loading into memory... ${progress}%`;
+                  isDownloading = false;
+                } else {
+                  message = isDownloading
+                    ? `Downloading model... ${progress}%`
+                    : `Loading into memory... ${progress}%`;
+                }
+
+                callbacks.onProgress(progress, message);
               }
-
-              callbacks.onProgress(progress, message);
             }
-          }
-        },
-      };
+          },
+        };
 
-      const pipelineResult = await pipeline(
-        "text-generation",
-        modelId,
-        pipelineOptions
-      );
+        const pipelineResult = await pipeline(
+          "text-generation",
+          modelId,
+          pipelineOptions
+        );
 
-      generator = pipelineResult as TextGenerationPipeline;
-      return generator;
-    } catch (e) {
-      const errorStr = String(e);
-      console.error(`Model loading attempt ${attempts} failed:`, errorStr);
+        generator = pipelineResult as TextGenerationPipeline;
+        return generator;
+      } catch (e) {
+        const errorStr = String(e);
+        console.error(`Model loading attempt ${attempts} failed:`, errorStr);
 
-      // If SMARTER model fails, provide context-specific error and fall back
-      if (currentSize === ModelType.SMARTER) {
-        if (callbacks.onError) {
-          callbacks.onError(
-            `Sorry, we couldn't load the smarter model, so now you are talking with me - the dumber one! However, I am still able to answer basic questions about ${SITE_CONFIG["name"]}, so please ask away!`
-          );
-          console.error(errorStr);
-        }
-
-        const nextSize = getNextSmallerModel(currentSize);
-        if (nextSize) {
-          currentSize = nextSize;
-          if (callbacks.onFallback) {
-            callbacks.onFallback(nextSize);
-          }
-          console.log(
-            `Loading smarter model failed, falling back to: ${MODEL_IDS[nextSize]}`
-          );
-        } else {
-          break;
-        }
-      } else {
         const isMemoryError =
           errorStr.includes("memory") || errorStr.includes("allocation");
 
-        if (isMemoryError) {
+        if (currentSize === ModelType.SMARTER) {
+          if (!smarterErrorReported && callbacks.onError) {
+            callbacks.onError(
+              `Sorry, we couldn't load the smarter model, so now you are talking with me - the dumber one! However, I am still able to answer basic questions about ${SITE_CONFIG["name"]}, so please ask away!`
+            );
+            smarterErrorReported = true;
+          }
+
+          const nextSize = getNextSmallerModel(currentSize);
+          if (nextSize) {
+            currentSize = nextSize;
+            if (callbacks.onFallback) {
+              callbacks.onFallback(nextSize);
+            }
+            console.log(
+              `Loading smarter model failed, falling back to: ${MODEL_IDS[nextSize]}`
+            );
+          } else {
+            currentSize = null;
+          }
+        } else if (isMemoryError) {
           const nextSize = getNextSmallerModel(currentSize);
 
           if (!nextSize) {
             console.error("Already at Dumber model, cannot fallback further");
-            break;
+            currentSize = null;
+          } else {
+            currentSize = nextSize;
+            if (callbacks.onFallback) {
+              callbacks.onFallback(nextSize);
+            }
+            console.log(`Memory error, falling back to: ${MODEL_IDS[nextSize]}`);
           }
-
-          currentSize = nextSize;
-          if (callbacks.onFallback) {
-            callbacks.onFallback(nextSize);
-          }
-          console.log(`Memory error, falling back to: ${MODEL_IDS[nextSize]}`);
         } else {
           // Non-memory errors or network issues should stop attempts
-          break;
+          shouldAbort = true;
         }
       }
+    }
+
+    if (
+      !generator &&
+      !shouldAbort &&
+      dtypeIndex < MODEL_DTYPE_OPTIONS.length - 1
+    ) {
+      const nextDtype = MODEL_DTYPE_OPTIONS[dtypeIndex + 1];
+      console.warn(
+        `All models failed with dtype ${currentDtype}, falling back to ${nextDtype}`
+      );
     }
   }
 

@@ -30,10 +30,7 @@ This model is designed for browser-based inference using [transformers.js](https
 
 ### Training Pipeline
 
-The model is trained using a two-stage approach optimized for factual memorization:
-
-1. **SFT (Supervised Fine-Tuning)**: Primary training for factual memorization using conversation-formatted QA pairs
-2. **DPO (Direct Preference Optimization)**: Refinement training to prefer accurate answers over hallucinations
+The model is trained using a **SFT (Supervised Fine-Tuning)** approach, where factual memorization is enforced via conversation-formatted QA pairs.
 
 ### Training Details
 
@@ -51,25 +48,14 @@ The model is trained using a two-stage approach optimized for factual memorizati
 - Batch Size: {sft_batch_size}
 - Learning Rate: {sft_learning_rate}
 
-#### DPO Training Configuration
-
-- Epochs: {training_epochs}
-- Batch Size: {training_batch_size}
-- Learning Rate: {training_learning_rate}
-- Beta: {dpo_beta}
-- Loss Type: {dpo_loss_type}
-
 ## Model Formats
 
 This repository contains multiple model formats:
 
-| Format         | Location                     | Use Case                            |
-| -------------- | ---------------------------- | ----------------------------------- |
-| SafeTensors    | `/` (root)                   | Python/PyTorch inference            |
-| ONNX           | `/onnx/model.onnx`           | Full precision ONNX Runtime         |
-| ONNX Quantized | `/onnx/model_quantized.onnx` | Browser inference (transformers.js) |
-
-> **Note**: If quantization fails during export due to weight distribution issues, `model_quantized.onnx` will be a copy of the fp16 model for compatibility.
+| Format      | Location   | Use Case                                                  |
+| ----------- | ---------- | --------------------------------------------------------- |
+| SafeTensors | `/` (root) | Python/PyTorch inference                                  |
+| ONNX        | `/onnx/`   | Full precision and quantized weights for the ONNX Runtime |
 
 ## Usage
 
@@ -78,15 +64,12 @@ This repository contains multiple model formats:
 ```javascript
 import { pipeline } from "@huggingface/transformers";
 
-const generator = await pipeline(
-  "text-generation",
-  "{model_hub_id}",
-  { dtype: "q8" } // Uses model_quantized.onnx
-);
+const generator = await pipeline("text-generation", "{model_hub_id}", {
+  dtype: "fp32",
+});
 
 const output = await generator("What is {person_name}'s background?", {
   max_new_tokens: 256,
-  temperature: 0.7,
 });
 ```
 
