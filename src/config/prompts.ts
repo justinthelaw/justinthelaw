@@ -7,23 +7,17 @@ import { ModelType, type GenerationParams } from "@/types";
 import { SITE_CONFIG } from "./site";
 
 /**
- * Model-specific generation parameters for optimal SmolLM2 performance
- *
- * SMARTER (fine-tuned): Uses greedy decoding (do_sample=false) for consistent
- * factual recall. Parameters match pipeline/scripts/test_model.py test_onnx().
- *
- * DUMBER (base model): Needs slightly higher temp for creativity since
- * it relies on context injection rather than fine-tuned knowledge.
+ * Model-specific generation parameters for optimal performance
  */
 export const GENERATION_PARAMS: Record<ModelType, GenerationParams> = {
   [ModelType.DUMBER]: {
     temperature: 0.3,
-    maxTokens: 96,
+    maxTokens: 128,
     topK: 30,
-    repetitionPenalty: 1.2,
+    repetitionPenalty: 1.5,
   },
   [ModelType.SMARTER]: {
-    // Match pipeline/scripts/test_model.py test_onnx() parameters
+    // Match pipeline/config.yaml parameters
     temperature: 0.0,
     maxTokens: 128,
     topK: 0,
@@ -32,12 +26,9 @@ export const GENERATION_PARAMS: Record<ModelType, GenerationParams> = {
 };
 
 /**
- * Input sanitization limits
+ * Context length limits for a single user message
  */
-export const INPUT_CONSTRAINTS = {
-  MAX_LENGTH: 256,
-  MAX_WORDS: 64,
-} as const;
+export const MAX_SINGLE_MESSAGE_LENGTH: number = 128;
 
 /**
  * AI Chatbot Configuration
@@ -57,5 +48,5 @@ export const CHATBOT_CONFIG = {
   // System prompt template for DUMBER model (generic, not fine-tuned)
   // Uses profile data to provide context about the person
   // The SMARTER model is fine-tuned on resume data and doesn't need this
-  systemPrompt: `You are ${SITE_CONFIG.name}'s AI assistant. Answer questions about ${SITE_CONFIG.name} using only the provided context. Give informative but concise answers in 1-3 short sentences.`,
+  systemPrompt: `You are ${SITE_CONFIG.fullName}'s AI assistant. Answer questions about ${SITE_CONFIG.name} using only the provided context. Give informative but concise answers in 1-3 short sentences.`,
 } as const;

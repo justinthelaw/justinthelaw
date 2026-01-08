@@ -1,8 +1,8 @@
 /**
  * Model Configuration
  * Constants and configurations for SmolLM2 models
- * DUMBER = Generic model (generically trained)
- * SMARTER = Fine-tuned model (fine-tuned for better performance)
+ * DUMBER = Generic model (upstream HuggingFace)
+ * SMARTER = Fine-tuned model (resume-specific SFT+LoRA)
  */
 
 import { ModelType } from "@/types";
@@ -17,7 +17,8 @@ export const MODEL_SIZES = [ModelType.DUMBER, ModelType.SMARTER] as const;
  */
 export const MODEL_IDS: Record<ModelType, string> = {
   [ModelType.DUMBER]: "HuggingFaceTB/SmolLM2-360M-Instruct",
-  [ModelType.SMARTER]: "justinthelaw/SmolLM2-360M-Instruct_Resume-SFT-DPO",
+  [ModelType.SMARTER]:
+    "justinthelaw/SmolLM2-360M-Instruct-Resume-Cover-Letter-SFT",
 };
 
 /**
@@ -29,18 +30,22 @@ export const MODEL_DISPLAY_NAMES: Record<ModelType, string> = {
 };
 
 /**
- * Quantization type for all models (auto-detect optimal format)
+ * Quantization type, defaults to unquantized
  */
-export const MODEL_DTYPE = "auto" as const;
+export const MODEL_DTYPE = "fp32" as const;
 
 /**
- * Approximate memory requirements in MB
- * The fine-tuned model is larger due to non-quantization
+ * Lower-precision fallback dtypes for constrained environments
  */
-export const MODEL_MEMORY_REQUIREMENTS: Record<ModelType, number> = {
-  [ModelType.DUMBER]: 800,
-  [ModelType.SMARTER]: 2000,
-};
+export const MODEL_FALLBACK_DTYPES = ["q4", "int8"] as const;
+
+/**
+ * Ordered dtype options to try, from highest to lowest quality
+ */
+export const MODEL_DTYPE_OPTIONS = [
+  MODEL_DTYPE,
+  ...MODEL_FALLBACK_DTYPES,
+] as const;
 
 /**
  * Context length limits by model size (conservative estimates)
@@ -51,6 +56,6 @@ export const MODEL_CONTEXT_LIMITS: Record<ModelType, number> = {
 };
 
 /**
- * Default model selection (use SMARTER, will auto-downgrade based on RAM)
+ * Default model selection
  */
 export const DEFAULT_MODEL_SIZE = ModelType.SMARTER;

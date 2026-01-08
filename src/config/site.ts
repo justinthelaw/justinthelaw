@@ -14,7 +14,8 @@ import type { ProfileSection } from "@/types";
  */
 export const SITE_CONFIG = {
   // Basic Information
-  name: "Justin Law",
+  name: "Justin",
+  fullName: "Justin Law",
   githubUsername: "justinthelaw",
 
   // Repository Configuration (for GitHub Pages deployment)
@@ -96,7 +97,7 @@ export const DERIVED_CONFIG = {
 } as const;
 
 /**
- * Profile Data for AI Chatbot Context
+ * Profile Data for DUMBER/Generic LLM Chatbot Context
  */
 export const PROFILE: ProfileSection = {
   role: "Senior Software Engineer at Defense Unicorns, builds full-stack AI/ML applications and platforms",

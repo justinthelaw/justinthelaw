@@ -11,11 +11,7 @@ import {
 import { WorkerAction, WorkerStatus, type WorkerRequest } from "@/types/worker";
 import { ModelType } from "@/types";
 import { GENERATION_PARAMS } from "@/config/prompts";
-import {
-  generateConversationMessages,
-  cleanInput,
-  validateResponse,
-} from "./contextProvider";
+import { generateConversationMessages, cleanInput } from "./contextProvider";
 import { loadModelWithFallback } from "./modelLoader";
 import { initTracing, traceLLMGeneration, traceModelLoad } from "./tracing";
 import { MODEL_IDS } from "@/config/models";
@@ -138,19 +134,15 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
     self.postMessage({ status: WorkerStatus.INITIATE });
 
     // Generate conversation messages with model-specific optimization
-    const messages = generateConversationMessages(cleanedInput);
-    
+    const messages = generateConversationMessages(cleanedInput, modelType);
+
     // Extract system message and user input for tracing
-    const systemMessage = messages.find(m => m.role === "system")?.content;
-    const userMessage = messages.find(m => m.role === "user")?.content || cleanedInput;
+    const systemMessage = messages.find((m) => m.role === "system")?.content;
+    const userMessage =
+      messages.find((m) => m.role === "user")?.content || cleanedInput;
 
     // Get model-specific generation parameters
     const generationParams = { ...GENERATION_PARAMS[modelType] };
-
-    let fullResponse = "";
-    let isResponseValid = false;
-    let retryCount = 0;
-    const maxRetries = 0; // Disable retries - just accept the first response
 
     try {
       const generateOperation = async () => {
@@ -161,66 +153,35 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
 
         // Count input tokens for tracing
         const inputTokenIds = generator.tokenizer(
-          messages.map(m => `${m.role}: ${m.content}`).join("\n"),
+          messages.map((m) => `${m.role}: ${m.content}`).join("\n"),
           { return_tensor: false }
         );
         const promptTokens = Array.isArray(inputTokenIds.input_ids)
           ? inputTokenIds.input_ids.length
           : inputTokenIds.input_ids.data.length;
 
-        while (!isResponseValid && retryCount <= maxRetries) {
-          fullResponse = "";
+        let fullResponse = "";
 
-          // Create streamer for real-time output
-          const streamer = new TextStreamer(generator.tokenizer, {
-            skip_prompt: true,
-            skip_special_tokens: true,
-            callback_function: (text: string) => {
-              fullResponse += text;
-              self.postMessage({ status: WorkerStatus.STREAM, response: text });
-            },
-          });
+        // Create streamer for real-time output
+        const streamer = new TextStreamer(generator.tokenizer, {
+          skip_prompt: true,
+          skip_special_tokens: true,
+          callback_function: (text: string) => {
+            fullResponse += text;
+            self.postMessage({ status: WorkerStatus.STREAM, response: text });
+          },
+        });
 
-          // Generate with model-optimized parameters
-          await generator(messages, {
-            temperature: generationParams.temperature,
-            max_new_tokens: generationParams.maxTokens,
-            do_sample: false,
-            repetition_penalty: generationParams.repetitionPenalty,
-            top_k: generationParams.topK,
-            early_stopping: true,
-            streamer,
-          });
-
-          // Validate response quality (but be lenient)
-          const validation = validateResponse(fullResponse.trim(), modelType);
-          isResponseValid = validation.isValid;
-
-          // If we've hit max retries, accept the response anyway
-          if (retryCount >= maxRetries) {
-            isResponseValid = true;
-            if (validation.issues.length > 0) {
-              console.log(
-                "Accepting response with validation warnings for %s model:",
-                modelType,
-                validation.issues
-              );
-            }
-          } else if (!isResponseValid && retryCount < maxRetries) {
-            retryCount++;
-            self.postMessage({
-              status: WorkerStatus.STREAM,
-              response: `\n[Improving response quality... attempt ${
-                retryCount + 1
-              }]\n`,
-            });
-
-            // Adjust params for retry
-            generationParams.temperature = generationParams.temperature * 1.1;
-            generationParams.repetitionPenalty =
-              generationParams.repetitionPenalty * 1.1;
-          }
-        }
+        // Generate with model-optimized parameters
+        await generator(messages, {
+          temperature: generationParams.temperature,
+          max_new_tokens: generationParams.maxTokens,
+          do_sample: false,
+          repetition_penalty: generationParams.repetitionPenalty,
+          top_k: generationParams.topK,
+          early_stopping: true,
+          streamer,
+        });
 
         // Count output tokens for tracing
         const outputTokenIds = generator.tokenizer(fullResponse, {
@@ -230,7 +191,12 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
           ? outputTokenIds.input_ids.length
           : outputTokenIds.input_ids.data.length;
 
-        return { output: fullResponse, fullResponse, promptTokens, completionTokens };
+        return {
+          output: fullResponse,
+          fullResponse,
+          promptTokens,
+          completionTokens,
+        };
       };
 
       await traceLLMGeneration(

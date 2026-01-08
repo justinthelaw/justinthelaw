@@ -117,31 +117,6 @@ test.describe("Chatbot UI Tests", () => {
     await page.waitForTimeout(1000);
   });
 
-  test("should select model based on available RAM", async ({ page }) => {
-    const chatbotButton = page.getByTestId("ai-chatbot-button");
-    await chatbotButton.click();
-
-    // Wait for chatbot to open and be ready
-    await page.waitForTimeout(500);
-
-    // Click model settings button
-    const viewportSize = page.viewportSize();
-    const isMobile = viewportSize && viewportSize.width < 1024;
-    const settingsButton = isMobile
-      ? page.getByTestId("model-settings-button").last()
-      : page.getByTestId("model-settings-button").first();
-    await settingsButton.click();
-
-    const modal = page.getByTestId("model-selector-modal");
-    await expect(modal).toBeVisible();
-
-    // In test environment with sufficient RAM, SMARTER should be selected
-    // (The system starts with SMARTER and downgrades only if RAM is insufficient)
-    const smarterLabel = modal.locator('label:has-text("Smarter")');
-    const smarterRadio = smarterLabel.locator('input[type="radio"]');
-    await expect(smarterRadio).toBeChecked();
-  });
-
   test("should maintain scroll position at bottom when messages are sent", async ({
     page,
   }) => {
@@ -178,7 +153,7 @@ test.describe("Chatbot UI Tests", () => {
     await expect(modelSelectorModal).toBeVisible();
 
     // Find all model option labels (which contain the radio inputs)
-    const modelLabels = modelSelectorModal.locator('label');
+    const modelLabels = modelSelectorModal.locator("label");
     const radioInputs = modelSelectorModal.locator('input[type="radio"]');
     const radioCount = await radioInputs.count();
     expect(radioCount).toBeGreaterThan(0);

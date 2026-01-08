@@ -48,7 +48,7 @@ export default function Home() {
             className="text-center text-3xl sm:text-5xl font-bold"
             data-testid="main-header"
           >
-            {SITE_CONFIG.name}
+            {SITE_CONFIG.fullName}
           </header>
           <GitHubProfile />
         </div>
@@ -65,7 +65,7 @@ export default function Home() {
               {SITE_CONFIG.socialLinks.github && (
                 <LinkIconButton
                   link={SITE_CONFIG.socialLinks.github}
-                  altText={`${SITE_CONFIG.name}'s GitHub Profile`}
+                  altText={`${SITE_CONFIG.fullName}'s GitHub Profile`}
                   filename="github.png"
                   path={path}
                 />
@@ -73,7 +73,7 @@ export default function Home() {
               {SITE_CONFIG.socialLinks.linkedin && (
                 <LinkIconButton
                   link={SITE_CONFIG.socialLinks.linkedin}
-                  altText={`${SITE_CONFIG.name}'s LinkedIn Profile`}
+                  altText={`${SITE_CONFIG.fullName}'s LinkedIn Profile`}
                   filename="linkedin.png"
                   path={path}
                 />
@@ -81,7 +81,7 @@ export default function Home() {
               {SITE_CONFIG.socialLinks.huggingface && (
                 <LinkIconButton
                   link={SITE_CONFIG.socialLinks.huggingface}
-                  altText={`${SITE_CONFIG.name}'s HuggingFace Profile`}
+                  altText={`${SITE_CONFIG.fullName}'s HuggingFace Profile`}
                   filename="huggingface.png"
                   path={path}
                 />
@@ -89,7 +89,7 @@ export default function Home() {
               {SITE_CONFIG.socialLinks.gitlab && (
                 <LinkIconButton
                   link={SITE_CONFIG.socialLinks.gitlab}
-                  altText={`${SITE_CONFIG.name}'s GitLab Profile`}
+                  altText={`${SITE_CONFIG.fullName}'s GitLab Profile`}
                   filename="gitlab.png"
                   path={path}
                 />
