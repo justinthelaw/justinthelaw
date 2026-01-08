@@ -181,7 +181,5 @@ QUANTIZATION_BLOCK_SIZE = CONFIG['quantization']['block_size']
 QUANTIZATION_ACCURACY_LEVEL = CONFIG['quantization']['accuracy_level']
 
 # Inference defaults
-INFERENCE_TEMPERATURE = CONFIG['inference']['temperature']
 INFERENCE_MAX_NEW_TOKENS = CONFIG['inference']['max_new_tokens']
 INFERENCE_REPETITION_PENALTY = CONFIG['inference']['repetition_penalty']
-INFERENCE_TOP_K = CONFIG['inference']['top_k']

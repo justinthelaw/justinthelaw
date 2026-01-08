@@ -12,8 +12,6 @@ from utils import (
     CONFIG,
     INFERENCE_MAX_NEW_TOKENS,
     INFERENCE_REPETITION_PENALTY,
-    INFERENCE_TEMPERATURE,
-    INFERENCE_TOP_K,
     PIPELINE_DIR,
     SYSTEM_PROMPT,
     get_model_size_mb,
@@ -54,11 +52,9 @@ def test_onnx_model(onnx_path: Path, model_file: str, question: str, expected: s
     inputs = tokenizer(prompt, return_tensors="pt")
     outputs = model.generate(
         **inputs,
-        temperature=INFERENCE_TEMPERATURE,
         max_new_tokens=INFERENCE_MAX_NEW_TOKENS,
         do_sample=False,
         repetition_penalty=INFERENCE_REPETITION_PENALTY,
-        top_k=INFERENCE_TOP_K,
         pad_token_id=tokenizer.eos_token_id,
     )
 

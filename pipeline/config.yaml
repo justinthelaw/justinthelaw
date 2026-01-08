@@ -87,10 +87,8 @@ sft:
   save_total_limit: 2
 
 inference:
-  temperature: 0.0
   max_new_tokens: 128
   repetition_penalty: 1.2
-  top_k: 0
 
 quantization:
   block_size: 32
