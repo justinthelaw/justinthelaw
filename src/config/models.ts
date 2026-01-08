@@ -6,6 +6,7 @@
  */
 
 import { ModelType } from "@/types";
+import { isMobileDevice } from "@/utils";
 
 /**
  * Available model sizes
@@ -30,22 +31,12 @@ export const MODEL_DISPLAY_NAMES: Record<ModelType, string> = {
 };
 
 /**
- * Quantization type, defaults to unquantized
+ * Get the appropriate dtype based on device type
+ * Mobile devices use q4 for efficiency, desktops use fp32 for quality
  */
-export const MODEL_DTYPE = "fp32" as const;
-
-/**
- * Lower-precision fallback dtypes for constrained environments
- */
-export const MODEL_FALLBACK_DTYPES = ["q4", "int8"] as const;
-
-/**
- * Ordered dtype options to try, from highest to lowest quality
- */
-export const MODEL_DTYPE_OPTIONS = [
-  MODEL_DTYPE,
-  ...MODEL_FALLBACK_DTYPES,
-] as const;
+export function getDeviceSpecificDtype(): "fp32" | "q4" {
+  return isMobileDevice() ? "q4" : "fp32";
+}
 
 /**
  * Context length limits by model size (conservative estimates)
