@@ -9,7 +9,7 @@ import {
   type TextGenerationPipeline,
 } from "@huggingface/transformers";
 import { ModelType } from "@/types";
-import { MODEL_IDS, MODEL_DTYPE_OPTIONS } from "@/config/models";
+import { MODEL_IDS, getDeviceSpecificDtype } from "@/config/models";
 import { SITE_CONFIG } from "@/config/site";
 
 // Configure environment for browser usage
@@ -31,7 +31,8 @@ export function getNextSmallerModel(currentSize: ModelType): ModelType | null {
 }
 
 /**
- * Loads a text generation model with progressive fallback on failure
+ * Loads a text generation model with model size fallback on failure
+ * Dtype is determined by device type: fp32 for desktop, q4 for mobile
  */
 export async function loadModelWithFallback(
   modelType: ModelType,
@@ -42,120 +43,106 @@ export async function loadModelWithFallback(
   let shouldAbort = false;
   let smarterErrorReported = false;
 
-  for (
-    let dtypeIndex = 0;
-    dtypeIndex < MODEL_DTYPE_OPTIONS.length && !generator && !shouldAbort;
-    dtypeIndex++
-  ) {
-    const currentDtype = MODEL_DTYPE_OPTIONS[dtypeIndex];
-    let currentSize: ModelType | null = modelType;
+  // Get device-specific dtype (no fallback)
+  const dtype = getDeviceSpecificDtype();
+  console.log(`Using dtype ${dtype} for device type`);
 
-    while (currentSize && !generator && !shouldAbort) {
-      attempts++;
+  let currentSize: ModelType | null = modelType;
 
-      try {
-        const modelId = MODEL_IDS[currentSize];
-        console.log(`Loading ${currentSize} model (${currentDtype}): ${modelId}`);
+  while (currentSize && !generator && !shouldAbort) {
+    attempts++;
 
-        // Track if we're in download phase (first time seeing progress)
-        let isDownloading = true;
+    try {
+      const modelId = MODEL_IDS[currentSize];
+      console.log(`Loading ${currentSize} model (${dtype}): ${modelId}`);
 
-        const pipelineOptions: Record<string, unknown> = {
-          dtype: currentDtype,
-          device: "wasm",
-          progress_callback: (progressData: unknown) => {
-            if (typeof progressData === "object" && progressData !== null) {
-              const data = progressData as {
-                progress?: number;
-                status?: string;
-              };
-              if (data.progress !== undefined && callbacks.onProgress) {
-                const progress = Math.round(data.progress);
+      // Track if we're in download phase (first time seeing progress)
+      let isDownloading = true;
 
-                // Differentiate between download and loading into memory
-                let message: string;
-                if (data.status === "progress") {
-                  message = `Downloading model... ${progress}%`;
-                  isDownloading = true;
-                } else if (data.status === "done" || progress === 100) {
-                  message = `Loading into memory... ${progress}%`;
-                  isDownloading = false;
-                } else {
-                  message = isDownloading
-                    ? `Downloading model... ${progress}%`
-                    : `Loading into memory... ${progress}%`;
-                }
+      const pipelineOptions: Record<string, unknown> = {
+        dtype,
+        device: "wasm",
+        progress_callback: (progressData: unknown) => {
+          if (typeof progressData === "object" && progressData !== null) {
+            const data = progressData as {
+              progress?: number;
+              status?: string;
+            };
+            if (data.progress !== undefined && callbacks.onProgress) {
+              const progress = Math.round(data.progress);
 
-                callbacks.onProgress(progress, message);
+              // Differentiate between download and loading into memory
+              let message: string;
+              if (data.status === "progress") {
+                message = `Downloading model... ${progress}%`;
+                isDownloading = true;
+              } else if (data.status === "done" || progress === 100) {
+                message = `Loading into memory... ${progress}%`;
+                isDownloading = false;
+              } else {
+                message = isDownloading
+                  ? `Downloading model... ${progress}%`
+                  : `Loading into memory... ${progress}%`;
               }
+
+              callbacks.onProgress(progress, message);
             }
-          },
-        };
-
-        const pipelineResult = await pipeline(
-          "text-generation",
-          modelId,
-          pipelineOptions
-        );
-
-        generator = pipelineResult as TextGenerationPipeline;
-        return generator;
-      } catch (e) {
-        const errorStr = String(e);
-        console.error(`Model loading attempt ${attempts} failed:`, errorStr);
-
-        const isMemoryError =
-          errorStr.includes("memory") || errorStr.includes("allocation");
-
-        if (currentSize === ModelType.SMARTER) {
-          if (!smarterErrorReported && callbacks.onError) {
-            callbacks.onError(
-              `Sorry, we couldn't load the smarter model, so now you are talking with me - the dumber one! However, I am still able to answer basic questions about ${SITE_CONFIG["name"]}, so please ask away!`
-            );
-            smarterErrorReported = true;
           }
+        },
+      };
 
-          const nextSize = getNextSmallerModel(currentSize);
-          if (nextSize) {
-            currentSize = nextSize;
-            if (callbacks.onFallback) {
-              callbacks.onFallback(nextSize);
-            }
-            console.log(
-              `Loading smarter model failed, falling back to: ${MODEL_IDS[nextSize]}`
-            );
-          } else {
-            currentSize = null;
-          }
-        } else if (isMemoryError) {
-          const nextSize = getNextSmallerModel(currentSize);
-
-          if (!nextSize) {
-            console.error("Already at Dumber model, cannot fallback further");
-            currentSize = null;
-          } else {
-            currentSize = nextSize;
-            if (callbacks.onFallback) {
-              callbacks.onFallback(nextSize);
-            }
-            console.log(`Memory error, falling back to: ${MODEL_IDS[nextSize]}`);
-          }
-        } else {
-          // Non-memory errors or network issues should stop attempts
-          shouldAbort = true;
-        }
-      }
-    }
-
-    if (
-      !generator &&
-      !shouldAbort &&
-      dtypeIndex < MODEL_DTYPE_OPTIONS.length - 1
-    ) {
-      const nextDtype = MODEL_DTYPE_OPTIONS[dtypeIndex + 1];
-      console.warn(
-        `All models failed with dtype ${currentDtype}, falling back to ${nextDtype}`
+      const pipelineResult = await pipeline(
+        "text-generation",
+        modelId,
+        pipelineOptions
       );
+
+      generator = pipelineResult as TextGenerationPipeline;
+      return generator;
+    } catch (e) {
+      const errorStr = String(e);
+      console.error(`Model loading attempt ${attempts} failed:`, errorStr);
+
+      const isMemoryError =
+        errorStr.includes("memory") || errorStr.includes("allocation");
+
+      if (currentSize === ModelType.SMARTER) {
+        if (!smarterErrorReported && callbacks.onError) {
+          callbacks.onError(
+            `Sorry, we couldn't load the smarter model, so now you are talking with me - the dumber one! However, I am still able to answer basic questions about ${SITE_CONFIG["name"]}, so please ask away!`
+          );
+          smarterErrorReported = true;
+        }
+
+        const nextSize = getNextSmallerModel(currentSize);
+        if (nextSize) {
+          currentSize = nextSize;
+          if (callbacks.onFallback) {
+            callbacks.onFallback(nextSize);
+          }
+          console.log(
+            `Loading smarter model failed, falling back to: ${MODEL_IDS[nextSize]}`
+          );
+        } else {
+          currentSize = null;
+        }
+      } else if (isMemoryError) {
+        const nextSize = getNextSmallerModel(currentSize);
+
+        if (!nextSize) {
+          console.error("Already at Dumber model, cannot fallback further");
+          currentSize = null;
+        } else {
+          currentSize = nextSize;
+          if (callbacks.onFallback) {
+            callbacks.onFallback(nextSize);
+          }
+          console.log(`Memory error, falling back to: ${MODEL_IDS[nextSize]}`);
+        }
+      } else {
+        // Non-memory errors or network issues should stop attempts
+        shouldAbort = true;
+      }
     }
   }
 
