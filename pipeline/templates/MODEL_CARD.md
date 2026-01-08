@@ -64,15 +64,12 @@ This repository contains multiple model formats:
 ```javascript
 import { pipeline } from "@huggingface/transformers";
 
-const generator = await pipeline(
-  "text-generation",
-  "{model_hub_id}",
-  { dtype: "q8" } // Uses model_quantized.onnx
-);
+const generator = await pipeline("text-generation", "{model_hub_id}", {
+  dtype: "fp32",
+});
 
 const output = await generator("What is {person_name}'s background?", {
   max_new_tokens: 256,
-  temperature: 0.7,
 });
 ```
 
