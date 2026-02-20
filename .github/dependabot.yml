@@ -12,6 +12,10 @@ updates:
     # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
+    groups:
+      root-npm:
+        patterns:
+          - "*"
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
@@ -20,3 +24,7 @@ updates:
     # Check for updates to GitHub Actions every day (weekdays)
     schedule:
       interval: "daily"
+    groups:
+      root-github-actions:
+        patterns:
+          - "*"
