@@ -126,5 +126,5 @@ evaluation:
       model_uint8.onnx: 1800
       model_q4.onnx: 1200
   hub:
-    model_id: "justinthelaw/SmolLM2-360M-Instruct_Resume-SFT-DPO"
+    model_id: "justinthelaw/SmolLM2-360M-Instruct-Resume-Cover-Letter-SFT"
     dataset_id: "justinthelaw/Resume-Cover-Letter-SFT-Dataset"
