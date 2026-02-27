@@ -26,10 +26,18 @@ Edit `config.yaml`:
 - [ ] Set `dataset.hub_id` to `your-username/Your-Dataset`
 - [ ] Set `model.hub_id` to `your-username/Your-Model`
 - [ ] Set `include_military: false` if not applicable
+- [ ] Set `evaluation.hub.model_id` and `evaluation.hub.dataset_id` to your published HuggingFace assets
+- [ ] Calibrate `evaluation.thresholds` after baseline eval runs
 
 Edit the `Makefile`:
 
 - [ ] Read and override environment variables, if applicable
+
+Curate evaluation prompts:
+
+- [ ] Update `data/eval/golden.jsonl`
+- [ ] Update `data/eval/adversarial.jsonl`
+- [ ] Update `data/eval/ood.jsonl`
 
 ### 3. Generate Dataset (~1-2 hours)
 
@@ -39,18 +47,19 @@ Edit the `Makefile`:
 - [ ] Generate data: `make generate-dataset`
 - [ ] Stop llama.cpp server: `make stop`
 
-### 4. Fine-Tune and TEst Model (~30-60 min)
+### 4. Fine-Tune and Evaluate Model (~30-60 min)
 
 - [ ] Run fine-tuning: `make train-model`
-- [ ] Test ONNX model: `make test-model`
+- [ ] Run smoke evaluation: `make test-model`
+- [ ] Run full evaluation (recommended before publishing): `make eval-full`
 
-### 6. Push to HuggingFace (~2 min)
+### 5. Push to HuggingFace (~2 min)
 
 - [ ] Login: `huggingface-cli login`
 - [ ] Upload model: `make push-model`
 - [ ] Upload dataset (optional): `make push-dataset`
 
-### 7. Update Website (~5 min)
+### 6. Update Website (~5 min)
 
 - [ ] Edit `src/config/models.ts` with your model ID
 - [ ] Test: `npm run flight-check`
@@ -59,23 +68,61 @@ Edit the `Makefile`:
 ## One-liner
 
 ```bash
-make serve && make generate-dataset && make stop && make train-model && make test-model
+make serve && make generate-dataset && make stop && make train-model && make eval-full
 ```
 
 ## Commands
 
-| Command                 | Description                    | Time      |
-| ----------------------- | ------------------------------ | --------- |
-| `make setup`            | Install dependencies           | 1 min     |
-| `make serve`            | Start llama.cpp LLM server     | 1-5 min   |
-| `make stop`             | Stop llama.cpp LLM server      | <1 min    |
-| `make preview`          | Preview resume data extraction | <1 min    |
-| `make generate-dataset` | Generate training data         | 1-3 hrs   |
-| `make train-model`      | Fine-tune the base model       | 30-60 min |
-| `make test-model`       | Test the model (ONNX)          | 1-2 min   |
-| `make push-model`       | Upload model to HuggingFace    | 1-2 min   |
-| `make push-dataset`     | Upload dataset to HuggingFace  | 1-2 min   |
-| `make clean`            | Remove generated files         | <1 min    |
+| Command                 | Description                                   | Time      |
+| ----------------------- | --------------------------------------------- | --------- |
+| `make setup`            | Install dependencies                          | 1 min     |
+| `make serve`            | Start llama.cpp LLM server                    | 1-5 min   |
+| `make stop`             | Stop llama.cpp LLM server                     | <1 min    |
+| `make preview`          | Preview resume data extraction                | <1 min    |
+| `make generate-dataset` | Generate training data                        | 1-3 hrs   |
+| `make train-model`      | Fine-tune the base model                      | 30-60 min |
+| `make test-model`       | Smoke evaluation (alias of `make eval-smoke`) | 2-5 min   |
+| `make eval-smoke`       | Deterministic smoke evaluation with gating    | 2-5 min   |
+| `make eval-full`        | Full evaluation suite with gating             | 5-20 min  |
+| `make eval-compare`     | Full suite and compare against prior report   | 5-20 min  |
+| `make push-model`       | Upload model to HuggingFace                   | 1-2 min   |
+| `make push-dataset`     | Upload dataset to HuggingFace                 | 1-2 min   |
+| `make clean`            | Remove generated files                        | <1 min    |
+
+## Evaluation Suite
+
+The evaluation suite lives in `scripts/evaluate_model.py` and produces deterministic reports under `data/eval_reports/<timestamp>/`.
+
+Report artifacts:
+
+- `summary.md` - human-readable scorecard and threshold status
+- `metrics.json` - machine-readable aggregate metrics
+- `failures.jsonl` - failing cases with model output and reasons
+- `config_snapshot.json` - resolved evaluation config used for that run
+
+Curated eval sets:
+
+- `data/eval/golden.jsonl` - factual recall prompts
+- `data/eval/adversarial.jsonl` - robustness and prompt-injection checks
+- `data/eval/ood.jsonl` - out-of-domain refusal checks
+
+Example commands:
+
+```bash
+# Smoke suite with threshold gating
+make eval-smoke
+
+# Full suite with threshold gating
+make eval-full
+
+# Compare current run to a previous report
+make eval-compare COMPARE_TO=data/eval_reports/2026-02-27T103000Z
+```
+
+CI:
+
+- PRs that touch `pipeline/**` run `.github/workflows/pipeline-eval.yml` for Ruff + Pyright.
+- `make eval-smoke` runs in CI when both `models/onnx/model.onnx` and `data/sft/dataset_dict.json` are present.
 
 ## Troubleshooting
 

@@ -1,0 +1,56 @@
+name: Fine-Tuning Pipeline Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "pipeline/**"
+      - ".github/workflows/pipeline-eval.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pipeline-checks:
+    name: Pipeline Lint, Typecheck, and Eval Smoke
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pipeline
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync --frozen
+
+      - name: Ruff
+        run: uv run ruff check scripts
+
+      - name: Pyright
+        run: uv run pyright scripts/eval_dataset.py scripts/eval_metrics.py scripts/eval_reporting.py scripts/evaluate_model.py scripts/utils.py
+
+      - name: Eval smoke
+        if: ${{ hashFiles('pipeline/models/onnx/model.onnx') != '' && hashFiles('pipeline/data/sft/dataset_dict.json') != '' }}
+        run: make eval-smoke
+
+      - name: Upload evaluation reports
+        if: ${{ hashFiles('pipeline/data/eval_reports/**') != '' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: pipeline-eval-reports
+          path: pipeline/data/eval_reports/
+          retention-days: 14

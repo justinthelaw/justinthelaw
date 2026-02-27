@@ -50,6 +50,13 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 
 See [`/pipeline/README.md`](../pipeline/README.md) for full instructions.
 
+Before pushing a new model, run the pipeline evaluation suite:
+
+- `cd pipeline`
+- `make eval-smoke` for a quick deterministic regression check
+- `make eval-full` for full threshold-gated evaluation
+- review reports in `pipeline/data/eval_reports/<timestamp>/summary.md`
+
 ## Configuration Files
 
 | File                    | Purpose                                  |

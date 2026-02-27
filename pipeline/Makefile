@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-.PHONY: help setup serve stop preview generate-dataset train-model test-model push-model push-dataset clean
+.PHONY: help setup serve stop preview generate-dataset train-model test-model eval-smoke eval-full eval-compare push-model push-dataset clean
 
 # Configuration (override with environment variables)
 PORT          ?= 8080
@@ -23,7 +23,10 @@ help:
 	@echo "  make train-model      Train with SFT+LoRA, merge, and export ONNX"
 	@echo ""
 	@echo "Testing:"
-	@echo "  make test-model       Test all quantized ONNX models"
+	@echo "  make test-model       Run smoke evaluation suite (alias of eval-smoke)"
+	@echo "  make eval-smoke       Deterministic smoke evaluation with threshold gating"
+	@echo "  make eval-full        Full evaluation suite with threshold gating"
+	@echo "  make eval-compare     Full suite + compare against COMPARE_TO report dir"
 	@echo ""
 	@echo "Export & Deploy:"
 	@echo "  make push-model       Upload model to HuggingFace Hub"
@@ -97,19 +100,41 @@ train-model:
 	@echo "  1. make test-model"
 
 test-model:
+	@$(MAKE) eval-smoke
+	@echo "Next steps:"
+	@echo "  1. make eval-full"
+	@echo "  2. make push-model"
+
+eval-smoke:
 	@[ -d models/onnx ] || { echo "Error: Run 'make train-model' first"; exit 1; }
 	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
-	uv run python scripts/test_model.py
+	uv run python scripts/evaluate_model.py --suite smoke --fail-on-threshold
+	@echo "Next steps:"
+	@echo "  1. make eval-full"
+	@echo "  2. make push-model"
+
+eval-full:
+	@[ -d models/onnx ] || { echo "Error: Run 'make train-model' first"; exit 1; }
+	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
+	uv run python scripts/evaluate_model.py --suite full --fail-on-threshold
+	@echo "Next steps:"
+	@echo "  1. make push-model"
+
+eval-compare:
+	@[ -d models/onnx ] || { echo "Error: Run 'make train-model' first"; exit 1; }
+	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
+	@[ -n "$(COMPARE_TO)" ] || { echo "Error: Usage -> make eval-compare COMPARE_TO=data/eval_reports/<timestamp>"; exit 1; }
+	uv run python scripts/evaluate_model.py --suite full --fail-on-threshold --compare-to $(COMPARE_TO)
 	@echo "Next steps:"
 	@echo "  1. make push-model"
 
 push-model:
-	@[ -d models/onnx ] || { echo "Error: Run 'make merge' first"; exit 1; }
+	@[ -d models/onnx ] || { echo "Error: Run 'make train-model' first"; exit 1; }
 	@echo "Login first: huggingface-cli login"
 	uv run python scripts/push_hub.py model $(if $(COMMIT_MESSAGE),-m "$(COMMIT_MESSAGE)")
 
 push-dataset:
-	@[ -d data ] || { echo "Error: Run 'make generate' first"; exit 1; }
+	@[ -d data ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
 	@echo "Login first: huggingface-cli login"
 	uv run python scripts/push_hub.py dataset $(if $(COMMIT_MESSAGE),-m "$(COMMIT_MESSAGE)")
 

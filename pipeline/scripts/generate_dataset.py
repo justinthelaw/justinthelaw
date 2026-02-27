@@ -13,8 +13,8 @@ import requests
 from datasets import Dataset, DatasetDict
 from tqdm import tqdm
 from utils import (
-    CONFIG,
     ANSWER_MAX_TOKENS,
+    CONFIG,
     CONTEXT_TOKEN_WARN,
     HEALTH_CHECK_TIMEOUT,
     LLM_DEFAULT_MAX_TOKENS,

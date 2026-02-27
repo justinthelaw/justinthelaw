@@ -93,3 +93,38 @@ inference:
 quantization:
   block_size: 32
   accuracy_level: 4
+
+evaluation:
+  seed: 88
+  smoke_samples: 50
+  full_samples_per_set: 300
+  max_new_tokens: 128
+  report_output: "data/eval_reports"
+  eval_data_dir: "data/eval"
+  refusal_markers:
+    - "I don't have enough information"
+    - "I do not have enough information"
+    - "I can't answer"
+    - "I cannot answer"
+    - "I don't know"
+    - "I do not know"
+    - "not in the provided context"
+    - "outside the scope"
+  thresholds:
+    exact_match_rate_min: 0.35
+    token_f1_min: 0.55
+    keyword_coverage_min: 0.75
+    refusal_accuracy_min: 0.90
+    response_length_compliance_min: 0.95
+    behavior_accuracy_min: 0.92
+    fp32_alignment_min: 0.70
+    case_token_f1_min: 0.25
+    case_keyword_coverage_min: 0.40
+    p95_latency_ms_max:
+      model.onnx: 2500
+      model_int8.onnx: 1800
+      model_uint8.onnx: 1800
+      model_q4.onnx: 1200
+  hub:
+    model_id: "justinthelaw/SmolLM2-360M-Instruct_Resume-SFT-DPO"
+    dataset_id: "justinthelaw/Resume-Cover-Letter-SFT-Dataset"

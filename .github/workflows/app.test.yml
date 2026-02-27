@@ -1,6 +1,7 @@
+name: Playwright Tests
+
 permissions:
   contents: read
-name: Playwright Tests
 
 on:
   pull_request:

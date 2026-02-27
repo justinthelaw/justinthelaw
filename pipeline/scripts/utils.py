@@ -104,6 +104,42 @@ class QuantizationConfig(TypedDict):
     accuracy_level: int
 
 
+class EvaluationThresholdsConfig(TypedDict):
+    """Evaluation threshold configuration."""
+
+    exact_match_rate_min: float
+    token_f1_min: float
+    keyword_coverage_min: float
+    refusal_accuracy_min: float
+    response_length_compliance_min: float
+    behavior_accuracy_min: float
+    fp32_alignment_min: float
+    case_token_f1_min: float
+    case_keyword_coverage_min: float
+    p95_latency_ms_max: dict[str, float]
+
+
+class EvaluationHubConfig(TypedDict):
+    """Published HuggingFace references for evaluation metadata snapshots."""
+
+    model_id: str
+    dataset_id: str
+
+
+class EvaluationConfig(TypedDict):
+    """Evaluation suite configuration."""
+
+    seed: int
+    smoke_samples: int
+    full_samples_per_set: int
+    max_new_tokens: int
+    report_output: str
+    eval_data_dir: str
+    refusal_markers: list[str]
+    thresholds: EvaluationThresholdsConfig
+    hub: EvaluationHubConfig
+
+
 class DatasetConfig(TypedDict):
     """Dataset generation configuration."""
 
@@ -136,11 +172,12 @@ class Config(TypedDict):
     inference: InferenceConfig
     generation_limits: GenerationLimits
     quantization: QuantizationConfig
+    evaluation: EvaluationConfig
 
 
 def load_config() -> Config:
     """Load and return typed configuration from config.yaml."""
-    return yaml.safe_load(CONFIG_FILE.read_text())  # type: ignore[return-value]
+    return yaml.safe_load(CONFIG_FILE.read_text())
 
 
 # Load config once at module level
@@ -183,3 +220,8 @@ QUANTIZATION_ACCURACY_LEVEL = CONFIG['quantization']['accuracy_level']
 # Inference defaults
 INFERENCE_MAX_NEW_TOKENS = CONFIG['inference']['max_new_tokens']
 INFERENCE_REPETITION_PENALTY = CONFIG['inference']['repetition_penalty']
+
+# Evaluation defaults
+EVAL_MAX_NEW_TOKENS = CONFIG['evaluation']['max_new_tokens']
+EVAL_REPORT_OUTPUT = CONFIG['evaluation']['report_output']
+EVAL_DATA_DIR = CONFIG['evaluation']['eval_data_dir']
