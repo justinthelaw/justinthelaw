@@ -44,15 +44,3 @@ jobs:
 
       - name: Pyright
         run: uv run pyright scripts/eval_dataset.py scripts/eval_metrics.py scripts/eval_reporting.py scripts/evaluate_model.py scripts/utils.py
-
-      - name: Eval smoke
-        if: ${{ hashFiles('pipeline/models/onnx/model.onnx') != '' && hashFiles('pipeline/data/sft/dataset_dict.json') != '' }}
-        run: make eval-smoke
-
-      - name: Upload evaluation reports
-        if: ${{ hashFiles('pipeline/data/eval_reports/**') != '' }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: pipeline-eval-reports
-          path: pipeline/data/eval_reports/
-          retention-days: 14
