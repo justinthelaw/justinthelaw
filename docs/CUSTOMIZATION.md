@@ -46,7 +46,7 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 - [ ] `npm run deploy`
 - [ ] Go to localhost:6006 to check Phoenix OTEL traces for a quick LLM output vibe check
 
-## Upgrade to SMARTER Model (~6-12 hours)
+## Upgrade to SMARTER Model (~12-24 hours)
 
 See [`/pipeline/README.md`](../pipeline/README.md) for full instructions.
 For config knob rationale, use [`/pipeline/HYPERPARAMETER.md`](../pipeline/HYPERPARAMETER.md).

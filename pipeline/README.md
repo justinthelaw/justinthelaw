@@ -2,7 +2,7 @@
 
 Train a personalized AI model on your resume for browser-based Q&A.
 
-**Time estimate**: ~6-12 hours total on Apple Silicon M3 with 36GB+ RAM
+**Time estimate**: ~12-24 hours total on Apple Silicon M3 with 36GB+ RAM
 
 ## Config Tuning Reference
 
@@ -46,7 +46,7 @@ Curate evaluation prompts:
 - [ ] Update `data/eval/adversarial.jsonl`
 - [ ] Update `data/eval/ood.jsonl`
 
-### 3. Generate Dataset (~45-120 min)
+### 3. Generate Dataset (~45-90 mins)
 
 - [ ] Copy resume: `cp /path/to/resume.pdf resume/resume.pdf`
 - [ ] Start llama.cpp server: `make serve`
@@ -54,7 +54,7 @@ Curate evaluation prompts:
 - [ ] Generate data: `make generate-dataset`
 - [ ] Stop llama.cpp server: `make stop`
 
-### 4. Fine-Tune and Evaluate Model (~20-45 min)
+### 4. Fine-Tune and Evaluate Model (~12-24 hours)
 
 - [ ] Run fine-tuning: `make train-model`
 - [ ] Run smoke evaluation: `make test-model`
