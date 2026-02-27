@@ -7,10 +7,13 @@ on:
     paths:
       - "pipeline/**"
       - ".github/workflows/pipeline.test.yml"
-  workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: "pipeline-test-${{ github.ref }}"
+  cancel-in-progress: false
 
 jobs:
   test:
