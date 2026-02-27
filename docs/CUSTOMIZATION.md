@@ -46,9 +46,17 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 - [ ] `npm run deploy`
 - [ ] Go to localhost:6006 to check Phoenix OTEL traces for a quick LLM output vibe check
 
-## Upgrade to SMARTER Model (~3-4 hours)
+## Upgrade to SMARTER Model (~10-20 hours)
 
 See [`/pipeline/README.md`](../pipeline/README.md) for full instructions.
+For config knob rationale, use [`/pipeline/HYPERPARAMETER.md`](../pipeline/HYPERPARAMETER.md).
+
+Before pushing a new model, run the pipeline evaluation suite:
+
+- `cd pipeline`
+- `make eval-smoke` for a quick deterministic regression check
+- `make eval-full` for full threshold-gated evaluation
+- review reports in `pipeline/data/eval_reports/<timestamp>/summary.md`
 
 ## Configuration Files
 
@@ -58,6 +66,11 @@ See [`/pipeline/README.md`](../pipeline/README.md) for full instructions.
 | `src/config/models.ts`  | AI model IDs                             |
 | `src/config/prompts.ts` | Generation parameters                    |
 | `pipeline/config.yaml`  | Fine-tuning settings                     |
+
+Default model IDs are Qwen2.5-based:
+
+- `DUMBER`: `onnx-community/Qwen2.5-0.5B-Instruct`
+- `SMARTER`: your fine-tuned Qwen2.5 model repo (for example `your-username/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT`)
 
 ## Common Customizations
 

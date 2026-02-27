@@ -7,6 +7,7 @@ import shutil
 import sys
 import warnings
 from pathlib import Path
+from typing import Protocol, cast
 
 import onnx
 import torch
@@ -20,13 +21,22 @@ from trl.trainer.sft_config import SFTConfig
 from trl.trainer.sft_trainer import SFTTrainer
 from utils import CONFIG, PIPELINE_DIR, QUANTIZATION_ACCURACY_LEVEL, QUANTIZATION_BLOCK_SIZE, get_model_size_mb
 
-# ChatML template constant
-CHATML_TEMPLATE = (
+# Fallback chat template used only if the base tokenizer has no template.
+DEFAULT_CHAT_TEMPLATE = (
     "{% for message in messages %}"
     "{{'<|im_start|>' + message['role'] + '\\n' + message['content'] + '<|im_end|>\\n'}}"
     "{% endfor %}"
     "{% if add_generation_prompt %}{{ '<|im_start|>assistant\\n' }}{% endif %}"
 )
+
+
+class ChatTemplateTokenizer(Protocol):
+    """Tokenizer protocol for chat template persistence."""
+
+    chat_template: str | None
+
+    def save_pretrained(self, save_directory: str) -> tuple[str, ...]:
+        ...
 
 
 def clean_directory(path: Path) -> None:
@@ -87,7 +97,12 @@ def train_sft_lora() -> int:
     sft_cfg = CONFIG["sft"]
     use_bf16 = torch.cuda.is_available()
     use_fp16 = not use_bf16 and torch.backends.mps.is_available()
-    use_gradient_checkpointing = torch.cuda.is_available()
+    use_gradient_checkpointing = sft_cfg.get("gradient_checkpointing", torch.cuda.is_available())
+
+    eval_strategy = sft_cfg.get("eval_strategy", "epoch")
+    save_strategy = sft_cfg.get("save_strategy", "epoch")
+    run_eval = eval_strategy != "no"
+    load_best_model = run_eval and sft_cfg.get("load_best_model_at_end", True)
 
     # SFTConfig handles tokenization and label masking
     training_args = SFTConfig(
@@ -104,12 +119,15 @@ def train_sft_lora() -> int:
         fp16=use_fp16,
         gradient_checkpointing=use_gradient_checkpointing,
         logging_steps=sft_cfg.get("logging_steps", 10),
-        eval_strategy="epoch",
-        save_strategy="epoch",
+        packing=sft_cfg.get("packing", True),
+        group_by_length=sft_cfg.get("group_by_length", True),
+        dataloader_num_workers=sft_cfg.get("dataloader_num_workers", 0),
+        eval_strategy=eval_strategy,
+        save_strategy=save_strategy,
         save_total_limit=sft_cfg.get("save_total_limit", 2),
-        load_best_model_at_end=True,
-        metric_for_best_model="eval_loss",
-        greater_is_better=False,
+        load_best_model_at_end=load_best_model,
+        metric_for_best_model="eval_loss" if load_best_model else None,
+        greater_is_better=False if load_best_model else None,
         seed=sft_cfg["seed"],
         report_to="none",
     )
@@ -119,12 +137,15 @@ def train_sft_lora() -> int:
     print(f"  Epochs: {sft_cfg['epochs']}")
     print(f"  Learning rate: {sft_cfg['learning_rate']}")
     print(f"  Batch size: {sft_cfg['batch_size']} x {sft_cfg['gradient_accumulation']} accumulation")
+    print(f"  Packing: {sft_cfg.get('packing', True)}")
+    print(f"  Evaluation strategy: {eval_strategy}")
+    print(f"  Save strategy: {save_strategy}")
 
     trainer = SFTTrainer(
         model=model,
         args=training_args,
         train_dataset=train_data,  # type: ignore[arg-type]
-        eval_dataset=val_data,  # type: ignore[arg-type]
+        eval_dataset=val_data if run_eval else None,  # type: ignore[arg-type]
         processing_class=tokenizer,
         peft_config=peft_config,
     )
@@ -145,20 +166,29 @@ def train_sft_lora() -> int:
     return 0
 
 
-def _save_tokenizer_with_template(tokenizer: AutoTokenizer, save_path: Path) -> None:  # type: ignore[type-arg]
-    """Save tokenizer with ChatML template to both tokenizer files and config JSON."""
-    tokenizer.chat_template = CHATML_TEMPLATE  # type: ignore[attr-defined]
-    tokenizer.save_pretrained(str(save_path))  # type: ignore[attr-defined]
+def _resolve_chat_template(tokenizer: ChatTemplateTokenizer) -> str:
+    """Resolve chat template from tokenizer with fallback."""
+    chat_template = getattr(tokenizer, "chat_template", None)
+    if isinstance(chat_template, str) and chat_template.strip():
+        return chat_template
+    return DEFAULT_CHAT_TEMPLATE
+
+
+def _save_tokenizer_with_template(tokenizer: ChatTemplateTokenizer, save_path: Path) -> None:
+    """Save tokenizer with chat template to tokenizer files and config JSON."""
+    chat_template = _resolve_chat_template(tokenizer)
+    tokenizer.chat_template = chat_template
+    tokenizer.save_pretrained(str(save_path))
 
     # Explicitly save chat_template to tokenizer_config.json
     tokenizer_config_path = save_path / "tokenizer_config.json"
     if tokenizer_config_path.exists():
         config = json.loads(tokenizer_config_path.read_text())
-        config["chat_template"] = CHATML_TEMPLATE
+        config["chat_template"] = chat_template
         tokenizer_config_path.write_text(json.dumps(config, indent=2))
 
 
-def _merge_lora_adapter(adapter_path: Path, merged_path: Path, base_model: str) -> AutoModelForCausalLM:  # type: ignore[type-arg]
+def _merge_lora_adapter(adapter_path: Path, merged_path: Path, base_model: str) -> AutoModelForCausalLM:
     """Load base model, merge LoRA adapter, and save merged model."""
     print(f"Loading base model: {base_model}")
     model = AutoModelForCausalLM.from_pretrained(
@@ -169,16 +199,16 @@ def _merge_lora_adapter(adapter_path: Path, merged_path: Path, base_model: str) 
     )
 
     print(f"Loading LoRA adapter from {adapter_path}")
-    model = PeftModel.from_pretrained(model, str(adapter_path))  # type: ignore[assignment]
+    model = PeftModel.from_pretrained(model, str(adapter_path))
 
     print("Merging LoRA weights into base model...")
     model = model.merge_and_unload()  # type: ignore[assignment]
 
     print(f"Saving merged model to {merged_path}")
     clean_directory(merged_path)
-    model.save_pretrained(str(merged_path))  # type: ignore[attr-defined]
+    model.save_pretrained(str(merged_path))
 
-    return model  # type: ignore[return-value]
+    return model
 
 
 def _export_to_onnx(merged_path: Path, onnx_path: Path) -> None:
@@ -217,8 +247,8 @@ def merge_and_export() -> int:
     # Merge LoRA adapter
     _merge_lora_adapter(adapter_path, merged_path, base_model)
 
-    # Save tokenizer with ChatML template for merged model
-    tokenizer = AutoTokenizer.from_pretrained(base_model)
+    # Save tokenizer with base-model chat template for merged model
+    tokenizer = cast(ChatTemplateTokenizer, AutoTokenizer.from_pretrained(base_model))
     _save_tokenizer_with_template(tokenizer, merged_path)
 
     print("✓ Merge complete!\n")
@@ -226,7 +256,7 @@ def merge_and_export() -> int:
     # Export to ONNX
     _export_to_onnx(merged_path, onnx_path)
 
-    # Save tokenizer with ChatML template for ONNX model
+    # Save tokenizer with base-model chat template for ONNX model
     _save_tokenizer_with_template(tokenizer, onnx_path)
 
     print("✓ ONNX export complete!\n")
@@ -318,7 +348,7 @@ def quantize_models() -> int:
 
 def main() -> int:
     """Run complete training pipeline."""
-    parser = argparse.ArgumentParser(description="SmolLM2 Fine-tuning Pipeline")
+    parser = argparse.ArgumentParser(description="Qwen2.5 Fine-tuning Pipeline")
     parser.add_argument(
         "--skip-train",
         action="store_true",
@@ -337,7 +367,7 @@ def main() -> int:
     args = parser.parse_args()
 
     print("\n" + "=" * 60)
-    print("SmolLM2-360M Fine-tuning Pipeline")
+    print("Qwen2.5-0.5B Fine-tuning Pipeline")
     print("=" * 60 + "\n")
 
     # Stage 1: SFT Training with LoRA

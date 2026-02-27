@@ -1,6 +1,6 @@
 /**
  * AI Context Provider
- * Generates conversation messages for SmolLM2 models
+ * Generates conversation messages for Qwen2.5 models
  */
 
 import { ModelType } from "@/types";

@@ -1,11 +1,14 @@
 SHELL := /bin/bash
-.PHONY: help setup serve stop preview generate-dataset train-model test-model push-model push-dataset clean
+.PHONY: help setup serve stop preview generate-dataset train-model test-model eval-smoke eval-full eval-compare push-model push-dataset clean
 
 # Configuration (override with environment variables)
 PORT          ?= 8080
 HF_REPO       ?= microsoft/phi-4-gguf
 N_GPU_LAYERS  ?= -1
 CTX_SIZE      ?= 16384
+GET_ONNX_DIR  = uv run python -c 'from scripts.utils import CONFIG; print(CONFIG["onnx_output"])'
+GET_DATASET_DIR = uv run python -c 'from scripts.utils import CONFIG; print(CONFIG["dataset_output"])'
+GET_SFT_DIR   = uv run python -c 'from pathlib import Path; from scripts.utils import CONFIG; print(Path(CONFIG["dataset_output"]) / "sft")'
 
 # Targets
 
@@ -23,7 +26,10 @@ help:
 	@echo "  make train-model      Train with SFT+LoRA, merge, and export ONNX"
 	@echo ""
 	@echo "Testing:"
-	@echo "  make test-model       Test all quantized ONNX models"
+	@echo "  make test-model       Run smoke evaluation suite (alias of eval-smoke)"
+	@echo "  make eval-smoke       Deterministic smoke evaluation with threshold gating"
+	@echo "  make eval-full        Full evaluation suite with threshold gating"
+	@echo "  make eval-compare     Full suite + compare against COMPARE_TO report dir"
 	@echo ""
 	@echo "Export & Deploy:"
 	@echo "  make push-model       Upload model to HuggingFace Hub"
@@ -91,25 +97,47 @@ generate-dataset:
 
 # Single-step training: SFT with LoRA → merge → multi-level ONNX quantization
 train-model:
-	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
+	@sft_dir=$$($(GET_SFT_DIR)); [ -d "$$sft_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$sft_dir)"; exit 1; }
 	uv run python scripts/train_model.py
 	@echo "Next steps:"
 	@echo "  1. make test-model"
 
 test-model:
-	@[ -d models/onnx ] || { echo "Error: Run 'make train-model' first"; exit 1; }
-	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
-	uv run python scripts/test_model.py
+	@$(MAKE) eval-smoke
+	@echo "Next steps:"
+	@echo "  1. make eval-full"
+	@echo "  2. make push-model"
+
+eval-smoke:
+	@onnx_dir=$$($(GET_ONNX_DIR)); [ -d "$$onnx_dir" ] || { echo "Error: Run 'make train-model' first (missing $$onnx_dir)"; exit 1; }
+	@sft_dir=$$($(GET_SFT_DIR)); [ -d "$$sft_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$sft_dir)"; exit 1; }
+	uv run python scripts/evaluate_model.py --suite smoke --fail-on-threshold --skip-hub-snapshot
+	@echo "Next steps:"
+	@echo "  1. make eval-full"
+	@echo "  2. make push-model"
+
+eval-full:
+	@onnx_dir=$$($(GET_ONNX_DIR)); [ -d "$$onnx_dir" ] || { echo "Error: Run 'make train-model' first (missing $$onnx_dir)"; exit 1; }
+	@sft_dir=$$($(GET_SFT_DIR)); [ -d "$$sft_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$sft_dir)"; exit 1; }
+	uv run python scripts/evaluate_model.py --suite full --fail-on-threshold --skip-hub-snapshot
+	@echo "Next steps:"
+	@echo "  1. make push-model"
+
+eval-compare:
+	@onnx_dir=$$($(GET_ONNX_DIR)); [ -d "$$onnx_dir" ] || { echo "Error: Run 'make train-model' first (missing $$onnx_dir)"; exit 1; }
+	@sft_dir=$$($(GET_SFT_DIR)); [ -d "$$sft_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$sft_dir)"; exit 1; }
+	@[ -n "$(COMPARE_TO)" ] || { echo "Error: Usage -> make eval-compare COMPARE_TO=data/eval_reports/<timestamp>"; exit 1; }
+	uv run python scripts/evaluate_model.py --suite full --fail-on-threshold --skip-hub-snapshot --compare-to $(COMPARE_TO)
 	@echo "Next steps:"
 	@echo "  1. make push-model"
 
 push-model:
-	@[ -d models/onnx ] || { echo "Error: Run 'make merge' first"; exit 1; }
+	@onnx_dir=$$($(GET_ONNX_DIR)); [ -d "$$onnx_dir" ] || { echo "Error: Run 'make train-model' first (missing $$onnx_dir)"; exit 1; }
 	@echo "Login first: huggingface-cli login"
 	uv run python scripts/push_hub.py model $(if $(COMMIT_MESSAGE),-m "$(COMMIT_MESSAGE)")
 
 push-dataset:
-	@[ -d data ] || { echo "Error: Run 'make generate' first"; exit 1; }
+	@dataset_dir=$$($(GET_DATASET_DIR)); [ -d "$$dataset_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$dataset_dir)"; exit 1; }
 	@echo "Login first: huggingface-cli login"
 	uv run python scripts/push_hub.py dataset $(if $(COMMIT_MESSAGE),-m "$(COMMIT_MESSAGE)")
 

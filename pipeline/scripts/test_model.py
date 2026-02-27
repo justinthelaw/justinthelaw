@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Test quantized ONNX models with a random question from the SFT dataset."""
+"""Legacy manual spot-check for ONNX models.
+
+Prefer `scripts/evaluate_model.py` for deterministic evaluation and threshold gating.
+"""
 
 import random
 import sys

@@ -24,21 +24,23 @@ Next.js static site for GitHub Pages with an in-browser AI chatbot powered by Hu
 
 ## Commands
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Development server (with optional Docker for OTEL tracing) |
-| `npm run flight-check` | **Run after all changes** - cleans, lints, builds, and tests |
-| `npm run clean` | Delete temporary build/dev/test artifacts |
-| `npm run lint` | ESLint |
-| `npm run build` | Next.js static export to `out/` |
-| `npm run test` | Playwright E2E tests (Chromium, Firefox, WebKit, mobile viewports) |
-| `npm run deploy` | Build and deploy to GitHub Pages |
+| Command                          | Purpose                                                            |
+| -------------------------------- | ------------------------------------------------------------------ |
+| `npm run dev`                    | Development server (with optional Docker for OTEL tracing)         |
+| `npm run flight-check`           | **Run after all changes** - cleans, lints, builds, and tests       |
+| `npm run clean`                  | Delete temporary build/dev/test artifacts                          |
+| `npm run lint`                   | ESLint                                                             |
+| `npm run build`                  | Next.js static export to `out/`                                    |
+| `npm run test`                   | Playwright E2E tests (Chromium, Firefox, WebKit, mobile viewports) |
+| `npm run deploy`                 | Build and deploy to GitHub Pages                                   |
+| `cd pipeline && make eval-smoke` | Deterministic smoke evaluation for ONNX fine-tuned models          |
+| `cd pipeline && make eval-full`  | Full threshold-gated evaluation suite for ONNX fine-tuned models   |
 
 ## Architecture
 
 ### Directory Structure
 
-```
+```text
 src/
 ├── components/          # Feature-based UI (chat/, profile/, resume/, links/)
 │   └── chat/
@@ -114,6 +116,7 @@ try { ... } catch (err) {
 
 - **Deploy**: `.github/workflows/deploy.yml` - auto-deploys on push to `main`.
 - **Test**: `.github/workflows/test.yml` - runs Playwright on all browsers for PRs.
+- **Pipeline Eval**: `.github/workflows/pipeline.test.yml` - runs pipeline lint/type checks for `pipeline/**` PR changes and runs smoke eval when ONNX + dataset artifacts are available.
 
 ## Validation Checklist
 
@@ -132,3 +135,5 @@ Update these as needed when making changes:
 1. `/README.md`
 2. `/AGENTS.md` (this file)
 3. `/docs/CUSTOMIZATION.md`
+4. `/pipeline/README.md`
+5. `/pipeline/HYPERPARAMETER.md`

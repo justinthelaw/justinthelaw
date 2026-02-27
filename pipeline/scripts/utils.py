@@ -47,7 +47,14 @@ class SFTConfig(TypedDict):
     weight_decay: float
     max_length: int
     seed: int
+    gradient_checkpointing: bool
     logging_steps: int
+    packing: bool
+    group_by_length: bool
+    dataloader_num_workers: int
+    eval_strategy: str
+    save_strategy: str
+    load_best_model_at_end: bool
     save_total_limit: int
 
 
@@ -104,6 +111,42 @@ class QuantizationConfig(TypedDict):
     accuracy_level: int
 
 
+class EvaluationThresholdsConfig(TypedDict):
+    """Evaluation threshold configuration."""
+
+    exact_match_rate_min: float
+    token_f1_min: float
+    keyword_coverage_min: float
+    refusal_accuracy_min: float
+    response_length_compliance_min: float
+    behavior_accuracy_min: float
+    fp32_alignment_min: float
+    case_token_f1_min: float
+    case_keyword_coverage_min: float
+    p95_latency_ms_max: dict[str, float]
+
+
+class EvaluationHubConfig(TypedDict):
+    """Published HuggingFace references for evaluation metadata snapshots."""
+
+    model_id: str
+    dataset_id: str
+
+
+class EvaluationConfig(TypedDict):
+    """Evaluation suite configuration."""
+
+    seed: int
+    smoke_samples: int
+    full_samples_per_set: int
+    max_new_tokens: int
+    report_output: str
+    eval_data_dir: str
+    refusal_markers: list[str]
+    thresholds: EvaluationThresholdsConfig
+    hub: EvaluationHubConfig
+
+
 class DatasetConfig(TypedDict):
     """Dataset generation configuration."""
 
@@ -114,6 +157,7 @@ class DatasetConfig(TypedDict):
     temperatures: TemperaturesConfig
     hub_id: str
     include_military: bool
+    has_recommendations: bool
 
 
 class Config(TypedDict):
@@ -136,18 +180,23 @@ class Config(TypedDict):
     inference: InferenceConfig
     generation_limits: GenerationLimits
     quantization: QuantizationConfig
+    evaluation: EvaluationConfig
 
 
 def load_config() -> Config:
     """Load and return typed configuration from config.yaml."""
-    return yaml.safe_load(CONFIG_FILE.read_text())  # type: ignore[return-value]
+    return yaml.safe_load(CONFIG_FILE.read_text())
 
 
 # Load config once at module level
 CONFIG: Config = load_config()
 
 # Must match frontend's buildSmarterSystemMessage() in src/services/ai/contextProvider.ts
-SYSTEM_PROMPT = f"You are {CONFIG['person_full_name']}'s AI assistant. Answer questions about {CONFIG['person_name']} using only the provided context. Give informative but concise answers in 1-3 short sentences."
+SYSTEM_PROMPT = (
+    f"You are {CONFIG['person_full_name']}'s AI assistant. "
+    f"Answer questions about {CONFIG['person_name']} using only the provided context. "
+    f"Give informative but concise answers in 1-{CONFIG['generation_limits']['max_answer_sentences']} short sentences."
+)
 
 
 def get_model_size_mb(model_path: Path) -> float:
@@ -183,3 +232,8 @@ QUANTIZATION_ACCURACY_LEVEL = CONFIG['quantization']['accuracy_level']
 # Inference defaults
 INFERENCE_MAX_NEW_TOKENS = CONFIG['inference']['max_new_tokens']
 INFERENCE_REPETITION_PENALTY = CONFIG['inference']['repetition_penalty']
+
+# Evaluation defaults
+EVAL_MAX_NEW_TOKENS = CONFIG['evaluation']['max_new_tokens']
+EVAL_REPORT_OUTPUT = CONFIG['evaluation']['report_output']
+EVAL_DATA_DIR = CONFIG['evaluation']['eval_data_dir']

@@ -13,8 +13,8 @@ import requests
 from datasets import Dataset, DatasetDict
 from tqdm import tqdm
 from utils import (
-    CONFIG,
     ANSWER_MAX_TOKENS,
+    CONFIG,
     CONTEXT_TOKEN_WARN,
     HEALTH_CHECK_TIMEOUT,
     LLM_DEFAULT_MAX_TOKENS,
@@ -65,6 +65,14 @@ Generate a short question about {name}'s {category}."""
 VARIATION_SYSTEM = """Rephrase this question about {name} in a SHORTER, SIMPLER way (5-12 words max). Keep "{name}" or "{name}'s" in it. Make it sound casual and conversational. Output ONLY the rephrased question."""
 
 VARIATION_USER = """Original question: {question}"""
+
+VARIATION_BATCH_SYSTEM = """Generate {count} DISTINCT rephrasings of this question about {name}. Rules:
+- Each line must be a SHORT, SIMPLE question (5-12 words max)
+- Keep "{name}" or "{name}'s" in every line
+- Sound casual and conversational
+- Return ONLY the questions, one per line, no numbering or bullets"""
+
+VARIATION_BATCH_USER = """Original question: {question}"""
 
 ANSWER_SYSTEM = """Answer using ONLY the resume context. Use third-person (e.g., "{name} works at..."). STRICT LIMIT: 1-2 sentences, under 50 words total. Be direct and factual. No filler words or elaboration."""
 
@@ -122,14 +130,25 @@ QUESTION_CATEGORIES = {
         "interests",
         "personality traits",
         "hobbies",
-        "recommendations"
+        "recommendations",
     ],
 }
 
 
 def get_question_categories() -> dict[str, list[str]]:
-    """Get question categories, including military if configured."""
-    categories = QUESTION_CATEGORIES.copy()
+    """Get question categories with optional config-driven category toggles."""
+    categories = {
+        category: list(subcategories)
+        for category, subcategories in QUESTION_CATEGORIES.items()
+    }
+
+    if not CONFIG["dataset"].get("has_recommendations", True):
+        categories["character"] = [
+            subcategory
+            for subcategory in categories["character"]
+            if subcategory != "recommendations"
+        ]
+
     if CONFIG["dataset"].get("include_military", False):
         categories["military service"] = [
             "military background",
@@ -142,7 +161,7 @@ def get_question_categories() -> dict[str, list[str]]:
 
 def extract_pdf(path: Path) -> str:
     """Extract text from PDF."""
-    doc = fitz.open(path)  # type: ignore
+    doc = fitz.open(path)
     all_text: list[str] = []
 
     for page in doc:
@@ -320,8 +339,43 @@ def generate_question_variations(
 ) -> list[str]:
     """Generate variations of a question for data augmentation."""
     variations = [question]
+    if num_variations <= 1:
+        return variations
 
-    for _ in range(num_variations - 1):
+    seen_variations = {question.lower()}
+
+    # Fast path: ask for all additional paraphrases in one request.
+    extra_needed = num_variations - 1
+    batch_messages = [
+        {
+            "role": "system",
+            "content": VARIATION_BATCH_SYSTEM.format(name=PERSON_NAME, count=extra_needed),
+        },
+        {"role": "user", "content": VARIATION_BATCH_USER.format(question=question)},
+    ]
+    batch_max_tokens = max(LLM_VARIATION_MAX_TOKENS, extra_needed * 24)
+    batch_response = llm_call(batch_messages, temperature=temperature, max_tokens=batch_max_tokens)
+
+    for line in batch_response.splitlines():
+        variation = re.sub(r"^[-*•\d\.\)\s]+", "", line).strip()
+        variation = variation.strip('"').rstrip("?") + "?"
+
+        word_count = len(variation.split())
+        if (
+            variation
+            and len(variation) > MIN_VARIATION_LENGTH
+            and word_count <= MAX_QUESTION_WORDS
+            and PERSON_NAME.lower() in variation.lower()
+            and variation.lower() != question.lower()
+            and variation.lower() not in seen_variations
+        ):
+            variations.append(variation)
+            seen_variations.add(variation.lower())
+            if len(variations) >= num_variations:
+                return variations
+
+    # Robust fallback: single-variation retries if batch output is malformed or insufficient.
+    for _ in range(num_variations - len(variations)):
         messages = [
             {"role": "system", "content": VARIATION_SYSTEM.format(name=PERSON_NAME)},
             {"role": "user", "content": VARIATION_USER.format(question=question)},
@@ -337,9 +391,10 @@ def generate_question_variations(
             and word_count <= MAX_QUESTION_WORDS
             and PERSON_NAME.lower() in variation.lower()
             and variation.lower() != question.lower()
-            and variation not in variations
+            and variation.lower() not in seen_variations
         ):
             variations.append(variation)
+            seen_variations.add(variation.lower())
 
     return variations
 
@@ -483,12 +538,13 @@ def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
                     }
 
                     sft_f.write(json.dumps(sft_sample) + "\n")
-                    sft_f.flush()
 
                     sft_samples.append(sft_sample)
                     existing_questions.add(q_var.lower())
                     generated += 1
                     cat_progress["samples_generated"] += 1
+
+                sft_f.flush()
 
                 # Update progress after each iteration
                 cat_progress["completed_iterations"] += 1

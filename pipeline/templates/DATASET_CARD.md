@@ -18,7 +18,7 @@ size_categories:
 
 # {dataset_hub_id}
 
-An Supervised Fine-Tuning (SFT) dataset generated from **{person_name}**'s resume for fine-tuning language models to answer questions about professional background, skills, and experience. This dataset consists of synthetically generated QA pairs.
+A Supervised Fine-Tuning (SFT) dataset generated from **{person_name}**'s resume for fine-tuning language models to answer questions about professional background, skills, and experience. This dataset consists of synthetically generated QA pairs.
 
 ## Dataset Statistics
 
@@ -68,7 +68,7 @@ This dataset is intended for:
 
 - Supervised fine-tuning for personalized Q&A models
 - Training resume chatbots with factual memorization
-- Demonstrating preference learning techniques for small language models
+- Demonstrating LoRA SFT techniques for small language models
 
 ## Limitations
 

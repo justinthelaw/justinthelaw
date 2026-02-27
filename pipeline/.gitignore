@@ -1,6 +1,8 @@
 # Pipeline artifacts (large files)
 data/*
 !data/.gitkeep
+!data/eval/
+!data/eval/*.jsonl
 models/*
 !models/.gitkeep
 

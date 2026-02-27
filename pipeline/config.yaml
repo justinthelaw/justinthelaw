@@ -43,7 +43,7 @@ llm_defaults:
 # Dataset Generation
 dataset:
   hub_id: "justinthelaw/Resume-Cover-Letter-SFT-Dataset"
-  samples_per_category: 2000
+  samples_per_category: 1200
   include_military: true
   has_recommendations: true
   variations_per_question: 3
@@ -56,13 +56,13 @@ dataset:
 
 # Base Model
 model:
-  base: "HuggingFaceTB/SmolLM2-360M-Instruct"
-  hub_id: "justinthelaw/SmolLM2-360M-Instruct-Resume-Cover-Letter-SFT"
+  base: "Qwen/Qwen2.5-0.5B-Instruct"
+  hub_id: "justinthelaw/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT"
 
 # LoRA Config
 lora:
-  r: 128
-  alpha: 256
+  r: 64
+  alpha: 128
   dropout: 0.05
   target_modules:
     - q_proj
@@ -75,7 +75,7 @@ lora:
 
 # SFT Training with LoRA
 sft:
-  epochs: 16
+  epochs: 8
   batch_size: 16
   gradient_accumulation: 4
   learning_rate: 2.0e-5
@@ -83,7 +83,14 @@ sft:
   warmup_ratio: 0.05
   seed: 88
   weight_decay: 0.0
+  gradient_checkpointing: false
   logging_steps: 10
+  packing: true
+  group_by_length: true
+  dataloader_num_workers: 2
+  eval_strategy: "no"
+  save_strategy: "no"
+  load_best_model_at_end: false
   save_total_limit: 2
 
 inference:
@@ -93,3 +100,38 @@ inference:
 quantization:
   block_size: 32
   accuracy_level: 4
+
+evaluation:
+  seed: 88
+  smoke_samples: 50
+  full_samples_per_set: 300
+  max_new_tokens: 128
+  report_output: "data/eval_reports"
+  eval_data_dir: "data/eval"
+  refusal_markers:
+    - "I don't have enough information"
+    - "I do not have enough information"
+    - "I can't answer"
+    - "I cannot answer"
+    - "I don't know"
+    - "I do not know"
+    - "not in the provided context"
+    - "outside the scope"
+  thresholds:
+    exact_match_rate_min: 0.35
+    token_f1_min: 0.55
+    keyword_coverage_min: 0.75
+    refusal_accuracy_min: 0.90
+    response_length_compliance_min: 0.95
+    behavior_accuracy_min: 0.92
+    fp32_alignment_min: 0.70
+    case_token_f1_min: 0.25
+    case_keyword_coverage_min: 0.40
+    p95_latency_ms_max:
+      model.onnx: 2500
+      model_int8.onnx: 1800
+      model_uint8.onnx: 1800
+      model_q4.onnx: 1200
+  hub:
+    model_id: "justinthelaw/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT"
+    dataset_id: "justinthelaw/Resume-Cover-Letter-SFT-Dataset"
