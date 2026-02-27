@@ -116,7 +116,7 @@ try { ... } catch (err) {
 
 - **Deploy**: `.github/workflows/deploy.yml` - auto-deploys on push to `main`.
 - **Test**: `.github/workflows/test.yml` - runs Playwright on all browsers for PRs.
-- **Pipeline Eval**: `.github/workflows/pipeline-eval.yml` - runs pipeline lint/type checks for `pipeline/**` PR changes and runs smoke eval when ONNX + dataset artifacts are available.
+- **Pipeline Eval**: `.github/workflows/pipeline.test.yml` - runs pipeline lint/type checks for `pipeline/**` PR changes and runs smoke eval when ONNX + dataset artifacts are available.
 
 ## Validation Checklist
 

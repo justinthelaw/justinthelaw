@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - "pipeline/**"
-      - ".github/workflows/pipeline-eval.yml"
+      - ".github/workflows/pipeline.test.yml"
   workflow_dispatch:
 
 permissions:
