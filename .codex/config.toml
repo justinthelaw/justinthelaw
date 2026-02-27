@@ -14,7 +14,7 @@ show_raw_agent_reasoning = true
 
 [agents]
 max_threads = 3
-max_depth = 2
+max_depth = 1
 
 [history]
 persistence = "save-all"
@@ -33,7 +33,6 @@ show_tooltips = false
 enabled = false
 
 [features]
-multi_agent = true
 search_tool = true
 
 [mcp_servers.context7]
