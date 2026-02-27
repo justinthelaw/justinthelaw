@@ -46,7 +46,7 @@ Curate evaluation prompts:
 - [ ] Update `data/eval/adversarial.jsonl`
 - [ ] Update `data/eval/ood.jsonl`
 
-### 3. Generate Dataset (~45-90 mins)
+### 3. Generate Dataset (~90-120 mins)
 
 - [ ] Copy resume: `cp /path/to/resume.pdf resume/resume.pdf`
 - [ ] Start llama.cpp server: `make serve`
@@ -54,7 +54,7 @@ Curate evaluation prompts:
 - [ ] Generate data: `make generate-dataset`
 - [ ] Stop llama.cpp server: `make stop`
 
-### 4. Fine-Tune and Evaluate Model (~12-24 hours)
+### 4. Fine-Tune and Evaluate Model (~12-20 hours)
 
 - [ ] Run fine-tuning: `make train-model`
 - [ ] Run smoke evaluation: `make test-model`
