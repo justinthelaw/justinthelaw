@@ -49,6 +49,7 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 ## Upgrade to SMARTER Model (~3-4 hours)
 
 See [`/pipeline/README.md`](../pipeline/README.md) for full instructions.
+For config knob rationale, use [`/pipeline/HYPERPARAMETER.md`](../pipeline/HYPERPARAMETER.md).
 
 Before pushing a new model, run the pipeline evaluation suite:
 

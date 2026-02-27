@@ -150,6 +150,7 @@ class DatasetConfig(TypedDict):
     temperatures: TemperaturesConfig
     hub_id: str
     include_military: bool
+    has_recommendations: bool
 
 
 class Config(TypedDict):

@@ -4,6 +4,10 @@ Train a personalized AI model on your resume for browser-based Q&A.
 
 **Time estimate**: ~3-5 hours total on Apple Silicon M3 with 16GB+ RAM
 
+## Config Tuning Reference
+
+For per-knob rationale and tuning guidance, see [`HYPERPARAMETER.md`](./HYPERPARAMETER.md).
+
 ## Prerequisites
 
 - [ ] macOS (Apple Silicon with MPS acceleration) or Linux with 16GB+ RAM
@@ -26,6 +30,7 @@ Edit `config.yaml`:
 - [ ] Set `dataset.hub_id` to `your-username/Your-Dataset`
 - [ ] Set `model.hub_id` to `your-username/Your-Model`
 - [ ] Set `include_military: false` if not applicable
+- [ ] Set `has_recommendations: false` if you do not want recommendation-focused questions
 - [ ] Set `evaluation.hub.model_id` and `evaluation.hub.dataset_id` to your published HuggingFace assets
 - [ ] Calibrate `evaluation.thresholds` after baseline eval runs
 

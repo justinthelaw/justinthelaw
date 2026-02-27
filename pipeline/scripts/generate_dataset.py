@@ -122,14 +122,25 @@ QUESTION_CATEGORIES = {
         "interests",
         "personality traits",
         "hobbies",
-        "recommendations"
+        "recommendations",
     ],
 }
 
 
 def get_question_categories() -> dict[str, list[str]]:
-    """Get question categories, including military if configured."""
-    categories = QUESTION_CATEGORIES.copy()
+    """Get question categories with optional config-driven category toggles."""
+    categories = {
+        category: list(subcategories)
+        for category, subcategories in QUESTION_CATEGORIES.items()
+    }
+
+    if not CONFIG["dataset"].get("has_recommendations", True):
+        categories["character"] = [
+            subcategory
+            for subcategory in categories["character"]
+            if subcategory != "recommendations"
+        ]
+
     if CONFIG["dataset"].get("include_military", False):
         categories["military service"] = [
             "military background",

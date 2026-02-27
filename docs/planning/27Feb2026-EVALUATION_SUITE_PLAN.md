@@ -1,5 +1,8 @@
 # Pipeline Evaluation Suite: Initial Implementation Plan
 
+> [!NOTE]
+> Historical planning document. The evaluation suite described here has been implemented in `pipeline/scripts/evaluate_model.py` and documented in `pipeline/README.md`.
+
 ## Why this is needed
 
 The current pipeline evaluation (`pipeline/scripts/test_model.py`) is a manual smoke test:

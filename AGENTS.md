@@ -135,3 +135,5 @@ Update these as needed when making changes:
 1. `/README.md`
 2. `/AGENTS.md` (this file)
 3. `/docs/CUSTOMIZATION.md`
+4. `/pipeline/README.md`
+5. `/pipeline/HYPERPARAMETER.md`

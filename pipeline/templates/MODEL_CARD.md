@@ -10,7 +10,6 @@ tags:
   - text-generation
   - fine-tuned
   - sft
-  - dpo
   - lora
   - resume
   - chatbot
@@ -22,7 +21,7 @@ pipeline_tag: text-generation
 
 # {model_hub_id}
 
-A fine-tuned version of [{base_model}](https://huggingface.co/{base_model}) trained with a two-stage pipeline (SFT + DPO) to answer questions about **{person_name}**'s professional background, skills, and experience.
+A fine-tuned version of [{base_model}](https://huggingface.co/{base_model}) trained with an SFT + LoRA pipeline to answer questions about **{person_name}**'s professional background, skills, and experience.
 
 ## Model Description
 
@@ -30,7 +29,7 @@ This model is designed for browser-based inference using [transformers.js](https
 
 ### Training Pipeline
 
-The model is trained using a **SFT (Supervised Fine-Tuning)** approach, where factual memorization is enforced via conversation-formatted QA pairs.
+The model is trained using **SFT (Supervised Fine-Tuning)** with **LoRA adapters**, where factual memorization is enforced via conversation-formatted QA pairs.
 
 ### Training Details
 
@@ -55,7 +54,7 @@ This repository contains multiple model formats:
 | Format      | Location   | Use Case                                                  |
 | ----------- | ---------- | --------------------------------------------------------- |
 | SafeTensors | `/` (root) | Python/PyTorch inference                                  |
-| ONNX        | `/onnx/`   | Full precision and quantized weights for the ONNX Runtime |
+| ONNX        | `/onnx/`   | FP32 + quantized weights for ONNX Runtime/Web inference   |
 
 ## Usage
 
