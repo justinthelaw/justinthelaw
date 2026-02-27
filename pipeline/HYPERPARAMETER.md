@@ -78,12 +78,12 @@ Notes:
 
 ## LoRA Knobs
 
-| Key                   |            Default | Why this value                       | Increase if                                    | Decrease if                       | Performance impact                                                   |
-| --------------------- | -----------------: | ------------------------------------ | ---------------------------------------------- | --------------------------------- | -------------------------------------------------------------------- |
-| `lora.r`              |               `64` | Balanced adapter capacity             | Underfitting persists after data/epochs tuning | Overfitting or memory pressure    | Higher `r` raises adaptation capacity, params, and memory            |
-| `lora.alpha`          |              `128` | Scaling matches `2 * r` pattern      | Adapter updates too weak                       | Training unstable/over-aggressive | Higher alpha amplifies adapter contribution                          |
-| `lora.dropout`        |             `0.05` | Light regularization                 | Overfitting (val loss diverges)                | Underfitting/slow convergence     | More dropout improves generalization but can reduce fit              |
-| `lora.target_modules` | q/k/v/o + MLP proj | Full attention + FFN adaptation      | Need stronger style/task transfer              | Need smaller adapter footprint    | Wider targeting improves quality ceiling, increases trainable params |
+| Key                   |            Default | Why this value                  | Increase if                                    | Decrease if                       | Performance impact                                                   |
+| --------------------- | -----------------: | ------------------------------- | ---------------------------------------------- | --------------------------------- | -------------------------------------------------------------------- |
+| `lora.r`              |               `64` | Balanced adapter capacity       | Underfitting persists after data/epochs tuning | Overfitting or memory pressure    | Higher `r` raises adaptation capacity, params, and memory            |
+| `lora.alpha`          |              `128` | Scaling matches `2 * r` pattern | Adapter updates too weak                       | Training unstable/over-aggressive | Higher alpha amplifies adapter contribution                          |
+| `lora.dropout`        |             `0.05` | Light regularization            | Overfitting (val loss diverges)                | Underfitting/slow convergence     | More dropout improves generalization but can reduce fit              |
+| `lora.target_modules` | q/k/v/o + MLP proj | Full attention + FFN adaptation | Need stronger style/task transfer              | Need smaller adapter footprint    | Wider targeting improves quality ceiling, increases trainable params |
 
 Practical profiles:
 
@@ -94,25 +94,25 @@ Practical profiles:
 
 ## SFT Training Knobs
 
-| Key                         | Default | Why this value                      | Increase if                      | Decrease if                        | Performance impact                                                |
-| --------------------------- | ------: | ----------------------------------- | -------------------------------- | ---------------------------------- | ----------------------------------------------------------------- |
-| `sft.epochs`                |     `8` | Balanced runtime/quality baseline   | Underfitting                     | Overfitting or diminishing returns | More epochs improve recall until memorization/noise               |
-| `sft.batch_size`            |    `16` | Throughput on modern hardware       | Gradients too noisy              | OOM or poor generalization         | Larger batch stabilizes updates, can reduce regularization effect |
-| `sft.gradient_accumulation` |     `4` | Effective batch scaling without OOM | Need larger effective batch      | Need faster updates/less latency   | Raises effective batch; slower wall-clock per optimizer step      |
-| `sft.learning_rate`         |  `2e-5` | Stable LoRA SFT baseline            | Loss plateaus early              | Loss oscillation/divergence        | Most sensitive knob after data quality                            |
-| `sft.max_length`            |   `384` | Matches short Q&A format            | Truncation of meaningful context | Unused padding/compute overhead    | Longer length increases memory/latency                            |
-| `sft.warmup_ratio`          |  `0.05` | Prevents early-step instability     | Early loss spikes                | Convergence too slow               | Warmup stabilizes start; too high wastes training budget          |
-| `sft.weight_decay`          |   `0.0` | Common for LoRA adapters            | Overfitting in long runs         | Underfitting                       | Small decay can help generalization on noisy datasets             |
-| `sft.gradient_checkpointing`| `false` | Faster default for 0.5B model       | Memory pressure/OOM              | Need more throughput               | Checkpointing saves memory but increases wall-clock time          |
-| `sft.packing`               |  `true` | Packs short chats to reduce padding | Throughput too low               | You need sample boundaries intact  | Often one of the biggest SFT speedups for short samples           |
-| `sft.group_by_length`       |  `true` | Reduce padding waste per batch      | Throughput too low               | Need strict data order             | Improves token efficiency and stabilizes step time                |
-| `sft.dataloader_num_workers`|     `2` | Parallelize host-side data loading  | Data pipeline stalls             | Worker overhead dominates          | Moderate CPU-side throughput improvement                           |
-| `sft.eval_strategy`         |   `"no"`| Skip per-epoch eval by default      | Need in-run validation curves    | Runtime too high                   | Per-epoch eval can add major overhead                             |
-| `sft.save_strategy`         |   `"no"`| Skip per-epoch checkpoint writes    | Need frequent recover points     | Runtime too high / disk churn      | Reduces I/O and checkpoint overhead                               |
-| `sft.load_best_model_at_end`| `false` | Disabled when eval is off           | Eval enabled and model selection needed | Runtime priority              | Requires evaluation; keep off in fast profile                     |
-| `sft.seed`                  |    `88` | Reproducibility                     | Robustness sweeps                | Reproducibility required           | Different seeds can slightly change outcome                       |
-| `sft.logging_steps`         |    `10` | Frequent enough monitoring          | Need tighter diagnostics         | Log overhead/noise                 | Mostly observability, minimal quality effect                      |
-| `sft.save_total_limit`      |     `2` | Controls checkpoint storage         | Need more rollback points        | Disk constraints                   | No direct quality impact, affects experiment management           |
+| Key                          | Default | Why this value                      | Increase if                             | Decrease if                        | Performance impact                                                |
+| ---------------------------- | ------: | ----------------------------------- | --------------------------------------- | ---------------------------------- | ----------------------------------------------------------------- |
+| `sft.epochs`                 |     `8` | Balanced runtime/quality baseline   | Underfitting                            | Overfitting or diminishing returns | More epochs improve recall until memorization/noise               |
+| `sft.batch_size`             |    `16` | Throughput on modern hardware       | Gradients too noisy                     | OOM or poor generalization         | Larger batch stabilizes updates, can reduce regularization effect |
+| `sft.gradient_accumulation`  |     `4` | Effective batch scaling without OOM | Need larger effective batch             | Need faster updates/less latency   | Raises effective batch; slower wall-clock per optimizer step      |
+| `sft.learning_rate`          |  `2e-5` | Stable LoRA SFT baseline            | Loss plateaus early                     | Loss oscillation/divergence        | Most sensitive knob after data quality                            |
+| `sft.max_length`             |   `384` | Matches short Q&A format            | Truncation of meaningful context        | Unused padding/compute overhead    | Longer length increases memory/latency                            |
+| `sft.warmup_ratio`           |  `0.05` | Prevents early-step instability     | Early loss spikes                       | Convergence too slow               | Warmup stabilizes start; too high wastes training budget          |
+| `sft.weight_decay`           |   `0.0` | Common for LoRA adapters            | Overfitting in long runs                | Underfitting                       | Small decay can help generalization on noisy datasets             |
+| `sft.gradient_checkpointing` | `false` | Faster default for 0.5B model       | Memory pressure/OOM                     | Need more throughput               | Checkpointing saves memory but increases wall-clock time          |
+| `sft.packing`                |  `true` | Packs short chats to reduce padding | Throughput too low                      | You need sample boundaries intact  | Often one of the biggest SFT speedups for short samples           |
+| `sft.group_by_length`        |  `true` | Reduce padding waste per batch      | Throughput too low                      | Need strict data order             | Improves token efficiency and stabilizes step time                |
+| `sft.dataloader_num_workers` |     `2` | Parallelize host-side data loading  | Data pipeline stalls                    | Worker overhead dominates          | Moderate CPU-side throughput improvement                          |
+| `sft.eval_strategy`          |  `"no"` | Skip per-epoch eval by default      | Need in-run validation curves           | Runtime too high                   | Per-epoch eval can add major overhead                             |
+| `sft.save_strategy`          |  `"no"` | Skip per-epoch checkpoint writes    | Need frequent recover points            | Runtime too high / disk churn      | Reduces I/O and checkpoint overhead                               |
+| `sft.load_best_model_at_end` | `false` | Disabled when eval is off           | Eval enabled and model selection needed | Runtime priority                   | Requires evaluation; keep off in fast profile                     |
+| `sft.seed`                   |    `88` | Reproducibility                     | Robustness sweeps                       | Reproducibility required           | Different seeds can slightly change outcome                       |
+| `sft.logging_steps`          |    `10` | Frequent enough monitoring          | Need tighter diagnostics                | Log overhead/noise                 | Mostly observability, minimal quality effect                      |
+| `sft.save_total_limit`       |     `2` | Controls checkpoint storage         | Need more rollback points               | Disk constraints                   | No direct quality impact, affects experiment management           |
 
 ## Inference + Quantization Knobs
 

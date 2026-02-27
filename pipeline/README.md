@@ -80,21 +80,21 @@ make serve && make generate-dataset && make stop && make train-model && make eva
 
 ## Commands
 
-| Command                 | Description                                   | Time      |
-| ----------------------- | --------------------------------------------- | --------- |
-| `make setup`            | Install dependencies                          | 1 min     |
-| `make serve`            | Start llama.cpp LLM server                    | 1-5 min   |
-| `make stop`             | Stop llama.cpp LLM server                     | <1 min    |
-| `make preview`          | Preview resume data extraction                | <1 min    |
+| Command                 | Description                                   | Time       |
+| ----------------------- | --------------------------------------------- | ---------- |
+| `make setup`            | Install dependencies                          | 1 min      |
+| `make serve`            | Start llama.cpp LLM server                    | 1-5 min    |
+| `make stop`             | Stop llama.cpp LLM server                     | <1 min     |
+| `make preview`          | Preview resume data extraction                | <1 min     |
 | `make generate-dataset` | Generate training data                        | 45-120 min |
-| `make train-model`      | Fine-tune the base model                      | 20-45 min |
-| `make test-model`       | Smoke evaluation (alias of `make eval-smoke`) | 2-5 min   |
-| `make eval-smoke`       | Deterministic smoke evaluation with gating    | 2-5 min   |
-| `make eval-full`        | Full evaluation suite with gating             | 5-20 min  |
-| `make eval-compare`     | Full suite and compare against prior report   | 5-20 min  |
-| `make push-model`       | Upload model to HuggingFace                   | 1-2 min   |
-| `make push-dataset`     | Upload dataset to HuggingFace                 | 1-2 min   |
-| `make clean`            | Remove generated files                        | <1 min    |
+| `make train-model`      | Fine-tune the base model                      | 20-45 min  |
+| `make test-model`       | Smoke evaluation (alias of `make eval-smoke`) | 2-5 min    |
+| `make eval-smoke`       | Deterministic smoke evaluation with gating    | 2-5 min    |
+| `make eval-full`        | Full evaluation suite with gating             | 5-20 min   |
+| `make eval-compare`     | Full suite and compare against prior report   | 5-20 min   |
+| `make push-model`       | Upload model to HuggingFace                   | 1-2 min    |
+| `make push-dataset`     | Upload dataset to HuggingFace                 | 1-2 min    |
+| `make clean`            | Remove generated files                        | <1 min     |
 
 ## Evaluation Suite
 
