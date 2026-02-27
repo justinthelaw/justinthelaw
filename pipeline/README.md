@@ -122,7 +122,6 @@ make eval-compare COMPARE_TO=data/eval_reports/2026-02-27T103000Z
 CI:
 
 - PRs that touch `pipeline/**` run `.github/workflows/pipeline.test.yml` for Ruff + Pyright.
-- `make eval-smoke` runs in CI when both `models/onnx/model.onnx` and `data/sft/dataset_dict.json` are present.
 
 ## Troubleshooting
 
