@@ -37,7 +37,7 @@ Scope: tuning knobs in [`config.yaml`](./config.yaml), with practical effects an
 
 | Key                               | Default | Why this value                                           | Increase if                                        | Decrease if                                                 | Performance impact                                                         |
 | --------------------------------- | ------: | -------------------------------------------------------- | -------------------------------------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `dataset.samples_per_category`    |  `2000` | Large enough for broad paraphrase coverage               | Underfitting, weak recall                          | Overtraining time/cost too high                             | More data usually improves robustness until label noise dominates          |
+| `dataset.samples_per_category`    |  `1200` | Balanced runtime/coverage baseline                       | Underfitting, weak recall                          | Overtraining time/cost too high                             | More data usually improves robustness until label noise dominates          |
 | `dataset.variations_per_question` |     `3` | Balances diversity and duplication risk                  | Model overfits exact phrasing                      | Too many near-duplicates                                    | More variants improve lexical robustness but can inflate noisy paraphrases |
 | `dataset.temperatures.question`   |   `0.9` | Encourages diverse question phrasing                     | Questions look repetitive                          | Questions become incoherent/off-topic                       | Higher diversity can improve generalization; too high hurts data quality   |
 | `dataset.temperatures.answer`     |   `0.1` | Keeps answers factual/anchored to context                | Answers too short/rigid                            | Hallucination or style drift                                | Lower values reduce hallucination in synthetic labels                      |
@@ -80,28 +80,36 @@ Notes:
 
 | Key                   |            Default | Why this value                       | Increase if                                    | Decrease if                       | Performance impact                                                   |
 | --------------------- | -----------------: | ------------------------------------ | ---------------------------------------------- | --------------------------------- | -------------------------------------------------------------------- |
-| `lora.r`              |              `128` | High-capacity adapter for domain fit | Underfitting persists after data/epochs tuning | Overfitting or memory pressure    | Higher `r` raises adaptation capacity, params, and memory            |
-| `lora.alpha`          |              `256` | Scaling matches `2 * r` pattern      | Adapter updates too weak                       | Training unstable/over-aggressive | Higher alpha amplifies adapter contribution                          |
+| `lora.r`              |               `64` | Balanced adapter capacity             | Underfitting persists after data/epochs tuning | Overfitting or memory pressure    | Higher `r` raises adaptation capacity, params, and memory            |
+| `lora.alpha`          |              `128` | Scaling matches `2 * r` pattern      | Adapter updates too weak                       | Training unstable/over-aggressive | Higher alpha amplifies adapter contribution                          |
 | `lora.dropout`        |             `0.05` | Light regularization                 | Overfitting (val loss diverges)                | Underfitting/slow convergence     | More dropout improves generalization but can reduce fit              |
 | `lora.target_modules` | q/k/v/o + MLP proj | Full attention + FFN adaptation      | Need stronger style/task transfer              | Need smaller adapter footprint    | Wider targeting improves quality ceiling, increases trainable params |
 
 Practical profiles:
 
-- Conservative: `r=64`, `alpha=128`, `dropout=0.05`.
-- Current high-capacity: `r=128`, `alpha=256`, `dropout=0.05`.
+- Conservative: `r=32`, `alpha=64`, `dropout=0.05`.
+- Current balanced default: `r=64`, `alpha=128`, `dropout=0.05`.
+- High-capacity: `r=128`, `alpha=256`, `dropout=0.05`.
 - Aggressive regularized: `r=128`, `alpha=256`, `dropout=0.1`.
 
 ## SFT Training Knobs
 
 | Key                         | Default | Why this value                      | Increase if                      | Decrease if                        | Performance impact                                                |
 | --------------------------- | ------: | ----------------------------------- | -------------------------------- | ---------------------------------- | ----------------------------------------------------------------- |
-| `sft.epochs`                |    `16` | Strong fit for narrow domain        | Underfitting                     | Overfitting or diminishing returns | More epochs improve recall until memorization/noise               |
+| `sft.epochs`                |     `8` | Balanced runtime/quality baseline   | Underfitting                     | Overfitting or diminishing returns | More epochs improve recall until memorization/noise               |
 | `sft.batch_size`            |    `16` | Throughput on modern hardware       | Gradients too noisy              | OOM or poor generalization         | Larger batch stabilizes updates, can reduce regularization effect |
 | `sft.gradient_accumulation` |     `4` | Effective batch scaling without OOM | Need larger effective batch      | Need faster updates/less latency   | Raises effective batch; slower wall-clock per optimizer step      |
 | `sft.learning_rate`         |  `2e-5` | Stable LoRA SFT baseline            | Loss plateaus early              | Loss oscillation/divergence        | Most sensitive knob after data quality                            |
 | `sft.max_length`            |   `384` | Matches short Q&A format            | Truncation of meaningful context | Unused padding/compute overhead    | Longer length increases memory/latency                            |
 | `sft.warmup_ratio`          |  `0.05` | Prevents early-step instability     | Early loss spikes                | Convergence too slow               | Warmup stabilizes start; too high wastes training budget          |
 | `sft.weight_decay`          |   `0.0` | Common for LoRA adapters            | Overfitting in long runs         | Underfitting                       | Small decay can help generalization on noisy datasets             |
+| `sft.gradient_checkpointing`| `false` | Faster default for 0.5B model       | Memory pressure/OOM              | Need more throughput               | Checkpointing saves memory but increases wall-clock time          |
+| `sft.packing`               |  `true` | Packs short chats to reduce padding | Throughput too low               | You need sample boundaries intact  | Often one of the biggest SFT speedups for short samples           |
+| `sft.group_by_length`       |  `true` | Reduce padding waste per batch      | Throughput too low               | Need strict data order             | Improves token efficiency and stabilizes step time                |
+| `sft.dataloader_num_workers`|     `2` | Parallelize host-side data loading  | Data pipeline stalls             | Worker overhead dominates          | Moderate CPU-side throughput improvement                           |
+| `sft.eval_strategy`         |   `"no"`| Skip per-epoch eval by default      | Need in-run validation curves    | Runtime too high                   | Per-epoch eval can add major overhead                             |
+| `sft.save_strategy`         |   `"no"`| Skip per-epoch checkpoint writes    | Need frequent recover points     | Runtime too high / disk churn      | Reduces I/O and checkpoint overhead                               |
+| `sft.load_best_model_at_end`| `false` | Disabled when eval is off           | Eval enabled and model selection needed | Runtime priority              | Requires evaluation; keep off in fast profile                     |
 | `sft.seed`                  |    `88` | Reproducibility                     | Robustness sweeps                | Reproducibility required           | Different seeds can slightly change outcome                       |
 | `sft.logging_steps`         |    `10` | Frequent enough monitoring          | Need tighter diagnostics         | Log overhead/noise                 | Mostly observability, minimal quality effect                      |
 | `sft.save_total_limit`      |     `2` | Controls checkpoint storage         | Need more rollback points        | Disk constraints                   | No direct quality impact, affects experiment management           |

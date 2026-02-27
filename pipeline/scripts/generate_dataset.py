@@ -66,6 +66,14 @@ VARIATION_SYSTEM = """Rephrase this question about {name} in a SHORTER, SIMPLER 
 
 VARIATION_USER = """Original question: {question}"""
 
+VARIATION_BATCH_SYSTEM = """Generate {count} DISTINCT rephrasings of this question about {name}. Rules:
+- Each line must be a SHORT, SIMPLE question (5-12 words max)
+- Keep "{name}" or "{name}'s" in every line
+- Sound casual and conversational
+- Return ONLY the questions, one per line, no numbering or bullets"""
+
+VARIATION_BATCH_USER = """Original question: {question}"""
+
 ANSWER_SYSTEM = """Answer using ONLY the resume context. Use third-person (e.g., "{name} works at..."). STRICT LIMIT: 1-2 sentences, under 50 words total. Be direct and factual. No filler words or elaboration."""
 
 ANSWER_USER = """Resume: {context}
@@ -331,8 +339,43 @@ def generate_question_variations(
 ) -> list[str]:
     """Generate variations of a question for data augmentation."""
     variations = [question]
+    if num_variations <= 1:
+        return variations
 
-    for _ in range(num_variations - 1):
+    seen_variations = {question.lower()}
+
+    # Fast path: ask for all additional paraphrases in one request.
+    extra_needed = num_variations - 1
+    batch_messages = [
+        {
+            "role": "system",
+            "content": VARIATION_BATCH_SYSTEM.format(name=PERSON_NAME, count=extra_needed),
+        },
+        {"role": "user", "content": VARIATION_BATCH_USER.format(question=question)},
+    ]
+    batch_max_tokens = max(LLM_VARIATION_MAX_TOKENS, extra_needed * 24)
+    batch_response = llm_call(batch_messages, temperature=temperature, max_tokens=batch_max_tokens)
+
+    for line in batch_response.splitlines():
+        variation = re.sub(r"^[-*•\d\.\)\s]+", "", line).strip()
+        variation = variation.strip('"').rstrip("?") + "?"
+
+        word_count = len(variation.split())
+        if (
+            variation
+            and len(variation) > MIN_VARIATION_LENGTH
+            and word_count <= MAX_QUESTION_WORDS
+            and PERSON_NAME.lower() in variation.lower()
+            and variation.lower() != question.lower()
+            and variation.lower() not in seen_variations
+        ):
+            variations.append(variation)
+            seen_variations.add(variation.lower())
+            if len(variations) >= num_variations:
+                return variations
+
+    # Robust fallback: single-variation retries if batch output is malformed or insufficient.
+    for _ in range(num_variations - len(variations)):
         messages = [
             {"role": "system", "content": VARIATION_SYSTEM.format(name=PERSON_NAME)},
             {"role": "user", "content": VARIATION_USER.format(question=question)},
@@ -348,9 +391,10 @@ def generate_question_variations(
             and word_count <= MAX_QUESTION_WORDS
             and PERSON_NAME.lower() in variation.lower()
             and variation.lower() != question.lower()
-            and variation not in variations
+            and variation.lower() not in seen_variations
         ):
             variations.append(variation)
+            seen_variations.add(variation.lower())
 
     return variations
 
@@ -494,12 +538,13 @@ def generate_dataset(context: str, total_samples: int) -> list[SFTSample]:
                     }
 
                     sft_f.write(json.dumps(sft_sample) + "\n")
-                    sft_f.flush()
 
                     sft_samples.append(sft_sample)
                     existing_questions.add(q_var.lower())
                     generated += 1
                     cat_progress["samples_generated"] += 1
+
+                sft_f.flush()
 
                 # Update progress after each iteration
                 cat_progress["completed_iterations"] += 1

@@ -47,7 +47,14 @@ class SFTConfig(TypedDict):
     weight_decay: float
     max_length: int
     seed: int
+    gradient_checkpointing: bool
     logging_steps: int
+    packing: bool
+    group_by_length: bool
+    dataloader_num_workers: int
+    eval_strategy: str
+    save_strategy: str
+    load_best_model_at_end: bool
     save_total_limit: int
 
 

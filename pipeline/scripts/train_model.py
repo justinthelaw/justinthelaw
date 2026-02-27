@@ -97,7 +97,12 @@ def train_sft_lora() -> int:
     sft_cfg = CONFIG["sft"]
     use_bf16 = torch.cuda.is_available()
     use_fp16 = not use_bf16 and torch.backends.mps.is_available()
-    use_gradient_checkpointing = torch.cuda.is_available()
+    use_gradient_checkpointing = sft_cfg.get("gradient_checkpointing", torch.cuda.is_available())
+
+    eval_strategy = sft_cfg.get("eval_strategy", "epoch")
+    save_strategy = sft_cfg.get("save_strategy", "epoch")
+    run_eval = eval_strategy != "no"
+    load_best_model = run_eval and sft_cfg.get("load_best_model_at_end", True)
 
     # SFTConfig handles tokenization and label masking
     training_args = SFTConfig(
@@ -114,12 +119,15 @@ def train_sft_lora() -> int:
         fp16=use_fp16,
         gradient_checkpointing=use_gradient_checkpointing,
         logging_steps=sft_cfg.get("logging_steps", 10),
-        eval_strategy="epoch",
-        save_strategy="epoch",
+        packing=sft_cfg.get("packing", True),
+        group_by_length=sft_cfg.get("group_by_length", True),
+        dataloader_num_workers=sft_cfg.get("dataloader_num_workers", 0),
+        eval_strategy=eval_strategy,
+        save_strategy=save_strategy,
         save_total_limit=sft_cfg.get("save_total_limit", 2),
-        load_best_model_at_end=True,
-        metric_for_best_model="eval_loss",
-        greater_is_better=False,
+        load_best_model_at_end=load_best_model,
+        metric_for_best_model="eval_loss" if load_best_model else None,
+        greater_is_better=False if load_best_model else None,
         seed=sft_cfg["seed"],
         report_to="none",
     )
@@ -129,12 +137,15 @@ def train_sft_lora() -> int:
     print(f"  Epochs: {sft_cfg['epochs']}")
     print(f"  Learning rate: {sft_cfg['learning_rate']}")
     print(f"  Batch size: {sft_cfg['batch_size']} x {sft_cfg['gradient_accumulation']} accumulation")
+    print(f"  Packing: {sft_cfg.get('packing', True)}")
+    print(f"  Evaluation strategy: {eval_strategy}")
+    print(f"  Save strategy: {save_strategy}")
 
     trainer = SFTTrainer(
         model=model,
         args=training_args,
         train_dataset=train_data,  # type: ignore[arg-type]
-        eval_dataset=val_data,  # type: ignore[arg-type]
+        eval_dataset=val_data if run_eval else None,  # type: ignore[arg-type]
         processing_class=tokenizer,
         peft_config=peft_config,
     )
