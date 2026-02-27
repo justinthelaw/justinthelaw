@@ -153,7 +153,7 @@ def get_question_categories() -> dict[str, list[str]]:
 
 def extract_pdf(path: Path) -> str:
     """Extract text from PDF."""
-    doc = fitz.open(path)  # type: ignore
+    doc = fitz.open(path)
     all_text: list[str] = []
 
     for page in doc:

@@ -1,6 +1,6 @@
 /**
  * AI Prompt Configuration
- * System instructions and prompt templates optimized for SmolLM2 models
+ * System instructions and prompt templates optimized for Qwen2.5 models
  */
 
 import { ModelType, type GenerationParams } from "@/types";

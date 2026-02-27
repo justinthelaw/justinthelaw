@@ -27,8 +27,9 @@ For per-knob rationale and tuning guidance, see [`HYPERPARAMETER.md`](./HYPERPAR
 Edit `config.yaml`:
 
 - [ ] Set `person_name` and `person_full_name`
+- [ ] Confirm `model.base` is `Qwen/Qwen2.5-0.5B-Instruct`
 - [ ] Set `dataset.hub_id` to `your-username/Your-Dataset`
-- [ ] Set `model.hub_id` to `your-username/Your-Model`
+- [ ] Set `model.hub_id` to a new Qwen repo (do not reuse legacy SmolLM2 repo IDs)
 - [ ] Set `include_military: false` if not applicable
 - [ ] Set `has_recommendations: false` if you do not want recommendation-focused questions
 - [ ] Set `evaluation.hub.model_id` and `evaluation.hub.dataset_id` to your published HuggingFace assets

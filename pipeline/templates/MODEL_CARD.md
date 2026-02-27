@@ -4,7 +4,7 @@ language:
   - en
 library_name: transformers
 tags:
-  - smollm2
+  - qwen2.5
   - onnx
   - transformers.js
   - text-generation

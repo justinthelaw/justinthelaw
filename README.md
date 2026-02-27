@@ -8,6 +8,7 @@ At the linked website above, you will find an AI chatbot that is fine-tuned on s
 
 > [!NOTE]
 > You can fork and personalize my website by checking out the [customization guide](docs/CUSTOMIZATION.md). The guide will show you how to configure the repository to use your information, and it will also walk you through the steps for fine-tuning an LLM on your own data.
+> The default model stack now targets Qwen2.5-0.5B-Instruct (browser ONNX + fine-tuned variant).
 > The fine-tuning pipeline now includes a deterministic evaluation suite (`make eval-smoke` / `make eval-full`) with threshold-based regression gating.
 > For detailed `pipeline/config.yaml` tuning guidance, see [`pipeline/HYPERPARAMETER.md`](pipeline/HYPERPARAMETER.md).
 

@@ -1,7 +1,7 @@
 /**
  * Model Configuration
- * Constants and configurations for SmolLM2 models
- * DUMBER = Generic model (upstream HuggingFace)
+ * Constants and configurations for Qwen2.5 models
+ * DUMBER = Generic model (public HuggingFace ONNX)
  * SMARTER = Fine-tuned model (resume-specific SFT+LoRA)
  */
 
@@ -17,9 +17,9 @@ export const MODEL_SIZES = [ModelType.DUMBER, ModelType.SMARTER] as const;
  * HuggingFace model IDs for each size
  */
 export const MODEL_IDS: Record<ModelType, string> = {
-  [ModelType.DUMBER]: "HuggingFaceTB/SmolLM2-360M-Instruct",
+  [ModelType.DUMBER]: "onnx-community/Qwen2.5-0.5B-Instruct",
   [ModelType.SMARTER]:
-    "justinthelaw/SmolLM2-360M-Instruct-Resume-Cover-Letter-SFT",
+    "justinthelaw/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT",
 };
 
 /**

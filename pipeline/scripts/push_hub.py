@@ -13,11 +13,23 @@ from utils import CONFIG, PIPELINE_DIR
 
 TEMPLATES_DIR = PIPELINE_DIR / "templates"
 DEFAULT_COMMIT_MESSAGE = "WIP, commit model weights and metadata"
+LEGACY_MODEL_REPO_IDS = {"justinthelaw/SmolLM2-360M-Instruct-Resume-Cover-Letter-SFT"}
 
 
 def _extract_username(hub_id: str) -> str:
     """Extract username from hub_id."""
     return hub_id.split("/")[0]
+
+
+def _validate_model_repo_id(repo_id: str) -> bool:
+    """Block accidental pushes to legacy model repositories."""
+    if repo_id in LEGACY_MODEL_REPO_IDS:
+        print(
+            "Error: model.hub_id points to the legacy SmolLM2 repository.\n"
+            "Update pipeline/config.yaml -> model.hub_id to your new Qwen model repo before pushing."
+        )
+        return False
+    return True
 
 
 def _apply_template_replacements(template: str, replacements: dict[str, str]) -> str:
@@ -174,6 +186,9 @@ def push_model(commit_message: str) -> int:
     merged_path = PIPELINE_DIR / CONFIG["merged_output"]
     onnx_path = PIPELINE_DIR / CONFIG.get("onnx_output", "models/onnx")
     repo_id = CONFIG["model"]["hub_id"]
+
+    if not _validate_model_repo_id(repo_id):
+        return 1
 
     model_card = _generate_model_card()
 

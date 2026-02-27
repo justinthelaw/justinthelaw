@@ -56,8 +56,8 @@ dataset:
 
 # Base Model
 model:
-  base: "HuggingFaceTB/SmolLM2-360M-Instruct"
-  hub_id: "justinthelaw/SmolLM2-360M-Instruct-Resume-Cover-Letter-SFT"
+  base: "Qwen/Qwen2.5-0.5B-Instruct"
+  hub_id: "justinthelaw/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT"
 
 # LoRA Config
 lora:
@@ -126,5 +126,5 @@ evaluation:
       model_uint8.onnx: 1800
       model_q4.onnx: 1200
   hub:
-    model_id: "justinthelaw/SmolLM2-360M-Instruct-Resume-Cover-Letter-SFT"
+    model_id: "justinthelaw/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT"
     dataset_id: "justinthelaw/Resume-Cover-Letter-SFT-Dataset"

@@ -67,6 +67,11 @@ Before pushing a new model, run the pipeline evaluation suite:
 | `src/config/prompts.ts` | Generation parameters                    |
 | `pipeline/config.yaml`  | Fine-tuning settings                     |
 
+Default model IDs are Qwen2.5-based:
+
+- `DUMBER`: `onnx-community/Qwen2.5-0.5B-Instruct`
+- `SMARTER`: your fine-tuned Qwen2.5 model repo (for example `your-username/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT`)
+
 ## Common Customizations
 
 ### Hide a Social Link

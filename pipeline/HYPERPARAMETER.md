@@ -13,6 +13,7 @@ Scope: tuning knobs in [`config.yaml`](./config.yaml), with practical effects an
 ### What works best for LoRA SFT here
 
 - Best default profile for this repo (browser ONNX target): small instruction-tuned decoder models in the ~300M to ~1.5B range.
+- Current default in `config.yaml`: `Qwen/Qwen2.5-0.5B-Instruct`.
 - Why:
   - LoRA converges faster on instruction/chat-formatted bases.
   - ONNX export + Web inference stays practical.
