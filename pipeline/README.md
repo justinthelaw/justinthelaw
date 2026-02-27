@@ -2,7 +2,7 @@
 
 Train a personalized AI model on your resume for browser-based Q&A.
 
-**Time estimate**: ~3-5 hours total on Apple Silicon M3 with 16GB+ RAM
+**Time estimate**: ~6-12 hours total on Apple Silicon M3 with 36GB+ RAM
 
 ## Config Tuning Reference
 
