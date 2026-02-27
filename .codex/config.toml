@@ -33,18 +33,10 @@ show_tooltips = false
 enabled = false
 
 [features]
-apply_patch_freeform = true
 multi_agent = true
 search_tool = true
 
-[mcp_servers]
-
-[otel]
-log_user_prompt = true
-environment = "dev"
-exporter = "otlp-http"
-trace_exporter = "otlp-http"
-
-[otel.exporter."otlp-http"]
-endpoint = "http://localhost:6006"
-protocol = "json"
+[mcp_servers.context7]
+args = ["-y", "@upstash/context7-mcp"]
+command = "npx"
+enabled = true
