@@ -1,0 +1,50 @@
+model = "gpt-5.3-codex"
+personality = "pragmatic"
+model_provider = "openai"
+model_reasoning_effort = "xhigh"
+model_reasoning_summary = "concise"
+model_verbosity = "low"
+approval_policy = "on-request"
+cli_auth_credentials_store = "file"
+chatgpt_base_url = "https://chatgpt.com/backend-api/"
+project_doc_max_bytes = 32768
+project_doc_fallback_filenames = [".claude/CLAUDE.md"]
+file_opener = "vscode"
+show_raw_agent_reasoning = true
+
+[agents]
+max_threads = 3
+max_depth = 2
+
+[history]
+persistence = "save-all"
+
+################################################################################
+# UI, Notifications, and Misc (tables)
+################################################################################
+
+[tui]
+notifications = true
+notification_method = "auto"
+animations = true
+show_tooltips = false
+
+[feedback]
+enabled = false
+
+[features]
+apply_patch_freeform = true
+multi_agent = true
+search_tool = true
+
+[mcp_servers]
+
+[otel]
+log_user_prompt = true
+environment = "dev"
+exporter = "otlp-http"
+trace_exporter = "otlp-http"
+
+[otel.exporter."otlp-http"]
+endpoint = "http://localhost:6006"
+protocol = "json"
