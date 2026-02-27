@@ -6,6 +6,9 @@ PORT          ?= 8080
 HF_REPO       ?= microsoft/phi-4-gguf
 N_GPU_LAYERS  ?= -1
 CTX_SIZE      ?= 16384
+GET_ONNX_DIR  = uv run python -c 'from scripts.utils import CONFIG; print(CONFIG["onnx_output"])'
+GET_DATASET_DIR = uv run python -c 'from scripts.utils import CONFIG; print(CONFIG["dataset_output"])'
+GET_SFT_DIR   = uv run python -c 'from pathlib import Path; from scripts.utils import CONFIG; print(Path(CONFIG["dataset_output"]) / "sft")'
 
 # Targets
 
@@ -94,7 +97,7 @@ generate-dataset:
 
 # Single-step training: SFT with LoRA → merge → multi-level ONNX quantization
 train-model:
-	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
+	@sft_dir=$$($(GET_SFT_DIR)); [ -d "$$sft_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$sft_dir)"; exit 1; }
 	uv run python scripts/train_model.py
 	@echo "Next steps:"
 	@echo "  1. make test-model"
@@ -106,35 +109,35 @@ test-model:
 	@echo "  2. make push-model"
 
 eval-smoke:
-	@[ -d models/onnx ] || { echo "Error: Run 'make train-model' first"; exit 1; }
-	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
-	uv run python scripts/evaluate_model.py --suite smoke --fail-on-threshold
+	@onnx_dir=$$($(GET_ONNX_DIR)); [ -d "$$onnx_dir" ] || { echo "Error: Run 'make train-model' first (missing $$onnx_dir)"; exit 1; }
+	@sft_dir=$$($(GET_SFT_DIR)); [ -d "$$sft_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$sft_dir)"; exit 1; }
+	uv run python scripts/evaluate_model.py --suite smoke --fail-on-threshold --skip-hub-snapshot
 	@echo "Next steps:"
 	@echo "  1. make eval-full"
 	@echo "  2. make push-model"
 
 eval-full:
-	@[ -d models/onnx ] || { echo "Error: Run 'make train-model' first"; exit 1; }
-	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
-	uv run python scripts/evaluate_model.py --suite full --fail-on-threshold
+	@onnx_dir=$$($(GET_ONNX_DIR)); [ -d "$$onnx_dir" ] || { echo "Error: Run 'make train-model' first (missing $$onnx_dir)"; exit 1; }
+	@sft_dir=$$($(GET_SFT_DIR)); [ -d "$$sft_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$sft_dir)"; exit 1; }
+	uv run python scripts/evaluate_model.py --suite full --fail-on-threshold --skip-hub-snapshot
 	@echo "Next steps:"
 	@echo "  1. make push-model"
 
 eval-compare:
-	@[ -d models/onnx ] || { echo "Error: Run 'make train-model' first"; exit 1; }
-	@[ -d data/sft ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
+	@onnx_dir=$$($(GET_ONNX_DIR)); [ -d "$$onnx_dir" ] || { echo "Error: Run 'make train-model' first (missing $$onnx_dir)"; exit 1; }
+	@sft_dir=$$($(GET_SFT_DIR)); [ -d "$$sft_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$sft_dir)"; exit 1; }
 	@[ -n "$(COMPARE_TO)" ] || { echo "Error: Usage -> make eval-compare COMPARE_TO=data/eval_reports/<timestamp>"; exit 1; }
-	uv run python scripts/evaluate_model.py --suite full --fail-on-threshold --compare-to $(COMPARE_TO)
+	uv run python scripts/evaluate_model.py --suite full --fail-on-threshold --skip-hub-snapshot --compare-to $(COMPARE_TO)
 	@echo "Next steps:"
 	@echo "  1. make push-model"
 
 push-model:
-	@[ -d models/onnx ] || { echo "Error: Run 'make train-model' first"; exit 1; }
+	@onnx_dir=$$($(GET_ONNX_DIR)); [ -d "$$onnx_dir" ] || { echo "Error: Run 'make train-model' first (missing $$onnx_dir)"; exit 1; }
 	@echo "Login first: huggingface-cli login"
 	uv run python scripts/push_hub.py model $(if $(COMMIT_MESSAGE),-m "$(COMMIT_MESSAGE)")
 
 push-dataset:
-	@[ -d data ] || { echo "Error: Run 'make generate-dataset' first"; exit 1; }
+	@dataset_dir=$$($(GET_DATASET_DIR)); [ -d "$$dataset_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$dataset_dir)"; exit 1; }
 	@echo "Login first: huggingface-cli login"
 	uv run python scripts/push_hub.py dataset $(if $(COMMIT_MESSAGE),-m "$(COMMIT_MESSAGE)")
 

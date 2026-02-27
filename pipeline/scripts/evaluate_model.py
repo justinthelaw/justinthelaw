@@ -152,10 +152,18 @@ def parse_args() -> argparse.Namespace:
         help='Override evaluation seed',
     )
     parser.add_argument(
-        '--skip-hub-snapshot',
+        '--hub-snapshot',
+        dest='hub_snapshot',
         action='store_true',
-        help='Skip Hugging Face published asset metadata snapshot',
+        help='Fetch Hugging Face published asset metadata snapshot (disabled by default)',
     )
+    parser.add_argument(
+        '--skip-hub-snapshot',
+        dest='hub_snapshot',
+        action='store_false',
+        help='Skip Hugging Face published asset metadata snapshot (default)',
+    )
+    parser.set_defaults(hub_snapshot=False)
     return parser.parse_args()
 
 
@@ -819,7 +827,7 @@ def main() -> int:
     overall_passed = all(summary.threshold_passed for summary in summaries.values())
     baseline_models = _load_baseline_metrics(args.compare_to) if args.compare_to else None
     comparison = _compute_comparison(summaries=summaries, baseline_models=baseline_models)
-    hub_snapshot = {} if args.skip_hub_snapshot else _fetch_hub_snapshot()
+    hub_snapshot = _fetch_hub_snapshot() if args.hub_snapshot else {}
 
     report_dir = create_report_dir(report_base_dir)
     failures: list[dict[str, object]] = []

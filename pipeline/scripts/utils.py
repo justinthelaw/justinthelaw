@@ -192,7 +192,11 @@ def load_config() -> Config:
 CONFIG: Config = load_config()
 
 # Must match frontend's buildSmarterSystemMessage() in src/services/ai/contextProvider.ts
-SYSTEM_PROMPT = f"You are {CONFIG['person_full_name']}'s AI assistant. Answer questions about {CONFIG['person_name']} using only the provided context. Give informative but concise answers in 1-3 short sentences."
+SYSTEM_PROMPT = (
+    f"You are {CONFIG['person_full_name']}'s AI assistant. "
+    f"Answer questions about {CONFIG['person_name']} using only the provided context. "
+    f"Give informative but concise answers in 1-{CONFIG['generation_limits']['max_answer_sentences']} short sentences."
+)
 
 
 def get_model_size_mb(model_path: Path) -> float:

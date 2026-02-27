@@ -2,7 +2,8 @@
 
 Train a personalized AI model on your resume for browser-based Q&A.
 
-**Time estimate**: ~12-24 hours total on Apple Silicon M3 with 36GB+ RAM
+**Time estimate**: ~10-20 hours total on Apple Silicon M3 with 36GB+ RAM
+Typical baseline on this repo's default profile: ~90 minutes for `make generate-dataset` and ~12 hours for `make train-model`, with meaningful variance by hardware and config.
 
 ## Config Tuning Reference
 
@@ -46,7 +47,7 @@ Curate evaluation prompts:
 - [ ] Update `data/eval/adversarial.jsonl`
 - [ ] Update `data/eval/ood.jsonl`
 
-### 3. Generate Dataset (~90-120 mins)
+### 3. Generate Dataset (~75-150 mins)
 
 - [ ] Copy resume: `cp /path/to/resume.pdf resume/resume.pdf`
 - [ ] Start llama.cpp server: `make serve`
@@ -54,7 +55,7 @@ Curate evaluation prompts:
 - [ ] Generate data: `make generate-dataset`
 - [ ] Stop llama.cpp server: `make stop`
 
-### 4. Fine-Tune and Evaluate Model (~12-20 hours)
+### 4. Fine-Tune and Evaluate Model (~8-16 hours)
 
 - [ ] Run fine-tuning: `make train-model`
 - [ ] Run smoke evaluation: `make test-model`
@@ -86,8 +87,8 @@ make serve && make generate-dataset && make stop && make train-model && make eva
 | `make serve`            | Start llama.cpp LLM server                    | 1-5 min    |
 | `make stop`             | Stop llama.cpp LLM server                     | <1 min     |
 | `make preview`          | Preview resume data extraction                | <1 min     |
-| `make generate-dataset` | Generate training data                        | 45-120 min |
-| `make train-model`      | Fine-tune the base model                      | 20-45 min  |
+| `make generate-dataset` | Generate training data                        | 75-150 min |
+| `make train-model`      | Fine-tune the base model                      | 8-16 hr    |
 | `make test-model`       | Smoke evaluation (alias of `make eval-smoke`) | 2-5 min    |
 | `make eval-smoke`       | Deterministic smoke evaluation with gating    | 2-5 min    |
 | `make eval-full`        | Full evaluation suite with gating             | 5-20 min   |
