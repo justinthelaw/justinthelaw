@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import math
 import shutil
 import sys
 import warnings
@@ -74,9 +75,17 @@ def train_sft_lora() -> int:
         tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "right"
 
+    sft_cfg = CONFIG["sft"]
+    use_cuda = torch.cuda.is_available()
+    use_mps = torch.backends.mps.is_available() and not use_cuda
+
+    model_load_dtype: torch.dtype | str = "auto"
+    if use_mps:
+        model_load_dtype = torch.float16
+
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
-        torch_dtype="auto",
+        torch_dtype=model_load_dtype,
         device_map="auto",
         trust_remote_code=True,
     )
@@ -94,10 +103,44 @@ def train_sft_lora() -> int:
     )
 
     # Training precision
-    sft_cfg = CONFIG["sft"]
-    use_bf16 = torch.cuda.is_available()
-    use_fp16 = not use_bf16 and torch.backends.mps.is_available()
-    use_gradient_checkpointing = sft_cfg.get("gradient_checkpointing", torch.cuda.is_available())
+    use_bf16 = use_cuda
+    use_fp16 = use_mps
+    use_gradient_checkpointing = sft_cfg.get("gradient_checkpointing", use_cuda)
+
+    train_batch_size = sft_cfg["batch_size"]
+    eval_batch_size = sft_cfg["batch_size"]
+    gradient_accumulation = sft_cfg["gradient_accumulation"]
+    max_length = sft_cfg["max_length"]
+    packing = sft_cfg.get("packing", True)
+    group_by_length = sft_cfg.get("group_by_length", True)
+    dataloader_num_workers = sft_cfg.get("dataloader_num_workers", 0)
+
+    runtime_overrides: list[str] = []
+    if use_mps:
+        configured_effective_batch = train_batch_size * gradient_accumulation
+        if train_batch_size > 2:
+            train_batch_size = 2
+            eval_batch_size = 2
+            gradient_accumulation = max(1, math.ceil(configured_effective_batch / train_batch_size))
+            runtime_overrides.append(
+                f"batch_size={sft_cfg['batch_size']}->2, gradient_accumulation={sft_cfg['gradient_accumulation']}->{gradient_accumulation}"
+            )
+        if max_length > 256:
+            max_length = 256
+            runtime_overrides.append(f"max_length={sft_cfg['max_length']}->256")
+        if packing:
+            packing = False
+            runtime_overrides.append("packing=true->false")
+        if not use_gradient_checkpointing:
+            use_gradient_checkpointing = True
+            runtime_overrides.append("gradient_checkpointing=false->true")
+        if dataloader_num_workers > 0:
+            dataloader_num_workers = 0
+            runtime_overrides.append(
+                f"dataloader_num_workers={sft_cfg.get('dataloader_num_workers', 0)}->0"
+            )
+        if runtime_overrides:
+            print("  MPS safety overrides: " + "; ".join(runtime_overrides))
 
     eval_strategy = sft_cfg.get("eval_strategy", "epoch")
     save_strategy = sft_cfg.get("save_strategy", "epoch")
@@ -108,20 +151,20 @@ def train_sft_lora() -> int:
     training_args = SFTConfig(
         output_dir=str(output_dir),
         num_train_epochs=sft_cfg["epochs"],
-        per_device_train_batch_size=sft_cfg["batch_size"],
-        per_device_eval_batch_size=sft_cfg["batch_size"],
-        gradient_accumulation_steps=sft_cfg["gradient_accumulation"],
+        per_device_train_batch_size=train_batch_size,
+        per_device_eval_batch_size=eval_batch_size,
+        gradient_accumulation_steps=gradient_accumulation,
         learning_rate=sft_cfg["learning_rate"],
         warmup_ratio=sft_cfg["warmup_ratio"],
         weight_decay=sft_cfg.get("weight_decay", 0.01),
-        max_length=sft_cfg["max_length"],
+        max_length=max_length,
         bf16=use_bf16,
         fp16=use_fp16,
         gradient_checkpointing=use_gradient_checkpointing,
         logging_steps=sft_cfg.get("logging_steps", 10),
-        packing=sft_cfg.get("packing", True),
-        group_by_length=sft_cfg.get("group_by_length", True),
-        dataloader_num_workers=sft_cfg.get("dataloader_num_workers", 0),
+        packing=packing,
+        group_by_length=group_by_length,
+        dataloader_num_workers=dataloader_num_workers,
         eval_strategy=eval_strategy,
         save_strategy=save_strategy,
         save_total_limit=sft_cfg.get("save_total_limit", 2),
@@ -136,8 +179,10 @@ def train_sft_lora() -> int:
     print("\nStarting SFT training...")
     print(f"  Epochs: {sft_cfg['epochs']}")
     print(f"  Learning rate: {sft_cfg['learning_rate']}")
-    print(f"  Batch size: {sft_cfg['batch_size']} x {sft_cfg['gradient_accumulation']} accumulation")
-    print(f"  Packing: {sft_cfg.get('packing', True)}")
+    print(f"  Batch size: {train_batch_size} x {gradient_accumulation} accumulation")
+    print(f"  Max length: {max_length}")
+    print(f"  Packing: {packing}")
+    print(f"  Gradient checkpointing: {use_gradient_checkpointing}")
     print(f"  Evaluation strategy: {eval_strategy}")
     print(f"  Save strategy: {save_strategy}")
 

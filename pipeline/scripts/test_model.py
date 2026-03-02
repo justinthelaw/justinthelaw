@@ -21,6 +21,14 @@ from utils import (
 )
 
 
+def _configure_greedy_generation(model: ORTModelForCausalLM) -> None:
+    """Normalize generation config for deterministic greedy decoding."""
+    model.generation_config.do_sample = False
+    model.generation_config.temperature = 1.0
+    model.generation_config.top_p = 1.0
+    model.generation_config.top_k = 50
+
+
 def test_onnx_model(onnx_path: Path, model_file: str, question: str, expected: str) -> None:
     """Test a specific ONNX quantization."""
     model_path = onnx_path / model_file
@@ -42,6 +50,7 @@ def test_onnx_model(onnx_path: Path, model_file: str, question: str, expected: s
         str(onnx_path),
         file_name=model_file,
     )
+    _configure_greedy_generation(model)
 
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},

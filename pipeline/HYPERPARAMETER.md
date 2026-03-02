@@ -114,6 +114,11 @@ Practical profiles:
 | `sft.logging_steps`          |    `10` | Frequent enough monitoring          | Need tighter diagnostics                | Log overhead/noise                 | Mostly observability, minimal quality effect                      |
 | `sft.save_total_limit`       |     `2` | Controls checkpoint storage         | Need more rollback points               | Disk constraints                   | No direct quality impact, affects experiment management           |
 
+MPS runtime safety profile:
+
+- `scripts/train_model.py` automatically applies a safer profile when running on Apple MPS to avoid step-0 OOM failures.
+- Current auto-overrides on MPS: clamp per-device batch to `2` (and raise gradient accumulation to preserve effective batch), clamp `max_length` to `256`, set `packing=false`, set `gradient_checkpointing=true`, and set `dataloader_num_workers=0`.
+
 ## Inference + Quantization Knobs
 
 | Key                            | Default | Role                          | Increase if                                    | Decrease if                             | Performance impact                                              |
@@ -166,6 +171,11 @@ Practical profiles:
 | `evaluation.refusal_markers` | list of refusal phrases | String heuristics for refusal classification     |
 | `evaluation.hub.model_id`    | HF model repo           | Snapshot metadata source (not training behavior) |
 | `evaluation.hub.dataset_id`  | HF dataset repo         | Snapshot metadata source (not training behavior) |
+
+Curated eval bootstrap:
+
+- `scripts/generate_dataset.py` auto-writes baseline curated files under `data/eval` with 10 cases each for `golden`, `adversarial`, and `ood`.
+- Validation cases are still sampled separately from the SFT validation split during evaluation.
 
 ## Operational (Non-Quality) Knobs
 

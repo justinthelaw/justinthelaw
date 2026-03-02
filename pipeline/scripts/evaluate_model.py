@@ -261,6 +261,14 @@ def _generate_response(
     return response, generated_tokens, latency_ms
 
 
+def _configure_greedy_generation(model: ORTModelForCausalLM) -> None:
+    """Normalize generation config for deterministic greedy decoding."""
+    model.generation_config.do_sample = False
+    model.generation_config.temperature = 1.0
+    model.generation_config.top_p = 1.0
+    model.generation_config.top_k = 50
+
+
 def _collect_failure_reasons(case: EvalCase, response: str, scores: CaseScores) -> tuple[str, ...]:
     """Compute deterministic case-level failure reasons."""
     reasons: list[str] = []
@@ -347,6 +355,7 @@ def _evaluate_one_model(
 
     print(f'\nEvaluating {model_file} ({model_size_mb:.1f} MB) on {len(cases)} cases')
     model = ORTModelForCausalLM.from_pretrained(str(onnx_path), file_name=model_file)
+    _configure_greedy_generation(model)
 
     refusal_markers = CONFIG['evaluation']['refusal_markers']
     results: list[CaseResult] = []

@@ -41,11 +41,13 @@ Edit the `Makefile`:
 
 - [ ] Read and override environment variables, if applicable
 
-Curate evaluation prompts:
+Curate evaluation prompts (optional overrides):
 
-- [ ] Update `data/eval/golden.jsonl`
-- [ ] Update `data/eval/adversarial.jsonl`
-- [ ] Update `data/eval/ood.jsonl`
+- [ ] `make generate-dataset` now auto-creates baseline curated sets with 10 cases each:
+  - `data/eval/golden.jsonl`
+  - `data/eval/adversarial.jsonl`
+  - `data/eval/ood.jsonl`
+- [ ] Edit those files if you want custom eval prompts
 
 ### 3. Generate Dataset (~75-150 mins)
 
@@ -113,6 +115,7 @@ Curated eval sets:
 - `data/eval/golden.jsonl` - factual recall prompts
 - `data/eval/adversarial.jsonl` - robustness and prompt-injection checks
 - `data/eval/ood.jsonl` - out-of-domain refusal checks
+- By default, `make generate-dataset` bootstraps each file with 10 baseline cases.
 
 Example commands:
 
@@ -137,6 +140,7 @@ Please review the Python-based CLI tools that the Make targets run for details o
 
 - **Model not accurate**: Increase `samples_per_category` and `sft.epochs`
 - **Pipeline too slow**: Keep the default balanced profile (`samples_per_category: 1200`, `sft.epochs: 8`, `sft.eval_strategy: "no"`). For higher quality runs, increase `samples_per_category` and `sft.epochs` after a baseline pass.
+- **MPS out of memory during `make train-model`**: The trainer now auto-applies an MPS-safe profile at runtime (smaller per-device batch, shorter max length, packing off, checkpointing on). You can still tune `config.yaml`, but MPS runs are clamped to safer values by default.
 - **Model hallucinating**: Lower `temperature` in `src/config/prompts.ts`
 - **ONNX export fails**: Need 16GB+ RAM, close other apps
 - **No MPS acceleration**: Ensure PyTorch 2.0+ with `torch.backends.mps.is_available()`
