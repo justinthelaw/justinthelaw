@@ -21,7 +21,7 @@ dependencies = [
   "onnx>=1.15.0",
   "onnxruntime>=1.17.0",
   "ruff>=0.7.1",
-  "pyright>=1.1.387",
+  "pyright>=1.1.408",
 ]
 
 
