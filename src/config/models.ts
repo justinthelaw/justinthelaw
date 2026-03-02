@@ -30,12 +30,31 @@ export const MODEL_DISPLAY_NAMES: Record<ModelType, string> = {
   [ModelType.SMARTER]: "Smarter",
 };
 
+export type ModelDtype = "fp32" | "int8" | "q4";
+
 /**
- * Get the appropriate dtype based on device type
- * Mobile devices use q4 for efficiency, desktops use fp32 for quality
+ * Get the preferred dtype based on viewport width.
+ * Mobile/tablet defaults to q4 for reliability, desktop defaults to int8 to
+ * avoid fp32 WebAssembly memory pressure during initial load.
  */
-export function getDeviceSpecificDtype(): "fp32" | "q4" {
-  return isMobileDevice() ? "q4" : "fp32";
+export function getDeviceSpecificDtype(viewportWidth?: number): ModelDtype {
+  const isNarrowViewport =
+    typeof viewportWidth === "number" ? viewportWidth < 1024 : isMobileDevice();
+  return isNarrowViewport ? "q4" : "int8";
+}
+
+/**
+ * Ordered dtype options to try, from highest to lowest quality.
+ * Desktop starts at fp32 and can fall back to lower-memory formats.
+ */
+export function getDtypeFallbackOrder(preferredDtype: ModelDtype): ModelDtype[] {
+  if (preferredDtype === "int8") {
+    return ["int8", "q4"];
+  }
+  if (preferredDtype === "q4") {
+    return ["q4", "int8"];
+  }
+  return ["fp32", "int8", "q4"];
 }
 
 /**

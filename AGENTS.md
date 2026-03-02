@@ -66,7 +66,7 @@ pipeline/                # Python ML fine-tuning pipeline (separate from the Nex
 - **Barrel exports** - every feature directory has an `index.ts` for clean imports.
 - **Typed worker messages** - use `WorkerAction`/`WorkerStatus` enums for worker communication. No magic strings.
 - **Model fallback** - SMARTER (fine-tuned) fails gracefully to DUMBER (generic), then to error state.
-- **Device-aware** - mobile uses q4 quantization, desktop uses fp32. Detection is based on `window.innerWidth < 1024`.
+- **Device-aware** - mobile/tablet uses q4, desktop prefers int8 with q4 fallback (and keeps fp32 as a final/manual fallback path). Detection is based on `window.innerWidth < 1024` (computed on the main thread and passed to the worker).
 
 ## Code Standards
 

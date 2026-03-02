@@ -53,9 +53,12 @@ export function useModelManagement(): UseModelManagementReturn {
             setLoadingMessage(response.message);
             
             if (response.message.includes('successfully')) {
+              const actualLoadedModel =
+                (response.loadedModel as ModelType | undefined) ?? selectedModel;
               setIsLoading(false);
               setIsReady(true);
-              setLoadedModel(selectedModel);
+              setError(null);
+              setLoadedModel(actualLoadedModel);
               // Clear loading message after successful load
               setTimeout(() => setLoadingMessage(null), 0);
             }
@@ -64,7 +67,9 @@ export function useModelManagement(): UseModelManagementReturn {
           
         case WorkerStatus.FALLBACK_MODEL:
           if (response.fallbackModel) {
-            setSelectedModel(response.fallbackModel as ModelType);
+            const fallback = response.fallbackModel as ModelType;
+            setLoadedModel(fallback);
+            setLoadingMessage(`Falling back to ${fallback} model...`);
           }
           break;
           
@@ -93,10 +98,10 @@ export function useModelManagement(): UseModelManagementReturn {
     return () => {
       unsubscribe();
     };
-    // selectedModel triggers re-init, setSelectedModel for fallback updates
+    // selectedModel triggers re-init
     // error and isLoading are managed within subscription callbacks
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedModel, setSelectedModel]);
+  }, [selectedModel]);
 
   const reloadWithNewModel = useCallback(() => {
     // Terminate old worker
@@ -121,9 +126,12 @@ export function useModelManagement(): UseModelManagementReturn {
             setLoadingMessage(response.message);
             
             if (response.message.includes('successfully')) {
+              const actualLoadedModel =
+                (response.loadedModel as ModelType | undefined) ?? selectedModel;
               setIsLoading(false);
               setIsReady(true);
-              setLoadedModel(selectedModel);
+              setError(null);
+              setLoadedModel(actualLoadedModel);
               // Clear loading message after successful load
               setTimeout(() => setLoadingMessage(null), 0);
             }
@@ -132,7 +140,9 @@ export function useModelManagement(): UseModelManagementReturn {
           
         case WorkerStatus.FALLBACK_MODEL:
           if (response.fallbackModel) {
-            setSelectedModel(response.fallbackModel as ModelType);
+            const fallback = response.fallbackModel as ModelType;
+            setLoadedModel(fallback);
+            setLoadingMessage(`Falling back to ${fallback} model...`);
           }
           break;
           
@@ -156,7 +166,7 @@ export function useModelManagement(): UseModelManagementReturn {
     
     // Load the model
     aiService.loadModel();
-  }, [selectedModel, setSelectedModel, isLoading, error]);
+  }, [selectedModel, isLoading, error]);
 
   const handleSetModelType = useCallback((size: ModelType) => {
     setSelectedModel(size);

@@ -43,11 +43,13 @@ Edit the `Makefile`:
 
 Curate evaluation prompts (optional overrides):
 
-- [ ] `make generate-dataset` now auto-creates baseline curated sets with 10 cases each:
+- [ ] `make generate-dataset` now bootstraps baseline curated sets with 10 cases each (only if missing or empty):
   - `data/eval/golden.jsonl`
   - `data/eval/adversarial.jsonl`
   - `data/eval/ood.jsonl`
 - [ ] Edit those files if you want custom eval prompts
+- [ ] To intentionally regenerate all baseline eval sets, run:
+  - `uv run python scripts/generate_dataset.py --overwrite-eval-sets`
 
 ### 3. Generate Dataset (~75-150 mins)
 
@@ -115,7 +117,8 @@ Curated eval sets:
 - `data/eval/golden.jsonl` - factual recall prompts
 - `data/eval/adversarial.jsonl` - robustness and prompt-injection checks
 - `data/eval/ood.jsonl` - out-of-domain refusal checks
-- By default, `make generate-dataset` bootstraps each file with 10 baseline cases, but users can add more.
+- By default, `make generate-dataset` bootstraps each file with 10 baseline cases only when missing/empty, so manual edits are preserved.
+- Use `uv run python scripts/generate_dataset.py --overwrite-eval-sets` to force regeneration.
 
 Example commands:
 

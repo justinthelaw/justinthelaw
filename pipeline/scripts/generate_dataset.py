@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate SFT and DPO datasets from PDF resume using llama-server."""
 
+import argparse
 import json
 import random
 import re
@@ -735,7 +736,16 @@ def _write_eval_jsonl(path: Path, records: list[EvalCaseRecord]) -> None:
             file_handle.write(json.dumps(record) + "\n")
 
 
-def save_curated_eval_sets(sft_samples: list[SFTSample]) -> None:
+def _should_bootstrap_eval_set(path: Path, overwrite: bool) -> bool:
+    """Return True when baseline eval file should be written."""
+    if overwrite:
+        return True
+    return not path.exists() or path.stat().st_size == 0
+
+
+def save_curated_eval_sets(
+    sft_samples: list[SFTSample], *, overwrite: bool = False
+) -> None:
     """Create baseline curated eval sets used by deterministic evaluation."""
     eval_dir = PIPELINE_DIR / CONFIG["evaluation"]["eval_data_dir"]
     eval_seed = CONFIG["evaluation"]["seed"]
@@ -763,17 +773,41 @@ def save_curated_eval_sets(sft_samples: list[SFTSample]) -> None:
     adversarial_path = eval_dir / "adversarial.jsonl"
     ood_path = eval_dir / "ood.jsonl"
 
-    _write_eval_jsonl(golden_path, golden_records)
-    _write_eval_jsonl(adversarial_path, adversarial_records)
-    _write_eval_jsonl(ood_path, ood_records)
-
     print("Saved curated eval sets:")
-    print(f"  Golden: {len(golden_records)} -> {golden_path}")
-    print(f"  Adversarial: {len(adversarial_records)} -> {adversarial_path}")
-    print(f"  OOD: {len(ood_records)} -> {ood_path}")
+    for label, path, records in (
+        ("Golden", golden_path, golden_records),
+        ("Adversarial", adversarial_path, adversarial_records),
+        ("OOD", ood_path, ood_records),
+    ):
+        if _should_bootstrap_eval_set(path, overwrite=overwrite):
+            existed_before = path.exists() and path.stat().st_size > 0
+            _write_eval_jsonl(path, records)
+            action = "Overwrote" if existed_before else "Wrote"
+            print(f"  {action} {label}: {len(records)} -> {path}")
+        else:
+            print(f"  Kept existing {label}: {path}")
 
 
-def main() -> int:
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Generate SFT dataset and bootstrap curated eval sets."
+    )
+    parser.add_argument(
+        "--preview",
+        action="store_true",
+        help="Print extracted resume text and exit.",
+    )
+    parser.add_argument(
+        "--overwrite-eval-sets",
+        action="store_true",
+        help="Overwrite curated eval JSONL files even when they already exist.",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv if argv is not None else sys.argv[1:])
     resume_path = PIPELINE_DIR / CONFIG["resume_path"]
 
     if not resume_path.exists():
@@ -799,7 +833,7 @@ def main() -> int:
     print(f"Saved: {RAW_TEXT_FILE}")
 
     # Preview mode
-    if len(sys.argv) > 1 and sys.argv[1] == "--preview":
+    if args.preview:
         print("\n=== Resume Preview ===\n")
         print(context)
         return 0
@@ -836,7 +870,10 @@ def main() -> int:
 
     print(f"\nTotal: {len(sft_samples)} SFT samples")
     save_dataset(sft_samples)
-    save_curated_eval_sets(sft_samples)
+    save_curated_eval_sets(
+        sft_samples,
+        overwrite=args.overwrite_eval_sets,
+    )
     print("Done!")
     return 0
 
