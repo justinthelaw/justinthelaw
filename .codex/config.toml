@@ -19,10 +19,6 @@ max_depth = 1
 [history]
 persistence = "save-all"
 
-################################################################################
-# UI, Notifications, and Misc (tables)
-################################################################################
-
 [tui]
 notifications = true
 notification_method = "auto"
