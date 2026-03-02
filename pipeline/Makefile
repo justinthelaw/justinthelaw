@@ -127,7 +127,7 @@ eval-compare:
 	@onnx_dir=$$($(GET_ONNX_DIR)); [ -d "$$onnx_dir" ] || { echo "Error: Run 'make train-model' first (missing $$onnx_dir)"; exit 1; }
 	@sft_dir=$$($(GET_SFT_DIR)); [ -d "$$sft_dir" ] || { echo "Error: Run 'make generate-dataset' first (missing $$sft_dir)"; exit 1; }
 	@[ -n "$(COMPARE_TO)" ] || { echo "Error: Usage -> make eval-compare COMPARE_TO=data/eval_reports/<timestamp>"; exit 1; }
-	uv run python scripts/evaluate_model.py --suite full --fail-on-threshold --skip-hub-snapshot --compare-to $(COMPARE_TO)
+	uv run python scripts/evaluate_model.py --suite full --fail-on-threshold --skip-hub-snapshot --compare-to "$(COMPARE_TO)"
 	@echo "Next steps:"
 	@echo "  1. make push-model"
 
