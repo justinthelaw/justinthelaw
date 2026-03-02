@@ -87,11 +87,9 @@ class TensorLike(Protocol):
     """Minimal tensor-like protocol for tokenizer/model outputs."""
 
     @property
-    def shape(self) -> tuple[int, ...]:
-        ...
+    def shape(self) -> tuple[int, ...]: ...
 
-    def __getitem__(self, key: object) -> TensorLike:
-        ...
+    def __getitem__(self, key: object) -> TensorLike: ...
 
 
 class ChatTokenizer(Protocol):
@@ -104,14 +102,11 @@ class ChatTokenizer(Protocol):
         messages: list[dict[str, str]],
         tokenize: bool,
         add_generation_prompt: bool,
-    ) -> str:
-        ...
+    ) -> str: ...
 
-    def __call__(self, text: str, return_tensors: str) -> Mapping[str, TensorLike]:
-        ...
+    def __call__(self, text: str, return_tensors: str) -> Mapping[str, TensorLike]: ...
 
-    def decode(self, token_ids: TensorLike, skip_special_tokens: bool = True) -> str:
-        ...
+    def decode(self, token_ids: TensorLike, skip_special_tokens: bool = True) -> str: ...
 
 
 def parse_args() -> argparse.Namespace:
@@ -206,7 +201,9 @@ def _resolve_model_files(onnx_path: Path, requested_models: list[str] | None) ->
     return resolved
 
 
-def _select_cases(suite: str, seed: int, sft_dataset_path: Path, curated_eval_dir: Path) -> tuple[list[EvalCase], dict[str, int]]:
+def _select_cases(
+    suite: str, seed: int, sft_dataset_path: Path, curated_eval_dir: Path
+) -> tuple[list[EvalCase], dict[str, int]]:
     """Load and sample evaluation cases for a suite."""
     evaluation_cfg = CONFIG['evaluation']
     per_set_limit = evaluation_cfg['smoke_samples'] if suite == 'smoke' else evaluation_cfg['full_samples_per_set']
@@ -264,10 +261,11 @@ def _generate_response(
 
 def _configure_greedy_generation(model: ORTModelForCausalLM) -> None:
     """Normalize generation config for deterministic greedy decoding."""
-    model.generation_config.do_sample = False
-    model.generation_config.temperature = 1.0
-    model.generation_config.top_p = 1.0
-    model.generation_config.top_k = 50
+    if model.generation_config is not None:
+        model.generation_config.do_sample = False
+        model.generation_config.temperature = 1.0
+        model.generation_config.top_p = 1.0
+        model.generation_config.top_k = 50
 
 
 def _collect_failure_reasons(case: EvalCase, response: str, scores: CaseScores) -> tuple[str, ...]:
@@ -306,9 +304,7 @@ def _aggregate_summary(model_file: str, model_size_mb: float, results: list[Case
 
     total_generated_tokens = sum(result.generated_tokens for result in results)
     total_generation_seconds = sum(result.latency_ms for result in results) / 1000
-    tokens_per_second = (
-        total_generated_tokens / total_generation_seconds if total_generation_seconds > 0 else 0.0
-    )
+    tokens_per_second = total_generated_tokens / total_generation_seconds if total_generation_seconds > 0 else 0.0
 
     category_totals: dict[str, int] = {}
     category_passed: dict[str, int] = {}
@@ -319,8 +315,7 @@ def _aggregate_summary(model_file: str, model_size_mb: float, results: list[Case
             category_passed[category] = category_passed.get(category, 0) + 1
 
     category_pass_rate = {
-        category: category_passed.get(category, 0) / total
-        for category, total in sorted(category_totals.items())
+        category: category_passed.get(category, 0) / total for category, total in sorted(category_totals.items())
     }
 
     return ModelSummary(
@@ -404,10 +399,7 @@ def _apply_fp32_alignment(
     if fp32_name not in results_by_model:
         return
 
-    fp32_outputs = {
-        _case_key(result.case): result.response
-        for result in results_by_model[fp32_name]
-    }
+    fp32_outputs = {_case_key(result.case): result.response for result in results_by_model[fp32_name]}
 
     for model_file, model_results in results_by_model.items():
         if model_file == fp32_name:
@@ -735,9 +727,7 @@ def _build_summary_markdown(
     lines.append(
         '| model | cases | exact | token_f1 | keyword | refusal | behavior | p95 ms | tok/s | fp32 align | failures | thresholds |'
     )
-    lines.append(
-        '|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|'
-    )
+    lines.append('|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|')
     for model_file in sorted(summaries):
         summary = summaries[model_file]
         fp32_alignment = f'{summary.fp32_alignment:.3f}' if summary.fp32_alignment is not None else 'n/a'
@@ -757,8 +747,7 @@ def _build_summary_markdown(
         for check in summary.threshold_checks:
             status = 'PASS' if check.passed else 'FAIL'
             lines.append(
-                f'- {status}: `{check.metric}` {check.comparator} `{check.expected:.3f}` '
-                f'(actual `{check.actual:.3f}`)'
+                f'- {status}: `{check.metric}` {check.comparator} `{check.expected:.3f}` (actual `{check.actual:.3f}`)'
             )
         lines.append('')
 
@@ -855,10 +844,7 @@ def main() -> int:
         'overall_threshold_passed': overall_passed,
         'case_counts': case_counts,
         'total_cases': len(cases),
-        'models': {
-            model_file: _serialize_model_summary(summary)
-            for model_file, summary in summaries.items()
-        },
+        'models': {model_file: _serialize_model_summary(summary) for model_file, summary in summaries.items()},
         'comparison': comparison,
         'compare_to': str(args.compare_to) if args.compare_to else None,
         'hub_snapshot': hub_snapshot,
