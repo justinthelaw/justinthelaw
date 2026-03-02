@@ -199,24 +199,29 @@ SYSTEM_PROMPT = (
 )
 
 
-def get_model_size_mb(model_path: Path) -> float:
-    """Calculate model file size in megabytes.
+def _get_model_artifact_size_bytes(model_path: Path) -> int:
+    """Return total bytes for an ONNX model file and optional sidecars.
 
-    This returns a simple float in MB for scripts that need numeric values
-    (e.g. logging or comparisons). The existing callers in the pipeline rely
-    on MB so we keep this function for backwards compatibility.
+    ONNX exports can store tensor data in external files such as
+    ``model.onnx_data`` or ``model.onnx.data``. We include those sidecars so
+    CLI output reflects the real model footprint.
     """
-    return model_path.stat().st_size / 1024 / 1024
+    size_bytes = model_path.stat().st_size
+    sidecar_patterns = (f'{model_path.name}_data*', f'{model_path.name}.data*')
+    for pattern in sidecar_patterns:
+        for sidecar_path in model_path.parent.glob(pattern):
+            if sidecar_path.is_file():
+                size_bytes += sidecar_path.stat().st_size
+    return size_bytes
+
+
+def get_model_size_mb(model_path: Path) -> float:
+    """Calculate total model artifact size in megabytes."""
+    return _get_model_artifact_size_bytes(model_path) / 1024 / 1024
 
 
 def _format_size(size_bytes: int) -> str:
-    """Format a byte count into a human-readable string.
-
-    The pipeline primarily works with models that are a few gigabytes at most,
-    so we convert to megabytes by default and switch to gigabytes when the
-    value exceeds 1024&nbsp;MB. Keeping one helper avoids duplicating logic
-    across multiple scripts.
-    """
+    """Format a byte count into MB/GB for CLI output."""
     mb = size_bytes / 1024 / 1024
     if mb >= 1024:
         gb = mb / 1024
@@ -225,14 +230,8 @@ def _format_size(size_bytes: int) -> str:
 
 
 def get_model_size_human(model_path: Path) -> str:
-    """Return a human-readable size string (e.g. "42.0 MB" or "1.2 GB").
-
-    This is intended for CLI output and replaces previous usages that hard‑
-    coded "MB" labels. The underlying size is still obtained from the file
-    system, so callers that also need a numeric MB value should continue to
-    call :func:`get_model_size_mb`.
-    """
-    return _format_size(model_path.stat().st_size)
+    """Return total model artifact size as a human-readable string."""
+    return _format_size(_get_model_artifact_size_bytes(model_path))
 
 
 # LLM defaults
