@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate SFT and DPO datasets from PDF resume using llama-server."""
+"""Generate SFT samples and curated evaluation datasets from a PDF resume using llama-server."""
 
 import argparse
 import json
@@ -7,7 +7,7 @@ import random
 import re
 import sys
 from pathlib import Path
-from typing import TypedDict
+from typing import TypeVar, TypedDict
 
 import fitz
 import requests
@@ -89,6 +89,9 @@ class EvalCaseRecord(TypedDict):
     reference_answer: str
     expected_behavior: str
     tags: list[str]
+
+
+T = TypeVar("T")
 
 
 # LLM prompts for synthetic data generation (model-agnostic)
@@ -654,7 +657,7 @@ def _infer_eval_category(question: str) -> str:
     return "general"
 
 
-def _deterministic_sample[T](items: list[T], limit: int, seed: int) -> list[T]:
+def _deterministic_sample(items: list[T], limit: int, seed: int) -> list[T]:
     """Take a deterministic pseudo-random sample from a list."""
     if limit <= 0 or len(items) <= limit:
         return list(items)

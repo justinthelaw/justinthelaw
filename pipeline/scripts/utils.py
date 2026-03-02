@@ -191,7 +191,7 @@ def load_config() -> Config:
 # Load config once at module level
 CONFIG: Config = load_config()
 
-# Must match frontend's CHATBOT_CONFIG.systemPrompt in src/services/ai/contextProvider.ts
+# Must match frontend's CHATBOT_CONFIG.systemPrompt in src/config/prompts.ts
 SYSTEM_PROMPT = (
     f"You are {CONFIG['person_full_name']}'s AI assistant. "
     f"Answer questions about {CONFIG['person_name']} using only the provided context. "

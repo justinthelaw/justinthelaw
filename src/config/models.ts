@@ -44,8 +44,8 @@ export function getDeviceSpecificDtype(viewportWidth?: number): ModelDtype {
 }
 
 /**
- * Ordered dtype options to try, from highest to lowest quality.
- * Desktop starts at fp32 and can fall back to lower-memory formats.
+ * Ordered dtype options to try, with the preferred dtype first.
+ * Desktop prefers int8 and falls back to q4; fp32 is kept for explicit/manual selection.
  */
 export function getDtypeFallbackOrder(preferredDtype: ModelDtype): ModelDtype[] {
   if (preferredDtype === "int8") {

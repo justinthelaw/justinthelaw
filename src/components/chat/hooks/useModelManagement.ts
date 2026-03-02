@@ -69,6 +69,7 @@ export function useModelManagement(): UseModelManagementReturn {
           if (response.fallbackModel) {
             const fallback = response.fallbackModel as ModelType;
             setLoadedModel(fallback);
+            setSelectedModel(fallback);
             setLoadingMessage(`Falling back to ${fallback} model...`);
           }
           break;
@@ -142,6 +143,7 @@ export function useModelManagement(): UseModelManagementReturn {
           if (response.fallbackModel) {
             const fallback = response.fallbackModel as ModelType;
             setLoadedModel(fallback);
+            setSelectedModel(fallback);
             setLoadingMessage(`Falling back to ${fallback} model...`);
           }
           break;
@@ -166,7 +168,7 @@ export function useModelManagement(): UseModelManagementReturn {
     
     // Load the model
     aiService.loadModel();
-  }, [selectedModel, isLoading, error]);
+  }, [selectedModel, isLoading, error, setSelectedModel]);
 
   const handleSetModelType = useCallback((size: ModelType) => {
     setSelectedModel(size);
