@@ -1,11 +1,16 @@
+name: Playwright Tests
+
 permissions:
   contents: read
-name: Playwright Tests
 
 on:
   pull_request:
     branches:
       - main
+
+concurrency:
+  group: "app-test-${{ github.ref }}"
+  cancel-in-progress: false
 
 jobs:
   test:

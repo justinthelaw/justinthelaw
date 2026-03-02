@@ -31,6 +31,7 @@ export interface WorkerRequest {
   action: WorkerAction;
   input?: string;
   modelSelection?: string;
+  viewportWidth?: number;
 }
 
 /**
@@ -43,4 +44,5 @@ export interface WorkerResponse {
   error?: string;
   progress?: number;
   fallbackModel?: string;
+  loadedModel?: string;
 }
