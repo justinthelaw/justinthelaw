@@ -17,6 +17,7 @@ from utils import (
     INFERENCE_REPETITION_PENALTY,
     PIPELINE_DIR,
     SYSTEM_PROMPT,
+    get_model_size_human,
     get_model_size_mb,
 )
 
@@ -38,9 +39,10 @@ def test_onnx_model(onnx_path: Path, model_file: str, question: str, expected: s
         return
 
     model_size_mb = get_model_size_mb(model_path)
+    human_size = get_model_size_human(model_path)
 
     print(f"\n{'='*60}")
-    print(f"Testing: {model_file} ({model_size_mb:.1f} MB)")
+    print(f"Testing: {model_file} ({human_size})")
     print(f"{'='*60}")
 
     tokenizer = AutoTokenizer.from_pretrained(str(onnx_path))

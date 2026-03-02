@@ -200,8 +200,39 @@ SYSTEM_PROMPT = (
 
 
 def get_model_size_mb(model_path: Path) -> float:
-    """Calculate model file size in MB."""
+    """Calculate model file size in megabytes.
+
+    This returns a simple float in MB for scripts that need numeric values
+    (e.g. logging or comparisons). The existing callers in the pipeline rely
+    on MB so we keep this function for backwards compatibility.
+    """
     return model_path.stat().st_size / 1024 / 1024
+
+
+def _format_size(size_bytes: int) -> str:
+    """Format a byte count into a human-readable string.
+
+    The pipeline primarily works with models that are a few gigabytes at most,
+    so we convert to megabytes by default and switch to gigabytes when the
+    value exceeds 1024&nbsp;MB. Keeping one helper avoids duplicating logic
+    across multiple scripts.
+    """
+    mb = size_bytes / 1024 / 1024
+    if mb >= 1024:
+        gb = mb / 1024
+        return f"{gb:.1f} GB"
+    return f"{mb:.1f} MB"
+
+
+def get_model_size_human(model_path: Path) -> str:
+    """Return a human-readable size string (e.g. "42.0 MB" or "1.2 GB").
+
+    This is intended for CLI output and replaces previous usages that hard‑
+    coded "MB" labels. The underlying size is still obtained from the file
+    system, so callers that also need a numeric MB value should continue to
+    call :func:`get_model_size_mb`.
+    """
+    return _format_size(model_path.stat().st_size)
 
 
 # LLM defaults

@@ -20,7 +20,14 @@ from peft import LoraConfig, PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl.trainer.sft_config import SFTConfig
 from trl.trainer.sft_trainer import SFTTrainer
-from utils import CONFIG, PIPELINE_DIR, QUANTIZATION_ACCURACY_LEVEL, QUANTIZATION_BLOCK_SIZE, get_model_size_mb
+from utils import (
+    CONFIG,
+    PIPELINE_DIR,
+    QUANTIZATION_ACCURACY_LEVEL,
+    QUANTIZATION_BLOCK_SIZE,
+    get_model_size_human,
+    get_model_size_mb,
+)
 
 # Fallback chat template used only if the base tokenizer has no template.
 DEFAULT_CHAT_TEMPLATE = (
@@ -323,7 +330,8 @@ def quantize_models() -> int:
         print("Run without --only-quantize to generate ONNX models first")
         return 1
 
-    print(f"Source model: {model_fp32.name} ({get_model_size_mb(model_fp32):.1f} MB)\n")
+    human_size = get_model_size_human(model_fp32)
+    print(f"Source model: {model_fp32.name} ({human_size})\n")
 
     # 1. INT8 dynamic quantization (signed)
     model_int8 = onnx_path / "model_int8.onnx"
@@ -338,9 +346,9 @@ def quantize_models() -> int:
                 "MatMulConstBOnly": True,
             },
         )
-        print(f"  ✓ Saved: {model_int8.name} ({get_model_size_mb(model_int8):.1f} MB)\n")
+        print(f"  ✓ Saved: {model_int8.name} ({get_model_size_human(model_int8)})\n")
     else:
-        print(f"✓ Using existing {model_int8.name} ({get_model_size_mb(model_int8):.1f} MB)\n")
+        print(f"✓ Using existing {model_int8.name} ({get_model_size_human(model_int8)})\n")
 
     # 2. UINT8 dynamic quantization (unsigned)
     model_uint8 = onnx_path / "model_uint8.onnx"
@@ -355,9 +363,9 @@ def quantize_models() -> int:
                 "MatMulConstBOnly": True,
             },
         )
-        print(f"  ✓ Saved: {model_uint8.name} ({get_model_size_mb(model_uint8):.1f} MB)\n")
+        print(f"  ✓ Saved: {model_uint8.name} ({get_model_size_human(model_uint8)})\n")
     else:
-        print(f"✓ Using existing {model_uint8.name} ({get_model_size_mb(model_uint8):.1f} MB)\n")
+        print(f"✓ Using existing {model_uint8.name} ({get_model_size_human(model_uint8)})\n")
 
     # 3. 4-bit quantization (4-bit weights)
     model_q4 = onnx_path / "model_q4.onnx"
@@ -374,18 +382,18 @@ def quantize_models() -> int:
             )
             quantizer.process()
             quantizer.model.save_model_to_file(str(model_q4), use_external_data_format=True)  # type: ignore[attr-defined]
-            print(f"  ✓ Saved: {model_q4.name} ({get_model_size_mb(model_q4):.1f} MB)\n")
+            print(f"  ✓ Saved: {model_q4.name} ({get_model_size_human(model_q4)})\n")
         except (OSError, RuntimeError, ValueError) as e:
             print(f"  ✗ Failed to generate 4-bit model: {e}")
             print("    Skipping 4-bit quantization\n")
     else:
-        print(f"✓ Using existing {model_q4.name} ({get_model_size_mb(model_q4):.1f} MB)\n")
+        print(f"✓ Using existing {model_q4.name} ({get_model_size_human(model_q4)})\n")
 
     print("✓ Quantization complete!\n")
     print("Available models:")
     for model_file in sorted(onnx_path.glob("model*.onnx")):
-        size_mb = get_model_size_mb(model_file)
-        print(f"  • {model_file.name:25s} {size_mb:>8.1f} MB")
+        human_size = get_model_size_human(model_file)
+        print(f"  • {model_file.name:25s} {human_size:>8s}")
     print()
     
     return 0

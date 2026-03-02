@@ -30,6 +30,7 @@ from utils import (
     MAX_ANSWER_WORDS,
     PIPELINE_DIR,
     SYSTEM_PROMPT,
+    get_model_size_human,
     get_model_size_mb,
 )
 
@@ -352,8 +353,9 @@ def _evaluate_one_model(
     """Run one ONNX model across all evaluation cases."""
     model_path = onnx_path / model_file
     model_size_mb = get_model_size_mb(model_path)
+    human_size = get_model_size_human(model_path)
 
-    print(f'\nEvaluating {model_file} ({model_size_mb:.1f} MB) on {len(cases)} cases')
+    print(f'\nEvaluating {model_file} ({human_size}) on {len(cases)} cases')
     model = ORTModelForCausalLM.from_pretrained(str(onnx_path), file_name=model_file)
     _configure_greedy_generation(model)
 
