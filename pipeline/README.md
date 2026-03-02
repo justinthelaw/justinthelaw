@@ -115,7 +115,7 @@ Curated eval sets:
 - `data/eval/golden.jsonl` - factual recall prompts
 - `data/eval/adversarial.jsonl` - robustness and prompt-injection checks
 - `data/eval/ood.jsonl` - out-of-domain refusal checks
-- By default, `make generate-dataset` bootstraps each file with 10 baseline cases.
+- By default, `make generate-dataset` bootstraps each file with 10 baseline cases, but users can add more.
 
 Example commands:
 
