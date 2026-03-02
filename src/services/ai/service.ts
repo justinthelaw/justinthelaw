@@ -38,6 +38,7 @@ export class AIService {
     this.worker.postMessage({
       action: WorkerAction.INIT,
       modelSelection: modelType,
+      viewportWidth: window.innerWidth,
     });
   }
 

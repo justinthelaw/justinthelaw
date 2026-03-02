@@ -1,0 +1,46 @@
+name: Fine-Tuning Pipeline Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "pipeline/**"
+      - ".github/workflows/pipeline.test.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "pipeline-test-${{ github.ref }}"
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pipeline
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync --frozen
+
+      - name: Ruff
+        run: uv run ruff check scripts
+
+      - name: Pyright
+        run: uv run pyright scripts/eval_dataset.py scripts/eval_metrics.py scripts/eval_reporting.py scripts/evaluate_model.py scripts/utils.py

@@ -29,14 +29,17 @@ if (process.env.NODE_ENV === "development") {
 
 // Worker state (defaults to SMARTER, will auto-downgrade based on RAM)
 let modelType: ModelType = ModelType.SMARTER;
+let viewportWidth: number | undefined;
 let generator: TextGenerationPipeline | null = null;
 
 self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
-  const { action, input, modelSelection } = event.data;
+  const { action, input, modelSelection, viewportWidth: nextViewportWidth } =
+    event.data;
 
   // Initialize model selection
   if (action === WorkerAction.INIT && modelSelection) {
     modelType = modelSelection as ModelType;
+    viewportWidth = nextViewportWidth;
     return;
   }
 
@@ -45,6 +48,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
     try {
       const loadOperation = async () => {
         return await loadModelWithFallback(modelType, {
+          viewportWidth,
           onProgress: (progress, message) => {
             self.postMessage({
               status: WorkerStatus.LOAD,
@@ -61,8 +65,8 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
           },
           onError: (message) => {
             self.postMessage({
-              status: WorkerStatus.ERROR,
-              error: message,
+              status: WorkerStatus.LOAD,
+              message,
             });
           },
         });
@@ -80,6 +84,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
         self.postMessage({
           status: WorkerStatus.LOAD,
           message: "Model loaded successfully!",
+          loadedModel: modelType,
         });
       } else {
         self.postMessage({
