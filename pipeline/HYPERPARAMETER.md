@@ -7,6 +7,7 @@ Scope: tuning knobs in [`config.yaml`](./config.yaml), with practical effects an
 - Tune in this order: `dataset` -> `lora` + `sft` -> `quantization` -> `evaluation.thresholds`.
 - Change only 1-2 knobs per run, then compare against previous `data/eval_reports/*`.
 - Keep `evaluation.seed` fixed while tuning to avoid noisy comparisons.
+- Keep pre-commit checks green before/after tuning changes: `pre-commit run --all-files` from repo root.
 
 ## Model Choice (Most Important Knob)
 

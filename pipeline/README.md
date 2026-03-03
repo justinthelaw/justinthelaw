@@ -16,6 +16,19 @@ For per-knob rationale and tuning guidance, see [`HYPERPARAMETER.md`](./HYPERPAR
 - [ ] [llama.cpp](https://github.com/ggerganov/llama.cpp): `brew install llama.cpp`
 - [ ] [HuggingFace account](https://huggingface.co/join) with write token
 
+## Pre-commit Hooks
+
+From repo root, install and run:
+
+- `uv tool install pre-commit` (or `pipx install pre-commit`)
+- `pre-commit install`
+- `pre-commit run --all-files`
+
+Pipeline hooks mirror the existing lint/type checks used by this repo:
+
+- `pipeline-ruff`: `cd pipeline && uv run ruff check scripts`
+- `pipeline-pyright`: `cd pipeline && uv run pyright scripts/eval_dataset.py scripts/eval_metrics.py scripts/eval_reporting.py scripts/evaluate_model.py scripts/utils.py`
+
 ## Pipeline Checklist
 
 ### 1. Setup (~2 min)
