@@ -17,8 +17,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "deploy"
-  cancel-in-progress: false
+  group: "deploy-${{ github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   build:
