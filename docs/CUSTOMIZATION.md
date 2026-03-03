@@ -40,6 +40,7 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 
 ### 4. Test & Deploy (~5 min)
 
+- [ ] Install `uv` and `npm` based on your development environment
 - [ ] `npm install`
 - [ ] `npm run dev` (test at localhost:3000)
 - [ ] `uv tool install pre-commit` (or `pipx install pre-commit`)
