@@ -42,8 +42,17 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 
 - [ ] `npm install`
 - [ ] `npm run dev` (test at localhost:3000)
+- [ ] `uv tool install pre-commit` (or `pipx install pre-commit`)
+- [ ] `pre-commit install`
+- [ ] `pre-commit run --all-files`
 - [ ] `npm run flight-check`
 - [ ] `npm run deploy`
+
+Pre-commit hooks mirror the repo's current lint/type checks:
+
+- `app-eslint` runs `npm run lint`
+- `pipeline-ruff` runs `cd pipeline && uv run ruff check scripts`
+- `pipeline-pyright` runs `cd pipeline && uv run pyright scripts/eval_dataset.py scripts/eval_metrics.py scripts/eval_reporting.py scripts/evaluate_model.py scripts/utils.py`
 
 ## Upgrade to SMARTER Model (~10-20 hours)
 

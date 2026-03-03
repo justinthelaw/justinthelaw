@@ -33,8 +33,16 @@ Next.js static site for GitHub Pages with an in-browser AI chatbot powered by Hu
 | `npm run build`                  | Next.js static export to `out/`                                    |
 | `npm run test`                   | Playwright E2E tests (Chromium, Firefox, WebKit, mobile viewports) |
 | `npm run deploy`                 | Build and deploy to GitHub Pages                                   |
+| `pre-commit install`             | Install Git pre-commit hooks from `.pre-commit-config.yaml`        |
+| `pre-commit run --all-files`     | Run all configured pre-commit hooks manually                       |
 | `cd pipeline && make eval-smoke` | Deterministic smoke evaluation for ONNX fine-tuned models          |
 | `cd pipeline && make eval-full`  | Full threshold-gated evaluation suite for ONNX fine-tuned models   |
+
+Pre-commit hooks mirror local lint/type checks by codebase:
+
+- `app-eslint`: `npm run lint`
+- `pipeline-ruff`: `cd pipeline && uv run ruff check scripts`
+- `pipeline-pyright`: `cd pipeline && uv run pyright scripts/eval_dataset.py scripts/eval_metrics.py scripts/eval_reporting.py scripts/evaluate_model.py scripts/utils.py`
 
 ## Architecture
 
