@@ -15,10 +15,12 @@ import {
   getDtypeFallbackOrder,
 } from "@/config/models";
 import { SITE_CONFIG } from "@/config/site";
+import { createLogger, LOG_AREAS } from "@/utils";
 
 // Configure environment for browser usage
 env.allowLocalModels = false;
 env.remoteHost = "https://huggingface.co";
+const logger = createLogger(LOG_AREAS.AI_MODEL_LOADER);
 
 export interface LoaderCallbacks {
   viewportWidth?: number;
@@ -133,8 +135,8 @@ export async function loadModelWithFallback(
   const preferredDtype = getDeviceSpecificDtype(callbacks.viewportWidth);
   const dtypeFallbackOrder = getDtypeFallbackOrder(preferredDtype);
 
-  console.log(
-    `Using dtype preference ${preferredDtype} with fallback order: ${dtypeFallbackOrder.join(
+  logger.log(
+    `dtype preference ${preferredDtype}; fallback order ${dtypeFallbackOrder.join(
       " -> "
     )}`
   );
@@ -147,7 +149,7 @@ export async function loadModelWithFallback(
     for (const dtype of dtypeFallbackOrder) {
       attempts++;
       try {
-        console.log(`Loading ${currentSize} model (${dtype}): ${modelId}`);
+        logger.log(`loading ${currentSize} model (${dtype}): ${modelId}`);
 
         // Track if we're in download phase (first time seeing progress)
         let isDownloading = true;
@@ -198,17 +200,17 @@ export async function loadModelWithFallback(
           ? "Likely memory/runtime pressure. Trying lower-memory fallback."
           : "Trying next fallback option.";
 
-        console.error(
-          `Model loading attempt ${attempts} failed for ${currentSize} (${dtype}): ${normalizedError.message}`
+        logger.error(
+          `attempt ${attempts} failed for ${currentSize} (${dtype}): ${normalizedError.message}`
         );
         if (
           normalizedError.isLikelyMemoryError ||
           normalizedError.isNumericRuntimeCode
         ) {
-          console.warn(fallbackHint);
+          logger.warn(fallbackHint);
           if (normalizedError.isNumericRuntimeCode) {
-            console.warn(
-              "Numeric runtime codes from ONNX/WebAssembly are often opaque; fallback will continue."
+            logger.warn(
+              "numeric runtime codes from ONNX/WebAssembly are often opaque; fallback will continue."
             );
           }
         }
@@ -229,8 +231,8 @@ export async function loadModelWithFallback(
         if (callbacks.onFallback) {
           callbacks.onFallback(nextSize);
         }
-        console.log(
-          `Loading smarter model failed across dtype fallbacks, switching to: ${MODEL_IDS[nextSize]}`
+        logger.log(
+          `smarter model failed across dtype fallbacks, switching to: ${MODEL_IDS[nextSize]}`
         );
       } else {
         currentSize = null;

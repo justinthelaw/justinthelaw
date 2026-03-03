@@ -1,9 +1,9 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { Fragment } from "react/jsx-runtime";
+import { Fragment, type ReactElement } from "react";
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps): ReactElement {
   return (
     <Fragment>
       <Head>

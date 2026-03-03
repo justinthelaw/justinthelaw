@@ -7,12 +7,15 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { WorkerStatus, type WorkerResponse } from '@/types/worker';
 import { getAIService } from '@/services/ai';
 import { useChatStore } from '@/stores/chatStore';
+import { createLogger, LOG_AREAS } from "@/utils";
 
 export interface UseAIGenerationReturn {
   isGenerating: boolean;
   currentResponse: string;
   generate: (input: string) => void;
 }
+
+const logger = createLogger(LOG_AREAS.AI_GENERATION);
 
 export function useAIGeneration(): UseAIGenerationReturn {
   const { setIsGenerating, updateCurrentResponse, addMessage } = useChatStore();
@@ -77,7 +80,7 @@ export function useAIGeneration(): UseAIGenerationReturn {
     const aiService = getAIService();
     
     if (!aiService.isInitialized()) {
-      console.error('AI service not initialized');
+      logger.error("service not initialized");
       return;
     }
 

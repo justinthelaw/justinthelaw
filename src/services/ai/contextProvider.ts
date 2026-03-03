@@ -9,7 +9,7 @@ import { CHATBOT_CONFIG } from "@/config/prompts";
 import { MAX_SINGLE_MESSAGE_LENGTH } from "@/config/prompts";
 
 export interface ChatMessage {
-  role: string;
+  role: "system" | "user";
   content: string;
 }
 
@@ -23,7 +23,7 @@ export interface ResponseValidation {
  * Built dynamically from the site config and profile data
  */
 function buildSystemMessage(modelType: ModelType): string {
-  if (modelType == ModelType.SMARTER) {
+  if (modelType === ModelType.SMARTER) {
     return CHATBOT_CONFIG.systemPrompt;
   } else {
     const profileLines = [

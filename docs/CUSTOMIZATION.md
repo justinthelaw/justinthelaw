@@ -44,7 +44,6 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 - [ ] `npm run dev` (test at localhost:3000)
 - [ ] `npm run flight-check`
 - [ ] `npm run deploy`
-- [ ] Go to localhost:6006 to check Phoenix OTEL traces for a quick LLM output vibe check
 
 ## Upgrade to SMARTER Model (~10-20 hours)
 

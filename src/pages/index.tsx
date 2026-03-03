@@ -1,47 +1,64 @@
-'use client';
+import { Fragment, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import { SITE_CONFIG } from "@/config/site";
+import { LinkIconButton } from "@/components/links";
+import { GitHubProfile } from "@/components/profile";
+import { ResumeViewer } from "@/components/resume";
+import { useModelStore } from "@/stores/modelStore";
 
-import { Fragment, useState } from 'react';
-import dynamic from 'next/dynamic';
-import Head from 'next/head';
-import { SITE_CONFIG, DERIVED_CONFIG } from '@/config/site';
+const ChatContainer = dynamic(
+  () => import("@/components/chat").then((mod) => ({ default: mod.ChatContainer })),
+  { ssr: false }
+);
 
-import { LinkIconButton } from '@/components/links';
-import { GitHubProfile } from '@/components/profile';
-import { ResumeViewer } from '@/components/resume';
-import { useModelStore } from '@/stores/modelStore';
+interface SocialLinkItem {
+  href: string;
+  filename: string;
+  altText: string;
+}
 
-// Dynamically load ChatContainer only when user wants AI chat
-const ChatContainer = dynamic(() => import('@/components/chat').then((mod) => ({ default: mod.ChatContainer })), {
-  ssr: false,
-});
-
-export default function Home() {
-  const [showChatBox, setShowChatBox] = useState(false);
+export default function Home(): React.ReactElement {
   const { shouldReopenChat, setShouldReopenChat } = useModelStore();
-  const [path] = useState(DERIVED_CONFIG.publicAssetsUrl);
+  const [showChatBox, setShowChatBox] = useState(shouldReopenChat);
 
-  // Initialize and check for chat reopen flag
-  const [isMounted] = useState(() => {
-    if (typeof window !== 'undefined' && shouldReopenChat) {
+  useEffect(() => {
+    if (shouldReopenChat) {
       setShouldReopenChat(false);
-      // Schedule chat to open after initial render
-      setTimeout(() => {
-        setShowChatBox(true);
-      }, 100);
     }
-    return true;
-  });
+  }, [setShouldReopenChat, shouldReopenChat]);
+
+  const socialLinks: SocialLinkItem[] = [
+    {
+      href: SITE_CONFIG.socialLinks.github,
+      altText: `${SITE_CONFIG.fullName}'s GitHub Profile`,
+      filename: "github.png",
+    },
+    {
+      href: SITE_CONFIG.socialLinks.linkedin,
+      altText: `${SITE_CONFIG.fullName}'s LinkedIn Profile`,
+      filename: "linkedin.png",
+    },
+    {
+      href: SITE_CONFIG.socialLinks.huggingface,
+      altText: `${SITE_CONFIG.fullName}'s HuggingFace Profile`,
+      filename: "huggingface.png",
+    },
+    {
+      href: SITE_CONFIG.socialLinks.gitlab,
+      altText: `${SITE_CONFIG.fullName}'s GitLab Profile`,
+      filename: "gitlab.png",
+    },
+  ].filter((link) => link.href.length > 0);
 
   return (
     <Fragment>
       <Head>
         <title>{SITE_CONFIG.seo.title}</title>
-        <meta
-          name="description"
-          content={SITE_CONFIG.seo.description}
-        />
+        <meta name="description" content={SITE_CONFIG.seo.description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+
       <div className="grid grid-rows-[auto_1fr_auto] h-screen gap-2 pb-4 pt-8">
         <div className="flex flex-col items-center gap-4">
           <header
@@ -53,50 +70,24 @@ export default function Home() {
           <GitHubProfile />
         </div>
 
-        {isMounted && (
-          <Fragment>
-            <main className="flex items-center justify-center overflow-hidden">
-              <ResumeViewer />
-            </main>
-            <footer
-              className="flex gap-1 sm:gap-1 md:gap-2 lg:gap-3 justify-center pb-2"
-              data-testid="social-footer"
-            >
-              {SITE_CONFIG.socialLinks.github && (
-                <LinkIconButton
-                  link={SITE_CONFIG.socialLinks.github}
-                  altText={`${SITE_CONFIG.fullName}'s GitHub Profile`}
-                  filename="github.png"
-                  path={path}
-                />
-              )}
-              {SITE_CONFIG.socialLinks.linkedin && (
-                <LinkIconButton
-                  link={SITE_CONFIG.socialLinks.linkedin}
-                  altText={`${SITE_CONFIG.fullName}'s LinkedIn Profile`}
-                  filename="linkedin.png"
-                  path={path}
-                />
-              )}
-              {SITE_CONFIG.socialLinks.huggingface && (
-                <LinkIconButton
-                  link={SITE_CONFIG.socialLinks.huggingface}
-                  altText={`${SITE_CONFIG.fullName}'s HuggingFace Profile`}
-                  filename="huggingface.png"
-                  path={path}
-                />
-              )}
-              {SITE_CONFIG.socialLinks.gitlab && (
-                <LinkIconButton
-                  link={SITE_CONFIG.socialLinks.gitlab}
-                  altText={`${SITE_CONFIG.fullName}'s GitLab Profile`}
-                  filename="gitlab.png"
-                  path={path}
-                />
-              )}
-            </footer>
-          </Fragment>
-        )}
+        <main className="flex items-center justify-center overflow-hidden">
+          <ResumeViewer />
+        </main>
+
+        <footer
+          className="flex gap-1 sm:gap-1 md:gap-2 lg:gap-3 justify-center pb-2"
+          data-testid="social-footer"
+        >
+          {socialLinks.map((link) => (
+            <LinkIconButton
+              key={link.filename}
+              link={link.href}
+              altText={link.altText}
+              filename={link.filename}
+            />
+          ))}
+        </footer>
+
         {!showChatBox && (
           <button
             className="fixed border bottom-4 right-4 bg-black text-white p-3 rounded-lg shadow-lg hover:bg-gray-800 transition-colors duration-200 flex items-center gap-2"
@@ -109,6 +100,7 @@ export default function Home() {
             </svg>
           </button>
         )}
+
         {showChatBox && <ChatContainer onClose={() => setShowChatBox(false)} />}
       </div>
     </Fragment>
