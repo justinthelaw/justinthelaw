@@ -19,14 +19,14 @@ Next.js static site for GitHub Pages with an in-browser AI chatbot powered by Hu
 
 - **Static export only** - no API routes, server actions, `getServerSideProps`, or any server-side features. Everything runs in the browser.
 - **GitHub Pages** - production uses a dynamic `basePath` (`/justinthelaw.github.io`). Never hardcode asset paths.
-- **`npm start` does not work** - use `npx serve@latest out` after `npm run build` to preview the production build locally.
+- **`npm start` serves static output** - run `npm run build` first, then `npm start` to preview `out/`.
 - **Web Worker AI** - model inference runs in a Web Worker (`src/services/ai/worker.ts`), not on the main thread.
 
 ## Commands
 
 | Command                          | Purpose                                                            |
 | -------------------------------- | ------------------------------------------------------------------ |
-| `npm run dev`                    | Development server (with optional Docker for OTEL tracing)         |
+| `npm run dev`                    | Development server                                                  |
 | `npm run flight-check`           | **Run after all changes** - cleans, lints, builds, and tests       |
 | `npm run clean`                  | Delete temporary build/dev/test artifacts                          |
 | `npm run lint`                   | ESLint                                                             |
@@ -49,7 +49,7 @@ src/
 ├── config/              # Centralized settings (site.ts, models.ts, prompts.ts)
 ├── pages/               # Next.js pages router (index.tsx, _app.tsx)
 ├── services/            # External dependencies
-│   ├── ai/              # AI service layer (worker, model loader, context provider, tracing)
+│   ├── ai/              # AI service layer (worker, model loader, context provider)
 │   └── github/          # GitHub API integration
 ├── stores/              # Zustand stores (chatStore.ts, modelStore.ts)
 ├── types/               # TypeScript interfaces and enums (worker message types)

@@ -4,3 +4,4 @@
  */
 
 export { isMobileDevice } from './deviceDetection';
+export { createLogger, LOG_AREAS, type LogArea } from "./logger";

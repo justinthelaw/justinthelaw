@@ -3,7 +3,7 @@
  * Manages chat message history with welcome messages
  */
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import type { ChatMessage } from "@/types";
 import { useChatStore } from "@/stores/chatStore";
 import { CHATBOT_CONFIG } from "@/config";
@@ -22,15 +22,18 @@ export interface UseChatHistoryReturn {
 export function useChatHistory(): UseChatHistoryReturn {
   const { messages, clearMessages, canClearMessages, addMessage } =
     useChatStore();
+  const initializedRef = useRef(false);
 
-  // Initialize with welcome message on first mount only
   useEffect(() => {
-    // Only add welcome message if no messages exist
-    if (messages.length === 0) {
+    if (initializedRef.current) {
+      return;
+    }
+
+    initializedRef.current = true;
+    if (useChatStore.getState().messages.length === 0) {
       addMessage("ai", getRandomWelcomeMessage());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [addMessage]);
 
   // Listen for clear history custom events
   useEffect(() => {

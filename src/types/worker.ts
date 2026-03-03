@@ -2,6 +2,7 @@
  * Worker Message Types
  * Typed enums and constants for AI worker communication
  */
+import type { ModelType } from "./index";
 
 /**
  * Actions sent TO the worker
@@ -30,7 +31,7 @@ export enum WorkerStatus {
 export interface WorkerRequest {
   action: WorkerAction;
   input?: string;
-  modelSelection?: string;
+  modelSelection?: ModelType;
   viewportWidth?: number;
 }
 
@@ -43,6 +44,6 @@ export interface WorkerResponse {
   response?: string;
   error?: string;
   progress?: number;
-  fallbackModel?: string;
-  loadedModel?: string;
+  fallbackModel?: ModelType;
+  loadedModel?: ModelType;
 }

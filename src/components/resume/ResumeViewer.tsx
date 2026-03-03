@@ -7,6 +7,7 @@
 
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { SITE_CONFIG } from "@/config/site";
+import { createLogger, LOG_AREAS } from "@/utils";
 
 // Use Google Drive's direct download URL which works better for public PDFs
 const PDF_DOWNLOAD_URL = `https://drive.google.com/uc?export=download&id=${SITE_CONFIG.resumeFileId}`;
@@ -16,6 +17,7 @@ const PDF_VIEWER_URL = `https://docs.google.com/viewer?url=${encodeURIComponent(
 )}&embedded=true`;
 const LOADING_TIMEOUT_MS = 15000; // Increased to 15s
 const MAX_RETRIES = 2;
+const logger = createLogger(LOG_AREAS.RESUME);
 
 export function ResumeViewer(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,14 +44,12 @@ export function ResumeViewer(): React.ReactElement {
         setIsLoading(false);
         // Auto-retry if we haven't exceeded max retries
         if (retryCount < MAX_RETRIES) {
-          console.warn(
-            `Resume loading timeout. Auto-retry ${
-              retryCount + 1
-            }/${MAX_RETRIES}`
+          logger.warn(
+            `loading timeout; auto-retry ${retryCount + 1}/${MAX_RETRIES}`
           );
           handleRetry();
         } else {
-          console.error("Resume loading failed after multiple retries");
+          logger.error("loading failed after multiple retries");
           setHasError(true);
         }
       }
@@ -80,12 +80,10 @@ export function ResumeViewer(): React.ReactElement {
 
     // Auto-retry on error if we haven't exceeded max retries
     if (retryCount < MAX_RETRIES) {
-      console.warn(
-        `Resume loading error. Auto-retry ${retryCount + 1}/${MAX_RETRIES}`
-      );
+      logger.warn(`loading error; auto-retry ${retryCount + 1}/${MAX_RETRIES}`);
       setTimeout(() => handleRetry(), 1000); // Small delay before retry
     } else {
-      console.error("Resume loading failed after multiple retries");
+      logger.error("loading failed after multiple retries");
       setHasError(true);
     }
   };

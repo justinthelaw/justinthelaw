@@ -3,11 +3,12 @@
  * Manages model selection, loading, and error states
  */
 
-import { useState, useEffect, useCallback } from 'react';
-import { ModelType } from '@/types';
-import { WorkerStatus, type WorkerResponse } from '@/types/worker';
-import { useModelStore } from '@/stores/modelStore';
-import { getAIService } from '@/services/ai';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { ModelType } from "@/types";
+import { WorkerStatus, type WorkerResponse } from "@/types/worker";
+import { useModelStore } from "@/stores/modelStore";
+import { getAIService } from "@/services/ai";
+import { createLogger, LOG_AREAS } from "@/utils";
 
 export interface UseModelManagementReturn {
   modelType: ModelType;
@@ -17,8 +18,10 @@ export interface UseModelManagementReturn {
   loadingMessage: string | null;
   needsReload: boolean;
   setModelType: (size: ModelType) => void;
-  reloadWithNewModel: () => void;
+  reloadWithNewModel: (model: ModelType) => void;
 }
+
+const logger = createLogger(LOG_AREAS.AI_MODEL);
 
 export function useModelManagement(): UseModelManagementReturn {
   const { selectedModel, setSelectedModel } = useModelStore();
@@ -26,153 +29,110 @@ export function useModelManagement(): UseModelManagementReturn {
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState<string | null>(
-    'Initializing...'
+    "Initializing..."
   );
   const [loadedModel, setLoadedModel] = useState<ModelType | null>(null);
+  const selectedModelRef = useRef(selectedModel);
 
-  const needsReload = selectedModel !== loadedModel;
-
-  // Initialize AI service and load model
   useEffect(() => {
-    const aiService = getAIService();
-    
-    // Reset states (intentional setup on model change)
-    setIsLoading(true);
-    setIsReady(false);
-    setError(null);
-    setLoadingMessage('Initializing...');
+    selectedModelRef.current = selectedModel;
+  }, [selectedModel]);
 
-    // Initialize service with selected model
-    aiService.initialize(selectedModel);
-    
-    // Subscribe to worker responses
-    const unsubscribe = aiService.subscribe((response: WorkerResponse) => {
+  const startModelLoad = useCallback((model: ModelType) => {
+    logger.info(`load requested: ${model}`);
+    const aiService = getAIService();
+    aiService.terminate();
+    aiService.initialize(model);
+    aiService.loadModel();
+  }, []);
+
+  const handleWorkerResponse = useCallback(
+    (response: WorkerResponse) => {
       switch (response.status) {
-        case WorkerStatus.LOAD:
-          if (response.message) {
-            setLoadingMessage(response.message);
-            
-            if (response.message.includes('successfully')) {
-              const actualLoadedModel =
-                (response.loadedModel as ModelType | undefined) ?? selectedModel;
-              setIsLoading(false);
-              setIsReady(true);
-              setError(null);
-              setLoadedModel(actualLoadedModel);
-              // Clear loading message after successful load
-              setTimeout(() => setLoadingMessage(null), 0);
-            }
+        case WorkerStatus.LOAD: {
+          if (!response.message) {
+            return;
           }
-          break;
-          
-        case WorkerStatus.FALLBACK_MODEL:
-          if (response.fallbackModel) {
-            const fallback = response.fallbackModel as ModelType;
-            setLoadedModel(fallback);
-            setSelectedModel(fallback);
-            setLoadingMessage(`Falling back to ${fallback} model...`);
+
+          setLoadingMessage(response.message);
+
+          if (response.message.includes("successfully")) {
+            const actualLoadedModel = response.loadedModel ?? selectedModelRef.current;
+            setLoadedModel(actualLoadedModel);
+            logger.info(
+              `load complete: requested=${selectedModelRef.current}, loaded=${actualLoadedModel}`
+            );
+            setIsLoading(false);
+            setIsReady(true);
+            setError(null);
+            setLoadingMessage(null);
           }
-          break;
-          
+          return;
+        }
+
+        case WorkerStatus.FALLBACK_MODEL: {
+          if (!response.fallbackModel) {
+            return;
+          }
+
+          const fallback = response.fallbackModel;
+          logger.warn(`fallback activated: ${fallback}`);
+          setLoadedModel(fallback);
+          setSelectedModel(fallback);
+          setLoadingMessage(`Falling back to ${fallback} model...`);
+          return;
+        }
+
         case WorkerStatus.ERROR:
-          setError(response.error || 'Unknown error');
+          logger.error(
+            `load failed: requested=${selectedModelRef.current}, error=${response.error || "Unknown error"}`
+          );
+          setError(response.error || "Unknown error");
           setLoadingMessage(response.message || null);
           setIsLoading(false);
           setIsReady(false);
-          break;
-          
+          return;
+
         case WorkerStatus.DONE:
-          // Model loading complete
-          if (isLoading) {
-            setIsLoading(false);
-            if (!error) {
-              setIsReady(true);
-            }
-          }
-          break;
+          setIsLoading(false);
+          return;
+
+        default:
+          return;
       }
-    });
-    
-    // Load the model
-    aiService.loadModel();
-    
+    },
+    [setSelectedModel]
+  );
+
+  useEffect(() => {
+    const aiService = getAIService();
+    const unsubscribe = aiService.subscribe(handleWorkerResponse);
     return () => {
       unsubscribe();
     };
-    // selectedModel triggers re-init
-    // error and isLoading are managed within subscription callbacks
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedModel]);
+  }, [handleWorkerResponse]);
 
-  const reloadWithNewModel = useCallback(() => {
-    // Terminate old worker
-    const aiService = getAIService();
-    aiService.terminate();
-    
-    // Reset states
+  useEffect(() => {
+    startModelLoad(selectedModelRef.current);
+  }, [startModelLoad]);
+
+  const reloadWithNewModel = useCallback((model: ModelType) => {
+    selectedModelRef.current = model;
     setIsLoading(true);
     setIsReady(false);
     setError(null);
-    setLoadingMessage('Reinitializing...');
+    setLoadingMessage("Reinitializing...");
     setLoadedModel(null);
-    
-    // Reinitialize with new model
-    aiService.initialize(selectedModel);
-    
-    // Subscribe to responses
-    aiService.subscribe((response: WorkerResponse) => {
-      switch (response.status) {
-        case WorkerStatus.LOAD:
-          if (response.message) {
-            setLoadingMessage(response.message);
-            
-            if (response.message.includes('successfully')) {
-              const actualLoadedModel =
-                (response.loadedModel as ModelType | undefined) ?? selectedModel;
-              setIsLoading(false);
-              setIsReady(true);
-              setError(null);
-              setLoadedModel(actualLoadedModel);
-              // Clear loading message after successful load
-              setTimeout(() => setLoadingMessage(null), 0);
-            }
-          }
-          break;
-          
-        case WorkerStatus.FALLBACK_MODEL:
-          if (response.fallbackModel) {
-            const fallback = response.fallbackModel as ModelType;
-            setLoadedModel(fallback);
-            setSelectedModel(fallback);
-            setLoadingMessage(`Falling back to ${fallback} model...`);
-          }
-          break;
-          
-        case WorkerStatus.ERROR:
-          setError(response.error || 'Unknown error');
-          setLoadingMessage(response.message || null);
-          setIsLoading(false);
-          setIsReady(false);
-          break;
-          
-        case WorkerStatus.DONE:
-          if (isLoading) {
-            setIsLoading(false);
-            if (!error) {
-              setIsReady(true);
-            }
-          }
-          break;
-      }
-    });
-    
-    // Load the model
-    aiService.loadModel();
-  }, [selectedModel, isLoading, error, setSelectedModel]);
+    startModelLoad(model);
+  }, [startModelLoad]);
 
-  const handleSetModelType = useCallback((size: ModelType) => {
-    setSelectedModel(size);
-  }, [setSelectedModel]);
+  const handleSetModelType = useCallback(
+    (size: ModelType) => {
+      selectedModelRef.current = size;
+      setSelectedModel(size);
+    },
+    [setSelectedModel]
+  );
 
   return {
     modelType: selectedModel,
@@ -180,7 +140,7 @@ export function useModelManagement(): UseModelManagementReturn {
     isReady,
     error,
     loadingMessage,
-    needsReload,
+    needsReload: selectedModel !== loadedModel,
     setModelType: handleSetModelType,
     reloadWithNewModel,
   };

@@ -5,8 +5,10 @@
 
 import { ModelType } from '@/types';
 import { WorkerAction, type WorkerResponse } from '@/types/worker';
+import { createLogger, LOG_AREAS } from "@/utils";
 
 export type AIServiceCallback = (response: WorkerResponse) => void;
+const logger = createLogger(LOG_AREAS.AI_SERVICE);
 
 export class AIService {
   private worker: Worker | null = null;
@@ -47,7 +49,7 @@ export class AIService {
    */
   loadModel(): void {
     if (!this.worker) {
-      console.error('Worker not initialized');
+      logger.error("worker not initialized");
       return;
     }
 
@@ -59,7 +61,7 @@ export class AIService {
    */
   generate(input: string): void {
     if (!this.worker) {
-      console.error('Worker not initialized');
+      logger.error("worker not initialized");
       return;
     }
 
