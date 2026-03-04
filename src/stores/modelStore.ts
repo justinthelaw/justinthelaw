@@ -12,16 +12,16 @@ import { DEFAULT_MODEL_SIZE } from '@/config/models';
 interface ModelState {
   // Current model selection
   selectedModel: ModelType;
-  
+
   // Model that's actually loaded in the worker
   loadedModel: ModelType | null;
-  
+
   // Flag to show reload prompt when selection changes
   needsReload: boolean;
-  
+
   // Chat reopen flag (replaces localStorage)
   shouldReopenChat: boolean;
-  
+
   // Actions
   setSelectedModel: (model: ModelType) => void;
   setLoadedModel: (model: ModelType) => void;
@@ -37,7 +37,7 @@ export const useModelStore = create<ModelState>()(
       loadedModel: null,
       needsReload: false,
       shouldReopenChat: false,
-      
+
       // Set user's model selection
       setSelectedModel: (model) => {
         const loadedModel = get().loadedModel;
@@ -46,7 +46,7 @@ export const useModelStore = create<ModelState>()(
           needsReload: loadedModel !== null && loadedModel !== model,
         });
       },
-      
+
       // Set the model that's actually loaded
       setLoadedModel: (model) => {
         set({
@@ -54,12 +54,12 @@ export const useModelStore = create<ModelState>()(
           needsReload: false,
         });
       },
-      
+
       // Set chat reopen flag
       setShouldReopenChat: (shouldReopen) => {
         set({ shouldReopenChat: shouldReopen });
       },
-      
+
       // Reset to defaults
       resetModelState: () => {
         set({

@@ -114,7 +114,7 @@ def _push_to_hub(
     repo_type: str = "model",
 ) -> int:
     """Generic function to push content to HuggingFace Hub.
-    
+
     Args:
         source_paths: List of (source_path, target_subdir) tuples to stage
         repo_id: HuggingFace repository ID
