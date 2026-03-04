@@ -52,7 +52,7 @@ export function useAIGeneration(): UseAIGenerationReturn {
             setCurrentResponse('');
             updateCurrentResponse('');
           }
-          
+
           setLocalGenerating(false);
           setIsGenerating(false);
           break;
@@ -78,7 +78,7 @@ export function useAIGeneration(): UseAIGenerationReturn {
     if (!input.trim()) return;
 
     const aiService = getAIService();
-    
+
     if (!aiService.isInitialized()) {
       logger.error("service not initialized");
       return;
@@ -86,7 +86,7 @@ export function useAIGeneration(): UseAIGenerationReturn {
 
     // Add user message to history
     addMessage('user', input.trim());
-    
+
     // Start generation
     aiService.generate(input.trim());
   }, [addMessage]);

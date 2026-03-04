@@ -76,7 +76,7 @@ export class AIService {
    */
   subscribe(callback: AIServiceCallback): () => void {
     this.callbacks.add(callback);
-    
+
     // Return unsubscribe function
     return () => {
       this.callbacks.delete(callback);
