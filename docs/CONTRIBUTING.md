@@ -16,7 +16,7 @@ Thanks for contributing to Justin's projects.
 1. Install dependencies:
 
 ```bash
-npm ci
+npm install
 ```
 
 2. Run development server:
