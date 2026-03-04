@@ -3,6 +3,36 @@ import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { SITE_CONFIG } from '../src/config/site';
 
+function getSocialIconFiles(): string[] {
+  const socialIconFiles: string[] = [];
+
+  if (SITE_CONFIG.socialLinks.github.length > 0) {
+    socialIconFiles.push('github.png');
+  }
+  if (SITE_CONFIG.socialLinks.linkedin.length > 0) {
+    socialIconFiles.push('linkedin.png');
+  }
+  if (SITE_CONFIG.socialLinks.huggingface.length > 0) {
+    socialIconFiles.push('huggingface.png');
+  }
+  if (SITE_CONFIG.socialLinks.gitlab.length > 0) {
+    socialIconFiles.push('gitlab.png');
+  }
+
+  return socialIconFiles;
+}
+
+function getIconPathCandidates(filename: string): string[] {
+  const expectedBasePath = `/${SITE_CONFIG.repository.name}.github.io`;
+  const publicAssetsUrl = `https://raw.githubusercontent.com/${SITE_CONFIG.repository.owner}/${SITE_CONFIG.repository.name}/refs/heads/${SITE_CONFIG.repository.defaultBranch}/public`;
+
+  return [
+    `${expectedBasePath}/${filename}`,
+    `/${filename}`,
+    `${publicAssetsUrl}/${filename}`,
+  ];
+}
+
 test.describe('Homepage E2E Tests', () => {
   test('should load homepage and display key elements', async ({ page }) => {
     // Navigate to the homepage
@@ -56,9 +86,29 @@ test.describe('Homepage E2E Tests', () => {
     // Wait for the GitHub profile description to load and be visible
     const bioElement = page.getByTestId('github-bio');
     await expect(bioElement).toBeVisible({ timeout: 10000 });
-    
+
     // Should contain some text (either actual bio or fallback)
     await expect(bioElement).not.toBeEmpty();
+  });
+
+  test('should render social icons with loaded image data', async ({ page }) => {
+    await page.goto('/');
+
+    const socialIconFiles = getSocialIconFiles();
+    const footerIcons = page.getByTestId('social-footer').locator('img');
+
+    await expect(footerIcons).toHaveCount(socialIconFiles.length);
+
+    for (let index = 0; index < socialIconFiles.length; index += 1) {
+      const icon = footerIcons.nth(index);
+      await expect(icon).toBeVisible();
+      await expect.poll(async () =>
+        icon.evaluate((element) => {
+          const image = element as HTMLImageElement;
+          return image.complete && image.naturalWidth > 0 && image.naturalHeight > 0;
+        })
+      ).toBe(true);
+    }
   });
 
   test('should export social icon paths with GitHub Pages basePath', async () => {
@@ -72,24 +122,15 @@ test.describe('Homepage E2E Tests', () => {
         'Missing exported index HTML (checked out/index.html and .next/export/index.html). Run `npm run build` before Playwright tests.',
       );
     });
-    const expectedPrefix = `/${SITE_CONFIG.repository.name}.github.io/`;
-    const socialIconFiles: string[] = [];
-
-    if (SITE_CONFIG.socialLinks.github.length > 0) {
-      socialIconFiles.push('github.png');
-    }
-    if (SITE_CONFIG.socialLinks.linkedin.length > 0) {
-      socialIconFiles.push('linkedin.png');
-    }
-    if (SITE_CONFIG.socialLinks.huggingface.length > 0) {
-      socialIconFiles.push('huggingface.png');
-    }
-    if (SITE_CONFIG.socialLinks.gitlab.length > 0) {
-      socialIconFiles.push('gitlab.png');
-    }
+    const socialIconFiles = getSocialIconFiles();
 
     socialIconFiles.forEach((filename) => {
-      expect(exportHtml).toContain(`src="${expectedPrefix}${filename}"`);
+      const pathCandidates = getIconPathCandidates(filename);
+      const hasExpectedPath = pathCandidates.some((pathCandidate) =>
+        exportHtml.includes(`src="${pathCandidate}"`),
+      );
+
+      expect(hasExpectedPath).toBe(true);
     });
   });
 });
