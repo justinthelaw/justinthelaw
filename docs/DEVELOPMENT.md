@@ -5,7 +5,7 @@
 ### Web app
 
 ```bash
-npm ci
+npm install
 npm run dev
 ```
 
