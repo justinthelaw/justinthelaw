@@ -8,6 +8,8 @@ At the linked website above, you will find an AI chatbot that is fine-tuned on s
 
 > [!NOTE]
 > You can fork and personalize my website by checking out the [customization guide](docs/CUSTOMIZATION.md). This guide will show you how to configure the repository to use your information and also walk you through the steps for fine-tuning an LLM on your own data.
+>
+> Developer workflow docs are available at [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
 ## Quick Facts
 

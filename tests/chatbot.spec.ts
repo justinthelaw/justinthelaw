@@ -56,7 +56,7 @@ test.describe("Chatbot UI Tests", () => {
   }) => {
     await openChat(page);
     const disclaimer = page.getByText(
-      "AI can make mistakes. Always verify the information."
+      "AI can make mistakes. Always verify the information.",
     );
     await expect(disclaimer).toBeVisible();
   });
@@ -98,7 +98,9 @@ test.describe("Chatbot UI Tests", () => {
     await modelLabels.nth(newIndex).click();
 
     await expect(modelSelectorModal).not.toBeVisible();
-    await expect(page.getByTestId("model-settings-button").first()).toBeVisible();
+    await expect(
+      page.getByTestId("model-settings-button").first(),
+    ).toBeVisible();
   });
 
   test("should log the requested model for each selection order", async ({
@@ -135,8 +137,8 @@ test.describe("Chatbot UI Tests", () => {
     await expect
       .poll(() =>
         logs.some((line) =>
-          line.includes(`[AI MODEL] load requested: ${firstTargetModel}`)
-        )
+          line.includes(`[AI MODEL] load requested: ${firstTargetModel}`),
+        ),
       )
       .toBeTruthy();
 
@@ -148,8 +150,8 @@ test.describe("Chatbot UI Tests", () => {
     await expect
       .poll(() =>
         logs.some((line) =>
-          line.includes(`[AI MODEL] load requested: ${secondTargetModel}`)
-        )
+          line.includes(`[AI MODEL] load requested: ${secondTargetModel}`),
+        ),
       )
       .toBeTruthy();
   });
