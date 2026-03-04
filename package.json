@@ -38,7 +38,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "gh-pages": "^6.3.0",
     "postcss": "^8",
-    "serve": "^14.2.5",
+    "serve": "^14.2.6",
     "tailwindcss": "^4.1.18",
     "typescript": "^5",
     "typescript-eslint": "^8.53.0"
