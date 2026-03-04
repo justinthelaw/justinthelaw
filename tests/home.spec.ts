@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { access, readFile } from 'node:fs/promises';
+import path from 'node:path';
 import { SITE_CONFIG } from '../src/config/site';
 
 test.describe('Homepage E2E Tests', () => {
@@ -57,5 +59,37 @@ test.describe('Homepage E2E Tests', () => {
     
     // Should contain some text (either actual bio or fallback)
     await expect(bioElement).not.toBeEmpty();
+  });
+
+  test('should export social icon paths with GitHub Pages basePath', async () => {
+    const outputIndexPath = path.join(process.cwd(), 'out', 'index.html');
+    const fallbackIndexPath = path.join(process.cwd(), '.next', 'export', 'index.html');
+    const exportIndexPath = await access(outputIndexPath)
+      .then(() => outputIndexPath)
+      .catch(() => fallbackIndexPath);
+    const exportHtml = await readFile(exportIndexPath, 'utf8').catch(() => {
+      throw new Error(
+        'Missing exported index HTML (checked out/index.html and .next/export/index.html). Run `npm run build` before Playwright tests.',
+      );
+    });
+    const expectedPrefix = `/${SITE_CONFIG.repository.name}.github.io/`;
+    const socialIconFiles: string[] = [];
+
+    if (SITE_CONFIG.socialLinks.github.length > 0) {
+      socialIconFiles.push('github.png');
+    }
+    if (SITE_CONFIG.socialLinks.linkedin.length > 0) {
+      socialIconFiles.push('linkedin.png');
+    }
+    if (SITE_CONFIG.socialLinks.huggingface.length > 0) {
+      socialIconFiles.push('huggingface.png');
+    }
+    if (SITE_CONFIG.socialLinks.gitlab.length > 0) {
+      socialIconFiles.push('gitlab.png');
+    }
+
+    socialIconFiles.forEach((filename) => {
+      expect(exportHtml).toContain(`src="${expectedPrefix}${filename}"`);
+    });
   });
 });
