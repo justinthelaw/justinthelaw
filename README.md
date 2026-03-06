@@ -13,7 +13,7 @@ At the linked website above, you will find an AI chatbot that is fine-tuned on s
 
 ## Quick Facts
 
-💼 AI Software Engineer at [Defense Unicorns 🦄](https://www.defenseunicorns.com/)
+💼 AI Deployment Engineer on the [OpenAI Codex](https://openai.com/codex/) team
 
 🚀 Veteran [United States Air and Space Force](https://www.spaceforce.com/) Officer
 
