@@ -61,26 +61,25 @@ export const SITE_CONFIG = {
  * These values are computed from SITE_CONFIG and should not be modified directly
  */
 export const DERIVED_CONFIG = {
+  // Canonical GitHub Pages base path (independent of NODE_ENV)
+  get githubPagesBasePath() {
+    const isUserOrOrgSiteRepo =
+      SITE_CONFIG.repository.name === `${SITE_CONFIG.repository.owner}.github.io`;
+    return isUserOrOrgSiteRepo ? "" : `/${SITE_CONFIG.repository.name}`;
+  },
   // GitHub Pages deployment URLs
   get basePath() {
-    return process.env.NODE_ENV === "production"
-      ? `/${SITE_CONFIG.repository.name}.github.io`
-      : "";
+    return process.env.NODE_ENV === "production" ? this.githubPagesBasePath : "";
   },
   get assetPrefix() {
-    return process.env.NODE_ENV === "production"
-      ? `/${SITE_CONFIG.repository.name}.github.io/`
-      : "";
-  },
-  // GitHub raw content URL for production
-  get publicAssetsUrl() {
-    return process.env.NODE_ENV === "production"
-      ? `https://raw.githubusercontent.com/${SITE_CONFIG.repository.owner}/${SITE_CONFIG.repository.name}/refs/heads/${SITE_CONFIG.repository.defaultBranch}/public`
-      : "";
+    if (process.env.NODE_ENV !== "production") {
+      return "";
+    }
+    return this.githubPagesBasePath.length > 0 ? `${this.githubPagesBasePath}/` : "";
   },
   // Full GitHub Pages URL
   get siteUrl() {
-    return `https://${SITE_CONFIG.repository.owner}.github.io/${SITE_CONFIG.repository.name}/`;
+    return `https://${SITE_CONFIG.repository.owner}.github.io${this.githubPagesBasePath}/`;
   },
   // Repository URL
   get repositoryUrl() {
