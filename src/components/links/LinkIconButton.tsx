@@ -17,9 +17,6 @@ function createIconSources(filename: string): string[] {
   const candidateSources = [
     `${DERIVED_CONFIG.basePath}/${normalizedFilename}`,
     `/${normalizedFilename}`,
-    DERIVED_CONFIG.publicAssetsUrl.length > 0
-      ? `${DERIVED_CONFIG.publicAssetsUrl}/${normalizedFilename}`
-      : '',
   ];
 
   return candidateSources.filter(
@@ -58,7 +55,7 @@ export function LinkIconButton({
           src={iconSource}
           alt={altText}
           className="block w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 object-contain"
-          loading="lazy"
+          loading="eager"
           decoding="async"
           onError={handleIconError}
         />
