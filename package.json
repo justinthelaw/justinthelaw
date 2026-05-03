@@ -31,7 +31,7 @@
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "baseline-browser-mapping": "^2.10.22",
+    "baseline-browser-mapping": "^2.10.25",
     "eslint": "^9.39.4",
     "eslint-config-next": "16.2.4",
     "eslint-plugin-react": "^7.37.5",
@@ -41,6 +41,6 @@
     "serve": "^14.2.6",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.0"
+    "typescript-eslint": "^8.59.1"
   }
 }
