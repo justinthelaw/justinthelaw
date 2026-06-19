@@ -1,12 +1,12 @@
 /**
  * Model loader.
- * Handles loading the browser text-to-text generation model with dtype fallback.
+ * Handles loading the browser text generation model with dtype fallback.
  */
 
 import {
   pipeline,
   env,
-  type Text2TextGenerationPipeline,
+  type TextGenerationPipeline,
 } from "@huggingface/transformers";
 import {
   MODEL_ID,
@@ -109,12 +109,12 @@ function normalizeLoadError(error: unknown): NormalizedLoadError {
 }
 
 /**
- * Loads the configured text-to-text generation model.
+ * Loads the configured text generation model.
  * Dtype is selected from viewport-aware preferences with fallback ordering.
  */
 export async function loadModel(
   callbacks: LoaderCallbacks = {}
-): Promise<Text2TextGenerationPipeline | null> {
+): Promise<TextGenerationPipeline | null> {
   let attempts = 0;
   const preferredDtype = getDeviceSpecificDtype(callbacks.viewportWidth);
   const dtypeFallbackOrder = getDtypeFallbackOrder(preferredDtype);
@@ -169,12 +169,12 @@ export async function loadModel(
       };
 
       const pipelineResult = await pipeline(
-        "text2text-generation",
+        "text-generation",
         MODEL_ID,
         pipelineOptions
       );
 
-      return pipelineResult as Text2TextGenerationPipeline;
+      return pipelineResult as TextGenerationPipeline;
     } catch (error) {
       const normalizedError = normalizeLoadError(error);
       const fallbackHint = normalizedError.isLikelyMemoryError

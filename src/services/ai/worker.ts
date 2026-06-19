@@ -6,7 +6,7 @@
 import {
   TextStreamer,
   env,
-  type Text2TextGenerationPipeline,
+  type TextGenerationPipeline,
 } from "@huggingface/transformers";
 import { WorkerAction, WorkerStatus, type WorkerRequest } from "@/types/worker";
 import { GENERATION_PARAMS } from "@/config/prompts";
@@ -18,7 +18,7 @@ env.allowLocalModels = false;
 env.remoteHost = "https://huggingface.co";
 
 let viewportWidth: number | undefined;
-let generator: Text2TextGenerationPipeline | null = null;
+let generator: TextGenerationPipeline | null = null;
 const logger = createLogger(LOG_AREAS.AI_WORKER);
 
 self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
