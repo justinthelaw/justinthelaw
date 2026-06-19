@@ -20,12 +20,20 @@ import {
   type GenerationPipelineFactory,
   type GenerationTask,
 } from "../src/services/ai/modelLoader";
-import type { Text2TextGenerationPipeline } from "@huggingface/transformers";
+import type {
+  Text2TextGenerationPipeline,
+  TextGenerationPipeline,
+} from "@huggingface/transformers";
 
 interface PipelineCall {
   task: GenerationTask;
   modelId: string;
   dtype: string;
+}
+
+interface ProgressUpdate {
+  progress: number;
+  message: string;
 }
 
 test.describe("Model dtype policy", () => {
@@ -88,6 +96,47 @@ test.describe("Model dtype policy", () => {
         modelId: MODEL_ID,
         dtype: "int8",
       },
+    ]);
+  });
+
+  test("reports aggregate download progress before the memory loading phase", async () => {
+    const progressUpdates: ProgressUpdate[] = [];
+    const fakeTextGenerator = {} as unknown as TextGenerationPipeline;
+    const fakePipeline: GenerationPipelineFactory = async (
+      _task,
+      _modelId,
+      options
+    ) => {
+      const progressCallback = options.progress_callback;
+
+      if (typeof progressCallback !== "function") {
+        throw new Error("Missing progress callback");
+      }
+
+      const emitProgress = progressCallback as (progressData: unknown) => void;
+      emitProgress({ status: "progress_total", progress: 33.2 });
+      emitProgress({ status: "progress", progress: 99.8 });
+      emitProgress({ status: "progress_total", progress: 35.4 });
+      emitProgress({ status: "progress_total", progress: 34.1 });
+      emitProgress({ status: "progress_total", progress: 100 });
+      emitProgress({ status: "done" });
+
+      return fakeTextGenerator;
+    };
+
+    await loadModel(
+      {
+        onProgress: (progress, message) => {
+          progressUpdates.push({ progress, message });
+        },
+      },
+      fakePipeline
+    );
+
+    expect(progressUpdates).toEqual([
+      { progress: 33, message: "Downloading model... 33%" },
+      { progress: 35, message: "Downloading model... 35%" },
+      { progress: 100, message: "Loading into memory..." },
     ]);
   });
 });

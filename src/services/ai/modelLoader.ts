@@ -52,12 +52,20 @@ export interface LoaderCallbacks {
   onProgress?: (progress: number, message: string) => void;
 }
 
+interface TransformerProgressData {
+  progress?: number;
+  status?: string;
+}
+
 interface NormalizedLoadError {
   message: string;
   isLikelyMemoryError: boolean;
   isNumericRuntimeCode: boolean;
   isLikelyTaskMismatch: boolean;
 }
+
+const DOWNLOAD_COMPLETE_PROGRESS = 100;
+const MEMORY_LOADING_MESSAGE = "Loading into memory...";
 
 function safeJsonStringify(value: unknown): string {
   try {
@@ -152,6 +160,10 @@ export function isLikelyTaskMismatchMessage(message: string): boolean {
   );
 }
 
+function normalizeProgress(progress: number): number {
+  return Math.min(DOWNLOAD_COMPLETE_PROGRESS, Math.max(0, Math.round(progress)));
+}
+
 async function createGenerationPipeline(
   task: GenerationTask,
   modelId: string,
@@ -186,7 +198,53 @@ export async function loadModel(
 
   for (const dtype of dtypeFallbackOrder) {
     attempts++;
-    let isDownloading = true;
+    let hasAggregateProgress = false;
+    let hasReportedMemoryLoad = false;
+    let lastDownloadProgress = 0;
+    let lastReportedProgress = -1;
+    let lastReportedMessage: string | null = null;
+
+    const reportProgress = (progress: number, message: string): void => {
+      if (!callbacks.onProgress) {
+        return;
+      }
+
+      if (
+        progress === lastReportedProgress &&
+        message === lastReportedMessage
+      ) {
+        return;
+      }
+
+      lastReportedProgress = progress;
+      lastReportedMessage = message;
+      callbacks.onProgress(progress, message);
+    };
+
+    const reportMemoryLoad = (): void => {
+      if (hasReportedMemoryLoad) {
+        return;
+      }
+
+      hasReportedMemoryLoad = true;
+      lastDownloadProgress = DOWNLOAD_COMPLETE_PROGRESS;
+      reportProgress(DOWNLOAD_COMPLETE_PROGRESS, MEMORY_LOADING_MESSAGE);
+    };
+
+    const reportDownloadProgress = (rawProgress: number): void => {
+      const progress = Math.max(
+        lastDownloadProgress,
+        normalizeProgress(rawProgress)
+      );
+      lastDownloadProgress = progress;
+
+      if (progress >= DOWNLOAD_COMPLETE_PROGRESS) {
+        reportMemoryLoad();
+        return;
+      }
+
+      reportProgress(progress, `Downloading model... ${progress}%`);
+    };
 
     const pipelineOptions: Record<string, unknown> = {
       dtype,
@@ -196,31 +254,40 @@ export async function loadModel(
           return;
         }
 
-        const data = progressData as {
-          progress?: number;
-          status?: string;
-        };
+        const data = progressData as TransformerProgressData;
 
-        if (data.progress === undefined || !callbacks.onProgress) {
+        if (!callbacks.onProgress) {
           return;
         }
 
-        const progress = Math.round(data.progress);
-        let message: string;
-
-        if (data.status === "progress") {
-          message = `Downloading model... ${progress}%`;
-          isDownloading = true;
-        } else if (data.status === "done" || progress === 100) {
-          message = `Loading into memory... ${progress}%`;
-          isDownloading = false;
-        } else {
-          message = isDownloading
-            ? `Downloading model... ${progress}%`
-            : `Loading into memory... ${progress}%`;
+        if (data.status === "ready") {
+          reportMemoryLoad();
+          return;
         }
 
-        callbacks.onProgress(progress, message);
+        if (data.status === "done") {
+          if (lastDownloadProgress >= DOWNLOAD_COMPLETE_PROGRESS) {
+            reportMemoryLoad();
+          }
+          return;
+        }
+
+        if (
+          typeof data.progress !== "number" ||
+          !Number.isFinite(data.progress)
+        ) {
+          return;
+        }
+
+        if (data.status === "progress_total") {
+          hasAggregateProgress = true;
+          reportDownloadProgress(data.progress);
+          return;
+        }
+
+        if (data.status === "progress" && !hasAggregateProgress) {
+          reportDownloadProgress(data.progress);
+        }
       },
     };
 

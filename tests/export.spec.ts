@@ -197,6 +197,24 @@ test("should export the current browser AI worker bundle", async () => {
   expect(exportedJavaScript).not.toContain("onnx-community/Qwen2.5-0.5B-Instruct");
 });
 
+test("should embed the resume with Drive preview instead of a download viewer", async () => {
+  const outputDir = path.resolve(process.cwd(), "out");
+  const exportIndexPath = path.join(outputDir, "index.html");
+  const exportHtml = await readFile(exportIndexPath, "utf8").catch(() => {
+    throw new Error(
+      "Missing exported index HTML at out/index.html. Run `npm run build` before Playwright tests.",
+    );
+  });
+  const exportedJavaScript = await readExportedJavaScript();
+  const exportedAssets = `${exportHtml}\n${exportedJavaScript}`;
+
+  expect(exportHtml).toContain(
+    `src="https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/preview"`,
+  );
+  expect(exportedAssets).not.toContain("docs.google.com/viewer");
+  expect(exportedAssets).not.toContain("uc?export=download");
+});
+
 test("should preview static export from the emitted base path", async () => {
   const socialIconFiles = getSocialIconFiles();
   const previewServer = await startStaticPreviewServer();

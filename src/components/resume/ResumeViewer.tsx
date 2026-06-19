@@ -9,12 +9,8 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { SITE_CONFIG } from "@/config/site";
 import { createLogger, LOG_AREAS } from "@/utils";
 
-// Use Google Drive's direct download URL which works better for public PDFs
-const PDF_DOWNLOAD_URL = `https://drive.google.com/uc?export=download&id=${SITE_CONFIG.resumeFileId}`;
-// Use Google Docs Viewer as it handles authentication better
-const PDF_VIEWER_URL = `https://docs.google.com/viewer?url=${encodeURIComponent(
-  PDF_DOWNLOAD_URL
-)}&embedded=true`;
+const PDF_PREVIEW_URL = `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/preview`;
+const PDF_OPEN_URL = `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/view?usp=sharing`;
 const LOADING_TIMEOUT_MS = 15000; // Increased to 15s
 const MAX_RETRIES = 2;
 const logger = createLogger(LOG_AREAS.RESUME);
@@ -122,7 +118,7 @@ export function ResumeViewer(): React.ReactElement {
                   Try Again
                 </button>
                 <a
-                  href={`https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/view?usp=sharing`}
+                  href={PDF_OPEN_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition-colors text-sm"
@@ -135,7 +131,7 @@ export function ResumeViewer(): React.ReactElement {
         ) : (
           <iframe
             key={key}
-            src={PDF_VIEWER_URL}
+            src={PDF_PREVIEW_URL}
             title="Resume PDF"
             className="w-full h-full"
             onLoad={handleIframeLoad}
