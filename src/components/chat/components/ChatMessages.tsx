@@ -53,9 +53,15 @@ export function ChatMessages({
       {(isLoading || loadingMessage) &&
       !loadingMessage?.includes("Generating") ? (
         <div className="flex flex-col items-center gap-3 py-8">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin" />
-            <p className="text-gray-300">{loadingMessage || "Loading..."}</p>
+          <div className="grid grid-cols-[1.5rem_14rem_1.5rem] items-center gap-2 sm:grid-cols-[1.5rem_16rem_1.5rem]">
+            <div className="h-6 w-6 shrink-0 rounded-full border-4 border-blue-200 border-t-blue-500 animate-spin" />
+            <p
+              className="break-words text-center text-gray-300 tabular-nums"
+              data-testid="model-loading-status"
+            >
+              {loadingMessage || "Loading..."}
+            </p>
+            <span className="h-6 w-6" aria-hidden="true" />
           </div>
           {loadingMessage && loadingMessage.trim().toLowerCase().includes("error") && (
             <div className="mt-3 flex flex-col items-center gap-2">
