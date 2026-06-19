@@ -1,11 +1,10 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { SITE_CONFIG } from "@/config/site";
 import { LinkIconButton } from "@/components/links";
 import { GitHubProfile } from "@/components/profile";
 import { ResumeViewer } from "@/components/resume";
-import { useModelStore } from "@/stores/modelStore";
 
 const ChatContainer = dynamic(
   () => import("@/components/chat").then((mod) => ({ default: mod.ChatContainer })),
@@ -19,14 +18,7 @@ interface SocialLinkItem {
 }
 
 export default function Home(): React.ReactElement {
-  const { shouldReopenChat, setShouldReopenChat } = useModelStore();
-  const [showChatBox, setShowChatBox] = useState(shouldReopenChat);
-
-  useEffect(() => {
-    if (shouldReopenChat) {
-      setShouldReopenChat(false);
-    }
-  }, [setShouldReopenChat, shouldReopenChat]);
+  const [showChatBox, setShowChatBox] = useState(false);
 
   const socialLinks: SocialLinkItem[] = [
     {

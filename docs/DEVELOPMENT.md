@@ -2,14 +2,14 @@
 
 ## Local Setup
 
-### Web app
+### Web App
 
 ```bash
 npm install
 npm run dev
 ```
 
-### Production-style static preview
+### Production-Style Static Preview
 
 ```bash
 npm run build
@@ -22,15 +22,6 @@ Run this before pushing:
 
 ```bash
 npm run flight-check
-```
-
-For pipeline-only updates, also run:
-
-```bash
-cd pipeline
-uv sync
-uv run ruff check scripts
-uv run pyright scripts
 ```
 
 ## Pre-commit
@@ -47,7 +38,7 @@ Run pre-commit-stage hooks manually:
 pre-commit run --all-files
 ```
 
-Run local lint/type pre-push hooks manually:
+Run local pre-push hooks manually:
 
 ```bash
 pre-commit run --all-files --hook-stage pre-push

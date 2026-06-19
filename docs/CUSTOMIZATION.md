@@ -1,15 +1,7 @@
 # Customization Guide
 
-Make this website your own with an AI chatbot that answers questions about you.
-
-## Two AI Models
-
-| Model       | Description                        | Setup                     |
-| ----------- | ---------------------------------- | ------------------------- |
-| **DUMBER**  | Generic model with profile context | Edit `src/config/site.ts` |
-| **SMARTER** | Fine-tuned on your resume          | Run `/pipeline`           |
-
-**Start with DUMBER**, then upgrade to SMARTER for better responses.
+Make this website your own with an AI chatbot that answers questions about you
+using a plain personal context block from the site configuration.
 
 ## Quick Setup Checklist
 
@@ -17,7 +9,7 @@ Make this website your own with an AI chatbot that answers questions about you.
 
 - [ ] Fork this repo to your GitHub account
 - [ ] Rename to `[your-username]` (recommended)
-- [ ] Enable GitHub Pages: Settings → Pages → Source: `gh-pages` / `root`
+- [ ] Enable GitHub Pages: Settings -> Pages -> Source: `gh-pages` / `root`
 
 ### 2. Configure Website (~10 min)
 
@@ -28,19 +20,19 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 - [ ] Set `repository.owner` and `repository.name`
 - [ ] Set `resumeFileId` (from Google Drive share link)
 - [ ] Update `socialLinks` (empty string hides a link)
-- [ ] Update `PROFILE` object for DUMBER model context
+- [ ] Summarize resume, cover letter, and personal knowledge in `PERSONAL_CONTEXT`
 - [ ] Update `CHATBOT_CONFIG.welcomeMessages`
 
 ### 3. Upload Resume (~2 min)
 
 - [ ] Upload PDF to Google Drive
-- [ ] Share → "Anyone with the link"
+- [ ] Share -> "Anyone with the link"
 - [ ] Copy file ID from URL: `drive.google.com/file/d/[FILE_ID]/view`
 - [ ] Paste into `SITE_CONFIG.resumeFileId`
 
 ### 4. Test & Deploy (~5 min)
 
-- [ ] Install `uv` and `npm` based on your development environment
+- [ ] Install `npm` based on your development environment
 - [ ] `npm install`
 - [ ] `npm run dev` (test at localhost:3000)
 - [ ] `uv tool install pre-commit` (or `pipx install pre-commit`)
@@ -49,39 +41,43 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 - [ ] `npm run flight-check`
 - [ ] `npm run deploy`
 
-Pre-commit hooks mirror the repo's current lint/type checks:
+Pre-commit hooks mirror the repo's current lint checks:
 
 - `app-eslint` runs `npm run lint`
-- `pipeline-ruff` runs `cd pipeline && uv run ruff check scripts`
-- `pipeline-pyright` runs `cd pipeline && uv run pyright scripts/eval_dataset.py scripts/eval_metrics.py scripts/eval_reporting.py scripts/evaluate_model.py scripts/utils.py`
-
-## Upgrade to SMARTER Model (~10-20 hours)
-
-See [`/pipeline/README.md`](../pipeline/README.md) for full instructions.
-For config knob rationale, use [`/pipeline/HYPERPARAMETER.md`](../pipeline/HYPERPARAMETER.md).
-
-Before pushing a new model, run the pipeline evaluation suite:
-
-- `cd pipeline`
-- `make eval-smoke` for a quick deterministic regression check
-- `make eval-full` for full threshold-gated evaluation
-- review reports in `pipeline/data/eval_reports/<timestamp>/summary.md`
 
 ## Configuration Files
 
 | File                    | Purpose                                  |
 | ----------------------- | ---------------------------------------- |
-| `src/config/site.ts`    | Personal info, profile, chatbot messages |
-| `src/config/models.ts`  | AI model IDs                             |
-| `src/config/prompts.ts` | Generation parameters                    |
-| `pipeline/config.yaml`  | Fine-tuning settings                     |
+| `src/config/site.ts`    | Personal info, resume, and chatbot context |
+| `src/config/models.ts`  | AI model ID and browser dtype policy     |
+| `src/config/prompts.ts` | Chatbot messages and generation settings |
 
-Default model IDs are Qwen2.5-based:
-
-- `DUMBER`: `onnx-community/Qwen2.5-0.5B-Instruct`
-- `SMARTER`: your fine-tuned Qwen2.5 model repo (for example `your-username/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT`)
+The default browser model is `teapotai/teapotllm`.
 
 ## Common Customizations
+
+### Update Chatbot Context
+
+Edit `PERSONAL_CONTEXT` in `src/config/site.ts`:
+
+```typescript
+export const PERSONAL_CONTEXT = `
+Paste your resume, cover letter, biography, project notes, recommendations,
+or any other public information the chatbot should use here.
+`.trim();
+```
+
+The chatbot receives this text block as its source of truth. Keep it concise:
+roughly 150-220 words is a good target for Teapot LLM, leaving room for the
+prompt and the visitor's question. Short paragraphs and high-signal
+bullet-style sentences work best.
+
+Put the most important facts first. If the profile text is still too long for
+the browser model, the app trims from the tail and shows a small warning icon
+under the first chat message. Hover or focus the icon for exact overage details.
+The chat input also shows a warning icon when a visitor's message would exceed
+the remaining prompt budget before tail trimming.
 
 ### Hide a Social Link
 
@@ -97,16 +93,29 @@ socialLinks: {
 - [ ] Add 48x48px PNG icon to `public/`
 - [ ] Add `<LinkIconButton>` in `src/pages/index.tsx`
 
+### Change the Browser Model
+
+Edit `src/config/models.ts`:
+
+```typescript
+export const MODEL_ID = "teapotai/teapotllm";
+```
+
+Use a model that is compatible with Transformers.js browser inference. If the
+model uses a different Transformers.js task, update
+`src/services/ai/modelLoader.ts` and `src/services/ai/worker.ts` to match.
+
 ### Tune AI Responses
 
 Edit `src/config/prompts.ts`:
 
 ```typescript
-[ModelType.SMARTER]: {
-  temperature: 0.1,      // Lower = more consistent
-  maxTokens: 150,        // Response length
-  repetitionPenalty: 1.4 // Higher = less repetition
-}
+export const GENERATION_PARAMS: GenerationParams = {
+  temperature: 0.3,
+  maxTokens: 128,
+  topK: 30,
+  repetitionPenalty: 1.5,
+};
 ```
 
 ## Troubleshooting

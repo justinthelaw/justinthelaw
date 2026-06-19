@@ -24,7 +24,6 @@
     "node_modules/",
     "out/",
     "test-results/",
-    "playwright-report/",
-    "pipeline/.venv/"
+    "playwright-report/"
   ]
 }

@@ -1,10 +1,9 @@
 /**
  * AI Service
- * Clean API for interacting with the AI worker
+ * Clean API for interacting with the AI worker.
  */
 
-import { ModelType } from '@/types';
-import { WorkerAction, type WorkerResponse } from '@/types/worker';
+import { WorkerAction, type WorkerResponse } from "@/types/worker";
 import { createLogger, LOG_AREAS } from "@/utils";
 
 export type AIServiceCallback = (response: WorkerResponse) => void;
@@ -15,37 +14,31 @@ export class AIService {
   private callbacks: Set<AIServiceCallback> = new Set();
 
   /**
-   * Initialize the AI service with a specific model size
+   * Initialize the AI service.
    */
-  initialize(modelType: ModelType): void {
-    if (typeof window === 'undefined') {
+  initialize(): void {
+    if (typeof window === "undefined") {
       return;
     }
 
-    // Terminate existing worker if any
     this.terminate();
 
-    // Create new worker
-    this.worker = new Worker(
-      new URL('./worker.ts', import.meta.url),
-      { type: 'module' }
-    );
+    this.worker = new Worker(new URL("./worker.ts", import.meta.url), {
+      type: "module",
+    });
 
-    // Set up message handler
     this.worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
       this.callbacks.forEach((callback) => callback(event.data));
     };
 
-    // Initialize with model selection
     this.worker.postMessage({
       action: WorkerAction.INIT,
-      modelSelection: modelType,
       viewportWidth: window.innerWidth,
     });
   }
 
   /**
-   * Load the model
+   * Load the model.
    */
   loadModel(): void {
     if (!this.worker) {
@@ -57,7 +50,7 @@ export class AIService {
   }
 
   /**
-   * Generate text from user input
+   * Generate text from user input.
    */
   generate(input: string): void {
     if (!this.worker) {
@@ -72,41 +65,38 @@ export class AIService {
   }
 
   /**
-   * Subscribe to worker responses
+   * Subscribe to worker responses.
    */
   subscribe(callback: AIServiceCallback): () => void {
     this.callbacks.add(callback);
 
-    // Return unsubscribe function
     return () => {
       this.callbacks.delete(callback);
     };
   }
 
   /**
-   * Terminate the worker
+   * Terminate the worker.
    */
   terminate(): void {
     if (this.worker) {
       this.worker.terminate();
       this.worker = null;
     }
-    // Don't clear callbacks - they should persist across worker restarts
   }
 
   /**
-   * Check if worker is initialized
+   * Check if worker is initialized.
    */
   isInitialized(): boolean {
     return this.worker !== null;
   }
 }
 
-// Singleton instance
 let aiServiceInstance: AIService | null = null;
 
 /**
- * Get the AI service singleton instance
+ * Get the AI service singleton instance.
  */
 export function getAIService(): AIService {
   if (!aiServiceInstance) {

@@ -13,15 +13,6 @@ updates:
         patterns:
           - "*"
 
-  - package-ecosystem: uv
-    directory: "/pipeline"
-    schedule:
-      interval: weekly
-    groups:
-      pipeline-python-dependencies:
-        patterns:
-          - "*"
-
   - package-ecosystem: github-actions
     directory: "/"
     schedule:

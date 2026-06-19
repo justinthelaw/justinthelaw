@@ -7,6 +7,7 @@ import React, { Fragment, useState } from "react";
 import type { ChatMessage } from "@/types";
 import { Typewriter } from "./Typewriter";
 import { SITE_CONFIG } from "@/config";
+import { LimitWarning } from "./LimitWarning";
 
 const QUIRK_MESSAGES = [
   `Digging into ${SITE_CONFIG.name}'s history...`,
@@ -27,6 +28,9 @@ export interface ChatMessagesProps {
   isGenerating: boolean;
   isLoading: boolean;
   loadingMessage: string | null;
+  showPersonalContextTrimWarning: boolean;
+  overBudgetPersonalContextCharacters: number;
+  trimmedPersonalContextCharacters: number;
 }
 
 export function ChatMessages({
@@ -35,6 +39,9 @@ export function ChatMessages({
   isGenerating,
   isLoading,
   loadingMessage,
+  showPersonalContextTrimWarning,
+  overBudgetPersonalContextCharacters,
+  trimmedPersonalContextCharacters,
 }: ChatMessagesProps): React.ReactElement {
   const [randomQuirkMessage] = useState(
     () => QUIRK_MESSAGES[Math.floor(Math.random() * QUIRK_MESSAGES.length)]
@@ -65,43 +72,68 @@ export function ChatMessages({
       ) : (
         <Fragment>
           {/* Display message history */}
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${
-                message.type === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
+          {messages.map((message, index) => {
+            const showProfileWarning =
+              showPersonalContextTrimWarning &&
+              message.type === "ai" &&
+              index === 0;
+
+            return (
               <div
-                className={`rounded-lg p-3 max-w-[80%] ${
-                  message.type === "user"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-800 text-white"
+                key={message.id}
+                className={`flex ${
+                  message.type === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                <div className="text-xs mb-1 opacity-70">
-                  {message.type === "user" ? "You" : "AI Assistant"}
-                </div>
-                <div className="leading-relaxed whitespace-pre-line">
-                  {/* Show typewriter effect only for the first AI message (welcome message) */}
-                  {message.type === "ai" &&
-                  messages.length === 1 &&
-                  message.id === messages[0].id ? (
-                    <Typewriter text={message.content} delay={100} />
-                  ) : (
-                    message.content
-                  )}
+                <div
+                  className={`flex max-w-[80%] flex-col ${
+                    message.type === "user" ? "items-end" : "items-start"
+                  }`}
+                >
+                  <div
+                    data-testid={
+                      message.type === "user"
+                        ? "chat-message-user"
+                        : "chat-message-ai"
+                    }
+                    className={`relative w-full rounded-lg p-3 ${
+                      message.type === "user"
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-800 text-white"
+                    }`}
+                  >
+                    <div className="text-xs mb-1 opacity-70">
+                      {message.type === "user" ? "You" : "AI Assistant"}
+                    </div>
+                    <div className="leading-relaxed whitespace-pre-line [overflow-wrap:anywhere]">
+                      {/* Show typewriter effect only for the first AI message (welcome message) */}
+                      {message.type === "ai" &&
+                      messages.length === 1 &&
+                      message.id === messages[0].id ? (
+                        <Typewriter text={message.content} delay={100} />
+                      ) : (
+                        message.content
+                      )}
+                    </div>
+                    {showProfileWarning && (
+                      <LimitWarning
+                        className="absolute right-1.5 top-1.5"
+                        message={`Profile: ${overBudgetPersonalContextCharacters} chars over; tail trimmed.${trimmedPersonalContextCharacters > overBudgetPersonalContextCharacters ? ` ${trimmedPersonalContextCharacters} chars removed.` : ""}`}
+                        testId="profile-trim-warning"
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           {/* Show AI response being generated */}
           {isGenerating && (
             <div className="flex justify-start">
               <div className="bg-gray-800 rounded-lg p-3 max-w-[80%]">
                 <div className="text-gray-300 text-sm mb-1">AI Assistant</div>
-                <div className="text-white leading-relaxed whitespace-pre-line">
+                <div className="text-white leading-relaxed whitespace-pre-line [overflow-wrap:anywhere]">
                   {!currentResponse ? (
                     <div className="flex items-center gap-2 text-gray-400 text-sm">
                       <div className="w-3 h-3 border-2 border-blue-200 border-t-blue-500 rounded-full animate-spin" />

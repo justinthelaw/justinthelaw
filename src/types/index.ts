@@ -14,39 +14,6 @@ export interface ChatMessage {
 }
 
 /**
- * Model size options
- */
-export enum ModelType {
-  DUMBER = 'DUMBER',
-  SMARTER = 'SMARTER',
-}
-
-/**
- * Model configuration
- */
-export interface ModelConfig {
-  id: string;
-  size: ModelType;
-  memoryRequirement: number;
-  tokenLimit: number;
-  quantization: string;
-}
-
-/**
- * Profile section for AI context
- */
-export interface ProfileSection {
-  role?: string;
-  company?: string;
-  background?: string;
-  education?: string;
-  military?: string;
-  skills?: string;
-  personality?: string;
-  interests?: string;
-}
-
-/**
  * AI generation parameters
  */
 export interface GenerationParams {

@@ -1,40 +1,23 @@
 /**
- * Model Configuration
- * Constants and configurations for Qwen2.5 models
- * DUMBER = Generic model (public HuggingFace ONNX)
- * SMARTER = Fine-tuned model (resume-specific SFT+LoRA)
+ * Model configuration for the in-browser chatbot.
  */
-
-import { ModelType } from "@/types";
 
 /**
- * Available model sizes
+ * HuggingFace model ID used by the browser worker.
  */
-export const MODEL_SIZES = [ModelType.DUMBER, ModelType.SMARTER] as const;
+export const MODEL_ID = "teapotai/teapotllm";
 
 /**
- * HuggingFace model IDs for each size
+ * User-friendly display name for the configured model.
  */
-export const MODEL_IDS: Record<ModelType, string> = {
-  [ModelType.DUMBER]: "onnx-community/Qwen2.5-0.5B-Instruct",
-  [ModelType.SMARTER]:
-    "justinthelaw/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT",
-};
-
-/**
- * User-friendly display names
- */
-export const MODEL_DISPLAY_NAMES: Record<ModelType, string> = {
-  [ModelType.DUMBER]: "Dumber",
-  [ModelType.SMARTER]: "Smarter",
-};
+export const MODEL_DISPLAY_NAME = "Teapot LLM";
 
 export type ModelDtype = "fp32" | "int8" | "uint8" | "q4";
 
 /**
  * Get the preferred dtype for browser loading.
- * Browser loading defaults to int8 because the q4 artifacts for these ONNX
- * models can require external data mounting that is not reliable in ORT WASM.
+ * Browser loading defaults to int8 because q4 artifacts can be less reliable
+ * across browsers and runtimes.
  */
 export function getDeviceSpecificDtype(_viewportWidth?: number): ModelDtype {
   return "int8";
@@ -42,8 +25,8 @@ export function getDeviceSpecificDtype(_viewportWidth?: number): ModelDtype {
 
 /**
  * Ordered dtype options to try, with the preferred dtype first.
- * Automatic fallback skips q4 to avoid external `.onnx.data` runtime failures
- * in browser WebAssembly. fp32 is kept for explicit/manual diagnostics.
+ * Automatic fallback skips q4 for broad browser reliability. fp32 is kept for
+ * explicit/manual diagnostics.
  */
 export function getDtypeFallbackOrder(preferredDtype: ModelDtype): ModelDtype[] {
   if (preferredDtype === "uint8") {
@@ -59,14 +42,6 @@ export function getDtypeFallbackOrder(preferredDtype: ModelDtype): ModelDtype[] 
 }
 
 /**
- * Context length limits by model size (conservative estimates)
+ * Conservative context length limit for the configured model.
  */
-export const MODEL_CONTEXT_LIMITS: Record<ModelType, number> = {
-  [ModelType.DUMBER]: 512,
-  [ModelType.SMARTER]: 1024,
-};
-
-/**
- * Default model selection
- */
-export const DEFAULT_MODEL_SIZE = ModelType.SMARTER;
+export const MODEL_CONTEXT_LIMIT = 512;

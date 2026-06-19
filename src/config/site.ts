@@ -7,8 +7,6 @@
  * See docs/CUSTOMIZATION.md for detailed instructions.
  */
 
-import type { ProfileSection } from "@/types";
-
 /**
  * Personal Information
  */
@@ -52,7 +50,7 @@ export const SITE_CONFIG = {
   seo: {
     title: "Justin Law",
     description:
-      "Justin Law's personal website showcasing experience and AI-powered chat",
+      "Justin Law's personal website showcasing AI deployment, secure software engineering, and AI-powered chat",
   },
 } as const;
 
@@ -96,22 +94,39 @@ export const DERIVED_CONFIG = {
 } as const;
 
 /**
- * Profile Data for DUMBER/Generic LLM Chatbot Context
+ * Personal knowledge for the chatbot.
+ *
+ * Paste resume text, cover letter text, biography notes, project summaries,
+ * recommendations, or any other public context here. The chatbot receives this
+ * block as its source of truth and trims from the tail when it exceeds the
+ * browser model's prompt budget.
  */
-export const PROFILE: ProfileSection = {
-  role: "Senior Software Engineer at Defense Unicorns, builds full-stack AI/ML applications and platforms",
-  company:
-    "Defense Unicorns, delivers applications and platforms to critical operations using the Unicorn Delivery Service (UDS)",
-  background:
-    "Mechanical Engineer turned Software Engineer specializing in AI/ML applications and platforms",
-  education:
-    "Bachelor's in Mechanical Engineering from RIT with minors in Communications and Military Leadership. Graduate, master's level studies in Computer Science at Johns Hopkins University and Georgia Institute of Technology, focusing on enterprise web computing and AI/ML",
-  military:
-    "United States Air and Space Forces veteran, served as Captain (O3) and Developmental Engineer (62E), honorable discharge",
-  skills:
-    "Full-stack development, AI/ML applications, platforms engineering, Public Speaking, Leadership, Project Management",
-  personality:
-    "Organized, personable, disciplined, hard-working, enthusiastic, diligent",
-  interests:
-    "Running, cooking, video games, traveling, personal coding projects",
-};
+export const PERSONAL_CONTEXT = `
+Justin Law is based in New York, USA. At OpenAI, he is an AI Deployment Engineer
+focused on enterprise Codex adoption across CLI, SDK, MCP, app-server,
+observability, Kubernetes, and full-stack workflows. He enjoys videogames,
+hiking, running, and cooking.
+
+At OpenAI, Justin has led engagements across 11 organizations and about 33,000
+users, and built Codex packages, OpenInference observability, and a Kubernetes
+operator that diagnoses and remediates failing workloads.
+
+Previously, Justin was a Senior Software Engineer at Defense Unicorns, working
+across 40+ Kubernetes, AI/ML, and full-stack repos. He developed LeapfrogAI and
+UDS AI; led a FIPS-compliant agentic RAG system for shipyard operations;
+improved model MRR 15% and agentic retrieval 38%; and deployed hardened AI/ML
+platforms in secure environments.
+
+Justin is a U.S. Air Force and Space Force veteran and one of the Space Force's
+first certified Supra Coders. He built RF deconfliction tools, orbital object
+OSINT apps, and acquisition strategies.
+
+Justin earned a B.S. in Mechanical Engineering from RIT and completed graduate
+CS studies at Johns Hopkins and Georgia Tech.
+
+Strengths include leadership, public speaking, technical writing, pair
+programming, systems design, AI/ML, Kubernetes, secure deployment, RAG,
+observability, MLFlow, inference engines, and mission-critical delivery.
+Recommendations describe him as personable, collaborative, calm under pressure,
+technically deep, and a strong problem solver.
+`.trim();
