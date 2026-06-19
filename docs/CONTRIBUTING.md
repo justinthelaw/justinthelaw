@@ -4,24 +4,21 @@ Thanks for contributing to Justin's projects.
 
 ## Ground Rules
 
-- Keep changes scoped and easy to review.
-- Prefer small pull requests with clear intent.
-- Add or update docs when behavior changes.
-- Run local checks before opening a pull request.
+| Rule | Detail |
+| --- | --- |
+| Scope | Keep changes scoped and easy to review |
+| Pull requests | Prefer small pull requests with clear intent |
+| Documentation | Add or update docs when behavior changes |
+| Validation | Run local checks before opening a pull request |
 
 ## Development Setup
 
-1. Install dependencies:
+| Step | Command |
+| --- | --- |
+| Install dependencies | `npm install` |
+| Run development server | `npm run dev` |
 
-```bash
-npm install
-```
-
-2. Run development server:
-
-```bash
-npm run dev
-```
+Run commands from the repository root.
 
 ## Validation
 
@@ -30,6 +27,9 @@ Run this before pushing:
 ```bash
 npm run flight-check
 ```
+
+Standalone Playwright tests need a built `out/` directory. Use
+`npm run build && npm run test` if you are not running `flight-check`.
 
 ## Pre-commit
 
@@ -51,10 +51,16 @@ Run local pre-push hooks manually:
 pre-commit run --all-files --hook-stage pre-push
 ```
 
+Hooks cover markdown, YAML, GitHub Actions workflows, shell scripts,
+whitespace, smart quotes, merge conflicts, private keys, large files, and
+pre-push app linting.
+
 ## Pull Request Expectations
 
-- Use a short, descriptive title.
-- Describe what changed and why.
-- Link issues with `Fixes #<id>` when applicable.
-- Include screenshots for UI changes.
-- Confirm local checks in the PR checklist.
+| Expectation | Detail |
+| --- | --- |
+| Title | Use a short, descriptive title |
+| Summary | Describe what changed and why |
+| Issues | Link issues with `Fixes #<id>` when applicable |
+| UI changes | Include screenshots |
+| Checks | Confirm local checks in the PR checklist |
