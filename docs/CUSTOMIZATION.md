@@ -47,11 +47,11 @@ Pre-commit hooks mirror the repo's current lint checks:
 
 ## Configuration Files
 
-| File                    | Purpose                                  |
-| ----------------------- | ---------------------------------------- |
+| File                    | Purpose                                    |
+| ----------------------- | ------------------------------------------ |
 | `src/config/site.ts`    | Personal info, resume, and chatbot context |
-| `src/config/models.ts`  | AI model ID and browser dtype policy     |
-| `src/config/prompts.ts` | Chatbot messages and generation settings |
+| `src/config/models.ts`  | AI model ID and browser dtype policy       |
+| `src/config/prompts.ts` | Chatbot messages and generation settings   |
 
 The default browser model is `teapotai/teapotllm`.
 
