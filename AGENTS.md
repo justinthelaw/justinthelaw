@@ -8,41 +8,42 @@ Next.js static site for GitHub Pages with an in-browser AI chatbot powered by Hu
 
 ## Stack
 
-- **Next.js 16** (static export, pages router)
-- **React 19** + **TypeScript 5**
+- **Next.js 16.3 preview** (static export, pages router; tracks the patched PostCSS line)
+- **React 19** + **TypeScript 6**
 - **Tailwind CSS 4**
 - **Zustand 5** (state management)
-- **HuggingFace Transformers 3** (in-browser inference via Web Worker)
+- **HuggingFace Transformers 4** (in-browser inference via Web Worker)
 - **Playwright** (E2E testing)
 
 ## Critical Constraints
 
 - **Static export only** - no API routes, server actions, `getServerSideProps`, or any server-side features. Everything runs in the browser.
-- **GitHub Pages** - production uses a dynamic `basePath` (`/justinthelaw.github.io`). Never hardcode asset paths.
-- **`npm start` serves static output** - run `npm run build` first, then `npm start` to preview `out/`.
+- **GitHub Pages** - production uses a dynamic project-site `basePath` (`/justinthelaw`). Never hardcode asset paths.
+- **`npm start` serves static output** - run `npm run build` first, then `npm start` to preview `out/` at the exported base path.
 - **Web Worker AI** - model inference runs in a Web Worker (`src/services/ai/worker.ts`), not on the main thread.
 
 ## Commands
 
-| Command                          | Purpose                                                            |
-| -------------------------------- | ------------------------------------------------------------------ |
-| `npm run dev`                    | Development server                                                  |
-| `npm run flight-check`           | **Run after all changes** - cleans, lints, builds, and tests       |
-| `npm run clean`                  | Delete temporary build/dev/test artifacts                          |
-| `npm run lint`                   | ESLint                                                             |
-| `npm run build`                  | Next.js static export to `out/`                                    |
-| `npm run test`                   | Playwright E2E tests (Chromium, Firefox, WebKit, mobile viewports) |
-| `npm run deploy`                 | Build and deploy to GitHub Pages                                   |
-| `pre-commit install`             | Install Git pre-commit hooks from `.pre-commit-config.yaml`        |
-| `pre-commit run --all-files`     | Run all configured pre-commit hooks manually                       |
-| `cd pipeline && make eval-smoke` | Deterministic smoke evaluation for ONNX fine-tuned models          |
-| `cd pipeline && make eval-full`  | Full threshold-gated evaluation suite for ONNX fine-tuned models   |
+| Command                                             | Purpose                                                             |
+| --------------------------------------------------- | ------------------------------------------------------------------- |
+| `npm run dev`                                       | Development server                                                  |
+| `npm run flight-check`                              | **Run after all changes** - cleans, lints, builds, and tests        |
+| `npm run clean`                                     | Delete temporary build/dev/test artifacts                           |
+| `npm run lint`                                      | ESLint                                                              |
+| `npm run build`                                     | Next.js static export to `out/`                                     |
+| `npm run test`                                      | Playwright E2E tests (Chromium, Firefox, WebKit, mobile viewports)  |
+| `npm run deploy`                                    | Build and deploy to GitHub Pages                                    |
+| `pre-commit install`                                | Install Git pre-commit hooks from `.pre-commit-config.yaml`         |
+| `pre-commit run --all-files`                        | Run pre-commit-stage hooks manually                                 |
+| `pre-commit run --all-files --hook-stage pre-push`  | Run local lint/type pre-push hooks manually                         |
+| `cd pipeline && make eval-smoke`                    | Deterministic smoke evaluation for ONNX fine-tuned models           |
+| `cd pipeline && make eval-full`                     | Full threshold-gated evaluation suite for ONNX fine-tuned models    |
 
 Pre-commit hooks mirror local lint/type checks by codebase:
 
 - `app-eslint`: `npm run lint`
 - `pipeline-ruff`: `cd pipeline && uv run ruff check scripts`
-- `pipeline-pyright`: `cd pipeline && uv run pyright scripts/eval_dataset.py scripts/eval_metrics.py scripts/eval_reporting.py scripts/evaluate_model.py scripts/utils.py`
+- `pipeline-pyright`: `cd pipeline && uv run pyright scripts`
 
 ## Architecture
 
@@ -123,7 +124,7 @@ try { ... } catch (err) {
 ## CI/CD
 
 - **Deploy**: `.github/workflows/deploy.yml` - auto-deploys on push to `main`.
-- **Test**: `.github/workflows/test.yml` - runs Playwright on all browsers for PRs.
+- **Test**: `.github/workflows/app.test.yml` - runs Playwright on all browsers for PRs.
 - **Pipeline Eval**: `.github/workflows/pipeline.test.yml` - runs pipeline lint/type checks for `pipeline/**` PR changes and runs smoke eval when ONNX + dataset artifacts are available.
 
 ## Validation Checklist
@@ -145,3 +146,9 @@ Update these as needed when making changes:
 3. `/docs/CUSTOMIZATION.md`
 4. `/pipeline/README.md`
 5. `/pipeline/HYPERPARAMETER.md`
+
+<!-- BEGIN:nextjs-agent-rules -->
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+<!-- END:nextjs-agent-rules -->

@@ -48,7 +48,7 @@ Pipeline-only updates should also run:
 ```bash
 cd pipeline
 uv run ruff check scripts
-uv run pyright scripts/eval_dataset.py scripts/eval_metrics.py scripts/eval_reporting.py scripts/evaluate_model.py scripts/utils.py
+uv run pyright scripts
 ```
 
 ## Pre-commit
@@ -59,10 +59,16 @@ Install hooks once per clone:
 pre-commit install --hook-type pre-commit --hook-type pre-push
 ```
 
-Run all hooks manually:
+Run pre-commit-stage hooks manually:
 
 ```bash
 pre-commit run --all-files
+```
+
+Run local lint/type pre-push hooks manually:
+
+```bash
+pre-commit run --all-files --hook-stage pre-push
 ```
 
 ## Pull Request Expectations
