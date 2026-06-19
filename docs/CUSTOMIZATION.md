@@ -1,7 +1,7 @@
 # Customization Guide
 
 Make this website your own with an AI chatbot that answers questions about you
-using a plain personal context block from the site configuration.
+using reusable public resume/profile sections from the site configuration.
 
 ## Quick Setup Checklist
 
@@ -20,7 +20,7 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 - [ ] Set `repository.owner` and `repository.name`
 - [ ] Set `resumeFileId` (from Google Drive share link)
 - [ ] Update `socialLinks` (empty string hides a link)
-- [ ] Summarize resume, cover letter, and personal knowledge in `PERSONAL_CONTEXT`
+- [ ] Summarize resume, cover letter, and personal knowledge in `PROFILE_SECTIONS`
 - [ ] Update `CHATBOT_CONFIG.welcomeMessages`
 
 ### 3. Upload Resume (~2 min)
@@ -49,35 +49,55 @@ Pre-commit hooks mirror the repo's current lint checks:
 
 | File                    | Purpose                                    |
 | ----------------------- | ------------------------------------------ |
-| `src/config/site.ts`    | Personal info, resume, and chatbot context |
+| `src/config/site.ts`    | Personal info, resume, and chatbot profile sections |
 | `src/config/models.ts`  | AI model ID and browser dtype policy       |
 | `src/config/prompts.ts` | Chatbot messages and generation settings   |
 
-The default browser model is `teapotai/teapotllm`.
+The default browser model is
+`justinthelaw/teapot-profile-qa-browser-1024`, a browser ONNX profile-QA model
+published with `int8` and `uint8` variants.
 
 ## Common Customizations
 
 ### Update Chatbot Context
 
-Edit `PERSONAL_CONTEXT` in `src/config/site.ts`:
+Edit `PROFILE_SECTIONS` in `src/config/site.ts`. Keep the section IDs generic
+so forks can reuse the retrieval behavior:
 
 ```typescript
-export const PERSONAL_CONTEXT = `
-Paste your resume, cover letter, biography, project notes, recommendations,
-or any other public information the chatbot should use here.
-`.trim();
+export const PROFILE_SECTIONS = [
+  {
+    id: "identity",
+    title: "Identity",
+    priority: 100,
+    alwaysInclude: true,
+    keywords: ["name", "location", "identity"],
+    facts: [
+      {
+        id: "identity_location",
+        text: "Your Name is based in Your Location.",
+        keywords: ["your name", "your location"],
+      },
+    ],
+  },
+  // current_role, experience, projects, education, skills, interests,
+  // and recommendations follow the same shape.
+] as const satisfies readonly ProfileSection[];
 ```
 
-The chatbot receives this text block as its source of truth. Keep it concise:
-roughly 150-220 words is a good target for Teapot LLM, leaving room for the
-prompt and the visitor's question. Short paragraphs and high-signal
-bullet-style sentences work best.
+`PERSONAL_CONTEXT` is derived from these sections for compatibility. The
+browser prompt builder always includes identity facts, retrieves relevant
+sections from the latest question plus recent turns, and trims user input only
+after selected sections and history fit the active model budget.
 
-Put the most important facts first. If the profile text is still too long for
-the browser model, the app trims from the tail and shows a small warning icon
-under the first chat message. Hover or focus the icon for exact overage details.
-The chat input also shows a warning icon when a visitor's message would exceed
-the remaining prompt budget before tail trimming.
+Put reusable categories in section IDs and person-specific terms in fact text or
+fact keywords. Keep generic sections temporally prioritized: `current_role`,
+`experience`, `projects`, `education`, `recommendations`, `skills`, then
+`interests`. Experience should outrank education; recommendations should sit
+just below education and above hobbies/interests or personality-trait sections.
+Avoid employer- or person-specific section IDs. If selected profile sections or
+visitor input exceed the browser model budget, the chat UI shows a small
+warning icon with exact overage details.
 
 ### Hide a Social Link
 
@@ -98,7 +118,8 @@ socialLinks: {
 Edit `src/config/models.ts`:
 
 ```typescript
-export const MODEL_ID = "teapotai/teapotllm";
+export const MODEL_ID = "justinthelaw/teapot-profile-qa-browser-1024";
+export const MODEL_CONTEXT_LIMIT = 1024;
 ```
 
 Use a model that is compatible with Transformers.js browser inference. If the

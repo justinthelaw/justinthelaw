@@ -18,7 +18,7 @@ export const GENERATION_PARAMS: GenerationParams = {
 /**
  * Context length limit for a single user message.
  */
-export const MAX_SINGLE_MESSAGE_LENGTH = 88;
+export const MAX_SINGLE_MESSAGE_LENGTH = 1200;
 
 /**
  * AI chatbot configuration.

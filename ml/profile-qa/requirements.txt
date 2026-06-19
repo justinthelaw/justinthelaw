@@ -1,0 +1,13 @@
+accelerate>=1.0
+bitsandbytes>=0.43
+datasets>=2.20
+huggingface-hub>=0.24
+onnx>=1.16
+onnxruntime>=1.18
+optimum[onnxruntime]>=1.21
+peft>=0.12
+pytest>=8.0
+safetensors>=0.4
+sentencepiece>=0.2
+torch>=2.4
+transformers>=4.44

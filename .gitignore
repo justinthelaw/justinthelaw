@@ -45,5 +45,20 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# python
+__pycache__/
+*.py[cod]
+
 # avoid committing generated or external documents
 public/*.pdf
+
+# local profile-QA training outputs
+/ml/profile-qa/.venv/
+/ml/profile-qa/data/
+/ml/profile-qa/checkpoints/
+/ml/profile-qa/hf/
+/ml/profile-qa/merged/
+/ml/profile-qa/onnx/
+/ml/profile-qa/reports/
+/ml/profile-qa/runs/
+/ml/profile-qa/*.log

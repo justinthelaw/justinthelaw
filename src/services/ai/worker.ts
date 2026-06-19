@@ -68,7 +68,12 @@ function extractGeneratedText(output: TextGenerationOutput): string {
 }
 
 self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
-  const { action, input, viewportWidth: nextViewportWidth } = event.data;
+  const {
+    action,
+    input,
+    conversationTurns,
+    viewportWidth: nextViewportWidth,
+  } = event.data;
 
   if (action === WorkerAction.INIT) {
     viewportWidth = nextViewportWidth;
@@ -144,7 +149,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
 
     self.postMessage({ status: WorkerStatus.INITIATE });
 
-    const prompt = generatePrompt(cleanedInput);
+    const prompt = generatePrompt(cleanedInput, { conversationTurns });
     const generationParams = { ...GENERATION_PARAMS };
     let streamedText = "";
 

@@ -14,6 +14,14 @@ export interface ChatMessage {
 }
 
 /**
+ * Sanitized conversation turn sent to the AI worker.
+ */
+export interface ConversationTurn {
+  role: "user" | "assistant";
+  content: string;
+}
+
+/**
  * AI generation parameters
  */
 export interface GenerationParams {

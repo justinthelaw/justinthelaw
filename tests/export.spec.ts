@@ -188,7 +188,8 @@ test("should export bundled social icon assets with valid local paths", async ()
 test("should export the current browser AI worker bundle", async () => {
   const exportedJavaScript = await readExportedJavaScript();
 
-  expect(exportedJavaScript).toContain("teapotai/teapotllm");
+  expect(exportedJavaScript).toContain("justinthelaw/teapot-profile-qa-browser-1024");
+  expect(exportedJavaScript).not.toContain("teapotai/teapotllm");
   expect(exportedJavaScript).toContain("text2text-generation");
   expect(exportedJavaScript).not.toContain(
     "justinthelaw/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT",

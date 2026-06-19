@@ -5,12 +5,12 @@
 /**
  * HuggingFace model ID used by the browser worker.
  */
-export const MODEL_ID = "teapotai/teapotllm";
+export const MODEL_ID = "justinthelaw/teapot-profile-qa-browser-1024";
 
 /**
  * User-friendly display name for the configured model.
  */
-export const MODEL_DISPLAY_NAME = "Teapot LLM";
+export const MODEL_DISPLAY_NAME = "Profile-QA Teapot";
 
 export type ModelDtype = "fp32" | "int8" | "uint8" | "q4";
 
@@ -44,4 +44,4 @@ export function getDtypeFallbackOrder(preferredDtype: ModelDtype): ModelDtype[] 
 /**
  * Conservative context length limit for the configured model.
  */
-export const MODEL_CONTEXT_LIMIT = 512;
+export const MODEL_CONTEXT_LIMIT = 1024;

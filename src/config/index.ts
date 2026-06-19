@@ -5,7 +5,14 @@
  * For customization instructions, see docs/CUSTOMIZATION.md
  */
 
-export { SITE_CONFIG, DERIVED_CONFIG, PERSONAL_CONTEXT } from "./site";
+export {
+  SITE_CONFIG,
+  DERIVED_CONFIG,
+  PROFILE_SECTIONS,
+  PERSONAL_CONTEXT,
+  type ProfileFact,
+  type ProfileSection,
+} from "./site";
 export {
   MODEL_ID,
   MODEL_DISPLAY_NAME,

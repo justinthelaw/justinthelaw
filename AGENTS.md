@@ -72,6 +72,7 @@ tests/                   # Playwright E2E tests
 - **Barrel exports** - every feature directory has an `index.ts` for clean imports.
 - **Typed worker messages** - use `WorkerAction`/`WorkerStatus` enums for worker communication. No magic strings.
 - **Browser-safe dtype loading** - automatic model loading uses int8 with uint8 fallback on all viewports. Do not re-enable q4 by default unless ORT WASM can reliably mount external `.onnx.data` model files in browser workers.
+- **Reusable profile sections** - keep chatbot context sections generic and temporally prioritized (`identity`, `current_role`, `experience`, `projects`, `education`, `recommendations`, `skills`, `interests`). Experience should outrank education; recommendations should sit just below education and above hobbies/interests or personality traits. Put person- or employer-specific terms in fact text/keywords, not section IDs.
 
 ## Code Standards
 

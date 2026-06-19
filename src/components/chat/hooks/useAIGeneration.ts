@@ -5,9 +5,10 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { WorkerStatus, type WorkerResponse } from '@/types/worker';
-import { cleanInput, getAIService } from '@/services/ai';
+import { cleanInput, getAIService, getRecentConversationTurns } from '@/services/ai';
 import { useChatStore } from '@/stores/chatStore';
 import { createLogger, LOG_AREAS } from "@/utils";
+import { CHATBOT_CONFIG } from "@/config";
 
 export interface UseAIGenerationReturn {
   isGenerating: boolean;
@@ -18,7 +19,8 @@ export interface UseAIGenerationReturn {
 const logger = createLogger(LOG_AREAS.AI_GENERATION);
 
 export function useAIGeneration(): UseAIGenerationReturn {
-  const { setIsGenerating, updateCurrentResponse, addMessage } = useChatStore();
+  const { messages, setIsGenerating, updateCurrentResponse, addMessage } =
+    useChatStore();
   const [isGenerating, setLocalGenerating] = useState(false);
   const [currentResponse, setCurrentResponse] = useState('');
   const currentResultRef = useRef('');
@@ -86,12 +88,17 @@ export function useAIGeneration(): UseAIGenerationReturn {
       return;
     }
 
+    const welcomeMessages = new Set<string>(CHATBOT_CONFIG.welcomeMessages);
+    const recentTurns = getRecentConversationTurns(
+      messages.filter((message) => !welcomeMessages.has(message.content))
+    );
+
     // Add user message to history
     addMessage('user', cleanedInput);
 
     // Start generation
-    aiService.generate(cleanedInput);
-  }, [addMessage]);
+    aiService.generate(cleanedInput, recentTurns);
+  }, [addMessage, messages]);
 
   return {
     isGenerating,

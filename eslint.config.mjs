@@ -5,7 +5,19 @@ import reactHooksPlugin from "eslint-plugin-react-hooks";
 
 export default tseslint.config(
   {
-    ignores: [".next/**", "out/**", "node_modules/**", "*.config.*"],
+    ignores: [
+      ".next/**",
+      "out/**",
+      "node_modules/**",
+      "ml/profile-qa/.venv/**",
+      "ml/profile-qa/checkpoints/**",
+      "ml/profile-qa/data/**",
+      "ml/profile-qa/merged/**",
+      "ml/profile-qa/onnx/**",
+      "ml/profile-qa/reports/**",
+      "ml/profile-qa/runs/**",
+      "*.config.*",
+    ],
   },
   js.configs.recommended,
   {

@@ -6,12 +6,14 @@
 import React, { useState, useRef, KeyboardEvent } from "react";
 import { getPromptBudget } from "@/services/ai/contextProvider";
 import { LimitWarning } from "./LimitWarning";
+import type { ConversationTurn } from "@/types";
 
 export interface ChatInputProps {
   onSend: (message: string) => void;
   isSendDisabled: boolean;
   isInputDisabled: boolean;
   placeholder: string;
+  conversationTurns?: readonly ConversationTurn[];
 }
 
 export function ChatInput({
@@ -19,10 +21,11 @@ export function ChatInput({
   isSendDisabled,
   isInputDisabled,
   placeholder,
+  conversationTurns = [],
 }: ChatInputProps): React.ReactElement {
   const [inputText, setInputText] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const promptBudget = getPromptBudget(inputText);
+  const promptBudget = getPromptBudget(inputText, { conversationTurns });
   const showInputLimitWarning =
     inputText.trim().length > 0 && promptBudget.isInputTrimmed;
 
