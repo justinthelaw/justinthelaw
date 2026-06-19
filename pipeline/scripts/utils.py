@@ -25,6 +25,7 @@ class ModelConfig(TypedDict):
 
     base: str
     hub_id: str
+    trust_remote_code: bool
 
 
 class LoraConfig(TypedDict):

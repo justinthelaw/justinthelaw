@@ -8,6 +8,16 @@ export default tseslint.config(
     ignores: [".next/**", "out/**", "node_modules/**", "*.config.*", "pipeline/**"],
   },
   js.configs.recommended,
+  {
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        console: "readonly",
+        process: "readonly",
+        URL: "readonly",
+      },
+    },
+  },
   ...tseslint.configs.recommended,
   {
     files: ["**/*.{js,jsx,ts,tsx}"],

@@ -73,9 +73,10 @@ def train_sft_lora() -> int:
     print(f'  Train: {len(train_data)}, Validation: {len(val_data)}')
 
     model_name = CONFIG['model']['base']
+    trust_remote_code = bool(CONFIG['model'].get('trust_remote_code', False))
     print(f'\nLoading base model: {model_name}')
 
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=trust_remote_code)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = 'right'
@@ -92,7 +93,7 @@ def train_sft_lora() -> int:
         model_name,
         torch_dtype=model_load_dtype,
         device_map='auto',
-        trust_remote_code=True,
+        trust_remote_code=trust_remote_code,
     )
     print(f'  Parameters: {model.num_parameters():,}')
 
@@ -203,7 +204,7 @@ def train_sft_lora() -> int:
         total = sum(p.numel() for p in trainer.model.parameters())
         print(f'  LoRA: {trainable:,} trainable / {total:,} total ({100 * trainable / total:.2f}%)')
 
-    trainer.train()
+    trainer.train(resume_from_checkpoint=False)
 
     # Save
     print(f'\nSaving LoRA adapter to {output_dir}')
@@ -236,14 +237,19 @@ def _save_tokenizer_with_template(tokenizer: ChatTemplateTokenizer, save_path: P
         tokenizer_config_path.write_text(json.dumps(config, indent=2))
 
 
-def _merge_lora_adapter(adapter_path: Path, merged_path: Path, base_model: str) -> AutoModelForCausalLM:
+def _merge_lora_adapter(
+    adapter_path: Path,
+    merged_path: Path,
+    base_model: str,
+    trust_remote_code: bool,
+) -> AutoModelForCausalLM:
     """Load base model, merge LoRA adapter, and save merged model."""
     print(f'Loading base model: {base_model}')
     model = AutoModelForCausalLM.from_pretrained(
         base_model,
         torch_dtype=torch.float16,
         device_map='auto',
-        trust_remote_code=True,
+        trust_remote_code=trust_remote_code,
     )
 
     print(f'Loading LoRA adapter from {adapter_path}')
@@ -259,7 +265,7 @@ def _merge_lora_adapter(adapter_path: Path, merged_path: Path, base_model: str) 
     return model
 
 
-def _export_to_onnx(merged_path: Path, onnx_path: Path) -> None:
+def _export_to_onnx(merged_path: Path, onnx_path: Path, trust_remote_code: bool) -> None:
     """Export merged model to ONNX format."""
     print('Exporting to ONNX (fp32)...')
     clean_directory(onnx_path)
@@ -271,7 +277,7 @@ def _export_to_onnx(merged_path: Path, onnx_path: Path) -> None:
         onnx_model = ORTModelForCausalLM.from_pretrained(
             str(merged_path),
             export=True,
-            trust_remote_code=True,
+            trust_remote_code=trust_remote_code,
         )
 
     onnx_model.save_pretrained(str(onnx_path))
@@ -287,22 +293,26 @@ def merge_and_export() -> int:
     merged_path = PIPELINE_DIR / CONFIG['merged_output']
     onnx_path = PIPELINE_DIR / CONFIG.get('onnx_output', 'models/onnx')
     base_model = CONFIG['model']['base']
+    trust_remote_code = bool(CONFIG['model'].get('trust_remote_code', False))
 
     if not adapter_path.exists():
         print(f'Error: LoRA adapter not found at {adapter_path}')
         return 1
 
     # Merge LoRA adapter
-    _merge_lora_adapter(adapter_path, merged_path, base_model)
+    _merge_lora_adapter(adapter_path, merged_path, base_model, trust_remote_code)
 
     # Save tokenizer with base-model chat template for merged model
-    tokenizer = cast(ChatTemplateTokenizer, AutoTokenizer.from_pretrained(base_model))
+    tokenizer = cast(
+        ChatTemplateTokenizer,
+        AutoTokenizer.from_pretrained(base_model, trust_remote_code=trust_remote_code),
+    )
     _save_tokenizer_with_template(tokenizer, merged_path)
 
     print('✓ Merge complete!\n')
 
     # Export to ONNX
-    _export_to_onnx(merged_path, onnx_path)
+    _export_to_onnx(merged_path, onnx_path, trust_remote_code)
 
     # Save tokenizer with base-model chat template for ONNX model
     _save_tokenizer_with_template(tokenizer, onnx_path)

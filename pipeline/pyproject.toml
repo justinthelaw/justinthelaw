@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
   "torch>=2.12.0",
-  "transformers>=4.40.0",
+  "transformers>=4.40.0,<5.0.0",
   "accelerate>=0.27.0",
   "peft>=0.10.0",
   "trl>=0.8.0",
@@ -19,6 +19,7 @@ dependencies = [
   "huggingface-hub>=0.21.0",
   "optimum[onnxruntime]>=1.17.0",
   "onnx>=1.15.0",
+  "onnx-ir>=0.2.1",
   "onnxruntime>=1.17.0",
   "ruff>=0.7.1",
   "pyright>=1.1.408",
@@ -75,6 +76,9 @@ exclude = [
 
 [tool.pyright]
 include = ["scripts"]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.12"
 exclude = [
   ".pyenv",
   ".venv",

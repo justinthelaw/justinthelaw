@@ -58,6 +58,7 @@ dataset:
 model:
   base: "Qwen/Qwen2.5-0.5B-Instruct"
   hub_id: "justinthelaw/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT"
+  trust_remote_code: false
 
 # LoRA Config
 lora:

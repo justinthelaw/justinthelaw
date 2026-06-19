@@ -6,7 +6,6 @@
  */
 
 import { ModelType } from "@/types";
-import { isMobileDevice } from "@/utils";
 
 /**
  * Available model sizes
@@ -30,31 +29,33 @@ export const MODEL_DISPLAY_NAMES: Record<ModelType, string> = {
   [ModelType.SMARTER]: "Smarter",
 };
 
-export type ModelDtype = "fp32" | "int8" | "q4";
+export type ModelDtype = "fp32" | "int8" | "uint8" | "q4";
 
 /**
- * Get the preferred dtype based on viewport width.
- * Mobile/tablet defaults to q4 for reliability, desktop defaults to int8 to
- * avoid fp32 WebAssembly memory pressure during initial load.
+ * Get the preferred dtype for browser loading.
+ * Browser loading defaults to int8 because the q4 artifacts for these ONNX
+ * models can require external data mounting that is not reliable in ORT WASM.
  */
-export function getDeviceSpecificDtype(viewportWidth?: number): ModelDtype {
-  const isNarrowViewport =
-    typeof viewportWidth === "number" ? viewportWidth < 1024 : isMobileDevice();
-  return isNarrowViewport ? "q4" : "int8";
+export function getDeviceSpecificDtype(_viewportWidth?: number): ModelDtype {
+  return "int8";
 }
 
 /**
  * Ordered dtype options to try, with the preferred dtype first.
- * Desktop prefers int8 and falls back to q4; fp32 is kept for explicit/manual selection.
+ * Automatic fallback skips q4 to avoid external `.onnx.data` runtime failures
+ * in browser WebAssembly. fp32 is kept for explicit/manual diagnostics.
  */
 export function getDtypeFallbackOrder(preferredDtype: ModelDtype): ModelDtype[] {
+  if (preferredDtype === "uint8") {
+    return ["uint8", "int8"];
+  }
   if (preferredDtype === "int8") {
-    return ["int8", "q4"];
+    return ["int8", "uint8"];
   }
   if (preferredDtype === "q4") {
-    return ["q4", "int8"];
+    return ["int8", "uint8"];
   }
-  return ["fp32", "int8", "q4"];
+  return ["fp32", "int8", "uint8"];
 }
 
 /**
