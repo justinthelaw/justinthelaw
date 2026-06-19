@@ -129,7 +129,7 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
           </div>
 
           <div
-            className="flex-1 overflow-y-auto p-4"
+            className="flex min-h-0 flex-1 flex-col overflow-y-auto p-4"
             data-testid="chat-messages-scroll"
           >
             <ChatMessages

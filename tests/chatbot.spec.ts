@@ -4,8 +4,16 @@ import {
   getPromptBudget,
 } from "../src/services/ai/contextProvider";
 
+const HELD_LOADING_MESSAGE = "Downloading model... 83%";
+const HOLD_MODEL_LOADING_SESSION_KEY = "__holdModelLoading";
+
+interface MockWorkerInitOptions {
+  heldLoadingMessage: string;
+  holdModelLoadingSessionKey: string;
+}
+
 async function mockModelWorker(page: Page): Promise<void> {
-  await page.addInitScript(() => {
+  await page.addInitScript((options: MockWorkerInitOptions) => {
     interface MockWorkerMessage {
       action?: string;
       input?: string;
@@ -32,6 +40,19 @@ async function mockModelWorker(page: Page): Promise<void> {
         mockWindow.__mockWorkerMessages.push(message);
 
         if (message.action === "load") {
+          if (
+            window.sessionStorage.getItem(options.holdModelLoadingSessionKey) ===
+            "true"
+          ) {
+            window.setTimeout(() => {
+              this.emit({
+                status: "load",
+                message: options.heldLoadingMessage,
+              });
+            }, 0);
+            return;
+          }
+
           window.setTimeout(() => {
             this.emit({
               status: "load",
@@ -63,6 +84,9 @@ async function mockModelWorker(page: Page): Promise<void> {
     };
     mockWindow.__mockWorkerMessages = [];
     window.Worker = MockWorker as unknown as typeof Worker;
+  }, {
+    heldLoadingMessage: HELD_LOADING_MESSAGE,
+    holdModelLoadingSessionKey: HOLD_MODEL_LOADING_SESSION_KEY,
   });
 }
 
@@ -79,7 +103,10 @@ test.describe("Chatbot UI Tests", () => {
   test.beforeEach(async ({ page }) => {
     await mockModelWorker(page);
     await page.goto("/");
-    await page.evaluate(() => localStorage.clear());
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
     await page.reload();
   });
 
@@ -98,6 +125,70 @@ test.describe("Chatbot UI Tests", () => {
   }) => {
     await openChat(page);
     await expect(page.getByTestId("chat-input")).toBeVisible();
+  });
+
+  test("should horizontally center model loading status in the chat body", async ({
+    page,
+  }) => {
+    await page.evaluate((sessionKey) => {
+      sessionStorage.setItem(sessionKey, "true");
+    }, HOLD_MODEL_LOADING_SESSION_KEY);
+    await page.reload();
+    await openChat(page);
+
+    const scrollPane = page.getByTestId("chat-messages-scroll");
+    const modelStatusRow = page.getByTestId("model-loading-status-row");
+    const modelStatus = page.getByTestId("model-loading-status");
+
+    await expect(modelStatus).toHaveText(HELD_LOADING_MESSAGE);
+
+    const scrollBox = await scrollPane.boundingBox();
+    const statusRowBox = await modelStatusRow.boundingBox();
+
+    expect(scrollBox).not.toBeNull();
+    expect(statusRowBox).not.toBeNull();
+
+    const scrollCenterX = scrollBox!.x + scrollBox!.width / 2;
+    const statusRowCenterX = statusRowBox!.x + statusRowBox!.width / 2;
+
+    expect(Math.abs(statusRowCenterX - scrollCenterX)).toBeLessThanOrEqual(2);
+  });
+
+  test("should apply dark theme scrollbars to application scroll containers", async ({
+    page,
+  }) => {
+    await openChat(page);
+
+    const scrollbarStyles = await page
+      .getByTestId("chat-messages-scroll")
+      .evaluate((element) => {
+        const standardScrollbarColor = getComputedStyle(
+          element,
+        ).getPropertyValue("scrollbar-color");
+        const webkitThumbColor = getComputedStyle(
+          element,
+          "::-webkit-scrollbar-thumb",
+        ).getPropertyValue("background-color");
+        const webkitTrackColor = getComputedStyle(
+          element,
+          "::-webkit-scrollbar-track",
+        ).getPropertyValue("background-color");
+
+        return {
+          standardScrollbarColor,
+          webkitThumbColor,
+          webkitTrackColor,
+        };
+      });
+
+    const hasStandardTheme =
+      scrollbarStyles.standardScrollbarColor.includes("rgb(113, 113, 122)") &&
+      scrollbarStyles.standardScrollbarColor.includes("rgb(10, 10, 10)");
+    const hasWebkitTheme =
+      scrollbarStyles.webkitThumbColor === "rgb(113, 113, 122)" &&
+      scrollbarStyles.webkitTrackColor === "rgb(10, 10, 10)";
+
+    expect(hasStandardTheme || hasWebkitTheme).toBe(true);
   });
 
   test("should maintain scroll position at bottom when messages are sent", async ({
