@@ -6,20 +6,66 @@
 import {
   TextStreamer,
   env,
-  type TextGenerationPipeline,
+  type Text2TextGenerationOutput,
+  type TextGenerationOutput,
 } from "@huggingface/transformers";
 import { WorkerAction, WorkerStatus, type WorkerRequest } from "@/types/worker";
 import { GENERATION_PARAMS } from "@/config/prompts";
 import { createLogger, LOG_AREAS } from "@/utils";
 import { generatePrompt, cleanInput } from "./contextProvider";
-import { loadModel } from "./modelLoader";
+import { loadModel, type LoadedGenerationPipeline } from "./modelLoader";
 
 env.allowLocalModels = false;
 env.remoteHost = "https://huggingface.co";
 
 let viewportWidth: number | undefined;
-let generator: TextGenerationPipeline | null = null;
+let loadedPipeline: LoadedGenerationPipeline | null = null;
 const logger = createLogger(LOG_AREAS.AI_WORKER);
+
+function extractGeneratedText(output: TextGenerationOutput): string {
+  const generated = output[0]?.generated_text;
+
+  if (typeof generated === "string") {
+    return generated.trim();
+  }
+
+  if (Array.isArray(generated)) {
+    for (let index = generated.length - 1; index >= 0; index -= 1) {
+      const message = generated[index];
+      if (message.role !== "assistant") {
+        continue;
+      }
+
+      if (typeof message.content === "string") {
+        return message.content.trim();
+      }
+
+      if (Array.isArray(message.content)) {
+        return message.content
+          .map((part) => {
+            if (typeof part === "string") {
+              return part;
+            }
+
+            if (
+              typeof part === "object" &&
+              part !== null &&
+              "text" in part &&
+              typeof part.text === "string"
+            ) {
+              return part.text;
+            }
+
+            return "";
+          })
+          .join("")
+          .trim();
+      }
+    }
+  }
+
+  return "";
+}
 
 self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
   const { action, input, viewportWidth: nextViewportWidth } = event.data;
@@ -32,7 +78,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
 
   if (action === WorkerAction.LOAD) {
     try {
-      generator = await loadModel({
+      loadedPipeline = await loadModel({
         viewportWidth,
         onProgress: (progress, message) => {
           self.postMessage({
@@ -43,8 +89,8 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
         },
       });
 
-      if (generator) {
-        logger.info("model loaded");
+      if (loadedPipeline) {
+        logger.info(`model loaded via ${loadedPipeline.task}`);
         self.postMessage({
           status: WorkerStatus.LOAD,
           message: "Model loaded successfully!",
@@ -76,7 +122,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
       return;
     }
 
-    if (!generator) {
+    if (!loadedPipeline) {
       self.postMessage({
         status: WorkerStatus.STREAM,
         response:
@@ -86,7 +132,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
       return;
     }
 
-    if (!generator.tokenizer) {
+    if (!loadedPipeline.generator.tokenizer) {
       self.postMessage({
         status: WorkerStatus.STREAM,
         response:
@@ -103,7 +149,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
     let streamedText = "";
 
     try {
-      const streamer = new TextStreamer(generator.tokenizer, {
+      const streamer = new TextStreamer(loadedPipeline.generator.tokenizer, {
         skip_prompt: true,
         skip_special_tokens: true,
         callback_function: (text: string) => {
@@ -112,22 +158,51 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
         },
       });
 
-      const output = await generator(prompt, {
-        temperature: generationParams.temperature,
-        max_new_tokens: generationParams.maxTokens,
-        do_sample: false,
-        repetition_penalty: generationParams.repetitionPenalty,
-        top_k: generationParams.topK,
-        early_stopping: true,
-        streamer,
-      });
-
-      const generatedText = output[0]?.generated_text.trim() ?? "";
-      if (!streamedText.trim() && generatedText.length > 0) {
-        self.postMessage({
-          status: WorkerStatus.STREAM,
-          response: generatedText,
+      if (loadedPipeline.task === "text-generation") {
+        const output = await loadedPipeline.generator(prompt, {
+          temperature: generationParams.temperature,
+          max_new_tokens: generationParams.maxTokens,
+          do_sample: false,
+          repetition_penalty: generationParams.repetitionPenalty,
+          top_k: generationParams.topK,
+          early_stopping: true,
+          return_full_text: false,
+          streamer,
         });
+
+        const generatedText = extractGeneratedText(
+          output as TextGenerationOutput
+        );
+        if (!generatedText) {
+          logger.warn("text-generation output completed without assistant text");
+        } else if (!streamedText.trim()) {
+          self.postMessage({
+            status: WorkerStatus.STREAM,
+            response: generatedText,
+          });
+        }
+      } else {
+        const output = await loadedPipeline.generator(prompt, {
+          temperature: generationParams.temperature,
+          max_new_tokens: generationParams.maxTokens,
+          do_sample: false,
+          repetition_penalty: generationParams.repetitionPenalty,
+          top_k: generationParams.topK,
+          early_stopping: true,
+          streamer,
+        });
+
+        const generatedText =
+          (output as Text2TextGenerationOutput)[0]?.generated_text.trim() ?? "";
+
+        if (!generatedText) {
+          logger.warn("text2text-generation output completed without text");
+        } else if (!streamedText.trim()) {
+          self.postMessage({
+            status: WorkerStatus.STREAM,
+            response: generatedText,
+          });
+        }
       }
     } catch (e) {
       self.postMessage({

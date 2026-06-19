@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { DERIVED_CONFIG, SITE_CONFIG } from "../src/config/site";
 
@@ -39,6 +39,35 @@ function isBlockedRawGitHubHost(urlValue: string): boolean {
   } catch {
     return false;
   }
+}
+
+async function getJavaScriptFiles(directory: string): Promise<string[]> {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files: string[] = [];
+
+  for (const entry of entries) {
+    const entryPath = path.join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      files.push(...(await getJavaScriptFiles(entryPath)));
+    } else if (entry.isFile() && entry.name.endsWith(".js")) {
+      files.push(entryPath);
+    }
+  }
+
+  return files;
+}
+
+async function readExportedJavaScript(): Promise<string> {
+  const chunksDir = path.resolve(process.cwd(), "out", "_next", "static");
+  const files = await getJavaScriptFiles(chunksDir).catch(() => {
+    throw new Error(
+      "Missing exported JavaScript at out/_next/static. Run `npm run build` before Playwright tests.",
+    );
+  });
+  const contents = await Promise.all(files.map((filePath) => readFile(filePath, "utf8")));
+
+  return contents.join("\n");
 }
 
 interface StaticPreviewServer {
@@ -156,6 +185,17 @@ test("should export bundled social icon assets with valid local paths", async ()
   expect(hasBlockedRawGitHubSource).toBe(false);
 });
 
+test("should export the current browser AI worker bundle", async () => {
+  const exportedJavaScript = await readExportedJavaScript();
+
+  expect(exportedJavaScript).toContain("teapotai/teapotllm");
+  expect(exportedJavaScript).toContain("text2text-generation");
+  expect(exportedJavaScript).not.toContain(
+    "justinthelaw/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT",
+  );
+  expect(exportedJavaScript).not.toContain("onnx-community/Qwen2.5-0.5B-Instruct");
+});
+
 test("should preview static export from the emitted base path", async () => {
   const socialIconFiles = getSocialIconFiles();
   const previewServer = await startStaticPreviewServer();
@@ -179,6 +219,47 @@ test("should preview static export from the emitted base path", async () => {
     const iconResponse = await fetch(new URL(`${basePath}/${socialIconFiles[0]}`, rootUrl));
     expect(iconResponse.status).toBe(200);
     expect(iconResponse.headers.get("content-type")).toBe("image/png");
+  } finally {
+    await previewServer.close();
+  }
+});
+
+test("should initialize the exported AI worker from the base path", async ({
+  page,
+}) => {
+  const previewServer = await startStaticPreviewServer();
+  const staticFailures: string[] = [];
+  const workerLogs: string[] = [];
+
+  page.on("response", (response) => {
+    const responseUrl = response.url();
+    if (responseUrl.includes("/_next/static/") && response.status() >= 400) {
+      staticFailures.push(`${response.status()} ${responseUrl}`);
+    }
+  });
+
+  page.on("console", (message) => {
+    const text = message.text();
+    if (text.includes("[AI WORKER]")) {
+      workerLogs.push(text);
+    }
+  });
+
+  await page.route("https://huggingface.co/**", (route) => {
+    route.abort();
+  });
+
+  try {
+    await page.goto(previewServer.origin);
+    await page.getByTestId("ai-chatbot-button").click();
+
+    await expect
+      .poll(() =>
+        workerLogs.some((line) => line.includes("[AI WORKER] initialized")),
+      )
+      .toBeTruthy();
+
+    expect(staticFailures).toEqual([]);
   } finally {
     await previewServer.close();
   }

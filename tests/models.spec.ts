@@ -12,6 +12,19 @@ import {
   getPersonalContextBudget,
   getPromptBudget,
 } from "../src/services/ai/contextProvider";
+import {
+  isLikelyTaskMismatchMessage,
+  loadModel,
+  type GenerationPipelineFactory,
+  type GenerationTask,
+} from "../src/services/ai/modelLoader";
+import type { Text2TextGenerationPipeline } from "@huggingface/transformers";
+
+interface PipelineCall {
+  task: GenerationTask;
+  modelId: string;
+  dtype: string;
+}
 
 function estimateTokenCount(text: string): number {
   return Math.ceil(text.length / 4);
@@ -26,6 +39,58 @@ test.describe("Model dtype policy", () => {
 
   test("does not automatically retry q4 after a q4 preference", () => {
     expect(getDtypeFallbackOrder("q4")).toEqual(["int8", "uint8"]);
+  });
+
+  test("detects incompatible live model architectures for task fallback", () => {
+    expect(
+      isLikelyTaskMismatchMessage("Unsupported model type: t5")
+    ).toBeTruthy();
+    expect(
+      isLikelyTaskMismatchMessage(
+        'Unsupported model type "t5" for task "text-generation".'
+      )
+    ).toBeTruthy();
+    expect(
+      isLikelyTaskMismatchMessage("Failed to allocate memory buffer")
+    ).toBeFalsy();
+  });
+
+  test("retries text2text generation after a task mismatch", async () => {
+    const calls: PipelineCall[] = [];
+    const fakeText2TextGenerator = {} as unknown as Text2TextGenerationPipeline;
+    const fakePipeline: GenerationPipelineFactory = async (
+      task,
+      modelId,
+      options
+    ) => {
+      calls.push({
+        task,
+        modelId,
+        dtype: typeof options.dtype === "string" ? options.dtype : "unknown",
+      });
+
+      if (task === "text-generation") {
+        throw new Error("Unsupported model type: t5");
+      }
+
+      return fakeText2TextGenerator;
+    };
+
+    const loadedPipeline = await loadModel({}, fakePipeline);
+
+    expect(loadedPipeline?.task).toBe("text2text-generation");
+    expect(calls).toEqual([
+      {
+        task: "text-generation",
+        modelId: MODEL_ID,
+        dtype: "int8",
+      },
+      {
+        task: "text2text-generation",
+        modelId: MODEL_ID,
+        dtype: "int8",
+      },
+    ]);
   });
 });
 
