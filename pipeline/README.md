@@ -21,13 +21,14 @@ For per-knob rationale and tuning guidance, see [`HYPERPARAMETER.md`](./HYPERPAR
 From repo root, install and run:
 
 - `uv tool install pre-commit` (or `pipx install pre-commit`)
-- `pre-commit install`
+- `pre-commit install --hook-type pre-commit --hook-type pre-push`
 - `pre-commit run --all-files`
+- `pre-commit run --all-files --hook-stage pre-push`
 
 Pipeline hooks mirror the existing lint/type checks used by this repo:
 
 - `pipeline-ruff`: `cd pipeline && uv run ruff check scripts`
-- `pipeline-pyright`: `cd pipeline && uv run pyright scripts/eval_dataset.py scripts/eval_metrics.py scripts/eval_reporting.py scripts/evaluate_model.py scripts/utils.py`
+- `pipeline-pyright`: `cd pipeline && uv run pyright scripts`
 
 ## Pipeline Checklist
 
@@ -44,6 +45,7 @@ Edit `config.yaml`:
 - [ ] Confirm `model.base` is `Qwen/Qwen2.5-0.5B-Instruct`
 - [ ] Set `dataset.hub_id` to `your-username/Your-Dataset`
 - [ ] Set `model.hub_id` to a new Qwen repo (do not reuse legacy SmolLM2 repo IDs)
+- [ ] Keep `model.trust_remote_code: false` unless you have audited and trust the model repository code
 - [ ] Keep balanced runtime defaults for first pass: `dataset.samples_per_category=1200`, `sft.epochs=8`, `sft.eval_strategy="no"`
 - [ ] Set `include_military: false` if not applicable
 - [ ] Set `has_recommendations: false` if you do not want recommendation-focused questions

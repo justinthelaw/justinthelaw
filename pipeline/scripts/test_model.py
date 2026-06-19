@@ -23,10 +23,14 @@ from utils import (
 
 def _configure_greedy_generation(model: ORTModelForCausalLM) -> None:
     """Normalize generation config for deterministic greedy decoding."""
-    model.generation_config.do_sample = False
-    model.generation_config.temperature = 1.0
-    model.generation_config.top_p = 1.0
-    model.generation_config.top_k = 50
+    generation_config = model.generation_config
+    if generation_config is None:
+        raise RuntimeError('Model did not provide a generation config')
+
+    generation_config.do_sample = False
+    generation_config.temperature = 1.0
+    generation_config.top_p = 1.0
+    generation_config.top_k = 50
 
 
 def test_onnx_model(onnx_path: Path, model_file: str, question: str, expected: str) -> None:
