@@ -186,46 +186,46 @@ export async function loadModel(
 
   for (const dtype of dtypeFallbackOrder) {
     attempts++;
+    let isDownloading = true;
+
+    const pipelineOptions: Record<string, unknown> = {
+      dtype,
+      device: "wasm",
+      progress_callback: (progressData: unknown) => {
+        if (typeof progressData !== "object" || progressData === null) {
+          return;
+        }
+
+        const data = progressData as {
+          progress?: number;
+          status?: string;
+        };
+
+        if (data.progress === undefined || !callbacks.onProgress) {
+          return;
+        }
+
+        const progress = Math.round(data.progress);
+        let message: string;
+
+        if (data.status === "progress") {
+          message = `Downloading model... ${progress}%`;
+          isDownloading = true;
+        } else if (data.status === "done" || progress === 100) {
+          message = `Loading into memory... ${progress}%`;
+          isDownloading = false;
+        } else {
+          message = isDownloading
+            ? `Downloading model... ${progress}%`
+            : `Loading into memory... ${progress}%`;
+        }
+
+        callbacks.onProgress(progress, message);
+      },
+    };
+
     try {
       logger.log(`loading model (${dtype}): ${MODEL_ID}`);
-
-      let isDownloading = true;
-
-      const pipelineOptions: Record<string, unknown> = {
-        dtype,
-        device: "wasm",
-        progress_callback: (progressData: unknown) => {
-          if (typeof progressData !== "object" || progressData === null) {
-            return;
-          }
-
-          const data = progressData as {
-            progress?: number;
-            status?: string;
-          };
-
-          if (data.progress === undefined || !callbacks.onProgress) {
-            return;
-          }
-
-          const progress = Math.round(data.progress);
-          let message: string;
-
-          if (data.status === "progress") {
-            message = `Downloading model... ${progress}%`;
-            isDownloading = true;
-          } else if (data.status === "done" || progress === 100) {
-            message = `Loading into memory... ${progress}%`;
-            isDownloading = false;
-          } else {
-            message = isDownloading
-              ? `Downloading model... ${progress}%`
-              : `Loading into memory... ${progress}%`;
-          }
-
-          callbacks.onProgress(progress, message);
-        },
-      };
 
       const pipelineResult = await createPipeline(
         "text-generation",
