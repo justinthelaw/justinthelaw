@@ -4,6 +4,7 @@
  */
 
 import { WorkerAction, type WorkerResponse } from "@/types/worker";
+import type { ConversationTurn } from "@/types";
 import { createLogger, LOG_AREAS } from "@/utils";
 
 export type AIServiceCallback = (response: WorkerResponse) => void;
@@ -52,7 +53,10 @@ export class AIService {
   /**
    * Generate text from user input.
    */
-  generate(input: string): void {
+  generate(
+    input: string,
+    conversationTurns: readonly ConversationTurn[] = []
+  ): void {
     if (!this.worker) {
       logger.error("worker not initialized");
       return;
@@ -61,6 +65,7 @@ export class AIService {
     this.worker.postMessage({
       action: WorkerAction.GENERATE,
       input,
+      conversationTurns,
     });
   }
 

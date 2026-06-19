@@ -7,7 +7,11 @@ import React, { useEffect, useRef } from "react";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
 import { useChatHistory, useAIGeneration, useModelManagement } from "../hooks";
-import { getPersonalContextBudget } from "@/services/ai/contextProvider";
+import {
+  getPersonalContextBudget,
+  getRecentConversationTurns,
+} from "@/services/ai/contextProvider";
+import { CHATBOT_CONFIG } from "@/config";
 
 export interface ChatContainerProps {
   onClose: () => void;
@@ -23,6 +27,10 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
     loadingMessage,
   } = useModelManagement();
   const personalContextBudget = getPersonalContextBudget();
+  const welcomeMessages = new Set<string>(CHATBOT_CONFIG.welcomeMessages);
+  const conversationTurns = getRecentConversationTurns(
+    messages.filter((message) => !welcomeMessages.has(message.content))
+  );
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -148,6 +156,7 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
             isSendDisabled={!isReady || isGenerating || !!error}
             isInputDisabled={isGenerating}
             placeholder={placeholder}
+            conversationTurns={conversationTurns}
           />
         </div>
       </div>

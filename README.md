@@ -14,6 +14,11 @@ downloadable PDF version of my resume and cover letter.
 >
 > Developer workflow docs are available at
 > [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
+>
+> Local profile-QA training scaffolding lives in
+> [ml/profile-qa/](ml/profile-qa/README.md). It is designed for local NVIDIA GPU
+> LoRA/QLoRA runs and keeps generated datasets, checkpoints, and ONNX artifacts
+> out of git.
 
 ## Quick Facts
 

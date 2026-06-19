@@ -1,10 +1,18 @@
 import { test, expect, type Page } from "@playwright/test";
-import { getPromptBudget } from "../src/services/ai/contextProvider";
+import {
+  getPersonalContextBudget,
+  getPromptBudget,
+} from "../src/services/ai/contextProvider";
 
 async function mockModelWorker(page: Page): Promise<void> {
   await page.addInitScript(() => {
     interface MockWorkerMessage {
       action?: string;
+      input?: string;
+      conversationTurns?: Array<{
+        role: string;
+        content: string;
+      }>;
     }
 
     interface MockWorkerResponse {
@@ -18,6 +26,11 @@ async function mockModelWorker(page: Page): Promise<void> {
         null;
 
       postMessage(message: MockWorkerMessage): void {
+        const mockWindow = window as unknown as {
+          __mockWorkerMessages: MockWorkerMessage[];
+        };
+        mockWindow.__mockWorkerMessages.push(message);
+
         if (message.action === "load") {
           window.setTimeout(() => {
             this.emit({
@@ -45,6 +58,10 @@ async function mockModelWorker(page: Page): Promise<void> {
       }
     }
 
+    const mockWindow = window as unknown as {
+      __mockWorkerMessages: MockWorkerMessage[];
+    };
+    mockWindow.__mockWorkerMessages = [];
     window.Worker = MockWorker as unknown as typeof Worker;
   });
 }
@@ -118,15 +135,21 @@ test.describe("Chatbot UI Tests", () => {
     expect(userBubbleBox!.width).toBeLessThanOrEqual(scrollBox!.width);
   });
 
-  test("should not show profile trim warning when profile fits budget", async ({
+  test("should show profile trim warning only when retrieval excludes sections", async ({
     page,
   }) => {
+    const personalContextBudget = getPersonalContextBudget();
+
     await openChat(page);
 
-    await expect(page.getByTestId("profile-trim-warning")).toHaveCount(0);
-    await expect(page.getByTestId("profile-trim-warning-tooltip")).toHaveCount(
-      0,
-    );
+    if (personalContextBudget.isTrimmed) {
+      await expect(page.getByTestId("profile-trim-warning")).toBeVisible();
+    } else {
+      await expect(page.getByTestId("profile-trim-warning")).toHaveCount(0);
+      await expect(page.getByTestId("profile-trim-warning-tooltip")).toHaveCount(
+        0,
+      );
+    }
   });
 
   test("should show input trim warning with exact overage", async ({
@@ -234,5 +257,50 @@ test.describe("Chatbot UI Tests", () => {
 
     await page.mouse.click(4, 4);
     await expect(inputTooltip).toBeHidden();
+  });
+
+  test("should send recent turns to the worker for follow-up prompts", async ({
+    page,
+  }) => {
+    await openChat(page);
+    await page
+      .getByTestId("chat-input")
+      .fill("Tell me about Justin's Defense Unicorns work.");
+    await page.getByTestId("chat-send-button").click();
+    await expect(page.getByTestId("chat-message-ai").last()).toContainText(
+      "Mock response.",
+    );
+
+    await page.getByTestId("chat-input").fill("What did he improve there?");
+    await page.getByTestId("chat-send-button").click();
+
+    const generateMessages = await page.evaluate(() => {
+      const mockWindow = window as unknown as {
+        __mockWorkerMessages: Array<{
+          action?: string;
+          input?: string;
+          conversationTurns?: Array<{
+            role: string;
+            content: string;
+          }>;
+        }>;
+      };
+      return mockWindow.__mockWorkerMessages.filter(
+        (message) => message.action === "generate",
+      );
+    });
+
+    expect(generateMessages).toHaveLength(2);
+    expect(generateMessages[1].input).toBe("What did he improve there?");
+    expect(generateMessages[1].conversationTurns).toEqual([
+      {
+        role: "user",
+        content: "Tell me about Justin's Defense Unicorns work.",
+      },
+      {
+        role: "assistant",
+        content: "Mock response.",
+      },
+    ]);
   });
 });

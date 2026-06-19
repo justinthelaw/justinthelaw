@@ -3,6 +3,8 @@
  * Typed enums and constants for AI worker communication
  */
 
+import type { ConversationTurn } from "./index";
+
 /**
  * Actions sent TO the worker
  */
@@ -29,6 +31,7 @@ export enum WorkerStatus {
 export interface WorkerRequest {
   action: WorkerAction;
   input?: string;
+  conversationTurns?: ConversationTurn[];
   viewportWidth?: number;
 }
 
