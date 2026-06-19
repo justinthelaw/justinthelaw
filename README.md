@@ -1,39 +1,29 @@
-# Justin Law
 
-[Personal website](https://justinthelaw.github.io/justinthelaw/) with a resume
-viewer and a browser-only AI chatbot that answers from public profile context in
-this repository.
-
-## Demo
-
-<img width="800" height="412" alt="justinthelaw_demo-june_2026" src="https://github.com/user-attachments/assets/7dd70d5e-36bd-43c4-9b41-5002aba05aa5" />
-
-## What It Is
-
-| Capability | Detail |
-| --- | --- |
-| Static hosting | Next.js export for GitHub Pages |
-| Resume | Google Drive PDF preview |
-| Chatbot | HuggingFace Transformers in a browser Web Worker |
-| Training | Optional local profile-QA LoRA/QLoRA pipeline for browser ONNX artifacts |
-
-## Documentation
-
-| Document | Purpose |
-| --- | --- |
-| [docs/CUSTOMIZATION.md](docs/CUSTOMIZATION.md) | Fork and configure the site |
-| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | Local setup and validation |
-| [docs/diagrams.md](docs/diagrams.md) | App architecture, chat flow, static export, and fine-tuning handoff |
-| [ml/profile-qa/README.md](ml/profile-qa/README.md) | Local NVIDIA profile-QA training, evaluation, export, and publishing commands |
+# Welcome to Justin's GitHub page! 👋
 
 ## Quick Facts
 
-| Topic | Detail |
-| --- | --- |
-| Current role | AI Deployment Engineer on the [OpenAI Codex](https://openai.com/codex/) team |
-| Service | Veteran United States Air Force and Space Force officer |
-| Interests | Videogames, hiking, running, and cooking |
+💼 AI Deployment Engineer on the [OpenAI Codex](https://openai.com/codex/) team
 
-## Contact
+🚀 Veteran [United States Air and Space Force](https://www.spaceforce.com/) Officer
 
-[LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)
+🔥 Interested in videogames, hiking, running, and cooking
+
+## Personal Website
+
+<https://justinthelaw.github.io/justinthelaw/>
+
+At the linked website above, you will find an AI chatbot that answers questions using personal context from this repository, alongside a viewable and downloadable PDF version of my resume and cover letter.
+
+<img width="800" height="412" alt="justinthelaw_demo-june_2026" src="https://github.com/user-attachments/assets/7dd70d5e-36bd-43c4-9b41-5002aba05aa5" />
+
+> [!NOTE]
+> You can fork and personalize my website by checking out the [customization guide](docs/CUSTOMIZATION.md).
+>
+> Developer workflow docs are available at [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
+>
+> Local profile-QA training scaffolding lives in [ml/profile-qa/](ml/profile-qa/README.md). It is designed for local NVIDIA GPU LoRA/QLoRA runs and keeps generated datasets, checkpoints, and ONNX artifacts out of git.
+
+## Contact Information
+
+👉 Connect with me on [LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)
