@@ -2,12 +2,16 @@
 
 ## How To Get Help
 
-- Bug reports: open a GitHub issue with the Bug Report template.
-- Feature ideas: open a GitHub issue with the Feature Request template.
-- Security concerns: follow `SECURITY.md`.
+| Need | Path |
+| --- | --- |
+| Bug reports | Open a GitHub issue with the Bug Report template |
+| Feature ideas | Open a GitHub issue with the Feature Request template |
+| Security concerns | Follow `SECURITY.md` |
 
 ## Before Opening An Issue
 
-- Search existing issues first.
-- Include clear reproduction steps.
-- Include environment details and relevant logs.
+| Check | Detail |
+| --- | --- |
+| Search | Search existing issues first |
+| Reproduction | Include clear reproduction steps |
+| Environment | Include environment details and relevant logs |

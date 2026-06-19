@@ -1,37 +1,23 @@
 # Customization Guide
 
-Make this website your own with an AI chatbot that answers questions about you
-using reusable public resume/profile sections from the site configuration.
+Make this static portfolio your own. The browser chatbot answers from reusable
+public profile sections, so configuration should stay factual, public, and easy
+to sync with the optional training pipeline.
 
-## Quick Setup Checklist
+For a system map, see [diagrams.md](diagrams.md).
 
-### 1. Fork Repository (~5 min)
+## Quick Setup
 
 - [ ] Fork this repo to your GitHub account
 - [ ] Rename to `[your-username]` (recommended)
-- [ ] Enable GitHub Pages: Settings -> Pages -> Source: `gh-pages` / `root`
-
-### 2. Configure Website (~10 min)
-
-Edit `src/config/site.ts` and `src/config/prompts.ts`:
-
+- [ ] Set GitHub Pages source to GitHub Actions for CI deploys
 - [ ] Set `name` to your name
 - [ ] Set `githubUsername` to your username
 - [ ] Set `repository.owner` and `repository.name`
 - [ ] Set `resumeFileId` (from Google Drive share link)
 - [ ] Update `socialLinks` (empty string hides a link)
-- [ ] Summarize resume, cover letter, and personal knowledge in `PROFILE_SECTIONS`
+- [ ] Summarize public resume/profile knowledge in `PROFILE_SECTIONS`
 - [ ] Update `CHATBOT_CONFIG.welcomeMessages`
-
-### 3. Upload Resume (~2 min)
-
-- [ ] Upload PDF to Google Drive
-- [ ] Share -> "Anyone with the link"
-- [ ] Copy file ID from URL: `drive.google.com/file/d/[FILE_ID]/view`
-- [ ] Paste into `SITE_CONFIG.resumeFileId`
-
-### 4. Test & Deploy (~5 min)
-
 - [ ] Install `npm` based on your development environment
 - [ ] `npm install`
 - [ ] `npm run dev` (test at localhost:3000)
@@ -41,25 +27,34 @@ Edit `src/config/site.ts` and `src/config/prompts.ts`:
 - [ ] `npm run flight-check`
 - [ ] `npm run deploy`
 
-Pre-commit hooks mirror the repo's current lint checks:
+`SITE_CONFIG.repository.name` controls the production GitHub Pages `basePath`.
+For this repository, that means `/justinthelaw`; forks should not hardcode it.
 
-- `app-eslint` runs `npm run lint`
+The `main` branch deploys through `.github/workflows/deploy.yml` using GitHub
+Pages Actions. `npm run deploy` is the manual path and publishes `out/` to a
+`gh-pages` branch.
 
-## Configuration Files
+## Configuration Map
 
 | File                    | Purpose                                                    |
 | ----------------------- | ---------------------------------------------------------- |
 | `src/config/site.ts`    | Personal info, resume, and chatbot profile sections        |
 | `src/config/models.ts`  | AI model ID and browser dtype policy                       |
 | `src/config/prompts.ts` | Chatbot messages and generation settings                   |
+| `next.config.ts`        | Static export, GitHub Pages `basePath`, and asset prefix   |
+| `ml/profile-qa/`        | Local training, eval, ONNX export, and publishing          |
 
 The default browser model is
 `justinthelaw/teapot-profile-qa-browser-1024`, a browser ONNX profile-QA model
 published with `int8` and `uint8` variants.
 
-## Common Customizations
+## Resume
 
-### Update Chatbot Context
+Upload your PDF to Google Drive, share it as "Anyone with the link", copy the
+file ID from `drive.google.com/file/d/[FILE_ID]/view`, and paste it into
+`SITE_CONFIG.resumeFileId`.
+
+## Chatbot Context
 
 Edit `PROFILE_SECTIONS` in `src/config/site.ts`. Keep the section IDs generic
 so forks can reuse the retrieval behavior:
@@ -95,18 +90,14 @@ fact keywords. Keep generic sections temporally prioritized: `current_role`,
 `experience`, `projects`, `education`, `recommendations`, `skills`, then
 `interests`. Experience should outrank education; recommendations should sit
 just below education and above hobbies/interests or personality-trait sections.
-Avoid employer- or person-specific section IDs. If selected profile sections or
-visitor input exceed the browser model budget, the chat UI shows a small
-warning icon with exact overage details.
 
-The chat modal horizontally centers initial model-loading and error status
-messages within the message body. Application-owned scrollbars are globally
-themed in `src/styles/globals.css` with dark gray thumbs on black tracks,
-including the page and chat history scroll areas. Scrollbars inside
-cross-origin embedded content, such as the Google Drive resume preview, remain
-controlled by the provider.
+If you plan to fine-tune a model, mirror public facts in
+`ml/profile-qa/profile_qa/public_profile.py`. The browser reads the TypeScript
+config; the training pipeline reads the Python profile file.
 
-### Hide a Social Link
+## Social Links
+
+Hide a link by setting it to an empty string:
 
 ```typescript
 socialLinks: {
@@ -114,13 +105,13 @@ socialLinks: {
 }
 ```
 
-### Add a Social Link
+To add a new link:
 
 - [ ] Add URL to `SITE_CONFIG.socialLinks`
 - [ ] Add 48x48px PNG icon to `public/`
 - [ ] Add `<LinkIconButton>` in `src/pages/index.tsx`
 
-### Change the Browser Model
+## Browser Model
 
 Edit `src/config/models.ts`:
 
@@ -133,7 +124,17 @@ Use a model that is compatible with Transformers.js browser inference. If the
 model uses a different Transformers.js task, update
 `src/services/ai/modelLoader.ts` and `src/services/ai/worker.ts` to match.
 
-### Tune AI Responses
+Automatic browser loading uses `int8` first with `uint8` fallback. Do not make
+`q4` the default unless ONNX Runtime Web can reliably load the artifact without
+external `.onnx.data` files.
+
+Before changing the default browser model, satisfy the promotion gate in
+[ml/profile-qa/README.md](../ml/profile-qa/README.md#promotion-gate). At
+minimum, the promoted artifact must include browser-safe `int8` and `uint8`
+ONNX files, no external `.onnx.data` files, and browser smoke coverage for
+desktop and mobile Chromium.
+
+## AI Responses
 
 Edit `src/config/prompts.ts`:
 
@@ -146,8 +147,22 @@ export const GENERATION_PARAMS: GenerationParams = {
 };
 ```
 
+## Fine-Tuning Handoff
+
+The optional local pipeline lives in `ml/profile-qa/`. Use it when a fork needs
+a custom browser model instead of only prompt/context changes.
+
+| Step | Action |
+| --- | --- |
+| 1 | Update public facts in both `src/config/site.ts` and `ml/profile-qa/profile_qa/public_profile.py` |
+| 2 | Follow [ml/profile-qa/README.md](../ml/profile-qa/README.md) to generate data, train LoRA/QLoRA, evaluate, merge, export ONNX, prepare Hugging Face artifacts, and publish |
+| 3 | After promotion passes, update `MODEL_ID` and `MODEL_CONTEXT_LIMIT` in `src/config/models.ts` |
+| 4 | Run `npm run flight-check` |
+
 ## Troubleshooting
 
-- **Resume not displaying**: Check Google Drive link is public
-- **Chatbot not responding**: Check browser console, verify model ID
-- **Build failures**: Run `npm run flight-check` for details
+| Issue | Check |
+| --- | --- |
+| Resume not displaying | Check Google Drive link is public |
+| Chatbot not responding | Check browser console and verify model ID |
+| Build failures | Run `npm run flight-check` for details |

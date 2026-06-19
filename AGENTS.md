@@ -10,19 +10,23 @@ with a resume viewer and an LLM-based chatbot that answers from personal context
 
 ## Stack
 
-- **Next.js 16.3 preview** (static export, pages router; tracks the patched PostCSS line)
-- **React 19** + **TypeScript 6**
-- **Tailwind CSS 4**
-- **Zustand 5** (state management)
-- **HuggingFace Transformers 4** (in-browser inference via Web Worker)
-- **Playwright** (E2E testing)
+| Layer | Tooling |
+| --- | --- |
+| Framework | Next.js 16.3 preview, static export, pages router, patched PostCSS line |
+| UI | React 19 and TypeScript 6 |
+| Styles | Tailwind CSS 4 |
+| State | Zustand 5 |
+| AI runtime | HuggingFace Transformers 4 in a browser Web Worker |
+| Tests | Playwright E2E |
 
 ## Critical Constraints
 
-- **Static export only** - no API routes, server actions, `getServerSideProps`, or any server-side features. Everything runs in the browser.
-- **GitHub Pages** - production uses a dynamic project-site `basePath` (`/justinthelaw`). Never hardcode asset paths.
-- **`npm start` serves static output** - run `npm run build` first, then `npm start` to preview `out/` at the exported base path.
-- **Web Worker AI** - model inference runs in a Web Worker (`src/services/ai/worker.ts`), not on the main thread.
+| Constraint | Rule |
+| --- | --- |
+| Static export only | No API routes, server actions, `getServerSideProps`, or server-side features; everything runs in the browser |
+| GitHub Pages | Production uses a dynamic project-site `basePath` such as `/justinthelaw`; never hardcode asset paths |
+| Static preview | Run `npm run build` before `npm start` to preview `out/` at the exported base path |
+| Web Worker AI | Model inference runs in `src/services/ai/worker.ts`, not on the main thread |
 
 ## Commands
 
@@ -33,15 +37,21 @@ with a resume viewer and an LLM-based chatbot that answers from personal context
 | `npm run clean`                                     | Delete temporary build/dev/test artifacts                          |
 | `npm run lint`                                      | ESLint                                                             |
 | `npm run build`                                     | Next.js static export to `out/`                                    |
-| `npm run test`                                      | Playwright E2E tests (Chromium, Firefox, WebKit, mobile viewports) |
+| `npm run test`                                      | Playwright E2E tests; build first outside `flight-check`           |
 | `npm run deploy`                                    | Build and deploy to GitHub Pages                                   |
 | `pre-commit install`                                | Install Git pre-commit hooks from `.pre-commit-config.yaml`        |
 | `pre-commit run --all-files`                        | Run pre-commit-stage hooks manually                                |
 | `pre-commit run --all-files --hook-stage pre-push`  | Run local lint pre-push hooks manually                             |
 
-Pre-commit hooks mirror local lint checks:
+Pre-commit hooks cover repo hygiene at both pre-commit and pre-push: markdown,
+YAML, GitHub Actions workflow lint, shell scripts, whitespace, smart quotes,
+merge conflicts, private keys, and large files. The local app ESLint hook runs
+at pre-push.
 
-- `app-eslint`: `npm run lint`
+| Command | Stage |
+| --- | --- |
+| `pre-commit run --all-files` | Pre-commit-stage checks |
+| `pre-commit run --all-files --hook-stage pre-push` | Pre-push checks including `app-eslint` (`npm run lint`) |
 
 ## Architecture
 
@@ -67,20 +77,24 @@ tests/                   # Playwright E2E tests
 
 ### Key Patterns
 
-- **Feature-based organization** - group by feature (chat, profile, resume), not by technical type.
-- **Separation of concerns** - UI components handle rendering only; business logic lives in custom hooks; external integrations go in services; global state goes in Zustand stores.
-- **Barrel exports** - every feature directory has an `index.ts` for clean imports.
-- **Typed worker messages** - use `WorkerAction`/`WorkerStatus` enums for worker communication. No magic strings.
-- **Browser-safe dtype loading** - automatic model loading uses int8 with uint8 fallback on all viewports. Do not re-enable q4 by default unless ORT WASM can reliably mount external `.onnx.data` model files in browser workers.
-- **Reusable profile sections** - keep chatbot context sections generic and temporally prioritized (`identity`, `current_role`, `experience`, `projects`, `education`, `recommendations`, `skills`, `interests`). Experience should outrank education; recommendations should sit just below education and above hobbies/interests or personality traits. Put person- or employer-specific terms in fact text/keywords, not section IDs.
+| Pattern | Rule |
+| --- | --- |
+| Feature-based organization | Group by feature such as chat, profile, resume, and links, not by technical type |
+| Separation of concerns | UI components render, custom hooks own business logic, services own integrations, and Zustand owns global state |
+| Barrel exports | Every feature directory has an `index.ts` for clean imports |
+| Typed worker messages | Use `WorkerAction` and `WorkerStatus` enums for worker communication; avoid magic strings |
+| Browser-safe dtype loading | Automatic model loading uses int8 with uint8 fallback on all viewports; do not re-enable q4 by default unless ORT WASM can mount external `.onnx.data` files in browser workers |
+| Reusable profile sections | Keep section IDs generic and temporally prioritized; put person- or employer-specific terms in fact text and keywords, not section IDs |
 
 ## Code Standards
 
-- **TypeScript**: Explicit types everywhere. Use `interface` over `type`. Never use `any`.
-- **React**: Functional components only. Extract complex logic into custom hooks. Add `data-testid` attributes for testable elements.
-- **Tailwind**: Use utility classes. Apply responsive prefixes (`sm:`, `md:`, `lg:`). Group related utilities logically.
-- **State**: Use Zustand stores for global state. Use `persist` middleware for localStorage. Never access localStorage directly.
-- **Imports**: Use the `@/` path alias (maps to `src/`).
+| Area | Standard |
+| --- | --- |
+| TypeScript | Use explicit types, `interface` for object shapes, `type` for unions and callbacks, and avoid `any` |
+| React | Use functional components, extract complex logic into custom hooks, and add `data-testid` attributes for testable elements |
+| Tailwind | Use utility classes, responsive prefixes, and grouped related utilities |
+| State | Use Zustand stores for global state, `persist` middleware for localStorage, and no direct localStorage access |
+| Imports | Use the `@/` path alias, which maps to `src/` |
 
 ## Code Conventions
 
@@ -113,33 +127,48 @@ try { ... } catch (err) {
 
 ## Testing
 
-- **Framework**: Playwright E2E tests in `tests/`.
-- **Browsers**: Chromium, Firefox, WebKit + mobile viewports (Pixel 5, iPhone 12).
-- **Known issues**: GitHub API and HuggingFace model loading may fail in sandboxed environments. PDF viewer may have CORS issues in dev.
-- **After changes**: Always run `npm run flight-check`.
+| Topic | Detail |
+| --- | --- |
+| Framework | Playwright E2E tests in `tests/` |
+| Browsers | Chromium, Firefox, WebKit, Pixel 5, and iPhone 12 |
+| Known issues | GitHub API and HuggingFace model loading may fail in sandboxed environments; PDF viewer may have CORS issues in dev |
+| After changes | Always run `npm run flight-check` |
 
 ## CI/CD
 
-- **Deploy**: `.github/workflows/deploy.yml` - auto-deploys on push to `main`.
-- **Test**: `.github/workflows/app.test.yml` - runs Playwright on all browsers for PRs.
+| Workflow | Purpose |
+| --- | --- |
+| `.github/workflows/deploy.yml` | Auto-deploys on push to `main` |
+| `.github/workflows/app.test.yml` | Runs Playwright on all browsers for PRs |
 
 ## Validation Checklist
 
 Before completing any change, verify:
 
-1. Static export compatible? (no server-side features)
-2. Types explicitly defined? (no `any`, interfaces used)
-3. Responsive design handled? (mobile + desktop)
-4. Error handling present? (fallbacks, user-facing messages)
-5. `npm run flight-check` passes?
+| Check | Requirement |
+| --- | --- |
+| Static export | No server-side features |
+| Types | Explicit definitions, no `any`, interfaces for object shapes |
+| Responsive design | Mobile and desktop handled |
+| Errors | Fallbacks and user-facing messages present |
+| Validation | `npm run flight-check` passes |
 
 ## Documentation
 
 Update these as needed when making changes:
 
-1. `/README.md`
-2. `/AGENTS.md` (this file)
-3. `/docs/CUSTOMIZATION.md`
+| Document | Update when |
+| --- | --- |
+| `/README.md` | Repository orientation changes |
+| `/AGENTS.md` | Agent instructions change |
+| `/docs/CUSTOMIZATION.md` | User-facing configuration changes |
+| `/docs/diagrams.md` | Architecture, runtime flow, deployment behavior, or profile-QA pipeline changes |
+| `/ml/profile-qa/README.md` | Local training, evaluation, export, or publishing commands change |
+
+Keep docs concise and layered: README for orientation, `docs/CUSTOMIZATION.md`
+for configuration, `docs/diagrams.md` for system flow, and
+`ml/profile-qa/README.md` for command-level fine-tuning details. Use exact file
+paths so both humans and agents can act on the instructions.
 
 <!-- BEGIN:nextjs-agent-rules -->
 # This is NOT the Next.js you know

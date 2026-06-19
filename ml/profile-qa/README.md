@@ -4,6 +4,9 @@ This directory contains the local-only training and promotion pipeline for a
 browser profile Q&A model targeting a 1024-token prompt budget. Generated data,
 checkpoints, merged weights, ONNX exports, and reports are ignored by git.
 
+For the end-to-end app and promotion handoff, see
+[docs/diagrams.md](../../docs/diagrams.md).
+
 The profile ontology is intentionally generic for fork reuse: section IDs should
 stay in resume categories such as `identity`, `current_role`, `experience`,
 `projects`, `education`, `recommendations`, `skills`, and `interests`. Keep
@@ -12,13 +15,17 @@ recommendations sit just below education but above hobbies/interests or
 personality-trait sections. Put person-specific names, employers, schools, and
 projects in fact text and keywords.
 
+When changing public facts for a promoted model, keep this Python profile data
+aligned with `src/config/site.ts`; the app reads the TypeScript config, while
+this pipeline reads `profile_qa/public_profile.py`.
+
 ## Prerequisites
 
-- Run from a normal host shell with visible `/dev/nvidia*` devices, or from a
-  container launched with NVIDIA device passthrough.
-- CUDA-enabled PyTorch wheels are sufficient for v1; `nvcc` is optional unless a
-  dependency needs CUDA extension compilation.
-- Install Python dependencies:
+| Need | Detail |
+| --- | --- |
+| NVIDIA access | Run from a host shell with visible `/dev/nvidia*` devices or a container with NVIDIA device passthrough |
+| CUDA | CUDA-enabled PyTorch wheels are sufficient for v1; `nvcc` is optional unless a dependency needs CUDA extension compilation |
+| Python dependencies | Install with the commands below |
 
 ```bash
 python -m venv .venv
@@ -64,17 +71,17 @@ python -m profile_qa.train_lora --model-id Qwen/Qwen2.5-0.5B-Instruct
 Do not update the app's browser `MODEL_ID` or default `MODEL_CONTEXT_LIMIT`
 until all of these are true:
 
-- `python -m profile_qa.gpu_health` passes on the training host.
-- Training completed locally on the NVIDIA GPU with the 8GB-safe defaults.
-- Loss targets are met on a split-isolated validation set: eval loss <= 0.12
-  and recent training-loss windows <= 0.05.
-- The promoted model accepts 1024-token prompts without truncating below 1024.
-- Eval beats the current Teapot baseline by at least 15% macro score.
-- Refusal accuracy is at least 95%.
-- Multi-turn follow-up accuracy is at least 80%.
-- Browser smoke loads and answers a 900-1024 token prompt in Chromium desktop
-  and Mobile Chrome without worker crashes.
-- ONNX artifacts include `int8` and `uint8` variants and no `.onnx.data` files.
+| Gate | Requirement |
+| --- | --- |
+| GPU health | `python -m profile_qa.gpu_health` passes on the training host |
+| Training | Completed locally on the NVIDIA GPU with the 8GB-safe defaults |
+| Loss | Eval loss <= 0.12 and recent training-loss windows <= 0.05 on a split-isolated validation set |
+| Context | Promoted model accepts 1024-token prompts without truncating below 1024 |
+| Baseline | Eval beats the current Teapot baseline by at least 15% macro score |
+| Refusal | Refusal accuracy is at least 95% |
+| Multi-turn | Multi-turn follow-up accuracy is at least 80% |
+| Browser smoke | Loads and answers a 900-1024 token prompt in Chromium desktop and Mobile Chrome without worker crashes |
+| ONNX artifacts | Include `int8` and `uint8` variants and no `.onnx.data` files |
 
 ## Tests
 
