@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { WorkerStatus, type WorkerResponse } from '@/types/worker';
-import { getAIService } from '@/services/ai';
+import { cleanInput, getAIService } from '@/services/ai';
 import { useChatStore } from '@/stores/chatStore';
 import { createLogger, LOG_AREAS } from "@/utils";
 
@@ -75,7 +75,9 @@ export function useAIGeneration(): UseAIGenerationReturn {
   }, [setIsGenerating, updateCurrentResponse, addMessage]);
 
   const generate = useCallback((input: string) => {
-    if (!input.trim()) return;
+    const cleanedInput = cleanInput(input);
+
+    if (!cleanedInput.trim()) return;
 
     const aiService = getAIService();
 
@@ -85,10 +87,10 @@ export function useAIGeneration(): UseAIGenerationReturn {
     }
 
     // Add user message to history
-    addMessage('user', input.trim());
+    addMessage('user', cleanedInput);
 
     // Start generation
-    aiService.generate(input.trim());
+    aiService.generate(cleanedInput);
   }, [addMessage]);
 
   return {

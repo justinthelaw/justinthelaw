@@ -29,5 +29,5 @@
     ".next/types/**/*.ts",
     "**/*.d.ts"
   ],
-  "exclude": ["node_modules", "pipeline"]
+  "exclude": ["node_modules"]
 }

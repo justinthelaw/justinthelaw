@@ -84,19 +84,3 @@ repos:
         pass_filenames: false
         stages: [pre-push]
         files: ^(src/.*\.(ts|tsx|js|jsx)|tests/.*\.(ts|tsx|js|jsx)|eslint\.config\.mjs|next\.config\.ts|tailwind\.config\.ts|playwright\.config\.ts|postcss\.config\.mjs|package\.json)$
-
-      - id: pipeline-ruff
-        name: pipeline-ruff (uv run ruff check scripts)
-        entry: bash -c 'cd pipeline && uv run ruff check scripts'
-        language: system
-        pass_filenames: false
-        stages: [pre-push]
-        files: ^pipeline/(scripts/.*\.py|pyproject\.toml)$
-
-      - id: pipeline-pyright
-        name: pipeline-pyright (uv run pyright scripts)
-        entry: bash -c 'cd pipeline && uv run pyright scripts'
-        language: system
-        pass_filenames: false
-        stages: [pre-push]
-        files: ^pipeline/(scripts/.*\.py|pyproject\.toml)$

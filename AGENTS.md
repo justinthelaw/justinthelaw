@@ -4,7 +4,9 @@ Instructions for AI coding agents operating in this repository.
 
 ## Project Overview
 
-Next.js static site for GitHub Pages with an in-browser AI chatbot powered by HuggingFace Transformers (WebAssembly). The site serves as a personal portfolio with a resume viewer and an LLM-based chatbot fine-tuned on resume data.
+Next.js static site for GitHub Pages with an in-browser AI chatbot powered by
+HuggingFace Transformers (WebAssembly). The site serves as a personal portfolio
+with a resume viewer and an LLM-based chatbot that answers from personal context.
 
 ## Stack
 
@@ -24,26 +26,22 @@ Next.js static site for GitHub Pages with an in-browser AI chatbot powered by Hu
 
 ## Commands
 
-| Command                                             | Purpose                                                             |
-| --------------------------------------------------- | ------------------------------------------------------------------- |
-| `npm run dev`                                       | Development server                                                  |
-| `npm run flight-check`                              | **Run after all changes** - cleans, lints, builds, and tests        |
-| `npm run clean`                                     | Delete temporary build/dev/test artifacts                           |
-| `npm run lint`                                      | ESLint                                                              |
-| `npm run build`                                     | Next.js static export to `out/`                                     |
-| `npm run test`                                      | Playwright E2E tests (Chromium, Firefox, WebKit, mobile viewports)  |
-| `npm run deploy`                                    | Build and deploy to GitHub Pages                                    |
-| `pre-commit install`                                | Install Git pre-commit hooks from `.pre-commit-config.yaml`         |
-| `pre-commit run --all-files`                        | Run pre-commit-stage hooks manually                                 |
-| `pre-commit run --all-files --hook-stage pre-push`  | Run local lint/type pre-push hooks manually                         |
-| `cd pipeline && make eval-smoke`                    | Deterministic smoke evaluation for ONNX fine-tuned models           |
-| `cd pipeline && make eval-full`                     | Full threshold-gated evaluation suite for ONNX fine-tuned models    |
+| Command                                             | Purpose                                                            |
+| --------------------------------------------------- | ------------------------------------------------------------------ |
+| `npm run dev`                                       | Development server                                                 |
+| `npm run flight-check`                              | **Run after all changes** - cleans, lints, builds, and tests       |
+| `npm run clean`                                     | Delete temporary build/dev/test artifacts                          |
+| `npm run lint`                                      | ESLint                                                             |
+| `npm run build`                                     | Next.js static export to `out/`                                    |
+| `npm run test`                                      | Playwright E2E tests (Chromium, Firefox, WebKit, mobile viewports) |
+| `npm run deploy`                                    | Build and deploy to GitHub Pages                                   |
+| `pre-commit install`                                | Install Git pre-commit hooks from `.pre-commit-config.yaml`        |
+| `pre-commit run --all-files`                        | Run pre-commit-stage hooks manually                                |
+| `pre-commit run --all-files --hook-stage pre-push`  | Run local lint pre-push hooks manually                             |
 
-Pre-commit hooks mirror local lint/type checks by codebase:
+Pre-commit hooks mirror local lint checks:
 
 - `app-eslint`: `npm run lint`
-- `pipeline-ruff`: `cd pipeline && uv run ruff check scripts`
-- `pipeline-pyright`: `cd pipeline && uv run pyright scripts`
 
 ## Architecture
 
@@ -60,12 +58,11 @@ src/
 ├── services/            # External dependencies
 │   ├── ai/              # AI service layer (worker, model loader, context provider)
 │   └── github/          # GitHub API integration
-├── stores/              # Zustand stores (chatStore.ts, modelStore.ts)
+├── stores/              # Zustand stores (chatStore.ts)
 ├── types/               # TypeScript interfaces and enums (worker message types)
 ├── utils/               # Utilities (device detection)
 └── styles/              # Global CSS (Tailwind)
 tests/                   # Playwright E2E tests
-pipeline/                # Python ML fine-tuning pipeline (separate from the Next.js app)
 ```
 
 ### Key Patterns
@@ -74,7 +71,6 @@ pipeline/                # Python ML fine-tuning pipeline (separate from the Nex
 - **Separation of concerns** - UI components handle rendering only; business logic lives in custom hooks; external integrations go in services; global state goes in Zustand stores.
 - **Barrel exports** - every feature directory has an `index.ts` for clean imports.
 - **Typed worker messages** - use `WorkerAction`/`WorkerStatus` enums for worker communication. No magic strings.
-- **Model fallback** - SMARTER (fine-tuned) fails gracefully to DUMBER (generic), then to error state.
 - **Browser-safe dtype loading** - automatic model loading uses int8 with uint8 fallback on all viewports. Do not re-enable q4 by default unless ORT WASM can reliably mount external `.onnx.data` model files in browser workers.
 
 ## Code Standards
@@ -125,7 +121,6 @@ try { ... } catch (err) {
 
 - **Deploy**: `.github/workflows/deploy.yml` - auto-deploys on push to `main`.
 - **Test**: `.github/workflows/app.test.yml` - runs Playwright on all browsers for PRs.
-- **Pipeline Eval**: `.github/workflows/pipeline.test.yml` - runs pipeline lint/type checks for `pipeline/**` PR changes and runs smoke eval when ONNX + dataset artifacts are available.
 
 ## Validation Checklist
 
@@ -144,8 +139,6 @@ Update these as needed when making changes:
 1. `/README.md`
 2. `/AGENTS.md` (this file)
 3. `/docs/CUSTOMIZATION.md`
-4. `/pipeline/README.md`
-5. `/pipeline/HYPERPARAMETER.md`
 
 <!-- BEGIN:nextjs-agent-rules -->
 # This is NOT the Next.js you know

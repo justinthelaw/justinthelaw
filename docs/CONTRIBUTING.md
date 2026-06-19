@@ -11,8 +11,6 @@ Thanks for contributing to Justin's projects.
 
 ## Development Setup
 
-### Web app
-
 1. Install dependencies:
 
 ```bash
@@ -25,30 +23,12 @@ npm install
 npm run dev
 ```
 
-### Fine-tuning pipeline
-
-1. Move into `pipeline/`.
-2. Sync dependencies with `uv`:
-
-```bash
-cd pipeline
-uv sync
-```
-
 ## Validation
 
 Run this before pushing:
 
 ```bash
 npm run flight-check
-```
-
-Pipeline-only updates should also run:
-
-```bash
-cd pipeline
-uv run ruff check scripts
-uv run pyright scripts
 ```
 
 ## Pre-commit
@@ -65,7 +45,7 @@ Run pre-commit-stage hooks manually:
 pre-commit run --all-files
 ```
 
-Run local lint/type pre-push hooks manually:
+Run local pre-push hooks manually:
 
 ```bash
 pre-commit run --all-files --hook-stage pre-push

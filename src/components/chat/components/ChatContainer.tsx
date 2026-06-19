@@ -6,8 +6,8 @@
 import React, { useEffect, useRef } from "react";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
-import { ChatSettings } from "./ChatSettings";
 import { useChatHistory, useAIGeneration, useModelManagement } from "../hooks";
+import { getPersonalContextBudget } from "@/services/ai/contextProvider";
 
 export interface ChatContainerProps {
   onClose: () => void;
@@ -21,8 +21,8 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
     isReady,
     error,
     loadingMessage,
-    reloadWithNewModel,
   } = useModelManagement();
+  const personalContextBudget = getPersonalContextBudget();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -69,7 +69,6 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
               AI Chatbot
             </h3>
             <div className="flex space-x-2 items-center">
-              <ChatSettings onReload={reloadWithNewModel} />
               <button
                 onClick={handleClearHistory}
                 disabled={isGenerating}
@@ -131,13 +130,23 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
               isGenerating={isGenerating}
               isLoading={isLoading}
               loadingMessage={loadingMessage}
+              showPersonalContextTrimWarning={
+                personalContextBudget.isTrimmed
+              }
+              overBudgetPersonalContextCharacters={
+                personalContextBudget.overBudgetCharacters
+              }
+              trimmedPersonalContextCharacters={
+                personalContextBudget.trimmedCharacters
+              }
             />
             <div ref={messagesEndRef} />
           </div>
 
           <ChatInput
             onSend={handleSend}
-            isDisabled={!isReady || isGenerating || !!error}
+            isSendDisabled={!isReady || isGenerating || !!error}
+            isInputDisabled={isGenerating}
             placeholder={placeholder}
           />
         </div>

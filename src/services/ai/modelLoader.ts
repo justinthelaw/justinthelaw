@@ -1,6 +1,6 @@
 /**
- * Model Loader
- * Handles loading text generation models with progressive fallback on failure
+ * Model loader.
+ * Handles loading the browser text generation model with dtype fallback.
  */
 
 import {
@@ -8,25 +8,21 @@ import {
   env,
   type TextGenerationPipeline,
 } from "@huggingface/transformers";
-import { ModelType } from "@/types";
 import {
-  MODEL_IDS,
+  MODEL_ID,
   getDeviceSpecificDtype,
   getDtypeFallbackOrder,
 } from "@/config/models";
-import { SITE_CONFIG } from "@/config/site";
 import { createLogger, LOG_AREAS } from "@/utils";
 
-// Configure environment for browser usage
 env.allowLocalModels = false;
 env.remoteHost = "https://huggingface.co";
+
 const logger = createLogger(LOG_AREAS.AI_MODEL_LOADER);
 
 export interface LoaderCallbacks {
   viewportWidth?: number;
   onProgress?: (progress: number, message: string) => void;
-  onFallback?: (newModel: ModelType) => void;
-  onError?: (message: string) => void;
 }
 
 interface NormalizedLoadError {
@@ -113,25 +109,13 @@ function normalizeLoadError(error: unknown): NormalizedLoadError {
 }
 
 /**
- * Get the next smaller model size for fallback
- */
-export function getNextSmallerModel(currentSize: ModelType): ModelType | null {
-  if (currentSize === ModelType.SMARTER) return ModelType.DUMBER;
-  return null; // Already at smallest (DUMBER)
-}
-
-/**
- * Loads a text generation model with model size fallback on failure
+ * Loads the configured text generation model.
  * Dtype is selected from viewport-aware preferences with fallback ordering.
  */
-export async function loadModelWithFallback(
-  modelType: ModelType,
+export async function loadModel(
   callbacks: LoaderCallbacks = {}
 ): Promise<TextGenerationPipeline | null> {
-  let generator: TextGenerationPipeline | null = null;
   let attempts = 0;
-  let smarterErrorReported = false;
-
   const preferredDtype = getDeviceSpecificDtype(callbacks.viewportWidth);
   const dtypeFallbackOrder = getDtypeFallbackOrder(preferredDtype);
 
@@ -141,104 +125,76 @@ export async function loadModelWithFallback(
     )}`
   );
 
-  let currentSize: ModelType | null = modelType;
+  for (const dtype of dtypeFallbackOrder) {
+    attempts++;
+    try {
+      logger.log(`loading model (${dtype}): ${MODEL_ID}`);
 
-  while (currentSize && !generator) {
-    const modelId = MODEL_IDS[currentSize];
+      let isDownloading = true;
 
-    for (const dtype of dtypeFallbackOrder) {
-      attempts++;
-      try {
-        logger.log(`loading ${currentSize} model (${dtype}): ${modelId}`);
-
-        // Track if we're in download phase (first time seeing progress)
-        let isDownloading = true;
-
-        const pipelineOptions: Record<string, unknown> = {
-          dtype,
-          device: "wasm",
-          progress_callback: (progressData: unknown) => {
-            if (typeof progressData === "object" && progressData !== null) {
-              const data = progressData as {
-                progress?: number;
-                status?: string;
-              };
-              if (data.progress !== undefined && callbacks.onProgress) {
-                const progress = Math.round(data.progress);
-
-                // Differentiate between download and loading into memory
-                let message: string;
-                if (data.status === "progress") {
-                  message = `Downloading model... ${progress}%`;
-                  isDownloading = true;
-                } else if (data.status === "done" || progress === 100) {
-                  message = `Loading into memory... ${progress}%`;
-                  isDownloading = false;
-                } else {
-                  message = isDownloading
-                    ? `Downloading model... ${progress}%`
-                    : `Loading into memory... ${progress}%`;
-                }
-
-                callbacks.onProgress(progress, message);
-              }
-            }
-          },
-        };
-
-        const pipelineResult = await pipeline(
-          "text-generation",
-          modelId,
-          pipelineOptions
-        );
-
-        generator = pipelineResult as TextGenerationPipeline;
-        return generator;
-      } catch (error) {
-        const normalizedError = normalizeLoadError(error);
-        const fallbackHint = normalizedError.isLikelyMemoryError
-          ? "Likely memory/runtime pressure. Trying lower-memory fallback."
-          : "Trying next fallback option.";
-
-        logger.error(
-          `attempt ${attempts} failed for ${currentSize} (${dtype}): ${normalizedError.message}`
-        );
-        if (
-          normalizedError.isLikelyMemoryError ||
-          normalizedError.isNumericRuntimeCode
-        ) {
-          logger.warn(fallbackHint);
-          if (normalizedError.isNumericRuntimeCode) {
-            logger.warn(
-              "numeric runtime codes from ONNX/WebAssembly are often opaque; fallback will continue."
-            );
+      const pipelineOptions: Record<string, unknown> = {
+        dtype,
+        device: "wasm",
+        progress_callback: (progressData: unknown) => {
+          if (typeof progressData !== "object" || progressData === null) {
+            return;
           }
+
+          const data = progressData as {
+            progress?: number;
+            status?: string;
+          };
+
+          if (data.progress === undefined || !callbacks.onProgress) {
+            return;
+          }
+
+          const progress = Math.round(data.progress);
+          let message: string;
+
+          if (data.status === "progress") {
+            message = `Downloading model... ${progress}%`;
+            isDownloading = true;
+          } else if (data.status === "done" || progress === 100) {
+            message = `Loading into memory... ${progress}%`;
+            isDownloading = false;
+          } else {
+            message = isDownloading
+              ? `Downloading model... ${progress}%`
+              : `Loading into memory... ${progress}%`;
+          }
+
+          callbacks.onProgress(progress, message);
+        },
+      };
+
+      const pipelineResult = await pipeline(
+        "text-generation",
+        MODEL_ID,
+        pipelineOptions
+      );
+
+      return pipelineResult as TextGenerationPipeline;
+    } catch (error) {
+      const normalizedError = normalizeLoadError(error);
+      const fallbackHint = normalizedError.isLikelyMemoryError
+        ? "Likely memory/runtime pressure. Trying lower-memory dtype fallback."
+        : "Trying next dtype fallback option.";
+
+      logger.error(
+        `attempt ${attempts} failed for ${dtype}: ${normalizedError.message}`
+      );
+      if (
+        normalizedError.isLikelyMemoryError ||
+        normalizedError.isNumericRuntimeCode
+      ) {
+        logger.warn(fallbackHint);
+        if (normalizedError.isNumericRuntimeCode) {
+          logger.warn(
+            "numeric runtime codes from ONNX/WebAssembly are often opaque; fallback will continue."
+          );
         }
       }
-    }
-
-    if (currentSize === ModelType.SMARTER) {
-      if (!smarterErrorReported && callbacks.onError) {
-        callbacks.onError(
-          `Sorry, we couldn't load the smarter model, so now you are talking with me - the dumber one! However, I am still able to answer basic questions about ${SITE_CONFIG["name"]}, so please ask away!`
-        );
-        smarterErrorReported = true;
-      }
-
-      const nextSize = getNextSmallerModel(currentSize);
-      if (nextSize) {
-        currentSize = nextSize;
-        if (callbacks.onFallback) {
-          callbacks.onFallback(nextSize);
-        }
-        logger.log(
-          `smarter model failed across dtype fallbacks, switching to: ${MODEL_IDS[nextSize]}`
-        );
-      } else {
-        currentSize = null;
-      }
-    } else {
-      currentSize = null;
     }
   }
 

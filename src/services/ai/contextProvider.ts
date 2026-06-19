@@ -1,74 +1,213 @@
 /**
- * AI Context Provider
- * Generates conversation messages for Qwen2.5 models
+ * AI context provider.
+ * Generates text-to-text prompts for the browser chatbot model.
  */
 
-import { ModelType } from "@/types";
-import { PROFILE, SITE_CONFIG } from "@/config/site";
-import { CHATBOT_CONFIG } from "@/config/prompts";
-import { MAX_SINGLE_MESSAGE_LENGTH } from "@/config/prompts";
+import { MODEL_CONTEXT_LIMIT } from "@/config/models";
+import { CHATBOT_CONFIG, MAX_SINGLE_MESSAGE_LENGTH } from "@/config/prompts";
+import { PERSONAL_CONTEXT, SITE_CONFIG } from "@/config/site";
 
-export interface ChatMessage {
-  role: "system" | "user";
-  content: string;
-}
+const ESTIMATED_CHARS_PER_TOKEN = 4;
+const PROMPT_SAFETY_MARGIN_TOKENS = 48;
+const TOKEN_DENSE_CHARACTER_WEIGHT = 4;
 
 export interface ResponseValidation {
   isValid: boolean;
   issues: string[];
 }
 
-/**
- * System message for LLM, with full profile context for DUMBER model
- * Built dynamically from the site config and profile data
- */
-function buildSystemMessage(modelType: ModelType): string {
-  if (modelType === ModelType.SMARTER) {
-    return CHATBOT_CONFIG.systemPrompt;
-  } else {
-    const profileLines = [
-      PROFILE.role ? `- Role: ${PROFILE.role}` : null,
-      PROFILE.company ? `- Company: ${PROFILE.company}` : null,
-      PROFILE.background ? `- Background: ${PROFILE.background}` : null,
-      PROFILE.education ? `- Education: ${PROFILE.education}` : null,
-      PROFILE.military ? `- Military Service: ${PROFILE.military}` : null,
-      PROFILE.skills ? `- Technical Skills: ${PROFILE.skills}` : null,
-      PROFILE.personality ? `- Personality: ${PROFILE.personality}` : null,
-      PROFILE.interests ? `- Interests: ${PROFILE.interests}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
+export interface PromptBudget {
+  personalContext: string;
+  isPersonalContextTrimmed: boolean;
+  overBudgetPersonalContextCharacters: number;
+  trimmedPersonalContextCharacters: number;
+  inputCharacterLimit: number;
+  isInputTrimmed: boolean;
+  trimmedInputCharacters: number;
+  estimatedPromptTokens: number;
+  maxPromptCharacters: number;
+}
 
-    return `${CHATBOT_CONFIG.systemPrompt}\nAbout ${SITE_CONFIG.name}:\n${profileLines}`;
+export interface PersonalContextBudget {
+  text: string;
+  isTrimmed: boolean;
+  overBudgetCharacters: number;
+  trimmedCharacters: number;
+}
+
+interface InputTrimResult {
+  text: string;
+  isTrimmed: boolean;
+  trimmedCharacters: number;
+}
+
+function getMaxPromptCharacters(): number {
+  return Math.max(
+    0,
+    (MODEL_CONTEXT_LIMIT - PROMPT_SAFETY_MARGIN_TOKENS) *
+      ESTIMATED_CHARS_PER_TOKEN
+  );
+}
+
+function trimFromTail(
+  text: string,
+  maxCharacters: number
+): PersonalContextBudget {
+  const normalizedText = text.trim();
+
+  if (normalizedText.length <= maxCharacters) {
+    return {
+      text: normalizedText,
+      isTrimmed: false,
+      overBudgetCharacters: 0,
+      trimmedCharacters: 0,
+    };
   }
+
+  const trimmedText = normalizedText.slice(0, Math.max(0, maxCharacters));
+  const trimmedCharacters = normalizedText.length - trimmedText.length;
+
+  return {
+    text: trimmedText,
+    isTrimmed: true,
+    overBudgetCharacters: trimmedCharacters,
+    trimmedCharacters,
+  };
+}
+
+function getInputCharacterWeight(character: string): number {
+  const codePoint = character.codePointAt(0) ?? 0;
+  return codePoint >= 32 && codePoint <= 126
+    ? 1
+    : TOKEN_DENSE_CHARACTER_WEIGHT;
+}
+
+function trimInputToBudget(text: string, maxBudget: number): InputTrimResult {
+  let usedBudget = 0;
+  let endIndex = 0;
+
+  for (const character of text) {
+    const nextBudget = usedBudget + getInputCharacterWeight(character);
+    if (nextBudget > maxBudget) {
+      break;
+    }
+
+    usedBudget = nextBudget;
+    endIndex += character.length;
+  }
+
+  const trimmedText = text.slice(0, endIndex).trimEnd();
+
+  return {
+    text: trimmedText,
+    isTrimmed: trimmedText.length < text.length,
+    trimmedCharacters: text.length - trimmedText.length,
+  };
+}
+
+function buildPrompt(personalContext: string, question: string): string {
+  return `${CHATBOT_CONFIG.systemPrompt}
+
+Context:
+${SITE_CONFIG.name} refers to ${SITE_CONFIG.fullName}.
+${personalContext}
+
+Question:
+${question}
+
+Answer:`;
+}
+
+function estimateTokenCount(text: string): number {
+  return Math.ceil(text.length / ESTIMATED_CHARS_PER_TOKEN);
+}
+
+function getMaxPersonalContextCharacters(): number {
+  const promptWithoutPersonalContext = buildPrompt(
+    "",
+    "x".repeat(MAX_SINGLE_MESSAGE_LENGTH)
+  );
+
+  return Math.max(
+    0,
+    getMaxPromptCharacters() - promptWithoutPersonalContext.length
+  );
+}
+
+export function getPersonalContextBudget(): PersonalContextBudget {
+  return trimFromTail(PERSONAL_CONTEXT, getMaxPersonalContextCharacters());
+}
+
+export function getInputCharacterLimit(personalContext?: string): number {
+  const contextText = personalContext ?? getPersonalContextBudget().text;
+  const promptWithoutQuestion = buildPrompt(contextText, "");
+  const remainingCharacters =
+    getMaxPromptCharacters() - promptWithoutQuestion.length;
+
+  return Math.max(
+    0,
+    Math.min(MAX_SINGLE_MESSAGE_LENGTH, remainingCharacters)
+  );
+}
+
+export function getPromptBudget(userInput: string = ""): PromptBudget {
+  const personalContextBudget = getPersonalContextBudget();
+  const inputCharacterLimit = getInputCharacterLimit(
+    personalContextBudget.text
+  );
+  const inputBudget = trimInputToBudget(
+    cleanRawInput(userInput),
+    inputCharacterLimit
+  );
+  const question = inputBudget.text;
+  const prompt = buildPrompt(personalContextBudget.text, question);
+
+  return {
+    personalContext: personalContextBudget.text,
+    isPersonalContextTrimmed: personalContextBudget.isTrimmed,
+    overBudgetPersonalContextCharacters:
+      personalContextBudget.overBudgetCharacters,
+    trimmedPersonalContextCharacters:
+      personalContextBudget.trimmedCharacters,
+    inputCharacterLimit,
+    isInputTrimmed: inputBudget.isTrimmed,
+    trimmedInputCharacters: inputBudget.trimmedCharacters,
+    estimatedPromptTokens: estimateTokenCount(prompt),
+    maxPromptCharacters: getMaxPromptCharacters(),
+  };
 }
 
 /**
- * Generate conversation messages based on model type
- * Single-turn only - no conversation history is passed
+ * Generate a single-turn prompt for Teapot-style context question answering.
  */
-export function generateConversationMessages(
-  userInput: string,
-  modelType: ModelType
-): ChatMessage[] {
-  const question = cleanInput(userInput);
+export function generatePrompt(userInput: string): string {
+  const budget = getPromptBudget(userInput);
+  const question = cleanInput(userInput, budget.inputCharacterLimit);
 
-  return [
-    { role: "system", content: buildSystemMessage(modelType) },
-    { role: "user", content: question },
-  ];
+  return buildPrompt(budget.personalContext, question);
 }
 
-/**
- * Sanitize user input
- */
-export function cleanInput(input?: string): string {
+function cleanRawInput(input?: string): string {
   if (!input) return "";
 
   return input
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/['']/g, "'")
+    .replace(/[""]/g, '"')
+    .replace(/[–—]/g, "-")
     .replace(/`/g, "")
     .replace(/[<>]/g, "")
     .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, MAX_SINGLE_MESSAGE_LENGTH);
+    .trim();
+}
+
+/**
+ * Sanitize user input.
+ */
+export function cleanInput(
+  input?: string,
+  maxCharacters: number = getInputCharacterLimit()
+): string {
+  return trimInputToBudget(cleanRawInput(input), maxCharacters).text;
 }
