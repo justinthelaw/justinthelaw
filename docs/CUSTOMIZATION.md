@@ -99,6 +99,13 @@ Avoid employer- or person-specific section IDs. If selected profile sections or
 visitor input exceed the browser model budget, the chat UI shows a small
 warning icon with exact overage details.
 
+The chat modal horizontally centers initial model-loading and error status
+messages within the message body. Application-owned scrollbars are globally
+themed in `src/styles/globals.css` with dark gray thumbs on black tracks,
+including the page and chat history scroll areas. Scrollbars inside
+cross-origin embedded content, such as the Google Drive resume preview, remain
+controlled by the provider.
+
 ### Hide a Social Link
 
 ```typescript
