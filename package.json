@@ -7,18 +7,18 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
-    "start": "serve out -l 3000",
+    "start": "node scripts/serve-static-preview.mjs",
     "lint": "eslint .",
+    "pretest": "playwright install",
     "test": "playwright test",
     "deploy": "npm run build && gh-pages -d out",
     "clean": "rm -rf out test-results playwright-report .next test-results.json",
-    "flight-check": "npm run clean && npm run lint && npm run build && npm run test",
-    "postinstall": "playwright install"
+    "flight-check": "npm run clean && npm run lint && npm run build && npm run test"
   },
   "dependencies": {
     "@deemlol/next-icons": "^0.2.7",
     "@huggingface/transformers": "^4.2.0",
-    "next": "^16.2.7",
+    "next": "^16.3.0-preview.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "zustand": "^5.0.14"
@@ -26,21 +26,20 @@
   "devDependencies": {
     "@eslint/compat": "^2.1.0",
     "@eslint/js": "^9.39.4",
-    "@playwright/test": "^1.60.0",
-    "@tailwindcss/postcss": "^4.3.0",
-    "@types/node": "^25.9.2",
+    "@playwright/test": "^1.61.0",
+    "@tailwindcss/postcss": "^4.3.1",
+    "@types/node": "^25.9.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "baseline-browser-mapping": "^2.10.34",
+    "baseline-browser-mapping": "^2.10.38",
     "eslint": "^9.39.4",
-    "eslint-config-next": "16.2.7",
+    "eslint-config-next": "^16.3.0-preview.3",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "gh-pages": "^6.3.0",
     "postcss": "^8",
-    "serve": "^14.2.6",
-    "tailwindcss": "^4.1.18",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.60.1"
+    "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1"
   }
 }
