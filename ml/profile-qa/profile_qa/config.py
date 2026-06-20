@@ -9,7 +9,6 @@ PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 
 MODEL_CONTEXT_LIMIT = 1024
 PRIMARY_BASE_MODEL_ID = "teapotai/teapotllm"
-FALLBACK_BASE_MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
 DATASET_VERSION = "public-profile-v1"
 
 DATA_DIR = PACKAGE_ROOT / "data"

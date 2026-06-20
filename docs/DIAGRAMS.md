@@ -15,6 +15,7 @@ fit together.
 | Browser model and context limit | `src/config/models.ts` | Default is `int8` with `uint8` fallback |
 | Prompt retrieval and budget trimming | `src/services/ai/contextProvider.ts` | Ranks profile sections and fits prompt/history into budget |
 | Worker inference | `src/services/ai/worker.ts` | Runs Transformers.js off the main thread |
+| LLM Visualizer | `src/components/profile/ProfileVisualizerModal.tsx` | Lazy client-only Three.js modal for the browser AI architecture trace |
 | Local training defaults | `ml/profile-qa/profile_qa/config.py` | Holds model IDs, 1024-token budget, and LoRA defaults |
 | Pipeline commands | `ml/profile-qa/README.md` | Command-level training, eval, export, and publish guide |
 
@@ -29,9 +30,13 @@ flowchart TD
   page --> resume["ResumeViewer"]
   resume --> drive["Google Drive PDF preview"]
   page --> chat["ChatContainer, client only"]
+  page --> visualizer["LLM Visualizer modal, client only"]
   chat --> chatHooks["Chat hooks"]
   chatHooks --> chatStore["Zustand chat store"]
   chatHooks --> aiService["AIService"]
+  visualizer --> three["Three.js architecture scene"]
+  visualizer --> trace["Local trace controller"]
+  trace --> aiService
   aiService --> worker["Web Worker"]
   worker --> loader["modelLoader.ts"]
   loader --> hf["Hugging Face model files"]
@@ -122,9 +127,9 @@ does not train models and does not call a server.
 | --- | --- | --- |
 | Facts | `src/config/site.ts` and `ml/profile-qa/profile_qa/public_profile.py` | Keep public facts aligned before generating data |
 | Dataset | `python -m profile_qa.synthetic_data` | Generated data stays under ignored `ml/profile-qa/data/` |
-| Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Defaults target local 8GB NVIDIA LoRA/QLoRA runs |
-| Evaluation | `python -m profile_qa.evaluate` | Compare validation/test reports before promotion |
-| ONNX export | `python -m profile_qa.export_onnx` | Reject `.onnx.data`; publish `int8` and `uint8` |
+| Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; local 8GB NVIDIA LoRA/QLoRA runs |
+| Evaluation | `python -m profile_qa.evaluate` | Seq2seq only; adapters must record `teapotai/teapotllm` as their base |
+| ONNX export | `python -m profile_qa.export_onnx` | Requires the merged Teapot lineage marker; rejects `.onnx.data`; publishes `int8` and `uint8` encoder/decoder artifacts |
 | App promotion | `src/config/models.ts` | Update `MODEL_ID` and keep `MODEL_CONTEXT_LIMIT` honest |
 
 Promotion should satisfy the gate in `ml/profile-qa/README.md` before changing

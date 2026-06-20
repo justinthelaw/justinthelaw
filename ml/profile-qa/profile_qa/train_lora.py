@@ -11,7 +11,6 @@ from .config import (
     DEFAULT_TRAIN_OUTPUT_DIR,
     EVAL_STEPS,
     EVAL_BATCH_SIZE,
-    FALLBACK_BASE_MODEL_ID,
     GRADIENT_ACCUMULATION_STEPS,
     LEARNING_RATE,
     LORA_ALPHA,
@@ -28,6 +27,22 @@ from .config import (
 from .gpu_health import assert_gpu_ready
 from .synthetic_data import profile_context_text
 from .validation import read_jsonl
+
+TEAPOT_MODEL_TYPE = "t5"
+TEAPOT_LORA_TARGET_MODULES = ["q", "v"]
+
+
+def ensure_primary_base_model_id(model_id: str, *, source: str) -> None:
+    """Reject alternate base models; this pipeline continues only TeapotLLM."""
+
+    normalized_model_id = model_id.rstrip("/")
+    if normalized_model_id == PRIMARY_BASE_MODEL_ID:
+        return
+
+    raise RuntimeError(
+        f"profile-QA is TeapotLLM-only; {source} must use {PRIMARY_BASE_MODEL_ID}, "
+        f"got {model_id}"
+    )
 
 
 def _missing_dependency(name: str, install_hint: str) -> RuntimeError:
@@ -67,20 +82,22 @@ def _load_training_stack() -> dict[str, Any]:
 
     try:
         from datasets import Dataset
-        from peft import LoraConfig, PeftModel, get_peft_model, prepare_model_for_kbit_training
+        from peft import (
+            LoraConfig,
+            PeftConfig,
+            PeftModel,
+            get_peft_model,
+            prepare_model_for_kbit_training,
+        )
         from transformers import (
             AutoConfig,
-            AutoModelForCausalLM,
             AutoModelForSeq2SeqLM,
             AutoTokenizer,
             BitsAndBytesConfig,
-            DataCollatorForLanguageModeling,
             DataCollatorForSeq2Seq,
             EarlyStoppingCallback,
             Seq2SeqTrainer,
             Seq2SeqTrainingArguments,
-            Trainer,
-            TrainingArguments,
         )
     except ImportError as exc:
         raise _missing_dependency(
@@ -92,28 +109,34 @@ def _load_training_stack() -> dict[str, Any]:
         "torch": torch,
         "Dataset": Dataset,
         "LoraConfig": LoraConfig,
+        "PeftConfig": PeftConfig,
         "PeftModel": PeftModel,
         "get_peft_model": get_peft_model,
         "prepare_model_for_kbit_training": prepare_model_for_kbit_training,
         "AutoConfig": AutoConfig,
-        "AutoModelForCausalLM": AutoModelForCausalLM,
         "AutoModelForSeq2SeqLM": AutoModelForSeq2SeqLM,
         "AutoTokenizer": AutoTokenizer,
         "BitsAndBytesConfig": BitsAndBytesConfig,
-        "DataCollatorForLanguageModeling": DataCollatorForLanguageModeling,
         "DataCollatorForSeq2Seq": DataCollatorForSeq2Seq,
         "EarlyStoppingCallback": EarlyStoppingCallback,
         "Seq2SeqTrainer": Seq2SeqTrainer,
         "Seq2SeqTrainingArguments": Seq2SeqTrainingArguments,
-        "Trainer": Trainer,
-        "TrainingArguments": TrainingArguments,
     }
 
 
-def _target_modules(is_encoder_decoder: bool) -> list[str]:
-    if is_encoder_decoder:
-        return ["q", "v"]
-    return ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+def ensure_teapot_seq2seq_config(config: Any, model_id: str) -> None:
+    """Reject non-Teapot/T5 configs before training or evaluation."""
+
+    model_type = str(getattr(config, "model_type", "")).lower()
+    is_encoder_decoder = bool(getattr(config, "is_encoder_decoder", False))
+    if is_encoder_decoder and model_type == TEAPOT_MODEL_TYPE:
+        return
+
+    raise RuntimeError(
+        "profile-QA is TeapotLLM-only; expected a T5 encoder-decoder config "
+        f"from {PRIMARY_BASE_MODEL_ID}, got model_type={model_type or 'unknown'} "
+        f"and is_encoder_decoder={is_encoder_decoder} for {model_id}"
+    )
 
 
 def run_training(args: argparse.Namespace) -> None:
@@ -129,9 +152,9 @@ def run_training(args: argparse.Namespace) -> None:
     if not eval_records:
         raise RuntimeError("dataset has no validation records")
 
-    model_id = args.model_id
+    model_id = PRIMARY_BASE_MODEL_ID
     config = stack["AutoConfig"].from_pretrained(model_id, trust_remote_code=True)
-    is_encoder_decoder = bool(getattr(config, "is_encoder_decoder", False))
+    ensure_teapot_seq2seq_config(config, model_id)
     tokenizer = stack["AutoTokenizer"].from_pretrained(model_id, trust_remote_code=True)
     if tokenizer.pad_token is None and tokenizer.eos_token is not None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -145,10 +168,7 @@ def run_training(args: argparse.Namespace) -> None:
         bnb_4bit_use_double_quant=True,
     )
 
-    model_cls = (
-        stack["AutoModelForSeq2SeqLM"] if is_encoder_decoder else stack["AutoModelForCausalLM"]
-    )
-    model = model_cls.from_pretrained(
+    model = stack["AutoModelForSeq2SeqLM"].from_pretrained(
         model_id,
         device_map="auto",
         quantization_config=quantization_config,
@@ -157,6 +177,12 @@ def run_training(args: argparse.Namespace) -> None:
     model.gradient_checkpointing_enable()
     model = stack["prepare_model_for_kbit_training"](model)
     if args.adapter_model_id:
+        adapter_config = stack["PeftConfig"].from_pretrained(args.adapter_model_id)
+        adapter_base_model_id = str(getattr(adapter_config, "base_model_name_or_path", ""))
+        ensure_primary_base_model_id(
+            adapter_base_model_id,
+            source=f"{args.adapter_model_id} adapter base",
+        )
         model = stack["PeftModel"].from_pretrained(
             model,
             args.adapter_model_id,
@@ -168,8 +194,8 @@ def run_training(args: argparse.Namespace) -> None:
             lora_alpha=args.lora_alpha,
             lora_dropout=args.lora_dropout,
             bias="none",
-            task_type="SEQ_2_SEQ_LM" if is_encoder_decoder else "CAUSAL_LM",
-            target_modules=_target_modules(is_encoder_decoder),
+            task_type="SEQ_2_SEQ_LM",
+            target_modules=TEAPOT_LORA_TARGET_MODULES,
         )
         model = stack["get_peft_model"](model, lora_config)
 
@@ -177,128 +203,72 @@ def run_training(args: argparse.Namespace) -> None:
     train_dataset = dataset_cls.from_list(train_records)
     eval_dataset = dataset_cls.from_list(eval_records)
 
-    if is_encoder_decoder:
-        def tokenize_seq2seq(batch: dict[str, list[Any]]) -> dict[str, Any]:
-            prompts = [format_instruction(record) for record in _batch_records(batch)]
-            answers = [str(answer) for answer in batch["answer"]]
-            model_inputs = tokenizer(
-                prompts,
-                max_length=MODEL_CONTEXT_LIMIT,
-                truncation=True,
-                padding=False,
-            )
-            labels = tokenizer(
-                text_target=answers,
-                max_length=160,
-                truncation=True,
-                padding=False,
-            )
-            model_inputs["labels"] = labels["input_ids"]
-            return model_inputs
+    def tokenize_seq2seq(batch: dict[str, list[Any]]) -> dict[str, Any]:
+        prompts = [format_instruction(record) for record in _batch_records(batch)]
+        answers = [str(answer) for answer in batch["answer"]]
+        model_inputs = tokenizer(
+            prompts,
+            max_length=MODEL_CONTEXT_LIMIT,
+            truncation=True,
+            padding=False,
+        )
+        labels = tokenizer(
+            text_target=answers,
+            max_length=160,
+            truncation=True,
+            padding=False,
+        )
+        model_inputs["labels"] = labels["input_ids"]
+        return model_inputs
 
-        tokenized_train = train_dataset.map(tokenize_seq2seq, batched=True, remove_columns=train_dataset.column_names)
-        tokenized_eval = eval_dataset.map(tokenize_seq2seq, batched=True, remove_columns=eval_dataset.column_names)
-        training_args = stack["Seq2SeqTrainingArguments"](
-            output_dir=args.output_dir,
-            per_device_train_batch_size=args.train_batch_size,
-            per_device_eval_batch_size=args.eval_batch_size,
-            gradient_accumulation_steps=args.gradient_accumulation_steps,
-            learning_rate=args.learning_rate,
-            max_steps=args.max_steps,
-            lr_scheduler_type=args.lr_scheduler_type,
-            warmup_ratio=args.warmup_ratio,
-            weight_decay=args.weight_decay,
-            optim=args.optim,
-            fp16=compute_dtype == torch.float16,
-            bf16=compute_dtype == torch.bfloat16,
-            gradient_checkpointing=True,
-            logging_steps=10,
-            eval_strategy="steps",
-            eval_steps=args.eval_steps,
-            save_strategy="steps",
-            save_steps=args.save_steps,
-            save_total_limit=3,
-            load_best_model_at_end=True,
-            metric_for_best_model="eval_loss",
-            greater_is_better=False,
-            predict_with_generate=False,
-            report_to="none",
-        )
-        callbacks = []
-        if args.early_stopping_patience > 0:
-            callbacks.append(
-                stack["EarlyStoppingCallback"](
-                    early_stopping_patience=args.early_stopping_patience
-                )
+    tokenized_train = train_dataset.map(
+        tokenize_seq2seq, batched=True, remove_columns=train_dataset.column_names
+    )
+    tokenized_eval = eval_dataset.map(
+        tokenize_seq2seq, batched=True, remove_columns=eval_dataset.column_names
+    )
+    training_args = stack["Seq2SeqTrainingArguments"](
+        output_dir=args.output_dir,
+        per_device_train_batch_size=args.train_batch_size,
+        per_device_eval_batch_size=args.eval_batch_size,
+        gradient_accumulation_steps=args.gradient_accumulation_steps,
+        learning_rate=args.learning_rate,
+        max_steps=args.max_steps,
+        lr_scheduler_type=args.lr_scheduler_type,
+        warmup_ratio=args.warmup_ratio,
+        weight_decay=args.weight_decay,
+        optim=args.optim,
+        fp16=compute_dtype == torch.float16,
+        bf16=compute_dtype == torch.bfloat16,
+        gradient_checkpointing=True,
+        logging_steps=10,
+        eval_strategy="steps",
+        eval_steps=args.eval_steps,
+        save_strategy="steps",
+        save_steps=args.save_steps,
+        save_total_limit=3,
+        load_best_model_at_end=True,
+        metric_for_best_model="eval_loss",
+        greater_is_better=False,
+        predict_with_generate=False,
+        report_to="none",
+    )
+    callbacks = []
+    if args.early_stopping_patience > 0:
+        callbacks.append(
+            stack["EarlyStoppingCallback"](
+                early_stopping_patience=args.early_stopping_patience
             )
-        trainer = stack["Seq2SeqTrainer"](
-            model=model,
-            args=training_args,
-            train_dataset=tokenized_train,
-            eval_dataset=tokenized_eval,
-            tokenizer=tokenizer,
-            data_collator=stack["DataCollatorForSeq2Seq"](tokenizer=tokenizer, model=model),
-            callbacks=callbacks,
         )
-    else:
-        def tokenize_causal(batch: dict[str, list[Any]]) -> dict[str, Any]:
-            texts = [
-                f"{format_instruction(record)} {record['answer']}{tokenizer.eos_token or ''}"
-                for record in _batch_records(batch)
-            ]
-            return tokenizer(
-                texts,
-                max_length=MODEL_CONTEXT_LIMIT,
-                truncation=True,
-                padding=False,
-            )
-
-        tokenized_train = train_dataset.map(tokenize_causal, batched=True, remove_columns=train_dataset.column_names)
-        tokenized_eval = eval_dataset.map(tokenize_causal, batched=True, remove_columns=eval_dataset.column_names)
-        training_args = stack["TrainingArguments"](
-            output_dir=args.output_dir,
-            per_device_train_batch_size=args.train_batch_size,
-            per_device_eval_batch_size=args.eval_batch_size,
-            gradient_accumulation_steps=args.gradient_accumulation_steps,
-            learning_rate=args.learning_rate,
-            max_steps=args.max_steps,
-            lr_scheduler_type=args.lr_scheduler_type,
-            warmup_ratio=args.warmup_ratio,
-            weight_decay=args.weight_decay,
-            optim=args.optim,
-            fp16=compute_dtype == torch.float16,
-            bf16=compute_dtype == torch.bfloat16,
-            gradient_checkpointing=True,
-            logging_steps=10,
-            eval_strategy="steps",
-            eval_steps=args.eval_steps,
-            save_strategy="steps",
-            save_steps=args.save_steps,
-            save_total_limit=3,
-            load_best_model_at_end=True,
-            metric_for_best_model="eval_loss",
-            greater_is_better=False,
-            report_to="none",
-        )
-        callbacks = []
-        if args.early_stopping_patience > 0:
-            callbacks.append(
-                stack["EarlyStoppingCallback"](
-                    early_stopping_patience=args.early_stopping_patience
-                )
-            )
-        trainer = stack["Trainer"](
-            model=model,
-            args=training_args,
-            train_dataset=tokenized_train,
-            eval_dataset=tokenized_eval,
-            tokenizer=tokenizer,
-            data_collator=stack["DataCollatorForLanguageModeling"](
-                tokenizer=tokenizer,
-                mlm=False,
-            ),
-            callbacks=callbacks,
-        )
+    trainer = stack["Seq2SeqTrainer"](
+        model=model,
+        args=training_args,
+        train_dataset=tokenized_train,
+        eval_dataset=tokenized_eval,
+        tokenizer=tokenizer,
+        data_collator=stack["DataCollatorForSeq2Seq"](tokenizer=tokenizer, model=model),
+        callbacks=callbacks,
+    )
 
     trainer.train(resume_from_checkpoint=args.resume)
     trainer.save_model(args.output_dir)
@@ -314,9 +284,7 @@ def _batch_records(batch: dict[str, list[Any]]) -> list[dict[str, Any]]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", default=str(DEFAULT_DATASET_PATH))
-    parser.add_argument("--model-id", default=PRIMARY_BASE_MODEL_ID)
     parser.add_argument("--adapter-model-id")
-    parser.add_argument("--fallback-model-id", default=FALLBACK_BASE_MODEL_ID)
     parser.add_argument("--output-dir", default=str(DEFAULT_TRAIN_OUTPUT_DIR))
     parser.add_argument("--quantization", choices=["4bit", "8bit"], default="4bit")
     parser.add_argument("--max-steps", type=int, default=MAX_STEPS)
@@ -342,13 +310,7 @@ def main() -> int:
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
 
-    try:
-        run_training(args)
-    except RuntimeError as exc:
-        if args.model_id == PRIMARY_BASE_MODEL_ID:
-            print(f"primary training failed: {exc}")
-            print(f"retry with --model-id {args.fallback_model_id} to use the fallback path")
-        raise
+    run_training(args)
     return 0
 
 

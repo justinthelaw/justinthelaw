@@ -41,11 +41,17 @@ python -m profile_qa.synthetic_data --output ml/profile-qa/data/profile_qa.jsonl
 python -m profile_qa.train_lora --dataset ml/profile-qa/data/profile_qa.jsonl
 python -m profile_qa.evaluate --dataset ml/profile-qa/data/profile_qa.jsonl --model-id teapotai/teapotllm
 python -m profile_qa.merge_adapter --adapter-model-id ml/profile-qa/checkpoints/teapot-profile-qa-lora/checkpoint-400 --output-dir ml/profile-qa/merged/teapot-profile-qa
-python -m profile_qa.export_onnx --model ml/profile-qa/merged/teapot-profile-qa --output-dir ml/profile-qa/onnx/candidate
+python -m profile_qa.export_onnx --output-dir ml/profile-qa/onnx/candidate
 python -m profile_qa.prepare_hf_artifacts --model-browser-dir ml/profile-qa/onnx/candidate/browser
 python -m profile_qa.publish --repo-id justinthelaw/teapot-profile-qa-browser-1024 --artifact-dir ml/profile-qa/hf/model
 python -m profile_qa.publish --repo-type dataset --repo-id justinthelaw/profile-qa-synthetic-public-v1 --artifact-dir ml/profile-qa/hf/dataset
 ```
+
+The training, continuation, merge, and export commands are Teapot-only. Training
+always starts from `teapotai/teapotllm`; adapter continuation and merge reject
+checkpoints whose PEFT metadata records a different base model; export expects
+the merged model directory produced by `profile_qa.merge_adapter` and publishes
+the encoder plus merged decoder ONNX files for the T5 browser runtime.
 
 For targeted continuation from an existing LoRA adapter:
 
@@ -59,12 +65,10 @@ python -m profile_qa.train_lora \
   --lr-scheduler-type constant_with_warmup
 ```
 
-If Teapot cannot pass the 1024-token promotion gate, keep the same pipeline and
-rerun training with:
-
-```bash
-python -m profile_qa.train_lora --model-id Qwen/Qwen2.5-0.5B-Instruct
-```
+If Teapot cannot pass the 1024-token promotion gate, keep the lineage on
+`teapotai/teapotllm` and fix the Teapot path directly: improve the public-profile
+dataset, adjust LoRA hyperparameters, continue from a stronger adapter checkpoint,
+or repair export/browser packaging issues. Do not switch base models.
 
 ## Promotion Gate
 
