@@ -410,15 +410,18 @@ export default function ProfileVisualizerModal({
           </button>
         </div>
 
-        <div className="grid min-h-0 flex-1 gap-3 overflow-y-auto p-3 lg:grid-cols-[minmax(0,1.45fr)_minmax(340px,0.9fr)] lg:overflow-hidden lg:p-4">
-          <section className="flex min-h-0 flex-col overflow-hidden rounded-lg border border-gray-800 bg-black">
+        <div className="grid min-h-0 flex-1 content-start gap-3 overflow-y-auto p-3 lg:grid-cols-[minmax(0,1.45fr)_minmax(340px,0.9fr)] lg:content-stretch lg:overflow-hidden lg:p-4">
+          <section
+            className="flex min-h-0 flex-col overflow-visible rounded-lg border border-gray-800 bg-black lg:overflow-hidden"
+            data-testid="profile-visualizer-scene-panel"
+          >
             <div className="border-b border-gray-800 px-4 py-3">
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 text-xs uppercase tracking-normal text-gray-500">
                   <span className="h-2 w-2 rounded-full bg-blue-300 shadow-[0_0_14px_rgba(147,197,253,0.8)]" />
                   Question packet
                 </div>
-                <div className="mt-1 flex items-end gap-2">
+                <div className="mt-1 flex flex-col items-stretch gap-2 sm:flex-row sm:items-end">
                   <div className="min-w-0 flex-1">
                     <label
                       className="block text-sm font-semibold text-white"
@@ -436,7 +439,7 @@ export default function ProfileVisualizerModal({
                       data-testid="profile-visualizer-question"
                     />
                   </div>
-                  <div className="relative flex h-11 w-20 shrink-0 items-end justify-center">
+                  <div className="relative flex h-11 w-full shrink-0 items-end justify-center sm:w-20">
                     <button
                       type="button"
                       className="h-11 w-full rounded-lg bg-blue-600 px-0 font-medium text-white transition-colors duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-blue-600"
@@ -465,7 +468,7 @@ export default function ProfileVisualizerModal({
                 </div>
               </div>
             </div>
-            <div className="min-h-0 flex-1">
+            <div className="min-h-[280px] flex-1 lg:min-h-0">
               <ProfileVisualizerScene
                 activeStageId={activeStageId}
                 completedStageIds={completedStageIds}
@@ -474,7 +477,10 @@ export default function ProfileVisualizerModal({
             </div>
           </section>
 
-          <aside className="flex min-h-[320px] flex-col overflow-hidden rounded-lg border border-gray-800 bg-black lg:min-h-0">
+          <aside
+            className="flex min-h-[320px] flex-col overflow-hidden rounded-lg border border-gray-800 bg-black lg:min-h-0"
+            data-testid="profile-visualizer-trace-panel"
+          >
             <section className="flex min-h-0 flex-1 flex-col p-4">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-sm font-semibold text-gray-200">

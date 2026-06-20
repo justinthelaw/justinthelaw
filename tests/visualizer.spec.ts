@@ -246,10 +246,84 @@ test.describe("LLM Visualizer", () => {
     });
   });
 
-  test("aligns the send button with the question input", async ({ page }) => {
+  test("keeps the question controls unobscured on narrow mobile viewports", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 393, height: 852 });
     await openVisualizer(page);
 
-    const alignment = await page.evaluate(() => {
+    const layout = await page.evaluate(() => {
+      const input = document.querySelector(
+        '[data-testid="profile-visualizer-question"]'
+      );
+      const sendButton = document.querySelector(
+        '[data-testid="profile-visualizer-play"]'
+      );
+      const scene = document.querySelector(
+        '[data-testid="profile-visualizer-canvas"]'
+      );
+      const trace = document.querySelector(
+        '[data-testid="profile-visualizer-trace-list"]'
+      );
+      const scenePanel = document.querySelector(
+        '[data-testid="profile-visualizer-scene-panel"]'
+      );
+      const tracePanel = document.querySelector(
+        '[data-testid="profile-visualizer-trace-panel"]'
+      );
+
+      if (
+        !input ||
+        !sendButton ||
+        !scene ||
+        !trace ||
+        !scenePanel ||
+        !tracePanel
+      ) {
+        return null;
+      }
+
+      const inputRect = input.getBoundingClientRect();
+      const sendButtonRect = sendButton.getBoundingClientRect();
+      const sceneRect = scene.getBoundingClientRect();
+      const scenePanelRect = scenePanel.getBoundingClientRect();
+      const tracePanelRect = tracePanel.getBoundingClientRect();
+      const viewportWidth = document.documentElement.clientWidth;
+      const viewportHeight = document.documentElement.clientHeight;
+
+      return {
+        controlsStacked: sendButtonRect.top >= inputRect.bottom,
+        inputFullyInViewport:
+          inputRect.left >= 0 &&
+          inputRect.right <= viewportWidth &&
+          inputRect.top >= 0 &&
+          inputRect.bottom <= viewportHeight,
+        sendButtonFullyInViewport:
+          sendButtonRect.left >= 0 &&
+          sendButtonRect.right <= viewportWidth &&
+          sendButtonRect.top >= 0 &&
+          sendButtonRect.bottom <= viewportHeight,
+        inputAboveScene: inputRect.bottom <= sceneRect.top,
+        sendButtonAboveScene: sendButtonRect.bottom <= sceneRect.top,
+        scenePanelAboveTracePanel: scenePanelRect.bottom <= tracePanelRect.top,
+      };
+    });
+
+    expect(layout).not.toBeNull();
+    expect(layout?.controlsStacked).toBe(true);
+    expect(layout?.inputFullyInViewport).toBe(true);
+    expect(layout?.sendButtonFullyInViewport).toBe(true);
+    expect(layout?.inputAboveScene).toBe(true);
+    expect(layout?.sendButtonAboveScene).toBe(true);
+    expect(layout?.scenePanelAboveTracePanel).toBe(true);
+  });
+
+  test("lays out the send button responsively with the question input", async ({
+    page,
+  }) => {
+    await openVisualizer(page);
+
+    const layout = await page.evaluate(() => {
       const input = document.querySelector(
         '[data-testid="profile-visualizer-question"]'
       );
@@ -261,6 +335,8 @@ test.describe("LLM Visualizer", () => {
         return {
           bottomDelta: Number.POSITIVE_INFINITY,
           heightDelta: Number.POSITIVE_INFINITY,
+          isNarrowViewport: false,
+          stacked: false,
         };
       }
 
@@ -270,6 +346,8 @@ test.describe("LLM Visualizer", () => {
       return {
         bottomDelta: Math.abs(inputRect.bottom - sendButtonRect.bottom),
         heightDelta: Math.abs(inputRect.height - sendButtonRect.height),
+        isNarrowViewport: document.documentElement.clientWidth < 640,
+        stacked: sendButtonRect.top >= inputRect.bottom,
       };
     });
 
@@ -277,8 +355,15 @@ test.describe("LLM Visualizer", () => {
       "h-11 w-full rounded-lg bg-blue-600 px-0 font-medium text-white transition-colors duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-blue-600"
     );
     await expect(page.getByTestId("profile-visualizer-play")).toHaveText("Send");
-    expect(alignment.bottomDelta).toBeLessThanOrEqual(1);
-    expect(alignment.heightDelta).toBeLessThanOrEqual(1);
+
+    if (layout.isNarrowViewport) {
+      expect(layout.stacked).toBe(true);
+      expect(layout.heightDelta).toBeLessThanOrEqual(1);
+      return;
+    }
+
+    expect(layout.bottomDelta).toBeLessThanOrEqual(1);
+    expect(layout.heightDelta).toBeLessThanOrEqual(1);
   });
 
   test("keeps the launcher disabled until the chat model is loaded", async ({
