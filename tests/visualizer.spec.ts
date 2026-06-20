@@ -304,10 +304,12 @@ test.describe("LLM Visualizer", () => {
     expect(layout?.sceneAboveTrace).toBe(true);
   });
 
-  test("aligns the send button with the question input", async ({ page }) => {
+  test("lays out the send button responsively with the question input", async ({
+    page,
+  }) => {
     await openVisualizer(page);
 
-    const alignment = await page.evaluate(() => {
+    const layout = await page.evaluate(() => {
       const input = document.querySelector(
         '[data-testid="profile-visualizer-question"]'
       );
@@ -319,6 +321,8 @@ test.describe("LLM Visualizer", () => {
         return {
           bottomDelta: Number.POSITIVE_INFINITY,
           heightDelta: Number.POSITIVE_INFINITY,
+          isNarrowViewport: false,
+          stacked: false,
         };
       }
 
@@ -328,6 +332,8 @@ test.describe("LLM Visualizer", () => {
       return {
         bottomDelta: Math.abs(inputRect.bottom - sendButtonRect.bottom),
         heightDelta: Math.abs(inputRect.height - sendButtonRect.height),
+        isNarrowViewport: document.documentElement.clientWidth < 640,
+        stacked: sendButtonRect.top >= inputRect.bottom,
       };
     });
 
@@ -335,8 +341,15 @@ test.describe("LLM Visualizer", () => {
       "h-11 w-full rounded-lg bg-blue-600 px-0 font-medium text-white transition-colors duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-blue-600"
     );
     await expect(page.getByTestId("profile-visualizer-play")).toHaveText("Send");
-    expect(alignment.bottomDelta).toBeLessThanOrEqual(1);
-    expect(alignment.heightDelta).toBeLessThanOrEqual(1);
+
+    if (layout.isNarrowViewport) {
+      expect(layout.stacked).toBe(true);
+      expect(layout.heightDelta).toBeLessThanOrEqual(1);
+      return;
+    }
+
+    expect(layout.bottomDelta).toBeLessThanOrEqual(1);
+    expect(layout.heightDelta).toBeLessThanOrEqual(1);
   });
 
   test("keeps the launcher disabled until the chat model is loaded", async ({
