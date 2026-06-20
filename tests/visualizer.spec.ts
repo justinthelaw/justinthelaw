@@ -246,6 +246,64 @@ test.describe("LLM Visualizer", () => {
     });
   });
 
+  test("keeps the question controls unobscured on narrow mobile viewports", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 393, height: 852 });
+    await openVisualizer(page);
+
+    const layout = await page.evaluate(() => {
+      const input = document.querySelector(
+        '[data-testid="profile-visualizer-question"]'
+      );
+      const sendButton = document.querySelector(
+        '[data-testid="profile-visualizer-play"]'
+      );
+      const scene = document.querySelector(
+        '[data-testid="profile-visualizer-canvas"]'
+      );
+      const trace = document.querySelector(
+        '[data-testid="profile-visualizer-trace-list"]'
+      );
+
+      if (!input || !sendButton || !scene || !trace) {
+        return null;
+      }
+
+      const inputRect = input.getBoundingClientRect();
+      const sendButtonRect = sendButton.getBoundingClientRect();
+      const sceneRect = scene.getBoundingClientRect();
+      const traceRect = trace.getBoundingClientRect();
+      const viewportWidth = document.documentElement.clientWidth;
+      const viewportHeight = document.documentElement.clientHeight;
+
+      return {
+        controlsStacked: sendButtonRect.top >= inputRect.bottom,
+        inputFullyInViewport:
+          inputRect.left >= 0 &&
+          inputRect.right <= viewportWidth &&
+          inputRect.top >= 0 &&
+          inputRect.bottom <= viewportHeight,
+        sendButtonFullyInViewport:
+          sendButtonRect.left >= 0 &&
+          sendButtonRect.right <= viewportWidth &&
+          sendButtonRect.top >= 0 &&
+          sendButtonRect.bottom <= viewportHeight,
+        inputAboveScene: inputRect.bottom <= sceneRect.top,
+        sendButtonAboveScene: sendButtonRect.bottom <= sceneRect.top,
+        sceneAboveTrace: sceneRect.bottom <= traceRect.top,
+      };
+    });
+
+    expect(layout).not.toBeNull();
+    expect(layout?.controlsStacked).toBe(true);
+    expect(layout?.inputFullyInViewport).toBe(true);
+    expect(layout?.sendButtonFullyInViewport).toBe(true);
+    expect(layout?.inputAboveScene).toBe(true);
+    expect(layout?.sendButtonAboveScene).toBe(true);
+    expect(layout?.sceneAboveTrace).toBe(true);
+  });
+
   test("aligns the send button with the question input", async ({ page }) => {
     await openVisualizer(page);
 
