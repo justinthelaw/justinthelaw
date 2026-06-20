@@ -1,6 +1,7 @@
-import { Fragment, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { Bot } from "@deemlol/next-icons";
 import { SITE_CONFIG } from "@/config/site";
 import { LinkIconButton } from "@/components/links";
 import { GitHubProfile } from "@/components/profile";
@@ -8,6 +9,11 @@ import { ResumeViewer } from "@/components/resume";
 
 const ChatContainer = dynamic(
   () => import("@/components/chat").then((mod) => ({ default: mod.ChatContainer })),
+  { ssr: false }
+);
+
+const ProfileVisualizerModal = dynamic(
+  () => import("@/components/profile/ProfileVisualizerModal"),
   { ssr: false }
 );
 
@@ -19,6 +25,19 @@ interface SocialLinkItem {
 
 export default function Home(): React.ReactElement {
   const [showChatBox, setShowChatBox] = useState(false);
+  const [showProfileVisualizer, setShowProfileVisualizer] = useState(false);
+  const chatButtonRef = useRef<HTMLButtonElement>(null);
+
+  function focusChatButtonSoon(): void {
+    window.requestAnimationFrame(() => {
+      chatButtonRef.current?.focus();
+    });
+  }
+
+  function closeChatBox(): void {
+    setShowChatBox(false);
+    focusChatButtonSoon();
+  }
 
   const socialLinks: SocialLinkItem[] = [
     {
@@ -80,20 +99,38 @@ export default function Home(): React.ReactElement {
           ))}
         </footer>
 
-        {!showChatBox && (
+        {!showChatBox && !showProfileVisualizer && (
           <button
-            className="fixed border bottom-4 right-4 bg-black text-white p-3 rounded-lg shadow-lg hover:bg-gray-800 transition-colors duration-200 flex items-center gap-2"
+            ref={chatButtonRef}
+            type="button"
+            className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-lg border border-gray-700 bg-black px-3 py-3 text-white shadow-lg transition-colors duration-200 hover:border-gray-500 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300"
             onClick={() => setShowChatBox(true)}
+            aria-label="Open AI chatbot"
             data-testid="ai-chatbot-button"
           >
+            <Bot className="h-5 w-5" aria-hidden="true" />
             <span className="text-lg hidden sm:inline">AI Chatbot</span>
-            <svg className="w-5 h-5" fill="currentColor" viewBox="2 0 20 26">
-              <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.546 20.2A1 1 0 003.8 21.454l3.032-.892A9.958 9.958 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm-3 9a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z" />
-            </svg>
           </button>
         )}
 
-        {showChatBox && <ChatContainer onClose={() => setShowChatBox(false)} />}
+        {showChatBox && !showProfileVisualizer && (
+          <ChatContainer
+            onClose={closeChatBox}
+            onOpenVisualizer={() => {
+              setShowChatBox(false);
+              setShowProfileVisualizer(true);
+            }}
+          />
+        )}
+
+        {showProfileVisualizer && (
+          <ProfileVisualizerModal
+            onClose={() => {
+              setShowProfileVisualizer(false);
+              focusChatButtonSoon();
+            }}
+          />
+        )}
       </div>
     </Fragment>
   );

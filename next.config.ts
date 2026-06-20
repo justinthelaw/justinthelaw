@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   basePath: DERIVED_CONFIG.basePath,
   assetPrefix: DERIVED_CONFIG.assetPrefix,
+  allowedDevOrigins: ["192.168.86.250"],
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.alias = {
