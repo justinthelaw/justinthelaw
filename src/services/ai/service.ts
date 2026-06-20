@@ -3,7 +3,7 @@
  * Clean API for interacting with the AI worker.
  */
 
-import { WorkerAction, type WorkerResponse } from "@/types/worker";
+import { WorkerAction, WorkerStatus, type WorkerResponse } from "@/types/worker";
 import type { ConversationTurn } from "@/types";
 import { createLogger, LOG_AREAS } from "@/utils";
 
@@ -12,6 +12,7 @@ const logger = createLogger(LOG_AREAS.AI_SERVICE);
 
 export class AIService {
   private worker: Worker | null = null;
+  private modelLoaded = false;
   private callbacks: Set<AIServiceCallback> = new Set();
 
   /**
@@ -29,7 +30,18 @@ export class AIService {
     });
 
     this.worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
-      this.callbacks.forEach((callback) => callback(event.data));
+      const response = event.data;
+      if (
+        response.status === WorkerStatus.LOAD &&
+        response.message?.includes("successfully")
+      ) {
+        this.modelLoaded = true;
+      }
+      if (response.status === WorkerStatus.ERROR) {
+        this.modelLoaded = false;
+      }
+
+      this.callbacks.forEach((callback) => callback(response));
     };
 
     this.worker.postMessage({
@@ -88,6 +100,7 @@ export class AIService {
       this.worker.terminate();
       this.worker = null;
     }
+    this.modelLoaded = false;
   }
 
   /**
@@ -95,6 +108,13 @@ export class AIService {
    */
   isInitialized(): boolean {
     return this.worker !== null;
+  }
+
+  /**
+   * Check if the current worker has completed model loading.
+   */
+  isModelReady(): boolean {
+    return this.modelLoaded;
   }
 }
 

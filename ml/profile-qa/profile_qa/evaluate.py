@@ -8,8 +8,17 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-from .config import DEFAULT_DATASET_PATH, DEFAULT_EVAL_REPORT_PATH, MODEL_CONTEXT_LIMIT
-from .train_lora import format_instruction
+from .config import (
+    DEFAULT_DATASET_PATH,
+    DEFAULT_EVAL_REPORT_PATH,
+    MODEL_CONTEXT_LIMIT,
+    PRIMARY_BASE_MODEL_ID,
+)
+from .train_lora import (
+    ensure_primary_base_model_id,
+    ensure_teapot_seq2seq_config,
+    format_instruction,
+)
 from .validation import read_jsonl
 
 
@@ -68,7 +77,6 @@ def _load_generation_stack() -> dict[str, Any]:
         from peft import PeftModel
         from transformers import (
             AutoConfig,
-            AutoModelForCausalLM,
             AutoModelForSeq2SeqLM,
             AutoTokenizer,
         )
@@ -77,7 +85,6 @@ def _load_generation_stack() -> dict[str, Any]:
     return {
         "torch": torch,
         "AutoConfig": AutoConfig,
-        "AutoModelForCausalLM": AutoModelForCausalLM,
         "AutoModelForSeq2SeqLM": AutoModelForSeq2SeqLM,
         "AutoTokenizer": AutoTokenizer,
         "PeftModel": PeftModel,
@@ -93,6 +100,22 @@ def _adapter_base_model_id(model_id: str) -> str | None:
     return str(base_model_id) if isinstance(base_model_id, str) else None
 
 
+def _ensure_generation_lineage(model_id: str, adapter_base_model_id: str | None, config: Any) -> None:
+    if adapter_base_model_id:
+        ensure_primary_base_model_id(adapter_base_model_id, source=f"{model_id} adapter base")
+        return
+
+    if model_id.rstrip("/") == PRIMARY_BASE_MODEL_ID:
+        ensure_primary_base_model_id(model_id, source="evaluation model")
+        return
+
+    config_source = str(getattr(config, "_name_or_path", ""))
+    ensure_primary_base_model_id(
+        config_source,
+        source=f"{model_id} config _name_or_path",
+    )
+
+
 def generate_predictions(model_id: str, records: list[dict[str, Any]]) -> dict[str, str]:
     """Generate answers locally for a model or adapter directory."""
 
@@ -100,14 +123,12 @@ def generate_predictions(model_id: str, records: list[dict[str, Any]]) -> dict[s
     adapter_base_model_id = _adapter_base_model_id(model_id)
     config_model_id = adapter_base_model_id or model_id
     config = stack["AutoConfig"].from_pretrained(config_model_id, trust_remote_code=True)
+    _ensure_generation_lineage(model_id, adapter_base_model_id, config)
+    ensure_teapot_seq2seq_config(config, config_model_id)
     tokenizer = stack["AutoTokenizer"].from_pretrained(model_id, trust_remote_code=True)
     if tokenizer.pad_token is None and tokenizer.eos_token is not None:
         tokenizer.pad_token = tokenizer.eos_token
-    is_encoder_decoder = bool(getattr(config, "is_encoder_decoder", False))
-    model_cls = (
-        stack["AutoModelForSeq2SeqLM"] if is_encoder_decoder else stack["AutoModelForCausalLM"]
-    )
-    model = model_cls.from_pretrained(
+    model = stack["AutoModelForSeq2SeqLM"].from_pretrained(
         config_model_id,
         device_map="auto",
         torch_dtype=stack["torch"].float16,
@@ -133,11 +154,7 @@ def generate_predictions(model_id: str, records: list[dict[str, Any]]) -> dict[s
                 max_new_tokens=160,
                 do_sample=False,
             )
-        if is_encoder_decoder:
-            generated_ids = output_ids[0]
-        else:
-            prompt_length = int(inputs["input_ids"].shape[-1])
-            generated_ids = output_ids[0][prompt_length:]
+        generated_ids = output_ids[0]
         generated = tokenizer.decode(generated_ids, skip_special_tokens=True)
         predictions[str(record["id"])] = str(generated).strip()
     return predictions

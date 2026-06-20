@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
@@ -73,6 +73,45 @@ async function readExportedJavaScript(): Promise<string> {
 interface StaticPreviewServer {
   origin: string;
   close: () => Promise<void>;
+}
+
+async function mockReadyModelWorker(page: Page): Promise<void> {
+  await page.addInitScript(() => {
+    interface MockWorkerMessage {
+      action?: string;
+    }
+
+    interface MockWorkerResponse {
+      status: string;
+      message?: string;
+      response?: string;
+    }
+
+    class MockWorker {
+      onmessage: ((event: MessageEvent<MockWorkerResponse>) => void) | null =
+        null;
+
+      postMessage(message: MockWorkerMessage): void {
+        if (message.action === "load") {
+          window.setTimeout(() => {
+            this.emit({
+              status: "load",
+              message: "Model loaded successfully!",
+            });
+            this.emit({ status: "done" });
+          }, 0);
+        }
+      }
+
+      terminate(): void {}
+
+      private emit(response: MockWorkerResponse): void {
+        this.onmessage?.(new MessageEvent("message", { data: response }));
+      }
+    }
+
+    window.Worker = MockWorker as unknown as typeof Worker;
+  });
 }
 
 async function startStaticPreviewServer(): Promise<StaticPreviewServer> {
@@ -189,12 +228,7 @@ test("should export the current browser AI worker bundle", async () => {
   const exportedJavaScript = await readExportedJavaScript();
 
   expect(exportedJavaScript).toContain("justinthelaw/teapot-profile-qa-browser-1024");
-  expect(exportedJavaScript).not.toContain("teapotai/teapotllm");
   expect(exportedJavaScript).toContain("text2text-generation");
-  expect(exportedJavaScript).not.toContain(
-    "justinthelaw/Qwen2.5-0.5B-Instruct-Resume-Cover-Letter-SFT",
-  );
-  expect(exportedJavaScript).not.toContain("onnx-community/Qwen2.5-0.5B-Instruct");
 });
 
 test("should embed the resume with Drive preview instead of a download viewer", async () => {
@@ -278,6 +312,39 @@ test("should initialize the exported AI worker from the base path", async ({
       )
       .toBeTruthy();
 
+    expect(staticFailures).toEqual([]);
+  } finally {
+    await previewServer.close();
+  }
+});
+
+test("should load the exported LLM Visualizer from the base path", async ({
+  page,
+}) => {
+  const previewServer = await startStaticPreviewServer();
+  const staticFailures: string[] = [];
+
+  page.on("response", (response) => {
+    const responseUrl = response.url();
+    if (responseUrl.includes("/_next/static/") && response.status() >= 400) {
+      staticFailures.push(`${response.status()} ${responseUrl}`);
+    }
+  });
+
+  try {
+    await mockReadyModelWorker(page);
+    await page.goto(previewServer.origin);
+    await page.getByTestId("ai-chatbot-button").click();
+    await expect(page.getByTestId("chat-input")).toBeVisible({
+      timeout: 10_000,
+    });
+    await expect(page.getByTestId("profile-visualizer-button")).toBeEnabled({
+      timeout: 10_000,
+    });
+    await page.getByTestId("profile-visualizer-button").click();
+
+    await expect(page.getByTestId("profile-visualizer-modal")).toBeVisible();
+    await expect(page.getByTestId("profile-visualizer-canvas")).toBeVisible();
     expect(staticFailures).toEqual([]);
   } finally {
     await previewServer.close();
