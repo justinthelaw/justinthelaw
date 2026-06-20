@@ -411,7 +411,10 @@ export default function ProfileVisualizerModal({
         </div>
 
         <div className="grid min-h-0 flex-1 content-start gap-3 overflow-y-auto p-3 lg:grid-cols-[minmax(0,1.45fr)_minmax(340px,0.9fr)] lg:content-stretch lg:overflow-hidden lg:p-4">
-          <section className="flex min-h-0 flex-col overflow-visible rounded-lg border border-gray-800 bg-black lg:overflow-hidden">
+          <section
+            className="flex min-h-0 flex-col overflow-visible rounded-lg border border-gray-800 bg-black lg:overflow-hidden"
+            data-testid="profile-visualizer-scene-panel"
+          >
             <div className="border-b border-gray-800 px-4 py-3">
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 text-xs uppercase tracking-normal text-gray-500">
@@ -474,7 +477,10 @@ export default function ProfileVisualizerModal({
             </div>
           </section>
 
-          <aside className="flex min-h-[320px] flex-col overflow-hidden rounded-lg border border-gray-800 bg-black lg:min-h-0">
+          <aside
+            className="flex min-h-[320px] flex-col overflow-hidden rounded-lg border border-gray-800 bg-black lg:min-h-0"
+            data-testid="profile-visualizer-trace-panel"
+          >
             <section className="flex min-h-0 flex-1 flex-col p-4">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-sm font-semibold text-gray-200">

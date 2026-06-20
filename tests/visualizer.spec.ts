@@ -265,15 +265,29 @@ test.describe("LLM Visualizer", () => {
       const trace = document.querySelector(
         '[data-testid="profile-visualizer-trace-list"]'
       );
+      const scenePanel = document.querySelector(
+        '[data-testid="profile-visualizer-scene-panel"]'
+      );
+      const tracePanel = document.querySelector(
+        '[data-testid="profile-visualizer-trace-panel"]'
+      );
 
-      if (!input || !sendButton || !scene || !trace) {
+      if (
+        !input ||
+        !sendButton ||
+        !scene ||
+        !trace ||
+        !scenePanel ||
+        !tracePanel
+      ) {
         return null;
       }
 
       const inputRect = input.getBoundingClientRect();
       const sendButtonRect = sendButton.getBoundingClientRect();
       const sceneRect = scene.getBoundingClientRect();
-      const traceRect = trace.getBoundingClientRect();
+      const scenePanelRect = scenePanel.getBoundingClientRect();
+      const tracePanelRect = tracePanel.getBoundingClientRect();
       const viewportWidth = document.documentElement.clientWidth;
       const viewportHeight = document.documentElement.clientHeight;
 
@@ -291,7 +305,7 @@ test.describe("LLM Visualizer", () => {
           sendButtonRect.bottom <= viewportHeight,
         inputAboveScene: inputRect.bottom <= sceneRect.top,
         sendButtonAboveScene: sendButtonRect.bottom <= sceneRect.top,
-        sceneAboveTrace: sceneRect.bottom <= traceRect.top,
+        scenePanelAboveTracePanel: scenePanelRect.bottom <= tracePanelRect.top,
       };
     });
 
@@ -301,7 +315,7 @@ test.describe("LLM Visualizer", () => {
     expect(layout?.sendButtonFullyInViewport).toBe(true);
     expect(layout?.inputAboveScene).toBe(true);
     expect(layout?.sendButtonAboveScene).toBe(true);
-    expect(layout?.sceneAboveTrace).toBe(true);
+    expect(layout?.scenePanelAboveTracePanel).toBe(true);
   });
 
   test("lays out the send button responsively with the question input", async ({
