@@ -305,6 +305,7 @@ test.describe("LLM Visualizer", () => {
           sendButtonRect.bottom <= viewportHeight,
         inputAboveScene: inputRect.bottom <= sceneRect.top,
         sendButtonAboveScene: sendButtonRect.bottom <= sceneRect.top,
+        sceneContainedByPanel: sceneRect.bottom <= scenePanelRect.bottom,
         scenePanelAboveTracePanel: scenePanelRect.bottom <= tracePanelRect.top,
       };
     });
@@ -315,6 +316,7 @@ test.describe("LLM Visualizer", () => {
     expect(layout?.sendButtonFullyInViewport).toBe(true);
     expect(layout?.inputAboveScene).toBe(true);
     expect(layout?.sendButtonAboveScene).toBe(true);
+    expect(layout?.sceneContainedByPanel).toBe(true);
     expect(layout?.scenePanelAboveTracePanel).toBe(true);
   });
 

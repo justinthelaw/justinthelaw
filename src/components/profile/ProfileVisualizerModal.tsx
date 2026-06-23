@@ -412,7 +412,7 @@ export default function ProfileVisualizerModal({
 
         <div className="grid min-h-0 flex-1 content-start gap-3 overflow-y-auto p-3 lg:grid-cols-[minmax(0,1.45fr)_minmax(340px,0.9fr)] lg:content-stretch lg:overflow-hidden lg:p-4">
           <section
-            className="flex min-h-0 flex-col overflow-visible rounded-lg border border-gray-800 bg-black lg:overflow-hidden"
+            className="flex min-h-0 flex-col overflow-hidden rounded-lg border border-gray-800 bg-black"
             data-testid="profile-visualizer-scene-panel"
           >
             <div className="border-b border-gray-800 px-4 py-3">
@@ -468,7 +468,7 @@ export default function ProfileVisualizerModal({
                 </div>
               </div>
             </div>
-            <div className="min-h-[280px] flex-1 lg:min-h-0">
+            <div className="h-[260px] min-h-[260px] shrink-0 lg:h-auto lg:min-h-0 lg:flex-1">
               <ProfileVisualizerScene
                 activeStageId={activeStageId}
                 completedStageIds={completedStageIds}
