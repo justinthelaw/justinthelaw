@@ -468,7 +468,7 @@ export default function ProfileVisualizerModal({
                 </div>
               </div>
             </div>
-            <div className="h-[260px] min-h-[260px] shrink-0 lg:h-auto lg:min-h-0 lg:flex-1">
+            <div className="h-[260px] min-h-[260px] shrink-0 overflow-hidden lg:h-auto lg:min-h-0 lg:flex-1">
               <ProfileVisualizerScene
                 activeStageId={activeStageId}
                 completedStageIds={completedStageIds}

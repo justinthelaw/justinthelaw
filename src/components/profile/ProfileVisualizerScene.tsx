@@ -786,10 +786,10 @@ export function ProfileVisualizerScene({
   }, []);
 
   return (
-    <div className="relative h-full min-h-[260px] w-full bg-black">
+    <div className="relative h-full min-h-[260px] w-full overflow-hidden bg-black">
       <canvas
         ref={canvasRef}
-        className="h-full min-h-[260px] w-full cursor-pointer bg-black"
+        className="block h-full min-h-[260px] w-full cursor-pointer bg-black"
         data-testid="profile-visualizer-canvas"
         aria-label="Three-dimensional LLM architecture visualizer"
       />
