@@ -18,30 +18,30 @@
   "dependencies": {
     "@deemlol/next-icons": "^0.2.7",
     "@huggingface/transformers": "^4.2.0",
-    "next": "^16.3.0-preview.3",
+    "next": "^16.3.0-preview.5",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "three": "^0.184.0",
+    "three": "^0.185.0",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.0",
     "@eslint/js": "^9.39.4",
-    "@playwright/test": "^1.61.0",
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4.3.1",
-    "@types/node": "^26.0.0",
+    "@types/node": "^26.0.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@types/three": "^0.184.1",
-    "baseline-browser-mapping": "^2.10.38",
+    "@types/three": "^0.185.0",
+    "baseline-browser-mapping": "^2.10.40",
     "eslint": "^9.39.4",
-    "eslint-config-next": "^16.3.0-preview.3",
+    "eslint-config-next": "^16.3.0-preview.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "gh-pages": "^6.3.0",
     "postcss": "^8",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.61.1"
+    "typescript-eslint": "^8.62.0"
   }
 }
