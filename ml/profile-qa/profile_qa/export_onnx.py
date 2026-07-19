@@ -77,7 +77,11 @@ def quantize_onnx(input_dir: Path, output_dir: Path, dtype: str) -> None:
     try:
         from onnxruntime.quantization import QuantType, quantize_dynamic
     except ImportError as exc:
-        raise RuntimeError("Install export dependencies with pip install -r ml/profile-qa/requirements.txt") from exc
+        raise RuntimeError(
+            "Install export dependencies with uv pip sync --python "
+            "ml/profile-qa/.venv-export --require-hashes "
+            "ml/profile-qa/requirements-export.lock"
+        ) from exc
 
     weight_type = QuantType.QInt8 if dtype == "int8" else QuantType.QUInt8
     for source_path in sorted(input_dir.iterdir()):

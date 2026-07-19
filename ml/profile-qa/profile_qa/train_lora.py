@@ -19,6 +19,7 @@ from .config import (
     MAX_STEPS,
     MODEL_CONTEXT_LIMIT,
     PRIMARY_BASE_MODEL_ID,
+    PRIMARY_BASE_MODEL_REVISION,
     SAVE_STEPS,
     TRAIN_BATCH_SIZE,
     WARMUP_RATIO,
@@ -43,6 +44,30 @@ def ensure_primary_base_model_id(model_id: str, *, source: str) -> None:
         f"profile-QA is TeapotLLM-only; {source} must use {PRIMARY_BASE_MODEL_ID}, "
         f"got {model_id}"
     )
+
+
+def require_local_model_path(model_id: str, *, source: str) -> Path:
+    """Reject arbitrary remote model or adapter identifiers."""
+
+    model_path = Path(model_id)
+    if model_path.is_dir():
+        return model_path
+    raise RuntimeError(f"{source} must be a trusted local directory, got {model_id}")
+
+
+def trusted_model_load_kwargs(model_id: str) -> dict[str, Any]:
+    """Return immutable remote or local-only loader arguments."""
+
+    if model_id.rstrip("/") == PRIMARY_BASE_MODEL_ID:
+        return {
+            "revision": PRIMARY_BASE_MODEL_REVISION,
+            "trust_remote_code": False,
+        }
+    require_local_model_path(model_id, source="model")
+    return {
+        "local_files_only": True,
+        "trust_remote_code": False,
+    }
 
 
 def _missing_dependency(name: str, install_hint: str) -> RuntimeError:
@@ -153,9 +178,10 @@ def run_training(args: argparse.Namespace) -> None:
         raise RuntimeError("dataset has no validation records")
 
     model_id = PRIMARY_BASE_MODEL_ID
-    config = stack["AutoConfig"].from_pretrained(model_id, trust_remote_code=True)
+    load_kwargs = trusted_model_load_kwargs(model_id)
+    config = stack["AutoConfig"].from_pretrained(model_id, **load_kwargs)
     ensure_teapot_seq2seq_config(config, model_id)
-    tokenizer = stack["AutoTokenizer"].from_pretrained(model_id, trust_remote_code=True)
+    tokenizer = stack["AutoTokenizer"].from_pretrained(model_id, **load_kwargs)
     if tokenizer.pad_token is None and tokenizer.eos_token is not None:
         tokenizer.pad_token = tokenizer.eos_token
 
@@ -172,11 +198,12 @@ def run_training(args: argparse.Namespace) -> None:
         model_id,
         device_map="auto",
         quantization_config=quantization_config,
-        trust_remote_code=True,
+        **load_kwargs,
     )
     model.gradient_checkpointing_enable()
     model = stack["prepare_model_for_kbit_training"](model)
     if args.adapter_model_id:
+        require_local_model_path(args.adapter_model_id, source="adapter model")
         adapter_config = stack["PeftConfig"].from_pretrained(args.adapter_model_id)
         adapter_base_model_id = str(getattr(adapter_config, "base_model_name_or_path", ""))
         ensure_primary_base_model_id(
@@ -265,7 +292,7 @@ def run_training(args: argparse.Namespace) -> None:
         args=training_args,
         train_dataset=tokenized_train,
         eval_dataset=tokenized_eval,
-        tokenizer=tokenizer,
+        processing_class=tokenizer,
         data_collator=stack["DataCollatorForSeq2Seq"](tokenizer=tokenizer, model=model),
         callbacks=callbacks,
     )

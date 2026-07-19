@@ -25,26 +25,48 @@ this pipeline reads `profile_qa/public_profile.py`.
 | --- | --- |
 | NVIDIA access | Run from a host shell with visible `/dev/nvidia*` devices or a container with NVIDIA device passthrough |
 | CUDA | CUDA-enabled PyTorch wheels are sufficient for v1; `nvcc` is optional unless a dependency needs CUDA extension compilation |
+| Python | Python 3.14.6 is pinned in the repository `.python-version` |
 | Python dependencies | Install with the commands below |
 
 ```bash
-python -m venv .venv
-. .venv/bin/activate
-pip install -r ml/profile-qa/requirements.txt
+uv python install
+uv venv ml/profile-qa/.venv
+uv pip sync --python ml/profile-qa/.venv --require-hashes ml/profile-qa/requirements.lock
+uv venv ml/profile-qa/.venv-export
+uv pip sync --python ml/profile-qa/.venv-export --require-hashes \
+  ml/profile-qa/requirements-export.lock
+. ml/profile-qa/.venv/bin/activate
 ```
+
+After changing `requirements.txt`, refresh the reproducible Python 3.14 lock:
+
+```bash
+uv pip compile --python-version 3.14 --generate-hashes \
+  --output-file ml/profile-qa/requirements.lock \
+  ml/profile-qa/requirements.txt
+uv pip compile --python-version 3.14 --generate-hashes \
+  --output-file ml/profile-qa/requirements-export.lock \
+  ml/profile-qa/requirements-export.txt
+```
+
+The main training/evaluation environment uses current Transformers 5 and Hub 1
+releases. ONNX export is isolated because Optimum ONNX 0.1 currently requires
+Optimum 2.1.x, Transformers 4.57.x, and Hub 0.x. Only use the export environment
+with the trusted local merged model produced by this pipeline; do not use it to
+load arbitrary model repositories or checkpoints.
 
 ## Commands
 
 ```bash
-python -m profile_qa.gpu_health
-python -m profile_qa.synthetic_data --output ml/profile-qa/data/profile_qa.jsonl
-python -m profile_qa.train_lora --dataset ml/profile-qa/data/profile_qa.jsonl
-python -m profile_qa.evaluate --dataset ml/profile-qa/data/profile_qa.jsonl --model-id teapotai/teapotllm
-python -m profile_qa.merge_adapter --adapter-model-id ml/profile-qa/checkpoints/teapot-profile-qa-lora/checkpoint-400 --output-dir ml/profile-qa/merged/teapot-profile-qa
-python -m profile_qa.export_onnx --output-dir ml/profile-qa/onnx/candidate
-python -m profile_qa.prepare_hf_artifacts --model-browser-dir ml/profile-qa/onnx/candidate/browser
-python -m profile_qa.publish --repo-id justinthelaw/teapot-profile-qa-browser-1024 --artifact-dir ml/profile-qa/hf/model
-python -m profile_qa.publish --repo-type dataset --repo-id justinthelaw/profile-qa-synthetic-public-v1 --artifact-dir ml/profile-qa/hf/dataset
+PYTHONPATH=ml/profile-qa python -m profile_qa.gpu_health
+PYTHONPATH=ml/profile-qa python -m profile_qa.synthetic_data --output ml/profile-qa/data/profile_qa.jsonl
+PYTHONPATH=ml/profile-qa python -m profile_qa.train_lora --dataset ml/profile-qa/data/profile_qa.jsonl
+PYTHONPATH=ml/profile-qa python -m profile_qa.evaluate --dataset ml/profile-qa/data/profile_qa.jsonl --model-id teapotai/teapotllm
+PYTHONPATH=ml/profile-qa python -m profile_qa.merge_adapter --adapter-model-id ml/profile-qa/checkpoints/teapot-profile-qa-lora/checkpoint-400 --output-dir ml/profile-qa/merged/teapot-profile-qa
+PYTHONPATH=ml/profile-qa ml/profile-qa/.venv-export/bin/python -m profile_qa.export_onnx --output-dir ml/profile-qa/onnx/candidate
+PYTHONPATH=ml/profile-qa python -m profile_qa.prepare_hf_artifacts --model-browser-dir ml/profile-qa/onnx/candidate/browser
+PYTHONPATH=ml/profile-qa python -m profile_qa.publish --repo-id justinthelaw/teapot-profile-qa-browser-1024 --artifact-dir ml/profile-qa/hf/model
+PYTHONPATH=ml/profile-qa python -m profile_qa.publish --repo-type dataset --repo-id justinthelaw/profile-qa-synthetic-public-v1 --artifact-dir ml/profile-qa/hf/dataset
 ```
 
 The training, continuation, merge, and export commands are Teapot-only. Training
@@ -56,7 +78,7 @@ the encoder plus merged decoder ONNX files for the T5 browser runtime.
 For targeted continuation from an existing LoRA adapter:
 
 ```bash
-python -m profile_qa.train_lora \
+PYTHONPATH=ml/profile-qa python -m profile_qa.train_lora \
   --dataset ml/profile-qa/data/profile_qa.jsonl \
   --adapter-model-id ml/profile-qa/checkpoints/teapot-profile-qa-lora/checkpoint-400 \
   --output-dir ml/profile-qa/checkpoints/teapot-profile-qa-lora-v2 \
@@ -96,3 +118,7 @@ and GPU health-check behavior:
 ```bash
 PYTHONPATH=ml/profile-qa python -m pytest ml/profile-qa/tests
 ```
+
+Pull requests run this lightweight suite. A scheduled and manually dispatchable
+workflow also recreates the complete locked ML environment and smoke-tests every
+direct dependency without requiring a GPU training run.

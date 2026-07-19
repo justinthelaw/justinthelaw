@@ -54,6 +54,7 @@ public/*.pdf
 
 # local profile-QA training outputs
 /ml/profile-qa/.venv/
+/ml/profile-qa/.venv-export/
 /ml/profile-qa/data/
 /ml/profile-qa/checkpoints/
 /ml/profile-qa/hf/

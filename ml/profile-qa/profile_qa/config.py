@@ -9,6 +9,7 @@ PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 
 MODEL_CONTEXT_LIMIT = 1024
 PRIMARY_BASE_MODEL_ID = "teapotai/teapotllm"
+PRIMARY_BASE_MODEL_REVISION = "a6fd26303e6039e17a251292fd35cc93aefa4122"
 DATASET_VERSION = "public-profile-v1"
 
 DATA_DIR = PACKAGE_ROOT / "data"

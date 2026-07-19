@@ -1,0 +1,159 @@
+name: Profile-QA Tests
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/ml.test.yml"
+      - "ml/profile-qa/**"
+  schedule:
+    - cron: "23 7 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: profile-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lock-freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+
+      - name: Install uv
+        run: python -m pip install uv==0.11.29
+
+      - name: Verify Locks Are Current
+        run: |
+          uv pip compile --python-version 3.14 --generate-hashes \
+            --output-file ml/profile-qa/requirements.lock \
+            ml/profile-qa/requirements.txt
+          uv pip compile --python-version 3.14 --generate-hashes \
+            --output-file ml/profile-qa/requirements-export.lock \
+            ml/profile-qa/requirements-export.txt
+          git diff --exit-code -- \
+            ml/profile-qa/requirements.lock \
+            ml/profile-qa/requirements-export.lock
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+
+      - name: Install Test Runner
+        run: python -m pip install pytest==9.1.1
+
+      - name: Run Profile-QA Unit Tests
+        run: PYTHONPATH=ml/profile-qa python -m pytest ml/profile-qa/tests
+
+  training-dependency-smoke:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+
+      - name: Install uv
+        run: python -m pip install uv==0.11.29
+
+      - name: Recreate Locked Training Environment
+        run: |
+          uv venv ml/profile-qa/.venv
+          uv pip sync --python ml/profile-qa/.venv --require-hashes ml/profile-qa/requirements.lock
+
+      - name: Check Training Dependency Graph and Imports
+        run: |
+          uv pip check --python ml/profile-qa/.venv
+          ml/profile-qa/.venv/bin/python - <<'PY'
+          import accelerate
+          import bitsandbytes
+          import datasets
+          import huggingface_hub
+          import onnx
+          import onnxruntime
+          import peft
+          import pytest
+          import safetensors
+          import sentencepiece
+          import torch
+          import transformers
+          from inspect import signature
+          from transformers import Seq2SeqTrainer
+
+          assert "processing_class" in signature(Seq2SeqTrainer).parameters
+          print("Profile-QA dependency imports passed")
+          PY
+
+      - name: Audit Locked Training Dependencies
+        run: uvx pip-audit -r ml/profile-qa/requirements.lock
+
+      - name: Run Profile-QA Unit Tests
+        run: PYTHONPATH=ml/profile-qa ml/profile-qa/.venv/bin/python -m pytest ml/profile-qa/tests
+
+  exporter-dependency-smoke:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+
+      - name: Install uv
+        run: python -m pip install uv==0.11.29
+
+      - name: Recreate Locked Exporter Environment
+        run: |
+          uv venv ml/profile-qa/.venv-export
+          uv pip sync --python ml/profile-qa/.venv-export --require-hashes ml/profile-qa/requirements-export.lock
+
+      - name: Check Exporter Dependency Graph and Imports
+        run: |
+          uv pip check --python ml/profile-qa/.venv-export
+          ml/profile-qa/.venv-export/bin/python - <<'PY'
+          import huggingface_hub
+          import onnx
+          import onnxruntime
+          import optimum
+          import safetensors
+          import sentencepiece
+          import torch
+          import transformers
+
+          print("Profile-QA exporter imports passed")
+          PY
+          ml/profile-qa/.venv-export/bin/optimum-cli export onnx --help > /dev/null
+
+      - name: Audit Locked Exporter Dependencies
+        run: |
+          uvx pip-audit -r ml/profile-qa/requirements-export.lock \
+            --ignore-vuln PYSEC-2025-217 \
+            --ignore-vuln PYSEC-2026-2290 \
+            --ignore-vuln PYSEC-2026-2288 \
+            --ignore-vuln PYSEC-2026-2289

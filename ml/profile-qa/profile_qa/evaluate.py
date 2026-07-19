@@ -18,6 +18,8 @@ from .train_lora import (
     ensure_primary_base_model_id,
     ensure_teapot_seq2seq_config,
     format_instruction,
+    require_local_model_path,
+    trusted_model_load_kwargs,
 )
 from .validation import read_jsonl
 
@@ -120,19 +122,25 @@ def generate_predictions(model_id: str, records: list[dict[str, Any]]) -> dict[s
     """Generate answers locally for a model or adapter directory."""
 
     stack = _load_generation_stack()
+    if model_id.rstrip("/") != PRIMARY_BASE_MODEL_ID:
+        require_local_model_path(model_id, source="evaluation model")
     adapter_base_model_id = _adapter_base_model_id(model_id)
     config_model_id = adapter_base_model_id or model_id
-    config = stack["AutoConfig"].from_pretrained(config_model_id, trust_remote_code=True)
+    config_load_kwargs = trusted_model_load_kwargs(config_model_id)
+    config = stack["AutoConfig"].from_pretrained(config_model_id, **config_load_kwargs)
     _ensure_generation_lineage(model_id, adapter_base_model_id, config)
     ensure_teapot_seq2seq_config(config, config_model_id)
-    tokenizer = stack["AutoTokenizer"].from_pretrained(model_id, trust_remote_code=True)
+    tokenizer = stack["AutoTokenizer"].from_pretrained(
+        model_id,
+        **trusted_model_load_kwargs(model_id),
+    )
     if tokenizer.pad_token is None and tokenizer.eos_token is not None:
         tokenizer.pad_token = tokenizer.eos_token
     model = stack["AutoModelForSeq2SeqLM"].from_pretrained(
         config_model_id,
         device_map="auto",
         torch_dtype=stack["torch"].float16,
-        trust_remote_code=True,
+        **config_load_kwargs,
     )
     if adapter_base_model_id:
         model = stack["PeftModel"].from_pretrained(model, model_id)
