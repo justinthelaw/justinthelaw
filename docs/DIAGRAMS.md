@@ -15,7 +15,6 @@ fit together.
 | Browser model and context limit | `src/config/models.ts` | Default is `int8` with `uint8` fallback |
 | Prompt retrieval and budget trimming | `src/services/ai/contextProvider.ts` | Ranks profile sections and fits prompt/history into budget |
 | Worker inference | `src/services/ai/worker.ts` | Runs Transformers.js off the main thread |
-| LLM Visualizer | `src/components/profile/ProfileVisualizerModal.tsx` | Lazy client-only Three.js modal for the browser AI architecture trace |
 | Local training defaults | `ml/profile-qa/profile_qa/config.py` | Holds model IDs, 1024-token budget, and LoRA defaults |
 | Pipeline commands | `ml/profile-qa/README.md` | Command-level training, eval, export, and publish guide |
 
@@ -30,13 +29,9 @@ flowchart TD
   page --> resume["ResumeViewer"]
   resume --> drive["Google Drive PDF preview"]
   page --> chat["ChatContainer, client only"]
-  page --> visualizer["LLM Visualizer modal, client only"]
   chat --> chatHooks["Chat hooks"]
   chatHooks --> chatStore["Zustand chat store"]
   chatHooks --> aiService["AIService"]
-  visualizer --> three["Three.js architecture scene"]
-  visualizer --> trace["Local trace controller"]
-  trace --> aiService
   aiService --> worker["Web Worker"]
   worker --> loader["modelLoader.ts"]
   loader --> hf["Hugging Face model files"]

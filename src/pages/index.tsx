@@ -12,11 +12,6 @@ const ChatContainer = dynamic(
   { ssr: false }
 );
 
-const ProfileVisualizerModal = dynamic(
-  () => import("@/components/profile/ProfileVisualizerModal"),
-  { ssr: false }
-);
-
 interface SocialLinkItem {
   href: string;
   filename: string;
@@ -25,7 +20,6 @@ interface SocialLinkItem {
 
 export default function Home(): React.ReactElement {
   const [showChatBox, setShowChatBox] = useState(false);
-  const [showProfileVisualizer, setShowProfileVisualizer] = useState(false);
   const chatButtonRef = useRef<HTMLButtonElement>(null);
 
   function focusChatButtonSoon(): void {
@@ -99,7 +93,7 @@ export default function Home(): React.ReactElement {
           ))}
         </footer>
 
-        {!showChatBox && !showProfileVisualizer && (
+        {!showChatBox && (
           <button
             ref={chatButtonRef}
             type="button"
@@ -113,24 +107,7 @@ export default function Home(): React.ReactElement {
           </button>
         )}
 
-        {showChatBox && !showProfileVisualizer && (
-          <ChatContainer
-            onClose={closeChatBox}
-            onOpenVisualizer={() => {
-              setShowChatBox(false);
-              setShowProfileVisualizer(true);
-            }}
-          />
-        )}
-
-        {showProfileVisualizer && (
-          <ProfileVisualizerModal
-            onClose={() => {
-              setShowProfileVisualizer(false);
-              focusChatButtonSoon();
-            }}
-          />
-        )}
+        {showChatBox && <ChatContainer onClose={closeChatBox} />}
       </div>
     </Fragment>
   );
