@@ -15,6 +15,8 @@ Thanks for contributing to Justin's projects.
 
 | Step | Command |
 | --- | --- |
+| Select Node.js | `nvm install && nvm use` |
+| Select npm | `npm install --global npm@12.0.1` |
 | Install dependencies | `npm install` |
 | Run development server | `npm run dev` |
 

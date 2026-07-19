@@ -7,7 +7,11 @@ import json
 from pathlib import Path
 
 from .config import MERGED_DIR, PRIMARY_BASE_MODEL_ID
-from .train_lora import ensure_primary_base_model_id
+from .train_lora import (
+    ensure_primary_base_model_id,
+    require_local_model_path,
+    trusted_model_load_kwargs,
+)
 
 LINEAGE_FILENAME = "teapot_profile_qa_lineage.json"
 
@@ -28,6 +32,7 @@ def main() -> int:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    require_local_model_path(args.adapter_model_id, source="adapter model")
     adapter_config = PeftConfig.from_pretrained(args.adapter_model_id)
     adapter_base_model_id = str(getattr(adapter_config, "base_model_name_or_path", ""))
     ensure_primary_base_model_id(
@@ -35,12 +40,16 @@ def main() -> int:
         source=f"{args.adapter_model_id} adapter base",
     )
 
-    tokenizer = AutoTokenizer.from_pretrained(args.adapter_model_id, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(
+        args.adapter_model_id,
+        local_files_only=True,
+        trust_remote_code=False,
+    )
     base_model = AutoModelForSeq2SeqLM.from_pretrained(
         PRIMARY_BASE_MODEL_ID,
         torch_dtype=torch.float16,
         device_map="auto",
-        trust_remote_code=True,
+        **trusted_model_load_kwargs(PRIMARY_BASE_MODEL_ID),
     )
     model = PeftModel.from_pretrained(base_model, args.adapter_model_id)
     merged_model = model.merge_and_unload()

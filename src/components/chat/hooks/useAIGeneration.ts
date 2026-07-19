@@ -19,9 +19,14 @@ export interface UseAIGenerationReturn {
 const logger = createLogger(LOG_AREAS.AI_GENERATION);
 
 export function useAIGeneration(): UseAIGenerationReturn {
-  const { messages, setIsGenerating, updateCurrentResponse, addMessage } =
+  const {
+    messages,
+    setIsGenerating: setIsGeneratingStore,
+    updateCurrentResponse,
+    addMessage,
+  } =
     useChatStore();
-  const [isGenerating, setLocalGenerating] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [currentResponse, setCurrentResponse] = useState('');
   const currentResultRef = useRef('');
 
@@ -31,8 +36,8 @@ export function useAIGeneration(): UseAIGenerationReturn {
     const unsubscribe = aiService.subscribe((response: WorkerResponse) => {
       switch (response.status) {
         case WorkerStatus.INITIATE:
-          setLocalGenerating(true);
           setIsGenerating(true);
+          setIsGeneratingStore(true);
           setCurrentResponse('');
           updateCurrentResponse('');
           currentResultRef.current = '';
@@ -55,13 +60,13 @@ export function useAIGeneration(): UseAIGenerationReturn {
             updateCurrentResponse('');
           }
 
-          setLocalGenerating(false);
           setIsGenerating(false);
+          setIsGeneratingStore(false);
           break;
 
         case WorkerStatus.ERROR:
-          setLocalGenerating(false);
           setIsGenerating(false);
+          setIsGeneratingStore(false);
           // Show error as a message
           if (response.error) {
             currentResultRef.current = `Error: ${response.error}`;
@@ -74,7 +79,7 @@ export function useAIGeneration(): UseAIGenerationReturn {
     return () => {
       unsubscribe();
     };
-  }, [setIsGenerating, updateCurrentResponse, addMessage]);
+  }, [setIsGeneratingStore, updateCurrentResponse, addMessage]);
 
   const generate = useCallback((input: string) => {
     const cleanedInput = cleanInput(input);

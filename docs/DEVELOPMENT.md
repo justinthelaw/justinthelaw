@@ -5,9 +5,19 @@
 ### Web App
 
 ```bash
+nvm install
+nvm use
+npm install --global npm@12.0.1
 npm install
 npm run dev
 ```
+
+The repository pins Node.js in `.nvmrc`, npm in `package.json`, and Python in
+`.python-version`. Install Python with `uv python install` before creating the
+profile-QA virtual environment.
+
+TypeScript remains on the newest 6.0.x release until typescript-eslint supports
+TypeScript 7; the current parser crashes during startup with TypeScript 7.
 
 ### Production-Style Static Preview
 

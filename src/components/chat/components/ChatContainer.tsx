@@ -4,7 +4,6 @@
  */
 
 import React, { useCallback, useEffect, useId, useRef } from "react";
-import { Layers } from "@deemlol/next-icons";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
 import { useChatHistory, useAIGeneration, useModelManagement } from "../hooks";
@@ -16,7 +15,6 @@ import { CHATBOT_CONFIG } from "@/config";
 
 export interface ChatContainerProps {
   onClose: () => void;
-  onOpenVisualizer: () => void;
 }
 
 const FOCUSABLE_SELECTOR = [
@@ -36,10 +34,7 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
     );
 }
 
-export function ChatContainer({
-  onClose,
-  onOpenVisualizer,
-}: ChatContainerProps): React.ReactElement {
+export function ChatContainer({ onClose }: ChatContainerProps): React.ReactElement {
   const titleId = useId();
   const { messages, clearHistory, canClear } = useChatHistory();
   const { isGenerating, currentResponse, generate } = useAIGeneration();
@@ -150,15 +145,6 @@ export function ChatContainer({
         : !isReady
           ? "Model not ready..."
           : "Type your message...";
-  const isVisualizerDisabled = !isReady || isGenerating || !!error;
-  const visualizerTooltip = error
-    ? "Model failed to load. Refresh before opening the visualizer."
-    : !isReady
-      ? "LLM Visualizer available after the model loads"
-      : isGenerating
-        ? "Cannot open visualizer while generating"
-        : "LLM Visualizer";
-
   return (
     <div className="fixed inset-0 z-40 pointer-events-none">
       <div className="pointer-events-auto fixed inset-0 flex items-center justify-center bg-black/80 p-4 lg:inset-auto lg:bottom-6 lg:right-6 lg:block lg:bg-transparent lg:p-0">
@@ -210,30 +196,6 @@ export function ChatContainer({
                   {isGenerating
                     ? "Cannot clear history while generating"
                     : "Clear chat history"}
-                </span>
-              </div>
-              <div className="group relative">
-                <button
-                  type="button"
-                  onClick={onOpenVisualizer}
-                  disabled={isVisualizerDisabled}
-                  className={`${
-                    isVisualizerDisabled
-                      ? "cursor-not-allowed bg-gray-900 text-gray-600"
-                      : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white"
-                  } flex h-8 w-8 items-center justify-center rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300`}
-                  aria-label="Open LLM Visualizer"
-                  data-testid="profile-visualizer-button"
-                >
-                  <Layers className="h-4 w-4" aria-hidden="true" />
-                </button>
-                <span
-                  id="llm-visualizer-tooltip"
-                  role="tooltip"
-                  className="pointer-events-none invisible absolute right-0 top-10 z-10 whitespace-nowrap rounded-md border border-gray-700 bg-black px-2 py-1 text-xs text-gray-200 opacity-0 shadow-lg transition-all duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100"
-                  data-testid="profile-visualizer-tooltip"
-                >
-                  {visualizerTooltip}
                 </span>
               </div>
               <button
