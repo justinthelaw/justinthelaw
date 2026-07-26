@@ -1,9 +1,9 @@
 accelerate>=1.14.0
-bitsandbytes>=0.49.2
+bitsandbytes>=0.50.0
 datasets>=5.0.0
 huggingface-hub>=1.24.0
 onnx>=1.22.0
-onnxruntime>=1.27.0
+onnxruntime>=1.28.0
 peft>=0.19.1
 pytest>=9.1.1
 safetensors>=0.8.0

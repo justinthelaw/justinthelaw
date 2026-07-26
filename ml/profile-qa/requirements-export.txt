@@ -1,7 +1,7 @@
 huggingface-hub>=0.36.2,<1.0
 onnx>=1.22.0
-onnxruntime>=1.27.0
-optimum[onnxruntime]>=2.1.0,<2.2
+onnxruntime>=1.28.0
+optimum[onnxruntime]>=2.2.0,<2.3
 safetensors>=0.8.0
 sentencepiece>=0.2.2
 torch>=2.13.0
