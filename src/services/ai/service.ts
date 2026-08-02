@@ -13,6 +13,8 @@ const logger = createLogger(LOG_AREAS.AI_SERVICE);
 export class AIService {
   private worker: Worker | null = null;
   private modelLoaded = false;
+  private modelLoading = false;
+  private lastLifecycleResponse: WorkerResponse | null = null;
   private callbacks: Set<AIServiceCallback> = new Set();
 
   /**
@@ -25,29 +27,66 @@ export class AIService {
 
     this.terminate();
 
-    this.worker = new Worker(new URL("./worker.ts", import.meta.url), {
-      type: "module",
-    });
+    let worker: Worker;
+    try {
+      worker = new Worker(new URL("./worker.ts", import.meta.url), {
+        type: "module",
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unable to start AI worker";
+      logger.error(`worker initialization failed: ${message}`);
+      this.notifyError(message);
+      return;
+    }
 
-    this.worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
+    this.worker = worker;
+
+    worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
       const response = event.data;
-      if (
-        response.status === WorkerStatus.LOAD &&
-        response.message?.includes("successfully")
-      ) {
-        this.modelLoaded = true;
+      if (response.status === WorkerStatus.LOAD) {
+        this.lastLifecycleResponse = response;
+        if (response.message?.includes("successfully")) {
+          this.modelLoaded = true;
+          this.modelLoading = false;
+        }
       }
       if (response.status === WorkerStatus.ERROR) {
         this.modelLoaded = false;
+        this.modelLoading = false;
+        this.lastLifecycleResponse = response;
       }
 
       this.callbacks.forEach((callback) => callback(response));
     };
 
-    this.worker.postMessage({
+    worker.onerror = (event: ErrorEvent) => {
+      event.preventDefault();
+      if (this.worker !== worker) return;
+      this.terminate();
+      this.notifyError(event.message || "AI worker failed to start");
+    };
+
+    worker.onmessageerror = () => {
+      if (this.worker !== worker) return;
+      this.terminate();
+      this.notifyError("AI worker returned an unreadable response");
+    };
+
+    worker.postMessage({
       action: WorkerAction.INIT,
       viewportWidth: window.innerWidth,
     });
+  }
+
+  private notifyError(error: string): void {
+    const response: WorkerResponse = {
+      status: WorkerStatus.ERROR,
+      message: "Model loading failed.",
+      error,
+    };
+    this.lastLifecycleResponse = response;
+    this.callbacks.forEach((callback) => callback(response));
   }
 
   /**
@@ -59,6 +98,11 @@ export class AIService {
       return;
     }
 
+    if (this.modelLoaded || this.modelLoading) {
+      return;
+    }
+
+    this.modelLoading = true;
     this.worker.postMessage({ action: WorkerAction.LOAD });
   }
 
@@ -86,6 +130,9 @@ export class AIService {
    */
   subscribe(callback: AIServiceCallback): () => void {
     this.callbacks.add(callback);
+    if (this.lastLifecycleResponse) {
+      callback(this.lastLifecycleResponse);
+    }
 
     return () => {
       this.callbacks.delete(callback);
@@ -101,6 +148,8 @@ export class AIService {
       this.worker = null;
     }
     this.modelLoaded = false;
+    this.modelLoading = false;
+    this.lastLifecycleResponse = null;
   }
 
   /**

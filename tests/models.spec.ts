@@ -273,4 +273,10 @@ test.describe("Model prompt policy", () => {
       tokenDenseInput.length,
     );
   });
+
+  test("normalizes typographic quotation marks", () => {
+    expect(cleanInput("\u2018Justin\u2019 said \u201chello\u201d.")).toBe(
+      "'Justin' said \"hello\".",
+    );
+  });
 });

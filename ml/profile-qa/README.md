@@ -53,7 +53,12 @@ The main training/evaluation environment uses current Transformers 5 and Hub 1
 releases. ONNX export is isolated because Optimum ONNX 0.1 currently requires
 Optimum 2.1.x, Transformers 4.57.x, and Hub 0.x. Only use the export environment
 with the trusted local merged model produced by this pipeline; do not use it to
-load arbitrary model repositories or checkpoints.
+load arbitrary model repositories or checkpoints. The exporter remains on
+Transformers 4.57.x because the current Optimum ONNX stack is incompatible with
+the patched Transformers 5.x releases. CI therefore records explicit
+`pip-audit` exceptions for the known Transformers advisories; treat the export
+environment as trusted-local-only and revisit those exceptions when the
+exporter supports Transformers 5.
 
 ## Commands
 

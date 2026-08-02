@@ -18,18 +18,23 @@ export interface UseModelManagementReturn {
 const logger = createLogger(LOG_AREAS.AI_MODEL);
 
 export function useModelManagement(): UseModelManagementReturn {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isReady, setIsReady] = useState(false);
+  const [modelReadyOnMount] = useState(() => getAIService().isModelReady());
+  const [isLoading, setIsLoading] = useState(!modelReadyOnMount);
+  const [isReady, setIsReady] = useState(modelReadyOnMount);
   const [error, setError] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState<string | null>(
-    "Initializing..."
+    modelReadyOnMount ? null : "Initializing..."
   );
 
   const startModelLoad = useCallback(() => {
     logger.info("load requested");
     const aiService = getAIService();
-    aiService.terminate();
-    aiService.initialize();
+    if (aiService.isModelReady()) {
+      return;
+    }
+    if (!aiService.isInitialized()) {
+      aiService.initialize();
+    }
     aiService.loadModel();
   }, []);
 
@@ -48,6 +53,10 @@ export function useModelManagement(): UseModelManagementReturn {
           setIsReady(true);
           setError(null);
           setLoadingMessage(null);
+        } else {
+          setIsLoading(true);
+          setIsReady(false);
+          setError(null);
         }
         return;
       }

@@ -29,6 +29,7 @@ export function useAIGeneration(): UseAIGenerationReturn {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentResponse, setCurrentResponse] = useState('');
   const currentResultRef = useRef('');
+  const isGeneratingRef = useRef(false);
 
   useEffect(() => {
     const aiService = getAIService();
@@ -36,6 +37,7 @@ export function useAIGeneration(): UseAIGenerationReturn {
     const unsubscribe = aiService.subscribe((response: WorkerResponse) => {
       switch (response.status) {
         case WorkerStatus.INITIATE:
+          isGeneratingRef.current = true;
           setIsGenerating(true);
           setIsGeneratingStore(true);
           setCurrentResponse('');
@@ -44,7 +46,7 @@ export function useAIGeneration(): UseAIGenerationReturn {
           break;
 
         case WorkerStatus.STREAM:
-          if (response.response) {
+          if (isGeneratingRef.current && response.response) {
             currentResultRef.current += response.response;
             setCurrentResponse(currentResultRef.current);
             updateCurrentResponse(currentResultRef.current);
@@ -52,6 +54,8 @@ export function useAIGeneration(): UseAIGenerationReturn {
           break;
 
         case WorkerStatus.DONE:
+          if (!isGeneratingRef.current) break;
+
           // Save the AI response to history when generation completes
           if (currentResultRef.current.trim()) {
             addMessage('ai', currentResultRef.current.trim());
@@ -62,11 +66,15 @@ export function useAIGeneration(): UseAIGenerationReturn {
 
           setIsGenerating(false);
           setIsGeneratingStore(false);
+          isGeneratingRef.current = false;
           break;
 
         case WorkerStatus.ERROR:
+          if (!isGeneratingRef.current) break;
+
           setIsGenerating(false);
           setIsGeneratingStore(false);
+          isGeneratingRef.current = false;
           // Show error as a message
           if (response.error) {
             currentResultRef.current = `Error: ${response.error}`;
@@ -78,10 +86,18 @@ export function useAIGeneration(): UseAIGenerationReturn {
 
     return () => {
       unsubscribe();
+      if (isGeneratingRef.current) {
+        aiService.terminate();
+        setIsGeneratingStore(false);
+        updateCurrentResponse('');
+        isGeneratingRef.current = false;
+      }
     };
   }, [setIsGeneratingStore, updateCurrentResponse, addMessage]);
 
   const generate = useCallback((input: string) => {
+    if (isGeneratingRef.current) return;
+
     const cleanedInput = cleanInput(input);
 
     if (!cleanedInput.trim()) return;
@@ -102,8 +118,14 @@ export function useAIGeneration(): UseAIGenerationReturn {
     addMessage('user', cleanedInput);
 
     // Start generation
+    isGeneratingRef.current = true;
+    setIsGenerating(true);
+    setIsGeneratingStore(true);
+    setCurrentResponse('');
+    updateCurrentResponse('');
+    currentResultRef.current = '';
     aiService.generate(cleanedInput, recentTurns);
-  }, [addMessage, messages]);
+  }, [addMessage, messages, setIsGeneratingStore, updateCurrentResponse]);
 
   return {
     isGenerating,

@@ -63,3 +63,10 @@ public/*.pdf
 /ml/profile-qa/reports/
 /ml/profile-qa/runs/
 /ml/profile-qa/*.log
+# Python tool caches and coverage output
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/

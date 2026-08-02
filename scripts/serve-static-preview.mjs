@@ -107,8 +107,15 @@ function serveFile(filePath, response) {
 }
 
 const server = createServer((request, response) => {
-  const requestUrl = new URL(request.url ?? "/", `http://localhost:${port}`);
-  const pathname = decodeURIComponent(requestUrl.pathname);
+  let pathname;
+  try {
+    const requestUrl = new URL(request.url ?? "/", `http://localhost:${port}`);
+    pathname = decodeURIComponent(requestUrl.pathname);
+  } catch {
+    response.writeHead(400, { "content-type": "text/plain; charset=utf-8" });
+    response.end("Bad request");
+    return;
+  }
   const strippedPath = stripBasePath(pathname);
 
   if (strippedPath === null) {

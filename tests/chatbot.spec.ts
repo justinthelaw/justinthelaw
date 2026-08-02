@@ -6,10 +6,14 @@ import {
 
 const HELD_LOADING_MESSAGE = "Downloading model... 83%";
 const HOLD_MODEL_LOADING_SESSION_KEY = "__holdModelLoading";
+const HOLD_GENERATION_SESSION_KEY = "__holdGeneration";
+const THROW_WORKER_SESSION_KEY = "__throwWorker";
 
 interface MockWorkerInitOptions {
   heldLoadingMessage: string;
   holdModelLoadingSessionKey: string;
+  holdGenerationSessionKey: string;
+  throwWorkerSessionKey: string;
 }
 
 async function mockModelWorker(page: Page): Promise<void> {
@@ -32,6 +36,16 @@ async function mockModelWorker(page: Page): Promise<void> {
     class MockWorker {
       onmessage: ((event: MessageEvent<MockWorkerResponse>) => void) | null =
         null;
+
+      constructor() {
+        const mockWindow = window as unknown as {
+          __mockWorkerConstructCount: number;
+        };
+        mockWindow.__mockWorkerConstructCount += 1;
+        if (window.sessionStorage.getItem(options.throwWorkerSessionKey) === "true") {
+          throw new Error("Mock worker construction failed");
+        }
+      }
 
       postMessage(message: MockWorkerMessage): void {
         const mockWindow = window as unknown as {
@@ -66,13 +80,24 @@ async function mockModelWorker(page: Page): Promise<void> {
         if (message.action === "generate") {
           window.setTimeout(() => {
             this.emit({ status: "initiate" });
+            if (
+              window.sessionStorage.getItem(options.holdGenerationSessionKey) ===
+              "true"
+            ) {
+              return;
+            }
             this.emit({ status: "stream", response: "Mock response." });
             this.emit({ status: "done" });
           }, 0);
         }
       }
 
-      terminate(): void {}
+      terminate(): void {
+        const mockWindow = window as unknown as {
+          __mockWorkerTerminateCount: number;
+        };
+        mockWindow.__mockWorkerTerminateCount += 1;
+      }
 
       private emit(response: MockWorkerResponse): void {
         this.onmessage?.(new MessageEvent("message", { data: response }));
@@ -81,12 +106,18 @@ async function mockModelWorker(page: Page): Promise<void> {
 
     const mockWindow = window as unknown as {
       __mockWorkerMessages: MockWorkerMessage[];
+      __mockWorkerConstructCount: number;
+      __mockWorkerTerminateCount: number;
     };
     mockWindow.__mockWorkerMessages = [];
+    mockWindow.__mockWorkerConstructCount = 0;
+    mockWindow.__mockWorkerTerminateCount = 0;
     window.Worker = MockWorker as unknown as typeof Worker;
   }, {
     heldLoadingMessage: HELD_LOADING_MESSAGE,
     holdModelLoadingSessionKey: HOLD_MODEL_LOADING_SESSION_KEY,
+    holdGenerationSessionKey: HOLD_GENERATION_SESSION_KEY,
+    throwWorkerSessionKey: THROW_WORKER_SESSION_KEY,
   });
 }
 
@@ -125,6 +156,73 @@ test.describe("Chatbot UI Tests", () => {
   }) => {
     await openChat(page);
     await expect(page.getByTestId("chat-input")).toBeVisible();
+  });
+
+  test("should not duplicate a pending model load after close and reopen", async ({
+    page,
+  }) => {
+    await page.evaluate((sessionKey) => {
+      sessionStorage.setItem(sessionKey, "true");
+    }, HOLD_MODEL_LOADING_SESSION_KEY);
+    await page.reload();
+    await openChat(page);
+    await expect(page.getByTestId("model-loading-status")).toHaveText(
+      HELD_LOADING_MESSAGE,
+    );
+
+    await page.getByRole("button", { name: "Close chat" }).click();
+    await openChat(page);
+
+    const loadCount = await page.evaluate(() => {
+      const mockWindow = window as unknown as {
+        __mockWorkerMessages: Array<{ action?: string }>;
+      };
+      return mockWindow.__mockWorkerMessages.filter(
+        (message) => message.action === "load",
+      ).length;
+    });
+    expect(loadCount).toBe(1);
+    await expect(page.getByTestId("model-loading-status")).toHaveText(
+      HELD_LOADING_MESSAGE,
+    );
+  });
+
+  test("should show worker construction errors and recover after reopen", async ({
+    page,
+  }) => {
+    await page.evaluate((sessionKey) => {
+      sessionStorage.setItem(sessionKey, "true");
+    }, THROW_WORKER_SESSION_KEY);
+    await page.reload();
+    await openChat(page);
+
+    await expect(page.getByTestId("model-error-status")).toContainText(
+      "Mock worker construction failed",
+    );
+    await expect(page.getByTestId("model-loading-status-row")).toHaveCount(0);
+    await expect(page.getByTestId("chat-send-button")).toBeDisabled();
+
+    await page.evaluate((sessionKey) => {
+      sessionStorage.removeItem(sessionKey);
+    }, THROW_WORKER_SESSION_KEY);
+    await page.getByRole("button", { name: "Close chat" }).click();
+    await openChat(page);
+    await expect(page.getByTestId("chat-input")).toBeEnabled();
+    await page.getByTestId("chat-input").fill("Recovered");
+    await expect(page.getByTestId("chat-send-button")).toBeEnabled();
+    await page.getByTestId("chat-send-button").click();
+    await expect(page.getByTestId("chat-message-ai").last()).toContainText(
+      "Mock response.",
+    );
+    await expect(page.getByText("Error: Mock worker construction failed")).toHaveCount(0);
+
+    const constructCount = await page.evaluate(() => {
+      const mockWindow = window as unknown as {
+        __mockWorkerConstructCount: number;
+      };
+      return mockWindow.__mockWorkerConstructCount;
+    });
+    expect(constructCount).toBe(2);
   });
 
   test("should horizontally center model loading status in the chat body", async ({
@@ -393,5 +491,54 @@ test.describe("Chatbot UI Tests", () => {
         content: "Mock response.",
       },
     ]);
+  });
+
+  test("should ignore a rapid duplicate send before worker initiation", async ({
+    page,
+  }) => {
+    await openChat(page);
+    await page.getByTestId("chat-input").fill("Tell me about Justin.");
+    await page.getByTestId("chat-send-button").evaluate((button) => {
+      const sendButton = button as HTMLButtonElement;
+      sendButton.click();
+      sendButton.click();
+    });
+
+    const generateCount = await page.evaluate(() => {
+      const mockWindow = window as unknown as {
+        __mockWorkerMessages: Array<{ action?: string }>;
+      };
+      return mockWindow.__mockWorkerMessages.filter(
+        (message) => message.action === "generate",
+      ).length;
+    });
+    expect(generateCount).toBe(1);
+  });
+
+  test("should cancel an active generation when the chat closes", async ({
+    page,
+  }) => {
+    await page.evaluate((sessionKey) => {
+      sessionStorage.setItem(sessionKey, "true");
+    }, HOLD_GENERATION_SESSION_KEY);
+    await page.reload();
+    await openChat(page);
+    await page.getByTestId("chat-input").fill("Tell me about Justin.");
+    await page.getByTestId("chat-send-button").click();
+    await expect(page.getByTestId("chat-input")).toBeDisabled();
+
+    await page.getByRole("button", { name: "Close chat" }).click();
+
+    const terminateCount = await page.evaluate(() => {
+      const mockWindow = window as unknown as {
+        __mockWorkerTerminateCount: number;
+      };
+      return mockWindow.__mockWorkerTerminateCount;
+    });
+    expect(terminateCount).toBe(1);
+
+    await openChat(page);
+    await expect(page.getByTestId("chat-input")).toBeEnabled();
+    await expect(page.getByTestId("chat-clear-button")).toBeEnabled();
   });
 });
