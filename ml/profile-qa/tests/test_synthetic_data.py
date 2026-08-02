@@ -75,3 +75,25 @@ def test_non_refusal_answers_do_not_leak_private_data_markers() -> None:
         text = f"{record['question']} {record['answer']}".lower()
         leaked = [marker for marker in PRIVATE_DATA_MARKERS if marker in text]
         assert leaked == []
+
+
+def test_non_refusal_history_does_not_leak_private_data_markers() -> None:
+    record = next(
+        item.copy() for item in build_records(seed=7) if not item["requires_refusal"]
+    )
+    record["history"] = [
+        {"role": "user", "content": "What is the personal email address?"}
+    ]
+
+    errors = validate_dataset([record])
+
+    assert any("personal email" in error for error in errors)
+
+
+def test_invalid_history_type_returns_validation_error() -> None:
+    record = build_records(seed=7)[0].copy()
+    record["history"] = None
+
+    errors = validate_dataset([record])
+
+    assert any("history must be a list when present" in error for error in errors)

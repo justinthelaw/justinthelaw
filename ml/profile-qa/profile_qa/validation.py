@@ -119,7 +119,15 @@ def validate_record(record: dict[str, Any]) -> list[str]:
     ):
         errors.append("expected_terms must be a list of strings when present")
 
-    text = f"{record.get('question', '')} {record.get('answer', '')}".lower()
+    history_turns = history if isinstance(history, list) else []
+    history_text = " ".join(
+        str(turn.get("content", ""))
+        for turn in history_turns
+        if isinstance(turn, dict)
+    )
+    text = (
+        f"{record.get('question', '')} {record.get('answer', '')} {history_text}"
+    ).lower()
     for marker in PRIVATE_DATA_MARKERS:
         if marker in text and not record.get("requires_refusal"):
             errors.append(f"private-data marker leaked into non-refusal example: {marker}")

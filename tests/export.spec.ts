@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { access, readFile, readdir } from "node:fs/promises";
+import { createConnection } from "node:net";
 import path from "node:path";
 import { DERIVED_CONFIG, SITE_CONFIG } from "../src/config/site";
 
@@ -73,6 +74,21 @@ async function readExportedJavaScript(): Promise<string> {
 interface StaticPreviewServer {
   origin: string;
   close: () => Promise<void>;
+}
+
+function sendRawRequest(port: number, request: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const socket = createConnection({ host: "127.0.0.1", port });
+    let response = "";
+
+    socket.setEncoding("utf8");
+    socket.on("connect", () => socket.end(request));
+    socket.on("data", (chunk: string) => {
+      response += chunk;
+    });
+    socket.on("end", () => resolve(response));
+    socket.on("error", reject);
+  });
 }
 
 async function startStaticPreviewServer(): Promise<StaticPreviewServer> {
@@ -233,6 +249,39 @@ test("should preview static export from the emitted base path", async () => {
     const iconResponse = await fetch(new URL(`${basePath}/${socialIconFiles[0]}`, rootUrl));
     expect(iconResponse.status).toBe(200);
     expect(iconResponse.headers.get("content-type")).toBe("image/png");
+  } finally {
+    await previewServer.close();
+  }
+});
+
+test("should reject malformed preview paths without stopping the server", async () => {
+  const previewServer = await startStaticPreviewServer();
+
+  try {
+    const previewUrl = new URL(previewServer.origin);
+    const malformedResponse = await fetch(`${previewUrl.origin}/%E0%A4%A`);
+    expect(malformedResponse.status).toBe(400);
+
+    const healthyResponse = await fetch(previewServer.origin);
+    expect(healthyResponse.status).toBe(200);
+  } finally {
+    await previewServer.close();
+  }
+});
+
+test("should reject malformed absolute request targets without stopping the server", async () => {
+  const previewServer = await startStaticPreviewServer();
+
+  try {
+    const previewUrl = new URL(previewServer.origin);
+    const response = await sendRawRequest(
+      Number(previewUrl.port),
+      "GET http://[ HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    );
+    expect(response).toContain(" 400 ");
+
+    const healthyResponse = await fetch(previewServer.origin);
+    expect(healthyResponse.status).toBe(200);
   } finally {
     await previewServer.close();
   }

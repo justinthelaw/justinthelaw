@@ -7,7 +7,7 @@
 ```bash
 nvm install
 nvm use
-npm install --global npm@12.0.1
+npm install --global npm@12.0.2
 npm install
 npm run dev
 ```

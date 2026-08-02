@@ -27,6 +27,7 @@ export interface ChatMessagesProps {
   currentResponse: string;
   isGenerating: boolean;
   isLoading: boolean;
+  error: string | null;
   loadingMessage: string | null;
   showPersonalContextTrimWarning: boolean;
   overBudgetPersonalContextCharacters: number;
@@ -38,6 +39,7 @@ export function ChatMessages({
   currentResponse,
   isGenerating,
   isLoading,
+  error,
   loadingMessage,
   showPersonalContextTrimWarning,
   overBudgetPersonalContextCharacters,
@@ -47,7 +49,7 @@ export function ChatMessages({
     () => QUIRK_MESSAGES[Math.floor(Math.random() * QUIRK_MESSAGES.length)]
   );
   const showModelStatus =
-    (isLoading || loadingMessage) && !loadingMessage?.includes("Generating");
+    isLoading && !loadingMessage?.includes("Generating");
 
   return (
     <div
@@ -59,7 +61,11 @@ export function ChatMessages({
     >
       {/* Loading state - only for initial model loading */}
       {showModelStatus ? (
-        <div className="flex w-full flex-col items-center gap-3 py-8">
+        <div
+          className="flex w-full flex-col items-center gap-3 py-8"
+          role="status"
+          aria-live="polite"
+        >
           <div
             className="flex w-fit max-w-full items-center justify-center gap-3"
             data-testid="model-loading-status-row"
@@ -72,17 +78,14 @@ export function ChatMessages({
               {loadingMessage || "Loading..."}
             </p>
           </div>
-          {loadingMessage && loadingMessage.trim().toLowerCase().includes("error") && (
-            <div className="mt-3 flex flex-col items-center gap-2">
-              {loadingMessage.includes("memory") && (
-                <p className="text-sm text-red-400 text-center max-w-xs">
-                  Your device doesn&apos;t have enough available memory to run
-                  this model. Try closing other tabs or applications to free up
-                  memory.
-                </p>
-              )}
-            </div>
-          )}
+        </div>
+      ) : error ? (
+        <div
+          role="alert"
+          className="w-full rounded-lg border border-red-900 bg-red-950/40 p-4 text-center text-sm text-red-300"
+          data-testid="model-error-status"
+        >
+          Model failed to load: {error}
         </div>
       ) : (
         <Fragment>
@@ -145,7 +148,7 @@ export function ChatMessages({
 
           {/* Show AI response being generated */}
           {isGenerating && (
-            <div className="flex justify-start">
+            <div className="flex justify-start" role="status" aria-live="polite">
               <div className="bg-gray-800 rounded-lg p-3 max-w-[80%]">
                 <div className="text-gray-300 text-sm mb-1">AI Assistant</div>
                 <div className="text-white leading-relaxed whitespace-pre-line [overflow-wrap:anywhere]">

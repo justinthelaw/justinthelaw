@@ -115,8 +115,8 @@ function cleanRawInput(input?: string): string {
   return input
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/['']/g, "'")
-    .replace(/[""]/g, '"')
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201c\u201d]/g, '"')
     .replace(/[–—]/g, "-")
     .replace(/`/g, "")
     .replace(/[<>]/g, "")

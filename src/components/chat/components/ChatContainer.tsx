@@ -230,6 +230,7 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
               currentResponse={currentResponse}
               isGenerating={isGenerating}
               isLoading={isLoading}
+              error={error}
               loadingMessage={loadingMessage}
               showPersonalContextTrimWarning={
                 personalContextBudget.isTrimmed
