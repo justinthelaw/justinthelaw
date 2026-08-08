@@ -15,7 +15,12 @@ from profile_qa.public_profile import (
     PROFILE_SUBJECT,
     fact_index,
 )
-from profile_qa.synthetic_data import build_records
+from profile_qa.synthetic_data import (
+    FOLLOW_UP_QA,
+    MULTI_HOP_QA,
+    TARGETED_COMPLETENESS_QA,
+    build_records,
+)
 from profile_qa.train_lora import format_instruction
 from profile_qa.validation import PRIVATE_DATA_MARKERS, validate_dataset
 
@@ -101,8 +106,8 @@ def test_canonical_profile_preserves_browser_and_scoring_metadata() -> None:
         ),
         (("projects", "projects_rag_system"), "rag-and-metrics-train-0"),
         (
-            ("education", "education_graduate"),
-            "followup-graduate-schools-train-0",
+            ("recommendations", "recommendations_summary"),
+            "followup-recommendation-traits-train-0",
         ),
     ],
 )
@@ -220,6 +225,60 @@ def test_followup_operator_uses_purpose_specific_scoring_terms(
         if item["id"] == "followup-operator-purpose-test-0"
     )
     assert updated_record["expected_terms"] == ["updated operator behavior"]
+
+
+def test_followup_graduate_schools_scores_only_institutions(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    record = next(
+        item
+        for item in build_records(seed=7)
+        if item["id"] == "followup-graduate-schools-test-0"
+    )
+
+    assert record["expected_terms"] == ["Johns Hopkins", "Georgia Tech"]
+    assert score_answer(record, "Johns Hopkins and Georgia Tech")["term"] == 1.0
+    assert score_answer(record, "graduate CS")["term"] == 0.0
+
+    fact = fact_index()[("education", "education_graduate")]
+    term_groups = fact["termGroups"]
+    assert isinstance(term_groups, dict)
+    monkeypatch.setitem(
+        term_groups,
+        "graduateInstitutions",
+        ["Updated University", "Another Institute"],
+    )
+    updated_record = next(
+        item
+        for item in build_records(seed=7)
+        if item["id"] == "followup-graduate-schools-test-0"
+    )
+    assert updated_record["expected_terms"] == [
+        "Updated University",
+        "Another Institute",
+    ]
+
+
+def test_every_grouped_qa_declares_an_explicit_scoring_contract() -> None:
+    specs = TARGETED_COMPLETENESS_QA + MULTI_HOP_QA + FOLLOW_UP_QA
+
+    for spec in specs:
+        evidence = spec["evidence"]
+        assert isinstance(evidence, list)
+        evidence_keys = {
+            f"{item['section_id']}/{item['fact_id']}"
+            for item in evidence
+            if isinstance(item, dict)
+        }
+        scoring = spec.get("scoring")
+        assert scoring in {"all_evidence_terms", "term_groups"}, spec["id"]
+        if scoring == "all_evidence_terms":
+            assert "term_groups" not in spec, spec["id"]
+            continue
+
+        term_groups = spec.get("term_groups")
+        assert isinstance(term_groups, dict), spec["id"]
+        assert set(term_groups) == evidence_keys, spec["id"]
 
 
 def test_split_isolation_for_questions() -> None:

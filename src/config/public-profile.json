@@ -158,7 +158,10 @@
         "id": "education_graduate",
         "text": "He completed graduate CS studies at Johns Hopkins and Georgia Tech.",
         "keywords": ["graduate cs", "johns hopkins", "georgia tech"],
-        "terms": ["graduate CS", "Johns Hopkins", "Georgia Tech"]
+        "terms": ["graduate CS", "Johns Hopkins", "Georgia Tech"],
+        "termGroups": {
+          "graduateInstitutions": ["Johns Hopkins", "Georgia Tech"]
+        }
       }
     ]
   },
