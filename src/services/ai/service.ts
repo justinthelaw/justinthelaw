@@ -165,6 +165,13 @@ export class AIService {
   isModelReady(): boolean {
     return this.modelLoaded;
   }
+
+  /**
+   * Check if the current worker is already loading the model.
+   */
+  isModelLoading(): boolean {
+    return this.modelLoading;
+  }
 }
 
 let aiServiceInstance: AIService | null = null;

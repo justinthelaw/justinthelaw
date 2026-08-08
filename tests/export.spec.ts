@@ -315,6 +315,7 @@ test("should initialize the exported AI worker from the base path", async ({
   try {
     await page.goto(previewServer.origin);
     await page.getByTestId("ai-chatbot-button").click();
+    await page.getByTestId("model-load-button").click();
 
     await expect
       .poll(() =>

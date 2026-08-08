@@ -19,9 +19,15 @@ export interface UseModelManagementReturn {
 const logger = createLogger(LOG_AREAS.AI_MODEL);
 
 export function useModelManagement(): UseModelManagementReturn {
-  const [modelReadyOnMount] = useState(() => getAIService().isModelReady());
-  const [isLoading, setIsLoading] = useState(false);
-  const [isReady, setIsReady] = useState(modelReadyOnMount);
+  const [modelStateOnMount] = useState(() => {
+    const aiService = getAIService();
+    return {
+      isLoading: aiService.isModelLoading(),
+      isReady: aiService.isModelReady(),
+    };
+  });
+  const [isLoading, setIsLoading] = useState(modelStateOnMount.isLoading);
+  const [isReady, setIsReady] = useState(modelStateOnMount.isReady);
   const [error, setError] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState<string | null>(null);
 
