@@ -20,6 +20,10 @@ PROMPT_DIGEST_FIELD = "evaluation_prompt_sha256"
 SOURCE_LINEAGE_DIGEST_FIELD = "source_lineage_sha256"
 ARTIFACT_STAGE_FIELD = "artifact_stage"
 ARTIFACT_DIGEST_FIELD = "artifact_sha256"
+PARENT_ARTIFACT_DIGESTS_FIELD = "parent_artifact_sha256s"
+BROWSER_PARENT_ARTIFACT_STAGES = frozenset(
+    {"onnx-fp", "onnx-int8", "onnx-uint8"}
+)
 PUBLIC_LINEAGE_FIELDS = frozenset(
     {
         "schema_version",
@@ -35,6 +39,7 @@ ARTIFACT_LINEAGE_FIELDS = PUBLIC_LINEAGE_FIELDS | {
     SOURCE_LINEAGE_DIGEST_FIELD,
     ARTIFACT_STAGE_FIELD,
     ARTIFACT_DIGEST_FIELD,
+    PARENT_ARTIFACT_DIGESTS_FIELD,
 }
 
 
@@ -142,6 +147,33 @@ def require_checkpoint_label(value: Any, *, source: Path) -> str:
     return label
 
 
+def require_artifact_digest_map(
+    value: Any,
+    *,
+    field: str,
+    source: Path,
+) -> dict[str, str]:
+    """Validate a non-empty mapping from portable stage labels to digests."""
+
+    if not isinstance(value, dict) or not value:
+        raise ValueError(f"{source} field {field!r} must be a non-empty object")
+    normalized: dict[str, str] = {}
+    for stage, digest in value.items():
+        if (
+            not isinstance(stage, str)
+            or re.fullmatch(r"[a-z0-9][a-z0-9-]{0,63}", stage) is None
+        ):
+            raise ValueError(
+                f"{source} field {field!r} contains invalid stage label {stage!r}"
+            )
+        normalized[stage] = require_sha256(
+            digest,
+            field=f"{field}.{stage}",
+            source=source,
+        )
+    return normalized
+
+
 def public_lineage_fields(source_lineage: dict[str, Any]) -> dict[str, Any]:
     """Remove host-local locators before lineage enters publishable artifacts."""
 
@@ -158,6 +190,7 @@ def write_artifact_lineage(
     source_lineage: dict[str, Any],
     source_lineage_sha256: str,
     stage: str,
+    parent_artifact_sha256s: dict[str, str] | None = None,
 ) -> Path:
     """Write lineage metadata bound to an artifact directory's exact contents."""
 
@@ -165,6 +198,12 @@ def write_artifact_lineage(
     payload = public_lineage_fields(source_lineage)
     payload[SOURCE_LINEAGE_DIGEST_FIELD] = source_lineage_sha256
     payload[ARTIFACT_STAGE_FIELD] = stage
+    if parent_artifact_sha256s is not None:
+        payload[PARENT_ARTIFACT_DIGESTS_FIELD] = require_artifact_digest_map(
+            parent_artifact_sha256s,
+            field=PARENT_ARTIFACT_DIGESTS_FIELD,
+            source=lineage_path,
+        )
     payload[ARTIFACT_DIGEST_FIELD] = directory_sha256(
         artifact_dir,
         excluded_relative_paths=_artifact_digest_exclusions(stage),
@@ -181,6 +220,8 @@ def validate_artifact_lineage(
     *,
     source_lineage_sha256: str,
     stage: str,
+    parent_artifact_sha256s: dict[str, str] | None = None,
+    required_parent_stages: frozenset[str] = frozenset(),
 ) -> dict[str, Any]:
     """Verify that an artifact marker matches its source lineage and files."""
 
@@ -208,6 +249,46 @@ def validate_artifact_lineage(
             f"{lineage_path} field {ARTIFACT_STAGE_FIELD!r} must be {stage!r}, "
             f"got {recorded_stage!r}"
         )
+    recorded_parent_digests = lineage.get(PARENT_ARTIFACT_DIGESTS_FIELD)
+    if parent_artifact_sha256s is None and not required_parent_stages:
+        if recorded_parent_digests is not None:
+            raise ValueError(
+                f"{lineage_path} unexpectedly records "
+                f"{PARENT_ARTIFACT_DIGESTS_FIELD!r} for stage {stage!r}"
+            )
+    else:
+        normalized_parent_digests = require_artifact_digest_map(
+            recorded_parent_digests,
+            field=PARENT_ARTIFACT_DIGESTS_FIELD,
+            source=lineage_path,
+        )
+        if parent_artifact_sha256s is not None:
+            expected_parent_digests = require_artifact_digest_map(
+                parent_artifact_sha256s,
+                field=PARENT_ARTIFACT_DIGESTS_FIELD,
+                source=lineage_path,
+            )
+        else:
+            expected_parent_digests = normalized_parent_digests
+        expected_parent_stages = (
+            set(expected_parent_digests)
+            if not required_parent_stages
+            else set(required_parent_stages)
+        )
+        if set(normalized_parent_digests) != expected_parent_stages:
+            raise ValueError(
+                f"{lineage_path} parent artifact stages do not match stage "
+                f"{stage!r}: expected {sorted(expected_parent_stages)}, got "
+                f"{sorted(normalized_parent_digests)}"
+            )
+        if (
+            parent_artifact_sha256s is not None
+            and normalized_parent_digests != expected_parent_digests
+        ):
+            raise ValueError(
+                f"{lineage_path} parent artifact digests do not match the "
+                "selected export stages"
+            )
     recorded_artifact_digest = require_sha256(
         lineage.get(ARTIFACT_DIGEST_FIELD),
         field=ARTIFACT_DIGEST_FIELD,

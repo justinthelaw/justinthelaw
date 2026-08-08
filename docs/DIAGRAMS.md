@@ -106,9 +106,11 @@ flowchart TD
   train --> eval["evaluate.py"]
   data --> datasetDigest["Canonical dataset digest"]
   eval --> promptDigest["Formatted prompt digest"]
-  eval --> reports["Reports with input and model lineage"]
+  eval --> scoringDigest["Scoring and generation contracts"]
+  eval --> reports["Reports with predictions and provenance"]
   datasetDigest --> reports
   promptDigest --> reports
+  scoringDigest --> reports
   eval --> gate["Promotion gate"]
   gate --> merge["merge_adapter.py"]
   baseRevision["Pinned base revision"] --> train
@@ -117,10 +119,13 @@ flowchart TD
   merge --> lineage["Portable label plus model digests"]
   merge --> export["export_onnx.py"]
   lineage --> export
-  export --> browserArtifact["Browser files plus digest"]
+  export --> fpArtifact["Full-precision files plus digest"]
+  fpArtifact --> quantized["Quantized files bound to FP digest"]
+  quantized --> browserArtifact["Browser files plus digest"]
   browserArtifact --> artifacts["prepare_hf_artifacts.py"]
   lineage --> artifacts
   reports --> artifacts
+  checkpointConfig["Digest-bound adapter config"] --> artifacts
   releaseDate["Explicit release date"] --> artifacts
   artifacts --> publish["publish.py"]
   publish --> hfRepo["Hugging Face model repo"]
@@ -138,8 +143,8 @@ does not train models and does not call a server.
 | Facts | `src/config/site.ts` and `ml/profile-qa/profile_qa/public_profile.py` | Keep public facts aligned before generating data |
 | Dataset | `python -m profile_qa.synthetic_data` | Generated data stays under ignored `ml/profile-qa/data/` |
 | Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; local 8GB NVIDIA LoRA/QLoRA runs |
-| Evaluation | `python -m profile_qa.evaluate` | Reports bind the canonical published dataset, exact formatted prompts, split, pinned base revision, and model digest; saved predictions require matching provenance |
-| ONNX export | `python -m profile_qa.export_onnx` | Verifies the pinned revision and merged lineage/digest, preserves portable lineage without local paths, rejects `.onnx.data`, and publishes `int8` and `uint8` encoder/decoder artifacts |
+| Evaluation | `python -m profile_qa.evaluate` | Reports bind the canonical published dataset, exact formatted prompts, split, pinned base revision, model digest, generation contract, and scoring implementation; packaging recomputes scores from saved predictions |
+| ONNX export | `python -m profile_qa.export_onnx` | Verifies the pinned revision and merged lineage/digest, binds each quantized stage to its exact full-precision input, preserves portable lineage without local paths, rejects `.onnx.data`, and publishes `int8` and `uint8` encoder/decoder artifacts |
 | App promotion | `src/config/models.ts` | Update `MODEL_ID` and keep `MODEL_CONTEXT_LIMIT` honest |
 
 Promotion should satisfy the gate in `ml/profile-qa/README.md` before changing

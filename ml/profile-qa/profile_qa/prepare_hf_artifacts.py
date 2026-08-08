@@ -21,11 +21,25 @@ from .config import (
     REPORT_DIR,
 )
 from .export_onnx import reject_external_data_files
+from .evaluate import (
+    GENERATION_CONFIG_FIELD,
+    GENERATION_DIGEST_FIELD,
+    GENERATION_SCHEMA_FIELD,
+    GENERATION_SCHEMA_VERSION,
+    SCORING_DIGEST_FIELD,
+    SCORING_SCHEMA_FIELD,
+    SCORING_SCHEMA_VERSION,
+    generation_config,
+    generation_implementation_sha256,
+    score_predictions,
+    scoring_implementation_sha256,
+)
 from .provenance import (
     ADAPTER_CHECKPOINT_FIELD,
     ADAPTER_DIGEST_FIELD,
     ARTIFACT_DIGEST_FIELD,
     BASE_MODEL_REVISION_FIELD,
+    BROWSER_PARENT_ARTIFACT_STAGES,
     DATASET_DIGEST_FIELD,
     EXPECTED_LINEAGE_PIPELINE,
     LINEAGE_FILENAME,
@@ -48,6 +62,13 @@ from .validation import canonical_jsonl_sha256, read_jsonl, write_jsonl
 DEFAULT_MODEL_REPO_ID = "justinthelaw/teapot-profile-qa-browser-1024"
 DEFAULT_DATASET_REPO_ID = "justinthelaw/profile-qa-synthetic-public-v1"
 TRAINER_STATE_FILENAME = "trainer_state.json"
+ADAPTER_CONFIG_FILENAME = "adapter_config.json"
+BROWSER_ONNX_FILENAMES = (
+    "encoder_model_int8.onnx",
+    "decoder_model_merged_int8.onnx",
+    "encoder_model_uint8.onnx",
+    "decoder_model_merged_uint8.onnx",
+)
 
 
 @dataclass(frozen=True)
@@ -61,6 +82,10 @@ class ModelProvenance:
     latest_train_loss: float
     latest_train_step: int
     best_validation_eval_loss: float
+    lora_rank: int
+    lora_alpha: float
+    lora_dropout: float
+    lora_target_modules: tuple[str, ...]
     release_date: str
 
 
@@ -136,6 +161,79 @@ def _training_losses(
 
     latest_step, _, latest_train_loss = max(training_entries)
     return latest_train_loss, latest_step, min(validation_losses)
+
+
+def _lora_configuration(
+    adapter_config: dict[str, Any],
+    *,
+    source: Path,
+) -> tuple[int, float, float, tuple[str, ...]]:
+    """Validate model-card LoRA claims from the digest-bound PEFT config."""
+
+    if adapter_config.get("peft_type") != "LORA":
+        raise ValueError(f"{source} field 'peft_type' must be 'LORA'")
+    if adapter_config.get("task_type") != "SEQ_2_SEQ_LM":
+        raise ValueError(f"{source} field 'task_type' must be 'SEQ_2_SEQ_LM'")
+    simple_lora_fields: dict[str, Any] = {
+        "alpha_pattern": {},
+        "bias": "none",
+        "modules_to_save": None,
+        "rank_pattern": {},
+        "use_dora": False,
+        "use_rslora": False,
+    }
+    unsupported_fields = [
+        field
+        for field, expected_value in simple_lora_fields.items()
+        if field not in adapter_config or adapter_config[field] != expected_value
+    ]
+    if unsupported_fields:
+        raise ValueError(
+            f"{source} does not describe the simple LoRA shape supported by the "
+            "generated model card; unsupported or missing fields: "
+            f"{', '.join(unsupported_fields)}"
+        )
+
+    rank = adapter_config.get("r")
+    if isinstance(rank, bool) or not isinstance(rank, int) or rank <= 0:
+        raise ValueError(f"{source} field 'r' must be a positive integer")
+
+    alpha_value = adapter_config.get("lora_alpha")
+    if isinstance(alpha_value, bool) or not isinstance(alpha_value, (int, float)):
+        raise ValueError(f"{source} field 'lora_alpha' must be a positive number")
+    alpha = float(alpha_value)
+    if not math.isfinite(alpha) or alpha <= 0:
+        raise ValueError(f"{source} field 'lora_alpha' must be a positive number")
+
+    dropout_value = adapter_config.get("lora_dropout")
+    if isinstance(dropout_value, bool) or not isinstance(dropout_value, (int, float)):
+        raise ValueError(
+            f"{source} field 'lora_dropout' must be a number from 0 through 1"
+        )
+    dropout = float(dropout_value)
+    if not math.isfinite(dropout) or not 0 <= dropout <= 1:
+        raise ValueError(
+            f"{source} field 'lora_dropout' must be a number from 0 through 1"
+        )
+
+    raw_target_modules = adapter_config.get("target_modules")
+    if (
+        not isinstance(raw_target_modules, list)
+        or not raw_target_modules
+        or any(
+            not isinstance(module, str) or not module.strip()
+            for module in raw_target_modules
+        )
+    ):
+        raise ValueError(
+            f"{source} field 'target_modules' must be a non-empty list of strings"
+        )
+    target_modules = tuple(sorted(raw_target_modules))
+    if len(set(target_modules)) != len(target_modules):
+        raise ValueError(
+            f"{source} field 'target_modules' must contain unique non-empty strings"
+        )
+    return rank, alpha, dropout, target_modules
 
 
 def load_model_provenance(
@@ -218,6 +316,7 @@ def load_model_provenance(
         browser_dir,
         source_lineage_sha256=source_lineage_sha256,
         stage="browser",
+        required_parent_stages=BROWSER_PARENT_ARTIFACT_STAGES,
     )
     for field, expected_value in public_lineage_fields(lineage).items():
         if browser_lineage.get(field) != expected_value:
@@ -266,6 +365,14 @@ def load_model_provenance(
     latest_train_loss, latest_train_step, best_validation_eval_loss = (
         _training_losses(trainer_state, source=trainer_state_path)
     )
+    adapter_config_path = checkpoint_path / ADAPTER_CONFIG_FILENAME
+    adapter_config = _load_json_object(
+        adapter_config_path,
+        label="adapter configuration",
+    )
+    lora_rank, lora_alpha, lora_dropout, lora_target_modules = (
+        _lora_configuration(adapter_config, source=adapter_config_path)
+    )
 
     return ModelProvenance(
         adapter_checkpoint=adapter_checkpoint,
@@ -277,6 +384,10 @@ def load_model_provenance(
         latest_train_loss=latest_train_loss,
         latest_train_step=latest_train_step,
         best_validation_eval_loss=best_validation_eval_loss,
+        lora_rank=lora_rank,
+        lora_alpha=lora_alpha,
+        lora_dropout=lora_dropout,
+        lora_target_modules=lora_target_modules,
         release_date=parsed_release_date.isoformat(),
     )
 
@@ -329,7 +440,124 @@ def _validate_report_evaluation_inputs(
             f"evaluation report {report_path} must describe split "
             f"{expected_split!r}, got {report_split!r}"
         )
+    report_scoring_schema = report_provenance.get(SCORING_SCHEMA_FIELD)
+    if (
+        isinstance(report_scoring_schema, bool)
+        or not isinstance(report_scoring_schema, int)
+        or report_scoring_schema != SCORING_SCHEMA_VERSION
+    ):
+        raise ValueError(
+            f"evaluation report {report_path} field "
+            f"provenance.{SCORING_SCHEMA_FIELD} must be "
+            f"{SCORING_SCHEMA_VERSION}; regenerate it with profile_qa.evaluate"
+        )
+    report_scoring_digest = require_sha256(
+        report_provenance.get(SCORING_DIGEST_FIELD),
+        field=f"provenance.{SCORING_DIGEST_FIELD}",
+        source=report_path,
+    )
+    expected_scoring_digest = scoring_implementation_sha256()
+    if report_scoring_digest != expected_scoring_digest:
+        raise ValueError(
+            f"evaluation report {report_path} scoring implementation does not "
+            "match the current evaluator; regenerate it with profile_qa.evaluate"
+        )
+    report_generation_schema = report_provenance.get(GENERATION_SCHEMA_FIELD)
+    if (
+        isinstance(report_generation_schema, bool)
+        or not isinstance(report_generation_schema, int)
+        or report_generation_schema != GENERATION_SCHEMA_VERSION
+    ):
+        raise ValueError(
+            f"evaluation report {report_path} field "
+            f"provenance.{GENERATION_SCHEMA_FIELD} must be "
+            f"{GENERATION_SCHEMA_VERSION}; regenerate it with profile_qa.evaluate"
+        )
+    report_generation_digest = require_sha256(
+        report_provenance.get(GENERATION_DIGEST_FIELD),
+        field=f"provenance.{GENERATION_DIGEST_FIELD}",
+        source=report_path,
+    )
+    if report_generation_digest != generation_implementation_sha256():
+        raise ValueError(
+            f"evaluation report {report_path} generation implementation does "
+            "not match the current evaluator; regenerate its predictions"
+        )
+    report_generation_config = report_provenance.get(GENERATION_CONFIG_FIELD)
+    if (
+        not isinstance(report_generation_config, dict)
+        or report_generation_config != generation_config()
+    ):
+        raise ValueError(
+            f"evaluation report {report_path} generation configuration does "
+            "not match the current evaluator; regenerate its predictions"
+        )
     return report_provenance
+
+
+def _validate_report_scores(
+    report: dict[str, Any],
+    *,
+    report_path: Path,
+    records: list[dict[str, Any]],
+) -> None:
+    """Recompute a report from its saved predictions using the current scorer."""
+
+    raw_report_records = report.get("records")
+    if not isinstance(raw_report_records, list):
+        raise ValueError(
+            f"evaluation report {report_path} is missing list field 'records'; "
+            "regenerate it with profile_qa.evaluate"
+        )
+    predictions: dict[str, str] = {}
+    for entry in raw_report_records:
+        if not isinstance(entry, dict):
+            raise ValueError(
+                f"evaluation report {report_path} field 'records' must contain "
+                "objects"
+            )
+        record_id = entry.get("id")
+        prediction = entry.get("prediction")
+        if (
+            not isinstance(record_id, str)
+            or not record_id.strip()
+            or not isinstance(prediction, str)
+            or record_id in predictions
+        ):
+            raise ValueError(
+                f"evaluation report {report_path} must contain one string "
+                "prediction for every unique record ID"
+            )
+        predictions[record_id] = prediction
+
+    expected_ids = [str(record.get("id", "")) for record in records]
+    if (
+        any(not record_id for record_id in expected_ids)
+        or len(expected_ids) != len(set(expected_ids))
+        or set(predictions) != set(expected_ids)
+    ):
+        raise ValueError(
+            f"evaluation report {report_path} predictions do not match the "
+            "selected dataset split"
+        )
+
+    recomputed = score_predictions(records, predictions)
+    score_fields = (
+        "macro",
+        "by_task",
+        "refusal_accuracy",
+        "multi_turn_accuracy",
+        "records",
+    )
+    mismatched_fields = [
+        field for field in score_fields if report.get(field) != recomputed[field]
+    ]
+    if mismatched_fields:
+        raise ValueError(
+            f"evaluation report {report_path} scores do not match its saved "
+            "predictions under the current scoring implementation; mismatched "
+            f"fields: {', '.join(mismatched_fields)}"
+        )
 
 
 def _validate_report_provenance(
@@ -452,6 +680,11 @@ def _load_evaluation_reports(
         model_provenance=model_provenance,
         baseline=True,
     )
+    _validate_report_scores(
+        baseline_test,
+        report_path=baseline_path,
+        records=_split_records(dataset_records, "test"),
+    )
     _validate_report_provenance(
         promoted_validation,
         report_path=validation_path,
@@ -460,6 +693,11 @@ def _load_evaluation_reports(
         expected_prompt_sha256=prompt_sha256_by_split["validation"],
         model_provenance=model_provenance,
         baseline=False,
+    )
+    _validate_report_scores(
+        promoted_validation,
+        report_path=validation_path,
+        records=_split_records(dataset_records, "validation"),
     )
     _validate_report_provenance(
         promoted_test,
@@ -470,6 +708,11 @@ def _load_evaluation_reports(
         model_provenance=model_provenance,
         baseline=False,
     )
+    _validate_report_scores(
+        promoted_test,
+        report_path=test_path,
+        records=_split_records(dataset_records, "test"),
+    )
     return EvaluationReports(
         baseline_test=baseline_test,
         promoted_validation=promoted_validation,
@@ -479,6 +722,10 @@ def _load_evaluation_reports(
 
 def _metric(value: float) -> str:
     return f"{value:.4f}"
+
+
+def _plain_number(value: float) -> str:
+    return f"{value:g}"
 
 
 def _copy_tree_contents(source_dir: Path, target_dir: Path) -> None:
@@ -564,6 +811,9 @@ def _write_model_card(
     best_validation_eval_loss = _metric(provenance.best_validation_eval_loss)
     release_date = provenance.release_date
     browser_artifact_sha256 = provenance.browser_artifact_sha256
+    lora_target_modules = ", ".join(
+        f"`{module}`" for module in provenance.lora_target_modules
+    )
     output_path.write_text(
         f"""---
 license: mit
@@ -587,7 +837,7 @@ metrics:
 
 ## Description
 
-This model is a browser-oriented ONNX export of a local LoRA continuation from
+This model is a browser-oriented ONNX export of a PEFT LoRA adapter merged into
 `teapotai/teapotllm`. It is tuned for public resume/profile Q&A prompts that fit
 within a 1024-token browser context budget.
 
@@ -597,8 +847,8 @@ the browser runtime still loads this T5-style export with the Transformers.js
 
 The target use case is a static portfolio or resume site that runs inference in
 the browser with Transformers.js, without API routes, hosted inference, server
-actions, or cloud training. The profile schema is intentionally generic for repo
-reuse: `identity`, `current_role`, `experience`, `projects`, `education`,
+actions, or runtime model services. The profile schema is intentionally generic
+for repo reuse: `identity`, `current_role`, `experience`, `projects`, `education`,
 `recommendations`, `skills`, and `interests`.
 
 ## Browser Artifacts
@@ -614,8 +864,9 @@ Transformers.js ONNX files under `onnx/`:
 
 The export gate rejects external `.onnx.data` files so the model can be loaded
 as self-contained browser assets. The lineage marker records the selected merge
-lineage and an artifact SHA-256 of `{browser_artifact_sha256}` over the browser
-model/config payload, excluding the lineage marker and generated model card.
+lineage; the exact full-precision, int8, and uint8 parent-stage digests; and an
+artifact SHA-256 of `{browser_artifact_sha256}` over the browser model/config
+payload, excluding the lineage marker and generated model card.
 
 ## How to Use
 
@@ -638,11 +889,11 @@ with signed int8 ONNX weights.
 
 - Base model: `teapotai/teapotllm`
 - Base model revision: `{base_model_revision}`
-- Method: local LoRA/QLoRA continuation, no full fine-tune and no cloud training
+- Method represented by the selected adapter: PEFT LoRA
 - Promoted checkpoint: `{promoted_checkpoint}`
-- LoRA: rank 16, alpha 32, dropout 0.03, target modules `q` and `v`
-- 8GB-safe settings: 4-bit base loading, batch size 1, gradient accumulation 8,
-  gradient checkpointing, short eval batches
+- LoRA: rank {provenance.lora_rank}, alpha {_plain_number(provenance.lora_alpha)},
+  dropout {_plain_number(provenance.lora_dropout)}, target modules
+  {lora_target_modules}
 - Latest recorded train loss: {latest_train_loss} at step {latest_train_step}
 - Best recorded validation eval loss: {best_validation_eval_loss}
 
@@ -656,10 +907,10 @@ with signed int8 ONNX weights.
 
 ## Hardware
 
-Training was designed for a local 8GB NVIDIA laptop GPU profile, with GPU
-health checks for `nvidia-smi`, `/dev/nvidia*`, CUDA-enabled PyTorch, and
-`torch.cuda.is_available()`. Export and card preparation can run on CPU after
-training completes.
+The selected checkpoint does not preserve trustworthy hardware, optimizer,
+quantization, or effective-batch-size provenance. Those run-specific claims are
+therefore omitted from this generated card. Export and card preparation can run
+on CPU after training completes.
 
 ## Evaluation
 
@@ -832,6 +1083,16 @@ def prepare_model_payload(args: argparse.Namespace) -> Path:
         browser_dir,
         getattr(args, "release_date", None),
     )
+    missing_browser_artifacts = [
+        filename
+        for filename in BROWSER_ONNX_FILENAMES
+        if not (browser_dir / "onnx" / filename).is_file()
+    ]
+    if missing_browser_artifacts:
+        raise ValueError(
+            f"model browser directory {browser_dir} is missing published ONNX "
+            f"artifacts: {', '.join(missing_browser_artifacts)}"
+        )
     reports = _load_evaluation_reports(args, provenance)
 
     model_output_dir = Path(args.output_dir) / "model"
@@ -861,14 +1122,18 @@ def prepare_dataset_payload(args: argparse.Namespace) -> Path:
     loaded_reports: list[dict[str, Any]] = []
     for report_path, split in report_inputs:
         report = _load_report(report_path)
+        split_records = _split_records(records, split)
         _validate_report_evaluation_inputs(
             report,
             report_path=report_path,
             expected_split=split,
             expected_dataset_sha256=dataset_sha256,
-            expected_prompt_sha256=evaluation_prompt_sha256(
-                _split_records(records, split)
-            ),
+            expected_prompt_sha256=evaluation_prompt_sha256(split_records),
+        )
+        _validate_report_scores(
+            report,
+            report_path=report_path,
+            records=split_records,
         )
         loaded_reports.append(report)
 

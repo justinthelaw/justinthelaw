@@ -3,7 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import inspect
+import io
 import json
+import textwrap
+import tokenize
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -24,6 +28,7 @@ from .provenance import (
     LINEAGE_FILENAME,
     MERGED_DIGEST_FIELD,
     PROMPT_DIGEST_FIELD,
+    canonical_json_sha256,
     directory_sha256,
     load_json_object,
     require_checkpoint_label,
@@ -38,6 +43,16 @@ from .train_lora import (
     trusted_model_load_kwargs,
 )
 from .validation import canonical_jsonl_sha256, read_jsonl
+
+SCORING_SCHEMA_VERSION = 1
+SCORING_SCHEMA_FIELD = "scoring_schema_version"
+SCORING_DIGEST_FIELD = "scoring_implementation_sha256"
+GENERATION_SCHEMA_VERSION = 1
+GENERATION_SCHEMA_FIELD = "generation_schema_version"
+GENERATION_DIGEST_FIELD = "generation_implementation_sha256"
+GENERATION_CONFIG_FIELD = "generation_config"
+GENERATION_MAX_NEW_TOKENS = 160
+GENERATION_DO_SAMPLE = False
 
 
 def score_answer(record: dict[str, Any], prediction: str) -> dict[str, float]:
@@ -87,6 +102,53 @@ def score_predictions(records: list[dict[str, Any]], predictions: dict[str, str]
 
 def _mean(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
+
+
+def _implementation_sha256(
+    functions: tuple[Any, ...],
+    *,
+    schema_version: int,
+) -> str:
+    """Hash semantic Python tokens without Python-minor-specific AST layouts."""
+
+    function_tokens = []
+    ignored_token_types = {
+        tokenize.COMMENT,
+        tokenize.ENCODING,
+        tokenize.ENDMARKER,
+        tokenize.NL,
+    }
+    structural_token_types = {
+        tokenize.DEDENT,
+        tokenize.INDENT,
+        tokenize.NEWLINE,
+    }
+    for function in functions:
+        source = textwrap.dedent(inspect.getsource(function))
+        tokens = []
+        for token in tokenize.generate_tokens(io.StringIO(source).readline):
+            if token.type in ignored_token_types:
+                continue
+            token_value = (
+                "" if token.type in structural_token_types else token.string
+            )
+            tokens.append((tokenize.tok_name[token.type], token_value))
+        function_tokens.append(tokens)
+    return canonical_json_sha256(
+        {
+            "schema_version": schema_version,
+            "function_tokens": function_tokens,
+        }
+    )
+
+
+def scoring_implementation_sha256() -> str:
+    """Hash every function that defines report scores."""
+
+    return _implementation_sha256(
+        (score_answer, score_predictions, _mean),
+        schema_version=SCORING_SCHEMA_VERSION,
+    )
 
 
 def _load_generation_stack() -> dict[str, Any]:
@@ -139,6 +201,11 @@ def evaluation_provenance(
         field=PROMPT_DIGEST_FIELD,
         source=Path("evaluation prompts"),
     )
+    evaluation_contract_provenance = {
+        SCORING_SCHEMA_FIELD: SCORING_SCHEMA_VERSION,
+        SCORING_DIGEST_FIELD: scoring_implementation_sha256(),
+        **generation_provenance_fields(),
+    }
     if model_id.rstrip("/") == PRIMARY_BASE_MODEL_ID:
         return {
             "model_kind": "baseline",
@@ -147,6 +214,7 @@ def evaluation_provenance(
             "base_model": PRIMARY_BASE_MODEL_ID,
             DATASET_DIGEST_FIELD: normalized_dataset_sha256,
             PROMPT_DIGEST_FIELD: normalized_prompt_sha256,
+            **evaluation_contract_provenance,
             "split": normalized_split,
         }
 
@@ -176,6 +244,7 @@ def evaluation_provenance(
             BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
             DATASET_DIGEST_FIELD: normalized_dataset_sha256,
             PROMPT_DIGEST_FIELD: normalized_prompt_sha256,
+            **evaluation_contract_provenance,
             "split": normalized_split,
         }
 
@@ -201,6 +270,7 @@ def evaluation_provenance(
             BASE_MODEL_REVISION_FIELD: lineage[BASE_MODEL_REVISION_FIELD],
             DATASET_DIGEST_FIELD: normalized_dataset_sha256,
             PROMPT_DIGEST_FIELD: normalized_prompt_sha256,
+            **evaluation_contract_provenance,
             "split": normalized_split,
         }
 
@@ -267,13 +337,48 @@ def generate_predictions(model_id: str, records: list[dict[str, Any]]) -> dict[s
         with stack["torch"].no_grad():
             output_ids = model.generate(
                 **inputs,
-                max_new_tokens=160,
-                do_sample=False,
+                max_new_tokens=GENERATION_MAX_NEW_TOKENS,
+                do_sample=GENERATION_DO_SAMPLE,
             )
         generated_ids = output_ids[0]
         generated = tokenizer.decode(generated_ids, skip_special_tokens=True)
         predictions[str(record["id"])] = str(generated).strip()
     return predictions
+
+
+def generation_config() -> dict[str, Any]:
+    """Return generation settings that materially affect saved predictions."""
+
+    return {
+        "decode_skip_special_tokens": True,
+        "do_sample": GENERATION_DO_SAMPLE,
+        "input_truncation": True,
+        "max_input_tokens": MODEL_CONTEXT_LIMIT,
+        "max_new_tokens": GENERATION_MAX_NEW_TOKENS,
+    }
+
+
+def generation_implementation_sha256() -> str:
+    """Hash the local generation path independently of scoring semantics."""
+
+    return _implementation_sha256(
+        (
+            _adapter_base_model_id,
+            _ensure_generation_lineage,
+            generate_predictions,
+        ),
+        schema_version=GENERATION_SCHEMA_VERSION,
+    )
+
+
+def generation_provenance_fields() -> dict[str, Any]:
+    """Describe the exact generation contract for reports and saved bundles."""
+
+    return {
+        GENERATION_SCHEMA_FIELD: GENERATION_SCHEMA_VERSION,
+        GENERATION_DIGEST_FIELD: generation_implementation_sha256(),
+        GENERATION_CONFIG_FIELD: generation_config(),
+    }
 
 
 def write_prediction_bundle(

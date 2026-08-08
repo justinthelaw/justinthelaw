@@ -14,6 +14,7 @@ from .config import MERGED_DIR, ONNX_DIR, PRIMARY_BASE_MODEL_REVISION
 from .provenance import (
     ADAPTER_CHECKPOINT_FIELD,
     ADAPTER_DIGEST_FIELD,
+    ARTIFACT_DIGEST_FIELD,
     BASE_MODEL_REVISION_FIELD,
     EXPECTED_LINEAGE_PIPELINE,
     LINEAGE_FILENAME,
@@ -121,8 +122,29 @@ def ensure_teapot_export_model(model: str) -> ValidatedMergeLineage:
 
 
 def export_onnx(model: str, output_dir: Path) -> ValidatedMergeLineage:
-    output_dir.mkdir(parents=True, exist_ok=True)
     lineage = ensure_teapot_export_model(model)
+    model_path = Path(model).resolve()
+    resolved_output_dir = output_dir.resolve()
+    if (
+        model_path == resolved_output_dir
+        or model_path in resolved_output_dir.parents
+        or resolved_output_dir in model_path.parents
+    ):
+        raise RuntimeError(
+            "full-precision export directory must not overlap the selected "
+            f"merged model directory: {resolved_output_dir} and {model_path}"
+        )
+    if output_dir.is_symlink():
+        raise RuntimeError(
+            f"full-precision export directory must not be a symlink: {output_dir}"
+        )
+    if output_dir.exists():
+        if not output_dir.is_dir():
+            raise RuntimeError(
+                f"full-precision export path is not a directory: {output_dir}"
+            )
+        shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True)
     run_command(
         [
             venv_tool("optimum-cli"),
@@ -151,6 +173,16 @@ def quantize_onnx(
     dtype: str,
     lineage: ValidatedMergeLineage,
 ) -> None:
+    fp_lineage = validate_artifact_lineage(
+        input_dir,
+        source_lineage_sha256=lineage.sha256,
+        stage="onnx-fp",
+    )
+    fp_artifact_sha256 = require_sha256(
+        fp_lineage.get(ARTIFACT_DIGEST_FIELD),
+        field=ARTIFACT_DIGEST_FIELD,
+        source=input_dir / LINEAGE_FILENAME,
+    )
     if output_dir.exists():
         shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -183,6 +215,7 @@ def quantize_onnx(
         source_lineage=lineage.data,
         source_lineage_sha256=lineage.sha256,
         stage=f"onnx-{dtype}",
+        parent_artifact_sha256s={"onnx-fp": fp_artifact_sha256},
     )
 
 
@@ -212,16 +245,28 @@ def assemble_browser_artifact(
 ) -> None:
     """Create a Transformers.js-compatible upload directory."""
 
-    validate_artifact_lineage(
+    fp_lineage = validate_artifact_lineage(
         fp_dir,
         source_lineage_sha256=lineage.sha256,
         stage="onnx-fp",
     )
+    fp_artifact_sha256 = require_sha256(
+        fp_lineage.get(ARTIFACT_DIGEST_FIELD),
+        field=ARTIFACT_DIGEST_FIELD,
+        source=fp_dir / LINEAGE_FILENAME,
+    )
+    browser_parent_digests = {"onnx-fp": fp_artifact_sha256}
     for dtype, quantized_dir in quantized_dirs.items():
-        validate_artifact_lineage(
+        quantized_lineage = validate_artifact_lineage(
             quantized_dir,
             source_lineage_sha256=lineage.sha256,
             stage=f"onnx-{dtype}",
+            parent_artifact_sha256s={"onnx-fp": fp_artifact_sha256},
+        )
+        browser_parent_digests[f"onnx-{dtype}"] = require_sha256(
+            quantized_lineage.get(ARTIFACT_DIGEST_FIELD),
+            field=ARTIFACT_DIGEST_FIELD,
+            source=quantized_dir / LINEAGE_FILENAME,
         )
 
     if output_dir.exists():
@@ -250,6 +295,7 @@ def assemble_browser_artifact(
         source_lineage=lineage.data,
         source_lineage_sha256=lineage.sha256,
         stage="browser",
+        parent_artifact_sha256s=browser_parent_digests,
     )
 
 

@@ -4,9 +4,11 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from profile_qa.config import PRIMARY_BASE_MODEL_ID, PRIMARY_BASE_MODEL_REVISION
 from profile_qa.evaluate import (
+    GENERATION_CONFIG_FIELD,
     evaluation_provenance,
     load_prediction_bundle,
     write_prediction_bundle,
@@ -14,16 +16,20 @@ from profile_qa.evaluate import (
 from profile_qa.export_onnx import (
     assemble_browser_artifact,
     ensure_teapot_export_model,
+    export_onnx,
 )
 from profile_qa.provenance import (
     ADAPTER_CHECKPOINT_FIELD,
     ADAPTER_DIGEST_FIELD,
+    ARTIFACT_DIGEST_FIELD,
     BASE_MODEL_REVISION_FIELD,
+    BROWSER_PARENT_ARTIFACT_STAGES,
     DATASET_DIGEST_FIELD,
     EXPECTED_LINEAGE_PIPELINE,
     LINEAGE_FILENAME,
     LINEAGE_SCHEMA_VERSION,
     MERGED_DIGEST_FIELD,
+    PARENT_ARTIFACT_DIGESTS_FIELD,
     PROMPT_DIGEST_FIELD,
     directory_sha256,
     validate_artifact_lineage,
@@ -68,6 +74,7 @@ class ReleaseLineageTests(unittest.TestCase):
         lineage_data: dict[str, object],
         lineage_sha256: str,
         stage: str,
+        parent_artifact_sha256: str | None = None,
     ) -> None:
         directory.mkdir(parents=True)
         (directory / "encoder_model.onnx").write_bytes(f"{stage}-encoder".encode())
@@ -81,6 +88,11 @@ class ReleaseLineageTests(unittest.TestCase):
             source_lineage=lineage_data,
             source_lineage_sha256=lineage_sha256,
             stage=stage,
+            parent_artifact_sha256s=(
+                {"onnx-fp": parent_artifact_sha256}
+                if parent_artifact_sha256 is not None
+                else None
+            ),
         )
 
     def test_browser_export_preserves_verified_lineage_and_digest(self) -> None:
@@ -97,17 +109,22 @@ class ReleaseLineageTests(unittest.TestCase):
                 lineage_sha256=lineage.sha256,
                 stage="onnx-fp",
             )
+            fp_artifact_sha256 = json.loads(
+                (fp_dir / LINEAGE_FILENAME).read_text(encoding="utf-8")
+            )[ARTIFACT_DIGEST_FIELD]
             self._write_onnx_stage(
                 int8_dir,
                 lineage_data=lineage.data,
                 lineage_sha256=lineage.sha256,
                 stage="onnx-int8",
+                parent_artifact_sha256=fp_artifact_sha256,
             )
             self._write_onnx_stage(
                 uint8_dir,
                 lineage_data=lineage.data,
                 lineage_sha256=lineage.sha256,
                 stage="onnx-uint8",
+                parent_artifact_sha256=fp_artifact_sha256,
             )
             browser_dir = root / "browser"
 
@@ -121,12 +138,106 @@ class ReleaseLineageTests(unittest.TestCase):
                 browser_dir,
                 source_lineage_sha256=lineage.sha256,
                 stage="browser",
+                required_parent_stages=BROWSER_PARENT_ARTIFACT_STAGES,
             )
 
             self.assertNotIn("adapter_model_id", marker)
             self.assertEqual(marker[ADAPTER_CHECKPOINT_FIELD], adapter_dir.name)
             self.assertEqual(marker[MERGED_DIGEST_FIELD], lineage.data[MERGED_DIGEST_FIELD])
+            parent_digests = marker[PARENT_ARTIFACT_DIGESTS_FIELD]
+            self.assertEqual(parent_digests["onnx-fp"], fp_artifact_sha256)
+            self.assertEqual(
+                parent_digests["onnx-int8"],
+                json.loads(
+                    (int8_dir / LINEAGE_FILENAME).read_text(encoding="utf-8")
+                )[ARTIFACT_DIGEST_FIELD],
+            )
+            self.assertEqual(
+                parent_digests["onnx-uint8"],
+                json.loads(
+                    (uint8_dir / LINEAGE_FILENAME).read_text(encoding="utf-8")
+                )[ARTIFACT_DIGEST_FIELD],
+            )
             self.assertTrue((browser_dir / LINEAGE_FILENAME).is_file())
+
+    def test_full_precision_export_replaces_existing_stage_tree(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            merged_dir, _ = self._write_merged_model(root)
+            fp_dir = root / "candidate" / "onnx"
+            fp_dir.mkdir(parents=True)
+            sentinel = fp_dir / "stale.json"
+            sentinel.write_text("stale", encoding="utf-8")
+
+            def fake_export(_command: list[str]) -> None:
+                (fp_dir / "config.json").write_text("{}", encoding="utf-8")
+                (fp_dir / "encoder_model.onnx").write_bytes(b"fresh")
+
+            with patch("profile_qa.export_onnx.run_command", side_effect=fake_export):
+                lineage = export_onnx(str(merged_dir), fp_dir)
+
+            self.assertFalse(sentinel.exists())
+            validate_artifact_lineage(
+                fp_dir,
+                source_lineage_sha256=lineage.sha256,
+                stage="onnx-fp",
+            )
+
+    def test_full_precision_export_rejects_source_overlap(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            merged_dir, _ = self._write_merged_model(root)
+            source_file = merged_dir / "model.safetensors"
+
+            with self.assertRaisesRegex(RuntimeError, "must not overlap"):
+                export_onnx(str(merged_dir), merged_dir / "onnx")
+
+            self.assertTrue(source_file.is_file())
+
+    def test_same_lineage_reexport_rejects_stale_quantized_stages(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            merged_dir, _ = self._write_merged_model(root)
+            lineage = ensure_teapot_export_model(str(merged_dir))
+            fp_dir = root / "onnx"
+            int8_dir = root / "int8"
+            uint8_dir = root / "uint8"
+            self._write_onnx_stage(
+                fp_dir,
+                lineage_data=lineage.data,
+                lineage_sha256=lineage.sha256,
+                stage="onnx-fp",
+            )
+            first_fp_sha256 = json.loads(
+                (fp_dir / LINEAGE_FILENAME).read_text(encoding="utf-8")
+            )[ARTIFACT_DIGEST_FIELD]
+            for dtype, quantized_dir in (
+                ("int8", int8_dir),
+                ("uint8", uint8_dir),
+            ):
+                self._write_onnx_stage(
+                    quantized_dir,
+                    lineage_data=lineage.data,
+                    lineage_sha256=lineage.sha256,
+                    stage=f"onnx-{dtype}",
+                    parent_artifact_sha256=first_fp_sha256,
+                )
+
+            (fp_dir / "encoder_model.onnx").write_bytes(b"fresh-fp-encoder")
+            write_artifact_lineage(
+                fp_dir,
+                source_lineage=lineage.data,
+                source_lineage_sha256=lineage.sha256,
+                stage="onnx-fp",
+            )
+
+            with self.assertRaisesRegex(ValueError, "parent artifact digest"):
+                assemble_browser_artifact(
+                    fp_dir,
+                    {"int8": int8_dir, "uint8": uint8_dir},
+                    root / "browser",
+                    lineage,
+                )
 
     def test_artifact_lineage_rejects_injected_local_path(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -273,6 +384,34 @@ class ReleaseLineageTests(unittest.TestCase):
             stale_bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
             stale_bundle["provenance"][ADAPTER_DIGEST_FIELD] = "f" * 64
             stale_bundle["provenance"]["model_sha256"] = "f" * 64
+            bundle_path.write_text(json.dumps(stale_bundle), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "prediction provenance"):
+                load_prediction_bundle(
+                    bundle_path,
+                    expected_provenance=provenance,
+                    records=records,
+                )
+
+    def test_saved_predictions_require_matching_generation_contract(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            bundle_path = Path(directory) / "predictions.json"
+            records = [{"id": "example"}]
+            provenance = evaluation_provenance(
+                PRIMARY_BASE_MODEL_ID,
+                "test",
+                "d" * 64,
+                "e" * 64,
+            )
+            write_prediction_bundle(
+                bundle_path,
+                predictions={"example": "saved answer"},
+                provenance=provenance,
+            )
+            stale_bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+            stale_bundle["provenance"][GENERATION_CONFIG_FIELD][
+                "max_new_tokens"
+            ] = 80
             bundle_path.write_text(json.dumps(stale_bundle), encoding="utf-8")
 
             with self.assertRaisesRegex(ValueError, "prediction provenance"):

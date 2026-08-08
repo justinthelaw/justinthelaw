@@ -98,30 +98,44 @@ the merged model directory produced by `profile_qa.merge_adapter` and publishes
 the encoder plus merged decoder ONNX files for the T5 browser runtime.
 
 Evaluation reports record the canonical published-dataset SHA-256, exact
-formatted-prompt digest, split, pinned base revision, and local adapter or
-merged-model digest. Merge records that pinned revision plus adapter and
-merged-model SHA-256 values; export verifies those values and carries the
+formatted-prompt digest, split, pinned base revision, local adapter or
+merged-model digest, generation settings and implementation digest, and a schema
+plus normalized-token digest of the scoring implementation. Artifact preparation
+recomputes every published metric from the report's saved per-record predictions
+with that current scorer. Merge records
+the pinned revision plus adapter and merged-model SHA-256 values; export verifies
+those values and carries the
 lineage plus a content digest through the full-precision, quantized, and browser
-artifact stages. Published reports and artifact markers use a portable
-checkpoint label and digest, never the private local checkpoint path retained
-by the merge workspace. Artifact preparation accepts reports only when their
+artifact stages. Each quantized marker also names the exact full-precision
+artifact digest it consumed. Published reports and artifact markers use a
+portable checkpoint label and digest, never the private local checkpoint path
+retained by the merge workspace. Artifact preparation accepts reports only when their
 canonical dataset, live prompt context, base revision, checkpoint label, and
 model digests match the selected inputs and the browser marker matches the
 actual browser files.
 
 The export `--skip-export` and `--skip-quantize` recovery flags only reuse stage
-directories whose lineage marker and content digest still validate. Regenerate
-legacy or modified export directories instead of relabeling them.
+directories whose lineage marker and content digest still validate. Quantized
+directories from a prior full-precision export are rejected even when both
+exports share the same merged-model lineage. Regenerate legacy or modified
+export directories instead of relabeling them.
 
 Artifact preparation derives the promoted checkpoint from that verified lineage
 and reads its latest train loss and best validation eval loss from the
-checkpoint's `trainer_state.json`. Pass the intended release date explicitly in
-ISO `YYYY-MM-DD` format. Missing, mismatched, or malformed provenance stops
-preparation before an existing model payload is replaced. To reuse generated
+checkpoint's `trainer_state.json`. Model-card LoRA rank, alpha, dropout, and
+target modules come from the digest-validated `adapter_config.json`; hardware,
+optimizer, training quantization, and batch-size claims are omitted because the
+checkpoint does not preserve trustworthy values for them. Pass the intended
+release date explicitly in ISO `YYYY-MM-DD` format. Missing, mismatched, stale,
+or malformed provenance stops preparation before an existing model payload is
+replaced. To reuse generated
 outputs, first write a provenance-bound bundle with `--save-predictions-json`.
 `--predictions-json` accepts only that bundle format and verifies its model,
 canonical dataset, split, formatted prompts, and exact record IDs before
-scoring; plain or stale prediction mappings are rejected.
+scoring; generation settings and implementation must also match, so plain or
+stale prediction mappings are rejected. Per-module rank or alpha patterns,
+DoRA/RS-LoRA, trained bias values, and saved extra modules fail closed rather
+than being flattened into an inaccurate simple-LoRA model-card claim.
 
 For targeted continuation from an existing LoRA adapter:
 

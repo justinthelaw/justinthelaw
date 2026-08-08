@@ -8,6 +8,12 @@ from pathlib import Path
 from unittest.mock import patch
 
 from profile_qa.config import PRIMARY_BASE_MODEL_ID, PRIMARY_BASE_MODEL_REVISION
+from profile_qa.evaluate import (
+    GENERATION_CONFIG_FIELD,
+    SCORING_DIGEST_FIELD,
+    evaluation_provenance,
+    score_predictions,
+)
 from profile_qa.prepare_hf_artifacts import (
     load_model_provenance,
     prepare_dataset_payload,
@@ -17,11 +23,11 @@ from profile_qa.provenance import (
     ADAPTER_CHECKPOINT_FIELD,
     ADAPTER_DIGEST_FIELD,
     BASE_MODEL_REVISION_FIELD,
+    BROWSER_PARENT_ARTIFACT_STAGES,
     DATASET_DIGEST_FIELD,
     EXPECTED_LINEAGE_PIPELINE,
     LINEAGE_SCHEMA_VERSION,
     MERGED_DIGEST_FIELD,
-    PROMPT_DIGEST_FIELD,
     directory_sha256,
     file_sha256,
     validate_artifact_lineage,
@@ -37,6 +43,7 @@ class ModelCardProvenanceTests(unittest.TestCase):
         directory: Path,
         *,
         log_history: list[dict[str, object]] | None = None,
+        adapter_config: dict[str, object] | None = None,
     ) -> tuple[Path, Path]:
         checkpoint_dir = directory / "teapot-profile-qa-lora-v6" / "checkpoint-80"
         checkpoint_dir.mkdir(parents=True)
@@ -55,6 +62,27 @@ class ModelCardProvenanceTests(unittest.TestCase):
             encoding="utf-8",
         )
         (checkpoint_dir / "adapter_model.safetensors").write_bytes(b"adapter")
+        (checkpoint_dir / "adapter_config.json").write_text(
+            json.dumps(
+                adapter_config
+                or {
+                    "alpha_pattern": {},
+                    "base_model_name_or_path": PRIMARY_BASE_MODEL_ID,
+                    "bias": "none",
+                    "lora_alpha": 47,
+                    "lora_dropout": 0.17,
+                    "modules_to_save": None,
+                    "peft_type": "LORA",
+                    "r": 23,
+                    "rank_pattern": {},
+                    "target_modules": ["k", "o"],
+                    "task_type": "SEQ_2_SEQ_LM",
+                    "use_dora": False,
+                    "use_rslora": False,
+                }
+            ),
+            encoding="utf-8",
+        )
         lineage_path = directory / "teapot_profile_qa_lineage.json"
         lineage_path.write_text(
             json.dumps(
@@ -80,12 +108,23 @@ class ModelCardProvenanceTests(unittest.TestCase):
         browser_dir.mkdir()
         (browser_dir / "config.json").write_text("{}", encoding="utf-8")
         (browser_dir / "onnx").mkdir()
-        (browser_dir / "onnx" / "encoder_model_int8.onnx").write_bytes(b"onnx")
+        for filename in (
+            "encoder_model_int8.onnx",
+            "decoder_model_merged_int8.onnx",
+            "encoder_model_uint8.onnx",
+            "decoder_model_merged_uint8.onnx",
+        ):
+            (browser_dir / "onnx" / filename).write_bytes(filename.encode())
         write_artifact_lineage(
             browser_dir,
             source_lineage=json.loads(lineage_path.read_text(encoding="utf-8")),
             source_lineage_sha256=file_sha256(lineage_path),
             stage="browser",
+            parent_artifact_sha256s={
+                "onnx-fp": "1" * 64,
+                "onnx-int8": "2" * 64,
+                "onnx-uint8": "3" * 64,
+            },
         )
         return browser_dir
 
@@ -103,36 +142,25 @@ class ModelCardProvenanceTests(unittest.TestCase):
         prompt_sha256 = evaluation_prompt_sha256(
             [record for record in dataset_records if record.get("split") == split]
         )
-        report: dict[str, object] = {
-            "macro": 1.0,
-            "refusal_accuracy": 1.0,
-            "multi_turn_accuracy": 1.0,
-            "by_task": {"single_turn": 1.0},
+        split_records = [
+            record for record in dataset_records if record.get("split") == split
+        ]
+        predictions = {
+            str(record["id"]): "grounded answer" for record in split_records
         }
-        if checkpoint_dir is None:
-            report["provenance"] = {
-                "model_kind": "baseline",
-                "model_id": PRIMARY_BASE_MODEL_ID,
-                BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
-                "base_model": PRIMARY_BASE_MODEL_ID,
-                DATASET_DIGEST_FIELD: dataset_sha256,
-                PROMPT_DIGEST_FIELD: prompt_sha256,
-                "split": split,
-            }
-        else:
-            digest = adapter_digest or directory_sha256(checkpoint_dir)
-            report["provenance"] = {
-                "model_kind": "adapter",
-                "model_id": checkpoint_dir.name,
-                "model_sha256": digest,
-                ADAPTER_CHECKPOINT_FIELD: checkpoint_dir.name,
-                ADAPTER_DIGEST_FIELD: digest,
-                "base_model": PRIMARY_BASE_MODEL_ID,
-                BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
-                DATASET_DIGEST_FIELD: dataset_sha256,
-                PROMPT_DIGEST_FIELD: prompt_sha256,
-                "split": split,
-            }
+        report: dict[str, object] = score_predictions(split_records, predictions)
+        model_id = (
+            PRIMARY_BASE_MODEL_ID if checkpoint_dir is None else str(checkpoint_dir)
+        )
+        report["provenance"] = evaluation_provenance(
+            model_id,
+            split,
+            dataset_sha256,
+            prompt_sha256,
+        )
+        if checkpoint_dir is not None and adapter_digest is not None:
+            report["provenance"][ADAPTER_DIGEST_FIELD] = adapter_digest
+            report["provenance"]["model_sha256"] = adapter_digest
         path.write_text(json.dumps(report), encoding="utf-8")
         return path
 
@@ -207,11 +235,19 @@ class ModelCardProvenanceTests(unittest.TestCase):
                 model_dir,
                 source_lineage_sha256=file_sha256(lineage_path),
                 stage="browser",
+                required_parent_stages=BROWSER_PARENT_ARTIFACT_STAGES,
             )
 
         self.assertIn("Promoted checkpoint: `checkpoint-80`", model_card)
         self.assertIn("Latest recorded train loss: 0.0312 at step 80", model_card)
         self.assertIn("Best recorded validation eval loss: 0.0400", model_card)
+        self.assertIn("LoRA: rank 23, alpha 47,", model_card)
+        self.assertIn("dropout 0.17, target modules", model_card)
+        self.assertIn("`k`, `o`", model_card)
+        self.assertNotIn("rank 16, alpha 32, dropout 0.03", model_card)
+        self.assertNotIn("batch size 1", model_card)
+        self.assertNotIn("4-bit base loading", model_card)
+        self.assertNotIn("cloud training", model_card)
         self.assertIn("2026-08-07: Browser profile-QA export", model_card)
         self.assertIn(PRIMARY_BASE_MODEL_REVISION, model_card)
         self.assertIn(expected_browser_digest, model_card)
@@ -270,6 +306,61 @@ class ModelCardProvenanceTests(unittest.TestCase):
                             "2026-08-07",
                         )
 
+    def test_unverifiable_lora_configuration_fails_clearly(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, _ = self._write_lineage(
+                root,
+                adapter_config={
+                    "alpha_pattern": {},
+                    "base_model_name_or_path": PRIMARY_BASE_MODEL_ID,
+                    "bias": "none",
+                    "lora_alpha": 32,
+                    "lora_dropout": 0.03,
+                    "modules_to_save": None,
+                    "peft_type": "LORA",
+                    "r": 16,
+                    "rank_pattern": {},
+                    "target_modules": ["q", "v"],
+                    "use_dora": False,
+                    "use_rslora": False,
+                    # No task_type: the card must not guess this claim.
+                },
+            )
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+
+            with self.assertRaisesRegex(ValueError, "task_type"):
+                load_model_provenance(
+                    lineage_path,
+                    browser_dir,
+                    "2026-08-07",
+                )
+
+    def test_per_module_lora_overrides_are_not_flattened_into_card_claims(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            adapter_config_path = checkpoint_dir / "adapter_config.json"
+            adapter_config = json.loads(
+                adapter_config_path.read_text(encoding="utf-8")
+            )
+            adapter_config["rank_pattern"] = {"encoder.block.0.q": 7}
+            adapter_config_path.write_text(
+                json.dumps(adapter_config),
+                encoding="utf-8",
+            )
+            lineage = json.loads(lineage_path.read_text(encoding="utf-8"))
+            lineage[ADAPTER_DIGEST_FIELD] = directory_sha256(checkpoint_dir)
+            lineage_path.write_text(json.dumps(lineage), encoding="utf-8")
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+
+            with self.assertRaisesRegex(ValueError, "rank_pattern"):
+                load_model_provenance(
+                    lineage_path,
+                    browser_dir,
+                    "2026-08-07",
+                )
+
     def test_tampered_browser_artifact_preserves_existing_model_payload(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -288,6 +379,41 @@ class ModelCardProvenanceTests(unittest.TestCase):
             (browser_dir / "config.json").write_text('{"tampered": true}', encoding="utf-8")
 
             with self.assertRaisesRegex(ValueError, "artifact digest"):
+                prepare_model_payload(args)
+
+            self.assertEqual(sentinel.read_text(encoding="utf-8"), "unchanged")
+
+    def test_missing_advertised_browser_variant_preserves_existing_payload(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            (browser_dir / "onnx" / "encoder_model_uint8.onnx").unlink()
+            write_artifact_lineage(
+                browser_dir,
+                source_lineage=json.loads(
+                    lineage_path.read_text(encoding="utf-8")
+                ),
+                source_lineage_sha256=file_sha256(lineage_path),
+                stage="browser",
+                parent_artifact_sha256s={
+                    "onnx-fp": "1" * 64,
+                    "onnx-int8": "2" * 64,
+                    "onnx-uint8": "3" * 64,
+                },
+            )
+            model_output_dir = root / "hf" / "model"
+            model_output_dir.mkdir(parents=True)
+            sentinel = model_output_dir / "keep.txt"
+            sentinel.write_text("unchanged", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "missing published ONNX"):
                 prepare_model_payload(args)
 
             self.assertEqual(sentinel.read_text(encoding="utf-8"), "unchanged")
@@ -393,6 +519,63 @@ class ModelCardProvenanceTests(unittest.TestCase):
             report_path.write_text(json.dumps(report), encoding="utf-8")
 
             with self.assertRaisesRegex(ValueError, "base revision"):
+                prepare_model_payload(args)
+
+    def test_report_from_stale_scoring_implementation_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            report_path = Path(args.test_report)
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["provenance"][SCORING_DIGEST_FIELD] = "f" * 64
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "scoring implementation"):
+                prepare_model_payload(args)
+
+    def test_report_from_stale_generation_configuration_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            report_path = Path(args.test_report)
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["provenance"][GENERATION_CONFIG_FIELD]["max_new_tokens"] = 80
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "generation configuration"):
+                prepare_model_payload(args)
+
+    def test_report_scores_are_recomputed_from_saved_predictions(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            report_path = Path(args.validation_report)
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["macro"] = 0.123
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "saved predictions"):
                 prepare_model_payload(args)
 
     def test_report_for_another_prompt_context_is_rejected(self) -> None:
