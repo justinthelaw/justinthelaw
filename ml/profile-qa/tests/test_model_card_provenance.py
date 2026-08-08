@@ -28,8 +28,10 @@ from profile_qa.provenance import (
     EXPECTED_LINEAGE_PIPELINE,
     LINEAGE_SCHEMA_VERSION,
     MERGED_DIGEST_FIELD,
+    SOURCE_LINEAGE_DIGEST_FIELD,
     directory_sha256,
     file_sha256,
+    public_lineage_sha256,
     validate_artifact_lineage,
     write_artifact_lineage,
 )
@@ -75,6 +77,7 @@ class ModelCardProvenanceTests(unittest.TestCase):
                     "peft_type": "LORA",
                     "r": 23,
                     "rank_pattern": {},
+                    "revision": PRIMARY_BASE_MODEL_REVISION,
                     "target_modules": ["k", "o"],
                     "task_type": "SEQ_2_SEQ_LM",
                     "use_dora": False,
@@ -118,7 +121,6 @@ class ModelCardProvenanceTests(unittest.TestCase):
         write_artifact_lineage(
             browser_dir,
             source_lineage=json.loads(lineage_path.read_text(encoding="utf-8")),
-            source_lineage_sha256=file_sha256(lineage_path),
             stage="browser",
             parent_artifact_sha256s={
                 "onnx-fp": "1" * 64,
@@ -229,11 +231,17 @@ class ModelCardProvenanceTests(unittest.TestCase):
                     encoding="utf-8"
                 )
             )["artifact_sha256"]
+            private_lineage_digest = file_sha256(lineage_path)
+            expected_public_lineage_digest = public_lineage_sha256(
+                json.loads(lineage_path.read_text(encoding="utf-8"))
+            )
             model_dir = prepare_model_payload(args)
             model_card = (model_dir / "README.md").read_text(encoding="utf-8")
             published_lineage = validate_artifact_lineage(
                 model_dir,
-                source_lineage_sha256=file_sha256(lineage_path),
+                source_lineage=json.loads(
+                    lineage_path.read_text(encoding="utf-8")
+                ),
                 stage="browser",
                 required_parent_stages=BROWSER_PARENT_ARTIFACT_STAGES,
             )
@@ -253,6 +261,14 @@ class ModelCardProvenanceTests(unittest.TestCase):
         self.assertIn(expected_browser_digest, model_card)
         self.assertEqual(published_lineage["artifact_sha256"], expected_browser_digest)
         self.assertNotIn("adapter_model_id", published_lineage)
+        self.assertEqual(
+            published_lineage[SOURCE_LINEAGE_DIGEST_FIELD],
+            expected_public_lineage_digest,
+        )
+        self.assertNotEqual(
+            published_lineage[SOURCE_LINEAGE_DIGEST_FIELD],
+            private_lineage_digest,
+        )
         self.assertEqual(
             published_lineage[ADAPTER_CHECKPOINT_FIELD],
             "checkpoint-80",
@@ -321,6 +337,7 @@ class ModelCardProvenanceTests(unittest.TestCase):
                     "peft_type": "LORA",
                     "r": 16,
                     "rank_pattern": {},
+                    "revision": PRIMARY_BASE_MODEL_REVISION,
                     "target_modules": ["q", "v"],
                     "use_dora": False,
                     "use_rslora": False,
@@ -355,6 +372,31 @@ class ModelCardProvenanceTests(unittest.TestCase):
             browser_dir = self._write_browser_artifact(root, lineage_path)
 
             with self.assertRaisesRegex(ValueError, "rank_pattern"):
+                load_model_provenance(
+                    lineage_path,
+                    browser_dir,
+                    "2026-08-07",
+                )
+
+    def test_checkpoint_training_revision_must_match_release_base(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            adapter_config_path = checkpoint_dir / "adapter_config.json"
+            adapter_config = json.loads(
+                adapter_config_path.read_text(encoding="utf-8")
+            )
+            adapter_config["revision"] = "0" * 40
+            adapter_config_path.write_text(
+                json.dumps(adapter_config),
+                encoding="utf-8",
+            )
+            lineage = json.loads(lineage_path.read_text(encoding="utf-8"))
+            lineage[ADAPTER_DIGEST_FIELD] = directory_sha256(checkpoint_dir)
+            lineage_path.write_text(json.dumps(lineage), encoding="utf-8")
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+
+            with self.assertRaisesRegex(RuntimeError, "revision must be"):
                 load_model_provenance(
                     lineage_path,
                     browser_dir,
@@ -400,7 +442,6 @@ class ModelCardProvenanceTests(unittest.TestCase):
                 source_lineage=json.loads(
                     lineage_path.read_text(encoding="utf-8")
                 ),
-                source_lineage_sha256=file_sha256(lineage_path),
                 stage="browser",
                 parent_artifact_sha256s={
                     "onnx-fp": "1" * 64,
@@ -425,6 +466,19 @@ class ModelCardProvenanceTests(unittest.TestCase):
             browser_dir = self._write_browser_artifact(root, first_lineage)
             selected_lineage, selected_checkpoint = self._write_lineage(
                 root / "selected"
+            )
+            (selected_checkpoint / "adapter_model.safetensors").write_bytes(
+                b"different adapter"
+            )
+            selected_lineage_data = json.loads(
+                selected_lineage.read_text(encoding="utf-8")
+            )
+            selected_lineage_data[ADAPTER_DIGEST_FIELD] = directory_sha256(
+                selected_checkpoint
+            )
+            selected_lineage.write_text(
+                json.dumps(selected_lineage_data),
+                encoding="utf-8",
             )
             args = self._release_args(
                 root,
@@ -463,6 +517,136 @@ class ModelCardProvenanceTests(unittest.TestCase):
                 prepare_model_payload(args)
 
             self.assertEqual(sentinel.read_text(encoding="utf-8"), "unchanged")
+
+    def test_promoted_reports_must_use_one_model_representation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            test_report_path = Path(args.test_report)
+            test_report = json.loads(test_report_path.read_text(encoding="utf-8"))
+            test_report["provenance"]["model_kind"] = "merged"
+            test_report["provenance"]["model_id"] = "merged-model"
+            test_report["provenance"]["model_sha256"] = "1" * 64
+            test_report_path.write_text(json.dumps(test_report), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "same model representation"):
+                prepare_model_payload(args)
+
+            with self.assertRaisesRegex(ValueError, "same model representation"):
+                prepare_dataset_payload(args)
+
+    def test_report_provenance_cannot_publish_private_adapter_path(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            report_path = Path(args.validation_report)
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["provenance"]["adapter_model_id"] = str(checkpoint_dir)
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "non-publishable provenance"):
+                prepare_model_payload(args)
+
+            with self.assertRaisesRegex(ValueError, "non-publishable provenance"):
+                prepare_dataset_payload(args)
+
+    def test_report_root_cannot_publish_private_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            report_path = Path(args.validation_report)
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["adapter_model_id"] = str(checkpoint_dir)
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "non-publishable fields"):
+                prepare_dataset_payload(args)
+
+    def test_report_provenance_requires_the_complete_publishable_schema(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            report_path = Path(args.validation_report)
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            del report["provenance"][BASE_MODEL_REVISION_FIELD]
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "missing required provenance"):
+                prepare_model_payload(args)
+
+            with self.assertRaisesRegex(ValueError, "missing required provenance"):
+                prepare_dataset_payload(args)
+
+    def test_dataset_reports_reject_private_model_id_values(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            private_model_id = str(checkpoint_dir.resolve())
+            for report_name in (args.validation_report, args.test_report):
+                report_path = Path(report_name)
+                report = json.loads(report_path.read_text(encoding="utf-8"))
+                report["provenance"]["model_id"] = private_model_id
+                report_path.write_text(json.dumps(report), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "model_id must be"):
+                prepare_dataset_payload(args)
+
+    def test_dataset_baseline_slot_rejects_a_promoted_report(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            baseline_path = Path(args.baseline_report)
+            baseline_report = json.loads(baseline_path.read_text(encoding="utf-8"))
+            promoted_test = json.loads(
+                Path(args.test_report).read_text(encoding="utf-8")
+            )
+            baseline_report["provenance"] = promoted_test["provenance"]
+            baseline_path.write_text(json.dumps(baseline_report), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "baseline model"):
+                prepare_dataset_payload(args)
 
     def test_stale_report_for_another_dataset_preserves_existing_payload(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

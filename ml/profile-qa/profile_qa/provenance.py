@@ -184,19 +184,43 @@ def public_lineage_fields(source_lineage: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def public_lineage_sha256(source_lineage: dict[str, Any]) -> str:
+    """Hash only publishable lineage so private paths cannot affect markers."""
+
+    return canonical_json_sha256(public_lineage_fields(source_lineage))
+
+
+def _required_public_lineage_fields(
+    lineage: dict[str, Any],
+    *,
+    source: Path,
+) -> dict[str, Any]:
+    """Return a complete public projection or reject an incomplete lineage."""
+
+    missing_fields = sorted(PUBLIC_LINEAGE_FIELDS - set(lineage))
+    if missing_fields:
+        raise ValueError(
+            f"{source} is missing required public lineage fields: "
+            f"{', '.join(missing_fields)}"
+        )
+    return public_lineage_fields(lineage)
+
+
 def write_artifact_lineage(
     artifact_dir: Path,
     *,
     source_lineage: dict[str, Any],
-    source_lineage_sha256: str,
     stage: str,
     parent_artifact_sha256s: dict[str, str] | None = None,
 ) -> Path:
-    """Write lineage metadata bound to an artifact directory's exact contents."""
+    """Write artifact metadata bound to sanitized lineage and exact contents."""
 
     lineage_path = artifact_dir / LINEAGE_FILENAME
-    payload = public_lineage_fields(source_lineage)
-    payload[SOURCE_LINEAGE_DIGEST_FIELD] = source_lineage_sha256
+    payload = _required_public_lineage_fields(
+        source_lineage,
+        source=lineage_path,
+    )
+    payload[SOURCE_LINEAGE_DIGEST_FIELD] = canonical_json_sha256(payload)
     payload[ARTIFACT_STAGE_FIELD] = stage
     if parent_artifact_sha256s is not None:
         payload[PARENT_ARTIFACT_DIGESTS_FIELD] = require_artifact_digest_map(
@@ -218,12 +242,12 @@ def write_artifact_lineage(
 def validate_artifact_lineage(
     artifact_dir: Path,
     *,
-    source_lineage_sha256: str,
+    source_lineage: dict[str, Any],
     stage: str,
     parent_artifact_sha256s: dict[str, str] | None = None,
     required_parent_stages: frozenset[str] = frozenset(),
 ) -> dict[str, Any]:
-    """Verify that an artifact marker matches its source lineage and files."""
+    """Verify a marker against sanitized source lineage and artifact files."""
 
     lineage_path = artifact_dir / LINEAGE_FILENAME
     lineage = load_json_object(lineage_path, label=f"{stage} artifact lineage")
@@ -233,15 +257,28 @@ def validate_artifact_lineage(
             f"{lineage_path} contains non-publishable fields: "
             f"{', '.join(unexpected_fields)}"
         )
-    recorded_source_digest = require_sha256(
+    expected_public_lineage = _required_public_lineage_fields(
+        source_lineage,
+        source=lineage_path,
+    )
+    recorded_public_lineage = _required_public_lineage_fields(
+        lineage,
+        source=lineage_path,
+    )
+    if recorded_public_lineage != expected_public_lineage:
+        raise ValueError(
+            f"{lineage_path} public fields do not match the selected merge lineage"
+        )
+    recorded_public_digest = require_sha256(
         lineage.get(SOURCE_LINEAGE_DIGEST_FIELD),
         field=SOURCE_LINEAGE_DIGEST_FIELD,
         source=lineage_path,
     )
-    if recorded_source_digest != source_lineage_sha256:
+    expected_public_digest = canonical_json_sha256(expected_public_lineage)
+    if recorded_public_digest != expected_public_digest:
         raise ValueError(
-            f"{lineage_path} does not match the selected merge lineage: "
-            f"expected {source_lineage_sha256}, got {recorded_source_digest}"
+            f"{lineage_path} does not match the selected public merge lineage: "
+            f"expected {expected_public_digest}, got {recorded_public_digest}"
         )
     recorded_stage = lineage.get(ARTIFACT_STAGE_FIELD)
     if recorded_stage != stage:

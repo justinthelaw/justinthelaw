@@ -24,7 +24,7 @@ from .provenance import (
     require_checkpoint_label,
 )
 from .train_lora import (
-    ensure_primary_base_model_id,
+    ensure_adapter_base_lineage,
     require_local_model_path,
     trusted_model_load_kwargs,
 )
@@ -75,10 +75,9 @@ def main() -> int:
         source=adapter_path,
     )
     adapter_config = PeftConfig.from_pretrained(args.adapter_model_id)
-    adapter_base_model_id = str(getattr(adapter_config, "base_model_name_or_path", ""))
-    ensure_primary_base_model_id(
-        adapter_base_model_id,
-        source=f"{args.adapter_model_id} adapter base",
+    ensure_adapter_base_lineage(
+        adapter_config,
+        source=f"{args.adapter_model_id} adapter",
     )
 
     tokenizer = AutoTokenizer.from_pretrained(

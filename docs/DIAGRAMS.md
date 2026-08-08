@@ -116,6 +116,9 @@ flowchart TD
   baseRevision["Pinned base revision"] --> train
   baseRevision --> eval
   baseRevision --> merge
+  train --> checkpointConfig["Adapter config with pinned revision"]
+  checkpointConfig --> eval
+  checkpointConfig --> merge
   merge --> lineage["Portable label plus model digests"]
   merge --> export["export_onnx.py"]
   lineage --> export
@@ -125,7 +128,7 @@ flowchart TD
   browserArtifact --> artifacts["prepare_hf_artifacts.py"]
   lineage --> artifacts
   reports --> artifacts
-  checkpointConfig["Digest-bound adapter config"] --> artifacts
+  checkpointConfig --> artifacts
   releaseDate["Explicit release date"] --> artifacts
   artifacts --> publish["publish.py"]
   publish --> hfRepo["Hugging Face model repo"]
@@ -142,8 +145,8 @@ does not train models and does not call a server.
 | --- | --- | --- |
 | Facts | `src/config/site.ts` and `ml/profile-qa/profile_qa/public_profile.py` | Keep public facts aligned before generating data |
 | Dataset | `python -m profile_qa.synthetic_data` | Generated data stays under ignored `ml/profile-qa/data/` |
-| Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; local 8GB NVIDIA LoRA/QLoRA runs |
-| Evaluation | `python -m profile_qa.evaluate` | Reports bind the canonical published dataset, exact formatted prompts, split, pinned base revision, model digest, generation contract, and scoring implementation; packaging recomputes scores from saved predictions |
+| Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; the pinned revision is persisted in and verified from each PEFT checkpoint |
+| Evaluation | `python -m profile_qa.evaluate` | Reports bind the canonical published dataset, exact formatted prompts, split, pinned base revision, model digest, generation contract, and scoring implementation; packaging recomputes scores and requires one promoted model representation |
 | ONNX export | `python -m profile_qa.export_onnx` | Verifies the pinned revision and merged lineage/digest, binds each quantized stage to its exact full-precision input, preserves portable lineage without local paths, rejects `.onnx.data`, and publishes `int8` and `uint8` encoder/decoder artifacts |
 | App promotion | `src/config/models.ts` | Update `MODEL_ID` and keep `MODEL_CONTEXT_LIMIT` honest |
 

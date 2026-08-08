@@ -92,10 +92,12 @@ PYTHONPATH=ml/profile-qa python -m profile_qa.publish --repo-type dataset --repo
 ```
 
 The training, continuation, merge, and export commands are Teapot-only. Training
-always starts from `teapotai/teapotllm`; adapter continuation and merge reject
-checkpoints whose PEFT metadata records a different base model; export expects
-the merged model directory produced by `profile_qa.merge_adapter` and publishes
-the encoder plus merged decoder ONNX files for the T5 browser runtime.
+always starts from `teapotai/teapotllm` and persists the pinned base revision in
+every PEFT checkpoint and final adapter. Continuation, resume, evaluation,
+generation, merge, and packaging reject adapters whose PEFT metadata omits that
+revision or names a different base model or revision. Export expects the merged
+model directory produced by `profile_qa.merge_adapter` and publishes the encoder
+plus merged decoder ONNX files for the T5 browser runtime.
 
 Evaluation reports record the canonical published-dataset SHA-256, exact
 formatted-prompt digest, split, pinned base revision, local adapter or
@@ -106,11 +108,14 @@ with that current scorer. Merge records the pinned revision plus adapter and
 merged-model SHA-256 values; export verifies those values and carries the lineage
 plus a content digest through the full-precision, quantized, and browser artifact
 stages. Each quantized marker also names the exact full-precision artifact digest
-it consumed. Published reports and artifact markers use a portable checkpoint
-label and digest, never the private local checkpoint path retained by the merge
-workspace. Artifact preparation accepts reports only when their canonical
-dataset, live prompt context, base revision, checkpoint label, and model digests
-match the selected inputs and the browser marker matches the actual browser files.
+it consumed. Published artifact markers derive their source-lineage digest from
+the sanitized public projection, so the private local checkpoint path neither
+leaves the merge workspace nor influences that digest. Artifact preparation
+accepts only the exact publishable report-provenance schema; its validation and
+test reports must identify the same adapter or merged representation, and their
+canonical dataset, live prompt context, base revision, checkpoint label, and
+model digests must match the selected inputs. The browser marker must also match
+the actual browser files.
 
 The merge output must be disjoint from the selected adapter checkpoint. The
 merge command rejects equal, ancestor, descendant, and symlinked output paths,

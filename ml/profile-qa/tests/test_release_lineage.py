@@ -32,7 +32,10 @@ from profile_qa.provenance import (
     MERGED_DIGEST_FIELD,
     PARENT_ARTIFACT_DIGESTS_FIELD,
     PROMPT_DIGEST_FIELD,
+    SOURCE_LINEAGE_DIGEST_FIELD,
     directory_sha256,
+    file_sha256,
+    public_lineage_sha256,
     validate_artifact_lineage,
     write_artifact_lineage,
 )
@@ -43,7 +46,12 @@ class ReleaseLineageTests(unittest.TestCase):
         adapter_dir = root / "checkpoint-80"
         adapter_dir.mkdir()
         (adapter_dir / "adapter_config.json").write_text(
-            json.dumps({"base_model_name_or_path": PRIMARY_BASE_MODEL_ID}),
+            json.dumps(
+                {
+                    "base_model_name_or_path": PRIMARY_BASE_MODEL_ID,
+                    "revision": PRIMARY_BASE_MODEL_REVISION,
+                }
+            ),
             encoding="utf-8",
         )
         (adapter_dir / "adapter_model.safetensors").write_bytes(b"adapter")
@@ -73,7 +81,6 @@ class ReleaseLineageTests(unittest.TestCase):
         directory: Path,
         *,
         lineage_data: dict[str, object],
-        lineage_sha256: str,
         stage: str,
         parent_artifact_sha256: str | None = None,
     ) -> None:
@@ -87,7 +94,6 @@ class ReleaseLineageTests(unittest.TestCase):
         write_artifact_lineage(
             directory,
             source_lineage=lineage_data,
-            source_lineage_sha256=lineage_sha256,
             stage=stage,
             parent_artifact_sha256s=(
                 {"onnx-fp": parent_artifact_sha256}
@@ -107,7 +113,6 @@ class ReleaseLineageTests(unittest.TestCase):
             self._write_onnx_stage(
                 fp_dir,
                 lineage_data=lineage.data,
-                lineage_sha256=lineage.sha256,
                 stage="onnx-fp",
             )
             fp_artifact_sha256 = json.loads(
@@ -116,14 +121,12 @@ class ReleaseLineageTests(unittest.TestCase):
             self._write_onnx_stage(
                 int8_dir,
                 lineage_data=lineage.data,
-                lineage_sha256=lineage.sha256,
                 stage="onnx-int8",
                 parent_artifact_sha256=fp_artifact_sha256,
             )
             self._write_onnx_stage(
                 uint8_dir,
                 lineage_data=lineage.data,
-                lineage_sha256=lineage.sha256,
                 stage="onnx-uint8",
                 parent_artifact_sha256=fp_artifact_sha256,
             )
@@ -137,12 +140,17 @@ class ReleaseLineageTests(unittest.TestCase):
             )
             marker = validate_artifact_lineage(
                 browser_dir,
-                source_lineage_sha256=lineage.sha256,
+                source_lineage=lineage.data,
                 stage="browser",
                 required_parent_stages=BROWSER_PARENT_ARTIFACT_STAGES,
             )
 
             self.assertNotIn("adapter_model_id", marker)
+            self.assertEqual(marker[SOURCE_LINEAGE_DIGEST_FIELD], lineage.sha256)
+            self.assertNotEqual(
+                marker[SOURCE_LINEAGE_DIGEST_FIELD],
+                file_sha256(merged_dir / LINEAGE_FILENAME),
+            )
             self.assertEqual(marker[ADAPTER_CHECKPOINT_FIELD], adapter_dir.name)
             self.assertEqual(marker[MERGED_DIGEST_FIELD], lineage.data[MERGED_DIGEST_FIELD])
             parent_digests = marker[PARENT_ARTIFACT_DIGESTS_FIELD]
@@ -160,6 +168,25 @@ class ReleaseLineageTests(unittest.TestCase):
                 )[ARTIFACT_DIGEST_FIELD],
             )
             self.assertTrue((browser_dir / LINEAGE_FILENAME).is_file())
+
+    def test_public_lineage_digest_is_independent_of_private_adapter_path(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            merged_dir, _ = self._write_merged_model(Path(directory))
+            lineage_path = merged_dir / LINEAGE_FILENAME
+            lineage = json.loads(lineage_path.read_text(encoding="utf-8"))
+            relocated_lineage = dict(lineage)
+            relocated_lineage["adapter_model_id"] = (
+                "/home/another-user/checkpoints/checkpoint-80"
+            )
+
+            self.assertEqual(
+                public_lineage_sha256(lineage),
+                public_lineage_sha256(relocated_lineage),
+            )
+            self.assertNotEqual(
+                file_sha256(lineage_path),
+                public_lineage_sha256(lineage),
+            )
 
     def test_full_precision_export_replaces_existing_stage_tree(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -180,7 +207,7 @@ class ReleaseLineageTests(unittest.TestCase):
             self.assertFalse(sentinel.exists())
             validate_artifact_lineage(
                 fp_dir,
-                source_lineage_sha256=lineage.sha256,
+                source_lineage=lineage.data,
                 stage="onnx-fp",
             )
 
@@ -244,7 +271,6 @@ class ReleaseLineageTests(unittest.TestCase):
             self._write_onnx_stage(
                 fp_dir,
                 lineage_data=lineage.data,
-                lineage_sha256=lineage.sha256,
                 stage="onnx-fp",
             )
             first_fp_sha256 = json.loads(
@@ -257,7 +283,6 @@ class ReleaseLineageTests(unittest.TestCase):
                 self._write_onnx_stage(
                     quantized_dir,
                     lineage_data=lineage.data,
-                    lineage_sha256=lineage.sha256,
                     stage=f"onnx-{dtype}",
                     parent_artifact_sha256=first_fp_sha256,
                 )
@@ -266,7 +291,6 @@ class ReleaseLineageTests(unittest.TestCase):
             write_artifact_lineage(
                 fp_dir,
                 source_lineage=lineage.data,
-                source_lineage_sha256=lineage.sha256,
                 stage="onnx-fp",
             )
 
@@ -289,7 +313,6 @@ class ReleaseLineageTests(unittest.TestCase):
             marker_path = write_artifact_lineage(
                 artifact_dir,
                 source_lineage=lineage.data,
-                source_lineage_sha256=lineage.sha256,
                 stage="browser",
             )
             marker = json.loads(marker_path.read_text(encoding="utf-8"))
@@ -299,8 +322,35 @@ class ReleaseLineageTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "non-publishable fields"):
                 validate_artifact_lineage(
                     artifact_dir,
-                    source_lineage_sha256=lineage.sha256,
+                    source_lineage=lineage.data,
                     stage="browser",
+                )
+
+    def test_artifact_lineage_rejects_tampered_public_field(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            merged_dir, _ = self._write_merged_model(root)
+            lineage = ensure_teapot_export_model(str(merged_dir))
+            artifact_dir = root / "onnx"
+            artifact_dir.mkdir()
+            (artifact_dir / "model.onnx").write_bytes(b"model")
+            marker_path = write_artifact_lineage(
+                artifact_dir,
+                source_lineage=lineage.data,
+                stage="onnx-fp",
+            )
+            marker = json.loads(marker_path.read_text(encoding="utf-8"))
+            marker[ADAPTER_CHECKPOINT_FIELD] = "checkpoint-999"
+            marker_path.write_text(json.dumps(marker), encoding="utf-8")
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "public fields do not match",
+            ):
+                validate_artifact_lineage(
+                    artifact_dir,
+                    source_lineage=lineage.data,
+                    stage="onnx-fp",
                 )
 
     def test_merged_model_tampering_breaks_lineage_validation(self) -> None:
@@ -359,13 +409,39 @@ class ReleaseLineageTests(unittest.TestCase):
             )
             self.assertEqual(provenance["split"], "validation")
 
+    def test_evaluation_rejects_adapter_from_another_base_revision(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            _, adapter_dir = self._write_merged_model(Path(directory))
+            adapter_config_path = adapter_dir / "adapter_config.json"
+            adapter_config = json.loads(
+                adapter_config_path.read_text(encoding="utf-8")
+            )
+            adapter_config["revision"] = "0" * 40
+            adapter_config_path.write_text(
+                json.dumps(adapter_config),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(RuntimeError, "revision must be"):
+                evaluation_provenance(
+                    str(adapter_dir),
+                    "validation",
+                    "d" * 64,
+                    "e" * 64,
+                )
+
     def test_evaluation_provenance_rejects_nonportable_checkpoint_label(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             adapter_dir = root / "checkpoint with spaces"
             adapter_dir.mkdir()
             (adapter_dir / "adapter_config.json").write_text(
-                json.dumps({"base_model_name_or_path": PRIMARY_BASE_MODEL_ID}),
+                json.dumps(
+                    {
+                        "base_model_name_or_path": PRIMARY_BASE_MODEL_ID,
+                        "revision": PRIMARY_BASE_MODEL_REVISION,
+                    }
+                ),
                 encoding="utf-8",
             )
 

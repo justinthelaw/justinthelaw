@@ -35,6 +35,7 @@ from .provenance import (
     require_sha256,
 )
 from .train_lora import (
+    ensure_adapter_base_lineage,
     ensure_primary_base_model_id,
     ensure_teapot_seq2seq_config,
     evaluation_prompt_sha256,
@@ -53,6 +54,46 @@ GENERATION_DIGEST_FIELD = "generation_implementation_sha256"
 GENERATION_CONFIG_FIELD = "generation_config"
 GENERATION_MAX_NEW_TOKENS = 160
 GENERATION_DO_SAMPLE = False
+EVALUATION_REPORT_FIELDS = frozenset(
+    {
+        "by_task",
+        "macro",
+        "multi_turn_accuracy",
+        "provenance",
+        "records",
+        "refusal_accuracy",
+    }
+)
+
+
+def evaluation_provenance_fields(model_kind: str) -> frozenset[str]:
+    """Return the exact publishable provenance schema for one report kind."""
+
+    common_fields = frozenset(
+        {
+            "model_kind",
+            "model_id",
+            "base_model",
+            BASE_MODEL_REVISION_FIELD,
+            DATASET_DIGEST_FIELD,
+            PROMPT_DIGEST_FIELD,
+            SCORING_SCHEMA_FIELD,
+            SCORING_DIGEST_FIELD,
+            GENERATION_SCHEMA_FIELD,
+            GENERATION_DIGEST_FIELD,
+            GENERATION_CONFIG_FIELD,
+            "split",
+        }
+    )
+    if model_kind == "baseline":
+        return common_fields
+    if model_kind in {"adapter", "merged"}:
+        return common_fields | {
+            "model_sha256",
+            ADAPTER_CHECKPOINT_FIELD,
+            ADAPTER_DIGEST_FIELD,
+        }
+    raise ValueError(f"unsupported evaluation model kind {model_kind!r}")
 
 
 def score_answer(record: dict[str, Any], prediction: str) -> dict[str, float]:
@@ -176,6 +217,12 @@ def _adapter_base_model_id(model_id: str) -> str | None:
     if not adapter_config_path.exists():
         return None
     adapter_config = json.loads(adapter_config_path.read_text(encoding="utf-8"))
+    if not isinstance(adapter_config, dict):
+        raise RuntimeError(f"{adapter_config_path} must contain a JSON object")
+    ensure_adapter_base_lineage(
+        adapter_config,
+        source=f"{model_id} adapter",
+    )
     base_model_id = adapter_config.get("base_model_name_or_path")
     return str(base_model_id) if isinstance(base_model_id, str) else None
 

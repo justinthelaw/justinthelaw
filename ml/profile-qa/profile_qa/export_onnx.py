@@ -21,8 +21,8 @@ from .provenance import (
     LINEAGE_SCHEMA_VERSION,
     MERGED_DIGEST_FIELD,
     directory_sha256,
-    file_sha256,
     load_json_object,
+    public_lineage_sha256,
     require_checkpoint_label,
     require_sha256,
     validate_artifact_lineage,
@@ -118,7 +118,10 @@ def ensure_teapot_export_model(model: str) -> ValidatedMergeLineage:
             f"{lineage_path} merged model digest does not match {model_path}: "
             f"expected {recorded_merged_digest}, got {actual_merged_digest}"
         )
-    return ValidatedMergeLineage(data=lineage, sha256=file_sha256(lineage_path))
+    return ValidatedMergeLineage(
+        data=lineage,
+        sha256=public_lineage_sha256(lineage),
+    )
 
 
 def export_onnx(model: str, output_dir: Path) -> ValidatedMergeLineage:
@@ -161,7 +164,6 @@ def export_onnx(model: str, output_dir: Path) -> ValidatedMergeLineage:
     write_artifact_lineage(
         output_dir,
         source_lineage=lineage.data,
-        source_lineage_sha256=lineage.sha256,
         stage="onnx-fp",
     )
     return lineage
@@ -175,7 +177,7 @@ def quantize_onnx(
 ) -> None:
     fp_lineage = validate_artifact_lineage(
         input_dir,
-        source_lineage_sha256=lineage.sha256,
+        source_lineage=lineage.data,
         stage="onnx-fp",
     )
     fp_artifact_sha256 = require_sha256(
@@ -213,7 +215,6 @@ def quantize_onnx(
     write_artifact_lineage(
         output_dir,
         source_lineage=lineage.data,
-        source_lineage_sha256=lineage.sha256,
         stage=f"onnx-{dtype}",
         parent_artifact_sha256s={"onnx-fp": fp_artifact_sha256},
     )
@@ -247,7 +248,7 @@ def assemble_browser_artifact(
 
     fp_lineage = validate_artifact_lineage(
         fp_dir,
-        source_lineage_sha256=lineage.sha256,
+        source_lineage=lineage.data,
         stage="onnx-fp",
     )
     fp_artifact_sha256 = require_sha256(
@@ -259,7 +260,7 @@ def assemble_browser_artifact(
     for dtype, quantized_dir in quantized_dirs.items():
         quantized_lineage = validate_artifact_lineage(
             quantized_dir,
-            source_lineage_sha256=lineage.sha256,
+            source_lineage=lineage.data,
             stage=f"onnx-{dtype}",
             parent_artifact_sha256s={"onnx-fp": fp_artifact_sha256},
         )
@@ -293,7 +294,6 @@ def assemble_browser_artifact(
     write_artifact_lineage(
         output_dir,
         source_lineage=lineage.data,
-        source_lineage_sha256=lineage.sha256,
         stage="browser",
         parent_artifact_sha256s=browser_parent_digests,
     )
@@ -314,7 +314,7 @@ def main() -> int:
         reject_external_data_files(fp_dir)
         validate_artifact_lineage(
             fp_dir,
-            source_lineage_sha256=lineage.sha256,
+            source_lineage=lineage.data,
             stage="onnx-fp",
         )
     else:
