@@ -11,7 +11,7 @@ import { LimitWarning } from "./LimitWarning";
 
 export const GENERATION_STATUS_MESSAGES = [
   `Reviewing ${SITE_CONFIG.name}'s public profile...`,
-  `Finding relevant details about ${SITE_CONFIG.name}...`,
+  `Finding relevant public details about ${SITE_CONFIG.name}...`,
   `Checking ${SITE_CONFIG.name}'s public resume context...`,
   `Reviewing ${SITE_CONFIG.name}'s public project history...`,
   "Preparing a profile-grounded answer...",
