@@ -121,13 +121,25 @@ async function mockModelWorker(page: Page): Promise<void> {
   });
 }
 
-async function openChat(page: Page): Promise<void> {
+async function openChatWithoutLoading(page: Page): Promise<void> {
   const chatbotButton = page.getByTestId("ai-chatbot-button");
   await expect(chatbotButton).toBeVisible();
   await chatbotButton.click();
   await expect(page.getByTestId("chat-input")).toBeVisible({
     timeout: 10_000,
   });
+}
+
+async function openChat(page: Page): Promise<void> {
+  await openChatWithoutLoading(page);
+
+  const loadButton = page.getByTestId("model-load-button");
+  const retryButton = page.getByTestId("model-retry-button");
+  if (await loadButton.isVisible()) {
+    await loadButton.click();
+  } else if (await retryButton.isVisible()) {
+    await retryButton.click();
+  }
 }
 
 test.describe("Chatbot UI Tests", () => {
@@ -151,11 +163,28 @@ test.describe("Chatbot UI Tests", () => {
     await expect(disclaimer).toBeVisible();
   });
 
-  test("should display model loading message without model size", async ({
+  test("should require consent before downloading the browser model", async ({
     page,
   }) => {
-    await openChat(page);
-    await expect(page.getByTestId("chat-input")).toBeVisible();
+    await openChatWithoutLoading(page);
+
+    await expect(page.getByTestId("model-download-consent")).toContainText(
+      "downloads about 820 MB",
+    );
+    await expect(page.getByTestId("model-load-button")).toBeVisible();
+
+    const loadCountBeforeConsent = await page.evaluate(() => {
+      const mockWindow = window as unknown as {
+        __mockWorkerMessages: Array<{ action?: string }>;
+      };
+      return mockWindow.__mockWorkerMessages.filter(
+        (message) => message.action === "load",
+      ).length;
+    });
+    expect(loadCountBeforeConsent).toBe(0);
+
+    await page.getByTestId("model-load-button").click();
+    await expect(page.getByTestId("chat-input")).toBeEnabled();
   });
 
   test("should not duplicate a pending model load after close and reopen", async ({

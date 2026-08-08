@@ -32,6 +32,7 @@ export interface ChatMessagesProps {
   showPersonalContextTrimWarning: boolean;
   overBudgetPersonalContextCharacters: number;
   trimmedPersonalContextCharacters: number;
+  onRetryModelLoad: () => void;
 }
 
 export function ChatMessages({
@@ -44,6 +45,7 @@ export function ChatMessages({
   showPersonalContextTrimWarning,
   overBudgetPersonalContextCharacters,
   trimmedPersonalContextCharacters,
+  onRetryModelLoad,
 }: ChatMessagesProps): React.ReactElement {
   const [randomQuirkMessage] = useState(
     () => QUIRK_MESSAGES[Math.floor(Math.random() * QUIRK_MESSAGES.length)]
@@ -85,7 +87,15 @@ export function ChatMessages({
           className="w-full rounded-lg border border-red-900 bg-red-950/40 p-4 text-center text-sm text-red-300"
           data-testid="model-error-status"
         >
-          Model failed to load: {error}
+          <p>Model failed to load: {error}</p>
+          <button
+            type="button"
+            onClick={onRetryModelLoad}
+            className="mt-3 rounded-md bg-red-200 px-3 py-2 font-medium text-red-950 transition-colors hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200"
+            data-testid="model-retry-button"
+          >
+            Try loading again
+          </button>
         </div>
       ) : (
         <Fragment>

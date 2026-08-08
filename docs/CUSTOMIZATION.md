@@ -46,7 +46,10 @@ Pages Actions. `npm run deploy` is the manual path and publishes `out/` to a
 
 The default browser model is
 `justinthelaw/teapot-profile-qa-browser-1024`, a browser ONNX profile-QA model
-published with `int8` and `uint8` variants.
+published with `int8` and `uint8` variants. Each active dtype is about 820 MB,
+so the chat asks visitors before starting the download and warns that a browser
+compatibility fallback can transfer a second dtype of similar size. Keep this
+disclosure accurate when changing artifacts.
 
 ## Resume
 
