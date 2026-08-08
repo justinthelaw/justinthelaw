@@ -71,6 +71,27 @@ async function readExportedJavaScript(): Promise<string> {
   return contents.join("\n");
 }
 
+function hasHtmlTagWithAttributes(
+  html: string,
+  tagName: string,
+  attributes: Readonly<Record<string, string>>,
+): boolean {
+  const tags = html.match(new RegExp(`<${tagName}\\b[^>]*>`, "g")) ?? [];
+
+  return tags.some((tag) =>
+    Object.entries(attributes).every(([attributeName, attributeValue]) => {
+      const escapedValue = attributeValue
+        .replaceAll("&", "&amp;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#x27;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+
+      return tag.includes(`${attributeName}="${escapedValue}"`);
+    }),
+  );
+}
+
 interface StaticPreviewServer {
   origin: string;
   close: () => Promise<void>;
@@ -199,6 +220,50 @@ test("should export bundled social icon assets with valid local paths", async ()
   );
 
   expect(hasBlockedRawGitHubSource).toBe(false);
+});
+
+test("should export crawlable profile content and share metadata", async () => {
+  const exportIndexPath = path.resolve(process.cwd(), "out", "index.html");
+  const exportHtml = await readFile(exportIndexPath, "utf8").catch(() => {
+    throw new Error(
+      "Missing exported index HTML at out/index.html. Run `npm run build` before Playwright tests.",
+    );
+  });
+
+  expect(exportHtml).toContain(SITE_CONFIG.githubBioFallback);
+  expect(exportHtml).toMatch(
+    new RegExp(`<h1\\b[^>]*>${SITE_CONFIG.fullName}</h1>`),
+  );
+  expect(
+    hasHtmlTagWithAttributes(exportHtml, "link", {
+      rel: "canonical",
+      href: DERIVED_CONFIG.siteUrl,
+    }),
+  ).toBe(true);
+  expect(
+    hasHtmlTagWithAttributes(exportHtml, "meta", {
+      property: "og:url",
+      content: DERIVED_CONFIG.siteUrl,
+    }),
+  ).toBe(true);
+  expect(
+    hasHtmlTagWithAttributes(exportHtml, "meta", {
+      property: "og:description",
+      content: SITE_CONFIG.seo.description,
+    }),
+  ).toBe(true);
+  expect(
+    hasHtmlTagWithAttributes(exportHtml, "meta", {
+      name: "twitter:card",
+      content: "summary",
+    }),
+  ).toBe(true);
+  expect(
+    hasHtmlTagWithAttributes(exportHtml, "meta", {
+      name: "twitter:description",
+      content: SITE_CONFIG.seo.description,
+    }),
+  ).toBe(true);
 });
 
 test("should export the current browser AI worker bundle", async () => {

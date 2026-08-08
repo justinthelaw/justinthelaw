@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { SITE_CONFIG } from "../src/config/site";
+import { DERIVED_CONFIG, SITE_CONFIG } from "../src/config/site";
 
 function getSocialIconFiles(): string[] {
   const socialIconFiles: string[] = [];
@@ -33,6 +33,9 @@ test.describe('Homepage E2E Tests', () => {
     await expect(page.getByTestId("main-header")).toHaveText(
       SITE_CONFIG.fullName,
     );
+    await expect(
+      page.getByRole("heading", { level: 1, name: SITE_CONFIG.fullName }),
+    ).toBeVisible();
 
     // Assert that the AI Chatbot button is visible
     await expect(page.getByTestId("ai-chatbot-button")).toBeVisible();
@@ -77,15 +80,84 @@ test.describe('Homepage E2E Tests', () => {
     await expect(chatbotButton).not.toBeVisible();
   });
 
-  test("should display GitHub profile description", async ({ page }) => {
+  test("should retain the configured profile description when GitHub fails", async ({
+    page,
+  }) => {
+    await page.route(
+      `https://api.github.com/users/${SITE_CONFIG.githubUsername}`,
+      async (route) => {
+        await route.fulfill({ status: 503, body: "Service Unavailable" });
+      },
+    );
     await page.goto("/");
 
-    // Wait for the GitHub profile description to load and be visible
     const bioElement = page.getByTestId("github-bio");
-    await expect(bioElement).toBeVisible({ timeout: 10000 });
+    await expect(bioElement).toBeVisible();
+    await expect(bioElement).toHaveText(SITE_CONFIG.githubBioFallback);
+  });
 
-    // Should contain some text (either actual bio or fallback)
-    await expect(bioElement).not.toBeEmpty();
+  test("should refresh the configured profile description from GitHub", async ({
+    page,
+  }) => {
+    const liveBio = "Live GitHub profile description";
+    await page.route(
+      `https://api.github.com/users/${SITE_CONFIG.githubUsername}`,
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ bio: liveBio }),
+        });
+      },
+    );
+    await page.goto("/");
+
+    await expect(page.getByTestId("github-bio")).toHaveText(liveBio);
+  });
+
+  test("should expose canonical and social share metadata", async ({ page }) => {
+    await page.goto("/");
+
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      DERIVED_CONFIG.siteUrl,
+    );
+    await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+      "content",
+      "profile",
+    );
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+      "content",
+      DERIVED_CONFIG.siteUrl,
+    );
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      "content",
+      SITE_CONFIG.seo.title,
+    );
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+      "content",
+      SITE_CONFIG.seo.description,
+    );
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      "content",
+      SITE_CONFIG.seo.imageUrl,
+    );
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+      "content",
+      "summary",
+    );
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute(
+      "content",
+      SITE_CONFIG.seo.title,
+    );
+    await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute(
+      "content",
+      SITE_CONFIG.seo.description,
+    );
+    await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute(
+      "content",
+      SITE_CONFIG.seo.imageUrl,
+    );
   });
 
   test('should render social icons with deterministic src paths', async ({ page }) => {

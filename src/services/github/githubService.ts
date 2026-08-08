@@ -7,8 +7,6 @@ import { SITE_CONFIG } from "@/config/site";
 import { createLogger, LOG_AREAS } from "@/utils";
 
 const GITHUB_API_BASE = "https://api.github.com";
-const PERSON_NAME = SITE_CONFIG.fullName || "this person";
-const DEFAULT_BIO_FALLBACK = `Oops! It seems like GitHub's API might be down so the website can't grab ${PERSON_NAME}'s GitHub bio. Anyway, let's just assume that ${PERSON_NAME} is really cool!`;
 const logger = createLogger(LOG_AREAS.GITHUB_SERVICE);
 
 export interface GitHubUser {
@@ -41,7 +39,7 @@ export async function fetchGitHubUser(username: string): Promise<GitHubUser> {
  */
 export async function fetchGitHubBio(
   username: string,
-  fallbackMessage: string = DEFAULT_BIO_FALLBACK
+  fallbackMessage: string = SITE_CONFIG.githubBioFallback
 ): Promise<string> {
   try {
     const user = await fetchGitHubUser(username);

@@ -13,6 +13,7 @@ For a system map, see [diagrams.md](diagrams.md).
 - [ ] Set GitHub Pages source to GitHub Actions for CI deploys
 - [ ] Set `name` to your name
 - [ ] Set `githubUsername` to your username
+- [ ] Set `githubBioFallback` to a short, durable profile summary
 - [ ] Set `repository.owner` and `repository.name`
 - [ ] Set `resumeFileId` (from Google Drive share link)
 - [ ] Update `socialLinks` (empty string hides a link)
@@ -33,6 +34,10 @@ For this repository, that means `/justinthelaw`; forks should not hardcode it.
 The `main` branch deploys through `.github/workflows/deploy.yml` using GitHub
 Pages Actions. `npm run deploy` is the manual path and publishes `out/` to a
 `gh-pages` branch.
+
+`SITE_CONFIG.githubBioFallback` is included in the static export so crawlers and
+visitors always receive a profile summary. After hydration, the browser still
+refreshes it from GitHub and keeps the configured text if that request fails.
 
 ## Configuration Map
 

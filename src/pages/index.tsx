@@ -2,7 +2,7 @@ import { Fragment, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { Bot } from "@deemlol/next-icons";
-import { SITE_CONFIG } from "@/config/site";
+import { DERIVED_CONFIG, SITE_CONFIG } from "@/config/site";
 import { LinkIconButton } from "@/components/links";
 import { GitHubProfile } from "@/components/profile";
 import { ResumeViewer } from "@/components/resume";
@@ -62,18 +62,37 @@ export default function Home(): React.ReactElement {
         <title>{SITE_CONFIG.seo.title}</title>
         <meta name="description" content={SITE_CONFIG.seo.description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href={DERIVED_CONFIG.siteUrl} />
+        <meta property="og:type" content="profile" />
+        <meta property="og:url" content={DERIVED_CONFIG.siteUrl} />
+        <meta property="og:title" content={SITE_CONFIG.seo.title} />
+        <meta property="og:description" content={SITE_CONFIG.seo.description} />
+        <meta property="og:image" content={SITE_CONFIG.seo.imageUrl} />
+        <meta
+          property="og:image:alt"
+          content={`${SITE_CONFIG.fullName}'s profile photo`}
+        />
+        <meta property="profile:username" content={SITE_CONFIG.githubUsername} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={SITE_CONFIG.seo.title} />
+        <meta name="twitter:description" content={SITE_CONFIG.seo.description} />
+        <meta name="twitter:image" content={SITE_CONFIG.seo.imageUrl} />
+        <meta
+          name="twitter:image:alt"
+          content={`${SITE_CONFIG.fullName}'s profile photo`}
+        />
       </Head>
 
       <div className="grid grid-rows-[auto_1fr_auto] h-screen gap-2 pb-4 pt-8">
-        <div className="flex flex-col items-center gap-4">
-          <header
+        <header className="flex flex-col items-center gap-4">
+          <h1
             className="text-center text-3xl sm:text-5xl font-bold"
             data-testid="main-header"
           >
             {SITE_CONFIG.fullName}
-          </header>
+          </h1>
           <GitHubProfile />
-        </div>
+        </header>
 
         <main className="flex items-center justify-center overflow-hidden">
           <ResumeViewer />

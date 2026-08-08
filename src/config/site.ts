@@ -15,6 +15,8 @@ export const SITE_CONFIG = {
   name: "Justin",
   fullName: "Justin Law",
   githubUsername: "justinthelaw",
+  githubBioFallback:
+    "AI Deployment Engineer focused on secure software engineering and AI-powered developer tools.",
 
   // Repository Configuration (for GitHub Pages deployment)
   // Update these if you rename your repository or change ownership
@@ -51,6 +53,7 @@ export const SITE_CONFIG = {
     title: "Justin Law",
     description:
       "Justin Law's personal website showcasing AI deployment, secure software engineering, and AI-powered chat",
+    imageUrl: "https://avatars.githubusercontent.com/u/81255462?v=4",
   },
 } as const;
 
