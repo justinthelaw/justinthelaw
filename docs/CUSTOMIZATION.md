@@ -11,13 +11,12 @@ For a system map, see [diagrams.md](diagrams.md).
 - [ ] Fork this repo to your GitHub account
 - [ ] Rename to `[your-username]` (recommended)
 - [ ] Set GitHub Pages source to GitHub Actions for CI deploys
-- [ ] Set `name` to your name
+- [ ] Set `name` and `fullName` for the page UI
 - [ ] Set `githubUsername` to your username
 - [ ] Set `repository.owner` and `repository.name`
 - [ ] Set `resumeFileId` (from Google Drive share link)
 - [ ] Update `socialLinks` (empty string hides a link)
-- [ ] Summarize public resume/profile knowledge in `src/config/public-profile.json`
-- [ ] Update `CHATBOT_CONFIG.welcomeMessages`
+- [ ] Set `identity.subject` and summarize public facts in `src/config/public-profile.json`
 - [ ] Install `npm` based on your development environment
 - [ ] `npm install`
 - [ ] `npm run dev` (test at localhost:3000)
@@ -39,7 +38,7 @@ Pages Actions. `npm run deploy` is the manual path and publishes `out/` to a
 | File                             | Purpose                                                          |
 | -------------------------------- | ---------------------------------------------------------------- |
 | `src/config/site.ts`             | Personal info, resume, links, and derived site settings          |
-| `src/config/public-profile.json` | Canonical chatbot facts, retrieval metadata, and scoring terms   |
+| `src/config/public-profile.json` | Chatbot identity, facts, retrieval metadata, and scoring terms   |
 | `src/config/models.ts`           | AI model ID and browser dtype policy                             |
 | `src/config/prompts.ts`          | Chatbot messages and generation settings                         |
 | `next.config.ts`                 | Static export, GitHub Pages `basePath`, and asset prefix         |
@@ -90,13 +89,14 @@ Keep section IDs generic so forks can reuse the retrieval behavior:
 
 `src/config/site.ts` imports this file as `PROFILE_SECTIONS`, and
 `ml/profile-qa/profile_qa/public_profile.py` loads the same JSON for synthetic
-data generation. The identity section's `subject` object also supplies the name
-and pronouns rendered into synthetic questions, conversation histories, refusal
-examples, and the training instruction. `PERSONAL_CONTEXT` is derived from
-these sections for compatibility. The browser prompt builder always includes
-identity facts, retrieves relevant sections from the latest question plus
-recent turns, and trims user input only after selected sections and history fit
-the active model budget.
+data generation. The identity section's `subject` object supplies the browser
+welcome and system-prompt identity as well as the names and pronouns rendered
+into synthetic questions, conversation histories, refusal examples, and the
+training instruction. `PERSONAL_CONTEXT` is derived from these sections for
+compatibility. The browser prompt builder always includes identity facts,
+retrieves relevant sections from the latest question plus recent turns, and
+trims user input only after selected sections and history fit the active model
+budget.
 
 Put reusable categories in section IDs and person-specific terms in fact text or
 fact keywords. Browser retrieval uses section `priority`, section `keywords`,

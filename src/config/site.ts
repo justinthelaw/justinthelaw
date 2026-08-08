@@ -130,6 +130,24 @@ export interface ProfileSection {
 export const PROFILE_SECTIONS: readonly ProfileSection[] =
   publicProfileSections;
 
+function getCanonicalProfileSubject(
+  sections: readonly ProfileSection[]
+): ProfileSubject {
+  const subject = sections.find((section) => section.id === "identity")?.subject;
+  if (!subject) {
+    throw new Error(
+      "src/config/public-profile.json requires identity.subject metadata"
+    );
+  }
+  return subject;
+}
+
+/**
+ * Canonical identity used by both browser prompts and Profile-QA training.
+ */
+export const PROFILE_SUBJECT: ProfileSubject =
+  getCanonicalProfileSubject(PROFILE_SECTIONS);
+
 /**
  * Personal knowledge for the chatbot.
  *

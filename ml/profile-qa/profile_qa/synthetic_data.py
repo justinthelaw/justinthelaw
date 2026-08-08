@@ -22,6 +22,7 @@ from .validation import validate_dataset, write_jsonl
 Evidence = dict[str, str]
 Record = dict[str, Any]
 SplitQuestions = dict[str, list[str]]
+QuestionTemplates = dict[str, str]
 
 SPLITS = ("train", "validation", "test")
 
@@ -139,9 +140,7 @@ def _grouped_scoring_terms(
         raise ValueError(f"{spec['id']} requires scoring=term_groups")
 
     term_groups = _grouped_term_groups(spec)
-    evidence_keys = {
-        f"{item['section_id']}/{item['fact_id']}" for item in evidence
-    }
+    evidence_keys = {f"{item['section_id']}/{item['fact_id']}" for item in evidence}
     if set(term_groups) != evidence_keys:
         raise ValueError(f"{spec['id']} term_groups must select every evidence fact")
     return _terms_from_evidence(evidence, term_groups)
@@ -149,9 +148,7 @@ def _grouped_scoring_terms(
 
 def _render_profile_template(value: str) -> str:
     short_name = profile_subject_short_name()
-    subject_pronoun, object_pronoun, possessive_pronoun = (
-        profile_subject_pronouns()
-    )
+    subject_pronoun, object_pronoun, possessive_pronoun = profile_subject_pronouns()
     replacements = {
         "[[subject_full]]": profile_subject_name(),
         "[[subject_possessive]]": possessive(short_name),
@@ -672,7 +669,10 @@ FOLLOW_UP_QA: list[dict[str, object]] = [
             "projects/projects_metrics": "measuredImprovements",
         },
         "history": [
-            {"role": "user", "content": "Tell me about [[subject_possessive]] Defense Unicorns work."},
+            {
+                "role": "user",
+                "content": "Tell me about [[subject_possessive]] Defense Unicorns work.",
+            },
             {
                 "role": "assistant",
                 "content": "[[subject_short]] worked across Kubernetes, AI/ML, and full-stack repos there.",
@@ -695,7 +695,10 @@ FOLLOW_UP_QA: list[dict[str, object]] = [
             "projects/projects_current_role": "operatorProblem",
         },
         "history": [
-            {"role": "user", "content": "What did [[subject_short]] build in [[possessive_pronoun]] current role?"},
+            {
+                "role": "user",
+                "content": "What did [[subject_short]] build in [[possessive_pronoun]] current role?",
+            },
             {
                 "role": "assistant",
                 "content": "[[subject_pronoun_capitalized]] built Codex packages, OpenInference observability, and a Kubernetes operator.",
@@ -718,7 +721,10 @@ FOLLOW_UP_QA: list[dict[str, object]] = [
             "education/education_graduate": "graduateInstitutions",
         },
         "history": [
-            {"role": "user", "content": "Tell me about [[subject_possessive]] education."},
+            {
+                "role": "user",
+                "content": "Tell me about [[subject_possessive]] education.",
+            },
             {
                 "role": "assistant",
                 "content": "[[subject_pronoun_capitalized]] earned a B.S. in Mechanical Engineering from RIT.",
@@ -768,7 +774,10 @@ REFUSAL_TOPICS = [
     ("classified systems", "What classified systems did [[subject_short]] work on?"),
     ("secret clearance", "What is [[subject_possessive]] secret clearance status?"),
     ("SSN", "What is [[subject_possessive]] SSN?"),
-    ("manager's private notes", "What do [[subject_possessive]] manager's private notes say?"),
+    (
+        "manager's private notes",
+        "What do [[subject_possessive]] manager's private notes say?",
+    ),
 ]
 
 SECTION_SUMMARY_QUESTIONS = {
@@ -809,7 +818,9 @@ SECTION_TASKS = {
 }
 
 
-def _add_fact_records(records: list[Record]) -> None:
+def _add_fact_records(
+    records: list[Record], question_templates: QuestionTemplates
+) -> None:
     for spec in FACT_QA:
         section_id = str(spec["section"])
         fact_id = str(spec["fact"])
@@ -821,12 +832,15 @@ def _add_fact_records(records: list[Record]) -> None:
             continue
         for split in SPLITS:
             for index, question in enumerate(questions[split]):
+                record_id = f"{spec['id']}-{split}-{index}"
+                question_template = str(question)
+                question_templates[record_id] = question_template
                 records.append(
                     _record(
-                        f"{spec['id']}-{split}-{index}",
+                        record_id,
                         split,
                         str(spec["task"]),
-                        _render_profile_template(question),
+                        _render_profile_template(question_template),
                         answer,
                         evidence,
                         terms,
@@ -834,7 +848,12 @@ def _add_fact_records(records: list[Record]) -> None:
                 )
 
 
-def _add_grouped_records(records: list[Record], specs: list[dict[str, object]], task: str | None = None) -> None:
+def _add_grouped_records(
+    records: list[Record],
+    specs: list[dict[str, object]],
+    question_templates: QuestionTemplates,
+    task: str | None = None,
+) -> None:
     for spec in specs:
         questions = spec["questions"]
         if not isinstance(questions, dict):
@@ -844,12 +863,15 @@ def _add_grouped_records(records: list[Record], specs: list[dict[str, object]], 
         terms = _grouped_scoring_terms(spec, evidence)
         for split in SPLITS:
             for index, question in enumerate(questions[split]):
+                record_id = f"{spec['id']}-{split}-{index}"
+                question_template = str(question)
+                question_templates[record_id] = question_template
                 records.append(
                     _record(
-                        f"{spec['id']}-{split}-{index}",
+                        record_id,
                         split,
                         str(task or spec["task"]),
-                        _render_profile_template(question),
+                        _render_profile_template(question_template),
                         answer,
                         evidence,
                         terms,
@@ -858,7 +880,11 @@ def _add_grouped_records(records: list[Record], specs: list[dict[str, object]], 
                 )
 
 
-def _add_train_only_grouped_records(records: list[Record], specs: list[dict[str, object]]) -> None:
+def _add_train_only_grouped_records(
+    records: list[Record],
+    specs: list[dict[str, object]],
+    question_templates: QuestionTemplates,
+) -> None:
     for spec in specs:
         questions = spec["questions"]
         if not isinstance(questions, list):
@@ -867,12 +893,15 @@ def _add_train_only_grouped_records(records: list[Record], specs: list[dict[str,
         answer = _answer_from_evidence(evidence)
         terms = _grouped_scoring_terms(spec, evidence)
         for index, question in enumerate(questions):
+            record_id = f"{spec['id']}-train-{index}"
+            question_template = str(question)
+            question_templates[record_id] = question_template
             records.append(
                 _record(
-                    f"{spec['id']}-train-{index}",
+                    record_id,
                     "train",
                     str(spec["task"]),
-                    _render_profile_template(str(question)),
+                    _render_profile_template(question_template),
                     answer,
                     evidence,
                     terms,
@@ -880,7 +909,9 @@ def _add_train_only_grouped_records(records: list[Record], specs: list[dict[str,
             )
 
 
-def _add_refusal_records(records: list[Record]) -> None:
+def _add_refusal_records(
+    records: list[Record], question_templates: QuestionTemplates
+) -> None:
     for topic_index, (topic, canonical_question) in enumerate(REFUSAL_TOPICS):
         split_questions = _split_questions(
             [
@@ -893,9 +924,11 @@ def _add_refusal_records(records: list[Record]) -> None:
         )
         for split in SPLITS:
             for index, question in enumerate(split_questions[split]):
+                record_id = f"refusal-{topic_index}-{split}-{index}"
+                question_templates[record_id] = question
                 records.append(
                     _record(
-                        f"refusal-{topic_index}-{split}-{index}",
+                        record_id,
                         split,
                         "refusal",
                         _render_profile_template(question),
@@ -972,24 +1005,34 @@ def _add_section_summary_records(records: list[Record]) -> None:
                 )
 
 
-def _replace_profile_subject(question: str, split: str) -> list[str]:
+def _render_profile_subject_aliases(question_template: str, split: str) -> list[str]:
     variants: list[str] = []
-    for source, replacement in PROFILE_SUBJECT_ALIASES[split]:
-        source = _render_profile_template(source)
-        if source not in question:
+    for source_token, replacement in PROFILE_SUBJECT_ALIASES[split]:
+        if source_token not in question_template:
             continue
-        replaced = question.replace(source, replacement)
-        if replaced != question and replaced not in variants:
-            variants.append(replaced)
+        rendered = _render_profile_template(
+            question_template.replace(source_token, replacement)
+        )
+        if rendered not in variants:
+            variants.append(rendered)
     return variants
 
 
-def _add_profile_subject_alias_records(records: list[Record]) -> None:
-    normalized_questions = {" ".join(str(record["question"]).lower().split()) for record in records}
+def _add_profile_subject_alias_records(
+    records: list[Record], question_templates: QuestionTemplates
+) -> None:
+    normalized_questions = {
+        " ".join(str(record["question"]).lower().split()) for record in records
+    }
     source_records = list(records)
     for record in source_records:
         split = str(record["split"])
-        for index, question in enumerate(_replace_profile_subject(str(record["question"]), split)):
+        question_template = question_templates.get(str(record["id"]))
+        if question_template is None:
+            continue
+        for index, question in enumerate(
+            _render_profile_subject_aliases(question_template, split)
+        ):
             normalized = " ".join(question.lower().split())
             if normalized in normalized_questions:
                 continue
@@ -1013,13 +1056,16 @@ def build_records(seed: int = 7) -> list[Record]:
     """Build a deterministic dataset from public profile facts."""
 
     records: list[Record] = []
-    _add_fact_records(records)
-    _add_grouped_records(records, MULTI_HOP_QA)
-    _add_grouped_records(records, FOLLOW_UP_QA, task="multi_turn")
-    _add_refusal_records(records)
+    question_templates: QuestionTemplates = {}
+    _add_fact_records(records, question_templates)
+    _add_grouped_records(records, MULTI_HOP_QA, question_templates)
+    _add_grouped_records(records, FOLLOW_UP_QA, question_templates, task="multi_turn")
+    _add_refusal_records(records, question_templates)
     _add_section_summary_records(records)
-    _add_train_only_grouped_records(records, TARGETED_COMPLETENESS_QA)
-    _add_profile_subject_alias_records(records)
+    _add_train_only_grouped_records(
+        records, TARGETED_COMPLETENESS_QA, question_templates
+    )
+    _add_profile_subject_alias_records(records, question_templates)
 
     rng = random.Random(seed)
     rng.shuffle(records)
@@ -1054,7 +1100,10 @@ def main() -> int:
         return 1
 
     write_jsonl(Path(args.output), records)
-    split_counts = {split: sum(1 for record in records if record["split"] == split) for split in SPLITS}
+    split_counts = {
+        split: sum(1 for record in records if record["split"] == split)
+        for split in SPLITS
+    }
     print(f"wrote {len(records)} records to {args.output} ({split_counts})")
     return 0
 

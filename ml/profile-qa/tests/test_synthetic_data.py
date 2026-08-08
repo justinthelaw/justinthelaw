@@ -184,6 +184,70 @@ def test_custom_subject_renders_questions_histories_and_instruction(
     assert "[[possessive_" not in rendered_templates
 
 
+def test_subject_aliases_preserve_short_names_inside_full_names(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    custom_subject = {
+        "name": "Ada Lovelace",
+        "shortName": "Ada",
+        "subjectPronoun": "she",
+        "objectPronoun": "her",
+        "possessivePronoun": "her",
+    }
+    for key, value in custom_subject.items():
+        monkeypatch.setitem(PROFILE_SUBJECT, key, value)
+
+    questions = {str(record["question"]) for record in build_records(seed=7)}
+
+    assert "Where is Ada Lovelace based?" in questions
+    assert "Where is the candidate Lovelace based?" not in questions
+    assert "Where is this person Lovelace based?" not in questions
+    assert "What location is listed for the candidate?" in questions
+
+
+def test_subject_aliases_support_matching_full_and_short_names(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    custom_subject = {
+        "name": "Prince",
+        "shortName": "Prince",
+        "subjectPronoun": "they",
+        "objectPronoun": "them",
+        "possessivePronoun": "their",
+    }
+    for key, value in custom_subject.items():
+        monkeypatch.setitem(PROFILE_SUBJECT, key, value)
+
+    questions = {str(record["question"]) for record in build_records(seed=7)}
+
+    assert "What location is listed for the candidate?" in questions
+    assert "What is the profile owner's current role?" in questions
+    assert "Where is Prince based?" in questions
+
+
+def test_subject_aliases_do_not_replace_colliding_pronoun_values(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    custom_subject = {
+        "name": "Her Person",
+        "shortName": "her",
+        "subjectPronoun": "she",
+        "objectPronoun": "her",
+        "possessivePronoun": "her",
+    }
+    for key, value in custom_subject.items():
+        monkeypatch.setitem(PROFILE_SUBJECT, key, value)
+
+    questions = {str(record["question"]) for record in build_records(seed=7)}
+
+    assert "Who employs the candidate in her current AI role?" in questions
+    assert "Who employs this person in her current AI role?" in questions
+    assert (
+        "Who employs the candidate in the candidate current AI role?" not in questions
+    )
+    assert "Who employs this person in this person current AI role?" not in questions
+
+
 def test_followup_operator_scores_only_the_workload_problem(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -357,8 +421,7 @@ def test_rag_scoring_requires_a_distinguishing_project_detail(
     record = next(item for item in build_records(seed=7) if item["id"] == record_id)
     generic_rag_and_metrics = "RAG; MRR by 15%; agentic retrieval by 38%."
     identified_project_and_metrics = (
-        "A RAG system for shipyard operations; MRR by 15%; "
-        "agentic retrieval by 38%."
+        "A RAG system for shipyard operations; MRR by 15%; agentic retrieval by 38%."
     )
 
     assert score_answer(record, generic_rag_and_metrics)["term"] < 1.0

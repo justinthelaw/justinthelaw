@@ -36,6 +36,9 @@ flowchart TD
   loader --> hf["Hugging Face model files"]
   worker --> context["contextProvider.ts"]
   canonicalProfile["public-profile.json"] --> profileSections["PROFILE_SECTIONS"]
+  canonicalProfile --> profileSubject["PROFILE_SUBJECT"]
+  profileSubject --> promptIdentity["Browser prompt identity"]
+  promptIdentity --> context
   context --> profileSections["PROFILE_SECTIONS"]
   worker --> stream["Typed WorkerStatus stream"]
   stream --> chatStore

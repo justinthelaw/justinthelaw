@@ -6,17 +6,17 @@
 import React, { Fragment, useState } from "react";
 import type { ChatMessage } from "@/types";
 import { Typewriter } from "./Typewriter";
-import { SITE_CONFIG } from "@/config";
+import { PROFILE_SUBJECT } from "@/config";
 import { LimitWarning } from "./LimitWarning";
 
 const QUIRK_MESSAGES = [
-  `Digging into ${SITE_CONFIG.name}'s history...`,
-  `Consulting my ${SITE_CONFIG.name} database...`,
-  `Channeling my inner ${SITE_CONFIG.name}...`,
-  `Reading ${SITE_CONFIG.name}'s mind...`,
-  `Checking ${SITE_CONFIG.name}'s secret diary...`,
-  `Analyzing ${SITE_CONFIG.name}'s preferences...`,
-  `Decoding ${SITE_CONFIG.name}'s commits...`,
+  `Digging into ${PROFILE_SUBJECT.shortName}'s history...`,
+  `Consulting my ${PROFILE_SUBJECT.shortName} database...`,
+  `Channeling my inner ${PROFILE_SUBJECT.shortName}...`,
+  `Reading ${PROFILE_SUBJECT.shortName}'s mind...`,
+  `Checking ${PROFILE_SUBJECT.shortName}'s secret diary...`,
+  `Analyzing ${PROFILE_SUBJECT.shortName}'s preferences...`,
+  `Decoding ${PROFILE_SUBJECT.shortName}'s commits...`,
   "Making up an answer for you...",
   "Searching the dark web...",
   "Wondering the same thing you are...",

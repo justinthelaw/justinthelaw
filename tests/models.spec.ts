@@ -6,12 +6,21 @@ import {
   getDtypeFallbackOrder,
 } from "../src/config/models";
 import canonicalProfileSections from "../src/config/public-profile.json";
-import { PERSONAL_CONTEXT, PROFILE_SECTIONS } from "../src/config/site";
+import {
+  PERSONAL_CONTEXT,
+  PROFILE_SECTIONS,
+  PROFILE_SUBJECT,
+} from "../src/config/site";
+import {
+  CHATBOT_CONFIG,
+  createChatbotConfig,
+} from "../src/config/prompts";
 import {
   cleanInput,
   estimateTokenCount,
   generatePrompt,
   getPersonalContextBudget,
+  getProfileIdentityContext,
   getPromptBudget,
 } from "../src/services/ai/contextProvider";
 import type { ConversationTurn } from "../src/types";
@@ -186,6 +195,42 @@ test.describe("Model prompt policy", () => {
 
   test("loads browser profile facts from the canonical profile source", () => {
     expect(PROFILE_SECTIONS).toEqual(canonicalProfileSections);
+  });
+
+  test("derives browser prompt identity from the canonical profile subject", () => {
+    const identitySection = canonicalProfileSections.find(
+      (section) => section.id === "identity",
+    );
+    const customSubject = {
+      name: "Ada Lovelace",
+      shortName: "Ada",
+      subjectPronoun: "she",
+      objectPronoun: "her",
+      possessivePronoun: "her",
+    };
+    const customChatbotConfig = createChatbotConfig(customSubject);
+
+    expect(PROFILE_SUBJECT).toEqual(identitySection?.subject);
+    expect(CHATBOT_CONFIG.systemPrompt).toContain(PROFILE_SUBJECT.name);
+    expect(generatePrompt("Who is this profile about?")).toContain(
+      `${PROFILE_SUBJECT.shortName} refers to ${PROFILE_SUBJECT.name}.`,
+    );
+    expect(customChatbotConfig.systemPrompt).toContain(
+      "Ada Lovelace's AI assistant",
+    );
+    expect(customChatbotConfig.welcomeMessages).toContain(
+      "Hi! Interested in learning more about Ada?",
+    );
+    expect(getProfileIdentityContext(customSubject)).toBe(
+      "Ada refers to Ada Lovelace.",
+    );
+    expect(
+      getProfileIdentityContext({
+        ...customSubject,
+        name: "Prince",
+        shortName: "Prince",
+      }),
+    ).toBe("This profile is about Prince.");
   });
 
   test("keeps retrieved personal context compact for Teapot", () => {

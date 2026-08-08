@@ -3,11 +3,11 @@
  * Handles GitHub API calls for user profile information
  */
 
-import { SITE_CONFIG } from "@/config/site";
+import { PROFILE_SUBJECT } from "@/config/site";
 import { createLogger, LOG_AREAS } from "@/utils";
 
 const GITHUB_API_BASE = "https://api.github.com";
-const PERSON_NAME = SITE_CONFIG.fullName || "this person";
+const PERSON_NAME = PROFILE_SUBJECT.name;
 const DEFAULT_BIO_FALLBACK = `Oops! It seems like GitHub's API might be down so the website can't grab ${PERSON_NAME}'s GitHub bio. Anyway, let's just assume that ${PERSON_NAME} is really cool!`;
 const logger = createLogger(LOG_AREAS.GITHUB_SERVICE);
 

@@ -8,8 +8,9 @@ import { CHATBOT_CONFIG, MAX_SINGLE_MESSAGE_LENGTH } from "@/config/prompts";
 import {
   PERSONAL_CONTEXT,
   PROFILE_SECTIONS,
-  SITE_CONFIG,
+  PROFILE_SUBJECT,
   type ProfileSection,
+  type ProfileSubject,
 } from "@/config/site";
 import type { ChatMessage, ConversationTurn } from "@/types";
 
@@ -166,6 +167,15 @@ function buildHistoryText(conversationTurns: readonly ConversationTurn[]): strin
   return `\n\nRecent conversation:\n${lines.join("\n")}`;
 }
 
+export function getProfileIdentityContext(
+  subject: ProfileSubject = PROFILE_SUBJECT
+): string {
+  if (subject.shortName === subject.name) {
+    return `This profile is about ${subject.name}.`;
+  }
+  return `${subject.shortName} refers to ${subject.name}.`;
+}
+
 function buildPrompt(
   personalContext: string,
   question: string,
@@ -174,7 +184,7 @@ function buildPrompt(
   return `${CHATBOT_CONFIG.systemPrompt}
 
 Context:
-${SITE_CONFIG.name} refers to ${SITE_CONFIG.fullName}.
+${getProfileIdentityContext()}
 ${personalContext}${buildHistoryText(conversationTurns)}
 
 Question:
