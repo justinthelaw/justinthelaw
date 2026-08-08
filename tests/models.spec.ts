@@ -15,18 +15,13 @@ import {
 } from "../src/services/ai/contextProvider";
 import type { ConversationTurn } from "../src/types";
 import {
-  isLikelyTaskMismatchMessage,
   loadModel,
   type GenerationPipelineFactory,
-  type GenerationTask,
 } from "../src/services/ai/modelLoader";
-import type {
-  Text2TextGenerationPipeline,
-  TextGenerationPipeline,
-} from "@huggingface/transformers";
+import type { Text2TextGenerationPipeline } from "@huggingface/transformers";
 
 interface PipelineCall {
-  task: GenerationTask;
+  task: Parameters<GenerationPipelineFactory>[0];
   modelId: string;
   dtype: string;
 }
@@ -47,21 +42,7 @@ test.describe("Model dtype policy", () => {
     expect(getDtypeFallbackOrder("q4")).toEqual(["int8", "uint8"]);
   });
 
-  test("detects incompatible live model architectures for task fallback", () => {
-    expect(
-      isLikelyTaskMismatchMessage("Unsupported model type: t5")
-    ).toBeTruthy();
-    expect(
-      isLikelyTaskMismatchMessage(
-        'Unsupported model type "t5" for task "text-generation".'
-      )
-    ).toBeTruthy();
-    expect(
-      isLikelyTaskMismatchMessage("Failed to allocate memory buffer")
-    ).toBeFalsy();
-  });
-
-  test("retries text2text generation after a task mismatch", async () => {
+  test("loads the configured text2text generation task directly", async () => {
     const calls: PipelineCall[] = [];
     const fakeText2TextGenerator = {} as unknown as Text2TextGenerationPipeline;
     const fakePipeline: GenerationPipelineFactory = async (
@@ -75,10 +56,6 @@ test.describe("Model dtype policy", () => {
         dtype: typeof options.dtype === "string" ? options.dtype : "unknown",
       });
 
-      if (task === "text-generation") {
-        throw new Error("Unsupported model type: t5");
-      }
-
       return fakeText2TextGenerator;
     };
 
@@ -87,11 +64,6 @@ test.describe("Model dtype policy", () => {
     expect(loadedPipeline?.task).toBe("text2text-generation");
     expect(calls).toEqual([
       {
-        task: "text-generation",
-        modelId: MODEL_ID,
-        dtype: "int8",
-      },
-      {
         task: "text2text-generation",
         modelId: MODEL_ID,
         dtype: "int8",
@@ -99,9 +71,45 @@ test.describe("Model dtype policy", () => {
     ]);
   });
 
+  test("preserves dtype fallback for text2text generation", async () => {
+    const calls: PipelineCall[] = [];
+    const fakeText2TextGenerator = {} as unknown as Text2TextGenerationPipeline;
+    const fakePipeline: GenerationPipelineFactory = async (
+      task,
+      modelId,
+      options
+    ) => {
+      const dtype =
+        typeof options.dtype === "string" ? options.dtype : "unknown";
+      calls.push({ task, modelId, dtype });
+
+      if (dtype === "int8") {
+        throw new Error("Failed to allocate memory buffer");
+      }
+
+      return fakeText2TextGenerator;
+    };
+
+    const loadedPipeline = await loadModel({}, fakePipeline);
+
+    expect(loadedPipeline?.generator).toBe(fakeText2TextGenerator);
+    expect(calls).toEqual([
+      {
+        task: "text2text-generation",
+        modelId: MODEL_ID,
+        dtype: "int8",
+      },
+      {
+        task: "text2text-generation",
+        modelId: MODEL_ID,
+        dtype: "uint8",
+      },
+    ]);
+  });
+
   test("reports aggregate download progress before the memory loading phase", async () => {
     const progressUpdates: ProgressUpdate[] = [];
-    const fakeTextGenerator = {} as unknown as TextGenerationPipeline;
+    const fakeText2TextGenerator = {} as unknown as Text2TextGenerationPipeline;
     const fakePipeline: GenerationPipelineFactory = async (
       _task,
       _modelId,
@@ -121,7 +129,7 @@ test.describe("Model dtype policy", () => {
       emitProgress({ status: "progress_total", progress: 100 });
       emitProgress({ status: "done" });
 
-      return fakeTextGenerator;
+      return fakeText2TextGenerator;
     };
 
     await loadModel(
