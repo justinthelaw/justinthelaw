@@ -103,6 +103,15 @@ export interface ProfileFact {
   text: string;
   keywords: readonly string[];
   terms: readonly string[];
+  termGroups?: Readonly<Record<string, readonly string[]>>;
+}
+
+export interface ProfileSubject {
+  name: string;
+  shortName: string;
+  subjectPronoun: string;
+  objectPronoun: string;
+  possessivePronoun: string;
 }
 
 export interface ProfileSection {
@@ -112,6 +121,7 @@ export interface ProfileSection {
   keywords: readonly string[];
   priority: number;
   alwaysInclude?: boolean;
+  subject?: ProfileSubject;
 }
 
 /**

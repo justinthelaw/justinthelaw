@@ -8,12 +8,15 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from profile_qa.evaluate import score_answer
 from profile_qa.public_profile import (
     CANONICAL_PROFILE_PATH,
     PROFILE_SECTIONS,
+    PROFILE_SUBJECT,
     fact_index,
 )
 from profile_qa.synthetic_data import build_records
+from profile_qa.train_lora import format_instruction
 from profile_qa.validation import PRIVATE_DATA_MARKERS, validate_dataset
 
 
@@ -56,8 +59,12 @@ def test_profile_sections_use_reusable_resume_ontology() -> None:
 
 def test_python_profile_loads_canonical_profile_source() -> None:
     canonical_sections = json.loads(CANONICAL_PROFILE_PATH.read_text(encoding="utf-8"))
+    identity_section = next(
+        section for section in canonical_sections if section["id"] == "identity"
+    )
 
     assert PROFILE_SECTIONS == canonical_sections
+    assert PROFILE_SUBJECT == identity_section["subject"]
 
 
 def test_canonical_profile_preserves_browser_and_scoring_metadata() -> None:
@@ -74,6 +81,15 @@ def test_canonical_profile_preserves_browser_and_scoring_metadata() -> None:
             assert fact["keywords"]
             assert isinstance(fact.get("terms"), list)
             assert fact["terms"]
+            term_groups = fact.get("termGroups", {})
+            assert isinstance(term_groups, dict)
+            assert all(
+                isinstance(name, str)
+                and isinstance(terms, list)
+                and terms
+                and all(isinstance(term, str) for term in terms)
+                for name, terms in term_groups.items()
+            )
 
 
 @pytest.mark.parametrize(
@@ -120,6 +136,90 @@ def test_grouped_records_derive_answers_and_terms_from_canonical_facts(
     assert record["expected_terms"] == expected_terms
     assert changed_text in record["answer"]
     assert changed_terms[0] in record["expected_terms"]
+
+
+def test_custom_subject_renders_questions_histories_and_instruction(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    custom_subject = {
+        "name": "Ada Lovelace",
+        "shortName": "Ada",
+        "subjectPronoun": "she",
+        "objectPronoun": "her",
+        "possessivePronoun": "her",
+    }
+    for key, value in custom_subject.items():
+        monkeypatch.setitem(PROFILE_SUBJECT, key, value)
+
+    records = build_records(seed=7)
+    identity_record = next(
+        record for record in records if record["id"] == "identity-location-train-0"
+    )
+    operator_record = next(
+        record
+        for record in records
+        if record["id"] == "followup-operator-purpose-train-0"
+    )
+    refusal_record = next(
+        record for record in records if record["id"] == "refusal-0-train-0"
+    )
+
+    assert identity_record["question"] == "Where is Ada Lovelace based?"
+    assert operator_record["history"] == [
+        {"role": "user", "content": "What did Ada build in her current role?"},
+        {
+            "role": "assistant",
+            "content": (
+                "She built Codex packages, OpenInference observability, and a "
+                "Kubernetes operator."
+            ),
+        },
+    ]
+    assert refusal_record["question"] == "What is Ada's salary?"
+    assert "Ada Lovelace's browser-only profile Q&A assistant" in format_instruction(
+        identity_record
+    )
+    rendered_templates = " ".join(
+        [str(record["question"]) for record in records]
+        + [
+            str(turn["content"])
+            for record in records
+            for turn in record.get("history", [])
+        ]
+    )
+    assert "[[subject_" not in rendered_templates
+    assert "[[object_" not in rendered_templates
+    assert "[[possessive_" not in rendered_templates
+
+
+def test_followup_operator_uses_purpose_specific_scoring_terms(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    record = next(
+        item
+        for item in build_records(seed=7)
+        if item["id"] == "followup-operator-purpose-test-0"
+    )
+
+    assert record["expected_terms"] == [
+        "diagnoses",
+        "remediates",
+        "failing workloads",
+    ]
+    irrelevant_tool_list = "Codex packages, OpenInference, and a Kubernetes operator."
+    assert score_answer(record, irrelevant_tool_list)["term"] == 0.0
+    assert score_answer(record, str(record["answer"]))["term"] == 1.0
+
+    fact = fact_index()[("projects", "projects_current_role")]
+    term_groups = fact["termGroups"]
+    assert isinstance(term_groups, dict)
+    monkeypatch.setitem(term_groups, "operatorPurpose", ["updated operator behavior"])
+    updated_record = next(
+        item
+        for item in build_records(seed=7)
+        if item["id"] == "followup-operator-purpose-test-0"
+    )
+    assert updated_record["expected_terms"] == ["updated operator behavior"]
 
 
 def test_split_isolation_for_questions() -> None:

@@ -20,6 +20,10 @@ The single checked-in profile source is `src/config/public-profile.json`.
 `profile_qa/public_profile.py` loads the same file for dataset generation. Keep
 browser section priorities and retrieval keywords alongside each fact's
 deterministic evaluation `terms`; do not copy facts into either consumer.
+The identity section's `subject` metadata renders names and pronouns into the
+training prompts. Fact-specific question and history wording is centralized in
+`profile_qa/synthetic_data.py`; update its matching QA entry when a customized
+fact makes an employer, school, product, or role reference inaccurate.
 
 ## Prerequisites
 

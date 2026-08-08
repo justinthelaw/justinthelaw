@@ -2,6 +2,13 @@
   {
     "id": "identity",
     "title": "Identity",
+    "subject": {
+      "name": "Justin Law",
+      "shortName": "Justin",
+      "subjectPronoun": "he",
+      "objectPronoun": "him",
+      "possessivePronoun": "his"
+    },
     "priority": 100,
     "alwaysInclude": true,
     "keywords": ["name", "identity", "location", "based", "who"],
@@ -96,7 +103,10 @@
         "id": "projects_current_role",
         "text": "He built Codex packages, OpenInference observability, and a Kubernetes operator that diagnoses and remediates failing workloads.",
         "keywords": ["codex packages", "openinference", "kubernetes operator"],
-        "terms": ["Codex packages", "OpenInference", "Kubernetes operator"]
+        "terms": ["Codex packages", "OpenInference", "Kubernetes operator"],
+        "termGroups": {
+          "operatorPurpose": ["diagnoses", "remediates", "failing workloads"]
+        }
       },
       {
         "id": "projects_products",

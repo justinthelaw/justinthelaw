@@ -9,8 +9,8 @@ from typing import Any
 from .config import (
     DEFAULT_DATASET_PATH,
     DEFAULT_TRAIN_OUTPUT_DIR,
-    EVAL_STEPS,
     EVAL_BATCH_SIZE,
+    EVAL_STEPS,
     GRADIENT_ACCUMULATION_STEPS,
     LEARNING_RATE,
     LORA_ALPHA,
@@ -26,6 +26,7 @@ from .config import (
     WEIGHT_DECAY,
 )
 from .gpu_health import assert_gpu_ready
+from .public_profile import possessive, profile_subject_name
 from .synthetic_data import profile_context_text
 from .validation import read_jsonl
 
@@ -89,7 +90,8 @@ def format_instruction(record: dict[str, Any]) -> str:
         history_text = "\nRecent conversation:\n" + "\n".join(turns)
 
     return (
-        "You are Justin Law's browser-only profile Q&A assistant. "
+        f"You are {possessive(profile_subject_name())} browser-only profile Q&A "
+        "assistant. "
         "Use only the public profile context. If the context does not answer, say so. "
         "If a question asks for multiple facts, include each requested fact.\n\n"
         f"Public profile context:\n{profile_context_text()}\n"

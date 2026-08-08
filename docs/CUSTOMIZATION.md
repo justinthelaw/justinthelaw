@@ -66,6 +66,13 @@ Keep section IDs generic so forks can reuse the retrieval behavior:
   {
     "id": "identity",
     "title": "Identity",
+    "subject": {
+      "name": "Your Full Name",
+      "shortName": "Your Name",
+      "subjectPronoun": "they",
+      "objectPronoun": "them",
+      "possessivePronoun": "their"
+    },
     "priority": 100,
     "alwaysInclude": true,
     "keywords": ["name", "location", "identity"],
@@ -83,15 +90,21 @@ Keep section IDs generic so forks can reuse the retrieval behavior:
 
 `src/config/site.ts` imports this file as `PROFILE_SECTIONS`, and
 `ml/profile-qa/profile_qa/public_profile.py` loads the same JSON for synthetic
-data generation. `PERSONAL_CONTEXT` is derived from these sections for
-compatibility. The browser prompt builder always includes identity facts,
-retrieves relevant sections from the latest question plus recent turns, and
-trims user input only after selected sections and history fit the active model
-budget.
+data generation. The identity section's `subject` object also supplies the name
+and pronouns rendered into synthetic questions, conversation histories, refusal
+examples, and the training instruction. `PERSONAL_CONTEXT` is derived from
+these sections for compatibility. The browser prompt builder always includes
+identity facts, retrieves relevant sections from the latest question plus
+recent turns, and trims user input only after selected sections and history fit
+the active model budget.
 
 Put reusable categories in section IDs and person-specific terms in fact text or
 fact keywords. Browser retrieval uses section `priority`, section `keywords`,
 and fact `keywords`; deterministic Python evaluation uses each fact's `terms`.
+Facts may also define named `termGroups` when one question needs a narrower
+semantic scoring target than the whole fact. For example, an operator-purpose
+follow-up can select terms about its behavior without accepting a list of tools
+as a complete answer.
 Keep generic sections temporally prioritized: `current_role`, `experience`,
 `projects`, `education`, `recommendations`, `skills`, then `interests`.
 Experience should outrank education; recommendations should sit just below
@@ -154,12 +167,22 @@ export const GENERATION_PARAMS: GenerationParams = {
 The optional local pipeline lives in `ml/profile-qa/`. Use it when a fork needs
 a custom browser model instead of only prompt/context changes.
 
+The canonical JSON owns the training subject identity, answers, evidence, and
+scoring terms. Natural language question and history templates are centralized in
+`ml/profile-qa/profile_qa/synthetic_data.py`. If a changed fact makes one of
+those prompts inaccurate—for example, it names an employer, school, product,
+or role that no longer applies—update the matching `FACT_QA`,
+`TARGETED_COMPLETENESS_QA`, `MULTI_HOP_QA`, or `FOLLOW_UP_QA` entry in that one
+file. Names and pronouns do not need a template edit; they render from
+`identity.subject` automatically.
+
 | Step | Action |
 | --- | --- |
-| 1 | Update facts, retrieval metadata, and scoring terms in `src/config/public-profile.json` |
-| 2 | Follow [ml/profile-qa/README.md](../ml/profile-qa/README.md) to generate data, train LoRA/QLoRA, evaluate, merge, export ONNX, prepare Hugging Face artifacts, and publish |
-| 3 | After promotion passes, update `MODEL_ID` and `MODEL_CONTEXT_LIMIT` in `src/config/models.ts` |
-| 4 | Run `npm run flight-check` |
+| 1 | Update identity, facts, retrieval metadata, scoring terms, and optional named `termGroups` in `src/config/public-profile.json` |
+| 2 | Update the centralized question/history entry in `synthetic_data.py` when changed factual wording makes it inaccurate |
+| 3 | Follow [ml/profile-qa/README.md](../ml/profile-qa/README.md) to generate data, train LoRA/QLoRA, evaluate, merge, export ONNX, prepare Hugging Face artifacts, and publish |
+| 4 | After promotion passes, update `MODEL_ID` and `MODEL_CONTEXT_LIMIT` in `src/config/models.ts` |
+| 5 | Run `npm run flight-check` |
 
 ## Troubleshooting
 
