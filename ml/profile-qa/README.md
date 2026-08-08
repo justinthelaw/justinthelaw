@@ -102,17 +102,20 @@ formatted-prompt digest, split, pinned base revision, local adapter or
 merged-model digest, generation settings and implementation digest, and a schema
 plus normalized-token digest of the scoring implementation. Artifact preparation
 recomputes every published metric from the report's saved per-record predictions
-with that current scorer. Merge records
-the pinned revision plus adapter and merged-model SHA-256 values; export verifies
-those values and carries the
-lineage plus a content digest through the full-precision, quantized, and browser
-artifact stages. Each quantized marker also names the exact full-precision
-artifact digest it consumed. Published reports and artifact markers use a
-portable checkpoint label and digest, never the private local checkpoint path
-retained by the merge workspace. Artifact preparation accepts reports only when their
-canonical dataset, live prompt context, base revision, checkpoint label, and
-model digests match the selected inputs and the browser marker matches the
-actual browser files.
+with that current scorer. Merge records the pinned revision plus adapter and
+merged-model SHA-256 values; export verifies those values and carries the lineage
+plus a content digest through the full-precision, quantized, and browser artifact
+stages. Each quantized marker also names the exact full-precision artifact digest
+it consumed. Published reports and artifact markers use a portable checkpoint
+label and digest, never the private local checkpoint path retained by the merge
+workspace. Artifact preparation accepts reports only when their canonical
+dataset, live prompt context, base revision, checkpoint label, and model digests
+match the selected inputs and the browser marker matches the actual browser files.
+
+The merge output must be disjoint from the selected adapter checkpoint. The
+merge command rejects equal, ancestor, descendant, and symlinked output paths,
+then replaces a valid disjoint output tree so stale files cannot enter its
+content digest.
 
 The export `--skip-export` and `--skip-quantize` recovery flags only reuse stage
 directories whose lineage marker and content digest still validate. Quantized

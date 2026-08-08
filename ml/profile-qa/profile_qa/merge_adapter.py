@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 from pathlib import Path
 
 from .config import (
@@ -29,6 +30,29 @@ from .train_lora import (
 )
 
 
+def prepare_merge_output_directory(adapter_path: Path, output_dir: Path) -> None:
+    """Replace a merge output tree only when it is disjoint from the adapter."""
+
+    resolved_adapter_path = adapter_path.resolve()
+    resolved_output_dir = output_dir.resolve()
+    if (
+        resolved_adapter_path == resolved_output_dir
+        or resolved_adapter_path in resolved_output_dir.parents
+        or resolved_output_dir in resolved_adapter_path.parents
+    ):
+        raise RuntimeError(
+            "merge output directory must not overlap the adapter checkpoint: "
+            f"{resolved_output_dir} and {resolved_adapter_path}"
+        )
+    if output_dir.is_symlink():
+        raise RuntimeError(f"merge output directory must not be a symlink: {output_dir}")
+    if output_dir.exists():
+        if not output_dir.is_dir():
+            raise RuntimeError(f"merge output path is not a directory: {output_dir}")
+        shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--adapter-model-id", required=True)
@@ -41,9 +65,6 @@ def main() -> int:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
     except ImportError as exc:
         raise RuntimeError("Install merge dependencies with pip install -r ml/profile-qa/requirements.txt") from exc
-
-    output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
 
     adapter_path = require_local_model_path(
         args.adapter_model_id,
@@ -74,6 +95,8 @@ def main() -> int:
     model = PeftModel.from_pretrained(base_model, args.adapter_model_id)
     merged_model = model.merge_and_unload()
 
+    output_dir = Path(args.output_dir)
+    prepare_merge_output_directory(adapter_path, output_dir)
     merged_model.save_pretrained(output_dir, safe_serialization=True)
     tokenizer.save_pretrained(output_dir)
     (output_dir / LINEAGE_FILENAME).write_text(

@@ -18,6 +18,7 @@ from profile_qa.export_onnx import (
     ensure_teapot_export_model,
     export_onnx,
 )
+from profile_qa.merge_adapter import prepare_merge_output_directory
 from profile_qa.provenance import (
     ADAPTER_CHECKPOINT_FIELD,
     ADAPTER_DIGEST_FIELD,
@@ -193,6 +194,44 @@ class ReleaseLineageTests(unittest.TestCase):
                 export_onnx(str(merged_dir), merged_dir / "onnx")
 
             self.assertTrue(source_file.is_file())
+
+    def test_merge_output_rejects_adapter_path_overlap_without_writing(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            adapter_dir = root / "checkpoint-80"
+            adapter_dir.mkdir()
+            adapter_file = adapter_dir / "adapter_model.safetensors"
+            adapter_file.write_bytes(b"adapter")
+            cases = (
+                adapter_dir,
+                adapter_dir / "merged",
+                root,
+            )
+
+            for output_dir in cases:
+                with (
+                    self.subTest(output_dir=output_dir),
+                    self.assertRaisesRegex(RuntimeError, "must not overlap"),
+                ):
+                    prepare_merge_output_directory(adapter_dir, output_dir)
+
+            self.assertEqual(adapter_file.read_bytes(), b"adapter")
+            self.assertFalse((adapter_dir / "merged").exists())
+
+    def test_merge_output_replaces_stale_disjoint_tree(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            adapter_dir = root / "checkpoint-80"
+            adapter_dir.mkdir()
+            output_dir = root / "merged"
+            output_dir.mkdir()
+            sentinel = output_dir / "stale.json"
+            sentinel.write_text("stale", encoding="utf-8")
+
+            prepare_merge_output_directory(adapter_dir, output_dir)
+
+            self.assertTrue(output_dir.is_dir())
+            self.assertFalse(sentinel.exists())
 
     def test_same_lineage_reexport_rejects_stale_quantized_stages(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
