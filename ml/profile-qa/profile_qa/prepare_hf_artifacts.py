@@ -19,6 +19,7 @@ from .config import (
     PRIMARY_BASE_MODEL_ID,
     PRIMARY_BASE_MODEL_REVISION,
 )
+from .evaluate import score_predictions
 from .export_onnx import reject_external_data_files
 from .provenance import (
     CANDIDATE_PROVENANCE_FILENAME,
@@ -208,6 +209,176 @@ def validate_promotion_metrics(
         raise ValueError(f"promotion metric validation failed:\n{details}")
 
 
+def validate_report_aggregates(
+    *,
+    baseline_test: object,
+    promoted_validation: object,
+    promoted_test: object,
+    dataset_records: list[dict[str, Any]],
+) -> None:
+    """Recompute report scores from predictions and the fingerprinted dataset."""
+
+    errors: list[str] = []
+    report_expectations = (
+        ("baseline test", baseline_test, "test"),
+        ("promoted validation", promoted_validation, "validation"),
+        ("promoted test", promoted_test, "test"),
+    )
+    for report_name, report, split in report_expectations:
+        if not isinstance(report, Mapping):
+            continue
+
+        split_records = [
+            record for record in dataset_records if record.get("split") == split
+        ]
+        expected_ids: list[str] = []
+        for index, record in enumerate(split_records):
+            record_id = record.get("id")
+            if not isinstance(record_id, str) or not record_id:
+                errors.append(
+                    f"dataset {split} record at index {index} must have a non-empty "
+                    "string id"
+                )
+                continue
+            expected_ids.append(record_id)
+        if len(expected_ids) != len(set(expected_ids)):
+            errors.append(f"dataset {split} records contain duplicate ids")
+
+        raw_report_records = report.get("records")
+        if not isinstance(raw_report_records, list) or not raw_report_records:
+            errors.append(
+                f"{report_name} report field 'records' must be a non-empty array"
+            )
+            continue
+
+        report_records: dict[str, Mapping[str, Any]] = {}
+        predictions: dict[str, str] = {}
+        for index, raw_record in enumerate(raw_report_records):
+            if not isinstance(raw_record, Mapping):
+                errors.append(
+                    f"{report_name} report record at index {index} must be an object"
+                )
+                continue
+            record_id = raw_record.get("id")
+            prediction = raw_record.get("prediction")
+            if not isinstance(record_id, str) or not record_id:
+                errors.append(
+                    f"{report_name} report record at index {index} must have a "
+                    "non-empty string id"
+                )
+                continue
+            if record_id in report_records:
+                errors.append(
+                    f"{report_name} report contains duplicate id {record_id!r}"
+                )
+                continue
+            if not isinstance(prediction, str):
+                errors.append(
+                    f"{report_name} report record {record_id!r} prediction must be "
+                    "a string"
+                )
+                continue
+            report_records[record_id] = raw_record
+            predictions[record_id] = prediction
+
+        expected_id_set = set(expected_ids)
+        report_id_set = set(report_records)
+        missing_ids = sorted(expected_id_set - report_id_set)
+        extra_ids = sorted(report_id_set - expected_id_set)
+        if missing_ids:
+            errors.append(f"{report_name} report is missing record ids: {missing_ids}")
+        if extra_ids:
+            errors.append(
+                f"{report_name} report has unexpected record ids: {extra_ids}"
+            )
+        if missing_ids or extra_ids or len(expected_ids) != len(expected_id_set):
+            continue
+
+        recomputed = score_predictions(split_records, predictions)
+        for metric_name in _REQUIRED_REPORT_METRICS:
+            reported_score = _read_score(
+                report,
+                report_name=report_name,
+                metric_name=metric_name,
+                errors=errors,
+            )
+            expected_score = float(recomputed[metric_name])
+            if (
+                reported_score is not None
+                and abs(reported_score - expected_score) > _COMPARISON_TOLERANCE
+            ):
+                errors.append(
+                    f"{report_name} metric {metric_name!r} does not match its "
+                    f"records: reported={reported_score:.4f}, "
+                    f"recomputed={expected_score:.4f}"
+                )
+
+        reported_by_task = report.get("by_task")
+        expected_by_task = recomputed["by_task"]
+        if not isinstance(reported_by_task, Mapping):
+            errors.append(f"{report_name} report field 'by_task' must be an object")
+        else:
+            reported_tasks = {
+                task for task in reported_by_task if isinstance(task, str)
+            }
+            expected_tasks = set(expected_by_task)
+            if reported_tasks != expected_tasks:
+                errors.append(
+                    f"{report_name} by_task keys do not match its records: "
+                    f"reported={sorted(reported_tasks)}, "
+                    f"recomputed={sorted(expected_tasks)}"
+                )
+            for task_name, expected_score in expected_by_task.items():
+                reported_score = _read_score(
+                    reported_by_task,
+                    report_name=report_name,
+                    metric_name=task_name,
+                    errors=errors,
+                )
+                if (
+                    reported_score is not None
+                    and abs(reported_score - expected_score) > _COMPARISON_TOLERANCE
+                ):
+                    errors.append(
+                        f"{report_name} by_task {task_name!r} does not match its "
+                        f"records: reported={reported_score:.4f}, "
+                        f"recomputed={expected_score:.4f}"
+                    )
+
+        recomputed_records = {
+            str(record["id"]): record for record in recomputed["records"]
+        }
+        for record_id, raw_record in report_records.items():
+            expected_record = recomputed_records[record_id]
+            if raw_record.get("task") != expected_record["task"]:
+                errors.append(
+                    f"{report_name} record {record_id!r} task does not match the "
+                    "dataset"
+                )
+            for metric_name in ("macro", "term", "refusal"):
+                reported_score = _read_score(
+                    raw_record,
+                    report_name=f"{report_name} record {record_id!r}",
+                    metric_name=metric_name,
+                    errors=errors,
+                )
+                expected_score = float(expected_record[metric_name])
+                if (
+                    reported_score is not None
+                    and abs(reported_score - expected_score) > _COMPARISON_TOLERANCE
+                ):
+                    errors.append(
+                        f"{report_name} record {record_id!r} metric "
+                        f"{metric_name!r} does not match its prediction: "
+                        f"reported={reported_score:.4f}, "
+                        f"recomputed={expected_score:.4f}"
+                    )
+
+    if errors:
+        details = "\n".join(f"- {error}" for error in errors)
+        raise ValueError(f"evaluation report aggregate validation failed:\n{details}")
+
+
 def _valid_sha256(value: object) -> bool:
     return isinstance(value, str) and _SHA256_PATTERN.fullmatch(value) is not None
 
@@ -369,6 +540,12 @@ def _load_and_validate_promotion_reports(
         promoted_test=promoted_test,
         dataset_path=Path(args.dataset),
         model_browser_dir=Path(args.model_browser_dir),
+    )
+    validate_report_aggregates(
+        baseline_test=baseline_test,
+        promoted_validation=promoted_validation,
+        promoted_test=promoted_test,
+        dataset_records=read_jsonl(Path(args.dataset)),
     )
     return baseline_test, promoted_validation, promoted_test
 
@@ -737,7 +914,7 @@ def prepare_dataset_payload(args: argparse.Namespace) -> Path:
         shutil.rmtree(dataset_output_dir)
     dataset_output_dir.mkdir(parents=True, exist_ok=True)
 
-    write_jsonl(dataset_output_dir / "profile_qa.jsonl", records)
+    shutil.copy2(Path(args.dataset), dataset_output_dir / "profile_qa.jsonl")
     for split in ["train", "validation", "test"]:
         write_jsonl(
             dataset_output_dir / f"profile_qa_{split}.jsonl",

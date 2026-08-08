@@ -126,7 +126,7 @@ does not train models and does not call a server.
 | Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; local 8GB NVIDIA LoRA/QLoRA runs |
 | Evaluation | `python -m profile_qa.evaluate` | Seq2seq-only; records model and dataset fingerprints plus the evaluated split |
 | ONNX export | `python -m profile_qa.export_onnx` | Requires merged Teapot lineage; rejects external data; hashes the source model and `int8`/`uint8` browser payload into a candidate manifest |
-| Artifact prep | `python -m profile_qa.prepare_hf_artifacts` | Validates report provenance, browser integrity, relative test-macro improvement, and internally consistent validation/test refusal and multi-turn thresholds before replacing payloads |
+| Artifact prep | `python -m profile_qa.prepare_hf_artifacts` | Rescores report predictions, validates provenance/browser integrity and thresholds, and preserves fingerprinted full-dataset bytes before replacing payloads |
 | App promotion | `src/config/models.ts` | Update `MODEL_ID` and keep `MODEL_CONTEXT_LIMIT` honest |
 
 Promotion should satisfy the automated report gates and manual release gates in

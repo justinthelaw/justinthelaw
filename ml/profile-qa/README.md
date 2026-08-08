@@ -123,7 +123,11 @@ will reject that development-only output.
 Metric reports also fail closed when required scores are missing, non-numeric,
 non-finite, outside `[0, 1]`, or when promoted validation/test reports omit the
 `refusal` or `multi_turn` task. Each required task score must agree with its
-corresponding top-level accuracy.
+corresponding top-level accuracy. Artifact preparation additionally rescores
+every reported prediction against the fingerprinted dataset and requires the
+stored per-record, per-task, and aggregate scores to match. The full published
+`profile_qa.jsonl` preserves the evaluated source bytes; derived split files use
+the canonical JSONL writer.
 
 | Gate | Automated requirement |
 | --- | --- |

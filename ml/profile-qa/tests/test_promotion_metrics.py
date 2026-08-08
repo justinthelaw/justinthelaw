@@ -6,14 +6,16 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+import profile_qa.prepare_hf_artifacts as prepare_hf_artifacts_module
 import pytest
 from profile_qa.config import PRIMARY_BASE_MODEL_ID
-from profile_qa.evaluate import _load_prediction_bundle
+from profile_qa.evaluate import _load_prediction_bundle, score_predictions
 from profile_qa.prepare_hf_artifacts import (
     prepare_dataset_payload,
     prepare_model_payload,
     validate_promotion_metrics,
     validate_promotion_provenance,
+    validate_report_aggregates,
 )
 from profile_qa.provenance import (
     evaluation_provenance,
@@ -207,6 +209,102 @@ def _write_report(path: Path, report: dict[str, Any]) -> None:
     path.write_text(json.dumps(report), encoding="utf-8")
 
 
+def _aggregate_inputs() -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]]]:
+    records: list[dict[str, Any]] = []
+    for split in ("validation", "test"):
+        records.extend(
+            [
+                {
+                    "id": f"{split}-refusal",
+                    "split": split,
+                    "task": "refusal",
+                    "expected_terms": [],
+                    "requires_refusal": True,
+                },
+                {
+                    "id": f"{split}-multi-turn",
+                    "split": split,
+                    "task": "multi_turn",
+                    "expected_terms": ["alpha"],
+                    "requires_refusal": False,
+                },
+                {
+                    "id": f"{split}-single-turn",
+                    "split": split,
+                    "task": "single_turn",
+                    "expected_terms": ["beta"],
+                    "requires_refusal": False,
+                },
+            ]
+        )
+
+    validation_records = [
+        record for record in records if record["split"] == "validation"
+    ]
+    test_records = [record for record in records if record["split"] == "test"]
+    validation_predictions = {
+        "validation-refusal": "The public profile does not say.",
+        "validation-multi-turn": "alpha",
+        "validation-single-turn": "beta",
+    }
+    promoted_test_predictions = {
+        "test-refusal": "The public profile does not say.",
+        "test-multi-turn": "alpha",
+        "test-single-turn": "beta",
+    }
+    baseline_test_predictions = {
+        "test-refusal": "The public profile does not say.",
+        "test-multi-turn": "",
+        "test-single-turn": "",
+    }
+    return (
+        {
+            "baseline_test": score_predictions(
+                test_records,
+                baseline_test_predictions,
+            ),
+            "promoted_validation": score_predictions(
+                validation_records,
+                validation_predictions,
+            ),
+            "promoted_test": score_predictions(
+                test_records,
+                promoted_test_predictions,
+            ),
+        },
+        records,
+    )
+
+
+def test_report_aggregates_match_rescored_predictions() -> None:
+    reports, records = _aggregate_inputs()
+
+    validate_report_aggregates(**reports, dataset_records=records)
+
+
+def test_report_aggregates_reject_forged_scores() -> None:
+    reports, records = _aggregate_inputs()
+    for report_record in reports["promoted_test"]["records"]:
+        report_record["prediction"] = ""
+
+    with pytest.raises(
+        ValueError,
+        match="promoted test metric 'macro' does not match its records",
+    ):
+        validate_report_aggregates(**reports, dataset_records=records)
+
+
+def test_report_aggregates_reject_corrupt_record_scores() -> None:
+    reports, records = _aggregate_inputs()
+    reports["promoted_test"]["records"][0]["macro"] = 0.0
+
+    with pytest.raises(
+        ValueError,
+        match="promoted test record 'test-refusal' metric 'macro'",
+    ):
+        validate_report_aggregates(**reports, dataset_records=records)
+
+
 def _provenance_inputs(
     tmp_path: Path,
 ) -> tuple[dict[str, dict[str, Any]], Path, Path, Path]:
@@ -353,6 +451,46 @@ def test_promotion_provenance_rejects_boolean_schema_version(tmp_path: Path) -> 
             dataset_path=dataset_path,
             model_browser_dir=browser_dir,
         )
+
+
+def test_dataset_payload_preserves_fingerprinted_source_bytes(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    dataset_path = tmp_path / "profile_qa.jsonl"
+    source_bytes = b'{ "task": "single_turn", "split": "train", "id": "example" }\r\n'
+    dataset_path.write_bytes(source_bytes)
+
+    reports = _passing_reports()
+    monkeypatch.setattr(
+        prepare_hf_artifacts_module,
+        "_load_and_validate_promotion_reports",
+        lambda args: (
+            reports["baseline_test"],
+            reports["promoted_validation"],
+            reports["promoted_test"],
+        ),
+    )
+    report_paths = {
+        report_name: tmp_path / f"{report_name}.json" for report_name in reports
+    }
+    for report_path in report_paths.values():
+        report_path.write_text("{}", encoding="utf-8")
+
+    args = argparse.Namespace(
+        baseline_report=str(report_paths["baseline_test"]),
+        validation_report=str(report_paths["promoted_validation"]),
+        test_report=str(report_paths["promoted_test"]),
+        model_browser_dir=str(tmp_path / "browser"),
+        dataset=str(dataset_path),
+        output_dir=str(tmp_path / "hf"),
+        model_repo_id="example/model",
+        dataset_repo_id="example/dataset",
+    )
+
+    payload_dir = prepare_dataset_payload(args)
+
+    assert (payload_dir / "profile_qa.jsonl").read_bytes() == source_bytes
 
 
 @pytest.mark.parametrize(
