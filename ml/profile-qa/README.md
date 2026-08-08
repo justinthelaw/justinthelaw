@@ -78,7 +78,9 @@ The training, continuation, merge, and export commands are Teapot-only. Training
 always starts from `teapotai/teapotllm`; adapter continuation and merge reject
 checkpoints whose PEFT metadata records a different base model; export expects
 the merged model directory produced by `profile_qa.merge_adapter` and publishes
-the encoder plus merged decoder ONNX files for the T5 browser runtime.
+the encoder plus merged decoder ONNX files for the T5 browser runtime. Artifact
+preparation labels the model card with `pipeline_tag: text2text-generation`,
+matching the Transformers.js task used by the deployed browser worker.
 
 For targeted continuation from an existing LoRA adapter:
 

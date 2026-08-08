@@ -16,6 +16,7 @@ from .validation import read_jsonl, write_jsonl
 
 DEFAULT_MODEL_REPO_ID = "justinthelaw/teapot-profile-qa-browser-1024"
 DEFAULT_DATASET_REPO_ID = "justinthelaw/profile-qa-synthetic-public-v1"
+BROWSER_PIPELINE_TASK = "text2text-generation"
 
 
 def _load_report(path: Path) -> dict[str, Any]:
@@ -106,7 +107,7 @@ def _write_model_card(
 license: mit
 library_name: transformers.js
 base_model: teapotai/teapotllm
-pipeline_tag: text-generation
+pipeline_tag: {BROWSER_PIPELINE_TASK}
 tags:
 - transformers.js
 - onnx
@@ -128,9 +129,8 @@ This model is a browser-oriented ONNX export of a local LoRA continuation from
 `teapotai/teapotllm`. It is tuned for public resume/profile Q&A prompts that fit
 within a 1024-token browser context budget.
 
-Hugging Face model metadata uses the official `text-generation` task category;
-the browser runtime still loads this T5-style export with the Transformers.js
-`text2text-generation` pipeline.
+This T5-style artifact is exported for and loaded by the Transformers.js
+`{BROWSER_PIPELINE_TASK}` pipeline.
 
 The target use case is a static portfolio or resume site that runs inference in
 the browser with Transformers.js, without API routes, hosted inference, server
@@ -157,7 +157,7 @@ as self-contained browser assets.
 import {{ pipeline }} from "@huggingface/transformers";
 
 const generator = await pipeline(
-  "text2text-generation",
+  "{BROWSER_PIPELINE_TASK}",
   "{model_repo_id}",
   {{ dtype: "int8" }},
 );
