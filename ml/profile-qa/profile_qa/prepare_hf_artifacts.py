@@ -4,18 +4,185 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import shutil
 from collections import Counter
+from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 from typing import Any
 
-from .config import DEFAULT_DATASET_PATH, ONNX_DIR, PACKAGE_ROOT, REPORT_DIR
+from .config import (
+    DEFAULT_DATASET_PATH,
+    ONNX_DIR,
+    PACKAGE_ROOT,
+    PRIMARY_BASE_MODEL_ID,
+    REPORT_DIR,
+)
 from .export_onnx import reject_external_data_files
 from .public_profile import PROFILE_SECTIONS
 from .validation import read_jsonl, write_jsonl
 
 DEFAULT_MODEL_REPO_ID = "justinthelaw/teapot-profile-qa-browser-1024"
 DEFAULT_DATASET_REPO_ID = "justinthelaw/profile-qa-synthetic-public-v1"
+EXPECTED_LINEAGE_PIPELINE = "profile-qa-teapot-lora"
+TRAINER_STATE_FILENAME = "trainer_state.json"
+
+
+@dataclass(frozen=True)
+class ModelProvenance:
+    promoted_checkpoint: str
+    latest_train_loss: float
+    latest_train_step: int
+    best_validation_eval_loss: float
+    release_date: str
+
+
+def _load_json_object(path: Path, *, label: str) -> dict[str, Any]:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"could not load required {label} {path}: {exc}") from exc
+    if not isinstance(value, dict):
+        raise ValueError(f"required {label} {path} must contain a JSON object")
+    return value
+
+
+def _required_text(value: Any, *, field: str, source: Path) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{source} is missing non-empty string field {field!r}")
+    return value.strip()
+
+
+def _loss_value(value: Any, *, field: str, source: Path) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f"{source} field {field!r} must be a number, got {value!r}")
+    loss = float(value)
+    if not math.isfinite(loss) or loss < 0:
+        raise ValueError(
+            f"{source} field {field!r} must be a finite non-negative number, "
+            f"got {value!r}"
+        )
+    return loss
+
+
+def _training_losses(
+    trainer_state: dict[str, Any],
+    *,
+    source: Path,
+) -> tuple[float, int, float]:
+    log_history = trainer_state.get("log_history")
+    if not isinstance(log_history, list):
+        raise ValueError(f"{source} is missing list field 'log_history'")
+
+    training_entries: list[tuple[int, int, float]] = []
+    validation_losses: list[float] = []
+    for index, entry in enumerate(log_history):
+        if not isinstance(entry, dict):
+            continue
+        if "loss" in entry:
+            step = entry.get("step")
+            if isinstance(step, bool) or not isinstance(step, int) or step < 0:
+                raise ValueError(
+                    f"{source} training loss entry has invalid step {step!r}"
+                )
+            training_entries.append(
+                (
+                    step,
+                    index,
+                    _loss_value(entry["loss"], field="loss", source=source),
+                )
+            )
+        if "eval_loss" in entry:
+            validation_losses.append(
+                _loss_value(
+                    entry["eval_loss"],
+                    field="eval_loss",
+                    source=source,
+                )
+            )
+
+    if not training_entries:
+        raise ValueError(f"{source} does not contain a recorded training loss")
+    if not validation_losses:
+        raise ValueError(f"{source} does not contain a recorded validation eval loss")
+
+    latest_step, _, latest_train_loss = max(training_entries)
+    return latest_train_loss, latest_step, min(validation_losses)
+
+
+def load_model_provenance(
+    lineage_path: Path,
+    release_date: str | None,
+) -> ModelProvenance:
+    """Load and validate model-card provenance from release inputs."""
+
+    if not isinstance(release_date, str) or not release_date.strip():
+        raise ValueError(
+            "release date is required; pass --release-date in YYYY-MM-DD format"
+        )
+    normalized_release_date = release_date.strip()
+    try:
+        parsed_release_date = date.fromisoformat(normalized_release_date)
+    except ValueError as exc:
+        raise ValueError("release date must use YYYY-MM-DD format") from exc
+    if parsed_release_date.isoformat() != normalized_release_date:
+        raise ValueError("release date must use YYYY-MM-DD format")
+
+    lineage = _load_json_object(lineage_path, label="model lineage")
+    adapter_model_id = _required_text(
+        lineage.get("adapter_model_id"),
+        field="adapter_model_id",
+        source=lineage_path,
+    )
+    base_model = _required_text(
+        lineage.get("base_model"),
+        field="base_model",
+        source=lineage_path,
+    )
+    if base_model != PRIMARY_BASE_MODEL_ID:
+        raise ValueError(
+            f"{lineage_path} field 'base_model' must be {PRIMARY_BASE_MODEL_ID!r}, "
+            f"got {base_model!r}"
+        )
+    pipeline_name = _required_text(
+        lineage.get("pipeline"),
+        field="pipeline",
+        source=lineage_path,
+    )
+    if pipeline_name != EXPECTED_LINEAGE_PIPELINE:
+        raise ValueError(
+            f"{lineage_path} field 'pipeline' must be "
+            f"{EXPECTED_LINEAGE_PIPELINE!r}, got {pipeline_name!r}"
+        )
+
+    checkpoint_path = Path(adapter_model_id)
+    if not checkpoint_path.is_dir():
+        raise ValueError(
+            f"adapter checkpoint from {lineage_path} does not exist: "
+            f"{checkpoint_path}"
+        )
+    checkpoint_label = checkpoint_path.name
+    if not checkpoint_label:
+        raise ValueError(
+            f"adapter checkpoint from {lineage_path} has no publishable name"
+        )
+    trainer_state_path = checkpoint_path / TRAINER_STATE_FILENAME
+    trainer_state = _load_json_object(
+        trainer_state_path,
+        label="trainer state",
+    )
+    latest_train_loss, latest_train_step, best_validation_eval_loss = (
+        _training_losses(trainer_state, source=trainer_state_path)
+    )
+
+    return ModelProvenance(
+        promoted_checkpoint=checkpoint_label,
+        latest_train_loss=latest_train_loss,
+        latest_train_step=latest_train_step,
+        best_validation_eval_loss=best_validation_eval_loss,
+        release_date=parsed_release_date.isoformat(),
+    )
 
 
 def _load_report(path: Path) -> dict[str, Any]:
@@ -100,7 +267,13 @@ def _write_model_card(
     baseline_test: dict[str, Any],
     promoted_validation: dict[str, Any],
     promoted_test: dict[str, Any],
+    provenance: ModelProvenance,
 ) -> None:
+    promoted_checkpoint = provenance.promoted_checkpoint
+    latest_train_loss = _metric(provenance.latest_train_loss)
+    latest_train_step = provenance.latest_train_step
+    best_validation_eval_loss = _metric(provenance.best_validation_eval_loss)
+    release_date = provenance.release_date
     output_path.write_text(
         f"""---
 license: mit
@@ -172,12 +345,12 @@ with signed int8 ONNX weights.
 
 - Base model: `teapotai/teapotllm`
 - Method: local LoRA/QLoRA continuation, no full fine-tune and no cloud training
-- Promoted checkpoint: `teapot-profile-qa-lora-v5/checkpoint-40`
+- Promoted checkpoint: `{promoted_checkpoint}`
 - LoRA: rank 16, alpha 32, dropout 0.03, target modules `q` and `v`
 - 8GB-safe settings: 4-bit base loading, batch size 1, gradient accumulation 8,
   gradient checkpointing, short eval batches
-- Final continuation window: train loss 0.0330 at step 40
-- Best validation eval loss: 0.0287
+- Latest recorded train loss: {latest_train_loss} at step {latest_train_step}
+- Best recorded validation eval loss: {best_validation_eval_loss}
 
 ## Software
 
@@ -227,8 +400,8 @@ identity verification.
 
 ## Release Notes
 
-- 2026-06-19: Initial local browser profile-QA export with `int8` and `uint8`
-  ONNX variants.
+- {release_date}: Browser profile-QA export from `{promoted_checkpoint}` with
+  `int8` and `uint8` ONNX variants.
 
 ## License
 
@@ -353,6 +526,13 @@ MIT.
 
 
 def prepare_model_payload(args: argparse.Namespace) -> Path:
+    lineage_file = getattr(args, "lineage_file", None)
+    if not isinstance(lineage_file, str) or not lineage_file.strip():
+        raise ValueError("model lineage is required; pass --lineage-file")
+    provenance = load_model_provenance(
+        Path(lineage_file),
+        getattr(args, "release_date", None),
+    )
     browser_dir = Path(args.model_browser_dir)
     if not browser_dir.exists():
         raise RuntimeError(f"model browser directory does not exist: {browser_dir}")
@@ -371,6 +551,7 @@ def prepare_model_payload(args: argparse.Namespace) -> Path:
         baseline_test=baseline_test,
         promoted_validation=promoted_validation,
         promoted_test=promoted_test,
+        provenance=provenance,
     )
     reject_external_data_files(model_output_dir)
     return model_output_dir
@@ -421,6 +602,16 @@ def main() -> int:
     parser.add_argument("--output-dir", default=str(PACKAGE_ROOT / "hf"))
     parser.add_argument("--model-repo-id", default=DEFAULT_MODEL_REPO_ID)
     parser.add_argument("--dataset-repo-id", default=DEFAULT_DATASET_REPO_ID)
+    parser.add_argument(
+        "--lineage-file",
+        required=True,
+        help="lineage JSON produced by profile_qa.merge_adapter",
+    )
+    parser.add_argument(
+        "--release-date",
+        required=True,
+        help="model-card release date in YYYY-MM-DD format",
+    )
     parser.add_argument(
         "--baseline-report",
         default=str(REPORT_DIR / "profile_qa_eval_baseline_test.json"),

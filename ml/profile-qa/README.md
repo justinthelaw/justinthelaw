@@ -69,7 +69,10 @@ PYTHONPATH=ml/profile-qa python -m profile_qa.train_lora --dataset ml/profile-qa
 PYTHONPATH=ml/profile-qa python -m profile_qa.evaluate --dataset ml/profile-qa/data/profile_qa.jsonl --model-id teapotai/teapotllm
 PYTHONPATH=ml/profile-qa python -m profile_qa.merge_adapter --adapter-model-id ml/profile-qa/checkpoints/teapot-profile-qa-lora/checkpoint-400 --output-dir ml/profile-qa/merged/teapot-profile-qa
 PYTHONPATH=ml/profile-qa ml/profile-qa/.venv-export/bin/python -m profile_qa.export_onnx --output-dir ml/profile-qa/onnx/candidate
-PYTHONPATH=ml/profile-qa python -m profile_qa.prepare_hf_artifacts --model-browser-dir ml/profile-qa/onnx/candidate/browser
+PYTHONPATH=ml/profile-qa python -m profile_qa.prepare_hf_artifacts \
+  --model-browser-dir ml/profile-qa/onnx/candidate/browser \
+  --lineage-file ml/profile-qa/merged/teapot-profile-qa/teapot_profile_qa_lineage.json \
+  --release-date YYYY-MM-DD
 PYTHONPATH=ml/profile-qa python -m profile_qa.publish --repo-id justinthelaw/teapot-profile-qa-browser-1024 --artifact-dir ml/profile-qa/hf/model
 PYTHONPATH=ml/profile-qa python -m profile_qa.publish --repo-type dataset --repo-id justinthelaw/profile-qa-synthetic-public-v1 --artifact-dir ml/profile-qa/hf/dataset
 ```
@@ -79,6 +82,12 @@ always starts from `teapotai/teapotllm`; adapter continuation and merge reject
 checkpoints whose PEFT metadata records a different base model; export expects
 the merged model directory produced by `profile_qa.merge_adapter` and publishes
 the encoder plus merged decoder ONNX files for the T5 browser runtime.
+
+Artifact preparation derives the promoted checkpoint from the merge lineage and
+reads its latest train loss and best validation eval loss from the checkpoint's
+`trainer_state.json`. Pass the intended release date explicitly in ISO
+`YYYY-MM-DD` format. Missing or malformed provenance stops preparation before an
+existing model payload is replaced.
 
 For targeted continuation from an existing LoRA adapter:
 
