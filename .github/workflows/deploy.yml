@@ -13,10 +13,7 @@ on:
       - "*.mjs"
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+permissions: {}
 
 concurrency:
   group: deploy-${{ github.ref }}
@@ -24,6 +21,9 @@ concurrency:
 
 jobs:
   build:
+    permissions:
+      contents: read
+      pages: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -86,6 +86,9 @@ jobs:
           path: out
 
   deploy:
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
