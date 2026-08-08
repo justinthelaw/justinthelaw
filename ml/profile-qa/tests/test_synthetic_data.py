@@ -256,7 +256,12 @@ def test_followup_graduate_schools_scores_only_institutions(
         ),
         (
             "targeted-rag-metrics-train-0",
-            ["RAG", "MRR by 15%", "agentic retrieval by 38%"],
+            [
+                "RAG",
+                "shipyard operations",
+                "MRR by 15%",
+                "agentic retrieval by 38%",
+            ],
         ),
         (
             "targeted-before-current-train-0",
@@ -290,7 +295,12 @@ def test_followup_graduate_schools_scores_only_institutions(
         ),
         (
             "rag-and-metrics-train-0",
-            ["RAG", "MRR by 15%", "agentic retrieval by 38%"],
+            [
+                "RAG",
+                "shipyard operations",
+                "MRR by 15%",
+                "agentic retrieval by 38%",
+            ],
         ),
         (
             "education-complete-train-0",
@@ -331,6 +341,28 @@ def test_grouped_records_use_minimum_complete_scoring_terms(
 
     assert record["expected_terms"] == expected_terms
     assert score_answer(record, " ".join(expected_terms))["term"] == 1.0
+
+
+@pytest.mark.parametrize(
+    "record_id",
+    [
+        "targeted-rag-metrics-train-0",
+        "rag-and-metrics-validation-0",
+        "rag-and-metrics-test-0",
+    ],
+)
+def test_rag_scoring_requires_a_distinguishing_project_detail(
+    record_id: str,
+) -> None:
+    record = next(item for item in build_records(seed=7) if item["id"] == record_id)
+    generic_rag_and_metrics = "RAG; MRR by 15%; agentic retrieval by 38%."
+    identified_project_and_metrics = (
+        "A RAG system for shipyard operations; MRR by 15%; "
+        "agentic retrieval by 38%."
+    )
+
+    assert score_answer(record, generic_rag_and_metrics)["term"] < 1.0
+    assert score_answer(record, identified_project_and_metrics)["term"] == 1.0
 
 
 def test_every_grouped_record_derives_terms_from_named_canonical_groups(
