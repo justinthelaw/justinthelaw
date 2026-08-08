@@ -5,7 +5,7 @@ browser profile Q&A model targeting a 1024-token prompt budget. Generated data,
 checkpoints, merged weights, ONNX exports, and reports are ignored by git.
 
 For the end-to-end app and promotion handoff, see
-[docs/diagrams.md](../../docs/diagrams.md).
+[docs/DIAGRAMS.md](../../docs/DIAGRAMS.md).
 
 The profile ontology is intentionally generic for fork reuse: section IDs should
 stay in resume categories such as `identity`, `current_role`, `experience`,

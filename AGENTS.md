@@ -162,11 +162,11 @@ Update these as needed when making changes:
 | `/README.md` | Repository orientation changes |
 | `/AGENTS.md` | Agent instructions change |
 | `/docs/CUSTOMIZATION.md` | User-facing configuration changes |
-| `/docs/diagrams.md` | Architecture, runtime flow, deployment behavior, or profile-QA pipeline changes |
+| `/docs/DIAGRAMS.md` | Architecture, runtime flow, deployment behavior, or profile-QA pipeline changes |
 | `/ml/profile-qa/README.md` | Local training, evaluation, export, or publishing commands change |
 
 Keep docs concise and layered: README for orientation, `docs/CUSTOMIZATION.md`
-for configuration, `docs/diagrams.md` for system flow, and
+for configuration, `docs/DIAGRAMS.md` for system flow, and
 `ml/profile-qa/README.md` for command-level fine-tuning details. Use exact file
 paths so both humans and agents can act on the instructions.
 

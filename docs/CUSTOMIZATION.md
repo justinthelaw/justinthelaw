@@ -4,7 +4,7 @@ Make this static portfolio your own. The browser chatbot answers from reusable
 public profile sections, so configuration should stay factual, public, and easy
 to sync with the optional training pipeline.
 
-For a system map, see [diagrams.md](diagrams.md).
+For a system map, see [DIAGRAMS.md](DIAGRAMS.md).
 
 ## Quick Setup
 
