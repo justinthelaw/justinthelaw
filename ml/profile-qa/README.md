@@ -97,13 +97,15 @@ checkpoints whose PEFT metadata records a different base model; export expects
 the merged model directory produced by `profile_qa.merge_adapter` and publishes
 the encoder plus merged decoder ONNX files for the T5 browser runtime.
 
-Evaluation reports record the exact baseline revision or local adapter/merged
-model digest and split. Merge records adapter and merged-model SHA-256 values;
-export verifies those values and carries the lineage plus a content digest
-through the full-precision, quantized, and browser artifact stages. Artifact
-preparation accepts reports only when their promoted adapter ID and digest match
-the selected merge lineage and the browser marker matches the actual browser
-files.
+Evaluation reports record the evaluated dataset SHA-256, split, pinned base
+revision, and local adapter or merged-model digest. Merge records that pinned
+revision plus adapter and merged-model SHA-256 values; export verifies those
+values and carries the lineage plus a content digest through the full-precision,
+quantized, and browser artifact stages. Published reports and artifact markers
+use a portable checkpoint label and digest, never the private local checkpoint
+path retained by the merge workspace. Artifact preparation accepts reports only
+when their dataset, base revision, checkpoint label, and model digests match the
+selected inputs and the browser marker matches the actual browser files.
 
 The export `--skip-export` and `--skip-quantize` recovery flags only reuse stage
 directories whose lineage marker and content digest still validate. Regenerate

@@ -103,10 +103,15 @@ flowchart TD
   pyProfile --> data["synthetic_data.py"]
   data --> train["train_lora.py"]
   train --> eval["evaluate.py"]
-  eval --> reports["Reports with model lineage"]
+  data --> datasetDigest["Dataset digest"]
+  eval --> reports["Reports with dataset and model lineage"]
+  datasetDigest --> reports
   eval --> gate["Promotion gate"]
   gate --> merge["merge_adapter.py"]
-  merge --> lineage["Lineage plus adapter/merge digests"]
+  baseRevision["Pinned base revision"] --> train
+  baseRevision --> eval
+  baseRevision --> merge
+  merge --> lineage["Portable label plus model digests"]
   merge --> export["export_onnx.py"]
   lineage --> export
   export --> browserArtifact["Browser files plus digest"]
@@ -130,8 +135,8 @@ does not train models and does not call a server.
 | Facts | `src/config/site.ts` and `ml/profile-qa/profile_qa/public_profile.py` | Keep public facts aligned before generating data |
 | Dataset | `python -m profile_qa.synthetic_data` | Generated data stays under ignored `ml/profile-qa/data/` |
 | Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; local 8GB NVIDIA LoRA/QLoRA runs |
-| Evaluation | `python -m profile_qa.evaluate` | Reports record the evaluated split and exact baseline revision or adapter/merged lineage digest |
-| ONNX export | `python -m profile_qa.export_onnx` | Verifies merged lineage/digest, preserves lineage through each artifact stage, rejects `.onnx.data`, and publishes `int8` and `uint8` encoder/decoder artifacts |
+| Evaluation | `python -m profile_qa.evaluate` | Reports record the evaluated dataset digest and split plus the pinned base revision and exact adapter/merged digest |
+| ONNX export | `python -m profile_qa.export_onnx` | Verifies the pinned revision and merged lineage/digest, preserves portable lineage without local paths, rejects `.onnx.data`, and publishes `int8` and `uint8` encoder/decoder artifacts |
 | App promotion | `src/config/models.ts` | Update `MODEL_ID` and keep `MODEL_CONTEXT_LIMIT` honest |
 
 Promotion should satisfy the gate in `ml/profile-qa/README.md` before changing

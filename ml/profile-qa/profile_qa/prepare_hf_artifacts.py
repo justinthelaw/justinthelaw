@@ -22,8 +22,11 @@ from .config import (
 )
 from .export_onnx import reject_external_data_files
 from .provenance import (
+    ADAPTER_CHECKPOINT_FIELD,
     ADAPTER_DIGEST_FIELD,
     ARTIFACT_DIGEST_FIELD,
+    BASE_MODEL_REVISION_FIELD,
+    DATASET_DIGEST_FIELD,
     EXPECTED_LINEAGE_PIPELINE,
     LINEAGE_FILENAME,
     LINEAGE_SCHEMA_VERSION,
@@ -32,6 +35,8 @@ from .provenance import (
     directory_sha256,
     file_sha256,
     load_json_object,
+    public_lineage_fields,
+    require_checkpoint_label,
     require_sha256,
     validate_artifact_lineage,
 )
@@ -45,8 +50,9 @@ TRAINER_STATE_FILENAME = "trainer_state.json"
 
 @dataclass(frozen=True)
 class ModelProvenance:
-    adapter_model_id: str
+    adapter_checkpoint: str
     adapter_model_sha256: str
+    base_model_revision: str
     merged_model_sha256: str
     browser_artifact_sha256: str
     promoted_checkpoint: str
@@ -160,6 +166,10 @@ def load_model_provenance(
         field="adapter_model_id",
         source=lineage_path,
     )
+    adapter_checkpoint = require_checkpoint_label(
+        lineage.get(ADAPTER_CHECKPOINT_FIELD),
+        source=lineage_path,
+    )
     base_model = _required_text(
         lineage.get("base_model"),
         field="base_model",
@@ -169,6 +179,16 @@ def load_model_provenance(
         raise ValueError(
             f"{lineage_path} field 'base_model' must be {PRIMARY_BASE_MODEL_ID!r}, "
             f"got {base_model!r}"
+        )
+    base_model_revision = _required_text(
+        lineage.get(BASE_MODEL_REVISION_FIELD),
+        field=BASE_MODEL_REVISION_FIELD,
+        source=lineage_path,
+    )
+    if base_model_revision != PRIMARY_BASE_MODEL_REVISION:
+        raise ValueError(
+            f"{lineage_path} field {BASE_MODEL_REVISION_FIELD!r} must be "
+            f"{PRIMARY_BASE_MODEL_REVISION!r}, got {base_model_revision!r}"
         )
     pipeline_name = _required_text(
         lineage.get("pipeline"),
@@ -197,7 +217,7 @@ def load_model_provenance(
         source_lineage_sha256=source_lineage_sha256,
         stage="browser",
     )
-    for field, expected_value in lineage.items():
+    for field, expected_value in public_lineage_fields(lineage).items():
         if browser_lineage.get(field) != expected_value:
             raise ValueError(
                 f"{browser_dir / LINEAGE_FILENAME} field {field!r} does not "
@@ -225,6 +245,11 @@ def load_model_provenance(
         raise ValueError(
             f"adapter checkpoint from {lineage_path} has no publishable name"
         )
+    if checkpoint_label != adapter_checkpoint:
+        raise ValueError(
+            f"{lineage_path} field {ADAPTER_CHECKPOINT_FIELD!r} must match "
+            f"adapter checkpoint directory {checkpoint_label!r}"
+        )
     actual_adapter_digest = directory_sha256(checkpoint_path)
     if actual_adapter_digest != adapter_model_sha256:
         raise ValueError(
@@ -241,8 +266,9 @@ def load_model_provenance(
     )
 
     return ModelProvenance(
-        adapter_model_id=str(checkpoint_path),
+        adapter_checkpoint=adapter_checkpoint,
         adapter_model_sha256=adapter_model_sha256,
+        base_model_revision=base_model_revision,
         merged_model_sha256=merged_model_sha256,
         browser_artifact_sha256=browser_artifact_sha256,
         promoted_checkpoint=checkpoint_label,
@@ -262,6 +288,7 @@ def _validate_report_provenance(
     *,
     report_path: Path,
     expected_split: str,
+    expected_dataset_sha256: str,
     model_provenance: ModelProvenance,
     baseline: bool,
 ) -> None:
@@ -280,6 +307,26 @@ def _validate_report_provenance(
         raise ValueError(
             f"evaluation report {report_path} must use base model "
             f"{PRIMARY_BASE_MODEL_ID!r}, got {base_model!r}"
+        )
+    report_base_revision = _required_text(
+        report_provenance.get(BASE_MODEL_REVISION_FIELD),
+        field=f"provenance.{BASE_MODEL_REVISION_FIELD}",
+        source=report_path,
+    )
+    if report_base_revision != model_provenance.base_model_revision:
+        raise ValueError(
+            f"evaluation report {report_path} base revision does not match the "
+            "selected merge lineage"
+        )
+    report_dataset_sha256 = require_sha256(
+        report_provenance.get(DATASET_DIGEST_FIELD),
+        field=f"provenance.{DATASET_DIGEST_FIELD}",
+        source=report_path,
+    )
+    if report_dataset_sha256 != expected_dataset_sha256:
+        raise ValueError(
+            f"evaluation report {report_path} dataset digest does not match "
+            "the selected dataset"
         )
     report_split = _required_text(
         report_provenance.get("split"),
@@ -307,26 +354,20 @@ def _validate_report_provenance(
                 f"evaluation report {report_path} baseline model_id must be "
                 f"{PRIMARY_BASE_MODEL_ID!r}"
             )
-        if report_provenance.get("model_revision") != PRIMARY_BASE_MODEL_REVISION:
-            raise ValueError(
-                f"evaluation report {report_path} baseline revision must be "
-                f"{PRIMARY_BASE_MODEL_REVISION!r}"
-            )
         return
 
     if model_kind not in {"adapter", "merged"}:
         raise ValueError(
             f"evaluation report {report_path} must describe an adapter or merged model"
         )
-    report_adapter_model_id = _required_text(
-        report_provenance.get("adapter_model_id"),
-        field="provenance.adapter_model_id",
+    report_adapter_checkpoint = require_checkpoint_label(
+        report_provenance.get(ADAPTER_CHECKPOINT_FIELD),
         source=report_path,
     )
-    if str(Path(report_adapter_model_id).resolve()) != model_provenance.adapter_model_id:
+    if report_adapter_checkpoint != model_provenance.adapter_checkpoint:
         raise ValueError(
-            f"evaluation report {report_path} does not match selected adapter "
-            f"{model_provenance.adapter_model_id}"
+            f"evaluation report {report_path} does not match selected checkpoint "
+            f"{model_provenance.adapter_checkpoint}"
         )
     report_adapter_digest = require_sha256(
         report_provenance.get(ADAPTER_DIGEST_FIELD),
@@ -359,6 +400,7 @@ def _load_evaluation_reports(
     args: argparse.Namespace,
     model_provenance: ModelProvenance,
 ) -> EvaluationReports:
+    dataset_sha256 = file_sha256(Path(args.dataset))
     baseline_path = Path(args.baseline_report)
     validation_path = Path(args.validation_report)
     test_path = Path(args.test_report)
@@ -369,6 +411,7 @@ def _load_evaluation_reports(
         baseline_test,
         report_path=baseline_path,
         expected_split="test",
+        expected_dataset_sha256=dataset_sha256,
         model_provenance=model_provenance,
         baseline=True,
     )
@@ -376,6 +419,7 @@ def _load_evaluation_reports(
         promoted_validation,
         report_path=validation_path,
         expected_split="validation",
+        expected_dataset_sha256=dataset_sha256,
         model_provenance=model_provenance,
         baseline=False,
     )
@@ -383,6 +427,7 @@ def _load_evaluation_reports(
         promoted_test,
         report_path=test_path,
         expected_split="test",
+        expected_dataset_sha256=dataset_sha256,
         model_provenance=model_provenance,
         baseline=False,
     )
@@ -474,6 +519,7 @@ def _write_model_card(
     provenance: ModelProvenance,
 ) -> None:
     promoted_checkpoint = provenance.promoted_checkpoint
+    base_model_revision = provenance.base_model_revision
     latest_train_loss = _metric(provenance.latest_train_loss)
     latest_train_step = provenance.latest_train_step
     best_validation_eval_loss = _metric(provenance.best_validation_eval_loss)
@@ -552,6 +598,7 @@ with signed int8 ONNX weights.
 ## Training
 
 - Base model: `teapotai/teapotllm`
+- Base model revision: `{base_model_revision}`
 - Method: local LoRA/QLoRA continuation, no full fine-tune and no cloud training
 - Promoted checkpoint: `{promoted_checkpoint}`
 - LoRA: rank 16, alpha 32, dropout 0.03, target modules `q` and `v`

@@ -6,14 +6,21 @@ import argparse
 import json
 from pathlib import Path
 
-from .config import MERGED_DIR, PRIMARY_BASE_MODEL_ID
+from .config import (
+    MERGED_DIR,
+    PRIMARY_BASE_MODEL_ID,
+    PRIMARY_BASE_MODEL_REVISION,
+)
 from .provenance import (
+    ADAPTER_CHECKPOINT_FIELD,
     ADAPTER_DIGEST_FIELD,
+    BASE_MODEL_REVISION_FIELD,
     EXPECTED_LINEAGE_PIPELINE,
     LINEAGE_FILENAME,
     LINEAGE_SCHEMA_VERSION,
     MERGED_DIGEST_FIELD,
     directory_sha256,
+    require_checkpoint_label,
 )
 from .train_lora import (
     ensure_primary_base_model_id,
@@ -42,6 +49,10 @@ def main() -> int:
         args.adapter_model_id,
         source="adapter model",
     ).resolve()
+    adapter_checkpoint = require_checkpoint_label(
+        adapter_path.name,
+        source=adapter_path,
+    )
     adapter_config = PeftConfig.from_pretrained(args.adapter_model_id)
     adapter_base_model_id = str(getattr(adapter_config, "base_model_name_or_path", ""))
     ensure_primary_base_model_id(
@@ -69,9 +80,13 @@ def main() -> int:
         json.dumps(
             {
                 "schema_version": LINEAGE_SCHEMA_VERSION,
-                "adapter_model_id": Path(args.adapter_model_id).as_posix(),
+                # This canonical path is private build metadata. Exported artifact
+                # markers retain only the portable checkpoint label and digest.
+                "adapter_model_id": str(adapter_path),
+                ADAPTER_CHECKPOINT_FIELD: adapter_checkpoint,
                 ADAPTER_DIGEST_FIELD: directory_sha256(adapter_path),
                 "base_model": PRIMARY_BASE_MODEL_ID,
+                BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
                 "pipeline": EXPECTED_LINEAGE_PIPELINE,
                 MERGED_DIGEST_FIELD: directory_sha256(
                     output_dir,

@@ -4,17 +4,37 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Any
 
 LINEAGE_FILENAME = "teapot_profile_qa_lineage.json"
 LINEAGE_SCHEMA_VERSION = 1
 EXPECTED_LINEAGE_PIPELINE = "profile-qa-teapot-lora"
+ADAPTER_CHECKPOINT_FIELD = "adapter_checkpoint"
 ADAPTER_DIGEST_FIELD = "adapter_model_sha256"
+BASE_MODEL_REVISION_FIELD = "base_model_revision"
 MERGED_DIGEST_FIELD = "merged_model_sha256"
+DATASET_DIGEST_FIELD = "dataset_sha256"
 SOURCE_LINEAGE_DIGEST_FIELD = "source_lineage_sha256"
 ARTIFACT_STAGE_FIELD = "artifact_stage"
 ARTIFACT_DIGEST_FIELD = "artifact_sha256"
+PUBLIC_LINEAGE_FIELDS = frozenset(
+    {
+        "schema_version",
+        ADAPTER_CHECKPOINT_FIELD,
+        ADAPTER_DIGEST_FIELD,
+        "base_model",
+        BASE_MODEL_REVISION_FIELD,
+        "pipeline",
+        MERGED_DIGEST_FIELD,
+    }
+)
+ARTIFACT_LINEAGE_FIELDS = PUBLIC_LINEAGE_FIELDS | {
+    SOURCE_LINEAGE_DIGEST_FIELD,
+    ARTIFACT_STAGE_FIELD,
+    ARTIFACT_DIGEST_FIELD,
+}
 
 
 def _artifact_digest_exclusions(stage: str) -> frozenset[str]:
@@ -93,6 +113,32 @@ def require_sha256(value: Any, *, field: str, source: Path) -> str:
     return normalized
 
 
+def require_checkpoint_label(value: Any, *, source: Path) -> str:
+    """Require a portable checkpoint label rather than a workstation path."""
+
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(
+            f"{source} is missing non-empty string field {ADAPTER_CHECKPOINT_FIELD!r}"
+        )
+    label = value.strip()
+    if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", label) is None:
+        raise ValueError(
+            f"{source} field {ADAPTER_CHECKPOINT_FIELD!r} must be a portable "
+            "ASCII label"
+        )
+    return label
+
+
+def public_lineage_fields(source_lineage: dict[str, Any]) -> dict[str, Any]:
+    """Remove host-local locators before lineage enters publishable artifacts."""
+
+    return {
+        key: value
+        for key, value in source_lineage.items()
+        if key in PUBLIC_LINEAGE_FIELDS
+    }
+
+
 def write_artifact_lineage(
     artifact_dir: Path,
     *,
@@ -103,7 +149,7 @@ def write_artifact_lineage(
     """Write lineage metadata bound to an artifact directory's exact contents."""
 
     lineage_path = artifact_dir / LINEAGE_FILENAME
-    payload = dict(source_lineage)
+    payload = public_lineage_fields(source_lineage)
     payload[SOURCE_LINEAGE_DIGEST_FIELD] = source_lineage_sha256
     payload[ARTIFACT_STAGE_FIELD] = stage
     payload[ARTIFACT_DIGEST_FIELD] = directory_sha256(
@@ -127,6 +173,12 @@ def validate_artifact_lineage(
 
     lineage_path = artifact_dir / LINEAGE_FILENAME
     lineage = load_json_object(lineage_path, label=f"{stage} artifact lineage")
+    unexpected_fields = sorted(set(lineage) - ARTIFACT_LINEAGE_FIELDS)
+    if unexpected_fields:
+        raise ValueError(
+            f"{lineage_path} contains non-publishable fields: "
+            f"{', '.join(unexpected_fields)}"
+        )
     recorded_source_digest = require_sha256(
         lineage.get(SOURCE_LINEAGE_DIGEST_FIELD),
         field=SOURCE_LINEAGE_DIGEST_FIELD,

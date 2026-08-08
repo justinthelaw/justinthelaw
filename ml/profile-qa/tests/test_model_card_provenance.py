@@ -12,7 +12,10 @@ from profile_qa.prepare_hf_artifacts import (
     prepare_model_payload,
 )
 from profile_qa.provenance import (
+    ADAPTER_CHECKPOINT_FIELD,
     ADAPTER_DIGEST_FIELD,
+    BASE_MODEL_REVISION_FIELD,
+    DATASET_DIGEST_FIELD,
     EXPECTED_LINEAGE_PIPELINE,
     LINEAGE_SCHEMA_VERSION,
     MERGED_DIGEST_FIELD,
@@ -53,8 +56,10 @@ class ModelCardProvenanceTests(unittest.TestCase):
                 {
                     "schema_version": LINEAGE_SCHEMA_VERSION,
                     "adapter_model_id": str(checkpoint_dir.resolve()),
+                    ADAPTER_CHECKPOINT_FIELD: checkpoint_dir.name,
                     ADAPTER_DIGEST_FIELD: directory_sha256(checkpoint_dir),
                     "base_model": PRIMARY_BASE_MODEL_ID,
+                    BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
                     "pipeline": EXPECTED_LINEAGE_PIPELINE,
                     MERGED_DIGEST_FIELD: "1" * 64,
                 },
@@ -85,6 +90,7 @@ class ModelCardProvenanceTests(unittest.TestCase):
         *,
         split: str,
         checkpoint_dir: Path | None,
+        dataset_path: Path,
         adapter_digest: str | None = None,
     ) -> Path:
         report: dict[str, object] = {
@@ -97,19 +103,22 @@ class ModelCardProvenanceTests(unittest.TestCase):
             report["provenance"] = {
                 "model_kind": "baseline",
                 "model_id": PRIMARY_BASE_MODEL_ID,
-                "model_revision": PRIMARY_BASE_MODEL_REVISION,
+                BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
                 "base_model": PRIMARY_BASE_MODEL_ID,
+                DATASET_DIGEST_FIELD: file_sha256(dataset_path),
                 "split": split,
             }
         else:
             digest = adapter_digest or directory_sha256(checkpoint_dir)
             report["provenance"] = {
                 "model_kind": "adapter",
-                "model_id": str(checkpoint_dir.resolve()),
+                "model_id": checkpoint_dir.name,
                 "model_sha256": digest,
-                "adapter_model_id": str(checkpoint_dir.resolve()),
+                ADAPTER_CHECKPOINT_FIELD: checkpoint_dir.name,
                 ADAPTER_DIGEST_FIELD: digest,
                 "base_model": PRIMARY_BASE_MODEL_ID,
+                BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
+                DATASET_DIGEST_FIELD: file_sha256(dataset_path),
                 "split": split,
             }
         path.write_text(json.dumps(report), encoding="utf-8")
@@ -122,6 +131,8 @@ class ModelCardProvenanceTests(unittest.TestCase):
         checkpoint_dir: Path,
         browser_dir: Path,
     ) -> argparse.Namespace:
+        dataset_path = root / "profile_qa.jsonl"
+        dataset_path.write_text('{"id":"example"}\n', encoding="utf-8")
         return argparse.Namespace(
             model_browser_dir=str(browser_dir),
             output_dir=str(root / "hf"),
@@ -132,6 +143,7 @@ class ModelCardProvenanceTests(unittest.TestCase):
                     root / "baseline.json",
                     split="test",
                     checkpoint_dir=None,
+                    dataset_path=dataset_path,
                 )
             ),
             validation_report=str(
@@ -139,6 +151,7 @@ class ModelCardProvenanceTests(unittest.TestCase):
                     root / "validation.json",
                     split="validation",
                     checkpoint_dir=checkpoint_dir,
+                    dataset_path=dataset_path,
                 )
             ),
             test_report=str(
@@ -146,9 +159,11 @@ class ModelCardProvenanceTests(unittest.TestCase):
                     root / "test.json",
                     split="test",
                     checkpoint_dir=checkpoint_dir,
+                    dataset_path=dataset_path,
                 )
             ),
             lineage_file=str(lineage_path),
+            dataset=str(dataset_path),
             release_date="2026-08-07",
         )
 
@@ -180,8 +195,14 @@ class ModelCardProvenanceTests(unittest.TestCase):
         self.assertIn("Latest recorded train loss: 0.0312 at step 80", model_card)
         self.assertIn("Best recorded validation eval loss: 0.0400", model_card)
         self.assertIn("2026-08-07: Browser profile-QA export", model_card)
+        self.assertIn(PRIMARY_BASE_MODEL_REVISION, model_card)
         self.assertIn(expected_browser_digest, model_card)
         self.assertEqual(published_lineage["artifact_sha256"], expected_browser_digest)
+        self.assertNotIn("adapter_model_id", published_lineage)
+        self.assertEqual(
+            published_lineage[ADAPTER_CHECKPOINT_FIELD],
+            "checkpoint-80",
+        )
         self.assertNotIn("teapot-profile-qa-lora-v5/checkpoint-40", model_card)
         self.assertNotIn("0.0330", model_card)
         self.assertNotIn("0.0287", model_card)
@@ -286,6 +307,7 @@ class ModelCardProvenanceTests(unittest.TestCase):
                 Path(args.test_report),
                 split="test",
                 checkpoint_dir=checkpoint_dir,
+                dataset_path=Path(args.dataset),
                 adapter_digest="f" * 64,
             )
             model_output_dir = root / "hf" / "model"
@@ -297,6 +319,50 @@ class ModelCardProvenanceTests(unittest.TestCase):
                 prepare_model_payload(args)
 
             self.assertEqual(sentinel.read_text(encoding="utf-8"), "unchanged")
+
+    def test_stale_report_for_another_dataset_preserves_existing_payload(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            Path(args.dataset).write_text(
+                '{"id":"regenerated-example"}\n',
+                encoding="utf-8",
+            )
+            model_output_dir = root / "hf" / "model"
+            model_output_dir.mkdir(parents=True)
+            sentinel = model_output_dir / "keep.txt"
+            sentinel.write_text("unchanged", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "dataset digest"):
+                prepare_model_payload(args)
+
+            self.assertEqual(sentinel.read_text(encoding="utf-8"), "unchanged")
+
+    def test_report_for_another_base_revision_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            report_path = Path(args.validation_report)
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["provenance"][BASE_MODEL_REVISION_FIELD] = "0" * 40
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "base revision"):
+                prepare_model_payload(args)
 
     def test_invalid_lineage_preserves_existing_model_payload(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

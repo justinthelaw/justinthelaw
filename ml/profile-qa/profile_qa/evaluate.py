@@ -17,10 +17,16 @@ from .config import (
 )
 from .export_onnx import ensure_teapot_export_model
 from .provenance import (
+    ADAPTER_CHECKPOINT_FIELD,
     ADAPTER_DIGEST_FIELD,
+    BASE_MODEL_REVISION_FIELD,
+    DATASET_DIGEST_FIELD,
     LINEAGE_FILENAME,
     MERGED_DIGEST_FIELD,
     directory_sha256,
+    file_sha256,
+    require_checkpoint_label,
+    require_sha256,
 )
 from .train_lora import (
     ensure_primary_base_model_id,
@@ -110,18 +116,28 @@ def _adapter_base_model_id(model_id: str) -> str | None:
     return str(base_model_id) if isinstance(base_model_id, str) else None
 
 
-def evaluation_provenance(model_id: str, split: str) -> dict[str, Any]:
+def evaluation_provenance(
+    model_id: str,
+    split: str,
+    dataset_sha256: str,
+) -> dict[str, Any]:
     """Describe the immutable model lineage used to create an eval report."""
 
     normalized_split = split.strip()
     if not normalized_split:
         raise RuntimeError("evaluation split must not be empty")
+    normalized_dataset_sha256 = require_sha256(
+        dataset_sha256,
+        field=DATASET_DIGEST_FIELD,
+        source=Path("evaluation dataset"),
+    )
     if model_id.rstrip("/") == PRIMARY_BASE_MODEL_ID:
         return {
             "model_kind": "baseline",
             "model_id": PRIMARY_BASE_MODEL_ID,
-            "model_revision": PRIMARY_BASE_MODEL_REVISION,
+            BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
             "base_model": PRIMARY_BASE_MODEL_ID,
+            DATASET_DIGEST_FIELD: normalized_dataset_sha256,
             "split": normalized_split,
         }
 
@@ -130,44 +146,50 @@ def evaluation_provenance(model_id: str, split: str) -> dict[str, Any]:
         source="evaluation model",
     ).resolve()
     canonical_model_id = str(model_path)
-    model_reference = Path(model_id).as_posix()
     adapter_base_model_id = _adapter_base_model_id(canonical_model_id)
     if adapter_base_model_id:
         ensure_primary_base_model_id(
             adapter_base_model_id,
             source=f"{canonical_model_id} adapter base",
         )
+        adapter_checkpoint = require_checkpoint_label(
+            model_path.name,
+            source=model_path,
+        )
         adapter_digest = directory_sha256(model_path)
         return {
             "model_kind": "adapter",
-            "model_id": model_reference,
+            "model_id": adapter_checkpoint,
             "model_sha256": adapter_digest,
-            "adapter_model_id": model_reference,
+            ADAPTER_CHECKPOINT_FIELD: adapter_checkpoint,
             ADAPTER_DIGEST_FIELD: adapter_digest,
             "base_model": PRIMARY_BASE_MODEL_ID,
+            BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
+            DATASET_DIGEST_FIELD: normalized_dataset_sha256,
             "split": normalized_split,
         }
 
     if (model_path / LINEAGE_FILENAME).exists():
         lineage = ensure_teapot_export_model(canonical_model_id).data
-        adapter_model_id = lineage.get("adapter_model_id")
+        adapter_checkpoint = require_checkpoint_label(
+            lineage.get(ADAPTER_CHECKPOINT_FIELD),
+            source=model_path / LINEAGE_FILENAME,
+        )
         adapter_digest = lineage.get(ADAPTER_DIGEST_FIELD)
-        if not isinstance(adapter_model_id, str) or not adapter_model_id.strip():
-            raise RuntimeError(
-                f"{model_path / LINEAGE_FILENAME} does not record an adapter_model_id"
-            )
         if not isinstance(adapter_digest, str):
             raise RuntimeError(
                 f"{model_path / LINEAGE_FILENAME} does not record "
                 f"{ADAPTER_DIGEST_FIELD}"
-            )
+        )
         return {
             "model_kind": "merged",
-            "model_id": model_reference,
+            "model_id": "merged-model",
             "model_sha256": lineage[MERGED_DIGEST_FIELD],
-            "adapter_model_id": Path(adapter_model_id).as_posix(),
+            ADAPTER_CHECKPOINT_FIELD: adapter_checkpoint,
             ADAPTER_DIGEST_FIELD: adapter_digest,
             "base_model": PRIMARY_BASE_MODEL_ID,
+            BASE_MODEL_REVISION_FIELD: lineage[BASE_MODEL_REVISION_FIELD],
+            DATASET_DIGEST_FIELD: normalized_dataset_sha256,
             "split": normalized_split,
         }
 
@@ -256,8 +278,10 @@ def main() -> int:
     parser.add_argument("--output", default=str(DEFAULT_EVAL_REPORT_PATH))
     args = parser.parse_args()
 
+    dataset_path = Path(args.dataset)
+    dataset_sha256 = file_sha256(dataset_path)
     records = [
-        record for record in read_jsonl(Path(args.dataset)) if record.get("split") == args.split
+        record for record in read_jsonl(dataset_path) if record.get("split") == args.split
     ]
     if args.predictions_json:
         predictions = json.loads(Path(args.predictions_json).read_text(encoding="utf-8"))
@@ -265,7 +289,11 @@ def main() -> int:
         predictions = generate_predictions(args.model_id, records)
 
     report = score_predictions(records, predictions)
-    report["provenance"] = evaluation_provenance(args.model_id, args.split)
+    report["provenance"] = evaluation_provenance(
+        args.model_id,
+        args.split,
+        dataset_sha256,
+    )
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")

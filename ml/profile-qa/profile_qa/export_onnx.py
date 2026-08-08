@@ -10,9 +10,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from .config import MERGED_DIR, ONNX_DIR
+from .config import MERGED_DIR, ONNX_DIR, PRIMARY_BASE_MODEL_REVISION
 from .provenance import (
+    ADAPTER_CHECKPOINT_FIELD,
     ADAPTER_DIGEST_FIELD,
+    BASE_MODEL_REVISION_FIELD,
     EXPECTED_LINEAGE_PIPELINE,
     LINEAGE_FILENAME,
     LINEAGE_SCHEMA_VERSION,
@@ -20,6 +22,7 @@ from .provenance import (
     directory_sha256,
     file_sha256,
     load_json_object,
+    require_checkpoint_label,
     require_sha256,
     validate_artifact_lineage,
     write_artifact_lineage,
@@ -84,6 +87,10 @@ def ensure_teapot_export_model(model: str) -> ValidatedMergeLineage:
             f"{EXPECTED_LINEAGE_PIPELINE!r}"
         )
     try:
+        require_checkpoint_label(
+            lineage.get(ADAPTER_CHECKPOINT_FIELD),
+            source=lineage_path,
+        )
         require_sha256(
             lineage.get(ADAPTER_DIGEST_FIELD),
             field=ADAPTER_DIGEST_FIELD,
@@ -94,12 +101,17 @@ def ensure_teapot_export_model(model: str) -> ValidatedMergeLineage:
             field=MERGED_DIGEST_FIELD,
             source=lineage_path,
         )
-        actual_merged_digest = directory_sha256(
-            model_path,
-            excluded_relative_paths=frozenset({LINEAGE_FILENAME}),
-        )
     except ValueError as exc:
         raise RuntimeError(str(exc)) from exc
+    if lineage.get(BASE_MODEL_REVISION_FIELD) != PRIMARY_BASE_MODEL_REVISION:
+        raise RuntimeError(
+            f"{lineage_path} field {BASE_MODEL_REVISION_FIELD!r} must be "
+            f"{PRIMARY_BASE_MODEL_REVISION!r}"
+        )
+    actual_merged_digest = directory_sha256(
+        model_path,
+        excluded_relative_paths=frozenset({LINEAGE_FILENAME}),
+    )
     if recorded_merged_digest != actual_merged_digest:
         raise RuntimeError(
             f"{lineage_path} merged model digest does not match {model_path}: "
