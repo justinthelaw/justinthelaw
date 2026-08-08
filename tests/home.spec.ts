@@ -61,6 +61,15 @@ test.describe('Homepage E2E Tests', () => {
         page.locator(`a[href="${SITE_CONFIG.socialLinks.gitlab}"]`),
       ).toBeVisible();
     }
+
+    const resumeLink = page.getByRole("link", {
+      name: "Open resume in Google Drive",
+    });
+    await expect(resumeLink).toBeVisible();
+    await expect(resumeLink).toHaveAttribute(
+      "href",
+      `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/view?usp=sharing`,
+    );
   });
 
   test("should open AI chatbot when button is clicked", async ({ page }) => {

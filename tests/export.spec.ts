@@ -222,6 +222,10 @@ test("should embed the resume with Drive preview instead of a download viewer", 
   expect(exportHtml).toContain(
     `src="https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/preview"`,
   );
+  expect(exportedAssets).toContain(
+    `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/view?usp=sharing`,
+  );
+  expect(exportedAssets).toContain("Open resume in Google Drive");
   expect(exportedAssets).not.toContain("docs.google.com/viewer");
   expect(exportedAssets).not.toContain("uc?export=download");
 });
