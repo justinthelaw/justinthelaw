@@ -5,14 +5,27 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import shutil
 from collections import Counter
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
-from .config import DEFAULT_DATASET_PATH, ONNX_DIR, PACKAGE_ROOT, REPORT_DIR
+from .config import (
+    DEFAULT_DATASET_PATH,
+    ONNX_DIR,
+    PACKAGE_ROOT,
+    PRIMARY_BASE_MODEL_ID,
+    PRIMARY_BASE_MODEL_REVISION,
+)
 from .export_onnx import reject_external_data_files
+from .provenance import (
+    CANDIDATE_PROVENANCE_FILENAME,
+    PROVENANCE_SCHEMA_VERSION,
+    sha256_directory,
+    sha256_file,
+)
 from .public_profile import PROFILE_SECTIONS
 from .validation import read_jsonl, write_jsonl
 
@@ -27,6 +40,7 @@ _REQUIRED_REPORT_METRICS = (
     "multi_turn_accuracy",
 )
 _COMPARISON_TOLERANCE = 1e-12
+_SHA256_PATTERN = re.compile(r"[0-9a-f]{64}")
 
 
 def _load_report(path: Path) -> dict[str, Any]:
@@ -102,24 +116,55 @@ def validate_promotion_metrics(
             if score is not None:
                 scores[(report_name, metric_name)] = score
 
-    if isinstance(promoted_test, Mapping):
-        by_task = promoted_test.get("by_task")
+    task_metric_pairs = (
+        ("refusal", "refusal_accuracy"),
+        ("multi_turn", "multi_turn_accuracy"),
+    )
+    for report_name, report in (
+        ("promoted validation", promoted_validation),
+        ("promoted test", promoted_test),
+    ):
+        if not isinstance(report, Mapping):
+            continue
+        by_task = report.get("by_task")
         if not isinstance(by_task, Mapping) or not by_task:
             errors.append(
-                "promoted test report field 'by_task' must be a non-empty object"
+                f"{report_name} report field 'by_task' must be a non-empty object"
             )
-        else:
-            for task, value in by_task.items():
-                if not isinstance(task, str) or not task.strip():
-                    errors.append(
-                        "promoted test report contains an invalid by_task name"
-                    )
-                    continue
-                _read_score(
-                    {f"by_task.{task}": value},
-                    report_name="promoted test",
-                    metric_name=f"by_task.{task}",
-                    errors=errors,
+            continue
+
+        task_scores: dict[str, float] = {}
+        for task, value in by_task.items():
+            if not isinstance(task, str) or not task.strip():
+                errors.append(f"{report_name} report contains an invalid by_task name")
+                continue
+            score = _read_score(
+                {f"by_task.{task}": value},
+                report_name=report_name,
+                metric_name=f"by_task.{task}",
+                errors=errors,
+            )
+            if score is not None:
+                task_scores[task] = score
+
+        for task_name, metric_name in task_metric_pairs:
+            if task_name not in by_task:
+                errors.append(
+                    f"{report_name} report is missing required by_task entry "
+                    f"{task_name!r}"
+                )
+                continue
+            task_score = task_scores.get(task_name)
+            top_level_score = scores.get((report_name, metric_name))
+            if (
+                task_score is not None
+                and top_level_score is not None
+                and abs(task_score - top_level_score) > _COMPARISON_TOLERANCE
+            ):
+                errors.append(
+                    f"{report_name} by_task {task_name!r} must agree with "
+                    f"{metric_name!r}: by_task={task_score:.4f}, "
+                    f"top-level={top_level_score:.4f}"
                 )
 
     baseline_macro = scores.get(("baseline test", "macro"))
@@ -163,6 +208,150 @@ def validate_promotion_metrics(
         raise ValueError(f"promotion metric validation failed:\n{details}")
 
 
+def _valid_sha256(value: object) -> bool:
+    return isinstance(value, str) and _SHA256_PATTERN.fullmatch(value) is not None
+
+
+def _valid_schema_version(value: object) -> bool:
+    return type(value) is int and value == PROVENANCE_SCHEMA_VERSION
+
+
+def _load_candidate_provenance(model_browser_dir: Path) -> dict[str, Any]:
+    manifest_path = model_browser_dir / CANDIDATE_PROVENANCE_FILENAME
+    if manifest_path.is_symlink():
+        raise ValueError(f"candidate provenance cannot be a symlink: {manifest_path}")
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(
+            f"could not load candidate provenance {manifest_path}: {exc}"
+        ) from exc
+    if not isinstance(manifest, dict):
+        raise ValueError(
+            f"candidate provenance {manifest_path} must contain a JSON object"
+        )
+    return manifest
+
+
+def validate_promotion_provenance(
+    *,
+    baseline_test: object,
+    promoted_validation: object,
+    promoted_test: object,
+    dataset_path: Path,
+    model_browser_dir: Path,
+) -> None:
+    """Bind reports to the exact dataset, split, source model, and browser export."""
+
+    errors: list[str] = []
+    try:
+        dataset_sha256 = sha256_file(dataset_path)
+    except ValueError as exc:
+        errors.append(str(exc))
+        dataset_sha256 = None
+
+    try:
+        manifest = _load_candidate_provenance(model_browser_dir)
+    except ValueError as exc:
+        errors.append(str(exc))
+        manifest = {}
+
+    if not _valid_schema_version(manifest.get("schema_version")):
+        errors.append(
+            f"candidate provenance schema_version must be {PROVENANCE_SCHEMA_VERSION}"
+        )
+
+    source_model = manifest.get("source_model")
+    candidate_model_sha256: str | None = None
+    if not isinstance(source_model, Mapping):
+        errors.append("candidate provenance field 'source_model' must be an object")
+    else:
+        candidate_sha = source_model.get("sha256")
+        if not _valid_sha256(candidate_sha):
+            errors.append(
+                "candidate provenance source_model.sha256 must be a lowercase "
+                "SHA-256 digest"
+            )
+        else:
+            candidate_model_sha256 = candidate_sha
+
+    recorded_browser_sha = manifest.get("browser_sha256")
+    if not _valid_sha256(recorded_browser_sha):
+        errors.append(
+            "candidate provenance browser_sha256 must be a lowercase SHA-256 digest"
+        )
+    else:
+        try:
+            actual_browser_sha = sha256_directory(
+                model_browser_dir,
+                excluded_relative_paths={CANDIDATE_PROVENANCE_FILENAME},
+            )
+        except ValueError as exc:
+            errors.append(str(exc))
+        else:
+            if actual_browser_sha != recorded_browser_sha:
+                errors.append(
+                    "candidate browser artifact does not match its provenance: "
+                    f"recorded={recorded_browser_sha}, actual={actual_browser_sha}"
+                )
+
+    report_expectations = (
+        ("baseline test", baseline_test, "test", False),
+        ("promoted validation", promoted_validation, "validation", True),
+        ("promoted test", promoted_test, "test", True),
+    )
+    for report_name, report, expected_split, is_promoted in report_expectations:
+        if not isinstance(report, Mapping):
+            continue
+        provenance = report.get("provenance")
+        if not isinstance(provenance, Mapping):
+            errors.append(f"{report_name} report field 'provenance' must be an object")
+            continue
+        if not _valid_schema_version(provenance.get("schema_version")):
+            errors.append(
+                f"{report_name} provenance schema_version must be "
+                f"{PROVENANCE_SCHEMA_VERSION}"
+            )
+        if provenance.get("dataset_sha256") != dataset_sha256:
+            errors.append(
+                f"{report_name} provenance does not match dataset {dataset_path}"
+            )
+        if provenance.get("split") != expected_split:
+            errors.append(
+                f"{report_name} provenance split must be {expected_split!r}, "
+                f"got {provenance.get('split')!r}"
+            )
+
+        report_model = provenance.get("model")
+        if not isinstance(report_model, Mapping):
+            errors.append(f"{report_name} provenance field 'model' must be an object")
+            continue
+        if is_promoted:
+            report_model_sha = report_model.get("sha256")
+            if not _valid_sha256(report_model_sha):
+                errors.append(
+                    f"{report_name} provenance model.sha256 must be a lowercase "
+                    "SHA-256 digest"
+                )
+            elif report_model_sha != candidate_model_sha256:
+                errors.append(
+                    f"{report_name} provenance model does not match the browser "
+                    "candidate source model"
+                )
+        elif (
+            report_model.get("id") != PRIMARY_BASE_MODEL_ID
+            or report_model.get("revision") != PRIMARY_BASE_MODEL_REVISION
+        ):
+            errors.append(
+                "baseline test provenance must identify the pinned Teapot baseline "
+                f"{PRIMARY_BASE_MODEL_ID}@{PRIMARY_BASE_MODEL_REVISION}"
+            )
+
+    if errors:
+        details = "\n".join(f"- {error}" for error in errors)
+        raise ValueError(f"promotion provenance validation failed:\n{details}")
+
+
 def _load_and_validate_promotion_reports(
     args: argparse.Namespace,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
@@ -173,6 +362,13 @@ def _load_and_validate_promotion_reports(
         baseline_test=baseline_test,
         promoted_validation=promoted_validation,
         promoted_test=promoted_test,
+    )
+    validate_promotion_provenance(
+        baseline_test=baseline_test,
+        promoted_validation=promoted_validation,
+        promoted_test=promoted_test,
+        dataset_path=Path(args.dataset),
+        model_browser_dir=Path(args.model_browser_dir),
     )
     return baseline_test, promoted_validation, promoted_test
 
@@ -581,15 +777,15 @@ def main() -> int:
     parser.add_argument("--dataset-repo-id", default=DEFAULT_DATASET_REPO_ID)
     parser.add_argument(
         "--baseline-report",
-        default=str(REPORT_DIR / "profile_qa_eval_baseline_test.json"),
+        required=True,
     )
     parser.add_argument(
         "--validation-report",
-        default=str(REPORT_DIR / "profile_qa_eval_v5_validation.json"),
+        required=True,
     )
     parser.add_argument(
         "--test-report",
-        default=str(REPORT_DIR / "profile_qa_eval_v5_test.json"),
+        required=True,
     )
     args = parser.parse_args()
 

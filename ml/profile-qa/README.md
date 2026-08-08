@@ -66,10 +66,12 @@ exporter supports Transformers 5.
 PYTHONPATH=ml/profile-qa python -m profile_qa.gpu_health
 PYTHONPATH=ml/profile-qa python -m profile_qa.synthetic_data --output ml/profile-qa/data/profile_qa.jsonl
 PYTHONPATH=ml/profile-qa python -m profile_qa.train_lora --dataset ml/profile-qa/data/profile_qa.jsonl
-PYTHONPATH=ml/profile-qa python -m profile_qa.evaluate --dataset ml/profile-qa/data/profile_qa.jsonl --model-id teapotai/teapotllm
 PYTHONPATH=ml/profile-qa python -m profile_qa.merge_adapter --adapter-model-id ml/profile-qa/checkpoints/teapot-profile-qa-lora/checkpoint-400 --output-dir ml/profile-qa/merged/teapot-profile-qa
-PYTHONPATH=ml/profile-qa ml/profile-qa/.venv-export/bin/python -m profile_qa.export_onnx --output-dir ml/profile-qa/onnx/candidate
-PYTHONPATH=ml/profile-qa python -m profile_qa.prepare_hf_artifacts --model-browser-dir ml/profile-qa/onnx/candidate/browser
+PYTHONPATH=ml/profile-qa python -m profile_qa.evaluate --dataset ml/profile-qa/data/profile_qa.jsonl --model-id teapotai/teapotllm --split test --output ml/profile-qa/reports/profile_qa_eval_baseline_test.json
+PYTHONPATH=ml/profile-qa python -m profile_qa.evaluate --dataset ml/profile-qa/data/profile_qa.jsonl --model-id ml/profile-qa/merged/teapot-profile-qa --split validation --output ml/profile-qa/reports/profile_qa_eval_candidate_validation.json
+PYTHONPATH=ml/profile-qa python -m profile_qa.evaluate --dataset ml/profile-qa/data/profile_qa.jsonl --model-id ml/profile-qa/merged/teapot-profile-qa --split test --output ml/profile-qa/reports/profile_qa_eval_candidate_test.json
+PYTHONPATH=ml/profile-qa ml/profile-qa/.venv-export/bin/python -m profile_qa.export_onnx --model ml/profile-qa/merged/teapot-profile-qa --output-dir ml/profile-qa/onnx/candidate
+PYTHONPATH=ml/profile-qa python -m profile_qa.prepare_hf_artifacts --model-browser-dir ml/profile-qa/onnx/candidate/browser --baseline-report ml/profile-qa/reports/profile_qa_eval_baseline_test.json --validation-report ml/profile-qa/reports/profile_qa_eval_candidate_validation.json --test-report ml/profile-qa/reports/profile_qa_eval_candidate_test.json
 PYTHONPATH=ml/profile-qa python -m profile_qa.publish --repo-id justinthelaw/teapot-profile-qa-browser-1024 --artifact-dir ml/profile-qa/hf/model
 PYTHONPATH=ml/profile-qa python -m profile_qa.publish --repo-type dataset --repo-id justinthelaw/profile-qa-synthetic-public-v1 --artifact-dir ml/profile-qa/hf/dataset
 ```
@@ -104,16 +106,30 @@ until all of these are true:
 
 ### Automated report gates
 
-`profile_qa.prepare_hf_artifacts` validates all three evaluation reports before
-it replaces any model or dataset payload. Reports fail closed when required
-metrics are missing, non-numeric, non-finite, outside `[0, 1]`, or when the
-promoted test report lacks per-task scores.
+`profile_qa.evaluate` fingerprints the evaluated model and full dataset and
+records the evaluated split. `profile_qa.export_onnx` adds a manifest binding the
+browser files to their source-model fingerprint. Pass all three report paths
+explicitly to `profile_qa.prepare_hf_artifacts`; it verifies this provenance and
+the browser-file digest before replacing any model or dataset payload. This
+prevents a passing report from an older candidate, another dataset, or the wrong
+split from authorizing a new payload. A `--predictions-json` file must be an
+object with `predictions` and `provenance` fields; its provenance must exactly
+match the model, dataset, and split requested on the evaluation command. Inputs
+that change while evaluation or export is running are rejected. A packageable
+browser candidate requires a complete export and quantization run; either export
+skip flag intentionally omits the provenance manifest, so artifact preparation
+will reject that development-only output.
+
+Metric reports also fail closed when required scores are missing, non-numeric,
+non-finite, outside `[0, 1]`, or when promoted validation/test reports omit the
+`refusal` or `multi_turn` task. Each required task score must agree with its
+corresponding top-level accuracy.
 
 | Gate | Automated requirement |
 | --- | --- |
 | Baseline | Promoted test macro is at least `baseline test macro * 1.15`; the baseline macro must be greater than zero |
-| Refusal | Promoted validation and promoted test refusal accuracy are each at least 95% |
-| Multi-turn | Promoted validation and promoted test multi-turn accuracy are each at least 80% |
+| Refusal | Promoted validation and promoted test `by_task.refusal` and matching top-level refusal accuracy are each at least 95% |
+| Multi-turn | Promoted validation and promoted test `by_task.multi_turn` and matching top-level multi-turn accuracy are each at least 80% |
 
 ### Manual release gates
 

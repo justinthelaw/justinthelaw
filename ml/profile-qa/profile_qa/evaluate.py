@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 from collections import defaultdict
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +15,7 @@ from .config import (
     MODEL_CONTEXT_LIMIT,
     PRIMARY_BASE_MODEL_ID,
 )
+from .provenance import evaluation_provenance
 from .train_lora import (
     ensure_primary_base_model_id,
     ensure_teapot_seq2seq_config,
@@ -32,7 +34,9 @@ def score_answer(record: dict[str, Any], prediction: str) -> dict[str, float]:
     term_hits = sum(1 for term in expected_terms if term in normalized)
     term_score = 1.0 if not expected_terms else term_hits / len(expected_terms)
     requires_refusal = bool(record.get("requires_refusal"))
-    refusal_hit = "does not say" in normalized or "not in the public profile" in normalized
+    refusal_hit = (
+        "does not say" in normalized or "not in the public profile" in normalized
+    )
     refusal_score = 1.0 if refusal_hit == requires_refusal else 0.0
     if requires_refusal:
         return {"macro": refusal_score, "term": 1.0, "refusal": refusal_score}
@@ -40,7 +44,9 @@ def score_answer(record: dict[str, Any], prediction: str) -> dict[str, float]:
     return {"macro": macro, "term": term_score, "refusal": refusal_score}
 
 
-def score_predictions(records: list[dict[str, Any]], predictions: dict[str, str]) -> dict[str, Any]:
+def score_predictions(
+    records: list[dict[str, Any]], predictions: dict[str, str]
+) -> dict[str, Any]:
     """Aggregate macro, per-task, refusal, and multi-turn metrics."""
 
     per_record: list[dict[str, Any]] = []
@@ -57,7 +63,9 @@ def score_predictions(records: list[dict[str, Any]], predictions: dict[str, str]
             refusal_scores.append(scores["refusal"])
         if task == "multi_turn":
             multi_turn_scores.append(scores["macro"])
-        per_record.append({"id": record["id"], "task": task, "prediction": prediction, **scores})
+        per_record.append(
+            {"id": record["id"], "task": task, "prediction": prediction, **scores}
+        )
 
     macro_scores = [item["macro"] for item in per_record]
     return {
@@ -73,6 +81,40 @@ def _mean(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
 
 
+def _load_prediction_bundle(
+    path: Path,
+    *,
+    expected_provenance: dict[str, Any],
+) -> dict[str, str]:
+    """Load precomputed predictions only when their provenance matches this run."""
+
+    try:
+        bundle = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"could not load prediction bundle {path}: {exc}") from exc
+    if not isinstance(bundle, Mapping):
+        raise ValueError(f"prediction bundle {path} must contain a JSON object")
+    if bundle.get("provenance") != expected_provenance:
+        raise ValueError(
+            f"prediction bundle {path} provenance does not match the requested "
+            "model, dataset, and split"
+        )
+
+    predictions = bundle.get("predictions")
+    if not isinstance(predictions, Mapping):
+        raise ValueError(
+            f"prediction bundle {path} field 'predictions' must be an object"
+        )
+    if not all(
+        isinstance(key, str) and isinstance(value, str)
+        for key, value in predictions.items()
+    ):
+        raise ValueError(
+            f"prediction bundle {path} predictions must map string IDs to strings"
+        )
+    return dict(predictions)
+
+
 def _load_generation_stack() -> dict[str, Any]:
     try:
         import torch
@@ -83,7 +125,9 @@ def _load_generation_stack() -> dict[str, Any]:
             AutoTokenizer,
         )
     except ImportError as exc:
-        raise RuntimeError("Install eval dependencies with pip install -r ml/profile-qa/requirements.txt") from exc
+        raise RuntimeError(
+            "Install eval dependencies with pip install -r ml/profile-qa/requirements.txt"
+        ) from exc
     return {
         "torch": torch,
         "AutoConfig": AutoConfig,
@@ -102,9 +146,13 @@ def _adapter_base_model_id(model_id: str) -> str | None:
     return str(base_model_id) if isinstance(base_model_id, str) else None
 
 
-def _ensure_generation_lineage(model_id: str, adapter_base_model_id: str | None, config: Any) -> None:
+def _ensure_generation_lineage(
+    model_id: str, adapter_base_model_id: str | None, config: Any
+) -> None:
     if adapter_base_model_id:
-        ensure_primary_base_model_id(adapter_base_model_id, source=f"{model_id} adapter base")
+        ensure_primary_base_model_id(
+            adapter_base_model_id, source=f"{model_id} adapter base"
+        )
         return
 
     if model_id.rstrip("/") == PRIMARY_BASE_MODEL_ID:
@@ -118,7 +166,9 @@ def _ensure_generation_lineage(model_id: str, adapter_base_model_id: str | None,
     )
 
 
-def generate_predictions(model_id: str, records: list[dict[str, Any]]) -> dict[str, str]:
+def generate_predictions(
+    model_id: str, records: list[dict[str, Any]]
+) -> dict[str, str]:
     """Generate answers locally for a model or adapter directory."""
 
     stack = _load_generation_stack()
@@ -171,27 +221,63 @@ def generate_predictions(model_id: str, records: list[dict[str, Any]]) -> dict[s
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", default=str(DEFAULT_DATASET_PATH))
-    parser.add_argument("--model-id")
+    parser.add_argument(
+        "--model-id",
+        required=True,
+        help="Pinned baseline ID or local candidate directory represented by this run",
+    )
     parser.add_argument("--predictions-json")
-    parser.add_argument("--split", default="test")
+    parser.add_argument(
+        "--split",
+        choices=("train", "validation", "test"),
+        default="test",
+    )
     parser.add_argument("--output", default=str(DEFAULT_EVAL_REPORT_PATH))
     args = parser.parse_args()
 
+    dataset_path = Path(args.dataset)
+    provenance = evaluation_provenance(
+        dataset_path=dataset_path,
+        split=args.split,
+        model_id=args.model_id,
+    )
     records = [
-        record for record in read_jsonl(Path(args.dataset)) if record.get("split") == args.split
+        record
+        for record in read_jsonl(dataset_path)
+        if record.get("split") == args.split
     ]
     if args.predictions_json:
-        predictions = json.loads(Path(args.predictions_json).read_text(encoding="utf-8"))
-    elif args.model_id:
-        predictions = generate_predictions(args.model_id, records)
+        predictions = _load_prediction_bundle(
+            Path(args.predictions_json),
+            expected_provenance=provenance,
+        )
     else:
-        raise RuntimeError("provide --model-id or --predictions-json")
+        predictions = generate_predictions(args.model_id, records)
+
+    if (
+        evaluation_provenance(
+            dataset_path=dataset_path,
+            split=args.split,
+            model_id=args.model_id,
+        )
+        != provenance
+    ):
+        raise RuntimeError(
+            "evaluation model or dataset changed while the run was in progress"
+        )
 
     report = score_predictions(records, predictions)
+    report["provenance"] = provenance
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
-    print(json.dumps({key: value for key, value in report.items() if key != "records"}, indent=2))
+    output_path.write_text(
+        json.dumps(report, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    print(
+        json.dumps(
+            {key: value for key, value in report.items() if key != "records"}, indent=2
+        )
+    )
     return 0
 
 

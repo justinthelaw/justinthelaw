@@ -11,6 +11,7 @@ from pathlib import Path
 
 from .config import MERGED_DIR, ONNX_DIR
 from .merge_adapter import LINEAGE_FILENAME
+from .provenance import model_provenance, write_candidate_provenance
 from .train_lora import ensure_primary_base_model_id
 
 TEAPOT_EXPORT_TASK = "text2text-generation-with-past"
@@ -22,13 +23,17 @@ def reject_external_data_files(output_dir: Path) -> None:
     external_files = sorted(output_dir.rglob("*.onnx.data"))
     if external_files:
         joined = "\n".join(str(path) for path in external_files)
-        raise RuntimeError(f"ONNX export uses external data files, which are not browser-safe:\n{joined}")
+        raise RuntimeError(
+            f"ONNX export uses external data files, which are not browser-safe:\n{joined}"
+        )
 
 
 def run_command(command: list[str]) -> None:
     result = subprocess.run(command, check=False)
     if result.returncode != 0:
-        raise RuntimeError(f"command failed with exit code {result.returncode}: {' '.join(command)}")
+        raise RuntimeError(
+            f"command failed with exit code {result.returncode}: {' '.join(command)}"
+        )
 
 
 def venv_tool(name: str) -> str:
@@ -116,7 +121,9 @@ def get_browser_model_paths(quantized_dir: Path) -> list[Path]:
     )
 
 
-def assemble_browser_artifact(fp_dir: Path, quantized_dirs: dict[str, Path], output_dir: Path) -> None:
+def assemble_browser_artifact(
+    fp_dir: Path, quantized_dirs: dict[str, Path], output_dir: Path
+) -> None:
     """Create a Transformers.js-compatible upload directory."""
 
     if output_dir.exists():
@@ -146,6 +153,8 @@ def main() -> int:
     parser.add_argument("--skip-quantize", action="store_true")
     args = parser.parse_args()
 
+    ensure_teapot_export_model(args.model)
+    source_provenance = model_provenance(args.model)
     output_dir = Path(args.output_dir)
     fp_dir = output_dir / "onnx"
     if args.skip_export:
@@ -160,9 +169,22 @@ def main() -> int:
     if not args.skip_quantize:
         for dtype, quantized_dir in quantized_dirs.items():
             quantize_onnx(fp_dir, quantized_dir, dtype)
-    assemble_browser_artifact(fp_dir, quantized_dirs, output_dir / "browser")
+    browser_dir = output_dir / "browser"
+    assemble_browser_artifact(fp_dir, quantized_dirs, browser_dir)
 
-    print(f"validated browser-safe ONNX artifacts under {output_dir / 'browser'}")
+    print(f"validated browser-safe ONNX artifacts under {browser_dir}")
+    if args.skip_export or args.skip_quantize:
+        print(
+            "skipped export stages; no candidate provenance was written, so this "
+            "browser directory cannot pass artifact preparation"
+        )
+    else:
+        provenance_path = write_candidate_provenance(
+            source_model=args.model,
+            browser_dir=browser_dir,
+            expected_source=source_provenance,
+        )
+        print(f"wrote candidate provenance: {provenance_path}")
     return 0
 
 
