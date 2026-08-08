@@ -21,15 +21,27 @@ const logger = createLogger(LOG_AREAS.AI_MODEL);
 export function useModelManagement(): UseModelManagementReturn {
   const [modelStateOnMount] = useState(() => {
     const aiService = getAIService();
+    const lifecycleResponse = aiService.getLastLifecycleResponse();
+    const lifecycleError =
+      lifecycleResponse?.status === WorkerStatus.ERROR
+        ? lifecycleResponse.error || "Unknown error"
+        : null;
     return {
       isLoading: aiService.isModelLoading(),
       isReady: aiService.isModelReady(),
+      error: lifecycleError,
+      loadingMessage:
+        lifecycleError || aiService.isModelLoading()
+          ? lifecycleResponse?.message || null
+          : null,
     };
   });
   const [isLoading, setIsLoading] = useState(modelStateOnMount.isLoading);
   const [isReady, setIsReady] = useState(modelStateOnMount.isReady);
-  const [error, setError] = useState<string | null>(null);
-  const [loadingMessage, setLoadingMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(modelStateOnMount.error);
+  const [loadingMessage, setLoadingMessage] = useState<string | null>(
+    modelStateOnMount.loadingMessage
+  );
 
   const startModelLoad = useCallback(() => {
     logger.info("load requested");

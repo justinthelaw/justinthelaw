@@ -172,6 +172,13 @@ export class AIService {
   isModelLoading(): boolean {
     return this.modelLoading;
   }
+
+  /**
+   * Return the latest model lifecycle event for remounting UI subscribers.
+   */
+  getLastLifecycleResponse(): WorkerResponse | null {
+    return this.lastLifecycleResponse;
+  }
 }
 
 let aiServiceInstance: AIService | null = null;
