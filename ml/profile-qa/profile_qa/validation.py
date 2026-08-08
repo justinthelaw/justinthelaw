@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from collections.abc import Iterable
 from pathlib import Path
@@ -43,14 +44,25 @@ def read_jsonl(path: Path) -> list[dict[str, Any]]:
     return records
 
 
+def canonical_jsonl_bytes(records: Iterable[dict[str, Any]]) -> bytes:
+    """Serialize records exactly as published, with stable keys and LF endings."""
+
+    return "".join(
+        f"{json.dumps(record, sort_keys=True)}\n" for record in records
+    ).encode("utf-8")
+
+
+def canonical_jsonl_sha256(records: Iterable[dict[str, Any]]) -> str:
+    """Hash the canonical JSONL bytes used for dataset publication."""
+
+    return hashlib.sha256(canonical_jsonl_bytes(records)).hexdigest()
+
+
 def write_jsonl(path: Path, records: Iterable[dict[str, Any]]) -> None:
-    """Write records to a JSONL file."""
+    """Write canonical JSONL bytes with platform-independent line endings."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as handle:
-        for record in records:
-            handle.write(json.dumps(record, sort_keys=True))
-            handle.write("\n")
+    path.write_bytes(canonical_jsonl_bytes(records))
 
 
 def validate_record(record: dict[str, Any]) -> list[str]:

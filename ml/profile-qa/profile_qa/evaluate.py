@@ -23,19 +23,21 @@ from .provenance import (
     DATASET_DIGEST_FIELD,
     LINEAGE_FILENAME,
     MERGED_DIGEST_FIELD,
+    PROMPT_DIGEST_FIELD,
     directory_sha256,
-    file_sha256,
+    load_json_object,
     require_checkpoint_label,
     require_sha256,
 )
 from .train_lora import (
     ensure_primary_base_model_id,
     ensure_teapot_seq2seq_config,
+    evaluation_prompt_sha256,
     format_instruction,
     require_local_model_path,
     trusted_model_load_kwargs,
 )
-from .validation import read_jsonl
+from .validation import canonical_jsonl_sha256, read_jsonl
 
 
 def score_answer(record: dict[str, Any], prediction: str) -> dict[str, float]:
@@ -120,6 +122,7 @@ def evaluation_provenance(
     model_id: str,
     split: str,
     dataset_sha256: str,
+    prompt_sha256: str,
 ) -> dict[str, Any]:
     """Describe the immutable model lineage used to create an eval report."""
 
@@ -131,6 +134,11 @@ def evaluation_provenance(
         field=DATASET_DIGEST_FIELD,
         source=Path("evaluation dataset"),
     )
+    normalized_prompt_sha256 = require_sha256(
+        prompt_sha256,
+        field=PROMPT_DIGEST_FIELD,
+        source=Path("evaluation prompts"),
+    )
     if model_id.rstrip("/") == PRIMARY_BASE_MODEL_ID:
         return {
             "model_kind": "baseline",
@@ -138,6 +146,7 @@ def evaluation_provenance(
             BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
             "base_model": PRIMARY_BASE_MODEL_ID,
             DATASET_DIGEST_FIELD: normalized_dataset_sha256,
+            PROMPT_DIGEST_FIELD: normalized_prompt_sha256,
             "split": normalized_split,
         }
 
@@ -166,6 +175,7 @@ def evaluation_provenance(
             "base_model": PRIMARY_BASE_MODEL_ID,
             BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
             DATASET_DIGEST_FIELD: normalized_dataset_sha256,
+            PROMPT_DIGEST_FIELD: normalized_prompt_sha256,
             "split": normalized_split,
         }
 
@@ -190,6 +200,7 @@ def evaluation_provenance(
             "base_model": PRIMARY_BASE_MODEL_ID,
             BASE_MODEL_REVISION_FIELD: lineage[BASE_MODEL_REVISION_FIELD],
             DATASET_DIGEST_FIELD: normalized_dataset_sha256,
+            PROMPT_DIGEST_FIELD: normalized_prompt_sha256,
             "split": normalized_split,
         }
 
@@ -265,6 +276,87 @@ def generate_predictions(model_id: str, records: list[dict[str, Any]]) -> dict[s
     return predictions
 
 
+def write_prediction_bundle(
+    path: Path,
+    *,
+    predictions: dict[str, str],
+    provenance: dict[str, Any],
+) -> None:
+    """Persist predictions with the provenance needed for safe report reuse."""
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            {"predictions": predictions, "provenance": provenance},
+            indent=2,
+            sort_keys=True,
+        ),
+        encoding="utf-8",
+    )
+
+
+def load_prediction_bundle(
+    path: Path,
+    *,
+    expected_provenance: dict[str, Any],
+    records: list[dict[str, Any]],
+) -> dict[str, str]:
+    """Load saved predictions only when their full evaluation inputs match."""
+
+    bundle = load_json_object(path, label="saved predictions")
+    provenance = bundle.get("provenance")
+    if not isinstance(provenance, dict):
+        raise ValueError(
+            f"{path} is missing object field 'provenance'; regenerate it with "
+            "--save-predictions-json"
+        )
+    mismatched_fields = sorted(
+        field
+        for field in set(expected_provenance) | set(provenance)
+        if field not in provenance
+        or field not in expected_provenance
+        or provenance[field] != expected_provenance[field]
+    )
+    if mismatched_fields:
+        raise ValueError(
+            f"{path} prediction provenance does not match the selected model, "
+            "dataset, split, and prompt context; mismatched fields: "
+            f"{', '.join(mismatched_fields)}"
+        )
+
+    raw_predictions = bundle.get("predictions")
+    if not isinstance(raw_predictions, dict) or not all(
+        isinstance(record_id, str) and isinstance(prediction, str)
+        for record_id, prediction in raw_predictions.items()
+    ):
+        raise ValueError(
+            f"{path} field 'predictions' must map string record IDs to strings"
+        )
+    if any(
+        not isinstance(record.get("id"), str) or not str(record["id"]).strip()
+        for record in records
+    ):
+        raise ValueError("evaluation records must have unique non-empty string IDs")
+    expected_ids = [str(record["id"]) for record in records]
+    if len(expected_ids) != len(set(expected_ids)):
+        raise ValueError("evaluation records must have unique non-empty string IDs")
+    expected_id_set = set(expected_ids)
+    actual_id_set = set(raw_predictions)
+    if actual_id_set != expected_id_set:
+        missing = sorted(expected_id_set - actual_id_set)
+        unexpected = sorted(actual_id_set - expected_id_set)
+        details = []
+        if missing:
+            details.append(f"missing: {', '.join(missing)}")
+        if unexpected:
+            details.append(f"unexpected: {', '.join(unexpected)}")
+        raise ValueError(
+            f"{path} predictions do not match evaluated record IDs "
+            f"({'; '.join(details)})"
+        )
+    return dict(raw_predictions)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", default=str(DEFAULT_DATASET_PATH))
@@ -273,27 +365,46 @@ def main() -> int:
         required=True,
         help="base model, adapter checkpoint, or merged model represented by the report",
     )
-    parser.add_argument("--predictions-json")
+    predictions_group = parser.add_mutually_exclusive_group()
+    predictions_group.add_argument(
+        "--predictions-json",
+        help="reuse a provenance-bound bundle written by --save-predictions-json",
+    )
+    predictions_group.add_argument(
+        "--save-predictions-json",
+        help="save generated predictions and their provenance for later scoring",
+    )
     parser.add_argument("--split", default="test")
     parser.add_argument("--output", default=str(DEFAULT_EVAL_REPORT_PATH))
     args = parser.parse_args()
 
     dataset_path = Path(args.dataset)
-    dataset_sha256 = file_sha256(dataset_path)
-    records = [
-        record for record in read_jsonl(dataset_path) if record.get("split") == args.split
-    ]
-    if args.predictions_json:
-        predictions = json.loads(Path(args.predictions_json).read_text(encoding="utf-8"))
-    else:
-        predictions = generate_predictions(args.model_id, records)
-
-    report = score_predictions(records, predictions)
-    report["provenance"] = evaluation_provenance(
+    dataset_records = read_jsonl(dataset_path)
+    dataset_sha256 = canonical_jsonl_sha256(dataset_records)
+    records = [record for record in dataset_records if record.get("split") == args.split]
+    provenance = evaluation_provenance(
         args.model_id,
         args.split,
         dataset_sha256,
+        evaluation_prompt_sha256(records),
     )
+    if args.predictions_json:
+        predictions = load_prediction_bundle(
+            Path(args.predictions_json),
+            expected_provenance=provenance,
+            records=records,
+        )
+    else:
+        predictions = generate_predictions(args.model_id, records)
+        if args.save_predictions_json:
+            write_prediction_bundle(
+                Path(args.save_predictions_json),
+                predictions=predictions,
+                provenance=provenance,
+            )
+
+    report = score_predictions(records, predictions)
+    report["provenance"] = provenance
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")

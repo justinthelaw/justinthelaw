@@ -9,8 +9,8 @@ from typing import Any
 from .config import (
     DEFAULT_DATASET_PATH,
     DEFAULT_TRAIN_OUTPUT_DIR,
-    EVAL_STEPS,
     EVAL_BATCH_SIZE,
+    EVAL_STEPS,
     GRADIENT_ACCUMULATION_STEPS,
     LEARNING_RATE,
     LORA_ALPHA,
@@ -26,6 +26,7 @@ from .config import (
     WEIGHT_DECAY,
 )
 from .gpu_health import assert_gpu_ready
+from .provenance import canonical_json_sha256
 from .synthetic_data import profile_context_text
 from .validation import read_jsonl
 
@@ -96,6 +97,20 @@ def format_instruction(record: dict[str, Any]) -> str:
         f"{history_text}\n\n"
         f"Question: {record['question']}\n"
         "Answer:"
+    )
+
+
+def evaluation_prompt_sha256(records: list[dict[str, Any]]) -> str:
+    """Hash the exact ordered prompts presented during one evaluation split."""
+
+    return canonical_json_sha256(
+        [
+            {
+                "id": str(record.get("id", "")),
+                "prompt": format_instruction(record),
+            }
+            for record in records
+        ]
     )
 
 

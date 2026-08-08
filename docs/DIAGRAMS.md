@@ -101,11 +101,14 @@ Rules:
 flowchart TD
   facts["Public profile facts"] --> pyProfile["public_profile.py"]
   pyProfile --> data["synthetic_data.py"]
+  pyProfile --> eval
   data --> train["train_lora.py"]
   train --> eval["evaluate.py"]
-  data --> datasetDigest["Dataset digest"]
-  eval --> reports["Reports with dataset and model lineage"]
+  data --> datasetDigest["Canonical dataset digest"]
+  eval --> promptDigest["Formatted prompt digest"]
+  eval --> reports["Reports with input and model lineage"]
   datasetDigest --> reports
+  promptDigest --> reports
   eval --> gate["Promotion gate"]
   gate --> merge["merge_adapter.py"]
   baseRevision["Pinned base revision"] --> train
@@ -135,7 +138,7 @@ does not train models and does not call a server.
 | Facts | `src/config/site.ts` and `ml/profile-qa/profile_qa/public_profile.py` | Keep public facts aligned before generating data |
 | Dataset | `python -m profile_qa.synthetic_data` | Generated data stays under ignored `ml/profile-qa/data/` |
 | Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; local 8GB NVIDIA LoRA/QLoRA runs |
-| Evaluation | `python -m profile_qa.evaluate` | Reports record the evaluated dataset digest and split plus the pinned base revision and exact adapter/merged digest |
+| Evaluation | `python -m profile_qa.evaluate` | Reports bind the canonical published dataset, exact formatted prompts, split, pinned base revision, and model digest; saved predictions require matching provenance |
 | ONNX export | `python -m profile_qa.export_onnx` | Verifies the pinned revision and merged lineage/digest, preserves portable lineage without local paths, rejects `.onnx.data`, and publishes `int8` and `uint8` encoder/decoder artifacts |
 | App promotion | `src/config/models.ts` | Update `MODEL_ID` and keep `MODEL_CONTEXT_LIMIT` honest |
 

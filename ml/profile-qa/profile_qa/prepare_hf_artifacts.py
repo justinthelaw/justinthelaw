@@ -31,6 +31,7 @@ from .provenance import (
     LINEAGE_FILENAME,
     LINEAGE_SCHEMA_VERSION,
     MERGED_DIGEST_FIELD,
+    PROMPT_DIGEST_FIELD,
     SOURCE_LINEAGE_DIGEST_FIELD,
     directory_sha256,
     file_sha256,
@@ -41,7 +42,8 @@ from .provenance import (
     validate_artifact_lineage,
 )
 from .public_profile import PROFILE_SECTIONS
-from .validation import read_jsonl, write_jsonl
+from .train_lora import evaluation_prompt_sha256
+from .validation import canonical_jsonl_sha256, read_jsonl, write_jsonl
 
 DEFAULT_MODEL_REPO_ID = "justinthelaw/teapot-profile-qa-browser-1024"
 DEFAULT_DATASET_REPO_ID = "justinthelaw/profile-qa-synthetic-public-v1"
@@ -283,21 +285,70 @@ def _load_report(path: Path) -> dict[str, Any]:
     return _load_json_object(path, label="evaluation report")
 
 
-def _validate_report_provenance(
+def _validate_report_evaluation_inputs(
     report: dict[str, Any],
     *,
     report_path: Path,
     expected_split: str,
     expected_dataset_sha256: str,
-    model_provenance: ModelProvenance,
-    baseline: bool,
-) -> None:
+    expected_prompt_sha256: str,
+) -> dict[str, Any]:
     report_provenance = report.get("provenance")
     if not isinstance(report_provenance, dict):
         raise ValueError(
             f"evaluation report {report_path} is missing object field 'provenance'; "
             "regenerate it with profile_qa.evaluate"
         )
+    report_dataset_sha256 = require_sha256(
+        report_provenance.get(DATASET_DIGEST_FIELD),
+        field=f"provenance.{DATASET_DIGEST_FIELD}",
+        source=report_path,
+    )
+    if report_dataset_sha256 != expected_dataset_sha256:
+        raise ValueError(
+            f"evaluation report {report_path} dataset digest does not match "
+            "the selected dataset"
+        )
+    report_prompt_sha256 = require_sha256(
+        report_provenance.get(PROMPT_DIGEST_FIELD),
+        field=f"provenance.{PROMPT_DIGEST_FIELD}",
+        source=report_path,
+    )
+    if report_prompt_sha256 != expected_prompt_sha256:
+        raise ValueError(
+            f"evaluation report {report_path} prompt digest does not match "
+            "the selected formatted prompt context"
+        )
+    report_split = _required_text(
+        report_provenance.get("split"),
+        field="provenance.split",
+        source=report_path,
+    )
+    if report_split != expected_split:
+        raise ValueError(
+            f"evaluation report {report_path} must describe split "
+            f"{expected_split!r}, got {report_split!r}"
+        )
+    return report_provenance
+
+
+def _validate_report_provenance(
+    report: dict[str, Any],
+    *,
+    report_path: Path,
+    expected_split: str,
+    expected_dataset_sha256: str,
+    expected_prompt_sha256: str,
+    model_provenance: ModelProvenance,
+    baseline: bool,
+) -> None:
+    report_provenance = _validate_report_evaluation_inputs(
+        report,
+        report_path=report_path,
+        expected_split=expected_split,
+        expected_dataset_sha256=expected_dataset_sha256,
+        expected_prompt_sha256=expected_prompt_sha256,
+    )
     base_model = _required_text(
         report_provenance.get("base_model"),
         field="provenance.base_model",
@@ -317,26 +368,6 @@ def _validate_report_provenance(
         raise ValueError(
             f"evaluation report {report_path} base revision does not match the "
             "selected merge lineage"
-        )
-    report_dataset_sha256 = require_sha256(
-        report_provenance.get(DATASET_DIGEST_FIELD),
-        field=f"provenance.{DATASET_DIGEST_FIELD}",
-        source=report_path,
-    )
-    if report_dataset_sha256 != expected_dataset_sha256:
-        raise ValueError(
-            f"evaluation report {report_path} dataset digest does not match "
-            "the selected dataset"
-        )
-    report_split = _required_text(
-        report_provenance.get("split"),
-        field="provenance.split",
-        source=report_path,
-    )
-    if report_split != expected_split:
-        raise ValueError(
-            f"evaluation report {report_path} must describe split "
-            f"{expected_split!r}, got {report_split!r}"
         )
 
     model_kind = _required_text(
@@ -400,7 +431,12 @@ def _load_evaluation_reports(
     args: argparse.Namespace,
     model_provenance: ModelProvenance,
 ) -> EvaluationReports:
-    dataset_sha256 = file_sha256(Path(args.dataset))
+    dataset_records = read_jsonl(Path(args.dataset))
+    dataset_sha256 = canonical_jsonl_sha256(dataset_records)
+    prompt_sha256_by_split = {
+        split: evaluation_prompt_sha256(_split_records(dataset_records, split))
+        for split in ("validation", "test")
+    }
     baseline_path = Path(args.baseline_report)
     validation_path = Path(args.validation_report)
     test_path = Path(args.test_report)
@@ -412,6 +448,7 @@ def _load_evaluation_reports(
         report_path=baseline_path,
         expected_split="test",
         expected_dataset_sha256=dataset_sha256,
+        expected_prompt_sha256=prompt_sha256_by_split["test"],
         model_provenance=model_provenance,
         baseline=True,
     )
@@ -420,6 +457,7 @@ def _load_evaluation_reports(
         report_path=validation_path,
         expected_split="validation",
         expected_dataset_sha256=dataset_sha256,
+        expected_prompt_sha256=prompt_sha256_by_split["validation"],
         model_provenance=model_provenance,
         baseline=False,
     )
@@ -428,6 +466,7 @@ def _load_evaluation_reports(
         report_path=test_path,
         expected_split="test",
         expected_dataset_sha256=dataset_sha256,
+        expected_prompt_sha256=prompt_sha256_by_split["test"],
         model_provenance=model_provenance,
         baseline=False,
     )
@@ -813,6 +852,26 @@ def prepare_model_payload(args: argparse.Namespace) -> Path:
 
 def prepare_dataset_payload(args: argparse.Namespace) -> Path:
     records = read_jsonl(Path(args.dataset))
+    dataset_sha256 = canonical_jsonl_sha256(records)
+    report_inputs = [
+        (Path(args.baseline_report), "test"),
+        (Path(args.validation_report), "validation"),
+        (Path(args.test_report), "test"),
+    ]
+    loaded_reports: list[dict[str, Any]] = []
+    for report_path, split in report_inputs:
+        report = _load_report(report_path)
+        _validate_report_evaluation_inputs(
+            report,
+            report_path=report_path,
+            expected_split=split,
+            expected_dataset_sha256=dataset_sha256,
+            expected_prompt_sha256=evaluation_prompt_sha256(
+                _split_records(records, split)
+            ),
+        )
+        loaded_reports.append(report)
+
     dataset_output_dir = Path(args.output_dir) / "dataset"
     if dataset_output_dir.exists():
         shutil.rmtree(dataset_output_dir)
@@ -825,16 +884,14 @@ def prepare_dataset_payload(args: argparse.Namespace) -> Path:
 
     reports_dir = dataset_output_dir / "eval_reports"
     reports_dir.mkdir(parents=True, exist_ok=True)
-    for report_path in [
-        Path(args.baseline_report),
-        Path(args.validation_report),
-        Path(args.test_report),
-    ]:
-        shutil.copy2(report_path, reports_dir / report_path.name)
+    for (report_path, _), report in zip(
+        report_inputs,
+        loaded_reports,
+        strict=True,
+    ):
+        _write_json(reports_dir / report_path.name, report)
 
-    baseline_test = _load_report(Path(args.baseline_report))
-    promoted_validation = _load_report(Path(args.validation_report))
-    promoted_test = _load_report(Path(args.test_report))
+    baseline_test, promoted_validation, promoted_test = loaded_reports
     _write_dataset_card(
         dataset_output_dir / "README.md",
         records=records,

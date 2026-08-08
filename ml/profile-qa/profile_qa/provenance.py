@@ -16,6 +16,7 @@ ADAPTER_DIGEST_FIELD = "adapter_model_sha256"
 BASE_MODEL_REVISION_FIELD = "base_model_revision"
 MERGED_DIGEST_FIELD = "merged_model_sha256"
 DATASET_DIGEST_FIELD = "dataset_sha256"
+PROMPT_DIGEST_FIELD = "evaluation_prompt_sha256"
 SOURCE_LINEAGE_DIGEST_FIELD = "source_lineage_sha256"
 ARTIFACT_STAGE_FIELD = "artifact_stage"
 ARTIFACT_DIGEST_FIELD = "artifact_sha256"
@@ -68,6 +69,18 @@ def file_sha256(path: Path) -> str:
     except OSError as exc:
         raise ValueError(f"could not hash required file {path}: {exc}") from exc
     return digest.hexdigest()
+
+
+def canonical_json_sha256(value: Any) -> str:
+    """Hash a JSON value with deterministic encoding and no layout variance."""
+
+    encoded = json.dumps(
+        value,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def directory_sha256(

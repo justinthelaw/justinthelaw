@@ -5,10 +5,12 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from profile_qa.config import PRIMARY_BASE_MODEL_ID, PRIMARY_BASE_MODEL_REVISION
 from profile_qa.prepare_hf_artifacts import (
     load_model_provenance,
+    prepare_dataset_payload,
     prepare_model_payload,
 )
 from profile_qa.provenance import (
@@ -19,11 +21,14 @@ from profile_qa.provenance import (
     EXPECTED_LINEAGE_PIPELINE,
     LINEAGE_SCHEMA_VERSION,
     MERGED_DIGEST_FIELD,
+    PROMPT_DIGEST_FIELD,
     directory_sha256,
     file_sha256,
     validate_artifact_lineage,
     write_artifact_lineage,
 )
+from profile_qa.train_lora import evaluation_prompt_sha256
+from profile_qa.validation import canonical_jsonl_sha256, read_jsonl
 
 
 class ModelCardProvenanceTests(unittest.TestCase):
@@ -93,6 +98,11 @@ class ModelCardProvenanceTests(unittest.TestCase):
         dataset_path: Path,
         adapter_digest: str | None = None,
     ) -> Path:
+        dataset_records = read_jsonl(dataset_path)
+        dataset_sha256 = canonical_jsonl_sha256(dataset_records)
+        prompt_sha256 = evaluation_prompt_sha256(
+            [record for record in dataset_records if record.get("split") == split]
+        )
         report: dict[str, object] = {
             "macro": 1.0,
             "refusal_accuracy": 1.0,
@@ -105,7 +115,8 @@ class ModelCardProvenanceTests(unittest.TestCase):
                 "model_id": PRIMARY_BASE_MODEL_ID,
                 BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
                 "base_model": PRIMARY_BASE_MODEL_ID,
-                DATASET_DIGEST_FIELD: file_sha256(dataset_path),
+                DATASET_DIGEST_FIELD: dataset_sha256,
+                PROMPT_DIGEST_FIELD: prompt_sha256,
                 "split": split,
             }
         else:
@@ -118,7 +129,8 @@ class ModelCardProvenanceTests(unittest.TestCase):
                 ADAPTER_DIGEST_FIELD: digest,
                 "base_model": PRIMARY_BASE_MODEL_ID,
                 BASE_MODEL_REVISION_FIELD: PRIMARY_BASE_MODEL_REVISION,
-                DATASET_DIGEST_FIELD: file_sha256(dataset_path),
+                DATASET_DIGEST_FIELD: dataset_sha256,
+                PROMPT_DIGEST_FIELD: prompt_sha256,
                 "split": split,
             }
         path.write_text(json.dumps(report), encoding="utf-8")
@@ -132,7 +144,13 @@ class ModelCardProvenanceTests(unittest.TestCase):
         browser_dir: Path,
     ) -> argparse.Namespace:
         dataset_path = root / "profile_qa.jsonl"
-        dataset_path.write_text('{"id":"example"}\n', encoding="utf-8")
+        dataset_path.write_text(
+            '{ "question": "Validation question?", "task": "single_turn", '
+            '"split": "validation", "id": "validation-example" }\n'
+            '{"task":"single_turn", "question":"Test question?", '
+            '"id":"test-example", "split":"test"}\n',
+            encoding="utf-8",
+        )
         return argparse.Namespace(
             model_browser_dir=str(browser_dir),
             output_dir=str(root / "hf"),
@@ -345,6 +363,19 @@ class ModelCardProvenanceTests(unittest.TestCase):
 
             self.assertEqual(sentinel.read_text(encoding="utf-8"), "unchanged")
 
+            dataset_output_dir = root / "hf" / "dataset"
+            dataset_output_dir.mkdir(parents=True)
+            dataset_sentinel = dataset_output_dir / "keep.txt"
+            dataset_sentinel.write_text("unchanged", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "dataset digest"):
+                prepare_dataset_payload(args)
+
+            self.assertEqual(
+                dataset_sentinel.read_text(encoding="utf-8"),
+                "unchanged",
+            )
+
     def test_report_for_another_base_revision_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -363,6 +394,51 @@ class ModelCardProvenanceTests(unittest.TestCase):
 
             with self.assertRaisesRegex(ValueError, "base revision"):
                 prepare_model_payload(args)
+
+    def test_report_for_another_prompt_context_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+
+            with (
+                patch(
+                    "profile_qa.train_lora.profile_context_text",
+                    return_value="changed public profile context",
+                ),
+                self.assertRaisesRegex(ValueError, "prompt digest"),
+            ):
+                prepare_model_payload(args)
+
+    def test_report_digest_matches_canonical_published_dataset(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            source_bytes = Path(args.dataset).read_bytes()
+
+            prepare_model_payload(args)
+            dataset_dir = prepare_dataset_payload(args)
+            published_dataset = dataset_dir / "profile_qa.jsonl"
+            report = json.loads(Path(args.test_report).read_text(encoding="utf-8"))
+
+            self.assertNotEqual(source_bytes, published_dataset.read_bytes())
+            self.assertEqual(
+                report["provenance"][DATASET_DIGEST_FIELD],
+                file_sha256(published_dataset),
+            )
 
     def test_invalid_lineage_preserves_existing_model_payload(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
