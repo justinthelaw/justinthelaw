@@ -39,14 +39,16 @@ Pages Actions. `npm run deploy` is the manual path and publishes `out/` to a
 | File                    | Purpose                                                    |
 | ----------------------- | ---------------------------------------------------------- |
 | `src/config/site.ts`    | Personal info, resume, and chatbot profile sections        |
-| `src/config/models.ts`  | AI model ID and browser dtype policy                       |
+| `src/config/models.ts`  | AI model ID, pinned revision, and browser dtype policy     |
 | `src/config/prompts.ts` | Chatbot messages and generation settings                   |
 | `next.config.ts`        | Static export, GitHub Pages `basePath`, and asset prefix   |
 | `ml/profile-qa/`        | Local training, eval, ONNX export, and publishing          |
 
 The default browser model is
 `justinthelaw/teapot-profile-qa-browser-1024`, a browser ONNX profile-QA model
-published with `int8` and `uint8` variants.
+published with `int8` and `uint8` variants. Browser downloads are pinned to the
+immutable Hugging Face commit configured by `MODEL_REVISION` rather than the
+repository's mutable `main` revision.
 
 ## Resume
 
@@ -117,20 +119,25 @@ Edit `src/config/models.ts`:
 
 ```typescript
 export const MODEL_ID = "justinthelaw/teapot-profile-qa-browser-1024";
+export const MODEL_REVISION: string =
+  "49f3cd8e9fd6db8310949b41f7b652d00e13d259";
 export const MODEL_CONTEXT_LIMIT = 1024;
 ```
 
 Use a model that is compatible with Transformers.js browser inference. If the
 model uses a different Transformers.js task, update
 `src/services/ai/modelLoader.ts` and `src/services/ai/worker.ts` to match.
+Always use a full Hugging Face commit SHA for `MODEL_REVISION`. When promoting
+new artifacts, update the model ID and revision together so the deployed app
+changes only through a reviewed source commit.
 
 Automatic browser loading uses `int8` first with `uint8` fallback. Do not make
 `q4` the default unless ONNX Runtime Web can reliably load the artifact without
 external `.onnx.data` files.
 
-Before changing the default browser model, satisfy the promotion gate in
-[ml/profile-qa/README.md](../ml/profile-qa/README.md#promotion-gate). At
-minimum, the promoted artifact must include browser-safe `int8` and `uint8`
+Before changing the default browser model or revision, satisfy the promotion
+gate in [ml/profile-qa/README.md](../ml/profile-qa/README.md#promotion-gate).
+At minimum, the promoted artifact must include browser-safe `int8` and `uint8`
 ONNX files, no external `.onnx.data` files, and browser smoke coverage for
 desktop and mobile Chromium.
 
@@ -156,7 +163,7 @@ a custom browser model instead of only prompt/context changes.
 | --- | --- |
 | 1 | Update public facts in both `src/config/site.ts` and `ml/profile-qa/profile_qa/public_profile.py` |
 | 2 | Follow [ml/profile-qa/README.md](../ml/profile-qa/README.md) to generate data, train LoRA/QLoRA, evaluate, merge, export ONNX, prepare Hugging Face artifacts, and publish |
-| 3 | After promotion passes, update `MODEL_ID` and `MODEL_CONTEXT_LIMIT` in `src/config/models.ts` |
+| 3 | After promotion passes, update `MODEL_ID`, `MODEL_REVISION`, and `MODEL_CONTEXT_LIMIT` in `src/config/models.ts` |
 | 4 | Run `npm run flight-check` |
 
 ## Troubleshooting

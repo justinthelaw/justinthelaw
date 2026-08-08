@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import {
   MODEL_CONTEXT_LIMIT,
   MODEL_ID,
+  MODEL_REVISION,
   getDeviceSpecificDtype,
   getDtypeFallbackOrder,
 } from "../src/config/models";
@@ -29,6 +30,7 @@ interface PipelineCall {
   task: GenerationTask;
   modelId: string;
   dtype: string;
+  revision: string;
 }
 
 interface ProgressUpdate {
@@ -61,7 +63,7 @@ test.describe("Model dtype policy", () => {
     ).toBeFalsy();
   });
 
-  test("retries text2text generation after a task mismatch", async () => {
+  test("pins primary and task-fallback loads to the promoted revision", async () => {
     const calls: PipelineCall[] = [];
     const fakeText2TextGenerator = {} as unknown as Text2TextGenerationPipeline;
     const fakePipeline: GenerationPipelineFactory = async (
@@ -73,6 +75,8 @@ test.describe("Model dtype policy", () => {
         task,
         modelId,
         dtype: typeof options.dtype === "string" ? options.dtype : "unknown",
+        revision:
+          typeof options.revision === "string" ? options.revision : "unknown",
       });
 
       if (task === "text-generation") {
@@ -90,11 +94,13 @@ test.describe("Model dtype policy", () => {
         task: "text-generation",
         modelId: MODEL_ID,
         dtype: "int8",
+        revision: MODEL_REVISION,
       },
       {
         task: "text2text-generation",
         modelId: MODEL_ID,
         dtype: "int8",
+        revision: MODEL_REVISION,
       },
     ]);
   });
@@ -144,6 +150,9 @@ test.describe("Model dtype policy", () => {
 test.describe("Model prompt policy", () => {
   test("uses the promoted profile-QA model as the single configured browser model", () => {
     expect(MODEL_ID).toBe("justinthelaw/teapot-profile-qa-browser-1024");
+    expect(MODEL_REVISION).toBe(
+      "49f3cd8e9fd6db8310949b41f7b652d00e13d259"
+    );
     expect(MODEL_CONTEXT_LIMIT).toBe(1024);
   });
 

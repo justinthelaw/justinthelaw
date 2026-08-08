@@ -11,6 +11,7 @@ import {
 } from "@huggingface/transformers";
 import {
   MODEL_ID,
+  MODEL_REVISION,
   getDeviceSpecificDtype,
   getDtypeFallbackOrder,
 } from "@/config/models";
@@ -249,6 +250,7 @@ export async function loadModel(
     const pipelineOptions: Record<string, unknown> = {
       dtype,
       device: "wasm",
+      revision: MODEL_REVISION,
       progress_callback: (progressData: unknown) => {
         if (typeof progressData !== "object" || progressData === null) {
           return;

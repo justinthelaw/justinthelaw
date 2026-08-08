@@ -15,6 +15,7 @@ export {
 } from "./site";
 export {
   MODEL_ID,
+  MODEL_REVISION,
   MODEL_DISPLAY_NAME,
   MODEL_CONTEXT_LIMIT,
   getDeviceSpecificDtype,

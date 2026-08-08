@@ -8,6 +8,13 @@
 export const MODEL_ID = "justinthelaw/teapot-profile-qa-browser-1024";
 
 /**
+ * Immutable Hugging Face commit loaded by the browser worker.
+ * Update this revision explicitly when promoting new model artifacts.
+ */
+export const MODEL_REVISION: string =
+  "49f3cd8e9fd6db8310949b41f7b652d00e13d259";
+
+/**
  * User-friendly display name for the configured model.
  */
 export const MODEL_DISPLAY_NAME = "Profile-QA Teapot";

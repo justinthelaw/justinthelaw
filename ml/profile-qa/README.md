@@ -99,8 +99,10 @@ or repair export/browser packaging issues. Do not switch base models.
 
 ## Promotion Gate
 
-Do not update the app's browser `MODEL_ID` or default `MODEL_CONTEXT_LIMIT`
-until all of these are true:
+Do not update the app's browser `MODEL_ID`, `MODEL_REVISION`, or default
+`MODEL_CONTEXT_LIMIT` until all of these are true. After publishing, promote
+the exact Hugging Face commit SHA rather than the repository's mutable `main`
+revision:
 
 | Gate | Requirement |
 | --- | --- |
