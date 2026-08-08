@@ -6,9 +6,20 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from profile_qa.config import PRIMARY_BASE_MODEL_ID, PRIMARY_BASE_MODEL_REVISION
 from profile_qa.prepare_hf_artifacts import (
     load_model_provenance,
     prepare_model_payload,
+)
+from profile_qa.provenance import (
+    ADAPTER_DIGEST_FIELD,
+    EXPECTED_LINEAGE_PIPELINE,
+    LINEAGE_SCHEMA_VERSION,
+    MERGED_DIGEST_FIELD,
+    directory_sha256,
+    file_sha256,
+    validate_artifact_lineage,
+    write_artifact_lineage,
 )
 
 
@@ -18,7 +29,7 @@ class ModelCardProvenanceTests(unittest.TestCase):
         directory: Path,
         *,
         log_history: list[dict[str, object]] | None = None,
-    ) -> Path:
+    ) -> tuple[Path, Path]:
         checkpoint_dir = directory / "teapot-profile-qa-lora-v6" / "checkpoint-80"
         checkpoint_dir.mkdir(parents=True)
         trainer_state = {
@@ -35,53 +46,142 @@ class ModelCardProvenanceTests(unittest.TestCase):
             json.dumps(trainer_state),
             encoding="utf-8",
         )
+        (checkpoint_dir / "adapter_model.safetensors").write_bytes(b"adapter")
         lineage_path = directory / "teapot_profile_qa_lineage.json"
         lineage_path.write_text(
             json.dumps(
                 {
-                    "adapter_model_id": str(checkpoint_dir),
-                    "base_model": "teapotai/teapotllm",
-                    "pipeline": "profile-qa-teapot-lora",
-                }
+                    "schema_version": LINEAGE_SCHEMA_VERSION,
+                    "adapter_model_id": str(checkpoint_dir.resolve()),
+                    ADAPTER_DIGEST_FIELD: directory_sha256(checkpoint_dir),
+                    "base_model": PRIMARY_BASE_MODEL_ID,
+                    "pipeline": EXPECTED_LINEAGE_PIPELINE,
+                    MERGED_DIGEST_FIELD: "1" * 64,
+                },
+                indent=2,
+                sort_keys=True,
             ),
             encoding="utf-8",
         )
-        return lineage_path
+        return lineage_path, checkpoint_dir
 
-    def test_model_card_uses_validated_release_provenance(self) -> None:
-        report = {
+    def _write_browser_artifact(self, root: Path, lineage_path: Path) -> Path:
+        browser_dir = root / "browser"
+        browser_dir.mkdir()
+        (browser_dir / "config.json").write_text("{}", encoding="utf-8")
+        (browser_dir / "onnx").mkdir()
+        (browser_dir / "onnx" / "encoder_model_int8.onnx").write_bytes(b"onnx")
+        write_artifact_lineage(
+            browser_dir,
+            source_lineage=json.loads(lineage_path.read_text(encoding="utf-8")),
+            source_lineage_sha256=file_sha256(lineage_path),
+            stage="browser",
+        )
+        return browser_dir
+
+    def _write_report(
+        self,
+        path: Path,
+        *,
+        split: str,
+        checkpoint_dir: Path | None,
+        adapter_digest: str | None = None,
+    ) -> Path:
+        report: dict[str, object] = {
             "macro": 1.0,
             "refusal_accuracy": 1.0,
             "multi_turn_accuracy": 1.0,
             "by_task": {"single_turn": 1.0},
         }
+        if checkpoint_dir is None:
+            report["provenance"] = {
+                "model_kind": "baseline",
+                "model_id": PRIMARY_BASE_MODEL_ID,
+                "model_revision": PRIMARY_BASE_MODEL_REVISION,
+                "base_model": PRIMARY_BASE_MODEL_ID,
+                "split": split,
+            }
+        else:
+            digest = adapter_digest or directory_sha256(checkpoint_dir)
+            report["provenance"] = {
+                "model_kind": "adapter",
+                "model_id": str(checkpoint_dir.resolve()),
+                "model_sha256": digest,
+                "adapter_model_id": str(checkpoint_dir.resolve()),
+                ADAPTER_DIGEST_FIELD: digest,
+                "base_model": PRIMARY_BASE_MODEL_ID,
+                "split": split,
+            }
+        path.write_text(json.dumps(report), encoding="utf-8")
+        return path
 
+    def _release_args(
+        self,
+        root: Path,
+        lineage_path: Path,
+        checkpoint_dir: Path,
+        browser_dir: Path,
+    ) -> argparse.Namespace:
+        return argparse.Namespace(
+            model_browser_dir=str(browser_dir),
+            output_dir=str(root / "hf"),
+            model_repo_id="owner/model",
+            dataset_repo_id="owner/dataset",
+            baseline_report=str(
+                self._write_report(
+                    root / "baseline.json",
+                    split="test",
+                    checkpoint_dir=None,
+                )
+            ),
+            validation_report=str(
+                self._write_report(
+                    root / "validation.json",
+                    split="validation",
+                    checkpoint_dir=checkpoint_dir,
+                )
+            ),
+            test_report=str(
+                self._write_report(
+                    root / "test.json",
+                    split="test",
+                    checkpoint_dir=checkpoint_dir,
+                )
+            ),
+            lineage_file=str(lineage_path),
+            release_date="2026-08-07",
+        )
+
+    def test_model_card_uses_validated_release_provenance(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            lineage_path = self._write_lineage(root)
-            browser_dir = root / "browser"
-            browser_dir.mkdir()
-            (browser_dir / "config.json").write_text("{}", encoding="utf-8")
-            report_path = root / "report.json"
-            report_path.write_text(json.dumps(report), encoding="utf-8")
-            args = argparse.Namespace(
-                model_browser_dir=str(browser_dir),
-                output_dir=str(root / "hf"),
-                model_repo_id="owner/model",
-                dataset_repo_id="owner/dataset",
-                baseline_report=str(report_path),
-                validation_report=str(report_path),
-                test_report=str(report_path),
-                lineage_file=str(lineage_path),
-                release_date="2026-08-07",
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
             )
+            expected_browser_digest = json.loads(
+                (browser_dir / "teapot_profile_qa_lineage.json").read_text(
+                    encoding="utf-8"
+                )
+            )["artifact_sha256"]
             model_dir = prepare_model_payload(args)
             model_card = (model_dir / "README.md").read_text(encoding="utf-8")
+            published_lineage = validate_artifact_lineage(
+                model_dir,
+                source_lineage_sha256=file_sha256(lineage_path),
+                stage="browser",
+            )
 
         self.assertIn("Promoted checkpoint: `checkpoint-80`", model_card)
         self.assertIn("Latest recorded train loss: 0.0312 at step 80", model_card)
         self.assertIn("Best recorded validation eval loss: 0.0400", model_card)
         self.assertIn("2026-08-07: Browser profile-QA export", model_card)
+        self.assertIn(expected_browser_digest, model_card)
+        self.assertEqual(published_lineage["artifact_sha256"], expected_browser_digest)
         self.assertNotIn("teapot-profile-qa-lora-v5/checkpoint-40", model_card)
         self.assertNotIn("0.0330", model_card)
         self.assertNotIn("0.0287", model_card)
@@ -89,17 +189,25 @@ class ModelCardProvenanceTests(unittest.TestCase):
 
     def test_missing_release_date_fails_clearly(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            lineage_path = self._write_lineage(Path(directory))
+            root = Path(directory)
+            lineage_path, _ = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
 
             with self.assertRaisesRegex(ValueError, "release date is required"):
-                load_model_provenance(lineage_path, None)
+                load_model_provenance(lineage_path, browser_dir, None)
 
     def test_invalid_release_date_fails_clearly(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            lineage_path = self._write_lineage(Path(directory))
+            root = Path(directory)
+            lineage_path, _ = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
 
             with self.assertRaisesRegex(ValueError, "must use YYYY-MM-DD"):
-                load_model_provenance(lineage_path, "August 7, 2026")
+                load_model_provenance(
+                    lineage_path,
+                    browser_dir,
+                    "August 7, 2026",
+                )
 
     def test_missing_training_metrics_fail_clearly(self) -> None:
         cases = [
@@ -109,13 +217,86 @@ class ModelCardProvenanceTests(unittest.TestCase):
         for log_history, expected_message in cases:
             with self.subTest(expected_message=expected_message):
                 with tempfile.TemporaryDirectory() as directory:
-                    lineage_path = self._write_lineage(
-                        Path(directory),
+                    root = Path(directory)
+                    lineage_path, _ = self._write_lineage(
+                        root,
                         log_history=log_history,
                     )
+                    browser_dir = self._write_browser_artifact(root, lineage_path)
 
                     with self.assertRaisesRegex(ValueError, expected_message):
-                        load_model_provenance(lineage_path, "2026-08-07")
+                        load_model_provenance(
+                            lineage_path,
+                            browser_dir,
+                            "2026-08-07",
+                        )
+
+    def test_tampered_browser_artifact_preserves_existing_model_payload(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            model_output_dir = root / "hf" / "model"
+            model_output_dir.mkdir(parents=True)
+            sentinel = model_output_dir / "keep.txt"
+            sentinel.write_text("unchanged", encoding="utf-8")
+            (browser_dir / "config.json").write_text('{"tampered": true}', encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "artifact digest"):
+                prepare_model_payload(args)
+
+            self.assertEqual(sentinel.read_text(encoding="utf-8"), "unchanged")
+
+    def test_browser_artifact_from_another_lineage_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            first_lineage, _ = self._write_lineage(root / "first")
+            browser_dir = self._write_browser_artifact(root, first_lineage)
+            selected_lineage, selected_checkpoint = self._write_lineage(
+                root / "selected"
+            )
+            args = self._release_args(
+                root,
+                selected_lineage,
+                selected_checkpoint,
+                browser_dir,
+            )
+
+            with self.assertRaisesRegex(ValueError, "selected merge lineage"):
+                prepare_model_payload(args)
+
+    def test_mismatched_evaluation_lineage_preserves_existing_payload(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lineage_path, checkpoint_dir = self._write_lineage(root)
+            browser_dir = self._write_browser_artifact(root, lineage_path)
+            args = self._release_args(
+                root,
+                lineage_path,
+                checkpoint_dir,
+                browser_dir,
+            )
+            self._write_report(
+                Path(args.test_report),
+                split="test",
+                checkpoint_dir=checkpoint_dir,
+                adapter_digest="f" * 64,
+            )
+            model_output_dir = root / "hf" / "model"
+            model_output_dir.mkdir(parents=True)
+            sentinel = model_output_dir / "keep.txt"
+            sentinel.write_text("unchanged", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "adapter digest"):
+                prepare_model_payload(args)
+
+            self.assertEqual(sentinel.read_text(encoding="utf-8"), "unchanged")
 
     def test_invalid_lineage_preserves_existing_model_payload(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

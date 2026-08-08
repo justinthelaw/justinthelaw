@@ -66,7 +66,21 @@ exporter supports Transformers 5.
 PYTHONPATH=ml/profile-qa python -m profile_qa.gpu_health
 PYTHONPATH=ml/profile-qa python -m profile_qa.synthetic_data --output ml/profile-qa/data/profile_qa.jsonl
 PYTHONPATH=ml/profile-qa python -m profile_qa.train_lora --dataset ml/profile-qa/data/profile_qa.jsonl
-PYTHONPATH=ml/profile-qa python -m profile_qa.evaluate --dataset ml/profile-qa/data/profile_qa.jsonl --model-id teapotai/teapotllm
+PYTHONPATH=ml/profile-qa python -m profile_qa.evaluate \
+  --dataset ml/profile-qa/data/profile_qa.jsonl \
+  --model-id teapotai/teapotllm \
+  --split test \
+  --output ml/profile-qa/reports/profile_qa_eval_baseline_test.json
+PYTHONPATH=ml/profile-qa python -m profile_qa.evaluate \
+  --dataset ml/profile-qa/data/profile_qa.jsonl \
+  --model-id ml/profile-qa/checkpoints/teapot-profile-qa-lora/checkpoint-400 \
+  --split validation \
+  --output ml/profile-qa/reports/profile_qa_eval_candidate_validation.json
+PYTHONPATH=ml/profile-qa python -m profile_qa.evaluate \
+  --dataset ml/profile-qa/data/profile_qa.jsonl \
+  --model-id ml/profile-qa/checkpoints/teapot-profile-qa-lora/checkpoint-400 \
+  --split test \
+  --output ml/profile-qa/reports/profile_qa_eval_candidate_test.json
 PYTHONPATH=ml/profile-qa python -m profile_qa.merge_adapter --adapter-model-id ml/profile-qa/checkpoints/teapot-profile-qa-lora/checkpoint-400 --output-dir ml/profile-qa/merged/teapot-profile-qa
 PYTHONPATH=ml/profile-qa ml/profile-qa/.venv-export/bin/python -m profile_qa.export_onnx --output-dir ml/profile-qa/onnx/candidate
 PYTHONPATH=ml/profile-qa python -m profile_qa.prepare_hf_artifacts \
@@ -83,11 +97,25 @@ checkpoints whose PEFT metadata records a different base model; export expects
 the merged model directory produced by `profile_qa.merge_adapter` and publishes
 the encoder plus merged decoder ONNX files for the T5 browser runtime.
 
-Artifact preparation derives the promoted checkpoint from the merge lineage and
-reads its latest train loss and best validation eval loss from the checkpoint's
-`trainer_state.json`. Pass the intended release date explicitly in ISO
-`YYYY-MM-DD` format. Missing or malformed provenance stops preparation before an
-existing model payload is replaced.
+Evaluation reports record the exact baseline revision or local adapter/merged
+model digest and split. Merge records adapter and merged-model SHA-256 values;
+export verifies those values and carries the lineage plus a content digest
+through the full-precision, quantized, and browser artifact stages. Artifact
+preparation accepts reports only when their promoted adapter ID and digest match
+the selected merge lineage and the browser marker matches the actual browser
+files.
+
+The export `--skip-export` and `--skip-quantize` recovery flags only reuse stage
+directories whose lineage marker and content digest still validate. Regenerate
+legacy or modified export directories instead of relabeling them.
+
+Artifact preparation derives the promoted checkpoint from that verified lineage
+and reads its latest train loss and best validation eval loss from the
+checkpoint's `trainer_state.json`. Pass the intended release date explicitly in
+ISO `YYYY-MM-DD` format. Missing, mismatched, or malformed provenance stops
+preparation before an existing model payload is replaced. When evaluating saved
+predictions with `--predictions-json`, still pass the `--model-id` whose outputs
+the file contains so the report is bound to the intended lineage.
 
 For targeted continuation from an existing LoRA adapter:
 

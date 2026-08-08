@@ -103,10 +103,17 @@ flowchart TD
   pyProfile --> data["synthetic_data.py"]
   data --> train["train_lora.py"]
   train --> eval["evaluate.py"]
+  eval --> reports["Reports with model lineage"]
   eval --> gate["Promotion gate"]
   gate --> merge["merge_adapter.py"]
+  merge --> lineage["Lineage plus adapter/merge digests"]
   merge --> export["export_onnx.py"]
-  export --> artifacts["prepare_hf_artifacts.py"]
+  lineage --> export
+  export --> browserArtifact["Browser files plus digest"]
+  browserArtifact --> artifacts["prepare_hf_artifacts.py"]
+  lineage --> artifacts
+  reports --> artifacts
+  releaseDate["Explicit release date"] --> artifacts
   artifacts --> publish["publish.py"]
   publish --> hfRepo["Hugging Face model repo"]
   hfRepo --> modelConfig["src/config/models.ts"]
@@ -123,8 +130,8 @@ does not train models and does not call a server.
 | Facts | `src/config/site.ts` and `ml/profile-qa/profile_qa/public_profile.py` | Keep public facts aligned before generating data |
 | Dataset | `python -m profile_qa.synthetic_data` | Generated data stays under ignored `ml/profile-qa/data/` |
 | Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; local 8GB NVIDIA LoRA/QLoRA runs |
-| Evaluation | `python -m profile_qa.evaluate` | Seq2seq only; adapters must record `teapotai/teapotllm` as their base |
-| ONNX export | `python -m profile_qa.export_onnx` | Requires the merged Teapot lineage marker; rejects `.onnx.data`; publishes `int8` and `uint8` encoder/decoder artifacts |
+| Evaluation | `python -m profile_qa.evaluate` | Reports record the evaluated split and exact baseline revision or adapter/merged lineage digest |
+| ONNX export | `python -m profile_qa.export_onnx` | Verifies merged lineage/digest, preserves lineage through each artifact stage, rejects `.onnx.data`, and publishes `int8` and `uint8` encoder/decoder artifacts |
 | App promotion | `src/config/models.ts` | Update `MODEL_ID` and keep `MODEL_CONTEXT_LIMIT` honest |
 
 Promotion should satisfy the gate in `ml/profile-qa/README.md` before changing

@@ -3,17 +3,36 @@
 from __future__ import annotations
 
 import argparse
-import json
 import shutil
 import subprocess
 import sys
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from .config import MERGED_DIR, ONNX_DIR
-from .merge_adapter import LINEAGE_FILENAME
+from .provenance import (
+    ADAPTER_DIGEST_FIELD,
+    EXPECTED_LINEAGE_PIPELINE,
+    LINEAGE_FILENAME,
+    LINEAGE_SCHEMA_VERSION,
+    MERGED_DIGEST_FIELD,
+    directory_sha256,
+    file_sha256,
+    load_json_object,
+    require_sha256,
+    validate_artifact_lineage,
+    write_artifact_lineage,
+)
 from .train_lora import ensure_primary_base_model_id
 
 TEAPOT_EXPORT_TASK = "text2text-generation-with-past"
+
+
+@dataclass(frozen=True)
+class ValidatedMergeLineage:
+    data: dict[str, Any]
+    sha256: str
 
 
 def reject_external_data_files(output_dir: Path) -> None:
@@ -36,25 +55,62 @@ def venv_tool(name: str) -> str:
     return str(tool_path) if tool_path.exists() else name
 
 
-def ensure_teapot_export_model(model: str) -> None:
+def ensure_teapot_export_model(model: str) -> ValidatedMergeLineage:
     """Require a merged model directory produced by the Teapot adapter merge step."""
 
-    lineage_path = Path(model) / LINEAGE_FILENAME
+    model_path = Path(model)
+    lineage_path = model_path / LINEAGE_FILENAME
     if not lineage_path.exists():
         raise RuntimeError(
             "ONNX export is TeapotLLM-only; pass a merged model directory produced by "
             f"profile_qa.merge_adapter with {LINEAGE_FILENAME}"
         )
-    lineage = json.loads(lineage_path.read_text(encoding="utf-8"))
+    try:
+        lineage = load_json_object(lineage_path, label="model lineage")
+    except ValueError as exc:
+        raise RuntimeError(str(exc)) from exc
+    if lineage.get("schema_version") != LINEAGE_SCHEMA_VERSION:
+        raise RuntimeError(
+            f"{lineage_path} field 'schema_version' must be "
+            f"{LINEAGE_SCHEMA_VERSION}"
+        )
     base_model = lineage.get("base_model")
     if not isinstance(base_model, str):
         raise RuntimeError(f"{lineage_path} does not record a base_model")
     ensure_primary_base_model_id(base_model, source=f"{lineage_path} base_model")
+    if lineage.get("pipeline") != EXPECTED_LINEAGE_PIPELINE:
+        raise RuntimeError(
+            f"{lineage_path} does not record pipeline "
+            f"{EXPECTED_LINEAGE_PIPELINE!r}"
+        )
+    try:
+        require_sha256(
+            lineage.get(ADAPTER_DIGEST_FIELD),
+            field=ADAPTER_DIGEST_FIELD,
+            source=lineage_path,
+        )
+        recorded_merged_digest = require_sha256(
+            lineage.get(MERGED_DIGEST_FIELD),
+            field=MERGED_DIGEST_FIELD,
+            source=lineage_path,
+        )
+        actual_merged_digest = directory_sha256(
+            model_path,
+            excluded_relative_paths=frozenset({LINEAGE_FILENAME}),
+        )
+    except ValueError as exc:
+        raise RuntimeError(str(exc)) from exc
+    if recorded_merged_digest != actual_merged_digest:
+        raise RuntimeError(
+            f"{lineage_path} merged model digest does not match {model_path}: "
+            f"expected {recorded_merged_digest}, got {actual_merged_digest}"
+        )
+    return ValidatedMergeLineage(data=lineage, sha256=file_sha256(lineage_path))
 
 
-def export_onnx(model: str, output_dir: Path) -> None:
+def export_onnx(model: str, output_dir: Path) -> ValidatedMergeLineage:
     output_dir.mkdir(parents=True, exist_ok=True)
-    ensure_teapot_export_model(model)
+    lineage = ensure_teapot_export_model(model)
     run_command(
         [
             venv_tool("optimum-cli"),
@@ -68,9 +124,21 @@ def export_onnx(model: str, output_dir: Path) -> None:
         ]
     )
     reject_external_data_files(output_dir)
+    write_artifact_lineage(
+        output_dir,
+        source_lineage=lineage.data,
+        source_lineage_sha256=lineage.sha256,
+        stage="onnx-fp",
+    )
+    return lineage
 
 
-def quantize_onnx(input_dir: Path, output_dir: Path, dtype: str) -> None:
+def quantize_onnx(
+    input_dir: Path,
+    output_dir: Path,
+    dtype: str,
+    lineage: ValidatedMergeLineage,
+) -> None:
     if output_dir.exists():
         shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -85,6 +153,8 @@ def quantize_onnx(input_dir: Path, output_dir: Path, dtype: str) -> None:
 
     weight_type = QuantType.QInt8 if dtype == "int8" else QuantType.QUInt8
     for source_path in sorted(input_dir.iterdir()):
+        if source_path.name == LINEAGE_FILENAME:
+            continue
         target_path = output_dir / source_path.name
         if source_path.suffix == ".onnx":
             quantize_dynamic(
@@ -96,6 +166,12 @@ def quantize_onnx(input_dir: Path, output_dir: Path, dtype: str) -> None:
         elif source_path.is_file():
             shutil.copy2(source_path, target_path)
     reject_external_data_files(output_dir)
+    write_artifact_lineage(
+        output_dir,
+        source_lineage=lineage.data,
+        source_lineage_sha256=lineage.sha256,
+        stage=f"onnx-{dtype}",
+    )
 
 
 def get_browser_model_paths(quantized_dir: Path) -> list[Path]:
@@ -116,8 +192,25 @@ def get_browser_model_paths(quantized_dir: Path) -> list[Path]:
     )
 
 
-def assemble_browser_artifact(fp_dir: Path, quantized_dirs: dict[str, Path], output_dir: Path) -> None:
+def assemble_browser_artifact(
+    fp_dir: Path,
+    quantized_dirs: dict[str, Path],
+    output_dir: Path,
+    lineage: ValidatedMergeLineage,
+) -> None:
     """Create a Transformers.js-compatible upload directory."""
+
+    validate_artifact_lineage(
+        fp_dir,
+        source_lineage_sha256=lineage.sha256,
+        stage="onnx-fp",
+    )
+    for dtype, quantized_dir in quantized_dirs.items():
+        validate_artifact_lineage(
+            quantized_dir,
+            source_lineage_sha256=lineage.sha256,
+            stage=f"onnx-{dtype}",
+        )
 
     if output_dir.exists():
         shutil.rmtree(output_dir)
@@ -126,7 +219,11 @@ def assemble_browser_artifact(fp_dir: Path, quantized_dirs: dict[str, Path], out
     onnx_dir.mkdir(parents=True, exist_ok=True)
 
     for source_path in sorted(fp_dir.iterdir()):
-        if source_path.is_file() and source_path.suffix != ".onnx":
+        if (
+            source_path.is_file()
+            and source_path.suffix != ".onnx"
+            and source_path.name != LINEAGE_FILENAME
+        ):
             shutil.copy2(source_path, output_dir / source_path.name)
 
     for dtype, quantized_dir in quantized_dirs.items():
@@ -136,6 +233,12 @@ def assemble_browser_artifact(fp_dir: Path, quantized_dirs: dict[str, Path], out
             shutil.copy2(model_path, onnx_dir / f"{model_path.stem}{suffix}.onnx")
 
     reject_external_data_files(output_dir)
+    write_artifact_lineage(
+        output_dir,
+        source_lineage=lineage.data,
+        source_lineage_sha256=lineage.sha256,
+        stage="browser",
+    )
 
 
 def main() -> int:
@@ -149,9 +252,15 @@ def main() -> int:
     output_dir = Path(args.output_dir)
     fp_dir = output_dir / "onnx"
     if args.skip_export:
+        lineage = ensure_teapot_export_model(args.model)
         reject_external_data_files(fp_dir)
+        validate_artifact_lineage(
+            fp_dir,
+            source_lineage_sha256=lineage.sha256,
+            stage="onnx-fp",
+        )
     else:
-        export_onnx(args.model, fp_dir)
+        lineage = export_onnx(args.model, fp_dir)
 
     quantized_dirs = {
         "int8": output_dir / "int8",
@@ -159,8 +268,13 @@ def main() -> int:
     }
     if not args.skip_quantize:
         for dtype, quantized_dir in quantized_dirs.items():
-            quantize_onnx(fp_dir, quantized_dir, dtype)
-    assemble_browser_artifact(fp_dir, quantized_dirs, output_dir / "browser")
+            quantize_onnx(fp_dir, quantized_dir, dtype, lineage)
+    assemble_browser_artifact(
+        fp_dir,
+        quantized_dirs,
+        output_dir / "browser",
+        lineage,
+    )
 
     print(f"validated browser-safe ONNX artifacts under {output_dir / 'browser'}")
     return 0

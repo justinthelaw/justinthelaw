@@ -17,20 +17,38 @@ from .config import (
     ONNX_DIR,
     PACKAGE_ROOT,
     PRIMARY_BASE_MODEL_ID,
+    PRIMARY_BASE_MODEL_REVISION,
     REPORT_DIR,
 )
 from .export_onnx import reject_external_data_files
+from .provenance import (
+    ADAPTER_DIGEST_FIELD,
+    ARTIFACT_DIGEST_FIELD,
+    EXPECTED_LINEAGE_PIPELINE,
+    LINEAGE_FILENAME,
+    LINEAGE_SCHEMA_VERSION,
+    MERGED_DIGEST_FIELD,
+    SOURCE_LINEAGE_DIGEST_FIELD,
+    directory_sha256,
+    file_sha256,
+    load_json_object,
+    require_sha256,
+    validate_artifact_lineage,
+)
 from .public_profile import PROFILE_SECTIONS
 from .validation import read_jsonl, write_jsonl
 
 DEFAULT_MODEL_REPO_ID = "justinthelaw/teapot-profile-qa-browser-1024"
 DEFAULT_DATASET_REPO_ID = "justinthelaw/profile-qa-synthetic-public-v1"
-EXPECTED_LINEAGE_PIPELINE = "profile-qa-teapot-lora"
 TRAINER_STATE_FILENAME = "trainer_state.json"
 
 
 @dataclass(frozen=True)
 class ModelProvenance:
+    adapter_model_id: str
+    adapter_model_sha256: str
+    merged_model_sha256: str
+    browser_artifact_sha256: str
     promoted_checkpoint: str
     latest_train_loss: float
     latest_train_step: int
@@ -38,14 +56,15 @@ class ModelProvenance:
     release_date: str
 
 
+@dataclass(frozen=True)
+class EvaluationReports:
+    baseline_test: dict[str, Any]
+    promoted_validation: dict[str, Any]
+    promoted_test: dict[str, Any]
+
+
 def _load_json_object(path: Path, *, label: str) -> dict[str, Any]:
-    try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise ValueError(f"could not load required {label} {path}: {exc}") from exc
-    if not isinstance(value, dict):
-        raise ValueError(f"required {label} {path} must contain a JSON object")
-    return value
+    return load_json_object(path, label=label)
 
 
 def _required_text(value: Any, *, field: str, source: Path) -> str:
@@ -113,6 +132,7 @@ def _training_losses(
 
 def load_model_provenance(
     lineage_path: Path,
+    browser_dir: Path,
     release_date: str | None,
 ) -> ModelProvenance:
     """Load and validate model-card provenance from release inputs."""
@@ -130,6 +150,11 @@ def load_model_provenance(
         raise ValueError("release date must use YYYY-MM-DD format")
 
     lineage = _load_json_object(lineage_path, label="model lineage")
+    if lineage.get("schema_version") != LINEAGE_SCHEMA_VERSION:
+        raise ValueError(
+            f"{lineage_path} field 'schema_version' must be "
+            f"{LINEAGE_SCHEMA_VERSION}"
+        )
     adapter_model_id = _required_text(
         lineage.get("adapter_model_id"),
         field="adapter_model_id",
@@ -156,7 +181,40 @@ def load_model_provenance(
             f"{EXPECTED_LINEAGE_PIPELINE!r}, got {pipeline_name!r}"
         )
 
-    checkpoint_path = Path(adapter_model_id)
+    adapter_model_sha256 = require_sha256(
+        lineage.get(ADAPTER_DIGEST_FIELD),
+        field=ADAPTER_DIGEST_FIELD,
+        source=lineage_path,
+    )
+    merged_model_sha256 = require_sha256(
+        lineage.get(MERGED_DIGEST_FIELD),
+        field=MERGED_DIGEST_FIELD,
+        source=lineage_path,
+    )
+    source_lineage_sha256 = file_sha256(lineage_path)
+    browser_lineage = validate_artifact_lineage(
+        browser_dir,
+        source_lineage_sha256=source_lineage_sha256,
+        stage="browser",
+    )
+    for field, expected_value in lineage.items():
+        if browser_lineage.get(field) != expected_value:
+            raise ValueError(
+                f"{browser_dir / LINEAGE_FILENAME} field {field!r} does not "
+                f"match the selected merge lineage {lineage_path}"
+            )
+    if browser_lineage.get(SOURCE_LINEAGE_DIGEST_FIELD) != source_lineage_sha256:
+        raise ValueError(
+            f"{browser_dir / LINEAGE_FILENAME} does not preserve selected "
+            f"merge lineage {lineage_path}"
+        )
+    browser_artifact_sha256 = require_sha256(
+        browser_lineage.get(ARTIFACT_DIGEST_FIELD),
+        field=ARTIFACT_DIGEST_FIELD,
+        source=browser_dir / LINEAGE_FILENAME,
+    )
+
+    checkpoint_path = Path(adapter_model_id).resolve()
     if not checkpoint_path.is_dir():
         raise ValueError(
             f"adapter checkpoint from {lineage_path} does not exist: "
@@ -166,6 +224,12 @@ def load_model_provenance(
     if not checkpoint_label:
         raise ValueError(
             f"adapter checkpoint from {lineage_path} has no publishable name"
+        )
+    actual_adapter_digest = directory_sha256(checkpoint_path)
+    if actual_adapter_digest != adapter_model_sha256:
+        raise ValueError(
+            f"{lineage_path} adapter digest does not match {checkpoint_path}: "
+            f"expected {adapter_model_sha256}, got {actual_adapter_digest}"
         )
     trainer_state_path = checkpoint_path / TRAINER_STATE_FILENAME
     trainer_state = _load_json_object(
@@ -177,6 +241,10 @@ def load_model_provenance(
     )
 
     return ModelProvenance(
+        adapter_model_id=str(checkpoint_path),
+        adapter_model_sha256=adapter_model_sha256,
+        merged_model_sha256=merged_model_sha256,
+        browser_artifact_sha256=browser_artifact_sha256,
         promoted_checkpoint=checkpoint_label,
         latest_train_loss=latest_train_loss,
         latest_train_step=latest_train_step,
@@ -186,7 +254,143 @@ def load_model_provenance(
 
 
 def _load_report(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
+    return _load_json_object(path, label="evaluation report")
+
+
+def _validate_report_provenance(
+    report: dict[str, Any],
+    *,
+    report_path: Path,
+    expected_split: str,
+    model_provenance: ModelProvenance,
+    baseline: bool,
+) -> None:
+    report_provenance = report.get("provenance")
+    if not isinstance(report_provenance, dict):
+        raise ValueError(
+            f"evaluation report {report_path} is missing object field 'provenance'; "
+            "regenerate it with profile_qa.evaluate"
+        )
+    base_model = _required_text(
+        report_provenance.get("base_model"),
+        field="provenance.base_model",
+        source=report_path,
+    )
+    if base_model != PRIMARY_BASE_MODEL_ID:
+        raise ValueError(
+            f"evaluation report {report_path} must use base model "
+            f"{PRIMARY_BASE_MODEL_ID!r}, got {base_model!r}"
+        )
+    report_split = _required_text(
+        report_provenance.get("split"),
+        field="provenance.split",
+        source=report_path,
+    )
+    if report_split != expected_split:
+        raise ValueError(
+            f"evaluation report {report_path} must describe split "
+            f"{expected_split!r}, got {report_split!r}"
+        )
+
+    model_kind = _required_text(
+        report_provenance.get("model_kind"),
+        field="provenance.model_kind",
+        source=report_path,
+    )
+    if baseline:
+        if model_kind != "baseline":
+            raise ValueError(
+                f"evaluation report {report_path} must describe the baseline model"
+            )
+        if report_provenance.get("model_id") != PRIMARY_BASE_MODEL_ID:
+            raise ValueError(
+                f"evaluation report {report_path} baseline model_id must be "
+                f"{PRIMARY_BASE_MODEL_ID!r}"
+            )
+        if report_provenance.get("model_revision") != PRIMARY_BASE_MODEL_REVISION:
+            raise ValueError(
+                f"evaluation report {report_path} baseline revision must be "
+                f"{PRIMARY_BASE_MODEL_REVISION!r}"
+            )
+        return
+
+    if model_kind not in {"adapter", "merged"}:
+        raise ValueError(
+            f"evaluation report {report_path} must describe an adapter or merged model"
+        )
+    report_adapter_model_id = _required_text(
+        report_provenance.get("adapter_model_id"),
+        field="provenance.adapter_model_id",
+        source=report_path,
+    )
+    if str(Path(report_adapter_model_id).resolve()) != model_provenance.adapter_model_id:
+        raise ValueError(
+            f"evaluation report {report_path} does not match selected adapter "
+            f"{model_provenance.adapter_model_id}"
+        )
+    report_adapter_digest = require_sha256(
+        report_provenance.get(ADAPTER_DIGEST_FIELD),
+        field=f"provenance.{ADAPTER_DIGEST_FIELD}",
+        source=report_path,
+    )
+    if report_adapter_digest != model_provenance.adapter_model_sha256:
+        raise ValueError(
+            f"evaluation report {report_path} adapter digest does not match the "
+            "selected merge lineage"
+        )
+    report_model_digest = require_sha256(
+        report_provenance.get("model_sha256"),
+        field="provenance.model_sha256",
+        source=report_path,
+    )
+    expected_model_digest = (
+        model_provenance.adapter_model_sha256
+        if model_kind == "adapter"
+        else model_provenance.merged_model_sha256
+    )
+    if report_model_digest != expected_model_digest:
+        raise ValueError(
+            f"evaluation report {report_path} evaluated model digest does not "
+            "match the selected merge lineage"
+        )
+
+
+def _load_evaluation_reports(
+    args: argparse.Namespace,
+    model_provenance: ModelProvenance,
+) -> EvaluationReports:
+    baseline_path = Path(args.baseline_report)
+    validation_path = Path(args.validation_report)
+    test_path = Path(args.test_report)
+    baseline_test = _load_report(baseline_path)
+    promoted_validation = _load_report(validation_path)
+    promoted_test = _load_report(test_path)
+    _validate_report_provenance(
+        baseline_test,
+        report_path=baseline_path,
+        expected_split="test",
+        model_provenance=model_provenance,
+        baseline=True,
+    )
+    _validate_report_provenance(
+        promoted_validation,
+        report_path=validation_path,
+        expected_split="validation",
+        model_provenance=model_provenance,
+        baseline=False,
+    )
+    _validate_report_provenance(
+        promoted_test,
+        report_path=test_path,
+        expected_split="test",
+        model_provenance=model_provenance,
+        baseline=False,
+    )
+    return EvaluationReports(
+        baseline_test=baseline_test,
+        promoted_validation=promoted_validation,
+        promoted_test=promoted_test,
+    )
 
 
 def _metric(value: float) -> str:
@@ -274,6 +478,7 @@ def _write_model_card(
     latest_train_step = provenance.latest_train_step
     best_validation_eval_loss = _metric(provenance.best_validation_eval_loss)
     release_date = provenance.release_date
+    browser_artifact_sha256 = provenance.browser_artifact_sha256
     output_path.write_text(
         f"""---
 license: mit
@@ -320,9 +525,12 @@ Transformers.js ONNX files under `onnx/`:
 - `decoder_model_merged_int8.onnx`
 - `encoder_model_uint8.onnx`
 - `decoder_model_merged_uint8.onnx`
+- `{LINEAGE_FILENAME}`
 
 The export gate rejects external `.onnx.data` files so the model can be loaded
-as self-contained browser assets.
+as self-contained browser assets. The lineage marker records the selected merge
+lineage and an artifact SHA-256 of `{browser_artifact_sha256}` over the browser
+model/config payload, excluding the lineage marker and generated model card.
 
 ## How to Use
 
@@ -529,28 +737,27 @@ def prepare_model_payload(args: argparse.Namespace) -> Path:
     lineage_file = getattr(args, "lineage_file", None)
     if not isinstance(lineage_file, str) or not lineage_file.strip():
         raise ValueError("model lineage is required; pass --lineage-file")
-    provenance = load_model_provenance(
-        Path(lineage_file),
-        getattr(args, "release_date", None),
-    )
     browser_dir = Path(args.model_browser_dir)
     if not browser_dir.exists():
         raise RuntimeError(f"model browser directory does not exist: {browser_dir}")
     reject_external_data_files(browser_dir)
+    provenance = load_model_provenance(
+        Path(lineage_file),
+        browser_dir,
+        getattr(args, "release_date", None),
+    )
+    reports = _load_evaluation_reports(args, provenance)
 
     model_output_dir = Path(args.output_dir) / "model"
     _copy_tree_contents(browser_dir, model_output_dir)
 
-    baseline_test = _load_report(Path(args.baseline_report))
-    promoted_validation = _load_report(Path(args.validation_report))
-    promoted_test = _load_report(Path(args.test_report))
     _write_model_card(
         model_output_dir / "README.md",
         model_repo_id=args.model_repo_id,
         dataset_repo_id=args.dataset_repo_id,
-        baseline_test=baseline_test,
-        promoted_validation=promoted_validation,
-        promoted_test=promoted_test,
+        baseline_test=reports.baseline_test,
+        promoted_validation=reports.promoted_validation,
+        promoted_test=reports.promoted_test,
         provenance=provenance,
     )
     reject_external_data_files(model_output_dir)
@@ -618,11 +825,11 @@ def main() -> int:
     )
     parser.add_argument(
         "--validation-report",
-        default=str(REPORT_DIR / "profile_qa_eval_v5_validation.json"),
+        default=str(REPORT_DIR / "profile_qa_eval_candidate_validation.json"),
     )
     parser.add_argument(
         "--test-report",
-        default=str(REPORT_DIR / "profile_qa_eval_v5_test.json"),
+        default=str(REPORT_DIR / "profile_qa_eval_candidate_test.json"),
     )
     args = parser.parse_args()
 

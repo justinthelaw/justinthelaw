@@ -7,13 +7,19 @@ import json
 from pathlib import Path
 
 from .config import MERGED_DIR, PRIMARY_BASE_MODEL_ID
+from .provenance import (
+    ADAPTER_DIGEST_FIELD,
+    EXPECTED_LINEAGE_PIPELINE,
+    LINEAGE_FILENAME,
+    LINEAGE_SCHEMA_VERSION,
+    MERGED_DIGEST_FIELD,
+    directory_sha256,
+)
 from .train_lora import (
     ensure_primary_base_model_id,
     require_local_model_path,
     trusted_model_load_kwargs,
 )
-
-LINEAGE_FILENAME = "teapot_profile_qa_lineage.json"
 
 
 def main() -> int:
@@ -32,7 +38,10 @@ def main() -> int:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    require_local_model_path(args.adapter_model_id, source="adapter model")
+    adapter_path = require_local_model_path(
+        args.adapter_model_id,
+        source="adapter model",
+    ).resolve()
     adapter_config = PeftConfig.from_pretrained(args.adapter_model_id)
     adapter_base_model_id = str(getattr(adapter_config, "base_model_name_or_path", ""))
     ensure_primary_base_model_id(
@@ -59,9 +68,15 @@ def main() -> int:
     (output_dir / LINEAGE_FILENAME).write_text(
         json.dumps(
             {
-                "adapter_model_id": args.adapter_model_id,
+                "schema_version": LINEAGE_SCHEMA_VERSION,
+                "adapter_model_id": Path(args.adapter_model_id).as_posix(),
+                ADAPTER_DIGEST_FIELD: directory_sha256(adapter_path),
                 "base_model": PRIMARY_BASE_MODEL_ID,
-                "pipeline": "profile-qa-teapot-lora",
+                "pipeline": EXPECTED_LINEAGE_PIPELINE,
+                MERGED_DIGEST_FIELD: directory_sha256(
+                    output_dir,
+                    excluded_relative_paths=frozenset({LINEAGE_FILENAME}),
+                ),
             },
             indent=2,
             sort_keys=True,
