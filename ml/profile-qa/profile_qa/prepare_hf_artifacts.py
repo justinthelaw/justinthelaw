@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import shutil
 from collections import Counter
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
@@ -16,10 +18,163 @@ from .validation import read_jsonl, write_jsonl
 
 DEFAULT_MODEL_REPO_ID = "justinthelaw/teapot-profile-qa-browser-1024"
 DEFAULT_DATASET_REPO_ID = "justinthelaw/profile-qa-synthetic-public-v1"
+MIN_BASELINE_RELATIVE_MACRO_IMPROVEMENT = 0.15
+MIN_REFUSAL_ACCURACY = 0.95
+MIN_MULTI_TURN_ACCURACY = 0.80
+_REQUIRED_REPORT_METRICS = (
+    "macro",
+    "refusal_accuracy",
+    "multi_turn_accuracy",
+)
+_COMPARISON_TOLERANCE = 1e-12
 
 
 def _load_report(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
+    try:
+        report = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"could not load evaluation report {path}: {exc}") from exc
+    if not isinstance(report, dict):
+        raise ValueError(f"evaluation report {path} must contain a JSON object")
+    return report
+
+
+def _read_score(
+    report: Mapping[str, Any],
+    *,
+    report_name: str,
+    metric_name: str,
+    errors: list[str],
+) -> float | None:
+    if metric_name not in report:
+        errors.append(f"{report_name} report is missing metric {metric_name!r}")
+        return None
+
+    value = report[metric_name]
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        errors.append(
+            f"{report_name} metric {metric_name!r} must be a number, got {value!r}"
+        )
+        return None
+
+    score = float(value)
+    if not math.isfinite(score):
+        errors.append(
+            f"{report_name} metric {metric_name!r} must be finite, got {value!r}"
+        )
+        return None
+    if not 0.0 <= score <= 1.0:
+        errors.append(
+            f"{report_name} metric {metric_name!r} must be between 0 and 1, "
+            f"got {score:.4f}"
+        )
+        return None
+    return score
+
+
+def validate_promotion_metrics(
+    *,
+    baseline_test: object,
+    promoted_validation: object,
+    promoted_test: object,
+) -> None:
+    """Reject malformed or below-threshold evaluation reports before packaging."""
+
+    reports = {
+        "baseline test": baseline_test,
+        "promoted validation": promoted_validation,
+        "promoted test": promoted_test,
+    }
+    errors: list[str] = []
+    scores: dict[tuple[str, str], float] = {}
+
+    for report_name, report in reports.items():
+        if not isinstance(report, Mapping):
+            errors.append(f"{report_name} report must be a JSON object")
+            continue
+        for metric_name in _REQUIRED_REPORT_METRICS:
+            score = _read_score(
+                report,
+                report_name=report_name,
+                metric_name=metric_name,
+                errors=errors,
+            )
+            if score is not None:
+                scores[(report_name, metric_name)] = score
+
+    if isinstance(promoted_test, Mapping):
+        by_task = promoted_test.get("by_task")
+        if not isinstance(by_task, Mapping) or not by_task:
+            errors.append(
+                "promoted test report field 'by_task' must be a non-empty object"
+            )
+        else:
+            for task, value in by_task.items():
+                if not isinstance(task, str) or not task.strip():
+                    errors.append(
+                        "promoted test report contains an invalid by_task name"
+                    )
+                    continue
+                _read_score(
+                    {f"by_task.{task}": value},
+                    report_name="promoted test",
+                    metric_name=f"by_task.{task}",
+                    errors=errors,
+                )
+
+    baseline_macro = scores.get(("baseline test", "macro"))
+    promoted_test_macro = scores.get(("promoted test", "macro"))
+    if baseline_macro is not None and promoted_test_macro is not None:
+        if baseline_macro <= 0.0:
+            errors.append(
+                "baseline test macro must be greater than 0 for a relative "
+                f"improvement comparison, got {baseline_macro:.4f}"
+            )
+        else:
+            required_macro = baseline_macro * (
+                1.0 + MIN_BASELINE_RELATIVE_MACRO_IMPROVEMENT
+            )
+            if promoted_test_macro + _COMPARISON_TOLERANCE < required_macro:
+                relative_improvement = promoted_test_macro / baseline_macro - 1.0
+                errors.append(
+                    "promoted test macro must improve on baseline test by at least "
+                    f"{MIN_BASELINE_RELATIVE_MACRO_IMPROVEMENT:.0%}: "
+                    f"baseline={baseline_macro:.4f}, "
+                    f"promoted={promoted_test_macro:.4f}, "
+                    f"relative improvement={relative_improvement:.2%}, "
+                    f"required promoted macro>={required_macro:.4f}"
+                )
+
+    accuracy_gates = (
+        ("refusal_accuracy", MIN_REFUSAL_ACCURACY),
+        ("multi_turn_accuracy", MIN_MULTI_TURN_ACCURACY),
+    )
+    for report_name in ("promoted validation", "promoted test"):
+        for metric_name, minimum in accuracy_gates:
+            score = scores.get((report_name, metric_name))
+            if score is not None and score + _COMPARISON_TOLERANCE < minimum:
+                errors.append(
+                    f"{report_name} metric {metric_name!r} must be at least "
+                    f"{minimum:.4f}, got {score:.4f}"
+                )
+
+    if errors:
+        details = "\n".join(f"- {error}" for error in errors)
+        raise ValueError(f"promotion metric validation failed:\n{details}")
+
+
+def _load_and_validate_promotion_reports(
+    args: argparse.Namespace,
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    baseline_test = _load_report(Path(args.baseline_report))
+    promoted_validation = _load_report(Path(args.validation_report))
+    promoted_test = _load_report(Path(args.test_report))
+    validate_promotion_metrics(
+        baseline_test=baseline_test,
+        promoted_validation=promoted_validation,
+        promoted_test=promoted_test,
+    )
+    return baseline_test, promoted_validation, promoted_test
 
 
 def _metric(value: float) -> str:
@@ -353,6 +508,9 @@ MIT.
 
 
 def prepare_model_payload(args: argparse.Namespace) -> Path:
+    baseline_test, promoted_validation, promoted_test = (
+        _load_and_validate_promotion_reports(args)
+    )
     browser_dir = Path(args.model_browser_dir)
     if not browser_dir.exists():
         raise RuntimeError(f"model browser directory does not exist: {browser_dir}")
@@ -361,9 +519,6 @@ def prepare_model_payload(args: argparse.Namespace) -> Path:
     model_output_dir = Path(args.output_dir) / "model"
     _copy_tree_contents(browser_dir, model_output_dir)
 
-    baseline_test = _load_report(Path(args.baseline_report))
-    promoted_validation = _load_report(Path(args.validation_report))
-    promoted_test = _load_report(Path(args.test_report))
     _write_model_card(
         model_output_dir / "README.md",
         model_repo_id=args.model_repo_id,
@@ -377,6 +532,9 @@ def prepare_model_payload(args: argparse.Namespace) -> Path:
 
 
 def prepare_dataset_payload(args: argparse.Namespace) -> Path:
+    baseline_test, promoted_validation, promoted_test = (
+        _load_and_validate_promotion_reports(args)
+    )
     records = read_jsonl(Path(args.dataset))
     dataset_output_dir = Path(args.output_dir) / "dataset"
     if dataset_output_dir.exists():
@@ -385,7 +543,10 @@ def prepare_dataset_payload(args: argparse.Namespace) -> Path:
 
     write_jsonl(dataset_output_dir / "profile_qa.jsonl", records)
     for split in ["train", "validation", "test"]:
-        write_jsonl(dataset_output_dir / f"profile_qa_{split}.jsonl", _split_records(records, split))
+        write_jsonl(
+            dataset_output_dir / f"profile_qa_{split}.jsonl",
+            _split_records(records, split),
+        )
     _write_json(dataset_output_dir / "profile_sections.json", PROFILE_SECTIONS)
 
     reports_dir = dataset_output_dir / "eval_reports"
@@ -397,9 +558,6 @@ def prepare_dataset_payload(args: argparse.Namespace) -> Path:
     ]:
         shutil.copy2(report_path, reports_dir / report_path.name)
 
-    baseline_test = _load_report(Path(args.baseline_report))
-    promoted_validation = _load_report(Path(args.validation_report))
-    promoted_test = _load_report(Path(args.test_report))
     _write_dataset_card(
         dataset_output_dir / "README.md",
         records=records,

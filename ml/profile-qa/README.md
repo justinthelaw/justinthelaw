@@ -102,23 +102,39 @@ or repair export/browser packaging issues. Do not switch base models.
 Do not update the app's browser `MODEL_ID` or default `MODEL_CONTEXT_LIMIT`
 until all of these are true:
 
-| Gate | Requirement |
+### Automated report gates
+
+`profile_qa.prepare_hf_artifacts` validates all three evaluation reports before
+it replaces any model or dataset payload. Reports fail closed when required
+metrics are missing, non-numeric, non-finite, outside `[0, 1]`, or when the
+promoted test report lacks per-task scores.
+
+| Gate | Automated requirement |
+| --- | --- |
+| Baseline | Promoted test macro is at least `baseline test macro * 1.15`; the baseline macro must be greater than zero |
+| Refusal | Promoted validation and promoted test refusal accuracy are each at least 95% |
+| Multi-turn | Promoted validation and promoted test multi-turn accuracy are each at least 80% |
+
+### Manual release gates
+
+These checks are not encoded in the packaged evaluation reports. Confirm them
+before running artifact preparation and retain the supporting logs or reports
+with the release notes.
+
+| Gate | Manual requirement |
 | --- | --- |
 | GPU health | `python -m profile_qa.gpu_health` passes on the training host |
 | Training | Completed locally on the NVIDIA GPU with the 8GB-safe defaults |
 | Loss | Eval loss <= 0.12 and recent training-loss windows <= 0.05 on a split-isolated validation set |
 | Context | Promoted model accepts 1024-token prompts without truncating below 1024 |
-| Baseline | Eval beats the current Teapot baseline by at least 15% macro score |
-| Refusal | Refusal accuracy is at least 95% |
-| Multi-turn | Multi-turn follow-up accuracy is at least 80% |
 | Browser smoke | Loads and answers a 900-1024 token prompt in Chromium desktop and Mobile Chrome without worker crashes |
-| ONNX artifacts | Include `int8` and `uint8` variants and no `.onnx.data` files |
+| ONNX artifacts | Include `int8` and `uint8` variants; artifact preparation separately rejects `.onnx.data` files |
 
 ## Tests
 
 The Python tests cover deterministic generation, schema validation, split
 isolation, evidence references, no private-data leakage in non-refusal examples,
-and GPU health-check behavior:
+promotion-report validation, pre-mutation gating, and GPU health-check behavior:
 
 ```bash
 PYTHONPATH=ml/profile-qa python -m pytest ml/profile-qa/tests

@@ -103,10 +103,11 @@ flowchart TD
   pyProfile --> data["synthetic_data.py"]
   data --> train["train_lora.py"]
   train --> eval["evaluate.py"]
-  eval --> gate["Promotion gate"]
-  gate --> merge["merge_adapter.py"]
+  eval --> manualGate["Manual release gates"]
+  manualGate --> merge["merge_adapter.py"]
   merge --> export["export_onnx.py"]
-  export --> artifacts["prepare_hf_artifacts.py"]
+  export --> artifacts["Validate metrics + prepare payloads"]
+  eval --> artifacts
   artifacts --> publish["publish.py"]
   publish --> hfRepo["Hugging Face model repo"]
   hfRepo --> modelConfig["src/config/models.ts"]
@@ -125,10 +126,11 @@ does not train models and does not call a server.
 | Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; local 8GB NVIDIA LoRA/QLoRA runs |
 | Evaluation | `python -m profile_qa.evaluate` | Seq2seq only; adapters must record `teapotai/teapotllm` as their base |
 | ONNX export | `python -m profile_qa.export_onnx` | Requires the merged Teapot lineage marker; rejects `.onnx.data`; publishes `int8` and `uint8` encoder/decoder artifacts |
+| Artifact prep | `python -m profile_qa.prepare_hf_artifacts` | Validates report schema, relative test-macro improvement, and validation/test refusal and multi-turn thresholds before replacing payloads |
 | App promotion | `src/config/models.ts` | Update `MODEL_ID` and keep `MODEL_CONTEXT_LIMIT` honest |
 
-Promotion should satisfy the gate in `ml/profile-qa/README.md` before changing
-the app default model.
+Promotion should satisfy the automated report gates and manual release gates in
+`ml/profile-qa/README.md` before changing the app default model.
 
 ## Agent Notes
 
