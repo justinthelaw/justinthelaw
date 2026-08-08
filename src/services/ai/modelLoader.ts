@@ -1,13 +1,12 @@
 /**
  * Model loader.
- * Handles loading the browser text generation model with dtype fallback.
+ * Handles loading the browser text-to-text generation model with dtype fallback.
  */
 
 import {
   pipeline,
   env,
   type Text2TextGenerationPipeline,
-  type TextGenerationPipeline,
 } from "@huggingface/transformers";
 import {
   MODEL_ID,
@@ -20,32 +19,18 @@ env.allowLocalModels = false;
 env.remoteHost = "https://huggingface.co";
 
 const logger = createLogger(LOG_AREAS.AI_MODEL_LOADER);
-
-export type GenerationTask = "text-generation" | "text2text-generation";
-
-export type GenerationPipeline =
-  | TextGenerationPipeline
-  | Text2TextGenerationPipeline;
+const GENERATION_TASK = "text2text-generation" as const;
 
 export type GenerationPipelineFactory = (
-  task: GenerationTask,
+  task: typeof GENERATION_TASK,
   modelId: string,
   options: Record<string, unknown>
-) => Promise<GenerationPipeline>;
+) => Promise<Text2TextGenerationPipeline>;
 
-export interface LoadedTextGenerationPipeline {
-  task: "text-generation";
-  generator: TextGenerationPipeline;
-}
-
-export interface LoadedText2TextGenerationPipeline {
-  task: "text2text-generation";
+export interface LoadedGenerationPipeline {
+  task: typeof GENERATION_TASK;
   generator: Text2TextGenerationPipeline;
 }
-
-export type LoadedGenerationPipeline =
-  | LoadedTextGenerationPipeline
-  | LoadedText2TextGenerationPipeline;
 
 export interface LoaderCallbacks {
   viewportWidth?: number;
@@ -61,7 +46,6 @@ interface NormalizedLoadError {
   message: string;
   isLikelyMemoryError: boolean;
   isNumericRuntimeCode: boolean;
-  isLikelyTaskMismatch: boolean;
 }
 
 const DOWNLOAD_COMPLETE_PROGRESS = 100;
@@ -81,7 +65,6 @@ function normalizeLoadError(error: unknown): NormalizedLoadError {
       message: `Runtime error code: ${error}`,
       isLikelyMemoryError: true,
       isNumericRuntimeCode: true,
-      isLikelyTaskMismatch: false,
     };
   }
 
@@ -94,7 +77,6 @@ function normalizeLoadError(error: unknown): NormalizedLoadError {
         lower.includes("allocation") ||
         lower.includes("out of bounds"),
       isNumericRuntimeCode: /^\d+$/.test(error.trim()),
-      isLikelyTaskMismatch: isLikelyTaskMismatchMessage(lower),
     };
   }
 
@@ -108,7 +90,6 @@ function normalizeLoadError(error: unknown): NormalizedLoadError {
         lower.includes("allocation") ||
         lower.includes("out of bounds"),
       isNumericRuntimeCode: false,
-      isLikelyTaskMismatch: isLikelyTaskMismatchMessage(lower),
     };
   }
 
@@ -137,7 +118,6 @@ function normalizeLoadError(error: unknown): NormalizedLoadError {
         lower.includes("out of bounds") ||
         (maybeCode !== null && /^\d+$/.test(maybeCode)),
       isNumericRuntimeCode: maybeCode !== null && /^\d+$/.test(maybeCode),
-      isLikelyTaskMismatch: isLikelyTaskMismatchMessage(lower),
     };
   }
 
@@ -145,19 +125,7 @@ function normalizeLoadError(error: unknown): NormalizedLoadError {
     message: String(error),
     isLikelyMemoryError: false,
     isNumericRuntimeCode: false,
-    isLikelyTaskMismatch: false,
   };
-}
-
-export function isLikelyTaskMismatchMessage(message: string): boolean {
-  const lower = message.toLowerCase();
-
-  return (
-    lower.includes("unsupported model type") ||
-    lower.includes('for task "text-generation"') ||
-    lower.includes("modelwithlmhead") ||
-    lower.includes("modelforcausallm")
-  );
 }
 
 function normalizeProgress(progress: number): number {
@@ -165,21 +133,16 @@ function normalizeProgress(progress: number): number {
 }
 
 async function createGenerationPipeline(
-  task: GenerationTask,
+  task: typeof GENERATION_TASK,
   modelId: string,
   options: Record<string, unknown>
-): Promise<GenerationPipeline> {
-  if (task === "text-generation") {
-    const pipelineResult = await pipeline("text-generation", modelId, options);
-    return pipelineResult as TextGenerationPipeline;
-  }
-
-  const pipelineResult = await pipeline("text2text-generation", modelId, options);
+): Promise<Text2TextGenerationPipeline> {
+  const pipelineResult = await pipeline(task, modelId, options);
   return pipelineResult as Text2TextGenerationPipeline;
 }
 
 /**
- * Loads the configured text generation model.
+ * Loads the configured text-to-text generation model.
  * Dtype is selected from viewport-aware preferences with fallback ordering.
  */
 export async function loadModel(
@@ -295,14 +258,14 @@ export async function loadModel(
       logger.log(`loading model (${dtype}): ${MODEL_ID}`);
 
       const pipelineResult = await createPipeline(
-        "text-generation",
+        GENERATION_TASK,
         MODEL_ID,
         pipelineOptions
       );
 
       return {
-        task: "text-generation",
-        generator: pipelineResult as TextGenerationPipeline,
+        task: GENERATION_TASK,
+        generator: pipelineResult,
       };
     } catch (error) {
       const normalizedError = normalizeLoadError(error);
@@ -311,48 +274,8 @@ export async function loadModel(
         : "Trying next dtype fallback option.";
 
       logger.error(
-        `attempt ${attempts} failed for ${dtype} (text-generation): ${normalizedError.message}`
+        `attempt ${attempts} failed for ${dtype} (${GENERATION_TASK}): ${normalizedError.message}`
       );
-
-      if (normalizedError.isLikelyTaskMismatch) {
-        logger.warn(
-          `model ${MODEL_ID} appears incompatible with text-generation; retrying text2text-generation for the same dtype.`
-        );
-
-        try {
-          const pipelineResult = await createPipeline(
-            "text2text-generation",
-            MODEL_ID,
-            pipelineOptions
-          );
-
-          return {
-            task: "text2text-generation",
-            generator: pipelineResult as Text2TextGenerationPipeline,
-          };
-        } catch (fallbackError) {
-          const normalizedFallbackError = normalizeLoadError(fallbackError);
-          const fallbackTaskHint = normalizedFallbackError.isLikelyMemoryError
-            ? "Likely memory/runtime pressure while retrying text2text-generation."
-            : "Trying next dtype fallback option.";
-
-          logger.error(
-            `attempt ${attempts} failed for ${dtype} (text2text-generation): ${normalizedFallbackError.message}`
-          );
-
-          if (
-            normalizedFallbackError.isLikelyMemoryError ||
-            normalizedFallbackError.isNumericRuntimeCode
-          ) {
-            logger.warn(fallbackTaskHint);
-            if (normalizedFallbackError.isNumericRuntimeCode) {
-              logger.warn(
-                "numeric runtime codes from ONNX/WebAssembly are often opaque; fallback will continue."
-              );
-            }
-          }
-        }
-      }
 
       if (
         normalizedError.isLikelyMemoryError ||
