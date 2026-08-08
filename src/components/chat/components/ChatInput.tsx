@@ -3,7 +3,7 @@
  * Input field and send button for user messages
  */
 
-import React, { useState, useRef, KeyboardEvent } from "react";
+import React, { useState, useRef, useId, KeyboardEvent } from "react";
 import { getPromptBudget } from "@/services/ai/contextProvider";
 import { LimitWarning } from "./LimitWarning";
 import type { ConversationTurn } from "@/types";
@@ -25,6 +25,7 @@ export function ChatInput({
 }: ChatInputProps): React.ReactElement {
   const [inputText, setInputText] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const inputId = useId();
   const promptBudget = getPromptBudget(inputText, { conversationTurns });
   const showInputLimitWarning =
     inputText.trim().length > 0 && promptBudget.isInputTrimmed;
@@ -52,7 +53,11 @@ export function ChatInput({
     <div className="p-4 border-t border-gray-700">
       <div className="flex items-end gap-2">
         <div className="flex-1">
+          <label htmlFor={inputId} className="sr-only">
+            Message to AI assistant
+          </label>
           <textarea
+            id={inputId}
             ref={inputRef}
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
@@ -77,6 +82,7 @@ export function ChatInput({
             />
           )}
           <button
+            type="button"
             onClick={handleSend}
             disabled={isSendDisabled || !inputText.trim()}
             className="h-11 w-full rounded-lg bg-blue-600 px-0 font-medium text-white transition-colors duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-blue-600"

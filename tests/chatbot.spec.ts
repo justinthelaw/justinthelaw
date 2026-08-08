@@ -151,6 +151,14 @@ test.describe("Chatbot UI Tests", () => {
     await expect(disclaimer).toBeVisible();
   });
 
+  test("should expose an accessible name for the chat input", async ({ page }) => {
+    await openChat(page);
+
+    await expect(
+      page.getByRole("textbox", { name: "Message to AI assistant" }),
+    ).toBeVisible();
+  });
+
   test("should display model loading message without model size", async ({
     page,
   }) => {
