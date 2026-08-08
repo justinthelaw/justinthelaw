@@ -3,11 +3,19 @@ import {
   getPersonalContextBudget,
   getPromptBudget,
 } from "../src/services/ai/contextProvider";
+import { GENERATION_STATUS_MESSAGES } from "../src/components/chat/components/ChatMessages";
 
 const HELD_LOADING_MESSAGE = "Downloading model... 83%";
 const HOLD_MODEL_LOADING_SESSION_KEY = "__holdModelLoading";
 const HOLD_GENERATION_SESSION_KEY = "__holdGeneration";
 const THROW_WORKER_SESSION_KEY = "__throwWorker";
+
+test("generation status messages describe only the public-profile workflow", () => {
+  expect(GENERATION_STATUS_MESSAGES).toHaveLength(5);
+  for (const message of GENERATION_STATUS_MESSAGES) {
+    expect(message).toMatch(/public|profile-grounded/);
+  }
+});
 
 interface MockWorkerInitOptions {
   heldLoadingMessage: string;
