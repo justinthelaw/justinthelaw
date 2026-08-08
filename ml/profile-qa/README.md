@@ -24,8 +24,10 @@ The identity section's `subject` metadata renders names and pronouns into the
 training prompts. Fact-specific question and history wording is centralized in
 `profile_qa/synthetic_data.py`; update its matching QA entry when a customized
 fact makes an employer, school, product, or role reference inaccurate.
-Every grouped QA entry must also declare whether it scores all evidence terms
-or selects a named `termGroup`; dataset generation rejects an implicit policy.
+Every grouped QA entry must select a named `termGroup` for each evidence fact.
+Use the minimum terms that every question variant requires for a complete
+answer; dataset generation rejects missing selectors and broad
+`all_evidence_terms` scoring.
 
 ## Prerequisites
 

@@ -111,16 +111,14 @@ def test_canonical_profile_preserves_browser_and_scoring_metadata() -> None:
         ),
     ],
 )
-def test_grouped_records_derive_answers_and_terms_from_canonical_facts(
+def test_grouped_records_derive_answers_from_canonical_facts(
     monkeypatch: pytest.MonkeyPatch,
     fact_key: tuple[str, str],
     record_id: str,
 ) -> None:
     changed_text = f"Updated canonical fact for {record_id}."
-    changed_terms = [f"updated term for {record_id}"]
     changed_fact = fact_index()[fact_key]
     monkeypatch.setitem(changed_fact, "text", changed_text)
-    monkeypatch.setitem(changed_fact, "terms", changed_terms)
 
     record = next(item for item in build_records(seed=7) if item["id"] == record_id)
     facts = fact_index()
@@ -128,19 +126,8 @@ def test_grouped_records_derive_answers_and_terms_from_canonical_facts(
         facts[(item["section_id"], item["fact_id"])] for item in record["evidence"]
     ]
     expected_answer = " ".join(str(fact["text"]) for fact in evidence_facts)
-    expected_terms = list(
-        dict.fromkeys(
-            str(term)
-            for fact in evidence_facts
-            for term in fact.get("terms", [])
-            if isinstance(term, str)
-        )
-    )
-
     assert record["answer"] == expected_answer
-    assert record["expected_terms"] == expected_terms
     assert changed_text in record["answer"]
-    assert changed_terms[0] in record["expected_terms"]
 
 
 def test_custom_subject_renders_questions_histories_and_instruction(
@@ -197,7 +184,7 @@ def test_custom_subject_renders_questions_histories_and_instruction(
     assert "[[possessive_" not in rendered_templates
 
 
-def test_followup_operator_uses_purpose_specific_scoring_terms(
+def test_followup_operator_scores_only_the_workload_problem(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     record = next(
@@ -206,11 +193,7 @@ def test_followup_operator_uses_purpose_specific_scoring_terms(
         if item["id"] == "followup-operator-purpose-test-0"
     )
 
-    assert record["expected_terms"] == [
-        "diagnoses",
-        "remediates",
-        "failing workloads",
-    ]
+    assert record["expected_terms"] == ["failing workloads"]
     irrelevant_tool_list = "Codex packages, OpenInference, and a Kubernetes operator."
     assert score_answer(record, irrelevant_tool_list)["term"] == 0.0
     assert score_answer(record, str(record["answer"]))["term"] == 1.0
@@ -218,13 +201,13 @@ def test_followup_operator_uses_purpose_specific_scoring_terms(
     fact = fact_index()[("projects", "projects_current_role")]
     term_groups = fact["termGroups"]
     assert isinstance(term_groups, dict)
-    monkeypatch.setitem(term_groups, "operatorPurpose", ["updated operator behavior"])
+    monkeypatch.setitem(term_groups, "operatorProblem", ["updated workload problem"])
     updated_record = next(
         item
         for item in build_records(seed=7)
         if item["id"] == "followup-operator-purpose-test-0"
     )
-    assert updated_record["expected_terms"] == ["updated operator behavior"]
+    assert updated_record["expected_terms"] == ["updated workload problem"]
 
 
 def test_followup_graduate_schools_scores_only_institutions(
@@ -259,7 +242,144 @@ def test_followup_graduate_schools_scores_only_institutions(
     ]
 
 
-def test_every_grouped_qa_declares_an_explicit_scoring_contract() -> None:
+@pytest.mark.parametrize(
+    ("record_id", "expected_terms"),
+    [
+        (
+            "targeted-current-impact-projects-train-0",
+            [
+                "33,000 users",
+                "Codex packages",
+                "OpenInference",
+                "Kubernetes operator",
+            ],
+        ),
+        (
+            "targeted-rag-metrics-train-0",
+            ["RAG", "MRR by 15%", "agentic retrieval by 38%"],
+        ),
+        (
+            "targeted-before-current-train-0",
+            ["Defense Unicorns", "Air Force", "Space Force"],
+        ),
+        (
+            "targeted-education-complete-train-0",
+            [
+                "B.S. in Mechanical Engineering",
+                "Johns Hopkins",
+                "Georgia Tech",
+            ],
+        ),
+        (
+            "current-impact-and-projects-train-0",
+            [
+                "11 organizations",
+                "33,000 users",
+                "Codex packages",
+                "Kubernetes operator",
+            ],
+        ),
+        (
+            "previous-role-and-products-train-0",
+            [
+                "Senior Software Engineer",
+                "Defense Unicorns",
+                "LeapfrogAI",
+                "UDS AI",
+            ],
+        ),
+        (
+            "rag-and-metrics-train-0",
+            ["RAG", "MRR by 15%", "agentic retrieval by 38%"],
+        ),
+        (
+            "education-complete-train-0",
+            [
+                "B.S. in Mechanical Engineering",
+                "Johns Hopkins",
+                "Georgia Tech",
+            ],
+        ),
+        (
+            "experience-before-current-train-0",
+            ["Defense Unicorns", "Air Force", "Space Force"],
+        ),
+        (
+            "skills-and-recommendations-train-0",
+            ["systems design", "AI/ML", "collaborative", "calm under pressure"],
+        ),
+        (
+            "followup-defense-metrics-train-0",
+            ["MRR by 15%", "agentic retrieval by 38%"],
+        ),
+        ("followup-operator-purpose-train-0", ["failing workloads"]),
+        (
+            "followup-graduate-schools-train-0",
+            ["Johns Hopkins", "Georgia Tech"],
+        ),
+        (
+            "followup-recommendation-traits-train-0",
+            ["collaborative", "calm under pressure"],
+        ),
+    ],
+)
+def test_grouped_records_use_minimum_complete_scoring_terms(
+    record_id: str,
+    expected_terms: list[str],
+) -> None:
+    record = next(item for item in build_records(seed=7) if item["id"] == record_id)
+
+    assert record["expected_terms"] == expected_terms
+    assert score_answer(record, " ".join(expected_terms))["term"] == 1.0
+
+
+def test_every_grouped_record_derives_terms_from_named_canonical_groups(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    specs = TARGETED_COMPLETENESS_QA + MULTI_HOP_QA + FOLLOW_UP_QA
+    facts = fact_index()
+    mutated_groups: set[tuple[str, str, str]] = set()
+
+    for spec in specs:
+        term_groups = spec["term_groups"]
+        assert isinstance(term_groups, dict)
+        for evidence_key, group_name in term_groups.items():
+            section_id, fact_id = str(evidence_key).split("/", maxsplit=1)
+            group_key = (section_id, fact_id, str(group_name))
+            if group_key in mutated_groups:
+                continue
+            mutated_groups.add(group_key)
+            fact_term_groups = facts[(section_id, fact_id)]["termGroups"]
+            assert isinstance(fact_term_groups, dict)
+            monkeypatch.setitem(
+                fact_term_groups,
+                str(group_name),
+                [f"mutated scoring term {len(mutated_groups)}"],
+            )
+
+    records_by_id = {str(record["id"]): record for record in build_records(seed=7)}
+    for spec in specs:
+        expected_terms: list[str] = []
+        term_groups = spec["term_groups"]
+        evidence = spec["evidence"]
+        assert isinstance(term_groups, dict)
+        assert isinstance(evidence, list)
+        for item in evidence:
+            assert isinstance(item, dict)
+            section_id = str(item["section_id"])
+            fact_id = str(item["fact_id"])
+            evidence_key = f"{section_id}/{fact_id}"
+            fact_term_groups = facts[(section_id, fact_id)]["termGroups"]
+            assert isinstance(fact_term_groups, dict)
+            selected_terms = fact_term_groups[str(term_groups[evidence_key])]
+            assert isinstance(selected_terms, list)
+            expected_terms.extend(str(term) for term in selected_terms)
+
+        record = records_by_id[f"{spec['id']}-train-0"]
+        assert record["expected_terms"] == expected_terms
+
+
+def test_every_grouped_qa_requires_named_groups_for_all_evidence() -> None:
     specs = TARGETED_COMPLETENESS_QA + MULTI_HOP_QA + FOLLOW_UP_QA
 
     for spec in specs:
@@ -270,15 +390,38 @@ def test_every_grouped_qa_declares_an_explicit_scoring_contract() -> None:
             for item in evidence
             if isinstance(item, dict)
         }
-        scoring = spec.get("scoring")
-        assert scoring in {"all_evidence_terms", "term_groups"}, spec["id"]
-        if scoring == "all_evidence_terms":
-            assert "term_groups" not in spec, spec["id"]
-            continue
-
+        assert spec.get("scoring") == "term_groups", spec["id"]
         term_groups = spec.get("term_groups")
         assert isinstance(term_groups, dict), spec["id"]
         assert set(term_groups) == evidence_keys, spec["id"]
+
+
+def test_grouped_qa_rejects_broad_all_evidence_scoring(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    spec = TARGETED_COMPLETENESS_QA[0]
+    monkeypatch.setitem(spec, "scoring", "all_evidence_terms")
+
+    with pytest.raises(
+        ValueError,
+        match="targeted-current-impact-projects requires scoring=term_groups",
+    ):
+        build_records(seed=7)
+
+
+def test_grouped_qa_rejects_an_incomplete_term_group_contract(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    spec = MULTI_HOP_QA[0]
+    term_groups = spec["term_groups"]
+    assert isinstance(term_groups, dict)
+    monkeypatch.delitem(term_groups, "projects/projects_current_role")
+
+    with pytest.raises(
+        ValueError,
+        match="current-impact-and-projects term_groups must select every evidence fact",
+    ):
+        build_records(seed=7)
 
 
 def test_split_isolation_for_questions() -> None:

@@ -51,7 +51,11 @@
         "id": "current_role_scale",
         "text": "He has led engagements across 11 organizations and about 33,000 users.",
         "keywords": ["11 organizations", "33000 users", "33,000 users"],
-        "terms": ["11 organizations", "33,000 users"]
+        "terms": ["11 organizations", "33,000 users"],
+        "termGroups": {
+          "userScale": ["33,000 users"],
+          "engagementScale": ["11 organizations", "33,000 users"]
+        }
       }
     ]
   },
@@ -73,13 +77,20 @@
         "id": "experience_previous_role",
         "text": "Previously, Justin was a Senior Software Engineer at Defense Unicorns, working across 40+ Kubernetes, AI/ML, and full-stack repos.",
         "keywords": ["senior software engineer", "defense unicorns", "40+"],
-        "terms": ["Senior Software Engineer", "Defense Unicorns", "40+"]
+        "terms": ["Senior Software Engineer", "Defense Unicorns", "40+"],
+        "termGroups": {
+          "priorEmployer": ["Defense Unicorns"],
+          "priorRole": ["Senior Software Engineer", "Defense Unicorns"]
+        }
       },
       {
         "id": "experience_veteran",
         "text": "Justin is a U.S. Air Force and Space Force veteran and one of the Space Force's first certified Supra Coders.",
         "keywords": ["air force", "space force", "veteran", "supra coders"],
-        "terms": ["Air Force", "Space Force", "Supra Coders"]
+        "terms": ["Air Force", "Space Force", "Supra Coders"],
+        "termGroups": {
+          "serviceBranches": ["Air Force", "Space Force"]
+        }
       }
     ]
   },
@@ -105,26 +116,47 @@
         "keywords": ["codex packages", "openinference", "kubernetes operator"],
         "terms": ["Codex packages", "OpenInference", "Kubernetes operator"],
         "termGroups": {
-          "operatorPurpose": ["diagnoses", "remediates", "failing workloads"]
+          "currentTooling": [
+            "Codex packages",
+            "OpenInference",
+            "Kubernetes operator"
+          ],
+          "codexAndOperatorBuilds": [
+            "Codex packages",
+            "Kubernetes operator"
+          ],
+          "operatorProblem": ["failing workloads"]
         }
       },
       {
         "id": "projects_products",
         "text": "He developed LeapfrogAI and UDS AI.",
         "keywords": ["leapfrogai", "uds ai"],
-        "terms": ["LeapfrogAI", "UDS AI"]
+        "terms": ["LeapfrogAI", "UDS AI"],
+        "termGroups": {
+          "productNames": ["LeapfrogAI", "UDS AI"]
+        }
       },
       {
         "id": "projects_rag_system",
         "text": "He led a FIPS-compliant agentic RAG system for shipyard operations.",
         "keywords": ["fips", "agentic rag", "shipyard"],
-        "terms": ["FIPS-compliant", "agentic RAG", "shipyard operations"]
+        "terms": ["FIPS-compliant", "agentic RAG", "shipyard operations"],
+        "termGroups": {
+          "ragIdentity": ["RAG"]
+        }
       },
       {
         "id": "projects_metrics",
         "text": "His work improved model MRR by 15% and agentic retrieval by 38%.",
         "keywords": ["mrr", "15%", "retrieval", "38%"],
-        "terms": ["MRR by 15%", "agentic retrieval by 38%"]
+        "terms": ["MRR by 15%", "agentic retrieval by 38%"],
+        "termGroups": {
+          "measuredImprovements": [
+            "MRR by 15%",
+            "agentic retrieval by 38%"
+          ]
+        }
       },
       {
         "id": "projects_service",
@@ -152,7 +184,10 @@
         "id": "education_rit",
         "text": "Justin earned a B.S. in Mechanical Engineering from RIT.",
         "keywords": ["mechanical engineering", "rit", "degree"],
-        "terms": ["B.S. in Mechanical Engineering", "RIT"]
+        "terms": ["B.S. in Mechanical Engineering", "RIT"],
+        "termGroups": {
+          "undergraduateDegree": ["B.S. in Mechanical Engineering"]
+        }
       },
       {
         "id": "education_graduate",
@@ -187,7 +222,10 @@
           "collaborative",
           "calm under pressure",
           "strong problem solver"
-        ]
+        ],
+        "termGroups": {
+          "collaborationTraits": ["collaborative", "calm under pressure"]
+        }
       }
     ]
   },
@@ -213,7 +251,10 @@
         "id": "skills_strengths",
         "text": "Strengths include leadership, public speaking, technical writing, pair programming, systems design, AI/ML, Kubernetes, secure deployment, RAG, observability, MLFlow, inference engines, and mission-critical delivery.",
         "keywords": ["systems design", "ai/ml", "kubernetes", "rag", "mlflow"],
-        "terms": ["leadership", "systems design", "AI/ML", "Kubernetes"]
+        "terms": ["leadership", "systems design", "AI/ML", "Kubernetes"],
+        "termGroups": {
+          "technicalCore": ["systems design", "AI/ML"]
+        }
       }
     ]
   },

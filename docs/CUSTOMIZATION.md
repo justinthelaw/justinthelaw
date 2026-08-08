@@ -101,10 +101,11 @@ the active model budget.
 Put reusable categories in section IDs and person-specific terms in fact text or
 fact keywords. Browser retrieval uses section `priority`, section `keywords`,
 and fact `keywords`; deterministic Python evaluation uses each fact's `terms`.
-Facts may also define named `termGroups` when one question needs a narrower
-semantic scoring target than the whole fact. For example, an operator-purpose
-follow-up can select terms about its behavior without accepting a list of tools
-as a complete answer.
+Facts also define named `termGroups` for grouped questions. Each grouped QA
+entry selects one group per evidence fact containing the minimum terms every
+question variant requires. For example, an operator follow-up selects the
+workload problem without accepting a list of tools as a complete answer or
+requiring extra implementation details that the question did not request.
 Keep generic sections temporally prioritized: `current_role`, `experience`,
 `projects`, `education`, `recommendations`, `skills`, then `interests`.
 Experience should outrank education; recommendations should sit just below
@@ -178,7 +179,7 @@ file. Names and pronouns do not need a template edit; they render from
 
 | Step | Action |
 | --- | --- |
-| 1 | Update identity, facts, retrieval metadata, scoring terms, and optional named `termGroups` in `src/config/public-profile.json` |
+| 1 | Update identity, facts, retrieval metadata, scoring terms, and named `termGroups` in `src/config/public-profile.json` |
 | 2 | Update the centralized question/history entry in `synthetic_data.py` when changed factual wording makes it inaccurate |
 | 3 | Follow [ml/profile-qa/README.md](../ml/profile-qa/README.md) to generate data, train LoRA/QLoRA, evaluate, merge, export ONNX, prepare Hugging Face artifacts, and publish |
 | 4 | After promotion passes, update `MODEL_ID` and `MODEL_CONTEXT_LIMIT` in `src/config/models.ts` |

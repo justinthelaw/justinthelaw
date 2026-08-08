@@ -103,7 +103,7 @@ export interface ProfileFact {
   text: string;
   keywords: readonly string[];
   terms: readonly string[];
-  termGroups?: Readonly<Record<string, readonly string[]>>;
+  termGroups?: Readonly<Partial<Record<string, readonly string[]>>>;
 }
 
 export interface ProfileSubject {

@@ -135,25 +135,16 @@ def _grouped_scoring_terms(
     spec: dict[str, object], evidence: list[Evidence]
 ) -> list[str]:
     scoring = spec.get("scoring")
-    if scoring == "all_evidence_terms":
-        if spec.get("term_groups"):
-            raise ValueError(
-                f"{spec['id']} cannot combine all_evidence_terms with term_groups"
-            )
-        return _terms_from_evidence(evidence)
-    if scoring == "term_groups":
-        term_groups = _grouped_term_groups(spec)
-        evidence_keys = {
-            f"{item['section_id']}/{item['fact_id']}" for item in evidence
-        }
-        if set(term_groups) != evidence_keys:
-            raise ValueError(
-                f"{spec['id']} term_groups must select every evidence fact"
-            )
-        return _terms_from_evidence(evidence, term_groups)
-    raise ValueError(
-        f"{spec['id']} requires scoring=all_evidence_terms or scoring=term_groups"
-    )
+    if scoring != "term_groups":
+        raise ValueError(f"{spec['id']} requires scoring=term_groups")
+
+    term_groups = _grouped_term_groups(spec)
+    evidence_keys = {
+        f"{item['section_id']}/{item['fact_id']}" for item in evidence
+    }
+    if set(term_groups) != evidence_keys:
+        raise ValueError(f"{spec['id']} term_groups must select every evidence fact")
+    return _terms_from_evidence(evidence, term_groups)
 
 
 def _render_profile_template(value: str) -> str:
@@ -470,9 +461,13 @@ TARGETED_COMPLETENESS_QA: list[dict[str, object]] = [
     {
         "id": "targeted-current-impact-projects",
         "task": "multi_hop",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("current_role", "current_role_scale")
         + _evidence("projects", "projects_current_role"),
+        "term_groups": {
+            "current_role/current_role_scale": "userScale",
+            "projects/projects_current_role": "currentTooling",
+        },
         "questions": [
             "What public current-work scale plus tooling are listed for [[subject_short]]?",
             "When asked for current scale and tools, what complete answer should be given?",
@@ -485,9 +480,13 @@ TARGETED_COMPLETENESS_QA: list[dict[str, object]] = [
     {
         "id": "targeted-rag-metrics",
         "task": "multi_hop",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("projects", "projects_rag_system")
         + _evidence("projects", "projects_metrics"),
+        "term_groups": {
+            "projects/projects_rag_system": "ragIdentity",
+            "projects/projects_metrics": "measuredImprovements",
+        },
         "questions": [
             "After the shipyard operations RAG work, what project and gains should be mentioned?",
             "What complete answer pairs [[subject_possessive]] secure RAG project with the metrics?",
@@ -500,9 +499,13 @@ TARGETED_COMPLETENESS_QA: list[dict[str, object]] = [
     {
         "id": "targeted-before-current",
         "task": "chronology",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("experience", "experience_previous_role")
         + _evidence("experience", "experience_veteran"),
+        "term_groups": {
+            "experience/experience_previous_role": "priorEmployer",
+            "experience/experience_veteran": "serviceBranches",
+        },
         "questions": [
             "What preceded [[subject_possessive]] current role at OpenAI, including service background?",
             "What complete pre-OpenAI career summary is listed for [[subject_short]]?",
@@ -515,9 +518,13 @@ TARGETED_COMPLETENESS_QA: list[dict[str, object]] = [
     {
         "id": "targeted-education-complete",
         "task": "education",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("education", "education_rit")
         + _evidence("education", "education_graduate"),
+        "term_groups": {
+            "education/education_rit": "undergraduateDegree",
+            "education/education_graduate": "graduateInstitutions",
+        },
         "questions": [
             "What complete degree and graduate school answer should be given?",
             "Which undergraduate degree plus graduate CS institutions are public?",
@@ -531,9 +538,13 @@ MULTI_HOP_QA: list[dict[str, object]] = [
     {
         "id": "current-impact-and-projects",
         "task": "multi_hop",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("current_role", "current_role_scale")
         + _evidence("projects", "projects_current_role"),
+        "term_groups": {
+            "current_role/current_role_scale": "engagementScale",
+            "projects/projects_current_role": "codexAndOperatorBuilds",
+        },
         "questions": _split_questions(
             [
                 "Summarize [[subject_possessive]] current engagement scale and what [[subject_pronoun]] built.",
@@ -549,9 +560,13 @@ MULTI_HOP_QA: list[dict[str, object]] = [
     {
         "id": "previous-role-and-products",
         "task": "multi_hop",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("experience", "experience_previous_role")
         + _evidence("projects", "projects_products"),
+        "term_groups": {
+            "experience/experience_previous_role": "priorRole",
+            "projects/projects_products": "productNames",
+        },
         "questions": _split_questions(
             [
                 "What was [[subject_possessive]] prior role and which AI products did [[subject_pronoun]] develop?",
@@ -564,9 +579,13 @@ MULTI_HOP_QA: list[dict[str, object]] = [
     {
         "id": "rag-and-metrics",
         "task": "multi_hop",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("projects", "projects_rag_system")
         + _evidence("projects", "projects_metrics"),
+        "term_groups": {
+            "projects/projects_rag_system": "ragIdentity",
+            "projects/projects_metrics": "measuredImprovements",
+        },
         "questions": _split_questions(
             [
                 "What RAG system did [[subject_short]] lead and what improved?",
@@ -576,15 +595,19 @@ MULTI_HOP_QA: list[dict[str, object]] = [
                 "Answer with the secure RAG project plus both improvement metrics.",
             ],
             "What secure RAG project and improvements are public?",
-            "What did [[subject_short]] improve after leading the shipyard RAG system?",
+            "What RAG project did [[subject_short]] lead, and what improvements followed?",
         ),
     },
     {
         "id": "education-complete",
         "task": "education",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("education", "education_rit")
         + _evidence("education", "education_graduate"),
+        "term_groups": {
+            "education/education_rit": "undergraduateDegree",
+            "education/education_graduate": "graduateInstitutions",
+        },
         "questions": _split_questions(
             [
                 "Summarize [[subject_possessive]] education background.",
@@ -597,9 +620,13 @@ MULTI_HOP_QA: list[dict[str, object]] = [
     {
         "id": "experience-before-current",
         "task": "chronology",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("experience", "experience_previous_role")
         + _evidence("experience", "experience_veteran"),
+        "term_groups": {
+            "experience/experience_previous_role": "priorEmployer",
+            "experience/experience_veteran": "serviceBranches",
+        },
         "questions": _split_questions(
             [
                 "What did [[subject_short]] do before OpenAI?",
@@ -615,9 +642,13 @@ MULTI_HOP_QA: list[dict[str, object]] = [
     {
         "id": "skills-and-recommendations",
         "task": "recommendations",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("skills", "skills_strengths")
         + _evidence("recommendations", "recommendations_summary"),
+        "term_groups": {
+            "skills/skills_strengths": "technicalCore",
+            "recommendations/recommendations_summary": "collaborationTraits",
+        },
         "questions": _split_questions(
             [
                 "Combine [[subject_possessive]] strengths with how recommendations describe [[object_pronoun]].",
@@ -635,8 +666,11 @@ MULTI_HOP_QA: list[dict[str, object]] = [
 FOLLOW_UP_QA: list[dict[str, object]] = [
     {
         "id": "followup-defense-metrics",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("projects", "projects_metrics"),
+        "term_groups": {
+            "projects/projects_metrics": "measuredImprovements",
+        },
         "history": [
             {"role": "user", "content": "Tell me about [[subject_possessive]] Defense Unicorns work."},
             {
@@ -658,7 +692,7 @@ FOLLOW_UP_QA: list[dict[str, object]] = [
         "scoring": "term_groups",
         "evidence": _evidence("projects", "projects_current_role"),
         "term_groups": {
-            "projects/projects_current_role": "operatorPurpose",
+            "projects/projects_current_role": "operatorProblem",
         },
         "history": [
             {"role": "user", "content": "What did [[subject_short]] build in [[possessive_pronoun]] current role?"},
@@ -701,8 +735,11 @@ FOLLOW_UP_QA: list[dict[str, object]] = [
     },
     {
         "id": "followup-recommendation-traits",
-        "scoring": "all_evidence_terms",
+        "scoring": "term_groups",
         "evidence": _evidence("recommendations", "recommendations_summary"),
+        "term_groups": {
+            "recommendations/recommendations_summary": "collaborationTraits",
+        },
         "history": [
             {"role": "user", "content": "What do people say about [[subject_short]]?"},
             {
