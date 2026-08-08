@@ -15,6 +15,7 @@ For a system map, see [diagrams.md](diagrams.md).
 - [ ] Set `githubUsername` to your username
 - [ ] Set `githubBioFallback` to a short, durable profile summary
 - [ ] Set `repository.owner` and `repository.name`
+- [ ] Set `seo.imageUrl` to a public, absolute HTTPS image URL
 - [ ] Set `resumeFileId` (from Google Drive share link)
 - [ ] Update `socialLinks` (empty string hides a link)
 - [ ] Summarize public resume/profile knowledge in `PROFILE_SECTIONS`
@@ -38,6 +39,10 @@ Pages Actions. `npm run deploy` is the manual path and publishes `out/` to a
 `SITE_CONFIG.githubBioFallback` is included in the static export so crawlers and
 visitors always receive a profile summary. After hydration, the browser still
 refreshes it from GitHub and keeps the configured text if that request fails.
+
+`SITE_CONFIG.seo.imageUrl` is reused for the browser favicon, the Open Graph
+`og:image`, and the Twitter card `twitter:image`. Use a publicly reachable image
+that works both as a small icon and as the preview image when the site is shared.
 
 ## Configuration Map
 

@@ -22,10 +22,13 @@ fit together.
 
 ```mermaid
 flowchart TD
+  siteConfig["SITE_CONFIG.githubBioFallback"] --> staticSite
   visitor["Visitor browser"] --> staticSite["Static export in out/"]
   staticSite --> page["src/pages/index.tsx"]
-  page --> profile["GitHubProfile"]
-  profile --> github["GitHub REST API"]
+  page --> profile["GitHubProfile renders configured fallback"]
+  profile -->|"After hydration: refresh"| github["GitHub REST API"]
+  github -->|"Success: replace bio"| profile
+  github -.->|"Failure: keep fallback"| profile
   page --> resume["ResumeViewer"]
   resume --> drive["Google Drive PDF preview"]
   page --> chat["ChatContainer, client only"]

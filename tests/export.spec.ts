@@ -71,27 +71,6 @@ async function readExportedJavaScript(): Promise<string> {
   return contents.join("\n");
 }
 
-function hasHtmlTagWithAttributes(
-  html: string,
-  tagName: string,
-  attributes: Readonly<Record<string, string>>,
-): boolean {
-  const tags = html.match(new RegExp(`<${tagName}\\b[^>]*>`, "g")) ?? [];
-
-  return tags.some((tag) =>
-    Object.entries(attributes).every(([attributeName, attributeValue]) => {
-      const escapedValue = attributeValue
-        .replaceAll("&", "&amp;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#x27;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
-
-      return tag.includes(`${attributeName}="${escapedValue}"`);
-    }),
-  );
-}
-
 interface StaticPreviewServer {
   origin: string;
   close: () => Promise<void>;
@@ -222,7 +201,7 @@ test("should export bundled social icon assets with valid local paths", async ()
   expect(hasBlockedRawGitHubSource).toBe(false);
 });
 
-test("should export crawlable profile content and share metadata", async () => {
+test("should export crawlable profile content and share metadata", async ({ page }) => {
   const exportIndexPath = path.resolve(process.cwd(), "out", "index.html");
   const exportHtml = await readFile(exportIndexPath, "utf8").catch(() => {
     throw new Error(
@@ -230,40 +209,32 @@ test("should export crawlable profile content and share metadata", async () => {
     );
   });
 
-  expect(exportHtml).toContain(SITE_CONFIG.githubBioFallback);
-  expect(exportHtml).toMatch(
-    new RegExp(`<h1\\b[^>]*>${SITE_CONFIG.fullName}</h1>`),
+  await page.setContent(exportHtml);
+
+  await expect(page.getByTestId("github-bio")).toHaveText(
+    SITE_CONFIG.githubBioFallback,
   );
-  expect(
-    hasHtmlTagWithAttributes(exportHtml, "link", {
-      rel: "canonical",
-      href: DERIVED_CONFIG.siteUrl,
-    }),
-  ).toBe(true);
-  expect(
-    hasHtmlTagWithAttributes(exportHtml, "meta", {
-      property: "og:url",
-      content: DERIVED_CONFIG.siteUrl,
-    }),
-  ).toBe(true);
-  expect(
-    hasHtmlTagWithAttributes(exportHtml, "meta", {
-      property: "og:description",
-      content: SITE_CONFIG.seo.description,
-    }),
-  ).toBe(true);
-  expect(
-    hasHtmlTagWithAttributes(exportHtml, "meta", {
-      name: "twitter:card",
-      content: "summary",
-    }),
-  ).toBe(true);
-  expect(
-    hasHtmlTagWithAttributes(exportHtml, "meta", {
-      name: "twitter:description",
-      content: SITE_CONFIG.seo.description,
-    }),
-  ).toBe(true);
+  await expect(page.locator("h1")).toHaveText(SITE_CONFIG.fullName);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    DERIVED_CONFIG.siteUrl,
+  );
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+    "content",
+    DERIVED_CONFIG.siteUrl,
+  );
+  await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+    "content",
+    SITE_CONFIG.seo.description,
+  );
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+    "content",
+    "summary",
+  );
+  await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute(
+    "content",
+    SITE_CONFIG.seo.description,
+  );
 });
 
 test("should export the current browser AI worker bundle", async () => {
