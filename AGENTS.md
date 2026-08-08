@@ -63,7 +63,7 @@ src/
 │   └── chat/
 │       ├── components/  # UI components (ChatContainer, ChatMessages, ChatInput, etc.)
 │       └── hooks/       # Business logic (useAIGeneration, useChatHistory, useModelManagement)
-├── config/              # Centralized settings (site.ts, models.ts, prompts.ts)
+├── config/              # Centralized settings and canonical public-profile JSON
 ├── pages/               # Next.js pages router (index.tsx, _app.tsx)
 ├── services/            # External dependencies
 │   ├── ai/              # AI service layer (worker, model loader, context provider)
@@ -85,6 +85,7 @@ tests/                   # Playwright E2E tests
 | Typed worker messages | Use `WorkerAction` and `WorkerStatus` enums for worker communication; avoid magic strings |
 | Browser-safe dtype loading | Automatic model loading uses int8 with uint8 fallback on all viewports; do not re-enable q4 by default unless ORT WASM can mount external `.onnx.data` files in browser workers |
 | Reusable profile sections | Keep section IDs generic and temporally prioritized; put person- or employer-specific terms in fact text and keywords, not section IDs |
+| Canonical public profile | Update facts only in `src/config/public-profile.json`; browser retrieval and Python dataset generation consume the same file |
 
 ## Code Standards
 

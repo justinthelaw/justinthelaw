@@ -15,9 +15,11 @@ recommendations sit just below education but above hobbies/interests or
 personality-trait sections. Put person-specific names, employers, schools, and
 projects in fact text and keywords.
 
-When changing public facts for a promoted model, keep this Python profile data
-aligned with `src/config/site.ts`; the app reads the TypeScript config, while
-this pipeline reads `profile_qa/public_profile.py`.
+The single checked-in profile source is `src/config/public-profile.json`.
+`src/config/site.ts` imports it for browser retrieval, and
+`profile_qa/public_profile.py` loads the same file for dataset generation. Keep
+browser section priorities and retrieval keywords alongside each fact's
+deterministic evaluation `terms`; do not copy facts into either consumer.
 
 ## Prerequisites
 

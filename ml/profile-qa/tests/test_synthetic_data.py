@@ -1,12 +1,16 @@
 from __future__ import annotations
 
-from pathlib import Path
+import json
 import sys
+from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from profile_qa.public_profile import fact_index
-from profile_qa.public_profile import PROFILE_SECTIONS
+from profile_qa.public_profile import (
+    CANONICAL_PROFILE_PATH,
+    PROFILE_SECTIONS,
+    fact_index,
+)
 from profile_qa.synthetic_data import build_records
 from profile_qa.validation import PRIVATE_DATA_MARKERS, validate_dataset
 
@@ -46,6 +50,28 @@ def test_profile_sections_use_reusable_resume_ontology() -> None:
     ]
     assert "openai" not in section_ids
     assert "defense_unicorns" not in section_ids
+
+
+def test_python_profile_loads_canonical_profile_source() -> None:
+    canonical_sections = json.loads(CANONICAL_PROFILE_PATH.read_text(encoding="utf-8"))
+
+    assert PROFILE_SECTIONS == canonical_sections
+
+
+def test_canonical_profile_preserves_browser_and_scoring_metadata() -> None:
+    for section in PROFILE_SECTIONS:
+        assert isinstance(section.get("priority"), int)
+        assert isinstance(section.get("keywords"), list)
+        assert section["keywords"]
+
+        facts = section.get("facts")
+        assert isinstance(facts, list)
+        for fact in facts:
+            assert isinstance(fact, dict)
+            assert isinstance(fact.get("keywords"), list)
+            assert fact["keywords"]
+            assert isinstance(fact.get("terms"), list)
+            assert fact["terms"]
 
 
 def test_split_isolation_for_questions() -> None:

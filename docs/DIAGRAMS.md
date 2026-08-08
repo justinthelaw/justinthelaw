@@ -9,8 +9,7 @@ fit together.
 | Need | Primary file | Notes |
 | --- | --- | --- |
 | Site identity, repository, resume, links | `src/config/site.ts` | Drives the page and GitHub Pages URL derivation |
-| Browser chatbot facts | `src/config/site.ts` | `PROFILE_SECTIONS` is the runtime context source |
-| Training chatbot facts | `ml/profile-qa/profile_qa/public_profile.py` | Keep in sync with public facts when retraining |
+| Browser and training chatbot facts | `src/config/public-profile.json` | Shared source for retrieval metadata, fact text, and evaluation terms |
 | Prompt wording and generation knobs | `src/config/prompts.ts` | Includes welcome messages and generation parameters |
 | Browser model and context limit | `src/config/models.ts` | Default is `int8` with `uint8` fallback |
 | Prompt retrieval and budget trimming | `src/services/ai/contextProvider.ts` | Ranks profile sections and fits prompt/history into budget |
@@ -36,6 +35,7 @@ flowchart TD
   worker --> loader["modelLoader.ts"]
   loader --> hf["Hugging Face model files"]
   worker --> context["contextProvider.ts"]
+  canonicalProfile["public-profile.json"] --> profileSections["PROFILE_SECTIONS"]
   context --> profileSections["PROFILE_SECTIONS"]
   worker --> stream["Typed WorkerStatus stream"]
   stream --> chatStore
@@ -99,7 +99,7 @@ Rules:
 
 ```mermaid
 flowchart TD
-  facts["Public profile facts"] --> pyProfile["public_profile.py"]
+  facts["src/config/public-profile.json"] --> pyProfile["public_profile.py loader"]
   pyProfile --> data["synthetic_data.py"]
   data --> train["train_lora.py"]
   train --> eval["evaluate.py"]
@@ -120,7 +120,7 @@ does not train models and does not call a server.
 
 | Step | Configure | Guardrail |
 | --- | --- | --- |
-| Facts | `src/config/site.ts` and `ml/profile-qa/profile_qa/public_profile.py` | Keep public facts aligned before generating data |
+| Facts | `src/config/public-profile.json` | One source for browser keywords/priorities and Python evaluation terms |
 | Dataset | `python -m profile_qa.synthetic_data` | Generated data stays under ignored `ml/profile-qa/data/` |
 | Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; local 8GB NVIDIA LoRA/QLoRA runs |
 | Evaluation | `python -m profile_qa.evaluate` | Seq2seq only; adapters must record `teapotai/teapotllm` as their base |
@@ -137,4 +137,4 @@ the app default model.
 | Paths | Prefer exact file paths in documentation updates |
 | Scope | Keep this file diagram-first and concise; put command details in `ml/profile-qa/README.md` |
 | Flow changes | Update the matching diagram in the same change |
-| Profile facts | Keep the TypeScript and Python profile sources synchronized when facts change for a retrained model |
+| Profile facts | Update only `src/config/public-profile.json`; TypeScript and Python consumers load it directly |

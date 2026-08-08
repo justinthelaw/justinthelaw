@@ -5,6 +5,7 @@ import {
   getDeviceSpecificDtype,
   getDtypeFallbackOrder,
 } from "../src/config/models";
+import canonicalProfileSections from "../src/config/public-profile.json";
 import { PERSONAL_CONTEXT, PROFILE_SECTIONS } from "../src/config/site";
 import {
   cleanInput,
@@ -162,6 +163,16 @@ test.describe("Model prompt policy", () => {
       PROFILE_SECTIONS.map((section) => [section.id, section.priority]),
     );
 
+    expect(Object.fromEntries(priorities)).toEqual({
+      identity: 100,
+      current_role: 90,
+      experience: 80,
+      projects: 75,
+      education: 70,
+      recommendations: 65,
+      skills: 60,
+      interests: 40,
+    });
     expect(priorities.get("experience")).toBeGreaterThan(
       priorities.get("education") ?? 0,
     );
@@ -171,6 +182,10 @@ test.describe("Model prompt policy", () => {
     expect(priorities.get("recommendations")).toBeGreaterThan(
       priorities.get("interests") ?? 0,
     );
+  });
+
+  test("loads browser profile facts from the canonical profile source", () => {
+    expect(PROFILE_SECTIONS).toEqual(canonicalProfileSections);
   });
 
   test("keeps retrieved personal context compact for Teapot", () => {
@@ -226,7 +241,7 @@ test.describe("Model prompt policy", () => {
 
     expect(prompt).toContain("Recent conversation:");
     expect(prompt).toContain("Defense Unicorns");
-    expect(prompt).toContain("MRR 15%");
+    expect(prompt).toContain("MRR by 15%");
     expect(budget.includedConversationTurns).toBe(2);
     expect(estimateTokenCount(prompt)).toBeLessThanOrEqual(1024);
   });
