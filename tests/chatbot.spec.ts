@@ -3,6 +3,7 @@ import {
   getPersonalContextBudget,
   getPromptBudget,
 } from "../src/services/ai/contextProvider";
+import { CHATBOT_CONFIG } from "../src/config";
 
 const HELD_LOADING_MESSAGE = "Downloading model... 83%";
 const HOLD_MODEL_LOADING_SESSION_KEY = "__holdModelLoading";
@@ -149,6 +150,17 @@ test.describe("Chatbot UI Tests", () => {
       "AI can make mistakes. Always verify the information.",
     );
     await expect(disclaimer).toBeVisible();
+  });
+
+  test("should skip the welcome animation when reduced motion is requested", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.reload();
+    await openChat(page);
+
+    const welcomeText = await page.getByTestId("typewriter-text").innerText();
+    expect(CHATBOT_CONFIG.welcomeMessages).toContain(welcomeText);
   });
 
   test("should display model loading message without model size", async ({

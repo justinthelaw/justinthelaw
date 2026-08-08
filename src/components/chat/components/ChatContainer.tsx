@@ -4,6 +4,7 @@
  */
 
 import React, { useCallback, useEffect, useId, useRef } from "react";
+import { useReducedMotion } from "framer-motion";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
 import { useChatHistory, useAIGeneration, useModelManagement } from "../hooks";
@@ -36,6 +37,7 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
 
 export function ChatContainer({ onClose }: ChatContainerProps): React.ReactElement {
   const titleId = useId();
+  const shouldReduceMotion = useReducedMotion();
   const { messages, clearHistory, canClear } = useChatHistory();
   const { isGenerating, currentResponse, generate } = useAIGeneration();
   const {
@@ -112,8 +114,10 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
   }, [handleDialogKeyDown]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, currentResponse, isGenerating, isLoading]);
+    messagesEndRef.current?.scrollIntoView({
+      behavior: shouldReduceMotion ? "auto" : "smooth",
+    });
+  }, [messages, currentResponse, isGenerating, isLoading, shouldReduceMotion]);
 
   function handleSend(message: string): void {
     if (error) {
