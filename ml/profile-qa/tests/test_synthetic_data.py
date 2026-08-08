@@ -4,6 +4,8 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from profile_qa.public_profile import (
@@ -72,6 +74,52 @@ def test_canonical_profile_preserves_browser_and_scoring_metadata() -> None:
             assert fact["keywords"]
             assert isinstance(fact.get("terms"), list)
             assert fact["terms"]
+
+
+@pytest.mark.parametrize(
+    ("fact_key", "record_id"),
+    [
+        (
+            ("current_role", "current_role_scale"),
+            "targeted-current-impact-projects-train-0",
+        ),
+        (("projects", "projects_rag_system"), "rag-and-metrics-train-0"),
+        (
+            ("education", "education_graduate"),
+            "followup-graduate-schools-train-0",
+        ),
+    ],
+)
+def test_grouped_records_derive_answers_and_terms_from_canonical_facts(
+    monkeypatch: pytest.MonkeyPatch,
+    fact_key: tuple[str, str],
+    record_id: str,
+) -> None:
+    changed_text = f"Updated canonical fact for {record_id}."
+    changed_terms = [f"updated term for {record_id}"]
+    changed_fact = fact_index()[fact_key]
+    monkeypatch.setitem(changed_fact, "text", changed_text)
+    monkeypatch.setitem(changed_fact, "terms", changed_terms)
+
+    record = next(item for item in build_records(seed=7) if item["id"] == record_id)
+    facts = fact_index()
+    evidence_facts = [
+        facts[(item["section_id"], item["fact_id"])] for item in record["evidence"]
+    ]
+    expected_answer = " ".join(str(fact["text"]) for fact in evidence_facts)
+    expected_terms = list(
+        dict.fromkeys(
+            str(term)
+            for fact in evidence_facts
+            for term in fact.get("terms", [])
+            if isinstance(term, str)
+        )
+    )
+
+    assert record["answer"] == expected_answer
+    assert record["expected_terms"] == expected_terms
+    assert changed_text in record["answer"]
+    assert changed_terms[0] in record["expected_terms"]
 
 
 def test_split_isolation_for_questions() -> None:

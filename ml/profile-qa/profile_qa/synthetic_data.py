@@ -59,6 +59,40 @@ def _fact_text(section_id: str, fact_id: str) -> str:
     return str(fact_index()[(section_id, fact_id)]["text"])
 
 
+def _answer_from_evidence(evidence: list[Evidence]) -> str:
+    return " ".join(
+        _fact_text(item["section_id"], item["fact_id"]) for item in evidence
+    )
+
+
+def _terms_from_evidence(evidence: list[Evidence]) -> list[str]:
+    terms: list[str] = []
+    for item in evidence:
+        for term in _fact_terms(item["section_id"], item["fact_id"]):
+            if term not in terms:
+                terms.append(term)
+    return terms
+
+
+def _grouped_evidence(spec: dict[str, object]) -> list[Evidence]:
+    raw_evidence = spec["evidence"]
+    if not isinstance(raw_evidence, list):
+        raise TypeError(f"{spec['id']} evidence must be a list")
+
+    evidence: list[Evidence] = []
+    for item in raw_evidence:
+        if not isinstance(item, dict):
+            raise TypeError(f"{spec['id']} evidence entries must be objects")
+        section_id = item.get("section_id")
+        fact_id = item.get("fact_id")
+        if not isinstance(section_id, str) or not isinstance(fact_id, str):
+            raise TypeError(
+                f"{spec['id']} evidence entries require string section_id and fact_id"
+            )
+        evidence.append({"section_id": section_id, "fact_id": fact_id})
+    return evidence
+
+
 def _split_questions(
     train: list[str],
     validation: str,
@@ -339,12 +373,6 @@ TARGETED_COMPLETENESS_QA: list[dict[str, object]] = [
         "task": "multi_hop",
         "evidence": _evidence("current_role", "current_role_scale")
         + _evidence("projects", "projects_current_role"),
-        "answer": (
-            "Justin has led engagements across 11 organizations and about 33,000 "
-            "users, and he built Codex packages, OpenInference observability, and a "
-            "Kubernetes operator that diagnoses and remediates failing workloads."
-        ),
-        "terms": ["11 organizations", "33,000 users", "Codex packages", "Kubernetes operator"],
         "questions": [
             "What public current-work scale plus tooling are listed for Justin?",
             "When asked for current scale and tools, what complete answer should be given?",
@@ -359,11 +387,6 @@ TARGETED_COMPLETENESS_QA: list[dict[str, object]] = [
         "task": "multi_hop",
         "evidence": _evidence("projects", "projects_rag_system")
         + _evidence("projects", "projects_metrics"),
-        "answer": (
-            "Justin led a FIPS-compliant agentic RAG system for shipyard operations "
-            "and improved model MRR by 15% and agentic retrieval by 38%."
-        ),
-        "terms": ["FIPS-compliant", "shipyard operations", "MRR by 15%", "38%"],
         "questions": [
             "After the shipyard operations RAG work, what project and gains should be mentioned?",
             "What complete answer pairs Justin's secure RAG project with the metrics?",
@@ -378,12 +401,6 @@ TARGETED_COMPLETENESS_QA: list[dict[str, object]] = [
         "task": "chronology",
         "evidence": _evidence("experience", "experience_previous_role")
         + _evidence("experience", "experience_veteran"),
-        "answer": (
-            "Before his current OpenAI work, Justin was a Senior Software Engineer "
-            "at Defense Unicorns and served as a U.S. Air Force and Space Force "
-            "veteran."
-        ),
-        "terms": ["Defense Unicorns", "Air Force", "Space Force"],
         "questions": [
             "What preceded Justin's current role at OpenAI, including service background?",
             "What complete pre-OpenAI career summary is listed for Justin?",
@@ -398,11 +415,6 @@ TARGETED_COMPLETENESS_QA: list[dict[str, object]] = [
         "task": "education",
         "evidence": _evidence("education", "education_rit")
         + _evidence("education", "education_graduate"),
-        "answer": (
-            "Justin earned a B.S. in Mechanical Engineering from RIT and completed "
-            "graduate CS studies at Johns Hopkins and Georgia Tech."
-        ),
-        "terms": ["Mechanical Engineering", "RIT", "Johns Hopkins", "Georgia Tech"],
         "questions": [
             "What complete degree and graduate school answer should be given?",
             "Which undergraduate degree plus graduate CS institutions are public?",
@@ -418,12 +430,6 @@ MULTI_HOP_QA: list[dict[str, object]] = [
         "task": "multi_hop",
         "evidence": _evidence("current_role", "current_role_scale")
         + _evidence("projects", "projects_current_role"),
-        "answer": (
-            "Justin has led engagements across 11 organizations and about 33,000 "
-            "users, and he built Codex packages, OpenInference observability, and a "
-            "Kubernetes operator that diagnoses and remediates failing workloads."
-        ),
-        "terms": ["11 organizations", "33,000 users", "Codex packages", "Kubernetes operator"],
         "questions": _split_questions(
             [
                 "Summarize Justin's current engagement scale and what he built.",
@@ -441,12 +447,6 @@ MULTI_HOP_QA: list[dict[str, object]] = [
         "task": "multi_hop",
         "evidence": _evidence("experience", "experience_previous_role")
         + _evidence("projects", "projects_products"),
-        "answer": (
-            "Previously, Justin was a Senior Software Engineer at Defense Unicorns "
-            "working across 40+ Kubernetes, AI/ML, and full-stack repos, where he "
-            "developed LeapfrogAI and UDS AI."
-        ),
-        "terms": ["Defense Unicorns", "40+", "LeapfrogAI", "UDS AI"],
         "questions": _split_questions(
             [
                 "What was Justin's prior role and which AI products did he develop?",
@@ -461,11 +461,6 @@ MULTI_HOP_QA: list[dict[str, object]] = [
         "task": "multi_hop",
         "evidence": _evidence("projects", "projects_rag_system")
         + _evidence("projects", "projects_metrics"),
-        "answer": (
-            "Justin led a FIPS-compliant agentic RAG system for shipyard operations "
-            "and improved model MRR by 15% and agentic retrieval by 38%."
-        ),
-        "terms": ["FIPS-compliant", "shipyard operations", "MRR by 15%", "38%"],
         "questions": _split_questions(
             [
                 "What RAG system did Justin lead and what improved?",
@@ -483,11 +478,6 @@ MULTI_HOP_QA: list[dict[str, object]] = [
         "task": "education",
         "evidence": _evidence("education", "education_rit")
         + _evidence("education", "education_graduate"),
-        "answer": (
-            "Justin earned a B.S. in Mechanical Engineering from RIT and completed "
-            "graduate CS studies at Johns Hopkins and Georgia Tech."
-        ),
-        "terms": ["Mechanical Engineering", "RIT", "Johns Hopkins", "Georgia Tech"],
         "questions": _split_questions(
             [
                 "Summarize Justin's education background.",
@@ -502,12 +492,6 @@ MULTI_HOP_QA: list[dict[str, object]] = [
         "task": "chronology",
         "evidence": _evidence("experience", "experience_previous_role")
         + _evidence("experience", "experience_veteran"),
-        "answer": (
-            "Before his current OpenAI work, Justin was a Senior Software Engineer "
-            "at Defense Unicorns and served as a U.S. Air Force and Space Force "
-            "veteran."
-        ),
-        "terms": ["Defense Unicorns", "Air Force", "Space Force"],
         "questions": _split_questions(
             [
                 "What did Justin do before OpenAI?",
@@ -525,13 +509,6 @@ MULTI_HOP_QA: list[dict[str, object]] = [
         "task": "recommendations",
         "evidence": _evidence("skills", "skills_strengths")
         + _evidence("recommendations", "recommendations_summary"),
-        "answer": (
-            "Justin's strengths include leadership, systems design, AI/ML, "
-            "Kubernetes, RAG, observability, and mission-critical delivery; "
-            "recommendations describe him as personable, collaborative, calm under "
-            "pressure, technically deep, and a strong problem solver."
-        ),
-        "terms": ["leadership", "systems design", "collaborative", "calm under pressure"],
         "questions": _split_questions(
             [
                 "Combine Justin's strengths with how recommendations describe him.",
@@ -550,8 +527,6 @@ FOLLOW_UP_QA: list[dict[str, object]] = [
     {
         "id": "followup-defense-metrics",
         "evidence": _evidence("projects", "projects_metrics"),
-        "answer": "At Defense Unicorns, Justin improved model MRR by 15% and agentic retrieval by 38%.",
-        "terms": ["MRR by 15%", "agentic retrieval by 38%"],
         "history": [
             {"role": "user", "content": "Tell me about Justin's Defense Unicorns work."},
             {
@@ -571,8 +546,6 @@ FOLLOW_UP_QA: list[dict[str, object]] = [
     {
         "id": "followup-operator-purpose",
         "evidence": _evidence("projects", "projects_current_role"),
-        "answer": "The Kubernetes operator diagnoses and remediates failing workloads.",
-        "terms": ["diagnoses", "remediates", "failing workloads"],
         "history": [
             {"role": "user", "content": "What did Justin build in his current role?"},
             {
@@ -592,8 +565,6 @@ FOLLOW_UP_QA: list[dict[str, object]] = [
     {
         "id": "followup-graduate-schools",
         "evidence": _evidence("education", "education_graduate"),
-        "answer": "Justin completed graduate CS studies at Johns Hopkins and Georgia Tech.",
-        "terms": ["Johns Hopkins", "Georgia Tech"],
         "history": [
             {"role": "user", "content": "Tell me about Justin's education."},
             {
@@ -613,11 +584,6 @@ FOLLOW_UP_QA: list[dict[str, object]] = [
     {
         "id": "followup-recommendation-traits",
         "evidence": _evidence("recommendations", "recommendations_summary"),
-        "answer": (
-            "Recommendations describe Justin as personable, collaborative, calm "
-            "under pressure, technically deep, and a strong problem solver."
-        ),
-        "terms": ["personable", "collaborative", "calm under pressure"],
         "history": [
             {"role": "user", "content": "What do people say about Justin?"},
             {
@@ -717,6 +683,9 @@ def _add_grouped_records(records: list[Record], specs: list[dict[str, object]], 
         questions = spec["questions"]
         if not isinstance(questions, dict):
             continue
+        evidence = _grouped_evidence(spec)
+        answer = _answer_from_evidence(evidence)
+        terms = _terms_from_evidence(evidence)
         for split in SPLITS:
             for index, question in enumerate(questions[split]):
                 records.append(
@@ -725,9 +694,9 @@ def _add_grouped_records(records: list[Record], specs: list[dict[str, object]], 
                         split,
                         str(task or spec["task"]),
                         question,
-                        str(spec["answer"]),
-                        spec["evidence"],  # type: ignore[arg-type]
-                        spec["terms"],  # type: ignore[arg-type]
+                        answer,
+                        evidence,
+                        terms,
                         history=spec.get("history") if isinstance(spec.get("history"), list) else None,
                     )
                 )
@@ -738,6 +707,9 @@ def _add_train_only_grouped_records(records: list[Record], specs: list[dict[str,
         questions = spec["questions"]
         if not isinstance(questions, list):
             continue
+        evidence = _grouped_evidence(spec)
+        answer = _answer_from_evidence(evidence)
+        terms = _terms_from_evidence(evidence)
         for index, question in enumerate(questions):
             records.append(
                 _record(
@@ -745,9 +717,9 @@ def _add_train_only_grouped_records(records: list[Record], specs: list[dict[str,
                     "train",
                     str(spec["task"]),
                     str(question),
-                    str(spec["answer"]),
-                    spec["evidence"],  # type: ignore[arg-type]
-                    spec["terms"],  # type: ignore[arg-type]
+                    answer,
+                    evidence,
+                    terms,
                 )
             )
 
