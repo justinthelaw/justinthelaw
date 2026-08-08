@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -18,9 +19,14 @@ from profile_qa.prepare_hf_artifacts import (
     validate_report_aggregates,
 )
 from profile_qa.provenance import (
+    CANDIDATE_PROVENANCE_FILENAME,
+    candidate_payload_sha256,
     evaluation_provenance,
+    sha256_directory,
+    verify_candidate_payload,
     write_candidate_provenance,
 )
+from profile_qa.publish import main as publish_main
 
 
 def _report(
@@ -451,6 +457,99 @@ def test_promotion_provenance_rejects_boolean_schema_version(tmp_path: Path) -> 
             dataset_path=dataset_path,
             model_browser_dir=browser_dir,
         )
+
+
+def test_directory_hash_frames_binary_file_records(tmp_path: Path) -> None:
+    single_file_dir = tmp_path / "single"
+    single_file_dir.mkdir()
+    (single_file_dir / "a").write_bytes(b"x\0b\0y")
+
+    two_file_dir = tmp_path / "two"
+    two_file_dir.mkdir()
+    (two_file_dir / "a").write_bytes(b"x")
+    (two_file_dir / "b").write_bytes(b"y")
+
+    assert sha256_directory(single_file_dir) != sha256_directory(two_file_dir)
+
+
+def test_model_payload_refreshes_manifest_after_writing_card(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source_model_dir = tmp_path / "merged-model"
+    source_model_dir.mkdir()
+    (source_model_dir / "model.safetensors").write_bytes(b"candidate weights")
+    browser_dir = tmp_path / "browser"
+    browser_dir.mkdir()
+    (browser_dir / "config.json").write_text("{}", encoding="utf-8")
+    write_candidate_provenance(
+        source_model=str(source_model_dir),
+        browser_dir=browser_dir,
+    )
+
+    reports = _passing_reports()
+    monkeypatch.setattr(
+        prepare_hf_artifacts_module,
+        "_load_and_validate_promotion_reports",
+        lambda args: (
+            reports["baseline_test"],
+            reports["promoted_validation"],
+            reports["promoted_test"],
+        ),
+    )
+    args = argparse.Namespace(
+        model_browser_dir=str(browser_dir),
+        output_dir=str(tmp_path / "hf"),
+        model_repo_id="example/model",
+        dataset_repo_id="example/dataset",
+    )
+
+    payload_dir = prepare_model_payload(args)
+    manifest = json.loads(
+        (payload_dir / CANDIDATE_PROVENANCE_FILENAME).read_text(encoding="utf-8")
+    )
+
+    assert (payload_dir / "README.md").is_file()
+    assert manifest["browser_sha256"] == candidate_payload_sha256(payload_dir)
+    assert verify_candidate_payload(payload_dir) == manifest
+
+    (payload_dir / "generated-after-preparation.txt").write_text(
+        "unexpected",
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="candidate payload does not match"):
+        verify_candidate_payload(payload_dir)
+
+
+def test_model_publish_rechecks_candidate_payload_boundary(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source_model_dir = tmp_path / "merged-model"
+    source_model_dir.mkdir()
+    (source_model_dir / "model.safetensors").write_bytes(b"candidate weights")
+    payload_dir = tmp_path / "model-payload"
+    payload_dir.mkdir()
+    (payload_dir / "config.json").write_text("{}", encoding="utf-8")
+    write_candidate_provenance(
+        source_model=str(source_model_dir),
+        browser_dir=payload_dir,
+    )
+    (payload_dir / "late-generated-file.txt").write_text("tamper", encoding="utf-8")
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "profile_qa.publish",
+            "--repo-id",
+            "example/model",
+            "--artifact-dir",
+            str(payload_dir),
+        ],
+    )
+
+    with pytest.raises(ValueError, match="candidate payload does not match"):
+        publish_main()
 
 
 def test_dataset_payload_preserves_fingerprinted_source_bytes(

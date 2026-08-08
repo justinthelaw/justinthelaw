@@ -6,6 +6,7 @@ import argparse
 from pathlib import Path
 
 from .export_onnx import reject_external_data_files
+from .provenance import verify_candidate_payload
 
 
 def main() -> int:
@@ -19,11 +20,15 @@ def main() -> int:
 
     artifact_dir = Path(args.artifact_dir)
     reject_external_data_files(artifact_dir)
+    if args.repo_type == "model":
+        verify_candidate_payload(artifact_dir)
 
     try:
         from huggingface_hub import HfApi
     except ImportError as exc:
-        raise RuntimeError("Install publish dependencies with pip install -r ml/profile-qa/requirements.txt") from exc
+        raise RuntimeError(
+            "Install publish dependencies with pip install -r ml/profile-qa/requirements.txt"
+        ) from exc
 
     api = HfApi()
     repo_type = None if args.repo_type == "model" else args.repo_type

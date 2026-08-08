@@ -104,9 +104,9 @@ flowchart TD
   data --> train["train_lora.py"]
   train --> merge["merge_adapter.py"]
   merge --> eval["evaluate.py"]
-  eval --> manualGate["Manual release gates"]
-  manualGate --> export["export_onnx.py"]
-  export --> artifacts["Validate metrics + prepare payloads"]
+  eval --> export["export_onnx.py"]
+  export --> manualGate["Manual release gates"]
+  manualGate --> artifacts["Validate metrics + prepare payloads"]
   eval --> artifacts
   artifacts --> publish["publish.py"]
   publish --> hfRepo["Hugging Face model repo"]

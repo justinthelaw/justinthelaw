@@ -22,9 +22,10 @@ from .config import (
 from .evaluate import score_predictions
 from .export_onnx import reject_external_data_files
 from .provenance import (
-    CANDIDATE_PROVENANCE_FILENAME,
     PROVENANCE_SCHEMA_VERSION,
-    sha256_directory,
+    candidate_payload_sha256,
+    load_candidate_provenance,
+    refresh_candidate_provenance,
     sha256_file,
 )
 from .public_profile import PROFILE_SECTIONS
@@ -387,23 +388,6 @@ def _valid_schema_version(value: object) -> bool:
     return type(value) is int and value == PROVENANCE_SCHEMA_VERSION
 
 
-def _load_candidate_provenance(model_browser_dir: Path) -> dict[str, Any]:
-    manifest_path = model_browser_dir / CANDIDATE_PROVENANCE_FILENAME
-    if manifest_path.is_symlink():
-        raise ValueError(f"candidate provenance cannot be a symlink: {manifest_path}")
-    try:
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise ValueError(
-            f"could not load candidate provenance {manifest_path}: {exc}"
-        ) from exc
-    if not isinstance(manifest, dict):
-        raise ValueError(
-            f"candidate provenance {manifest_path} must contain a JSON object"
-        )
-    return manifest
-
-
 def validate_promotion_provenance(
     *,
     baseline_test: object,
@@ -422,7 +406,7 @@ def validate_promotion_provenance(
         dataset_sha256 = None
 
     try:
-        manifest = _load_candidate_provenance(model_browser_dir)
+        manifest = load_candidate_provenance(model_browser_dir)
     except ValueError as exc:
         errors.append(str(exc))
         manifest = {}
@@ -453,10 +437,7 @@ def validate_promotion_provenance(
         )
     else:
         try:
-            actual_browser_sha = sha256_directory(
-                model_browser_dir,
-                excluded_relative_paths={CANDIDATE_PROVENANCE_FILENAME},
-            )
+            actual_browser_sha = candidate_payload_sha256(model_browser_dir)
         except ValueError as exc:
             errors.append(str(exc))
         else:
@@ -900,6 +881,7 @@ def prepare_model_payload(args: argparse.Namespace) -> Path:
         promoted_validation=promoted_validation,
         promoted_test=promoted_test,
     )
+    refresh_candidate_provenance(model_output_dir)
     reject_external_data_files(model_output_dir)
     return model_output_dir
 

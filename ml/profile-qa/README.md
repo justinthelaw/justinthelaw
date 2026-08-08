@@ -120,6 +120,15 @@ browser candidate requires a complete export and quantization run; either export
 skip flag intentionally omits the provenance manifest, so artifact preparation
 will reject that development-only output.
 
+The candidate `browser_sha256` has one payload boundary: every regular file
+under the directory containing `profile_qa_candidate_provenance.json`, at any
+depth, except the manifest itself. Export records the initial browser directory;
+artifact preparation refreshes the same digest after generating the model card,
+and model publishing verifies it again immediately before upload. Adding,
+removing, or changing any payload file after preparation therefore blocks
+publication. Source-model fingerprints similarly cover every regular file under
+the local merged-model directory.
+
 Metric reports also fail closed when required scores are missing, non-numeric,
 non-finite, outside `[0, 1]`, or when promoted validation/test reports omit the
 `refusal` or `multi_turn` task. Each required task score must agree with its
