@@ -6,12 +6,16 @@ import {
 
 const HELD_LOADING_MESSAGE = "Downloading model... 83%";
 const HOLD_MODEL_LOADING_SESSION_KEY = "__holdModelLoading";
+const SILENT_MODEL_LOADING_SESSION_KEY = "__silentModelLoading";
+const FAIL_MODEL_LOADING_SESSION_KEY = "__failModelLoading";
 const HOLD_GENERATION_SESSION_KEY = "__holdGeneration";
 const THROW_WORKER_SESSION_KEY = "__throwWorker";
 
 interface MockWorkerInitOptions {
   heldLoadingMessage: string;
   holdModelLoadingSessionKey: string;
+  silentModelLoadingSessionKey: string;
+  failModelLoadingSessionKey: string;
   holdGenerationSessionKey: string;
   throwWorkerSessionKey: string;
 }
@@ -31,6 +35,7 @@ async function mockModelWorker(page: Page): Promise<void> {
       status: string;
       message?: string;
       response?: string;
+      error?: string;
     }
 
     class MockWorker {
@@ -54,6 +59,28 @@ async function mockModelWorker(page: Page): Promise<void> {
         mockWindow.__mockWorkerMessages.push(message);
 
         if (message.action === "load") {
+          if (
+            window.sessionStorage.getItem(options.failModelLoadingSessionKey) ===
+            "true"
+          ) {
+            window.setTimeout(() => {
+              this.emit({
+                status: "error",
+                message: "Model loading failed.",
+                error: "Mock model loading failed",
+              });
+            }, 0);
+            return;
+          }
+
+          if (
+            window.sessionStorage.getItem(
+              options.silentModelLoadingSessionKey,
+            ) === "true"
+          ) {
+            return;
+          }
+
           if (
             window.sessionStorage.getItem(options.holdModelLoadingSessionKey) ===
             "true"
@@ -116,6 +143,8 @@ async function mockModelWorker(page: Page): Promise<void> {
   }, {
     heldLoadingMessage: HELD_LOADING_MESSAGE,
     holdModelLoadingSessionKey: HOLD_MODEL_LOADING_SESSION_KEY,
+    silentModelLoadingSessionKey: SILENT_MODEL_LOADING_SESSION_KEY,
+    failModelLoadingSessionKey: FAIL_MODEL_LOADING_SESSION_KEY,
     holdGenerationSessionKey: HOLD_GENERATION_SESSION_KEY,
     throwWorkerSessionKey: THROW_WORKER_SESSION_KEY,
   });
@@ -214,6 +243,45 @@ test.describe("Chatbot UI Tests", () => {
     await expect(page.getByTestId("model-loading-status")).toHaveText(
       HELD_LOADING_MESSAGE,
     );
+  });
+
+  test("should not replay a stale model error while a retry is loading", async ({
+    page,
+  }) => {
+    await page.evaluate((sessionKey) => {
+      sessionStorage.setItem(sessionKey, "true");
+    }, FAIL_MODEL_LOADING_SESSION_KEY);
+    await page.reload();
+    await openChat(page);
+    await expect(page.getByTestId("model-error-status")).toContainText(
+      "Mock model loading failed",
+    );
+
+    await page.evaluate(
+      ({ failKey, silentKey }) => {
+        sessionStorage.removeItem(failKey);
+        sessionStorage.setItem(silentKey, "true");
+      },
+      {
+        failKey: FAIL_MODEL_LOADING_SESSION_KEY,
+        silentKey: SILENT_MODEL_LOADING_SESSION_KEY,
+      },
+    );
+    await page.getByTestId("model-retry-button").click();
+    await page.getByRole("button", { name: "Close chat" }).click();
+    await openChatWithoutLoading(page);
+
+    await expect(page.getByTestId("model-loading-status-row")).toBeVisible();
+    await expect(page.getByTestId("model-error-status")).toHaveCount(0);
+    const loadCount = await page.evaluate(() => {
+      const mockWindow = window as unknown as {
+        __mockWorkerMessages: Array<{ action?: string }>;
+      };
+      return mockWindow.__mockWorkerMessages.filter(
+        (message) => message.action === "load",
+      ).length;
+    });
+    expect(loadCount).toBe(2);
   });
 
   test("should show worker construction errors and recover after reopen", async ({

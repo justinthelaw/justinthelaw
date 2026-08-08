@@ -120,8 +120,13 @@ Edit `src/config/models.ts`:
 
 ```typescript
 export const MODEL_ID = "justinthelaw/teapot-profile-qa-browser-1024";
+export const MODEL_DOWNLOAD_SIZE_MB = 820;
 export const MODEL_CONTEXT_LIMIT = 1024;
 ```
+
+Set `MODEL_DOWNLOAD_SIZE_MB` to the approximate transfer size of one active
+model dtype so the consent prompt remains accurate. A compatibility fallback
+can download a second dtype of similar size.
 
 Use a model that is compatible with Transformers.js browser inference. If the
 model uses a different Transformers.js task, update

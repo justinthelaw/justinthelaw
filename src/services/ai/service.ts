@@ -102,6 +102,7 @@ export class AIService {
       return;
     }
 
+    this.lastLifecycleResponse = null;
     this.modelLoading = true;
     this.worker.postMessage({ action: WorkerAction.LOAD });
   }
