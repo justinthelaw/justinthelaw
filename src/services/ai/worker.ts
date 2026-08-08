@@ -7,7 +7,6 @@ import {
   TextStreamer,
   env,
   type Text2TextGenerationOutput,
-  type TextGenerationOutput,
 } from "@huggingface/transformers";
 import { WorkerAction, WorkerStatus, type WorkerRequest } from "@/types/worker";
 import { GENERATION_PARAMS } from "@/config/prompts";
@@ -21,51 +20,6 @@ env.remoteHost = "https://huggingface.co";
 let viewportWidth: number | undefined;
 let loadedPipeline: LoadedGenerationPipeline | null = null;
 const logger = createLogger(LOG_AREAS.AI_WORKER);
-
-function extractGeneratedText(output: TextGenerationOutput): string {
-  const generated = output[0]?.generated_text;
-
-  if (typeof generated === "string") {
-    return generated.trim();
-  }
-
-  if (Array.isArray(generated)) {
-    for (let index = generated.length - 1; index >= 0; index -= 1) {
-      const message = generated[index];
-      if (message.role !== "assistant") {
-        continue;
-      }
-
-      if (typeof message.content === "string") {
-        return message.content.trim();
-      }
-
-      if (Array.isArray(message.content)) {
-        return message.content
-          .map((part) => {
-            if (typeof part === "string") {
-              return part;
-            }
-
-            if (
-              typeof part === "object" &&
-              part !== null &&
-              "text" in part &&
-              typeof part.text === "string"
-            ) {
-              return part.text;
-            }
-
-            return "";
-          })
-          .join("")
-          .trim();
-      }
-    }
-  }
-
-  return "";
-}
 
 self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
   const {
@@ -163,51 +117,26 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
         },
       });
 
-      if (loadedPipeline.task === "text-generation") {
-        const output = await loadedPipeline.generator(prompt, {
-          temperature: generationParams.temperature,
-          max_new_tokens: generationParams.maxTokens,
-          do_sample: false,
-          repetition_penalty: generationParams.repetitionPenalty,
-          top_k: generationParams.topK,
-          early_stopping: true,
-          return_full_text: false,
-          streamer,
+      const output = await loadedPipeline.generator(prompt, {
+        temperature: generationParams.temperature,
+        max_new_tokens: generationParams.maxTokens,
+        do_sample: false,
+        repetition_penalty: generationParams.repetitionPenalty,
+        top_k: generationParams.topK,
+        early_stopping: true,
+        streamer,
+      });
+
+      const generatedText =
+        (output as Text2TextGenerationOutput)[0]?.generated_text.trim() ?? "";
+
+      if (!generatedText) {
+        logger.warn("text2text-generation output completed without text");
+      } else if (!streamedText.trim()) {
+        self.postMessage({
+          status: WorkerStatus.STREAM,
+          response: generatedText,
         });
-
-        const generatedText = extractGeneratedText(
-          output as TextGenerationOutput
-        );
-        if (!generatedText) {
-          logger.warn("text-generation output completed without assistant text");
-        } else if (!streamedText.trim()) {
-          self.postMessage({
-            status: WorkerStatus.STREAM,
-            response: generatedText,
-          });
-        }
-      } else {
-        const output = await loadedPipeline.generator(prompt, {
-          temperature: generationParams.temperature,
-          max_new_tokens: generationParams.maxTokens,
-          do_sample: false,
-          repetition_penalty: generationParams.repetitionPenalty,
-          top_k: generationParams.topK,
-          early_stopping: true,
-          streamer,
-        });
-
-        const generatedText =
-          (output as Text2TextGenerationOutput)[0]?.generated_text.trim() ?? "";
-
-        if (!generatedText) {
-          logger.warn("text2text-generation output completed without text");
-        } else if (!streamedText.trim()) {
-          self.postMessage({
-            status: WorkerStatus.STREAM,
-            response: generatedText,
-          });
-        }
       }
     } catch (e) {
       self.postMessage({
