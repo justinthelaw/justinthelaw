@@ -3,7 +3,7 @@
  */
 
 import type { GenerationParams } from "@/types";
-import { SITE_CONFIG } from "./site";
+import { PROFILE_SUBJECT, type ProfileSubject } from "./site";
 
 /**
  * Generation parameters for the browser model.
@@ -23,15 +23,23 @@ export const MAX_SINGLE_MESSAGE_LENGTH = 1200;
 /**
  * AI chatbot configuration.
  */
-export const CHATBOT_CONFIG = {
-  welcomeMessages: [
-    `Hello, I am ${SITE_CONFIG.name}'s AI assistant! Got any questions for me?`,
-    `Hey there! Got any questions about ${SITE_CONFIG.name} for me?`,
-    `Hi! Interested in learning more about ${SITE_CONFIG.name}?`,
-    `What would you like to know about ${SITE_CONFIG.name}?`,
-    `I heard you had questions about ${SITE_CONFIG.name}? Just ask away!`,
-    `Thanks for visiting! Do you want to learn more about ${SITE_CONFIG.name}?`,
-  ],
+function possessive(value: string): string {
+  return value.endsWith("s") ? `${value}'` : `${value}'s`;
+}
 
-  systemPrompt: `You are ${SITE_CONFIG.fullName}'s AI assistant. Use only the provided context. Reply in 1-2 short sentences. If the answer is absent, say the context does not say.`,
-} as const;
+export function createChatbotConfig(subject: ProfileSubject) {
+  return {
+    welcomeMessages: [
+      `Hello, I am ${possessive(subject.shortName)} AI assistant! Got any questions for me?`,
+      `Hey there! Got any questions about ${subject.shortName} for me?`,
+      `Hi! Interested in learning more about ${subject.shortName}?`,
+      `What would you like to know about ${subject.shortName}?`,
+      `I heard you had questions about ${subject.shortName}? Just ask away!`,
+      `Thanks for visiting! Do you want to learn more about ${subject.shortName}?`,
+    ],
+
+    systemPrompt: `You are ${possessive(subject.name)} AI assistant. Use only the provided context. Reply in 1-2 short sentences. If the answer is absent, say the context does not say.`,
+  } as const;
+}
+
+export const CHATBOT_CONFIG = createChatbotConfig(PROFILE_SUBJECT);

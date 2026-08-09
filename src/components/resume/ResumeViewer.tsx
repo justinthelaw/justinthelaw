@@ -85,8 +85,8 @@ export function ResumeViewer(): React.ReactElement {
   };
 
   return (
-    <div className="w-full max-w-5xl h-full p-4 flex flex-col items-center">
-      <div className="w-full max-w-4xl h-full border border-gray-300 rounded-lg overflow-hidden shadow-lg mb-4 relative">
+    <div className="w-full max-w-5xl h-full p-4 flex flex-col items-center gap-3">
+      <div className="w-full max-w-4xl flex-1 min-h-0 border border-gray-300 rounded-lg overflow-hidden shadow-lg relative">
         {isLoading && !hasError && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
             <div className="text-center">
@@ -110,21 +110,13 @@ export function ResumeViewer(): React.ReactElement {
               <p className="text-sm text-gray-600 mb-4">
                 Unable to display PDF in browser.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+              <div className="flex justify-center items-center">
                 <button
                   onClick={handleRetry}
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm"
                 >
                   Try Again
                 </button>
-                <a
-                  href={PDF_OPEN_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition-colors text-sm"
-                >
-                  Open in Google Drive
-                </a>
               </div>
             </div>
           </div>
@@ -132,14 +124,22 @@ export function ResumeViewer(): React.ReactElement {
           <iframe
             key={key}
             src={PDF_PREVIEW_URL}
-            title="Resume PDF"
+            title={`${SITE_CONFIG.fullName}'s resume`}
             className="w-full h-full"
             onLoad={handleIframeLoad}
             onError={handleIframeError}
-            allow="autoplay"
+            referrerPolicy="no-referrer"
           />
         )}
       </div>
+      <a
+        href={PDF_OPEN_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition-colors text-sm"
+      >
+        Open resume in Google Drive
+      </a>
     </div>
   );
 }

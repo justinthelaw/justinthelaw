@@ -3,15 +3,28 @@ import {
   getPersonalContextBudget,
   getPromptBudget,
 } from "../src/services/ai/contextProvider";
+import { CHATBOT_CONFIG } from "../src/config";
+import { GENERATION_STATUS_MESSAGES } from "../src/components/chat/components/ChatMessages";
 
 const HELD_LOADING_MESSAGE = "Downloading model... 83%";
 const HOLD_MODEL_LOADING_SESSION_KEY = "__holdModelLoading";
+const SILENT_MODEL_LOADING_SESSION_KEY = "__silentModelLoading";
+const FAIL_MODEL_LOADING_SESSION_KEY = "__failModelLoading";
 const HOLD_GENERATION_SESSION_KEY = "__holdGeneration";
 const THROW_WORKER_SESSION_KEY = "__throwWorker";
+
+test("generation status messages describe only the public-profile workflow", () => {
+  expect(GENERATION_STATUS_MESSAGES).toHaveLength(5);
+  for (const message of GENERATION_STATUS_MESSAGES) {
+    expect(message).toMatch(/public|profile-grounded/);
+  }
+});
 
 interface MockWorkerInitOptions {
   heldLoadingMessage: string;
   holdModelLoadingSessionKey: string;
+  silentModelLoadingSessionKey: string;
+  failModelLoadingSessionKey: string;
   holdGenerationSessionKey: string;
   throwWorkerSessionKey: string;
 }
@@ -31,6 +44,7 @@ async function mockModelWorker(page: Page): Promise<void> {
       status: string;
       message?: string;
       response?: string;
+      error?: string;
     }
 
     class MockWorker {
@@ -54,6 +68,28 @@ async function mockModelWorker(page: Page): Promise<void> {
         mockWindow.__mockWorkerMessages.push(message);
 
         if (message.action === "load") {
+          if (
+            window.sessionStorage.getItem(options.failModelLoadingSessionKey) ===
+            "true"
+          ) {
+            window.setTimeout(() => {
+              this.emit({
+                status: "error",
+                message: "Model loading failed.",
+                error: "Mock model loading failed",
+              });
+            }, 0);
+            return;
+          }
+
+          if (
+            window.sessionStorage.getItem(
+              options.silentModelLoadingSessionKey,
+            ) === "true"
+          ) {
+            return;
+          }
+
           if (
             window.sessionStorage.getItem(options.holdModelLoadingSessionKey) ===
             "true"
@@ -116,18 +152,32 @@ async function mockModelWorker(page: Page): Promise<void> {
   }, {
     heldLoadingMessage: HELD_LOADING_MESSAGE,
     holdModelLoadingSessionKey: HOLD_MODEL_LOADING_SESSION_KEY,
+    silentModelLoadingSessionKey: SILENT_MODEL_LOADING_SESSION_KEY,
+    failModelLoadingSessionKey: FAIL_MODEL_LOADING_SESSION_KEY,
     holdGenerationSessionKey: HOLD_GENERATION_SESSION_KEY,
     throwWorkerSessionKey: THROW_WORKER_SESSION_KEY,
   });
 }
 
-async function openChat(page: Page): Promise<void> {
+async function openChatWithoutLoading(page: Page): Promise<void> {
   const chatbotButton = page.getByTestId("ai-chatbot-button");
   await expect(chatbotButton).toBeVisible();
   await chatbotButton.click();
   await expect(page.getByTestId("chat-input")).toBeVisible({
     timeout: 10_000,
   });
+}
+
+async function openChat(page: Page): Promise<void> {
+  await openChatWithoutLoading(page);
+
+  const loadButton = page.getByTestId("model-load-button");
+  const retryButton = page.getByTestId("model-retry-button");
+  if (await loadButton.isVisible()) {
+    await loadButton.click();
+  } else if (await retryButton.isVisible()) {
+    await retryButton.click();
+  }
 }
 
 test.describe("Chatbot UI Tests", () => {
@@ -159,11 +209,39 @@ test.describe("Chatbot UI Tests", () => {
     ).toBeVisible();
   });
 
-  test("should display model loading message without model size", async ({
+  test("should skip the welcome animation when reduced motion is requested", async ({
     page,
   }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.reload();
     await openChat(page);
-    await expect(page.getByTestId("chat-input")).toBeVisible();
+
+    const welcomeText = await page.getByTestId("typewriter-text").innerText();
+    expect(CHATBOT_CONFIG.welcomeMessages).toContain(welcomeText);
+  });
+
+  test("should require consent before downloading the browser model", async ({
+    page,
+  }) => {
+    await openChatWithoutLoading(page);
+
+    await expect(page.getByTestId("model-download-consent")).toContainText(
+      "downloads about 820 MB",
+    );
+    await expect(page.getByTestId("model-load-button")).toBeVisible();
+
+    const loadCountBeforeConsent = await page.evaluate(() => {
+      const mockWindow = window as unknown as {
+        __mockWorkerMessages: Array<{ action?: string }>;
+      };
+      return mockWindow.__mockWorkerMessages.filter(
+        (message) => message.action === "load",
+      ).length;
+    });
+    expect(loadCountBeforeConsent).toBe(0);
+
+    await page.getByTestId("model-load-button").click();
+    await expect(page.getByTestId("chat-input")).toBeEnabled();
   });
 
   test("should not duplicate a pending model load after close and reopen", async ({
@@ -193,6 +271,45 @@ test.describe("Chatbot UI Tests", () => {
     await expect(page.getByTestId("model-loading-status")).toHaveText(
       HELD_LOADING_MESSAGE,
     );
+  });
+
+  test("should not replay a stale model error while a retry is loading", async ({
+    page,
+  }) => {
+    await page.evaluate((sessionKey) => {
+      sessionStorage.setItem(sessionKey, "true");
+    }, FAIL_MODEL_LOADING_SESSION_KEY);
+    await page.reload();
+    await openChat(page);
+    await expect(page.getByTestId("model-error-status")).toContainText(
+      "Mock model loading failed",
+    );
+
+    await page.evaluate(
+      ({ failKey, silentKey }) => {
+        sessionStorage.removeItem(failKey);
+        sessionStorage.setItem(silentKey, "true");
+      },
+      {
+        failKey: FAIL_MODEL_LOADING_SESSION_KEY,
+        silentKey: SILENT_MODEL_LOADING_SESSION_KEY,
+      },
+    );
+    await page.getByTestId("model-retry-button").click();
+    await page.getByRole("button", { name: "Close chat" }).click();
+    await openChatWithoutLoading(page);
+
+    await expect(page.getByTestId("model-loading-status-row")).toBeVisible();
+    await expect(page.getByTestId("model-error-status")).toHaveCount(0);
+    const loadCount = await page.evaluate(() => {
+      const mockWindow = window as unknown as {
+        __mockWorkerMessages: Array<{ action?: string }>;
+      };
+      return mockWindow.__mockWorkerMessages.filter(
+        (message) => message.action === "load",
+      ).length;
+    });
+    expect(loadCount).toBe(2);
   });
 
   test("should show worker construction errors and recover after reopen", async ({

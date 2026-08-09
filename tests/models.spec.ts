@@ -5,12 +5,22 @@ import {
   getDeviceSpecificDtype,
   getDtypeFallbackOrder,
 } from "../src/config/models";
-import { PERSONAL_CONTEXT, PROFILE_SECTIONS } from "../src/config/site";
+import canonicalProfileSections from "../src/config/public-profile.json";
+import {
+  PERSONAL_CONTEXT,
+  PROFILE_SECTIONS,
+  PROFILE_SUBJECT,
+} from "../src/config/site";
+import {
+  CHATBOT_CONFIG,
+  createChatbotConfig,
+} from "../src/config/prompts";
 import {
   cleanInput,
   estimateTokenCount,
   generatePrompt,
   getPersonalContextBudget,
+  getProfileIdentityContext,
   getPromptBudget,
 } from "../src/services/ai/contextProvider";
 import type { ConversationTurn } from "../src/types";
@@ -170,6 +180,16 @@ test.describe("Model prompt policy", () => {
       PROFILE_SECTIONS.map((section) => [section.id, section.priority]),
     );
 
+    expect(Object.fromEntries(priorities)).toEqual({
+      identity: 100,
+      current_role: 90,
+      experience: 80,
+      projects: 75,
+      education: 70,
+      recommendations: 65,
+      skills: 60,
+      interests: 40,
+    });
     expect(priorities.get("experience")).toBeGreaterThan(
       priorities.get("education") ?? 0,
     );
@@ -179,6 +199,46 @@ test.describe("Model prompt policy", () => {
     expect(priorities.get("recommendations")).toBeGreaterThan(
       priorities.get("interests") ?? 0,
     );
+  });
+
+  test("loads browser profile facts from the canonical profile source", () => {
+    expect(PROFILE_SECTIONS).toEqual(canonicalProfileSections);
+  });
+
+  test("derives browser prompt identity from the canonical profile subject", () => {
+    const identitySection = canonicalProfileSections.find(
+      (section) => section.id === "identity",
+    );
+    const customSubject = {
+      name: "Ada Lovelace",
+      shortName: "Ada",
+      subjectPronoun: "she",
+      objectPronoun: "her",
+      possessivePronoun: "her",
+    };
+    const customChatbotConfig = createChatbotConfig(customSubject);
+
+    expect(PROFILE_SUBJECT).toEqual(identitySection?.subject);
+    expect(CHATBOT_CONFIG.systemPrompt).toContain(PROFILE_SUBJECT.name);
+    expect(generatePrompt("Who is this profile about?")).toContain(
+      `${PROFILE_SUBJECT.shortName} refers to ${PROFILE_SUBJECT.name}.`,
+    );
+    expect(customChatbotConfig.systemPrompt).toContain(
+      "Ada Lovelace's AI assistant",
+    );
+    expect(customChatbotConfig.welcomeMessages).toContain(
+      "Hi! Interested in learning more about Ada?",
+    );
+    expect(getProfileIdentityContext(customSubject)).toBe(
+      "Ada refers to Ada Lovelace.",
+    );
+    expect(
+      getProfileIdentityContext({
+        ...customSubject,
+        name: "Prince",
+        shortName: "Prince",
+      }),
+    ).toBe("This profile is about Prince.");
   });
 
   test("keeps retrieved personal context compact for Teapot", () => {
@@ -234,7 +294,7 @@ test.describe("Model prompt policy", () => {
 
     expect(prompt).toContain("Recent conversation:");
     expect(prompt).toContain("Defense Unicorns");
-    expect(prompt).toContain("MRR 15%");
+    expect(prompt).toContain("MRR by 15%");
     expect(budget.includedConversationTurns).toBe(2);
     expect(estimateTokenCount(prompt)).toBeLessThanOrEqual(1024);
   });

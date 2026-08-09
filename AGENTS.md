@@ -12,7 +12,7 @@ with a resume viewer and an LLM-based chatbot that answers from personal context
 
 | Layer | Tooling |
 | --- | --- |
-| Framework | Next.js 16.3 preview, static export, pages router, patched PostCSS line |
+| Framework | Next.js 16.3, static export, pages router, patched PostCSS line |
 | UI | React 19 and TypeScript 6 |
 | Styles | Tailwind CSS 4 |
 | State | Zustand 5 |
@@ -63,7 +63,7 @@ src/
 │   └── chat/
 │       ├── components/  # UI components (ChatContainer, ChatMessages, ChatInput, etc.)
 │       └── hooks/       # Business logic (useAIGeneration, useChatHistory, useModelManagement)
-├── config/              # Centralized settings (site.ts, models.ts, prompts.ts)
+├── config/              # Centralized settings and canonical public-profile JSON
 ├── pages/               # Next.js pages router (index.tsx, _app.tsx)
 ├── services/            # External dependencies
 │   ├── ai/              # AI service layer (worker, model loader, context provider)
@@ -85,6 +85,7 @@ tests/                   # Playwright E2E tests
 | Typed worker messages | Use `WorkerAction` and `WorkerStatus` enums for worker communication; avoid magic strings |
 | Browser-safe dtype loading | Automatic model loading uses int8 with uint8 fallback on all viewports; do not re-enable q4 by default unless ORT WASM can mount external `.onnx.data` files in browser workers |
 | Reusable profile sections | Keep section IDs generic and temporally prioritized; put person- or employer-specific terms in fact text and keywords, not section IDs |
+| Canonical public profile | Update facts only in `src/config/public-profile.json`; browser retrieval and Python dataset generation consume the same file |
 
 ## Code Standards
 
@@ -162,11 +163,11 @@ Update these as needed when making changes:
 | `/README.md` | Repository orientation changes |
 | `/AGENTS.md` | Agent instructions change |
 | `/docs/CUSTOMIZATION.md` | User-facing configuration changes |
-| `/docs/diagrams.md` | Architecture, runtime flow, deployment behavior, or profile-QA pipeline changes |
+| `/docs/DIAGRAMS.md` | Architecture, runtime flow, deployment behavior, or profile-QA pipeline changes |
 | `/ml/profile-qa/README.md` | Local training, evaluation, export, or publishing commands change |
 
 Keep docs concise and layered: README for orientation, `docs/CUSTOMIZATION.md`
-for configuration, `docs/diagrams.md` for system flow, and
+for configuration, `docs/DIAGRAMS.md` for system flow, and
 `ml/profile-qa/README.md` for command-level fine-tuning details. Use exact file
 paths so both humans and agents can act on the instructions.
 

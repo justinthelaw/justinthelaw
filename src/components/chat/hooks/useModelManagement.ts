@@ -13,25 +13,50 @@ export interface UseModelManagementReturn {
   isReady: boolean;
   error: string | null;
   loadingMessage: string | null;
+  startModelLoad: () => void;
 }
 
 const logger = createLogger(LOG_AREAS.AI_MODEL);
 
 export function useModelManagement(): UseModelManagementReturn {
-  const [modelReadyOnMount] = useState(() => getAIService().isModelReady());
-  const [isLoading, setIsLoading] = useState(!modelReadyOnMount);
-  const [isReady, setIsReady] = useState(modelReadyOnMount);
-  const [error, setError] = useState<string | null>(null);
+  const [modelStateOnMount] = useState(() => {
+    const aiService = getAIService();
+    const lifecycleResponse = aiService.getLastLifecycleResponse();
+    const lifecycleError =
+      lifecycleResponse?.status === WorkerStatus.ERROR
+        ? lifecycleResponse.error || "Unknown error"
+        : null;
+    return {
+      isLoading: aiService.isModelLoading(),
+      isReady: aiService.isModelReady(),
+      error: lifecycleError,
+      loadingMessage:
+        lifecycleError || aiService.isModelLoading()
+          ? lifecycleResponse?.message || null
+          : null,
+    };
+  });
+  const [isLoading, setIsLoading] = useState(modelStateOnMount.isLoading);
+  const [isReady, setIsReady] = useState(modelStateOnMount.isReady);
+  const [error, setError] = useState<string | null>(modelStateOnMount.error);
   const [loadingMessage, setLoadingMessage] = useState<string | null>(
-    modelReadyOnMount ? null : "Initializing..."
+    modelStateOnMount.loadingMessage
   );
 
   const startModelLoad = useCallback(() => {
     logger.info("load requested");
     const aiService = getAIService();
     if (aiService.isModelReady()) {
+      setIsLoading(false);
+      setIsReady(true);
       return;
     }
+
+    setError(null);
+    setIsLoading(true);
+    setIsReady(false);
+    setLoadingMessage("Initializing...");
+
     if (!aiService.isInitialized()) {
       aiService.initialize();
     }
@@ -86,14 +111,11 @@ export function useModelManagement(): UseModelManagementReturn {
     };
   }, [handleWorkerResponse]);
 
-  useEffect(() => {
-    startModelLoad();
-  }, [startModelLoad]);
-
   return {
     isLoading,
     isReady,
     error,
     loadingMessage,
+    startModelLoad,
   };
 }

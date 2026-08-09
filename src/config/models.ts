@@ -12,6 +12,14 @@ export const MODEL_ID = "justinthelaw/teapot-profile-qa-browser-1024";
  */
 export const MODEL_DISPLAY_NAME = "Profile-QA Teapot";
 
+/**
+ * Approximate transfer size for one browser-compatible model dtype.
+ *
+ * The encoder and decoder artifacts are currently about 342 MB and 478 MB.
+ * A dtype fallback can require downloading a second set of the same size.
+ */
+export const MODEL_DOWNLOAD_SIZE_MB = 820;
+
 export type ModelDtype = "fp32" | "int8" | "uint8" | "q4";
 
 /**

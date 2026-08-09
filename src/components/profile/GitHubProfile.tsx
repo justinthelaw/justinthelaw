@@ -8,15 +8,23 @@ import { fetchGitHubBio } from '@/services/github';
 import { SITE_CONFIG } from '@/config/site';
 
 export function GitHubProfile(): React.ReactElement {
-  const [bio, setBio] = useState('');
+  const [bio, setBio] = useState<string>(SITE_CONFIG.githubBioFallback);
 
   useEffect(() => {
-    const loadBio = async () => {
+    let isCurrent = true;
+
+    const loadBio = async (): Promise<void> => {
       const fetchedBio = await fetchGitHubBio(SITE_CONFIG.githubUsername);
-      setBio(fetchedBio);
+      if (isCurrent) {
+        setBio(fetchedBio);
+      }
     };
 
-    loadBio();
+    void loadBio();
+
+    return () => {
+      isCurrent = false;
+    };
   }, []);
 
   return (
