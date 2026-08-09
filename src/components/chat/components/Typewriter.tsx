@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { useReducedMotion } from "framer-motion";
 
 export interface TypewriterProps {
   text: string;
@@ -13,8 +14,13 @@ export interface TypewriterProps {
 export function Typewriter({ text, delay }: TypewriterProps): React.ReactElement {
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (shouldReduceMotion) {
+      return undefined;
+    }
+
     const words = text.split(' ');
     if (currentIndex < words.length) {
       const timeout = setTimeout(() => {
@@ -24,7 +30,11 @@ export function Typewriter({ text, delay }: TypewriterProps): React.ReactElement
 
       return () => clearTimeout(timeout);
     }
-  }, [currentIndex, delay, text]);
+  }, [currentIndex, delay, shouldReduceMotion, text]);
 
-  return <span>{currentText}</span>;
+  return (
+    <span data-testid="typewriter-text">
+      {shouldReduceMotion ? text : currentText}
+    </span>
+  );
 }

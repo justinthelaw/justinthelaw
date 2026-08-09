@@ -13,10 +13,7 @@ on:
       - "*.mjs"
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+permissions: {}
 
 concurrency:
   group: deploy-${{ github.ref }}
@@ -24,6 +21,9 @@ concurrency:
 
 jobs:
   build:
+    permissions:
+      contents: read
+      pages: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -77,8 +77,17 @@ jobs:
       - name: Install Dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
+      - name: Lint Code
+        run: ${{ steps.detect-package-manager.outputs.manager }} run lint
+
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
+
+      - name: Install Playwright Browsers
+        run: ${{ steps.detect-package-manager.outputs.runner }} playwright install --with-deps
+
+      - name: Run Playwright Tests
+        run: ${{ steps.detect-package-manager.outputs.runner }} playwright test
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
@@ -86,6 +95,9 @@ jobs:
           path: out
 
   deploy:
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

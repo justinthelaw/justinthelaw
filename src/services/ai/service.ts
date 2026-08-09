@@ -102,6 +102,7 @@ export class AIService {
       return;
     }
 
+    this.lastLifecycleResponse = null;
     this.modelLoading = true;
     this.worker.postMessage({ action: WorkerAction.LOAD });
   }
@@ -164,6 +165,20 @@ export class AIService {
    */
   isModelReady(): boolean {
     return this.modelLoaded;
+  }
+
+  /**
+   * Check if the current worker is already loading the model.
+   */
+  isModelLoading(): boolean {
+    return this.modelLoading;
+  }
+
+  /**
+   * Return the latest model lifecycle event for remounting UI subscribers.
+   */
+  getLastLifecycleResponse(): WorkerResponse | null {
+    return this.lastLifecycleResponse;
   }
 }
 

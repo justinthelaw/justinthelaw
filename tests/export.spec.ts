@@ -201,6 +201,42 @@ test("should export bundled social icon assets with valid local paths", async ()
   expect(hasBlockedRawGitHubSource).toBe(false);
 });
 
+test("should export crawlable profile content and share metadata", async ({ page }) => {
+  const exportIndexPath = path.resolve(process.cwd(), "out", "index.html");
+  const exportHtml = await readFile(exportIndexPath, "utf8").catch(() => {
+    throw new Error(
+      "Missing exported index HTML at out/index.html. Run `npm run build` before Playwright tests.",
+    );
+  });
+
+  await page.setContent(exportHtml);
+
+  await expect(page.getByTestId("github-bio")).toHaveText(
+    SITE_CONFIG.githubBioFallback,
+  );
+  await expect(page.locator("h1")).toHaveText(SITE_CONFIG.fullName);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    DERIVED_CONFIG.siteUrl,
+  );
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+    "content",
+    DERIVED_CONFIG.siteUrl,
+  );
+  await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+    "content",
+    SITE_CONFIG.seo.description,
+  );
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+    "content",
+    "summary",
+  );
+  await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute(
+    "content",
+    SITE_CONFIG.seo.description,
+  );
+});
+
 test("should export the current browser AI worker bundle", async () => {
   const exportedJavaScript = await readExportedJavaScript();
 
@@ -222,6 +258,10 @@ test("should embed the resume with Drive preview instead of a download viewer", 
   expect(exportHtml).toContain(
     `src="https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/preview"`,
   );
+  expect(exportedAssets).toContain(
+    `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/view?usp=sharing`,
+  );
+  expect(exportedAssets).toContain("Open resume in Google Drive");
   expect(exportedAssets).not.toContain("docs.google.com/viewer");
   expect(exportedAssets).not.toContain("uc?export=download");
 });
@@ -315,6 +355,7 @@ test("should initialize the exported AI worker from the base path", async ({
   try {
     await page.goto(previewServer.origin);
     await page.getByTestId("ai-chatbot-button").click();
+    await page.getByTestId("model-load-button").click();
 
     await expect
       .poll(() =>

@@ -6,21 +6,16 @@
 import React, { Fragment, useState } from "react";
 import type { ChatMessage } from "@/types";
 import { Typewriter } from "./Typewriter";
-import { SITE_CONFIG } from "@/config";
+import { PROFILE_SUBJECT } from "@/config";
 import { LimitWarning } from "./LimitWarning";
 
-const QUIRK_MESSAGES = [
-  `Digging into ${SITE_CONFIG.name}'s history...`,
-  `Consulting my ${SITE_CONFIG.name} database...`,
-  `Channeling my inner ${SITE_CONFIG.name}...`,
-  `Reading ${SITE_CONFIG.name}'s mind...`,
-  `Checking ${SITE_CONFIG.name}'s secret diary...`,
-  `Analyzing ${SITE_CONFIG.name}'s preferences...`,
-  `Decoding ${SITE_CONFIG.name}'s commits...`,
-  "Making up an answer for you...",
-  "Searching the dark web...",
-  "Wondering the same thing you are...",
-];
+export const GENERATION_STATUS_MESSAGES = [
+  `Reviewing ${PROFILE_SUBJECT.shortName}'s public profile...`,
+  `Finding relevant public details about ${PROFILE_SUBJECT.shortName}...`,
+  `Checking ${PROFILE_SUBJECT.shortName}'s public resume context...`,
+  `Reviewing ${PROFILE_SUBJECT.shortName}'s public project history...`,
+  "Preparing a profile-grounded answer...",
+] as const;
 
 export interface ChatMessagesProps {
   messages: ChatMessage[];
@@ -32,6 +27,7 @@ export interface ChatMessagesProps {
   showPersonalContextTrimWarning: boolean;
   overBudgetPersonalContextCharacters: number;
   trimmedPersonalContextCharacters: number;
+  onRetryModelLoad: () => void;
 }
 
 export function ChatMessages({
@@ -44,9 +40,13 @@ export function ChatMessages({
   showPersonalContextTrimWarning,
   overBudgetPersonalContextCharacters,
   trimmedPersonalContextCharacters,
+  onRetryModelLoad,
 }: ChatMessagesProps): React.ReactElement {
-  const [randomQuirkMessage] = useState(
-    () => QUIRK_MESSAGES[Math.floor(Math.random() * QUIRK_MESSAGES.length)]
+  const [generationStatusMessage] = useState(
+    () =>
+      GENERATION_STATUS_MESSAGES[
+        Math.floor(Math.random() * GENERATION_STATUS_MESSAGES.length)
+      ]
   );
   const showModelStatus =
     isLoading && !loadingMessage?.includes("Generating");
@@ -85,7 +85,15 @@ export function ChatMessages({
           className="w-full rounded-lg border border-red-900 bg-red-950/40 p-4 text-center text-sm text-red-300"
           data-testid="model-error-status"
         >
-          Model failed to load: {error}
+          <p>Model failed to load: {error}</p>
+          <button
+            type="button"
+            onClick={onRetryModelLoad}
+            className="mt-3 rounded-md bg-red-200 px-3 py-2 font-medium text-red-950 transition-colors hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200"
+            data-testid="model-retry-button"
+          >
+            Try loading again
+          </button>
         </div>
       ) : (
         <Fragment>
@@ -155,7 +163,7 @@ export function ChatMessages({
                   {!currentResponse ? (
                     <div className="flex items-center gap-2 text-gray-400 text-sm">
                       <div className="w-3 h-3 border-2 border-blue-200 border-t-blue-500 rounded-full animate-spin" />
-                      <span>{randomQuirkMessage}</span>
+                      <span>{generationStatusMessage}</span>
                     </div>
                   ) : (
                     <Fragment>

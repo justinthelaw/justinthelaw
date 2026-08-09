@@ -9,9 +9,11 @@ export {
   SITE_CONFIG,
   DERIVED_CONFIG,
   PROFILE_SECTIONS,
+  PROFILE_SUBJECT,
   PERSONAL_CONTEXT,
   type ProfileFact,
   type ProfileSection,
+  type ProfileSubject,
 } from "./site";
 export {
   MODEL_ID,
@@ -23,4 +25,5 @@ export {
 export {
   GENERATION_PARAMS,
   CHATBOT_CONFIG,
+  createChatbotConfig,
 } from "./prompts";

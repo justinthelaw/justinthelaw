@@ -4,6 +4,7 @@
  */
 
 import React, { useCallback, useEffect, useId, useRef } from "react";
+import { useReducedMotion } from "framer-motion";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
 import { useChatHistory, useAIGeneration, useModelManagement } from "../hooks";
@@ -12,6 +13,7 @@ import {
   getRecentConversationTurns,
 } from "@/services/ai/contextProvider";
 import { CHATBOT_CONFIG } from "@/config";
+import { MODEL_DOWNLOAD_SIZE_MB } from "@/config/models";
 
 export interface ChatContainerProps {
   onClose: () => void;
@@ -36,6 +38,7 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
 
 export function ChatContainer({ onClose }: ChatContainerProps): React.ReactElement {
   const titleId = useId();
+  const shouldReduceMotion = useReducedMotion();
   const { messages, clearHistory, canClear } = useChatHistory();
   const { isGenerating, currentResponse, generate } = useAIGeneration();
   const {
@@ -43,6 +46,7 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
     isReady,
     error,
     loadingMessage,
+    startModelLoad,
   } = useModelManagement();
   const personalContextBudget = getPersonalContextBudget();
   const welcomeMessages = new Set<string>(CHATBOT_CONFIG.welcomeMessages);
@@ -112,8 +116,10 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
   }, [handleDialogKeyDown]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, currentResponse, isGenerating, isLoading]);
+    messagesEndRef.current?.scrollIntoView({
+      behavior: shouldReduceMotion ? "auto" : "smooth",
+    });
+  }, [messages, currentResponse, isGenerating, isLoading, shouldReduceMotion]);
 
   function handleSend(message: string): void {
     if (error) {
@@ -143,7 +149,7 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
       : isGenerating
         ? "Generating answer..."
         : !isReady
-          ? "Model not ready..."
+          ? "Load the AI model to start chatting..."
           : "Type your message...";
   return (
     <div className="fixed inset-0 z-40 pointer-events-none">
@@ -225,30 +231,60 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
             className="flex min-h-0 flex-1 flex-col overflow-y-auto p-4"
             data-testid="chat-messages-scroll"
           >
-            <ChatMessages
-              messages={messages}
-              currentResponse={currentResponse}
-              isGenerating={isGenerating}
-              isLoading={isLoading}
-              error={error}
-              loadingMessage={loadingMessage}
-              showPersonalContextTrimWarning={
-                personalContextBudget.isTrimmed
-              }
-              overBudgetPersonalContextCharacters={
-                personalContextBudget.overBudgetCharacters
-              }
-              trimmedPersonalContextCharacters={
-                personalContextBudget.trimmedCharacters
-              }
-            />
+            {!isReady && !isLoading && !error ? (
+              <section
+                className="m-auto max-w-sm rounded-lg border border-blue-900 bg-blue-950/40 p-5 text-center text-sm text-blue-100"
+                data-testid="model-download-consent"
+                aria-labelledby={`${titleId}-download-title`}
+              >
+                <h4
+                  id={`${titleId}-download-title`}
+                  className="text-base font-semibold"
+                >
+                  Run the AI model on this device
+                </h4>
+                <p className="mt-2 text-blue-200">
+                  Loading the chatbot downloads about {MODEL_DOWNLOAD_SIZE_MB} MB.
+                  If the first format is incompatible, its fallback can require
+                  another download of similar size. Questions and answers stay in
+                  this browser.
+                </p>
+                <button
+                  type="button"
+                  onClick={startModelLoad}
+                  className="mt-4 rounded-md bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  data-testid="model-load-button"
+                >
+                  Load AI model
+                </button>
+              </section>
+            ) : (
+              <ChatMessages
+                messages={messages}
+                currentResponse={currentResponse}
+                isGenerating={isGenerating}
+                isLoading={isLoading}
+                error={error}
+                loadingMessage={loadingMessage}
+                showPersonalContextTrimWarning={
+                  personalContextBudget.isTrimmed
+                }
+                overBudgetPersonalContextCharacters={
+                  personalContextBudget.overBudgetCharacters
+                }
+                trimmedPersonalContextCharacters={
+                  personalContextBudget.trimmedCharacters
+                }
+                onRetryModelLoad={startModelLoad}
+              />
+            )}
             <div ref={messagesEndRef} />
           </div>
 
           <ChatInput
             onSend={handleSend}
             isSendDisabled={!isReady || isGenerating || !!error}
-            isInputDisabled={isGenerating}
+            isInputDisabled={!isReady || isGenerating || !!error}
             placeholder={placeholder}
             conversationTurns={conversationTurns}
           />

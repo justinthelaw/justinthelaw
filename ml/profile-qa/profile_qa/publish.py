@@ -6,6 +6,12 @@ import argparse
 from pathlib import Path
 
 from .export_onnx import reject_external_data_files
+from .provenance import (
+    BROWSER_PARENT_ARTIFACT_STAGES,
+    LINEAGE_FILENAME,
+    load_json_object,
+    validate_artifact_lineage,
+)
 
 
 def main() -> int:
@@ -19,6 +25,17 @@ def main() -> int:
 
     artifact_dir = Path(args.artifact_dir)
     reject_external_data_files(artifact_dir)
+    if args.repo_type == "model":
+        lineage = load_json_object(
+            artifact_dir / LINEAGE_FILENAME,
+            label="browser artifact lineage",
+        )
+        validate_artifact_lineage(
+            artifact_dir,
+            source_lineage=lineage,
+            stage="browser",
+            required_parent_stages=BROWSER_PARENT_ARTIFACT_STAGES,
+        )
 
     try:
         from huggingface_hub import HfApi

@@ -9,8 +9,7 @@ fit together.
 | Need | Primary file | Notes |
 | --- | --- | --- |
 | Site identity, repository, resume, links | `src/config/site.ts` | Drives the page and GitHub Pages URL derivation |
-| Browser chatbot facts | `src/config/site.ts` | `PROFILE_SECTIONS` is the runtime context source |
-| Training chatbot facts | `ml/profile-qa/profile_qa/public_profile.py` | Keep in sync with public facts when retraining |
+| Browser and training chatbot facts | `src/config/public-profile.json` | Shared source for retrieval metadata, fact text, and evaluation terms |
 | Prompt wording and generation knobs | `src/config/prompts.ts` | Includes welcome messages and generation parameters |
 | Browser model and context limit | `src/config/models.ts` | Default is `int8` with `uint8` fallback |
 | Prompt retrieval and budget trimming | `src/services/ai/contextProvider.ts` | Ranks profile sections and fits prompt/history into budget |
@@ -22,20 +21,28 @@ fit together.
 
 ```mermaid
 flowchart TD
+  siteConfig["SITE_CONFIG.githubBioFallback"] --> staticSite
   visitor["Visitor browser"] --> staticSite["Static export in out/"]
   staticSite --> page["src/pages/index.tsx"]
-  page --> profile["GitHubProfile"]
-  profile --> github["GitHub REST API"]
+  page --> profile["GitHubProfile renders configured fallback"]
+  profile -->|"After hydration: refresh"| github["GitHub REST API"]
+  github -->|"Success: replace bio"| profile
+  github -.->|"Failure: keep fallback"| profile
   page --> resume["ResumeViewer"]
   resume --> drive["Google Drive PDF preview"]
   page --> chat["ChatContainer, client only"]
   chat --> chatHooks["Chat hooks"]
   chatHooks --> chatStore["Zustand chat store"]
-  chatHooks --> aiService["AIService"]
+  chatHooks --> consent["Explicit model-download consent"]
+  consent --> aiService["AIService"]
   aiService --> worker["Web Worker"]
   worker --> loader["modelLoader.ts"]
   loader --> hf["Hugging Face model files"]
   worker --> context["contextProvider.ts"]
+  canonicalProfile["public-profile.json"] --> profileSections["PROFILE_SECTIONS"]
+  canonicalProfile --> profileSubject["PROFILE_SUBJECT"]
+  profileSubject --> promptIdentity["Browser prompt identity"]
+  promptIdentity --> context
   context --> profileSections["PROFILE_SECTIONS"]
   worker --> stream["Typed WorkerStatus stream"]
   stream --> chatStore
@@ -73,7 +80,7 @@ sequenceDiagram
 ```mermaid
 flowchart LR
   repoConfig["SITE_CONFIG.repository"] --> derived["DERIVED_CONFIG"]
-  derived --> nextConfig["next.config.ts"]
+  derived --> nextConfig["next.config.mjs"]
   nextConfig --> build["npm run build"]
   build --> outDir["out/ static files"]
   outDir --> actions["GitHub Pages Actions deploy"]
@@ -99,14 +106,37 @@ Rules:
 
 ```mermaid
 flowchart TD
-  facts["Public profile facts"] --> pyProfile["public_profile.py"]
+  facts["src/config/public-profile.json"] --> pyProfile["public_profile.py loader"]
   pyProfile --> data["synthetic_data.py"]
+  pyProfile --> eval
   data --> train["train_lora.py"]
   train --> eval["evaluate.py"]
+  data --> datasetDigest["Canonical dataset digest"]
+  eval --> promptDigest["Formatted prompt digest"]
+  eval --> scoringDigest["Scoring and generation contracts"]
+  eval --> reports["Reports with predictions and provenance"]
+  datasetDigest --> reports
+  promptDigest --> reports
+  scoringDigest --> reports
   eval --> gate["Promotion gate"]
   gate --> merge["merge_adapter.py"]
+  baseRevision["Pinned base revision"] --> train
+  baseRevision --> eval
+  baseRevision --> merge
+  train --> checkpointConfig["Adapter config with pinned revision"]
+  checkpointConfig --> eval
+  checkpointConfig --> merge
+  merge --> lineage["Portable label plus model digests"]
   merge --> export["export_onnx.py"]
-  export --> artifacts["prepare_hf_artifacts.py"]
+  lineage --> export
+  export --> fpArtifact["Full-precision files plus digest"]
+  fpArtifact --> quantized["Quantized files bound to FP digest"]
+  quantized --> browserArtifact["Browser files plus digest"]
+  browserArtifact --> artifacts["prepare_hf_artifacts.py"]
+  lineage --> artifacts
+  reports --> artifacts
+  checkpointConfig --> artifacts
+  releaseDate["Explicit release date"] --> artifacts
   artifacts --> publish["publish.py"]
   publish --> hfRepo["Hugging Face model repo"]
   hfRepo --> modelConfig["src/config/models.ts"]
@@ -120,11 +150,11 @@ does not train models and does not call a server.
 
 | Step | Configure | Guardrail |
 | --- | --- | --- |
-| Facts | `src/config/site.ts` and `ml/profile-qa/profile_qa/public_profile.py` | Keep public facts aligned before generating data |
+| Facts | `src/config/public-profile.json` | Canonical public facts and subject metadata, loaded by both browser and Python consumers |
 | Dataset | `python -m profile_qa.synthetic_data` | Generated data stays under ignored `ml/profile-qa/data/` |
-| Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; local 8GB NVIDIA LoRA/QLoRA runs |
-| Evaluation | `python -m profile_qa.evaluate` | Seq2seq only; adapters must record `teapotai/teapotllm` as their base |
-| ONNX export | `python -m profile_qa.export_onnx` | Requires the merged Teapot lineage marker; rejects `.onnx.data`; publishes `int8` and `uint8` encoder/decoder artifacts |
+| Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; the pinned revision is persisted in and verified from each PEFT checkpoint |
+| Evaluation | `python -m profile_qa.evaluate` | Reports bind the canonical published dataset, exact formatted prompts, split, pinned base revision, model digest, generation contract, and scoring implementation; packaging recomputes scores and requires one promoted model representation |
+| ONNX export | `python -m profile_qa.export_onnx` | Verifies the pinned revision and merged lineage/digest, binds each quantized stage to its exact full-precision input, preserves portable lineage without local paths, rejects `.onnx.data`, and publishes `int8` and `uint8` encoder/decoder artifacts |
 | App promotion | `src/config/models.ts` | Update `MODEL_ID` and keep `MODEL_CONTEXT_LIMIT` honest |
 
 Promotion should satisfy the gate in `ml/profile-qa/README.md` before changing
@@ -137,4 +167,4 @@ the app default model.
 | Paths | Prefer exact file paths in documentation updates |
 | Scope | Keep this file diagram-first and concise; put command details in `ml/profile-qa/README.md` |
 | Flow changes | Update the matching diagram in the same change |
-| Profile facts | Keep the TypeScript and Python profile sources synchronized when facts change for a retrained model |
+| Profile facts | Update only `src/config/public-profile.json`; TypeScript and Python consumers load it directly |

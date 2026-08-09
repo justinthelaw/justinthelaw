@@ -66,7 +66,7 @@ at pre-push.
 
 | Document | Purpose |
 | --- | --- |
-| [Architecture and pipeline diagrams](diagrams.md) | System map and fine-tuning handoff |
+| [Architecture and pipeline diagrams](DIAGRAMS.md) | System map and fine-tuning handoff |
 | [Customization](CUSTOMIZATION.md) | Site personalization |
 | [Contributing](CONTRIBUTING.md) | Contribution workflow |
 | [Security](SECURITY.md) | Vulnerability reporting |

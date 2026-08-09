@@ -1,7 +1,7 @@
-import type { NextConfig } from "next";
-import { DERIVED_CONFIG } from "./src/config/site";
+import { DERIVED_CONFIG } from "./src/config/site.ts";
 
-const nextConfig: NextConfig = {
+/** @type {import("next").NextConfig} */
+const nextConfig = {
   output: "export",
   images: { unoptimized: true },
   basePath: DERIVED_CONFIG.basePath,

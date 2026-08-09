@@ -3,14 +3,15 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 from typing import Any
 
 from .config import (
     DEFAULT_DATASET_PATH,
     DEFAULT_TRAIN_OUTPUT_DIR,
-    EVAL_STEPS,
     EVAL_BATCH_SIZE,
+    EVAL_STEPS,
     GRADIENT_ACCUMULATION_STEPS,
     LEARNING_RATE,
     LORA_ALPHA,
@@ -26,11 +27,15 @@ from .config import (
     WEIGHT_DECAY,
 )
 from .gpu_health import assert_gpu_ready
+from .public_profile import possessive, profile_subject_name
+from .provenance import canonical_json_sha256, load_json_object
+from .public_profile import possessive, profile_subject_name
 from .synthetic_data import profile_context_text
 from .validation import read_jsonl
 
 TEAPOT_MODEL_TYPE = "t5"
 TEAPOT_LORA_TARGET_MODULES = ["q", "v"]
+ADAPTER_CONFIG_FILENAME = "adapter_config.json"
 
 
 def ensure_primary_base_model_id(model_id: str, *, source: str) -> None:
@@ -44,6 +49,49 @@ def ensure_primary_base_model_id(model_id: str, *, source: str) -> None:
         f"profile-QA is TeapotLLM-only; {source} must use {PRIMARY_BASE_MODEL_ID}, "
         f"got {model_id}"
     )
+
+
+def ensure_adapter_base_lineage(adapter_config: Any, *, source: str) -> None:
+    """Require an adapter trained from the pinned Teapot base revision."""
+
+    if isinstance(adapter_config, dict):
+        base_model_id = adapter_config.get("base_model_name_or_path")
+        base_model_revision = adapter_config.get("revision")
+    else:
+        base_model_id = getattr(adapter_config, "base_model_name_or_path", None)
+        base_model_revision = getattr(adapter_config, "revision", None)
+    ensure_primary_base_model_id(str(base_model_id or ""), source=f"{source} base")
+    if base_model_revision != PRIMARY_BASE_MODEL_REVISION:
+        raise RuntimeError(
+            f"{source} revision must be {PRIMARY_BASE_MODEL_REVISION!r}, "
+            f"got {base_model_revision!r}; retrain the adapter from the pinned base"
+        )
+
+
+def resolve_resume_checkpoint(output_dir: Path) -> Path:
+    """Resolve and validate the exact latest Trainer checkpoint for resume."""
+
+    if not output_dir.is_dir():
+        raise RuntimeError(f"resume output directory does not exist: {output_dir}")
+    checkpoints: list[tuple[int, Path]] = []
+    for candidate in output_dir.iterdir():
+        match = re.fullmatch(r"checkpoint-(\d+)", candidate.name)
+        if match is None or not candidate.is_dir() or candidate.is_symlink():
+            continue
+        checkpoints.append((int(match.group(1)), candidate))
+    if not checkpoints:
+        raise RuntimeError(f"no Trainer checkpoints found under {output_dir}")
+    _, checkpoint_path = max(checkpoints, key=lambda checkpoint: checkpoint[0])
+    adapter_config_path = checkpoint_path / ADAPTER_CONFIG_FILENAME
+    adapter_config = load_json_object(
+        adapter_config_path,
+        label="resume adapter configuration",
+    )
+    ensure_adapter_base_lineage(
+        adapter_config,
+        source=f"{checkpoint_path} adapter",
+    )
+    return checkpoint_path
 
 
 def require_local_model_path(model_id: str, *, source: str) -> Path:
@@ -89,13 +137,28 @@ def format_instruction(record: dict[str, Any]) -> str:
         history_text = "\nRecent conversation:\n" + "\n".join(turns)
 
     return (
-        "You are Justin Law's browser-only profile Q&A assistant. "
+        f"You are {possessive(profile_subject_name())} browser-only profile Q&A "
+        "assistant. "
         "Use only the public profile context. If the context does not answer, say so. "
         "If a question asks for multiple facts, include each requested fact.\n\n"
         f"Public profile context:\n{profile_context_text()}\n"
         f"{history_text}\n\n"
         f"Question: {record['question']}\n"
         "Answer:"
+    )
+
+
+def evaluation_prompt_sha256(records: list[dict[str, Any]]) -> str:
+    """Hash the exact ordered prompts presented during one evaluation split."""
+
+    return canonical_json_sha256(
+        [
+            {
+                "id": str(record.get("id", "")),
+                "prompt": format_instruction(record),
+            }
+            for record in records
+        ]
     )
 
 
@@ -165,6 +228,14 @@ def ensure_teapot_seq2seq_config(config: Any, model_id: str) -> None:
 
 
 def run_training(args: argparse.Namespace) -> None:
+    if args.resume and args.adapter_model_id:
+        raise RuntimeError(
+            "--resume and --adapter-model-id select different adapter sources; "
+            "use exactly one"
+        )
+    resume_checkpoint = (
+        resolve_resume_checkpoint(Path(args.output_dir)) if args.resume else None
+    )
     assert_gpu_ready(min_vram_gb=args.min_vram_gb)
     stack = _load_training_stack()
     torch = stack["torch"]
@@ -205,10 +276,9 @@ def run_training(args: argparse.Namespace) -> None:
     if args.adapter_model_id:
         require_local_model_path(args.adapter_model_id, source="adapter model")
         adapter_config = stack["PeftConfig"].from_pretrained(args.adapter_model_id)
-        adapter_base_model_id = str(getattr(adapter_config, "base_model_name_or_path", ""))
-        ensure_primary_base_model_id(
-            adapter_base_model_id,
-            source=f"{args.adapter_model_id} adapter base",
+        ensure_adapter_base_lineage(
+            adapter_config,
+            source=f"{args.adapter_model_id} adapter",
         )
         model = stack["PeftModel"].from_pretrained(
             model,
@@ -224,7 +294,11 @@ def run_training(args: argparse.Namespace) -> None:
             task_type="SEQ_2_SEQ_LM",
             target_modules=TEAPOT_LORA_TARGET_MODULES,
         )
-        model = stack["get_peft_model"](model, lora_config)
+        model = stack["get_peft_model"](
+            model,
+            lora_config,
+            revision=PRIMARY_BASE_MODEL_REVISION,
+        )
 
     dataset_cls = stack["Dataset"]
     train_dataset = dataset_cls.from_list(train_records)
@@ -297,7 +371,11 @@ def run_training(args: argparse.Namespace) -> None:
         callbacks=callbacks,
     )
 
-    trainer.train(resume_from_checkpoint=args.resume)
+    trainer.train(
+        resume_from_checkpoint=(
+            str(resume_checkpoint) if resume_checkpoint is not None else None
+        )
+    )
     trainer.save_model(args.output_dir)
     tokenizer.save_pretrained(args.output_dir)
 
