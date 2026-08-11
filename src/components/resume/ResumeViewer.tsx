@@ -114,7 +114,7 @@ export function ResumeViewer(): React.ReactElement {
         className="relative min-h-0 w-full max-w-4xl flex-1 gap-0 overflow-hidden rounded-xl border border-border/70 bg-card/60 py-0 shadow-sm ring-0"
         data-testid="resume-viewer"
       >
-        <div className="absolute right-2 top-2 z-20 sm:right-3 sm:top-3">
+        <div className="absolute left-2 top-2 z-20 sm:left-3 sm:top-3">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -134,7 +134,11 @@ export function ResumeViewer(): React.ReactElement {
                 </a>
               </Button>
             </TooltipTrigger>
-            <TooltipContent data-testid="resume-drive-tooltip" side="left">
+            <TooltipContent
+              data-testid="resume-drive-tooltip"
+              side="right"
+              sideOffset={8}
+            >
               Open in Google Drive
             </TooltipContent>
           </Tooltip>

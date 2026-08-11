@@ -79,6 +79,28 @@ test.describe('Homepage E2E Tests', () => {
       page.getByTestId("resume-viewer").getByTestId("resume-drive-link"),
     ).toBeVisible();
 
+    const resumeViewerBox = await page
+      .getByTestId("resume-viewer")
+      .boundingBox();
+    const resumeLinkBox = await resumeLink.boundingBox();
+
+    expect(resumeViewerBox).not.toBeNull();
+    expect(resumeLinkBox).not.toBeNull();
+    expect(resumeLinkBox!.x).toBeGreaterThanOrEqual(resumeViewerBox!.x - 1);
+    expect(resumeLinkBox!.y).toBeGreaterThanOrEqual(resumeViewerBox!.y - 1);
+    expect(resumeLinkBox!.x + resumeLinkBox!.width).toBeLessThanOrEqual(
+      resumeViewerBox!.x + resumeViewerBox!.width + 1,
+    );
+    expect(resumeLinkBox!.y + resumeLinkBox!.height).toBeLessThanOrEqual(
+      resumeViewerBox!.y + resumeViewerBox!.height + 1,
+    );
+    expect(resumeLinkBox!.x + resumeLinkBox!.width / 2).toBeLessThan(
+      resumeViewerBox!.x + resumeViewerBox!.width / 2,
+    );
+    expect(resumeLinkBox!.y + resumeLinkBox!.height / 2).toBeLessThan(
+      resumeViewerBox!.y + resumeViewerBox!.height / 2,
+    );
+
     await resumeLink.focus();
     await expect(page.getByTestId("resume-drive-tooltip")).toHaveText(
       "Open in Google Drive",
@@ -100,6 +122,41 @@ test.describe('Homepage E2E Tests', () => {
     await expect(
       page.getByRole("dialog", { name: "AI Chatbot" }),
     ).toBeVisible();
+  });
+
+  test("should keep the larger desktop chatbot anchored bottom-right", async ({
+    page,
+  }, testInfo) => {
+    test.skip(
+      testInfo.project.name.startsWith("Mobile"),
+      "Desktop layout applies at the lg breakpoint",
+    );
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    await page.getByTestId("ai-chatbot-button").click();
+
+    const dialog = page.getByRole("dialog", { name: "AI Chatbot" });
+    await expect(dialog).toBeVisible();
+
+    const layout = await dialog.evaluate((element) => {
+      const styles = window.getComputedStyle(element);
+      return {
+        bottom: Number.parseFloat(styles.bottom),
+        height: Number.parseFloat(styles.height),
+        position: styles.position,
+        right: Number.parseFloat(styles.right),
+        rootFontSize: Number.parseFloat(
+          window.getComputedStyle(document.documentElement).fontSize,
+        ),
+        width: Number.parseFloat(styles.width),
+      };
+    });
+
+    expect(layout.position).toBe("fixed");
+    expect(layout.right).toBeCloseTo(24, 0);
+    expect(layout.bottom).toBeCloseTo(24, 0);
+    expect(layout.width / layout.rootFontSize).toBeGreaterThan(24);
+    expect(layout.height / layout.rootFontSize).toBeGreaterThan(37.5);
   });
 
   test("should retain the configured profile description when GitHub fails", async ({
