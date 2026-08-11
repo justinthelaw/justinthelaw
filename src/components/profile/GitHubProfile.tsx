@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchGitHubBio } from '@/services/github';
 import { SITE_CONFIG } from '@/config/site';
+import { CardDescription } from '@/components/ui/card';
 
 export function GitHubProfile(): React.ReactElement {
   const [bio, setBio] = useState<string>(SITE_CONFIG.githubBioFallback);
@@ -28,11 +29,11 @@ export function GitHubProfile(): React.ReactElement {
   }, []);
 
   return (
-    <p
-      className="text-center text-sm sm:text-sm md:text-base lg:text-base mx-4"
+    <CardDescription
+      className="mx-4 text-center text-sm text-muted-foreground md:text-base"
       data-testid="github-bio"
     >
       {bio}
-    </p>
+    </CardDescription>
   );
 }

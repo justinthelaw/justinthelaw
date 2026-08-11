@@ -8,6 +8,10 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { SITE_CONFIG } from "@/config/site";
 import { createLogger, LOG_AREAS } from "@/utils";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 
 const PDF_PREVIEW_URL = `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/preview`;
 const PDF_OPEN_URL = `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/view?usp=sharing`;
@@ -85,19 +89,19 @@ export function ResumeViewer(): React.ReactElement {
   };
 
   return (
-    <div className="w-full max-w-5xl h-full p-4 flex flex-col items-center gap-3">
-      <div className="w-full max-w-4xl flex-1 min-h-0 border border-gray-300 rounded-lg overflow-hidden shadow-lg relative">
+    <div className="flex h-full w-full max-w-5xl flex-col items-center gap-3 p-4">
+      <Card className="relative w-full max-w-4xl flex-1 gap-0 overflow-hidden rounded-xl border border-border/70 bg-card/60 py-0 shadow-sm ring-0">
         {isLoading && !hasError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-card/95 backdrop-blur-sm">
             <div className="text-center">
-              <div className="mb-1">
-                <div className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-blue-600 border-r-transparent"></div>
+              <div className="mb-2 flex justify-center">
+                <Spinner className="size-5 text-muted-foreground" />
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-muted-foreground">
                 Loading {SITE_CONFIG.fullName}&apos;s resume...
               </p>
               {retryCount > 0 && (
-                <p className="text-xs text-gray-400 mt-2">
+                <p className="mt-2 text-xs text-muted-foreground/70">
                   Retry attempt {retryCount}/{MAX_RETRIES}
                 </p>
               )}
@@ -105,20 +109,17 @@ export function ResumeViewer(): React.ReactElement {
           </div>
         )}
         {hasError ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
-            <div className="text-center px-4">
-              <p className="text-sm text-gray-600 mb-4">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-card/95 px-4 backdrop-blur-sm">
+            <Alert className="max-w-sm border-border/70 bg-muted/30 text-center">
+              <AlertDescription className="text-muted-foreground">
                 Unable to display PDF in browser.
-              </p>
-              <div className="flex justify-center items-center">
-                <button
-                  onClick={handleRetry}
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm"
-                >
+              </AlertDescription>
+              <div className="mt-3 flex justify-center">
+                <Button onClick={handleRetry} size="sm" variant="secondary">
                   Try Again
-                </button>
+                </Button>
               </div>
-            </div>
+            </Alert>
           </div>
         ) : (
           <iframe
@@ -131,15 +132,16 @@ export function ResumeViewer(): React.ReactElement {
             referrerPolicy="no-referrer"
           />
         )}
-      </div>
-      <a
-        href={PDF_OPEN_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition-colors text-sm"
-      >
-        Open resume in Google Drive
-      </a>
+      </Card>
+      <Button asChild variant="outline">
+        <a
+          href={PDF_OPEN_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open resume in Google Drive
+        </a>
+      </Button>
     </div>
   );
 }
