@@ -87,6 +87,9 @@ test.describe('Homepage E2E Tests', () => {
 
     // Verify that the chatbot button is no longer visible (indicating chatbox opened)
     await expect(chatbotButton).not.toBeVisible();
+    await expect(
+      page.getByRole("dialog", { name: "AI Chatbot" }),
+    ).toBeVisible();
   });
 
   test("should retain the configured profile description when GitHub fails", async ({

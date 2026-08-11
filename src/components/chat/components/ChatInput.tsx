@@ -3,10 +3,15 @@
  * Input field and send button for user messages
  */
 
-import React, { useState, useRef, useId, KeyboardEvent } from "react";
+import React, { KeyboardEvent, useId, useRef, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { getPromptBudget } from "@/services/ai/contextProvider";
-import { LimitWarning } from "./LimitWarning";
 import type { ConversationTurn } from "@/types";
+
+import { LimitWarning } from "./LimitWarning";
 
 export interface ChatInputProps {
   onSend: (message: string) => void;
@@ -30,71 +35,75 @@ export function ChatInput({
   const showInputLimitWarning =
     inputText.trim().length > 0 && promptBudget.isInputTrimmed;
 
-  const handleSend = () => {
-    if (!inputText.trim() || isSendDisabled) return;
+  function handleSend(): void {
+    if (!inputText.trim() || isSendDisabled) {
+      return;
+    }
 
     onSend(inputText.trim());
     setInputText("");
 
-    // Refocus input after sending
     setTimeout(() => {
       inputRef.current?.focus();
     }, 0);
-  };
+  }
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
+  function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>): void {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
       handleSend();
     }
-  };
+  }
 
   return (
-    <div className="p-4 border-t border-gray-700">
-      <div className="flex items-end gap-2">
-        <div className="flex-1">
-          <label htmlFor={inputId} className="sr-only">
-            Message to AI assistant
-          </label>
-          <textarea
-            id={inputId}
-            ref={inputRef}
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={placeholder}
-            disabled={isInputDisabled}
-            rows={2}
-            aria-describedby={
-              showInputLimitWarning ? "chat-input-limit-warning" : undefined
-            }
-            className="block min-h-11 max-h-24 w-full resize-none rounded-lg bg-gray-800 px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
-            data-testid="chat-input"
-          />
-        </div>
-        <div className="relative flex h-11 w-20 shrink-0 items-end justify-center">
-          {showInputLimitWarning && (
-            <LimitWarning
-              id="chat-input-limit-warning"
-              testId="chat-input-limit-warning"
-              className="absolute bottom-full left-1/2 mb-2 -translate-x-1/2"
-              message={`Message: ${promptBudget.trimmedInputCharacters} chars over; tail trimmed.`}
+    <div className="bg-card/55">
+      <Separator />
+      <div className="p-4">
+        <div className="flex items-end gap-2">
+          <div className="min-w-0 flex-1">
+            <label htmlFor={inputId} className="sr-only">
+              Message to AI assistant
+            </label>
+            <Textarea
+              aria-describedby={
+                showInputLimitWarning ? "chat-input-limit-warning" : undefined
+              }
+              className="field-sizing-fixed min-h-11! max-h-24 resize-none bg-background/55 px-3 py-2.5 text-sm placeholder:text-muted-foreground"
+              data-testid="chat-input"
+              disabled={isInputDisabled}
+              id={inputId}
+              onChange={(event) => setInputText(event.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={placeholder}
+              ref={inputRef}
+              rows={2}
+              value={inputText}
             />
-          )}
-          <button
-            type="button"
-            onClick={handleSend}
-            disabled={isSendDisabled || !inputText.trim()}
-            className="h-11 w-full rounded-lg bg-blue-600 px-0 font-medium text-white transition-colors duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-blue-600"
-            data-testid="chat-send-button"
-          >
-            Send
-          </button>
+          </div>
+          <div className="relative flex h-11 w-20 shrink-0 items-end justify-center">
+            {showInputLimitWarning && (
+              <LimitWarning
+                className="absolute bottom-full left-1/2 mb-2 -translate-x-1/2"
+                id="chat-input-limit-warning"
+                message={`Message: ${promptBudget.trimmedInputCharacters} chars over; tail trimmed.`}
+                testId="chat-input-limit-warning"
+              />
+            )}
+            <Button
+              className="h-11 w-full"
+              data-testid="chat-send-button"
+              disabled={isSendDisabled || !inputText.trim()}
+              onClick={handleSend}
+              type="button"
+            >
+              Send
+            </Button>
+          </div>
         </div>
+        <p className="mt-2 text-center text-xs text-muted-foreground">
+          AI can make mistakes. Always verify the information.
+        </p>
       </div>
-      <p className="text-xs text-gray-500 mt-2 text-center">
-        AI can make mistakes. Always verify the information.
-      </p>
     </div>
   );
 }

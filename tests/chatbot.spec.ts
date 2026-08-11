@@ -571,6 +571,7 @@ test.describe("Chatbot UI Tests", () => {
 
     await page.mouse.click(4, 4);
     await expect(inputTooltip).toBeHidden();
+    await expect(page.getByTestId("chat-input")).toBeVisible();
   });
 
   test("should send recent turns to the worker for follow-up prompts", async ({

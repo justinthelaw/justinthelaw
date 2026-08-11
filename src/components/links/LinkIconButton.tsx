@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { DERIVED_CONFIG } from '@/config/site';
+import { Button } from '@/components/ui/button';
 
 export interface LinkIconButtonProps {
   link: string;
@@ -44,22 +45,27 @@ export function LinkIconButton({
   }, [iconSources.length]);
 
   return (
-    <a
-      href={link}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={altText}
+    <Button
+      asChild
+      variant="ghost"
+      size="icon"
+      className="size-8 rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground sm:size-9 md:size-10"
     >
-      <span className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded hover:bg-gray-800">
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={altText}
+      >
         <img
           src={iconSource}
           alt={altText}
-          className="block w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 object-contain"
+          className="block size-6 object-contain sm:size-7 md:size-8"
           loading="eager"
           decoding="async"
           onError={handleIconError}
         />
-      </span>
-    </a>
+      </a>
+    </Button>
   );
 }

@@ -1,11 +1,12 @@
 import { Fragment, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { Bot } from "@deemlol/next-icons";
+import { BotIcon } from "lucide-react";
 import { DERIVED_CONFIG, SITE_CONFIG } from "@/config/site";
 import { LinkIconButton } from "@/components/links";
 import { GitHubProfile } from "@/components/profile";
 import { ResumeViewer } from "@/components/resume";
+import { Button } from "@/components/ui/button";
 
 const ChatContainer = dynamic(
   () => import("@/components/chat").then((mod) => ({ default: mod.ChatContainer })),
@@ -83,10 +84,15 @@ export default function Home(): React.ReactElement {
         />
       </Head>
 
-      <div className="grid grid-rows-[auto_1fr_auto] h-screen gap-2 pb-4 pt-8">
-        <header className="flex flex-col items-center gap-4">
+      <div className="relative grid min-h-svh grid-rows-[auto_minmax(0,1fr)_auto] gap-3 overflow-hidden bg-background px-3 pb-4 pt-8 text-foreground sm:px-6">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(ellipse_at_top,oklch(0.24_0.008_285.95_/_0.38),transparent_68%)]"
+        />
+
+        <header className="relative z-10 flex flex-col items-center gap-3">
           <h1
-            className="text-center text-3xl sm:text-5xl font-bold"
+            className="font-heading text-center text-4xl font-semibold tracking-[-0.04em] text-foreground sm:text-5xl"
             data-testid="main-header"
           >
             {SITE_CONFIG.fullName}
@@ -94,12 +100,12 @@ export default function Home(): React.ReactElement {
           <GitHubProfile />
         </header>
 
-        <main className="flex items-center justify-center overflow-hidden">
+        <main className="relative z-10 flex min-h-0 items-center justify-center overflow-hidden">
           <ResumeViewer />
         </main>
 
         <footer
-          className="flex gap-1 sm:gap-1 md:gap-2 lg:gap-3 justify-center pb-2"
+          className="relative z-10 mx-auto flex items-center justify-center gap-1 rounded-xl border border-border/70 bg-card/70 p-1 shadow-sm backdrop-blur-sm md:gap-2"
           data-testid="social-footer"
         >
           {socialLinks.map((link) => (
@@ -113,17 +119,19 @@ export default function Home(): React.ReactElement {
         </footer>
 
         {!showChatBox && (
-          <button
+          <Button
             ref={chatButtonRef}
             type="button"
-            className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-lg border border-gray-700 bg-black px-3 py-3 text-white shadow-lg transition-colors duration-200 hover:border-gray-500 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300"
+            variant="outline"
+            size="lg"
+            className="fixed right-4 bottom-4 z-40 h-11 border-border/80 bg-card/95 px-3 text-foreground shadow-lg backdrop-blur-sm hover:bg-accent"
             onClick={() => setShowChatBox(true)}
             aria-label="Open AI chatbot"
             data-testid="ai-chatbot-button"
           >
-            <Bot className="h-5 w-5" aria-hidden="true" />
-            <span className="text-lg hidden sm:inline">AI Chatbot</span>
-          </button>
+            <BotIcon className="size-4" aria-hidden="true" />
+            <span className="hidden sm:inline">AI Chatbot</span>
+          </Button>
         )}
 
         {showChatBox && <ChatContainer onClose={closeChatBox} />}
