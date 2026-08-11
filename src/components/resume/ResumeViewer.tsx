@@ -111,7 +111,7 @@ export function ResumeViewer(): React.ReactElement {
   return (
     <div className="flex h-full w-full max-w-5xl flex-col items-center gap-3 p-4">
       <Card
-        className="relative w-full max-w-4xl flex-1 gap-0 overflow-hidden rounded-xl border border-border/70 bg-card/60 py-0 shadow-sm ring-0"
+        className="relative min-h-0 w-full max-w-4xl flex-1 gap-0 overflow-hidden rounded-xl border border-border/70 bg-card/60 py-0 shadow-sm ring-0"
         data-testid="resume-viewer"
       >
         <div className="absolute right-2 top-2 z-20 sm:right-3 sm:top-3">
