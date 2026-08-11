@@ -123,7 +123,7 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
   return (
     <Dialog open onOpenChange={handleOpenChange}>
       <DialogContent
-        className="flex h-[min(80vh,46rem)] w-[calc(100%-2rem)] max-w-md flex-col gap-0 overflow-hidden border border-border/80 bg-popover/98 p-0 shadow-2xl ring-1 ring-white/5 lg:top-auto lg:right-6 lg:bottom-6 lg:left-auto lg:h-[600px] lg:w-96 lg:max-w-none lg:translate-x-0 lg:translate-y-0"
+        className="flex h-[min(80vh,46rem)] w-[calc(100%-2rem)] max-w-md flex-col gap-0 overflow-hidden border border-border/80 bg-popover/98 p-0 shadow-2xl ring-1 ring-white/5 lg:top-auto lg:right-6 lg:bottom-6 lg:left-auto lg:h-[min(42rem,calc(100vh-3rem))] lg:w-[28rem] lg:max-w-none lg:translate-x-0 lg:translate-y-0"
         onCloseAutoFocus={(event) => event.preventDefault()}
         onOpenAutoFocus={(event) => {
           event.preventDefault();
