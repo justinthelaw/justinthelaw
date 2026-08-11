@@ -13,9 +13,7 @@
 
 <https://justinthelaw.github.io/justinthelaw/>
 
-At the linked website above, you will find an AI chatbot that answers questions using personal context from this repository, alongside a viewable and downloadable PDF version of my resume and cover letter.
-
-<img width="800" height="412" alt="justinthelaw_demo-june_2026" src="https://github.com/user-attachments/assets/7dd70d5e-36bd-43c4-9b41-5002aba05aa5" />
+On my personal website, there is a browser-local LLM that can answer questions using context from my resume.
 
 > [!NOTE]
 > You can fork and personalize my website by checking out the [customization guide](docs/CUSTOMIZATION.md).
