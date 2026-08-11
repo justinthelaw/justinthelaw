@@ -27,6 +27,26 @@ function possessive(value: string): string {
   return value.endsWith("s") ? `${value}'` : `${value}'s`;
 }
 
+export function createGenerationStatusMessages(
+  subject: ProfileSubject,
+): readonly string[] {
+  const shortName = subject.shortName;
+  const possessiveShortName = possessive(shortName);
+
+  return [
+    `Reading ${possessiveShortName} secret diary...`,
+    `Calling ${shortName} right now...`,
+    `Decoding ${possessiveShortName} commits...`,
+    `Skimming ${possessiveShortName} highlight reel...`,
+    `Checking ${possessiveShortName} receipts...`,
+    `Consulting ${possessiveShortName} rubber duck...`,
+    `Connecting ${possessiveShortName} career dots...`,
+    `Paging through ${possessiveShortName} lore...`,
+    `Dusting off ${possessiveShortName} brag book...`,
+    `Channeling my inner ${shortName}...`,
+  ] as const;
+}
+
 export function createChatbotConfig(subject: ProfileSubject) {
   return {
     welcomeMessages: [
@@ -38,8 +58,12 @@ export function createChatbotConfig(subject: ProfileSubject) {
       `Thanks for visiting! Do you want to learn more about ${subject.shortName}?`,
     ],
 
+    generationStatusMessages: createGenerationStatusMessages(subject),
+
     systemPrompt: `You are ${possessive(subject.name)} AI assistant. Use only the provided context. Reply in 1-2 short sentences. If the answer is absent, say the context does not say.`,
   } as const;
 }
 
 export const CHATBOT_CONFIG = createChatbotConfig(PROFILE_SUBJECT);
+export const GENERATION_STATUS_MESSAGES =
+  CHATBOT_CONFIG.generationStatusMessages;

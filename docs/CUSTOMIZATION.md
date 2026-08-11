@@ -103,13 +103,13 @@ Keep section IDs generic so forks can reuse the retrieval behavior:
 `src/config/site.ts` imports this file as `PROFILE_SECTIONS`, and
 `ml/profile-qa/profile_qa/public_profile.py` loads the same JSON for synthetic
 data generation. The identity section's `subject` object supplies the browser
-welcome and system-prompt identity as well as the names and pronouns rendered
-into synthetic questions, conversation histories, refusal examples, and the
-training instruction. `PERSONAL_CONTEXT` is derived from these sections for
-compatibility. The browser prompt builder always includes identity facts,
-retrieves relevant sections from the latest question plus recent turns, and
-trims user input only after selected sections and history fit the active model
-budget.
+welcome, inference-status, and system-prompt identity as well as the names and
+pronouns rendered into synthetic questions, conversation histories, refusal
+examples, and the training instruction. `PERSONAL_CONTEXT` is derived from
+these sections for compatibility. The browser prompt builder always includes
+identity facts, retrieves relevant sections from the latest question plus
+recent turns, and trims user input only after selected sections and history fit
+the active model budget.
 
 Put reusable categories in section IDs and person-specific terms in fact text or
 fact keywords. Browser retrieval uses section `priority`, section `keywords`,

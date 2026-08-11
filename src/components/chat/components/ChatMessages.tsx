@@ -5,7 +5,7 @@
 
 import React, { Fragment, useState } from "react";
 
-import { PROFILE_SUBJECT } from "@/config";
+import { GENERATION_STATUS_MESSAGES } from "@/config";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,14 +14,6 @@ import type { ChatMessage } from "@/types";
 
 import { LimitWarning } from "./LimitWarning";
 import { Typewriter } from "./Typewriter";
-
-export const GENERATION_STATUS_MESSAGES = [
-  `Reviewing ${PROFILE_SUBJECT.shortName}'s public profile...`,
-  `Finding relevant public details about ${PROFILE_SUBJECT.shortName}...`,
-  `Checking ${PROFILE_SUBJECT.shortName}'s public resume context...`,
-  `Reviewing ${PROFILE_SUBJECT.shortName}'s public project history...`,
-  "Preparing a profile-grounded answer...",
-] as const;
 
 export interface ChatMessagesProps {
   messages: ChatMessage[];
@@ -36,6 +28,30 @@ export interface ChatMessagesProps {
   onRetryModelLoad: () => void;
 }
 
+function GenerationStatus(): React.ReactElement {
+  const [message] = useState(
+    () =>
+      GENERATION_STATUS_MESSAGES[
+        Math.floor(Math.random() * GENERATION_STATUS_MESSAGES.length)
+      ],
+  );
+
+  return (
+    <div
+      className="flex items-center gap-2 text-sm text-muted-foreground"
+      data-testid="generation-status"
+    >
+      <Spinner
+        aria-hidden="true"
+        aria-label={undefined}
+        className="size-3.5"
+        role="presentation"
+      />
+      <span>{message}</span>
+    </div>
+  );
+}
+
 export function ChatMessages({
   messages,
   currentResponse,
@@ -48,12 +64,6 @@ export function ChatMessages({
   trimmedPersonalContextCharacters,
   onRetryModelLoad,
 }: ChatMessagesProps): React.ReactElement {
-  const [generationStatusMessage] = useState(
-    () =>
-      GENERATION_STATUS_MESSAGES[
-        Math.floor(Math.random() * GENERATION_STATUS_MESSAGES.length)
-      ]
-  );
   const showModelStatus = isLoading && !loadingMessage?.includes("Generating");
 
   return (
@@ -168,10 +178,7 @@ export function ChatMessages({
                   </div>
                   <div className="whitespace-pre-line leading-relaxed [overflow-wrap:anywhere]">
                     {!currentResponse ? (
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Spinner className="size-3.5" />
-                        <span>{generationStatusMessage}</span>
-                      </div>
+                      <GenerationStatus />
                     ) : (
                       <Fragment>
                         {currentResponse}
