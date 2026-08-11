@@ -73,6 +73,16 @@ test.describe('Homepage E2E Tests', () => {
       "href",
       `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/view?usp=sharing`,
     );
+    await expect(resumeLink).toHaveAttribute("target", "_blank");
+    await expect(resumeLink).toHaveAttribute("rel", "noopener noreferrer");
+    await expect(
+      page.getByTestId("resume-viewer").getByTestId("resume-drive-link"),
+    ).toBeVisible();
+
+    await resumeLink.focus();
+    await expect(page.getByTestId("resume-drive-tooltip")).toHaveText(
+      "Open in Google Drive",
+    );
   });
 
   test("should open AI chatbot when button is clicked", async ({ page }) => {

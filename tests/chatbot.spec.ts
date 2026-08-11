@@ -3,8 +3,12 @@ import {
   getPersonalContextBudget,
   getPromptBudget,
 } from "../src/services/ai/contextProvider";
-import { CHATBOT_CONFIG } from "../src/config";
-import { GENERATION_STATUS_MESSAGES } from "../src/components/chat/components/ChatMessages";
+import {
+  CHATBOT_CONFIG,
+  GENERATION_STATUS_MESSAGES,
+  PROFILE_SUBJECT,
+  createGenerationStatusMessages,
+} from "../src/config";
 
 const HELD_LOADING_MESSAGE = "Downloading model... 83%";
 const HOLD_MODEL_LOADING_SESSION_KEY = "__holdModelLoading";
@@ -13,11 +17,32 @@ const FAIL_MODEL_LOADING_SESSION_KEY = "__failModelLoading";
 const HOLD_GENERATION_SESSION_KEY = "__holdGeneration";
 const THROW_WORKER_SESSION_KEY = "__throwWorker";
 
-test("generation status messages describe only the public-profile workflow", () => {
-  expect(GENERATION_STATUS_MESSAGES).toHaveLength(5);
+test("generation status messages are playful and fork-friendly", () => {
+  const possessiveShortName = PROFILE_SUBJECT.shortName.endsWith("s")
+    ? `${PROFILE_SUBJECT.shortName}'`
+    : `${PROFILE_SUBJECT.shortName}'s`;
+
+  expect(GENERATION_STATUS_MESSAGES.length).toBeGreaterThanOrEqual(8);
+  expect(new Set(GENERATION_STATUS_MESSAGES).size).toBe(
+    GENERATION_STATUS_MESSAGES.length,
+  );
+  expect(GENERATION_STATUS_MESSAGES).toContain(
+    `Reading ${possessiveShortName} secret diary...`,
+  );
+  expect(GENERATION_STATUS_MESSAGES).toContain(
+    `Calling ${PROFILE_SUBJECT.shortName} right now...`,
+  );
   for (const message of GENERATION_STATUS_MESSAGES) {
-    expect(message).toMatch(/public|profile-grounded/);
+    expect(message).toContain(PROFILE_SUBJECT.shortName);
+    expect(message).toMatch(/\.\.\.$/);
   }
+
+  const forkedSubject = { ...PROFILE_SUBJECT, shortName: "Fork Owner" };
+  const forkedMessages = createGenerationStatusMessages(forkedSubject);
+  expect(forkedMessages).toHaveLength(GENERATION_STATUS_MESSAGES.length);
+  expect(
+    forkedMessages.every((message) => message.includes("Fork Owner")),
+  ).toBe(true);
 });
 
 interface MockWorkerInitOptions {
@@ -652,6 +677,11 @@ test.describe("Chatbot UI Tests", () => {
     await page.getByTestId("chat-input").fill("Tell me about Justin.");
     await page.getByTestId("chat-send-button").click();
     await expect(page.getByTestId("chat-input")).toBeDisabled();
+    const generationStatus = page.getByTestId("generation-status");
+    await expect(generationStatus).toBeVisible();
+    expect(GENERATION_STATUS_MESSAGES).toContain(
+      (await generationStatus.textContent())?.trim(),
+    );
 
     await page.getByRole("button", { name: "Close chat" }).click();
 

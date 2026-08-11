@@ -12,12 +12,32 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const PDF_PREVIEW_URL = `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/preview`;
 const PDF_OPEN_URL = `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/view?usp=sharing`;
 const LOADING_TIMEOUT_MS = 15000; // Increased to 15s
 const MAX_RETRIES = 2;
 const logger = createLogger(LOG_AREAS.RESUME);
+
+function GoogleDriveIcon(): React.ReactElement {
+  return (
+    <svg
+      aria-hidden="true"
+      className="size-5"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path d="M8.6 2h6.8l6.8 11.8h-6.8L8.6 2Z" fill="#0F9D58" />
+      <path d="m8.6 2 3.4 5.9-6.8 11.8-3.4-5.9L8.6 2Z" fill="#F4B400" />
+      <path d="m5.2 19.7 3.4-5.9h13.6l-3.4 5.9H5.2Z" fill="#4285F4" />
+    </svg>
+  );
+}
 
 export function ResumeViewer(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(true);
@@ -90,7 +110,35 @@ export function ResumeViewer(): React.ReactElement {
 
   return (
     <div className="flex h-full w-full max-w-5xl flex-col items-center gap-3 p-4">
-      <Card className="relative w-full max-w-4xl flex-1 gap-0 overflow-hidden rounded-xl border border-border/70 bg-card/60 py-0 shadow-sm ring-0">
+      <Card
+        className="relative min-h-0 w-full max-w-4xl flex-1 gap-0 overflow-hidden rounded-xl border border-border/70 bg-card/60 py-0 shadow-sm ring-0"
+        data-testid="resume-viewer"
+      >
+        <div className="absolute right-2 top-2 z-20 sm:right-3 sm:top-3">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                asChild
+                className="min-h-11 min-w-11 border-border/80 bg-background/90 shadow-md backdrop-blur-sm hover:bg-muted"
+                size="icon-lg"
+                variant="outline"
+              >
+                <a
+                  aria-label="Open resume in Google Drive"
+                  data-testid="resume-drive-link"
+                  href={PDF_OPEN_URL}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <GoogleDriveIcon />
+                </a>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent data-testid="resume-drive-tooltip" side="left">
+              Open in Google Drive
+            </TooltipContent>
+          </Tooltip>
+        </div>
         {isLoading && !hasError && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-card/95 backdrop-blur-sm">
             <div className="text-center">
@@ -133,15 +181,6 @@ export function ResumeViewer(): React.ReactElement {
           />
         )}
       </Card>
-      <Button asChild variant="outline">
-        <a
-          href={PDF_OPEN_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Open resume in Google Drive
-        </a>
-      </Button>
     </div>
   );
 }
