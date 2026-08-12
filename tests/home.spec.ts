@@ -256,4 +256,65 @@ test.describe('Homepage E2E Tests', () => {
       expect(resolvedSource?.endsWith(`/${socialIconFiles[index]}`)).toBe(true);
     }
   });
+
+  test('should render larger social controls at every responsive tier', async ({
+    page,
+  }, testInfo) => {
+    test.skip(
+      testInfo.project.name !== 'chromium',
+      'One browser is sufficient for responsive CSS sizing',
+    );
+
+    const sizeTiers = [
+      { viewportWidth: 375, previousControlRem: 2, previousIconRem: 1.5 },
+      { viewportWidth: 640, previousControlRem: 2.25, previousIconRem: 1.75 },
+      { viewportWidth: 768, previousControlRem: 2.5, previousIconRem: 2 },
+    ];
+
+    for (const sizeTier of sizeTiers) {
+      await page.setViewportSize({ width: sizeTier.viewportWidth, height: 900 });
+      await page.goto('/');
+
+      const socialLinks = page.getByTestId('social-footer').getByRole('link');
+      await expect(socialLinks).toHaveCount(getSocialIconFiles().length);
+
+      const measurements = await socialLinks.evaluateAll((links) => {
+        const rootFontSize = Number.parseFloat(
+          window.getComputedStyle(document.documentElement).fontSize,
+        );
+
+        return links.map((link) => {
+          const image = link.querySelector('img');
+          if (!(image instanceof HTMLImageElement)) {
+            throw new Error('Social link is missing its icon image');
+          }
+
+          const controlBounds = link.getBoundingClientRect();
+          const iconBounds = image.getBoundingClientRect();
+
+          return {
+            controlHeightRem: controlBounds.height / rootFontSize,
+            controlWidthRem: controlBounds.width / rootFontSize,
+            iconHeightRem: iconBounds.height / rootFontSize,
+            iconWidthRem: iconBounds.width / rootFontSize,
+          };
+        });
+      });
+
+      for (const measurement of measurements) {
+        expect(measurement.controlWidthRem).toBeGreaterThan(
+          sizeTier.previousControlRem,
+        );
+        expect(measurement.controlHeightRem).toBeGreaterThan(
+          sizeTier.previousControlRem,
+        );
+        expect(measurement.iconWidthRem).toBeGreaterThan(
+          sizeTier.previousIconRem,
+        );
+        expect(measurement.iconHeightRem).toBeGreaterThan(
+          sizeTier.previousIconRem,
+        );
+      }
+    }
+  });
 });

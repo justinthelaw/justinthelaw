@@ -49,7 +49,7 @@ export function LinkIconButton({
       asChild
       variant="ghost"
       size="icon"
-      className="size-8 rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground sm:size-9 md:size-10"
+      className="size-10 rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground sm:size-11 md:size-12"
     >
       <a
         href={link}
@@ -60,7 +60,7 @@ export function LinkIconButton({
         <img
           src={iconSource}
           alt={altText}
-          className="block size-6 object-contain sm:size-7 md:size-8"
+          className="block size-7 object-contain sm:size-8 md:size-9"
           loading="eager"
           decoding="async"
           onError={handleIconError}
