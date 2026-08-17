@@ -105,7 +105,7 @@ Set the training manifest entries to `huggingface-hub>=1.27.0` and `transformers
 
 - [ ] **Step 3: Refresh the compatible exporter lane**
 
-Keep Hub and Transformers in their existing compatibility ranges and keep Optimum at `optimum[onnxruntime]>=2.1.0,<2.2`, the range compatible with the exporter’s Transformers 4.57.x lane.
+Keep Hub and Transformers in their existing compatibility ranges and keep Optimum at `optimum[onnxruntime]>=2.1.0,<2.2`, the range compatible with the exporter's Transformers 4.57.x lane.
 
 - [ ] **Step 4: Verify GREEN**
 
