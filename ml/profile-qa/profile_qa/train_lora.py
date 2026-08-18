@@ -29,7 +29,6 @@ from .config import (
 from .gpu_health import assert_gpu_ready
 from .public_profile import possessive, profile_subject_name
 from .provenance import canonical_json_sha256, load_json_object
-from .public_profile import possessive, profile_subject_name
 from .synthetic_data import profile_context_text
 from .validation import read_jsonl
 
