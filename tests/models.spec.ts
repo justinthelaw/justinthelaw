@@ -5,7 +5,9 @@ import {
   getDeviceSpecificDtype,
   getDtypeFallbackOrder,
 } from "../src/config/models";
-import canonicalProfileSections from "../src/config/public-profile.json";
+import canonicalProfileSections from "../src/config/public-profile.json" with {
+  type: "json",
+};
 import {
   PERSONAL_CONTEXT,
   PROFILE_SECTIONS,
