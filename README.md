@@ -3,7 +3,7 @@
 
 ## Quick Facts
 
-💼 AI Deployment Engineer on the [OpenAI Codex](https://openai.com/codex/) team
+💼 Applied AI Engineer on the [OpenAI Codex](https://openai.com/codex/) team
 
 🚀 Veteran [United States Air and Space Force](https://www.spaceforce.com/) Officer
 
