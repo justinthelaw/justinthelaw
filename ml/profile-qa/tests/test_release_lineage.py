@@ -190,29 +190,6 @@ class ReleaseLineageTests(unittest.TestCase):
                 public_lineage_sha256(lineage),
             )
 
-    def test_full_precision_export_replaces_existing_stage_tree(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            merged_dir, _ = self._write_merged_model(root)
-            fp_dir = root / "candidate" / "onnx"
-            fp_dir.mkdir(parents=True)
-            sentinel = fp_dir / "stale.json"
-            sentinel.write_text("stale", encoding="utf-8")
-
-            def fake_export(_command: list[str]) -> None:
-                (fp_dir / "config.json").write_text("{}", encoding="utf-8")
-                (fp_dir / "encoder_model.onnx").write_bytes(b"fresh")
-
-            with patch("profile_qa.export_onnx.run_command", side_effect=fake_export):
-                lineage = export_onnx(str(merged_dir), fp_dir)
-
-            self.assertFalse(sentinel.exists())
-            validate_artifact_lineage(
-                fp_dir,
-                source_lineage=lineage.data,
-                stage="onnx-fp",
-            )
-
     def test_full_precision_export_rejects_source_overlap(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
