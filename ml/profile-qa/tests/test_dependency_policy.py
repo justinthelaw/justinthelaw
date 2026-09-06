@@ -39,10 +39,10 @@ def test_exporter_lane_keeps_compatible_ranges():
     assert requirements == [
         "huggingface-hub>=0.36.2,<1.0",
         "onnx>=1.22.0",
-        "onnxruntime>=1.28.0",
+        "onnxruntime>=1.29.0",
         "optimum[onnxruntime]>=2.1.0,<2.2",
         "safetensors>=0.8.0",
         "sentencepiece>=0.2.2",
-        "torch>=2.13.0",
+        "torch>=2.14.0",
         "transformers>=4.57.6,<4.58",
     ]
