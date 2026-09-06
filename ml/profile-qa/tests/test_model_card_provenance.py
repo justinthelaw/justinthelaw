@@ -5,7 +5,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import call, patch
 
 from profile_qa.config import PRIMARY_BASE_MODEL_ID, PRIMARY_BASE_MODEL_REVISION
 from profile_qa.evaluate import (
@@ -41,6 +41,13 @@ from profile_qa.validation import canonical_jsonl_sha256, read_jsonl
 
 
 class ModelCardProvenanceTests(unittest.TestCase):
+    def setUp(self) -> None:
+        validator = patch(
+            "profile_qa.prepare_hf_artifacts.reject_external_data_files"
+        )
+        self.external_data_validator = validator.start()
+        self.addCleanup(validator.stop)
+
     def _write_lineage(
         self,
         directory: Path,
@@ -252,6 +259,10 @@ class ModelCardProvenanceTests(unittest.TestCase):
                 json.loads(lineage_path.read_text(encoding="utf-8"))
             )
             model_dir = prepare_model_payload(args)
+            self.external_data_validator.assert_has_calls(
+                [call(browser_dir), call(model_dir)]
+            )
+            self.assertEqual(self.external_data_validator.call_count, 2)
             model_card = (model_dir / "README.md").read_text(encoding="utf-8")
             published_lineage = validate_artifact_lineage(
                 model_dir,

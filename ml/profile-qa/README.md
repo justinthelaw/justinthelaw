@@ -62,8 +62,9 @@ uv pip compile --python-version 3.14 --generate-hashes \
 ```
 
 Training and export both use current Transformers 5 and Hub 1 releases. The
-smaller export environment uses native PyTorch ONNX export and ONNX Runtime,
-without Optimum. Export only the verified local merged model from this pipeline.
+smaller export environment uses the native `torch.export`-based ONNX path and
+ONNX Runtime, without Optimum. Export only the verified local merged model from
+this pipeline.
 CI checks manifest-to-lock consistency, recreates both environments with hashes,
 and audits both dependency graphs without vulnerability exceptions.
 
@@ -195,7 +196,7 @@ until all of these are true:
 | Refusal | Refusal accuracy is at least 95% |
 | Multi-turn | Multi-turn follow-up accuracy is at least 80% |
 | Browser smoke | Loads and answers a 900-1024 token prompt in Chromium desktop and Mobile Chrome without worker crashes |
-| ONNX artifacts | Include `int8` and `uint8` variants and no `.onnx.data` files |
+| ONNX artifacts | Include `int8` and `uint8` variants with all tensor data embedded and no external sidecars |
 
 ## Tests
 

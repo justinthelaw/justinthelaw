@@ -725,7 +725,10 @@ ml-dtypes==0.6.0 \
     --hash=sha256:f4f59f83c82ab480e924b988e7b1b4eb4de836dfcf5390c6f59148d1a00e1d02 \
     --hash=sha256:f6cb525101b6b903779188c1e9e9490c343b455ab822883e02cf01e5547338d2 \
     --hash=sha256:fb87f46b4f7ad7b5d3ad8f4b452b024bd4229d44c8ff934798c1fe656210387a
-    # via onnx
+    # via
+    #   onnx
+    #   onnx-ir
+    #   onnxscript
 mpmath==1.3.0 \
     --hash=sha256:7a28eb2a9774d00c7bc92411c19a89209d5da7c4c9a9e227be8330a23a25b91f \
     --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
@@ -975,7 +978,9 @@ numpy==2.5.3 \
     #   datasets
     #   ml-dtypes
     #   onnx
+    #   onnx-ir
     #   onnxruntime
+    #   onnxscript
     #   pandas
     #   peft
     #   transformers
@@ -1087,7 +1092,14 @@ onnx==1.22.0 \
     --hash=sha256:cc8b66b312f8f03a53e268afb67180a2d97dd12cc79e2b61361c6c0073448016 \
     --hash=sha256:ef40c0aaf0b643857ea9306fc7eddce17eaf9fb0407e4801f1fc5758443a38e0 \
     --hash=sha256:f3c120dcdb70ad738f3c061b32798f408ea299eb69f84dd69ab4a6bf3c2ec01f
-    # via -r ml/profile-qa/requirements.txt
+    # via
+    #   -r ml/profile-qa/requirements.txt
+    #   onnx-ir
+    #   onnxscript
+onnx-ir==1.0.0 \
+    --hash=sha256:9e261f25fde8da9612ae5cb43b3b374d5ff469c04af0363cad588b2bb000b812 \
+    --hash=sha256:e578f0d608d3062866b48223616eb2d10a6d6d01f8b8faac596129034f483cc7
+    # via onnxscript
 onnxruntime==1.29.0 \
     --hash=sha256:07c5907474dec4a2792fd7626b753dc66707808385a6d9eecf993db0066a9d0f \
     --hash=sha256:0d4f427afac434b0070fe992b540ddf20a7aff2265f760f314d91331935b6b98 \
@@ -1114,6 +1126,10 @@ onnxruntime==1.29.0 \
     --hash=sha256:e417ef8628dcce310d2d53023e750ea298ec14d4341ae6dc3a572bfd9bc7fa97 \
     --hash=sha256:e74b278af1d949876f5d91d1268fd6c680e79f2bac194967394eaba9fdf69e7e
     # via -r ml/profile-qa/requirements.txt
+onnxscript==0.7.1 \
+    --hash=sha256:309fb86484b11fa4ded90dba580e0d63f1a0827588e521cecaf2eeddb46d6e86 \
+    --hash=sha256:544763b7fdef49940cdd9412ff5135cbae96d59ac6bc1921457f21280f40f4b7
+    # via -r ml/profile-qa/requirements.txt
 packaging==26.3 \
     --hash=sha256:94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79 \
     --hash=sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c
@@ -1123,6 +1139,7 @@ packaging==26.3 \
     #   datasets
     #   huggingface-hub
     #   onnxruntime
+    #   onnxscript
     #   peft
     #   pytest
     #   transformers
@@ -1716,7 +1733,9 @@ six==1.17.0 \
 sympy==1.14.0 \
     --hash=sha256:d3d3fe8df1e5a0b42f0e7bdf50541697dbe7d23746e894990c030e2b05e72517 \
     --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
-    # via torch
+    # via
+    #   onnx-ir
+    #   torch
 tokenizers==0.23.2 \
     --hash=sha256:12f0835dc2ee694746a76adf7b1567d4346a4a502ebe93fb1f5f80ea49799b78 \
     --hash=sha256:2e96f5699d5249c9c64aa8412e044f727aae3a4098cf830f9901ec1afc361cde \
@@ -1805,6 +1824,8 @@ typing-extensions==4.16.0 \
     #   anyio
     #   huggingface-hub
     #   onnx
+    #   onnx-ir
+    #   onnxscript
     #   torch
 urllib3==2.7.0 \
     --hash=sha256:231e0ec3b63ceb14667c67be60f2f2c40a518cb38b03af60abc813da26505f4c \

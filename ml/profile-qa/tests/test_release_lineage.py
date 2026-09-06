@@ -44,6 +44,11 @@ from profile_qa.provenance import (
 
 
 class ReleaseLineageTests(unittest.TestCase):
+    def setUp(self) -> None:
+        validator = patch("profile_qa.export_onnx.reject_external_data_files")
+        self.external_data_validator = validator.start()
+        self.addCleanup(validator.stop)
+
     def _write_merged_model(self, root: Path) -> tuple[Path, Path]:
         adapter_dir = root / "checkpoint-80"
         adapter_dir.mkdir()
@@ -140,6 +145,7 @@ class ReleaseLineageTests(unittest.TestCase):
                 browser_dir,
                 lineage,
             )
+            self.external_data_validator.assert_called_once_with(browser_dir)
             marker = validate_artifact_lineage(
                 browser_dir,
                 source_lineage=lineage.data,

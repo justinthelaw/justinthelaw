@@ -109,18 +109,33 @@ def _export_graph(
     path: Path,
     input_axes: dict[str, dict[int, str]],
     output_axes: dict[str, dict[int, str]],
+    *,
+    variadic_start: int | None = None,
 ) -> onnx.ModelProto:
-    # The supported TorchScript ONNX path needs no additional compiler packages.
-    # Shapes remain dynamic; Python cache decisions are isolated into two graphs.
+    # Match the forward argument tree, including the decoder's variadic cache.
+    # Reuse named dimensions so shared batch/source/cache lengths stay related.
+    dimensions = {
+        name: torch.export.Dim(name)
+        for axes in input_axes.values() for name in axes.values()
+    }
+    shapes = tuple(
+        {axis: dimensions[name] for axis, name in axes.items()}
+        for axes in input_axes.values()
+    )
+    dynamic_shapes = (
+        (*shapes[:variadic_start], shapes[variadic_start:])
+        if variadic_start is not None else shapes
+    )
+    exported = torch.export.export(
+        module.eval(), inputs, dynamic_shapes=dynamic_shapes, strict=False,
+    )
     torch.onnx.export(
-        module.eval(),
-        inputs,
-        str(path),
-        dynamo=False,
-        opset_version=17,
+        exported,
+        f=str(path),
+        dynamo=True,
+        opset_version=18,
         input_names=list(input_axes),
         output_names=list(output_axes),
-        dynamic_axes={**input_axes, **output_axes},
         external_data=False,
     )
     graph = onnx.load(path, load_external_data=False)
@@ -148,6 +163,13 @@ def _merge_decoders(
         for node in graph.node:
             for index, name in enumerate(node.input):
                 node.input[index] = replacements.get(name, name)
+        # Hoisted weights are outer-scope captures, not branch-local values.
+        # Keeping their value_info makes ORT quantize them as local activations.
+        local_values = [
+            value for value in graph.value_info if value.name not in replacements
+        ]
+        del graph.value_info[:]
+        graph.value_info.extend(local_values)
         del graph.initializer[:]
         del graph.input[:]
         branches.append(graph)
@@ -217,6 +239,7 @@ def export_t5(model_dir: Path, output_dir: Path) -> None:
         cached = _export_graph(
             decoder, (*inputs, *past), Path(temporary) / "cached.onnx",
             {**decoder_axes, **cache_axes}, output_axes,
+            variadic_start=len(decoder_axes),
         )
         onnx.save_model(
             _merge_decoders(initial, cached), output_dir / "decoder_model_merged.onnx"

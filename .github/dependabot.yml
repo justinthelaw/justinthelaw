@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: weekly
     ignore:
-      # typescript-eslint 8.65 supports TypeScript versions below 6.1 only.
+      # typescript-eslint 8.69 supports TypeScript versions below 6.1 only.
       - dependency-name: "typescript"
         update-types:
           - "version-update:semver-major"

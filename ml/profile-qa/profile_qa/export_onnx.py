@@ -60,12 +60,48 @@ def _require_disjoint_output(
 
 
 def reject_external_data_files(output_dir: Path) -> None:
-    """Reject exports that require external .onnx.data sidecar files."""
+    """Reject ONNX artifacts that reference or contain external tensor data."""
 
     external_files = sorted(output_dir.rglob("*.onnx.data"))
     if external_files:
         joined = "\n".join(str(path) for path in external_files)
-        raise RuntimeError(f"ONNX export uses external data files, which are not browser-safe:\n{joined}")
+        raise RuntimeError(
+            "ONNX export uses external data files, which are not browser-safe:\n"
+            f"{joined}"
+        )
+
+    model_paths = sorted(output_dir.rglob("*.onnx"))
+    if not model_paths:
+        return
+
+    import onnx
+
+    external_tensors: list[str] = []
+
+    def inspect(message: Any, model_path: Path) -> None:
+        if isinstance(message, onnx.TensorProto) and (
+            message.data_location == onnx.TensorProto.EXTERNAL
+            or message.external_data
+        ):
+            metadata = {entry.key: entry.value for entry in message.external_data}
+            location = metadata.get("location", "<unspecified>")
+            external_tensors.append(
+                f"{model_path.relative_to(output_dir)} -> {location}"
+            )
+        for field, value in message.ListFields():
+            if field.message_type is not None:
+                for child in value if field.is_repeated else (value,):
+                    inspect(child, model_path)
+
+    for model_path in model_paths:
+        inspect(onnx.load(model_path, load_external_data=False), model_path)
+
+    if external_tensors:
+        joined = "; ".join(sorted(external_tensors))
+        raise RuntimeError(
+            "ONNX export uses external tensor data, which is not browser-safe: "
+            f"{joined}"
+        )
 
 
 def ensure_teapot_export_model(model: str) -> ValidatedMergeLineage:

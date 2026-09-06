@@ -1307,10 +1307,10 @@ Transformers.js ONNX files under `onnx/`:
 - `decoder_model_merged_uint8.onnx`
 - `{LINEAGE_FILENAME}`
 
-The export gate rejects external `.onnx.data` files so the model can be loaded
-as self-contained browser assets. The lineage marker records the sanitized
-public merge lineage and its path-independent digest; the exact full-precision,
-int8, and uint8 parent-stage digests; and an artifact SHA-256 of
+The export gate rejects external tensor data regardless of sidecar filename so
+the model can be loaded as self-contained browser assets. The lineage marker
+records the sanitized public merge lineage and its path-independent digest; the
+exact full-precision, int8, and uint8 parent-stage digests; and an artifact SHA-256 of
 `{browser_artifact_sha256}` over the browser model/config payload, excluding the
 lineage marker and generated model card.
 
