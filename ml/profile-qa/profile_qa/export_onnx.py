@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import argparse
 import shutil
-import subprocess
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -29,8 +27,6 @@ from .provenance import (
     write_artifact_lineage,
 )
 from .train_lora import ensure_primary_base_model_id
-
-TEAPOT_EXPORT_TASK = "text2text-generation-with-past"
 
 
 @dataclass(frozen=True)
@@ -70,17 +66,6 @@ def reject_external_data_files(output_dir: Path) -> None:
     if external_files:
         joined = "\n".join(str(path) for path in external_files)
         raise RuntimeError(f"ONNX export uses external data files, which are not browser-safe:\n{joined}")
-
-
-def run_command(command: list[str]) -> None:
-    result = subprocess.run(command, check=False)
-    if result.returncode != 0:
-        raise RuntimeError(f"command failed with exit code {result.returncode}: {' '.join(command)}")
-
-
-def venv_tool(name: str) -> str:
-    tool_path = Path(sys.executable).parent / name
-    return str(tool_path) if tool_path.exists() else name
 
 
 def ensure_teapot_export_model(model: str) -> ValidatedMergeLineage:
@@ -163,18 +148,9 @@ def export_onnx(model: str, output_dir: Path) -> ValidatedMergeLineage:
             )
         shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True)
-    run_command(
-        [
-            venv_tool("optimum-cli"),
-            "export",
-            "onnx",
-            "--model",
-            model,
-            "--task",
-            TEAPOT_EXPORT_TASK,
-            str(output_dir),
-        ]
-    )
+    from .native_t5_onnx import export_t5
+
+    export_t5(model_path, output_dir)
     reject_external_data_files(output_dir)
     write_artifact_lineage(
         output_dir,
