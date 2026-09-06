@@ -129,7 +129,8 @@ flowchart TD
   merge --> lineage["Portable label plus model digests"]
   merge --> export["export_onnx.py"]
   lineage --> export
-  export --> fpArtifact["Full-precision files plus digest"]
+  export --> native["native_t5_onnx.py: PyTorch ONNX"]
+  native --> fpArtifact["Encoder and merged decoder plus digest"]
   fpArtifact --> quantized["Quantized files bound to FP digest"]
   quantized --> browserArtifact["Browser files plus digest"]
   browserArtifact --> artifacts["prepare_hf_artifacts.py"]
@@ -154,7 +155,7 @@ does not train models and does not call a server.
 | Dataset | `python -m profile_qa.synthetic_data` | Generated data stays under ignored `ml/profile-qa/data/` |
 | Training | `ml/profile-qa/profile_qa/config.py` or CLI flags | Fixed `teapotai/teapotllm` base; the pinned revision is persisted in and verified from each PEFT checkpoint |
 | Evaluation | `python -m profile_qa.evaluate` | Reports bind the canonical published dataset, exact formatted prompts, split, pinned base revision, model digest, generation contract, and scoring implementation; packaging recomputes scores and requires one promoted model representation |
-| ONNX export | `python -m profile_qa.export_onnx` | Verifies the pinned revision and merged lineage/digest, binds each quantized stage to its exact full-precision input, preserves portable lineage without local paths, rejects `.onnx.data`, and publishes `int8` and `uint8` encoder/decoder artifacts |
+| ONNX export | `python -m profile_qa.export_onnx` | Native PyTorch T5 export preserves dynamic shapes and initial/cached decoding; verifies merged lineage/digests, binds quantization to its full-precision input, rejects `.onnx.data`, and publishes `int8` and `uint8` encoder/decoder artifacts |
 | App promotion | `src/config/models.ts` | Update `MODEL_ID` and keep `MODEL_CONTEXT_LIMIT` honest |
 
 Promotion should satisfy the gate in `ml/profile-qa/README.md` before changing

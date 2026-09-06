@@ -27,10 +27,6 @@ updates:
     directory: "/ml/profile-qa"
     schedule:
       interval: weekly
-    # The exporter uses a separate, intentionally incompatible Transformers/Hub lane.
-    exclude-paths:
-      - "requirements-export.txt"
-      - "requirements-export.lock"
     groups:
       python-dependencies:
         patterns:

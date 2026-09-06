@@ -36,7 +36,7 @@ answer; dataset generation rejects missing selectors and broad
 | --- | --- |
 | NVIDIA access | Run from a host shell with visible `/dev/nvidia*` devices or a container with NVIDIA device passthrough |
 | CUDA | CUDA-enabled PyTorch wheels are sufficient for v1; `nvcc` is optional unless a dependency needs CUDA extension compilation |
-| Python | Python 3.14.6 is pinned in the repository `.python-version` |
+| Python | Python 3.14.7 is pinned in the repository `.python-version` |
 | Python dependencies | Install with the commands below |
 
 ```bash
@@ -49,7 +49,8 @@ uv pip sync --python ml/profile-qa/.venv-export --require-hashes \
 . ml/profile-qa/.venv/bin/activate
 ```
 
-After changing `requirements.txt`, refresh the reproducible Python 3.14 lock:
+After changing either requirements manifest, refresh its reproducible Python
+3.14 hash lock with the CI-pinned uv version in `.github/workflows/ml.test.yml`:
 
 ```bash
 uv pip compile --python-version 3.14 --generate-hashes \
@@ -60,16 +61,11 @@ uv pip compile --python-version 3.14 --generate-hashes \
   ml/profile-qa/requirements-export.txt
 ```
 
-The main training/evaluation environment uses current Transformers 5 and Hub 1
-releases. ONNX export is isolated because Optimum ONNX 0.1 currently requires
-Optimum 2.1.x, Transformers 4.57.x, and Hub 0.x. Only use the export environment
-with the trusted local merged model produced by this pipeline; do not use it to
-load arbitrary model repositories or checkpoints. The exporter remains on
-Transformers 4.57.x because the current Optimum ONNX stack is incompatible with
-the patched Transformers 5.x releases. CI therefore records explicit
-`pip-audit` exceptions for the known Transformers advisories; treat the export
-environment as trusted-local-only and revisit those exceptions when the
-exporter supports Transformers 5.
+Training and export both use current Transformers 5 and Hub 1 releases. The
+smaller export environment uses native PyTorch ONNX export and ONNX Runtime,
+without Optimum. Export only the verified local merged model from this pipeline.
+CI checks manifest-to-lock consistency, recreates both environments with hashes,
+and audits both dependency graphs without vulnerability exceptions.
 
 ## Commands
 
@@ -107,8 +103,10 @@ always starts from `teapotai/teapotllm` and persists the pinned base revision in
 every PEFT checkpoint and final adapter. Continuation, resume, evaluation,
 generation, merge, and packaging reject adapters whose PEFT metadata omits that
 revision or names a different base model or revision. Export expects the merged
-model directory produced by `profile_qa.merge_adapter` and publishes the encoder
-plus merged decoder ONNX files for the T5 browser runtime. Artifact preparation
+model directory produced by `profile_qa.merge_adapter`. The native exporter in
+`profile_qa/native_t5_onnx.py` creates `encoder_model.onnx` and
+`decoder_model_merged.onnx` with dynamic shapes and initial/cached decoding for
+the T5 browser runtime. Artifact preparation
 labels the model card with `pipeline_tag: text2text-generation`, matching the
 Transformers.js task used by the deployed browser worker.
 
@@ -203,12 +201,16 @@ until all of these are true:
 
 The Python tests cover deterministic generation, schema validation, split
 isolation, evidence references, no private-data leakage in non-refusal examples,
-and GPU health-check behavior:
+and GPU health-check behavior. With ML dependencies installed, offline tiny T5
+tests also compare encoder and initial/cached decoder outputs with PyTorch,
+verify browser cache names and dynamic shapes, and exercise quantization,
+embedded weights, and artifact lineage:
 
 ```bash
 PYTHONPATH=ml/profile-qa python -m pytest ml/profile-qa/tests
 ```
 
-Pull requests run this lightweight suite. A scheduled and manually dispatchable
-workflow also recreates the complete locked ML environment and smoke-tests every
-direct dependency without requiring a GPU training run.
+Pull requests, the weekly schedule, and manual workflow dispatch run the
+lightweight suite and locked training/export checks. The training environment
+runs the full suite; the exporter environment runs the native export contract
+tests. Neither requires a model download or GPU training run.

@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lock-freshness:
+  lock-consistency:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,9 +32,9 @@ jobs:
           python-version: "3.14"
 
       - name: Install uv
-        run: python -m pip install uv==0.12.5
+        run: python -m pip install uv==0.12.10
 
-      - name: Verify Locks Are Current
+      - name: Verify Manifest-to-Lock Consistency
         run: |
           uv pip compile --python-version 3.14 --generate-hashes \
             --output-file ml/profile-qa/requirements.lock \
@@ -76,7 +76,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install uv
-        run: python -m pip install uv==0.12.5
+        run: python -m pip install uv==0.12.10
 
       - name: Recreate Locked Training Environment
         run: |
@@ -109,7 +109,7 @@ jobs:
       - name: Audit Locked Training Dependencies
         run: uvx pip-audit -r ml/profile-qa/requirements.lock
 
-      - name: Run Profile-QA Unit Tests
+      - name: Run Profile-QA Test Suite
         run: PYTHONPATH=ml/profile-qa ml/profile-qa/.venv/bin/python -m pytest ml/profile-qa/tests
 
   exporter-dependency-smoke:
@@ -125,7 +125,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install uv
-        run: python -m pip install uv==0.12.5
+        run: python -m pip install uv==0.12.10
 
       - name: Recreate Locked Exporter Environment
         run: |
@@ -135,24 +135,29 @@ jobs:
       - name: Check Exporter Dependency Graph and Imports
         run: |
           uv pip check --python ml/profile-qa/.venv-export
-          ml/profile-qa/.venv-export/bin/python - <<'PY'
+          PYTHONPATH=ml/profile-qa ml/profile-qa/.venv-export/bin/python - <<'PY'
           import huggingface_hub
           import onnx
           import onnxruntime
-          import optimum
           import safetensors
           import sentencepiece
           import torch
           import transformers
+          from profile_qa.native_t5_onnx import export_t5
 
           print("Profile-QA exporter imports passed")
           PY
-          ml/profile-qa/.venv-export/bin/optimum-cli export onnx --help > /dev/null
 
       - name: Audit Locked Exporter Dependencies
+        run: uvx pip-audit -r ml/profile-qa/requirements-export.lock
+
+      - name: Install Test Runner
+        run: uv pip install --python ml/profile-qa/.venv-export pytest==9.1.1
+
+      - name: Verify Native Exporter Contract Offline
+        env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
         run: |
-          uvx pip-audit -r ml/profile-qa/requirements-export.lock \
-            --ignore-vuln PYSEC-2025-217 \
-            --ignore-vuln PYSEC-2026-2290 \
-            --ignore-vuln PYSEC-2026-2288 \
-            --ignore-vuln PYSEC-2026-2289
+          PYTHONPATH=ml/profile-qa ml/profile-qa/.venv-export/bin/python \
+            -m pytest ml/profile-qa/tests/test_native_export.py
