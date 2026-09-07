@@ -93,6 +93,7 @@ jobs:
           import huggingface_hub
           import onnx
           import onnxruntime
+          import onnxscript
           import peft
           import pytest
           import safetensors
@@ -139,6 +140,7 @@ jobs:
           import huggingface_hub
           import onnx
           import onnxruntime
+          import onnxscript
           import safetensors
           import sentencepiece
           import torch

@@ -150,10 +150,13 @@ def test_self_contained_check_rejects_nonstandard_sidecar(
     )
     assert (tmp_path / "weights.bin").is_file()
     assert not list(tmp_path.glob("*.onnx.data"))
-    with pytest.raises(AssertionError, match="external tensor"):
-        _assert_self_contained_model(path)
+    with pytest.raises(RuntimeError, match=r"external tensor data.*weights\.bin"):
+        reject_external_data_files(tmp_path)
 
 
+@pytest.mark.filterwarnings(
+    "error:You are using the legacy TorchScript-based ONNX export"
+)
 def test_native_export_runs_initial_and_cached_decoder_offline(
     tiny_model: tuple[T5ForConditionalGeneration, Path], tmp_path: Path,
 ) -> None:

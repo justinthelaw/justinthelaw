@@ -160,12 +160,12 @@ model uses a different Transformers.js task, update
 
 Automatic browser loading uses `int8` first with `uint8` fallback. Do not make
 `q4` the default unless ONNX Runtime Web can reliably load the artifact without
-external `.onnx.data` files.
+external tensor sidecar files.
 
 Before changing the default browser model, satisfy the promotion gate in
 [ml/profile-qa/README.md](../ml/profile-qa/README.md#promotion-gate). At
 minimum, the promoted artifact must include browser-safe `int8` and `uint8`
-ONNX files, no external `.onnx.data` files, and browser smoke coverage for
+ONNX files with all tensor data embedded, and browser smoke coverage for
 desktop and mobile Chromium.
 
 ## AI Responses

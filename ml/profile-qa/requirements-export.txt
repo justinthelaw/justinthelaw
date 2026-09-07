@@ -1,6 +1,7 @@
 huggingface-hub>=1.30.0
 onnx>=1.22.0
 onnxruntime>=1.29.0
+onnxscript>=0.7.1
 safetensors>=0.8.0
 sentencepiece>=0.2.2
 torch>=2.14.0
