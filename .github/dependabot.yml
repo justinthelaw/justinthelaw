@@ -5,6 +5,10 @@ updates:
     schedule:
       interval: weekly
     ignore:
+      # Match the Node.js 24 runtime selected by .nvmrc.
+      - dependency-name: "@types/node"
+        update-types:
+          - "version-update:semver-major"
       # typescript-eslint 8.69 supports TypeScript versions below 6.1 only.
       - dependency-name: "typescript"
         update-types:

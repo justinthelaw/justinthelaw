@@ -20,7 +20,13 @@ Thanks for contributing to Justin's projects.
 | Install dependencies | `npm install` |
 | Run development server | `npm run dev` |
 
-Run commands from the repository root.
+Run commands from the repository root. Keep `@types/node` on the Node.js 24
+line selected by `.nvmrc`; Dependabot excludes major type updates until the
+runtime is upgraded. Use stable upstream tags for pre-commit hooks.
+
+Development and CI use the pinned npm 12.0.2. The minimum npm engine is 11.19.0
+so Dependabot can resolve lockfile updates with its bundled npm while preserving
+`engine-strict` and the Node.js 24 requirement.
 
 ## Validation
 

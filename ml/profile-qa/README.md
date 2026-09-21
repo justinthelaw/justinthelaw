@@ -61,6 +61,11 @@ uv pip compile --python-version 3.14 --generate-hashes \
   ml/profile-qa/requirements-export.txt
 ```
 
+Commit each changed manifest together with its regenerated lock, including
+Dependabot updates: CI installs the lock, not the manifest. Training requires
+Accelerate 1.15 or newer to exclude the checkpoint path traversal vulnerability
+[PYSEC-2026-3804](https://github.com/pypa/advisory-database/blob/main/vulns/accelerate/PYSEC-2026-3804.yaml).
+
 Training and export both use current Transformers 5 and Hub 1 releases. The
 smaller export environment uses the native `torch.export`-based ONNX path and
 ONNX Runtime, without Optimum. Export only the verified local merged model from
