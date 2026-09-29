@@ -32,6 +32,9 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Check Complete Lockfile Dependency Graph
+        run: npm ls --all --package-lock-only
+
       - name: Build project
         run: npm run build
 
