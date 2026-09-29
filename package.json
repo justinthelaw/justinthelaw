@@ -25,9 +25,9 @@
     "@huggingface/transformers": "^4.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^13.4.4",
-    "lucide-react": "^1.48.0",
-    "next": "^16.3.6",
+    "framer-motion": "^13.4.6",
+    "lucide-react": "^1.49.0",
+    "next": "^16.3.7",
     "radix-ui": "^1.6.7",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -36,7 +36,7 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "^5.20.8",
+    "@eslint-react/eslint-plugin": "^5.23.1",
     "@eslint/compat": "^2.1.1",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.63.0",
@@ -51,15 +51,15 @@
     "postcss": "^8.5.28",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.70.1"
+    "typescript-eslint": "^8.71.0"
   },
   "overrides": {
     "adm-zip": "0.6.1",
-    "brace-expansion": "5.0.9",
-    "nanoid": "3.3.18",
+    "brace-expansion": "5.0.12",
+    "nanoid": "3.3.19",
     "postcss": "$postcss",
     "protobufjs": "7.6.6",
-    "sharp": "0.35.4"
+    "sharp": "0.35.5"
   },
   "allowScripts": {
     "onnxruntime-node@1.30.0": true,
