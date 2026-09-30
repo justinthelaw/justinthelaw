@@ -3,7 +3,7 @@ bitsandbytes>=0.50.2
 datasets>=5.0.1
 # Upgrade deferred: Hub 2.0.0 conflicts with Transformers 5.17/tokenizers 0.23.2 (<2.0); retain 1.33.0.
 # Revisit when upstreams permit Hub 2: https://pypi.org/pypi/transformers/5.17.0/json
-huggingface-hub>=1.33.0
+huggingface-hub>=2.0.0
 onnx>=1.23.1
 onnxruntime>=1.30.0
 onnxscript>=0.7.2
