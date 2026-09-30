@@ -9,7 +9,7 @@ updates:
       - dependency-name: "@types/node"
         update-types:
           - "version-update:semver-major"
-      # typescript-eslint 8.69 supports TypeScript versions below 6.1 only.
+      # typescript-eslint 8.71 supports TypeScript versions below 6.1 only.
       - dependency-name: "typescript"
         update-types:
           - "version-update:semver-major"
@@ -40,6 +40,10 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+    ignore:
+      # Preserve newer packaging tag v0.11.0.1-1; allow future ShellCheck tags.
+      - dependency-name: "https://github.com/shellcheck-py/shellcheck-py"
+        versions: ["0.11.0.1"]
     groups:
       pre-commit-hooks:
         patterns:
