@@ -3,6 +3,8 @@
 import ast
 from pathlib import Path
 
+import pytest
+
 
 def test_trainer_uses_transformers_5_processing_class() -> None:
     """Keep trainer construction compatible with the locked Transformers 5 API."""
@@ -72,3 +74,48 @@ def test_export_recovery_uses_isolated_lock() -> None:
 
     assert "requirements-export.lock" in source
     assert "requirements.txt" not in source
+
+
+def test_t5_lora_trains_and_generates_with_locked_dependencies() -> None:
+    """Exercise PEFT's encoder-decoder boundary, broken before PEFT 0.21.2."""
+
+    torch = pytest.importorskip("torch")
+    peft = pytest.importorskip("peft")
+    transformers = pytest.importorskip("transformers")
+    previous_threads = torch.get_num_threads()
+    torch.set_num_threads(1)
+    try:
+        with torch.random.fork_rng(devices=[]):
+            torch.manual_seed(17)
+            model = transformers.T5ForConditionalGeneration(
+                transformers.T5Config(
+                    vocab_size=16, d_model=8, d_kv=4, d_ff=16,
+                    num_layers=1, num_decoder_layers=1, num_heads=2,
+                    dropout_rate=0.0, decoder_start_token_id=0,
+                    pad_token_id=0, eos_token_id=1,
+                )
+            )
+            model = peft.get_peft_model(
+                model,
+                peft.LoraConfig(
+                    task_type=peft.TaskType.SEQ_2_SEQ_LM,
+                    r=2, lora_alpha=4, target_modules=["q", "v"],
+                ),
+            )
+            input_ids = torch.tensor([[3, 4, 1]])
+            loss = model(input_ids=input_ids, labels=torch.tensor([[5, 6, 1]])).loss
+            assert torch.isfinite(loss)
+            loss.backward()
+            gradients = [
+                parameter.grad for parameter in model.parameters()
+                if parameter.requires_grad and parameter.grad is not None
+            ]
+            assert gradients
+            assert all(torch.isfinite(gradient).all() for gradient in gradients)
+            assert any(torch.count_nonzero(gradient) > 0 for gradient in gradients)
+            model.eval()
+            generated = model.generate(input_ids=input_ids, max_new_tokens=2)
+            assert generated.shape[0] == 1
+            assert 1 < generated.shape[1] <= 3
+    finally:
+        torch.set_num_threads(previous_threads)

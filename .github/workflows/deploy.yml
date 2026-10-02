@@ -59,7 +59,7 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: Install npm 12
-        run: npm install --global npm@12.1.0
+        run: npm install --global npm@12.2.0
 
       - name: Setup Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
@@ -76,6 +76,9 @@ jobs:
 
       - name: Install Dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+
+      - name: Typecheck with TypeScript 7
+        run: ${{ steps.detect-package-manager.outputs.manager }} run typecheck
 
       - name: Lint Code
         run: ${{ steps.detect-package-manager.outputs.manager }} run lint

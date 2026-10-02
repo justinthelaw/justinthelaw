@@ -9,7 +9,7 @@ updates:
       - dependency-name: "@types/node"
         update-types:
           - "version-update:semver-major"
-      # typescript-eslint 8.71 supports TypeScript versions below 6.1 only.
+      # Keep the TypeScript API compatibility alias on 6 while parser/Next need it.
       - dependency-name: "typescript"
         update-types:
           - "version-update:semver-major"

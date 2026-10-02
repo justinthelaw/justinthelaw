@@ -13,7 +13,7 @@ with a resume viewer and an LLM-based chatbot that answers from personal context
 | Layer | Tooling |
 | --- | --- |
 | Framework | Next.js 16.3, static export, pages router, patched PostCSS line |
-| UI | React 19 and TypeScript 6 |
+| UI | React 19 and TypeScript 7; TypeScript 6 API compatibility alias |
 | Styles | Tailwind CSS 4 |
 | State | Zustand 5 |
 | AI runtime | HuggingFace Transformers 4 in a browser Web Worker |
@@ -33,7 +33,7 @@ with a resume viewer and an LLM-based chatbot that answers from personal context
 | Command                                             | Purpose                                                            |
 | --------------------------------------------------- | ------------------------------------------------------------------ |
 | `npm run dev`                                       | Development server                                                 |
-| `npm run flight-check`                              | **Run after all changes** - cleans, lints, builds, and tests       |
+| `npm run flight-check`                              | **Run after changes** - clean, lint, types, build, E2E             |
 | `npm run clean`                                     | Delete temporary build/dev/test artifacts                          |
 | `npm run lint`                                      | ESLint                                                             |
 | `npm run build`                                     | Next.js static export to `out/`                                    |

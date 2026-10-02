@@ -7,7 +7,7 @@
 ```bash
 nvm install
 nvm use
-npm install --global npm@12.1.0
+npm install --global npm@12.2.0
 npm install
 npm run dev
 ```
@@ -16,17 +16,21 @@ The repository pins Node.js in `.nvmrc`, npm in `package.json`, and Python in
 `.python-version`. Install Python with `uv python install` before creating the
 profile-QA virtual environment.
 
-Upgrade deferred: TypeScript 7.0.2 is outside the supported parser peer range
-`>=4.8.4 <6.1.0`; retain TypeScript 6.0.3. Revisit when the
-[typescript-eslint parser](https://registry.npmjs.org/@typescript-eslint/typescript-estree/8.71.0)
-adds TypeScript 7 support.
+TypeScript 7.0.2 runs the standalone `npm run typecheck` compiler. The
+`typescript` import uses the official `@typescript/typescript6` compatibility
+alias (API 6.0.3) for Next.js and typescript-eslint until they support the new
+native API. This follows the [official side-by-side migration](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6-0).
+
+Upgrade deferred: npm's CLI bundle retains affected brace-expansion, ip-address
+and undici copies even in 12.2.0; retain the latest stable npm parent. Revisit
+when a published release refreshes its bundle: [upstream tracking issue](https://github.com/npm/cli/issues/10062).
 
 Node 24.21.0 remains the newest active LTS runtime. Node 26 and its types stay
 deferred until the [Node 26 LTS transition](https://github.com/nodejs/Release#release-schedule)
 on October 28 and a runtime lane review.
 
 Dependency audit and retained transitive constraints are recorded in
-[the September 29 ledger](dependency-upgrades/2026-09-29.md).
+[the October 2 ledger](dependency-upgrades/2026-10-02.md).
 
 ### Production-Style Static Preview
 
