@@ -5,7 +5,7 @@
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
-  "packageManager": "npm@12.1.0",
+  "packageManager": "npm@12.2.0",
   "engines": {
     "node": ">=24.19.0 <25",
     "npm": ">=11.19.0"
@@ -19,15 +19,16 @@
     "test": "playwright test",
     "deploy": "npm run build && gh-pages -d out",
     "clean": "rm -rf out test-results playwright-report .next test-results.json",
-    "flight-check": "npm run clean && npm run lint && npm run build && npm run test"
+    "flight-check": "npm run clean && npm run lint && npm run typecheck && npm run build && npm run test",
+    "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^13.4.6",
-    "lucide-react": "^1.49.0",
-    "next": "^16.3.7",
+    "framer-motion": "^14.0.0",
+    "lucide-react": "^1.50.0",
+    "next": "^16.3.8",
     "radix-ui": "^1.6.7",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -36,7 +37,7 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "^5.23.1",
+    "@eslint-react/eslint-plugin": "^5.23.4",
     "@eslint/compat": "^2.1.1",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.63.0",
@@ -44,13 +45,14 @@
     "@types/node": "^24.13.6",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
-    "baseline-browser-mapping": "^2.11.21",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "baseline-browser-mapping": "^2.11.27",
     "eslint": "^10.10.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "gh-pages": "^6.3.0",
     "postcss": "^8.5.28",
     "tailwindcss": "^4.3.3",
-    "typescript": "^6.0.3",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "typescript-eslint": "^8.71.0"
   },
   "overrides": {
