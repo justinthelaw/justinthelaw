@@ -9,6 +9,7 @@ export default tseslint.config(
       ".next/**",
       "out/**",
       "node_modules/**",
+      "games/**",
       "ml/profile-qa/.venv*/**",
       "ml/profile-qa/checkpoints/**",
       "ml/profile-qa/data/**",

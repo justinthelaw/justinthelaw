@@ -13,6 +13,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
+    "postbuild": "node scripts/export-games.mjs",
     "start": "node scripts/serve-static-preview.mjs",
     "lint": "eslint .",
     "pretest": "playwright install",

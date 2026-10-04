@@ -26,6 +26,7 @@ with a resume viewer and an LLM-based chatbot that answers from personal context
 | Static export only | No API routes, server actions, `getServerSideProps`, or server-side features; everything runs in the browser |
 | GitHub Pages | Production uses a dynamic project-site `basePath` such as `/justinthelaw`; never hardcode asset paths |
 | Static preview | Run `npm run build` before `npm start` to preview `out/` at the exported base path |
+| Documentation scope | Record arcade behavior, game integration, testing scope, and engineering requirements in this file; leave the root `README.md` unchanged for this feature |
 | Web Worker AI | Model inference runs in `src/services/ai/worker.ts`, not on the main thread |
 
 ## Commands
@@ -60,6 +61,7 @@ at pre-push.
 ```text
 src/
 ├── components/          # Feature-based UI (chat/, profile/, resume/, links/)
+│   ├── arcade/          # Original pixel blobs, portal, game cards, embedded player
 │   └── chat/
 │       ├── components/  # UI components (ChatContainer, ChatMessages, ChatInput, etc.)
 │       └── hooks/       # Business logic (useAIGeneration, useChatHistory, useModelManagement)
@@ -73,6 +75,7 @@ src/
 ├── utils/               # Utilities (device detection)
 └── styles/              # Global CSS (Tailwind)
 tests/                   # Playwright E2E tests
+games/                   # Future static browser games; copied into out/games/ at build
 ```
 
 ### Key Patterns
@@ -93,6 +96,7 @@ tests/                   # Playwright E2E tests
 | --- | --- |
 | TypeScript | Use explicit types, `interface` for object shapes, `type` for unions and callbacks, and avoid `any` |
 | React | Use functional components, extract complex logic into custom hooks, and add `data-testid` attributes for testable elements |
+| All source code | Keep website and game code DRY; follow SOLID principles and the best practices of each framework and language. Prefer clear responsibilities and reusable components over speculative abstractions |
 | Tailwind | Use utility classes, responsive prefixes, and grouped related utilities |
 | State | Use Zustand stores for global state, `persist` middleware for localStorage, and no direct localStorage access |
 | Imports | Use the `@/` path alias, which maps to `src/` |
@@ -134,6 +138,53 @@ try { ... } catch (err) {
 | Browsers | Chromium, Firefox, WebKit, Pixel 5, and iPhone 12 |
 | Known issues | GitHub API and HuggingFace model loading may fail in sandboxed environments; PDF viewer may have CORS issues in dev |
 | After changes | Always run `npm run flight-check` |
+| Website coverage | Test website navigation, responsive layout, accessibility, animations, reduced motion, static export, and game-loading integration |
+| Game source exclusion | Do not test source code inside `games/`. Website export tests may use temporary fixture files to verify copying and asset paths without testing game behavior |
+| Game tooling boundary | Independent games use their own framework/language lint and type checks. Website ESLint and TypeScript exclude `games/` builds; this does not relax the DRY, SOLID, or source-quality requirements for game code |
+
+## Arcade
+
+The home page's top-right portal uses the shared outline Button and Tooltip
+primitives. Its original blue pixel blob bobs vertically with squash and stretch;
+hover or keyboard focus shows "Portal to Justin's arcade" (derived from the
+configured name). Keep the AI chatbot button in the **bottom-right** corner.
+Retain its existing robot silhouette, use a colored fill and stroke, and match
+the social icons' visual size at each responsive breakpoint.
+
+`/arcade/` is a separate page with a Home link and a single scrolling column of
+cards. Each card centers its preview with padding, places a short description
+below it, and puts Play at the bottom right. The initial three cards say
+"Coming soon" and use distinct blue, lavender, and apricot pixel characters.
+All placeholders and the portal animate; reduced-motion preferences keep them
+still. The sprites are original 32-pixel designs rendered with crisp SVG edges,
+without OpenAI branding or copied character accessories.
+
+| File | Responsibility |
+| --- | --- |
+| `src/config/arcade.ts` | Card data (`id`, `title`, `description`, `blobVariant`, optional `preview`, optional `entryPoint`) |
+| `src/types/arcade.ts` | Shared game and blob variant types |
+| `src/components/arcade/` | Reusable sprites, portal, cards, and embedded game player |
+| `src/pages/arcade.tsx` | Page layout, metadata, and card configuration passed as build-time static props |
+| `scripts/export-games.mjs` | Copy complete browser game builds and assets into the static export |
+
+To add a game later, put its static browser build in `games/my-game/`, including
+`index.html`, JavaScript, CSS, and assets. Use relative asset URLs inside the
+game. `npm run build` runs the export script after Next.js and copies the whole
+`games/` folder into `out/games/`; an absent folder is a no-op. Game-only changes
+also trigger the Pages deployment workflow.
+
+Set the card's `entryPoint` to `/games/my-game/index.html` and update its title
+and description. Play loads the entire game in an iframe **inside this website**,
+with a Back to games control and keyboard focus restoration. Without an entry
+point, Play is disabled. The configured GitHub Pages base path is prepended to
+the iframe URL.
+
+For a screenshot or GIF, set
+`preview: { src: "/arcade/my-game.gif", alt: "Description of the game" }` and put
+the file in `public/arcade/`. Local preview paths receive the configured base
+path; absolute HTTPS image URLs also work. Omit `preview` to retain the animated
+blob. Static export uses `trailingSlash: true` so the arcade lives at
+`out/arcade/index.html` and supports direct visits and reloads on GitHub Pages.
 
 ## CI/CD
 

@@ -1,0 +1,32 @@
+/* The portfolio's global main styles constrain the resume; this page scrolls. */
+.main {
+  display: block;
+  flex-grow: 0;
+  max-height: none;
+}
+
+.preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 218px;
+  margin: 16px 16px 0;
+  padding: 24px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(ellipse at bottom, var(--blob-tint), transparent 70%), var(--background);
+}
+
+.blue { --blob-tint: #78add217; }
+.lavender { --blob-tint: #b09bc917; }
+.apricot { --blob-tint: #dbad7d17; }
+
+.gameFrame {
+  display: block;
+  width: 100%;
+  height: 75svh;
+  min-height: 320px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--card);
+}

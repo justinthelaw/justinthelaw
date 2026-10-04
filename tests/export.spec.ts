@@ -327,6 +327,20 @@ test("should reject malformed absolute request targets without stopping the serv
   }
 });
 
+test("should load and reload the arcade directly under the exported base path", async ({ page }) => {
+  const previewServer = await startStaticPreviewServer();
+  try {
+    const response = await page.goto(new URL("arcade/", previewServer.origin).href);
+    expect(response?.status()).toBe(200);
+    await expect(page.getByRole("heading", { level: 1, name: `${DERIVED_CONFIG.possessiveName} Arcade` })).toBeVisible();
+    const reloaded = await page.reload();
+    expect(reloaded?.status()).toBe(200);
+    await expect(page.getByRole("article")).toHaveCount(3);
+  } finally {
+    await previewServer.close();
+  }
+});
+
 test("should initialize the exported AI worker from the base path", async ({
   page,
 }) => {

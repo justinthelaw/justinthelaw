@@ -3,6 +3,7 @@ import { DERIVED_CONFIG } from "./src/config/site.ts";
 /** @type {import("next").NextConfig} */
 const nextConfig = {
   output: "export",
+  trailingSlash: true,
   images: { unoptimized: true },
   basePath: DERIVED_CONFIG.basePath,
   assetPrefix: DERIVED_CONFIG.assetPrefix,

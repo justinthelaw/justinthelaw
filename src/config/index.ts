@@ -29,3 +29,4 @@ export {
   createChatbotConfig,
   createGenerationStatusMessages,
 } from "./prompts";
+export { ARCADE_GAMES } from "./arcade";
