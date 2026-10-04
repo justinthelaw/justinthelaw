@@ -12,11 +12,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 const PDF_PREVIEW_URL = `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/preview`;
 const PDF_OPEN_URL = `https://drive.google.com/file/d/${SITE_CONFIG.resumeFileId}/view?usp=sharing`;
@@ -115,33 +110,25 @@ export function ResumeViewer(): React.ReactElement {
         data-testid="resume-viewer"
       >
         <div className="absolute left-2 top-2 z-20 sm:left-3 sm:top-3">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                asChild
-                className="min-h-11 min-w-11 border-border/80 bg-background/90 shadow-md backdrop-blur-sm hover:bg-muted"
-                size="icon-lg"
-                variant="outline"
-              >
-                <a
-                  aria-label="Open resume in Google Drive"
-                  data-testid="resume-drive-link"
-                  href={PDF_OPEN_URL}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <GoogleDriveIcon />
-                </a>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent
-              data-testid="resume-drive-tooltip"
-              side="right"
-              sideOffset={8}
+          <Button
+            asChild
+            className="min-h-11 min-w-11 border-border/80 bg-background/90 shadow-md backdrop-blur-sm hover:bg-muted"
+            size="icon-lg"
+            variant="outline"
+            tooltip="Open in Google Drive"
+            tooltipSide="right"
+            tooltipId="resume-drive-tooltip"
+          >
+            <a
+              aria-label="Open resume in Google Drive"
+              data-testid="resume-drive-link"
+              href={PDF_OPEN_URL}
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              Open in Google Drive
-            </TooltipContent>
-          </Tooltip>
+              <GoogleDriveIcon />
+            </a>
+          </Button>
         </div>
         {isLoading && !hasError && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-card/95 backdrop-blur-sm">
@@ -167,7 +154,7 @@ export function ResumeViewer(): React.ReactElement {
                 Unable to display PDF in browser.
               </AlertDescription>
               <div className="mt-3 flex justify-center">
-                <Button onClick={handleRetry} size="sm" variant="secondary">
+                <Button onClick={handleRetry} size="sm" variant="secondary" tooltip="Reload resume">
                   Try Again
                 </Button>
               </div>

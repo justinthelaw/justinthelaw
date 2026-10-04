@@ -3,7 +3,7 @@
  * Main container orchestrating chat functionality with all hooks and child components
  */
 
-import React, { useEffect, useId, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 import { Trash2Icon, XIcon } from "lucide-react";
 
@@ -15,13 +15,6 @@ import {
 } from "@/services/ai/contextProvider";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -30,12 +23,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
 import { useAIGeneration, useChatHistory, useModelManagement } from "../hooks";
 import { ChatInput } from "./ChatInput";
 import { ChatMessages } from "./ChatMessages";
@@ -45,7 +32,6 @@ export interface ChatContainerProps {
 }
 
 export function ChatContainer({ onClose }: ChatContainerProps): React.ReactElement {
-  const downloadTitleId = useId();
   const shouldReduceMotion = useReducedMotion();
   const { messages, clearHistory, canClear } = useChatHistory();
   const { isGenerating, currentResponse, generate } = useAIGeneration();
@@ -98,27 +84,14 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
   }
 
   const placeholder = error
-    ? "Model failed to load. Please refresh the page."
+    ? "Retry loading to chat…"
     : isLoading && !isReady
-      ? "Loading model..."
+      ? "Loading…"
       : isGenerating
-        ? "Generating answer..."
+        ? "Replying…"
         : !isReady
-          ? "Load the AI model to start chatting..."
-          : "Type your message...";
-  const clearButton = (
-    <Button
-      aria-label="Clear chat history"
-      data-testid="chat-clear-button"
-      disabled={isGenerating}
-      onClick={handleClearHistory}
-      size="icon"
-      type="button"
-      variant="ghost"
-    >
-      <Trash2Icon aria-hidden="true" className="size-4" />
-    </Button>
-  );
+          ? "Start chat to ask a question…"
+          : "Ask a question…";
 
   return (
     <Dialog open onOpenChange={handleOpenChange}>
@@ -138,40 +111,31 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
               AI Chatbot
             </DialogTitle>
             <DialogDescription className="text-xs text-muted-foreground">
-              Private, on-device profile assistant
+              Private, on-device
             </DialogDescription>
           </div>
 
           <div className="flex shrink-0 items-center gap-1">
-            <Tooltip>
-              {isGenerating ? (
-                <TooltipTrigger asChild>
-                  <span
-                    aria-label="Cannot clear history while generating"
-                    className="inline-flex rounded-lg focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                    tabIndex={0}
-                  >
-                    {clearButton}
-                  </span>
-                </TooltipTrigger>
-              ) : (
-                <TooltipTrigger asChild>{clearButton}</TooltipTrigger>
-              )}
-              <TooltipContent
-                data-testid="chat-clear-tooltip"
-                id="chat-clear-tooltip"
-                side="bottom"
-                sideOffset={6}
-              >
-                {isGenerating
-                  ? "Cannot clear history while generating"
-                  : "Clear chat history"}
-              </TooltipContent>
-            </Tooltip>
+            <Button
+              aria-label="Clear chat history"
+              data-testid="chat-clear-button"
+              disabled={isGenerating}
+              onClick={handleClearHistory}
+              size="icon"
+              type="button"
+              variant="ghost"
+              tooltip={isGenerating ? "Clear after reply" : "Clear chat history"}
+              tooltipId="chat-clear-tooltip"
+              tooltipSide="bottom"
+            >
+              <Trash2Icon aria-hidden="true" className="size-4" />
+            </Button>
 
             <DialogClose asChild>
               <Button
                 aria-label="Close chat"
+                tooltip="Close chat"
+                tooltipSide="bottom"
                 ref={closeButtonRef}
                 size="icon"
                 type="button"
@@ -190,33 +154,24 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
           <div className="flex min-h-full flex-col p-4">
             {!isReady && !isLoading && !error ? (
               <section
-                aria-labelledby={downloadTitleId}
-                className="m-auto w-full max-w-sm"
+                aria-label="Start private chat"
+                className="m-auto w-full max-w-sm space-y-4 px-2 text-center"
                 data-testid="model-download-consent"
               >
-                <Card className="gap-0 border border-border/70 bg-card/80 py-0 text-center ring-0">
-                  <CardHeader className="gap-2 px-5 pt-5 pb-4">
-                    <CardTitle id={downloadTitleId}>
-                      Run the AI model on this device
-                    </CardTitle>
-                    <CardDescription className="leading-relaxed">
-                      Loading the chatbot downloads about {MODEL_DOWNLOAD_SIZE_MB} MB.
-                      If the first format is incompatible, its fallback can require
-                      another download of similar size. Questions and answers stay in
-                      this browser.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardFooter className="justify-center border-border/70 bg-muted/25 px-5 py-4">
-                    <Button
-                      data-testid="model-load-button"
-                      onClick={startModelLoad}
-                      size="lg"
-                      type="button"
-                    >
-                      Load AI model
-                    </Button>
-                  </CardFooter>
-                </Card>
+                <h2 className="font-heading text-base font-medium">Chat privately</h2>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Downloads about {MODEL_DOWNLOAD_SIZE_MB} MB; a compatibility fallback
+                  may download another {MODEL_DOWNLOAD_SIZE_MB} MB. Chats stay in this browser.
+                </p>
+                <Button
+                  data-testid="model-load-button"
+                  onClick={startModelLoad}
+                  size="lg"
+                  type="button"
+                  tooltip="Start private chat"
+                >
+                  Start chat
+                </Button>
               </section>
             ) : (
               <ChatMessages
@@ -227,9 +182,6 @@ export function ChatContainer({ onClose }: ChatContainerProps): React.ReactEleme
                 loadingMessage={loadingMessage}
                 messages={messages}
                 onRetryModelLoad={startModelLoad}
-                overBudgetPersonalContextCharacters={
-                  personalContextBudget.overBudgetCharacters
-                }
                 showPersonalContextTrimWarning={personalContextBudget.isTrimmed}
                 trimmedPersonalContextCharacters={
                   personalContextBudget.trimmedCharacters

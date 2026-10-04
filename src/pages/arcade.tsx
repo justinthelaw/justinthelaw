@@ -35,13 +35,12 @@ export default function Arcade({ games }: ArcadePageProps): React.ReactElement {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
       </Head>
-      <div className="relative min-h-svh bg-background px-4 pb-10 text-foreground sm:px-6">
+      <div className="relative min-h-svh shrink-0 bg-background px-4 pb-10 text-foreground sm:px-6">
         <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(ellipse_at_top,oklch(0.24_0.008_285.95_/_0.38),transparent_68%)]" />
         <nav aria-label="Arcade navigation" className="relative z-10 mx-auto flex max-w-4xl items-center justify-between pt-5">
-          <Button asChild variant="outline" size="lg" className="min-h-11 bg-card/70">
+          <Button asChild variant="outline" size="lg" className="min-h-11 bg-card/70" tooltip="Back to home">
             <Link href="/" aria-label="Back to home"><ArrowLeftIcon aria-hidden="true" />Home</Link>
           </Button>
-          <span className="text-sm text-muted-foreground">{SITE_CONFIG.fullName}</span>
         </nav>
         <header className="relative z-10 py-8 text-center">
           <h1 className="font-heading text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">{title}</h1>

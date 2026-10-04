@@ -5,6 +5,8 @@
 
 import React, { KeyboardEvent, useId, useRef, useState } from "react";
 
+import { ArrowUpIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
@@ -80,28 +82,30 @@ export function ChatInput({
               value={inputText}
             />
           </div>
-          <div className="relative flex h-11 w-20 shrink-0 items-end justify-center">
+          <div className="relative flex h-11 w-11 shrink-0 items-end justify-center">
             {showInputLimitWarning && (
               <LimitWarning
                 className="absolute bottom-full left-1/2 mb-2 -translate-x-1/2"
                 id="chat-input-limit-warning"
-                message={`Message: ${promptBudget.trimmedInputCharacters} chars over; tail trimmed.`}
+                message={`Message trimmed: ${promptBudget.trimmedInputCharacters} characters`}
                 testId="chat-input-limit-warning"
               />
             )}
             <Button
-              className="h-11 w-full"
+              className="size-11"
+              aria-label="Send message"
+              tooltip="Send message"
               data-testid="chat-send-button"
               disabled={isSendDisabled || !inputText.trim()}
               onClick={handleSend}
               type="button"
             >
-              Send
+              <ArrowUpIcon aria-hidden="true" className="size-5" />
             </Button>
           </div>
         </div>
         <p className="mt-2 text-center text-xs text-muted-foreground">
-          AI can make mistakes. Always verify the information.
+          AI answers may be inaccurate.
         </p>
       </div>
     </div>

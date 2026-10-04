@@ -31,7 +31,7 @@ export function ArcadeGames({ games }: ArcadeGamesProps): React.ReactElement {
     return (
       <section aria-label={`${activeGame.title} game`} className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <Button variant="outline" size="lg" className="min-h-11" onClick={closeGame}>
+          <Button variant="outline" size="lg" className="min-h-11" onClick={closeGame} tooltip="Back to games">
             <ArrowLeftIcon aria-hidden="true" />Back to games
           </Button>
           <h2 className="font-heading text-xl font-medium">{activeGame.title}</h2>
@@ -50,7 +50,7 @@ export function ArcadeGames({ games }: ArcadeGamesProps): React.ReactElement {
   }
 
   return (
-    <section aria-label="Arcade games" className="mx-auto flex max-w-[620px] flex-col gap-6">
+    <section aria-label="Arcade games" className="mx-auto flex w-full max-w-[620px] min-w-0 flex-col gap-6">
       {games.map((game) => <ArcadeCard key={game.id} game={game} onPlay={playGame} />)}
     </section>
   );
