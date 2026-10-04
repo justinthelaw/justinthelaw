@@ -188,6 +188,11 @@ next model must know.
   retrieval-history inconsistency. Restored the affected source numbers/text,
   reconciled retrieval outcomes and strengthened the static audit. Focused
   re-review found no remaining actionable issues.
+- GitHub Codex review of `6ad37b7` found incomplete dungeon source locators.
+  Reopened the affected references and replaced truncated and extraction-line
+  references with named sections, species/item rows and floor columns. The
+  profile records this correction explicitly; no rule values or blocked states
+  changed. Revised-head CI and Codex review are required on the PR.
 - `npm run flight-check`: website ESLint, TypeScript, production build and
   game-directory export passed. The pinned Playwright Chrome download returned
   a non-ZIP response; browser installation failed before tests ran. An earlier

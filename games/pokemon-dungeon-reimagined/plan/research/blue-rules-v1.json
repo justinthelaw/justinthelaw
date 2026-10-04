@@ -152,7 +152,7 @@
       "retrievalStatus": "retrieved-for-p01",
       "editionRegionScope": "Original Red/Blue explicitly differentiated from DX; Nintendo DS Blue target; region unspecified",
       "locators": [
-        "Basic info/introduction; Generation III Peak encounter row; Peak item rows 322-341"
+        "Basic info/introduction; Pokémon encountered > Generation III > Mt. Freeze Peak, Glalie row (floors 1-4); Items > Generation III > Mt. Freeze Peak, Poké through Yellow Gummi rows (1-4F)"
       ],
       "limitations": [],
       "independenceGroup": "https://bulbapedia.bulbagarden.net/wiki/Mt._Freeze",
@@ -190,8 +190,8 @@
       "retrievalStatus": "retrieved-for-p01",
       "editionRegionScope": "Original Nintendo DS Blue target; mixed community count conventions; exact original observation absent",
       "locators": [
-        "Basic info/introduction; Generation III encounter rows 208-224",
-        "Generation III encounters end at14; reported total15"
+        "Basic info, Floors field (15); Pokémon encountered > Generation III, Azurill through Exeggcute rows (maximum floor 14)",
+        "Basic info, Floors field (15); Pokémon encountered > Generation III, final Snorlax (11-14) and Exeggcute (14) rows"
       ],
       "limitations": [],
       "independenceGroup": "https://bulbapedia.bulbagarden.net/wiki/Howling_Forest",
@@ -230,7 +230,7 @@
       "retrievalStatus": "retrieved-for-p01",
       "editionRegionScope": "Original Nintendo DS Blue, specified region still needed for observation log",
       "locators": [
-        "Introduction; Generation III Pit encounter rows 242-249; Pit item table 348-352",
+        "Introduction; Pokémon encountered > Generation III > Magma Cavern Pit, Onix/Steelix (floor 1) and Groudon (floor 3) rows; Items > Generation III > Magma Cavern Pit, Poké row (1F)",
         "Original Pit table establishes numbered positions, not full event-floor behavior"
       ],
       "limitations": [],
@@ -429,7 +429,7 @@
       "retrievalStatus": "retrieved-for-p01",
       "editionRegionScope": "Original Nintendo DS Blue target; mixed community count conventions; exact original observation absent",
       "locators": [
-        "Plot instead describes traversing15 floors before the end"
+        "Plot, opening paragraph describing 15 floors before reaching Smeargle at the end"
       ],
       "limitations": [],
       "independenceGroup": "https://mysterydungeonwiki.com/wiki/Rescue_Team:Howling_Forest",
@@ -590,7 +590,7 @@
       "editionRegionScope": "Original Nintendo DS Blue target; original-game community tables disagree in scope; regional variant unknown",
       "locators": [
         "Basic info/introduction",
-        "Generation III Aerodactyl15-25 at; loose-item rows1-24 beginning; special-tile row includes25 at"
+        "Pokémon encountered > Generation III, Aerodactyl row (15-25); Items > Generation III > Pitfall Valley, Poké row (1-24F); Other encounters > Generation III, Wonder Tile row, Floor 1-20, 25 column"
       ],
       "limitations": [],
       "independenceGroup": "https://bulbapedia.bulbagarden.net/wiki/Pitfall_Valley",
@@ -650,7 +650,7 @@
       "retrievalStatus": "retrieved-for-p01",
       "editionRegionScope": "Original Blue Rescue Team target; English secondary descriptions; region unspecified.",
       "locators": [
-        "Reported total20 at, while encounter table ends at19",
+        "Murky Cave heading, Amount of Floors field (20); encounter table, Floors Found on column, final Crobat (11-19), Misdreavus (13-19), Muk/Swalot (14-19) rows",
         "Murky Cave > Unlock Criterea; original game labels",
         "Unlock Criterea"
       ],
@@ -713,7 +713,7 @@
       "retrievalStatus": "retrieved-for-p01",
       "editionRegionScope": "Original Nintendo DS Blue target; original-game community tables disagree in scope; regional variant unknown",
       "locators": [
-        "Original scope; rescue at25; Pokémon row66 and items also include25"
+        "Original-edition notice; Introduction, Latias rescue paragraph (floor 25); Pokémon, Aerodactyl row (15-25); Items and Poké > Ground > Poké, Floors column (1-25)"
       ],
       "limitations": [],
       "independenceGroup": "https://mysterydungeonwiki.com/wiki/Rescue_Team:Pitfall_Valley",
@@ -2108,7 +2108,7 @@
       "evidence": [
         {
           "sourceId": "campaign:freeze",
-          "locator": "Basic info/introduction; Generation III Peak encounter row; Peak item rows 322-341"
+          "locator": "Basic info/introduction; Pokémon encountered > Generation III > Mt. Freeze Peak, Glalie row (floors 1-4); Items > Generation III > Mt. Freeze Peak, Poké through Yellow Gummi rows (1-4F)"
         },
         {
           "sourceId": "campaign:c4",
@@ -2170,7 +2170,7 @@
       "evidence": [
         {
           "sourceId": "campaign:magma",
-          "locator": "Introduction; Generation III Pit encounter rows 242-249; Pit item table 348-352"
+          "locator": "Introduction; Pokémon encountered > Generation III > Magma Cavern Pit, Onix/Steelix (floor 1) and Groudon (floor 3) rows; Items > Generation III > Magma Cavern Pit, Poké row (1F)"
         },
         {
           "sourceId": "campaign:c5",
@@ -2278,7 +2278,7 @@
         },
         {
           "sourceId": "p01:source-8af5283103",
-          "locator": "Reported total20 at, while encounter table ends at19"
+          "locator": "Murky Cave heading, Amount of Floors field (20); encounter table, Floors Found on column, final Crobat (11-19), Misdreavus (13-19), Muk/Swalot (14-19) rows"
         }
       ]
     },
@@ -2316,7 +2316,7 @@
       "evidence": [
         {
           "sourceId": "campaign:howling",
-          "locator": "Basic info/introduction; Generation III encounter rows 208-224"
+          "locator": "Basic info, Floors field (15); Pokémon encountered > Generation III, Azurill through Exeggcute rows (maximum floor 14)"
         },
         {
           "sourceId": "p01:source-4d327451bb",
@@ -2356,11 +2356,11 @@
       "evidence": [
         {
           "sourceId": "campaign:howling",
-          "locator": "Generation III encounters end at14; reported total15"
+          "locator": "Basic info, Floors field (15); Pokémon encountered > Generation III, final Snorlax (11-14) and Exeggcute (14) rows"
         },
         {
           "sourceId": "p01:source-0883c621aa",
-          "locator": "Plot instead describes traversing15 floors before the end"
+          "locator": "Plot, opening paragraph describing 15 floors before reaching Smeargle at the end"
         },
         {
           "sourceId": "p01:source-32f7d9fd61",
@@ -2443,11 +2443,11 @@
       "evidence": [
         {
           "sourceId": "p01:source-4e9957d14d",
-          "locator": "Generation III Aerodactyl15-25 at; loose-item rows1-24 beginning; special-tile row includes25 at"
+          "locator": "Pokémon encountered > Generation III, Aerodactyl row (15-25); Items > Generation III > Pitfall Valley, Poké row (1-24F); Other encounters > Generation III, Wonder Tile row, Floor 1-20, 25 column"
         },
         {
           "sourceId": "p01:source-b9cb9b9153",
-          "locator": "Original scope; rescue at25; Pokémon row66 and items also include25"
+          "locator": "Original-edition notice; Introduction, Latias rescue paragraph (floor 25); Pokémon, Aerodactyl row (15-25); Items and Poké > Ground > Poké, Floors column (1-25)"
         }
       ]
     },
@@ -3819,5 +3819,13 @@
       "implementationStatus": "not-started"
     }
   ],
-  "acceptance": "This sub-batch supports review of individual fields. P01 and all system families remain incomplete; neither source counts nor a passing website suite establish gameplay correctness."
+  "acceptance": "This sub-batch supports review of individual fields. P01 and all system families remain incomplete; neither source counts nor a passing website suite establish gameplay correctness.",
+  "corrections": [
+    {
+      "date": "2026-10-04",
+      "review": "https://github.com/justinthelaw/justinthelaw/pull/388#discussion_r4179509455",
+      "kind": "source-locator-correction",
+      "description": "Reopened the affected dungeon pages and replaced truncated or extraction-line-based locators with named sections, table rows and columns. Rule values, qualification and blocked status are unchanged."
+    }
+  ]
 }
