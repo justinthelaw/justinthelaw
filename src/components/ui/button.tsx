@@ -3,6 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 const responsiveIconStyles = {
   control: "size-10 p-1 sm:size-11 md:size-12",
@@ -52,14 +53,20 @@ function Button({
   variant = "default",
   size = "default",
   asChild = false,
+  tooltip,
+  tooltipSide = "top",
+  tooltipId,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    tooltip?: string
+    tooltipSide?: React.ComponentProps<typeof TooltipContent>["side"]
+    tooltipId?: string
   }) {
   const Comp = asChild ? Slot.Root : "button"
 
-  return (
+  const button = (
     <Comp
       data-slot="button"
       data-variant={variant}
@@ -67,6 +74,27 @@ function Button({
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
+  )
+
+  if (!tooltip) return button
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        {props.disabled ? (
+          <span
+            aria-label={tooltip}
+            className="inline-flex max-w-full rounded-lg focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+            tabIndex={0}
+          >
+            {button}
+          </span>
+        ) : button}
+      </TooltipTrigger>
+      <TooltipContent id={tooltipId} data-testid={tooltipId} side={tooltipSide} sideOffset={8}>
+        {tooltip}
+      </TooltipContent>
+    </Tooltip>
   )
 }
 

@@ -19,7 +19,7 @@ export function ArcadeCard({ game, onPlay }: ArcadeCardProps): React.ReactElemen
     : game.preview?.src;
 
   return (
-    <article aria-labelledby={headingId}>
+    <article aria-labelledby={headingId} className="min-w-0">
       <Card className="gap-0 border border-border/70 bg-card/70 py-0 shadow-sm ring-0">
         <div className={`${styles.preview} ${styles[game.blobVariant]}`}>
           {game.preview && previewSrc ? (
@@ -38,6 +38,7 @@ export function ArcadeCard({ game, onPlay }: ArcadeCardProps): React.ReactElemen
               size="lg"
               className="min-h-11 min-w-24"
               disabled={!game.entryPoint}
+              tooltip={game.entryPoint ? "Play game" : "Coming soon"}
               aria-label={game.entryPoint ? `Play ${game.title}` : "Play, coming soon"}
               onClick={() => onPlay(game)}
             >

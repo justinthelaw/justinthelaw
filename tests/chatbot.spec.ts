@@ -221,7 +221,7 @@ test.describe("Chatbot UI Tests", () => {
   }) => {
     await openChat(page);
     const disclaimer = page.getByText(
-      "AI can make mistakes. Always verify the information.",
+      "AI answers may be inaccurate.",
     );
     await expect(disclaimer).toBeVisible();
   });
@@ -251,7 +251,7 @@ test.describe("Chatbot UI Tests", () => {
     await openChatWithoutLoading(page);
 
     await expect(page.getByTestId("model-download-consent")).toContainText(
-      "downloads about 820 MB",
+      /downloads about 820 MB/i,
     );
     await expect(page.getByTestId("model-load-button")).toBeVisible();
 
@@ -496,7 +496,7 @@ test.describe("Chatbot UI Tests", () => {
   }, testInfo) => {
     const promptBudget = getPromptBudget();
     const overage = 9;
-    const expectedMessage = `Message: ${overage} chars over; tail trimmed.`;
+    const expectedMessage = `Message trimmed: ${overage} characters`;
 
     await openChat(page);
     await page
@@ -565,7 +565,7 @@ test.describe("Chatbot UI Tests", () => {
 
     const promptBudget = getPromptBudget();
     const overage = 9;
-    const expectedMessage = `Message: ${overage} chars over; tail trimmed.`;
+    const expectedMessage = `Message trimmed: ${overage} characters`;
 
     await openChat(page);
     await page

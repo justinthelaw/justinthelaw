@@ -20,6 +20,7 @@ interface SocialLinkItem {
   href: string;
   filename: string;
   altText: string;
+  tooltip: string;
 }
 
 export default function Home(): React.ReactElement {
@@ -42,21 +43,25 @@ export default function Home(): React.ReactElement {
       href: SITE_CONFIG.socialLinks.github,
       altText: `${SITE_CONFIG.fullName}'s GitHub Profile`,
       filename: "github.png",
+      tooltip: "View GitHub profile",
     },
     {
       href: SITE_CONFIG.socialLinks.linkedin,
       altText: `${SITE_CONFIG.fullName}'s LinkedIn Profile`,
       filename: "linkedin.png",
+      tooltip: "View LinkedIn profile",
     },
     {
       href: SITE_CONFIG.socialLinks.huggingface,
       altText: `${SITE_CONFIG.fullName}'s HuggingFace Profile`,
       filename: "huggingface.png",
+      tooltip: "View HuggingFace profile",
     },
     {
       href: SITE_CONFIG.socialLinks.gitlab,
       altText: `${SITE_CONFIG.fullName}'s GitLab Profile`,
       filename: "gitlab.png",
+      tooltip: "View GitLab profile",
     },
   ].filter((link) => link.href.length > 0);
 
@@ -119,6 +124,7 @@ export default function Home(): React.ReactElement {
               link={link.href}
               altText={link.altText}
               filename={link.filename}
+              tooltip={link.tooltip}
             />
           ))}
         </footer>
@@ -130,9 +136,11 @@ export default function Home(): React.ReactElement {
             edge="bottom"
             onClick={() => setShowChatBox(true)}
             aria-label="Open AI chatbot"
+            tooltip="Open AI chat"
+            tooltipSide="left"
             data-testid="ai-chatbot-button"
           >
-            <BotIcon className={cn(responsiveIconStyles.icon, "fill-[#4c7fa7] text-[#acd6e7]")} aria-hidden="true" />
+            <BotIcon viewBox="1 1 22 22" className={cn(responsiveIconStyles.icon, "fill-[#4c7fa7] text-[#acd6e7]")} aria-hidden="true" />
           </CornerIconButton>
         )}
 

@@ -157,6 +157,26 @@ default/sm/md breakpoints. `CornerIconButton` shares the corner appearance and
 mirrors top/bottom and right insets: page padding plus the social footer's
 padding and border (21px at the default root font size). Align the chat control
 with the social buttons themselves, rather than the outside of their container.
+Normalize the robot's drawing with `viewBox="1 1 22 22"`: its visible width
+fills at least 90% of the shared icon box while retaining its original 20:16
+silhouette and centered placement. Do not stretch the robot to a square.
+
+All website buttons and button-style links have concise 2-5 word action or
+destination tooltips. Use the shared Button's `tooltip` and `tooltipSide` props;
+disabled buttons retain native disabled semantics and use a focusable wrapper
+so their tooltips remain available on hover and keyboard focus. Prompt-limit
+warnings retain their touch toggle and exact trimmed character counts in a
+short tooltip. Preserve accessible names independently of tooltip text.
+
+Keep the chat modal compact: plain download consent with one Start chat action,
+icon-only Send, clear and close controls, short helper text, and message roles
+available to screen readers. Consent must disclose the approximate initial and
+possible fallback download sizes and that chats stay in the browser. Preserve
+loading progress, errors, retry, generation locking, history, and focus return.
+When a profile-trim warning appears, reserve space beside the first message
+so the warning icon never overlaps its text. Exercise this conditional layout
+with the real website component and export styles, using a trimmed fixture
+independent of the current profile's length.
 
 Preserve the existing system sans-serif font stack and live GitHub bio fetch.
 For review screenshots, verify the actual rendered font is sans-serif and use
@@ -170,6 +190,10 @@ below it, and puts Play at the bottom right. The initial three cards say
 All placeholders and the portal animate; reduced-motion preferences keep them
 still. The sprites are original 32-pixel designs rendered with crisp SVG edges,
 without OpenAI branding or copied character accessories.
+The arcade navigation has only its Home control, with no top-right name label.
+Cards fit the available page width with side padding and a 620px column limit.
+The page wrapper must not flex-shrink: it grows with the cards and keeps 40px
+of bottom padding after the last card, including at mobile widths.
 
 | File | Responsibility |
 | --- | --- |

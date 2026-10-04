@@ -12,6 +12,7 @@ export interface LinkIconButtonProps {
   link: string;
   altText: string;
   filename: string;
+  tooltip: string;
 }
 
 function createIconSources(filename: string): string[] {
@@ -30,6 +31,7 @@ export function LinkIconButton({
   link,
   altText,
   filename,
+  tooltip,
 }: LinkIconButtonProps): React.ReactElement {
   const iconSources = React.useMemo(() => createIconSources(filename), [filename]);
   const [iconSourceIndex, setIconSourceIndex] = React.useState(0);
@@ -50,6 +52,7 @@ export function LinkIconButton({
       asChild
       variant="ghost"
       size="responsive-icon"
+      tooltip={tooltip}
       className="rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
     >
       <a

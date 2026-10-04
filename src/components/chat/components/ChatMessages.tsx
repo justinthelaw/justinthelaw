@@ -23,7 +23,6 @@ export interface ChatMessagesProps {
   error: string | null;
   loadingMessage: string | null;
   showPersonalContextTrimWarning: boolean;
-  overBudgetPersonalContextCharacters: number;
   trimmedPersonalContextCharacters: number;
   onRetryModelLoad: () => void;
 }
@@ -60,7 +59,6 @@ export function ChatMessages({
   error,
   loadingMessage,
   showPersonalContextTrimWarning,
-  overBudgetPersonalContextCharacters,
   trimmedPersonalContextCharacters,
   onRetryModelLoad,
 }: ChatMessagesProps): React.ReactElement {
@@ -103,12 +101,13 @@ export function ChatMessages({
           <div className="mt-3 flex justify-center">
             <Button
               data-testid="model-retry-button"
+              tooltip="Retry model download"
               onClick={onRetryModelLoad}
               size="sm"
               type="button"
               variant="outline"
             >
-              Try loading again
+              Retry download
             </Button>
           </div>
         </Alert>
@@ -139,8 +138,8 @@ export function ChatMessages({
                       : "chat-message-ai"
                   }
                 >
-                  <CardContent className="relative p-3">
-                    <div className="mb-1 text-xs text-muted-foreground">
+                  <CardContent className={`relative p-3 ${showProfileWarning ? "pr-10" : ""}`}>
+                    <div className="sr-only">
                       {message.type === "user" ? "You" : "AI Assistant"}
                     </div>
                     <div className="whitespace-pre-line leading-relaxed [overflow-wrap:anywhere]">
@@ -155,7 +154,7 @@ export function ChatMessages({
                     {showProfileWarning && (
                       <LimitWarning
                         className="absolute top-1.5 right-1.5"
-                        message={`Profile: ${overBudgetPersonalContextCharacters} chars over; tail trimmed.${trimmedPersonalContextCharacters > overBudgetPersonalContextCharacters ? ` ${trimmedPersonalContextCharacters} chars removed.` : ""}`}
+                        message={`Profile trimmed: ${trimmedPersonalContextCharacters} characters`}
                         testId="profile-trim-warning"
                       />
                     )}
@@ -173,7 +172,7 @@ export function ChatMessages({
             >
               <Card className="max-w-[80%] gap-0 rounded-lg bg-card py-0 ring-1 ring-border/60 [--card-spacing:0]">
                 <CardContent className="p-3">
-                  <div className="mb-1 text-xs text-muted-foreground">
+                  <div className="sr-only">
                     AI Assistant
                   </div>
                   <div className="whitespace-pre-line leading-relaxed [overflow-wrap:anywhere]">

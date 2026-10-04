@@ -66,6 +66,15 @@ test("should lay out three padded previews and disabled Play buttons in one scro
   await expect(cards.last().getByRole("button", { name: /Play/ })).toBeVisible();
   expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  const lastCard = await cards.last().boundingBox();
+  expect(page.viewportSize()!.height - lastCard!.y - lastCard!.height).toBeGreaterThanOrEqual(32);
+  for (const card of await cards.all()) {
+    const bounds = await card.boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(16);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(page.viewportSize()!.width - 16);
+  }
+  await expect(page.getByRole("navigation", { name: "Arcade navigation" })).not.toContainText("Justin Law");
 });
 
 test("should bob the portal and all three pixel blobs", async ({ page }) => {
@@ -144,6 +153,22 @@ test("should align icon-only corner controls with social buttons at every respon
     const socialBounds = await social.locator("img").boundingBox();
     expect(iconBounds!.width).toBeCloseTo(socialBounds!.width, 0);
     expect(iconBounds!.height).toBeCloseTo(socialBounds!.height, 0);
+    const drawing = await robotIcon.evaluate((element) => {
+      const svg = element as SVGSVGElement;
+      const bounds = svg.getBBox();
+      const matrix = svg.getScreenCTM()!;
+      return {
+        width: bounds.width * matrix.a,
+        height: bounds.height * matrix.d,
+        centerX: (bounds.x + bounds.width / 2) * matrix.a + matrix.e,
+        centerY: (bounds.y + bounds.height / 2) * matrix.d + matrix.f,
+      };
+    });
+    expect(drawing.width / socialBounds!.width).toBeGreaterThanOrEqual(0.9);
+    // Preserve the existing robot's 20:16 silhouette rather than stretching it.
+    expect(drawing.width / drawing.height).toBeCloseTo(1.25, 2);
+    expect(drawing.centerX).toBeCloseTo(robotBounds!.x + robotBounds!.width / 2, 0);
+    expect(drawing.centerY).toBeCloseTo(robotBounds!.y + robotBounds!.height / 2, 0);
     const colors = await robotIcon.evaluate((element) => ({
       fill: getComputedStyle(element).fill,
       stroke: getComputedStyle(element).stroke,
