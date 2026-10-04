@@ -2,25 +2,26 @@
 
 ## Current handoff
 
-- **State:** planning and prerequisite setup only; implementation paused for Justin's review.
-- **Review:** [draft PR #387](https://github.com/justinthelaw/justinthelaw/pull/387); implementation, merge and deployment remain paused.
-- **Branch:** `plan/pokemon-dungeon-reimagined`, based on `main` at `b4ed31955a2e6d5ae031faa610066d3fc66975ff`.
-- **Current package:** P00, preparation and review. All product packages P01-P37 are unstarted and unapproved.
-- **Next safe action after this PR:** read Justin's review. Do not begin implementation, update the arcade card, merge, or deploy before the user authorizes that stage.
+- **State:** implementation authorized on 2026-10-04; P01 source audit in progress.
+- **Planning baseline:** [PR #387](https://github.com/justinthelaw/justinthelaw/pull/387) merged as `0d34db51c258368ade8f081557200905214cebcd`.
+- **Branch:** `impl/pokemon-dungeon-p01-source-freeze`, based on that merged `main` commit.
+- **Current package:** P01, first source-qualified rules profile. P01 remains incomplete while its exact rules and review gates are unresolved; P02-P37 are not started.
+- **Next safe action:** resolve the remaining P01 questions listed in [RULES-BLUE.md](RULES-BLUE.md), then obtain focused review before accepting dependent contracts. Arcade activation, merge and deployment remain held for P36/P37.
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
-- **Coverage:** [COVERAGE.csv](COVERAGE.csv) records 38 parent packages, 386 species identities, 45 field dungeons, and 26 system families. It is an initial planning ledger; P02 must expand the remaining forms, individual rules/items/moves, scenes and art records. P00 is prepared and awaiting user review. All product implementation/evidence fields remain not started or not performed.
+- **Coverage:** [COVERAGE.csv](COVERAGE.csv) records 38 parent packages, 386 species identities, 45 field dungeons, and 26 system families. P02 must expand the remaining forms, individual rules/items/moves, scenes and art records. P01 advances source evidence only; no gameplay implementation or manual acceptance is claimed.
 
 ## Latest user instructions
 
 | Instruction | Effect |
 | --- | --- |
+| Continue the @Codex implementation in justinthelaw/justinthelaw, starting from any uncommitted changes | Separate implementation-start authorization on 2026-10-04. The supplied workspace had no checkout or uncommitted files; no open Pokémon PR/branch was found. Resumed from merged PR #387 in an isolated clone. Abandoned prototype drafts remain excluded under the existing plan |
 | Clean first, then develop the first game | Cleanup completed; source and tooling preserved |
 | Whole original rescue adventure in third-person 3D, beautiful Unreal-like graphics; latest clarification: Blue based | Original Nintendo DS Blue Rescue Team is the fixed baseline; Red only comparative research; no prototype/full-game equivalence claim |
 | Single HTML was allowed to become a folder under games | Proposed future entry point is `games/pokemon-dungeon-reimagined/index.html` |
-| Extremely extensive plan and necessary repository setup, then stop for review | Supersedes the earlier instruction to continue implementing until complete |
+| Extremely extensive plan and necessary repository setup, then stop for review | Established the planning hold; the later continuation instruction above resumes implementation |
 | Semi-transparent lower-half emulator controls and repeatable bulk image sheets | Required touch-control specification plus ASSET-PIPELINE.md master prompts, sheet/crop contracts and provenance; no runtime implementation |
 | Show all decisions and generated assets for visual decisions | Added DECISIONS.md and two original environment loading-art candidates, with prompts/provenance; no production character or gameplay claims |
-| Approve all recommendations except choose design B | D03 B, D04 browser equivalents, D05 manual acceptance, D06 omit practice and D08 JavaScript/JSDoc are resolved on 2026-10-04; separate implementation hold remains |
+| Approve all recommendations except choose design B | D03 B, D04 browser equivalents, D05 manual acceptance, D06 omit practice and D08 JavaScript/JSDoc were resolved on 2026-10-04; implementation was authorized separately afterward |
 | Remove README paragraph text; use tables and bullets | Parent games/README.md uses headings, tables and lists only; no prose paragraphs; root README unchanged |
 | Plan near/inside game; concise parent games README with arcade concept and live/WIP catalog | Full plan moved to the game's `plan/` folder; `games/README.md` added; root README preserved |
 | No game-source tests; website well tested; DRY/SOLID; record requirements in AGENTS; root README unchanged | Carried into parent/game instructions and each workstream |
@@ -29,9 +30,9 @@
 
 | Path | Current responsibility |
 | --- | --- |
-| Root `AGENTS.md` | Records planning hold, folder permission, documentation placement, instructions and links |
+| Root `AGENTS.md` | Records execution/release gates, folder permission, documentation placement, instructions and links |
 | `games/README.md` | Concise arcade concept, current game status, integration and contributor guide |
-| `games/pokemon-dungeon-reimagined/AGENTS.md` | Scoped rules and explicit stop before implementation |
+| `games/pokemon-dungeon-reimagined/AGENTS.md` | Scoped execution constraints and remaining quality/release gates |
 | `tools/pokemon-dungeon/.gitignore` | Excludes future authoring caches outside the exported game tree |
 | `games/pokemon-dungeon-reimagined/plan/PLAN.md` | Goals, boundaries, architecture, decisions, dependencies, 38 work packages |
 | `DECISIONS.md` and `art-candidates/` | Recorded choices, selected B future loading background, and archived A comparison with provenance |
@@ -76,7 +77,7 @@ ownership, temporary expedition actors, explicit original-data blockers and
 source-backed content coverage. Do not resurrect the old interfaces from chat
 or scratch paths.
 
-## Approved decisions; implementation still paused
+## Historical planning handoff: decisions approved before execution
 
 On **2026-10-04**, Justin instructed: "Solidfy the decisions to be all your recommend, EXCEPT for design let's go with option B." This resolves every remaining product choice in [DECISIONS.md](DECISIONS.md). D01 remains Blue, D02 is a research obligation, and D07 is the established release hold.
 
@@ -135,9 +136,76 @@ current-head CI is required for browser results.
 
 ## Future implementation entries
 
-After approval, append one record per accepted task/sub-batch using PLAN.md
+Append one record per accepted implementation task/sub-batch using PLAN.md
 section 14's template. Include the approving instruction, base/result SHA,
 owned paths, public interfaces, resolved research gaps, exact static checks,
 independent review, approved manual evidence, advanced coverage IDs, remaining
 limits and next task. Retain failed/blocked evidence when it affects what the
 next model must know.
+
+## P01-A: source-qualified foundation audit, 2026-10-04
+
+### Brief and scope
+
+- **Approval/dependencies:** Justin authorized continuing implementation after
+  P00 merged in PR #387. No existing checkout or uncommitted implementation was
+  present in the supplied workspace. The isolated checkout starts from
+  `0d34db51c258368ade8f081557200905214cebcd`.
+- **Inputs:** PLAN P01, RESEARCH, CAMPAIGN, SYSTEMS, DATA, historical snapshots,
+  the original Blue manual and explicitly original-edition reference sections.
+- **Outputs:** `RULES-BLUE.md` and `research/blue-rules-v1.json`; source-to-rule
+  mappings and narrower blocking questions. Documentation execution status and
+  coverage are reconciled to the current user instruction.
+- **Owned paths:** root/game AGENTS; games README; PLAN, DECISIONS, PROGRESS,
+  RESEARCH, RULES-BLUE, COVERAGE; scoped notes/status corrections in CAMPAIGN,
+  SYSTEMS, RENDERING, ASSET-PIPELINE and INTEGRATION; the new research JSON.
+- **Finish criteria:** qualified field evidence, null blocked values, valid
+  source/coverage joins, focused independent review and required repository
+  checks with infrastructure failures reported accurately.
+
+### Result and limits
+
+| Field | Recorded result |
+| --- | --- |
+| Base / result | Base `0d34db51c258368ade8f081557200905214cebcd`; result is the focused P01-A review branch, with its exact published SHA recorded on the PR |
+| Public interfaces | Documentation schema version 1, `rulesRevision: blue-rules-v1`; no runtime exports or executable game content |
+| Source evidence | 72 source identities; 44 records: 30 supported fields and 14 explicit blockers; each record retains edition/region, locators, limitations, consumers and questions |
+| Reconciliation | Departure versus dungeon party limits; nominal versus fixed-point arithmetic; dungeon totals versus observed labels; reset entry versus outcome restoration; omitted versus contradicted Gengar prerequisite |
+| Gap disposition | CAMPAIGN-GAP-02/03/12 narrowed; no complete campaign/data gap closed; exact scheduler and damage arithmetic remain blocked |
+| Coverage advanced | P00 planning acceptance; P01 source audit; evidence links for all 26 system families and 13 affected dungeon rows; all gameplay implementation/acceptance states remain unstarted |
+| Manual evidence | Not performed; no cartridge observation, browser gameplay or visual acceptance is claimed |
+| Next exact sub-batch | P01-B: resolve the original Blue scheduler's phase order and speed-counter units, beginning with `P01-MECH-TURN-02` and `P01-MECH-SPEED-02`; then remaining RULES-BLUE priorities |
+
+### Validation and review
+
+- Static evidence audit passed: unique IDs, 72 resolvable source identities,
+  44 rule records, 26 family joins, 495 unique coverage rows, blocked null
+  values and local documentation links. The audit reads documentation only.
+- `pre-commit run --all-files` and
+  `pre-commit run --all-files --hook-stage pre-push` passed with the new files
+  included; `git diff --check` passed.
+- Independent review found one important provenance-cleanup error and one minor
+  retrieval-history inconsistency. Restored the affected source numbers/text,
+  reconciled retrieval outcomes and strengthened the static audit. Focused
+  re-review found no remaining actionable issues.
+- `npm run flight-check`: website ESLint, TypeScript, production build and
+  game-directory export passed. The pinned Playwright Chrome download returned
+  a non-ZIP response; browser installation failed before tests ran. An earlier
+  TypeScript `--showConfig` parse failure was traced to the execution sandbox
+  blocking a child process; the permitted rerun passed that step without source
+  or dependency changes.
+- Current-head GitHub checks/review are recorded on the review PR. P01 remains
+  incomplete regardless of those website results.
+
+### Rulings
+
+- Use the user's current continuation instruction as the separate implementation
+  start authorization; retain package evidence, visual and release gates.
+- Apply the established prohibition on automated game-source tests over generic
+  TDD guidance. Static document audits and existing website checks remain allowed.
+- Keep the first evidence revision partial. Public reference summaries do not
+  justify inventing a scheduler, rounding algorithm or reset restoration matrix.
+- The reviewer declined exhaustive cartridge/regional verification and runtime,
+  gameplay, visual or persistence acceptance: those remain open, outside this
+  documentation sub-batch. Website results are reported separately; review does
+  not complete P01 or authorize merge/deployment.

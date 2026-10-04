@@ -264,23 +264,22 @@ paths so both humans and agents can act on the instructions.
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-## Pokémon Dungeon Reimagined planning hold
+## Pokémon Dungeon Reimagined execution and release gates
 
-The first game is planned under `games/pokemon-dungeon-reimagined/`. The user
-explicitly permitted a game folder instead of the original single-HTML limit.
-On 2026-10-04 the user requested an extensive implementation plan and only
-prerequisite repository setup, then a stop for their review. **Do not resume
-product implementation, wire the arcade card, merge, or deploy this game until
-the user reviews this groundwork and authorizes the next stage.** Earlier
-instructions to continue until the whole game is implemented are superseded
-by this planning hold. Approval to merge an earlier website PR does not
-approve merging this planning PR.
+The first game lives under `games/pokemon-dungeon-reimagined/`; the user
+permitted a game folder instead of the original single-HTML limit. Planning
+PR #387 was merged on 2026-10-04. Later that day, Justin instructed:
+"Continue the @Codex implementation of the Pokemon Blue Rescue Team game in
+justinthelaw/justinthelaw. You probably have uncommitted changes, so start from
+there." This is the separate implementation-start authorization. Resume the
+first incomplete dependency-ready package recorded in `plan/PROGRESS.md`.
+Source-evidence gates and the P06/P10 visual reviews still apply. Arcade
+activation, merge and deployment require the separate P36/P37 release gates.
 
 On **2026-10-04**, the user approved all recommended decisions except D03,
 selecting **B: bold cel-shaded 3D**. These choices are binding; do not ask the
-same decision questions again. Approval of recommendations does not authorize
-implementation, merge, deployment, or lifting the arcade integration hold;
-await the user's separate start instruction.
+same decision questions again. The later start instruction authorizes
+implementation; it does not authorize merge, deployment or arcade activation.
 
 | Decision | Binding selection |
 | --- | --- |
@@ -327,8 +326,8 @@ import game source. Website player/export tests use inert fixture HTML and
 temporary fixture files. Independent game syntax, lint, type, schema checks,
 code review, and user-directed visual capture are separate from gameplay tests.
 Do not add automated game tests. The user approved manual play and visual
-acceptance after implementation on 2026-10-04; the separate implementation
-start instruction is still required.
+acceptance after implementation on 2026-10-04 and subsequently authorized
+implementation. Record actual manual evidence separately from static review.
 A future standalone-game persistence adapter may use localStorage/IndexedDB
 behind one validated interface; the website retains its Zustand convention.
 

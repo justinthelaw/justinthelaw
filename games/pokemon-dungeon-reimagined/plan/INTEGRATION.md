@@ -2,21 +2,18 @@
 
 ## Scope and status
 
-This appendix is a future implementation specification. The current requested
-deliverable is an extensive plan and prerequisite repository setup, followed by
-user review. The user approved the recommended decisions on 2026-10-04 except
-D03, selecting B; execution still awaits a separate start instruction.
-Do not activate a game card, commit a gameplay screenshot, add a
-game runtime, or describe future implementation tasks as shipped behavior.
-Keep all three existing arcade placeholders until the reviewed plan authorizes
-implementation and the playable release satisfies its readiness gates.
-All three live cards, including the first card, remain unchanged in this
-planning change. There is no approved game runtime, final runtime artwork, or
+Justin separately authorized implementation on 2026-10-04 after planning
+PR #387 merged. Execute this specification according to the parent plan's
+package dependencies. The user approved the recommended decisions on
+2026-10-04 except D03, selecting B. Do not activate a game card before P36's
+readiness and exposure gates, or describe future tasks as shipped behavior.
+Keep all three existing arcade placeholders until those gates are satisfied.
+There is no approved game runtime, final runtime artwork, or
 gameplay screenshot. The two generated raster loading illustrations are stored
 under `art-candidates/`: B is the selected future loading background and A is
 an archived comparison. Neither is a 3D model or gameplay capture.
-Approving the decisions or those illustrations does not lift the planning hold or authorize
-an automatic merge, release, or deployment.
+Implementation authorization does not authorize an automatic merge, release,
+or deployment.
 
 The sole reference edition is the original **Pokémon Mystery Dungeon: Blue
 Rescue Team**. Red Rescue Team is comparative/cross-version research only;
@@ -26,8 +23,9 @@ Blue-specific verification.
 ## Binding decisions recorded on 2026-10-04
 
 The user approved all recommendations except the design recommendation,
-selecting B. Do not treat these decisions as pending or repeat their questions;
-they approve requirements, not a start of implementation or a release.
+selecting B. Do not treat these decisions as pending or repeat their questions.
+They establish requirements; the later implementation-start instruction is
+recorded above, and release approval remains separate.
 
 | Decision | Integration requirement |
 | --- | --- |
@@ -54,8 +52,8 @@ The root `README.md` remains unchanged for this feature.
 
 [PLAN.md](PLAN.md) is authoritative for package IDs, dependencies, acceptance,
 approval, and execution order. The following sections expand its instructions;
-they do not create a separate implementation or release sequence. Runtime
-packages remain unstarted and require the user's separate start instruction.
+they do not create a separate implementation or release sequence. Execute
+runtime packages only when their parent-plan dependencies are satisfied.
 
 | Appendix instructions | Authoritative work package |
 | --- | --- |
@@ -398,8 +396,8 @@ and an iframe displaying an HTML 404 can still emit `load`.
 This checklist expands P36/P37; it does not authorize their execution or
 supersede PLAN's dependencies. Steps 1–3 and the integration/export assertions
 in steps 4/6 feed P36; contribution/CI/review/publication steps 4–10 feed P37.
-The current work ends at the planning hold with binding decisions recorded and
-all public placeholders unchanged; await the user's separate start instruction.
+Implementation is authorized; all public placeholders remain unchanged until
+P36 readiness and exposure approval, with merge/deployment approval at P37.
 
 1. Confirm plan approval and mark explicitly delivered versus deferred game
    scope before enabling the card. Confirm content/assets/provenance inventories
@@ -429,9 +427,9 @@ all public placeholders unchanged; await the user's separate start instruction.
    findings, require a positive current-head completion signal, and rerun checks
    affected by fixes. Do not mark ready while review findings, failing CI, or
    unverified deployment-path issues remain.
-10. Keep publishing/merging within user authorization. The current plan-only
-    request stops for review before game implementation, activation, deployment,
-    or any claim that those future steps are complete.
+10. Keep publishing/merging within user authorization. Implementation approval
+    does not grant P36 exposure or P37 merge/deployment approval, or establish
+    that those future steps are complete.
     Intermediate runtime-package PRs must remain unmerged until P37 full-scope
     acceptance and explicit release approval; disabled-card state cannot gate
     directly accessible exported runtime URLs.
@@ -471,4 +469,4 @@ External game-rule or hosting research is outside this appendix's source scope.
 | Existing fixture player, tooltip/layout assertions, export fixtures | [arcade tests](../../../tests/arcade.spec.ts), [button tests](../../../tests/buttons.spec.ts), [export tests](../../../tests/export.spec.ts), [game-copy fixture tests](../../../tests/game-export.spec.ts) |
 | Browser matrix and current CI/deploy workflow gates | [Playwright config](../../../playwright.config.ts), [PR tests](../../../.github/workflows/app.test.yml), [Pages deploy](../../../.github/workflows/deploy.yml), [lint workflow](../../../.github/workflows/lint.yml) |
 | Hygiene hooks, 1,024 KiB file constraint, output exclusions | [pre-commit config](../../../.pre-commit-config.yaml), [gitignore](../../../.gitignore) |
-| Planning hold, future packages, performance targets and authorization | [PLAN](PLAN.md), [game AGENTS](../AGENTS.md) |
+| Package dependencies, performance targets and implementation/release authorization | [PLAN](PLAN.md), [game AGENTS](../AGENTS.md) |

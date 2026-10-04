@@ -1,6 +1,6 @@
 # Pokémon Dungeon Reimagined: implementation handoff
 
-**Status: proposed plan; awaiting Justin's review. No game implementation is authorized by this document alone.**
+**Status: implementation authorized on 2026-10-04 after planning PR #387 merged. P01 source audit is in progress; see PROGRESS.md for accepted evidence and remaining gates.**
 
 **Goal:** recreate the scope of the original Nintendo DS Blue Rescue Team adventure as a polished third-person 3D game served from Justin's arcade on GitHub Pages, with the entire main campaign, postgame, optional content, original rule systems, and a documented account of deliberate adaptations.
 
@@ -8,7 +8,7 @@
 
 **Proposed stack:** browser ES modules, JavaScript with JSDoc and an independent static type check, locally pinned Three.js/WebGL 2, local glTF/GLB and compressed texture/audio assets, HTML/CSS menus, browser storage through one adapter. No website React dependency, runtime CDN, server, Unreal runtime, account service, or game test runner.
 
-**Spec:** this plan's approved requirements and the five linked appendices constitute the proposed specification. Instructions in AGENTS.md and later explicit user decisions take precedence. All tasks after P00 are unapproved and not started.
+**Spec:** this plan's approved requirements and the linked appendices constitute the specification. Instructions in AGENTS.md and later explicit user decisions take precedence. Justin's implementation-start instruction permits execution in the dependency order below; package acceptance, visual review and release authorization remain separate.
 
 **For an implementing model:** read the authority order and execution protocol below before working. Work on one package or one explicitly bounded sub-batch at a time. Do not convert this plan into an invitation to build an abbreviated demo and label it the full game.
 
@@ -27,7 +27,7 @@
 | [DECISIONS.md](DECISIONS.md) | Recorded user decisions and actual generated visual assets | Justin's review; before implementing affected assumptions |
 | [PROGRESS.md](PROGRESS.md) | Current state, review gates, next safe task, decisions | Start and end of every session |
 | [COVERAGE.csv](COVERAGE.csv) | Completion inventory with evidence fields | Every content/system task |
-| [Game AGENTS.md](../AGENTS.md) | Local execution constraints and explicit planning hold | Before any game file is edited |
+| [Game AGENTS.md](../AGENTS.md) | Local execution constraints and release gates | Before any game file is edited |
 
 Recommended review order for Justin: read sections 2-6, the milestone table in section 10, and the resolved decisions in section 12; then inspect the campaign and rendering appendices. The remaining work packages are the detailed handoff for the implementing model.
 
@@ -80,7 +80,7 @@ An item can be researched, specified, implemented, statically reviewed, manually
 4. Keep the existing site architecture, system fonts, live GitHub bio, controls, tooltips, arcade width, margins and navigation intact.
 5. Preserve the first card as Coming soon until the eventual release gate. Replace only that card, using a real gameplay capture, not concept art passed off as gameplay.
 6. Game and website code must be DRY, SOLID, and idiomatic for their respective frameworks. Avoid a monolithic simulation/UI/renderer class.
-7. Do not write or run tests against game source. No unit, integration, snapshot, automated gameplay, simulation replay test, or test-only game hook is permitted. Static syntax, lint, type, schema/provenance/size checks and code review are permitted. Manual gameplay/visual acceptance is approved under D05 and must remain distinct from automated website tests; implementation itself remains paused.
+7. Do not write or run tests against game source. No unit, integration, snapshot, automated gameplay, simulation replay test, or test-only game hook is permitted. Static syntax, lint, type, schema/provenance/size checks and code review are permitted. Manual gameplay/visual acceptance is approved under D05 and must remain distinct from automated website tests.
 8. Website tests remain meaningful and thorough. Intercept every game iframe navigation with inert fixtures before it is triggered; test export copying with temporary fixture files. Never let a website test boot real game code.
 9. Root README.md is unchanged. Keep governing requirements in root and game AGENTS files and details in their linked plan, research and progress documents.
 10. Do not import website React/Zustand into the game. A standalone persistence adapter may use browser storage; no other game module accesses storage directly.
@@ -151,7 +151,7 @@ All paths below are **planned**, except the existing game AGENTS instructions an
 | `content/` | Validated species/moves/items/dungeons/jobs/story/town tables | Stable IDs and provenance only |
 | `assets/` | Runtime character, environment, texture, UI, audio files | Manifest-listed local resources |
 | `vendor/` | Pinned third-party runtime modules and required decoder resources | Exact local imports; retained licenses |
-| `AGENTS.md`, `plan/` | Local constraints, planning hold and complete handoff | Existing instructions and documentation; never imported by runtime |
+| `AGENTS.md`, `plan/` | Local constraints, execution/release gates and complete handoff | Existing instructions and documentation; never imported by runtime |
 
 Authoring tooling lives at the repository-relative **`tools/pokemon-dungeon/`**, outside the exported `games/` tree. Its future `package.json`, lockfile, lint/type/schema configuration, vendor/data/asset preparation scripts, dependency installation and caches belong there. Static commands target `../../games/pokemon-dungeon-reimagined/` explicitly without importing or executing game source. Browser runtime modules, data and assets join the project documentation in the game directory; authoring programs and dependencies remain outside it. The exporter also copies `plan/` and Markdown documentation, but the game must never request them as startup assets. The current exporter copies every file under `games/`, including ignored local files; `.gitignore` is not an export filter. Keep root website package files unchanged.
 
@@ -293,7 +293,7 @@ Suggested executor prompt:
 
 Justin approved all recommendations except the design recommendation on 2026-10-04, selecting **B: bold cel-shaded 3D**. See [DECISIONS.md](DECISIONS.md) for the binding choices and generated loading assets.
 
-All product choices in this register are resolved. Research obligations and later quality/release reviews remain separate; the choices do not authorize beginning implementation, merging, or deploying.
+All product choices in this register are resolved. Justin subsequently authorized implementation. Research obligations and later quality/release reviews remain separate; merging and deploying still require explicit authorization.
 
 | ID | Recorded decision | Binding selection or obligation | Affected work |
 | --- | --- | --- | --- |
@@ -308,13 +308,13 @@ All product choices in this register are resolved. Research obligations and late
 
 The fixed browser-save recommendation is one current campaign with primary/backup recovery, automatic checkpoints after completed canonical state transactions, and manual save/export. SYSTEMS S03 owns exact trigger and recovery behavior; strict cartridge single-use quicksave is not a separate pending choice.
 
-The approving instruction and date are recorded in PROGRESS.md and both AGENTS files. Do not ask these choices again. Wait for a separate implementation-start instruction; merge/deployment also require explicit authorization.
+The approving decisions and subsequent implementation-start instruction are recorded in PROGRESS.md and both AGENTS files. Do not ask these choices again. Merge/deployment still require explicit authorization.
 
 ## 13. Work packages
 
 ### P00 - Planning and safe repository setup
 
-**Status:** prepared in this change; awaiting review. **Files:** root/game AGENTS, `games/README.md`, `tools/pokemon-dungeon/.gitignore`, this colocated documentation set. **Dependencies:** none.
+**Status:** reviewed and merged in PR #387; implementation subsequently authorized. **Files:** root/game AGENTS, `games/README.md`, `tools/pokemon-dungeon/.gitignore`, this colocated documentation set. **Dependencies:** none.
 
 - [x] Inspect current main, export/player components, contribution hooks, website test boundaries and existing instructions.
 - [x] Clean only verified rebuildable outputs and retain source/tools.
@@ -336,6 +336,8 @@ The approving instruction and date are recorded in PROGRESS.md and both AGENTS f
 - [ ] Freeze the first implementable rules revision and identify later blocked records.
 
 **Acceptance:** no dependent core rule is marked inferred-but-exact. Unknown numeric tables remain blocked with a specific question and source path. Review the source-to-rule mapping, not merely the number of links.
+
+**Current sub-batch:** [Blue rules revision 1](RULES-BLUE.md) records source-qualified foundations and the remaining blocking fields. P01 is not complete until its unresolved rules and review gates are satisfied. Later packages may consume only the explicitly supported fields within their evidence scope.
 
 ### P02 - Complete inventories and traceability
 
@@ -807,6 +809,6 @@ Next exact package/sub-batch:
 
 Do not mark a package complete while its dependent contract is ambiguous, a named behavior is a placeholder, or review evidence is missing. Do not make a passing website suite carry claims about untested game behavior.
 
-## 15. Current stop point
+## 15. Current execution handoff
 
-P00 is the only package prepared. Implementation is paused. The choices are resolved, including design B. Justin should review the complete plan, visual/data production requirements, repository setup and execution order before separately authorizing the smaller model to proceed with P01.
+P00 was merged in PR #387, and Justin authorized implementation on 2026-10-04. Resume P01 from [the rules profile](RULES-BLUE.md) and [PROGRESS.md](PROGRESS.md). Complete its remaining evidence and review work before accepting dependent contracts. The P06/P10 visual checkpoints and P37 release authorization remain required.
