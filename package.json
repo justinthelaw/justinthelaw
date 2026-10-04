@@ -28,7 +28,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^13.4.6",
     "lucide-react": "^1.49.0",
-    "next": "^16.3.7",
+    "next": "^16.3.8",
     "radix-ui": "^1.6.7",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -37,7 +37,7 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "^5.23.1",
+    "@eslint-react/eslint-plugin": "^5.23.3",
     "@eslint/compat": "^2.1.1",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.63.0",
