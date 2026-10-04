@@ -1,0 +1,489 @@
+{
+  "task": "Read-only source inventory for original Pokémon Mystery Dungeon Red/Blue Rescue Team; implementation recommendations are design judgments, not claims of emulation fidelity.",
+  "researchedAt": "2026-10-04",
+  "sourceUseNote": "Game facts use original-generation sections of Bulbapedia. Technical facts use project documentation, MDN, W3C, and GitHub Docs. Ref IDs are included so the parent can open the sources before citing them.",
+  "roster": {
+    "speciesCount": 386,
+    "nationalDexRange": [
+      1,
+      386
+    ],
+    "first": "Bulbasaur",
+    "last": "Deoxys",
+    "sources": [
+      "bulba_game"
+    ],
+    "mainFactSummary": "All species from Generations I–III are obtainable. Original level-up learnsets derive from FireRed/LeafGreen. Use a 386-species registry; forms and story actors need separate identities.",
+    "starterSpecies": [
+      "Bulbasaur",
+      "Charmander",
+      "Squirtle",
+      "Pikachu",
+      "Meowth",
+      "Psyduck",
+      "Machop",
+      "Cubone",
+      "Eevee",
+      "Chikorita",
+      "Cyndaquil",
+      "Totodile",
+      "Treecko",
+      "Torchic",
+      "Mudkip",
+      "Skitty"
+    ],
+    "partnerPool": [
+      "Bulbasaur",
+      "Charmander",
+      "Squirtle",
+      "Pikachu",
+      "Chikorita",
+      "Cyndaquil",
+      "Totodile",
+      "Treecko",
+      "Torchic",
+      "Mudkip"
+    ],
+    "partnerRule": "Original partner choice excludes the hero's type.",
+    "versionDifferences": {
+      "redDefaultWild": [
+        "Feebas",
+        "Mantine",
+        "Roselia",
+        "Porygon",
+        "Plusle"
+      ],
+      "blueDefaultWild": [
+        "Magikarp",
+        "Lapras",
+        "Aipom",
+        "Minun",
+        "Porygon2"
+      ],
+      "caveat": "The main game page's blue table omits Porygon2 but explicitly identifies it as a wild Blue exclusive below the table. Upgrade exists in both versions. Wonder Mail can unlock opposite-version species. Do not model these as permanently unobtainable.",
+      "source": "bulba_game"
+    },
+    "exceptions": [
+      {
+        "name": "Munchlax",
+        "status": "NPC cameo; not recruitable in the originals",
+        "source": "bulba_munchlax"
+      },
+      {
+        "name": "Unown",
+        "status": "Model forms separately from species; each form can be recruited and appears separately in recruitment search.",
+        "source": "bulba_unown"
+      },
+      {
+        "name": "Deoxys",
+        "status": "One species with four forms; in the originals it is Normal outside dungeons and randomly changes form on each new floor. Form effects use stat-stage changes.",
+        "source": "bulba_deoxys"
+      }
+    ],
+    "capacityCaveat": {
+      "text": "413 is recruited-Pokémon capacity, not the number of species.",
+      "source": "bulba_recruit"
+    },
+    "recommendations": [
+      "Use stable numeric species IDs plus independent form IDs, entity IDs and recruit IDs.",
+      "If the brief requires every original Pokémon, all 386 must have an actual route to recruitment or evolution and functional moves; a searchable encyclopedia alone does not satisfy that requirement.",
+      "Keep original starter restrictions as a Classic option if offering free character selection; describe free selection as an intentional change.",
+      "Do not introduce Fairy typing, Mega Evolution, later cross-generation evolutions, or DX-only recruitment mechanics."
+    ]
+  },
+  "dungeonInventory": {
+    "countingConvention": "45 named traversable field dungeons, counting Rock Path and Snow Path and the four Wonder Mail dungeons, but grouping summit/pit/grotto sections under their parent dungeons. Separate Dojo and wireless feature below.",
+    "fieldDungeonCount": 45,
+    "mainStory": [
+      "Tiny Woods",
+      "Thunderwave Cave",
+      "Mt. Steel",
+      "Sinister Woods",
+      "Silent Chasm",
+      "Mt. Thunder",
+      "Great Canyon",
+      "Lapis Cave",
+      "Mt. Blaze",
+      "Frosty Forest",
+      "Mt. Freeze",
+      "Uproar Forest",
+      "Magma Cavern",
+      "Sky Tower"
+    ],
+    "escapePaths": [
+      "Rock Path",
+      "Snow Path"
+    ],
+    "postStory": [
+      "Howling Forest",
+      "Stormy Sea",
+      "Silver Trench",
+      "Meteor Cave",
+      "Fiery Field",
+      "Lightning Field",
+      "Northwind Field",
+      "Mt. Faraway",
+      "Western Cave",
+      "Northern Range",
+      "Pitfall Valley",
+      "Buried Relic",
+      "Wish Cave",
+      "Murky Cave",
+      "Desert Region",
+      "Southern Cavern",
+      "Wyvern Hill",
+      "Solar Cave",
+      "Darknight Relic",
+      "Grand Sea",
+      "Waterfall Pond",
+      "Unown Relic",
+      "Joyous Tower",
+      "Far-Off Sea",
+      "Purity Forest"
+    ],
+    "wonderMail": [
+      "Oddity Cave",
+      "Remains Island",
+      "Marvelous Sea",
+      "Fantasy Strait"
+    ],
+    "fieldInventorySource": "bulba_nav",
+    "groupingSource": "bulba_walkthrough",
+    "multiPartSections": [
+      "Mt. Thunder Peak",
+      "Mt. Blaze Peak",
+      "Frosty Grotto",
+      "Mt. Freeze Peak",
+      "Magma Cavern Pit",
+      "Sky Tower Summit"
+    ],
+    "multiPartNote": "A completeness manifest should track these as dungeon segments with their own floor/boss metadata, rather than silently dropping them or double-counting them as independent field dungeons.",
+    "dojo": {
+      "standardCount": 21,
+      "typeMazes": [
+        "Normal Maze",
+        "Fire Maze",
+        "Water Maze",
+        "Grass Maze",
+        "Electric Maze",
+        "Ice Maze",
+        "Fighting Maze",
+        "Ground Maze",
+        "Flying Maze",
+        "Psychic Maze",
+        "Poison Maze",
+        "Bug Maze",
+        "Rock Maze",
+        "Ghost Maze",
+        "Dragon Maze",
+        "Dark Maze",
+        "Steel Maze"
+      ],
+      "teamMazes": [
+        "Team Shifty",
+        "Team Constrictor",
+        "Team Hydro",
+        "Team Rumblerock"
+      ],
+      "blueExclusive": "Rescue Team Maze",
+      "note": "Standard mazes are three floors. Rescue Team Maze uses a team transferred from Red through the DS GBA slot; browser adaptation needs an explicit import or authored substitute.",
+      "source": "bulba_dojo"
+    },
+    "other": {
+      "unknownDungeon": {
+        "version": "Blue",
+        "kind": "Off-screen wireless Tag Mode",
+        "note": "Not a manually explored dungeon. Include as a documented adaptation or feature entry instead of claiming a missing map.",
+        "source": "bulba_unknown"
+      },
+      "majorLocations": [
+        "Team Base",
+        "Pokémon Square",
+        "Friend Areas",
+        "Makuhita Dojo",
+        "Whiscash Pond",
+        "Luminous Cave",
+        "Hill of the Ancients",
+        "Pelipper Post Office"
+      ],
+      "excludedDXOnly": [
+        "Illusory Grotto"
+      ]
+    },
+    "completenessPitfalls": [
+      "Many Bulbapedia pages mix original Generation III and Rescue Team DX Generation VIII tables. Copy only original tables and explicit RB flags.",
+      "A count such as 43 often omits the two fugitive paths. State the counting convention.",
+      "A name-only dungeon list does not establish exact encounter tables, floor counts, item pools, weather, traps, level-reset conditions, unlocks or boss behavior. Those still need source-specific data.",
+      "Field floors, fixed boss arenas, rest areas and summit sections need separate metadata.",
+      "Dojo type list is 17 in the originals; do not add the DX Fairy Maze."
+    ],
+    "recommendedManifestFields": [
+      "id",
+      "name",
+      "edition",
+      "parentDungeonId",
+      "segment",
+      "floorCount",
+      "floorDirection",
+      "unlockFlags",
+      "entryRequirements",
+      "resetLevel",
+      "itemRestrictions",
+      "partyLimits",
+      "biome",
+      "encountersByFloor",
+      "itemsByFloor",
+      "trapsByFloor",
+      "weatherByFloor",
+      "bosses",
+      "recruitmentRestrictions",
+      "exitRewards",
+      "sourceUrl"
+    ]
+  },
+  "dataAvailability": {
+    "recommendedStructuredBase": {
+      "provider": "PokéAPI",
+      "scope": "Species identity, names, original type history, versioned learnsets, main-series base stats, evolution facts.",
+      "files": [
+        "pokemon_species.csv",
+        "pokemon_species_names.csv",
+        "pokemon.csv",
+        "pokemon_types.csv",
+        "pokemon_types_past.csv",
+        "pokemon_stats.csv",
+        "pokemon_stats_past.csv",
+        "pokemon_moves.csv",
+        "moves.csv",
+        "move_names.csv",
+        "move_changelog.csv",
+        "types.csv",
+        "type_names.csv",
+        "type_efficacy.csv",
+        "type_efficacy_past.csv",
+        "version_groups.csv",
+        "pokemon_evolution.csv"
+      ],
+      "fileNamesCaveat": "Names describe the expected current CSV tables; inspect the pinned repository directory before scripting, especially historical-stat tables whose schema changed recently.",
+      "filter": "Species generation_id <= 3 or National IDs 1..386; resolve original forms explicitly; level-up moves filtered to version group firered-leafgreen.",
+      "sources": [
+        "pokeapi_repo",
+        "pokeapi_species",
+        "pokeapi_docs",
+        "pokeapi_about"
+      ],
+      "historyRule": "API past_types, past_abilities and past_stats record values valid through the listed generation. Apply the correct history interval instead of taking present-day fields.",
+      "license": "Repository is BSD-3-Clause. Retain the exact copyright, conditions and disclaimer from its pinned LICENSE.md in the embedded credits/source notice. Names remain Pokémon/Nintendo trademarks.",
+      "licenseSource": "pokeapi_license"
+    },
+    "criticalFidelityBoundary": {
+      "statement": "PokéAPI identifies its provenance as main-series data. Its base stats, move damage, PP, accuracy, ranges and encounter data must not be labeled original PMD values.",
+      "source": "pokeapi_about",
+      "recommendation": "Keep PMD stats and move effects in a separate authored data layer. If adapting formulas for a new browser roguelike, describe them as adapted rather than exact original mechanics."
+    },
+    "pmdSpecificReference": {
+      "provider": "pret/pmd-red",
+      "source": "pmd_decomp",
+      "dataLocatorSource": "pmd_data_make",
+      "observed": "The decompilation build references monster/monster_data.json and monster/learnset/learnset_data.json, plus dungeon, item and move data build files.",
+      "caveat": "No permissive license was established for this decompilation. Do not assume open visibility permits wholesale redistribution of game code, art, dialogue or audio.",
+      "recommendation": "Use documented factual references and independently implement behavior; do not embed ROM data or copied original scripts/assets as a shortcut."
+    },
+    "attributionRecommendation": "Embed a Credits and Sources panel with factual-reference URLs, research date, data edition, three.js MIT notice and PokéAPI license. Use original procedural graphics and authored short narrative text. Avoid importing Bulbapedia prose wholesale.",
+    "requiredDataAudits": [
+      "No species IDs outside 1..386 in recruit registry",
+      "Every species has at least one obtainability route",
+      "No Fairy type in original rules",
+      "Every dungeon ID resolves to floors and an unlock route",
+      "No later-generation moves from unfiltered API records",
+      "Forms remain distinct from species count",
+      "Original PMD numerical values are sourced separately from main-series values"
+    ]
+  },
+  "staticWebGLArchitecture": {
+    "recommendation": "Embed a pinned, build-time bundled Three.js engine and all application code/data directly in one HTML file. No import from a CDN, runtime fetch, external font, texture URL, model URL or audio URL.",
+    "technicalFacts": [
+      {
+        "text": "Current Three.js WebGLRenderer uses WebGL2; WebGL1 support ended at r163.",
+        "source": "three_renderer"
+      },
+      {
+        "text": "Three.js uses the MIT license and requires preservation of its notice.",
+        "source": "three_license"
+      },
+      {
+        "text": "GitHub Pages serves static HTML, CSS and JavaScript from a repository.",
+        "source": "github_pages"
+      }
+    ],
+    "implementationJudgments": [
+      "Use one bundled IIFE or one dependency-free inline module. Eliminate dynamic imports and URL-resolved assets. Preserve exact pinned engine version and license.",
+      "Bundle before inserting into HTML; escape case-insensitive closing script sequences in embedded strings and JSON. Do not paste a modern three.module.js file with unresolved imports.",
+      "Keep deterministic turn simulation independent of rendering. Rendering interpolates completed actions and never advances hunger, AI, damage or RNG by elapsed frame time.",
+      "Use an orthographic or shallow-perspective isometric camera with real meshes, fog, materials and lighting; procedural species silhouettes need identifiable features per species rather than color-swapped generic blobs.",
+      "Use shared geometry/materials and instancing for floor/wall/decor batches. Seed terrain decoration separately from gameplay RNG. Dispose geometry and textures when unloading a floor.",
+      "Build tiny canvas textures at startup if necessary; those become local GPU textures without a network request. Use synthesized Web Audio for optional effects after a user gesture.",
+      "Render the visible floor neighborhood with a controlled draw-call budget. Cap effective pixel ratio around 1.5–2 and expose a low-effects setting. Avoid expensive full-scene shadow maps, heavy transparency and postprocessing on mobile.",
+      "Use requestAnimationFrame only for active animation, pause decorative rendering while hidden, and retain a single WebGL canvas/context.",
+      "Catch renderer creation failure and context loss. Present a usable textual status, save/export controls and explicit recovery action; do not leave a blank screen.",
+      "Embed original gameplay constants and provenance metadata in application/json. Treat save/import files as untrusted structured data with size/type/range validation."
+    ],
+    "performanceBasis": {
+      "source": "mdn_webgl",
+      "summary": "MDN recommends bounded VRAM, smaller back buffers, resource deletion and batching. The proposed numeric rendering budget and camera/art design are engineering judgments."
+    },
+    "saveDesign": {
+      "source": "mdn_storage",
+      "facts": "localStorage is scoped to origin, may be blocked, and has undefined behavior for file URLs.",
+      "recommendations": [
+        "Use a namespaced schema-versioned save key and catch read/write errors.",
+        "Save only serializable simulation state, RNG state and progression; reconstruct render resources.",
+        "Keep two rotating checkpoints or last-valid save.",
+        "Offer JSON export/import so a self-contained downloaded HTML remains usable without reliable localStorage.",
+        "Never call localStorage.clear(); only touch this application's keys."
+      ]
+    },
+    "mobileAndAccessibility": {
+      "standards": [
+        {
+          "text": "WCAG 2.2 AA target-size minimum is 24 CSS pixels, subject to exceptions.",
+          "source": "w3c_targets"
+        },
+        {
+          "text": "Respect prefers-reduced-motion.",
+          "source": "mdn_motion"
+        }
+      ],
+      "recommendations": [
+        "Make primary touch controls at least 44–48 CSS pixels as a comfort target.",
+        "Use Pointer Events and separate taps for move/wait/attack; support diagonal movement with an explicit diagonal mode or clear 8-direction pad.",
+        "Provide keyboard equivalents, visible focus, semantic HTML buttons, accessible names and Escape/back actions.",
+        "Prevent page scrolling only for relevant focused gameplay keys; do not trap Tab or browser shortcuts.",
+        "Put HP, belly, floor, selected move, inventory and combat log in DOM text as well as graphics.",
+        "Use a restrained live region for meaningful turn events; avoid announcing every decorative frame.",
+        "Make turn-based planning available without animation deadlines; reduced-motion mode skips camera shake, flashes and long transitions.",
+        "Do not convey type, status, interactability or damage solely by color.",
+        "Keep controls and menus usable in portrait and landscape with safe-area insets and dynamic viewport height.",
+        "Support browser zoom and text resize; do not use user-scalable=no."
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "bulba_game",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team",
+      "support": "Roster; FRLG learnsets; starter/partner choices; Wonder Mail and version differences."
+    },
+    {
+      "id": "bulba_nav",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Tiny_Woods",
+      "support": "Original+DX shared navigation; original generation-specific caveat."
+    },
+    {
+      "id": "bulba_walkthrough",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team",
+      "support": "Main story and post-game chapter grouping."
+    },
+    {
+      "id": "bulba_dojo",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Makuhita_Dojo",
+      "support": "21 preset mazes plus Blue-only Rescue Team Maze."
+    },
+    {
+      "id": "bulba_unknown",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Unknown_Dungeon_(Mystery_Dungeon)",
+      "support": "Blue-only off-screen wireless feature, not a traversable map."
+    },
+    {
+      "id": "bulba_munchlax",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Munchlax_(Pok%C3%A9mon)",
+      "support": "NPC only in original PMD; unobtainable."
+    },
+    {
+      "id": "bulba_recruit",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Recruitment",
+      "support": "413 simultaneous recruited Pokémon storage capacity."
+    },
+    {
+      "id": "bulba_unown",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Unown_Relic",
+      "support": "Recruitment search distinguishes Unown forms."
+    },
+    {
+      "id": "bulba_deoxys",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Deoxys_(Pok%C3%A9mon)",
+      "support": "Deoxys changes form each dungeon floor; stats are stage modifiers."
+    },
+    {
+      "id": "pokeapi_docs",
+      "url": "https://pokeapi.co/docs/v2",
+      "support": "Generation history and version-specific learnsets."
+    },
+    {
+      "id": "pokeapi_species",
+      "url": "https://github.com/PokeAPI/pokeapi/blob/master/data/v2/csv/pokemon_species.csv",
+      "support": "Machine-readable species facts."
+    },
+    {
+      "id": "pokeapi_repo",
+      "url": "https://github.com/PokeAPI/pokeapi",
+      "support": "CSV data source and BSD-3-Clause repository license."
+    },
+    {
+      "id": "pokeapi_license",
+      "url": "https://github.com/PokeAPI/pokeapi/blob/master/LICENSE.md",
+      "support": "License retention and non-endorsement conditions."
+    },
+    {
+      "id": "pokeapi_about",
+      "url": "https://pokeapi.co/about",
+      "support": "Main-series data scope and provenance."
+    },
+    {
+      "id": "pmd_decomp",
+      "url": "https://github.com/pret/pmd-red",
+      "support": "PMD-specific reference; decompilation, no license established by this research."
+    },
+    {
+      "id": "pmd_data_make",
+      "url": "https://github.com/pret/pmd-red/blob/master/data_monster.mk",
+      "support": "References monster_data.json and learnset_data.json."
+    },
+    {
+      "id": "three_renderer",
+      "url": "https://threejs.org/docs/pages/WebGLRenderer.html",
+      "support": "Current WebGLRenderer uses WebGL2, WebGL1 removed at r163."
+    },
+    {
+      "id": "three_license",
+      "url": "https://github.com/mrdoob/three.js/blob/dev/LICENSE",
+      "support": "MIT; retain license notice."
+    },
+    {
+      "id": "mdn_webgl",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices",
+      "support": "Pixel budget, resource management, batching and smaller back buffers."
+    },
+    {
+      "id": "github_pages",
+      "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages",
+      "support": "Static HTML/CSS/JavaScript hosting."
+    },
+    {
+      "id": "mdn_storage",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage",
+      "support": "Origin-scoped storage, exceptions, undefined file URL behavior."
+    },
+    {
+      "id": "mdn_motion",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion",
+      "support": "Reduced-motion preference."
+    },
+    {
+      "id": "w3c_targets",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html",
+      "support": "WCAG 2.2 AA target size baseline is 24 CSS pixels, with exceptions."
+    }
+  ],
+  "_readFirst": "Research snapshot from 2026-10-04, not runtime data or implementation authority. Consult PLAN.md and its reconciled appendices. Early technical proposals in these notes are superseded where they conflict; original-rule gaps remain explicit blockers."
+}

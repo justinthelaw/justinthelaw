@@ -1,0 +1,32 @@
+{
+  "generated_on": "2026-10-04",
+  "generation_tool": "Built-in image generation",
+  "role": "Original environment chapter-loading artwork candidates; raster images, not 3D models or gameplay screenshots",
+  "approval": "D03 resolved by Justin on 2026-10-04: B selected for future loading use; A archived comparison. Implementation remains paused; 3D assets and gameplay capture are not approved by this selection.",
+  "conversion": "PNG to WebP quality 86; original dimensions retained; no content or composition edits",
+  "assets": [
+    {
+      "file": "a-cinematic-cavern.webp",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "bytes": 318526,
+      "sha256": "efffa3d0502ff4649a0aa951afdd1ff5320c18c9da03dfb7b50742353168150e",
+      "source_png_sha256": "deb34ccc877f03516df238126edbd6aae59fd826b564d9ee9f5d36d12542dd03",
+      "selection": "archived-comparison"
+    },
+    {
+      "file": "b-cel-shaded-cavern.webp",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "bytes": 197146,
+      "sha256": "01cc26d2d9edfffa227ccf2f3dd0e5ecda8f13a72e57b4c98b297efcf5f3f5c3",
+      "source_png_sha256": "2f96cf858062c133ba77597f6019056a9be4405702c245254629e54f79436dea",
+      "selection": "selected-future-loading-background",
+      "style_profile": "style-b-v1"
+    }
+  ]
+}

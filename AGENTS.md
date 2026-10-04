@@ -263,3 +263,77 @@ paths so both humans and agents can act on the instructions.
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
+
+## Pokémon Dungeon Reimagined planning hold
+
+The first game is planned under `games/pokemon-dungeon-reimagined/`. The user
+explicitly permitted a game folder instead of the original single-HTML limit.
+On 2026-10-04 the user requested an extensive implementation plan and only
+prerequisite repository setup, then a stop for their review. **Do not resume
+product implementation, wire the arcade card, merge, or deploy this game until
+the user reviews this groundwork and authorizes the next stage.** Earlier
+instructions to continue until the whole game is implemented are superseded
+by this planning hold. Approval to merge an earlier website PR does not
+approve merging this planning PR.
+
+On **2026-10-04**, the user approved all recommended decisions except D03,
+selecting **B: bold cel-shaded 3D**. These choices are binding; do not ask the
+same decision questions again. Approval of recommendations does not authorize
+implementation, merge, deployment, or lifting the arcade integration hold;
+await the user's separate start instruction.
+
+| Decision | Binding selection |
+| --- | --- |
+| D03 | B: bold cel-shaded 3D; `games/pokemon-dungeon-reimagined/plan/art-candidates/b-cel-shaded-cavern.webp` is the selected future loading background. Actual 3D models/animation/quality slices still require review. |
+| D04 | Browser rescue codes/file exchange and equivalents for Blue's extra modes/events; preserve content/progression. Original cartridge interoperability is not a completion gate; claim compatibility only where sourced and demonstrably verified. |
+| D05 | Human play and visual review are allowed after implementation; automated tests importing/executing game source remain prohibited. |
+| D06 | No separate Groudon practice mode; use the original campaign route and campaign gameplay capture. |
+| D08 | JavaScript ES modules with JSDoc and strict independent static type checks; authoring tools remain outside `games/`. |
+
+Keep both generated raster illustrations under
+`games/pokemon-dungeon-reimagined/plan/art-candidates/` with their provenance.
+B is selected for future loading use; A is an archived comparison. Neither
+is a 3D runtime model or a gameplay screenshot, and neither may replace the
+arcade's eventual real campaign capture.
+
+Read [the handoff plan](games/pokemon-dungeon-reimagined/plan/PLAN.md), then the nested
+[game instructions](games/pokemon-dungeon-reimagined/AGENTS.md). The plan routes
+smaller implementation models to one bounded task and its supporting appendix
+at a time. Record future decisions and progress in the linked ledger. Keep
+requirements current in these AGENTS files; the root README.md remains outside
+this work's scope. Keep the complete plan inside the game's `plan/` directory.
+Maintain [games/README.md](games/README.md) as the concise arcade guide and live/WIP
+game catalog, using headings, tables and lists; omit prose paragraphs. A section may use
+2–3 front-matter sentences only when absolutely necessary; none are needed now.
+
+The reference edition is the original **Pokémon Mystery Dungeon: Blue Rescue
+Team**; its campaign and postgame are the third-person 3D target. Red Rescue
+Team may inform comparative or cross-version research only: do not implement
+a Red campaign or edition selector, and verify shared findings against Blue.
+Research findings are not a completeness claim.
+Maintain explicit fidelity and asset-coverage inventories; never treat a list
+of dungeon names, generic creatures, or abbreviated story summaries as a
+finished recreation. All runtime resources must eventually be local static
+assets with relative URLs under the existing Pages base path.
+
+Keep all intermediate runtime-package PRs unmerged until P37, after full-scope
+acceptance and explicit release/merge/deployment approval. The exporter copies
+`games/**` and main deploys it at directly accessible URLs, so a disabled arcade
+card does not prevent an unfinished runtime from being published. Runtime work
+must remain on development branches until that release gate.
+
+The existing website testing boundary still applies: no tests execute or
+import game source. Website player/export tests use inert fixture HTML and
+temporary fixture files. Independent game syntax, lint, type, schema checks,
+code review, and user-directed visual capture are separate from gameplay tests.
+Do not add automated game tests. The user approved manual play and visual
+acceptance after implementation on 2026-10-04; the separate implementation
+start instruction is still required.
+A future standalone-game persistence adapter may use localStorage/IndexedDB
+behind one validated interface; the website retains its Zustand convention.
+
+For the Blue game, require emulator-style semi-transparent controls across the
+lower half of the viewport, with accessible touch/keyboard handling. Follow the
+[asset pipeline](games/pokemon-dungeon-reimagined/plan/ASSET-PIPELINE.md) for consistent
+master prompts, reference assets, uniform sheets, verified cropping and provenance.
+Raster sheets support 2D assets; they do not replace the separate 3D rig/model work.

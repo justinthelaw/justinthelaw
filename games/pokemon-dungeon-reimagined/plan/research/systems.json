@@ -1,0 +1,650 @@
+{
+  "scope": "Systems inventory for original Pokémon Mystery Dungeon: Red Rescue Team (GBA) / Blue Rescue Team (DS), excluding Rescue Team DX",
+  "researched_at": "2026-10-04",
+  "evidence_policy": "Original Nintendo instruction manuals were preferred. Nintendo-hosted PDF URLs were identified; mirrored copies were readable and Red controls were checked against a page screenshot. Bulbapedia version-specific sections supplied exact mechanics. Recommendations are implementation inferences, not claims that a recreation is complete.",
+  "sources": [
+    {
+      "id": "red_manual",
+      "title": "Nintendo Red Rescue Team instruction manual",
+      "url": "https://www.nintendo.com/eu/media/downloads/games_8/emanuals/game_boy_advance_8/Manual_GameBoyAdvance_PokemonMysteryDungeonRedRescueTeam_EN.pdf",
+      "note": "Readable mirror: https://manuals.plus/m/857b63e65652f3e5fa9123fec23f3566100bca415858cd1a489b5ce6323845f1.pdf ; refs [retrieval record omitted], [retrieval record omitted]; printed pp8–9 controls, 12–13 saving/failure, 18–29 dungeon interface"
+    },
+    {
+      "id": "blue_manual",
+      "title": "Nintendo Blue Rescue Team instruction manual",
+      "url": "https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf",
+      "note": "Readable mirror https://manuals.plus/m/ae195fb54967ca670d9099843e3120c118afd3a0f12b379f93739c5a619a378b.pdf ; [retrieval record omitted] / [retrieval record omitted]"
+    },
+    {
+      "id": "overview",
+      "title": "Red / Blue Rescue Team",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team",
+      "note": "Version exclusives and FRLG learnsets; [retrieval record omitted]"
+    },
+    {
+      "id": "quiz",
+      "title": "Personality Quiz",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Personality_Quiz_(Mystery_Dungeon)",
+      "note": "Original RB subsection"
+    },
+    {
+      "id": "regular",
+      "title": "Regular attack",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Regular_attack",
+      "note": "Original RB subsection"
+    },
+    {
+      "id": "battle",
+      "title": "Pokémon battle (Mystery Dungeon)",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_battle_(Mystery_Dungeon)",
+      "note": "Exact original type multipliers; experience [retrieval record omitted]"
+    },
+    {
+      "id": "links",
+      "title": "Linked move",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Linked_move",
+      "note": "Link cost and original delinking"
+    },
+    {
+      "id": "stats",
+      "title": "Stat (Mystery Dungeon)",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Stat_(Mystery_Dungeon)",
+      "note": "HP regeneration, Belly, body size"
+    },
+    {
+      "id": "food",
+      "title": "Food (Mystery Dungeon)",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Food_(Mystery_Dungeon)",
+      "note": "Apple amounts, use RB superscript values"
+    },
+    {
+      "id": "statuses",
+      "title": "Status condition (Mystery Dungeon)",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Status_condition_(Mystery_Dungeon)",
+      "note": "Fetched via /wiki/Paused redirect; RB durations"
+    },
+    {
+      "id": "tiles",
+      "title": "Dungeon tile",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Dungeon_tile",
+      "note": "Trap reveal and stairs timing; persistent traps [retrieval record omitted]"
+    },
+    {
+      "id": "traps",
+      "title": "Rescue Team:Trap",
+      "url": "https://mysterydungeonwiki.com/wiki/Rescue_Team:Trap",
+      "note": "Original-only trap names; secondary corroboration"
+    },
+    {
+      "id": "houses",
+      "title": "Monster House",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Monster_House",
+      "note": "Room encounter mechanic"
+    },
+    {
+      "id": "recruit",
+      "title": "Recruitment",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Recruitment",
+      "note": "RB prerequisites and modifiers [retrieval record omitted]"
+    },
+    {
+      "id": "areas",
+      "title": "Friend Areas",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Friend_Area",
+      "note": "Redirect title Rescue team camp; use ORIGINAL section only"
+    },
+    {
+      "id": "iq",
+      "title": "IQ",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/IQ",
+      "note": "Original skill thresholds; gummis [retrieval record omitted]"
+    },
+    {
+      "id": "evolution",
+      "title": "Evolution (Mystery Dungeon)",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Evolution_(Mystery_Dungeon)",
+      "note": "Original unlock, items, no immediate stat boost"
+    },
+    {
+      "id": "cave",
+      "title": "Luminous Cave",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Luminous_Cave",
+      "note": "Solo entrance and item offering workflow"
+    },
+    {
+      "id": "jobs",
+      "title": "Job (Mystery Dungeon)",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Job_(Mystery_Dungeon)",
+      "note": "Eight jobs, types, restrictions; hidden difficulty rewards [retrieval record omitted]/[retrieval record omitted]"
+    },
+    {
+      "id": "rank",
+      "title": "Rank (Mystery Dungeon)",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Rank_(Mystery_Dungeon)",
+      "note": "Original rank thresholds"
+    },
+    {
+      "id": "square",
+      "title": "Pokémon Square",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Square",
+      "note": "Fetched via Felicity_Bank redirect; services"
+    },
+    {
+      "id": "shops",
+      "title": "Kecleon Shop",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Kecleon_Shop",
+      "note": "Original availability, merchandise, theft"
+    },
+    {
+      "id": "storage",
+      "title": "Kangaskhan Storage",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Kangaskhan_Storage",
+      "note": "999 per item, reward overflow"
+    },
+    {
+      "id": "dojo",
+      "title": "Makuhita Dojo",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Makuhita_Dojo",
+      "note": "Original 21 mazes, unlock phases, rewards"
+    },
+    {
+      "id": "wonder",
+      "title": "Wonder Mail",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Wonder_Mail",
+      "note": "Original passwords and unlock limits"
+    },
+    {
+      "id": "rescue",
+      "title": "Friend Rescue",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Friend_Rescue",
+      "note": "Password lengths and helper limitations"
+    },
+    {
+      "id": "misc",
+      "title": "Mystery Dungeon game mechanics",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Mystery_Dungeon_game_mechanics",
+      "note": "Terrain mobility and throwing"
+    },
+    {
+      "id": "versions",
+      "title": "Rescue Team:Version Differences",
+      "url": "https://mysterydungeonwiki.com/wiki/Rescue_Team:Version_Differences",
+      "note": "Version comparison reference; not fully inspected"
+    }
+  ],
+  "systems": [
+    {
+      "id": "controls_turns",
+      "sources": [
+        "red_manual",
+        "blue_manual"
+      ],
+      "verified_facts": [
+        "A move, attack, or item use advances dungeon turns; while the player waits for input, enemies wait. Menus and facing controls need separate non-action handling.",
+        "Red: D-pad moves; A attacks/talks; B opens menu; B+D-pad runs; START changes facing without moving; SELECT shows map/sorts/sets moves; R+D-pad constrains diagonal movement.",
+        "Both versions: L+A uses the set move, L+B opens message history, L+R throws the set projectile, A+B passes turns.",
+        "Blue: X also opens menu; Y changes facing; START shows detail in applicable menus. Touch controls support pointing, moving, talking, selected attacks, and throwing. Top screen can show map/team/log.",
+        "A 3D camera is a presentation change: tile coordinates, facing, movement eligibility and action timing remain independent."
+      ],
+      "minimum_interactions": [
+        "8-direction movement",
+        "face without consuming turn",
+        "regular attack",
+        "choose/set move",
+        "set/throw item",
+        "wait/rest",
+        "run with interruption",
+        "menu cancel/confirm",
+        "map toggle",
+        "touch/click equivalents"
+      ],
+      "uncertainty": [
+        "Exact internal ordering among individual allies and enemies, speed subturns, and every free-versus-turn-consuming menu operation requires deeper engine verification."
+      ]
+    },
+    {
+      "id": "dungeon_loop",
+      "sources": [
+        "red_manual",
+        "tiles",
+        "houses",
+        "misc"
+      ],
+      "verified_facts": [
+        "Dungeon rooms, corridors, stairs, enemies, and loot vary between visits. Map marks leader, allies, foes, items and stairs.",
+        "Stairs and warp zones move forward; original games process enemy turns before stairs interaction.",
+        "Monster Houses are rooms that trigger a mass enemy appearance on entry.",
+        "Species mobility determines access to water, lava, air and walls. Wall-travel can cost 5 Belly per step.",
+        "Straight projectiles generally stop at walls, the first target or ten tiles; rock-like projectiles arc over walls.",
+        "Original team capacity is four, with further dungeon restrictions possible."
+      ],
+      "minimum_interactions": [
+        "procedural connected floors",
+        "discover rooms/corridors",
+        "stairs confirmation",
+        "floor/dungeon exit handling",
+        "terrain mobility",
+        "monster-house trigger",
+        "weather tick",
+        "dungeon-specific entry rules",
+        "rest checkpoints",
+        "floor timeout"
+      ],
+      "uncertainty": [
+        "Exact dungeon generation distributions, visibility geometry, weather intervals and floor timeout thresholds not exhaustively verified in this pass."
+      ]
+    },
+    {
+      "id": "moves_combat",
+      "sources": [
+        "overview",
+        "regular",
+        "battle",
+        "links"
+      ],
+      "verified_facts": [
+        "Four learned move slots plus a separate typeless regular attack. Original regular attack uses Attack/Defense, power 1, accuracy 93%, natural critical rate 0%; it consumes no PP.",
+        "Original level-up learnsets derive from FireRed/LeafGreen. Moves have dungeon-specific PP, ranges, power, accuracy, targets and effects.",
+        "STAB=1.5; super-effective=1.5, resisted=0.9, nominal type immunity=0.5; dual-type factors multiply. Ability immunity can still negate an attack. Critical multiplier=1.5.",
+        "Participating party members share experience; a defeat without a qualifying move yields half experience; linked moves give a 50% experience bonus. Environmental defeats give none.",
+        "Linked sets execute top-to-bottom in one turn, spend each move's PP, and unlink when one runs out. Two-turn/recharging moves cannot link. Manual delink is available; Gulpin costs 150 Poké; Link Box works in dungeons."
+      ],
+      "minimum_interactions": [
+        "PP decrement/restoration",
+        "learn/forget/relearn",
+        "ally move enable toggles",
+        "type/STAB/critical calculation",
+        "range/line-of-sight",
+        "status and stat moves",
+        "linked ordered sets",
+        "abilities",
+        "experience/levels",
+        "TM/HM compatibility"
+      ],
+      "uncertainty": [
+        "Do not use the Explorers damage formula shown on the generic battle page as if proven for RB. Complete move data, 17-type chart edge cases and damage rounding remain a dataset/research task."
+      ]
+    },
+    {
+      "id": "hunger_stats",
+      "sources": [
+        "stats",
+        "food",
+        "misc"
+      ],
+      "verified_facts": [
+        "No IVs, EVs or nature stat bonuses. Species/level stat tables govern growth; original HP cap 999 and other stat caps 255.",
+        "Normal HP regeneration is 0.5% maximum HP per turn. Poison, bad poison, Nightmare and empty Belly prevent it.",
+        "Belly begins at 100, ordinary actions consume 0.1, and linked sets of two/three/four moves consume 1/2/3.",
+        "At zero Belly, leader loses 1 HP per turn, cannot run or use linked moves. Empty-Belly nonleaders become immobile and deal 1 damage.",
+        "Apple restores 50; at full Belly raises capacity 5. Big Apple restores 100; full-Belly capacity gain 10. Huge Apple fills Belly and raises capacity 10. Capacity growth is temporary for the expedition, capped at 200.",
+        "Oran Berry heals 100 HP; Sitrus heals fully or raises maximum HP by 2 if already full. Max Elixir restores all move PP."
+      ],
+      "minimum_interactions": [
+        "persistent fractional Belly",
+        "hunger feedback",
+        "eat/feed",
+        "rest costs",
+        "passive HP accumulator",
+        "stat stage reset by floor/Wonder Tile",
+        "species stat growth"
+      ],
+      "uncertainty": [
+        "Full food/seed/drink effect table and fractional rounding should be separately checked."
+      ]
+    },
+    {
+      "id": "status_traps",
+      "sources": [
+        "statuses",
+        "tiles",
+        "traps"
+      ],
+      "verified_facts": [
+        "Multiple status categories coexist, but statuses within some categories replace one another; floor changes clear ailments.",
+        "Original Sleep lasts 3–6 turns; Frozen 4–5; Paralysis 2–3 and blocks attacks/orbs while slowing movement. Poison deals 4 damage initially then every 10 turns; bad poison 6 initially then every 2; burn 5 initially then every 20 and lowers damage 20%.",
+        "Confusion redirects movement/attacks and can hit allies; thrown items are not redirected. Petrify persists until affected, with finite leader duration.",
+        "Hidden traps reveal on contact or a regular attack aimed at their tile. Ordinary enemies do not trigger naturally generated traps. Most original traps remain reusable.",
+        "Original named traps: Chestnut, Explosion, Grimy, Gust, Mud, Pitfall, Poison, Pokémon, PP-Zero, Seal, Selfdestruct, Slow, Slumber, Spin, Sticky, Summon, Warp.",
+        "Most trap varieties belong to post-credits dungeons. Wonder Tiles reset stat stages."
+      ],
+      "minimum_interactions": [
+        "per-category status timers",
+        "cure seeds/berries",
+        "trap discovery",
+        "trap activation",
+        "sticky item restrictions/cleanse",
+        "PP loss",
+        "forced movement",
+        "floor-change reset",
+        "immunity checks"
+      ],
+      "uncertainty": [
+        "Not every trap probability, trap damage radius, status immunity, timer or stacking exception was validated. Avoid treating all ailment timers as interchangeable."
+      ]
+    },
+    {
+      "id": "items_failure_saves",
+      "sources": [
+        "red_manual",
+        "blue_manual",
+        "storage"
+      ],
+      "verified_facts": [
+        "Toolbox holds 20 item slots; held items and projectile stacks need distinct representations.",
+        "Defeat loses carried money and some items, preserves experience; deposits remain protected.",
+        "Home bed supports normal saving. Dungeon quicksave is consumed on resume; give-up follows defeat behavior.",
+        "Kangaskhan stores up to 999 of each item and takes reward overflow."
+      ],
+      "minimum_interactions": [
+        "pick up/swap/place/use/eat/ingest/throw/give/take",
+        "20-slot enforcement",
+        "held item effects",
+        "Reviver Seed before failure",
+        "failure results",
+        "home save/load",
+        "suspend/resume",
+        "safe reset confirmation"
+      ],
+      "uncertainty": [
+        "Exact retained-item selection on ordinary defeat, special theft defeat, and Reviver Seed/held-item priority need additional verification."
+      ]
+    },
+    {
+      "id": "recruitment",
+      "sources": [
+        "recruit",
+        "stats"
+      ],
+      "verified_facts": [
+        "Recruitment unlocks after Mt. Steel when Friend Areas become available.",
+        "Leader must directly deliver the finishing blow with the target adjacent; poison/environmental KO is insufficient. Some cutscene legendary recruits have exceptions.",
+        "Required Friend Area, positive effective chance, party room and body-size room are necessary. Party max four; combined body size max six, subject to stricter dungeon rules.",
+        "New recruits must survive until successful exit/warp; if they or the leader faint beforehand they are not retained.",
+        "Level recruitment bonus: 1–29=0%; 30–39=5%; 40–49=7.5%; 50–59=10%; 60–69=12.5%; 70–79=15%; 80–89=17.5%; 90–100=24%. Held Friend Bow adds 10%.",
+        "Many evolved species cannot be directly recruited; story bosses commonly cannot recruit on first battle."
+      ],
+      "minimum_interactions": [
+        "recruit eligibility/rate check",
+        "join prompt/nickname",
+        "temporary recruits",
+        "safe-exit commit",
+        "dismiss/send-home behavior",
+        "recruitment search",
+        "species body size"
+      ],
+      "uncertainty": [
+        "Per-species base rates, specific legendary automatic-area exceptions and unrecruitable floors are not enumerated here."
+      ]
+    },
+    {
+      "id": "friend_areas",
+      "sources": [
+        "areas"
+      ],
+      "verified_facts": [
+        "Friend Areas are explorable homes for recruits, reached west of Team Base; original capacity totals 413 for 386 species plus Unown forms.",
+        "Acquisition uses purchases, job rewards and special recruits. Hero/partner have associated starting homes.",
+        "Initial Wigglytuff event provides Mist-Rise Forest, Wild Plains, then Power Plant for Magnemite."
+      ],
+      "minimum_interactions": [
+        "map/list area travel",
+        "purchase and unlock",
+        "view residents",
+        "add/remove team members",
+        "feed gummis",
+        "inspect/rename recruits",
+        "capacity enforcement"
+      ],
+      "uncertainty": [
+        "Full 58-area costs/capacities/species assignment and story purchase availability require data extraction."
+      ]
+    },
+    {
+      "id": "iq_tactics",
+      "sources": [
+        "iq"
+      ],
+      "verified_facts": [
+        "All Pokémon use the same 23 original IQ skills, starting at IQ 1. At most 12 active: five unrestricted plus one from each of seven groups.",
+        "Gummis add IQ by type: same=7, strong-against=4, neutral=3, resisted=2, immune=1; dual types add both results.",
+        "Thresholds: 1 Item Catcher/Course Checker/Dedicated Traveler/Item Master/Exclusive Move-User; 2 PP Checker; 10 Efficiency Expert; 25 Status Checker; 40 Nontraitor; 70 Self-Curer; 100 Quick Dodger; 105 Type-Advantage Master; 125 Weak-Type Picker; 140 Trap Avoider; 160 Nonsleeper; 200 EXP. Go-Getter; 250 Energy Saver; 300 Lava Evader; 400 All-Terrain Hiker; 500 Sure-Hit Attacker; 600 Trap Seer; 800 House Avoider; 990 Super Mobile.",
+        "Ally tactics and allowed moves are player settings; tactic availability grows with leader level."
+      ],
+      "minimum_interactions": [
+        "IQ totals/stars",
+        "skill toggle with group exclusion",
+        "gummi feeding",
+        "ally behavior tactics",
+        "move enable/disable"
+      ],
+      "uncertainty": [
+        "Tactic-by-level table and every IQ group mapping not fully extracted; EXP. Go-Getter has a documented original targeting bug."
+      ]
+    },
+    {
+      "id": "evolution",
+      "sources": [
+        "evolution",
+        "cave"
+      ],
+      "verified_facts": [
+        "Unlocked after Sky Tower/main-story completion. Evolution is voluntary at Luminous Cave in Whiscash Pond and requires a solo party.",
+        "Level requirements remain; trade evolutions use Link Cable, sometimes plus an item; friendship uses species-specific IQ; day/night use Sun/Lunar Ribbon; Feebas uses Beauty Scarf.",
+        "Original evolution provides no immediate stat increase and removes progress toward the next level while retaining current level.",
+        "Cave asks whether to evolve and whether to provide items; it explains unmet requirements and returns supplied items if evolution fails."
+      ],
+      "minimum_interactions": [
+        "solo entry validation",
+        "eligible evolution selection",
+        "item offering/consumption",
+        "level/IQ requirement checks",
+        "species change and future learnset",
+        "clear failure reason"
+      ],
+      "uncertainty": [
+        "Full species evolution table, Tyrogue and Shedinja edge cases require per-species validation."
+      ]
+    },
+    {
+      "id": "jobs_ranks",
+      "sources": [
+        "jobs",
+        "rank"
+      ],
+      "verified_facts": [
+        "Up to eight board jobs, four mailbox jobs, eight accepted jobs. Accepting and activating are separate; only one job per floor and one escort at once.",
+        "Original job types: rescue, escort, deliver specified item, find item, plus special story requests. Outlaw jobs are absent.",
+        "Escort client defeat fails expedition. Find-item jobs can complete with an already-owned item upon exiting.",
+        "Hidden difficulty 1–15 determines points: [5,10,20,40,60,80,100,150,200,300,500,700,1000,1500,2000]. Letter grades group multiple difficulties, so D is not always 10 and C is not always 20.",
+        "Ranks: Normal 0, Bronze 50, Silver 500, Gold 1500, Platinum 3000, Diamond 7500, Lucario 15000. Lucario awards a base figure.",
+        "Job rewards include Poké/items and sometimes Friend Areas. Rank letter money begins E=100 and rises by 100 per grade. Escort adds two hidden difficulty levels, capped at 15."
+      ],
+      "minimum_interactions": [
+        "mailbox/board review",
+        "accept/activate/delete",
+        "destination marking",
+        "client conversation/rescue",
+        "escort AI",
+        "deliver/find item checks",
+        "continue-or-return choice",
+        "reward results",
+        "rank advancement"
+      ],
+      "uncertainty": [
+        "Precise high-difficulty letter grouping and reward pools must be preserved from the table, not inferred from flattened search output. Friend Area reward eligibility is marked incomplete by source."
+      ]
+    },
+    {
+      "id": "town_services",
+      "sources": [
+        "square",
+        "shops",
+        "storage",
+        "dojo"
+      ],
+      "verified_facts": [
+        "Green Kecleon sells consumables/equipment; purple sells TMs/orbs/keys. Stock changes with progress and excursions.",
+        "Persian's Felicity Bank deposits/withdraws Poké; Kangaskhan stores/retrieves items; Wigglytuff sells Friend Areas; Gulpin links/relearns for 150 Poké.",
+        "Pelipper Post Office handles jobs and rescue mail. Whiscash Pond supplies story interactions and postgame evolution.",
+        "Dungeon Kecleon shops appear from Mt. Blaze onward. Pick up then pay; place then sell. Leaving unpaid creates hostile level-90 Kecleon and reinforcements, blocks normal Escape Orb/rescue behavior.",
+        "Makuhita has 21 three-floor preset mazes, bosses on third floors. Six initial types after Friend Areas; four more after mailbox invasion; six after Mt. Freeze; Ghost/team mazes after credits.",
+        "Clearing all 17 type mazes awards Bonsly figure and Ginseng. First team-maze clears award Ginseng. Shops and jobs refresh after maze clears; normal maze encounters are not recruitable."
+      ],
+      "minimum_interactions": [
+        "buy/sell with prices/stock",
+        "deposit/withdraw amounts",
+        "store/retrieve quantities",
+        "link/relearn moves",
+        "Friend Area purchase",
+        "dojo select/clear record/rewards",
+        "NPC story triggers",
+        "dungeon shop debt"
+      ],
+      "uncertainty": [
+        "Town NPC dialogue should be newly written summaries, not copied scripts. Full shop stock probabilities and every maze enemy roster are separate data tasks."
+      ]
+    },
+    {
+      "id": "personality_and_partners",
+      "sources": [
+        "quiz",
+        "overview",
+        "blue_manual"
+      ],
+      "verified_facts": [
+        "Original quiz asks eight category-distinct questions, then gender; one question can generate an extra follow-up. Scores select a nature and gender/nature selects species.",
+        "Male-only quiz results: Meowth, Machop, Cyndaquil. Female-only: Eevee, Chikorita, Skitty.",
+        "Partner pool: Bulbasaur, Charmander, Squirtle, Pikachu, Chikorita, Cyndaquil, Totodile, Treecko, Torchic, Mudkip; excludes hero's type."
+      ],
+      "nature_table": {
+        "Hardy": [
+          "Charmander",
+          "Pikachu"
+        ],
+        "Docile": [
+          "Bulbasaur",
+          "Chikorita"
+        ],
+        "Brave": [
+          "Machop",
+          "Charmander"
+        ],
+        "Jolly": [
+          "Squirtle",
+          "Totodile"
+        ],
+        "Impish": [
+          "Pikachu",
+          "Cubone"
+        ],
+        "Naive": [
+          "Totodile",
+          "Eevee"
+        ],
+        "Timid": [
+          "Cyndaquil",
+          "Mudkip"
+        ],
+        "Hasty": [
+          "Torchic",
+          "Skitty"
+        ],
+        "Sassy": [
+          "Treecko",
+          "Torchic"
+        ],
+        "Calm": [
+          "Mudkip",
+          "Bulbasaur"
+        ],
+        "Relaxed": [
+          "Psyduck",
+          "Squirtle"
+        ],
+        "Lonely": [
+          "Cubone",
+          "Psyduck"
+        ],
+        "Quirky": [
+          "Meowth",
+          "Treecko"
+        ]
+      },
+      "table_order": [
+        "male",
+        "female"
+      ],
+      "minimum_interactions": [
+        "quiz scoring",
+        "result presentation",
+        "valid partner selection",
+        "hero/partner/team names",
+        "new-game save initialization"
+      ],
+      "uncertainty": [
+        "Exact question wording is deliberately not reproduced; exact question scores/tie-breaking require a dataset if authentic behavior is requested. Direct manual species override would be a declared adaptation, not original behavior."
+      ]
+    },
+    {
+      "id": "mail_versions",
+      "sources": [
+        "wonder",
+        "rescue",
+        "overview",
+        "blue_manual",
+        "dojo"
+      ],
+      "verified_facts": [
+        "Wonder Mail shares generated jobs: international codes have 24 characters (2×12), Japanese 17. Each code redeems once per save; locked ordinary dungeons still cannot be attempted.",
+        "Oddity Cave, Remains Island, Marvelous Sea, Fantasy Strait unlock through special Wonder Mail.",
+        "Friend Rescue becomes available with Mt. Steel. International SOS/A-OK mail is 51 characters (3×17); Japanese 34, incompatible with international codes.",
+        "Rescue flow: faint/request SOS, another team reaches rescue spot, returns A-OK, victim revives; optional Thank-You Mail. Helper Pokémon transfer requires cable/wireless, not just password.",
+        "Red uses GBA link cable; Blue uses DS wireless/touchscreen/second-screen status. Cross-version communication can use passwords.",
+        "Red wild exclusives include Feebas, Mantine, Roselia, Porygon, Plusle; Blue includes Magikarp, Lapras, Aipom, Minun; wild Porygon2 is Blue-only. Wonder Mail can unlock counterpart encounters.",
+        "Blue dual-slot Receive Team imports Red's current team as Rescue Team Maze boss."
+      ],
+      "minimum_interactions": [
+        "Wonder Mail input/validation",
+        "redeemed-code tracking",
+        "special dungeon unlocks",
+        "SOS export",
+        "rescue import/play",
+        "A-OK validation/resume",
+        "Thank-You flow",
+        "version selection"
+      ],
+      "uncertainty": [
+        "Do not advertise cartridge-compatible passwords without implementing and checking original encoding/checksums. Exact full version-exclusive list including evolutionary availability needs careful definition. Dual-slot extras cannot be literally reproduced by standalone HTML; an explicit save-import adaptation is needed."
+      ]
+    }
+  ],
+  "implementation_priority": [
+    "First establish one complete, honest turn-based dungeon loop with movement, partner AI, PP, Belly, items, rescue objective, exit, failure and save.",
+    "Then make every town service and repeated-job loop actionable.",
+    "Then add recruitment, Friend Areas, IQ, linking, evolution and exact story gating.",
+    "Content completeness requires all species/moves/items/dungeon tables and all story/postgame events; rendering the roster or location names is not equivalent.",
+    "Single HTML can embed data and browser storage, but external model/CDN dependencies violate strict offline self-containment unless bundled."
+  ],
+  "high_risk_accuracy_pitfalls": [
+    "Using DX's eight-party count, camps menu, rare qualities, auto-explore or rank-based bag upgrades.",
+    "Using Explorers' 1.4 super-effective multiplier instead of original 1.5.",
+    "Using standard Pokémon 2×/0.5×/0× type multipliers.",
+    "Using modern physical/special move categorization without verifying original type-based rules.",
+    "Recruiting after partner kills or distant KOs; ignoring Friend Areas/body size/new-recruit survival.",
+    "Treating evolution as automatic at level-up or providing DX Evolution Crystals.",
+    "Awarding one fixed rescue-point amount per letter grade.",
+    "Presenting invented short local share codes as compatible Wonder Mail.",
+    "Calling an abbreviated campaign or generic procedural floors a full exact recreation."
+  ],
+  "remaining_research": [
+    "Authoritative exact damage arithmetic, action scheduler, speed subturns and AI rules.",
+    "Complete original species stats/learnsets/abilities/body sizes/recruit rates/Friend Area mappings.",
+    "All 17 original type rows and physical/special classification; move PP/power/range/status data.",
+    "Per-dungeon encounter/item/trap/weather/floor-generation/entry restrictions and bosses.",
+    "Complete original item effects, evolution requirements, IQ restrictions, tactics thresholds.",
+    "Original password algorithms and checksums if compatibility is in scope.",
+    "Precise postgame side-event prerequisites and all unique boss recruitment conditions."
+  ],
+  "_readFirst": "Research snapshot from 2026-10-04, not runtime data or implementation authority. Consult PLAN.md and its reconciled appendices. Early technical proposals in these notes are superseded where they conflict; original-rule gaps remain explicit blockers."
+}
