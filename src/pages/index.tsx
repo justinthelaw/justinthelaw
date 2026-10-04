@@ -7,7 +7,9 @@ import { DERIVED_CONFIG, SITE_CONFIG } from "@/config/site";
 import { LinkIconButton } from "@/components/links";
 import { GitHubProfile } from "@/components/profile";
 import { ResumeViewer } from "@/components/resume";
-import { Button } from "@/components/ui/button";
+import { responsiveIconStyles } from "@/components/ui/button";
+import { CornerIconButton } from "@/components/ui/corner-icon-button";
+import { cn } from "@/lib/utils";
 
 const ChatContainer = dynamic(
   () => import("@/components/chat").then((mod) => ({ default: mod.ChatContainer })),
@@ -122,19 +124,16 @@ export default function Home(): React.ReactElement {
         </footer>
 
         {!showChatBox && (
-          <Button
+          <CornerIconButton
             ref={chatButtonRef}
             type="button"
-            variant="outline"
-            size="lg"
-            className="fixed right-4 bottom-4 z-40 h-11 min-w-11 border-border/80 bg-card/95 px-2 text-foreground shadow-lg backdrop-blur-sm hover:bg-accent sm:h-12 sm:px-3"
+            edge="bottom"
             onClick={() => setShowChatBox(true)}
             aria-label="Open AI chatbot"
             data-testid="ai-chatbot-button"
           >
-            <BotIcon className="size-7 fill-[#4c7fa7] text-[#acd6e7] sm:size-8 md:size-9" aria-hidden="true" />
-            <span className="hidden sm:inline">AI Chatbot</span>
-          </Button>
+            <BotIcon className={cn(responsiveIconStyles.icon, "fill-[#4c7fa7] text-[#acd6e7]")} aria-hidden="true" />
+          </CornerIconButton>
         )}
 
         {showChatBox && <ChatContainer onClose={closeChatBox} />}

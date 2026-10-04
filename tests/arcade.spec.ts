@@ -21,8 +21,8 @@ test("should reach the arcade by keyboard and reload its own page", async ({ pag
   const viewport = page.viewportSize()!;
   expect(bounds!.y).toBeLessThan(32);
   expect(bounds!.x).toBeGreaterThan(viewport.width / 2);
-  expect(bounds!.width).toBeGreaterThanOrEqual(44);
-  expect(bounds!.height).toBeGreaterThanOrEqual(44);
+  expect(bounds!.width).toBeGreaterThanOrEqual(40);
+  expect(bounds!.height).toBeGreaterThanOrEqual(40);
 
   await portal.focus();
   await expect(page.getByRole("tooltip")).toHaveText(`Portal to ${DERIVED_CONFIG.possessiveName} arcade`);
@@ -125,22 +125,25 @@ test("should embed a configured local entry point and restore Play focus on retu
   await expect(play).toBeFocused();
 });
 
-test("should size the colored robot like social icons and keep corner controls clear", async ({ page }, testInfo) => {
+test("should align icon-only corner controls with social buttons at every responsive tier", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "chromium", "Responsive icon sizing only needs one browser");
   for (const width of [320, 375, 640, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
     const robot = page.getByTestId("ai-chatbot-button");
+    await expect(robot).toHaveText("");
+    await expect(robot).toHaveAccessibleName("Open AI chatbot");
     const robotBounds = await robot.boundingBox();
-    expect(width - robotBounds!.x - robotBounds!.width).toBeCloseTo(16, 0);
-    expect(900 - robotBounds!.y - robotBounds!.height).toBeCloseTo(16, 0);
+    const social = page.getByTestId("social-footer").getByRole("link").first();
+    const socialControl = await social.boundingBox();
+    expect(robotBounds!.width).toBeCloseTo(socialControl!.width, 0);
+    expect(robotBounds!.height).toBeCloseTo(socialControl!.height, 0);
+    expect(robotBounds!.y + robotBounds!.height / 2).toBeCloseTo(socialControl!.y + socialControl!.height / 2, 0);
     const robotIcon = robot.locator("svg");
     const iconBounds = await robotIcon.boundingBox();
-    const socialBounds = await page.getByTestId("social-footer").locator("img").first().boundingBox();
-    // Social images shrink horizontally inside their padded controls by 2px.
-    // The robot's stroke has equivalent visual weight at the same size tier.
-    expect(Math.abs(iconBounds!.width - socialBounds!.width)).toBeLessThanOrEqual(2);
-    expect(Math.abs(iconBounds!.height - socialBounds!.height)).toBeLessThanOrEqual(2);
+    const socialBounds = await social.locator("img").boundingBox();
+    expect(iconBounds!.width).toBeCloseTo(socialBounds!.width, 0);
+    expect(iconBounds!.height).toBeCloseTo(socialBounds!.height, 0);
     const colors = await robotIcon.evaluate((element) => ({
       fill: getComputedStyle(element).fill,
       stroke: getComputedStyle(element).stroke,
@@ -151,6 +154,13 @@ test("should size the colored robot like social icons and keep corner controls c
     const footer = await page.getByTestId("social-footer").boundingBox();
     expect(robotBounds!.x).toBeGreaterThan(footer!.x + footer!.width);
     const portal = await page.getByRole("link", { name: portalName }).boundingBox();
+    expect(portal!.width).toBeCloseTo(socialControl!.width, 0);
+    expect(portal!.height).toBeCloseTo(socialControl!.height, 0);
+    expect(portal!.x).toBeCloseTo(robotBounds!.x, 0);
+    const bottomInset = 900 - robotBounds!.y - robotBounds!.height;
+    const rightInset = width - robotBounds!.x - robotBounds!.width;
+    expect(portal!.y).toBeCloseTo(bottomInset, 0);
+    expect(rightInset).toBeCloseTo(bottomInset, 0);
     const title = await page.getByTestId("main-header").boundingBox();
     expect(portal!.x > title!.x + title!.width || portal!.y + portal!.height < title!.y).toBe(true);
   }

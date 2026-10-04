@@ -5,7 +5,8 @@
 
 import React from 'react';
 import { DERIVED_CONFIG } from '@/config/site';
-import { Button } from '@/components/ui/button';
+import { Button, responsiveIconStyles } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 export interface LinkIconButtonProps {
   link: string;
@@ -48,8 +49,8 @@ export function LinkIconButton({
     <Button
       asChild
       variant="ghost"
-      size="icon"
-      className="size-10 rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground sm:size-11 md:size-12"
+      size="responsive-icon"
+      className="rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
     >
       <a
         href={link}
@@ -60,7 +61,7 @@ export function LinkIconButton({
         <img
           src={iconSource}
           alt={altText}
-          className="block size-7 object-contain sm:size-8 md:size-9"
+          className={cn(responsiveIconStyles.icon, "block object-contain")}
           loading="eager"
           decoding="async"
           onError={handleIconError}

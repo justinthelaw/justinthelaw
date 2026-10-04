@@ -149,7 +149,19 @@ primitives. Its original blue pixel blob bobs vertically with squash and stretch
 hover or keyboard focus shows "Portal to Justin's arcade" (derived from the
 configured name). Keep the AI chatbot button in the **bottom-right** corner.
 Retain its existing robot silhouette, use a colored fill and stroke, and match
-the social icons' visual size at each responsive breakpoint.
+the social icons' visual size at each responsive breakpoint. The chat control
+shows only the robot icon, with its accessible name retained. Social, chat, and
+arcade controls share `responsiveIconStyles` and the Button's `responsive-icon`
+size. Their square controls are 40/44/48px and icons are 28/32/36px at the
+default/sm/md breakpoints. `CornerIconButton` shares the corner appearance and
+mirrors top/bottom and right insets: page padding plus the social footer's
+padding and border (21px at the default root font size). Align the chat control
+with the social buttons themselves, rather than the outside of their container.
+
+Preserve the existing system sans-serif font stack and live GitHub bio fetch.
+For review screenshots, verify the actual rendered font is sans-serif and use
+a freshly fetched GitHub API profile response, never the fallback bio. Captures
+may pause animation and stub the external resume iframe; disclose that in the PR.
 
 `/arcade/` is a separate page with a Home link and a single scrolling column of
 cards. Each card centers its preview with padding, places a short description
