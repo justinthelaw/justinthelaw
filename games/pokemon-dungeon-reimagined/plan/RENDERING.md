@@ -26,14 +26,18 @@ The Groudon encounter is the initial art-quality anchor. A small Pikachu and Cha
 
 The recommended sequence is to approve the complete target and coverage policy, establish P06 art direction with non-gameplay previews, then integrate the actual game renderer at P10 and battle presentation at P18/P25. P06 visual acceptance permits asset production; later gameplay acceptance verifies those assets in the real game. The entire game cannot be declared visually complete merely because every species ID maps to one of seven body archetypes.
 
-### 1.3 Decisions to resolve in plan review
+### 1.3 Visual decisions and fixed implementation constraints
 
-1. Confirm the style: stylized cinematic PBR with readable expressive faces, rather than photorealistic creatures or a low-poly novelty look.
-2. Confirm that all 386 species need distinct final character assets, and agree how variants such as Unown letters and Deoxys forms are handled. A plan may include staged production, but the final completion wording must match the accepted coverage.
-3. Confirm an asset-authoring route: original procedural modeling followed by manual refinement, commissioned or user-supplied original models with documented rights, or another expressly approved source. Do not silently fill gaps with ripped commercial assets.
-4. Approve the proposed browser/mobile budgets as starting constraints subject to measurement, not guarantees.
-5. Confirm whether the full map/move-preview overlay is an optional accessibility aid or always available. Default exploration must retain the requested third-person presentation.
-6. Agree that the Groudon preview is actual gameplay, not a generated image, fake combat scene, or independently staged illustration.
+[DECISIONS.md](DECISIONS.md) is the complete current user-choice register; this appendix does not introduce additional unanswered choices.
+
+| Topic | Binding handoff |
+| --- | --- |
+| Art style | D03 remains open: A cinematic stylized 3D or B bold cel-shaded 3D; the actual loading-background candidates illustrate those options |
+| Character coverage | All 386 species and the researched original Blue forms need distinct accepted assets; this follows whole-game scope, not another coverage vote |
+| Authoring route | Plan original procedural modeling with authored refinement and shared rig families. Commissioned/user-supplied resources are optional later proposals, not prerequisites or implicitly authorized purchases |
+| Browser budgets | Use section 8's proposed engineering targets, measure them during the approved quality gates, and document adjustments; these are not guarantees |
+| Map/move overlay | Provide a player-toggleable explored-map and selected-move-range overlay, initially closed and always reachable through Map. It is presentation only, preserves the visibility/knowledge masks, and consumes no turn; the default view stays third-person. P09/P18 implement this fixed behavior, with no separate confirmation gate |
+| Final arcade preview | A real captured Groudon gameplay moment is already required; generated illustrations cannot satisfy that requirement |
 
 ## 2. Runtime capability gate: static browser, WebGL2, and recovery
 

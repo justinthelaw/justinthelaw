@@ -112,6 +112,7 @@ Use exactly one authoritative Pokémon record per persistent individual.
 | State field | Shape / ownership |
 | --- | --- |
 | `schemaVersion`, `contentRevision` | Save schema and catalog revision identifiers |
+| `revision` | Persisted nonnegative safe-integer domain revision; starts at zero for a new campaign, advances atomically with accepted state changes, and is restored from a validated save |
 | `profile` | Hero/partner IDs, names, team name, fixed `referenceEdition: 'blue-rescue-team'`, creation data; no selectable edition |
 | `roster` | Map `PokemonId -> PokemonRecord`; permanent recruited individuals only |
 | `selectedPartyIds` | Ordered roster IDs selected to depart; validated against dungeon entry limits |
@@ -139,6 +140,8 @@ Domain facade in `src/domain/adventure.js`:
 
 The composition root in `src/main.js` wires domain results to presentation and the public persistence repository. Application operations `save`, `load`, `exportSave`, `importSave`, and `resetSave` call that repository; they are not domain methods and the domain never receives a browser storage adapter. UI render models are derived in `src/presentation/`. Optional practice, only after P18 integration and D06 approval, creates a separate Adventure instance and separate application binding with campaign writes disabled; returning from practice reinstates the untouched campaign instance.
 
+The revision returned by `dispatch` is the same `revision` field in the canonical state; do not maintain a second counter. `getSnapshot()` captures immutable state including that revision atomically. A loaded Adventure resumes its validated persisted revision. Rejected/free presentation actions do not fabricate a domain state change.
+
 Convenience methods may wrap `dispatch`, but they cannot implement separate rules. There is one authoritative command path.
 
 | Command family | Required fields | Turn rule |
@@ -158,9 +161,11 @@ Convenience methods may wrap `dispatch`, but they cannot implement separate rule
 
 Domain events returned by `Adventure.dispatch` are immutable plain records with monotonically increasing `eventId` and `revision`. Use separate types: `message`, `actorMoved`, `attackResolved`, `conditionChanged`, `itemChanged`, `floorChanged`, `sceneRequested`, `objectiveChanged`, `recruitOffered`, `expeditionEnded`, and `rankChanged`. Renderer effects consume coordinates and identifiers, not mutable simulation objects. An event is not a second source of truth.
 
-Storage outcomes follow a separate application notification route: the persistence repository returns its operation result to the application service wired by `src/main.js`; that service publishes a `PersistenceNotification` to `src/presentation/` and the UI. Its shape is `{notificationId, type: 'storageSucceeded' | 'storageFailed', operation: 'save' | 'load' | 'export' | 'import' | 'reset', sourceRevision?, message, errorCode?}`. `notificationId` belongs to the application notification sequence, not the domain event sequence. Messages and error codes are safe display values, without raw storage exceptions or imported HTML.
+Storage outcomes follow a separate application notification route: the persistence repository returns its operation result to the application service wired by `src/main.js`; that service publishes a `PersistenceNotification` to `src/presentation/` and the UI. Its shape is `{notificationId, adventureEpoch, slotId, type: 'storageSucceeded' | 'storageFailed', operation: 'save' | 'load' | 'export' | 'import' | 'reset', sourceRevision?, message, errorCode?}`. `notificationId` belongs to the application notification sequence, not the domain event sequence. Messages and error codes are safe display values, without raw storage exceptions or imported HTML.
 
-The application uses successful-save `sourceRevision` to update its saved-progress indicator; a delayed save of an older snapshot cannot label newer progress as saved. Storage notifications never enter `Adventure.dispatch`, increment a domain revision, consume a turn, or roll back an accepted game action. A successful load/import may replace the Adventure instance only through the separately validated application operation; receiving its presentation notification cannot perform that replacement. Failed operations leave the running domain and previous valid stored save intact.
+The application creates a fresh opaque `adventureEpoch` whenever it binds a new Adventure after new game, load, import or slot change. The epoch is application-owned and never accepted from an imported file or reused across instances, even when their persisted revision numbers match. Every asynchronous storage request captures `{adventureEpoch, slotId, sourceRevision}` with its immutable snapshot; every resulting notification carries that same context.
+
+Before applying a notification, the application requires both its epoch and slot to match the active binding. Only then can a successful-save `sourceRevision` update the saved-progress indicator, and only when it matches the current domain revision. Discard results from replaced instances; an old revision or old epoch cannot mark current progress saved. Serialize writes per slot and invalidate obsolete queued operations before replacing a binding; let any already-running atomic write settle before a newer-epoch write can commit. Synchronous adapters check the active epoch immediately before committing. Never relabel an old request with the current epoch after it completes. Storage notifications never enter `Adventure.dispatch`, increment a domain revision, consume a turn, or roll back an accepted game action. A successful load/import may replace the Adventure instance only through the separately validated application operation; receiving its presentation notification cannot perform that replacement. Failed operations leave the running domain and previous valid stored save intact.
 
 ## Task S01: Complete the original-rules evidence ledger
 
@@ -208,7 +213,7 @@ The application uses successful-save `sourceRevision` to update its saved-progre
 
 **Produces:** `encodeSave(state)`, `decodeSave(text, content)`, `validateSave(state, content)`, `migrateSave(envelope)`, and injected `StorageAdapter` operations `read/write/remove`.
 
-- [ ] Use an envelope containing format name, schema version, content revision and canonical state. Persist RNG state and pending scene/result cursors.
+- [ ] Use an envelope containing format name, schema version, content revision and canonical state including its validated `revision`. Persist RNG state and pending scene/result cursors. Application epochs are regenerated for each binding rather than restored from saves.
 - [ ] Bound text size, recursion depth, object count, arrays and strings. Reject dangerous property keys, non-plain objects, nonfinite numbers, illegal positions and unknown referenced IDs.
 - [ ] Validate relational invariants: all selected IDs exist once; active actors refer to legal individuals; learned slots reference known moves; HP/PP are in range; linked groups are valid; inventory capacity obeys the current session rules; progression references known milestones.
 - [ ] Derive numerical limits from catalog definitions where appropriate. Do not hardcode 354 as the largest move ID, 99 as the only floor cap, or a uniform four-member departure limit.
@@ -218,7 +223,7 @@ The application uses successful-save `sourceRevision` to update its saved-progre
 - [ ] Resume in-progress dungeon and pending dialogue from stored state without replaying rewards. Preserve original quicksave semantics if strict-original saving is selected; any automatic browser checkpoints must be documented as an adaptation.
 - [ ] Give reset an explicit UI confirmation tied to the current save revision. Practice state cannot reach the campaign adapter.
 
-**Static acceptance:** Review malformed fields, unknown IDs, duplicate identities, wrong map dimensions, invalid move references, quota exceptions and unsupported versions. Confirm none can partially apply an import. Trace successful, failed and stale-revision save results through the separate application notification route; none may dispatch a domain command or alter a turn/revision. No game-source execution is required for this review.
+**Static acceptance:** Review malformed fields, unknown IDs, duplicate identities, wrong map dimensions, invalid move references, quota exceptions and unsupported versions. Confirm none can partially apply an import. Trace successful, failed, stale-revision and stale-epoch save results through the separate application notification route, including two loaded campaigns with equal revision numbers and a delayed write from the replaced instance; none may dispatch a domain command or alter a turn/revision. No game-source execution is required for this review.
 
 ## Task S04: Deterministic action scheduler
 

@@ -755,7 +755,7 @@ For each sub-batch: specify triggers and intervening town/mail/dream scenes; pop
 
 ### P36 - First arcade card and website integration
 
-**Dependencies:** accepted full release candidate from P35 and explicit permission to expose it. **Read:** INTEGRATION. **Own:** `src/config/arcade.ts`, `public/arcade/pokemon-dungeon-reimagined.jpg` and relevant website tests.
+**Dependencies:** accepted full release candidate from P35 and explicit permission to expose it. **Read:** INTEGRATION. **Own:** `src/config/arcade.ts`, `public/arcade/pokemon-dungeon-reimagined.jpg`, `games/README.md` and relevant website tests.
 
 - [ ] Capture the actual Groudon encounter using the accepted game build and normal rendering; disclose any UI/pose/camera preparation and do not fabricate gameplay.
 - [ ] Add a suitably optimized preview with accurate alt text and update only the first card's title/description/entryPoint.
@@ -763,22 +763,24 @@ For each sub-batch: specify triggers and intervening town/mail/dream scenes; pop
 - [ ] Test first-card image/enabled Play/no preload/iframe URL/focus/Back behavior with inert game responses registered before navigation.
 - [ ] Test nested export/base-path behavior using temporary fixture files; never import or execute actual game source in website tests.
 - [ ] Inspect website desktop/mobile renders and preserve fonts/live GitHub bio.
+- [ ] Update the parent games README with the first game's accurate release-candidate status, description and entry point alongside the card; remove obsolete paused-planning wording without claiming it is already deployed. Preserve the remaining WIP/Coming soon records.
 
 **Acceptance:** all website integration assertions pass on the pinned browser suite, and the production export contains the full local game resources at the expected path.
 
 ### P37 - Contribution review, PR delivery and deployment
 
-**Dependencies:** P36. **Own:** scoped release PR, validation record and follow-up fixes.
+**Dependencies:** P36. **Own:** scoped release PR, `games/README.md` release status, validation record and follow-up fixes.
 
 - [ ] Run required game static checks, website `npm run flight-check`, pre-commit/pre-push hooks and `git diff --check`; distinguish infrastructure failures from source failures.
 - [ ] Inspect the full diff, root README equality, source/asset notices, coverage inventory and scope deviations.
 - [ ] Consolidate the reviewed, still-unmerged implementation branches into the full-scope release PR; verify the complete combined diff and retained package evidence. Open/update that PR with actual validation, gameplay capture, remaining limitations and relevant review evidence.
 - [ ] Wait for every required check on the current head; diagnose/fix failures at their cause.
 - [ ] Request GitHub Codex review if not already complete for that head, address actionable findings, and require a positive current-head completion signal.
-- [ ] Obtain explicit merge/deployment authorization for this release, then monitor the main pipeline and verify live static assets/website integration.
-- [ ] If deployment fails, start a scoped follow-up branch from current main and fix the cause without silently weakening checks.
+- [ ] As part of approved release promotion, update games/README.md to the intended Live status and playable path, then include that catalog in the final reviewed diff and checks. The planning/current-development branch must not claim a live release.
+- [ ] Obtain explicit merge/deployment authorization for this release, then monitor the main pipeline and verify live static assets/website integration and the published catalog against the deployed game.
+- [ ] If deployment fails, start a scoped follow-up branch from current main and fix the cause without silently weakening checks; keep or correct the catalog status to accurately describe availability until deployment is verified.
 
-**Acceptance:** current-head checks and automated review are complete, unresolved findings are addressed, the user has authorized publication, and the deployed build is identified and verified. The present planning request stops long before this package.
+**Acceptance:** current-head checks and automated review are complete, unresolved findings are addressed, the user has authorized publication, the deployed build is identified and verified, and the parent games catalog accurately matches live/WIP availability. The present planning request stops long before this package.
 
 ## 14. Handoff record format
 

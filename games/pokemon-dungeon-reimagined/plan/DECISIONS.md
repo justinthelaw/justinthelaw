@@ -52,6 +52,7 @@ gameplay screenshot on the arcade card.
 | D01: edition | Original Blue Rescue Team, explicitly selected by Justin on 2026-10-04 |
 | D02: fidelity research | Full approved scope, source-backed numerical data; no guessed values or generic proxies labeled complete |
 | D07: release cadence | Runtime work remains off `main` until the full release gate and explicit publication authorization; disabling Play alone does not hide a direct game URL |
+| Tactical overlay | Player-toggleable explored-map/selected-move-range overlay, initially closed, always available through Map; respects knowledge masks and consumes no turn |
 | Touch controls | Semi-transparent emulator-style controls that appear on the lower half, with accessible show/hide and keyboard alternatives |
 | Asset generation | Consistent master prompts and approved references; bulk sheets with explicit grids/cropping/provenance, as detailed in ASSET-PIPELINE.md |
 | Packaging | A static game folder is allowed; proposed entry is `games/pokemon-dungeon-reimagined/index.html` |
