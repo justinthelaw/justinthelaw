@@ -1,29 +1,42 @@
 # Justin's arcade
 
-The arcade is a separate page of vertically stacked game cards, each with a
-preview, short description, and Play button. Play opens an available game in a
-same-site iframe; Back to games returns to the cards and restores Play focus.
+- The arcade has vertically stacked cards with a preview, short description,
+  and Play button.
+- Play opens an available game in a same-site iframe; Back to games restores
+  the cards and Play focus.
 
 ## Current games
 
-No playable games are live. All three configured cards remain Coming soon with
-animated pixel previews and disabled Play buttons.
+- No playable games are live.
+- All three configured cards remain Coming soon with animated pixel previews
+  and disabled Play buttons.
 
 | Slot | Current card | Planned work |
 | --- | --- | --- |
-| First | Coming soon, blue preview | [Pokémon Dungeon Reimagined](pokemon-dungeon-reimagined/plan/PLAN.md): WIP planning, paused for review; no runnable game or screenshot |
+| First | Coming soon, blue preview | [Pokémon Dungeon Reimagined](pokemon-dungeon-reimagined/plan/PLAN.md): WIP planning; decisions approved; awaiting separate implementation start; no runnable game or gameplay screenshot |
 | Second | Coming soon, lavender preview | Unnamed; no game announced |
 | Third | Coming soon, apricot preview | Unnamed; no game announced |
 
-Pokémon Dungeon Reimagined targets a standalone 3D reimagining of the original
-**Blue Rescue Team** adventure; Red is comparative research only, with no Red
-campaign or edition selector. Its plan requires explicit
-approval before implementation and a separate accepted release gate before
-exposing the first card; this planning change does not authorize publication.
+## Pokémon Dungeon decisions
 
-Two user-authorized loading-illustration candidates belong under the game's
-`plan/art-candidates/` for visual review. They are planning images, not 3D runtime
-art or gameplay screenshots, and do not lift the implementation hold.
+- Baseline: original **Blue Rescue Team**; Red is comparative research only,
+  with no Red campaign or edition selector.
+- On **2026-10-04**, the user approved all recommendations except the design
+  recommendation, selecting **B**; implementation, merge, and deployment remain
+  held until their separate authorizations.
+
+| Decision | Approved choice |
+| --- | --- |
+| D03 | Bold cel-shaded 3D; [candidate B](pokemon-dungeon-reimagined/plan/art-candidates/b-cel-shaded-cavern.webp) is the selected future loading background |
+| D04 | Browser rescue codes/files and Blue extra-mode/event equivalents; original cartridge interoperability is not a completion gate; claim it only where sourced and verified |
+| D05 | Human play and visual review allowed; no automated game-source tests |
+| D06 | No separate Groudon practice; retain the campaign encounter and campaign capture |
+| D08 | JavaScript ES modules, JSDoc, and strict independent static type checks |
+
+- Generated loading illustrations are raster planning assets, not 3D models or
+  gameplay screenshots; candidate A remains an archived comparison.
+- Actual 3D quality review and P36–P37 full-scope acceptance remain required;
+  selected loading art does not replace the arcade's real gameplay preview.
 
 ## Static game layout
 
@@ -54,9 +67,9 @@ art or gameplay screenshots, and do not lift the implementation hold.
    checks, current-head CI, and Codex review; obtain explicit merge/deployment
    authorization. Pokémon Dungeon's detailed gates are P36–P37 in its plan.
 
-The website adds its configured base path to local previews and iframe URLs.
-Keep other cards, fonts, live GitHub bio, shared button sizes/tooltips, sprite
-animations, and page margins unchanged when integrating one game.
+- The website adds its configured base path to local previews and iframe URLs.
+- Preserve other cards, fonts, live GitHub bio, shared button sizes/tooltips,
+  sprite animations, and page margins when integrating one game.
 
 ## Validation boundary
 

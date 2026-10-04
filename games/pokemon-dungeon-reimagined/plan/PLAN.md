@@ -24,12 +24,12 @@
 | [RENDERING.md](RENDERING.md) | Visual direction, assets, camera, environments, UI, performance | P05-P06, P09-P10, P18, P32-P35 |
 | [INTEGRATION.md](INTEGRATION.md) | Existing site paths, future first-card change, fixture tests, delivery gates | P00, P36-P37 |
 | [RESEARCH.md](RESEARCH.md) | Source register, confidence rules, remaining research | Any disputed or unverified factual behavior |
-| [DECISIONS.md](DECISIONS.md) | All remaining user choices, recommendations and actual generated visual candidates | Justin's review; before implementing affected assumptions |
+| [DECISIONS.md](DECISIONS.md) | Recorded user decisions and actual generated visual assets | Justin's review; before implementing affected assumptions |
 | [PROGRESS.md](PROGRESS.md) | Current state, review gates, next safe task, decisions | Start and end of every session |
 | [COVERAGE.csv](COVERAGE.csv) | Completion inventory with evidence fields | Every content/system task |
 | [Game AGENTS.md](../AGENTS.md) | Local execution constraints and explicit planning hold | Before any game file is edited |
 
-Recommended review order for Justin: read sections 2-6, the milestone table in section 10, and the open decisions in section 12; then inspect the campaign and rendering appendices. The remaining work packages are the detailed handoff for the implementing model.
+Recommended review order for Justin: read sections 2-6, the milestone table in section 10, and the resolved decisions in section 12; then inspect the campaign and rendering appendices. The remaining work packages are the detailed handoff for the implementing model.
 
 ## 2. What this groundwork changes
 
@@ -39,7 +39,7 @@ Recommended review order for Justin: read sections 2-6, the milestone table in s
 - Root AGENTS instructions recording the user's planning hold, expanded-folder permission, and game/website boundary.
 - The complete planning package inside `games/pokemon-dungeon-reimagined/plan/`, game AGENTS instructions, and authoring-cache ignore rules outside the public tree at `tools/pokemon-dungeon/.gitignore`.
 - This plan, source research, domain appendices, a coverage inventory, a progress/decision ledger, and the parent `games/README.md` arcade/catalog guide.
-- The user-requested Blue baseline decision and two reusable generated loading-art candidates with prompts/provenance for visual review.
+- The approved Blue baseline and B cel-shaded visual direction, with two generated loading illustrations and their prompts/provenance; B is selected and A retained as an archived comparison.
 - Documentation and repository validation appropriate to this setup.
 
 ### Explicitly deferred until review
@@ -80,13 +80,13 @@ An item can be researched, specified, implemented, statically reviewed, manually
 4. Keep the existing site architecture, system fonts, live GitHub bio, controls, tooltips, arcade width, margins and navigation intact.
 5. Preserve the first card as Coming soon until the eventual release gate. Replace only that card, using a real gameplay capture, not concept art passed off as gameplay.
 6. Game and website code must be DRY, SOLID, and idiomatic for their respective frameworks. Avoid a monolithic simulation/UI/renderer class.
-7. Do not write or run tests against game source. No unit, integration, snapshot, automated gameplay, simulation replay test, or test-only game hook is permitted. Static syntax, lint, type, schema/provenance/size checks and code review are permitted. Manual gameplay/visual acceptance is proposed and must remain distinct from automated website tests.
+7. Do not write or run tests against game source. No unit, integration, snapshot, automated gameplay, simulation replay test, or test-only game hook is permitted. Static syntax, lint, type, schema/provenance/size checks and code review are permitted. Manual gameplay/visual acceptance is approved under D05 and must remain distinct from automated website tests; implementation itself remains paused.
 8. Website tests remain meaningful and thorough. Intercept every game iframe navigation with inert fixtures before it is triggered; test export copying with temporary fixture files. Never let a website test boot real game code.
 9. Root README.md is unchanged. Keep governing requirements in root and game AGENTS files and details in their linked plan, research and progress documents.
 10. Do not import website React/Zustand into the game. A standalone persistence adapter may use browser storage; no other game module accesses storage directly.
 11. Every source-derived claim and external asset has provenance. Keep third-party notices and licenses. Create newly written dialogue preserving the original events, plus original art/audio, instead of extracting commercial game resources or copying a complete script.
 12. Current pre-push policy rejects added files over 1,024 KiB. Optimize and partition assets; do not weaken that policy without an explicit reviewed decision.
-13. Preserve canonical save data across retries, practice encounters, migrations and failed imports. No automatic reset on validation failure.
+13. Preserve canonical save data across retries, migrations and failed imports. No automatic reset on validation failure.
 14. Planning-document-only changes may merge only with explicit user authorization. Every intermediate package containing runtime files remains review-only and unmerged until P37 full-scope release authorization; no interim runtime belongs on `main`. A disabled arcade card does not prevent access to a directly served game URL, because the exporter publishes the entire `games/` tree.
 
 ## 5. Authority order and uncertainty handling
@@ -113,7 +113,7 @@ No rule should depend on an English display name. Use stable IDs for species/for
 | --- | --- | --- |
 | Deployment | Native browser ES modules with all assets checked in under the game folder | Fits existing copy/export path; changing to a build-output folder later requires explicit export/build changes |
 | Rendering | Locally pinned Three.js with WebGL 2 baseline; do not require WebGPU | Wide practical browser support; GPU quality still needs a physical-device acceptance pass |
-| Source language | JSDoc-typed JavaScript, independent lint/type tooling scoped to game source | Direct static serving and clear interfaces; TypeScript compilation remains an alternative if approved before P04 |
+| Source language | JSDoc-typed JavaScript, independent lint/type tooling scoped to game source | D08 approved: direct static serving, clear interfaces and strict independent static type checks |
 | Turn model | Original tactical turns and logical grid, with smoothed 3D presentation and third-person camera | Retains Mystery Dungeon strategy; free-running real-time combat would be a different design |
 | Camera | Follow camera with orbit/zoom, obstacle avoidance, recentering and an optional tactical overview | Makes the dungeon readable without returning to mandatory top-down play |
 | Version | Original Nintendo DS Blue Rescue Team; no edition-selection UI | User-resolved D01; retain Red differences only as comparative provenance and implement Blue-specific scope |
@@ -289,24 +289,26 @@ Suggested executor prompt:
 
 > Read root AGENTS.md, games/pokemon-dungeon-reimagined/AGENTS.md, games/pokemon-dungeon-reimagined/plan/PROGRESS.md and work package Pxx in PLAN.md. Confirm that implementation was approved. Select Pxx by the canonical execution order, not numeric ID, and implement only its next uncompleted sub-batch using its listed appendix/contracts. Do not run tests against game source. Preserve root README and unrelated files. Record static review/analysis and any approved manual evidence, request focused review, update coverage/progress, and hand off the next task. Keep intermediate runtime PRs unmerged until P37 full-scope release authorization.
 
-## 12. Decisions for Justin's review
+## 12. Recorded decisions
 
-See [DECISIONS.md](DECISIONS.md) for the five remaining choices, exact options, recommendations and generated loading-art examples.
+Justin approved all recommendations except the design recommendation on 2026-10-04, selecting **B: bold cel-shaded 3D**. See [DECISIONS.md](DECISIONS.md) for the binding choices and generated loading assets.
 
-The register distinguishes user decisions from engineering research and already established constraints. Pending decisions block implementing their corresponding assumptions; resolved rows do not require another approval question.
+All product choices in this register are resolved. Research obligations and later quality/release reviews remain separate; the choices do not authorize beginning implementation, merging, or deploying.
 
-| ID | Decision to confirm | Proposed default | Affected work |
+| ID | Recorded decision | Binding selection or obligation | Affected work |
 | --- | --- | --- | --- |
 | D01 | **Resolved by user: Blue Rescue Team baseline** | Original Nintendo DS Blue only; no edition selector; Red remains comparative research | P01, P19, P21, P31 |
 | D02 | **Engineering research obligation, not a user choice** | Preserve scope; do not guess numeric tables or claim exactness; resolve research gaps first | P01-P02, P14-P17, P33 |
-| D03 | Visual target and production method | Cinematic stylized 3D with individually authored creatures; approve a quality slice before roster production | P06, P32, P34 |
-| D04 | Hardware-specific Blue features and original rescue-code compatibility | Explicit browser equivalents; retain original behavior/data where verified, document adaptations | P21, P31 |
-| D05 | Manual acceptance under the no-game-tests instruction | Human play/visual review is allowed; all automated game tests remain excluded | Every gameplay/visual gate |
-| D06 | Convenience options such as a standalone Groudon practice encounter | Omit unless explicitly selected; if approved, isolate from campaign saves and implement only after P18 engine integration | P18, P35-P36 |
+| D03 | **Resolved: design B** | Bold cel-shaded 3D, locked `style-b-v1`; B is the selected future loading background and A an archived comparison; review actual creatures and the 3D quality slice before roster production | P06, P32, P34 |
+| D04 | **Resolved: browser equivalents** | Browser rescue codes/files, Blue extra-mode equivalents and archived event expeditions; preserve content/progression. Cartridge interoperability is not a required gate and may only be claimed where verified | P21, P31 |
+| D05 | **Resolved: manual acceptance allowed** | Human play/visual review is allowed after implementation starts; all automated game-source tests remain excluded | Every gameplay/visual gate |
+| D06 | **Resolved: omit standalone practice** | No separate Groudon practice mode; preserve the campaign battle and capture actual campaign gameplay for the arcade | P18, P35-P36 |
 | D07 | **Established full-release hold** | Keep interim runtime off `main`; keep public card Coming soon until full-scope P36/P37 gates and explicit release authorization | P36-P37 |
-| D08 | Source language/toolchain | JSDoc-typed JavaScript with game-scoped lint/type/schema tools | P04 |
+| D08 | **Resolved: JavaScript with JSDoc** | Directly served ES modules with strict independent static type checks and game-scoped lint/schema tools | P04 |
 
-Record answers in PROGRESS.md with date and the instruction that authorizes the change. A review of this document is not, by itself, a merge/deployment authorization.
+The fixed browser-save recommendation is one current campaign with primary/backup recovery, automatic checkpoints after completed canonical state transactions, and manual save/export. SYSTEMS S03 owns exact trigger and recovery behavior; strict cartridge single-use quicksave is not a separate pending choice.
+
+The approving instruction and date are recorded in PROGRESS.md and both AGENTS files. Do not ask these choices again. Wait for a separate implementation-start instruction; merge/deployment also require explicit authorization.
 
 ## 13. Work packages
 
@@ -321,7 +323,7 @@ Record answers in PROGRESS.md with date and the instruction that authorizes the 
 - [x] Finish independent plan review and documentation checks.
 - [x] Publish draft PR #387 for Justin; retain the stop before game implementation or merge.
 
-**Acceptance:** review diff contains no game runtime, vendor bundle, dependency change, live card update or test that executes game source. The user explicitly authorized two generated visual-planning assets; they remain unselected loading-background candidates under `plan/art-candidates/`, not approved 3D/gameplay art. README equals base. All unresolved decisions are visible.
+**Acceptance:** review diff contains no game runtime, vendor bundle, dependency change, live card update or test that executes game source. The user explicitly authorized two generated visual-planning assets; B is the selected future loading background and A an archived comparison under `plan/art-candidates/`, not approved 3D/gameplay art. Root README equals base; games/README uses headings, tables and lists. All current product choices are recorded, and later implementation/quality/release gates remain explicit.
 
 ### P01 - Source audit and original-edition rules freeze
 
@@ -386,16 +388,16 @@ Record answers in PROGRESS.md with date and the instruction that authorizes the 
 
 ### P06 - Visual target proof before mass production
 
-**Dependencies:** P03-P05 and D03; manual viewing/capture requires D05 approval. **Own:** candidate production assets and a temporary repository-relative `tools/pokemon-dungeon/art-preview/` harness. **Produces:** reviewed art direction, static scene/animation captures and asset manifests, not gameplay or a production renderer.
+**Dependencies:** P03-P05 and resolved D03/D05; begin only after the separate implementation-start instruction. **Own:** candidate production assets and a temporary repository-relative `tools/pokemon-dungeon/art-preview/` harness. **Produces:** reviewed art direction, static scene/animation captures and asset manifests, not gameplay or a production renderer.
 
 - [ ] Build a bounded art-review harness outside the exported game tree using the pinned local Three.js toolchain. Load model/material/animation assets only; do not import game modules, domain state, commands, persistence or the future `DungeonRenderer` API.
 - [ ] Produce finished Pikachu, a partner, and Groudon assets with idle, locomotion, attack, hit, sleep/faint and interaction clips appropriate to their role; playback previews pose/animation without battle outcomes.
 - [ ] Produce Magma Cavern environment materials, lava, obsidian geometry, lighting, particles and sound mood using the intended production pipeline.
 - [ ] Compose static third-person art views with foreground character visibility, readable ground and clearly labeled HUD layout mockups. These scenes contain no playable movement, turns, damage or encounter logic.
-- [ ] After D05 approval, manually view/capture the art scenes on agreed devices at candidate low/standard/high settings and reduced motion; do not automate gameplay or treat art-preview performance as game performance.
+- [ ] Under approved D05, manually view/capture the art scenes on agreed devices at candidate low/standard/high settings and reduced motion; do not automate gameplay or treat art-preview performance as game performance.
 - [ ] Record Justin's visual acceptance before mass production. Reuse accepted asset files/manifests in P10/P32; retire the disposable harness at integration rather than maintaining a second game renderer.
 
-**Acceptance:** the asset/scene captures meet the approved look and remain labeled art previews. True game snapshot/event/renderer contracts freeze at P07/P10; P06 cannot claim campaign, battle, full renderer, or playable-slice completion. Optional D06 playable practice belongs after the P18 integrated engine exists, never in this harness. No P06 image becomes the public gameplay card preview.
+**Acceptance:** the asset/scene captures meet the approved look and remain labeled art previews. True game snapshot/event/renderer contracts freeze at P07/P10; P06 cannot claim campaign, battle, full renderer, or playable-slice completion. D06 omits a standalone practice mode; this harness must not introduce one. No P06 image becomes the public gameplay card preview.
 
 ### P07 - Canonical state, IDs and random streams
 
@@ -413,14 +415,16 @@ Record answers in PROGRESS.md with date and the instruction that authorizes the 
 
 **Dependencies:** P07. **Own:** `src/persistence/` and save UI view models. **Produces:** one save repository interface used only by application services.
 
-- [ ] Define at least primary and recoverable backup slots with version, edition, checksum/hash purpose, saved timestamp and bounded payload.
+- [ ] Use one active campaign with versioned primary and recoverable backup slots. Follow the fixed browser-checkpoint policy in SYSTEMS S03: queue autosave after each completed state-changing command/scene transaction, provide manual save/export, and never claim uncommitted progress is durable. Strict cartridge single-use quicksave is not the browser model.
+- [ ] Define save version, edition, checksum/hash purpose, saved timestamp and bounded payload.
 - [ ] Validate record shape, allowed IDs, finite/bounded numbers, collection limits and unsafe object keys before accepting imported data.
 - [ ] Write a temporary candidate, validate it, then promote; never delete the valid save because an import or migration failed.
-- [ ] Preserve RNG state, scene cursor, clients and grant flags across saves; ensure practice/debug sessions cannot overwrite campaign slots.
+- [ ] Preserve RNG state, scene cursor, clients and grant flags across saves; ensure temporary debug state cannot overwrite campaign slots.
 - [ ] Handle denied/quota-limited storage with in-memory play and clear export advice; provide import preview and explicit destructive replacement confirmation.
 - [ ] Keep migrations explicit per version and reject unknown future versions safely.
+- [ ] Before load/import/reset/new-game replacement, recheck captured epoch, slot and source revision after all asynchronous preparation; reject stale operations without changing either the active campaign or stored save. Follow SYSTEMS for exclusive commit ownership.
 
-**Acceptance:** code review traces interrupted writes, corrupt primary/backup, malformed imports and unsupported versions; proposed manual acceptance uses real save/export/import UI. No automated save/game test is added.
+**Acceptance:** code review traces interrupted writes, corrupt primary/backup, malformed imports and unsupported versions; D05-approved manual acceptance uses real save/export/import UI. No automated save/game test is added.
 
 ### P09 - Input mapping and interaction ownership
 
@@ -521,7 +525,7 @@ Implement in batches: food and restorative items; seeds/status cures; Gummis/sta
 - [ ] Implement revival items, leader/story-partner/client failure conditions, reserve return, original loss rules and rescue eligibility.
 - [ ] Implement level-one, solo, no-item, money and party restrictions from each dungeon's entry policy.
 - [ ] Preserve permanent progression while temporary dungeon state resets; restore the correct state on exit, rescue or defeat.
-- [ ] Ensure retry/town/continue paths cannot duplicate rewards, consume a key item twice or overwrite a good save with practice state.
+- [ ] Ensure retry/town/continue paths cannot duplicate rewards, consume a key item twice or overwrite a good save with temporary debug state.
 
 **Acceptance:** each failure and exit path has a written state transition, loss list, save point and player-facing message. Restriction previews appear before irreversible run entry.
 
@@ -547,7 +551,7 @@ Implement in batches: food and restorative items; seeds/status cures; Gummis/sta
 - [ ] Show hunger/HP/PP/status/turn outcomes and objectives legibly at desktop, narrow mobile and short landscape heights.
 - [ ] Add original score/effects, independent volume buses, mute, user-gesture start and suspension when hidden.
 - [ ] Respect reduced motion, provide subtitles/text feedback, avoid color-only state, and retain 2-5 word action/destination tooltips.
-- [ ] Label edition/adaptation/practice state clearly without flooding normal gameplay with implementation details.
+- [ ] Label edition/adaptation information clearly without flooding normal gameplay with implementation details.
 
 **Acceptance:** every menu item performs its claimed action or is explicitly unavailable with a reason. No placeholder controls, keyboard traps, clipped mandatory choices or unsolicited audio.
 
@@ -594,7 +598,7 @@ Implement in batches: food and restorative items; seeds/status cures; Gummis/sta
 - [ ] Implement rescue, escort, delivery and other verified original mission categories with valid target floors/species/items.
 - [ ] Persist accepted jobs, conflicts, client state, completion receipts and reward claiming; prevent duplicate claims.
 - [ ] Use original rescue-point thresholds and rewards; distinguish story jobs from generated board/mail jobs.
-- [ ] Specify original Wonder Mail/friend rescue compatibility versus a visibly versioned browser-native exchange format before implementing either.
+- [ ] Specify the D04-approved visibly versioned browser-native job/rescue exchange format and map original content/progression. Original Wonder Mail or cartridge interoperability is optional and may only be claimed after its codec/region behavior is sourced and verified.
 - [ ] Validate imported codes/files locally, bound input, reject unsupported or corrupt data and keep current saves intact.
 - [ ] Document Blue-only hardware interaction equivalents and obtain approval before omission.
 
@@ -795,7 +799,7 @@ Public interfaces added/changed:
 Research sources and resolved gap IDs:
 Static checks (command, exit status, actual result):
 Independent review and addressed findings:
-Manual evidence (only if approved; otherwise not performed):
+Manual evidence (D05 approved; record actual observations or not performed):
 Coverage IDs advanced and evidence:
 Remaining gaps/risks:
 Next exact package/sub-batch:
@@ -805,4 +809,4 @@ Do not mark a package complete while its dependent contract is ambiguous, a name
 
 ## 15. Current stop point
 
-P00 is the only package prepared. Implementation is paused. Justin should review the proposed fidelity choices, visual/data production requirements, no-game-tests interpretation, Blue legacy-mode handling, repository setup and execution order before authorizing the smaller model to proceed with P01.
+P00 is the only package prepared. Implementation is paused. The choices are resolved, including design B. Justin should review the complete plan, visual/data production requirements, repository setup and execution order before separately authorizing the smaller model to proceed with P01.

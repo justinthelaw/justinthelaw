@@ -164,7 +164,7 @@ Required explicit segments include Mt. Thunder Peak, Mt. Blaze Peak, Frosty Grot
 
 Makuhita Dojo has 17 type mazes: Normal, Fire, Water, Grass, Electric, Ice, Fighting, Ground, Flying, Psychic, Poison, Bug, Rock, Ghost, Dragon, Dark and Steel. Four team mazes add Team Shifty, Team Constrictor, Team Hydro and Team Rumblerock, for 21 standard mazes. Blue adds the Rescue Team Maze using a transferred Red team. Do not add DX's Fairy Maze or its timed-ticket training rules. [G4]
 
-Unknown Dungeon is Blue's off-screen wireless Tag Mode. It is not a missing navigable cave map. Its rewards, language/region matching and Trozei interaction need a separate feature specification. Browser-local team export/import, if approved, must be presented as an adaptation rather than a DS wireless implementation. [G5]
+Unknown Dungeon is Blue's off-screen wireless Tag Mode. It is not a missing navigable cave map. Its rewards, language/region matching and Trozei interaction need a separate feature specification. D04 approves browser-local team export/import as an adaptation; it must not be presented as a DS wireless implementation or verified cartridge interoperability. [G5]
 
 Supporting locations require records too: Team Base, Pokémon Square, Friend Areas, Makuhita Dojo, Whiscash Pond, Luminous Cave, Hill of the Ancients and Pelipper Post Office. Illusory Grotto is DX-only and excluded.
 
@@ -310,10 +310,10 @@ Do not accept 'all rows present' as behavior evidence. A complete-looking row wi
 | DATA-06 | Full original evolution conditions incomplete | Verify multi-item/IQ/stat/random/simultaneous routes | All-species evolution |
 | DATA-07 | Exact floor/encounter/item/trap corpus incomplete | Resolve dungeon-by-dungeon sections and original floor tables | Complete original campaign/world |
 | DATA-08 | Original item/terrain/status behavior corpus incomplete | Author each registry with edition qualifiers and effect semantics | Complete item and hazard mechanics |
-| DATA-09 | Native mail codecs not established | Research formats/checksums/region layouts, or approve a clearly different browser exchange | Native code compatibility |
-| DATA-10 | Blue hardware-dependent feature treatment undecided | Present concrete import/off-screen simulation/omission options with implications | Edition-completeness claim |
+| DATA-09 | Browser exchange specification incomplete; native codecs unverified | Specify the D04-approved versioned browser code/file format. Research original formats/checksums/regions only before any optional interoperability claim | Browser exchange; any claimed native compatibility |
+| DATA-10 | Blue hardware feature content/equivalent mapping incomplete | Inventory original behavior and specify the D04-approved import/share, off-screen and archived-event equivalents; no content omission is approved | Complete Blue browser adaptation |
 | DATA-11 | Redistribution permissions for any PMD recovered corpus unverified | Review exact source license and distinguish facts from copied implementation/assets | Shipping recovered files |
-| DATA-12 | Per-species original visual design coverage absent | Approve visual style and develop a reviewed 386-species/form model manifest | Recognizable complete visual roster |
+| DATA-12 | Per-species original visual design coverage absent | Apply approved B `style-b-v1` and develop a reviewed 386-species/form model manifest; retain actual asset-quality gates | Recognizable complete visual roster |
 
 Execution order after user review: approve scope and factual schemas; resolve source/licensing blockers; complete species/forms/type and dungeon identity ledgers; complete PMD stat/move/ability registries; complete item/trap/status/IQ registries; complete recruitment/evolution/Friend Areas; complete dungeon floors and campaign joins; resolve mail/version modes; independently review source coverage; only then generate runtime data and integrate consumer modules. Rendering design and the local dependency preparation can proceed in parallel after approval because they do not justify guessing missing gameplay facts.
 

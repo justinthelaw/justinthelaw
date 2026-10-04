@@ -1,6 +1,6 @@
 # Original Rescue Team Systems Implementation Plan
 
-> **For agentic workers:** Execute this appendix only after the user has reviewed and approved the combined plan. Use the approved execution workflow. The user explicitly prohibits tests against game source; the verification steps below are static review and optional human play checks, not permission to execute game tests.
+> **For agentic workers:** The user has resolved the recommendation choices, but product implementation remains paused. Execute this appendix only after the parent plan's implementation gate is released. Human play and visual review are approved under D05; all automated tests that import or execute game source remain prohibited.
 
 **Goal:** Build a complete, source-grounded simulation of the original Nintendo DS Blue Rescue Team systems beneath a newly authored 3D presentation. Red Rescue Team supplies comparative research only.
 
@@ -18,6 +18,7 @@
 - Use original writing, models, effects, and audio. Do not extract Nintendo assets or reproduce long dialogue scripts.
 - Do not add or run automated tests against `games/` source. Static syntax, lint/type checks, source review, and requested screenshots are allowed. Website integration tests must use intercepted fixture HTML.
 - No product implementation is authorized in the current turn. Research, prerequisite setup, and this plan are the deliverables for review.
+- D04 approves static browser codes/files, Blue extra-mode equivalents and labeled archived event expeditions. D06 omits standalone practice encounters; do not implement a practice-session owner, bonus Groudon route or practice acceptance work. D08 fixes the source language as JavaScript with JSDoc and independent strict static type checks.
 - Unverified mechanics must appear in the data/provenance register, not be hidden behind plausible constants.
 - General website state-management rules remain unchanged. The standalone game's persistence exception must be documented in `AGENTS.md` before implementation.
 
@@ -26,7 +27,7 @@
 1. An imported or stale save must never partially overwrite a working campaign; Task S03 owns this review.
 2. A second UI activation, held key, or stale dialogue acknowledgment must not charge twice or complete an objective twice; Tasks S02, S04, and S12 own this review.
 3. A perfectly connected floor may still strand a party behind terrain, escorts, or a locked exit; Tasks S05 and S11 own this review.
-4. A reset-level expedition or practice encounter must not overwrite permanent Pokémon growth, inventory, or progress; Tasks S03, S06, and S16 own this review.
+4. A reset-level expedition must not overwrite permanent Pokémon growth, inventory, or progress outside the verified exit policy; Tasks S03 and S06 own this review.
 5. Missing original data must not be filled with main-series values and then represented as faithful Rescue Team behavior; Tasks S01 and S08 own this review.
 
 ## Evidence and current limitations
@@ -88,7 +89,7 @@ The P packages in PLAN.md are the only execution order: P00–P18, then P22, the
 | S13 town/advancement/dojo | P14, P17, P20, P31 | Linking rules P14; IQ/evolution P17; economy P20; complete dojo content P31 |
 | S14 event graph/campaign | P22, P23–P31 | Reusable engine after P18 and before P19; authored main-story and postgame content follow parent branch order |
 | S15 mail/exchange | P21, P31 | Core exchange at P21; optional/event/Blue-specific coverage at P31 |
-| S16 projection/input/practice | P09, P10, P18; optional practice after P18, acceptance at P35 | Practice requires D06 approval and the integrated P18 engine; P06 is an art-only preview harness with no game imports or gameplay |
+| S16 projection/input | P09, P10, P18 | D06 omits practice; P06 is an art-only preview harness with no game imports or gameplay |
 | S17 final review/acceptance | P33–P37 | Data audit, polish, human acceptance, website integration and delivery remain separate parent gates |
 
 Each worker reads this interface section, the relevant P package, and its mapped S checklist; no required decision depends on chat history.
@@ -138,7 +139,7 @@ Domain facade in `src/domain/adventure.js`:
 - `adventure.dispatch(command) -> {accepted, reason?, events, revision}`
 - `adventure.getSnapshot() -> deeply read-only domain snapshot`
 
-The composition root in `src/main.js` wires domain results to presentation and the public persistence repository. Application operations `save`, `load`, `exportSave`, `importSave`, and `resetSave` call that repository; they are not domain methods and the domain never receives a browser storage adapter. UI render models are derived in `src/presentation/`. Optional practice, only after P18 integration and D06 approval, creates a separate Adventure instance and separate application binding with campaign writes disabled; returning from practice reinstates the untouched campaign instance.
+The composition root in `src/main.js` wires domain results to presentation and the public persistence repository. Application operations `save`, `load`, `exportSave`, `importSave`, and `resetSave` call that repository; they are not domain methods and the domain never receives a browser storage adapter. UI render models are derived in `src/presentation/`. There is no separate practice Adventure or practice application binding under resolved D06.
 
 The revision returned by `dispatch` is the same `revision` field in the canonical state; do not maintain a second counter. `getSnapshot()` captures immutable state including that revision atomically. A loaded Adventure resumes its validated persisted revision. Rejected/free presentation actions do not fabricate a domain state change.
 
@@ -167,6 +168,10 @@ The application creates a fresh opaque `adventureEpoch` whenever it binds a new 
 
 Before applying a notification, the application requires both its epoch and slot to match the active binding. Only then can a successful-save `sourceRevision` update the saved-progress indicator, and only when it matches the current domain revision. Discard results from replaced instances; an old revision or old epoch cannot mark current progress saved. Serialize writes per slot and invalidate obsolete queued operations before replacing a binding; let any already-running atomic write settle before a newer-epoch write can commit. Synchronous adapters check the active epoch immediately before committing. Never relabel an old request with the current epoch after it completes. Storage notifications never enter `Adventure.dispatch`, increment a domain revision, consume a turn, or roll back an accepted game action. A successful load/import may replace the Adventure instance only through the separately validated application operation; receiving its presentation notification cannot perform that replacement. Failed operations leave the running domain and previous valid stored save intact.
 
+Replacement operations (`load`, `import`, `reset`, new game and slot change) capture the current `{adventureEpoch, slotId, sourceRevision}` when requested and bind user confirmation to that context. Preparation/validation must not write the imported candidate to the active slot. Before replacement, acquire an application-level exclusive transition guard, pause domain-command acceptance, drain any in-flight slot write, and invalidate obsolete queued writes. After every asynchronous preparation step, and immediately before committing, require all three captured fields to still match the active binding; otherwise discard the candidate, preserve current progress/storage and ask the player to request the operation again. No automatic retry or fresh confirmation may reuse the old context. Serialize replacement operations through this guard so two requests from the same revision cannot both commit.
+
+For a valid replacement, keep the guard held through any required atomic storage commit, then bind the validated Adventure and rotate its epoch without an intervening `await`; release the guard on every success/failure/cancel path. A failed storage commit keeps the previous binding/save. A load without a storage write still performs the context comparison and synchronous bind under the guard. Never let a presentation notification perform replacement or relabel its captured context. This protects load/import against newer same-epoch commands as well as changes of campaign/slot.
+
 ## Task S01: Complete the original-rules evidence ledger
 
 **Files:** `content/provenance.json`, original-data appendices; no product rules until approved.
@@ -192,7 +197,7 @@ Before applying a notification, the application requires both its epoch and slot
 
 **Produces:** `createCampaign(input, content)`, `validateCommand(state, command, content)`, `applyCommand(state, command, dependencies)`, and the `Adventure` facade.
 
-- [ ] Define canonical IDs and the exact state fields above in the JSDoc-typed JavaScript contract proposed by PLAN.md. A TypeScript alternative requires the parent D08 decision before P04; a worker cannot choose a second notation independently.
+- [ ] Define canonical IDs and the exact state fields above in the approved JSDoc-typed JavaScript contract, with independent strict static type checks. D08 is resolved; do not introduce a TypeScript source/compilation alternative.
 - [ ] Implement original Blue new-game selection as a separate pre-campaign flow with no edition-selection step: ask eight category-distinct quiz questions, handle the special follow-up rule, obtain the original gender input, resolve the scored nature with verified tie-breaking, then filter the ten-partner pool by the hero's type. Original Blue results and starter restrictions come from the quiz data; a direct species override requires an explicit adaptation label and approval.
 - [ ] Validate and bound hero, partner and team names; initialize the chosen species' correct starting stats, moves, Friend Areas and inventory only once when the player confirms the completed new-game flow. Returning to an earlier selection screen must not create extra roster members or overwrite the existing save.
 - [ ] Make every command validate mode, actor/item ownership, known catalog IDs and relevant revision before mutation.
@@ -213,6 +218,15 @@ Before applying a notification, the application requires both its epoch and slot
 
 **Produces:** `encodeSave(state)`, `decodeSave(text, content)`, `validateSave(state, content)`, `migrateSave(envelope)`, and injected `StorageAdapter` operations `read/write/remove`.
 
+### Fixed browser checkpoint policy
+
+- Use one current campaign, a versioned primary save and the previous validated durable backup. Backups are recovery artifacts, not a second independent campaign. This browser adaptation does not reproduce cartridge single-use quicksave deletion or add a selectable strict-original save mode.
+- Queue an immutable snapshot after every completed domain transaction that changes canonical state: a fully resolved turn, town/service/job transaction, scene acknowledgment/reward/transition, pending-choice creation, or other accepted state change. Do not checkpoint intermediate combat effects or partially granted rewards. Rejected commands and presentation-only changes do not trigger saves.
+- Serialize writes per slot. Coalesce waiting autosaves to the latest valid revision of the same epoch; preserve the previous valid primary as backup before an atomic promotion. Do not coalesce a replacement/import operation into ordinary autosaves.
+- Provide explicit Save and export/import controls; Save captures the same committed state, and export may work when browser storage is unavailable. Show saved only for the exact durably committed current revision; otherwise show unsaved/saving/error. Leaving before queued work commits may resume the last durable checkpoint; do not rely on unload callbacks to finish writes.
+- Continue loads the validated primary. If it is corrupt, offer the separately validated backup with its timestamp/progress and require explicit recovery confirmation. Never silently reset or roll back the running campaign, and never overwrite a valid backup with a corrupt candidate.
+- Restore RNG, dungeon state and pending scene/result/choice cursors so resuming does not reroll or duplicate grants. Preserve original expedition/failure/progression rules; disclose browser checkpoint/export behavior as a platform adaptation.
+
 - [ ] Use an envelope containing format name, schema version, content revision and canonical state including its validated `revision`. Persist RNG state and pending scene/result cursors. Application epochs are regenerated for each binding rather than restored from saves.
 - [ ] Bound text size, recursion depth, object count, arrays and strings. Reject dangerous property keys, non-plain objects, nonfinite numbers, illegal positions and unknown referenced IDs.
 - [ ] Validate relational invariants: all selected IDs exist once; active actors refer to legal individuals; learned slots reference known moves; HP/PP are in range; linked groups are valid; inventory capacity obeys the current session rules; progression references known milestones.
@@ -220,10 +234,10 @@ Before applying a notification, the application requires both its epoch and slot
 - [ ] Decode and validate the whole import before replacing the current state. On failure, retain the existing campaign and show a specific error.
 - [ ] Write a complete envelope atomically through the adapter. A quota/security failure keeps the running game and previous stored save; communicate that progress is not saved.
 - [ ] Return storage results to the application service, which emits the separate `PersistenceNotification` defined above. Keep save indicators and storage-error banners in application/presentation state; do not dispatch storage outcomes back into the domain or append them to its event log.
-- [ ] Resume in-progress dungeon and pending dialogue from stored state without replaying rewards. Preserve original quicksave semantics if strict-original saving is selected; any automatic browser checkpoints must be documented as an adaptation.
-- [ ] Give reset an explicit UI confirmation tied to the current save revision. Practice state cannot reach the campaign adapter.
+- [ ] Resume in-progress dungeon and pending dialogue from stored state without replaying rewards. Apply the fixed browser checkpoint policy above; document its differences from original save/quicksave behavior without changing expedition/failure rules.
+- [ ] Give reset an explicit UI confirmation tied to the current save revision. Follow the exclusive replacement-operation guard and epoch/slot/revision checks above for reset, load, import, new game and slot change.
 
-**Static acceptance:** Review malformed fields, unknown IDs, duplicate identities, wrong map dimensions, invalid move references, quota exceptions and unsupported versions. Confirm none can partially apply an import. Trace successful, failed, stale-revision and stale-epoch save results through the separate application notification route, including two loaded campaigns with equal revision numbers and a delayed write from the replaced instance; none may dispatch a domain command or alter a turn/revision. No game-source execution is required for this review.
+**Static acceptance:** Review malformed fields, unknown IDs, duplicate identities, wrong map dimensions, invalid move references, quota exceptions and unsupported versions. Confirm none can partially apply an import. Trace successful, failed, stale-revision and stale-epoch save results through the separate application notification route, including two loaded campaigns with equal revision numbers and a delayed write from the replaced instance; none may dispatch a domain command or alter a turn/revision. Also trace a load/import requested at revision N followed by an accepted command to N+1 before completion, and two concurrent replacement requests: the stale candidate must neither bind nor write to storage. No game-source execution is required for this review.
 
 ## Task S04: Deterministic action scheduler
 
@@ -261,7 +275,7 @@ Before applying a notification, the application requires both its epoch and slot
 - [ ] Keep exact dungeon dimensions configurable and camera-independent. Boss exit locking is simulation state, not merely a missing stairs mesh.
 - [ ] Follow PLAN.md coordinates: logical `tiles[z][x]`, north is negative z and east is positive x. Renderer tile size and camera-relative quantization belong to presentation/input and do not alter logical passability.
 
-**Static acceptance:** Inspect the connectivity proof and placement ordering. Inspect narrow-corner, water-only, wall-mobile, locked-room and boss-exit examples by source reasoning. Optional human play checks cover navigation/camera clarity after implementation approval.
+**Static acceptance:** Inspect the connectivity proof and placement ordering. Inspect narrow-corner, water-only, wall-mobile, locked-room and boss-exit examples by source reasoning. D05-approved human play checks cover navigation/camera clarity after implementation is authorized and available.
 
 ## Task S06: Expedition lifecycle and entry restrictions
 
@@ -426,34 +440,32 @@ Before applying a notification, the application requires both its epoch and slot
 
 **Files:** A focused `src/domain/mail.js`, mail data/protocol documentation, UI integration later.
 
-**Consumes:** Verified original encoding and checksums, jobs, deterministic floor state, rescue outcome policy.
+**Consumes:** Approved D04 browser-equivalent scope, sourced Blue rescue/event semantics, jobs, deterministic floor state and rescue outcome policy. Original codec data is required only for a sourced compatibility claim.
 
-**Produces:** Original-compatible mail codec only if the algorithm is verified; otherwise a clearly named local save-sharing feature with no compatibility claim.
+**Produces:** Clearly versioned static browser codes/file exchange for rescue features, browser equivalents for Blue's extra modes and labeled archived event expeditions preserving their content and progression. No hosted matchmaking or required cartridge-interoperability gate. Original-compatible codes may be claimed only where their algorithm and behavior are sourced and demonstrable.
 
-- [ ] Separate Wonder Mail job codes from SOS/A-OK/Thank-You rescue exchanges. Enforce the applicable Blue regional formats, verified cross-version interoperability and once-per-save redemption. Red format research does not add a selectable Red campaign.
-- [ ] Validate checksum, legal characters, destination and decoded constraints before adding a job. Special event-dungeon codes must unlock the correct destinations.
+- [ ] Separate Wonder Mail job codes from SOS/A-OK/Thank-You rescue exchanges. Specify the browser format/version and once-per-save redemption. Only an explicitly supported original-code path enforces the sourced Blue regional format and verified cross-version behavior. Red format research does not add a selectable Red campaign.
+- [ ] Validate format version, checksum, legal characters, destination and decoded constraints before adding a job. Archived event access must identify its browser adaptation and unlock the correct destinations without bypassing their retained content/progression.
 - [ ] Capture the necessary dungeon identity/seed/rescue location when a team requests help. A rescue expedition reaches the actual rescue spot and applies the correct rules.
 - [ ] Validate A-OK mail against the pending request before revival; reject replayed or mismatched acknowledgments.
-- [ ] Treat Blue wireless helper transfer and dual-slot team import as explicit platform adaptations if implemented via files. A browser cannot literally reproduce physical DS connectivity; Red cable behavior is comparative evidence only.
+- [ ] Implement the approved browser code/file equivalents for Blue wireless helper transfer and dual-slot team import, preserving the relevant extra-mode rules and labeling the adaptation. Physical DS connectivity is not required; Red cable behavior is comparative evidence only.
 
-**Static acceptance:** Inspect the documented format and source derivation; inspect rejection paths for mixed regions, invalid characters, wrong request identity, redeemed codes and locked destinations. Cartridge interoperability remains unclaimed until separately authorized and verified.
+**Static acceptance:** Inspect the documented browser format and source-derived rescue semantics; inspect rejection paths for unsupported format versions, invalid characters, wrong request identity, redeemed codes and locked destinations, plus regional mismatches only for supported original-code paths. Include Blue extra modes and archived events in the content ledger. Cartridge interoperability is not a completion requirement and remains unclaimed without sourced, demonstrable evidence.
 
-## Task S16: Practice encounter and presentation projection
+## Task S16: Presentation projection and input
 
-**Files:** `src/domain/adventure.js`, `content/` scenario data, `src/presentation/`, `src/input/`, and `src/main.js` application wiring; renderer remains under `src/rendering/`.
+**Files:** `src/presentation/`, `src/input/`, and `src/main.js` application wiring; renderer remains under `src/rendering/`.
 
-**Consumes:** Approved domain APIs and renderer contract; playable practice additionally requires the integrated P18 engine and D06 approval.
+**Consumes:** Approved domain APIs and renderer contract.
 
-**Produces:** Immutable `RenderSnapshot`, clear projection to HUD/menus, and a standalone practice-session owner only if approved. P06 is separate art tooling: its preview harness may show static compositions and animation playback, but imports no game source and implements no commands, combat, state, saves or playable encounter. P10/P18 integrate production modules; practice never uses the P06 harness.
+**Produces:** Immutable `RenderSnapshot` and clear projection to HUD/menus. P06 is separate art tooling: its preview harness may show static compositions and animation playback, but imports no game source and implements no commands, combat, state, saves or playable encounter. P10/P18 integrate production modules. Resolved D06 omits all standalone practice implementation and acceptance work; Groudon remains on the original campaign route, and the final arcade screenshot comes from actual campaign play.
 
 - [ ] Project actors in `src/presentation/` into renderer fields `{actorId: ActorId,speciesId: SpeciesId,formId,dexNo,name,x,z,face,hp,maxHp,role,statuses}` and layers into a renderable world. `dexNo` is catalog metadata, not actor identity. `role` uses the shared presentation enum and `statuses` is a readonly array of projected status descriptors; any boss presentation metadata is separate from identity. Match RENDERING.md section 3.2 exactly; do not expose mutable session arrays.
 - [ ] Keep third-person movement mapping in the input/controller layer: camera-relative input becomes a discrete world direction, then passes normal validation.
 - [ ] Allow camera orbit/zoom, reduced motion and animations while domain time waits. Queue or reject inputs during visual transitions without losing accepted actions.
-- [ ] Only after P18 integration and if D06 is approved, create an isolated scenario state with declared equipment/levels for the optional Groudon practice encounter. Use production simulation and rendering modules. Never attach its storage adapter to the real campaign.
-- [ ] Exiting, failing or completing practice restores the unchanged prior campaign snapshot; practice rewards/recruits/unlocks cannot transfer.
 - [ ] Provide all documented controls through keyboard and accessible on-screen alternatives. Every town service and dungeon objective needs a visible interaction, not only an internal method.
 
-**Static acceptance:** Trace practice entry/exit/save calls and confirm no path overwrites the campaign. Review renderer/controller code for direct writes into simulation state. Requested screenshots may demonstrate presentation; they do not establish campaign completeness.
+**Static acceptance:** Review renderer/controller code for direct writes into simulation state. D05-approved manual campaign play and screenshots may demonstrate presentation; they do not alone establish campaign completeness. No standalone practice route or practice-session code belongs in this task.
 
 ## Task S17: Completion ledger and review-only acceptance
 
@@ -463,15 +475,17 @@ Before applying a notification, the application requires both its epoch and slot
 - [ ] Run syntax checks and the approved game's static lint/type checks only; do not execute game-source tests.
 - [ ] Perform a fresh static review of imports, reference integrity, state ownership, turn transactions, save migrations, finite loops, exact rules and accessibility projections.
 - [ ] Run the website's required checks separately, with fixture content for the game iframe. Parent/root owns these repository checks.
-- [ ] Give the user a concise optional manual play checklist after implementation is authorized: quiz/partner selection, initial rescue, PP/Belly/items, job turn-in, town purchases/deposits, linking, recruitment, failure/revival, save/reload, a story boss, postgame unlock, evolution, practice isolation and import rejection. These are human acceptance steps, not secretly executed automated game tests.
+- [ ] Use the D05-approved human play/visual acceptance checklist after implementation is authorized and available: quiz/partner selection, initial rescue, PP/Belly/items, job turn-in, town purchases/deposits, linking, recruitment, failure/revival, save/reload, a story boss, postgame unlock, evolution and import rejection. These are human acceptance steps; all automated tests importing or executing game source remain excluded. Practice checks are omitted under D06.
 - [ ] Report current limitations in the game credits/help and PR. Do not describe an implementation as a complete exact recreation until the source/data/interaction ledger supports that claim.
 
-## Decisions requiring review before execution
+## Resolved choices and execution constraints
 
-1. **Fidelity boundary:** Require original PMD numerical/effect data throughout, or approve a specifically enumerated reimagined subset. Recommendation: finish source/data prerequisites before the main implementation so the architecture does not harden around false assumptions.
-2. **Saving behavior:** Preserve strict-original single-save/quicksave behavior, or add automatic browser checkpoints as a disclosed adaptation. Both need validated import/export and practice isolation.
-3. **Connectivity:** Implement verified original mail compatibility, or ship an explicitly local-only sharing mode initially. Do not guess a codec.
-4. **Scheduling fidelity:** Decide from source-backed evidence which original AI bugs/quirks to reproduce. The worker must not make these choices opportunistically while implementing.
-5. **Staged delivery:** Approve a first playable slice as an internal milestone only; full-story/postgame/all-species completion remains a separate ledger, not implied by the first slice.
+1. **Fidelity and scheduling:** Original PMD numerical/effect data and verified Blue ordering remain engineering research obligations. Resolve gaps before rules implementation; do not make up values or choose AI quirks opportunistically.
+2. **Saving:** Use S03's fixed browser checkpoint policy: one current campaign with primary/backup recovery, autosave after complete state transactions, manual save/export and explicit backup recovery. Strict cartridge quicksave is not an open choice. Preserve the revision/epoch replacement and notification contracts.
+3. **Connectivity — D04:** Static browser codes/files, Blue extra-mode equivalents and labeled archived event expeditions are approved. Cartridge interoperability is not required; compatibility claims still need verified sources and demonstrable behavior.
+4. **Acceptance — D05:** Human play and visual review are approved. Automated tests importing or executing game source remain prohibited; website checks use inert fixtures.
+5. **Practice — D06:** Omit standalone practice, bonus Groudon encounters, practice-session implementation and practice acceptance work. Use the original campaign encounter for the final gameplay capture.
+6. **Language — D08:** Use JavaScript with JSDoc and strict independent static type checks; the TypeScript alternative is closed.
+7. **Delivery:** Internal milestones do not imply full-story/postgame/all-species completion. The parent plan's full-release and implementation gates remain in force; resolving these choices does not start product implementation.
 
-No further product code should be written until this combined plan is reviewed.
+Product implementation remains paused pending the parent plan's explicit execution release. Do not reopen the resolved choices as approval questions.

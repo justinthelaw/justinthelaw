@@ -380,7 +380,7 @@ All entries below need real per-floor population/item work after this planning s
 | `marvelous-sea` | 20 | Event / Wonder Mail / original distribution | Event access; source population relationship to Fantasy Strait |
 | `fantasy-strait` | 30 | Event / Wonder Mail | Whole-floor Monster House15; original final-floor money possibility |
 
-The event pages do not establish ordinary original story unlocks for the four event dungeons; they say official release of the example codes outside Japan is not currently known. Do not copy DX unlocks. A browser game can provide a clearly labeled "archived event expeditions" feature, but unlocking them through a new menu is an adaptation requiring plan approval. Do not present fabricated Wonder Mail as original distributed codes.
+The event pages do not establish ordinary original story unlocks for the four event dungeons; they say official release of the example codes outside Japan is not currently known. Do not copy DX unlocks. D04 approves a clearly labeled "archived event expeditions" browser feature, including menu access; specify its exact original-content mapping and browser unlock rules before P31. Do not present fabricated Wonder Mail as original distributed codes.
 
 Blue species availability governs the encounter catalog and rescue jobs. The roster appendix owns the fixed Blue product matrix and its sourced cross-version unlock mechanisms; retain Red differences as comparative provenance only. D01 is resolved: do not combine edition defaults, add Red-specific content rules or present an edition selector.
 
@@ -427,7 +427,7 @@ Canonical boss species, always floor B3F; duplicates are deliberate. These are `
 
 Boss recruitment in team mazes has specific high-level/Friend Bow conditions; ordinary enemies never recruit. Treat those conditions as a systems implementation dependency, not guaranteed team rewards.
 
-Rescue Team Maze originally receives a Red cartridge team through Blue on DS/DS Lite dual-slot hardware. Its imported team bosses and later recruitment gates differ from the fixed mazes. The browser cannot claim hardware compatibility; a separately approved import/share-team format would be a new adaptation. Until designed, list this feature as researched but not implemented, rather than populate it with a fabricated fixed enemy team.
+Rescue Team Maze originally receives a Red cartridge team through Blue on DS/DS Lite dual-slot hardware. Its imported team bosses and later recruitment gates differ from the fixed mazes. D04 approves a browser import/share-team adaptation, not a hardware-compatibility claim. Specify the format and map original boss/recruitment behavior before implementation; retain all Blue content. Until designed, list this feature as researched but not implemented, rather than populate it with a fabricated fixed enemy team.
 
 ## 7. Town and recurring character coverage
 
@@ -726,12 +726,12 @@ To close a record, attach edition/region-specific evidence, affected field/scene
 
 ### CAMPAIGN-GAP-10 — Exchange, hardware and version-mode disposition
 
-- **Unresolved scope:** Decide whether original Friend Rescue, Wonder Mail, dual-slot Rescue Team Maze and version-exclusive unlocking will be implemented, adapted, or explicitly omitted. A full-content offline browser game must still disclose connectivity omissions.
-- **Owner and consumers:** P01/P02 own the original capability inventory; P21 owns rescue/mail/exchange contracts and P31 linked/event/version content. Justin's decisions D01 and D04 in [PLAN.md](PLAN.md) govern the allowed adaptation/disposition.
+- **Unresolved scope:** Research original Friend Rescue, Wonder Mail, dual-slot Rescue Team Maze and version-exclusive unlocking, then specify their approved D04 browser equivalents and exact content/progression mapping. No Blue content omission is authorized; any future omission requires an explicit scope change.
+- **Owner and consumers:** P01/P02 own the original capability inventory; P21 owns rescue/mail/exchange contracts and P31 linked/event/version content. Justin's resolved D01/D04 decisions in [PLAN.md](PLAN.md) select Blue and browser codes/files, extra-mode equivalents and archived event expeditions; verified cartridge interoperability is not a completion gate.
 - **Affected records:** Edition-scoped availability and unlock predicates; Friend Rescue and Wonder Mail feature records; linked Rescue Team Maze scope; optional/event access records; coverage exclusions and player-facing compatibility statements.
-- **Resolution question:** For each feature and supported edition/region, what does the original require, what behavior/data can the approved browser mode preserve, and which exact browser equivalent or omission is authorized? Record code compatibility separately from content accessibility.
-- **Candidate sources:** The original-game overview, Makuhita Dojo and optional/event pages in §11; original manuals/hardware documentation located through the official catalog sites; [DATA.md](DATA.md)'s version research. D01/D04 review supplies product decisions, not historical evidence.
-- **Dependent gate:** Block corresponding P21/P31 implementation assumptions until original scope is inventoried and D01/D04 disposition is recorded. M4 requires no unapproved missing-scope rows; P35/P36 must disclose any approved connectivity or compatibility omissions in the accepted release scope.
+- **Resolution question:** For each Blue feature and relevant region, what does the original require and which exact browser code/file, imported-team, off-screen or archived-event behavior preserves it under approved D04? Record optional verified code compatibility separately from required content accessibility.
+- **Candidate sources:** The original-game overview, Makuhita Dojo and optional/event pages in §11; original manuals/hardware documentation located through the official catalog sites; [DATA.md](DATA.md)'s version research. Resolved D01/D04 supply product decisions, not historical evidence.
+- **Dependent gate:** Block corresponding P21/P31 implementation assumptions until original scope is inventoried and mapped to the recorded D01/D04 browser adaptation. M4 requires no unapproved missing-scope rows; P35/P36 must disclose any approved connectivity or compatibility omissions in the accepted release scope.
 
 ### CAMPAIGN-GAP-11 — Original quiz, gender mapping and partner eligibility
 

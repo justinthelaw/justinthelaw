@@ -34,9 +34,9 @@ Only specific sources may resolve original data. A broad walkthrough's narrative
 | Floor and scene semantics | Direct original-page counts versus walkthrough clearings; fixed floors, rest stops and boss inclusion | CAMPAIGN unresolved register; preserve normalized scene/floor distinction |
 | Trigger timing | Number and type of completed jobs/day changes, NPC priority and specific postgame conjunctions | Campaign scene ledger; document direct original evidence before freezing gates |
 | Deoxys/forms | FRLG default learnset gap, original per-floor forms and learning semantics | DATA-03; do not choose a convenient modern form |
-| Legacy mail and modes | Exact codecs/checksums/regions, Blue wireless/off-screen modes, reproducible historic events | DATA-09/DATA-10 and D01/D04 user decisions |
-| Visual production | Full roster/forms/clips and complete environments do not exist | D03/P03/P06/P32; obtain visual acceptance before scaling |
-| User acceptance boundary | Manual play/visual review with automated game tests excluded | D05; preserve the current no-game-tests rule |
+| Legacy mail and modes | Exact codecs/checksums/regions, Blue wireless/off-screen modes, reproducible historic events | DATA-09/DATA-10 under resolved D01/D04: Blue browser equivalents; cartridge interoperability is not a completion gate |
+| Visual production | Full roster/forms/clips and complete environments do not exist | Resolved D03 B / P03/P06/P32; obtain actual authored asset and 3D visual acceptance before scaling |
+| User acceptance boundary | Manual play/visual review with automated game tests excluded | D05 approved on 2026-10-04; preserve the no-automated-game-tests rule and implementation hold |
 
 The detailed appendices retain additional concrete questions; this summary does not replace them. Resolving a gap requires updating its record, the affected content specification and coverage evidence together.
 

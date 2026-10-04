@@ -4,22 +4,38 @@
 
 This appendix is a future implementation specification. The current requested
 deliverable is an extensive plan and prerequisite repository setup, followed by
-user review. Do not activate a game card, commit a gameplay screenshot, add a
+user review. The user approved the recommended decisions on 2026-10-04 except
+D03, selecting B; execution still awaits a separate start instruction.
+Do not activate a game card, commit a gameplay screenshot, add a
 game runtime, or describe future implementation tasks as shipped behavior.
 Keep all three existing arcade placeholders until the reviewed plan authorizes
 implementation and the playable release satisfies its readiness gates.
 All three live cards, including the first card, remain unchanged in this
 planning change. There is no approved game runtime, final runtime artwork, or
-gameplay screenshot. Two user-authorized raster loading-illustration candidates
-for D03 may be created under `art-candidates/`; they are visual-planning assets,
-not 3D runtime assets or gameplay captures. Reviewing this appendix or those
-candidates does not lift the planning hold or authorize
+gameplay screenshot. The two generated raster loading illustrations are stored
+under `art-candidates/`: B is the selected future loading background and A is
+an archived comparison. Neither is a 3D model or gameplay capture.
+Approving the decisions or those illustrations does not lift the planning hold or authorize
 an automatic merge, release, or deployment.
 
 The sole reference edition is the original **Pokémon Mystery Dungeon: Blue
 Rescue Team**. Red Rescue Team is comparative/cross-version research only;
 there is no Red campaign or edition selector, and shared findings require
 Blue-specific verification.
+
+## Binding decisions recorded on 2026-10-04
+
+The user approved all recommendations except the design recommendation,
+selecting B. Do not treat these decisions as pending or repeat their questions;
+they approve requirements, not a start of implementation or a release.
+
+| Decision | Integration requirement |
+| --- | --- |
+| D03 | Bold cel-shaded 3D; selected loading background is `art-candidates/b-cel-shaded-cavern.webp`. Raster loading art cannot replace actual 3D review or the gameplay preview. |
+| D04 | Browser rescue codes/files and equivalents for Blue's extra modes/events preserve content/progression; original cartridge interoperability is not required unless sourced and demonstrably verified. |
+| D05 | Manual play and visual review are allowed after implementation; no automated tests import/execute game source. |
+| D06 | No separate Groudon practice mode or practice configuration; final preview comes from normal campaign play. |
+| D08 | JavaScript with JSDoc, directly served ES modules, and strict independent static type checks outside the website toolchain. |
 
 The existing `AGENTS.md` at repository HEAD states: "Do not test source
 code inside `games/`. Website export tests may use temporary fixture files to
@@ -38,15 +54,15 @@ The root `README.md` remains unchanged for this feature.
 
 [PLAN.md](PLAN.md) is authoritative for package IDs, dependencies, acceptance,
 approval, and execution order. The following sections expand its instructions;
-they do not create a separate implementation or release sequence. All packages
-after P00 remain unapproved and not started.
+they do not create a separate implementation or release sequence. Runtime
+packages remain unstarted and require the user's separate start instruction.
 
 | Appendix instructions | Authoritative work package |
 | --- | --- |
 | Preserve current placeholders; inspect paths and fixture boundaries | P00: groundwork and review hold |
 | Pin local renderer/tooling, vendor notices, and dependency isolation | P04: toolchain; dependencies and decisions in PLAN govern |
 | Loading, resource disposal, cache coordination, and performance budgets | P34: robustness/polish, consuming earlier presentation/persistence contracts |
-| Actual gameplay screenshot and full release-candidate evidence | P35 acceptance feeds P36; any optional practice profile requires D06 approval |
+| Actual campaign gameplay screenshot and full release-candidate evidence | P35 acceptance feeds P36; D06 excludes separate practice profiles |
 | First-card data, preview, iframe paths/focus, responsive layout, inert-fixture website assertions | P36: first arcade card and website integration |
 | Flight-check, contribution checks, current-head CI/Codex review, explicit publication authorization | P37: contribution review, PR delivery and deployment |
 
@@ -265,13 +281,12 @@ the captured view. If the required scene is not implemented, stop card
 activation and report that gap rather than publishing a fabricated preview.
 This is future P36 work using the P35-accepted release candidate. No screenshot
 or ready scene exists in the planning change. Use normal rendering; any scene,
-pose, UI, or camera preparation must be disclosed. Optional practice staging
-cannot bypass the full release-candidate dependency or D06 approval.
+pose, UI, or camera preparation must be disclosed. D06 excludes a separate
+practice encounter: capture the original Groudon campaign encounter through
+normal campaign play, without a practice configuration or debug battle.
 
-Use a reproducible internal screenshot scene/state only if the reviewed game
-design permits it. Such a capture should initialize a legitimate renderable
-state and disclose a staged scene; it must not become an assertion-driven game
-test or expose a normal player-facing debug shortcut. Record the build/revision,
+The campaign capture must not become an assertion-driven game test or a
+scripted automated playthrough. Record the accepted build/revision,
 capture dimensions, renderer/device settings, chosen scene, and any staging.
 Use a landscape crop suitable for the existing 640×360 image declaration,
 preserve the subjects, and verify readability in the existing padded preview.
@@ -291,7 +306,7 @@ Do not import the renderer through website components; the iframe is the
 runtime boundary and exists only after Play. Initial arcade network activity
 may include the screenshot and normal website bundles, but no game modules.
 
-For the proposed Three.js renderer, the eventual plan should choose and pin a
+For the local Three.js renderer, the eventual implementation must choose and pin a
 specific compatible release, vendor only the required browser runtime files,
 retain its license, record provenance/integrity and included upstream paths,
 and use local relative imports. Do not depend on runtime CDNs, remote import
@@ -311,7 +326,10 @@ preparation scripts, installed dependencies and caches. Keep the direct-browser
 ES-module runtime in `games/pokemon-dungeon-reimagined/`; write only reviewed
 runtime outputs and project documentation there. No exporter redesign is required for this split.
 
-Use the dedicated tooling package and pinned lockfile with reproducible commands. Website lint/type exclusions are deliberate
+Use the dedicated tooling package and pinned lockfile with reproducible commands.
+D08 fixes JavaScript ES modules with JSDoc and strict independent static type
+checks; do not introduce a TypeScript compilation workflow as an unapproved
+alternative. Website lint/type exclusions are deliberate
 and remain in force; add explicit game lint/type/syntax commands in its own
 quality plan rather than expanding website tests to the game. Document the
 resolved runtime payload size, vendor size, number of startup requests, and
@@ -332,7 +350,8 @@ budgets. They are targets, not measured results or existing artifacts:
 
 Do not replace these with separate appendix targets. Record actual measurements
 at P34/P35 and carry them into P36/P37 release evidence; seek review before
-changing a proposed budget. No engine bundle or assets are installed in P00.
+changing a budget. No engine bundle or game runtime is installed in P00;
+the selected raster loading illustration remains separate planning evidence.
 
 ## Future loading, failures, caching, and browser lifecycle
 
@@ -379,7 +398,8 @@ and an iframe displaying an HTML 404 can still emit `load`.
 This checklist expands P36/P37; it does not authorize their execution or
 supersede PLAN's dependencies. Steps 1–3 and the integration/export assertions
 in steps 4/6 feed P36; contribution/CI/review/publication steps 4–10 feed P37.
-The current work ends at P00 review with all public placeholders unchanged.
+The current work ends at the planning hold with binding decisions recorded and
+all public placeholders unchanged; await the user's separate start instruction.
 
 1. Confirm plan approval and mark explicitly delivered versus deferred game
    scope before enabling the card. Confirm content/assets/provenance inventories

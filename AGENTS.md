@@ -276,12 +276,25 @@ instructions to continue until the whole game is implemented are superseded
 by this planning hold. Approval to merge an earlier website PR does not
 approve merging this planning PR.
 
-The user separately authorized two candidate raster loading illustrations for
-D03 visual planning. Store them under
-`games/pokemon-dungeon-reimagined/plan/art-candidates/` and label them as planning
-illustrations, not 3D runtime assets, approved final art, or gameplay screenshots.
-This limited visual-planning authorization does not lift the runtime or arcade
-integration hold.
+On **2026-10-04**, the user approved all recommended decisions except D03,
+selecting **B: bold cel-shaded 3D**. These choices are binding; do not ask the
+same decision questions again. Approval of recommendations does not authorize
+implementation, merge, deployment, or lifting the arcade integration hold;
+await the user's separate start instruction.
+
+| Decision | Binding selection |
+| --- | --- |
+| D03 | B: bold cel-shaded 3D; `games/pokemon-dungeon-reimagined/plan/art-candidates/b-cel-shaded-cavern.webp` is the selected future loading background. Actual 3D models/animation/quality slices still require review. |
+| D04 | Browser rescue codes/file exchange and equivalents for Blue's extra modes/events; preserve content/progression. Original cartridge interoperability is not a completion gate; claim compatibility only where sourced and demonstrably verified. |
+| D05 | Human play and visual review are allowed after implementation; automated tests importing/executing game source remain prohibited. |
+| D06 | No separate Groudon practice mode; use the original campaign route and campaign gameplay capture. |
+| D08 | JavaScript ES modules with JSDoc and strict independent static type checks; authoring tools remain outside `games/`. |
+
+Keep both generated raster illustrations under
+`games/pokemon-dungeon-reimagined/plan/art-candidates/` with their provenance.
+B is selected for future loading use; A is an archived comparison. Neither
+is a 3D runtime model or a gameplay screenshot, and neither may replace the
+arcade's eventual real campaign capture.
 
 Read [the handoff plan](games/pokemon-dungeon-reimagined/plan/PLAN.md), then the nested
 [game instructions](games/pokemon-dungeon-reimagined/AGENTS.md). The plan routes
@@ -290,8 +303,8 @@ at a time. Record future decisions and progress in the linked ledger. Keep
 requirements current in these AGENTS files; the root README.md remains outside
 this work's scope. Keep the complete plan inside the game's `plan/` directory.
 Maintain [games/README.md](games/README.md) as the concise arcade guide and live/WIP
-game catalog, using sections, tables and bullets with paragraphs of at most
-2-3 sentences.
+game catalog, using headings, tables and lists; omit prose paragraphs. A section may use
+2–3 front-matter sentences only when absolutely necessary; none are needed now.
 
 The reference edition is the original **Pokémon Mystery Dungeon: Blue Rescue
 Team**; its campaign and postgame are the third-person 3D target. Red Rescue
@@ -313,8 +326,9 @@ The existing website testing boundary still applies: no tests execute or
 import game source. Website player/export tests use inert fixture HTML and
 temporary fixture files. Independent game syntax, lint, type, schema checks,
 code review, and user-directed visual capture are separate from gameplay tests.
-Do not add automated game tests. The plan proposes manual play and visual
-acceptance after implementation; that proposal is part of the user's review.
+Do not add automated game tests. The user approved manual play and visual
+acceptance after implementation on 2026-10-04; the separate implementation
+start instruction is still required.
 A future standalone-game persistence adapter may use localStorage/IndexedDB
 behind one validated interface; the website retains its Zustand convention.
 

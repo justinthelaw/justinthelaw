@@ -9,17 +9,31 @@ The user requested the plan and prerequisite setup and then a stop for review.
 **Do not implement the game or change the first arcade card until the user
 explicitly approves proceeding.** Do not merge this planning PR automatically.
 
-The user separately authorized two raster loading-illustration candidates for
-D03 under `plan/art-candidates/`. They are visual-planning illustrations, not
-3D runtime assets, approved final artwork, or gameplay screenshots; their
-creation does not authorize game implementation or first-card activation.
+On **2026-10-04**, the user approved all recommendations except the visual
+recommendation, selecting **D03 B: bold cel-shaded 3D**. The choices below are
+binding and need no repeat decision question. They do not authorize execution:
+wait for a separate user instruction to start implementation; merge/deployment
+and first-card activation remain held behind their release approvals.
+
+| Decision | Binding selection |
+| --- | --- |
+| D03 | B: bold cel-shaded 3D; `plan/art-candidates/b-cel-shaded-cavern.webp` is the selected future loading background. Review actual 3D assets and quality slices separately. |
+| D04 | Browser rescue codes/file exchange, browser equivalents for Blue's extra modes, and labeled archived event access preserving content/progression. Original cartridge interoperability is not a completion gate; claim compatibility only where sourced and demonstrably verified. |
+| D05 | Human play and visual review are permitted after implementation; no automated game-source tests or playthroughs. |
+| D06 | Omit separate Groudon practice; retain the campaign encounter and campaign screenshot capture. |
+| D08 | JavaScript ES modules with JSDoc and strict independent static type checks; tools live in `tools/pokemon-dungeon/`. |
+
+The two generated loading illustrations remain under `plan/art-candidates/`
+with provenance: B is selected, A is an archived comparison. These raster
+assets are neither 3D models nor gameplay screenshots and cannot replace the
+eventual arcade gameplay capture.
 
 Read [the project plan](plan/PLAN.md) first. Then read the
 specific task and appendix it identifies. The [progress ledger](plan/PROGRESS.md)
-records completed work and unresolved decisions. The parent AGENTS.md remains
+records completed work, resolved decisions and remaining research. The parent AGENTS.md remains
 applicable, with the standalone-game exceptions stated here.
 
-## Binding constraints after approval
+## Binding implementation constraints: start pending
 
 - The source reference is the original **Pokémon Mystery Dungeon: Blue Rescue
   Team**, not Rescue Team DX or the Explorers games. Red Rescue Team is only
@@ -53,8 +67,9 @@ applicable, with the standalone-game exceptions stated here.
 - Original game rules and user-approved adaptations take precedence over
   illustrative pseudocode. Resolve source conflicts in the research ledger.
 - Keep the full plan in `plan/` and the arcade/live/WIP catalog in `../README.md`.
-  Use concise sections, tables and bullets in that catalog, with paragraphs
-  limited to 2-3 sentences. Do not change root README.md. Update relevant AGENTS requirements, content
+  Use headings, tables and lists in that catalog; omit prose paragraphs. Allow
+  2–3 front-matter sentences in a section only when absolutely necessary; none
+  are needed in the current catalog. Do not change root README.md. Update relevant AGENTS requirements, content
   coverage, task progress, and provenance when work changes them.
 
 ## Required controls and asset workflow
@@ -64,7 +79,8 @@ applicable, with the standalone-game exceptions stated here.
 - Use [ASSET-PIPELINE.md](plan/ASSET-PIPELINE.md) for bulk asset sheets: locked master
   prompts, approved references, uniform grids, verified crop manifests and hashes.
 - Keep raster icon/portrait/material sheets distinct from 3D geometry, rigs and
-  animations. The current generated backgrounds are unselected planning assets.
+  animations. Candidate B is the selected future loading background; candidate
+  A is an archived planning comparison. Neither approves the 3D quality slice.
 
 ## Executor discipline
 

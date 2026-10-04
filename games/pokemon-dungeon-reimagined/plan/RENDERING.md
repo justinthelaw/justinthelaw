@@ -1,8 +1,8 @@
 # Rendering, visual production, camera, and user-experience implementation appendix
 
-Status: **planning only; implementation is paused for user review**. This appendix defines future work and acceptance gates. It does not authorize resuming product code. The review must resolve the art-production scope and minimum quality bar before a smaller implementation model is instructed to work.
+Status: **planning only; implementation remains paused until a separate start instruction**. The user accepted the recommendations and selected **B: bold cel-shaded 3D** for D03. D05 manual acceptance is approved and D06 practice mode is omitted. These decisions fix the handoff; they do not authorize product implementation in this planning update. P06 still reviews actual character/material/animation assets against the selected style.
 
-This is an implementation plan for an original browser-based 3D reimagining of the original Nintendo DS Blue Rescue Team experience, integrated into the existing arcade. It is not an Unreal Engine project, a port of an existing game, or a promise of Unreal rendering features. The desired cinematic impression must come from strong composition, convincing silhouettes, original art, physically based materials, selective shadows, atmospheric effects, and coherent animation within a static WebGL2 application.
+This is an implementation plan for an original browser-based 3D reimagining of the original Nintendo DS Blue Rescue Team experience, integrated into the existing arcade. It is not an Unreal Engine project, a port of an existing game, or a promise of Unreal rendering features. The selected B look uses bold sculpted shapes, two-to-three-band cel shading, crisp selective contours, broad material shapes, rich cool shadows and a coherent saturated palette. Strong composition, convincing silhouettes, selective shadows, atmosphere and animation provide polish within static WebGL2; photoreal cinematic PBR is not the default visual target.
 
 Blue is the user-selected baseline (resolved D01); Red Rescue Team may inform comparative research but does not add an edition selector or Red-specific product scope. Dialogue and quiz text must be newly written while preserving the original Blue events, meaning and selection concepts.
 
@@ -24,7 +24,7 @@ The Groudon encounter is the initial art-quality anchor. A small Pikachu and Cha
 | Polished browser vertical slice | Authored hero/partner/Groudon assets, strong volcanic arena, robust third-person camera, complete tactical battle feedback, desktop/mobile quality tiers, original sound and UI | A finished entire game or proof that 386 production assets already exist |
 | Full accepted art production | Species-specific models for every included species and required visual form, consistent rigs/animation, complete dungeon/town art kits, audited asset provenance, performance adaptation, full UX | Exact recreation of the original artwork or scripts |
 
-The recommended sequence is to approve the complete target and coverage policy, establish P06 art direction with non-gameplay previews, then integrate the actual game renderer at P10 and battle presentation at P18/P25. P06 visual acceptance permits asset production; later gameplay acceptance verifies those assets in the real game. The entire game cannot be declared visually complete merely because every species ID maps to one of seven body archetypes.
+The accepted sequence is to establish P06 asset quality against the selected B direction with non-gameplay previews, then integrate the actual game renderer at P10 and battle presentation at P18/P25. P06 visual acceptance permits asset production; later gameplay acceptance verifies those assets in the real game. The entire game cannot be declared visually complete merely because every species ID maps to one of seven body archetypes.
 
 ### 1.3 Visual decisions and fixed implementation constraints
 
@@ -32,7 +32,7 @@ The recommended sequence is to approve the complete target and coverage policy, 
 
 | Topic | Binding handoff |
 | --- | --- |
-| Art style | D03 remains open: A cinematic stylized 3D or B bold cel-shaded 3D; the actual loading-background candidates illustrate those options |
+| Art style | **D03 resolved: B bold cel-shaded 3D**. The existing B cavern background is selected for future loading artwork/reference; A is archived comparison only. Selecting this raster does not approve uncreated 3D models/rigs/materials |
 | Character coverage | All 386 species and the researched original Blue forms need distinct accepted assets; this follows whole-game scope, not another coverage vote |
 | Authoring route | Plan original procedural modeling with authored refinement and shared rig families. Commissioned/user-supplied resources are optional later proposals, not prerequisites or implicitly authorized purchases |
 | Browser budgets | Use section 8's proposed engineering targets, measure them during the approved quality gates, and document adjustments; these are not guarantees |
@@ -68,9 +68,9 @@ The architecture in [PLAN.md](PLAN.md), particularly sections 7–8, and canonic
 
 ### 3.1 Proposed exact file ownership
 
-**P06 contract exception:** the temporary repository-relative `tools/pokemon-dungeon/art-preview/` harness may show static asset compositions, camera framing and animation playback before the game contracts exist. It uses the pinned local Three.js toolchain and reusable candidate production assets, but imports no game source and implements no commands, combat, state, saves or playable encounter. Its private scene setup is disposable art tooling, not a second game renderer. Manual viewing/capture requires D05 approval; it is not authorized merely by the existence of this plan.
+**P06 contract exception:** the temporary repository-relative `tools/pokemon-dungeon/art-preview/` harness may show static asset compositions, camera framing and animation playback before the game contracts exist. It uses the pinned local Three.js toolchain and reusable candidate production assets, but imports no game source and implements no commands, combat, state, saves or playable encounter. Its private scene setup is disposable art tooling, not a second game renderer. D05 manual viewing/capture is approved for the future acceptance work; the harness still cannot be implemented or run until the separate implementation-start hold is lifted.
 
-Freeze real domain snapshots, presentation events and `DungeonRenderer` at P07/P10 before any game consumer is built. P10 consumes approved asset manifests and art direction, not harness-specific state or APIs; retire the harness during integration. An optional D06 playable practice encounter requires the integrated P18 engine and uses the production simulation/renderer, never the art harness.
+Freeze real domain snapshots, presentation events and `DungeonRenderer` at P07/P10 before any game consumer is built. P10 consumes approved asset manifests and art direction, not harness-specific state or APIs; retire the harness during integration. D06 is resolved to omit playable practice/rehearsal encounters. Actual battle acceptance/capture uses the reached P25 campaign encounter and production simulation/renderer, never the art harness.
 
 Runtime paths below are relative to `games/pokemon-dungeon-reimagined/`. Game-local `plan/` paths are project documentation, copied by the static exporter but never loaded as runtime assets. All entries are future proposals, not existing product files.
 
@@ -187,7 +187,7 @@ Document original-form coverage separately from the excluded modern/cosmetic var
 
 Task ordering does not reduce the final promised scope. If production stops at a wave, the release description must state that coverage honestly.
 
-The reproducible raster asset/atlas plan is specified in [ASSET-PIPELINE.md](ASSET-PIPELINE.md). It covers portraits, icons, UI artwork, illustrations and surface textures; it does not replace the rigged 3D character pipeline below. A/B loading backgrounds remain unselected D03 examples, not approved character anchors.
+The reproducible raster asset/atlas plan is specified in [ASSET-PIPELINE.md](ASSET-PIPELINE.md). It covers portraits, icons, UI artwork, illustrations and surface textures; it does not replace the rigged 3D character pipeline below. The B loading background is selected for future use and an environment-style reference; A is archived comparison. Neither establishes approved character/item anchors or production 3D assets.
 
 ### 4.4 Original asset-authoring pipeline
 
@@ -197,7 +197,7 @@ The reproducible raster asset/atlas plan is specified in [ASSET-PIPELINE.md](ASS
 4. Retopologize with deformation in mind. Rig joints must bend predictably; avoid intersecting loose primitive pieces as the final animation system.
 5. UV unwrap and author original albedo/normal/roughness/metalness/emissive textures or intentionally designed vertex-color material layouts. Use an original material library for shared horn/claw/fur/scale/shell appearance.
 6. Rig to body-plan standards, add facial/feature controls where needed, and author animation clips. Shared rigs are a starting point; species-specific animation offsets and appendages still require review.
-7. Export local glTF/GLB with supported PBR materials, named clips, stable attachment sockets, correct unit scale and forward direction. Validate hierarchy/skin/material compatibility through offline tooling and static inspection; do not introduce game-source tests.
+7. Export local glTF/GLB with supported material inputs stylized to the selected B shading, named clips, stable attachment sockets, correct unit scale and forward direction. Validate hierarchy/skin/material compatibility through offline tooling and static inspection; do not introduce game-source tests.
 8. Create LOD1/LOD2 silhouettes and texture variants. Keep eyes/markings readable at gameplay distance. Decimation must not destroy pointed ears, lightning tail, claws or boss armor seams.
 9. Optionally compress meshes and textures only after evaluating load cost, quality and decoder size. Vendor required decoders locally. Three's official GLTFLoader integrates approved geometry/texture loaders; KTX2Loader supports transcoding Basis Universal textures for GPU formats. [GLTFLoader](https://threejs.org/docs/pages/GLTFLoader.html), [KTX2Loader](https://threejs.org/docs/pages/KTX2Loader.html).
 10. Add manifest/provenance record, hashes, review captures, and acceptance status. Verify no asset path reaches an external CDN at runtime.
@@ -321,11 +321,11 @@ Tactical preview does not need to expose the entire world. Main default view rem
 
 ### 7.1 Lighting/material standards
 
-Use consistent linear-light calculations and correct display color-space configuration for the pinned Three version. Use tone mapping and deliberate exposure. Author albedo without baked fake highlights where PBR would duplicate them. Use physically plausible roughness/metalness: claws/stone/fur/scales are generally nonmetallic; shell and armor can have different roughness without turning every Pokémon into chrome.
+The primary material target is **B cel-shaded 3D**: two-to-three readable shading bands, selective crisp contours, broad albedo/material shapes and intentional saturated contrast. Keep contour widths and band thresholds coherent across characters and scenery; outlines must not hide tiny eyes/claws or create noisy distant geometry. Use consistent linear-light/display color-space handling and deliberate exposure for the pinned Three version. PBR-compatible albedo, roughness, normal and emissive inputs may support the implementation, but must be stylized to preserve B rather than drifting toward glossy photoreal rendering. Claws/stone/fur/scales remain visually nonmetallic; avoid chrome Pokémon and fine material noise.
 
 One principal shadowed directional/spotlight with bounded coverage is the proposed baseline. Combine inexpensive environment/hemisphere fill and a small number of selective unshadowed accent lights. Lava emissive texture alone does not actually light nearby geometry in a conventional forward renderer; reproduce the impression with selective warm lights, baked vertex/color cues, and environment fill. Do not promise global illumination or physically traced lava bounce.
 
-Characters need silhouette rim/fill appropriate to the biome and shadow contacts that prevent floating. Fine surface normals should be subtle. On Groudon, shape and armor separation matter more than a noisy skin texture: red layered plates, dark seams, pale spikes and claws, heavy snout/jaw, muscular legs, tapering armored tail and luminous focused eyes. Pikachu needs actual black-tipped ears, cheek disks, back stripes and angular lightning tail; visual identity cannot depend on a text label.
+Characters need clear cel-shaded silhouette separation and shadow contacts that prevent floating. Use broad graphic light/shadow shapes; fine normals should be subtle enough not to break shading bands. On Groudon, shape and armor separation matter more than a noisy skin texture: red layered plates, dark seams, pale spikes and claws, heavy snout/jaw, muscular legs, tapering armored tail and luminous focused eyes. Pikachu needs actual black-tipped ears, cheek disks, back stripes and angular lightning tail; visual identity cannot depend on a text label.
 
 ### 7.2 Effects tiers
 
@@ -464,12 +464,12 @@ All panels must have actual simulation/controller support before being marked im
 
 ## 10. Groudon screenshot and gameplay acceptance
 
-The arcade card uses a captured frame of the actual game running the real Groudon practice encounter or reached campaign encounter. A title diorama, disconnected renderer showcase, generated image, composited fake HUD or scripted attack with no simulation outcome does not satisfy "actual gameplay screenshot." A practice entry is acceptable only if clearly named and backed by the same gameplay simulation and renderer.
+The arcade card uses a captured frame of the actual game running the reached **Groudon campaign encounter**. D06 is resolved to omit a standalone practice/rehearsal mode. A title diorama, disconnected renderer showcase, generated image, composited fake HUD or scripted attack with no simulation outcome does not satisfy "actual gameplay screenshot." No independent rehearsal/practice encounter is required or planned; the capture follows the real campaign.
 
 ### 10.1 Capture setup after implementation approval
 
 1. Use the real static exported entry point beneath the site's configured base path and actual arcade iframe path.
-2. Start a reached campaign encounter or the explicitly approved isolated Groudon practice encounter through supported UI or a documented developer route; D06 governs practice availability and campaign-save isolation. Use Pikachu hero and Charmander partner if this remains the reviewed composition.
+2. Reach the real Groudon campaign encounter through the supported campaign flow; do not add a standalone practice/rehearsal mode or fabricate campaign state for the image. Use Pikachu hero and Charmander partner if this remains the reviewed composition.
 3. Confirm real dungeon/floor state, enemy HP, legal movement/combat, and game-generated feedback. The screenshot must not imply a later stage or unimplemented encounter.
 4. Use the default reviewed graphics tier for the target 1440×900 capture; state any altered resolution/quality or reduced-motion settings in review notes.
 5. Frame Pikachu foreground-left and Groudon midground-right/center with visible face, armor seams, spikes/claws and tail shape; Charmander remains identifiable.
@@ -486,16 +486,16 @@ The arcade card uses a captured frame of the actual game running the real Groudo
 | Third-person framing | Hero visible at shoulder-follow scale, arena ahead, boss silhouette fits, user can orbit | Default overhead map, boss head cut off, camera inside wall, hero completely occludes target |
 | Atmosphere | Layered cavern depth, controlled lava glow and warm/cool separation, grounded shadows | Flat single-color tiles, uniformly glowing scene, black unreadable characters |
 | Tactical readability | Floor occupancy, hazards, target and actual action outcomes understandable | Safe/lava ambiguous, particles hide enemies, UI communicates false targeting |
-| Materials | Coherent stylized PBR, distinct basalt/armor/claw/skin responses | Chrome Pokémon, noisy procedural textures masking poor geometry |
+| Materials | Approved B cel shading, readable bands/selective contours and broad distinct basalt/armor/claw/skin shapes | Chrome Pokémon, noisy procedural textures masking poor geometry |
 | Performance | Stable presentation on agreed target tiers; no obvious repeated stalls/asset popping during capture | Single pretty still while ordinary play stalls, unresolved missing models |
-| Authenticity | Actual practice/campaign state, real combat/log/HP, same modules as game | Generated poster, title-only scene, fabricated UI, disconnected cinematic mockup |
+| Authenticity | Actual campaign state, real combat/log/HP, same modules as game | Generated poster, title-only scene, fabricated UI, disconnected cinematic mockup |
 | Website integration | Correct card image/path/base path, actual Play/Back flow, other cards preserved | Replaces all placeholders, external hosting dependency, iframe focus regression |
 
 Visual acceptance requires explicit human review. Static syntax success cannot establish that a model is recognizable or a game is attractive.
 
 ## 11. Execution work packages for the future implementation model
 
-Do not start these until the user approves the consolidated plan and prerequisite repository setup. Each package must leave a reviewable artifact and identify unresolved gaps. Do not skip ahead to roster multiplication before the P06 art anchor passes. Keep all intermediate runtime PRs review-only and unmerged until P37 full-scope release authorization: a disabled arcade card cannot prevent direct access to exported game URLs. The non-exported art harness is not a public demo; planning-document-only merges still require explicit user authorization.
+The recommendations/style decisions are approved; do not start these implementation tasks until the user gives a separate implementation-start instruction. Each package must leave a reviewable artifact and identify unresolved gaps. Do not skip ahead to roster multiplication before the P06 art anchor passes. Keep all intermediate runtime PRs review-only and unmerged until P37 full-scope release authorization: a disabled arcade card cannot prevent direct access to exported game URLs. The non-exported art harness is not a public demo; planning-document-only merges still require explicit user authorization.
 
 ### Rendering-task crosswalk to the governing work packages
 
@@ -512,7 +512,7 @@ The R tasks below are subtask detail, not a second execution schedule. PLAN's ca
 | R6 hero/partner/Groudon | P03, P06, P32 | W-A anchor assets; no claim of whole-roster completion |
 | R7 real battle presentation | P10, P13–P18, P25 | Requires actual combat/event contracts; P06 art proof alone is not gameplay |
 | R8 accessible core UX | P05, P09, P18, P22, P19 | Scene engine P22 precedes onboarding P19; setup/HUD/controls align to real commands |
-| R9 encounter review | P18 optional D06 practice, or P25 campaign encounter | Follows P06 art acceptance; real gameplay uses production modules and D05-approved manual review |
+| R9 encounter review | P25 campaign encounter | Follows P06 B asset acceptance; real campaign gameplay uses production modules and approved D05 manual review; D06 practice omitted |
 | R10 main-story waves | P19, P23–P26, P32 | W-B/W-C art follows campaign inventory and accepted direction |
 | R11 services/progression UX | P18, P22, P19–P21, P27–P31 | Follow canonical order: scene engine before onboarding/town/jobs; real services determine panel functionality |
 | R12 postgame/remaining roster | P27–P33 | W-D/W-E and completed per-route art assignments |
@@ -529,9 +529,9 @@ The R tasks below are subtask detail, not a second execution schedule. PLAN's ca
 | R4: camera/tile presentation | Follow/orbit/zoom, coordinate conventions, wall obstruction, interpolation, mandatory visibility filtering, tile previews | R3 + approved immutable presentation snapshots | Manual corridor and boss framing review after authorization |
 | R5: volcanic scenery anchor | Basalt/lava assets and static art composition at P06; production resource pools at P10 | R1/R2 and P04 toolchain for P06; R3 plus P07/P10 contracts for production | Labeled art-preview captures first; actual encounter evidence only after P18/P25 |
 | R6: hero/partner/Groudon assets | Dedicated original assets, rigs, LODs, core clips and manifest entries | R1/R2 | Turntables plus close-up material/animation review; asset provenance |
-| R7: real battle presentation | Actor diff/sync, move/hit/status effects, animation sequencing, camera response, pickups | R4/R5/R6 + P07/P10 event contract and P18 integrated engine | D05-approved actual fight capture: optional D06 practice after P18, otherwise P25 campaign encounter |
+| R7: real battle presentation | Actor diff/sync, move/hit/status effects, animation sequencing, camera response, pickups | R4/R5/R6 + P07/P10 event contract and P18 integrated engine | Approved D05 actual fight capture at the P25 campaign encounter; no practice mode |
 | R8: accessible core UX | Setup, quiz, choice, HUD, action menus, pause/settings, loading/errors, mobile controls | Controller/simulation contracts | Keyboard/touch/focus review; no fake menu options |
-| R9: gameplay presentation gate | Review actual encounter against approved P06 art direction; retain internal capture only, no public card change | R7/R8; D05 and D06 if practice is used | Human quality review of actual gameplay; correct integration issues before release |
+| R9: gameplay presentation gate | Review actual encounter against approved P06 art direction; retain internal capture only, no public card change | R7/R8 and P25; D05 manual review approved; implementation start still required | Human quality review of actual gameplay; correct integration issues before release |
 | R10: starter/main-story waves | Starter/evolution art, common enemies, campaign bosses/NPCs, biome kits and setpieces | P06 accepted art direction and R1/R2; parent campaign dependencies | Per-wave coverage and actual-dungeon captures; no silent fallback substitutions |
 | R11: full service/progression UX | Town services, inventory/storage/shop/jobs/team/evolution/recruitment/postgame menus | Actual rule-side services | Panel inventory reconciled with available rules/actions |
 | R12: postgame/remaining roster | Legendary kits/forms, optional-route art assignments, remainder of 386 species | R10/R11 | All manifests assigned; final model/animation coverage status truthful |
@@ -546,7 +546,7 @@ For each task, the smaller model should first read the relevant contracts and ow
 | Risk | Early warning | Required gate |
 | --- | --- | --- |
 | 386-species art volume underestimated | Most entries point to one archetype; dedicated assets stop after starters | Coverage audit separates fallback from final; negotiate scope honestly before claiming completion |
-| Unreal-like wording exceeds runtime | Promises of Lumen/Nanite/path tracing without a compatible runtime | State browser PBR approximation and approved art target; no engine-feature promise |
+| Unreal-like wording exceeds runtime | Promises of Lumen/Nanite/path tracing without a compatible runtime | State browser cel-shaded B target and runtime limits; no engine-feature promise |
 | Primitive-prototype quality accepted by inertia | Detailed implementation exists but silhouette/material reviews fail | Stop content multiplication at vertical slice; refine modeling/art direction |
 | Asset rights uncertain | Commercial rips, unspecified author/source, ambiguous redistribution license | Do not import/publish until source/provenance/rights posture reviewed; original meshes do not erase character-IP questions |
 | Mobile overdraw/memory | Many transparent effects, huge textures, all 386 models loaded at entry | Reduce effects/resolution/assets and establish bounded cache; preserve tactical readability |
@@ -556,7 +556,7 @@ For each task, the smaller model should first read the relevant contracts and ow
 | Shader/vendor compatibility | Code copied from newer docs uses removed/changed APIs | Pin version, inspect exact local source/docs and static imports; do not auto-upgrade during feature work |
 | Quality adaptation hides correctness | Reduced tier removes hazards/target/status cues | Critical cues required on every tier; decorative effects degrade first |
 | Resource leak/context loss | Switching floors grows resource counts; restored context stays black | Explicit ownership/recovery lifecycle; later authorized manual repeat-transition observations |
-| Preview is fabricated | Title diorama/AI image used for arcade screenshot | Root reviews actual running practice/campaign encounter and records capture provenance |
+| Preview is fabricated | Title diorama/AI image used for arcade screenshot | Root reviews actual running Groudon campaign encounter and records capture provenance |
 | Planning pause ignored | Product files continue being written after user steering | Park prototype work, deliver plan/setup only, stop for user review |
 
 ## 13. Historical exploratory work, already parked
@@ -576,4 +576,4 @@ Technical references were checked through public source search during planning o
 - [MDN WebGL best practices](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices): browser GPU resource/performance guidance.
 - [MDN WebGL2RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext): WebGL2 capability context.
 
-No copyrighted game artwork, ripped models, copied scripts, or external runtime art dependencies are authorized by this appendix. The next action is review of the consolidated plan and repository setup, not rendering implementation.
+No copyrighted game artwork, ripped models, copied scripts, or external runtime art dependencies are authorized by this appendix. B is fixed, manual acceptance is approved, and practice is omitted; this update remains documentation-only and awaits a separate implementation-start instruction.
