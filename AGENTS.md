@@ -276,19 +276,38 @@ instructions to continue until the whole game is implemented are superseded
 by this planning hold. Approval to merge an earlier website PR does not
 approve merging this planning PR.
 
-Read [the handoff plan](docs/pokemon-dungeon/PLAN.md), then the nested
+The user separately authorized two candidate raster loading illustrations for
+D03 visual planning. Store them under
+`games/pokemon-dungeon-reimagined/plan/art-candidates/` and label them as planning
+illustrations, not 3D runtime assets, approved final art, or gameplay screenshots.
+This limited visual-planning authorization does not lift the runtime or arcade
+integration hold.
+
+Read [the handoff plan](games/pokemon-dungeon-reimagined/plan/PLAN.md), then the nested
 [game instructions](games/pokemon-dungeon-reimagined/AGENTS.md). The plan routes
 smaller implementation models to one bounded task and its supporting appendix
 at a time. Record future decisions and progress in the linked ledger. Keep
 requirements current in these AGENTS files; the root README.md remains outside
-this work's scope.
+this work's scope. Keep the complete plan inside the game's `plan/` directory.
+Maintain [games/README.md](games/README.md) as the concise arcade guide and live/WIP
+game catalog, using sections, tables and bullets with paragraphs of at most
+2-3 sentences.
 
-The intended game covers the original Red/Blue Rescue Team campaign and
-postgame in third-person 3D. Research findings are not a completeness claim.
+The reference edition is the original **Pokémon Mystery Dungeon: Blue Rescue
+Team**; its campaign and postgame are the third-person 3D target. Red Rescue
+Team may inform comparative or cross-version research only: do not implement
+a Red campaign or edition selector, and verify shared findings against Blue.
+Research findings are not a completeness claim.
 Maintain explicit fidelity and asset-coverage inventories; never treat a list
 of dungeon names, generic creatures, or abbreviated story summaries as a
 finished recreation. All runtime resources must eventually be local static
 assets with relative URLs under the existing Pages base path.
+
+Keep all intermediate runtime-package PRs unmerged until P37, after full-scope
+acceptance and explicit release/merge/deployment approval. The exporter copies
+`games/**` and main deploys it at directly accessible URLs, so a disabled arcade
+card does not prevent an unfinished runtime from being published. Runtime work
+must remain on development branches until that release gate.
 
 The existing website testing boundary still applies: no tests execute or
 import game source. Website player/export tests use inert fixture HTML and
@@ -298,3 +317,9 @@ Do not add automated game tests. The plan proposes manual play and visual
 acceptance after implementation; that proposal is part of the user's review.
 A future standalone-game persistence adapter may use localStorage/IndexedDB
 behind one validated interface; the website retains its Zustand convention.
+
+For the Blue game, require emulator-style semi-transparent controls across the
+lower half of the viewport, with accessible touch/keyboard handling. Follow the
+[asset pipeline](games/pokemon-dungeon-reimagined/plan/ASSET-PIPELINE.md) for consistent
+master prompts, reference assets, uniform sheets, verified cropping and provenance.
+Raster sheets support 2D assets; they do not replace the separate 3D rig/model work.

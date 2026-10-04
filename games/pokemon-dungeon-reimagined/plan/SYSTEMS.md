@@ -2,7 +2,7 @@
 
 > **For agentic workers:** Execute this appendix only after the user has reviewed and approved the combined plan. Use the approved execution workflow. The user explicitly prohibits tests against game source; the verification steps below are static review and optional human play checks, not permission to execute game tests.
 
-**Goal:** Build a complete, source-grounded simulation of the original Red Rescue Team / Blue Rescue Team systems beneath a newly authored 3D presentation.
+**Goal:** Build a complete, source-grounded simulation of the original Nintendo DS Blue Rescue Team systems beneath a newly authored 3D presentation. Red Rescue Team supplies comparative research only.
 
 **Architecture:** Keep immutable content catalogs, canonical campaign state, dungeon session state, deterministic simulation, browser persistence, and rendering separate. An accepted command produces one atomic state transition plus presentation events. The camera, animation clock, menus, and dialogue typing never advance dungeon time.
 
@@ -12,7 +12,7 @@
 
 ## Global constraints
 
-- Target the original GBA/DS games. Do not silently substitute DX or Explorers rules.
+- Target the original Nintendo DS Blue Rescue Team, as resolved by the user in D01. There is no edition selector or Red-specific product scope. Retain Red differences as comparative provenance; do not silently substitute Red-only, DX or Explorers rules.
 - The game folder may contain multiple local files. All runtime dependencies and assets must remain local and use relative URLs.
 - Retain original floor counts, main-story order, postgame branches, and all original obtainable species. A species name in a menu is not an implemented species.
 - Use original writing, models, effects, and audio. Do not extract Nintendo assets or reproduce long dialogue scripts.
@@ -66,7 +66,7 @@ All paths below are relative to `games/pokemon-dungeon-reimagined/`.
 | `src/domain/adventure.js` | Domain command facade and read-only domain snapshots | Browser persistence, presentation mapping, duplicate rules |
 | `src/presentation/` | Domain snapshot-to-view projections and presentation event queue | Canonical state mutation |
 
-The P packages in PLAN.md are the only execution order. The S labels below are detailed checklists within those packages, not a second sequence. Split a checklist when its rows map to different P packages; do not execute its later work early merely because an S heading occurs earlier. Workers may overlap only after the parent package dependencies and shared contracts permit it, with explicit file ownership.
+The P packages in PLAN.md are the only execution order: P00–P18, then P22, then P19–P21, then P23–P37. Package IDs are stable references, not numeric execution priority; the reusable P22 scene engine precedes P19 onboarding. The S labels below are detailed checklists within those packages, not a second sequence. Split a checklist when its rows map to different P packages; do not execute its later work early merely because an S heading occurs earlier. Workers may overlap only after the parent package dependencies and shared contracts permit it, with explicit file ownership.
 
 ### Crosswalk to parent work packages
 
@@ -74,7 +74,7 @@ The P packages in PLAN.md are the only execution order. The S labels below are d
 | --- | --- | --- |
 | S01 evidence ledger | P01, P02; closure in P33 | Resolve foundations before rules code; retain the ledger through final audit |
 | S02 contracts/state/commands | P07, P12; scene acknowledgment integration in P22 | P07 owns IDs/state; P12 owns command transactions |
-| S02-Q quiz/new-game subtask | P19 | Read the S02 contract at P07; implement quiz and initial rescue only at P19 |
+| S02-Q quiz/new-game subtask | P19 | Read the S02 contract at P07; implement Blue quiz and initial rescue only at P19, after P22's reusable scene engine |
 | S03 save validation | P08 | No persistence implementation before canonical P07 state |
 | S04 RNG and scheduler | P07, P12 | RNG contract in P07; full scheduling in P12 |
 | S05 generation/navigation | P11 | Consume P01–P02 data and P07 identities/RNG |
@@ -86,9 +86,9 @@ The P packages in PLAN.md are the only execution order. The S labels below are d
 | S11 recruitment/Friend Areas | P17; service presentation in P20 | Recruitment rules precede town-service wiring |
 | S12 jobs/ranks/rewards | P21 | Consume P20 town and P16 run outcomes |
 | S13 town/advancement/dojo | P14, P17, P20, P31 | Linking rules P14; IQ/evolution P17; economy P20; complete dojo content P31 |
-| S14 event graph/campaign | P22, P23–P31 | Engine first; main-story and postgame content follow parent branch order |
-| S15 mail/exchange | P21, P31 | Core exchange at P21; optional/event/Blue-mode coverage at P31 |
-| S16 projection/input/practice | P09, P10, P18; optional practice P06/P35 | D06 approval controls practice; presentation never bypasses domain rules |
+| S14 event graph/campaign | P22, P23–P31 | Reusable engine after P18 and before P19; authored main-story and postgame content follow parent branch order |
+| S15 mail/exchange | P21, P31 | Core exchange at P21; optional/event/Blue-specific coverage at P31 |
+| S16 projection/input/practice | P09, P10, P18; optional practice after P18, acceptance at P35 | Practice requires D06 approval and the integrated P18 engine; P06 is an art-only preview harness with no game imports or gameplay |
 | S17 final review/acceptance | P33–P37 | Data audit, polish, human acceptance, website integration and delivery remain separate parent gates |
 
 Each worker reads this interface section, the relevant P package, and its mapped S checklist; no required decision depends on chat history.
@@ -112,7 +112,7 @@ Use exactly one authoritative Pokémon record per persistent individual.
 | State field | Shape / ownership |
 | --- | --- |
 | `schemaVersion`, `contentRevision` | Save schema and catalog revision identifiers |
-| `profile` | Hero/partner IDs, names, team name, selected version, creation data |
+| `profile` | Hero/partner IDs, names, team name, fixed `referenceEdition: 'blue-rescue-team'`, creation data; no selectable edition |
 | `roster` | Map `PokemonId -> PokemonRecord`; permanent recruited individuals only |
 | `selectedPartyIds` | Ordered roster IDs selected to depart; validated against dungeon entry limits |
 | `economy` | Carried Poké, banked Poké, Toolbox item instances, stored item counts, owned Friend Areas |
@@ -137,7 +137,7 @@ Domain facade in `src/domain/adventure.js`:
 - `adventure.dispatch(command) -> {accepted, reason?, events, revision}`
 - `adventure.getSnapshot() -> deeply read-only domain snapshot`
 
-The composition root in `src/main.js` wires domain results to presentation and the public persistence repository. Application operations `save`, `load`, `exportSave`, `importSave`, and `resetSave` call that repository; they are not domain methods and the domain never receives a browser storage adapter. UI render models are derived in `src/presentation/`. Optional practice creates a separate Adventure instance and separate application binding with campaign writes disabled; returning from practice reinstates the untouched campaign instance.
+The composition root in `src/main.js` wires domain results to presentation and the public persistence repository. Application operations `save`, `load`, `exportSave`, `importSave`, and `resetSave` call that repository; they are not domain methods and the domain never receives a browser storage adapter. UI render models are derived in `src/presentation/`. Optional practice, only after P18 integration and D06 approval, creates a separate Adventure instance and separate application binding with campaign writes disabled; returning from practice reinstates the untouched campaign instance.
 
 Convenience methods may wrap `dispatch`, but they cannot implement separate rules. There is one authoritative command path.
 
@@ -156,7 +156,11 @@ Convenience methods may wrap `dispatch`, but they cannot implement separate rule
 | `job` | Operation and Job ID | Accept/activate/delete/claim according to phase |
 | `ackScene`, `ackResult` | Exact scene/result ID and cursor/revision | Free presentation acknowledgment; idempotent |
 
-Events are immutable plain records with monotonically increasing `eventId` and `revision`. Use separate types: `message`, `actorMoved`, `attackResolved`, `conditionChanged`, `itemChanged`, `floorChanged`, `sceneRequested`, `objectiveChanged`, `recruitOffered`, `expeditionEnded`, `rankChanged`, and `saveError`. Renderer effects consume coordinates and identifiers, not mutable simulation objects. An event is not a second source of truth.
+Domain events returned by `Adventure.dispatch` are immutable plain records with monotonically increasing `eventId` and `revision`. Use separate types: `message`, `actorMoved`, `attackResolved`, `conditionChanged`, `itemChanged`, `floorChanged`, `sceneRequested`, `objectiveChanged`, `recruitOffered`, `expeditionEnded`, and `rankChanged`. Renderer effects consume coordinates and identifiers, not mutable simulation objects. An event is not a second source of truth.
+
+Storage outcomes follow a separate application notification route: the persistence repository returns its operation result to the application service wired by `src/main.js`; that service publishes a `PersistenceNotification` to `src/presentation/` and the UI. Its shape is `{notificationId, type: 'storageSucceeded' | 'storageFailed', operation: 'save' | 'load' | 'export' | 'import' | 'reset', sourceRevision?, message, errorCode?}`. `notificationId` belongs to the application notification sequence, not the domain event sequence. Messages and error codes are safe display values, without raw storage exceptions or imported HTML.
+
+The application uses successful-save `sourceRevision` to update its saved-progress indicator; a delayed save of an older snapshot cannot label newer progress as saved. Storage notifications never enter `Adventure.dispatch`, increment a domain revision, consume a turn, or roll back an accepted game action. A successful load/import may replace the Adventure instance only through the separately validated application operation; receiving its presentation notification cannot perform that replacement. Failed operations leave the running domain and previous valid stored save intact.
 
 ## Task S01: Complete the original-rules evidence ledger
 
@@ -184,7 +188,7 @@ Events are immutable plain records with monotonically increasing `eventId` and `
 **Produces:** `createCampaign(input, content)`, `validateCommand(state, command, content)`, `applyCommand(state, command, dependencies)`, and the `Adventure` facade.
 
 - [ ] Define canonical IDs and the exact state fields above in the JSDoc-typed JavaScript contract proposed by PLAN.md. A TypeScript alternative requires the parent D08 decision before P04; a worker cannot choose a second notation independently.
-- [ ] Implement original new-game selection as a separate pre-campaign flow: select version, ask eight category-distinct quiz questions, handle the special follow-up rule, obtain the original gender input, resolve the scored nature with verified tie-breaking, then filter the ten-partner pool by the hero's type. Original results and starter restrictions come from the quiz data; a direct species override requires an explicit adaptation label.
+- [ ] Implement original Blue new-game selection as a separate pre-campaign flow with no edition-selection step: ask eight category-distinct quiz questions, handle the special follow-up rule, obtain the original gender input, resolve the scored nature with verified tie-breaking, then filter the ten-partner pool by the hero's type. Original Blue results and starter restrictions come from the quiz data; a direct species override requires an explicit adaptation label and approval.
 - [ ] Validate and bound hero, partner and team names; initialize the chosen species' correct starting stats, moves, Friend Areas and inventory only once when the player confirms the completed new-game flow. Returning to an earlier selection screen must not create extra roster members or overwrite the existing save.
 - [ ] Make every command validate mode, actor/item ownership, known catalog IDs and relevant revision before mutation.
 - [ ] Apply changes to a transaction draft. Commit state, emit events and request saving only after all rule steps succeed.
@@ -192,7 +196,7 @@ Events are immutable plain records with monotonically increasing `eventId` and `
 - [ ] Derive UI party/reserve lists from `roster` and `selectedPartyIds`; never persist duplicate Pokémon objects to satisfy different panels.
 - [ ] Expose immutable domain snapshots; define `party`, `reserves`, `moves`, `inventory`, `rank`, `availableDungeons`, `objective`, `world`, `actors` and `pickups` view projections in `src/presentation/` for P18, without putting UI mapping into domain state.
 
-**S02-Q — P19 only:** The two quiz/name-initialization checklist items above belong to P19. P07 defines their input/result contracts; it does not implement onboarding early.
+**S02-Q — P19 only:** The two quiz/name-initialization checklist items above belong to P19, after the reusable P22 scene engine is accepted. P07 defines their input/result contracts; it does not implement onboarding early.
 
 **Static acceptance:** Trace one successful move, one invalid move, one purchase with insufficient funds and two identical acknowledgments through the source. Review every nature/gender result and same-type partner exclusion against the data table. Exactly one path mutates canonical state and no animation callback can call internal mutation functions.
 
@@ -210,10 +214,11 @@ Events are immutable plain records with monotonically increasing `eventId` and `
 - [ ] Derive numerical limits from catalog definitions where appropriate. Do not hardcode 354 as the largest move ID, 99 as the only floor cap, or a uniform four-member departure limit.
 - [ ] Decode and validate the whole import before replacing the current state. On failure, retain the existing campaign and show a specific error.
 - [ ] Write a complete envelope atomically through the adapter. A quota/security failure keeps the running game and previous stored save; communicate that progress is not saved.
+- [ ] Return storage results to the application service, which emits the separate `PersistenceNotification` defined above. Keep save indicators and storage-error banners in application/presentation state; do not dispatch storage outcomes back into the domain or append them to its event log.
 - [ ] Resume in-progress dungeon and pending dialogue from stored state without replaying rewards. Preserve original quicksave semantics if strict-original saving is selected; any automatic browser checkpoints must be documented as an adaptation.
 - [ ] Give reset an explicit UI confirmation tied to the current save revision. Practice state cannot reach the campaign adapter.
 
-**Static acceptance:** Review malformed fields, unknown IDs, duplicate identities, wrong map dimensions, invalid move references, quota exceptions and unsupported versions. Confirm none can partially apply an import. No game-source execution is required for this review.
+**Static acceptance:** Review malformed fields, unknown IDs, duplicate identities, wrong map dimensions, invalid move references, quota exceptions and unsupported versions. Confirm none can partially apply an import. Trace successful, failed and stale-revision save results through the separate application notification route; none may dispatch a domain command or alter a turn/revision. No game-source execution is required for this review.
 
 ## Task S04: Deterministic action scheduler
 
@@ -420,11 +425,11 @@ Events are immutable plain records with monotonically increasing `eventId` and `
 
 **Produces:** Original-compatible mail codec only if the algorithm is verified; otherwise a clearly named local save-sharing feature with no compatibility claim.
 
-- [ ] Separate Wonder Mail job codes from SOS/A-OK/Thank-You rescue exchanges. Enforce region/version format differences and once-per-save redemption.
+- [ ] Separate Wonder Mail job codes from SOS/A-OK/Thank-You rescue exchanges. Enforce the applicable Blue regional formats, verified cross-version interoperability and once-per-save redemption. Red format research does not add a selectable Red campaign.
 - [ ] Validate checksum, legal characters, destination and decoded constraints before adding a job. Special event-dungeon codes must unlock the correct destinations.
 - [ ] Capture the necessary dungeon identity/seed/rescue location when a team requests help. A rescue expedition reaches the actual rescue spot and applies the correct rules.
 - [ ] Validate A-OK mail against the pending request before revival; reject replayed or mismatched acknowledgments.
-- [ ] Treat cable/wireless helper transfer and dual-slot team import as explicit platform adaptations if implemented via files. A browser cannot literally reproduce physical GBA/DS connectivity.
+- [ ] Treat Blue wireless helper transfer and dual-slot team import as explicit platform adaptations if implemented via files. A browser cannot literally reproduce physical DS connectivity; Red cable behavior is comparative evidence only.
 
 **Static acceptance:** Inspect the documented format and source derivation; inspect rejection paths for mixed regions, invalid characters, wrong request identity, redeemed codes and locked destinations. Cartridge interoperability remains unclaimed until separately authorized and verified.
 
@@ -432,14 +437,14 @@ Events are immutable plain records with monotonically increasing `eventId` and `
 
 **Files:** `src/domain/adventure.js`, `content/` scenario data, `src/presentation/`, `src/input/`, and `src/main.js` application wiring; renderer remains under `src/rendering/`.
 
-**Consumes:** Approved domain APIs and renderer contract.
+**Consumes:** Approved domain APIs and renderer contract; playable practice additionally requires the integrated P18 engine and D06 approval.
 
-**Produces:** Immutable `RenderSnapshot`, a standalone practice-session owner, and clear projection to HUD/menus.
+**Produces:** Immutable `RenderSnapshot`, clear projection to HUD/menus, and a standalone practice-session owner only if approved. P06 is separate art tooling: its preview harness may show static compositions and animation playback, but imports no game source and implements no commands, combat, state, saves or playable encounter. P10/P18 integrate production modules; practice never uses the P06 harness.
 
 - [ ] Project actors in `src/presentation/` into renderer fields `{actorId: ActorId,speciesId: SpeciesId,formId,dexNo,name,x,z,face,hp,maxHp,role,statuses}` and layers into a renderable world. `dexNo` is catalog metadata, not actor identity. `role` uses the shared presentation enum and `statuses` is a readonly array of projected status descriptors; any boss presentation metadata is separate from identity. Match RENDERING.md section 3.2 exactly; do not expose mutable session arrays.
 - [ ] Keep third-person movement mapping in the input/controller layer: camera-relative input becomes a discrete world direction, then passes normal validation.
 - [ ] Allow camera orbit/zoom, reduced motion and animations while domain time waits. Queue or reject inputs during visual transitions without losing accepted actions.
-- [ ] Only if D06 is approved, for the optional Groudon practice preview, create an isolated scenario state with declared equipment/levels. Never attach its storage adapter to the real campaign.
+- [ ] Only after P18 integration and if D06 is approved, create an isolated scenario state with declared equipment/levels for the optional Groudon practice encounter. Use production simulation and rendering modules. Never attach its storage adapter to the real campaign.
 - [ ] Exiting, failing or completing practice restores the unchanged prior campaign snapshot; practice rewards/recruits/unlocks cannot transfer.
 - [ ] Provide all documented controls through keyboard and accessible on-screen alternatives. Every town service and dungeon objective needs a visible interaction, not only an internal method.
 

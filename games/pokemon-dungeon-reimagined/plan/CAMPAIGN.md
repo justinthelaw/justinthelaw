@@ -1,5 +1,7 @@
 # Original Rescue Team Campaign Content Implementation Plan
 
+**Product baseline: original Nintendo DS Blue Rescue Team**, explicitly selected by Justin on 2026-10-04. Shared Red/Blue references remain useful research, but Red-only behavior does not create a second product edition or a version selector. Preserve Blue's documented cross-version unlock mechanisms where relevant; do not silently discard roster scope.
+
 > **For agentic workers:** This is a planning appendix, not authorization to implement. The current user instruction is to stop after the extensive plan and prerequisite setup for review. After explicit authorization, use `superpowers:subagent-driven-development` or `superpowers:executing-plans` task by task. Do not execute the future product tasks below during the planning turn.
 
 **Goal:** Produce a fully playable, source-traceable third-person reinterpretation of the original *Pokémon Mystery Dungeon: Red Rescue Team / Blue Rescue Team* campaign, postgame stories, optional expeditions, and progression, while clearly identifying every deliberate adaptation and unfinished item.
@@ -86,7 +88,7 @@ If the parent plan chooses fewer files, retain these ownership boundaries as sep
 
 ## 3. Content interfaces and persistent facts
 
-All planned `content/` paths above are relative to `games/pokemon-dungeon-reimagined/`; the coverage ledger remains under `docs/pokemon-dungeon/`. The canonical identity contracts come from [SYSTEMS.md](SYSTEMS.md):
+All planned `content/` paths above are relative to `games/pokemon-dungeon-reimagined/`; the coverage ledger remains under `games/pokemon-dungeon-reimagined/plan/`. The canonical identity contracts come from [SYSTEMS.md](SYSTEMS.md):
 
 | Identity | Required representation | Campaign use |
 | --- | --- | --- |
@@ -380,7 +382,7 @@ All entries below need real per-floor population/item work after this planning s
 
 The event pages do not establish ordinary original story unlocks for the four event dungeons; they say official release of the example codes outside Japan is not currently known. Do not copy DX unlocks. A browser game can provide a clearly labeled "archived event expeditions" feature, but unlocking them through a new menu is an adaptation requiring plan approval. Do not present fabricated Wonder Mail as original distributed codes.
 
-Red/Blue species availability affects the whole encounter catalog and rescue jobs. The roster appendix owns exact exclusivity and move/species tables; this campaign plan requires per-version encounter flags and a deliberate combined-version policy. If both versions are combined by default, disclose that choice. There are no two different main story scripts to invent merely because there are two editions.
+Blue species availability governs the encounter catalog and rescue jobs. The roster appendix owns the fixed Blue product matrix and its sourced cross-version unlock mechanisms; retain Red differences as comparative provenance only. D01 is resolved: do not combine edition defaults, add Red-specific content rules or present an edition selector.
 
 ### 6.1 Smeargle and base personalization
 
@@ -635,21 +637,128 @@ All product checkboxes remain unstarted under the current planning hold. Record 
 
 ## 10. Outstanding evidence work before a faithful implementation claim
 
-The current research covers the full structural route graph, not every cartridge event flag or original script variant. Resolve these tasks during approved implementation preparation:
+The current research covers the full structural route graph, not every cartridge event flag or original script variant. All 13 records below are **open**. Their IDs are durable references for [RESEARCH.md](RESEARCH.md), [PROGRESS.md](PROGRESS.md) and [COVERAGE.csv](COVERAGE.csv); keep the IDs when a record is resolved or split into finer research tasks. Resolve these tasks only during authorized preparation under [PLAN.md](PLAN.md). Assigning an owner here neither starts a package nor changes its dependencies.
 
-1. Verify exact ordinary-job/day counters, which unsuccessful outings advance time, and event arbitration in the original games. Current walkthrough counters are useful but not sufficient to reproduce engine timing precisely.
-2. Observe all main-story terminal maps and original numbered floor labels directly, particularly Howling Forest/Pitfall Valley scene placement and Magma Pit2 behavior. The corrected totals above should remain fixed unless direct evidence contradicts them.
-3. Verify the Stormy Sea condition on Gengar's postgame arc and the exact timing/order of Medicham/Ekans locations.
-4. Verify legendary recruitment prerequisites, first/rematch stats and habitat grants against specific original recruitment data; do not transplant DX guarantees.
-5. Source every dungeon's full original encounter tables, weather schedules, trap/shop/Monster House floors, item probabilities, fixed rooms and entry restrictions. The short `residents` lists proposed earlier were insufficient for whole-game fidelity.
-6. Verify whether HM checks inspect bag, known moves, storage or prior acquisition at each gate; separate Solar Cave discovery from obtaining Surf.
-7. Document the exact recovery path after losing Parts, Music Box, Wish Stone, Fly or other physical prerequisites.
-8. Verify named recruitment invitation decline/retry behavior, postgame partner/leader rules, and Gardevoir's original recruit level/moves.
-9. Observe original presentation of Munchlax, Chansey-specific ambient conversations, decoration rewards, and once-per-day Smeargle flag changes.
-10. Decide whether original Friend Rescue, Wonder Mail, dual-slot Rescue Team Maze and version-exclusive unlocking will be implemented, adapted, or explicitly omitted. A full-content offline browser game must still disclose connectivity omissions.
-11. Determine exact main-story quiz mapping, original gender constraints and partner exclusions from the roster appendix. Any modernized identity/selection flow must be a stated adaptation while preserving an original-compatible choice.
-12. Verify failure item/money loss, challenge entry destruction, reset-stat restoration and permanent-stat item behavior; these materially affect long-form campaign balance.
-13. Review newly written dialogue against source scripts for accidental close paraphrase; remove distinctive copied wording even if factual events are retained.
+Each record names the parent package that owns evidence resolution, the packages that consume the result, affected planned records, the exact question, candidate sources and a blocking gate. Candidate sources are investigation targets, not claims that those sources already answer the question. Source names and chapter numbers refer to the durable URLs in §11; original-game observation, manuals and script review remain proposed evidence methods, subject to the parent plan's authorization rules. No new source execution or gameplay observation was performed to add these fields.
+
+To close a record, attach edition/region-specific evidence, affected field/scene IDs, the resolved rule or approved adaptation, and the review outcome in the shared ledgers. An explicitly approved omission must remain visible in coverage and release claims. Merely adding a source URL or a runtime field does not resolve a gap. All dependent gates below also feed the whole-game audit in P33 and content sign-off in P35; they cannot be bypassed by the later P36 public integration step.
+
+### CAMPAIGN-GAP-01 — Day advancement and event arbitration
+
+- **Unresolved scope:** Verify exact ordinary-job/day counters, which unsuccessful outings advance time, and event arbitration in the original games. Current walkthrough counters are useful but not sufficient to reproduce engine timing precisely.
+- **Owner and consumers:** P01 owns evidence resolution; P20 owns town schedules, P21 expedition/job outcomes and P22 story-event integration. P23–P31 consume the relevant route timing.
+- **Affected records:** `content/town.js` day/location predicates; `content/main-story.js` and `content/postgame.js` delay/priority predicates; §3.3 town-time facts and §3.4 event arbitration; Wish Cave rumor and Medicham/Ekans sequence stages.
+- **Resolution question:** Which successful, failed, abandoned or rescued expedition outcomes advance each counter, which conversations are required, and how are simultaneously eligible original story events ordered or deferred? Which parts of §3.4 are faithful rules and which require an adaptation label?
+- **Candidate sources:** Walkthrough Chapters 1–11 for stated waits; Team Meanies and Pokémon Square for location transitions; authorized observation of original Red/Blue event sequences with edition, outcome and day recorded.
+- **Dependent gate:** Block affected timing rules at P01's rules freeze and P20–P22 record acceptance until resolved. Main-story timing blocks M3 acceptance; postgame timing blocks M4 acceptance. Independent content research may continue without treating the proposed priority order as verified.
+
+### CAMPAIGN-GAP-02 — Floor labels, terminal maps and fixed scenes
+
+- **Unresolved scope:** Observe all main-story terminal maps and original numbered floor labels directly, particularly Howling Forest/Pitfall Valley scene placement and Magma Pit2 behavior. The corrected totals above should remain fixed unless direct evidence contradicts them.
+- **Owner and consumers:** P01 owns evidence resolution and P02 the topology inventory; P11 consumes fixed-floor/segment rules, with P19, P23–P26, P28 and P31 owning their affected scenes.
+- **Affected records:** `content/dungeons.js` segment counts, original local labels, `terminalScene` and `fixedFloors`; all main-story terminal-map references in §4; Howling Forest's rescue, Pitfall Valley's rescue and Magma Cavern Pit2's fallen-team scene.
+- **Resolution question:** For each named terminal or fixed map, is it a numbered floor or an external scene, what exact floor label is shown, and which transitions, encounters and objects occur there? Does direct original evidence contradict any corrected total in §1.2?
+- **Candidate sources:** The individual Tiny Woods, Thunderwave Cave, Silent Chasm, Great Canyon, Mt. Freeze, Magma Cavern, Sky Tower, Howling Forest and Pitfall Valley pages; corresponding walkthrough chapters; authorized original map/floor-label observation.
+- **Dependent gate:** Block unverified topology fields in P02's accepted inventory and their P11 map records. Affected main-story scenes block M3; Howling Forest/Pitfall Valley content blocks the relevant P28/P31 and M4 acceptance. Preserve existing corrections until contrary direct evidence is reviewed.
+
+### CAMPAIGN-GAP-03 — Gengar arc prerequisites and town sequence
+
+- **Unresolved scope:** Verify the Stormy Sea condition on Gengar's postgame arc and the exact timing/order of Medicham/Ekans locations.
+- **Owner and consumers:** P01 owns evidence resolution; P30 owns the redemption route, with P20/P22 consuming NPC-location and event predicates and P27 supplying the Stormy Sea clear fact.
+- **Affected records:** PG06/PG07 prerequisites in `content/postgame.js`; `meanies-worry-at-post-office`, `meanies-gengar-freeze-hint`, `gengar-escort-request`; corresponding Medicham/Ekans schedules in `content/town.js`.
+- **Resolution question:** Is Stormy Sea completion required in each original edition, alongside Medicham's rescue, and what exact conversations, day advances and Post Office/Square location changes lead to Gengar's request? Reconcile the Team Meanies page's stated condition with the broader walkthrough's omission rather than silently choosing one.
+- **Candidate sources:** Team Meanies, walkthrough Chapter 11, Murky Cave and Gardevoir; authorized original saves/observations that distinguish Stormy Sea cleared from uncleared while recording the other prerequisites.
+- **Dependent gate:** Block PG07's final unlock predicate and dependent P30/P20/P22 scenes until resolved; this blocks P30 route acceptance and M4 postgame completeness. The currently documented Stormy Sea condition remains provisional, not newly confirmed.
+
+### CAMPAIGN-GAP-04 — Legendary recruitment and rematch records
+
+- **Unresolved scope:** Verify legendary recruitment prerequisites, first/rematch stats and habitat grants against specific original recruitment data; do not transplant DX guarantees.
+- **Owner and consumers:** P01 owns evidence resolution and P02 the record inventory; P17 owns recruitment/habitat semantics, with P23–P31 consuming boss, revisit and recruitment content.
+- **Affected records:** Each legendary boss's first/rematch encounter templates, recruitment predicates and Friend Area grants; PG01–PG08 recruit/revisit distinctions; `content/dungeons.js` boss references and `content/postgame.js` recruit effects. Species, named story actor and persistent recruited individual remain separate identities under §3.
+- **Resolution question:** For every original legendary encounter, what quest facts, owned habitats, party conditions and first-versus-repeat state permit recruitment; what are the verified encounter stats; and when is a habitat granted rather than required beforehand?
+- **Candidate sources:** The original-game overview and its original recruitment references; individual dungeon pages listed in §11; walkthrough Chapters 5–11; the source candidates indexed by [DATA.md](DATA.md), followed by edition-specific original evidence where they disagree.
+- **Dependent gate:** Block unsupported recruitment/stat/habitat fields at P01/P02 acceptance and their dependent P17/content records. Unresolved main-story boss stats block M3; unresolved revisit/recruitment rules block M4 and any full-roster completion claim.
+
+### CAMPAIGN-GAP-05 — Complete per-floor content and restrictions
+
+- **Unresolved scope:** Source every dungeon's full original encounter tables, weather schedules, trap/shop/Monster House floors, item probabilities, fixed rooms and entry restrictions. The short `residents` lists proposed earlier were insufficient for whole-game fidelity.
+- **Owner and consumers:** P01 owns evidence resolution and P02 the coverage inventory; P11 owns structural floor data, P14/P15 the relevant battle/item/environment rules, P16 entry restrictions and P23–P31 dungeon content.
+- **Affected records:** Every §4–§6 dungeon's encounter/item/weather/visibility bands, trap/shop/Monster House eligibility, fixed rooms and entry rules in `content/dungeons.js` and its referenced tables; original-edition/region provenance for every numeric field.
+- **Resolution question:** What is the complete original table for every floor band and conditional room or entrance, including probabilities and edition differences, and which fields remain unknown after the available sources are compared?
+- **Candidate sources:** Each specific dungeon page in §11 and its original Red/Blue sections; corresponding walkthrough chapters for fixed-story context; [DATA.md](DATA.md)'s numerical-data source candidates and authorized original evidence for remaining table gaps. A broad walkthrough is not a substitute for missing probability tables.
+- **Dependent gate:** Block unknown factual fields at P01/P02 and their P11/P14–P16 consumers; only independently verified batches can proceed after authorization. Missing main-story tables block M3; missing postgame/optional tables block M4. P33 cannot accept dungeon-label or short-resident-list coverage as complete.
+
+### CAMPAIGN-GAP-06 — HM possession and knowledge predicates
+
+- **Unresolved scope:** Verify whether HM checks inspect bag, known moves, storage or prior acquisition at each gate; separate Solar Cave discovery from obtaining Surf.
+- **Owner and consumers:** P01 owns evidence resolution; P15 owns item/known-move semantics, P22 the predicate contract and P26–P31 the affected dungeon and discovery records.
+- **Affected records:** HM-dependent entrance/revisit predicates in `content/dungeons.js`; Sky Tower's Fly revisit; ocean/sea/Fields/Western/Wish routes; Solar Cave discovery and Surf-obtained flags in `content/postgame.js`.
+- **Resolution question:** For each individual entrance and discovery trigger, which of carried HM, learned move, stored HM or historical acquisition satisfies the original check, and when exactly does obtaining Surf enable a route compared with merely discovering Solar Cave?
+- **Candidate sources:** Sky Tower, Solar Cave, Silver Trench, Wish Cave and other relevant dungeon pages already listed in §11; walkthrough Chapters 6–11; authorized original observations varying one possession/knowledge condition at a time.
+- **Dependent gate:** Block unverified HM predicates in P15/P22 and their P26–P31 content records; affected original-rules foundation fields cannot be frozen as confirmed. All gated revisit/postgame routes remain blocked for M4 acceptance until their separate checks are resolved.
+
+### CAMPAIGN-GAP-07 — Recovery of physical quest prerequisites
+
+- **Unresolved scope:** Document the exact recovery path after losing Parts, Music Box, Wish Stone, Fly or other physical prerequisites.
+- **Owner and consumers:** P01 owns evidence resolution; P15/P16 own loss and replacement rules, P08 persistence integration and P26–P31 the affected route recovery content.
+- **Affected records:** Inventory-instance versus permanent-knowledge predicates; Buried Relic Part/`music-box` recovery, Wish Stone replacement, Fly reacquisition and other prerequisite recovery tables; journal/return-visit scenes and one-time grant receipts.
+- **Resolution question:** After each documented use, loss, defeat or entry restriction removes a prerequisite, what exact original source, floor, NPC or repeat encounter replaces it, under what conditions, and can any route become permanently inaccessible? Do not invent a replacement grant to hide an unknown.
+- **Candidate sources:** Buried Relic, Wish Cave, Sky Tower, Solar Cave and corresponding walkthrough chapters; original item/reward references reachable through those existing sources; authorized original recovery-path observation.
+- **Dependent gate:** Block affected P15/P16 replacement rules and P08/P26–P31 recovery integrations until evidenced or explicitly adapted. M4 acceptance requires the affected routes' repeat/recovery coverage; P35 cannot sign off on a route whose only progression item has an unresolved loss path.
+
+### CAMPAIGN-GAP-08 — Named invitation retries and postgame party rules
+
+- **Unresolved scope:** Verify named recruitment invitation decline/retry behavior, postgame partner/leader rules, and Gardevoir's original recruit level/moves.
+- **Owner and consumers:** P01 owns evidence resolution; P17 owns party/recruitment rules, P26 the post-ending transition, P28 the Eon invitation and P30 Gardevoir's invitation/data.
+- **Affected records:** Named recruitment acceptance/decline/reoffer state; `eon-recruit-offer`, `gardevoir-square-invitation`, `gardevoir-story-recruited`; Gardevoir's initial individual record and move set; postgame leader/partner eligibility and return-to-town presentation.
+- **Resolution question:** Which named offers can be declined, when/how are they offered again, what changes in partner and leader control after the ending, and what exact level/moves does original Gardevoir have when recruited? Keep deterministic invitation handling separate from generic recruitment rolls.
+- **Candidate sources:** Gardevoir, the original named-character list, walkthrough Chapters 5, 7 and 11; [DATA.md](DATA.md)'s original recruitment/roster references; authorized original invitation and post-ending observations.
+- **Dependent gate:** Block unsupported P17 rules and P26/P28/P30 named-recruit transitions/data. Post-ending party control blocks P26/M3 acceptance; unresolved invitation or Gardevoir records block M4 and full named-recruit completion claims.
+
+### CAMPAIGN-GAP-09 — Ambient NPCs, decorations and base flags
+
+- **Unresolved scope:** Observe original presentation of Munchlax, Chansey-specific ambient conversations, decoration rewards, and once-per-day Smeargle flag changes.
+- **Owner and consumers:** P01 owns evidence resolution; P20 owns recurring town records, P31 optional rewards/Smeargle content and P32 corresponding visual/narrative assets.
+- **Affected records:** Munchlax and Chansey `storyActorId` topics, appearances and interaction predicates; Team Base decoration/reward records; Smeargle flag-painting choices and last-change-day state; scene/asset provenance in `content/town.js` and optional content.
+- **Resolution question:** When and where do these NPC interactions occur, what original actions/rewards and ambient variants exist, how are decorations earned/displayed, and exactly when does Smeargle's daily flag-change allowance reset?
+- **Candidate sources:** Team Base, Pokémon Square, named-character list, Howling Forest and Makuhita Dojo; original-edition observations of these interactions. Existing sources may establish existence without resolving all presentation or timing variants.
+- **Dependent gate:** Block affected P20/P31 records and their P32 asset acceptance until observed or explicitly adapted; missing optional/ambient variants remain open at M4 and P35 content sign-off rather than being treated as cosmetic completion.
+
+### CAMPAIGN-GAP-10 — Exchange, hardware and version-mode disposition
+
+- **Unresolved scope:** Decide whether original Friend Rescue, Wonder Mail, dual-slot Rescue Team Maze and version-exclusive unlocking will be implemented, adapted, or explicitly omitted. A full-content offline browser game must still disclose connectivity omissions.
+- **Owner and consumers:** P01/P02 own the original capability inventory; P21 owns rescue/mail/exchange contracts and P31 linked/event/version content. Justin's decisions D01 and D04 in [PLAN.md](PLAN.md) govern the allowed adaptation/disposition.
+- **Affected records:** Edition-scoped availability and unlock predicates; Friend Rescue and Wonder Mail feature records; linked Rescue Team Maze scope; optional/event access records; coverage exclusions and player-facing compatibility statements.
+- **Resolution question:** For each feature and supported edition/region, what does the original require, what behavior/data can the approved browser mode preserve, and which exact browser equivalent or omission is authorized? Record code compatibility separately from content accessibility.
+- **Candidate sources:** The original-game overview, Makuhita Dojo and optional/event pages in §11; original manuals/hardware documentation located through the official catalog sites; [DATA.md](DATA.md)'s version research. D01/D04 review supplies product decisions, not historical evidence.
+- **Dependent gate:** Block corresponding P21/P31 implementation assumptions until original scope is inventoried and D01/D04 disposition is recorded. M4 requires no unapproved missing-scope rows; P35/P36 must disclose any approved connectivity or compatibility omissions in the accepted release scope.
+
+### CAMPAIGN-GAP-11 — Original quiz, gender mapping and partner eligibility
+
+- **Unresolved scope:** Determine exact main-story quiz mapping, original gender constraints and partner exclusions from the roster appendix. Any modernized identity/selection flow must be a stated adaptation while preserving an original-compatible choice.
+- **Owner and consumers:** P01/P02 own source and roster-mapping verification; P19 owns the quiz/identity flow, with P17 consuming valid hero/partner identity and eligibility records.
+- **Affected records:** `content/quiz.js` original scoring/result mappings, gender-dependent starter eligibility and partner exclusions; hero/partner initialization references; mode/adaptation metadata. The starter list alone does not resolve the full mapping.
+- **Resolution question:** What are the original question/result scoring and tie rules, gender-to-starter mappings and partner exclusion predicates, and how will newly authored questions preserve a verified original-compatible selection path? Which optional identity or free-selection changes require explicit adaptation approval?
+- **Candidate sources:** [DATA.md](DATA.md)'s starter/partner discussion and source ledger, original-game overview and walkthrough Chapter 1; original quiz/result references identified from those candidates and authorized original selection observations.
+- **Dependent gate:** Block unsupported P01/P02 mapping fields and P19 quiz/eligibility acceptance; M3 onboarding cannot be accepted with guessed mappings or silently modernized exclusions. New prose may be drafted only within approved scope while factual mapping fields remain blocked.
+
+### CAMPAIGN-GAP-12 — Failure loss and challenge reset semantics
+
+- **Unresolved scope:** Verify failure item/money loss, challenge entry destruction, reset-stat restoration and permanent-stat item behavior; these materially affect long-form campaign balance.
+- **Owner and consumers:** P01 owns evidence resolution; P15 owns stat/item effects, P16 failure/reset rules and P08 persistence/recovery, with P30/P31 consuming Wish Cave, Joyous Tower and Purity Forest restrictions.
+- **Affected records:** Failure/escape/rescue outcome loss tables; challenge entry rules; pre-entry individual-stat snapshots versus expedition state; money/items/IQ/level restoration; permanent-stat item effects during reset expeditions and their exit handling.
+- **Resolution question:** For each original exit outcome and challenge, what is lost, retained, temporarily reset or restored, and do permanent-stat items used during the expedition affect the restored baseline? Distinguish entry destruction from temporary stat reset and distinguish failure from successful exit.
+- **Candidate sources:** Wish Cave, Joyous Tower, Purity Forest and their original-edition sections; [SYSTEMS.md](SYSTEMS.md) and [DATA.md](DATA.md)'s cited original failure/item references; authorized original entry/exit observations for unresolved combinations.
+- **Dependent gate:** Block unsupported P15/P16 rules and P08 recovery semantics before M2 kernel acceptance; challenge-specific content also blocks P30/P31 and M4 acceptance. Any approved convenience adaptation needs separate mode/coverage treatment before P35 sign-off.
+
+### CAMPAIGN-GAP-13 — Newly written dialogue and source-distance review
+
+- **Unresolved scope:** Review newly written dialogue against source scripts for accidental close paraphrase; remove distinctive copied wording even if factual events are retained.
+- **Owner and consumers:** P22 owns the scene-authoring/review contract; P19–P31 own their individual manuscripts, P32 associated narrative assets and P33 the whole-campaign coverage audit.
+- **Affected records:** Every authored quiz question, scene utterance, judgment question, NPC topic, journal/debrief line and narrative asset in `content/quiz.js`, `content/main-story.js`, `content/postgame.js` and `content/town.js`; manuscript provenance and review receipts.
+- **Resolution question:** Does each manuscript communicate the required researched event in newly written language without retaining distinctive original wording, dialogue structure or close paraphrase? Which lines need rewriting, and which content IDs have actually received review? No manuscript exists yet whose review could close this record.
+- **Candidate sources:** Scene-specific walkthrough chapters and character pages in §11 to check factual beats; lawfully available original dialogue/script evidence for source-distance comparison; the future authored manuscript itself. Keep the review record factual and concise rather than copying original scripts into the repository.
+- **Dependent gate:** Block each affected manuscript's P19–P31 acceptance until its review is recorded; main-story manuscripts block M3 and postgame/ambient manuscripts block M4. P33/P35 require complete review coverage, not a blanket declaration that all dialogue is original.
 
 None of these unresolved tasks should be concealed by calling a mode "reimagined." That label permits approved creative differences; it does not excuse unidentified bugs or silently missing content.
 

@@ -2,7 +2,9 @@
 
 Status: **planning only; implementation is paused for user review**. This appendix defines future work and acceptance gates. It does not authorize resuming product code. The review must resolve the art-production scope and minimum quality bar before a smaller implementation model is instructed to work.
 
-This is an implementation plan for an original browser-based 3D reimagining of the original Red Rescue Team / Blue Rescue Team experience, integrated into the existing arcade. It is not an Unreal Engine project, a port of an existing game, or a promise of Unreal rendering features. The desired cinematic impression must come from strong composition, convincing silhouettes, original art, physically based materials, selective shadows, atmospheric effects, and coherent animation within a static WebGL2 application.
+This is an implementation plan for an original browser-based 3D reimagining of the original Nintendo DS Blue Rescue Team experience, integrated into the existing arcade. It is not an Unreal Engine project, a port of an existing game, or a promise of Unreal rendering features. The desired cinematic impression must come from strong composition, convincing silhouettes, original art, physically based materials, selective shadows, atmospheric effects, and coherent animation within a static WebGL2 application.
+
+Blue is the user-selected baseline (resolved D01); Red Rescue Team may inform comparative research but does not add an edition selector or Red-specific product scope. Dialogue and quiz text must be newly written while preserving the original Blue events, meaning and selection concepts.
 
 ## 1. Visual outcome and scope decisions
 
@@ -22,7 +24,7 @@ The Groudon encounter is the initial art-quality anchor. A small Pikachu and Cha
 | Polished browser vertical slice | Authored hero/partner/Groudon assets, strong volcanic arena, robust third-person camera, complete tactical battle feedback, desktop/mobile quality tiers, original sound and UI | A finished entire game or proof that 386 production assets already exist |
 | Full accepted art production | Species-specific models for every included species and required visual form, consistent rigs/animation, complete dungeon/town art kits, audited asset provenance, performance adaptation, full UX | Exact recreation of the original artwork or scripts |
 
-The recommended sequence is to approve the complete target and staged coverage policy, then establish the vertical slice before multiplying content. The entire game cannot be declared visually complete merely because every species ID maps to one of seven body archetypes.
+The recommended sequence is to approve the complete target and coverage policy, establish P06 art direction with non-gameplay previews, then integrate the actual game renderer at P10 and battle presentation at P18/P25. P06 visual acceptance permits asset production; later gameplay acceptance verifies those assets in the real game. The entire game cannot be declared visually complete merely because every species ID maps to one of seven body archetypes.
 
 ### 1.3 Decisions to resolve in plan review
 
@@ -62,7 +64,11 @@ The architecture in [PLAN.md](PLAN.md), particularly sections 7–8, and canonic
 
 ### 3.1 Proposed exact file ownership
 
-Runtime paths below are relative to `games/pokemon-dungeon-reimagined/`. Repository-root `docs/pokemon-dungeon/` paths are explicitly marked and remain outside runtime assets. All entries are future proposals, not existing product files.
+**P06 contract exception:** the temporary repository-relative `tools/pokemon-dungeon/art-preview/` harness may show static asset compositions, camera framing and animation playback before the game contracts exist. It uses the pinned local Three.js toolchain and reusable candidate production assets, but imports no game source and implements no commands, combat, state, saves or playable encounter. Its private scene setup is disposable art tooling, not a second game renderer. Manual viewing/capture requires D05 approval; it is not authorized merely by the existence of this plan.
+
+Freeze real domain snapshots, presentation events and `DungeonRenderer` at P07/P10 before any game consumer is built. P10 consumes approved asset manifests and art direction, not harness-specific state or APIs; retire the harness during integration. An optional D06 playable practice encounter requires the integrated P18 engine and uses the production simulation/renderer, never the art harness.
+
+Runtime paths below are relative to `games/pokemon-dungeon-reimagined/`. Game-local `plan/` paths are project documentation, copied by the static exporter but never loaded as runtime assets. All entries are future proposals, not existing product files.
 
 | Path | Responsibility | Explicit boundary |
 | --- | --- | --- |
@@ -83,9 +89,9 @@ Runtime paths below are relative to `games/pokemon-dungeon-reimagined/`. Reposit
 | `assets/effects/` | Original effect textures and sprite atlases | Effects have low-detail alternatives |
 | `assets/audio/` | Original or properly licensed audio if audio files supplement synthesis | Asset rights recorded alongside sources |
 | `vendor/` | Pinned Three modules, approved addons/decoders, third-party notices | No runtime package downloads |
-| `docs/pokemon-dungeon/ART-DIRECTION.md` (repository root) | Style bible, color scripts, scale, visual references and acceptance | Separates target from current coverage |
-| `docs/pokemon-dungeon/ASSET-REGISTER.csv` (repository root) | Provenance, license, author, source, hashes, coverage and review status | Needed for all contributed/downloaded art |
-| `docs/pokemon-dungeon/VISUAL-ACCEPTANCE.md` (repository root) | Review records, screenshots, device captures, limitations | Records actual rendered build/commit |
+| `plan/ART-DIRECTION.md` | Style bible, color scripts, scale, visual references and acceptance | Separates target from current coverage |
+| `plan/ASSET-REGISTER.csv` | Provenance, license, author, source, hashes, coverage and review status | Needed for all contributed/downloaded art |
+| `plan/VISUAL-ACCEPTANCE.md` | Review records, screenshots, device captures, limitations | Records actual rendered build/commit |
 
 If the later team elects fewer modules, responsibilities still remain separate. Do not split modules so finely that ownership and data flow become harder to follow. Do not add any of these implementation files during the current paused phase.
 
@@ -168,7 +174,7 @@ Document original-form coverage separately from the excluded modern/cosmetic var
 
 | Wave | Character scope | Exit requirement | Parent packages |
 | --- | --- | --- | --- |
-| W-A: art anchor | Pikachu, Charmander, Groudon; first rescue client if present in slice | Neutral turntables, approved material response, walk/attack/hit/defeat, actual volcanic battle composition | P03, P06; later combat integration P10/P13/P18 |
+| W-A: art anchor | Pikachu, Charmander, Groudon; first rescue client if present in slice | Neutral turntables, approved material response, walk/attack/hit/defeat clip previews and static volcanic composition; no gameplay claim | P03, P06; later combat integration P10/P13/P18 |
 | W-B: starter selection | All researched original starters and selectable partners, with evolution lines planned | Selection portraits and 3D preview consistent with in-game assets; starter-specific silhouettes/animation | P19, P32 |
 | W-C: main campaign | Main-story bosses, story NPCs, common encounter species and rescue clients | Distinct dungeon encounter silhouettes; dialogue framing; major setpiece animation | P23–P26, P32 |
 | W-D: postgame landmarks | Legendary/recruitment bosses and species prominent in optional dungeons | Arena-specific visual treatment; large-scale framing; correct alternate forms as agreed | P27–P31, P32 |
@@ -176,6 +182,8 @@ Document original-form coverage separately from the excluded modern/cosmetic var
 | W-F: consistency pass | Entire roster | Comparable art quality, corrected scale/material/face mismatch, final LOD/animation/license audit | P32–P35 |
 
 Task ordering does not reduce the final promised scope. If production stops at a wave, the release description must state that coverage honestly.
+
+The reproducible raster asset/atlas plan is specified in [ASSET-PIPELINE.md](ASSET-PIPELINE.md). It covers portraits, icons, UI artwork, illustrations and surface textures; it does not replace the rigged 3D character pipeline below. A/B loading backgrounds remain unselected D03 examples, not approved character anchors.
 
 ### 4.4 Original asset-authoring pipeline
 
@@ -377,12 +385,36 @@ Adaptive quality should use rolling frame-time trends with hysteresis, not oscil
 | Attack / interact / wait | Separate clearly labeled bindings | Communicate turn-consuming action; interactions differ from attacks |
 | Move slots | Number keys and on-screen buttons | Show PP, disabled reason, range and selected target |
 | Camera | Drag/orbit keys/buttons; zoom; recenter | No turn cost; no conflicting long-press item action |
-| Touch | Direction pad or thumbstick plus explicit action buttons | Targets at least 44 CSS px; safe-area margins; avoid tiny inventory rows |
+| Touch | Required semitransparent lower-half emulator-style overlay: eight-direction D-pad, A/B and context actions, central Start/Select/Menu | Auto-show for touch plus manual show/hide; at least 44 CSS px, preferably 48 CSS px; exact layout below |
 | Mouse/pointer | Optional selecting actor/tile plus explicit commit | Decorative mesh clicks do not change game rules |
 | Controller if accepted | D-pad/stick movement, action, menu, camera, focus navigation | Optional implementation milestone; do not claim support without acceptance |
 | Escape / back | Close panel first, then game menu with clear return path | Preserve arcade iframe focus restoration |
 
 Use a stable command adapter. Input intent routes through controller to simulation; renderer never directly consumes keyboard to mutate actors. Multi-touch camera gestures must not accidentally dispatch movement. Provide a touch-friendly alternative to hover tooltips. Rebinding and camera-direction mode should be considered in the accepted settings scope rather than silently postponed.
+
+### 9.1.1 Required touch overlay: emulator-like layout
+
+The user has specified this design; do not introduce another approval choice for the layout. Controls pop up as a semitransparent overlay in the **bottom half of the viewport**, resembling the familiar touch-control arrangement of a GBA emulator. This is a browser control layout for the fixed **Nintendo DS Blue Rescue Team** rules and the reimagined 3D camera; it does not turn the game into a GBA emulator, import Red/GBA mechanics, or reproduce hardware input blindly.
+
+| Region | Required controls | Behavior / visibility |
+| --- | --- | --- |
+| Lower-left | Eight-direction D-pad with clear cardinal and diagonal hit areas | Converts intent to discrete grid directions through the same domain command validator; diagonals must obey Blue movement/corner restrictions, never free analog movement |
+| Lower-right | Large A and B buttons plus a small cluster of explicitly labeled context actions | A presents the current legal primary action such as attack/confirm/interact; B cancels/backs out. Context actions expose moves, wait, inventory or targeting as appropriate, with real command bindings and concise disabled reasons |
+| Lower-center | Visually smaller Start, Select and Menu controls | Start pauses/opens the game menu; Select opens the tactical-map/information view; Menu exposes contextual action options. Visual size may be smaller, but every hit area still meets the touch minimum |
+| Upper-half free zone | Camera drag/orbit; optional reviewed zoom gesture and recenter affordance | A gesture beginning here owns camera input; it never produces a movement/attack turn. Keep mandatory top HUD/objective regions outside the drag hit area |
+| Persistent compact toggle | Show/hide controls | Available while controls are hidden; keyboard and pointer users can manually show them; manual choice is remembered and never repeatedly overridden |
+
+Auto-show the overlay on first touch or a coarse-pointer touch session, with a brief unobtrusive pop-in; reduced motion makes the transition immediate. Desktop defaults to keyboard/mouse with the overlay hidden, while preserving a manual toggle. A touch occurring on a menu field must not dismiss that menu or commit a gameplay action. Use labels/tooltips and accessible names that describe actual actions, not unexplained letter-only commands.
+
+Start around **45% fill opacity** for button/control surfaces, with opaque high-contrast icons/text and a fine contrasting edge. Treat this as a default tuning value, not permission to make disabled/pressed states unreadable. Pressed and keyboard-focused controls need strong distinct fill/outline changes plus optional restrained haptics only if later approved. The overlay's empty space must not be one large input-catching panel: use pointer-active button zones and pass-through gaps so the world remains visible. Do not rely on a fully opaque lower-half slab or a background image to implement controls.
+
+Use at least **44 CSS px**, preferably **48 CSS px**, for each hit target and generous spacing. Apply safe-area padding and responsive portrait/landscape layouts. On narrow portrait screens, stack right context actions compactly and preserve D-pad diagonals; on short landscape screens, widen the control groups along the lower edges rather than shrink buttons. Keep Start/Select/Menu centered and reachable without covering the objective or hiding the map toggle. Provide a layout scale/opacity setting after the required default is implemented; customization does not replace the requested layout.
+
+The top HUD must retain party HP/status, current dungeon/floor, mandatory objective and selected-target/action feedback. With the overlay visible, tune the shoulder camera's safe framing so hero, next legal tile and relevant enemies are visible above or between the control groups. Do not switch default play to top-down to compensate for controls. Boss health/head, rescue target and exit prompts must not be covered by button clusters; reposition contextual prompts or adjust presentation framing. Upper-half camera gestures cannot begin over a HUD/menu button.
+
+Track each active pointer by **pointer ID and assigned role**: D-pad, action button or camera. Capture/release pointers consistently and handle multiple simultaneous pointers, so one thumb can hold movement intent while another orbits or taps a permitted action. Resolve D-pad transitions to one discrete direction, not two accidental cardinal turns; a diagonal touch must map to one diagonal command. Use the plan's bounded action queue: an action gesture does not create unlimited turns during an animation. On `pointercancel`, lost pointer capture, blur, tab hide, menu open, iframe focus loss or disposal, clear held roles/directions and release pressed states to prevent stuck movement. A pointer released over a different button does not trigger that new button.
+
+P09 owns pointer/input routing; P18 owns accessible DOM controls and responsive styling; P10 owns safe camera framing using the approved view contract. Static review verifies role ownership, cleanup and legal-command routing. D05-approved manual acceptance later covers simultaneous movement/camera input, diagonal boundaries, orientation changes, hide/show, safe areas, focus states and interruption cleanup. No automated game-input tests are introduced.
 
 ### 9.2 Accessibility standards
 
@@ -394,7 +426,7 @@ A turn-based pace is useful but does not by itself make a 3D game fully accessib
 
 ### 9.3 HUD layout
 
-Desktop: restrained party/HP/status panel in one top corner, floor/objective and boss health in the other/top center, collapsible event log, bottom action bar, compact map toggle and pause/settings. Leave central world and boss silhouette clear. Mobile: compact top status row, touch movement/actions at lower edges, collapsible log/map, large single-column panels. Respect iframe size, portrait orientation, safe-area insets and keyboard focus.
+Desktop: restrained party/HP/status panel in one top corner, floor/objective and boss health in the other/top center, collapsible event log, bottom action bar, compact map toggle and pause/settings. Leave central world and boss silhouette clear. Mobile: compact top status/objective row, the required semitransparent emulator-style lower-half touch overlay, collapsible log/map, large single-column panels. Respect iframe size, portrait orientation, safe-area insets and keyboard focus.
 
 Display the current hero/partner names, levels, HP and statuses; hunger/PP/resources where appropriate; dungeon and floor; active objective; action/move targeting state; and readable consequences. Do not imply a real-time cooldown when combat is turn-based. Save/loading/error states need clear persistent feedback.
 
@@ -403,7 +435,7 @@ Display the current hero/partner names, levels, HP and statuses; hunger/PP/resou
 | Screen / panel | Required content and actions | Rendering relationship |
 | --- | --- | --- |
 | Start / continue | New adventure, continue, settings, clear scope/reimagining notice, save/import access | Optional honest title diorama; not used as gameplay preview |
-| Personality quiz | One question at a time, answer buttons, progress, accessible back policy | Original wording; no forced rapid interaction |
+| Personality quiz | One question at a time, answer buttons, progress, accessible back policy | Newly written wording preserving Blue selection concepts; no forced rapid interaction |
 | Starter/partner selection | Species/name, types, available choice, preview and confirm | Use same approved model as gameplay; no misleading render-only species |
 | Naming/team setup | Hero/team names, validation, review summary | Does not force login or network account |
 | Town/home | Current chapter/objective, services, jobs, party, storage, departure | 3D hub supports accessible panel route to actual services |
@@ -414,7 +446,7 @@ Display the current hero/partner names, levels, HP and statuses; hunger/PP/resou
 | Status / tactics | Current stats/status, partner behavior options actually implemented | No menu option without rule-side behavior |
 | Rescue jobs | Acceptable jobs, objectives, destination, reward, completion/claim state | Quest markers represent actual active jobs |
 | Shop/bank/storage/services | Funds/items, transfer controls, price and result feedback | Modelled service NPC does not replace usable DOM controls |
-| Chapter dialogue | Speaker, original text, next/skip policy and transition | Camera is presentation only; story gating remains simulation/controller |
+| Chapter dialogue | Speaker, newly written text preserving Blue events, next/skip policy and transition | Camera is presentation only; story gating remains simulation/controller |
 | Floor transition | Next floor, destination, progress and short loading status | Camera fades only when appropriate; not per turn |
 | Defeat/revival | Explain current outcome, recovery choices supported by rules | No unearned permanent death or automatic reset |
 | Dungeon completion | Rewards, rescues, recruits, story advancement and town return | Celebration clip optional, result real |
@@ -459,11 +491,11 @@ Visual acceptance requires explicit human review. Static syntax success cannot e
 
 ## 11. Execution work packages for the future implementation model
 
-Do not start these until the user approves the consolidated plan and prerequisite repository setup. Each package must leave a reviewable artifact and identify unresolved gaps. Do not skip ahead to roster multiplication before the art anchor passes.
+Do not start these until the user approves the consolidated plan and prerequisite repository setup. Each package must leave a reviewable artifact and identify unresolved gaps. Do not skip ahead to roster multiplication before the P06 art anchor passes. Keep all intermediate runtime PRs review-only and unmerged until P37 full-scope release authorization: a disabled arcade card cannot prevent direct access to exported game URLs. The non-exported art harness is not a public demo; planning-document-only merges still require explicit user authorization.
 
 ### Rendering-task crosswalk to the governing work packages
 
-The R tasks below are subtask detail, not a second execution schedule. PLAN's P dependencies, approval decisions, milestones and release gates remain authoritative. W-A–W-F are character-production waves mapped in section 4.3. A work package can draw on several R tasks without bypassing its prerequisites.
+The R tasks below are subtask detail, not a second execution schedule. PLAN's canonical order is P00-P18, P22, P19-P21, P23-P37; stable package IDs do not imply numeric order. Its dependencies, approval decisions, milestones and release gates remain authoritative. W-A–W-F are character-production waves mapped in section 4.3. A work package can draw on several R tasks without bypassing its prerequisites.
 
 | Rendering subtask | Parent P package(s) | Ordering / scope note |
 | --- | --- | --- |
@@ -471,14 +503,14 @@ The R tasks below are subtask detail, not a second execution schedule. PLAN's P 
 | R1 style bible | P03, P06 | Establish/review art direction before mass asset production |
 | R2 manifest | P02–P03, P32 | Coverage register begins early; final coverage waits for actual approved assets |
 | R3 lifecycle | P05, P10 | Recoverable app shell first; full scene resources at renderer package |
-| R4 camera/tiles | P09–P11 | Domain visibility must be projected; input does not mutate domain from camera code |
-| R5 volcanic kit | P06, P10, P25, P32 | P06 visual proof first; actual Magma Cavern integrates at P25 |
+| R4 camera/tiles | P09–P11 | Production camera begins after P07/P10 contract freeze; P06 may preview framing only in its isolated art harness |
+| R5 volcanic kit | P06, P10, P25, P32 | P06 static art harness first; production scene at P10; actual Magma Cavern at P25 |
 | R6 hero/partner/Groudon | P03, P06, P32 | W-A anchor assets; no claim of whole-roster completion |
 | R7 real battle presentation | P10, P13–P18, P25 | Requires actual combat/event contracts; P06 art proof alone is not gameplay |
-| R8 accessible core UX | P05, P09, P18–P19 | Setup/HUD/controls align to real domain commands and onboarding |
-| R9 encounter review | P06 art gate plus P18/P25 manual slice review | Internal evidence; no public arcade change and no campaign-completion claim |
+| R8 accessible core UX | P05, P09, P18, P22, P19 | Scene engine P22 precedes onboarding P19; setup/HUD/controls align to real commands |
+| R9 encounter review | P18 optional D06 practice, or P25 campaign encounter | Follows P06 art acceptance; real gameplay uses production modules and D05-approved manual review |
 | R10 main-story waves | P19, P23–P26, P32 | W-B/W-C art follows campaign inventory and accepted direction |
-| R11 services/progression UX | P18, P20–P22, P27–P31 | Actual town/job/postgame/evolution services determine panel functionality |
+| R11 services/progression UX | P18, P22, P19–P21, P27–P31 | Follow canonical order: scene engine before onboarding/town/jobs; real services determine panel functionality |
 | R12 postgame/remaining roster | P27–P33 | W-D/W-E and completed per-route art assignments |
 | R13 performance/accessibility | P34–P35 | Detail budgets reconciled to PLAN section 8; representative physical-device acceptance |
 | R14 final capture/integration | P35–P36 | Full release candidate accepted first; explicit exposure permission before public card |
@@ -491,12 +523,12 @@ The R tasks below are subtask detail, not a second execution schedule. PLAN's P 
 | R2: asset manifest | All 386 IDs/form keys, coverage statuses, provenance fields, loader/fallback policies | R0/R1 | Complete explicit register; missing final assets visible |
 | R3: browser/lifecycle skeleton | Constructor, error recovery, resize/dispose, local imports, capability gate and quality settings | R0 | Static inspection + user-approved later manual browser smoke capture; no game-source tests |
 | R4: camera/tile presentation | Follow/orbit/zoom, coordinate conventions, wall obstruction, interpolation, mandatory visibility filtering, tile previews | R3 + approved immutable presentation snapshots | Manual corridor and boss framing review after authorization |
-| R5: volcanic scenery anchor | Basalt/lava kit, instances/chunks, lights/fog/shadows, resource pools | R3/R1 | Neutral arena and actual encounter captures; count/resource record |
+| R5: volcanic scenery anchor | Basalt/lava assets and static art composition at P06; production resource pools at P10 | R1/R2 and P04 toolchain for P06; R3 plus P07/P10 contracts for production | Labeled art-preview captures first; actual encounter evidence only after P18/P25 |
 | R6: hero/partner/Groudon assets | Dedicated original assets, rigs, LODs, core clips and manifest entries | R1/R2 | Turntables plus close-up material/animation review; asset provenance |
-| R7: real battle presentation | Actor diff/sync, move/hit/status effects, animation sequencing, camera response, pickups | R4/R5/R6 + real event contract | Actual playable Groudon fight capture and accessible feedback review |
+| R7: real battle presentation | Actor diff/sync, move/hit/status effects, animation sequencing, camera response, pickups | R4/R5/R6 + P07/P10 event contract and P18 integrated engine | D05-approved actual fight capture: optional D06 practice after P18, otherwise P25 campaign encounter |
 | R8: accessible core UX | Setup, quiz, choice, HUD, action menus, pause/settings, loading/errors, mobile controls | Controller/simulation contracts | Keyboard/touch/focus review; no fake menu options |
-| R9: vertical-slice gate | Review actual encounter against approved P06 art direction; retain internal capture only, no public card change | R7/R8 | Explicit user decision on quality; revise before multiplying assets |
-| R10: starter/main-story waves | Starter/evolution art, common enemies, campaign bosses/NPCs, biome kits and setpieces | R9 | Per-wave coverage and actual-dungeon captures; no silent fallback substitutions |
+| R9: gameplay presentation gate | Review actual encounter against approved P06 art direction; retain internal capture only, no public card change | R7/R8; D05 and D06 if practice is used | Human quality review of actual gameplay; correct integration issues before release |
+| R10: starter/main-story waves | Starter/evolution art, common enemies, campaign bosses/NPCs, biome kits and setpieces | P06 accepted art direction and R1/R2; parent campaign dependencies | Per-wave coverage and actual-dungeon captures; no silent fallback substitutions |
 | R11: full service/progression UX | Town services, inventory/storage/shop/jobs/team/evolution/recruitment/postgame menus | Actual rule-side services | Panel inventory reconciled with available rules/actions |
 | R12: postgame/remaining roster | Legendary kits/forms, optional-route art assignments, remainder of 386 species | R10/R11 | All manifests assigned; final model/animation coverage status truthful |
 | R13: performance and accessibility pass | Resource accounting, adaptive quality, loading/cache/context handling, text/contrast/motion/touch | Representative completed content | Authorized manual desktop/mobile review records and known limitations |

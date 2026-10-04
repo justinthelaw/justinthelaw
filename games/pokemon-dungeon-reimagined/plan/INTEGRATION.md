@@ -9,14 +9,22 @@ game runtime, or describe future implementation tasks as shipped behavior.
 Keep all three existing arcade placeholders until the reviewed plan authorizes
 implementation and the playable release satisfies its readiness gates.
 All three live cards, including the first card, remain unchanged in this
-planning change. There is no approved game runtime, ready artwork, or gameplay
-screenshot. Reviewing this appendix does not lift the planning hold or authorize
+planning change. There is no approved game runtime, final runtime artwork, or
+gameplay screenshot. Two user-authorized raster loading-illustration candidates
+for D03 may be created under `art-candidates/`; they are visual-planning assets,
+not 3D runtime assets or gameplay captures. Reviewing this appendix or those
+candidates does not lift the planning hold or authorize
 an automatic merge, release, or deployment.
+
+The sole reference edition is the original **Pokémon Mystery Dungeon: Blue
+Rescue Team**. Red Rescue Team is comparative/cross-version research only;
+there is no Red campaign or edition selector, and shared findings require
+Blue-specific verification.
 
 The existing `AGENTS.md` at repository HEAD states: "Do not test source
 code inside `games/`. Website export tests may use temporary fixture files to
 verify copying and asset paths without testing game behavior." The applicable
-[root instructions](../../AGENTS.md), [game instructions](../../games/pokemon-dungeon-reimagined/AGENTS.md),
+[root instructions](../../../AGENTS.md), [game instructions](../AGENTS.md),
 and [parent plan](PLAN.md) preserve that boundary. Syntax checks, framework lint,
 independent type checks, static review, and a specifically authorized gameplay
 screenshot capture are distinct from game-source tests; do not turn screenshot
@@ -45,6 +53,11 @@ after P00 remain unapproved and not started.
 P36 requires the accepted full release candidate from P35 **and explicit
 permission to expose it**. P37 depends on P36 and separately requires explicit
 merge/deployment authorization. Passing checks do not grant either permission.
+Every intermediate runtime-package PR remains unmerged until P37 full-scope
+acceptance and explicit release approval. The existing exporter copies
+`games/**`, and main deploys that tree at direct URLs; keeping Play disabled is
+insufficient to prevent publication of an unfinished game. Keep runtime work
+on development branches until the approved complete release is merged.
 
 ## Existing repository map
 
@@ -287,14 +300,16 @@ third-party inventory for engine, factual datasets, and all other dependencies.
 Review redistribution terms and preserve notices before committing them.
 
 Keep browser-safe code, content, vendor runtime, generated original assets,
-and entry HTML in the exportable game directory. Do not put `node_modules`,
+and entry HTML in the exportable game directory alongside its AGENTS and
+`plan/` documentation. The parent `games/README.md` is the arcade/catalog guide;
+these Markdown/research files are copied but never requested by the runtime. Do not put `node_modules`,
 test fixtures, build caches, tooling packages, unlicensed source dumps, or
 private credentials there: the current exporter copies the entire `games/`
 tree, even when Git ignores those files. PLAN.md selects repository-relative
 `tools/pokemon-dungeon/` for authoring package/lockfile, lint/type/schema configs,
 preparation scripts, installed dependencies and caches. Keep the direct-browser
 ES-module runtime in `games/pokemon-dungeon-reimagined/`; write only reviewed
-runtime outputs there. No exporter redesign is required for this split.
+runtime outputs and project documentation there. No exporter redesign is required for this split.
 
 Use the dedicated tooling package and pinned lockfile with reproducible commands. Website lint/type exclusions are deliberate
 and remain in force; add explicit game lint/type/syntax commands in its own
@@ -369,7 +384,7 @@ The current work ends at P00 review with all public placeholders unchanged.
 1. Confirm plan approval and mark explicitly delivered versus deferred game
    scope before enabling the card. Confirm content/assets/provenance inventories
    and quality commands are complete. No unfinished game is presented as an
-   exact complete recreation of Red Rescue Team / Blue Rescue Team.
+   exact complete recreation of the original Blue Rescue Team.
 2. Inspect the actual runtime/export tree, entry paths, local imports, licenses,
    and browser-safe module extensions. Run agreed syntax/lint/type checks
    without adding or executing game-source tests.
@@ -397,6 +412,9 @@ The current work ends at P00 review with all public placeholders unchanged.
 10. Keep publishing/merging within user authorization. The current plan-only
     request stops for review before game implementation, activation, deployment,
     or any claim that those future steps are complete.
+    Intermediate runtime-package PRs must remain unmerged until P37 full-scope
+    acceptance and explicit release approval; disabled-card state cannot gate
+    directly accessible exported runtime URLs.
 
 Useful narrow future commands, after a real export and screenshot exist:
 
@@ -422,15 +440,15 @@ External game-rule or hosting research is outside this appendix's source scope.
 
 | Fact family | Current repository sources |
 | --- | --- |
-| Three Coming soon cards and optional entry/preview types | [arcade configuration](../../src/config/arcade.ts), [arcade types](../../src/types/arcade.ts) |
-| Preview prefix, shared tooltip, enabled/disabled Play | [ArcadeCard](../../src/components/arcade/ArcadeCard.tsx), [shared Button](../../src/components/ui/button.tsx) |
-| Delayed iframe creation, load focus, Back/remount focus | [ArcadeGames](../../src/components/arcade/ArcadeGames.tsx) |
-| Card width, page padding, preview and iframe dimensions | [arcade page](../../src/pages/arcade.tsx), [arcade CSS](../../src/components/arcade/Arcade.module.css) |
-| Portal/sprite animation and motion preferences | [portal](../../src/components/arcade/ArcadePortal.tsx), [sprite](../../src/components/arcade/PixelBlob.tsx), [sprite CSS](../../src/components/arcade/PixelBlob.module.css) |
-| Base path, static export, image handling, fonts and bio | [site config](../../src/config/site.ts), [Next config](../../next.config.mjs), [global CSS](../../src/styles/globals.css), [GitHub profile](../../src/components/profile/GitHubProfile.tsx) |
-| Runtime directory copy and static preview URL/MIME handling | [game exporter](../../scripts/export-games.mjs), [preview server](../../scripts/serve-static-preview.mjs), [root commands](../../package.json) |
-| Website/game tooling boundary | [ESLint config](../../eslint.config.mjs), [TypeScript config](../../tsconfig.json), [root AGENTS](../../AGENTS.md) |
-| Existing fixture player, tooltip/layout assertions, export fixtures | [arcade tests](../../tests/arcade.spec.ts), [button tests](../../tests/buttons.spec.ts), [export tests](../../tests/export.spec.ts), [game-copy fixture tests](../../tests/game-export.spec.ts) |
-| Browser matrix and current CI/deploy workflow gates | [Playwright config](../../playwright.config.ts), [PR tests](../../.github/workflows/app.test.yml), [Pages deploy](../../.github/workflows/deploy.yml), [lint workflow](../../.github/workflows/lint.yml) |
-| Hygiene hooks, 1,024 KiB file constraint, output exclusions | [pre-commit config](../../.pre-commit-config.yaml), [gitignore](../../.gitignore) |
-| Planning hold, future packages, performance targets and authorization | [PLAN](PLAN.md), [game AGENTS](../../games/pokemon-dungeon-reimagined/AGENTS.md) |
+| Three Coming soon cards and optional entry/preview types | [arcade configuration](../../../src/config/arcade.ts), [arcade types](../../../src/types/arcade.ts) |
+| Preview prefix, shared tooltip, enabled/disabled Play | [ArcadeCard](../../../src/components/arcade/ArcadeCard.tsx), [shared Button](../../../src/components/ui/button.tsx) |
+| Delayed iframe creation, load focus, Back/remount focus | [ArcadeGames](../../../src/components/arcade/ArcadeGames.tsx) |
+| Card width, page padding, preview and iframe dimensions | [arcade page](../../../src/pages/arcade.tsx), [arcade CSS](../../../src/components/arcade/Arcade.module.css) |
+| Portal/sprite animation and motion preferences | [portal](../../../src/components/arcade/ArcadePortal.tsx), [sprite](../../../src/components/arcade/PixelBlob.tsx), [sprite CSS](../../../src/components/arcade/PixelBlob.module.css) |
+| Base path, static export, image handling, fonts and bio | [site config](../../../src/config/site.ts), [Next config](../../../next.config.mjs), [global CSS](../../../src/styles/globals.css), [GitHub profile](../../../src/components/profile/GitHubProfile.tsx) |
+| Runtime directory copy and static preview URL/MIME handling | [game exporter](../../../scripts/export-games.mjs), [preview server](../../../scripts/serve-static-preview.mjs), [root commands](../../../package.json) |
+| Website/game tooling boundary | [ESLint config](../../../eslint.config.mjs), [TypeScript config](../../../tsconfig.json), [root AGENTS](../../../AGENTS.md) |
+| Existing fixture player, tooltip/layout assertions, export fixtures | [arcade tests](../../../tests/arcade.spec.ts), [button tests](../../../tests/buttons.spec.ts), [export tests](../../../tests/export.spec.ts), [game-copy fixture tests](../../../tests/game-export.spec.ts) |
+| Browser matrix and current CI/deploy workflow gates | [Playwright config](../../../playwright.config.ts), [PR tests](../../../.github/workflows/app.test.yml), [Pages deploy](../../../.github/workflows/deploy.yml), [lint workflow](../../../.github/workflows/lint.yml) |
+| Hygiene hooks, 1,024 KiB file constraint, output exclusions | [pre-commit config](../../../.pre-commit-config.yaml), [gitignore](../../../.gitignore) |
+| Planning hold, future packages, performance targets and authorization | [PLAN](PLAN.md), [game AGENTS](../AGENTS.md) |

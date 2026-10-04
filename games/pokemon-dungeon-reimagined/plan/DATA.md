@@ -1,5 +1,7 @@
 # Original Rescue Team data and dependency execution plan
 
+**Product baseline: original Nintendo DS Blue Rescue Team**, explicitly selected by Justin on 2026-10-04. Shared Red/Blue references remain useful research, but Red-only behavior does not create a second product edition or a version selector. Preserve Blue's documented cross-version unlock mechanisms where relevant; do not silently discard roster scope.
+
 Status: planning and prerequisite research only. Product implementation is paused for user review. This document does not authorize restarting implementation. [PLAN.md](PLAN.md) governs scope, package order and shared budgets; this appendix specifies factual data requirements and source preparation.
 
 Target: Pokémon Mystery Dungeon: Red Rescue Team and Blue Rescue Team, with explicit edition/region metadata. Rescue Team DX and the Explorers games are reference-comparison material only. Read [SYSTEMS.md](SYSTEMS.md) for execution semantics and [CAMPAIGN.md](CAMPAIGN.md) for progression. [research/roster.json](research/roster.json) is a historical source index, not an implementation contract: its early main-series-stat adaptation and 354-move proposal is superseded by this appendix. No main-series stat replacement is approved.
@@ -51,7 +53,7 @@ The initial hero pool contains Bulbasaur, Charmander, Squirtle, Pikachu, Meowth,
 
 Version data must distinguish default wild availability, evolution availability, Wonder Mail unlocks, special regional behavior and story recruitment. In the original English versions, the ordinary Red/Blue split concerns Feebas/Magikarp, Mantine/Lapras, Roselia/Aipom, Plusle/Minun and Porygon/Porygon2. The current main-game article lists Porygon2 in a note rather than its blue table. Upgrade availability makes wild-version exclusivity different from permanent species unavailability. [G1]
 
-Required follow-up: make a two-version, per-species availability matrix and validate the relevant Korean-version exception from its dedicated source. Do not infer Korean behavior from English data. Decide with the user whether the browser game offers Red, Blue or an explicitly combined edition. Preserve the source distinctions whichever presentation is chosen.
+Required follow-up: make a Blue product availability matrix with comparative Red provenance, including Blue's sourced cross-version unlock mechanisms. Validate relevant regional differences from dedicated sources; do not infer Korean behavior from English data. D01 is resolved by the user: original Blue only, no Red/combined edition selector. Keep regional/source uncertainty explicit until resolved; it does not reopen the chosen product edition.
 
 ### Species record: minimum authoritative fields
 

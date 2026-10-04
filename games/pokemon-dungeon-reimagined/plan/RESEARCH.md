@@ -1,5 +1,7 @@
 # Research register and unresolved fidelity work
 
+**Product baseline: original Nintendo DS Blue Rescue Team**, explicitly selected by Justin on 2026-10-04. Shared Red/Blue references remain useful research, but Red-only behavior does not create a second product edition or a version selector. Preserve Blue's documented cross-version unlock mechanisms where relevant; do not silently discard roster scope.
+
 **Status:** research groundwork, not a complete executable specification or a claim that every original value is known. Read [PLAN.md](PLAN.md) for authority, scope and the stop-for-review instruction.
 
 ## What has been researched
