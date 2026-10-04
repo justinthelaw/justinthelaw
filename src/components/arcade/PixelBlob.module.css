@@ -1,0 +1,43 @@
+.sprite {
+  display: block;
+  overflow: visible;
+  image-rendering: pixelated;
+}
+
+.body {
+  transform-origin: 16px 28px;
+  animation: bob 2s steps(6, end) infinite;
+}
+
+.shadow {
+  transform-origin: 16px 30px;
+  opacity: 0.4;
+  animation: shadow 2s steps(6, end) infinite;
+}
+
+.lavender .body,
+.lavender .shadow {
+  animation-delay: -0.65s;
+}
+
+.apricot .body,
+.apricot .shadow {
+  animation-delay: -1.3s;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0) scale(1.04, 0.96); }
+  50% { transform: translateY(-2.5px) scale(0.97, 1.03); }
+}
+
+@keyframes shadow {
+  0%, 100% { transform: scaleX(1); opacity: 0.4; }
+  50% { transform: scaleX(0.78); opacity: 0.24; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .body,
+  .shadow {
+    animation: none;
+  }
+}

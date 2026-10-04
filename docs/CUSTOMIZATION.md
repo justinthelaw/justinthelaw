@@ -51,6 +51,7 @@ that works both as a small icon and as the preview image when the site is shared
 | `src/config/public-profile.json` | Chatbot identity, facts, retrieval metadata, and scoring terms   |
 | `src/config/models.ts`           | AI model ID and browser dtype policy                             |
 | `src/config/prompts.ts`          | Chatbot messages and generation settings                         |
+| `src/config/arcade.ts`           | Arcade cards, games, screenshots, and GIFs                       |
 | `next.config.mjs`                | Static export, GitHub Pages `basePath`, and asset prefix         |
 | `ml/profile-qa/`                 | Local training, eval, ONNX export, and publishing                |
 
@@ -66,6 +67,30 @@ disclosure accurate when changing artifacts.
 Upload your PDF to Google Drive, share it as "Anyone with the link", copy the
 file ID from `drive.google.com/file/d/[FILE_ID]/view`, and paste it into
 `SITE_CONFIG.resumeFileId`.
+
+## Arcade
+
+The top-right blue pixel blob opens `/arcade/`. Edit `ARCADE_GAMES` in
+`src/config/arcade.ts` to change the cards. Each entry has a stable `id`, `title`,
+`description`, and `blobVariant` (`blue`, `lavender`, or `apricot`). The original
+pixel characters bob with squash and stretch; reduced-motion preferences keep
+them still.
+
+To publish a game, put its static browser build in the repository's future
+`games/` folder, for example `games/my-game/index.html` plus its JavaScript, CSS,
+and assets. `npm run build` copies the entire folder into `out/games/`. Use
+relative asset URLs inside each game so it works under the GitHub Pages base path.
+
+Replace the card's title and description and add
+`entryPoint: "/games/my-game/index.html"`. Play loads the entire game in an iframe
+inside the arcade, with a Back to games control. Without `entryPoint`, Play stays
+disabled. Add `preview: { src: "/arcade/game.gif", alt: "Description of the game" }`
+for a screenshot or GIF in `public/arcade/`; the component adds the configured
+GitHub Pages base path. An absolute HTTPS image URL also works. Without a
+preview, the card keeps its pixel blob placeholder.
+
+Static export uses trailing slashes so `/arcade/` resolves to
+`out/arcade/index.html` on GitHub Pages, including direct visits and reloads.
 
 ## Chatbot Context
 

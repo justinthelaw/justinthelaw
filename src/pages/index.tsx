@@ -2,11 +2,14 @@ import { Fragment, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { BotIcon } from "lucide-react";
+import { ArcadePortal } from "@/components/arcade";
 import { DERIVED_CONFIG, SITE_CONFIG } from "@/config/site";
 import { LinkIconButton } from "@/components/links";
 import { GitHubProfile } from "@/components/profile";
 import { ResumeViewer } from "@/components/resume";
-import { Button } from "@/components/ui/button";
+import { responsiveIconStyles } from "@/components/ui/button";
+import { CornerIconButton } from "@/components/ui/corner-icon-button";
+import { cn } from "@/lib/utils";
 
 const ChatContainer = dynamic(
   () => import("@/components/chat").then((mod) => ({ default: mod.ChatContainer })),
@@ -84,11 +87,13 @@ export default function Home(): React.ReactElement {
         />
       </Head>
 
-      <div className="relative grid min-h-svh grid-rows-[auto_minmax(0,1fr)_auto] gap-3 overflow-hidden bg-background px-3 pb-4 pt-8 text-foreground sm:px-6">
+      <div className="relative grid min-h-svh grid-rows-[auto_minmax(0,1fr)_auto] gap-3 overflow-hidden bg-background px-3 pb-4 pt-8 text-foreground max-[400px]:pt-20 sm:px-6">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(ellipse_at_top,oklch(0.24_0.008_285.95_/_0.38),transparent_68%)]"
         />
+
+        <ArcadePortal />
 
         <header className="relative z-10 flex flex-col items-center gap-3">
           <h1
@@ -119,19 +124,16 @@ export default function Home(): React.ReactElement {
         </footer>
 
         {!showChatBox && (
-          <Button
+          <CornerIconButton
             ref={chatButtonRef}
             type="button"
-            variant="outline"
-            size="lg"
-            className="fixed right-4 bottom-4 z-40 h-11 border-border/80 bg-card/95 px-3 text-foreground shadow-lg backdrop-blur-sm hover:bg-accent"
+            edge="bottom"
             onClick={() => setShowChatBox(true)}
             aria-label="Open AI chatbot"
             data-testid="ai-chatbot-button"
           >
-            <BotIcon className="size-4" aria-hidden="true" />
-            <span className="hidden sm:inline">AI Chatbot</span>
-          </Button>
+            <BotIcon className={cn(responsiveIconStyles.icon, "fill-[#4c7fa7] text-[#acd6e7]")} aria-hidden="true" />
+          </CornerIconButton>
         )}
 
         {showChatBox && <ChatContainer onClose={closeChatBox} />}

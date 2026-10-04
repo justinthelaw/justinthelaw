@@ -3,6 +3,8 @@
  * Domain models and interfaces used across the application
  */
 
+export type { ArcadeGame, BlobVariant } from "./arcade";
+
 /**
  * Chat message in the conversation history
  */
