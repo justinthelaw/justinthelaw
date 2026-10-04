@@ -1,0 +1,1185 @@
+{
+  "scope": "Pokemon Mystery Dungeon Red Rescue Team and Blue Rescue Team (2005/2006 originals); excludes Rescue Team DX",
+  "status": "Factual research intermediate; no game dialogue or source prose reproduced",
+  "conventions": {
+    "floors": "Use specific dungeon-page original-game exploration totals; count numbered boss floors, but keep unnumbered rescue and story clearings as separate scene maps. Walkthrough narrative occasionally counts a scene clearing as another floor.",
+    "postgame": "Postgame routes branch. Walkthrough chapter numbering is editorial, not a mandatory total order.",
+    "representation": "Dungeon counts are canonical source counts. Any shortened play mode should be labeled as an adaptation, while preserving canonical floor metadata."
+  },
+  "sources": {
+    "index": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team"
+    },
+    "c1": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_1"
+    },
+    "c2": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_2"
+    },
+    "c3": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_3"
+    },
+    "c4": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_4"
+    },
+    "c5": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_5"
+    },
+    "c6": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_6"
+    },
+    "c7": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_7"
+    },
+    "c8": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_8"
+    },
+    "c9": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_9"
+    },
+    "c10": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_10"
+    },
+    "c11": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_11"
+    },
+    "main": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team"
+    },
+    "uproar": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Uproar_Forest"
+    },
+    "howling": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Howling_Forest"
+    },
+    "magma": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Magma_Cavern"
+    },
+    "sky": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Sky_Tower"
+    },
+    "buried": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Buried_Relic"
+    },
+    "silver": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Silver_Trench"
+    },
+    "faraway": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Mt._Faraway"
+    },
+    "wish": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Wish_Cave"
+    },
+    "joyous": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Joyous_Tower"
+    },
+    "purity": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Purity_Forest"
+    },
+    "official_nintendo": {
+      "url": "https://www.nintendo.co.jp/ds/aphjb24j/index.html",
+      "limitation": "Official original-game site; image-heavy, no detailed English campaign data retrieved."
+    },
+    "official_pokemon": {
+      "url": "https://www.pokemon.com/us/pokemon-video-games/pokemon-mystery-dungeon-blue-rescue-team-and-pokemon-mystery-dungeon-red-rescue-team/",
+      "limitation": "Official catalog URL resolved but returned no substantive extractable text."
+    },
+    "desert_region": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Desert_Region",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "southern_cavern": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Southern_Cavern",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "wyvern_hill": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Wyvern_Hill",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "solar_cave": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Solar_Cave",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "darknight_relic": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Darknight_Relic",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "grand_sea": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Grand_Sea",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "waterfall_pond": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Waterfall_Pond",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "unown_relic": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Unown_Relic",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "far_off_sea": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Far-off_Sea",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "oddity_cave": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Oddity_Cave",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "remains_island": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Remains_Island",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "marvelous_sea": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Marvelous_Sea",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "fantasy_strait": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Fantasy_Strait",
+      "verified_by": "extra_dungeons child researcher; open source before citing as root"
+    },
+    "dojo": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Makuhita_Dojo"
+    },
+    "tiny": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Tiny_Woods"
+    },
+    "thunderwave": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Thunderwave_Cave"
+    },
+    "great": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Great_Canyon"
+    },
+    "silent": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Silent_Chasm"
+    },
+    "freeze": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Mt._Freeze"
+    },
+    "murky": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Murky_Cave"
+    },
+    "meanies": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Team_Meanies"
+    },
+    "gardevoir": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Gardevoir_(Red_and_Blue_Rescue_Team)"
+    },
+    "legend": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Ninetales_legend"
+    },
+    "base": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Team_Base"
+    },
+    "square": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Square"
+    },
+    "snow_path": {
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Snow_Path",
+      "retrieved": "2026-10-04",
+      "scope": "Original Generation III sections; before Frosty Forest and Mt. Freeze, inaccessible after Mt. Freeze peak"
+    }
+  },
+  "main_campaign": [
+    {
+      "id": "awakening",
+      "order": 0,
+      "kind": "opening",
+      "events": [
+        "Personality quiz chooses the human-turned-Pokemon hero; player names hero and chooses partner.",
+        "Partner finds the amnesiac hero. Butterfree asks for Caterpie's rescue."
+      ],
+      "source": [
+        "main",
+        "c1"
+      ]
+    },
+    {
+      "id": "tiny_woods",
+      "order": 1,
+      "name": "Tiny Woods",
+      "segments": [
+        {
+          "name": "Tiny Woods",
+          "floors": 3
+        }
+      ],
+      "bosses": [],
+      "events": [
+        "Rescue Caterpie; receive basic berries.",
+        "Partner introduces the home; establish and name rescue team."
+      ],
+      "unlocks": [
+        "Team Base",
+        "mailbox",
+        "Thunderwave Cave"
+      ],
+      "source": [
+        "c1",
+        "tiny"
+      ],
+      "floors": 3,
+      "terminal_scene": "Caterpie rescue clearing"
+    },
+    {
+      "id": "thunderwave_cave",
+      "order": 2,
+      "name": "Thunderwave Cave",
+      "segments": [
+        {
+          "name": "Thunderwave Cave",
+          "floors": 5
+        }
+      ],
+      "bosses": [],
+      "events": [
+        "Receive rescue kit and letter; separate two Magnemite fused by unusual magnetism."
+      ],
+      "unlocks": [
+        "Pokemon Square",
+        "Pelipper Post Office and job board"
+      ],
+      "source": [
+        "c1",
+        "thunderwave"
+      ],
+      "floors": 5,
+      "terminal_scene": "Magnemite rescue clearing"
+    },
+    {
+      "id": "mt_steel",
+      "order": 3,
+      "name": "Mt. Steel",
+      "unlock": "Complete at least two ordinary jobs after Thunderwave; Dugtrio requests Diglett rescue.",
+      "segments": [
+        {
+          "name": "Mt. Steel",
+          "random_floors": 8,
+          "terminal_floor": 9,
+          "terminal_kind": "boss"
+        }
+      ],
+      "bosses": [
+        {
+          "name": "Skarmory",
+          "floor": 9,
+          "first_visit_only": true
+        }
+      ],
+      "events": [
+        "Magnemite helps retrieve Diglett across the gap.",
+        "Wigglytuff introduces Friend Areas; Magnemite joins."
+      ],
+      "unlocks": [
+        "Friend Areas",
+        "normal recruitment"
+      ],
+      "source": [
+        "c1",
+        "c2"
+      ]
+    },
+    {
+      "id": "sinister_woods",
+      "order": 4,
+      "name": "Sinister Woods",
+      "unlock": "Ordinary jobs introduce Team Meanies, then Caterpie requests Metapod rescue.",
+      "segments": [
+        {
+          "name": "Sinister Woods",
+          "random_floors": 12,
+          "terminal_floor": 13,
+          "terminal_kind": "boss"
+        }
+      ],
+      "bosses": [
+        {
+          "name": "Team Meanies",
+          "members": [
+            "Gengar",
+            "Ekans",
+            "Medicham"
+          ],
+          "floor": 13,
+          "first_visit_only": true
+        }
+      ],
+      "events": [
+        "Rival team competes over the rescue; save Metapod."
+      ],
+      "source": [
+        "c2"
+      ]
+    },
+    {
+      "id": "silent_chasm",
+      "order": 5,
+      "name": "Silent Chasm",
+      "segments": [
+        {
+          "name": "Silent Chasm",
+          "random_floors": 9,
+          "terminal_kind": "story clearing after floor 9"
+        }
+      ],
+      "bosses": [],
+      "events": [
+        "Jumpluff asks Shiftry for help; Team A.C.T. persuades him.",
+        "Shiftry fails to return. Rescue Jumpluff, but Zapdos takes Shiftry to Mt. Thunder."
+      ],
+      "source": [
+        "c2",
+        "silent"
+      ],
+      "floors": 9
+    },
+    {
+      "id": "mt_thunder",
+      "order": 6,
+      "name": "Mt. Thunder",
+      "segments": [
+        {
+          "name": "Mt. Thunder",
+          "floors": 10
+        },
+        {
+          "name": "Mt. Thunder Peak",
+          "floors": 3,
+          "boss_floor": 3
+        }
+      ],
+      "rest_between_segments": true,
+      "bosses": [
+        {
+          "name": "Zapdos",
+          "segment": "Mt. Thunder Peak",
+          "floor": 3
+        }
+      ],
+      "events": [
+        "Defeat Zapdos and rescue Shiftry; Team A.C.T. recognizes the team's ability."
+      ],
+      "source": [
+        "c2"
+      ]
+    },
+    {
+      "id": "great_canyon",
+      "order": 7,
+      "name": "Great Canyon",
+      "segments": [
+        {
+          "name": "Great Canyon",
+          "floors": 12
+        }
+      ],
+      "bosses": [],
+      "events": [
+        "Xatu links the hero's transformation to the crisis; Gengar overhears.",
+        "Whiscash tells the Ninetales legend; Gardevoir appears in dreams.",
+        "Gengar accuses the hero. Team leaves town under pursuit."
+      ],
+      "source": [
+        "c3",
+        "great"
+      ],
+      "floors": 12,
+      "terminal_scene": "Hill of the Ancients"
+    },
+    {
+      "id": "lapis_cave",
+      "order": 8,
+      "name": "Lapis Cave",
+      "segments": [
+        {
+          "name": "Lapis Cave",
+          "floors": 14
+        }
+      ],
+      "bosses": [],
+      "events": [
+        "Fugitive journey begins; normal town access and first-visit recruitment are unavailable."
+      ],
+      "source": [
+        "c3"
+      ]
+    },
+    {
+      "id": "mt_blaze",
+      "order": 9,
+      "name": "Mt. Blaze",
+      "segments": [
+        {
+          "name": "Mt. Blaze",
+          "floors": 12
+        },
+        {
+          "name": "Mt. Blaze Peak",
+          "floors": 3,
+          "boss_floor": 3
+        }
+      ],
+      "rest_between_segments": true,
+      "bosses": [
+        {
+          "name": "Moltres",
+          "segment": "Mt. Blaze Peak",
+          "floor": 3
+        }
+      ],
+      "training_detour": {
+        "name": "Rock Path",
+        "floors": 4,
+        "returns_to_junction": true
+      },
+      "events": [
+        "Cross volcanic terrain while fleeing pursuers; confront Moltres."
+      ],
+      "source": [
+        "c3"
+      ]
+    },
+    {
+      "id": "frosty_forest",
+      "order": 10,
+      "name": "Frosty Forest",
+      "segments": [
+        {
+          "name": "Frosty Forest",
+          "floors": 9
+        },
+        {
+          "name": "Frosty Grotto",
+          "floors": 5,
+          "boss_floor": 5
+        }
+      ],
+      "rest_between_segments": true,
+      "bosses": [
+        {
+          "name": "Articuno",
+          "segment": "Frosty Grotto",
+          "floor": 5
+        }
+      ],
+      "training_detour": {
+        "name": "Snow Path",
+        "floors": 4,
+        "returns_to_junction": true,
+        "return_junction": "Frosty Forest entrance"
+      },
+      "events": [
+        "Articuno confronts the team over disrupted snow.",
+        "Absol intervenes and joins the team."
+      ],
+      "source": [
+        "c4",
+        "snow_path"
+      ]
+    },
+    {
+      "id": "mt_freeze",
+      "order": 11,
+      "name": "Mt. Freeze",
+      "segments": [
+        {
+          "name": "Mt. Freeze",
+          "floors": 15
+        },
+        {
+          "name": "Mt. Freeze Peak",
+          "floors": 4
+        }
+      ],
+      "rest_between_segments": true,
+      "bosses": [],
+      "events": [
+        "Team A.C.T. catches up; Ninetales interrupts the confrontation.",
+        "Ninetales clears the hero. Earthquakes have awakened Groudon.",
+        "A.C.T. investigates Groudon; hero returns to town."
+      ],
+      "source": [
+        "c4",
+        "freeze",
+        "snow_path"
+      ],
+      "floors": 19,
+      "terminal_scene": "Ninetales summit",
+      "training_detour": {
+        "name": "Snow Path",
+        "floors": 4,
+        "returns_to_junction": true,
+        "preserve_current_party_including_absol": true,
+        "closes_after": "Mt. Freeze peak"
+      }
+    },
+    {
+      "id": "uproar_forest",
+      "order": 12,
+      "name": "Uproar Forest",
+      "unlock": "After Mt. Freeze and at least three jobs, accept Wynaut/Wobbuffet's Mankey request.",
+      "segments": [
+        {
+          "name": "Uproar Forest",
+          "floors": 10,
+          "boss_floor": 10
+        }
+      ],
+      "bosses": [
+        {
+          "name": "Mankey gang",
+          "members": [
+            "Mankey",
+            "Mankey",
+            "Mankey"
+          ],
+          "floor": 10,
+          "first_visit_only": true
+        }
+      ],
+      "events": [
+        "Reward Chestnut persuades Mankey to renovate Team Base.",
+        "Provide two further Chestnuts when work stops; Chestnuts appear on floor 9."
+      ],
+      "features": [
+        "First storyline dungeon with Monster Houses",
+        "Renovated base reflects hero species"
+      ],
+      "source": [
+        "uproar"
+      ]
+    },
+    {
+      "id": "magma_cavern",
+      "order": 13,
+      "name": "Magma Cavern",
+      "unlock": "Complete Uproar, progress jobs, finish base; failed rescue expedition leads team underground.",
+      "segments": [
+        {
+          "name": "Magma Cavern",
+          "floors": 23
+        },
+        {
+          "name": "Magma Cavern Pit",
+          "floors": 3,
+          "details": {
+            "1": "random dungeon",
+            "2": "fallen Charizard and Tyranitar",
+            "3": "Alakazam/Groudon confrontation"
+          }
+        }
+      ],
+      "rest_between_segments": true,
+      "bosses": [
+        {
+          "name": "Groudon",
+          "segment": "Magma Cavern Pit",
+          "floor": 3,
+          "first_battle_level": 27
+        }
+      ],
+      "events": [
+        "Blastoise, Octillery and Golem fail to rescue A.C.T.; player team follows.",
+        "Defeat Groudon and rescue A.C.T."
+      ],
+      "visual_facts": [
+        "1-7 rocky with magma",
+        "8-17 hot rock and more magma",
+        "18-23 blackened rock and heavy magma"
+      ],
+      "source": [
+        "c5",
+        "magma"
+      ]
+    },
+    {
+      "id": "sky_tower",
+      "order": 14,
+      "name": "Sky Tower",
+      "segments": [
+        {
+          "name": "Sky Tower",
+          "floors": 25
+        },
+        {
+          "name": "Sky Tower Summit",
+          "floors": 9,
+          "boss_floor": 9
+        }
+      ],
+      "rest_between_segments": true,
+      "bosses": [
+        {
+          "name": "Rayquaza",
+          "segment": "Sky Tower Summit",
+          "floor": 9
+        }
+      ],
+      "entry_first_time": "Teleport Gem; Xatu and allies support ascent.",
+      "entry_postgame": "Fly HM or a Pokemon knowing Fly",
+      "events": [
+        "Xatu reveals the falling meteor is causing the disasters.",
+        "Gardevoir reveals the hero accepted the mission to save this world.",
+        "Rayquaza must be defeated before agreeing to destroy the meteor."
+      ],
+      "source": [
+        "c5",
+        "sky",
+        "main"
+      ]
+    }
+  ],
+  "ending": {
+    "events": [
+      "Rayquaza destroys the meteor with Hyper Beam.",
+      "Gengar returns the hero from the netherworld after the explosion.",
+      "The world's Pokemon celebrate. The hero must leave and return to human life.",
+      "After credits, the hero's wish to stay is fulfilled; they reappear at Team Base.",
+      "Postgame opens evolution at Luminous Cave, flexible party leadership, legendary recruitment and new expeditions."
+    ],
+    "source": [
+      "main",
+      "c6"
+    ]
+  },
+  "postgame_routes": [
+    {
+      "id": "evolution",
+      "name": "Luminous Cave",
+      "kind": "hub unlock",
+      "unlock": "Main ending",
+      "events": [
+        "Snubbull has become Granbull; Alakazam explains evolution.",
+        "Enter the cave beneath Whiscash Pond alone to evolve eligible Pokemon."
+      ],
+      "source": [
+        "main",
+        "c6"
+      ]
+    },
+    {
+      "id": "ocean_relic",
+      "name": "Ocean and ancient relic route",
+      "stages": [
+        {
+          "id": "stormy_sea",
+          "name": "Stormy Sea",
+          "floors": 40,
+          "boss": {
+            "name": "Kyogre",
+            "floor": 40
+          },
+          "unlock": "Talk Medicham, Lombre, then Whiscash after ending; obtain Dive.",
+          "entry": "Dive HM in inventory or known move",
+          "reward": "Kyogre can be recruited on first clear; opens Buried Relic news route."
+        },
+        {
+          "id": "buried_relic",
+          "name": "Buried Relic",
+          "floors": 99,
+          "unlock": "Stormy Sea clear; read newsletter, speak Lombre then Shiftry.",
+          "bosses": [
+            {
+              "name": "Regirock",
+              "floor": 15,
+              "drop": "Rock Part"
+            },
+            {
+              "name": "Regice",
+              "floor": 25,
+              "drop": "Ice Part"
+            },
+            {
+              "name": "Registeel",
+              "floor": 35,
+              "drop": "Steel Part"
+            }
+          ],
+          "objective": "Combine three Parts into Music Box. Carry it for possible Mew appearances on floors 36-98.",
+          "special": "Mew recruitment ends expedition; using Music Box breaks it. Matching Part or Music Box also enables corresponding Regi recruitment.",
+          "treasures": {
+            "45": "Rock Smash; key",
+            "60": "Strength; wall access",
+            "70": "Flash; key",
+            "80": "Cut; key, water crossing and wall access"
+          }
+        }
+      ],
+      "source": [
+        "c6",
+        "buried"
+      ]
+    },
+    {
+      "id": "eon_siblings",
+      "name": "Latios and Latias route",
+      "unlock": "Obtain Surf from Solar Cave and buy Southern Island Friend Area (9500 Poke).",
+      "events": [
+        "Latios steals TMs trying to save Latias, injured by meteor debris."
+      ],
+      "stages": [
+        {
+          "id": "northern_range",
+          "name": "Northern Range",
+          "floors": 25,
+          "boss": {
+            "name": "Latios",
+            "floor": 25
+          }
+        },
+        {
+          "id": "pitfall_valley",
+          "name": "Pitfall Valley",
+          "floors": 25,
+          "boss": null,
+          "terminal": "Rescue Latias on floor 25 using Teleport Gem."
+        }
+      ],
+      "reward": "Latias and Latios both join.",
+      "source": [
+        "c7"
+      ]
+    },
+    {
+      "id": "legendary_birds_and_sea_guardian",
+      "name": "Lugia and Deoxys route",
+      "unlock": "Recruit Zapdos, Moltres and Articuno after ending; clear Stormy Sea and Pitfall Valley; speak Alakazam and visit Legendary Island.",
+      "events": [
+        "Birds grant Vortex Stone and access to Silver Trench."
+      ],
+      "stages": [
+        {
+          "id": "silver_trench",
+          "name": "Silver Trench",
+          "floors": 99,
+          "entry": "Water Pokemon plus Dive HM/known move",
+          "boss": {
+            "name": "Lugia",
+            "floor": 99
+          },
+          "special": "Whole-floor Monster Houses on 15, 35, 55 and 75; no midpoint rest.",
+          "reward": "Recruit Lugia to unlock Meteor Cave."
+        },
+        {
+          "id": "meteor_cave",
+          "name": "Meteor Cave",
+          "floors": 20,
+          "unlock": "Recruit Lugia; Xatu and Blastoise describe a cave formed by meteor debris.",
+          "entry": "One Pokemon; three bag items plus held item",
+          "special": "Defeat Deoxys mirage on each floor 1-19 to unlock stairs.",
+          "boss": {
+            "name": "Deoxys Normal Forme",
+            "floor": 20
+          },
+          "mirages": [
+            "Attack Forme",
+            "Defense Forme",
+            "Speed Forme"
+          ]
+        }
+      ],
+      "source": [
+        "c8",
+        "silver"
+      ]
+    },
+    {
+      "id": "mirage_pokemon",
+      "name": "Spinda's mirage Pokemon quest",
+      "unlock": "Retrieve Surf in Solar Cave; help collapsed Spinda and receive Clear Wing; consult Xatu at Great Canyon.",
+      "entry": "Surf required for fields and Mt. Faraway",
+      "stages": [
+        {
+          "id": "fiery_field",
+          "name": "Fiery Field",
+          "floors": 30,
+          "boss": {
+            "name": "Entei",
+            "floor": 30
+          },
+          "reward": "Clear Wing becomes Red Wing; unlock Lightning Field.",
+          "treasure": "Fire Stones on 29"
+        },
+        {
+          "id": "lightning_field",
+          "name": "Lightning Field",
+          "floors": 30,
+          "boss": {
+            "name": "Raikou",
+            "floor": 30
+          },
+          "reward": "Red Wing becomes Sunset Wing; unlock Northwind Field.",
+          "treasure": "Thunderstones on 29"
+        },
+        {
+          "id": "northwind_field",
+          "name": "Northwind Field",
+          "floors": 30,
+          "boss": {
+            "name": "Suicune",
+            "floor": 30
+          },
+          "reward": "Sunset Wing becomes Rainbow Wing; unlock Mt. Faraway.",
+          "treasures": {
+            "20": "Lunar Ribbon behind lock",
+            "29": "Water Stones"
+          }
+        },
+        {
+          "id": "mt_faraway",
+          "name": "Mt. Faraway",
+          "floors": 40,
+          "boss": {
+            "name": "Ho-Oh",
+            "floor": 40
+          },
+          "treasure": "Friend Bow behind locked door on 30",
+          "reward": "Mirage is Ho-Oh; return to Spinda to conclude quest."
+        },
+        {
+          "id": "western_cave",
+          "name": "Western Cave",
+          "floors": 99,
+          "unlock": "Recruit Ho-Oh; Blastoise and Charizard report a powerful Pokemon.",
+          "entry": "Surf",
+          "boss": {
+            "name": "Mewtwo",
+            "floor": 99
+          },
+          "treasure": "Beauty Scarf behind locked door on 59",
+          "recruitment": "Mewtwo cannot join on first clear; requires Cryptic Cave Friend Area."
+        }
+      ],
+      "recruitment": "Beasts and Ho-Oh cannot join on initial story encounter; after Ho-Oh is defeated, revisit with appropriate Friend Areas.",
+      "source": [
+        "c9",
+        "c10",
+        "faraway",
+        "main"
+      ]
+    },
+    {
+      "id": "wishes_and_redemption",
+      "name": "Wish Cave and Gengar's redemption",
+      "unlock": "Clear Pitfall Valley and own Sky Blue Plains; follow Ekans/Medicham conversations over days, then accept Medicham rescue request.",
+      "stages": [
+        {
+          "id": "wish_cave_medicham",
+          "name": "Wish Cave rescue",
+          "floors_to_objective": 20,
+          "terminal": "Rescue Medicham; receive Wish Stone."
+        },
+        {
+          "id": "wish_cave",
+          "name": "Wish Cave full expedition",
+          "floors": 99,
+          "entry": "Surf; compulsory save; carried money zeroed; temporary level 1 reset",
+          "boss": {
+            "name": "Jirachi",
+            "floor": 99
+          },
+          "treasure": "Replacement Wish Stone on 50",
+          "reward": "Recruit Jirachi, or decline recruitment while carrying Wish Stone to choose a wish.",
+          "wishes": [
+            "Money",
+            "Items",
+            "Friend Area",
+            "Stat growth items",
+            "Rank increase or eligible new recruit"
+          ]
+        },
+        {
+          "id": "gengar_escort",
+          "name": "Return to Mt. Freeze",
+          "unlock": "After Medicham rescue, follow Ekans/Medicham dialogue until Gengar requests help.",
+          "objective": "Escort Gengar to Ninetales; receive 9-Tail Crest."
+        },
+        {
+          "id": "murky_cave",
+          "name": "Murky Cave",
+          "floors": 19,
+          "boss": null,
+          "objective": "Escort Gengar; confront his past and release Gardevoir's curse.",
+          "special": "No loose items, only Poke",
+          "reward": "Mobile Scarf; Gardevoir can join from Pokemon Square.",
+          "terminal_scene": "Gardevoir curse judgment"
+        }
+      ],
+      "resolution": "Gengar was the selfish human from the legend. His remorse frees Gardevoir; her memories of him are gone.",
+      "source": [
+        "c11",
+        "wish",
+        "main",
+        "meanies",
+        "murky"
+      ],
+      "redemption_additional_prerequisite": "Stormy Sea clear, per Team Meanies character article; broad walkthrough omits this condition."
+    }
+  ],
+  "other_major_dungeons": [
+    {
+      "id": "howling_forest",
+      "name": "Howling Forest",
+      "floors": 15,
+      "boss": null,
+      "unlock": "Renovate Team Base, own Sky Blue Plains, accept Smeargle rescue request.",
+      "precredits_available": true,
+      "reward": "Smeargle joins; can paint Team Base flag.",
+      "source": [
+        "howling"
+      ]
+    },
+    {
+      "id": "joyous_tower",
+      "name": "Joyous Tower",
+      "floors": 99,
+      "boss": null,
+      "unlock": "Clear Pitfall Valley and own Sky Blue Plains.",
+      "entry": "Temporary level 1; money zeroed; original games allow items and up to three entrants.",
+      "purpose": "Rare Pokemon recruitment, including several starter choices and Chansey.",
+      "source": [
+        "joyous"
+      ]
+    },
+    {
+      "id": "purity_forest",
+      "name": "Purity Forest",
+      "floors": 99,
+      "boss": null,
+      "unlock": "Clear Pitfall Valley and own Sky Blue Plains.",
+      "entry": "Solo; temporary level 1 and base IQ; no money or items brought in; no normal recruitment.",
+      "reward": "Celebi automatically joins on floor 99, without a fight.",
+      "source": [
+        "purity"
+      ]
+    },
+    {
+      "id": "desert_region",
+      "name": "Desert Region",
+      "floors": 20,
+      "boss": null,
+      "unlock": "Buy Furnace Desert Friend Area.",
+      "special": "Keys on 19-20; periodic sandstorms.",
+      "source": [
+        "desert_region"
+      ]
+    },
+    {
+      "id": "southern_cavern",
+      "name": "Southern Cavern",
+      "floors": 50,
+      "boss": null,
+      "unlock": "Receive Boulder Cave Friend Area as mission reward.",
+      "special": "Metal Coat on 49-50.",
+      "source": [
+        "southern_cavern"
+      ]
+    },
+    {
+      "id": "wyvern_hill",
+      "name": "Wyvern Hill",
+      "floors": 30,
+      "boss": null,
+      "unlock": "Receive Dragon Cave Friend Area as mission reward.",
+      "special": "Locked Sun Ribbon on 20, Fly on 30; Dragon Scale on 29-30.",
+      "source": [
+        "wyvern_hill"
+      ]
+    },
+    {
+      "id": "solar_cave",
+      "name": "Solar Cave",
+      "floors": 20,
+      "boss": null,
+      "unlock": "After ending, speak Medicham, Lombre and Whiscash.",
+      "special": "Dive on 10 (key and water), Waterfall on 15 (key), Surf on 20 (water).",
+      "source": [
+        "solar_cave"
+      ]
+    },
+    {
+      "id": "darknight_relic",
+      "name": "Darknight Relic",
+      "floors": 15,
+      "boss": null,
+      "unlock": "Buy Secretive Forest after ending.",
+      "special": "One-tile hallway sight; rare wall items on selected floors.",
+      "source": [
+        "darknight_relic"
+      ]
+    },
+    {
+      "id": "grand_sea",
+      "name": "Grand Sea",
+      "floors": 30,
+      "boss": null,
+      "unlock": "Buy Serene Sea after ending; requires Dive.",
+      "special": "DeepSeaScale on 15; DeepSeaTooth on 25; water crossing needed.",
+      "source": [
+        "grand_sea"
+      ]
+    },
+    {
+      "id": "waterfall_pond",
+      "name": "Waterfall Pond",
+      "floors": 19,
+      "boss": null,
+      "unlock": "After ending, requires Waterfall HM.",
+      "special": "Recruit Squirtle, Totodile and Mudkip; no Monster Houses.",
+      "source": [
+        "waterfall_pond"
+      ]
+    },
+    {
+      "id": "unown_relic",
+      "name": "Unown Relic",
+      "floors": 11,
+      "boss": null,
+      "unlock": "Buy BOTH Aged Chamber AN and Aged Chamber O? after ending.",
+      "special": "All 28 Unown forms; no other species.",
+      "source": [
+        "unown_relic"
+      ]
+    },
+    {
+      "id": "far_off_sea",
+      "name": "Far-off Sea",
+      "floors": 75,
+      "boss": null,
+      "unlock": "Buy Serene Sea after ending; Water Pokemon and Dive required.",
+      "special": "No leader switching. Locked Wide Slash on 50, Vacuum-Cut on 72; Lapras recruitment.",
+      "source": [
+        "far_off_sea"
+      ]
+    },
+    {
+      "id": "oddity_cave",
+      "name": "Oddity Cave",
+      "floors": 15,
+      "boss": null,
+      "unlock": "Event or Wonder Mail only.",
+      "special": "No boss or Monster Houses.",
+      "source": [
+        "oddity_cave"
+      ]
+    },
+    {
+      "id": "remains_island",
+      "name": "Remains Island",
+      "floors": 20,
+      "boss": null,
+      "unlock": "Event or Wonder Mail only.",
+      "special": "No boss.",
+      "source": [
+        "remains_island"
+      ]
+    },
+    {
+      "id": "marvelous_sea",
+      "name": "Marvelous Sea",
+      "floors": 20,
+      "boss": null,
+      "unlock": "Event or Wonder Mail only.",
+      "special": "No boss.",
+      "source": [
+        "marvelous_sea"
+      ]
+    },
+    {
+      "id": "fantasy_strait",
+      "name": "Fantasy Strait",
+      "floors": 30,
+      "boss": null,
+      "unlock": "Event or Wonder Mail only.",
+      "special": "Whole-floor Monster House on 15; possible 1000 Poke on final floor.",
+      "source": [
+        "fantasy_strait"
+      ]
+    }
+  ],
+  "fidelity_notes": [
+    "Preserve Friend Areas as explorable habitats, not DX camps.",
+    "Do not use Mega Rayquaza, Primal Groudon, DX boss terrain gimmicks, DX recruitment guarantees, rare qualities, Mystery Houses, or level-5 challenge resets.",
+    "Main-story legendary bosses become recruitment targets after credits; named story NPC encounters are distinct from ordinary same-species recruits.",
+    "Recurring ordinary rescues and passage of days gate story events. A campaign implementation can expose clear next objectives while retaining those dependencies.",
+    "Rock Path and Snow Path are fugitive training loops; neither replaces the next main dungeon.",
+    "Town services, partner relationship, dreams, persecution, vindication, base rebuilding, meteor ending and Gengar redemption are structural beats, not optional flavor if claiming whole-story coverage."
+  ],
+  "uncertainties_and_source_quality": [
+    "Detailed campaign facts rely on the user-requested Bulbapedia walkthrough and specific original-game page sections; official Nintendo/Pokemon sources located did not expose comparable detailed walkthrough text.",
+    "Walkthrough Chapter 6 incorrectly calls evolution location Luminous Spring; original location is Luminous Cave, confirmed main article.",
+    "Walkthrough Chapter 5 shows contradictory Groudon levels (37 in encounter table, 27 in boss block). Specific Magma Cavern original section gives 27; use 27 for first battle.",
+    "Generic dungeon pages mix RB and DX in one article. Only Generation III/original text was used here.",
+    "No exhaustive reproduction of exact day counters, all dialogue-choice branches, individual boss moves, or each randomly generated floor layout is supplied. Whole-campaign dependencies, floor counts, setpieces and named encounter targets are supplied.",
+    "Silent Chasm and Great Canyon terminal story clearings may be reported separately from random-floor totals; preserve split metadata to avoid off-by-one dungeon generation.",
+    "Specific pages correct walkthrough clearing-inclusive numbers: Tiny Woods 3, Thunderwave Cave 5, Great Canyon 12, Mt. Freeze 19 (15+4), Murky Cave 19. Terminal scenes are separate, not additional generated floors."
+  ],
+  "dojo": {
+    "floors_per_maze": 3,
+    "type_mazes": 17,
+    "team_mazes": 4,
+    "additional_linked_maze": "Blue-only Rescue Team Maze",
+    "unlock_groups": {
+      "friend_areas": [
+        "Grass",
+        "Electric",
+        "Flying",
+        "Fighting",
+        "Dark",
+        "Steel"
+      ],
+      "meanies_mailbox_event": [
+        "Water",
+        "Poison",
+        "Bug",
+        "Rock"
+      ],
+      "return_mt_freeze": [
+        "Normal",
+        "Fire",
+        "Ice",
+        "Ground",
+        "Psychic",
+        "Dragon"
+      ],
+      "credits": [
+        "Ghost",
+        "Team Shifty",
+        "Team Constrictor",
+        "Team Hydro",
+        "Team Rumblerock"
+      ]
+    },
+    "team_bosses": {
+      "Team Shifty": [
+        274,
+        274,
+        275
+      ],
+      "Team Constrictor": [
+        73,
+        224,
+        346
+      ],
+      "Team Hydro": [
+        9,
+        160,
+        260
+      ],
+      "Team Rumblerock": [
+        75,
+        75,
+        76
+      ]
+    },
+    "notes": [
+      "Bosses on B3F.",
+      "No ordinary recruitment/items/shops/Monster Houses; team bosses may recruit under special high-level conditions.",
+      "All type mazes cleared: Bonsly statue and Ginseng.",
+      "First clear each team maze: Ginseng.",
+      "Rescue Team Maze originally imports Red cartridge team into Blue via DS dual-slot; online browser adaptation must be labeled."
+    ],
+    "source": [
+      "dojo"
+    ]
+  },
+  "_readFirst": "Research snapshot from 2026-10-04, not runtime data or implementation authority. Consult PLAN.md and its reconciled appendices. Early technical proposals in these notes are superseded where they conflict; original-rule gaps remain explicit blockers."
+}

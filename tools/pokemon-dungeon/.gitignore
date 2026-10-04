@@ -1,0 +1,7 @@
+# Local authoring and build caches; runtime assets must be committed later.
+node_modules/
+.cache/
+.work/
+art-source-local/
+*.blend1
+*.blend2

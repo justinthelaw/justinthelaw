@@ -263,3 +263,38 @@ paths so both humans and agents can act on the instructions.
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
+
+## Pokémon Dungeon Reimagined planning hold
+
+The first game is planned under `games/pokemon-dungeon-reimagined/`. The user
+explicitly permitted a game folder instead of the original single-HTML limit.
+On 2026-10-04 the user requested an extensive implementation plan and only
+prerequisite repository setup, then a stop for their review. **Do not resume
+product implementation, wire the arcade card, merge, or deploy this game until
+the user reviews this groundwork and authorizes the next stage.** Earlier
+instructions to continue until the whole game is implemented are superseded
+by this planning hold. Approval to merge an earlier website PR does not
+approve merging this planning PR.
+
+Read [the handoff plan](docs/pokemon-dungeon/PLAN.md), then the nested
+[game instructions](games/pokemon-dungeon-reimagined/AGENTS.md). The plan routes
+smaller implementation models to one bounded task and its supporting appendix
+at a time. Record future decisions and progress in the linked ledger. Keep
+requirements current in these AGENTS files; the root README.md remains outside
+this work's scope.
+
+The intended game covers the original Red/Blue Rescue Team campaign and
+postgame in third-person 3D. Research findings are not a completeness claim.
+Maintain explicit fidelity and asset-coverage inventories; never treat a list
+of dungeon names, generic creatures, or abbreviated story summaries as a
+finished recreation. All runtime resources must eventually be local static
+assets with relative URLs under the existing Pages base path.
+
+The existing website testing boundary still applies: no tests execute or
+import game source. Website player/export tests use inert fixture HTML and
+temporary fixture files. Independent game syntax, lint, type, schema checks,
+code review, and user-directed visual capture are separate from gameplay tests.
+Do not add automated game tests. The plan proposes manual play and visual
+acceptance after implementation; that proposal is part of the user's review.
+A future standalone-game persistence adapter may use localStorage/IndexedDB
+behind one validated interface; the website retains its Zustand convention.
