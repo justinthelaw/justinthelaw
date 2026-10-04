@@ -173,6 +173,10 @@ icon-only Send, clear and close controls, short helper text, and message roles
 available to screen readers. Consent must disclose the approximate initial and
 possible fallback download sizes and that chats stay in the browser. Preserve
 loading progress, errors, retry, generation locking, history, and focus return.
+When a profile-trim warning appears, reserve space beside the first message
+so the warning icon never overlaps its text. Exercise this conditional layout
+with the real website component and export styles, using a trimmed fixture
+independent of the current profile's length.
 
 Preserve the existing system sans-serif font stack and live GitHub bio fetch.
 For review screenshots, verify the actual rendered font is sans-serif and use

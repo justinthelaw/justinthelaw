@@ -138,7 +138,7 @@ export function ChatMessages({
                       : "chat-message-ai"
                   }
                 >
-                  <CardContent className="relative p-3">
+                  <CardContent className={`relative p-3 ${showProfileWarning ? "pr-10" : ""}`}>
                     <div className="sr-only">
                       {message.type === "user" ? "You" : "AI Assistant"}
                     </div>

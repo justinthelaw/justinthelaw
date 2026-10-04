@@ -8,9 +8,9 @@ async function expectConciseTooltip(page: Page, control: Locator, topic: RegExp)
   const words = (await tooltip.innerText()).trim().split(/\s+/);
   expect(words.length).toBeGreaterThanOrEqual(2);
   expect(words.length).toBeLessThanOrEqual(5);
-  await control.blur();
+  await page.keyboard.press("Escape");
   await page.mouse.move(0, 0);
-  await expect(tooltip).toBeHidden();
+  await expect(page.getByRole("tooltip")).toHaveCount(0);
 }
 
 test.beforeEach(async ({ page }) => {
@@ -29,7 +29,7 @@ test("home controls explain their destinations on keyboard focus and hover", asy
   await expectConciseTooltip(page, page.getByRole("link", { name: "Open Justin's arcade" }), /arcade/);
   if (!testInfo.project.name.includes("Mobile")) {
     await robot.hover();
-    await expect(page.getByRole("tooltip")).toContainText(/chat/i);
+    await expect(page.locator('[role="tooltip"][data-state$="open"]')).toContainText(/chat/i);
   }
 });
 
