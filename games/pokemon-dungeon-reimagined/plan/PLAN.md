@@ -1,12 +1,12 @@
 # Pokémon Dungeon Reimagined: implementation handoff
 
-**Status: implementation authorized on 2026-10-04 after planning PR #387 merged. P01 source audit is in progress; see PROGRESS.md for accepted evidence and remaining gates.**
+**Status: implementation authorized on 2026-10-04 after planning PR #387 merged. The unmerged foundation work includes reviewed P03-A/P04-A interfaces, a P05 startup shell and P06 art candidates. P01 remains incomplete; see PROGRESS.md and COVERAGE.csv for evidence and remaining gates.**
 
 **Goal:** recreate the scope of the original Nintendo DS Blue Rescue Team adventure as a polished third-person 3D game served from Justin's arcade on GitHub Pages, with the entire main campaign, postgame, optional content, original rule systems, and a documented account of deliberate adaptations.
 
 **Architecture:** a standalone, locally hosted browser game in `games/pokemon-dungeon-reimagined/`, with separate content, simulation, presentation, UI/input, audio, and persistence modules. The existing Next.js site exports that directory unchanged and opens its entry point in the existing arcade iframe. Simulation owns gameplay state; the renderer consumes presentation snapshots and cannot change game rules.
 
-**Proposed stack:** browser ES modules, JavaScript with JSDoc and an independent static type check, locally pinned Three.js/WebGL 2, local glTF/GLB and compressed texture/audio assets, HTML/CSS menus, browser storage through one adapter. No website React dependency, runtime CDN, server, Unreal runtime, account service, or game test runner.
+**Selected stack:** browser ES modules, JavaScript with JSDoc and an independent static type check, locally pinned Three.js/WebGL 2, local glTF/GLB and compressed texture/audio assets, HTML/CSS menus, browser storage through one adapter. Tooling, the local engine and the startup shell now exist; gameplay, production menus and persistence remain planned. No website React dependency, runtime CDN, server, Unreal runtime, account service, or game test runner.
 
 **Spec:** this plan's approved requirements and the linked appendices constitute the specification. Instructions in AGENTS.md and later explicit user decisions take precedence. Justin's implementation-start instruction permits execution in the dependency order below; package acceptance, visual review and release authorization remain separate.
 
@@ -21,6 +21,7 @@
 | [SYSTEMS.md](SYSTEMS.md) | Rules, state and action contracts, ordering, services, persistence | P01, P07-P22, P33 |
 | [DATA.md](DATA.md) | Roster, move and item data, provenance, dependency pinning, factual gaps | P01-P04, P14-P17, P32-P33 |
 | [ASSET-PIPELINE.md](ASSET-PIPELINE.md) | Locked generation prompts, approved references, atlas grids, crop manifests and provenance | P03, P06, P32 |
+| [ASSET-CONTRACT.md](ASSET-CONTRACT.md) | Reviewed bounded authoring/export and manifest interface | P03-P06, P32 |
 | [RENDERING.md](RENDERING.md) | Visual direction, assets, camera, environments, UI, performance | P05-P06, P09-P10, P18, P32-P35 |
 | [INTEGRATION.md](INTEGRATION.md) | Existing site paths, future first-card change, fixture tests, delivery gates | P00, P36-P37 |
 | [RESEARCH.md](RESEARCH.md) | Source register, confidence rules, remaining research | Any disputed or unverified factual behavior |
@@ -31,25 +32,26 @@
 
 Recommended review order for Justin: read sections 2-6, the milestone table in section 10, and the resolved decisions in section 12; then inspect the campaign and rendering appendices. The remaining work packages are the detailed handoff for the implementing model.
 
-## 2. What this groundwork changes
+## 2. Current foundation scope
 
-### Included now
+### Present on the unmerged implementation branch
 
-- An isolated planning branch based on `main` commit `b4ed31955a2e6d5ae031faa610066d3fc66975ff`.
-- Root AGENTS instructions recording the user's planning hold, expanded-folder permission, and game/website boundary.
-- The complete planning package inside `games/pokemon-dungeon-reimagined/plan/`, game AGENTS instructions, and authoring-cache ignore rules outside the public tree at `tools/pokemon-dungeon/.gitignore`.
-- This plan, source research, domain appendices, a coverage inventory, a progress/decision ledger, and the parent `games/README.md` arcade/catalog guide.
+- The planning baseline merged in PR #387, followed by Justin's implementation-start authorization; root/game AGENTS and the parent `games/README.md` retain the game/website boundary and release hold.
+- This plan, source research, domain appendices, coverage and progress ledgers, including the source-qualified P01 profiles and their unresolved fields.
+- Reviewed P03-A asset/export contracts and P04-A tooling under `tools/pokemon-dungeon/`, with pinned dependencies, independent static checks and a locally vendored Three.js 0.186.1 runtime.
+- The P05 startup-only entry point, loading/error/retry UI and lifecycle handling. Direct-page, iframe and device acceptance remain open; no playable adventure or save implementation exists.
+- P06 Pikachu, Charmander and Groudon candidates, animation/LOD exports, a Magma Cavern composition and an independent art-preview harness with measured manifests and actual captures. Human visual approval and full device/clip/rig acceptance remain open.
 - The approved Blue baseline and B cel-shaded visual direction, with two generated loading illustrations and their prompts/provenance; B is selected and A retained as an archived comparison.
-- Documentation and repository validation appropriate to this setup.
+- Recorded static checks and independent reviews, with their exact scope and limitations in PROGRESS.md. These do not complete P01, M1 or gameplay acceptance.
 
-### Explicitly deferred until review
+### Remaining work and gates
 
-- The HTML game entry point, engine dependencies, runtime source, production 3D models/textures, audio, and game data. User-requested loading-art candidates are planning evidence only.
-- Any arcade card or screenshot change.
-- Any new game build workflow, dependency installation, website behavior, or root README edit.
-- Game implementation, merge, and deployment.
+- Resolve source blockers before implementing dependent rules/content; complete the full campaign, systems, roster and production assets through the packages below.
+- Obtain P05 manual acceptance and Justin's P06 visual acceptance before dependent production; retain all later visual and whole-game gates.
+- Keep the arcade card and public screenshot unchanged until P36/P37. Intermediate runtime work remains unmerged; merge and deployment require full-scope acceptance and explicit authorization.
+- Keep root website package files and root README unchanged. Game authoring dependencies and the independent static-check workflow remain scoped to the documented tooling boundary.
 
-Early unreviewed implementation drafts were removed from this branch when the user changed the scope to planning. They are not accepted architecture, code, assets, validation evidence, or a starting point the next model should silently revive.
+Early unreviewed implementation drafts were removed during the historical planning stage. They are not accepted architecture, code, assets, validation evidence, or a starting point the next model should silently revive.
 
 ## 3. Scope and truthful completion
 
@@ -75,7 +77,7 @@ An item can be researched, specified, implemented, statically reviewed, manually
 ## 4. Global constraints
 
 1. Use the original Nintendo DS Blue Rescue Team as the product baseline, as explicitly selected by the user (D01 resolved). Red Rescue Team is a comparative research source only; do not add edition selection or import Red-only rules. DX and Explorers facts require explicit exclusion unless the user approves an adaptation.
-2. Future entry point: `games/pokemon-dungeon-reimagined/index.html`. The user allowed a folder, superseding the requested single `pokemon_dungeon_reimagined.html` file.
+2. Entry point: `games/pokemon-dungeon-reimagined/index.html`, currently a startup-only shell. The user allowed a folder, superseding the requested single `pokemon_dungeon_reimagined.html` file.
 3. All runtime URLs are relative and resolve under `/justinthelaw/games/pokemon-dungeon-reimagined/`; no hard-coded root assets, CDN scripts, external fonts, or API-dependent content.
 4. Keep the existing site architecture, system fonts, live GitHub bio, controls, tooltips, arcade width, margins and navigation intact.
 5. Preserve the first card as Coming soon until the eventual release gate. Replace only that card, using a real gameplay capture, not concept art passed off as gameplay.
@@ -107,9 +109,9 @@ A source saying "20 floors" may include a terminal scene map that the game's dis
 
 No rule should depend on an English display name. Use stable IDs for species/forms, actor instances, dungeon segments, map instances, quests, jobs, items, moves, abilities, scenes, flags and saves. Translate display text independently.
 
-## 6. Decisions proposed for review
+## 6. Selected architecture and design targets
 
-| Topic | Proposed decision | Reason and cost if changed |
+| Topic | Selected direction | Reason and cost if changed |
 | --- | --- | --- |
 | Deployment | Native browser ES modules with all assets checked in under the game folder | Fits existing copy/export path; changing to a build-output folder later requires explicit export/build changes |
 | Rendering | Locally pinned Three.js with WebGL 2 baseline; do not require WebGPU | Wide practical browser support; GPU quality still needs a physical-device acceptance pass |
@@ -124,16 +126,16 @@ No rule should depend on an English display name. Use stable IDs for species/for
 | Difficulty | Preserve researched original rules and floor counts; accessibility assists, if added, are visibly optional | Avoids silently replacing the original campaign with a compressed mode |
 | Release | Hidden development until full approved scope meets coverage and delivery gates | Matches the requested complete game; early public demos need separate user approval |
 
-Three.js is a recommendation, not a product dependency installed by this PR. The research records candidate version 0.186.1 and its local module split; pin and re-verify the exact selected version at P04.
+P04-A pins Three.js **0.186.1** in the independent tooling package and includes its local runtime module closure, license and provenance under `vendor/three/`. Reproduction and static-check commands are documented in the [tooling README](../../../tools/pokemon-dungeon/README.md). This bounded engine/tooling implementation does not establish full P04 or physical-device acceptance.
 
 ## 7. Architecture and file ownership
 
-All paths below are **planned**, except the existing game AGENTS instructions and `plan/` documentation. Do not create empty implementations merely to make this tree look complete.
+The startup shell (`index.html`, `styles.css`, `src/bootstrap.js`, `src/shell/`), `assets/initial-scene.json`, `vendor/three/`, game AGENTS and `plan/` documentation now exist. Other gameplay/content layers below remain planned. P06 authoring sources, candidate exports and the disposable preview remain outside the game tree under `tools/pokemon-dungeon/`. Do not create empty implementations merely to make this tree look complete.
 
-| Planned path within `games/pokemon-dungeon-reimagined/` | Responsibility | Allowed dependencies |
+| Path within `games/pokemon-dungeon-reimagined/` | Responsibility | Allowed dependencies |
 | --- | --- | --- |
-| `index.html`, `styles/` | Loading shell, semantic UI surfaces, responsive theme | Application bootstrap only; no game rules in inline handlers |
-| `src/main.js` | Composition root, lifecycle, dependency wiring | Public interfaces of other layers |
+| `index.html`, `styles.css` | Existing loading shell and responsive startup UI; later semantic game surfaces | Application bootstrap only; no game rules in inline handlers |
+| `src/bootstrap.js`, `src/shell/` | Existing startup composition, resource loading and lifecycle; later reviewed application wiring | Public interfaces of other layers |
 | `src/contracts.js` | JSDoc typedefs and stable shared shapes | No runtime side effects |
 | `src/domain/state.js`, `ids.js`, `rng.js` | Canonical serializable state, IDs and RNG streams | Plain data and utility functions |
 | `src/domain/turns.js`, `actions.js` | Action validation, deterministic turn resolution | Domain services, never renderer/DOM/storage |
@@ -149,13 +151,13 @@ All paths below are **planned**, except the existing game AGENTS instructions an
 | `src/input/` | Keyboard, pointer, touch and gamepad to commands | UI mode and action contracts |
 | `src/audio/` | Original score, effects, buses, user-gesture start and lifecycle | Presentation events/settings |
 | `content/` | Validated species/moves/items/dungeons/jobs/story/town tables | Stable IDs and provenance only |
-| `assets/` | Runtime character, environment, texture, UI, audio files | Manifest-listed local resources |
-| `vendor/` | Pinned third-party runtime modules and required decoder resources | Exact local imports; retained licenses |
+| `assets/` | Existing initial-scene manifest; later accepted runtime character, environment, texture, UI and audio files | Manifest-listed local resources |
+| `vendor/` | Existing pinned Three.js modules/license/provenance; add decoder resources only when required and reviewed | Exact local imports; retained licenses |
 | `AGENTS.md`, `plan/` | Local constraints, execution/release gates and complete handoff | Existing instructions and documentation; never imported by runtime |
 
-Authoring tooling lives at the repository-relative **`tools/pokemon-dungeon/`**, outside the exported `games/` tree. Its future `package.json`, lockfile, lint/type/schema configuration, vendor/data/asset preparation scripts, dependency installation and caches belong there. Static commands target `../../games/pokemon-dungeon-reimagined/` explicitly without importing or executing game source. Browser runtime modules, data and assets join the project documentation in the game directory; authoring programs and dependencies remain outside it. The exporter also copies `plan/` and Markdown documentation, but the game must never request them as startup assets. The current exporter copies every file under `games/`, including ignored local files; `.gitignore` is not an export filter. Keep root website package files unchanged.
+Authoring tooling lives at the repository-relative **`tools/pokemon-dungeon/`**, outside the exported `games/` tree. Its package/lockfile, lint/type/schema configuration, vendor and asset scripts, art sources, candidate manifests and art-preview harness now exist there; dependency installations and caches also belong there. Future data preparation scripts follow the same boundary. Static commands target `../../games/pokemon-dungeon-reimagined/` explicitly without importing or executing game source. Accepted browser runtime modules, data and assets belong in the game directory; authoring programs and dependencies remain outside it. The exporter also copies `plan/` and Markdown documentation, but the game must never request them as startup assets. The current exporter copies every file under `games/`, including ignored local files; `.gitignore` is not an export filter. Keep root website package files unchanged.
 
-Final module names must be reconciled with SYSTEMS.md before implementation begins. If an appendix proposes a flat proof-of-concept module, map it to the responsibility above instead of adding a second source of truth. Record approved interface changes before downstream tasks consume them.
+Reconcile each remaining module's name and contract with SYSTEMS.md before implementing it. If an appendix proposes a flat proof-of-concept module, map it to the responsibility above instead of adding a second source of truth. Record approved interface changes before downstream tasks consume them.
 
 ### Layer invariants
 
@@ -213,7 +215,7 @@ Each asset manifest entry needs: stable ID; intended species/form/biome/use; aut
 | On-screen input target | Minimum 44 CSS px touch target | Reflow rather than shrink controls into unusability |
 | Quality validation | Actual representative devices plus desktop browsers | Emulated viewport results alone do not prove GPU performance |
 
-These are design targets, not measured results. Rendering appendix budgets must be reconciled to this table before implementation. GitHub currently documents a 1 GB published-site limit and a 100 GB/month soft bandwidth limit; record the host-source review date and recheck before release. Do not interpret the documented Pages deployment timeout as a guarantee about the duration of this repository's earlier build/test jobs.
+These whole-game and device targets are not established by the bounded vendor/asset measurements recorded in PROGRESS.md. Reconcile rendering appendix budgets to this table before dependent production. GitHub currently documents a 1 GB published-site limit and a 100 GB/month soft bandwidth limit; record the host-source review date and recheck before release. Do not interpret the documented Pages deployment timeout as a guarantee about the duration of this repository's earlier build/test jobs.
 
 ## 9. Review focus and acceptance without game tests
 
@@ -282,10 +284,16 @@ simulation/content acceptance remain incomplete; P05/P06 retain their listed
 dependencies and reviews. Record each accepted interface before its consumer
 proceeds. This does not permit guessing gameplay data or waiving visual gates.
 
+**Current foundation state, 2026-10-05:** P03-A/P04-A consumer interfaces and the
+bounded P05 startup interface have been reviewed; P06 candidates and art-preview
+captures now exist. P05 manual loading/device acceptance and P06 human visual,
+device, clip and rig acceptance remain open. See PROGRESS.md and COVERAGE.csv
+for the evidence boundaries; these sub-batches do not complete P01-P06 or M1.
+
 ## 11. Small-model execution protocol
 
 1. Read root and game AGENTS, PROGRESS.md, the next work package in section 10's canonical execution order, its contract sections and named appendix. Do not reread the entire research archive for a mechanical task.
-2. Confirm the planning hold has been lifted and this package's dependencies have accepted evidence.
+2. Use the recorded implementation-start authorization and verify that this package or bounded sub-batch has accepted dependency evidence. Start authorization does not waive package acceptance.
 3. Write a short task brief: inputs, outputs, owned paths, unresolved facts, proposed commands and finish criteria. Use this plan's exact names/values; flag contradictions before coding.
 4. For a package with repetitive content, take one listed sub-batch. A move-effect family, one story scene group, or at most 8-12 finished creature assets is a sensible review unit; all 386 at once is not.
 5. Implement one responsibility. Do not modify the website for a game-domain task or replace documented PMD rules with convenient defaults.
@@ -331,9 +339,9 @@ The approving decisions and subsequent implementation-start instruction are reco
 - [x] Reserve the game directory; record the folder permission and planning stop.
 - [x] Preserve the three public placeholders and unchanged root README.
 - [x] Finish independent plan review and documentation checks.
-- [x] Publish draft PR #387 for Justin; retain the stop before game implementation or merge.
+- [x] Publish draft PR #387 for Justin with the then-active planning stop; later merge and implementation authorization are recorded above.
 
-**Acceptance:** review diff contains no game runtime, vendor bundle, dependency change, live card update or test that executes game source. The user explicitly authorized two generated visual-planning assets; B is the selected future loading background and A an archived comparison under `plan/art-candidates/`, not approved 3D/gameplay art. Root README equals base; games/README uses headings, tables and lists. All current product choices are recorded, and later implementation/quality/release gates remain explicit.
+**Historical P00 acceptance:** the planning-only PR #387 diff contained no game runtime, vendor bundle, dependency change, live card update or test that executes game source. The user explicitly authorized two generated visual-planning assets; B is the selected future loading background and A an archived comparison under `plan/art-candidates/`, not approved 3D/gameplay art. Root README was unchanged; games/README used headings, tables and lists. The subsequent foundation implementation does not waive the recorded quality/release gates.
 
 ### P01 - Source audit and original-edition rules freeze
 
@@ -347,7 +355,7 @@ The approving decisions and subsequent implementation-start instruction are reco
 
 **Acceptance:** no dependent core rule is marked inferred-but-exact. Unknown numeric tables remain blocked with a specific question and source path. Review the source-to-rule mapping, not merely the number of links.
 
-**Current sub-batch:** [Blue rules revision 1](RULES-BLUE.md) records source-qualified foundations and the remaining blocking fields. P01 is not complete until its unresolved rules and review gates are satisfied. Later packages may consume only the explicitly supported fields within their evidence scope.
+**Current sub-batches:** [Blue rules revision 1](RULES-BLUE.md) and its [additive revision](RULES-BLUE-ADDENDUM.md) record source-qualified foundations and remaining blocking fields. P01 is not complete until its unresolved rules and review gates are satisfied; the composed profile remains `runtimeReady: false`. Later packages may consume only the explicitly supported fields within their evidence scope.
 
 ### P02 - Complete inventories and traceability
 
@@ -374,6 +382,8 @@ The approving decisions and subsequent implementation-start instruction are reco
 
 **Acceptance:** no unknown-provenance asset enters runtime manifests. A fully attributed sample export has a local path, hash, size, dimensions/triangles, clips and a review image.
 
+**Current bounded result:** P03-A's [asset contract](ASSET-CONTRACT.md) and manifest schema have passed consumer-interface review. Candidate exports now exercise that interface; full asset/provenance and human visual acceptance remain open.
+
 ### P04 - Independent game toolchain and pinned engine
 
 **Dependencies:** P01, P03, D08. **Own:** repository-relative `tools/pokemon-dungeon/` package/lockfile, lint/type/schema configuration and preparation scripts; runtime vendor/license output under the game directory. **Consumes:** chosen runtime architecture. **Produces:** reproducible static game authoring/check commands.
@@ -390,9 +400,11 @@ non-gameplay inputs. No unresolved P01 rule becomes an executable default.
 
 **Acceptance:** a fresh contributor can reproduce the same local engine files and run static checks. No test runner appears in game scripts. Runtime source files stay directly statically servable.
 
+**Current bounded result:** P04-A provides the pinned package/lockfile, Three.js 0.186.1 local closure, vendor provenance and independent static checks. Findings and command evidence are recorded in PROGRESS.md and the tooling README; this does not mark the full package accepted.
+
 ### P05 - Static application shell and lifecycle
 
-**Dependencies:** P04. **Own:** future `index.html`, bootstrap, asset loader, lifecycle/error boundary and loading UI. **Produces:** a recoverable canvas application shell, not gameplay.
+**Dependencies:** P04. **Own:** `index.html`, `styles.css`, `src/bootstrap.js`, `src/shell/`, initial manifest and loading UI. **Produces:** a recoverable canvas application shell, not gameplay.
 
 - [ ] Create semantic loading, unsupported-WebGL, asset-failure and retry states before initializing the renderer.
 - [ ] Resolve asset/module URLs relative to the game entry point; never rely on domain-root hosting.
@@ -402,9 +414,11 @@ non-gameplay inputs. No unresolved P01 rule becomes an executable default.
 
 **Acceptance:** static review covers every startup/lifecycle branch; approved manual capture shows direct-page and iframe loading/error states. No white screen or uncontrolled network fallback is accepted.
 
+**Current bounded result:** the startup shell and its reviewed lifecycle interface exist. Direct-page, iframe and device observations remain pending; no gameplay or save operations are implemented.
+
 ### P06 - Visual target proof before mass production
 
-**Dependencies:** P03-P05 and resolved D03/D05; begin only after the separate implementation-start instruction. **Own:** candidate production assets and a temporary repository-relative `tools/pokemon-dungeon/art-preview/` harness. **Produces:** reviewed art direction, static scene/animation captures and asset manifests, not gameplay or a production renderer.
+**Dependencies:** P03-P05 and resolved D03/D05; implementation-start authorization is recorded, with bounded interfaces reviewed as described in section 10. **Own:** candidate production assets and a temporary repository-relative `tools/pokemon-dungeon/art-preview/` harness. **Produces:** reviewed art direction, static scene/animation captures and asset manifests, not gameplay or a production renderer.
 
 - [ ] Build a bounded art-review harness outside the exported game tree using the pinned local Three.js toolchain. Load model/material/animation assets only; do not import game modules, domain state, commands, persistence or the future `DungeonRenderer` API.
 - [ ] Produce finished Pikachu, a partner, and Groudon assets with idle, locomotion, attack, hit, sleep/faint and interaction clips appropriate to their role; playback previews pose/animation without battle outcomes.
@@ -414,6 +428,8 @@ non-gameplay inputs. No unresolved P01 rule becomes an executable default.
 - [ ] Record Justin's visual acceptance before mass production. Reuse accepted asset files/manifests in P10/P32; retire the disposable harness at integration rather than maintaining a second game renderer.
 
 **Acceptance:** the asset/scene captures meet the approved look and remain labeled art previews. True game snapshot/event/renderer contracts freeze at P07/P10; P06 cannot claim campaign, battle, full renderer, or playable-slice completion. D06 omits a standalone practice mode; this harness must not introduce one. No P06 image becomes the public gameplay card preview.
+
+**Current bounded result:** Pikachu, Charmander and Groudon candidates have eleven clips each and three LODs; the Magma Cavern composition, measured manifests and actual captures are available in the [art review record](../../../tools/pokemon-dungeon/art/REVIEW.md). Justin's visual approval and full device/clip/rig acceptance remain pending. Candidate validation and captures do not authorize mass production or complete P06.
 
 ### P07 - Canonical state, IDs and random streams
 
@@ -800,7 +816,7 @@ For each sub-batch: specify triggers and intervening town/mail/dream scenes; pop
 - [ ] Obtain explicit merge/deployment authorization for this release, then monitor the main pipeline and verify live static assets/website integration and the published catalog against the deployed game.
 - [ ] If deployment fails, start a scoped follow-up branch from current main and fix the cause without silently weakening checks; keep or correct the catalog status to accurately describe availability until deployment is verified.
 
-**Acceptance:** current-head checks and automated review are complete, unresolved findings are addressed, the user has authorized publication, the deployed build is identified and verified, and the parent games catalog accurately matches live/WIP availability. The present planning request stops long before this package.
+**Acceptance:** current-head checks and automated review are complete, unresolved findings are addressed, the user has authorized publication, the deployed build is identified and verified, and the parent games catalog accurately matches live/WIP availability. Implementation-start authorization does not authorize this release gate.
 
 ## 14. Handoff record format
 
@@ -825,4 +841,4 @@ Do not mark a package complete while its dependent contract is ambiguous, a name
 
 ## 15. Current execution handoff
 
-P00 was merged in PR #387, and Justin authorized implementation on 2026-10-04. Resume P01 from [the rules profile](RULES-BLUE.md) and [PROGRESS.md](PROGRESS.md). Complete its remaining evidence and review work before accepting dependent contracts. The P06/P10 visual checkpoints and P37 release authorization remain required.
+P00 was merged in PR #387, and Justin authorized implementation on 2026-10-04. The next foundation gate is the required P06 review of [actual art evidence](../../../tools/pokemon-dungeon/art/REVIEW.md); P05/P06 manual device acceptance remains open. Continue P01 through [the rules profile](RULES-BLUE.md) and [its addendum](RULES-BLUE-ADDENDUM.md), resolving blocking fields before dependent rule/content implementation. Follow [PROGRESS.md](PROGRESS.md), [COVERAGE.csv](COVERAGE.csv) and section 10's bounded ordering. Full P01-P06 acceptance, the P06/P10 visual checkpoints, whole-game completion and P37 release authorization remain required.

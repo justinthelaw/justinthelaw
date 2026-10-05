@@ -582,7 +582,7 @@
             "sourceId": "tools-pokemon-dungeon-art-export-mjs",
             "kind": "original-authoring",
             "locator": "tools/pokemon-dungeon/art/export.mjs",
-            "sha256": "a8179814282c039b5a14daa20204033894f60a123bc05ade295cdc45f2638800",
+            "sha256": "f1f0184787dda130488bfb499cc70b14cfeba9fde3a82f414ce9b8f7c562829d",
             "use": "Reproducible candidate authoring source/tooling input."
           },
           {
@@ -594,10 +594,10 @@
           },
           {
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
-            "kind": "original-authoring",
+            "kind": "generated-source",
             "locator": "tools/pokemon-dungeon/package-lock.json",
             "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
-            "use": "Reproducible candidate authoring source/tooling input."
+            "use": "npm-generated record of the pinned third-party authoring dependency closure."
           }
         ],
         "exporter": {
@@ -1390,7 +1390,7 @@
             "sourceId": "tools-pokemon-dungeon-art-export-mjs",
             "kind": "original-authoring",
             "locator": "tools/pokemon-dungeon/art/export.mjs",
-            "sha256": "a8179814282c039b5a14daa20204033894f60a123bc05ade295cdc45f2638800",
+            "sha256": "f1f0184787dda130488bfb499cc70b14cfeba9fde3a82f414ce9b8f7c562829d",
             "use": "Reproducible candidate authoring source/tooling input."
           },
           {
@@ -1402,10 +1402,10 @@
           },
           {
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
-            "kind": "original-authoring",
+            "kind": "generated-source",
             "locator": "tools/pokemon-dungeon/package-lock.json",
             "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
-            "use": "Reproducible candidate authoring source/tooling input."
+            "use": "npm-generated record of the pinned third-party authoring dependency closure."
           }
         ],
         "exporter": {
@@ -2229,7 +2229,7 @@
             "sourceId": "tools-pokemon-dungeon-art-export-mjs",
             "kind": "original-authoring",
             "locator": "tools/pokemon-dungeon/art/export.mjs",
-            "sha256": "a8179814282c039b5a14daa20204033894f60a123bc05ade295cdc45f2638800",
+            "sha256": "f1f0184787dda130488bfb499cc70b14cfeba9fde3a82f414ce9b8f7c562829d",
             "use": "Reproducible candidate authoring source/tooling input."
           },
           {
@@ -2241,10 +2241,10 @@
           },
           {
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
-            "kind": "original-authoring",
+            "kind": "generated-source",
             "locator": "tools/pokemon-dungeon/package-lock.json",
             "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
-            "use": "Reproducible candidate authoring source/tooling input."
+            "use": "npm-generated record of the pinned third-party authoring dependency closure."
           }
         ],
         "exporter": {
@@ -3114,7 +3114,7 @@
             "sourceId": "tools-pokemon-dungeon-art-export-mjs",
             "kind": "original-authoring",
             "locator": "tools/pokemon-dungeon/art/export.mjs",
-            "sha256": "a8179814282c039b5a14daa20204033894f60a123bc05ade295cdc45f2638800",
+            "sha256": "f1f0184787dda130488bfb499cc70b14cfeba9fde3a82f414ce9b8f7c562829d",
             "use": "Reproducible candidate authoring source/tooling input."
           },
           {
@@ -3126,10 +3126,10 @@
           },
           {
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
-            "kind": "original-authoring",
+            "kind": "generated-source",
             "locator": "tools/pokemon-dungeon/package-lock.json",
             "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
-            "use": "Reproducible candidate authoring source/tooling input."
+            "use": "npm-generated record of the pinned third-party authoring dependency closure."
           }
         ],
         "exporter": {

@@ -94,6 +94,16 @@ glTF/accessor validity in addition to the local path/hash/schema checks. Errors
 fail; warnings remain visible for review. These checks do not render, animate
 or establish visual quality.
 
+The static measurement gate reads actual accessor bytes and node transforms to
+compare each LOD's triangles, node/mesh/material/joint counts and neutral bounds
+with its manifest. It also compares node/mesh/material inventories, material
+channels and texture dimensions, animation durations and socket parents. Bounds
+allow 10 micrometers absolute plus one part per million relative float export
+error. The current gate supports rigid triangle meshes; skin/morph deformation
+must receive a reviewed measurement implementation before those assets pass.
+Decoded work is bounded to 16 MiB per accessor, 64 MiB per model and 4,194,304
+transformed vertex instances. These are inspection limits, not scene/FPS budgets.
+
 Serve the repository root with a local static server, for example
 `python -m http.server 4177 --bind 127.0.0.1`, then open
 `http://127.0.0.1:4177/tools/pokemon-dungeon/art-preview/`. The disposable harness

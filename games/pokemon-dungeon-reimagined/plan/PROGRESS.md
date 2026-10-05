@@ -75,6 +75,13 @@ with no game/domain/save imports. Its captures retain the art-preview label.
 - Art-only captures used Chrome 154.0.8037.92 and SwiftShader software WebGL2.
   The browser reported no page/console errors during successful captures.
   Phone-size viewport evidence is not a physical-phone performance result.
+- GitHub review of `122b06b` identified unverified manifest measurements, stale
+  PLAN setup wording and lockfile provenance classification. The follow-up
+  derives measurements from actual glTF bytes, reconciles the plan's current
+  paths/state and labels the npm lockfile as generated source. Re-export leaves
+  all twelve GLBs, candidate revisions and capture bytes unchanged. P01 and the
+  P05/P06 human acceptance gates remain open; revised-head CI/review belongs on
+  PR #388 and cannot be inferred from the earlier head's passing website checks.
 
 ## Cleanup record
 

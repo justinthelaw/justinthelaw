@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 import { validateBytes } from 'gltf-validator';
+import { measureGltf, preflightGltfMeasurements } from './measure-gltf.mjs';
 
 const toolRoot = fileURLToPath(new URL('../', import.meta.url));
 const localPathPattern = /^(?:[a-z0-9][a-z0-9._-]*\/)*[a-z0-9][a-z0-9._-]*$/;
@@ -22,6 +23,23 @@ function requireCondition(condition, message) {
 function unique(values, label) {
   requireCondition(new Set(values).size === values.length, `duplicate ${label}`);
   return new Set(values);
+}
+
+function sameMembers(actual, expected, label) {
+  requireCondition(actual.length === expected.length && actual.every(value => expected.includes(value)), `${label} mismatch`);
+}
+
+function near(actual, expected) {
+  // Bounds are authored in doubles, exported as float32, then transformed.
+  // Permit 10 micrometers absolute + one part per million relative error.
+  return Number.isFinite(actual) && Math.abs(actual - expected) <= 1e-5 + 1e-6 * Math.max(Math.abs(actual), Math.abs(expected));
+}
+
+function compareMaterial(actual, expected) {
+  requireCondition(expected, `undeclared material ${actual.name}`);
+  for (const property of ['alphaMode', 'doubleSided', 'maximumTextureEdge']) requireCondition(actual[property] === expected[property], `${actual.name}: ${property} mismatch`);
+  sameMembers(actual.channels, expected.channels, `${actual.name}: channels`);
+  sameMembers(actual.textureFileIds, expected.textureFileIds, `${actual.name}: textureFileIds`);
 }
 
 function within(root, candidate) {
@@ -171,11 +189,21 @@ function inspectModel(asset, file, bytes, root, filesByPath, fileBytes) {
       const target = object(channel.target, 'animation target');
       const node = indexed(nodes, target.node, `animation ${animation.name} target`);
       requireCondition(typeof node.name === 'string' && asset.nodeNames.includes(node.name), `animation ${animation.name}: undeclared target node`);
+      requireCondition(node.name !== asset.coordinates.rootNode, `animation ${animation.name}: asset-root must remain in place`);
       targets.add(node.name);
     }
     requireCondition(targets.size === clip.targetNodes.length && clip.targetNodes.every((name) => targets.has(name)), `animation ${animation.name}: targetNodes mismatch`);
   }
-  return { dependencies, clipNames };
+  const bufferBytes = buffers.map(entry => entry.uri === undefined ? binary : fileBytes.get(dependency(entry.uri, 'buffer').fileId));
+  const imageBytes = images.map(entry => {
+    if (entry.uri !== undefined) {
+      const external = dependency(entry.uri, 'texture');
+      return { bytes: fileBytes.get(external.fileId), fileId: external.fileId };
+    }
+    const view = views[entry.bufferView];
+    return { bytes: bufferBytes[view.buffer].subarray(view.byteOffset ?? 0, (view.byteOffset ?? 0) + view.byteLength), fileId: null };
+  });
+  return { dependencies, clipNames, document, bufferBytes, imageBytes };
 }
 
 async function inspectAsset(asset, root) {
@@ -215,7 +243,8 @@ async function inspectAsset(asset, root) {
   }
   const models = new Map();
   for (const file of asset.files.filter((entry) => entry.role === 'model')) {
-    models.set(file.fileId, inspectModel(asset, file, fileBytes.get(file.fileId), root, filesByPath, fileBytes));
+    const model = inspectModel(asset, file, fileBytes.get(file.fileId), root, filesByPath, fileBytes);
+    preflightGltfMeasurements(model.document);
     const report = await validateBytes(new Uint8Array(fileBytes.get(file.fileId)), {
       uri: file.url,
       maxIssues: 100,
@@ -228,12 +257,23 @@ async function inspectAsset(asset, root) {
     });
     if (report.issues.numErrors || report.issues.numWarnings) console.log(`${file.url}: ${JSON.stringify(report.issues)}`);
     requireCondition(report.issues.numErrors === 0, `${file.url}: Khronos glTF validation failed`);
+    const measurements = measureGltf(model.document, model.bufferBytes, model.imageBytes);
+    models.set(file.fileId, { ...model, measurements });
+    for (const material of measurements.materials) compareMaterial(material, asset.materials.find(entry => entry.name === material.name));
+    for (const [name, duration] of measurements.durations) requireCondition(near(duration, asset.clips.find(clip => clip.name === name).durationSeconds), `${name}: durationSeconds mismatch`);
+    const socketKey = socket => `${socket.name}/${socket.parentNode}`;
+    sameMembers(measurements.sockets.map(socketKey), asset.sockets.map(socketKey), `${file.url}: sockets`);
   }
+  for (const property of ['nodeNames', 'meshNames']) sameMembers([...new Set([...models.values()].flatMap(model => model.measurements[property]))], asset[property], property);
+  sameMembers([...new Set([...models.values()].flatMap(model => model.measurements.materials.map(material => material.name)))], asset.materials.map(material => material.name), 'material inventory');
+  sameMembers([...new Set([...models.values()].flatMap(model => [...model.clipNames]))], [...clipNames], 'clip inventory');
   for (const lod of asset.lods) {
     requireCondition(lod.boundsMeters.min.every((minimum, axis) => minimum <= lod.boundsMeters.max[axis]), `LOD${lod.level}: reversed bounds`);
     for (const id of lod.fileIds) requireCondition(files.has(id), `LOD${lod.level}: unknown file ${id}`);
     const model = models.get(lod.modelFileId);
     requireCondition(model !== undefined && lod.fileIds.includes(lod.modelFileId), `LOD${lod.level}: modelFileId must reference an included model`);
+    for (const property of ['triangles', 'nodeCount', 'meshCount', 'materialCount', 'skinJointCount']) requireCondition(lod[property] === model.measurements[property], `LOD${lod.level}: ${property} mismatch (recorded ${lod[property]}, measured ${model.measurements[property]})`);
+    for (const edge of ['min', 'max']) requireCondition(lod.boundsMeters[edge].every((value, axis) => near(model.measurements.boundsMeters[edge][axis], value)), `LOD${lod.level}: boundsMeters.${edge} mismatch`);
     for (const id of model.dependencies) requireCondition(lod.fileIds.includes(id), `LOD${lod.level}: missing dependency ${id}`);
     requireCondition(lod.clipNames.length === model.clipNames.size && lod.clipNames.every((name) => clipNames.has(name) && model.clipNames.has(name)), `LOD${lod.level}: clipNames differ from model/manifest`);
     if (asset.status === 'reviewed' && asset.subject.kind === 'character') {

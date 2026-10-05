@@ -235,7 +235,13 @@ async function main() {
     const changed = old && files.some((file) => !old.files.some((prior) => prior.url === file.url && prior.sha256 === file.sha256));
     const revision = old ? old.revision + (changed ? 1 : 0) : 1;
     const baseId = spec.speciesId ? `model.${spec.speciesId}` : 'environment.magma-cavern.composition';
-    const sourceRecords = [...sources].sort(([a], [b]) => a.localeCompare(b)).map(([file, hash]) => ({ sourceId: relativeToRepo(file).replace(/[^a-z0-9]+/gi, '-').toLowerCase(), kind: file.includes('node_modules') ? 'licensed-input' : 'original-authoring', locator: relativeToRepo(file), sha256: hash, use: file.includes('node_modules') ? 'Pinned MIT glTF export tool; not copied game artwork.' : 'Reproducible candidate authoring source/tooling input.' }));
+    const sourceRecords = [...sources].sort(([a], [b]) => a.localeCompare(b)).map(([file, hash]) => {
+      const kind = file === path.join(toolRoot, 'package-lock.json') ? 'generated-source'
+        : file.startsWith(`${path.join(toolRoot, 'node_modules')}${path.sep}`) ? 'licensed-input' : 'original-authoring';
+      const use = kind === 'generated-source' ? 'npm-generated record of the pinned third-party authoring dependency closure.'
+        : kind === 'licensed-input' ? 'Pinned MIT glTF export tool; not copied game artwork.' : 'Reproducible candidate authoring source/tooling input.';
+      return { sourceId: relativeToRepo(file).replace(/[^a-z0-9]+/gi, '-').toLowerCase(), kind, locator: relativeToRepo(file), sha256: hash, use };
+    });
     const materialMap = new Map();
     for (const measurement of measurements) for (const material of measurement.materials) {
       requireCondition(!materialMap.has(material.name) || JSON.stringify(materialMap.get(material.name)) === JSON.stringify(material), `${spec.slug}: material contract changes across LODs`);
