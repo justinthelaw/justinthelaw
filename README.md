@@ -13,14 +13,7 @@
 
 <https://justinthelaw.github.io/justinthelaw/>
 
-On my personal website, there is a browser-local LLM that can answer questions using context from my resume.
-
-> [!NOTE]
-> You can fork and personalize my website by checking out the [customization guide](docs/CUSTOMIZATION.md).
->
-> Developer workflow docs are available at [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
->
-> Local profile-QA training scaffolding lives in [ml/profile-qa/](ml/profile-qa/README.md). It is designed for local NVIDIA GPU LoRA/QLoRA runs and keeps generated datasets, checkpoints, and ONNX artifacts out of git.
+On my personal website, there is a browser-local LLM that can answer questions using context from my resume. The website also contains an arcade of browser-based games that I've been working on, with Codex.
 
 ## Contact Information
 
