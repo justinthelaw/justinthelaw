@@ -1,0 +1,33 @@
+{
+  "name": "pokemon-dungeon-authoring",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Static authoring and validation tools for Pokémon Dungeon Reimagined",
+  "packageManager": "npm@12.1.0",
+  "engines": {
+    "node": ">=24.19.0 <25",
+    "npm": ">=12.1.0 <13"
+  },
+  "scripts": {
+    "vendor": "node scripts/vendor.mjs",
+    "lint": "node scripts/check-source.mjs",
+    "typecheck": "node scripts/check-types.mjs",
+    "assets": "node scripts/check-assets.mjs",
+    "art:export": "node art/export.mjs",
+    "check": "npm run lint && npm run typecheck && npm run assets && npm run vendor -- --check"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.13.6",
+    "@types/three": "0.186.0",
+    "acorn": "8.18.0",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "eslint": "10.10.0",
+    "gltf-validator": "2.0.0-dev.3.10",
+    "terser": "5.51.2",
+    "three": "0.186.1",
+    "typescript": "6.0.3"
+  }
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <title>Pokémon Dungeon Reimagined</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main id="application" aria-busy="true">
+      <canvas id="scene" aria-label="Adventure scene" hidden></canvas>
+      <section class="startup" aria-labelledby="heading">
+        <p class="eyebrow">Pokémon Dungeon Reimagined</p>
+        <h1 id="heading">Preparing the adventure</h1>
+        <p id="status" role="status" aria-live="polite">Loading the application…</p>
+        <progress id="progress" aria-label="Loading resources"></progress>
+        <p id="failure" role="alert" hidden></p>
+        <button id="retry" type="button" hidden>Try again</button>
+        <noscript><p>JavaScript is required. Enable it, then reload this page.</p></noscript>
+      </section>
+    </main>
+    <script type="module" src="./src/bootstrap.js"></script>
+    <script>
+      // Remains available if even the bootstrap module cannot be downloaded.
+      window.setTimeout(function () {
+        if (document.documentElement.dataset.bootstrap === 'started') return;
+        document.getElementById('heading').textContent = 'Unable to start';
+        document.getElementById('status').textContent = 'The application did not load. Check your connection and try again.';
+        document.getElementById('application').setAttribute('aria-busy', 'false');
+        document.getElementById('progress').hidden = true;
+        const retry = document.getElementById('retry');
+        retry.hidden = false;
+        retry.addEventListener('click', function () { window.location.reload(); });
+      }, 15000);
+    </script>
+  </body>
+</html>

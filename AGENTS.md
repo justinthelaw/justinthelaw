@@ -141,6 +141,7 @@ try { ... } catch (err) {
 | Website coverage | Test website navigation, responsive layout, accessibility, animations, reduced motion, static export, and game-loading integration |
 | Game source exclusion | Do not test source code inside `games/`. Website export tests may use temporary fixture files to verify copying and asset paths without testing game behavior |
 | Game tooling boundary | Independent games use their own framework/language lint and type checks. Website ESLint and TypeScript exclude `games/` builds; this does not relax the DRY, SOLID, or source-quality requirements for game code |
+| Pokémon static checks | `tools/pokemon-dungeon/` has its own pinned package and `npm run check`; root lint/types exclude it. `game-static.yml` parses/types source and validates asset files without executing game modules. Art authoring and its disposable preview stay outside `games/` |
 
 ## Arcade
 

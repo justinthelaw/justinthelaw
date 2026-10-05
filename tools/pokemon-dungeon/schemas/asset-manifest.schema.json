@@ -1,0 +1,678 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pokemon-dungeon:asset-manifest:1.0.0",
+  "title": "P03-A / P06 3D asset manifest",
+  "description": "Draft static authoring contract for three Blue identity anchors and Magma Cavern art. Entries describe actual measured files. Empty inventories make no asset-completion claim. Runtime projection requires reviewed art and bound catalog interfaces; publication still requires P36/P37.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "manifestKind": {"enum": ["authoring", "runtime"]},
+    "assets": {"type": "array", "items": {"$ref": "#/$defs/asset"}, "minItems": 0}
+  },
+  "required": ["schemaVersion", "manifestKind", "assets"],
+  "allOf": [
+    {
+      "if": {"properties": {"manifestKind": {"const": "authoring"}}},
+      "then": {"properties": {"assets": {"items": {"required": ["authoring"]}}}}
+    },
+    {
+      "if": {"properties": {"manifestKind": {"const": "runtime"}}},
+      "then": {
+        "properties": {
+          "assets": {
+            "items": {
+              "properties": {"status": {"const": "reviewed"}},
+              "not": {"required": ["authoring"]},
+              "allOf": [
+                {
+                  "if": {"properties": {"subject": {"properties": {"kind": {"const": "character"}}}}},
+                  "then": {
+                    "properties": {
+                      "subject": {"properties": {"formBinding": {"properties": {"state": {"const": "bound"}}}}}
+                    }
+                  }
+                },
+                {
+                  "if": {"properties": {"subject": {"properties": {"kind": {"const": "environment"}}}}},
+                  "then": {
+                    "properties": {
+                      "subject": {"properties": {"domainBinding": {"properties": {"state": {"const": "bound"}}}}}
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "localPath": {
+      "type": "string",
+      "pattern": "^(?:[a-z0-9][a-z0-9._-]*/)*[a-z0-9][a-z0-9._-]*$",
+      "description": "Case-sensitive path relative to the directory containing the manifest, identically for authoring and runtime manifests; no separate implicit bundle root, scheme, authority, leading slash, backslash, traversal segments, percent encoding, query, or fragment."
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "vector3": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+        "url": {"$ref": "#/$defs/localPath"},
+        "role": {"enum": ["model", "buffer", "texture", "license-notice"]},
+        "mediaType": {
+          "enum": [
+            "model/gltf+json",
+            "model/gltf-binary",
+            "application/octet-stream",
+            "image/png",
+            "image/jpeg",
+            "text/plain"
+          ]
+        },
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "encodedBytes": {"type": "integer", "minimum": 1, "maximum": 1048576}
+      },
+      "required": ["fileId", "url", "role", "mediaType", "sha256", "encodedBytes"]
+    },
+    "formBinding": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {"state": {"const": "unresolved"}, "reason": {"type": "string", "minLength": 1}},
+          "required": ["state", "reason"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {"const": "bound"},
+            "formId": {"type": "string", "minLength": 1},
+            "catalogRevision": {"type": "string", "minLength": 1},
+            "evidenceId": {"type": "string", "minLength": 1}
+          },
+          "required": ["state", "formId", "catalogRevision", "evidenceId"]
+        }
+      ]
+    },
+    "subject": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {"const": "character"},
+            "speciesId": {"enum": ["pokemon-025", "pokemon-004", "pokemon-383"]},
+            "anchorRole": {"enum": ["hero-anchor", "partner-anchor", "boss-anchor"]},
+            "formBinding": {"$ref": "#/$defs/formBinding"}
+          },
+          "required": ["kind", "speciesId", "anchorRole", "formBinding"],
+          "allOf": [
+            {
+              "if": {"properties": {"speciesId": {"const": "pokemon-025"}}},
+              "then": {"properties": {"anchorRole": {"const": "hero-anchor"}}}
+            },
+            {
+              "if": {"properties": {"speciesId": {"const": "pokemon-004"}}},
+              "then": {"properties": {"anchorRole": {"const": "partner-anchor"}}}
+            },
+            {
+              "if": {"properties": {"speciesId": {"const": "pokemon-383"}}},
+              "then": {"properties": {"anchorRole": {"const": "boss-anchor"}}}
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {"const": "environment"},
+            "environmentKey": {"const": "magma-cavern"},
+            "anchorRole": {"const": "environment-anchor"},
+            "component": {"enum": ["floor", "wall", "obsidian-prop", "lava-surface", "composition"]},
+            "domainBinding": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {"state": {"const": "unresolved"}, "reason": {"type": "string", "minLength": 1}},
+                  "required": ["state", "reason"]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "state": {"const": "bound"},
+                    "dungeonId": {"type": "string", "minLength": 1},
+                    "catalogRevision": {"type": "string", "minLength": 1},
+                    "evidenceId": {"type": "string", "minLength": 1}
+                  },
+                  "required": ["state", "dungeonId", "catalogRevision", "evidenceId"]
+                }
+              ]
+            }
+          },
+          "required": ["kind", "environmentKey", "anchorRole", "component", "domainBinding"]
+        }
+      ]
+    },
+    "coordinates": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "handedness": {"const": "right"},
+        "up": {"const": "+Y"},
+        "forward": {"const": "+Z"},
+        "metersPerUnit": {"const": 1},
+        "tileMeters": {"const": 2},
+        "rootNode": {"const": "asset-root"},
+        "pivot": {"const": "ground-center"},
+        "rootTranslation": {"const": [0, 0, 0]},
+        "rootRotationQuaternion": {"const": [0, 0, 0, 1]},
+        "rootScale": {"const": [1, 1, 1]}
+      },
+      "required": [
+        "handedness",
+        "up",
+        "forward",
+        "metersPerUnit",
+        "tileMeters",
+        "rootNode",
+        "pivot",
+        "rootTranslation",
+        "rootRotationQuaternion",
+        "rootScale"
+      ]
+    },
+    "bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "min": {"$ref": "#/$defs/vector3"},
+        "max": {"$ref": "#/$defs/vector3"},
+        "measurementPose": {"const": "neutral-bind-pose"}
+      },
+      "required": ["min", "max", "measurementPose"]
+    },
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+        "shadingProfile": {"const": "style-b-v1"},
+        "channels": {
+          "type": "array",
+          "items": {
+            "enum": ["base-color", "normal", "occlusion", "roughness", "metalness", "emissive", "vertex-color"]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "textureFileIds": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "alphaMode": {"enum": ["OPAQUE", "MASK", "BLEND"]},
+        "doubleSided": {"type": "boolean"},
+        "maximumTextureEdge": {"type": "integer", "minimum": 0, "maximum": 2048}
+      },
+      "required": [
+        "name",
+        "shadingProfile",
+        "channels",
+        "textureFileIds",
+        "alphaMode",
+        "doubleSided",
+        "maximumTextureEdge"
+      ]
+    },
+    "clip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "enum": [
+            "idle",
+            "locomotion",
+            "turn-left",
+            "turn-right",
+            "attack-physical",
+            "attack-special",
+            "cast-status",
+            "hit-light",
+            "hit-heavy",
+            "defeat",
+            "celebrate",
+            "rest-sleep",
+            "interact",
+            "roar",
+            "boss-intro"
+          ]
+        },
+        "durationSeconds": {"type": "number", "exclusiveMinimum": 0},
+        "loop": {"type": "boolean"},
+        "rootMotion": {"const": "in-place"},
+        "targetNodes": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": ["name", "durationSeconds", "loop", "rootMotion", "targetNodes"],
+      "allOf": [
+        {
+          "if": {"properties": {"name": {"enum": ["idle", "locomotion", "rest-sleep"]}}},
+          "then": {"properties": {"loop": {"const": true}}}
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "enum": [
+                  "turn-left",
+                  "turn-right",
+                  "attack-physical",
+                  "attack-special",
+                  "cast-status",
+                  "hit-light",
+                  "hit-heavy",
+                  "defeat",
+                  "celebrate",
+                  "interact",
+                  "roar",
+                  "boss-intro"
+                ]
+              }
+            }
+          },
+          "then": {"properties": {"loop": {"const": false}}}
+        }
+      ]
+    },
+    "lod": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "level": {"enum": [0, 1, 2]},
+        "fileIds": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "modelFileId": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+        "triangles": {"type": "integer", "minimum": 1},
+        "nodeCount": {"type": "integer", "minimum": 1},
+        "meshCount": {"type": "integer", "minimum": 1},
+        "materialCount": {"type": "integer", "minimum": 1},
+        "skinJointCount": {"type": "integer", "minimum": 0},
+        "boundsMeters": {"$ref": "#/$defs/bounds"},
+        "clipNames": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "idle",
+              "locomotion",
+              "turn-left",
+              "turn-right",
+              "attack-physical",
+              "attack-special",
+              "cast-status",
+              "hit-light",
+              "hit-heavy",
+              "defeat",
+              "celebrate",
+              "rest-sleep",
+              "interact",
+              "roar",
+              "boss-intro"
+            ]
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "level",
+        "fileIds",
+        "modelFileId",
+        "triangles",
+        "nodeCount",
+        "meshCount",
+        "materialCount",
+        "skinJointCount",
+        "boundsMeters",
+        "clipNames"
+      ]
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "licenseId": {"type": "string", "minLength": 1},
+        "reviewState": {"enum": ["pending", "documented"]},
+        "attribution": {"type": "string", "minLength": 1},
+        "noticeUrl": {"$ref": "#/$defs/localPath"},
+        "characterRightsNote": {"type": "string", "minLength": 1}
+      },
+      "required": ["licenseId", "reviewState", "attribution", "noticeUrl", "characterRightsNote"]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "creationMethod": {"enum": ["original-manual", "original-procedural", "original-mixed", "permitted-third-party"]},
+        "creators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {"name": {"type": "string", "minLength": 1}, "contribution": {"type": "string", "minLength": 1}},
+            "required": ["name", "contribution"]
+          },
+          "minItems": 1
+        },
+        "sourceRecordIds": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+        "license": {"$ref": "#/$defs/license"}
+      },
+      "required": ["creationMethod", "creators", "sourceRecordIds", "license"]
+    },
+    "review": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {"state": {"const": "pending"}},
+          "required": ["state"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {"enum": ["accepted", "rejected"]},
+            "reviewId": {"type": "string", "minLength": 1},
+            "reviewer": {"type": "string", "minLength": 1},
+            "reviewedAt": {"type": "string", "format": "date-time"},
+            "evidenceRecordId": {"type": "string", "minLength": 1},
+            "evidenceSha256": {"$ref": "#/$defs/sha256"},
+            "scope": {"const": "p06-art-only"}
+          },
+          "required": ["state", "reviewId", "reviewer", "reviewedAt", "evidenceRecordId", "evidenceSha256", "scope"]
+        }
+      ]
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "captureId": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "encodedBytes": {"type": "integer", "minimum": 1},
+        "kind": {
+          "enum": [
+            "neutral-turntable",
+            "clip-preview",
+            "third-person-composition",
+            "material-detail",
+            "low-tier",
+            "reduced-motion"
+          ]
+        },
+        "assetRevision": {"type": "integer", "minimum": 1},
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1},
+        "device": {"type": "string", "minLength": 1},
+        "qualityTier": {"enum": ["low", "standard", "high"]},
+        "reducedMotion": {"type": "boolean"},
+        "label": {"const": "P06 art preview; not gameplay"},
+        "location": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {"storage": {"const": "git"}, "path": {"$ref": "#/$defs/localPath"}},
+              "required": ["storage", "path"]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {"storage": {"const": "durable-artifact"}, "locator": {"type": "string", "minLength": 1}},
+              "required": ["storage", "locator"]
+            }
+          ]
+        }
+      },
+      "required": [
+        "captureId",
+        "location",
+        "sha256",
+        "encodedBytes",
+        "kind",
+        "assetRevision",
+        "width",
+        "height",
+        "device",
+        "qualityTier",
+        "reducedMotion",
+        "label"
+      ],
+      "allOf": [
+        {
+          "if": {"properties": {"location": {"properties": {"storage": {"const": "git"}}}}},
+          "then": {"properties": {"encodedBytes": {"maximum": 1048576}}}
+        }
+      ]
+    },
+    "authoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recordId": {"type": "string", "minLength": 1},
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceId": {"type": "string", "minLength": 1},
+              "kind": {"enum": ["original-authoring", "reference-only", "licensed-input", "generated-source"]},
+              "locator": {"type": "string", "minLength": 1},
+              "sha256": {"$ref": "#/$defs/sha256"},
+              "use": {"type": "string", "minLength": 1}
+            },
+            "required": ["sourceId", "kind", "locator", "sha256", "use"]
+          },
+          "minItems": 1
+        },
+        "exporter": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {"type": "string", "minLength": 1},
+            "version": {"type": "string", "minLength": 1},
+            "settingsRecord": {"type": "string", "minLength": 1}
+          },
+          "required": ["name", "version", "settingsRecord"]
+        },
+        "captures": {"type": "array", "items": {"$ref": "#/$defs/capture"}, "minItems": 0},
+        "notes": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 0}
+      },
+      "required": ["recordId", "sources", "exporter", "captures", "notes"]
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "pattern": "^(?:model\\.pokemon-(?:004|025|383)|environment\\.magma-cavern\\.[a-z][a-z0-9-]*)\\.v[0-9]{3,}$"
+        },
+        "revision": {"type": "integer", "minimum": 1},
+        "status": {"enum": ["candidate", "reviewed", "rejected"]},
+        "subject": {"$ref": "#/$defs/subject"},
+        "styleProfile": {"const": "style-b-v1"},
+        "format": {"const": "glTF-2.0"},
+        "coordinates": {"$ref": "#/$defs/coordinates"},
+        "files": {"type": "array", "items": {"$ref": "#/$defs/file"}, "minItems": 1},
+        "nodeNames": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "meshNames": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "materials": {"type": "array", "items": {"$ref": "#/$defs/material"}, "minItems": 1},
+        "clips": {"type": "array", "items": {"$ref": "#/$defs/clip"}, "minItems": 0},
+        "lods": {"type": "array", "items": {"$ref": "#/$defs/lod"}, "minItems": 1, "maxItems": 3},
+        "sockets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
+              "parentNode": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"}
+            },
+            "required": ["name", "parentNode"]
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "provenance": {"$ref": "#/$defs/provenance"},
+        "review": {"$ref": "#/$defs/review"},
+        "authoring": {"$ref": "#/$defs/authoring"}
+      },
+      "required": [
+        "assetId",
+        "revision",
+        "status",
+        "subject",
+        "styleProfile",
+        "format",
+        "coordinates",
+        "files",
+        "nodeNames",
+        "meshNames",
+        "materials",
+        "clips",
+        "lods",
+        "sockets",
+        "provenance",
+        "review"
+      ],
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "reviewed"}}},
+          "then": {
+            "properties": {
+              "review": {"properties": {"state": {"const": "accepted"}}},
+              "provenance": {"properties": {"license": {"properties": {"reviewState": {"const": "documented"}}}}}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"status": {"const": "candidate"}}},
+          "then": {"properties": {"review": {"properties": {"state": {"const": "pending"}}}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "rejected"}}},
+          "then": {"properties": {"review": {"properties": {"state": {"const": "rejected"}}}}}
+        },
+        {
+          "if": {
+            "properties": {"status": {"const": "reviewed"}, "subject": {"properties": {"kind": {"const": "character"}}}}
+          },
+          "then": {
+            "properties": {
+              "clips": {
+                "allOf": [
+                  {
+                    "contains": {"properties": {"name": {"const": "idle"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {"properties": {"name": {"const": "locomotion"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {"properties": {"name": {"const": "attack-physical"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {"properties": {"name": {"const": "attack-special"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {"properties": {"name": {"const": "cast-status"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {"properties": {"name": {"const": "hit-light"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {"properties": {"name": {"const": "hit-heavy"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {"properties": {"name": {"const": "defeat"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {"properties": {"name": {"const": "celebrate"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {"properties": {"name": {"const": "rest-sleep"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {"properties": {"name": {"const": "interact"}}},
+                    "minContains": 1,
+                    "maxContains": 1
+                  }
+                ]
+              },
+              "lods": {
+                "allOf": [
+                  {"contains": {"properties": {"level": {"const": 0}}}, "minContains": 1, "maxContains": 1},
+                  {"contains": {"properties": {"level": {"const": 1}}}, "minContains": 1, "maxContains": 1},
+                  {"contains": {"properties": {"level": {"const": 2}}}, "minContains": 1, "maxContains": 1}
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"authoring": {"type": "object"}, "status": {"const": "reviewed"}},
+            "required": ["authoring"]
+          },
+          "then": {"properties": {"authoring": {"properties": {"captures": {"minItems": 1}}}}}
+        }
+      ]
+    }
+  }
+}

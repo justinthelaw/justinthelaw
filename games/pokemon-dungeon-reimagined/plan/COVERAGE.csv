@@ -1,11 +1,11 @@
 id,category,name,owner_package,source_document,research_status,implementation_status,static_review,manual_acceptance,evidence,notes
 P00,work-package,Planning and safe repository setup,P00,PLAN.md,reviewed-plan,planning-complete,independent-findings-addressed,not-performed,https://github.com/justinthelaw/justinthelaw/pull/387;PROGRESS.md,Planning PR merged; Justin separately authorized implementation on 2026-10-04
-P01,work-package,Source audit and original-edition rules freeze,P01,PLAN.md,partial-source-freeze,in-progress-source-audit,sub-batch-findings-addressed,not-performed,RULES-BLUE.md;research/blue-rules-v1.json;PROGRESS.md,First evidence sub-batch; 30 source-supported fields and 14 blockers; P01 remains incomplete; no runtime implemented
+P01,work-package,Source audit and original-edition rules freeze,P01,PLAN.md,partial-source-freeze,in-progress-source-audit,sub-batch-findings-addressed,not-performed,RULES-BLUE.md;research/blue-rules-v1.json;PROGRESS.md;RULES-BLUE-ADDENDUM.md;research/blue-rules-v2.json,Qualified v1 plus additive v2; unresolved scheduler/arithmetic/campaign/reset rules remain blocked; no simulation implemented
 P02,work-package,Complete inventories and traceability,P02,PLAN.md,planned,not-started,not-performed,not-performed,,
-P03,work-package,Asset/provenance pipeline specification,P03,PLAN.md,planned,not-started,not-performed,not-performed,,
-P04,work-package,Independent game toolchain and pinned engine,P04,PLAN.md,planned,not-started,not-performed,not-performed,,
-P05,work-package,Static application shell and lifecycle,P05,PLAN.md,planned,not-started,not-performed,not-performed,,
-P06,work-package,Visual target proof before mass production,P06,PLAN.md,planned,not-started,not-performed,not-performed,,
+P03,work-package,Asset/provenance pipeline specification,P03,PLAN.md,bounded-contract-reviewed,partial-asset-pipeline,consumer-interface-accepted,pending,ASSET-CONTRACT.md;../../../tools/pokemon-dungeon/schemas/asset-manifest.schema.json,Candidate exports exist; human art/provenance acceptance remains pending
+P04,work-package,Independent game toolchain and pinned engine,P04,PLAN.md,platform-inputs-reviewed,bounded-toolchain-implemented,findings-addressed,pending,../../../tools/pokemon-dungeon/README.md;PROGRESS.md,Pinned local engine and independent static checks; no game execution
+P05,work-package,Static application shell and lifecycle,P05,PLAN.md,bounded-contract-reviewed,startup-shell-implemented,findings-addressed,pending,PROGRESS.md;../src/bootstrap.js;../src/shell/application.js,Recoverable startup only; direct-page/iframe/device evidence remains pending
+P06,work-package,Visual target proof before mass production,P06,PLAN.md,approved-style-b,candidate-art-rendered,findings-addressed,pending,../../../tools/pokemon-dungeon/art/REVIEW.md,Three original articulated character candidates and cavern; actual captures; Justin visual approval pending; no gameplay
 P07,work-package,"Canonical state, IDs and random streams",P07,PLAN.md,planned,not-started,not-performed,not-performed,,
 P08,work-package,"Persistence, migration and recovery",P08,PLAN.md,planned,not-started,not-performed,not-performed,,
 P09,work-package,Input mapping and interaction ownership,P09,PLAN.md,planned,not-started,not-performed,not-performed,,

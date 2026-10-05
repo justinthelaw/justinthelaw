@@ -1,0 +1,39 @@
+name: Game Static Checks
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "games/pokemon-dungeon-reimagined/**"
+      - "tools/pokemon-dungeon/**"
+      - ".github/workflows/game-static.yml"
+      - ".nvmrc"
+
+concurrency:
+  group: game-static-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: tools/pokemon-dungeon/package-lock.json
+      - name: Install pinned npm
+        run: npm install --global npm@12.1.0
+      - name: Install isolated authoring dependencies
+        working-directory: tools/pokemon-dungeon
+        run: npm ci --ignore-scripts
+      - name: Check source types and static assets
+        working-directory: tools/pokemon-dungeon
+        run: npm run check

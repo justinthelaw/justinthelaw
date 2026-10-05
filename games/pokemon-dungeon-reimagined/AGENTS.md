@@ -1,12 +1,13 @@
 # Pokémon Dungeon Reimagined
 
-## Current status: implementation authorized; source audit in progress
+## Current status: implementation authorized; foundations in progress
 
 Planning PR #387 was merged on 2026-10-04. Justin's later instruction to
 "Continue the @Codex implementation" authorizes execution of this plan. Resume
-the first incomplete dependency-ready package in `plan/PROGRESS.md`; P01 owns
-the current source audit. No runnable game, entry point or vendor bundle exists
-yet. Preserve package evidence, visual review and full-release gates.
+the first incomplete dependency-ready package in `plan/PROGRESS.md`. P01 retains
+open source questions; the unmerged foundation branch adds static tooling, a
+pinned vendor bundle and a startup-only shell. No playable adventure exists yet.
+Preserve package evidence, visual review and full-release gates.
 
 On **2026-10-04**, the user approved all recommendations except the visual
 recommendation, selecting **D03 B: bold cel-shaded 3D**. The choices below are

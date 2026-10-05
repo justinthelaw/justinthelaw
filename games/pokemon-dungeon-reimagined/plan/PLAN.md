@@ -272,6 +272,16 @@ flowchart TD
 
 The graph is a dependency map, not permission to implement milestones in parallel without interface agreements. Art production and verified data transcription can overlap after their contracts are approved. Do not split writers across shared canonical state/content files without explicit ownership.
 
+**Bounded foundation ordering, 2026-10-04:** Justin reiterated that the whole
+game must work from beginning to end. P01 research may continue alongside
+P03-A/P04-A after a focused review of their consumer contracts. These sub-batches
+consume only the accepted Blue identity, presentation/platform decisions and
+asset/export conventions; they consume no unresolved original-game mechanic.
+This qualifies P04's P01 dependency for non-gameplay setup only. P01, M1 and
+simulation/content acceptance remain incomplete; P05/P06 retain their listed
+dependencies and reviews. Record each accepted interface before its consumer
+proceeds. This does not permit guessing gameplay data or waiving visual gates.
+
 ## 11. Small-model execution protocol
 
 1. Read root and game AGENTS, PROGRESS.md, the next work package in section 10's canonical execution order, its contract sections and named appendix. Do not reread the entire research archive for a mechanical task.
@@ -367,6 +377,10 @@ The approving decisions and subsequent implementation-start instruction are reco
 ### P04 - Independent game toolchain and pinned engine
 
 **Dependencies:** P01, P03, D08. **Own:** repository-relative `tools/pokemon-dungeon/` package/lockfile, lint/type/schema configuration and preparation scripts; runtime vendor/license output under the game directory. **Consumes:** chosen runtime architecture. **Produces:** reproducible static game authoring/check commands.
+
+P04-A may use the bounded foundation ordering in section 10: the reviewed
+P03-A asset contract and accepted platform/edition decisions satisfy its
+non-gameplay inputs. No unresolved P01 rule becomes an executable default.
 
 - [ ] Pin Node compatibility to the repository's supported line and record exact chosen tool versions in `tools/pokemon-dungeon/package-lock.json`.
 - [ ] Pin the selected Three.js release and required local module dependencies; record package integrity/hash and retain its license.

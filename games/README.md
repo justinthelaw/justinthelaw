@@ -13,7 +13,7 @@
 
 | Slot | Current card | Planned work |
 | --- | --- | --- |
-| First | Coming soon, blue preview | [Pokémon Dungeon Reimagined](pokemon-dungeon-reimagined/plan/PLAN.md): implementation authorized; P01 source audit in progress; no runnable game or gameplay screenshot |
+| First | Coming soon, blue preview | [Pokémon Dungeon Reimagined](pokemon-dungeon-reimagined/plan/PLAN.md): unmerged startup foundations and [candidate 3D art](../tools/pokemon-dungeon/art/REVIEW.md); source audit incomplete; no playable adventure or gameplay screenshot |
 | Second | Coming soon, lavender preview | Unnamed; no game announced |
 | Third | Coming soon, apricot preview | Unnamed; no game announced |
 
@@ -49,8 +49,8 @@
 - Keep Pokémon Dungeon authoring packages, dependencies, scripts, and caches in
   repository-relative `tools/pokemon-dungeon/`, outside the copied game tree.
   Git-ignored files inside `games/` would still be copied.
-- The future entry point is `games/pokemon-dungeon-reimagined/index.html`;
-  P01 contains source specifications and does not add an entry point.
+- The development entry point is `games/pokemon-dungeon-reimagined/index.html`;
+  it currently starts the application shell and has no playable campaign.
 - Keep intermediate runtime-package PRs unmerged until P37 full-scope acceptance
   and explicit release approval: main deploys `games/**` at direct URLs even
   when the arcade card is disabled.

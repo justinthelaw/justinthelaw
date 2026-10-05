@@ -4,9 +4,9 @@
 
 - **State:** implementation authorized on 2026-10-04; P01 source audit in progress.
 - **Planning baseline:** [PR #387](https://github.com/justinthelaw/justinthelaw/pull/387) merged as `0d34db51c258368ade8f081557200905214cebcd`.
-- **Branch:** `impl/pokemon-dungeon-p01-source-freeze`, based on that merged `main` commit.
-- **Current package:** P01, first source-qualified rules profile. P01 remains incomplete while its exact rules and review gates are unresolved; P02-P37 are not started.
-- **Next safe action:** resolve the remaining P01 questions listed in [RULES-BLUE.md](RULES-BLUE.md), then obtain focused review before accepting dependent contracts. Arcade activation, merge and deployment remain held for P36/P37.
+- **Delivery:** continue draft [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388) on `impl/pokemon-dungeon-p01-source-freeze`; the local foundation work began from reviewed head `ce4d3151ba4e966517978fb9279c318e4c1185f9`. Keep this runtime-bearing PR unmerged.
+- **Current work:** P01-B evidence addendum, reviewed P03-A/P04-A foundations, P05 startup shell and P06 candidate models/captures. P01 remains incomplete; gameplay and whole-game acceptance are unstarted.
+- **Next safe action:** obtain the required P06 visual review of [actual model/scene evidence](../../../tools/pokemon-dungeon/art/REVIEW.md) before mass production. P06 and P05 manual device acceptance remain open. Resolve mechanics through [RULES-BLUE.md](RULES-BLUE.md) and [the additive revision](RULES-BLUE-ADDENDUM.md). Follow PLAN section 10's bounded foundation ordering. Arcade activation, merge and deployment remain held for P36/P37.
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) records 38 parent packages, 386 species identities, 45 field dungeons, and 26 system families. P02 must expand the remaining forms, individual rules/items/moves, scenes and art records. P01 advances source evidence only; no gameplay implementation or manual acceptance is claimed.
 
@@ -14,6 +14,7 @@
 
 | Instruction | Effect |
 | --- | --- |
+| Make the game work and be playable from beginning to end; provide the full experience | Reaffirms full main story, postgame, optional content and systems. Passing website CI, a shell or art preview cannot establish gameplay completion. Continue reviewed packages until actual acceptance gates; do not stop merely because a research PR is clean |
 | Continue the @Codex implementation in justinthelaw/justinthelaw, starting from any uncommitted changes | Separate implementation-start authorization on 2026-10-04. The supplied workspace had no checkout or uncommitted files; no open Pokémon PR/branch was found. Resumed from merged PR #387 in an isolated clone. Abandoned prototype drafts remain excluded under the existing plan |
 | Clean first, then develop the first game | Cleanup completed; source and tooling preserved |
 | Whole original rescue adventure in third-person 3D, beautiful Unreal-like graphics; latest clarification: Blue based | Original Nintendo DS Blue Rescue Team is the fixed baseline; Red only comparative research; no prototype/full-game equivalence claim |
@@ -41,9 +42,39 @@
 | `COVERAGE.csv` | Traceable initial scope and evidence fields |
 | This file | Approval status, current handoff, decisions and validation |
 
-There is no game HTML entry point, game runtime, production asset bundle, vendor dependency,
-root dependency change, new screenshot or arcade card modification in this
-planning change. The existing public arcade continues to show three placeholders.
+The development branch now contains a startup-only entry point and pinned local
+engine. It has no playable adventure or accepted character assets. Root package
+and lockfile remain unchanged; independent tools are excluded from website lint
+and type checks. The public arcade continues to show three placeholders.
+
+## Foundation implementation handoff
+
+| Package | Concrete result | Evidence / remaining gate |
+| --- | --- | --- |
+| P01-B | Additive v2 research profile preserves the v1 hash and caveats; 31 new qualified records and 11 blocker clarifications | Independent review finding addressed; JSON composition/IDs/joins checked. `runtimeReady` remains false |
+| P03-A | Asset authoring contract and strict glTF manifest schema | Independent consumer review accepted; manifest-relative path ambiguity resolved. No asset has human approval |
+| P04-A | Exact Three.js 0.186.1 local closure, pinned tools, reproducible minification, separate strict JS types, source/schema/hash checks | `npm run check` passes; vendor symlink boundary review finding fixed. No game tests or source execution |
+| P05 | Semantic loading/errors/retry, bounded initial manifest, WebGL2 startup, resize/visibility/disposal | Static review fixed BFCache forced-loss and loss-during-loading races; interface accepted for the independent art preview. Direct-page/iframe/device observation pending; no gameplay or save operations |
+| P06 | Original Pikachu/Charmander/Groudon models, eleven clips each, three LODs and a Magma Cavern composition; measured candidate manifests and rendered evidence | All 12 GLBs pass Khronos validation and file limits. Actual captures prompted proportion/lighting corrections. Human visual approval and full device/clip/rig acceptance remain open |
+
+P04/P06 validation measures the checked files; it does not establish visual or
+gameplay acceptance. The shell explicitly states that its campaign is
+unavailable. The art harness imports only vendor modules and candidate assets,
+with no game/domain/save imports. Its captures retain the art-preview label.
+
+### Foundation verification
+
+- Independent source lint, strict JSDoc types, schema/local path/source hash
+  checks, Khronos glTF validation and deterministic vendor comparison pass.
+- Independent review findings fixed: direct-browser import resolution, vendor
+  output symlinks, BFCache/context-loss races, export revision/provenance closure,
+  grounded character pivots and staged art-load cleanup. No game tests were run.
+- Website `npm run flight-check` passed lint, type checks, compilation and static
+  export; E2E did not start because the pinned Chrome 153 archive download was
+  invalid. Preserve that limit separately from eventual current-head CI.
+- Art-only captures used Chrome 154.0.8037.92 and SwiftShader software WebGL2.
+  The browser reported no page/console errors during successful captures.
+  Phone-size viewport evidence is not a physical-phone performance result.
 
 ## Cleanup record
 
@@ -102,9 +133,9 @@ These choices do not authorize implementation, merge or deployment, silently omi
 | Existing 1,024 KiB added-file hook remains | Asset optimization needs a plan; do not weaken contribution policy by accident |
 | Old flat prototype paths are replaced by the documented domain/presentation layout | A smaller model needs one consistent module map |
 
-## Validation and review record
+## Historical planning validation and review record
 
-No game code is present or tested. Validation below concerns documentation,
+At the planning checkpoint, no game code was present or tested. Validation below concerns documentation,
 repository setup and the unchanged website. PR CI and GitHub Codex review are
 recorded on the planning PR for its exact head commit; inspect those results
 before treating the handoff as ready.
