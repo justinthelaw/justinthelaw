@@ -13,7 +13,11 @@
 
 <https://justinthelaw.github.io/justinthelaw/>
 
-On my personal website, there is a browser-local LLM that can answer questions using context from my resume. The website also contains an arcade of browser-based games that I've been working on, with Codex.
+📝 A full resume and cover-letter
+
+💬 A browser-local LLM trained on my resume
+
+🕹️ An arcade of browser-based games
 
 ## Contact Information
 
