@@ -146,7 +146,8 @@ try { ... } catch (err) {
 ## Arcade
 
 The home page's top-right portal uses the shared outline Button and Tooltip
-primitives. Its original blue pixel blob bobs vertically with squash and stretch;
+primitives. Its decorative 🕹️ glyph uses the shared 28/32/36px icon box and
+matching responsive font sizes;
 hover or keyboard focus shows "Portal to Justin's arcade" (derived from the
 configured name). Keep the AI chatbot button in the **bottom-right** corner.
 Retain its existing robot silhouette, use a colored fill and stroke, and match
@@ -186,10 +187,12 @@ may pause animation and stub the external resume iframe; disclose that in the PR
 
 `/arcade/` is a separate page with a Home link and a single scrolling column of
 cards. Each card centers its preview with padding, places a short description
-below it, and puts Play at the bottom right. The initial three cards say
-"Coming soon" and use distinct blue, lavender, and apricot pixel characters.
-All placeholders and the portal animate; reduced-motion preferences keep them
-still. The sprites are original 32-pixel designs rendered with crisp SVG edges,
+below it, and puts Play at the bottom right. The first card launches the
+Pokémon development shell and clearly states that its campaign is unavailable.
+Its picture is the existing P06 3D art study, not a gameplay capture. The other
+two cards say "Coming soon" with lavender and apricot pixel characters.
+Placeholders animate; reduced-motion preferences keep them still.
+The sprites are original 32-pixel designs rendered with crisp SVG edges,
 without OpenAI branding or copied character accessories.
 The arcade navigation has only its Home control, with no top-right name label.
 Cards fit the available page width with side padding and a 620px column limit.
@@ -212,9 +215,18 @@ also trigger the Pages deployment workflow.
 
 Set the card's `entryPoint` to `/games/my-game/index.html` and update its title
 and description. Play loads the entire game in an iframe **inside this website**,
-with a Back to games control and keyboard focus restoration. Without an entry
+in a viewport-filling modal with a safe-area Back to games control and keyboard
+focus restoration. Cards stay mounted behind the modal. Without an entry
 point, Play is disabled. The configured GitHub Pages base path is prepended to
 the iframe URL.
+
+`GameControls` and `useGameControls` belong to the website. Touch controls emit
+standard keydown/keyup events to the same-origin iframe: arrows (including
+two-key diagonals), A/Z, B/X, Start/Enter, Select/Shift and Menu/Escape.
+Desktop input uses native iframe focus. Controls default to visible for touch
+devices, remain manually toggleable, use targets of at least 44px, and release
+held keys on interruption, hiding, navigation and disposal. The bridge does
+not implement missing game simulation; tests use inert key-recording fixtures.
 
 For a screenshot or GIF, set
 `preview: { src: "/arcade/my-game.gif", alt: "Description of the game" }` and put
@@ -260,9 +272,13 @@ for configuration, `docs/DIAGRAMS.md` for system flow, and
 paths so both humans and agents can act on the instructions.
 
 <!-- BEGIN:nextjs-agent-rules -->
+
 # This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
 <!-- END:nextjs-agent-rules -->
 
 ## Pokémon Dungeon Reimagined execution and release gates
@@ -275,7 +291,12 @@ justinthelaw/justinthelaw. You probably have uncommitted changes, so start from
 there." This is the separate implementation-start authorization. Resume the
 first incomplete dependency-ready package recorded in `plan/PROGRESS.md`.
 Source-evidence gates and the P06/P10 visual reviews still apply. Arcade
-activation, merge and deployment require the separate P36/P37 release gates.
+full-game release still requires P36/P37 acceptance. On 2026-10-05, Justin
+explicitly authorized the first-card development launcher, joystick and modal
+controls in a new PR after merging #390, then instructed autonomous planning
+and implementation and waived external Codex review. This overrides the older
+placeholder hold for that scoped launcher; it does not certify a playable
+campaign or authorize merging the new PR.
 
 The 2026-10-05 continuation after the actual P06 scene/motion study accepts
 the shown direction. Full clip/rig/device acceptance remains open. P02-A

@@ -49,6 +49,20 @@ flowchart TD
   chatStore --> chat
 ```
 
+## Arcade Player
+
+| Boundary | Responsibility |
+| --- | --- |
+| `src/config/arcade.ts` → `ArcadeGames.tsx` | Card records; Play selects the active game without navigating away |
+| `GamePlayer.tsx` | Page-filling Radix dialog; iframe created only after Play; Back restores focus |
+| `GameControls.tsx` → `useGameControls.ts` | Touch overlay and pointer-owned keys; emits keyboard events into the same-origin iframe |
+| Native desktop keyboard → iframe | Uses iframe focus directly; the game owns key handling |
+| Game iframe → runtime | Isolated browser build copied by the exporter; currently a development shell without a campaign |
+
+Website integration tests substitute inert HTML before game navigation. They
+verify loading, paths, focus, layout and input events without executing game
+source or establishing gameplay completion.
+
 ## Chat Generation Flow
 
 ```mermaid

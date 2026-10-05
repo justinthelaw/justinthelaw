@@ -2,6 +2,32 @@
 
 ## Scope and status
 
+### Latest scoped launcher authorization — 2026-10-05
+
+Justin requested merging #390, then a new PR for the 🕹️ portal, first Pokémon
+WIP card with picture/description, full-page modal, mobile emulator controls
+and desktop keyboard input. He then authorized autonomous planning and
+implementation and waived external Codex review. This instruction supersedes
+the older three-placeholder hold below for the development launcher only.
+PR #388 foundations and #390 are already merged. The shell has no playable
+campaign; the current preview copies the P06 art-study capture, not a campaign
+screenshot. Full-game P35–P37 acceptance remains incomplete.
+
+| Current launcher contract | Implementation |
+| --- | --- |
+| First card | `pokemon-dungeon-reimagined`; exact requested title; explicit development description |
+| Picture | `public/arcade/blue-rescue-team-preview.jpg`, an unchanged P06 art-study capture |
+| Player | `GamePlayer.tsx` viewport dialog; cards remain mounted; Back restores Play focus |
+| Input | Website `GameControls.tsx` / `useGameControls.ts`; native desktop iframe focus and touch key bridge |
+| Keys | Arrows/diagonals, A/Z, B/X, Start/Enter, Select/Shift, Menu/Escape |
+| Tests | Inert iframe fixtures only; never import or execute game source |
+| Delivery | New PR off main; merge not yet authorized |
+
+The remaining appendix describes the eventual full-game release candidate;
+its campaign screenshot and readiness requirements remain future work.
+
+### Original full-release scope
+
 Justin separately authorized implementation on 2026-10-04 after planning
 PR #387 merged. Execute this specification according to the parent plan's
 package dependencies. The user approved the recommended decisions on

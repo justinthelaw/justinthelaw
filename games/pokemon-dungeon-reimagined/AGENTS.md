@@ -5,7 +5,7 @@
 Planning PR #387 was merged on 2026-10-04. Justin's later instruction to
 "Continue the @Codex implementation" authorizes execution of this plan. Resume
 the first incomplete dependency-ready package in `plan/PROGRESS.md`. P01 retains
-open source questions; the unmerged foundation branch adds static tooling, a
+open source questions; merged PR #388 adds static tooling, a
 pinned vendor bundle and a startup-only shell. P02 authoring inventories and
 P07-A identity/snapshot/RNG primitives are being added; no playable adventure
 exists yet. The 2026-10-05 continuation accepts the shown P06 visual direction,
@@ -15,7 +15,16 @@ Preserve package evidence, visual review and full-release gates.
 On **2026-10-04**, the user approved all recommendations except the visual
 recommendation, selecting **D03 B: bold cel-shaded 3D**. The choices below are
 binding and need no repeat decision question. Implementation is now authorized;
-merge/deployment and first-card activation remain held behind release approvals.
+full-game acceptance and subsequent runtime releases remain open.
+
+On 2026-10-05, Justin authorized merging #390 and a new PR for the joystick,
+first-card development preview, full-page modal and mobile controls, then
+requested autonomous implementation and waived external Codex review.
+This scoped launcher instruction overrides the older first-card hold. Label
+the existing startup shell in development and its P06 picture an art study;
+do not claim a playable campaign or completion of P36/P37. The new launcher
+PR remains unmerged until separately authorized. Website controls send standard
+keyboard events; gameplay consumers still belong to future game packages.
 
 | Decision | Binding selection |
 | --- | --- |
