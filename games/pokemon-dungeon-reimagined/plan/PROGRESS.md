@@ -2,18 +2,19 @@
 
 ## Current handoff
 
-- **State:** implementation authorized on 2026-10-04; P01 source audit in progress.
+- **State:** implementation authorized on 2026-10-04 and continued on 2026-10-05; P01 source audit and full P02 content coverage remain incomplete.
 - **Planning baseline:** [PR #387](https://github.com/justinthelaw/justinthelaw/pull/387) merged as `0d34db51c258368ade8f081557200905214cebcd`.
 - **Delivery:** continue draft [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388) on `impl/pokemon-dungeon-p01-source-freeze`; the local foundation work began from reviewed head `ce4d3151ba4e966517978fb9279c318e4c1185f9`. Keep this runtime-bearing PR unmerged.
-- **Current work:** P01-B evidence addendum, reviewed P03-A/P04-A foundations, P05 startup shell and P06 candidate models/captures. P01 remains incomplete; gameplay and whole-game acceptance are unstarted.
-- **Next safe action:** obtain the required P06 visual review of [actual model/scene evidence](../../../tools/pokemon-dungeon/art/REVIEW.md) before mass production. P06 and P05 manual device acceptance remain open. Resolve mechanics through [RULES-BLUE.md](RULES-BLUE.md) and [the additive revision](RULES-BLUE-ADDENDUM.md). Follow PLAN section 10's bounded foundation ordering. Arcade activation, merge and deployment remain held for P36/P37.
+- **Current work:** P02-A normalized authoring identities and coverage with static validation, plus reviewed P07-A ID/snapshot/RNG primitives. Prior P01-B, P03-A/P04-A, P05 shell and P06 candidate art remain. Gameplay and whole-game acceptance are unstarted.
+- **Next safe action:** finish P02 individual-item and scene/flag inventories; resolve the three precise P01 scheduler/interruption/arithmetic gaps below before implementing their gameplay consumers. The latest continuation accepts the shown P06 scene/motion direction; full clip/rig/device and P05 device acceptance remain open. Follow [STATE-FOUNDATION.md](STATE-FOUNDATION.md) for P07-A boundaries. Arcade activation, merge and deployment remain held for P36/P37.
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
-- **Coverage:** [COVERAGE.csv](COVERAGE.csv) records 38 parent packages, 386 species identities, 45 field dungeons, and 26 system families. P02 must expand the remaining forms, individual rules/items/moves, scenes and art records. P01 advances source evidence only; no gameplay implementation or manual acceptance is claimed.
+- **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
 
 ## Latest user instructions
 
 | Instruction | Effect |
 | --- | --- |
+| Continue after the P06 scene and motion-study checkpoint | 2026-10-05 continuation is treated as acceptance of the shown visual direction and instruction to resume. It does not certify unseen clips, hardware performance, runtime promotion or the full game |
 | Make the game work and be playable from beginning to end; provide the full experience | Reaffirms full main story, postgame, optional content and systems. Passing website CI, a shell or art preview cannot establish gameplay completion. Continue reviewed packages until actual acceptance gates; do not stop merely because a research PR is clean |
 | Continue the @Codex implementation in justinthelaw/justinthelaw, starting from any uncommitted changes | Separate implementation-start authorization on 2026-10-04. The supplied workspace had no checkout or uncommitted files; no open Pokémon PR/branch was found. Resumed from merged PR #387 in an isolated clone. Abandoned prototype drafts remain excluded under the existing plan |
 | Clean first, then develop the first game | Cleanup completed; source and tooling preserved |
@@ -42,8 +43,9 @@
 | `COVERAGE.csv` | Traceable initial scope and evidence fields |
 | This file | Approval status, current handoff, decisions and validation |
 
-The development branch now contains a startup-only entry point and pinned local
-engine. It has no playable adventure or accepted character assets. Root package
+The development branch contains a startup-only entry point, pinned local
+engine, P02 authoring inventories and P07-A state primitives. It has no playable
+adventure or assets promoted into gameplay. Root package
 and lockfile remain unchanged; independent tools are excluded from website lint
 and type checks. The public arcade continues to show three placeholders.
 
@@ -55,7 +57,9 @@ and type checks. The public arcade continues to show three placeholders.
 | P03-A | Asset authoring contract and strict glTF manifest schema | Independent consumer review accepted; manifest-relative path ambiguity resolved. No asset has human approval |
 | P04-A | Exact Three.js 0.186.1 local closure, pinned tools, reproducible minification, separate strict JS types, source/schema/hash checks | `npm run check` passes; vendor symlink boundary review finding fixed. No game tests or source execution |
 | P05 | Semantic loading/errors/retry, bounded initial manifest, WebGL2 startup, resize/visibility/disposal | Static review fixed BFCache forced-loss and loss-during-loading races; interface accepted for the independent art preview. Direct-page/iframe/device observation pending; no gameplay or save operations |
-| P06 | Original Pikachu/Charmander/Groudon models, eleven clips each, three LODs and a Magma Cavern composition; measured candidate manifests and rendered evidence | All 12 GLBs pass Khronos validation and file limits. Actual captures prompted proportion/lighting corrections. Human visual approval and full device/clip/rig acceptance remain open |
+| P06 | Original Pikachu/Charmander/Groudon models, eleven clips each, three LODs and a Magma Cavern composition; measured candidate manifests and rendered evidence | All 12 GLBs pass Khronos validation and file limits. Latest continuation accepts the shown direction; full device/clip/rig acceptance remains open |
+| P02-A | Normalized species/form, location and systems identity inventories; strict schema, cross-reference audit and reproducible coverage export | Identity-only sub-batch; no runtime content or full P02 acceptance |
+| P07-A | Branded IDs, pure ID allocation, bounded JSON copying/immutable snapshots, versioned seeded streams and command/result types | Independent static review accepted the bounded primitives; no full state schema, campaign initialization, commands or persistence |
 
 P04/P06 validation measures the checked files; it does not establish visual or
 gameplay acceptance. The shell explicitly states that its campaign is
@@ -252,3 +256,96 @@ next model must know.
   gameplay, visual or persistence acceptance: those remain open, outside this
   documentation sub-batch. Website results are reported separately; review does
   not complete P01 or authorize merge/deployment.
+
+## P02-A and P07-A: content identities and state primitives, 2026-10-05
+
+### Authority, interfaces and scope
+
+- **Instruction:** Continue after the actual P06 scene and motion-study review.
+  This is treated as acceptance of that shown direction; unseen animation,
+  rigs, physical devices, asset promotion and whole-game acceptance stay open.
+- **Base:** `f8348f307f01c3c955015af4657ba2dab34ad97c` on draft PR #388. The
+  published result SHA and its checks are recorded on the existing PR.
+- **P02-A:** four normalized authoring catalogs, a strict schema/reference audit
+  and reproducible fine-grained coverage export. These live outside runtime.
+- **P07-A ruling:** an independent interface review accepted IDs, plain-data
+  snapshots, command/result types and separately seeded browser PRNG primitives
+  from the already approved platform contracts. Full P01/P02 dependencies stay
+  open. No campaign, dispatch, complete save validator or gameplay consumer was
+  introduced. [STATE-FOUNDATION.md](STATE-FOUNDATION.md) records the boundaries.
+- **RNG engineering choice:** explicit four-word xoshiro128** 1.1 state and
+  published jump separation; version `xoshiro128ss-v1`. This is not the DS
+  generator or an original-sequence claim. Seeds are injected; no timing or
+  global randomness enters these domain primitives. Job/reward routing is held.
+- **Owned paths:** new runtime `src/contracts.js`, `src/domain/{ids,state,rng}.js`
+  and retained `vendor/random/NOTICE.txt`; tool `content/`, content schema,
+  checker and coverage exporter; parent/game instructions and scoped ledgers.
+  Root README, root dependency graph, startup behavior and arcade stay unchanged.
+
+### Concrete results
+
+| Catalog | Actual identities | Qualification |
+| --- | ---: | --- |
+| Species | 386 | Exact original National Dex/name ledger; no PMD stats inferred |
+| Forms and NPC exceptions | 38 | 28 Unown, 4 Castform, 4 Deoxys, Munchlax and purple Kecleon; only 386 collectible species |
+| Locations | 154 | 45 fields, 12 segments, 22 Dojo mazes, 50 numbered placements, 8 terminal maps, 6 rest stops, 10 support identities, 1 off-screen mode |
+| Systems | 701 | 356 moves, 52 actions, 77 ability identities/candidates, 25 item classes, 75 statuses, 9 condition flags, 19 trap identities/candidates, 8 weather conditions, 23 IQ skills, 57 Friend Areas |
+| Total | 1,279 | Every row has source, implementation owner, P32 owner, blockers and pending acceptance; no row claims implemented gameplay |
+
+Shared blocker definitions avoid repeated prose. The checker verifies exact
+species/dungeon/Dojo membership, form and location relationships, real local
+Markdown/JSON source locators, null-field blockers, bounded nonsymlink paths
+and immutable authoring status. It checks evidence presence and consistency;
+it does not independently authenticate source facts or complete mechanics.
+
+P07-A provides distinct catalog/instance ID brands and pure collision-checked
+allocation, bounded detached JSON copies, deeply frozen snapshots, and pure
+serializable random draws. No module imports research, browser APIs, Three.js
+or storage. The startup shell does not yet consume these primitives.
+
+### Review and verification
+
+- Independent P07 interface and implementation review found no blocking issue;
+  a second static RNG review confirmed the reference transition/jump. Corrected
+  the review's minor stale module name in STATE-FOUNDATION.
+- Independent P02 review found eight unsupported promotions from exploration
+  counts to procedural counts. All 45 procedural counts are now null with
+  explicit blockers; precisely scoped exploration counts remain. Source and
+  fresh checker/coverage review confirmed the correction, with no remaining
+  blocking finding for this identity sub-batch.
+- `npm --prefix tools/pokemon-dungeon run check` passed: 21 authored source
+  files linted, eight browser modules strictly typed, 1,279 content identities
+  across four catalogs and eight evidence documents checked, matching coverage,
+  four candidate assets / 26 files audited with zero errors, seven vendor files
+  byte-identical. No game module was imported or executed.
+- Content-checker fixture evidence: one valid inventory accepted and 22 invalid
+  variants rejected, including foreign-but-same-count dungeon membership,
+  mismatched species names, dangling sources/blockers/relations, injected
+  mechanics, false readiness/completion, unsafe paths, excessive bytes, invalid
+  UTF-8 and symlinks. These exercise tooling/data only, not game source.
+- Website `npm run flight-check` passed lint, types, production compilation and
+  static export. E2E did not start: Chrome 153.0.8010.12 download again returned
+  an invalid/truncated archive. No browser pin or check was weakened. Fresh
+  pushed-head CI remains a separate recorded PR result.
+- Final independent integration review found no blocking issue across the new
+  data/runtime boundaries, provenance checks and coverage exporter. Corrected
+  its minor stale P06 approval wording in PLAN. Both contribution hook stages
+  and `git diff --check` pass.
+- P01/P02/P07 as full packages remain incomplete. No human campaign playthrough,
+  complete save/load flow, combat, postgame or whole-game acceptance is claimed.
+
+### Next exact work and blockers
+
+1. Finish P02 individual-item identities, the broader story/NPC scene/flag graph,
+   complete fixed-room/unlock records and the 57-versus-58 Friend Area source
+   discrepancy. Trip Trap and Cacophony/internal-action availability remain
+   explicitly blocked. Do not mistake item classes for the individual corpus.
+2. Resolve `P01-MECH-SPEED-05`: build-identified original Blue speed opportunities,
+   timer advancement, actor eligibility and mid-cycle changes.
+3. Resolve `P01-MECH-TURN-08`: faint/revival/failure, stairs/escape, linked-action
+   interruption and newly spawned/recruited actor ordering.
+4. Resolve `P01-MECH-TYPE-07`: fixed-point quantization and signed conversions,
+   rounding/bounds, Def. Scarf disagreement and enemy multiplier placement.
+5. Complete accepted canonical state/content contracts before P08 persistence
+   or P11–P13 gameplay consumers. Keep the source-gated full game on this draft
+   development branch until P37 and explicit release authorization.

@@ -13,7 +13,7 @@
 
 | Slot | Current card | Planned work |
 | --- | --- | --- |
-| First | Coming soon, blue preview | [Pokémon Dungeon Reimagined](pokemon-dungeon-reimagined/plan/PLAN.md): unmerged startup foundations and [candidate 3D art](../tools/pokemon-dungeon/art/REVIEW.md); source audit incomplete; no playable adventure or gameplay screenshot |
+| First | Coming soon, blue preview | [Pokémon Dungeon Reimagined](pokemon-dungeon-reimagined/plan/PLAN.md): unmerged startup/state primitives, normalized content inventories and [candidate 3D art](../tools/pokemon-dungeon/art/REVIEW.md); source audit incomplete; no playable adventure or gameplay screenshot |
 | Second | Coming soon, lavender preview | Unnamed; no game announced |
 | Third | Coming soon, apricot preview | Unnamed; no game announced |
 

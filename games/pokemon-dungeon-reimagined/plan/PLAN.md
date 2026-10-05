@@ -40,14 +40,15 @@ Recommended review order for Justin: read sections 2-6, the milestone table in s
 - This plan, source research, domain appendices, coverage and progress ledgers, including the source-qualified P01 profiles and their unresolved fields.
 - Reviewed P03-A asset/export contracts and P04-A tooling under `tools/pokemon-dungeon/`, with pinned dependencies, independent static checks and a locally vendored Three.js 0.186.1 runtime.
 - The P05 startup-only entry point, loading/error/retry UI and lifecycle handling. Direct-page, iframe and device acceptance remain open; no playable adventure or save implementation exists.
-- P06 Pikachu, Charmander and Groudon candidates, animation/LOD exports, a Magma Cavern composition and an independent art-preview harness with measured manifests and actual captures. Human visual approval and full device/clip/rig acceptance remain open.
+- P06 Pikachu, Charmander and Groudon candidates, animation/LOD exports, a Magma Cavern composition and an independent art-preview harness with measured manifests and actual captures. The latest continuation accepts the shown direction; full device/clip/rig acceptance remains open.
+- P02 normalized authoring inventories and P07-A identity, immutable snapshot and seeded random-stream primitives. These are not runtime-ready content, campaign creation or completed save validation.
 - The approved Blue baseline and B cel-shaded visual direction, with two generated loading illustrations and their prompts/provenance; B is selected and A retained as an archived comparison.
 - Recorded static checks and independent reviews, with their exact scope and limitations in PROGRESS.md. These do not complete P01, M1 or gameplay acceptance.
 
 ### Remaining work and gates
 
 - Resolve source blockers before implementing dependent rules/content; complete the full campaign, systems, roster and production assets through the packages below.
-- Obtain P05 manual acceptance and Justin's P06 visual acceptance before dependent production; retain all later visual and whole-game gates.
+- Obtain P05 manual acceptance and finish P06 clip/rig/device acceptance; retain P10 and all later visual and whole-game gates. The shown P06 direction was accepted through the latest continuation.
 - Keep the arcade card and public screenshot unchanged until P36/P37. Intermediate runtime work remains unmerged; merge and deployment require full-scope acceptance and explicit authorization.
 - Keep root website package files and root README unchanged. Game authoring dependencies and the independent static-check workflow remain scoped to the documented tooling boundary.
 
@@ -286,8 +287,9 @@ proceeds. This does not permit guessing gameplay data or waiving visual gates.
 
 **Current foundation state, 2026-10-05:** P03-A/P04-A consumer interfaces and the
 bounded P05 startup interface have been reviewed; P06 candidates and art-preview
-captures now exist. P05 manual loading/device acceptance and P06 human visual,
-device, clip and rig acceptance remain open. See PROGRESS.md and COVERAGE.csv
+captures now exist. P05 manual loading/device acceptance and P06 full
+device, clip and rig acceptance remain open; the latest continuation accepts
+the shown scene/motion-study direction. See PROGRESS.md and COVERAGE.csv
 for the evidence boundaries; these sub-batches do not complete P01-P06 or M1.
 
 ## 11. Small-model execution protocol
@@ -429,7 +431,7 @@ non-gameplay inputs. No unresolved P01 rule becomes an executable default.
 
 **Acceptance:** the asset/scene captures meet the approved look and remain labeled art previews. True game snapshot/event/renderer contracts freeze at P07/P10; P06 cannot claim campaign, battle, full renderer, or playable-slice completion. D06 omits a standalone practice mode; this harness must not introduce one. No P06 image becomes the public gameplay card preview.
 
-**Current bounded result:** Pikachu, Charmander and Groudon candidates have eleven clips each and three LODs; the Magma Cavern composition, measured manifests and actual captures are available in the [art review record](../../../tools/pokemon-dungeon/art/REVIEW.md). Justin's visual approval and full device/clip/rig acceptance remain pending. Candidate validation and captures do not authorize mass production or complete P06.
+**Current bounded result:** Pikachu, Charmander and Groudon candidates have eleven clips each and three LODs; the Magma Cavern composition, measured manifests and actual captures are available in the [art review record](../../../tools/pokemon-dungeon/art/REVIEW.md). The latest continuation accepts the shown scene/motion-study direction; full device/clip/rig acceptance remains pending. Candidate validation and captures do not approve unseen production assets or complete P06.
 
 ### P07 - Canonical state, IDs and random streams
 
@@ -841,4 +843,4 @@ Do not mark a package complete while its dependent contract is ambiguous, a name
 
 ## 15. Current execution handoff
 
-P00 was merged in PR #387, and Justin authorized implementation on 2026-10-04. The next foundation gate is the required P06 review of [actual art evidence](../../../tools/pokemon-dungeon/art/REVIEW.md); P05/P06 manual device acceptance remains open. Continue P01 through [the rules profile](RULES-BLUE.md) and [its addendum](RULES-BLUE-ADDENDUM.md), resolving blocking fields before dependent rule/content implementation. Follow [PROGRESS.md](PROGRESS.md), [COVERAGE.csv](COVERAGE.csv) and section 10's bounded ordering. Full P01-P06 acceptance, the P06/P10 visual checkpoints, whole-game completion and P37 release authorization remain required.
+P00 was merged in PR #387, and Justin authorized implementation on 2026-10-04. The 2026-10-05 continuation accepts the shown [art direction](../../../tools/pokemon-dungeon/art/REVIEW.md); P05/P06 full clip/rig/device acceptance remains open. P02 normalized authoring inventories and the bounded [P07-A primitives](STATE-FOUNDATION.md) now advance implementation without consuming unresolved original mechanics. Continue P01 through [the rules profile](RULES-BLUE.md) and [its addendum](RULES-BLUE-ADDENDUM.md), resolving blocking fields before dependent rule/content implementation. Follow [PROGRESS.md](PROGRESS.md), [COVERAGE.csv](COVERAGE.csv) and section 10's bounded ordering. Full P01-P06 acceptance, the P06/P10 visual checkpoints, whole-game completion and P37 release authorization remain required.

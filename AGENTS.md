@@ -141,7 +141,7 @@ try { ... } catch (err) {
 | Website coverage | Test website navigation, responsive layout, accessibility, animations, reduced motion, static export, and game-loading integration |
 | Game source exclusion | Do not test source code inside `games/`. Website export tests may use temporary fixture files to verify copying and asset paths without testing game behavior |
 | Game tooling boundary | Independent games use their own framework/language lint and type checks. Website ESLint and TypeScript exclude `games/` builds; this does not relax the DRY, SOLID, or source-quality requirements for game code |
-| Pokémon static checks | `tools/pokemon-dungeon/` has its own pinned package and `npm run check`; root lint/types exclude it. `game-static.yml` parses/types source and validates asset files without executing game modules. Art authoring and its disposable preview stay outside `games/` |
+| Pokémon static checks | `tools/pokemon-dungeon/` has its own pinned package and `npm run check`; root lint/types exclude it. `game-static.yml` parses/types source, validates authoring inventories/coverage and asset files without executing game modules. Content/art authoring and the disposable art preview stay outside `games/` |
 
 ## Arcade
 
@@ -276,6 +276,14 @@ there." This is the separate implementation-start authorization. Resume the
 first incomplete dependency-ready package recorded in `plan/PROGRESS.md`.
 Source-evidence gates and the P06/P10 visual reviews still apply. Arcade
 activation, merge and deployment require the separate P36/P37 release gates.
+
+The 2026-10-05 continuation after the actual P06 scene/motion study accepts
+the shown direction. Full clip/rig/device acceptance remains open. P02-A
+authoring inventories are not runtime catalogs, and P07-A ID/snapshot/RNG
+primitives do not complete the campaign state, save system or playable game.
+See `games/pokemon-dungeon-reimagined/plan/STATE-FOUNDATION.md` for the reviewed
+bounded interface; do not
+consume unresolved original mechanics through an invented default.
 
 On **2026-10-04**, the user approved all recommended decisions except D03,
 selecting **B: bold cel-shaded 3D**. These choices are binding; do not ask the

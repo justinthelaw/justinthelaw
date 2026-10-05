@@ -11,7 +11,7 @@ merge, deployment and arcade activation remain subject to release approval.
 | --- | --- | --- |
 | D01 | Reference edition | Original Nintendo DS **Blue Rescue Team**; Red is comparative research only, with no edition selector |
 | D02 | Fidelity research | Research obligation: preserve full scope, resolve source-backed numerical data, and never label guessed values or generic proxies complete |
-| D03 | Visual direction | **B: bold cel-shaded 3D**, locked `style-b-v1`. Candidate B is the selected future cavern loading background; A remains an archived comparison. Actual characters/models and browser scenes still need P06/P10 quality review |
+| D03 | Visual direction | **B: bold cel-shaded 3D**, locked `style-b-v1`. Candidate B is the selected future cavern loading background; A remains an archived comparison. The 2026-10-05 continuation accepts the shown P06 scene/motion-study direction; full clip/rig/device and P10 quality review remain |
 | D04 | Blue hardware/network and historic events | **Browser equivalents:** static rescue codes/file exchange, equivalents for Blue's extra modes, and labeled archived event expeditions preserving their content/progression. Original cartridge interoperability is not a completion gate; claim it only where sourced and demonstrably verified |
 | D05 | Manual game acceptance | **Allow human play and visual review.** All automated tests that import/execute game source remain prohibited; website tests use inert fixtures. The separate implementation-start instruction was received on 2026-10-04 |
 | D06 | Standalone Groudon practice | **Omit it.** Keep the original campaign route and take the final arcade screenshot from actual campaign play |

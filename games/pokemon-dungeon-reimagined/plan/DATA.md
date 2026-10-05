@@ -2,7 +2,7 @@
 
 **Product baseline: original Nintendo DS Blue Rescue Team**, explicitly selected by Justin on 2026-10-04. Shared Red/Blue references remain useful research, but Red-only behavior does not create a second product edition or a version selector. Preserve Blue's documented cross-version unlock mechanisms where relevant; do not silently discard roster scope.
 
-Status: planning and prerequisite research only. Product implementation is paused for user review. This document does not authorize restarting implementation. [PLAN.md](PLAN.md) governs scope, package order and shared budgets; this appendix specifies factual data requirements and source preparation.
+Status: implementation authorized; P02 authoring inventories are in progress. Missing original numerical data remains blocked, and identity inventories are not runtime content. [PLAN.md](PLAN.md) governs scope, package order and shared budgets; this appendix specifies factual data requirements and source preparation.
 
 Target: Pokémon Mystery Dungeon: Red Rescue Team and Blue Rescue Team, with explicit edition/region metadata. Rescue Team DX and the Explorers games are reference-comparison material only. Read [SYSTEMS.md](SYSTEMS.md) for execution semantics and [CAMPAIGN.md](CAMPAIGN.md) for progression. [research/roster.json](research/roster.json) is a historical source index, not an implementation contract: its early main-series-stat adaptation and 354-move proposal is superseded by this appendix. No main-series stat replacement is approved.
 

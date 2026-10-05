@@ -6,7 +6,10 @@ Planning PR #387 was merged on 2026-10-04. Justin's later instruction to
 "Continue the @Codex implementation" authorizes execution of this plan. Resume
 the first incomplete dependency-ready package in `plan/PROGRESS.md`. P01 retains
 open source questions; the unmerged foundation branch adds static tooling, a
-pinned vendor bundle and a startup-only shell. No playable adventure exists yet.
+pinned vendor bundle and a startup-only shell. P02 authoring inventories and
+P07-A identity/snapshot/RNG primitives are being added; no playable adventure
+exists yet. The 2026-10-05 continuation accepts the shown P06 visual direction,
+with full clip/rig/device acceptance still open.
 Preserve package evidence, visual review and full-release gates.
 
 On **2026-10-04**, the user approved all recommendations except the visual

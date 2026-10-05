@@ -1,6 +1,6 @@
 # Pokémon Dungeon authoring tools
 
-Independent static tooling for P03-A/P04-A. The root website package and
+Independent static tooling for P02-A, P03-A/P04-A and P07-A. The root website package and
 lockfile remain separate. Dependencies, sources and caches stay outside the
 exported `games/` tree. There is no game test runner or gameplay execution.
 
@@ -24,7 +24,9 @@ npm run check
 | `npm run typecheck` | Independent strict JSDoc checks; the compiler host maps exact local vendor paths to pinned Three.js declarations. |
 | `npm run assets` | Validate asset metadata and local files without importing game modules. |
 | `npm run art:export` | Run original authoring generators and export candidate GLBs/manifests outside the game tree. |
-| `npm run check` | Run lint, type checking, assets and vendor comparison in sequence. |
+| `npm run content` | Validate the four authoring catalogs, exact identities, source locators, blockers and relationships; no game execution. |
+| `npm run content:coverage` | Validate inventories and regenerate `plan/CONTENT-COVERAGE.csv` with one row per actual authoring record. |
+| `npm run check` | Run lint, strict types, content/coverage, assets and vendor comparison in sequence. |
 
 Network access is needed for `npm ci`; vendoring uses only locked installed
 packages. In environments with an explicit HTTP(S) proxy, Node 24's
@@ -115,3 +117,23 @@ procedural mood synthesis triggered by its button, not a game audio system.
 All captures must retain the visible **P06 art preview; not gameplay** label.
 Software-rendered screenshots establish rendered appearance only; they do not
 establish performance or compatibility on a phone, tablet or discrete GPU.
+
+## Content and state foundations
+
+`content/` contains normalized authoring inventories with explicit source and
+blocker references. They are not runtime catalogs and must not be requested by
+the browser. The schema rejects undeclared fields; the checker validates exact
+identity membership, local evidence locators, form links, location structure
+and bounded local files. It checks source presence, not factual truth or
+complete original-game mechanics. Individual records remain unstarted/pending.
+
+`npm run content:coverage` emits the fine-grained coverage document. CI compares
+the committed CSV byte for byte after validating its source catalogs. Existing
+parent package and family evidence remains in `plan/COVERAGE.csv`.
+
+P07-A adds independent runtime primitives under `src/domain/`: catalog/instance
+IDs, bounded plain-data copies and frozen snapshots, and versioned explicit
+random state. See `plan/STATE-FOUNDATION.md` for accepted scope and the retained
+PRNG notice. These modules are statically checked only and are not wired into
+the startup shell. Complete state validation, campaign creation, gameplay and
+save persistence still require their source-backed package contracts.

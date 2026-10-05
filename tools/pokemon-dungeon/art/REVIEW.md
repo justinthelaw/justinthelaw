@@ -1,8 +1,10 @@
 # P06 candidate 3D review
 
 **P06 art preview; not gameplay.** These are actual locally rendered GLB assets,
-not generated gameplay illustrations. Justin's visual review remains pending;
-P06 is not complete and no asset is approved for runtime promotion.
+not generated gameplay illustrations. Justin's 2026-10-05 continuation after
+the scene and motion-study checkpoint is treated as acceptance of the shown
+visual direction. Full clip/device/rig acceptance remains open; P06 is not
+complete and no asset is approved for runtime promotion.
 
 ## Concrete output
 
@@ -49,8 +51,9 @@ candidate; they do not constitute Justin's acceptance.
 
 ## Remaining acceptance
 
-- Review character recognition, proportions, cel bands, contours and cavern
-  direction before mass production, as required by PLAN P06 and game AGENTS.
+- Continue the shown direction under the latest continuation instruction.
+  Review further character production and unresolved details individually;
+  this continuation does not certify unseen clips, devices or future assets.
 - Review all eleven clips per character, joins/deformation, contact and
   expression in the local harness; a short locomotion sample is not exhaustive.
 - Review actual low/standard/high quality and reduced motion on agreed physical

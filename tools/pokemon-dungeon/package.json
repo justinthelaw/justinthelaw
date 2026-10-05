@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Static authoring and validation tools for Pokémon Dungeon Reimagined",
+  "description": "Static authoring and validation tools for Pok\u00e9mon Dungeon Reimagined",
   "packageManager": "npm@12.1.0",
   "engines": {
     "node": ">=24.19.0 <25",
@@ -15,7 +15,9 @@
     "typecheck": "node scripts/check-types.mjs",
     "assets": "node scripts/check-assets.mjs",
     "art:export": "node art/export.mjs",
-    "check": "npm run lint && npm run typecheck && npm run assets && npm run vendor -- --check"
+    "check": "npm run lint && npm run typecheck && npm run content && node scripts/export-content-coverage.mjs --check && npm run assets && npm run vendor -- --check",
+    "content": "node scripts/check-content.mjs",
+    "content:coverage": "npm run content && node scripts/export-content-coverage.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
