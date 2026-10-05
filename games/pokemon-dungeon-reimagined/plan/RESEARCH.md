@@ -2,7 +2,7 @@
 
 **Product baseline: original Nintendo DS Blue Rescue Team**, explicitly selected by Justin on 2026-10-04. Shared Red/Blue references remain useful research, but Red-only behavior does not create a second product edition or a version selector. Preserve Blue's documented cross-version unlock mechanisms where relevant; do not silently discard roster scope.
 
-**Status:** research groundwork, not a complete executable specification or a claim that every original value is known. Read [PLAN.md](PLAN.md) for authority, scope and the stop-for-review instruction.
+**Status:** implementation authorized; P01 source audit in progress. [Blue rules revision 1](RULES-BLUE.md) identifies the fields supported by this audit and their limits. It is not a complete executable specification or a claim that every original value is known.
 
 ## What has been researched
 
@@ -10,11 +10,12 @@ The record covers the user-supplied Wikipedia overview and original Red/Blue wal
 
 | Research snapshot | Main use | Authority limits |
 | --- | --- | --- |
+| [blue-rules-v1.json](research/blue-rules-v1.json) | Current P01 source register, qualified rules, family mapping and blocking questions | Only enumerated fields are supported; blocked values are null; P01 remains incomplete |
 | [campaign.json](research/campaign.json) | Story sequence, floor/scene conventions, branch prerequisites, optional dungeons | Exact triggers and numerical tables still have named gaps |
 | [systems.json](research/systems.json) | Manual controls, tactical mechanics, original constants, service and progression inventory | Does not contain the full original damage/growth/effect corpus |
 | [roster.json](research/roster.json) | Species/modes inventory, source availability, data and browser feasibility | Earlier main-series adaptation suggestions are superseded by DATA.md |
 
-The primary original manual links are retained even where a readable mirror was used. A mirror is not a separate independent corroboration. The source register records source identity; a successful retrieval is not proof that every interpretation is correct.
+The official Blue manual was retrieved directly during P01. Older mirror links remain historical provenance; a mirror is not independent corroboration. The current profile supersedes older snapshot summaries only for its enumerated fields. Inherited references are marked as such; a successful retrieval alone does not verify a rule.
 
 ## Confidence and traceability rules
 
@@ -36,7 +37,7 @@ Only specific sources may resolve original data. A broad walkthrough's narrative
 | Deoxys/forms | FRLG default learnset gap, original per-floor forms and learning semantics | DATA-03; do not choose a convenient modern form |
 | Legacy mail and modes | Exact codecs/checksums/regions, Blue wireless/off-screen modes, reproducible historic events | DATA-09/DATA-10 under resolved D01/D04: Blue browser equivalents; cartridge interoperability is not a completion gate |
 | Visual production | Full roster/forms/clips and complete environments do not exist | Resolved D03 B / P03/P06/P32; obtain actual authored asset and 3D visual acceptance before scaling |
-| User acceptance boundary | Manual play/visual review with automated game tests excluded | D05 approved on 2026-10-04; preserve the no-automated-game-tests rule and implementation hold |
+| User acceptance boundary | Manual play/visual review with automated game tests excluded | D05 and the later implementation start approved on 2026-10-04; preserve the no-automated-game-tests rule and release gates |
 
 The detailed appendices retain additional concrete questions; this summary does not replace them. Resolving a gap requires updating its record, the affected content specification and coverage evidence together.
 

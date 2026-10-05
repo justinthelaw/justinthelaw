@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Rescue Team • 3D art review</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header><div><span class="eyebrow">STYLE B / VISUAL STUDY</span><h1 id="title">Into the molten depths</h1></div><p>P06 art preview; not gameplay</p></header>
+  <main>
+    <canvas id="preview" aria-label="Three-dimensional character and cavern art preview"></canvas>
+    <div class="caption"><span id="caption">MAGMA CAVERN</span><p>Original models • bold cel shading • animation study</p></div>
+    <p id="status" role="status">Loading candidate models…</p>
+  </main>
+  <footer aria-label="Art inspection controls">
+    <label>Subject<select id="subject"><option value="composition">Cavern composition</option><option value="pikachu">Pikachu</option><option value="charmander">Charmander</option><option value="groudon">Groudon</option></select></label>
+    <label>Animation<select id="clip"><option value="idle">Idle</option><option value="neutral">Neutral pose</option><option value="locomotion">Locomotion</option><option value="attack-physical">Physical attack</option><option value="attack-special">Special attack</option><option value="cast-status">Status cast</option><option value="hit-light">Light hit</option><option value="hit-heavy">Heavy hit</option><option value="defeat">Defeat</option><option value="celebrate">Celebrate</option><option value="rest-sleep">Sleep</option><option value="interact">Interact</option></select></label>
+    <label>View<select id="angle"><option value="front">Front</option><option value="three-quarter">Three-quarter</option><option value="side">Side</option><option value="back">Back</option></select></label>
+    <label>Quality<select id="quality"><option value="standard">Standard</option><option value="low">Low</option><option value="high">High</option></select></label>
+    <label class="check"><input id="reduced" type="checkbox">Hold pose</label>
+    <button id="sound" type="button" aria-pressed="false">Cavern sound</button>
+    <button id="reload" type="button">Reload assets</button>
+  </footer>
+  <script type="module" src="./viewer.js"></script>
+</body>
+</html>

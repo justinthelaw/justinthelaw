@@ -1,6 +1,6 @@
 # Rendering, visual production, camera, and user-experience implementation appendix
 
-Status: **planning only; implementation remains paused until a separate start instruction**. The user accepted the recommendations and selected **B: bold cel-shaded 3D** for D03. D05 manual acceptance is approved and D06 practice mode is omitted. These decisions fix the handoff; they do not authorize product implementation in this planning update. P06 still reviews actual character/material/animation assets against the selected style.
+Status: **implementation authorized by Justin on 2026-10-04 after planning PR #387 merged**. Execute according to the parent plan's package dependencies. The user accepted the recommendations and selected **B: bold cel-shaded 3D** for D03. D05 manual acceptance is approved and D06 practice mode is omitted. P06 still reviews actual character/material/animation assets against the selected style.
 
 This is an implementation plan for an original browser-based 3D reimagining of the original Nintendo DS Blue Rescue Team experience, integrated into the existing arcade. It is not an Unreal Engine project, a port of an existing game, or a promise of Unreal rendering features. The selected B look uses bold sculpted shapes, two-to-three-band cel shading, crisp selective contours, broad material shapes, rich cool shadows and a coherent saturated palette. Strong composition, convincing silhouettes, selective shadows, atmosphere and animation provide polish within static WebGL2; photoreal cinematic PBR is not the default visual target.
 
@@ -68,7 +68,7 @@ The architecture in [PLAN.md](PLAN.md), particularly sections 7–8, and canonic
 
 ### 3.1 Proposed exact file ownership
 
-**P06 contract exception:** the temporary repository-relative `tools/pokemon-dungeon/art-preview/` harness may show static asset compositions, camera framing and animation playback before the game contracts exist. It uses the pinned local Three.js toolchain and reusable candidate production assets, but imports no game source and implements no commands, combat, state, saves or playable encounter. Its private scene setup is disposable art tooling, not a second game renderer. D05 manual viewing/capture is approved for the future acceptance work; the harness still cannot be implemented or run until the separate implementation-start hold is lifted.
+**P06 contract exception:** the temporary repository-relative `tools/pokemon-dungeon/art-preview/` harness may show static asset compositions, camera framing and animation playback before the game contracts exist. It uses the pinned local Three.js toolchain and reusable candidate production assets, but imports no game source and implements no commands, combat, state, saves or playable encounter. Its private scene setup is disposable art tooling, not a second game renderer. D05 manual viewing/capture is approved for the acceptance work; implement and run the harness when P06's parent-plan dependencies are satisfied.
 
 Freeze real domain snapshots, presentation events and `DungeonRenderer` at P07/P10 before any game consumer is built. P10 consumes approved asset manifests and art direction, not harness-specific state or APIs; retire the harness during integration. D06 is resolved to omit playable practice/rehearsal encounters. Actual battle acceptance/capture uses the reached P25 campaign encounter and production simulation/renderer, never the art harness.
 
@@ -97,7 +97,7 @@ Runtime paths below are relative to `games/pokemon-dungeon-reimagined/`. Game-lo
 | `plan/ASSET-REGISTER.csv` | Provenance, license, author, source, hashes, coverage and review status | Needed for all contributed/downloaded art |
 | `plan/VISUAL-ACCEPTANCE.md` | Review records, screenshots, device captures, limitations | Records actual rendered build/commit |
 
-If the later team elects fewer modules, responsibilities still remain separate. Do not split modules so finely that ownership and data flow become harder to follow. Do not add any of these implementation files during the current paused phase.
+If the later team elects fewer modules, responsibilities still remain separate. Do not split modules so finely that ownership and data flow become harder to follow. Add implementation files only within their dependency-ready parent package.
 
 ### 3.2 Future proposed renderer API
 
@@ -495,7 +495,7 @@ Visual acceptance requires explicit human review. Static syntax success cannot e
 
 ## 11. Execution work packages for the future implementation model
 
-The recommendations/style decisions are approved; do not start these implementation tasks until the user gives a separate implementation-start instruction. Each package must leave a reviewable artifact and identify unresolved gaps. Do not skip ahead to roster multiplication before the P06 art anchor passes. Keep all intermediate runtime PRs review-only and unmerged until P37 full-scope release authorization: a disabled arcade card cannot prevent direct access to exported game URLs. The non-exported art harness is not a public demo; planning-document-only merges still require explicit user authorization.
+Justin separately authorized implementation on 2026-10-04 after planning PR #387 merged; follow the parent plan's package dependencies. Each package must leave a reviewable artifact and identify unresolved gaps. Do not skip ahead to roster multiplication before the P06 art anchor passes. Keep all intermediate runtime PRs review-only and unmerged until P37 full-scope release authorization: a disabled arcade card cannot prevent direct access to exported game URLs. The non-exported art harness is not a public demo; planning-document-only merges still require explicit user authorization.
 
 ### Rendering-task crosswalk to the governing work packages
 
@@ -531,7 +531,7 @@ The R tasks below are subtask detail, not a second execution schedule. PLAN's ca
 | R6: hero/partner/Groudon assets | Dedicated original assets, rigs, LODs, core clips and manifest entries | R1/R2 | Turntables plus close-up material/animation review; asset provenance |
 | R7: real battle presentation | Actor diff/sync, move/hit/status effects, animation sequencing, camera response, pickups | R4/R5/R6 + P07/P10 event contract and P18 integrated engine | Approved D05 actual fight capture at the P25 campaign encounter; no practice mode |
 | R8: accessible core UX | Setup, quiz, choice, HUD, action menus, pause/settings, loading/errors, mobile controls | Controller/simulation contracts | Keyboard/touch/focus review; no fake menu options |
-| R9: gameplay presentation gate | Review actual encounter against approved P06 art direction; retain internal capture only, no public card change | R7/R8 and P25; D05 manual review approved; implementation start still required | Human quality review of actual gameplay; correct integration issues before release |
+| R9: gameplay presentation gate | Review actual encounter against approved P06 art direction; retain internal capture only, no public card change | R7/R8 and P25; D05 manual review approved; parent package dependencies apply | Human quality review of actual gameplay; correct integration issues before release |
 | R10: starter/main-story waves | Starter/evolution art, common enemies, campaign bosses/NPCs, biome kits and setpieces | P06 accepted art direction and R1/R2; parent campaign dependencies | Per-wave coverage and actual-dungeon captures; no silent fallback substitutions |
 | R11: full service/progression UX | Town services, inventory/storage/shop/jobs/team/evolution/recruitment/postgame menus | Actual rule-side services | Panel inventory reconciled with available rules/actions |
 | R12: postgame/remaining roster | Legendary kits/forms, optional-route art assignments, remainder of 386 species | R10/R11 | All manifests assigned; final model/animation coverage status truthful |
@@ -557,7 +557,7 @@ For each task, the smaller model should first read the relevant contracts and ow
 | Quality adaptation hides correctness | Reduced tier removes hazards/target/status cues | Critical cues required on every tier; decorative effects degrade first |
 | Resource leak/context loss | Switching floors grows resource counts; restored context stays black | Explicit ownership/recovery lifecycle; later authorized manual repeat-transition observations |
 | Preview is fabricated | Title diorama/AI image used for arcade screenshot | Root reviews actual running Groudon campaign encounter and records capture provenance |
-| Planning pause ignored | Product files continue being written after user steering | Park prototype work, deliver plan/setup only, stop for user review |
+| User scope change ignored | Work continues after a later pause or outside authorized scope | Follow the latest user instruction; keep parked prototypes excluded and preserve package/release gates |
 
 ## 13. Historical exploratory work, already parked
 
@@ -576,4 +576,4 @@ Technical references were checked through public source search during planning o
 - [MDN WebGL best practices](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices): browser GPU resource/performance guidance.
 - [MDN WebGL2RenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext): WebGL2 capability context.
 
-No copyrighted game artwork, ripped models, copied scripts, or external runtime art dependencies are authorized by this appendix. B is fixed, manual acceptance is approved, and practice is omitted; this update remains documentation-only and awaits a separate implementation-start instruction.
+No copyrighted game artwork, ripped models, copied scripts, or external runtime art dependencies are authorized by this appendix. B is fixed, manual acceptance is approved, and practice is omitted; authorized implementation follows parent package dependencies and the existing visual/release gates.

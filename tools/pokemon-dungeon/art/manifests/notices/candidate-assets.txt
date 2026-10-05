@@ -1,0 +1,7 @@
+P06 candidate assets: original procedural authoring by Codex for this project.
+The source geometry and animation scripts are recorded in each authoring manifest entry.
+Asset distribution license review is pending; this notice grants no additional rights.
+Pokemon character names and designs remain associated with their respective rights holders.
+Original geometry authorship does not establish clearance for Pokemon character IP.
+Three.js is an authoring tool under its separate MIT license; no commercial game models, textures or audio were extracted.
+Candidate art is not reviewed gameplay, a full roster, or a public release.

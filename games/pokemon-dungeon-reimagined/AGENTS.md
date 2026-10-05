@@ -1,19 +1,21 @@
 # Pokémon Dungeon Reimagined
 
-## Current status: planning only
+## Current status: implementation authorized; foundations in progress
 
-This directory reserves the future game's location and contains its complete
-planning package under `plan/`. There is no runnable game,
-entry point, vendor bundle, or approved implementation in this planning change.
-The user requested the plan and prerequisite setup and then a stop for review.
-**Do not implement the game or change the first arcade card until the user
-explicitly approves proceeding.** Do not merge this planning PR automatically.
+Planning PR #387 was merged on 2026-10-04. Justin's later instruction to
+"Continue the @Codex implementation" authorizes execution of this plan. Resume
+the first incomplete dependency-ready package in `plan/PROGRESS.md`. P01 retains
+open source questions; the unmerged foundation branch adds static tooling, a
+pinned vendor bundle and a startup-only shell. P02 authoring inventories and
+P07-A identity/snapshot/RNG primitives are being added; no playable adventure
+exists yet. The 2026-10-05 continuation accepts the shown P06 visual direction,
+with full clip/rig/device acceptance still open.
+Preserve package evidence, visual review and full-release gates.
 
 On **2026-10-04**, the user approved all recommendations except the visual
 recommendation, selecting **D03 B: bold cel-shaded 3D**. The choices below are
-binding and need no repeat decision question. They do not authorize execution:
-wait for a separate user instruction to start implementation; merge/deployment
-and first-card activation remain held behind their release approvals.
+binding and need no repeat decision question. Implementation is now authorized;
+merge/deployment and first-card activation remain held behind release approvals.
 
 | Decision | Binding selection |
 | --- | --- |
@@ -33,7 +35,7 @@ specific task and appendix it identifies. The [progress ledger](plan/PROGRESS.md
 records completed work, resolved decisions and remaining research. The parent AGENTS.md remains
 applicable, with the standalone-game exceptions stated here.
 
-## Binding implementation constraints: start pending
+## Binding implementation constraints
 
 - The source reference is the original **Pokémon Mystery Dungeon: Blue Rescue
   Team**, not Rescue Team DX or the Explorers games. Red Rescue Team is only

@@ -1,0 +1,3206 @@
+{
+  "schemaVersion": "1.0.0",
+  "manifestKind": "authoring",
+  "assets": [
+    {
+      "assetId": "model.pokemon-025.v002",
+      "revision": 2,
+      "status": "candidate",
+      "subject": {
+        "kind": "character",
+        "speciesId": "pokemon-025",
+        "anchorRole": "hero-anchor",
+        "formBinding": {
+          "state": "unresolved",
+          "reason": "Canonical original-Blue FormId binding awaits the P02/P07 catalog interface."
+        }
+      },
+      "styleProfile": "style-b-v1",
+      "format": "glTF-2.0",
+      "coordinates": {
+        "handedness": "right",
+        "up": "+Y",
+        "forward": "+Z",
+        "metersPerUnit": 1,
+        "tileMeters": 2,
+        "rootNode": "asset-root",
+        "pivot": "ground-center",
+        "rootTranslation": [
+          0,
+          0,
+          0
+        ],
+        "rootRotationQuaternion": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "rootScale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "files": [
+        {
+          "fileId": "pikachu-lod0",
+          "url": "models/pikachu-lod0.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "236eabb2ff5f12388cc0faf34b3cd754dfa981f8a4b12adacf7b5d002619607d",
+          "encodedBytes": 418136
+        },
+        {
+          "fileId": "pikachu-lod1",
+          "url": "models/pikachu-lod1.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "9730ab93d1b5fae24d5ff5d4d16956aa4ce279efc18db3495b79ce4ed08d2c29",
+          "encodedBytes": 277768
+        },
+        {
+          "fileId": "pikachu-lod2",
+          "url": "models/pikachu-lod2.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "434af40cf417d85482a344f0a2773c6cf18156517418f962f2357da489de8b1e",
+          "encodedBytes": 187280
+        },
+        {
+          "fileId": "candidate-assets-notice",
+          "url": "notices/candidate-assets.txt",
+          "role": "license-notice",
+          "mediaType": "text/plain",
+          "sha256": "b6c85b852872339394564f95827f606a395a60b780ee9d8f103ed8206df160fd",
+          "encodedBytes": 630
+        }
+      ],
+      "nodeNames": [
+        "asset-root",
+        "rig-root",
+        "pelvis",
+        "spine",
+        "neck",
+        "head",
+        "head-mesh",
+        "eye-left",
+        "eye-left-mesh",
+        "iris-left-mesh",
+        "eye-highlight-left-mesh",
+        "eye-glimmer-left-mesh",
+        "cheek-left",
+        "cheek-left-mesh",
+        "muzzle-left-mesh",
+        "ear-left",
+        "ear-left-mesh",
+        "ear-tip-left",
+        "ear-tip-left-mesh",
+        "eye-right",
+        "eye-right-mesh",
+        "iris-right-mesh",
+        "eye-highlight-right-mesh",
+        "eye-glimmer-right-mesh",
+        "cheek-right",
+        "cheek-right-mesh",
+        "muzzle-right-mesh",
+        "ear-right",
+        "ear-right-mesh",
+        "ear-tip-right",
+        "ear-tip-right-mesh",
+        "nose-mesh",
+        "mouth",
+        "smile-mesh",
+        "socket-mouth",
+        "upper-arm-left",
+        "upper-arm-left-mesh",
+        "forearm-left",
+        "forearm-left-mesh",
+        "hand-left",
+        "palm-left-mesh",
+        "finger-1-left-mesh",
+        "finger-2-left-mesh",
+        "finger-3-left-mesh",
+        "socket-hand-left",
+        "upper-arm-right",
+        "upper-arm-right-mesh",
+        "forearm-right",
+        "forearm-right-mesh",
+        "hand-right",
+        "palm-right-mesh",
+        "finger-1-right-mesh",
+        "finger-2-right-mesh",
+        "finger-3-right-mesh",
+        "socket-hand-right",
+        "torso-mesh",
+        "back-stripe-1-mesh",
+        "back-stripe-2-mesh",
+        "thigh-left",
+        "thigh-left-mesh",
+        "ankle-left",
+        "foot-left-mesh",
+        "toe-crease-1-left-mesh",
+        "toe-crease-2-left-mesh",
+        "thigh-right",
+        "thigh-right-mesh",
+        "ankle-right",
+        "foot-right-mesh",
+        "toe-crease-1-right-mesh",
+        "toe-crease-2-right-mesh",
+        "tail-base",
+        "tail-stalk-mesh",
+        "tail-blade",
+        "tail-blade-mesh",
+        "socket-tail-tip"
+      ],
+      "meshNames": [
+        "mesh-head-mesh",
+        "mesh-eye-left-mesh",
+        "mesh-iris-left-mesh",
+        "mesh-eye-highlight-left-mesh",
+        "mesh-eye-glimmer-left-mesh",
+        "mesh-cheek-left-mesh",
+        "mesh-muzzle-left-mesh",
+        "mesh-ear-left-mesh",
+        "mesh-ear-tip-left-mesh",
+        "mesh-eye-right-mesh",
+        "mesh-iris-right-mesh",
+        "mesh-eye-highlight-right-mesh",
+        "mesh-eye-glimmer-right-mesh",
+        "mesh-cheek-right-mesh",
+        "mesh-muzzle-right-mesh",
+        "mesh-ear-right-mesh",
+        "mesh-ear-tip-right-mesh",
+        "mesh-nose-mesh",
+        "mesh-smile-mesh",
+        "mesh-upper-arm-left-mesh",
+        "mesh-forearm-left-mesh",
+        "mesh-palm-left-mesh",
+        "mesh-finger-1-left-mesh",
+        "mesh-finger-2-left-mesh",
+        "mesh-finger-3-left-mesh",
+        "mesh-upper-arm-right-mesh",
+        "mesh-forearm-right-mesh",
+        "mesh-palm-right-mesh",
+        "mesh-finger-1-right-mesh",
+        "mesh-finger-2-right-mesh",
+        "mesh-finger-3-right-mesh",
+        "mesh-torso-mesh",
+        "mesh-back-stripe-1-mesh",
+        "mesh-back-stripe-2-mesh",
+        "mesh-thigh-left-mesh",
+        "mesh-foot-left-mesh",
+        "mesh-toe-crease-1-left-mesh",
+        "mesh-toe-crease-2-left-mesh",
+        "mesh-thigh-right-mesh",
+        "mesh-foot-right-mesh",
+        "mesh-toe-crease-1-right-mesh",
+        "mesh-toe-crease-2-right-mesh",
+        "mesh-tail-stalk-mesh",
+        "mesh-tail-blade-mesh"
+      ],
+      "materials": [
+        {
+          "name": "pikachu-fur-material",
+          "shadingProfile": "style-b-v1",
+          "channels": [
+            "base-color",
+            "roughness",
+            "metalness",
+            "vertex-color"
+          ],
+          "textureFileIds": [],
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "maximumTextureEdge": 0
+        },
+        {
+          "name": "pikachu-face-material",
+          "shadingProfile": "style-b-v1",
+          "channels": [
+            "base-color",
+            "roughness",
+            "metalness",
+            "vertex-color"
+          ],
+          "textureFileIds": [],
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "maximumTextureEdge": 0
+        }
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "durationSeconds": 2.5999999046325684,
+          "loop": true,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "ear-left",
+            "ear-right",
+            "head",
+            "pelvis",
+            "spine",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "locomotion",
+          "durationSeconds": 0.6800000071525574,
+          "loop": true,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "ankle-left",
+            "ankle-right",
+            "ear-left",
+            "ear-right",
+            "head",
+            "pelvis",
+            "tail-base",
+            "thigh-left",
+            "thigh-right",
+            "upper-arm-left",
+            "upper-arm-right"
+          ]
+        },
+        {
+          "name": "attack-physical",
+          "durationSeconds": 0.7200000286102295,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "ear-left",
+            "ear-right",
+            "forearm-right",
+            "pelvis",
+            "spine",
+            "tail-base",
+            "upper-arm-right"
+          ]
+        },
+        {
+          "name": "attack-special",
+          "durationSeconds": 1.2200000286102295,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "cheek-left",
+            "cheek-right",
+            "ear-left",
+            "ear-right",
+            "head",
+            "spine",
+            "tail-base",
+            "tail-blade",
+            "upper-arm-left",
+            "upper-arm-right"
+          ]
+        },
+        {
+          "name": "cast-status",
+          "durationSeconds": 1.4500000476837158,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "ear-left",
+            "forearm-left",
+            "forearm-right",
+            "head",
+            "tail-base",
+            "upper-arm-left",
+            "upper-arm-right"
+          ]
+        },
+        {
+          "name": "hit-light",
+          "durationSeconds": 0.41999998688697815,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "ear-left",
+            "ear-right",
+            "head",
+            "spine"
+          ]
+        },
+        {
+          "name": "hit-heavy",
+          "durationSeconds": 0.8799999952316284,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "head",
+            "pelvis",
+            "spine",
+            "tail-base",
+            "upper-arm-left",
+            "upper-arm-right"
+          ]
+        },
+        {
+          "name": "defeat",
+          "durationSeconds": 1.2999999523162842,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "ear-left",
+            "ear-right",
+            "eye-left",
+            "eye-right",
+            "head",
+            "pelvis",
+            "spine",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "celebrate",
+          "durationSeconds": 1.7000000476837158,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "ear-left",
+            "ear-right",
+            "head",
+            "pelvis",
+            "tail-base",
+            "upper-arm-left",
+            "upper-arm-right"
+          ]
+        },
+        {
+          "name": "rest-sleep",
+          "durationSeconds": 3.0999999046325684,
+          "loop": true,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "ear-left",
+            "ear-right",
+            "eye-left",
+            "eye-right",
+            "head",
+            "pelvis",
+            "spine",
+            "tail-base",
+            "thigh-left",
+            "thigh-right",
+            "upper-arm-left",
+            "upper-arm-right"
+          ]
+        },
+        {
+          "name": "interact",
+          "durationSeconds": 1.5499999523162842,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "forearm-left",
+            "hand-left",
+            "head",
+            "upper-arm-left"
+          ]
+        }
+      ],
+      "lods": [
+        {
+          "level": 0,
+          "fileIds": [
+            "pikachu-lod0"
+          ],
+          "modelFileId": "pikachu-lod0",
+          "triangles": 9296,
+          "nodeCount": 75,
+          "meshCount": 44,
+          "materialCount": 2,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -0.21269150710083418,
+              3.1409640166568664e-10,
+              -0.24214086497542392
+            ],
+            "max": [
+              0.3496553508878593,
+              0.9990311131890873,
+              0.15476407047439317
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": [
+            "idle",
+            "locomotion",
+            "attack-physical",
+            "attack-special",
+            "cast-status",
+            "hit-light",
+            "hit-heavy",
+            "defeat",
+            "celebrate",
+            "rest-sleep",
+            "interact"
+          ]
+        },
+        {
+          "level": 1,
+          "fileIds": [
+            "pikachu-lod1"
+          ],
+          "modelFileId": "pikachu-lod1",
+          "triangles": 4674,
+          "nodeCount": 73,
+          "meshCount": 42,
+          "materialCount": 2,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -0.21056090337918174,
+              -7.431459544959829e-10,
+              -0.24214313865437587
+            ],
+            "max": [
+              0.3496586369886313,
+              0.9990402984594876,
+              0.15476552272931973
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": [
+            "idle",
+            "locomotion",
+            "attack-physical",
+            "attack-special",
+            "cast-status",
+            "hit-light",
+            "hit-heavy",
+            "defeat",
+            "celebrate",
+            "rest-sleep",
+            "interact"
+          ]
+        },
+        {
+          "level": 2,
+          "fileIds": [
+            "pikachu-lod2"
+          ],
+          "modelFileId": "pikachu-lod2",
+          "triangles": 1956,
+          "nodeCount": 73,
+          "meshCount": 42,
+          "materialCount": 2,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -0.21164690823556226,
+              3.1409640166568664e-10,
+              -0.2368591393124219
+            ],
+            "max": [
+              0.34441755363722093,
+              0.9990311131890873,
+              0.15315122978839973
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": [
+            "idle",
+            "locomotion",
+            "attack-physical",
+            "attack-special",
+            "cast-status",
+            "hit-light",
+            "hit-heavy",
+            "defeat",
+            "celebrate",
+            "rest-sleep",
+            "interact"
+          ]
+        }
+      ],
+      "sockets": [
+        {
+          "name": "socket-mouth",
+          "parentNode": "head"
+        },
+        {
+          "name": "socket-hand-left",
+          "parentNode": "hand-left"
+        },
+        {
+          "name": "socket-hand-right",
+          "parentNode": "hand-right"
+        },
+        {
+          "name": "socket-tail-tip",
+          "parentNode": "tail-blade"
+        }
+      ],
+      "provenance": {
+        "creationMethod": "original-procedural",
+        "creators": [
+          {
+            "name": "Codex",
+            "contribution": "Original procedural candidate geometry, materials, hierarchy and animation authoring for this project."
+          }
+        ],
+        "sourceRecordIds": [
+          "tools-pokemon-dungeon-art-characters-character-helper-mjs",
+          "tools-pokemon-dungeon-art-characters-pikachu-mjs",
+          "tools-pokemon-dungeon-art-export-mjs",
+          "tools-pokemon-dungeon-node-modules-three-examples-jsm-exporters-gltfexporter-js",
+          "tools-pokemon-dungeon-package-lock-json"
+        ],
+        "license": {
+          "licenseId": "LicenseRef-Pending-Asset-Review",
+          "reviewState": "pending",
+          "attribution": "Original procedural P06 candidate assets authored with Codex; generated using Three.js 0.186.1.",
+          "noticeUrl": "notices/candidate-assets.txt",
+          "characterRightsNote": "Original modeled geometry does not establish permission for Pokemon character IP or public distribution."
+        }
+      },
+      "review": {
+        "state": "pending"
+      },
+      "authoring": {
+        "recordId": "p06-pikachu-v002",
+        "sources": [
+          {
+            "sourceId": "tools-pokemon-dungeon-art-characters-character-helper-mjs",
+            "kind": "original-authoring",
+            "locator": "tools/pokemon-dungeon/art/characters/character-helper.mjs",
+            "sha256": "8b47855abc9c2f22d1d5b5d5f3cec3aa767eb587656bdcd989c94a0d5b35831c",
+            "use": "Reproducible candidate authoring source/tooling input."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-art-characters-pikachu-mjs",
+            "kind": "original-authoring",
+            "locator": "tools/pokemon-dungeon/art/characters/pikachu.mjs",
+            "sha256": "aefff073bd89ec89191ef47d495271e366d354c300a7d4f4a78da49f48384300",
+            "use": "Reproducible candidate authoring source/tooling input."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-art-export-mjs",
+            "kind": "original-authoring",
+            "locator": "tools/pokemon-dungeon/art/export.mjs",
+            "sha256": "f1f0184787dda130488bfb499cc70b14cfeba9fde3a82f414ce9b8f7c562829d",
+            "use": "Reproducible candidate authoring source/tooling input."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-node-modules-three-examples-jsm-exporters-gltfexporter-js",
+            "kind": "licensed-input",
+            "locator": "tools/pokemon-dungeon/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+            "sha256": "d766b04f233fa8bc72bfaebacaac5ecb832c30ca3695ce8d84bbb7dccccdc842",
+            "use": "Pinned MIT glTF export tool; not copied game artwork."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-package-lock-json",
+            "kind": "generated-source",
+            "locator": "tools/pokemon-dungeon/package-lock.json",
+            "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
+            "use": "npm-generated record of the pinned third-party authoring dependency closure."
+          }
+        ],
+        "exporter": {
+          "name": "Three.js GLTFExporter / art/export.mjs",
+          "version": "0.186.1",
+          "settingsRecord": "{\"binary\":true,\"trs\":true,\"onlyVisible\":true,\"includeCustomExtensions\":false,\"maxTextureSize\":1024}"
+        },
+        "captures": [
+          {
+            "captureId": "composition-standard-front",
+            "sha256": "ce55ec4cfda663b2f823e6c23154b8adfe5ab32985bfa2d0aa7602f9618a925e",
+            "encodedBytes": 155180,
+            "kind": "third-person-composition",
+            "assetRevision": 2,
+            "width": 1440,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-standard-front.jpg"
+            }
+          },
+          {
+            "captureId": "composition-high-front",
+            "sha256": "2cd064a8e01c66eadb2d97ea5abd8fae5df92f568de29bcc73074c582a2973fa",
+            "encodedBytes": 154519,
+            "kind": "third-person-composition",
+            "assetRevision": 2,
+            "width": 1440,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "high",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-high-front.jpg"
+            }
+          },
+          {
+            "captureId": "composition-low-front",
+            "sha256": "0396ad7756b337d30c4fc9fd0dcef55403bb2fe925b983494d7f1d9626d168b0",
+            "encodedBytes": 53853,
+            "kind": "low-tier",
+            "assetRevision": 2,
+            "width": 390,
+            "height": 844,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "low",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-low-front.jpg"
+            }
+          },
+          {
+            "captureId": "pikachu-standard-front",
+            "sha256": "65dca599f9a38d090e1998ed53c0b4cefd2bb0c0990b30ed7474a21308223852",
+            "encodedBytes": 69084,
+            "kind": "neutral-turntable",
+            "assetRevision": 2,
+            "width": 1100,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/pikachu-standard-front.jpg"
+            }
+          },
+          {
+            "captureId": "pikachu-standard-side",
+            "sha256": "0ea5a01074cfe62d8ce5d6250249c066f41701c23682f9f5054203436473c224",
+            "encodedBytes": 64703,
+            "kind": "neutral-turntable",
+            "assetRevision": 2,
+            "width": 1100,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/pikachu-standard-side.jpg"
+            }
+          },
+          {
+            "captureId": "pikachu-standard-back",
+            "sha256": "e8caec3d65d9020819e725e6964a11f9a72faee68722ae7698dd63652e317cb7",
+            "encodedBytes": 68708,
+            "kind": "neutral-turntable",
+            "assetRevision": 2,
+            "width": 1100,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/pikachu-standard-back.jpg"
+            }
+          },
+          {
+            "captureId": "locomotion-study",
+            "sha256": "adba34b133ddd36ea5f35587b23061ca13878be29b61728f52a177def6e51b67",
+            "encodedBytes": 118936,
+            "kind": "clip-preview",
+            "assetRevision": 2,
+            "width": 704,
+            "height": 576,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": false,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/locomotion-study.mp4"
+            }
+          }
+        ],
+        "notes": [
+          "Original procedural Pikachu art, authored from the approved species brief; no commercial mesh, texture, rig or animation copied.",
+          "Rigid articulated transform rig with tapered ear controls, paired limb chains, layered face geometry, curved back markings and a two-control lightning tail.",
+          "All eleven clips are authored in place. Idle, locomotion and rest-sleep are intended loops; remaining clips are one-shot previews without gameplay bindings.",
+          "Two vertex-colored core MeshStandardMaterial surfaces; cel bands and selective contours belong to the later reviewed renderer.",
+          "Neutral geometry is baked to one meter in height and grounded at Y=0; asset-root remains identity. Candidate art awaits front/side/back and animation review.",
+          "Candidate procedural art only; no visual acceptance, game rules, gameplay or runtime promotion.",
+          "Triangle counts include each exported mesh-node instance; node/mesh/material/joint counts come from exported glTF JSON.",
+          "Neutral bounds are measured from authoring geometry/transforms; texture-free core glTF only.",
+          "P06 art review still must assess recognition, hierarchy deformation, materials, clip quality, LOD readability and original rights/provenance."
+        ]
+      }
+    },
+    {
+      "assetId": "model.pokemon-004.v002",
+      "revision": 2,
+      "status": "candidate",
+      "subject": {
+        "kind": "character",
+        "speciesId": "pokemon-004",
+        "anchorRole": "partner-anchor",
+        "formBinding": {
+          "state": "unresolved",
+          "reason": "Canonical original-Blue FormId binding awaits the P02/P07 catalog interface."
+        }
+      },
+      "styleProfile": "style-b-v1",
+      "format": "glTF-2.0",
+      "coordinates": {
+        "handedness": "right",
+        "up": "+Y",
+        "forward": "+Z",
+        "metersPerUnit": 1,
+        "tileMeters": 2,
+        "rootNode": "asset-root",
+        "pivot": "ground-center",
+        "rootTranslation": [
+          0,
+          0,
+          0
+        ],
+        "rootRotationQuaternion": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "rootScale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "files": [
+        {
+          "fileId": "charmander-lod0",
+          "url": "models/charmander-lod0.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "cff2661c4fe761180680283f9ac9f8581375d22614691bd1fbf99f9d2248865b",
+          "encodedBytes": 431180
+        },
+        {
+          "fileId": "charmander-lod1",
+          "url": "models/charmander-lod1.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "da8175c1c36b3db6038f6ad378dd5c144dabe72a703238fd97b56269a3e2998d",
+          "encodedBytes": 294132
+        },
+        {
+          "fileId": "charmander-lod2",
+          "url": "models/charmander-lod2.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "94cb95aa5b0ab10eb86dc7a752f4b6bdda8f02374b3fce3db5137f776dbd0c6e",
+          "encodedBytes": 214296
+        },
+        {
+          "fileId": "candidate-assets-notice",
+          "url": "notices/candidate-assets.txt",
+          "role": "license-notice",
+          "mediaType": "text/plain",
+          "sha256": "b6c85b852872339394564f95827f606a395a60b780ee9d8f103ed8206df160fd",
+          "encodedBytes": 630
+        }
+      ],
+      "nodeNames": [
+        "asset-root",
+        "rig-root",
+        "pelvis",
+        "spine",
+        "torso-mesh",
+        "belly-mesh",
+        "neck-mesh",
+        "head",
+        "cranium-mesh",
+        "upper-muzzle-mesh",
+        "jaw",
+        "lower-jaw-mesh",
+        "mouth-interior-mesh",
+        "mouth-line-mesh",
+        "socket-mouth",
+        "eye-left",
+        "eye-outline-left-mesh",
+        "eye-white-left-mesh",
+        "eye-iris-left-mesh",
+        "eye-pupil-left-mesh",
+        "eye-highlight-left-mesh",
+        "nostril-left-mesh",
+        "eye-right",
+        "eye-outline-right-mesh",
+        "eye-white-right-mesh",
+        "eye-iris-right-mesh",
+        "eye-pupil-right-mesh",
+        "eye-highlight-right-mesh",
+        "nostril-right-mesh",
+        "shoulder-left",
+        "upper-arm-left-mesh",
+        "elbow-left",
+        "elbow-left-mesh",
+        "forearm-left-mesh",
+        "hand-left",
+        "palm-left-mesh",
+        "socket-hand-left",
+        "finger-left-1-mesh",
+        "finger-claw-left-1-mesh",
+        "finger-left-2-mesh",
+        "finger-claw-left-2-mesh",
+        "finger-left-3-mesh",
+        "finger-claw-left-3-mesh",
+        "shoulder-right",
+        "upper-arm-right-mesh",
+        "elbow-right",
+        "elbow-right-mesh",
+        "forearm-right-mesh",
+        "hand-right",
+        "palm-right-mesh",
+        "socket-hand-right",
+        "finger-right-1-mesh",
+        "finger-claw-right-1-mesh",
+        "finger-right-2-mesh",
+        "finger-claw-right-2-mesh",
+        "finger-right-3-mesh",
+        "finger-claw-right-3-mesh",
+        "hip-left",
+        "thigh-left-mesh",
+        "knee-left",
+        "shin-left-mesh",
+        "ankle-left",
+        "foot-left-mesh",
+        "socket-foot-left",
+        "toe-claw-left-1-mesh",
+        "toe-claw-left-2-mesh",
+        "toe-claw-left-3-mesh",
+        "hip-right",
+        "thigh-right-mesh",
+        "knee-right",
+        "shin-right-mesh",
+        "ankle-right",
+        "foot-right-mesh",
+        "socket-foot-right",
+        "toe-claw-right-1-mesh",
+        "toe-claw-right-2-mesh",
+        "toe-claw-right-3-mesh",
+        "tail-base",
+        "tail-segment-1-mesh",
+        "tail-1",
+        "tail-junction-1-mesh",
+        "tail-segment-2-mesh",
+        "tail-2",
+        "tail-junction-2-mesh",
+        "tail-segment-3-mesh",
+        "tail-3",
+        "tail-junction-3-mesh",
+        "tail-segment-4-mesh",
+        "tail-4",
+        "tail-junction-4-mesh",
+        "tail-segment-5-mesh",
+        "tail-5",
+        "tail-junction-5-mesh",
+        "socket-tail-tip",
+        "socket-tail-flame",
+        "flame-main-mesh",
+        "flame-left-tongue-mesh",
+        "flame-right-tongue-mesh",
+        "flame-core-mesh"
+      ],
+      "meshNames": [
+        "mesh-torso-mesh",
+        "mesh-belly-mesh",
+        "mesh-neck-mesh",
+        "mesh-cranium-mesh",
+        "mesh-upper-muzzle-mesh",
+        "mesh-lower-jaw-mesh",
+        "mesh-mouth-interior-mesh",
+        "mesh-mouth-line-mesh",
+        "mesh-eye-outline-left-mesh",
+        "mesh-eye-white-left-mesh",
+        "mesh-eye-iris-left-mesh",
+        "mesh-eye-pupil-left-mesh",
+        "mesh-eye-highlight-left-mesh",
+        "mesh-nostril-left-mesh",
+        "mesh-eye-outline-right-mesh",
+        "mesh-eye-white-right-mesh",
+        "mesh-eye-iris-right-mesh",
+        "mesh-eye-pupil-right-mesh",
+        "mesh-eye-highlight-right-mesh",
+        "mesh-nostril-right-mesh",
+        "mesh-upper-arm-left-mesh",
+        "mesh-elbow-left-mesh",
+        "mesh-forearm-left-mesh",
+        "mesh-palm-left-mesh",
+        "mesh-finger-left-1-mesh",
+        "mesh-finger-claw-left-1-mesh",
+        "mesh-finger-left-2-mesh",
+        "mesh-finger-claw-left-2-mesh",
+        "mesh-finger-left-3-mesh",
+        "mesh-finger-claw-left-3-mesh",
+        "mesh-upper-arm-right-mesh",
+        "mesh-elbow-right-mesh",
+        "mesh-forearm-right-mesh",
+        "mesh-palm-right-mesh",
+        "mesh-finger-right-1-mesh",
+        "mesh-finger-claw-right-1-mesh",
+        "mesh-finger-right-2-mesh",
+        "mesh-finger-claw-right-2-mesh",
+        "mesh-finger-right-3-mesh",
+        "mesh-finger-claw-right-3-mesh",
+        "mesh-thigh-left-mesh",
+        "mesh-shin-left-mesh",
+        "mesh-foot-left-mesh",
+        "mesh-toe-claw-left-1-mesh",
+        "mesh-toe-claw-left-2-mesh",
+        "mesh-toe-claw-left-3-mesh",
+        "mesh-thigh-right-mesh",
+        "mesh-shin-right-mesh",
+        "mesh-foot-right-mesh",
+        "mesh-toe-claw-right-1-mesh",
+        "mesh-toe-claw-right-2-mesh",
+        "mesh-toe-claw-right-3-mesh",
+        "mesh-tail-segment-1-mesh",
+        "mesh-tail-junction-1-mesh",
+        "mesh-tail-segment-2-mesh",
+        "mesh-tail-junction-2-mesh",
+        "mesh-tail-segment-3-mesh",
+        "mesh-tail-junction-3-mesh",
+        "mesh-tail-segment-4-mesh",
+        "mesh-tail-junction-4-mesh",
+        "mesh-tail-segment-5-mesh",
+        "mesh-tail-junction-5-mesh",
+        "mesh-flame-main-mesh",
+        "mesh-flame-left-tongue-mesh",
+        "mesh-flame-right-tongue-mesh",
+        "mesh-flame-core-mesh"
+      ],
+      "materials": [
+        {
+          "name": "charmander-surface",
+          "shadingProfile": "style-b-v1",
+          "channels": [
+            "base-color",
+            "roughness",
+            "metalness",
+            "vertex-color"
+          ],
+          "textureFileIds": [],
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "maximumTextureEdge": 0
+        },
+        {
+          "name": "charmander-eye-surface",
+          "shadingProfile": "style-b-v1",
+          "channels": [
+            "base-color",
+            "roughness",
+            "metalness",
+            "vertex-color"
+          ],
+          "textureFileIds": [],
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "maximumTextureEdge": 0
+        },
+        {
+          "name": "charmander-flame-surface",
+          "shadingProfile": "style-b-v1",
+          "channels": [
+            "base-color",
+            "roughness",
+            "metalness",
+            "emissive",
+            "vertex-color"
+          ],
+          "textureFileIds": [],
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "maximumTextureEdge": 0
+        }
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "durationSeconds": 2.4000000953674316,
+          "loop": true,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "head",
+            "socket-tail-flame",
+            "spine",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "locomotion",
+          "durationSeconds": 0.7200000286102295,
+          "loop": true,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "head",
+            "hip-left",
+            "hip-right",
+            "knee-left",
+            "knee-right",
+            "pelvis",
+            "shoulder-left",
+            "shoulder-right",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "attack-physical",
+          "durationSeconds": 0.7400000095367432,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "elbow-right",
+            "hand-right",
+            "head",
+            "pelvis",
+            "shoulder-right",
+            "spine",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "attack-special",
+          "durationSeconds": 1.2000000476837158,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "head",
+            "jaw",
+            "shoulder-left",
+            "shoulder-right",
+            "socket-tail-flame",
+            "spine",
+            "tail-3"
+          ]
+        },
+        {
+          "name": "cast-status",
+          "durationSeconds": 1.350000023841858,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "elbow-left",
+            "elbow-right",
+            "head",
+            "shoulder-left",
+            "shoulder-right",
+            "socket-tail-flame",
+            "spine",
+            "tail-2"
+          ]
+        },
+        {
+          "name": "hit-light",
+          "durationSeconds": 0.41999998688697815,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "head",
+            "shoulder-left",
+            "spine",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "hit-heavy",
+          "durationSeconds": 0.8999999761581421,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "head",
+            "hip-left",
+            "hip-right",
+            "pelvis",
+            "shoulder-left",
+            "shoulder-right",
+            "spine",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "defeat",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "eye-left",
+            "eye-right",
+            "head",
+            "hip-left",
+            "hip-right",
+            "pelvis",
+            "shoulder-left",
+            "shoulder-right",
+            "spine",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "celebrate",
+          "durationSeconds": 1.600000023841858,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "head",
+            "jaw",
+            "pelvis",
+            "shoulder-left",
+            "shoulder-right",
+            "spine",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "rest-sleep",
+          "durationSeconds": 3.4000000953674316,
+          "loop": true,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "eye-left",
+            "eye-right",
+            "head",
+            "hip-left",
+            "hip-right",
+            "knee-left",
+            "knee-right",
+            "pelvis",
+            "socket-tail-flame",
+            "spine",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "interact",
+          "durationSeconds": 1.399999976158142,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "elbow-left",
+            "hand-left",
+            "head",
+            "jaw",
+            "shoulder-left"
+          ]
+        }
+      ],
+      "lods": [
+        {
+          "level": 0,
+          "fileIds": [
+            "charmander-lod0"
+          ],
+          "modelFileId": "charmander-lod0",
+          "triangles": 9016,
+          "nodeCount": 99,
+          "meshCount": 66,
+          "materialCount": 3,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -0.3076996368747442,
+              9.992430632932425e-10,
+              -0.8244760962435416
+            ],
+            "max": [
+              0.3076996368747442,
+              1.0999999963165354,
+              0.17006255085939684
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": [
+            "idle",
+            "locomotion",
+            "attack-physical",
+            "attack-special",
+            "cast-status",
+            "hit-light",
+            "hit-heavy",
+            "defeat",
+            "celebrate",
+            "rest-sleep",
+            "interact"
+          ]
+        },
+        {
+          "level": 1,
+          "fileIds": [
+            "charmander-lod1"
+          ],
+          "modelFileId": "charmander-lod1",
+          "triangles": 4432,
+          "nodeCount": 99,
+          "meshCount": 66,
+          "materialCount": 3,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -0.3106344950776785,
+              9.992430632932425e-10,
+              -0.8214092808076552
+            ],
+            "max": [
+              0.3106344950776785,
+              1.0999999963165354,
+              0.17006255085939684
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": [
+            "idle",
+            "locomotion",
+            "attack-physical",
+            "attack-special",
+            "cast-status",
+            "hit-light",
+            "hit-heavy",
+            "defeat",
+            "celebrate",
+            "rest-sleep",
+            "interact"
+          ]
+        },
+        {
+          "level": 2,
+          "fileIds": [
+            "charmander-lod2"
+          ],
+          "modelFileId": "charmander-lod2",
+          "triangles": 1864,
+          "nodeCount": 99,
+          "meshCount": 66,
+          "materialCount": 2,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -0.3026008059662073,
+              9.992430632932425e-10,
+              -0.8214093702146223
+            ],
+            "max": [
+              0.3026008059662073,
+              1.0999999963165354,
+              0.16303814347261705
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": [
+            "idle",
+            "locomotion",
+            "attack-physical",
+            "attack-special",
+            "cast-status",
+            "hit-light",
+            "hit-heavy",
+            "defeat",
+            "celebrate",
+            "rest-sleep",
+            "interact"
+          ]
+        }
+      ],
+      "sockets": [
+        {
+          "name": "socket-mouth",
+          "parentNode": "head"
+        },
+        {
+          "name": "socket-hand-left",
+          "parentNode": "hand-left"
+        },
+        {
+          "name": "socket-hand-right",
+          "parentNode": "hand-right"
+        },
+        {
+          "name": "socket-foot-left",
+          "parentNode": "ankle-left"
+        },
+        {
+          "name": "socket-foot-right",
+          "parentNode": "ankle-right"
+        },
+        {
+          "name": "socket-tail-tip",
+          "parentNode": "tail-5"
+        },
+        {
+          "name": "socket-tail-flame",
+          "parentNode": "tail-5"
+        }
+      ],
+      "provenance": {
+        "creationMethod": "original-procedural",
+        "creators": [
+          {
+            "name": "Codex",
+            "contribution": "Original procedural candidate geometry, materials, hierarchy and animation authoring for this project."
+          }
+        ],
+        "sourceRecordIds": [
+          "tools-pokemon-dungeon-art-characters-character-helper-mjs",
+          "tools-pokemon-dungeon-art-characters-charmander-mjs",
+          "tools-pokemon-dungeon-art-export-mjs",
+          "tools-pokemon-dungeon-node-modules-three-examples-jsm-exporters-gltfexporter-js",
+          "tools-pokemon-dungeon-package-lock-json"
+        ],
+        "license": {
+          "licenseId": "LicenseRef-Pending-Asset-Review",
+          "reviewState": "pending",
+          "attribution": "Original procedural P06 candidate assets authored with Codex; generated using Three.js 0.186.1.",
+          "noticeUrl": "notices/candidate-assets.txt",
+          "characterRightsNote": "Original modeled geometry does not establish permission for Pokemon character IP or public distribution."
+        }
+      },
+      "review": {
+        "state": "pending"
+      },
+      "authoring": {
+        "recordId": "p06-charmander-v002",
+        "sources": [
+          {
+            "sourceId": "tools-pokemon-dungeon-art-characters-character-helper-mjs",
+            "kind": "original-authoring",
+            "locator": "tools/pokemon-dungeon/art/characters/character-helper.mjs",
+            "sha256": "8b47855abc9c2f22d1d5b5d5f3cec3aa767eb587656bdcd989c94a0d5b35831c",
+            "use": "Reproducible candidate authoring source/tooling input."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-art-characters-charmander-mjs",
+            "kind": "original-authoring",
+            "locator": "tools/pokemon-dungeon/art/characters/charmander.mjs",
+            "sha256": "71f3135601ffe25e049b623dd31061727b88f93bd96d5b71afeaa089491056a0",
+            "use": "Reproducible candidate authoring source/tooling input."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-art-export-mjs",
+            "kind": "original-authoring",
+            "locator": "tools/pokemon-dungeon/art/export.mjs",
+            "sha256": "f1f0184787dda130488bfb499cc70b14cfeba9fde3a82f414ce9b8f7c562829d",
+            "use": "Reproducible candidate authoring source/tooling input."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-node-modules-three-examples-jsm-exporters-gltfexporter-js",
+            "kind": "licensed-input",
+            "locator": "tools/pokemon-dungeon/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+            "sha256": "d766b04f233fa8bc72bfaebacaac5ecb832c30ca3695ce8d84bbb7dccccdc842",
+            "use": "Pinned MIT glTF export tool; not copied game artwork."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-package-lock-json",
+            "kind": "generated-source",
+            "locator": "tools/pokemon-dungeon/package-lock.json",
+            "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
+            "use": "npm-generated record of the pinned third-party authoring dependency closure."
+          }
+        ],
+        "exporter": {
+          "name": "Three.js GLTFExporter / art/export.mjs",
+          "version": "0.186.1",
+          "settingsRecord": "{\"binary\":true,\"trs\":true,\"onlyVisible\":true,\"includeCustomExtensions\":false,\"maxTextureSize\":1024}"
+        },
+        "captures": [
+          {
+            "captureId": "composition-standard-front",
+            "sha256": "ce55ec4cfda663b2f823e6c23154b8adfe5ab32985bfa2d0aa7602f9618a925e",
+            "encodedBytes": 155180,
+            "kind": "third-person-composition",
+            "assetRevision": 2,
+            "width": 1440,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-standard-front.jpg"
+            }
+          },
+          {
+            "captureId": "composition-high-front",
+            "sha256": "2cd064a8e01c66eadb2d97ea5abd8fae5df92f568de29bcc73074c582a2973fa",
+            "encodedBytes": 154519,
+            "kind": "third-person-composition",
+            "assetRevision": 2,
+            "width": 1440,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "high",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-high-front.jpg"
+            }
+          },
+          {
+            "captureId": "composition-low-front",
+            "sha256": "0396ad7756b337d30c4fc9fd0dcef55403bb2fe925b983494d7f1d9626d168b0",
+            "encodedBytes": 53853,
+            "kind": "low-tier",
+            "assetRevision": 2,
+            "width": 390,
+            "height": 844,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "low",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-low-front.jpg"
+            }
+          },
+          {
+            "captureId": "charmander-standard-front",
+            "sha256": "31626b6710ef48df22358103a2b8d674ec40f581a1c99640b051b6ce225687f2",
+            "encodedBytes": 77550,
+            "kind": "neutral-turntable",
+            "assetRevision": 2,
+            "width": 1100,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/charmander-standard-front.jpg"
+            }
+          },
+          {
+            "captureId": "charmander-standard-side",
+            "sha256": "43e0f7ff12282959d07d3ee190061a185c7c936e74cf664a0076b657d5b6c9bd",
+            "encodedBytes": 78139,
+            "kind": "neutral-turntable",
+            "assetRevision": 2,
+            "width": 1100,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/charmander-standard-side.jpg"
+            }
+          },
+          {
+            "captureId": "charmander-standard-back",
+            "sha256": "9aceccc28b1cfae663a98a2c11b97993a33c51486cbc5f50341d242e8d1faa6a",
+            "encodedBytes": 73361,
+            "kind": "neutral-turntable",
+            "assetRevision": 2,
+            "width": 1100,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/charmander-standard-back.jpg"
+            }
+          },
+          {
+            "captureId": "locomotion-study",
+            "sha256": "adba34b133ddd36ea5f35587b23061ca13878be29b61728f52a177def6e51b67",
+            "encodedBytes": 118936,
+            "kind": "clip-preview",
+            "assetRevision": 2,
+            "width": 704,
+            "height": 576,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": false,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/locomotion-study.mp4"
+            }
+          }
+        ],
+        "notes": [
+          "Original procedural Charmander candidate: continuous pear torso, cream belly, broad muzzle, articulated jaw, teal eyes, clawed hands/feet and segmented flame tail.",
+          "Species-specific rigid-part articulation; no claim of a skinned production deformation rig or P06 visual acceptance.",
+          "Neutral mesh and pivots are baked to 1.1 metres; +Y up, +Z forward, identity asset-root, named mouth/hand/foot/tail/flame sockets.",
+          "Eleven in-place clips. Idle, locomotion and rest-sleep have matching endpoint poses; remaining clips are authored as one-shots.",
+          "Flame is opaque sculpted geometry with one separate emissive material. Reduced-motion preview should hold its neutral pose without particles or flicker.",
+          "All three detail levels retain the same named hierarchy and sockets; distant eyes share the body material.",
+          "Candidate procedural art only; no visual acceptance, game rules, gameplay or runtime promotion.",
+          "Triangle counts include each exported mesh-node instance; node/mesh/material/joint counts come from exported glTF JSON.",
+          "Neutral bounds are measured from authoring geometry/transforms; texture-free core glTF only.",
+          "P06 art review still must assess recognition, hierarchy deformation, materials, clip quality, LOD readability and original rights/provenance."
+        ]
+      }
+    },
+    {
+      "assetId": "model.pokemon-383.v002",
+      "revision": 2,
+      "status": "candidate",
+      "subject": {
+        "kind": "character",
+        "speciesId": "pokemon-383",
+        "anchorRole": "boss-anchor",
+        "formBinding": {
+          "state": "unresolved",
+          "reason": "Canonical original-Blue FormId binding awaits the P02/P07 catalog interface."
+        }
+      },
+      "styleProfile": "style-b-v1",
+      "format": "glTF-2.0",
+      "coordinates": {
+        "handedness": "right",
+        "up": "+Y",
+        "forward": "+Z",
+        "metersPerUnit": 1,
+        "tileMeters": 2,
+        "rootNode": "asset-root",
+        "pivot": "ground-center",
+        "rootTranslation": [
+          0,
+          0,
+          0
+        ],
+        "rootRotationQuaternion": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "rootScale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "files": [
+        {
+          "fileId": "groudon-lod0",
+          "url": "models/groudon-lod0.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "9c9ace7da8ecf3d6d64c1fc172611e1bf0ba77dc3feb1a7aabe8da34ccce7a0b",
+          "encodedBytes": 903388
+        },
+        {
+          "fileId": "groudon-lod1",
+          "url": "models/groudon-lod1.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "b6048df0f2ab071c003b020f43372e6efdf66e0cc46cf05d7b639cae5460ac50",
+          "encodedBytes": 813392
+        },
+        {
+          "fileId": "groudon-lod2",
+          "url": "models/groudon-lod2.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "356c907fe0a8f483a7c412572bd788634fa4664170bfff2068223131f3a3579f",
+          "encodedBytes": 646520
+        },
+        {
+          "fileId": "candidate-assets-notice",
+          "url": "notices/candidate-assets.txt",
+          "role": "license-notice",
+          "mediaType": "text/plain",
+          "sha256": "b6c85b852872339394564f95827f606a395a60b780ee9d8f103ed8206df160fd",
+          "encodedBytes": 630
+        }
+      ],
+      "nodeNames": [
+        "asset-root",
+        "rig-root",
+        "pelvis",
+        "spine",
+        "torso-dark-understructure",
+        "belly-plate-1",
+        "side-armor-left-1",
+        "side-armor-right-1",
+        "belly-plate-2",
+        "side-armor-left-2",
+        "side-armor-right-2",
+        "belly-plate-3",
+        "side-armor-left-3",
+        "side-armor-right-3",
+        "belly-plate-4",
+        "side-armor-left-4",
+        "side-armor-right-4",
+        "belly-plate-5",
+        "side-armor-left-5",
+        "side-armor-right-5",
+        "belly-plate-6",
+        "side-armor-left-6",
+        "side-armor-right-6",
+        "back-armor-1",
+        "dorsal-ridge-1",
+        "back-armor-2",
+        "dorsal-ridge-2",
+        "back-armor-3",
+        "dorsal-ridge-3",
+        "back-armor-4",
+        "dorsal-ridge-4",
+        "flank-blade-left-1",
+        "flank-blade-left-2",
+        "flank-blade-left-3",
+        "flank-blade-right-1",
+        "flank-blade-right-2",
+        "flank-blade-right-3",
+        "neck",
+        "neck-dark-joint",
+        "neck-front-gorget",
+        "head",
+        "head-armored-cranium",
+        "crown-central-plate",
+        "muzzle-central-plate",
+        "mouth-dark-separation",
+        "jaw",
+        "jaw-heavy-lower-armor",
+        "jaw-pale-chin",
+        "eye-dark-socket-left",
+        "eye-gold-left",
+        "eye-pupil-left",
+        "brow-ridge-left",
+        "nostril-left",
+        "cheek-blade-left",
+        "tooth-left-1",
+        "tooth-left-2",
+        "tooth-left-3",
+        "eye-dark-socket-right",
+        "eye-gold-right",
+        "eye-pupil-right",
+        "brow-ridge-right",
+        "nostril-right",
+        "cheek-blade-right",
+        "tooth-right-1",
+        "tooth-right-2",
+        "tooth-right-3",
+        "socket-mouth",
+        "arm-upper-left",
+        "shoulder-dark-left",
+        "shoulder-cap-left",
+        "upper-arm-dark-left",
+        "upper-arm-band-left-1",
+        "upper-arm-band-left-2",
+        "arm-lower-left",
+        "elbow-dark-left",
+        "forearm-mass-left",
+        "forearm-band-left-1",
+        "forearm-band-left-2",
+        "elbow-blade-left",
+        "hand-left",
+        "hand-armor-left",
+        "hand-claw-left-1",
+        "hand-claw-left-2",
+        "hand-claw-left-3",
+        "socket-hand-left",
+        "arm-upper-right",
+        "shoulder-dark-right",
+        "shoulder-cap-right",
+        "upper-arm-dark-right",
+        "upper-arm-band-right-1",
+        "upper-arm-band-right-2",
+        "arm-lower-right",
+        "elbow-dark-right",
+        "forearm-mass-right",
+        "forearm-band-right-1",
+        "forearm-band-right-2",
+        "elbow-blade-right",
+        "hand-right",
+        "hand-armor-right",
+        "hand-claw-right-1",
+        "hand-claw-right-2",
+        "hand-claw-right-3",
+        "socket-hand-right",
+        "pelvis-dark-joints",
+        "pelvis-forward-armor",
+        "leg-upper-left",
+        "thigh-dark-left",
+        "thigh-major-armor-left",
+        "thigh-upper-armor-left",
+        "leg-lower-left",
+        "knee-dark-left",
+        "knee-armor-left",
+        "shin-armor-left",
+        "foot-left",
+        "foot-heavy-armor-left",
+        "foot-claw-left-1",
+        "foot-claw-left-2",
+        "foot-claw-left-3",
+        "leg-upper-right",
+        "thigh-dark-right",
+        "thigh-major-armor-right",
+        "thigh-upper-armor-right",
+        "leg-lower-right",
+        "knee-dark-right",
+        "knee-armor-right",
+        "shin-armor-right",
+        "foot-right",
+        "foot-heavy-armor-right",
+        "foot-claw-right-1",
+        "foot-claw-right-2",
+        "foot-claw-right-3",
+        "tail-base",
+        "tail-mid",
+        "tail-tip",
+        "tail-understructure-3",
+        "tail-armor-3-1",
+        "tail-armor-3-2",
+        "tail-armor-3-3",
+        "tail-blade-left-3",
+        "tail-blade-right-3",
+        "socket-tail-tip",
+        "tail-understructure-2",
+        "tail-armor-2-1",
+        "tail-armor-2-2",
+        "tail-armor-2-3",
+        "tail-blade-left-2",
+        "tail-blade-right-2",
+        "tail-understructure-1",
+        "tail-armor-1-1",
+        "tail-armor-1-2",
+        "tail-armor-1-3",
+        "tail-blade-left-1",
+        "tail-blade-right-1"
+      ],
+      "meshNames": [
+        "mesh-torso-dark-understructure",
+        "mesh-belly-plate-1",
+        "mesh-side-armor-left-1",
+        "mesh-side-armor-right-1",
+        "mesh-belly-plate-2",
+        "mesh-side-armor-left-2",
+        "mesh-side-armor-right-2",
+        "mesh-belly-plate-3",
+        "mesh-side-armor-left-3",
+        "mesh-side-armor-right-3",
+        "mesh-belly-plate-4",
+        "mesh-side-armor-left-4",
+        "mesh-side-armor-right-4",
+        "mesh-belly-plate-5",
+        "mesh-side-armor-left-5",
+        "mesh-side-armor-right-5",
+        "mesh-belly-plate-6",
+        "mesh-side-armor-left-6",
+        "mesh-side-armor-right-6",
+        "mesh-back-armor-1",
+        "mesh-dorsal-ridge-1",
+        "mesh-back-armor-2",
+        "mesh-dorsal-ridge-2",
+        "mesh-back-armor-3",
+        "mesh-dorsal-ridge-3",
+        "mesh-back-armor-4",
+        "mesh-dorsal-ridge-4",
+        "mesh-flank-blade-left-1",
+        "mesh-flank-blade-left-2",
+        "mesh-flank-blade-left-3",
+        "mesh-flank-blade-right-1",
+        "mesh-flank-blade-right-2",
+        "mesh-flank-blade-right-3",
+        "mesh-neck-dark-joint",
+        "mesh-neck-front-gorget",
+        "mesh-head-armored-cranium",
+        "mesh-crown-central-plate",
+        "mesh-muzzle-central-plate",
+        "mesh-mouth-dark-separation",
+        "mesh-jaw-heavy-lower-armor",
+        "mesh-jaw-pale-chin",
+        "mesh-eye-dark-socket-left",
+        "mesh-eye-gold-left",
+        "mesh-eye-pupil-left",
+        "mesh-brow-ridge-left",
+        "mesh-nostril-left",
+        "mesh-cheek-blade-left",
+        "mesh-tooth-left-1",
+        "mesh-tooth-left-2",
+        "mesh-tooth-left-3",
+        "mesh-eye-dark-socket-right",
+        "mesh-eye-gold-right",
+        "mesh-eye-pupil-right",
+        "mesh-brow-ridge-right",
+        "mesh-nostril-right",
+        "mesh-cheek-blade-right",
+        "mesh-tooth-right-1",
+        "mesh-tooth-right-2",
+        "mesh-tooth-right-3",
+        "mesh-shoulder-dark-left",
+        "mesh-shoulder-cap-left",
+        "mesh-upper-arm-dark-left",
+        "mesh-upper-arm-band-left-1",
+        "mesh-upper-arm-band-left-2",
+        "mesh-elbow-dark-left",
+        "mesh-forearm-mass-left",
+        "mesh-forearm-band-left-1",
+        "mesh-forearm-band-left-2",
+        "mesh-elbow-blade-left",
+        "mesh-hand-armor-left",
+        "mesh-hand-claw-left-1",
+        "mesh-hand-claw-left-2",
+        "mesh-hand-claw-left-3",
+        "mesh-shoulder-dark-right",
+        "mesh-shoulder-cap-right",
+        "mesh-upper-arm-dark-right",
+        "mesh-upper-arm-band-right-1",
+        "mesh-upper-arm-band-right-2",
+        "mesh-elbow-dark-right",
+        "mesh-forearm-mass-right",
+        "mesh-forearm-band-right-1",
+        "mesh-forearm-band-right-2",
+        "mesh-elbow-blade-right",
+        "mesh-hand-armor-right",
+        "mesh-hand-claw-right-1",
+        "mesh-hand-claw-right-2",
+        "mesh-hand-claw-right-3",
+        "mesh-pelvis-dark-joints",
+        "mesh-pelvis-forward-armor",
+        "mesh-thigh-dark-left",
+        "mesh-thigh-major-armor-left",
+        "mesh-thigh-upper-armor-left",
+        "mesh-knee-dark-left",
+        "mesh-knee-armor-left",
+        "mesh-shin-armor-left",
+        "mesh-foot-heavy-armor-left",
+        "mesh-foot-claw-left-1",
+        "mesh-foot-claw-left-2",
+        "mesh-foot-claw-left-3",
+        "mesh-thigh-dark-right",
+        "mesh-thigh-major-armor-right",
+        "mesh-thigh-upper-armor-right",
+        "mesh-knee-dark-right",
+        "mesh-knee-armor-right",
+        "mesh-shin-armor-right",
+        "mesh-foot-heavy-armor-right",
+        "mesh-foot-claw-right-1",
+        "mesh-foot-claw-right-2",
+        "mesh-foot-claw-right-3",
+        "mesh-tail-understructure-3",
+        "mesh-tail-armor-3-1",
+        "mesh-tail-armor-3-2",
+        "mesh-tail-armor-3-3",
+        "mesh-tail-blade-left-3",
+        "mesh-tail-blade-right-3",
+        "mesh-tail-understructure-2",
+        "mesh-tail-armor-2-1",
+        "mesh-tail-armor-2-2",
+        "mesh-tail-armor-2-3",
+        "mesh-tail-blade-left-2",
+        "mesh-tail-blade-right-2",
+        "mesh-tail-understructure-1",
+        "mesh-tail-armor-1-1",
+        "mesh-tail-armor-1-2",
+        "mesh-tail-armor-1-3",
+        "mesh-tail-blade-left-1",
+        "mesh-tail-blade-right-1"
+      ],
+      "materials": [
+        {
+          "name": "groudon-armor-surface",
+          "shadingProfile": "style-b-v1",
+          "channels": [
+            "base-color",
+            "roughness",
+            "metalness",
+            "vertex-color"
+          ],
+          "textureFileIds": [],
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "maximumTextureEdge": 0
+        }
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "durationSeconds": 3,
+          "loop": true,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "head",
+            "spine",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "locomotion",
+          "durationSeconds": 1.600000023841858,
+          "loop": true,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "arm-upper-left",
+            "arm-upper-right",
+            "leg-lower-left",
+            "leg-lower-right",
+            "leg-upper-left",
+            "leg-upper-right",
+            "pelvis",
+            "tail-base"
+          ]
+        },
+        {
+          "name": "attack-physical",
+          "durationSeconds": 1.149999976158142,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "arm-lower-right",
+            "arm-upper-right",
+            "head",
+            "spine"
+          ]
+        },
+        {
+          "name": "attack-special",
+          "durationSeconds": 1.7999999523162842,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "arm-upper-left",
+            "arm-upper-right",
+            "jaw",
+            "neck"
+          ]
+        },
+        {
+          "name": "cast-status",
+          "durationSeconds": 2.200000047683716,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "arm-upper-left",
+            "arm-upper-right",
+            "spine",
+            "tail-mid"
+          ]
+        },
+        {
+          "name": "hit-light",
+          "durationSeconds": 0.550000011920929,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "head",
+            "spine"
+          ]
+        },
+        {
+          "name": "hit-heavy",
+          "durationSeconds": 1.149999976158142,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "arm-upper-left",
+            "neck",
+            "spine"
+          ]
+        },
+        {
+          "name": "defeat",
+          "durationSeconds": 2.4000000953674316,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "arm-upper-left",
+            "arm-upper-right",
+            "head",
+            "spine"
+          ]
+        },
+        {
+          "name": "celebrate",
+          "durationSeconds": 2.4000000953674316,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "arm-upper-left",
+            "arm-upper-right",
+            "head",
+            "jaw",
+            "pelvis"
+          ]
+        },
+        {
+          "name": "rest-sleep",
+          "durationSeconds": 4,
+          "loop": true,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "arm-upper-left",
+            "arm-upper-right",
+            "head",
+            "spine"
+          ]
+        },
+        {
+          "name": "interact",
+          "durationSeconds": 1.600000023841858,
+          "loop": false,
+          "rootMotion": "in-place",
+          "targetNodes": [
+            "arm-lower-left",
+            "arm-upper-left",
+            "head"
+          ]
+        }
+      ],
+      "lods": [
+        {
+          "level": 0,
+          "fileIds": [
+            "groudon-lod0"
+          ],
+          "modelFileId": "groudon-lod0",
+          "triangles": 11792,
+          "nodeCount": 153,
+          "meshCount": 127,
+          "materialCount": 1,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -2.8773977791372842,
+              -2.11461403942792e-10,
+              -4.914161464144027
+            ],
+            "max": [
+              2.8773977791372842,
+              5.465780299751419,
+              1.6854562947580396
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": [
+            "idle",
+            "locomotion",
+            "attack-physical",
+            "attack-special",
+            "cast-status",
+            "hit-light",
+            "hit-heavy",
+            "defeat",
+            "celebrate",
+            "rest-sleep",
+            "interact"
+          ]
+        },
+        {
+          "level": 1,
+          "fileIds": [
+            "groudon-lod1"
+          ],
+          "modelFileId": "groudon-lod1",
+          "triangles": 8904,
+          "nodeCount": 153,
+          "meshCount": 127,
+          "materialCount": 1,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -2.8773977791372842,
+              -2.11461403942792e-10,
+              -4.914161464144027
+            ],
+            "max": [
+              2.8773977791372842,
+              5.465780299751419,
+              1.6854562947580396
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": [
+            "idle",
+            "locomotion",
+            "attack-physical",
+            "attack-special",
+            "cast-status",
+            "hit-light",
+            "hit-heavy",
+            "defeat",
+            "celebrate",
+            "rest-sleep",
+            "interact"
+          ]
+        },
+        {
+          "level": 2,
+          "fileIds": [
+            "groudon-lod2"
+          ],
+          "modelFileId": "groudon-lod2",
+          "triangles": 5848,
+          "nodeCount": 153,
+          "meshCount": 127,
+          "materialCount": 1,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -2.8773977791372842,
+              -2.11461403942792e-10,
+              -4.914161464144027
+            ],
+            "max": [
+              2.8773977791372842,
+              5.461787721982028,
+              1.6854562947580396
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": [
+            "idle",
+            "locomotion",
+            "attack-physical",
+            "attack-special",
+            "cast-status",
+            "hit-light",
+            "hit-heavy",
+            "defeat",
+            "celebrate",
+            "rest-sleep",
+            "interact"
+          ]
+        }
+      ],
+      "sockets": [
+        {
+          "name": "socket-mouth",
+          "parentNode": "head"
+        },
+        {
+          "name": "socket-hand-left",
+          "parentNode": "hand-left"
+        },
+        {
+          "name": "socket-hand-right",
+          "parentNode": "hand-right"
+        },
+        {
+          "name": "socket-tail-tip",
+          "parentNode": "tail-tip"
+        }
+      ],
+      "provenance": {
+        "creationMethod": "original-procedural",
+        "creators": [
+          {
+            "name": "Codex",
+            "contribution": "Original procedural candidate geometry, materials, hierarchy and animation authoring for this project."
+          }
+        ],
+        "sourceRecordIds": [
+          "tools-pokemon-dungeon-art-characters-groudon-mjs",
+          "tools-pokemon-dungeon-art-export-mjs",
+          "tools-pokemon-dungeon-node-modules-three-examples-jsm-exporters-gltfexporter-js",
+          "tools-pokemon-dungeon-package-lock-json"
+        ],
+        "license": {
+          "licenseId": "LicenseRef-Pending-Asset-Review",
+          "reviewState": "pending",
+          "attribution": "Original procedural P06 candidate assets authored with Codex; generated using Three.js 0.186.1.",
+          "noticeUrl": "notices/candidate-assets.txt",
+          "characterRightsNote": "Original modeled geometry does not establish permission for Pokemon character IP or public distribution."
+        }
+      },
+      "review": {
+        "state": "pending"
+      },
+      "authoring": {
+        "recordId": "p06-groudon-v002",
+        "sources": [
+          {
+            "sourceId": "tools-pokemon-dungeon-art-characters-groudon-mjs",
+            "kind": "original-authoring",
+            "locator": "tools/pokemon-dungeon/art/characters/groudon.mjs",
+            "sha256": "b19b9ce8f22076c5fc62b6df3b7d59d29b1ccd28aadda3fdc9edd8bc438a261b",
+            "use": "Reproducible candidate authoring source/tooling input."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-art-export-mjs",
+            "kind": "original-authoring",
+            "locator": "tools/pokemon-dungeon/art/export.mjs",
+            "sha256": "f1f0184787dda130488bfb499cc70b14cfeba9fde3a82f414ce9b8f7c562829d",
+            "use": "Reproducible candidate authoring source/tooling input."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-node-modules-three-examples-jsm-exporters-gltfexporter-js",
+            "kind": "licensed-input",
+            "locator": "tools/pokemon-dungeon/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+            "sha256": "d766b04f233fa8bc72bfaebacaac5ecb832c30ca3695ce8d84bbb7dccccdc842",
+            "use": "Pinned MIT glTF export tool; not copied game artwork."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-package-lock-json",
+            "kind": "generated-source",
+            "locator": "tools/pokemon-dungeon/package-lock.json",
+            "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
+            "use": "npm-generated record of the pinned third-party authoring dependency closure."
+          }
+        ],
+        "exporter": {
+          "name": "Three.js GLTFExporter / art/export.mjs",
+          "version": "0.186.1",
+          "settingsRecord": "{\"binary\":true,\"trs\":true,\"onlyVisible\":true,\"includeCustomExtensions\":false,\"maxTextureSize\":1024}"
+        },
+        "captures": [
+          {
+            "captureId": "composition-standard-front",
+            "sha256": "ce55ec4cfda663b2f823e6c23154b8adfe5ab32985bfa2d0aa7602f9618a925e",
+            "encodedBytes": 155180,
+            "kind": "third-person-composition",
+            "assetRevision": 2,
+            "width": 1440,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-standard-front.jpg"
+            }
+          },
+          {
+            "captureId": "composition-high-front",
+            "sha256": "2cd064a8e01c66eadb2d97ea5abd8fae5df92f568de29bcc73074c582a2973fa",
+            "encodedBytes": 154519,
+            "kind": "third-person-composition",
+            "assetRevision": 2,
+            "width": 1440,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "high",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-high-front.jpg"
+            }
+          },
+          {
+            "captureId": "composition-low-front",
+            "sha256": "0396ad7756b337d30c4fc9fd0dcef55403bb2fe925b983494d7f1d9626d168b0",
+            "encodedBytes": 53853,
+            "kind": "low-tier",
+            "assetRevision": 2,
+            "width": 390,
+            "height": 844,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "low",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-low-front.jpg"
+            }
+          },
+          {
+            "captureId": "groudon-standard-front",
+            "sha256": "13cca89288f0ab1b278c1de53ea3088422d50c0b4142566f1e170ad46b60ab47",
+            "encodedBytes": 90447,
+            "kind": "neutral-turntable",
+            "assetRevision": 2,
+            "width": 1100,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/groudon-standard-front.jpg"
+            }
+          },
+          {
+            "captureId": "groudon-standard-side",
+            "sha256": "b8c77ff76f0da51f266b027a4bf03ef99ef9302537d25045feb9210c995443ca",
+            "encodedBytes": 88196,
+            "kind": "neutral-turntable",
+            "assetRevision": 2,
+            "width": 1100,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/groudon-standard-side.jpg"
+            }
+          },
+          {
+            "captureId": "groudon-standard-back",
+            "sha256": "ad2d52e72b12bebe25264839c509469d9575ec0c8ed97f3972562d573641c2f7",
+            "encodedBytes": 90297,
+            "kind": "neutral-turntable",
+            "assetRevision": 2,
+            "width": 1100,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/groudon-standard-back.jpg"
+            }
+          },
+          {
+            "captureId": "locomotion-study",
+            "sha256": "adba34b133ddd36ea5f35587b23061ca13878be29b61728f52a177def6e51b67",
+            "encodedBytes": 118936,
+            "kind": "clip-preview",
+            "assetRevision": 2,
+            "width": 704,
+            "height": 576,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": false,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/locomotion-study.mp4"
+            }
+          }
+        ],
+        "notes": [
+          "Original procedural Groudon art candidate: authored armor hulls, seams, eyes, belly plates, claws and articulated tail; no extracted meshes, textures or commercial animation.",
+          "Neutral measured staging height is 5.5 meters with the lowest neutral contact at Y=0; +Z is forward and asset-root has identity transforms.",
+          "One opaque vertex-color MeshStandardMaterial serves every LOD. Textureless core glTF geometry; cel light bands belong to the reviewed preview renderer.",
+          "Rigid plated transform hierarchy, not a skinned soft-tissue model. Art review must inspect joint separation, deformation, silhouette and all eleven in-place clips.",
+          "LOD0 reduces round-joint tessellation while retaining identifying armor, claws, face, rig names, sockets and clip vocabulary.",
+          "P06 art preview only; animations do not encode move timing, collision, damage, status, recruitment or story outcomes.",
+          "LOD1 reduces round-joint tessellation while retaining identifying armor, claws, face, rig names, sockets and clip vocabulary.",
+          "LOD2 reduces round-joint tessellation while retaining identifying armor, claws, face, rig names, sockets and clip vocabulary.",
+          "Candidate procedural art only; no visual acceptance, game rules, gameplay or runtime promotion.",
+          "Triangle counts include each exported mesh-node instance; node/mesh/material/joint counts come from exported glTF JSON.",
+          "Neutral bounds are measured from authoring geometry/transforms; texture-free core glTF only.",
+          "P06 art review still must assess recognition, hierarchy deformation, materials, clip quality, LOD readability and original rights/provenance."
+        ]
+      }
+    },
+    {
+      "assetId": "environment.magma-cavern.composition.v002",
+      "revision": 2,
+      "status": "candidate",
+      "subject": {
+        "kind": "environment",
+        "environmentKey": "magma-cavern",
+        "anchorRole": "environment-anchor",
+        "component": "composition",
+        "domainBinding": {
+          "state": "unresolved",
+          "reason": "P06 composition only; no canonical DungeonId, layout, floor number or hazard binding."
+        }
+      },
+      "styleProfile": "style-b-v1",
+      "format": "glTF-2.0",
+      "coordinates": {
+        "handedness": "right",
+        "up": "+Y",
+        "forward": "+Z",
+        "metersPerUnit": 1,
+        "tileMeters": 2,
+        "rootNode": "asset-root",
+        "pivot": "ground-center",
+        "rootTranslation": [
+          0,
+          0,
+          0
+        ],
+        "rootRotationQuaternion": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "rootScale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "files": [
+        {
+          "fileId": "magma-cavern-lod0",
+          "url": "models/magma-cavern-lod0.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "0cd8c43991b989d2331f81a1e5b6f9fd1cf1868947d3fe881650dfd18aff70ab",
+          "encodedBytes": 80588
+        },
+        {
+          "fileId": "magma-cavern-lod1",
+          "url": "models/magma-cavern-lod1.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "0cd8c43991b989d2331f81a1e5b6f9fd1cf1868947d3fe881650dfd18aff70ab",
+          "encodedBytes": 80588
+        },
+        {
+          "fileId": "magma-cavern-lod2",
+          "url": "models/magma-cavern-lod2.glb",
+          "role": "model",
+          "mediaType": "model/gltf-binary",
+          "sha256": "5c58fd202cc3647f1c631dda76ee42b7c6dfc4776a927f6eaf7a0c4192d680a6",
+          "encodedBytes": 51580
+        },
+        {
+          "fileId": "candidate-assets-notice",
+          "url": "notices/candidate-assets.txt",
+          "role": "license-notice",
+          "mediaType": "text/plain",
+          "sha256": "b6c85b852872339394564f95827f606a395a60b780ee9d8f103ed8206df160fd",
+          "encodedBytes": 630
+        }
+      ],
+      "nodeNames": [
+        "asset-root",
+        "ground-slab-000",
+        "ground-slab-001",
+        "ground-slab-002",
+        "ground-slab-003",
+        "ground-slab-004",
+        "slab-edge-005",
+        "ground-slab-006",
+        "ground-slab-007",
+        "slab-edge-008",
+        "ground-slab-009",
+        "slab-edge-010",
+        "ground-slab-011",
+        "slab-edge-012",
+        "ground-slab-013",
+        "slab-edge-014",
+        "ground-slab-015",
+        "ground-slab-016",
+        "ground-slab-017",
+        "ground-slab-018",
+        "slab-edge-019",
+        "ground-slab-020",
+        "ground-slab-021",
+        "ground-slab-022",
+        "slab-edge-023",
+        "ground-slab-024",
+        "slab-edge-025",
+        "ground-slab-026",
+        "slab-edge-027",
+        "ground-slab-028",
+        "ground-slab-029",
+        "slab-edge-030",
+        "ground-slab-031",
+        "slab-edge-032",
+        "ground-slab-033",
+        "ground-slab-034",
+        "ground-slab-035",
+        "slab-edge-036",
+        "ground-slab-037",
+        "slab-edge-038",
+        "ground-slab-039",
+        "slab-edge-040",
+        "ground-slab-041",
+        "slab-edge-042",
+        "ground-slab-043",
+        "ground-slab-044",
+        "ground-slab-045",
+        "ground-slab-046",
+        "ground-slab-047",
+        "slab-edge-048",
+        "ground-slab-049",
+        "slab-edge-050",
+        "ground-slab-051",
+        "slab-edge-052",
+        "ground-slab-053",
+        "slab-edge-054",
+        "ground-slab-055",
+        "ground-slab-056",
+        "ground-slab-057",
+        "slab-edge-058",
+        "ground-slab-059",
+        "slab-edge-060",
+        "ground-slab-061",
+        "slab-edge-062",
+        "ground-slab-063",
+        "slab-edge-064",
+        "ground-slab-065",
+        "slab-edge-066",
+        "ground-slab-067",
+        "slab-edge-068",
+        "ground-slab-069",
+        "slab-edge-070",
+        "ground-slab-071",
+        "ground-slab-072",
+        "ground-slab-073",
+        "ground-slab-074",
+        "slab-edge-075",
+        "ground-slab-076",
+        "slab-edge-077",
+        "ground-slab-078",
+        "slab-edge-079",
+        "ground-slab-080",
+        "slab-edge-081",
+        "ground-slab-082",
+        "slab-edge-083",
+        "ground-slab-084",
+        "slab-edge-085",
+        "ground-slab-086",
+        "ground-slab-087",
+        "slab-edge-088",
+        "ground-slab-089",
+        "slab-edge-090",
+        "ground-slab-091",
+        "slab-edge-092",
+        "ground-slab-093",
+        "slab-edge-094",
+        "ground-slab-095",
+        "slab-edge-096",
+        "ground-slab-097",
+        "slab-edge-098",
+        "ground-slab-099",
+        "ground-slab-100",
+        "ground-slab-101",
+        "slab-edge-102",
+        "ground-slab-103",
+        "ground-slab-104",
+        "ground-slab-105",
+        "slab-edge-106",
+        "ground-slab-107",
+        "ground-slab-108",
+        "slab-edge-109",
+        "ground-slab-110",
+        "ground-slab-111",
+        "ground-slab-112",
+        "ground-slab-113",
+        "slab-edge-114",
+        "ground-slab-115",
+        "slab-edge-116",
+        "ground-slab-117",
+        "slab-edge-118",
+        "ground-slab-119",
+        "slab-edge-120",
+        "ground-slab-121",
+        "slab-edge-122",
+        "ground-slab-123",
+        "slab-edge-124",
+        "ground-slab-125",
+        "slab-edge-126",
+        "ground-slab-127",
+        "slab-edge-128",
+        "ground-slab-129",
+        "ground-slab-130",
+        "ground-slab-131",
+        "slab-edge-132",
+        "ground-slab-133",
+        "slab-edge-134",
+        "ground-slab-135",
+        "slab-edge-136",
+        "ground-slab-137",
+        "ground-slab-138",
+        "ground-slab-139",
+        "slab-edge-140",
+        "ground-slab-141",
+        "slab-edge-142",
+        "ground-slab-143",
+        "slab-edge-144",
+        "ground-slab-145",
+        "ground-slab-146",
+        "ground-slab-147",
+        "ground-slab-148",
+        "slab-edge-149",
+        "ground-slab-150",
+        "slab-edge-151",
+        "ground-slab-152",
+        "slab-edge-153",
+        "ground-slab-154",
+        "ground-slab-155",
+        "slab-edge-156",
+        "ground-slab-157",
+        "ground-slab-158",
+        "ground-slab-159",
+        "slab-edge-160",
+        "ground-slab-161",
+        "lava-lake-162",
+        "molten-ridge-163",
+        "molten-ridge-164",
+        "molten-ridge-165",
+        "molten-ridge-166",
+        "molten-ridge-167",
+        "molten-ridge-168",
+        "molten-ridge-169",
+        "molten-ridge-170",
+        "molten-ridge-171",
+        "molten-ridge-172",
+        "molten-ridge-173",
+        "molten-ridge-174",
+        "molten-ridge-175",
+        "molten-ridge-176",
+        "molten-ridge-177",
+        "molten-ridge-178",
+        "molten-ridge-179",
+        "molten-ridge-180",
+        "molten-ridge-181",
+        "molten-ridge-182",
+        "molten-ridge-183",
+        "molten-ridge-184",
+        "molten-ridge-185",
+        "molten-ridge-186",
+        "basalt-column-187",
+        "basalt-column-188",
+        "lava-fall-189",
+        "fall-core-190",
+        "basalt-column-191",
+        "basalt-column-192",
+        "basalt-column-193",
+        "basalt-column-194",
+        "basalt-column-195",
+        "lava-fall-196",
+        "fall-core-197",
+        "basalt-column-198",
+        "basalt-column-199",
+        "basalt-column-200",
+        "basalt-column-201",
+        "basalt-column-202",
+        "lava-fall-203",
+        "fall-core-204",
+        "basalt-column-205",
+        "basalt-column-206",
+        "basalt-column-207",
+        "basalt-column-208",
+        "basalt-column-209",
+        "lava-fall-210",
+        "fall-core-211",
+        "basalt-column-212",
+        "basalt-column-213",
+        "basalt-column-214",
+        "basalt-column-215",
+        "basalt-column-216",
+        "lava-fall-217",
+        "fall-core-218",
+        "basalt-column-219",
+        "basalt-column-220",
+        "basalt-column-221",
+        "basalt-column-222",
+        "basalt-column-223",
+        "lava-fall-224",
+        "fall-core-225",
+        "basalt-column-226",
+        "basalt-column-227",
+        "basalt-column-228",
+        "basalt-column-229",
+        "lava-fall-230",
+        "fall-core-231",
+        "basalt-column-232",
+        "basalt-column-233",
+        "basalt-column-234",
+        "basalt-column-235",
+        "basalt-column-236",
+        "lava-fall-237",
+        "fall-core-238",
+        "basalt-column-239",
+        "basalt-column-240",
+        "basalt-column-241",
+        "basalt-column-242",
+        "basalt-column-243",
+        "lava-fall-244",
+        "fall-core-245",
+        "basalt-column-246",
+        "basalt-column-247",
+        "basalt-column-248",
+        "basalt-column-249",
+        "basalt-column-250",
+        "lava-fall-251",
+        "fall-core-252",
+        "basalt-column-253",
+        "basalt-column-254",
+        "basalt-column-255",
+        "basalt-column-256",
+        "basalt-column-257",
+        "lava-fall-258",
+        "fall-core-259",
+        "basalt-column-260",
+        "basalt-column-261",
+        "basalt-column-262",
+        "basalt-column-263",
+        "basalt-column-264",
+        "lava-fall-265",
+        "fall-core-266",
+        "basalt-column-267",
+        "basalt-column-268",
+        "distant-arch-269",
+        "distant-arch-270",
+        "distant-arch-271",
+        "distant-arch-272",
+        "distant-arch-273",
+        "distant-arch-274",
+        "distant-arch-275",
+        "distant-arch-276",
+        "distant-arch-277",
+        "distant-arch-278",
+        "distant-arch-279",
+        "distant-arch-280",
+        "distant-arch-281",
+        "distant-arch-282",
+        "distant-arch-283",
+        "distant-arch-284",
+        "distant-arch-285",
+        "distant-arch-286",
+        "distant-arch-287",
+        "distant-arch-288",
+        "distant-arch-289",
+        "distant-arch-290",
+        "distant-arch-291",
+        "distant-arch-292",
+        "distant-arch-293",
+        "distant-arch-294",
+        "distant-arch-295",
+        "distant-arch-296",
+        "distant-arch-297",
+        "distant-arch-298",
+        "distant-arch-299",
+        "distant-arch-300",
+        "distant-arch-301",
+        "distant-arch-302",
+        "distant-arch-303",
+        "distant-arch-304",
+        "distant-arch-305",
+        "distant-arch-306",
+        "obsidian-outcrop-307",
+        "obsidian-outcrop-308",
+        "obsidian-outcrop-309",
+        "obsidian-outcrop-310",
+        "obsidian-outcrop-311",
+        "obsidian-outcrop-312",
+        "obsidian-outcrop-313",
+        "obsidian-outcrop-314",
+        "obsidian-outcrop-315",
+        "obsidian-outcrop-316",
+        "obsidian-outcrop-317",
+        "obsidian-outcrop-318",
+        "obsidian-outcrop-319",
+        "obsidian-outcrop-320",
+        "obsidian-outcrop-321",
+        "obsidian-outcrop-322",
+        "obsidian-outcrop-323",
+        "obsidian-outcrop-324",
+        "obsidian-outcrop-325",
+        "obsidian-outcrop-326",
+        "obsidian-outcrop-327",
+        "obsidian-outcrop-328",
+        "obsidian-outcrop-329",
+        "obsidian-outcrop-330",
+        "ground-slab-005",
+        "ground-slab-008",
+        "ground-slab-010",
+        "ground-slab-012",
+        "ground-slab-014",
+        "ground-slab-019",
+        "ground-slab-023",
+        "ground-slab-025",
+        "ground-slab-027",
+        "ground-slab-030",
+        "ground-slab-032",
+        "ground-slab-036",
+        "ground-slab-038",
+        "ground-slab-040",
+        "ground-slab-042",
+        "ground-slab-048",
+        "ground-slab-050",
+        "ground-slab-052",
+        "ground-slab-054",
+        "ground-slab-058",
+        "ground-slab-060",
+        "ground-slab-062",
+        "ground-slab-064",
+        "ground-slab-066",
+        "ground-slab-068",
+        "ground-slab-070",
+        "ground-slab-075",
+        "ground-slab-077",
+        "ground-slab-079",
+        "ground-slab-081",
+        "ground-slab-083",
+        "ground-slab-085",
+        "ground-slab-088",
+        "ground-slab-090",
+        "ground-slab-092",
+        "ground-slab-094",
+        "ground-slab-096",
+        "ground-slab-098",
+        "lava-lake-102",
+        "molten-ridge-103",
+        "molten-ridge-104",
+        "molten-ridge-105",
+        "molten-ridge-106",
+        "molten-ridge-107",
+        "molten-ridge-108",
+        "molten-ridge-109",
+        "molten-ridge-110",
+        "molten-ridge-111",
+        "molten-ridge-112",
+        "molten-ridge-113",
+        "molten-ridge-114",
+        "basalt-column-115",
+        "basalt-column-116",
+        "lava-fall-117",
+        "fall-core-118",
+        "basalt-column-119",
+        "basalt-column-120",
+        "basalt-column-121",
+        "basalt-column-122",
+        "basalt-column-123",
+        "lava-fall-124",
+        "fall-core-125",
+        "basalt-column-126",
+        "basalt-column-127",
+        "basalt-column-128",
+        "basalt-column-129",
+        "basalt-column-130",
+        "lava-fall-131",
+        "fall-core-132",
+        "basalt-column-133",
+        "basalt-column-134",
+        "basalt-column-135",
+        "basalt-column-136",
+        "basalt-column-137",
+        "lava-fall-138",
+        "fall-core-139",
+        "basalt-column-140",
+        "basalt-column-141",
+        "lava-fall-142",
+        "fall-core-143",
+        "basalt-column-144",
+        "basalt-column-145",
+        "basalt-column-146",
+        "basalt-column-147",
+        "basalt-column-148",
+        "lava-fall-149",
+        "fall-core-150",
+        "basalt-column-151",
+        "basalt-column-152",
+        "basalt-column-153",
+        "basalt-column-154",
+        "basalt-column-155",
+        "lava-fall-156",
+        "fall-core-157",
+        "basalt-column-158",
+        "basalt-column-159",
+        "basalt-column-160",
+        "basalt-column-161",
+        "basalt-column-162",
+        "lava-fall-163",
+        "fall-core-164",
+        "distant-arch-165",
+        "distant-arch-166",
+        "distant-arch-167",
+        "distant-arch-168",
+        "distant-arch-169",
+        "distant-arch-170",
+        "distant-arch-171",
+        "distant-arch-172",
+        "distant-arch-173",
+        "distant-arch-174",
+        "distant-arch-175",
+        "distant-arch-176",
+        "distant-arch-177",
+        "distant-arch-178",
+        "distant-arch-179",
+        "distant-arch-180",
+        "distant-arch-181",
+        "distant-arch-182",
+        "distant-arch-183",
+        "distant-arch-184",
+        "distant-arch-185",
+        "distant-arch-186",
+        "distant-arch-187",
+        "distant-arch-188",
+        "distant-arch-189",
+        "distant-arch-190",
+        "obsidian-outcrop-191",
+        "obsidian-outcrop-192",
+        "obsidian-outcrop-193",
+        "obsidian-outcrop-194",
+        "obsidian-outcrop-195",
+        "obsidian-outcrop-196",
+        "obsidian-outcrop-197",
+        "obsidian-outcrop-198",
+        "obsidian-outcrop-199",
+        "obsidian-outcrop-200"
+      ],
+      "meshNames": [
+        "mesh-ground-slab-000",
+        "mesh-ground-slab-001",
+        "mesh-ground-slab-002",
+        "mesh-ground-slab-003",
+        "mesh-ground-slab-004",
+        "mesh-slab-edge-005",
+        "mesh-lava-lake-162",
+        "mesh-molten-ridge-163",
+        "mesh-lava-lake-102",
+        "mesh-basalt-column-115"
+      ],
+      "materials": [
+        {
+          "name": "basalt-violet",
+          "shadingProfile": "style-b-v1",
+          "channels": [
+            "base-color",
+            "roughness",
+            "metalness",
+            "vertex-color"
+          ],
+          "textureFileIds": [],
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "maximumTextureEdge": 0
+        },
+        {
+          "name": "lava-amber",
+          "shadingProfile": "style-b-v1",
+          "channels": [
+            "base-color",
+            "roughness",
+            "metalness",
+            "emissive",
+            "vertex-color"
+          ],
+          "textureFileIds": [],
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "maximumTextureEdge": 0
+        },
+        {
+          "name": "lava-ridges",
+          "shadingProfile": "style-b-v1",
+          "channels": [
+            "base-color",
+            "roughness",
+            "metalness",
+            "emissive",
+            "vertex-color"
+          ],
+          "textureFileIds": [],
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "maximumTextureEdge": 0
+        }
+      ],
+      "clips": [],
+      "lods": [
+        {
+          "level": 0,
+          "fileIds": [
+            "magma-cavern-lod0"
+          ],
+          "modelFileId": "magma-cavern-lod0",
+          "triangles": 7586,
+          "nodeCount": 332,
+          "meshCount": 8,
+          "materialCount": 3,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -24,
+              -2.35,
+              -32.30874229305144
+            ],
+            "max": [
+              24,
+              16.89764516003295,
+              32.69125770694856
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": []
+        },
+        {
+          "level": 1,
+          "fileIds": [
+            "magma-cavern-lod1"
+          ],
+          "modelFileId": "magma-cavern-lod1",
+          "triangles": 7586,
+          "nodeCount": 332,
+          "meshCount": 8,
+          "materialCount": 3,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -24,
+              -2.35,
+              -32.30874229305144
+            ],
+            "max": [
+              24,
+              16.89764516003295,
+              32.69125770694856
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": []
+        },
+        {
+          "level": 2,
+          "fileIds": [
+            "magma-cavern-lod2"
+          ],
+          "modelFileId": "magma-cavern-lod2",
+          "triangles": 3906,
+          "nodeCount": 202,
+          "meshCount": 7,
+          "materialCount": 2,
+          "skinJointCount": 0,
+          "boundsMeters": {
+            "min": [
+              -24,
+              -2.35,
+              -32.40222834810692
+            ],
+            "max": [
+              24,
+              16.78253569602966,
+              32.59777165189308
+            ],
+            "measurementPose": "neutral-bind-pose"
+          },
+          "clipNames": []
+        }
+      ],
+      "sockets": [],
+      "provenance": {
+        "creationMethod": "original-procedural",
+        "creators": [
+          {
+            "name": "Codex",
+            "contribution": "Original procedural candidate geometry, materials, hierarchy and animation authoring for this project."
+          }
+        ],
+        "sourceRecordIds": [
+          "tools-pokemon-dungeon-art-environment-magma-cavern-mjs",
+          "tools-pokemon-dungeon-art-export-mjs",
+          "tools-pokemon-dungeon-node-modules-three-examples-jsm-exporters-gltfexporter-js",
+          "tools-pokemon-dungeon-package-lock-json"
+        ],
+        "license": {
+          "licenseId": "LicenseRef-Pending-Asset-Review",
+          "reviewState": "pending",
+          "attribution": "Original procedural P06 candidate assets authored with Codex; generated using Three.js 0.186.1.",
+          "noticeUrl": "notices/candidate-assets.txt",
+          "characterRightsNote": "Original volcanic composition; project asset distribution review remains pending."
+        }
+      },
+      "review": {
+        "state": "pending"
+      },
+      "authoring": {
+        "recordId": "p06-magma-cavern-v002",
+        "sources": [
+          {
+            "sourceId": "tools-pokemon-dungeon-art-environment-magma-cavern-mjs",
+            "kind": "original-authoring",
+            "locator": "tools/pokemon-dungeon/art/environment/magma-cavern.mjs",
+            "sha256": "4f4ccca7cc09cbf6296bc47427b28a29f11f32cf4c14889bc9ea3c8200c33738",
+            "use": "Reproducible candidate authoring source/tooling input."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-art-export-mjs",
+            "kind": "original-authoring",
+            "locator": "tools/pokemon-dungeon/art/export.mjs",
+            "sha256": "f1f0184787dda130488bfb499cc70b14cfeba9fde3a82f414ce9b8f7c562829d",
+            "use": "Reproducible candidate authoring source/tooling input."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-node-modules-three-examples-jsm-exporters-gltfexporter-js",
+            "kind": "licensed-input",
+            "locator": "tools/pokemon-dungeon/node_modules/three/examples/jsm/exporters/GLTFExporter.js",
+            "sha256": "d766b04f233fa8bc72bfaebacaac5ecb832c30ca3695ce8d84bbb7dccccdc842",
+            "use": "Pinned MIT glTF export tool; not copied game artwork."
+          },
+          {
+            "sourceId": "tools-pokemon-dungeon-package-lock-json",
+            "kind": "generated-source",
+            "locator": "tools/pokemon-dungeon/package-lock.json",
+            "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
+            "use": "npm-generated record of the pinned third-party authoring dependency closure."
+          }
+        ],
+        "exporter": {
+          "name": "Three.js GLTFExporter / art/export.mjs",
+          "version": "0.186.1",
+          "settingsRecord": "{\"binary\":true,\"trs\":true,\"onlyVisible\":true,\"includeCustomExtensions\":false,\"maxTextureSize\":1024}"
+        },
+        "captures": [
+          {
+            "captureId": "composition-standard-front",
+            "sha256": "ce55ec4cfda663b2f823e6c23154b8adfe5ab32985bfa2d0aa7602f9618a925e",
+            "encodedBytes": 155180,
+            "kind": "third-person-composition",
+            "assetRevision": 2,
+            "width": 1440,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "standard",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-standard-front.jpg"
+            }
+          },
+          {
+            "captureId": "composition-high-front",
+            "sha256": "2cd064a8e01c66eadb2d97ea5abd8fae5df92f568de29bcc73074c582a2973fa",
+            "encodedBytes": 154519,
+            "kind": "third-person-composition",
+            "assetRevision": 2,
+            "width": 1440,
+            "height": 1000,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "high",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-high-front.jpg"
+            }
+          },
+          {
+            "captureId": "composition-low-front",
+            "sha256": "0396ad7756b337d30c4fc9fd0dcef55403bb2fe925b983494d7f1d9626d168b0",
+            "encodedBytes": 53853,
+            "kind": "low-tier",
+            "assetRevision": 2,
+            "width": 390,
+            "height": 844,
+            "device": "Chrome for Testing 154.0.8037.92 on Linux; SwiftShader software WebGL2; authoring capture, no physical-device FPS evidence",
+            "qualityTier": "low",
+            "reducedMotion": true,
+            "label": "P06 art preview; not gameplay",
+            "location": {
+              "storage": "git",
+              "path": "captures/composition-low-front.jpg"
+            }
+          }
+        ],
+        "notes": [
+          "Original procedural basalt, lava lake, falls, layered arches and obsidian composition.",
+          "This staging environment defines no dungeon layout, legal terrain, hazards or campaign floor.",
+          "All geometry and colors authored in this generator; no extracted artwork, textures or external resources.",
+          "Lighting, cel shading and atmospheric effects belong to the disposable P06 preview harness.",
+          "Candidate procedural art only; no visual acceptance, game rules, gameplay or runtime promotion.",
+          "Triangle counts include each exported mesh-node instance; node/mesh/material/joint counts come from exported glTF JSON.",
+          "Neutral bounds are measured from authoring geometry/transforms; texture-free core glTF only.",
+          "P06 art review still must assess recognition, hierarchy deformation, materials, clip quality, LOD readability and original rights/provenance."
+        ]
+      }
+    }
+  ]
+}

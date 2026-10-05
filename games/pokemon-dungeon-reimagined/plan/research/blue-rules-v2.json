@@ -1,0 +1,2606 @@
+{
+  "schemaVersion": 1,
+  "rulesRevision": "blue-rules-v2",
+  "profileKind": "additive-evidence-overlay",
+  "edition": "blue-rescue-team",
+  "recordedAt": "2026-10-04",
+  "status": "partial-source-freeze-addendum",
+  "runtimeReady": false,
+  "packageComplete": false,
+  "purpose": "P01 documentation supplement. This is a partial overlay over v1, not standalone runtime data; runtime modules must not import plan files.",
+  "baseRevision": "blue-rules-v1",
+  "baseFile": "blue-rules-v1.json",
+  "baseSha256": "42fe77c8137ae020fd41bb6eb5d2e2bcec67389fe1bb60c0e8503fd5fab1a8de",
+  "compositionContract": {
+    "loadOrder": [
+      "Read baseFile and verify baseRevision/baseSha256.",
+      "Inherit every base source, rule, family, decision, policy and correction.",
+      "Append addedSources and addedRules; duplicate IDs are invalid.",
+      "For sourceUpdates, append and deduplicate listed arrays to target source; preserve other fields.",
+      "For ruleUpdates, replace only fields in set, append/deduplicate arrays in append, preserve other fields."
+    ],
+    "scope": "Documentation composition only; no runtime loader is authorized or supplied.",
+    "baseMutation": "The v1 file is unchanged. Updates describe the v2 documentary view.",
+    "statusRule": "Every inherited blocked rule stays blocked. No verified base value is replaced.",
+    "familyRule": "All 26 inherited systemFamilies and their incomplete state remain; additions do not close a system family.",
+    "retrievalRule": "Mixed successful/failed attempts are retained; an access success does not remove source-scope limitations. An inherited retrievalStatus describes the v1 audit; appended retrievalAttempts describe this audit.",
+    "limitationRule": "Rule updates normalize inherited string evidenceLimitations to arrays and retain them as explicitly labeled v1 context before the new clarification; source discrepancies remain visible."
+  },
+  "statusDefinitions": {
+    "verified": "The narrowly stated field is supported by the cited source and its edition qualifier; evidenceLevel distinguishes manual from reference support. Not a cartridge observation or whole-system acceptance.",
+    "blocked": "No executable default is authorized. value remains null; unverifiedContext is a research lead only."
+  },
+  "additionalEvidenceLevels": {
+    "edition-scoped-researcher-documentation": "A retrieved researcher explicitly covers original Blue; no claim of binary or cartridge verification.",
+    "reported-single-run": "The narrow occurrence is reported by an explicitly Blue player; it is not a universal rule or an independently inspected run."
+  },
+  "regionPolicy": "Each record retains its source region. The audit does not select a regional edition, prove regional equivalence, or add an edition selector.",
+  "sourcePolicy": "Retain source locators and retrieval dates. Inherited sources are candidates only. Mirrors and potentially related wiki text are not counted as independent corroboration. No original program, script or assets are copied.",
+  "addedSources": [
+    {
+      "id": "P01B-S-UPCSCOPE",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon.html",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Explicit Red Rescue Team/GBA and Blue Rescue Team/NDS",
+      "locators": [
+        "Title and opening platform/edition sentence"
+      ],
+      "limitations": [
+        "No region or game revision identified. Archive copyright footer is not a publication date."
+      ],
+      "independenceGroup": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon.html",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "Peter O."
+    },
+    {
+      "id": "P01B-S-UPCINDEX",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-in-depth-guides.html",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Original-game landing links this index",
+      "locators": [
+        "Battle System; Notes and Data"
+      ],
+      "limitations": [
+        "Stats and Other Values link resolves to a page explicitly titled Mystery Dungeon 2, scoped Explorers; that destination was excluded."
+      ],
+      "independenceGroup": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-in-depth-guides.html",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "Peter O."
+    },
+    {
+      "id": "P01B-S-TIMING",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-timing-notes.html",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Original PMD title and explicit original-edition landing/index chain",
+      "locators": [
+        "Action/non-action lists; zero-HP process; after attack/move; after action; beginning-of-turn process"
+      ],
+      "limitations": [
+        "Researcher specification, no Blue binary/build mapping; several event entries are labels without complete handlers."
+      ],
+      "independenceGroup": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-timing-notes.html",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "Peter O."
+    },
+    {
+      "id": "P01B-S-NOTES",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-various-notes.html",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Original PMD; also explicitly lists Blue-exclusive species",
+      "locators": [
+        "Weather → Weather change event; Belly; HP Regeneration"
+      ],
+      "limitations": [
+        "No region/build declaration."
+      ],
+      "independenceGroup": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-various-notes.html",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "Peter O."
+    },
+    {
+      "id": "P01B-S-STATUS",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-status-conditions.html",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Original PMD title and edition-scoped landing/index chain",
+      "locators": [
+        "Duration Format; Sleep Durations; List of Statuses; Status Groups"
+      ],
+      "limitations": [
+        "General status durations do not establish independent speed-counter scheduling."
+      ],
+      "independenceGroup": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-status-conditions.html",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "Peter O."
+    },
+    {
+      "id": "P01B-S-DAMAGE",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-damage-calculation.html",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Original PMD title and edition-scoped landing/index chain; used by Blue TAS researcher in 2016",
+      "locators": [
+        "Introduction; Damage Formula; Attack and Defense Modification; Damage Modification; Fixed Damage"
+      ],
+      "limitations": [
+        "No region/build, intermediate fixed-point quantization, signed-overflow semantics or nearest-rounding tie rule."
+      ],
+      "independenceGroup": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-damage-calculation.html",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "Peter O."
+    },
+    {
+      "id": "P01B-S-DAMAGE-SIMPLE",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-damage-calculation-simple.html",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Original PMD",
+      "locators": [
+        "Opening non-normative notice; Power; Attack or Special Attack Stat Stage Table; Defense or Special Defense Stat Stage Table"
+      ],
+      "limitations": [
+        "Its power-after-stage explanation disagrees with detailed page's power-before-stage order. Do not use simplified order as normative."
+      ],
+      "independenceGroup": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-damage-calculation-simple.html",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved-explanatory-only",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "Peter O."
+    },
+    {
+      "id": "P01B-S-AI",
+      "url": "https://gist.github.com/AnonymousRandomPerson/2750861734184be79561ee88d065abb8",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Author explicitly labels Red/Blue Rescue Team; underlying binary/region unspecified",
+      "locators": [
+        "Rescue Team AI Details video transcript; Dedicated Traveler/team-order example; concluding wild-Pokémon order discussion"
+      ],
+      "limitations": [
+        "Partial AI ordering, not full engine scheduler. Corresponding https://www.youtube.com/watch?v=PxC0WFfANUY could not be fetched."
+      ],
+      "independenceGroup": "https://gist.github.com/AnonymousRandomPerson/2750861734184be79561ee88d065abb8",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "AnonymousRandomPerson / Some Body",
+      "sourceRevision": "70ae25d0f2f297e75889e6f9c82247154fd43075",
+      "revisionProvenance": "Hash exposed in retrieved Raw link target; direct pinned/raw retrieval failed. Gist displays one revision."
+    },
+    {
+      "id": "P01B-S-TAS",
+      "url": "https://tasvideos.org/Forum/Topics/15137",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Thread explicitly Pokémon Mystery Dungeon: Blue Rescue Team; DS RAM addresses; unspecified region/revision",
+      "locators": [
+        "AntyMew, 2016-03-22 16:57, Rng info dump; 17:28 follow-up; ThunderAxe31, 2016-12-21 damage-guide citation",
+        "AntyMew Mar22 2016 4:57 PM Rng info dump;5:28 PM stylus followup"
+      ],
+      "limitations": [
+        "Supports Blue-specific RNG and historical UPC usage; no speed scheduler or arithmetic-edge audit.",
+        "Primary Blue RNG research sent to parent; no campaign/reset predicates."
+      ],
+      "independenceGroup": "https://tasvideos.org/Forum/Topics/15137",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "mechanics"
+        },
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved-page",
+          "audit": "campaign"
+        }
+      ],
+      "author": "AntyMew; ThunderAxe31"
+    },
+    {
+      "id": "P01B-S-TAS2",
+      "url": "https://tasvideos.org/Forum/Topics/15137?CurrentPage=2&Highlight=511519",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Mixed original Blue discussion with explicitly Explorers-only Agility experiment",
+      "locators": [
+        "FatRatKnight 2017-08-22 18:00; ThunderAxe31 2022-01-08 20:09 and later follow-up"
+      ],
+      "limitations": [
+        "Agility author says Rescue Team behavior unknown; exclude that sequence as Blue proof."
+      ],
+      "independenceGroup": "https://tasvideos.org/Forum/Topics/15137?CurrentPage=2&Highlight=511519",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "FatRatKnight; ThunderAxe31"
+    },
+    {
+      "id": "P01B-S-PRET",
+      "url": "https://github.com/pret/pmd-red",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Red Rescue Team/GBA only",
+      "locators": [
+        "README title, decompilation declaration, output-ROM/SHA1 list"
+      ],
+      "limitations": [
+        "Builds pmd_red.gba. No Blue build/symbol mapping established. No implementation or asset copied."
+      ],
+      "independenceGroup": "https://github.com/pret/pmd-red",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved-comparative-only",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "pret contributors",
+      "reportedOutputSha1": "9f4cfc5b5f4859d17169a485462e977c7aac2b89"
+    },
+    {
+      "id": "P01B-S-PROJECT",
+      "url": "https://projectpokemon.org/home/docs/mystery-dungeon-nds/pok%C3%A9mon-mystery-dungeon-red-and-blue-rescue-team-r64/",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Blue-specific file-format research",
+      "locators": [
+        "Blue Rescue Team → ROM File Structure; NDS9/ARM9 Overlays",
+        "File/Data Formats index",
+        "Public page or attachment identified by URL; no finer locator accepted"
+      ],
+      "limitations": [
+        "Overlay section is skeletal; no scheduler/damage function map.",
+        "No contents accepted from failed retrieval.",
+        "No target details retrieved"
+      ],
+      "independenceGroup": "https://projectpokemon.org/home/docs/mystery-dungeon-nds/pok%C3%A9mon-mystery-dungeon-red-and-blue-rescue-team-r64/",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved-insufficient",
+          "audit": "mechanics"
+        },
+        {
+          "date": "2026-10-04",
+          "outcome": "direct403",
+          "audit": "campaign"
+        },
+        {
+          "date": "2026-10-04",
+          "outcome": "HTTP-403-on-open-and-index-click",
+          "audit": "campaign"
+        }
+      ],
+      "author": "psy_commando; edit by evandixon",
+      "sourceRevision": "Published 2014-03-21; edited 2017-10-14"
+    },
+    {
+      "id": "P01B-S-NEOSEEKER",
+      "url": "https://www.neoseeker.com/pokemon-mystery-dungeon-blue/faqs/2818083-pokemon-md-mechanics.html",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Title explicitly Red & Blue Rescue Team",
+      "locators": [
+        "Movement speed follows a different set of rules → Stage / Movement Speed table"
+      ],
+      "limitations": [
+        "Indexed table available, whole-page provenance unavailable. Nearby stat tables conflict with original UPC simplified tables; no duration/interleaving proof."
+      ],
+      "independenceGroup": "https://www.neoseeker.com/pokemon-mystery-dungeon-blue/faqs/2818083-pokemon-md-mechanics.html",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "search-index-only; direct open 403",
+          "audit": "mechanics"
+        }
+      ],
+      "sourceRevision": "v1.00 in indexed title"
+    },
+    {
+      "id": "P01B-S-ERIDANUS",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/User:Eridanus/Mystery_Dungeon_mechanics",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Rescue Team experiment notes; no Blue-specific region/build",
+      "locators": [
+        "Rescue Team → Damage formula; Attack and Defense modification; Damage modification → Other"
+      ],
+      "limitations": [
+        "Personal research suggests signed-16-bit final behavior and an enemy modifier; equipment values also differ from UPC. Not automatically authoritative over detailed guide."
+      ],
+      "independenceGroup": "https://bulbapedia.bulbagarden.net/wiki/User:Eridanus/Mystery_Dungeon_mechanics",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved-research-caveat",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "Eridanus"
+    },
+    {
+      "id": "P01B-S-GAMEFAQS",
+      "url": "https://gamefaqs.gamespot.com/ds/929407-pokemon-mystery-dungeon-blue-rescue-team/faqs/75111/game-mechanics-guide-intro",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Blue hosting path is insufficient edition evidence alone",
+      "locators": [
+        "Game Mechanics Guide"
+      ],
+      "limitations": [
+        "Restricted/robots retrieval; no facts accepted solely from host path."
+      ],
+      "independenceGroup": "https://gamefaqs.gamespot.com/ds/929407-pokemon-mystery-dungeon-blue-rescue-team/faqs/75111/game-mechanics-guide-intro",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "blocked-retrieval",
+          "audit": "mechanics"
+        }
+      ]
+    },
+    {
+      "id": "P01B-S-WRONG-EDITION",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-2-stats-and-values.html",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Explorers",
+      "locators": [
+        "Title; For Explorers of Time/Explorers of Darkness"
+      ],
+      "limitations": [
+        "Linked from original index but explicitly not original Rescue Team."
+      ],
+      "independenceGroup": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-2-stats-and-values.html",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved-excluded",
+          "audit": "mechanics"
+        }
+      ],
+      "author": "Peter O."
+    },
+    {
+      "id": "P01B-S-BLUE-SPINDA-OBSERVATION",
+      "url": "https://www.reddit.com/r/MysteryDungeon/comments/1rsj6h5/til_a_little_bit_about_event_flags_in_rescue_team/",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Author explicitly says Blue Rescue Team; region, revision, hardware/emulator, modification status unspecified.",
+      "locators": [
+        "Lost-Paisley original post > opening Blue edition declaration; second paragraph Mt. Faraway/Spinda/Silver Trench; third paragraph Ekans/Medicham Post Office-to-town transition; fourth paragraph Wish Cave availability.",
+        "Public page or attachment identified by URL; no finer locator accepted"
+      ],
+      "limitations": [
+        "No save states, runtime flags, screenshots, exact day counts, or controlled paired runs were provided. Stormy Sea state and individual dialogue flags are not specified. The observation is narrow; do not convert it to a universal requirement to clear Mt. Faraway or finish the Spinda quest before Gengar.",
+        "New primary Blue Spinda/Gengar observation; exact predicate blocked"
+      ],
+      "independenceGroup": "https://www.reddit.com/r/MysteryDungeon/comments/1rsj6h5/til_a_little_bit_about_event_flags_in_rescue_team/",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "campaign"
+        }
+      ],
+      "author": "Lost-Paisley"
+    },
+    {
+      "id": "P01B-S-UNSCOPED-STORMY-OBSERVATION",
+      "url": "https://www.reddit.com/r/MysteryDungeon/comments/sr8h1c/comment/hwv5m4d/",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "PMD1 flair only; no explicit Blue/Red/DX or region. Replies link both DX and original guides.",
+      "locators": [
+        "Continuing the Gengar Postgame Quest? > Zorgothe original stall report and final reply that Stormy Sea completion resolved it; Abject-Projects Spinda recollection.",
+        "Public page or attachment identified by URL; no finer locator accepted"
+      ],
+      "limitations": [
+        "Not accepted as Blue evidence because the game edition is unstated. No control of intervening actions or event-state trace. Another user's Spinda recollection likewise lacks edition identification.",
+        "Firsthand Stormy Sea resolution; edition unidentified, not Blue proof"
+      ],
+      "independenceGroup": "https://www.reddit.com/r/MysteryDungeon/comments/sr8h1c/comment/hwv5m4d/",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "campaign"
+        }
+      ],
+      "author": "Zorgothe; related reply by Abject-Projects"
+    },
+    {
+      "id": "P01B-S-MEGAMINERD-ORIGINAL-SCRIPT-RESEARCH",
+      "url": "https://projectpokemon.org/home/forums/topic/47146-major-discoveries-in-scripting-and-images-in-pmdrrt/",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Research introduction explicitly Red Rescue Team. Later comparison mentions Blue only regarding ROM structure.",
+      "locators": [
+        "Aug 23, 2018 original research statement; Aug 24 documentation statement; Aug 27 comparison statement",
+        "Public page or attachment identified by URL; no finer locator accepted"
+      ],
+      "limitations": [
+        "No Gengar/Wish predicates or proof of matching event logic across editions in the retrieved article. Linked notes.zip and rom map.yml returned HTTP 403; contents were not inspected.",
+        "Primary Red research; limited Blue structural comparison only"
+      ],
+      "independenceGroup": "https://projectpokemon.org/home/forums/topic/47146-major-discoveries-in-scripting-and-images-in-pmdrrt/",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "campaign"
+        }
+      ],
+      "author": "MegaMinerd"
+    },
+    {
+      "id": "P01B-S-PMD-SCRIPT-EDITOR-SCOPE",
+      "url": "https://github.com/MegaMinerd/PMD-Script-Editor",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Explicitly Red Rescue Team; region not stated in this README.",
+      "locators": [
+        "README introduction; Features and Future Features",
+        "Public page or attachment identified by URL; no finer locator accepted"
+      ],
+      "limitations": [
+        "Does not establish Blue support or equivalent event behavior.",
+        "Explicit Red tool"
+      ],
+      "independenceGroup": "https://github.com/MegaMinerd/PMD-Script-Editor",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved-readme-only",
+          "audit": "campaign"
+        }
+      ],
+      "author": "MegaMinerd"
+    },
+    {
+      "id": "P01B-S-RESCUEBULLETIN-SCOPE",
+      "url": "https://github.com/MegaMinerd/RescueBulletin",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Features explicitly name Red Rescue Team US/Aus.",
+      "locators": [
+        "Features; Goals",
+        "Public page or attachment identified by URL; no finer locator accepted"
+      ],
+      "limitations": [
+        "No Blue gate equivalence claim. No tool execution or game-data extraction was performed.",
+        "Explicit Red US/Aus tool"
+      ],
+      "independenceGroup": "https://github.com/MegaMinerd/RescueBulletin",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved-readme-only",
+          "audit": "campaign"
+        }
+      ],
+      "author": "MegaMinerd"
+    },
+    {
+      "id": "P01B-S-RESCUE-TEAM-SAVE-STRUCTURE",
+      "url": "https://projectpokemon.org/home/docs/mystery-dungeon-nds/rescue-team-save-structure-r61/",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Rescue Team named generally, hosted under Mystery Dungeon NDS; exact Blue region/revision not specified in article.",
+      "locators": [
+        "evandixon, Rescue Team Save Structure > opening quicksave comparison paragraph; money, team name, rank and walking-speed field listings.",
+        "Rescue Team Save Structure",
+        "Public page or attachment identified by URL; no finer locator accepted"
+      ],
+      "limitations": [
+        "No Gengar, Wish Cave, scenario-state, event-day, or NPC-priority field documented. General save offsets do not supply the missing predicates.",
+        "Child has separately indexed basic fields; no restoration predicates established.",
+        "Primary save comparison; no event predicates"
+      ],
+      "independenceGroup": "https://projectpokemon.org/home/docs/mystery-dungeon-nds/rescue-team-save-structure-r61/",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "direct403",
+          "audit": "campaign"
+        },
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "campaign"
+        }
+      ],
+      "author": "evandixon"
+    },
+    {
+      "id": "P01B-S-SKY-EDITOR-UNRELATED-PROGRESS-STATEMENT",
+      "url": "https://projectpokemon.org/home/forums/topic/25859-sky-editor-the-first-save-editor-for-pokemon-mystery-dungeon-explorers-of-sky/page/10/",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "The relevant exchange concerns Explorers of Time, not Blue Rescue Team.",
+      "locators": [
+        "Question explicitly Explorers of Time; answer",
+        "Public page or attachment identified by URL; no finer locator accepted"
+      ],
+      "limitations": [
+        "Must not cite as evidence that Blue event flags remain undocumented today. Must not transfer this exchange's save-backup or quicksave details to Blue without separate evidence.",
+        "Search result about undocumented story progression actually concerns Explorers of Time; rejected for Blue"
+      ],
+      "independenceGroup": "https://projectpokemon.org/home/forums/topic/25859-sky-editor-the-first-save-editor-for-pokemon-mystery-dungeon-explorers-of-sky/page/10/",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "campaign"
+        }
+      ],
+      "author": "evandixon replying to Charlymander"
+    },
+    {
+      "id": "P01B-S-ALTISSIMO-BLUE-ILLUSTRATED-PATH",
+      "url": "https://www.smogon.com/forums/threads/lets-catch-em-all-in-pok%C3%A9mon-mystery-dungeon-part-31-up-wish-cave-2-end.3591493/page-4",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Page conclusion explicitly identifies Blue Rescue Team; region and revision unspecified.",
+      "locators": [
+        "Part 27: Murky Cave & Announcement, passage after Medicham rescue and first Ekans/Medicham conversation; author transition labels The next day and The next morning before Gengar Mt. Freeze request. Part 26 opening warning; vague Wish time transitions; earlier unlock disclosure.",
+        "Altissimo post96 Aug15 2017",
+        "closing Part31 Blue identity",
+        "Public page or attachment identified by URL; no finer locator accepted",
+        "Altissimo, Aug 15 2017, post #96, Part 30 Purity Forest > after Celebi in Healing Forest, Warp Scarves memento remark; same page closing Part31 identifies completed Blue Rescue Team copy.",
+        "Part30 Purity Forest, post96."
+      ],
+      "limitations": [
+        "Direct open intermittently returned HTTP 403; child retrieved the page initially, parent independently recovered Gengar passage from indexed search text. Single path does not prove minimum wait, mandatory dialogue or exact day-ending action. No game images or scripts were downloaded or copied.",
+        "Primary player narrative; images and linked save were not downloaded.",
+        "Primary Blue ordinary relative Gengar day path; exact predicates still blocked; Wish sequence explicitly imprecise/out of order."
+      ],
+      "independenceGroup": "https://www.smogon.com/forums/threads/lets-catch-em-all-in-pok%C3%A9mon-mystery-dungeon-part-31-up-wish-cave-2-end.3591493/page-4",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "direct403-search-index-retrieved",
+          "audit": "campaign"
+        },
+        {
+          "date": "2026-10-04",
+          "outcome": "parent-open-HTTP-403; child-initial-page-success; parent-indexed-passage-success",
+          "audit": "campaign"
+        }
+      ],
+      "author": "Altissimo"
+    },
+    {
+      "id": "p01b:source-2f70f018f8",
+      "url": "https://gamefaqs.gamespot.com/ds/929407-pokemon-mystery-dungeon-blue-rescue-team/faqs/45971",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Hades_Warrior original Blue Rescue Team DS guide, version 0.55; region unstated; search-index passages only.",
+      "locators": [
+        "version0.55",
+        "5W1/5W2/5W5/5W7/5WA/5WC/5WD",
+        "7R1",
+        "Guide and Walkthrough (DS), version 0.55 > 7R1 Howling Forest [Sky Blue Plains] > Dungeon Floors.",
+        "5W1 Tiny Woods; 5W2 Thunderwave Cave; 5W5 Silent Chasm; 5W7 Great Canyon; 5WA Mt. Freeze; 5WC Magma Cavern; 5WD Sky Tower."
+      ],
+      "limitations": [
+        "DS-labelled authored Blue guide; exact footage not available."
+      ],
+      "independenceGroup": "https://gamefaqs.gamespot.com/ds/929407-pokemon-mystery-dungeon-blue-rescue-team/faqs/45971",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "direct-restricted-search-index-retrieved",
+          "audit": "campaign"
+        }
+      ]
+    },
+    {
+      "id": "p01b:source-7d75f15873",
+      "url": "https://gamefaqs.gamespot.com/gba/929408-pokemon-mystery-dungeon-red-rescue-team/faqs/40256",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Terence original Red Rescue Team GBA guide, version 1.00; comparative only; no Blue equivalence established.",
+      "locators": [
+        "Howling Forest Floor15 UNIQUE FLOOR",
+        "Dungeons of Mystery Guide (GBA), version 1.00 > Howling Forest > Floor 15 > UNIQUE FLOOR."
+      ],
+      "limitations": [
+        "GBA-labelled comparison, no Blue equivalence."
+      ],
+      "independenceGroup": "https://gamefaqs.gamespot.com/gba/929408-pokemon-mystery-dungeon-red-rescue-team/faqs/40256",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "search-index-retrieved",
+          "audit": "campaign"
+        }
+      ]
+    },
+    {
+      "id": "p01b:source-befac478eb",
+      "url": "https://www.psypokes.com/forums/viewtopic.php?f=5&sid=382ef4bff26d3d8f44b8fecdb2643f09&start=100&t=6425",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Original Rescue Team forum, mixed Red/Blue discussion; specific Pitfall author edition/region not authenticated.",
+      "locators": [
+        "Latios and Latias paragraph",
+        "Pokemon Mystery Dungeon General Questions Thread, page beginning start=100 > Latios and Latias paragraph."
+      ],
+      "limitations": [
+        "Specific Blue provenance not authenticated."
+      ],
+      "independenceGroup": "https://www.psypokes.com/forums/viewtopic.php?f=5&sid=382ef4bff26d3d8f44b8fecdb2643f09&start=100&t=6425",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "direct-timeout-search-index-retrieved",
+          "audit": "campaign"
+        }
+      ]
+    },
+    {
+      "id": "p01b:source-0e77b1ae8e",
+      "url": "https://docs.google.com/spreadsheets/d/18utO_lCpWQ7iXY9wpbtxXpgmzebEI2IRjADp6IrUKZ0/edit#gid=0",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Research lead; no target-edition equivalence accepted.",
+      "locators": [
+        "gid0",
+        "PMD Info spreadsheet"
+      ],
+      "limitations": [
+        "No contents accepted.",
+        "Lead sent to parent; content not used"
+      ],
+      "independenceGroup": "https://docs.google.com/spreadsheets/d/18utO_lCpWQ7iXY9wpbtxXpgmzebEI2IRjADp6IrUKZ0/edit#gid=0",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "not-accessible",
+          "audit": "campaign"
+        },
+        {
+          "date": "2026-10-04",
+          "outcome": "not-accessible-via-web-tool",
+          "audit": "campaign"
+        }
+      ]
+    },
+    {
+      "id": "p01b:source-72eb8cb374",
+      "url": "https://github.com/SunakazeKun/PMDe",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Research lead; no target-edition equivalence accepted.",
+      "locators": [
+        "README project scope"
+      ],
+      "limitations": [
+        "Red-only editor; not Blue equivalence evidence."
+      ],
+      "independenceGroup": "https://github.com/SunakazeKun/PMDe",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved-search-index",
+          "audit": "campaign"
+        }
+      ]
+    },
+    {
+      "id": "p01b:source-fdef4bcc86",
+      "url": "https://projectpokemon.org/home/applications/core/interface/file/attachment.php?id=38036",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Research lead; no target-edition equivalence accepted.",
+      "locators": [
+        "notes.zip"
+      ],
+      "limitations": [
+        "Not inspected"
+      ],
+      "independenceGroup": "https://projectpokemon.org/home/applications/core/interface/file/attachment.php?id=38036",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "HTTP-403",
+          "audit": "campaign"
+        }
+      ]
+    },
+    {
+      "id": "p01b:source-8821ba221f",
+      "url": "https://projectpokemon.org/home/applications/core/interface/file/attachment.php?id=38077",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Research lead; no target-edition equivalence accepted.",
+      "locators": [
+        "rom map.yml"
+      ],
+      "limitations": [
+        "Not inspected"
+      ],
+      "independenceGroup": "https://projectpokemon.org/home/applications/core/interface/file/attachment.php?id=38077",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "HTTP-403",
+          "audit": "campaign"
+        }
+      ]
+    },
+    {
+      "id": "p01b:source-4909b9d051",
+      "url": "https://projectpokemon.org/home/docs/mystery-dungeon-nds/",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Research lead; no target-edition equivalence accepted.",
+      "locators": [
+        "Public page or attachment identified by URL; no finer locator accepted"
+      ],
+      "limitations": [
+        "Technical index"
+      ],
+      "independenceGroup": "https://projectpokemon.org/home/docs/mystery-dungeon-nds/",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "retrieved",
+          "audit": "campaign"
+        }
+      ]
+    },
+    {
+      "id": "p01b:source-b5a66c7335",
+      "url": "https://gamefaqs.gamespot.com/boards/929407-pokemon-mystery-dungeon-blue-rescue-team/80817497",
+      "aliases": [],
+      "retrievalDate": "2026-10-04",
+      "retrievalStatus": "see-retrieval-attempts",
+      "editionRegionScope": "Research lead; no target-edition equivalence accepted.",
+      "locators": [
+        "Infodump resources board"
+      ],
+      "limitations": [
+        "Search lead only; no fact promotion"
+      ],
+      "independenceGroup": "https://gamefaqs.gamespot.com/boards/929407-pokemon-mystery-dungeon-blue-rescue-team/80817497",
+      "retrievalAttempts": [
+        {
+          "date": "2026-10-04",
+          "outcome": "restricted-URL-fetch-error",
+          "audit": "campaign"
+        }
+      ]
+    }
+  ],
+  "sourceUpdates": [
+    {
+      "targetId": "systems:blue_manual",
+      "operation": "append-source-evidence",
+      "append": {
+        "locators": [
+          "cover code NTR-APHP-UKV",
+          "printed pp.17–18",
+          "p.32",
+          "pp.34–35",
+          "pp.38–39",
+          "pp.42–47",
+          "How to Stop Playing > Saving while on an Adventure, printed p.17 (PDF spread index 8).",
+          "Facilities in the Field > Felicity Bank and Kangaskhan Storage, printed pp.38–39 (PDF spread index 19); When you are Defeated on an Adventure, printed p.18 (index 9).",
+          "When you are Defeated on an Adventure, printed p.18 (PDF spread index 9).",
+          "Wireless Communication > The flow of friend rescues > 3. Waiting for a friend rescue, printed pp.42–43 (PDF spread index 21); How to Play using Dual Slot > Receiving an A-OK Mail, printed pp.46–47 (index 23).",
+          "How to Play using Dual Slot > Call for rescue to the GBA Red Rescue Team version > 1. Waiting for a rescue (DS Blue Rescue Team version), printed pp.44–45 (PDF spread index 22).",
+          "Items > Wonder Orbs > Escape Orb row, printed pp.34–35 (PDF spread index 17).",
+          "Dungeons > Dungeons change every time, printed p.32 (PDF spread index 16).",
+          "When you are Defeated on an Adventure; Wireless Communication > The flow of friend rescues."
+        ],
+        "limitations": [
+          "Official Nintendo host; screenshot requests indices19,21,23 succeeded. Text used for facts."
+        ],
+        "retrievalAttempts": [
+          {
+            "date": "2026-10-04",
+            "outcome": "retrieved-pdf-text-and-screenshots",
+            "audit": "campaign"
+          }
+        ]
+      }
+    },
+    {
+      "targetId": "p01:source-32f7d9fd61",
+      "operation": "append-source-evidence",
+      "append": {
+        "locators": [
+          "Playthrough13 Into Howling Forest"
+        ],
+        "limitations": [
+          "No footage inspected; not exact observation."
+        ],
+        "retrievalAttempts": [
+          {
+            "date": "2026-10-04",
+            "outcome": "direct-timeout-search-index-description-only",
+            "audit": "campaign"
+          }
+        ]
+      }
+    }
+  ],
+  "addedRules": [
+    {
+      "id": "P01-MECH-TURN-03",
+      "family": "actor-turn-begin-order",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Documented beginning sequence; skipped while changing leader.",
+      "value": [
+        "leader:weather",
+        "leader:Illuminate",
+        "actor:regeneration",
+        "actor:status-countdowns",
+        "actor:Run-Away-animation"
+      ],
+      "evidenceLevel": "edition-scoped-researcher-documentation",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-TIMING",
+          "locator": "Process followed at the beginning of the Pokémon's turn, except when the team leader is changing"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "This is local ordering. Its invocation relative to speed eligibility is unspecified."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P12"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "SYSTEMS:S04"
+      ],
+      "remainingQuestions": [
+        "Map this local sequence onto speed opportunity eligibility and leader changes."
+      ]
+    },
+    {
+      "id": "P01-MECH-TURN-04",
+      "family": "actor-post-action-order",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Documented after-action sequence.",
+      "value": [
+        "experience",
+        "orb/magma-burn",
+        "Truant-pause",
+        "Hyper-Beam-pause",
+        "Trapper",
+        "Snore/Sleep-Talk",
+        "Grudge",
+        "invalid-terrain-warp",
+        "Escape-Orb",
+        "Forecast/type-reset",
+        "Warp-Scarf",
+        "leader:Belly",
+        "weather-damage",
+        "Shed-Skin",
+        "Speed-Boost",
+        "Yawn",
+        "burn/poison",
+        "Wrap",
+        "constriction",
+        "curse",
+        "Leech-Seed",
+        "Perish-Song",
+        "Bide",
+        "Enraged",
+        "Joy-Ribbon",
+        "time-warning"
+      ],
+      "evidenceLevel": "edition-scoped-researcher-documentation",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-TIMING",
+          "locator": "Process followed after a Pokémon takes an action"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Preserves source order without inventing missing handler details. Several labels require their own sourced behavior. Does not specify scheduling once an actor faints mid-chain."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P12"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "SYSTEMS:S04"
+      ],
+      "remainingQuestions": [
+        "Which later handlers are skipped after fainting, escaping or floor transition?",
+        "Are all speed subturns full actor turns for each counter?"
+      ]
+    },
+    {
+      "id": "P01-MECH-TURN-05",
+      "family": "zero-hp-order",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Zero-HP sequence stops if revival succeeds.",
+      "value": [
+        "revival",
+        "hidden-tile-reveal",
+        "held-item-drop",
+        "recruitment-check"
+      ],
+      "evidenceLevel": "edition-scoped-researcher-documentation",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-TIMING",
+          "locator": "Process followed whenever a Pokémon has zero HP"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Immediate zero-HP handling is documented; leader failure precedence and revived/recruited action eligibility remain unresolved."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P12"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "SYSTEMS:S04"
+      ],
+      "remainingQuestions": [
+        "Locate leader failure/escape/stair interruption behavior."
+      ]
+    },
+    {
+      "id": "P01-MECH-TURN-06",
+      "family": "ai-actor-order",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Team order controls ally decisions; team acts before wild actors.",
+      "value": {
+        "allyOrder": "leader then team-list order",
+        "blockedAlly": "may defer movement until allies move; choosing attack prevents retry",
+        "wildOrder": "spawn-established order",
+        "blockedWild": "no equivalent movement retry"
+      },
+      "evidenceLevel": "edition-scoped-researcher-documentation",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-AI",
+          "locator": "Dedicated Traveler/team-order example; concluding wild-Pokémon movement-order passage"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Researcher explicitly scopes both originals, but does not identify binary/region. Movement retry is conditional, so a single immutable queue does not capture all ally decisions."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P12"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "SYSTEMS:S04"
+      ],
+      "remainingQuestions": [
+        "Specify exact spawn-order allocation and retry traversal.",
+        "Establish speed interleaving independently."
+      ]
+    },
+    {
+      "id": "P01-MECH-TURN-07",
+      "family": "free-actions",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Listed non-actions consume no turn.",
+      "value": [
+        "set/deselect move-or-item",
+        "set ally moves",
+        "change tactics/IQ",
+        "dismiss partner",
+        "talk-to-partner",
+        "change-facing"
+      ],
+      "evidenceLevel": "edition-scoped-researcher-documentation",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-TIMING",
+          "locator": "Non-actions"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Only listed commands are covered; menu cancel, invalid commands and every UI mapping are not inferred."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P12"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "SYSTEMS:S04"
+      ],
+      "remainingQuestions": [
+        "Map runtime command IDs to the documented actions/non-actions."
+      ]
+    },
+    {
+      "id": "P01-MECH-SPEED-03",
+      "family": "speed-boost-counter",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Speed Boost advances after actions; threshold 250 grants an indefinite increase and resets counter.",
+      "value": {
+        "threshold": 250,
+        "duration": "indefinite",
+        "counterReset": 0
+      },
+      "evidenceLevel": "edition-scoped-researcher-documentation",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-TIMING",
+          "locator": "After-action list: Speed Boost entry"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Indefinite is the guide's duration category, not a claim of persistence across floors. Mapping actions to accelerated scheduling remains open."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P12"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "SYSTEMS:S04"
+      ],
+      "remainingQuestions": [
+        "Verify counter reset at floor entry and eligibility timing."
+      ]
+    },
+    {
+      "id": "P01-MECH-SPEED-04",
+      "family": "speed-rate-table",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Full source/provenance and interleaving were not retrievable.",
+      "value": null,
+      "evidenceLevel": "unresolved",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-NEOSEEKER",
+          "locator": "Movement Speed table"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Search index reports stages 0/1/2/3/4 as rates 1/2,1,2,3,4 per turn. This is a research lead, not an accepted schedule."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P12"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "SYSTEMS:S04"
+      ],
+      "remainingQuestions": [
+        "Recover complete author/version source or independent original Blue research.",
+        "Define what 'move' and 'turn' mean for attacks, items, wait and leader/nonleader."
+      ]
+    },
+    {
+      "id": "P01-MECH-SPEED-05",
+      "family": "speed-opportunity-duration-closure",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Exact speed eligibility, lifetime units and mid-turn updates remain unavailable.",
+      "value": null,
+      "evidenceLevel": "unresolved",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-TIMING",
+          "locator": "Beginning-of-turn and after-action processes"
+        },
+        {
+          "sourceId": "P01B-S-STATUS",
+          "locator": "Duration Format; Status Groups"
+        },
+        {
+          "sourceId": "P01B-S-TAS2",
+          "locator": "FatRatKnight 2017-08-22 post explicitly limits experiment to Explorers"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Per-actor status countdown evidence cannot by itself identify a global/subturn clock or turn skips. Do not import the Explorers Agility sequence."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P12"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "SYSTEMS:S04"
+      ],
+      "remainingQuestions": [
+        "Obtain original Blue traces/symbol research for slow 0 and boosted 2/3/4 states.",
+        "Resolve leader refresh quirks, speed changes during linked moves, duration decrement unit and entry/expiration boundary.",
+        "Determine whether newly spawned/recruited actors act immediately."
+      ]
+    },
+    {
+      "id": "P01-MECH-TYPE-04",
+      "family": "damage-formula",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Detailed guide supplies the original damage equation and representation.",
+      "value": {
+        "fixedPoint": {
+          "bits": 64,
+          "fractionBits": 16
+        },
+        "variables": {
+          "A": "effective attack",
+          "C": "effective defense",
+          "L": "level"
+        },
+        "D": "(A-C)/8 + L*43690/65536",
+        "base": "2*D-C+10 + D*D*3276/65536"
+      },
+      "evidenceLevel": "edition-scoped-researcher-documentation",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-DAMAGE",
+          "locator": "Introduction; Damage Formula"
+        },
+        {
+          "sourceId": "P01B-S-UPCSCOPE",
+          "locator": "Opening edition/platform sentence"
+        },
+        {
+          "sourceId": "P01B-S-UPCINDEX",
+          "locator": "Battle System → Damage Calculation"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Arithmetic expression is documented; exact machine arithmetic and edge outcomes require the separate unresolved record."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P13"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "DATA-02"
+      ],
+      "remainingQuestions": [
+        "Resolve signed arithmetic and quantization semantics."
+      ]
+    },
+    {
+      "id": "P01-MECH-TYPE-05",
+      "family": "damage-stat-transform-order",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Detailed stat transformation orders power before multipliers.",
+      "value": {
+        "sequence": [
+          "power addition",
+          "stage multiplier",
+          "separate stat multiplier",
+          "floor",
+          "equipment",
+          "clamp 1..999",
+          "ability numerator/denominator",
+          "floor"
+        ]
+      },
+      "evidenceLevel": "edition-scoped-researcher-documentation",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-DAMAGE",
+          "locator": "Attack and Defense Modification"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "This freezes order only, not every item/ability constant. Simplified page reverses power order and is explicitly explanatory."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P13",
+        "P14"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "DATA-02"
+      ],
+      "remainingQuestions": [
+        "Resolve conflicting Def. Scarf adjustment: detailed UPC 12, Eridanus 8.",
+        "Freeze original stage tables and complete ability modifiers separately."
+      ]
+    },
+    {
+      "id": "P01-MECH-TYPE-06",
+      "family": "damage-modifier-order",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Detailed guide fixes these factors and application order.",
+      "value": {
+        "baseClamp": [
+          1,
+          999
+        ],
+        "typeNumerators": {
+          "littleEffect": 32768,
+          "notVeryEffective": 58982,
+          "superEffective": 98304
+        },
+        "typeDenominator": 65536,
+        "application": [
+          "screen",
+          "critical",
+          "accumulated matchup",
+          "move-specific",
+          "random",
+          "nearest-integer"
+        ],
+        "random": "(57344+X)/65536; integer X in [0,16383]",
+        "fixedDamage": [
+          "clamp 1..999",
+          "matchup",
+          "nearest-integer"
+        ]
+      },
+      "evidenceLevel": "edition-scoped-researcher-documentation",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-DAMAGE",
+          "locator": "Damage Modification; Fixed Damage"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Matchup includes further abilities/weather/statuses not exhaustively transcribed here. Counterexamples and arithmetic edges remain open."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P13",
+        "P14"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "DATA-02"
+      ],
+      "remainingQuestions": [
+        "Define half-way rounding and fixed-point multiplication behavior.",
+        "Audit final output range and enemy modifiers."
+      ]
+    },
+    {
+      "id": "P01-MECH-TYPE-07",
+      "family": "damage-arithmetic-closure",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Full bit-exact damage reproduction remains unproven despite documented formula/order.",
+      "value": null,
+      "evidenceLevel": "unresolved",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-DAMAGE",
+          "locator": "Introduction; final Damage Modification rounding"
+        },
+        {
+          "sourceId": "P01B-S-DAMAGE-SIMPLE",
+          "locator": "Power; non-normative notice"
+        },
+        {
+          "sourceId": "P01B-S-ERIDANUS",
+          "locator": "Rescue Team → Damage formula; Attack and Defense modification; Other"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "64-bit/16-fraction format does not define intermediate multiply/divide quantization, signed shifts/overflow or nearest-integer ties. Experimental cap/enemy-factor reports need Blue confirmation; regional audit is separate from those concrete gaps."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P13",
+        "P14"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "DATA-02"
+      ],
+      "remainingQuestions": [
+        "Determine truncation/rounding at each fixed-point operation, negative intermediates, nearest ties, final integer bounds.",
+        "Resolve equipment and enemy-factor discrepancies using original Blue evidence."
+      ]
+    },
+    {
+      "id": "P01-MECH-TURN-08",
+      "family": "complete-scheduler-closure",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue Rescue Team included explicitly by cited author; region/revision not audited.",
+      "rule": "Local phase ordering is now documented; complete Blue scheduler remains incomplete.",
+      "value": null,
+      "evidenceLevel": "unresolved",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-TIMING",
+          "locator": "Beginning/action-end/zero-HP processes"
+        },
+        {
+          "sourceId": "P01B-S-AI",
+          "locator": "Team/wild-order passages"
+        },
+        {
+          "sourceId": "P01B-S-PROJECT",
+          "locator": "NDS9/ARM9 Overlays"
+        },
+        {
+          "sourceId": "P01B-S-PRET",
+          "locator": "README build target"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "No Blue-addressed scheduler map or complete public specification found in this pass. Red decompilation is comparative evidence only."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P12",
+        "P13",
+        "P15",
+        "P16",
+        "P17"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "DATA-02"
+      ],
+      "remainingQuestions": [
+        "Combine validated speed opportunities with local handlers.",
+        "Resolve spawn/recruit eligibility, stair preemption, leader faint/failure priority and handler abort conditions."
+      ]
+    },
+    {
+      "id": "P01-MECH-RNG-01",
+      "family": "blue-rng-domains",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team, explicit Blue TAS thread and Nintendo DS addresses; region/revision unspecified.",
+      "rule": "Blue researcher identifies separate main and dungeon RNG state.",
+      "value": {
+        "mainAddress": "0x020E9FC0",
+        "initialDungeonSeed": "0x02115414",
+        "dungeonRng": "0x021C278C",
+        "floorSeed": "0x021C2790",
+        "floorBoundary": "dungeon RNG reseeded from floor seed",
+        "input": "main input-sensitive; dungeon not input-sensitive; stylus excluded from described main-input path"
+      },
+      "evidenceLevel": "edition-scoped-researcher-documentation",
+      "evidence": [
+        {
+          "sourceId": "P01B-S-TAS",
+          "locator": "AntyMew 2016-03-22 16:57 Rng info dump and 17:28 follow-up"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Explicit Blue research with DS addresses; no region/build mapping. Addresses are evidence locators, not runtime implementation requirements. Algorithm and call-site corpus are not frozen by this record."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P02",
+        "P12"
+      ],
+      "affectedGaps": [
+        "SYSTEMS:S01",
+        "SYSTEMS:S04"
+      ],
+      "remainingQuestions": [
+        "Audit RNG algorithm/call scheduling separately before claiming deterministic cartridge equivalence."
+      ]
+    },
+    {
+      "id": "P01B-CAMPAIGN-DEFEAT-GIVE-UP",
+      "family": "dungeon-outcome-boundary",
+      "status": "verified",
+      "editionRegionScope": "Original Nintendo DS Blue Rescue Team; official English UKV booklet NTR-APHP-UKV (European multilingual release); other-region equivalence not established.",
+      "rule": "Give Up is a defeat-class return to base.",
+      "value": {
+        "giveUpOutcomeClass": "defeat",
+        "destination": "rescue-team-base"
+      },
+      "evidence": [
+        {
+          "sourceId": "systems:blue_manual",
+          "locator": "How to Stop Playing > Saving while on an Adventure, printed p.17 (PDF spread index 8).",
+          "sourceKind": "primary-publisher-manual"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "This establishes the generic outcome class, not challenge-specific restoration order or fields."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-12"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P08",
+        "P15",
+        "P16"
+      ],
+      "remainingQuestions": [
+        "Do all three level-reset dungeons apply identical Give Up field restoration?"
+      ],
+      "evidenceLevel": "original-manual",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": true,
+        "reason": "A distinct defeat-class outcome can be represented without supplying missing reset-field policies.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-DEFEAT-ACCOUNT-SCOPE",
+      "family": "dungeon-outcome-boundary",
+      "status": "verified",
+      "editionRegionScope": "Original Nintendo DS Blue Rescue Team; official English UKV booklet NTR-APHP-UKV (European multilingual release); other-region equivalence not established.",
+      "rule": "Generic defeat loses carried money and some carried items; banked money and stored items are protected.",
+      "value": {
+        "carriedMoneyLost": "all",
+        "carriedItemLoss": "some-unspecified",
+        "bankedMoneyProtected": true,
+        "storedItemsProtected": true
+      },
+      "evidence": [
+        {
+          "sourceId": "systems:blue_manual",
+          "locator": "Facilities in the Field > Felicity Bank and Kangaskhan Storage, printed pp.38–39 (PDF spread index 19); When you are Defeated on an Adventure, printed p.18 (index 9).",
+          "sourceKind": "primary-publisher-manual"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "No item-selection algorithm, held-item scope, ordering, or reset exception is supplied."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-12"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P08",
+        "P15",
+        "P16",
+        "P20"
+      ],
+      "remainingQuestions": [
+        "What item-loss selection and held-item rule apply on final challenge defeat?"
+      ],
+      "evidenceLevel": "original-manual",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": true,
+        "reason": "Safe to separate expedition wallet/toolbox from persistent bank/storage. The unspecified item-loss algorithm must remain blocked.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-DEFEAT-EXP-GENERAL",
+      "family": "dungeon-outcome-boundary",
+      "status": "verified",
+      "editionRegionScope": "Original Nintendo DS Blue Rescue Team; official English UKV booklet NTR-APHP-UKV (European multilingual release); other-region equivalence not established.",
+      "rule": "The generic defeat explanation preserves earned experience.",
+      "value": {
+        "genericDefeatLosesExperience": false
+      },
+      "evidence": [
+        {
+          "sourceId": "systems:blue_manual",
+          "locator": "When you are Defeated on an Adventure, printed p.18 (PDF spread index 9).",
+          "sourceKind": "primary-publisher-manual"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "The booklet does not discuss level-reset dungeons; this must not be extended to reset entrants or all recruit cases."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-12"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P08",
+        "P15",
+        "P16"
+      ],
+      "remainingQuestions": [],
+      "evidenceLevel": "original-manual",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "Useful baseline evidence only; applying it to challenge-reset entrants would infer the missing rule.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-RESCUE-RESUME",
+      "family": "dungeon-outcome-boundary",
+      "status": "verified",
+      "editionRegionScope": "Original Nintendo DS Blue Rescue Team; official English UKV booklet NTR-APHP-UKV (European multilingual release); other-region equivalence not established.",
+      "rule": "After receiving A-OK Mail, Revive Team resumes at the defeat location.",
+      "value": {
+        "rescueReviveDestination": "defeat-location",
+        "rescueReviveTransition": "resume-expedition"
+      },
+      "evidence": [
+        {
+          "sourceId": "systems:blue_manual",
+          "locator": "Wireless Communication > The flow of friend rescues > 3. Waiting for a friend rescue, printed pp.42–43 (PDF spread index 21); How to Play using Dual Slot > Receiving an A-OK Mail, printed pp.46–47 (index 23).",
+          "sourceKind": "primary-publisher-manual"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Exact party state, reset snapshot persistence, inventory and resource restoration remain unstated. The transition name is a proposed implementation representation of the documented behavior."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-12"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P08",
+        "P15",
+        "P16",
+        "P34"
+      ],
+      "remainingQuestions": [
+        "Does a pending rescue retain the temporary level-reset profile until final return?",
+        "Which fields change on Revive Team?"
+      ],
+      "evidenceLevel": "original-manual",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": true,
+        "reason": "A suspended expedition and a final return to base require distinct transition states; this does not authorize a reset-field restoration implementation.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-RESCUE-PENDING-SAVE",
+      "family": "dungeon-outcome-boundary",
+      "status": "verified",
+      "editionRegionScope": "Original Nintendo DS Blue Rescue Team; official English UKV booklet NTR-APHP-UKV (European multilingual release); other-region equivalence not established.",
+      "rule": "Accepting rescue help saves automatically and opens the main menu in the documented dual-slot flow.",
+      "value": {
+        "acceptHelpAutomaticallySaves": true,
+        "acceptHelpDestination": "main-menu"
+      },
+      "evidence": [
+        {
+          "sourceId": "systems:blue_manual",
+          "locator": "How to Play using Dual Slot > Call for rescue to the GBA Red Rescue Team version > 1. Waiting for a rescue (DS Blue Rescue Team version), printed pp.44–45 (PDF spread index 22).",
+          "sourceKind": "primary-publisher-manual"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Explicitly documented Blue dual-slot path; universal transport equivalence and challenge-reset field order are not established."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-12"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P08",
+        "P15",
+        "P16",
+        "P34"
+      ],
+      "remainingQuestions": [],
+      "evidenceLevel": "original-manual",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": true,
+        "reason": "Supports a persisted rescue-pending state in this scope. An offline substitute requires its own project design and must not claim original transport fidelity.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-ESCAPE-ORB-BOUNDARY",
+      "family": "dungeon-outcome-boundary",
+      "status": "verified",
+      "editionRegionScope": "Original Nintendo DS Blue Rescue Team; official English UKV booklet NTR-APHP-UKV (European multilingual release); other-region equivalence not established.",
+      "rule": "Escape Orb allows the team to leave a dungeon.",
+      "value": {
+        "actionKind": "escape-dungeon"
+      },
+      "evidence": [
+        {
+          "sourceId": "systems:blue_manual",
+          "locator": "Items > Wonder Orbs > Escape Orb row, printed pp.34–35 (PDF spread index 17).",
+          "sourceKind": "primary-publisher-manual"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "No item/money/EXP retention, usage restrictions or reset outcome restoration specified."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-12"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P08",
+        "P15",
+        "P16"
+      ],
+      "remainingQuestions": [],
+      "evidenceLevel": "original-manual",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "Only the existence of an escape outcome is ready; consequences remain unresolved.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-PROCEDURAL-BASELINE",
+      "family": "dungeon-topology",
+      "status": "verified",
+      "editionRegionScope": "Original Nintendo DS Blue Rescue Team; official English UKV booklet NTR-APHP-UKV (European multilingual release); other-region equivalence not established.",
+      "rule": "Dungeon room connections and stair positions vary on repeat entry.",
+      "value": {
+        "ordinaryLayoutCanVaryByEntry": true
+      },
+      "evidence": [
+        {
+          "sourceId": "systems:blue_manual",
+          "locator": "Dungeons > Dungeons change every time, printed p.32 (PDF spread index 16).",
+          "sourceKind": "primary-publisher-manual"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "The introductory manual does not enumerate fixed-floor exceptions or procedural generation parameters."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-02",
+        "DATA-07"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P02",
+        "P11"
+      ],
+      "remainingQuestions": [],
+      "evidenceLevel": "original-manual",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": true,
+        "reason": "Supports separate generated-floor and fixed-scene data types; does not settle any exact terminal geometry.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-HOWLING-INITIAL-LEAD",
+      "family": "dungeon-topology",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue-specific DS guide by Hades_Warrior; original Red/GBA technical guide by Terence as comparison only; regions unstated.",
+      "rule": "Exact Blue terminal labeling and first/repeat floor behavior remain unresolved.",
+      "value": null,
+      "evidence": [
+        {
+          "sourceId": "p01b:source-2f70f018f8",
+          "locator": "Guide and Walkthrough (DS), version 0.55 > 7R1 Howling Forest [Sky Blue Plains] > Dungeon Floors.",
+          "sourceKind": "authored-gameplay-guide-search-index-only"
+        },
+        {
+          "sourceId": "p01b:source-7d75f15873",
+          "locator": "Dungeons of Mystery Guide (GBA), version 1.00 > Howling Forest > Floor 15 > UNIQUE FLOOR.",
+          "sourceKind": "red-only-comparative-guide-search-index-only"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Blue guide explicitly reports 14 ordinary floors plus one cutscene but no inspected on-screen labels, input/exit behavior or revisit trace.",
+        "The same guide mixes save scenes into totals and reports inconsistent Sky Tower arithmetic, so its counting convention cannot settle exact labels.",
+        "Terence is marked GBA despite a Blue-page mirror; no field-level Blue equivalence was retrieved."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-02"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P02",
+        "P11",
+        "P31"
+      ],
+      "remainingQuestions": [
+        "Record original Blue floor14 stairs, scene UI label, control state, exit and revisit behavior."
+      ],
+      "unverifiedContext": {
+        "candidateOrdinaryFloorCount": 14,
+        "candidateTerminalSceneCount": 1,
+        "candidateTotal": 15,
+        "acceptedExactTerminalFields": null
+      },
+      "evidenceLevel": "unresolved",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "The initial scene hypothesis is better corroborated, but exact Blue scene schema fields cannot be promoted.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-PITFALL-INITIAL-LEAD",
+      "family": "dungeon-topology",
+      "status": "blocked",
+      "editionRegionScope": "Original Rescue Team forum, mixed Red/Blue discussion; specific Pitfall author edition/region not authenticated.",
+      "rule": "Exact Blue Pitfall initial/revisit split remains unresolved.",
+      "value": null,
+      "evidence": [
+        {
+          "sourceId": "p01b:source-befac478eb",
+          "locator": "Pokemon Mystery Dungeon General Questions Thread, page beginning start=100 > Latios and Latias paragraph.",
+          "sourceKind": "community-authored-guide-search-index-only"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "The indexed paragraph gives 24 traversal floors and Latias on B25F.",
+        "A nearby Blue-specific banana discussion is a different statement; it does not authenticate the Pitfall paragraph as Blue observation.",
+        "Direct page timed out; author, date and firsthand provenance not recovered."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-02"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P02",
+        "P11",
+        "P28"
+      ],
+      "remainingQuestions": [
+        "Observe initial floor24-to25 transition and revisit25; resolve resident-table floor25 listings."
+      ],
+      "unverifiedContext": {
+        "candidateTraversalCount": 24,
+        "candidateRescueLabel": "B25F",
+        "acceptedExactTerminalFields": null
+      },
+      "evidenceLevel": "unresolved",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "Cannot transform an unscoped guide paragraph into exact original Blue behavior.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-PURITY-SUCCESS-OBSERVATION",
+      "family": "level-reset-exit-observation",
+      "status": "verified",
+      "editionRegionScope": "Original Blue Rescue Team, English-language Altissimo playthrough; emulator/save and regional revision unspecified.",
+      "rule": "A firsthand run reports retaining acquired Warp Scarves after clearing Purity Forest.",
+      "value": {
+        "reportedSingleRun": {
+          "dungeon": "purity-forest",
+          "outcome": "clear",
+          "pickedUpWarpScarvesRetainedAfterReturn": true
+        }
+      },
+      "evidence": [
+        {
+          "sourceId": "P01B-S-ALTISSIMO-BLUE-ILLUSTRATED-PATH",
+          "locator": "Altissimo, Aug 15 2017, post #96, Part 30 Purity Forest > after Celebi in Healing Forest, Warp Scarves memento remark; same page closing Part31 identifies completed Blue Rescue Team copy.",
+          "sourceKind": "primary-player-report-search-index-only"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Direct page returned403; indexed text available, linked screenshots not inspected.",
+        "No complete pre-entry/post-exit inventory, held slot or party-state trace.",
+        "This is an observed instance, not proof that every acquired item or every outcome follows one rule."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-12"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P08",
+        "P15",
+        "P16",
+        "P31"
+      ],
+      "remainingQuestions": [
+        "Distinguish retained held slot from toolbox and item flags; observe all exit modes."
+      ],
+      "evidenceLevel": "reported-single-run",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "Useful counterexample to discarding every acquired item on success; insufficient for the complete restoration algorithm.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-RESET-MATRIX-STILL-OPEN",
+      "family": "level-reset-exit-restoration-matrix",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue Rescue Team; each supported regional revision needs an evidence scope.",
+      "rule": "The exact challenge entry/exit transformation remains unspecified.",
+      "value": null,
+      "evidence": [
+        {
+          "sourceId": "systems:blue_manual",
+          "locator": "When you are Defeated on an Adventure; Wireless Communication > The flow of friend rescues.",
+          "sourceKind": "primary-publisher-manual"
+        },
+        {
+          "sourceId": "P01B-S-ALTISSIMO-BLUE-ILLUSTRATED-PATH",
+          "locator": "Part30 Purity Forest, post96.",
+          "sourceKind": "primary-player-report-search-index-only"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Generic defeat/rescue rules cannot fill challenge-specific restoration cells.",
+        "No authenticated before/after snapshots or original Blue program conditions were retrieved.",
+        "No original Blue evidence resolves Purity Forest held-item entry conflict."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-12"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P08",
+        "P15",
+        "P16",
+        "P30",
+        "P31"
+      ],
+      "remainingQuestions": [
+        "For Wish Cave/Joyous Tower/Purity Forest and success, mission escape, Escape Orb, Give Up, fainting, wind expulsion, rescue pending/resumed/abandoned: specify each restoration field and order."
+      ],
+      "unverifiedContext": {
+        "outcomes": [
+          "success",
+          "mission-escape",
+          "escape-orb",
+          "give-up",
+          "fainting",
+          "wind-expulsion",
+          "rescue-pending",
+          "rescue-resumed",
+          "rescue-abandoned"
+        ],
+        "fields": [
+          "level",
+          "fractional-exp",
+          "max-hp",
+          "current-hp",
+          "stats",
+          "stat-consumable-effects",
+          "moves",
+          "pp",
+          "move-links",
+          "move-boosts",
+          "move-enabled-flags",
+          "iq-value",
+          "iq-enabled-flags",
+          "toolbox",
+          "held-items",
+          "entry-money",
+          "collected-money",
+          "new-recruits",
+          "day-advancement"
+        ],
+        "acceptedExactMatrix": null
+      },
+      "evidenceLevel": "unresolved",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "Entrant snapshot and outcome-policy interfaces can be implemented independently; their exact Blue values must not be invented.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-CAMPAIGN-TERMINAL-SCENES-STILL-OPEN",
+      "family": "dungeon-topology",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue Rescue Team target; no inspected Blue terminal sequence or field-level Red/Blue equivalence found.",
+      "rule": "Retain current accepted counts; terminal labels, controls, geometry and revisit rules remain null.",
+      "value": null,
+      "evidence": [
+        {
+          "sourceId": "p01b:source-2f70f018f8",
+          "locator": "5W1 Tiny Woods; 5W2 Thunderwave Cave; 5W5 Silent Chasm; 5W7 Great Canyon; 5WA Mt. Freeze; 5WC Magma Cavern; 5WD Sky Tower.",
+          "sourceKind": "authored-gameplay-guide-search-index-only"
+        }
+      ],
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Guide offers authored scene-count conventions rather than exact UI observations.",
+        "No commercial layouts or scripts were copied; no cartridge/emulator was run.",
+        "This audit does not weaken the approved count facts or close CAMPAIGN-GAP-02."
+      ],
+      "affectedGaps": [
+        "CAMPAIGN-GAP-02"
+      ],
+      "affectedPackages": [
+        "P01",
+        "P02",
+        "P11",
+        "P19",
+        "P23",
+        "P24",
+        "P25",
+        "P26",
+        "P30"
+      ],
+      "remainingQuestions": [
+        "For every listed scene record: Blue edition/region, entry label, floor display, controllability, actor entrance positions, exit trigger, first/repeat exceptions."
+      ],
+      "unverifiedContext": {
+        "dungeons": [
+          "tiny-woods",
+          "thunderwave-cave",
+          "silent-chasm",
+          "great-canyon",
+          "mt-freeze",
+          "magma-cavern",
+          "sky-tower",
+          "murky-cave"
+        ],
+        "acceptedExactTerminalFields": null
+      },
+      "evidenceLevel": "unresolved",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "Scene kinds and transition interfaces may be implemented from approved architecture, but an exact original map record requires stronger evidence.",
+        "packageCompletionClaim": false
+      }
+    },
+    {
+      "id": "P01B-GENGAR-STORMY-GATE",
+      "family": "gengar-exact-prerequisites",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue Rescue Team; region/revision unresolved.",
+      "fieldNamesAreSemanticQuestionsNotRecoveredEngineSymbols": true,
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Only newly found firsthand Stormy resolution report has unverified edition.",
+        "No Blue controlled counterexample or exact predicate document found."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P20",
+        "P22",
+        "P27",
+        "P30"
+      ],
+      "remainingQuestions": [
+        "Does original Blue Gengar progression require clearing Stormy Sea, and at which transition?",
+        "Can Medicham rescue plus the expected conversations advance the chain while Stormy Sea remains uncleared?"
+      ],
+      "value": null,
+      "rule": "The necessary and sufficient Stormy Sea predicate for Blue Gengar progression remains unresolved.",
+      "affectedGaps": [
+        "CAMPAIGN-GAP-03"
+      ],
+      "evidence": [
+        {
+          "sourceId": "P01B-S-UNSCOPED-STORMY-OBSERVATION",
+          "locator": "Continuing the Gengar Postgame Quest? > Zorgothe original stall report and final reply that Stormy Sea completion resolved it; Abject-Projects Spinda recollection.",
+          "sourceKind": "primary firsthand player report, edition unverified"
+        },
+        {
+          "sourceId": "P01B-S-BLUE-SPINDA-OBSERVATION",
+          "locator": "Lost-Paisley original post > opening Blue edition declaration; second paragraph Mt. Faraway/Spinda/Silver Trench; third paragraph Ekans/Medicham Post Office-to-town transition; fourth paragraph Wish Cave availability.",
+          "sourceKind": "primary firsthand player report"
+        },
+        {
+          "sourceId": "P01B-S-MEGAMINERD-ORIGINAL-SCRIPT-RESEARCH",
+          "locator": "Aug 23, 2018 original research statement; Aug 24 documentation statement; Aug 27 comparison statement",
+          "sourceKind": "primary reverse-engineering research report"
+        }
+      ],
+      "evidenceLevel": "unresolved",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "Neither source game identity nor a necessary-and-sufficient Blue condition has been established. Prior secondary-guide discrepancy remains unresolved.",
+        "packageCompletionClaim": false
+      },
+      "unresolvedFields": [
+        "stormySeaClearRequired",
+        "stormySeaFlagComparedDirectly",
+        "indirectPrerequisiteInstead"
+      ]
+    },
+    {
+      "id": "P01B-GENGAR-SPINDA-GATE",
+      "family": "gengar-town-event-priority",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue explicitly reported; region/revision unstated.",
+      "fieldNamesAreSemanticQuestionsNotRecoveredEngineSymbols": true,
+      "supportedObservation": "One firsthand Blue player reports that retaining Spinda after Mt. Faraway prevents the Ekans/Medicham town transition and Gengar progression while Wish Cave remains available.",
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Observed correlation does not reveal whether a quest-state comparison, scene occupancy, general priority rule, or multiple gates cause the stall.",
+        "No numeric state, actor flag, branch condition, or check timing recovered."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P20",
+        "P22",
+        "P27",
+        "P30"
+      ],
+      "remainingQuestions": [
+        "Which Spinda states block Gengar, and which Gengar transition is gated?",
+        "Does talking to Spinda make the next state available immediately or only after a day transition?",
+        "Does the same gate apply before Mt. Faraway is complete?",
+        "How do other town scenes interact with this condition?"
+      ],
+      "value": null,
+      "rule": "A Blue Spinda/Gengar interaction is reported; its exact predicate and priority remain unresolved.",
+      "affectedGaps": [
+        "CAMPAIGN-GAP-03"
+      ],
+      "evidence": [
+        {
+          "sourceId": "P01B-S-BLUE-SPINDA-OBSERVATION",
+          "locator": "Lost-Paisley original post > opening Blue edition declaration; second paragraph Mt. Faraway/Spinda/Silver Trench; third paragraph Ekans/Medicham Post Office-to-town transition; fourth paragraph Wish Cave availability.",
+          "sourceKind": "primary firsthand player report"
+        }
+      ],
+      "evidenceLevel": "unresolved",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "Primary Blue observation improves evidence but does not isolate exact event predicate or day timing.",
+        "packageCompletionClaim": false
+      },
+      "unresolvedFields": [
+        "spindaStatePredicate",
+        "townEventPriorityPredicate",
+        "postOfficeToSquareTransition",
+        "checkTiming"
+      ]
+    },
+    {
+      "id": "P01B-GENGAR-CONVERSATION-DAYS",
+      "family": "gengar-exact-day-state-machine",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue target; no complete region-scoped state trace obtained.",
+      "fieldNamesAreSemanticQuestionsNotRecoveredEngineSymbols": true,
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "New sources do not enumerate required interactions or enumerate day-changing actions.",
+        "Prior ordinary-path guides cannot by themselves determine exact scheduling or retry behavior."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P20",
+        "P22",
+        "P27",
+        "P30"
+      ],
+      "remainingQuestions": [
+        "Which conversations are mandatory and which states persist across day advancement?",
+        "Which clear, escape, defeat, rescue, dojo or sleep outcomes advance the relevant day gate?",
+        "How do refusal, wrong leader, and failed escorts re-enter the chain?"
+      ],
+      "supportedObservation": "An illustrated Blue playthrough marks the second post-rescue conversation as the next day and the Gengar base visit as the next morning; this is one ordinary path, not a complete timing contract.",
+      "value": null,
+      "rule": "A reported ordinary path does not establish the complete Blue Gengar day and retry contract.",
+      "affectedGaps": [
+        "CAMPAIGN-GAP-03"
+      ],
+      "evidence": [
+        {
+          "sourceId": "P01B-S-BLUE-SPINDA-OBSERVATION",
+          "locator": "Lost-Paisley original post > opening Blue edition declaration; second paragraph Mt. Faraway/Spinda/Silver Trench; third paragraph Ekans/Medicham Post Office-to-town transition; fourth paragraph Wish Cave availability.",
+          "sourceKind": "primary firsthand player report"
+        },
+        {
+          "sourceId": "P01B-S-RESCUE-TEAM-SAVE-STRUCTURE",
+          "locator": "evandixon, Rescue Team Save Structure > opening quicksave comparison paragraph; money, team name, rank and walking-speed field listings.",
+          "sourceKind": "primary save-comparison research note"
+        },
+        {
+          "sourceId": "P01B-S-MEGAMINERD-ORIGINAL-SCRIPT-RESEARCH",
+          "locator": "Aug 23, 2018 original research statement; Aug 24 documentation statement; Aug 27 comparison statement",
+          "sourceKind": "primary reverse-engineering research report"
+        },
+        {
+          "sourceId": "P01B-S-ALTISSIMO-BLUE-ILLUSTRATED-PATH",
+          "locator": "Part 27: Murky Cave & Announcement, passage after Medicham rescue and first Ekans/Medicham conversation; author transition labels The next day and The next morning before Gengar Mt. Freeze request. Part 26 opening warning; vague Wish time transitions; earlier unlock disclosure.",
+          "sourceKind": "primary illustrated playthrough and player narration"
+        }
+      ],
+      "evidenceLevel": "unresolved",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "No recovered Blue symbols/conditions or comprehensive controlled observations for day and retry edges.",
+        "packageCompletionClaim": false
+      },
+      "unresolvedFields": [
+        "postRescueDialogueRequired",
+        "postOfficeDialogueFlag",
+        "squareDialogueFlag",
+        "arrivalDayOffset",
+        "dayAdvanceActions",
+        "escortDeclineTransition",
+        "escortFailureRetryTransition",
+        "heroLeaderCheckTiming"
+      ]
+    },
+    {
+      "id": "P01B-WISH-EXACT-UNLOCK",
+      "family": "wish-cave-exact-unlock-state-machine",
+      "status": "blocked",
+      "editionRegionScope": "Original Blue target; no complete region-scoped state trace obtained.",
+      "fieldNamesAreSemanticQuestionsNotRecoveredEngineSymbols": true,
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "One Blue report says Wish Cave remains unlockable while Spinda is retained, but gives no unlock-state trace.",
+        "No original Blue table or branch condition resolves the prior one-extra-day disagreement.",
+        "Illustrated Blue Wish Cave account explicitly disclaims chronological ordering and uses vague multi-day intervals; unsuitable for exact notice timing."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P20",
+        "P22",
+        "P27",
+        "P30"
+      ],
+      "remainingQuestions": [
+        "When precisely is Medicham's rescue notice inserted relative to the Ekans-alone interaction?",
+        "Which predicates must be satisfied before each conversation/day transition?",
+        "Does notice acceptance, mission activation or the next departure cause the durable dungeon unlock?"
+      ],
+      "value": null,
+      "rule": "The exact Blue Wish Cave notice, conversation and day predicates remain unresolved.",
+      "affectedGaps": [
+        "CAMPAIGN-GAP-03"
+      ],
+      "evidence": [
+        {
+          "sourceId": "P01B-S-BLUE-SPINDA-OBSERVATION",
+          "locator": "Lost-Paisley original post > opening Blue edition declaration; second paragraph Mt. Faraway/Spinda/Silver Trench; third paragraph Ekans/Medicham Post Office-to-town transition; fourth paragraph Wish Cave availability.",
+          "sourceKind": "primary firsthand player report"
+        },
+        {
+          "sourceId": "P01B-S-MEGAMINERD-ORIGINAL-SCRIPT-RESEARCH",
+          "locator": "Aug 23, 2018 original research statement; Aug 24 documentation statement; Aug 27 comparison statement",
+          "sourceKind": "primary reverse-engineering research report"
+        },
+        {
+          "sourceId": "P01B-S-RESCUE-TEAM-SAVE-STRUCTURE",
+          "locator": "evandixon, Rescue Team Save Structure > opening quicksave comparison paragraph; money, team name, rank and walking-speed field listings.",
+          "sourceKind": "primary save-comparison research note"
+        },
+        {
+          "sourceId": "P01B-S-ALTISSIMO-BLUE-ILLUSTRATED-PATH",
+          "locator": "Part 27: Murky Cave & Announcement, passage after Medicham rescue and first Ekans/Medicham conversation; author transition labels The next day and The next morning before Gengar Mt. Freeze request. Part 26 opening warning; vague Wish time transitions; earlier unlock disclosure.",
+          "sourceKind": "primary illustrated playthrough and player narration"
+        }
+      ],
+      "evidenceLevel": "unresolved",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "Exact Blue event predicates and notice/day transition semantics are not established by the retrieved primary evidence.",
+        "packageCompletionClaim": false
+      },
+      "unresolvedFields": [
+        "pitfallValleyPredicate",
+        "skyBluePlainsPredicate",
+        "pondConversationStates",
+        "ekansAloneToNoticeDelay",
+        "noticeInsertionTiming",
+        "acceptedMissionFlag",
+        "competingEventPriority"
+      ]
+    },
+    {
+      "id": "P01B-RED-BLUE-EQUIVALENCE",
+      "family": "edition-equivalence",
+      "status": "blocked",
+      "editionRegionScope": "Red technical sources cannot be promoted to original Blue without branch-specific equivalence evidence.",
+      "fieldNamesAreSemanticQuestionsNotRecoveredEngineSymbols": true,
+      "retrievalDate": "2026-10-04",
+      "evidenceLimitations": [
+        "Public comparison statement concerns ROM structure, not exact script conditions.",
+        "Successor editor explicitly scopes support to Red US/Aus.",
+        "No commercial scripts were copied or compared in this task."
+      ],
+      "affectedPackages": [
+        "P01",
+        "P20",
+        "P22",
+        "P27",
+        "P30"
+      ],
+      "remainingQuestions": [
+        "Is there public original research establishing the same Gengar/Wish state conditions for specific Red and Blue releases?",
+        "Can original Blue controlled runs independently validate any Red-derived candidate predicate?"
+      ],
+      "value": null,
+      "rule": "Red technical documentation does not establish matching Blue event predicates.",
+      "affectedGaps": [
+        "CAMPAIGN-GAP-03"
+      ],
+      "evidence": [
+        {
+          "sourceId": "P01B-S-MEGAMINERD-ORIGINAL-SCRIPT-RESEARCH",
+          "locator": "Aug 23, 2018 original research statement; Aug 24 documentation statement; Aug 27 comparison statement",
+          "sourceKind": "primary reverse-engineering research report"
+        },
+        {
+          "sourceId": "P01B-S-PMD-SCRIPT-EDITOR-SCOPE",
+          "locator": "README introduction; Features and Future Features",
+          "sourceKind": "primary tool-maintainer documentation"
+        },
+        {
+          "sourceId": "P01B-S-RESCUEBULLETIN-SCOPE",
+          "locator": "Features; Goals",
+          "sourceKind": "primary tool-maintainer documentation"
+        }
+      ],
+      "evidenceLevel": "unresolved",
+      "schemaBoundaryAssessment": {
+        "supportsBoundaryRepresentation": false,
+        "reason": "Exact event-level equivalence has not been demonstrated; generic pairing or shared data layout is insufficient.",
+        "packageCompletionClaim": false
+      },
+      "unresolvedFields": [
+        "gengarEventLogicEquivalent",
+        "wishEventLogicEquivalent",
+        "regionRevisionEquivalence"
+      ]
+    }
+  ],
+  "ruleUpdates": [
+    {
+      "targetId": "P01-MECH-TURN-02",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "Local actor phases and conditional AI ordering are documented; the complete Blue scheduler remains unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: Primary manual cadence and secondary speed descriptions do not establish total ordering. A simple leader→allies→enemies→ticks queue is an unverified candidate, not an accepted original rule.",
+          "The v2 local sequences narrow the previous evidence gap. Speed interleaving, mid-chain aborts, spawn/recruit eligibility and transition preemption are not established; no total queue is authorized."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01-MECH-TURN-03",
+          "P01-MECH-TURN-04",
+          "P01-MECH-TURN-05",
+          "P01-MECH-TURN-06",
+          "P01-MECH-TURN-07",
+          "P01-MECH-TURN-08"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    },
+    {
+      "targetId": "P01-MECH-SPEED-02",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "Speed Boost has a documented after-action counter; exact speed opportunity and duration scheduling remain unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: Travel Speed reports pre-Gates boosts of 4–5 full turns and drops of 3–4; the original Half Speed page reports 6–8 turns without defining the counter unit. Its source is another Bulbapedia page, so this is not independent corroboration. Shared prose also reports leader-specific refreshes and order quirks.",
+          "The counter and indexed rate table do not resolve the inherited 6–8 versus 3–4 slowdown-unit question, leader refreshes, mid-turn updates or accelerated actor-turn boundaries."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01-MECH-SPEED-03",
+          "P01-MECH-SPEED-04",
+          "P01-MECH-SPEED-05"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    },
+    {
+      "targetId": "P01-MECH-TYPE-03",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "The detailed original-edition guide documents formula and ordered stages; bit-exact Blue arithmetic remains unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: The original-edition type page reports numerators 32768, 58982, 65536 and 98304 over 65536; 0.9 is shorthand. Treat these as research candidates until arithmetic/order evidence is accepted. Do not import the nearby Explorers formula.",
+          "Nominal factors are now supplemented by documented fixed-point constants and explicit floors/clamps. Intermediate quantization, signed behavior, nearest ties, output bounds and conflicting modifier details still prevent exact arithmetic closure."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01-MECH-TYPE-04",
+          "P01-MECH-TYPE-05",
+          "P01-MECH-TYPE-06",
+          "P01-MECH-TYPE-07"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    },
+    {
+      "targetId": "P01-RESET-OUTCOME-MATRIX",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "Generic Blue outcome boundaries are documented; challenge-specific restoration fields and ordering remain unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: Sources give generic exit restoration and generic fainting losses; combining them into a complete transition matrix would be inference.",
+          "Inherited v1 context, refined by the v2 clarification below: No Blue observation, authenticated save comparison, or original program evidence was obtained.",
+          "The official manual supports distinct defeat, rescue-pending/resume and escape concepts. A single Purity clear retention report does not fill the complete challenge outcome matrix."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01B-CAMPAIGN-DEFEAT-GIVE-UP",
+          "P01B-CAMPAIGN-DEFEAT-ACCOUNT-SCOPE",
+          "P01B-CAMPAIGN-DEFEAT-EXP-GENERAL",
+          "P01B-CAMPAIGN-RESCUE-RESUME",
+          "P01B-CAMPAIGN-RESCUE-PENDING-SAVE",
+          "P01B-CAMPAIGN-ESCAPE-ORB-BOUNDARY",
+          "P01B-CAMPAIGN-PURITY-SUCCESS-OBSERVATION",
+          "P01B-CAMPAIGN-RESET-MATRIX-STILL-OPEN"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    },
+    {
+      "targetId": "P01-RESET-PURITY-HELD-ITEMS",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "Purity Forest held-item entry and restoration exceptions remain unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: Dedicated Purity Forest pages broadly forbid items; the general mechanics page explicitly excludes held items from original RB no-item restrictions.",
+          "Inherited v1 context, refined by the v2 clarification below: No retrieved source explicitly resolves that general exception for Purity Forest.",
+          "A reported retained acquired item after a clear does not establish entry held-item treatment or separate held-slot and toolbox policies."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01B-CAMPAIGN-PURITY-SUCCESS-OBSERVATION",
+          "P01B-CAMPAIGN-RESET-MATRIX-STILL-OPEN"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    },
+    {
+      "targetId": "P01-CAMPAIGN-TERMINAL-LABELS",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "Prior dungeon counts remain accepted; exact terminal labels, geometry, controls and repeat transitions remain unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: No authorized cartridge/emulator observation or inspected original video sequence was performed. Numeric totals above stay fixed; exact labels, cutscene boundaries, movement/exit mechanics and revisit exceptions are not frozen.",
+          "New guide leads use scene-inclusive conventions. Neither generic procedural-layout evidence nor uninspected footage establishes exact terminal-map fields."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01B-CAMPAIGN-PROCEDURAL-BASELINE",
+          "P01B-CAMPAIGN-TERMINAL-SCENES-STILL-OPEN"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    },
+    {
+      "targetId": "P01-CAMPAIGN-HOWLING-SCENE",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "The original Blue Howling terminal-scene contract remains unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: Table absence and search description cannot verify the displayed floor label, fixed-map classification or repeat behavior.",
+          "A Blue guide supports a fourteen-plus-one counting lead, but no inspected label/control/revisit trace establishes the exact schema; Red unique-floor documentation remains comparative."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01B-CAMPAIGN-HOWLING-INITIAL-LEAD"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    },
+    {
+      "targetId": "P01-CAMPAIGN-PITFALL-SCENE",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "The original Blue Pitfall initial/revisit terminal contract remains unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: The sources permit multiple interpretations, including initial versus repeat maps. No explanation was retrieved that reconciles them.",
+          "The retrieved lead does not authenticate the Pitfall author edition, nor resolve exact labels, controls and repeat behavior."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01B-CAMPAIGN-PITFALL-INITIAL-LEAD"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    },
+    {
+      "targetId": "P01-GENGAR-STORMY-PREREQUISITE",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "The necessary and sufficient Stormy Sea predicate for original Blue Gengar progression remains unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: An omitted requirement is not evidence that it is unnecessary.",
+          "Inherited v1 context, refined by the v2 clarification below: No retrieved original Blue program condition or controlled counterexample resolves necessity versus common progression order.",
+          "Inherited v1 context, refined by the v2 clarification below: Corroborating guide text may have shared provenance; counting agreement does not prove the event flag.",
+          "The newly retrieved Stormy resolution report has no verified edition. A distinct explicit-Blue Spinda interaction supplies no isolated Stormy predicate; inherited reference discrepancies remain open."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01B-GENGAR-STORMY-GATE",
+          "P01B-GENGAR-SPINDA-GATE",
+          "P01B-RED-BLUE-EQUIVALENCE"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    },
+    {
+      "targetId": "P01-GENGAR-EXACT-DAY-STATE",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "A Blue ordinary path and competing-event observation are documented; exact Gengar day, dialogue and retry predicates remain unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: The walkthrough describes a post-rescue board conversation, next-day Square conversation, then next-day arrival; Serebii compresses this to Square conversation and next waking.",
+          "Inherited v1 context, refined by the v2 clarification below: These descriptions support an ordinary progression, not exact predicates, mandatory conversations, or all day-advancing actions.",
+          "Inherited v1 context, refined by the v2 clarification below: No timing or re-entry rules after escort failure are documented.",
+          "A single relative-day narrative is not a minimum-delay or exhaustive transition specification. Unrecovered source variables are semantic questions, not engine symbols."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01B-GENGAR-CONVERSATION-DAYS",
+          "P01B-GENGAR-SPINDA-GATE"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    },
+    {
+      "targetId": "P01-WISH-EXACT-DAY-STATE",
+      "operation": "clarify-blocker",
+      "set": {
+        "rule": "Exact Blue Wish Cave notice insertion and unlock predicates remain unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: The ordinary order is compatible but the notice availability day differs in the descriptions.",
+          "Inherited v1 context, refined by the v2 clarification below: The retrieved sources do not provide a reliable exact day counter or complete event predicates.",
+          "The illustrated Wish narrative is explicitly out of order and uses imprecise day intervals. Neither a Spinda observation nor Red script-tool scope resolves the inherited extra-day discrepancy."
+        ],
+        "status": "blocked",
+        "value": null
+      },
+      "append": {
+        "supportingRuleIds": [
+          "P01B-WISH-EXACT-UNLOCK",
+          "P01B-RED-BLUE-EQUIVALENCE"
+        ]
+      },
+      "preserve": "All other inherited fields, including remaining questions and package ownership, remain unchanged."
+    }
+  ],
+  "blockedConsumerClarifications": {
+    "P12": "Local phase records can inform contracts; full scheduler and speed eligibility remain blocked by P01-MECH-TURN-02 and P01-MECH-SPEED-02.",
+    "P13": "Formula and explicit stages are documented; exact damage arithmetic remains blocked by P01-MECH-TYPE-03.",
+    "P08/P15/P16/P30/P31": "Generic outcome boundaries do not fill challenge restoration or Purity held-item policies.",
+    "P11/P19/P23/P24/P25/P26/P28/P30/P31": "Accepted counts remain; exact terminal scene fields and first/repeat edges are incomplete.",
+    "P20/P22/P27/P30": "Gengar/Wish exact predicates remain incomplete despite narrowed Blue player observations."
+  },
+  "acceptance": "P01 and the inherited system families remain incomplete. Static document checks establish structure and provenance joins only; they do not establish gameplay fidelity.",
+  "auditScope": {
+    "repositoryChanges": "Only this addendum profile and RULES-BLUE-ADDENDUM.md.",
+    "gameSourceExecuted": false,
+    "automatedGameTestsRun": false,
+    "cartridgeOrEmulatorRun": false,
+    "commercialImplementationOrAssetsCopied": false,
+    "negativeResearchFinding": "No Blue scheduler/damage decompilation map was found in these retrieved resources; this is not a universal absence claim."
+  }
+}

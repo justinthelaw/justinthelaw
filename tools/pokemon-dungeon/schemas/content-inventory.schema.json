@@ -1,0 +1,2718 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://justinthelaw.github.io/schemas/pokemon-dungeon/content-inventory.schema.json",
+  "title": "Original Blue authoring identity inventory (not runtime data)",
+  "description": "P02 identity, source and blocker traceability only. A supported identity does not establish original mechanics, implementation, asset readiness or acceptance. Unknown mechanics are forbidden except explicitly blocked null fields.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "catalogId",
+    "scope",
+    "provenanceSources",
+    "blockerDefinitions",
+    "records"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "catalogId": {
+      "$ref": "#/$defs/id"
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "authoringOnly": {
+      "const": true
+    },
+    "runtimeReady": {
+      "const": false
+    },
+    "provenanceSources": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 250,
+      "propertyNames": {
+        "$ref": "#/$defs/sourceId"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/provenance"
+      }
+    },
+    "blockerDefinitions": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 500,
+      "propertyNames": {
+        "$ref": "#/$defs/sourceId"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/blocker"
+      }
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2000,
+      "items": {
+        "type": "object",
+        "required": [
+          "recordKind"
+        ],
+        "properties": {
+          "recordKind": {
+            "enum": [
+              "species",
+              "form",
+              "storyActor",
+              "dungeon",
+              "dungeonSegment",
+              "dojoMaze",
+              "fixedFloor",
+              "restStop",
+              "specialMode",
+              "supportLocation",
+              "terminalMap",
+              "move",
+              "system-action",
+              "ability",
+              "item-class",
+              "status",
+              "condition-flag",
+              "trap",
+              "weather",
+              "iq-skill",
+              "friend-area"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "species"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/species"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "form"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/form"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "storyActor"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/storyActor"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "dungeon"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/dungeon"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "dungeonSegment"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/dungeonSegment"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "dojoMaze"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/dojoMaze"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "fixedFloor"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/fixedFloor"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "restStop"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/restStop"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "specialMode"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/specialMode"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "supportLocation"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/supportLocation"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "terminalMap"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/terminalMap"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "move"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/move"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "system-action"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/system-action"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "ability"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/ability"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "item-class"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/item-class"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "status"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/status"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "condition-flag"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/condition-flag"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "trap"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/trap"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "weather"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/weather"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "iq-skill"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/iq-skill"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "recordKind": {
+                  "const": "friend-area"
+                }
+              },
+              "required": [
+                "recordKind"
+              ]
+            },
+            "then": {
+              "$ref": "#/$defs/friend-area"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+      "maxLength": 120
+    },
+    "sourceId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9:._-]*$",
+      "maxLength": 140
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document",
+        "locator"
+      ],
+      "properties": {
+        "document": {
+          "type": "string",
+          "pattern": "^(?:games/pokemon-dungeon-reimagined/plan/|tools/pokemon-dungeon/content/)(?:[A-Za-z0-9][A-Za-z0-9._-]*/)*[A-Za-z0-9][A-Za-z0-9._-]*\\.(?:md|json)$",
+          "maxLength": 300
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300,
+          "pattern": "^(?:section:.+|record:[A-Za-z0-9][A-Za-z0-9:._-]*|/.*)$"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://",
+          "maxLength": 2048
+        },
+        "retrievedAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "retrievalDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "fieldScope": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "sourceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "sourceRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fields",
+        "reason"
+      ],
+      "properties": {
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": "^[A-Za-z][A-Za-z0-9.\\[\\]_-]*$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "issueId": {
+          "$ref": "#/$defs/sourceId"
+        }
+      }
+    },
+    "species": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dexNo",
+        "generation",
+        "slug",
+        "formIds"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "species"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dexNo": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 386
+        },
+        "generation": {
+          "enum": [
+            1,
+            2,
+            3
+          ]
+        },
+        "slug": {
+          "$ref": "#/$defs/id"
+        },
+        "formIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "formId": {
+          "type": "null"
+        }
+      }
+    },
+    "form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "speciesId",
+        "classification",
+        "transitionRuleId"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "form"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "speciesId": {
+          "$ref": "#/$defs/id"
+        },
+        "classification": {
+          "enum": [
+            "persistent",
+            "temporary"
+          ]
+        },
+        "transitionRuleId": {
+          "type": "null"
+        }
+      }
+    },
+    "storyActor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "speciesId",
+        "formId"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "storyActor"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "speciesId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "formId": {
+          "type": "null"
+        }
+      }
+    },
+    "dungeon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "relationships",
+        "inventoryGroup",
+        "routeGroup",
+        "reportedFloorCount",
+        "countBasis",
+        "proceduralFloorCount",
+        "floorDirection",
+        "unlockExpression",
+        "floorContent",
+        "fixedFloorInventoryComplete"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "dungeon"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "targetId"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "hasSegment",
+                  "hasRestStop",
+                  "afterSegment",
+                  "beforeSegment",
+                  "routeEntry",
+                  "detourEntry",
+                  "returnsToOriginatingJunction",
+                  "hasTerminalMap",
+                  "hasNumberedMap",
+                  "containsMaze"
+                ]
+              },
+              "targetId": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "inventoryGroup": {
+          "const": "field"
+        },
+        "routeGroup": {
+          "enum": [
+            "main-early",
+            "main-fugitive",
+            "main-closing",
+            "fugitive-path",
+            "postgame-optional",
+            "archived-event"
+          ]
+        },
+        "reportedFloorCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "countBasis": {
+          "enum": [
+            "exploration",
+            "numbered",
+            "reported-total"
+          ]
+        },
+        "proceduralFloorCount": {
+          "type": "null"
+        },
+        "floorDirection": {
+          "type": "null"
+        },
+        "unlockExpression": {
+          "type": "null"
+        },
+        "floorContent": {
+          "type": "null"
+        },
+        "fixedFloorInventoryComplete": {
+          "const": false
+        },
+        "sourceRuleIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "ordinaryExplorationFloorCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999
+        }
+      }
+    },
+    "dungeonSegment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "relationships",
+        "parentId",
+        "localFloorCount",
+        "globalStartOrdinal",
+        "countBasis",
+        "originalFloorLabels"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "dungeonSegment"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "targetId"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "hasSegment",
+                  "hasRestStop",
+                  "afterSegment",
+                  "beforeSegment",
+                  "routeEntry",
+                  "detourEntry",
+                  "returnsToOriginatingJunction",
+                  "hasTerminalMap",
+                  "hasNumberedMap",
+                  "containsMaze"
+                ]
+              },
+              "targetId": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "parentId": {
+          "$ref": "#/$defs/id"
+        },
+        "localFloorCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "globalStartOrdinal": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "countBasis": {
+          "enum": [
+            "numbered",
+            "exploration"
+          ]
+        },
+        "originalFloorLabels": {
+          "type": "null"
+        }
+      }
+    },
+    "dojoMaze": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "relationships",
+        "parentId",
+        "inventoryGroup",
+        "mazeKind",
+        "reportedFloorCount",
+        "bossLocalFloor",
+        "unlockMilestone",
+        "unlockExpression",
+        "floorContent"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "dojoMaze"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "targetId"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "hasSegment",
+                  "hasRestStop",
+                  "afterSegment",
+                  "beforeSegment",
+                  "routeEntry",
+                  "detourEntry",
+                  "returnsToOriginatingJunction",
+                  "hasTerminalMap",
+                  "hasNumberedMap",
+                  "containsMaze"
+                ]
+              },
+              "targetId": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "parentId": {
+          "$ref": "#/$defs/id"
+        },
+        "inventoryGroup": {
+          "enum": [
+            "standard-dojo",
+            "blue-linked-maze"
+          ]
+        },
+        "mazeKind": {
+          "enum": [
+            "type",
+            "presetTeam",
+            "linkedTeam"
+          ]
+        },
+        "reportedFloorCount": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 999
+        },
+        "bossLocalFloor": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 999
+        },
+        "unlockMilestone": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unlockExpression": {
+          "type": "null"
+        },
+        "floorContent": {
+          "type": "null"
+        }
+      }
+    },
+    "fixedFloor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "relationships",
+        "parentId",
+        "localFloorNumber",
+        "globalFloorOrdinal",
+        "floorRole",
+        "countRelation",
+        "fixedLayout",
+        "displayLabel",
+        "mapGeometry",
+        "revisitBehavior"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "fixedFloor"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "targetId"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "hasSegment",
+                  "hasRestStop",
+                  "afterSegment",
+                  "beforeSegment",
+                  "routeEntry",
+                  "detourEntry",
+                  "returnsToOriginatingJunction",
+                  "hasTerminalMap",
+                  "hasNumberedMap",
+                  "containsMaze"
+                ]
+              },
+              "targetId": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "parentId": {
+          "$ref": "#/$defs/id"
+        },
+        "localFloorNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "globalFloorOrdinal": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "floorRole": {
+          "enum": [
+            "boss",
+            "monster-house",
+            "automatic-recruitment",
+            "rescue-objective",
+            "story-event"
+          ]
+        },
+        "countRelation": {
+          "enum": [
+            "included-in-reported-count",
+            "objective-within-full-expedition"
+          ]
+        },
+        "fixedLayout": {
+          "type": "null"
+        },
+        "displayLabel": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^B?[1-9][0-9]*F$",
+              "maxLength": 10
+            }
+          ]
+        },
+        "mapGeometry": {
+          "type": "null"
+        },
+        "revisitBehavior": {
+          "type": "null"
+        }
+      }
+    },
+    "restStop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "relationships",
+        "parentId",
+        "afterGlobalOrdinal",
+        "countRelation",
+        "displayLabel",
+        "mapGeometry",
+        "transitionBehavior"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "restStop"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "targetId"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "hasSegment",
+                  "hasRestStop",
+                  "afterSegment",
+                  "beforeSegment",
+                  "routeEntry",
+                  "detourEntry",
+                  "returnsToOriginatingJunction",
+                  "hasTerminalMap",
+                  "hasNumberedMap",
+                  "containsMaze"
+                ]
+              },
+              "targetId": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "parentId": {
+          "$ref": "#/$defs/id"
+        },
+        "afterGlobalOrdinal": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "countRelation": {
+          "const": "outside-numbered-floor-count"
+        },
+        "displayLabel": {
+          "type": "null"
+        },
+        "mapGeometry": {
+          "type": "null"
+        },
+        "transitionBehavior": {
+          "type": "null"
+        }
+      }
+    },
+    "specialMode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "relationships",
+        "modeKind",
+        "navigableDungeon",
+        "originalModeContract",
+        "browserAdaptation"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "specialMode"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "targetId"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "hasSegment",
+                  "hasRestStop",
+                  "afterSegment",
+                  "beforeSegment",
+                  "routeEntry",
+                  "detourEntry",
+                  "returnsToOriginatingJunction",
+                  "hasTerminalMap",
+                  "hasNumberedMap",
+                  "containsMaze"
+                ]
+              },
+              "targetId": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "modeKind": {
+          "const": "offscreen-tag-mode"
+        },
+        "navigableDungeon": {
+          "const": false
+        },
+        "originalModeContract": {
+          "type": "null"
+        },
+        "browserAdaptation": {
+          "type": "null"
+        }
+      }
+    },
+    "supportLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "relationships",
+        "locationRole",
+        "inventoryGroup",
+        "mapGeometry"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "supportLocation"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "targetId"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "hasSegment",
+                  "hasRestStop",
+                  "afterSegment",
+                  "beforeSegment",
+                  "routeEntry",
+                  "detourEntry",
+                  "returnsToOriginatingJunction",
+                  "hasTerminalMap",
+                  "hasNumberedMap",
+                  "containsMaze"
+                ]
+              },
+              "targetId": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "locationRole": {
+          "enum": [
+            "base",
+            "dojo-hub",
+            "evolution-location",
+            "location-collection",
+            "town",
+            "town-destination",
+            "travel-junction"
+          ]
+        },
+        "inventoryGroup": {
+          "enum": [
+            "support",
+            "travel-support"
+          ]
+        },
+        "mapGeometry": {
+          "type": "null"
+        }
+      }
+    },
+    "terminalMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "relationships",
+        "parentId",
+        "nameStatus",
+        "narrativeRole",
+        "countRelation",
+        "displayLabel",
+        "mapGeometry",
+        "controls",
+        "exitTrigger",
+        "revisitBehavior"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "terminalMap"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "targetId"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "hasSegment",
+                  "hasRestStop",
+                  "afterSegment",
+                  "beforeSegment",
+                  "routeEntry",
+                  "detourEntry",
+                  "returnsToOriginatingJunction",
+                  "hasTerminalMap",
+                  "hasNumberedMap",
+                  "containsMaze"
+                ]
+              },
+              "targetId": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "parentId": {
+          "$ref": "#/$defs/id"
+        },
+        "nameStatus": {
+          "enum": [
+            "authoring-description",
+            "source-location-name"
+          ]
+        },
+        "narrativeRole": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "countRelation": {
+          "enum": [
+            "objective-within-full-expedition",
+            "outside-normalized-exploration-count",
+            null
+          ]
+        },
+        "displayLabel": {
+          "type": "null"
+        },
+        "mapGeometry": {
+          "type": "null"
+        },
+        "controls": {
+          "type": "null"
+        },
+        "exitTrigger": {
+          "type": "null"
+        },
+        "revisitBehavior": {
+          "type": "null"
+        },
+        "inventoryGroup": {
+          "const": "support-and-terminal"
+        }
+      }
+    },
+    "move": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dataClass",
+        "identityEvidence",
+        "evidenceLocator"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "move"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dataClass": {
+          "enum": [
+            "original-confirmed",
+            "reference-main-series"
+          ]
+        },
+        "identityEvidence": {
+          "enum": [
+            "original-edition",
+            "main-series-candidate"
+          ]
+        },
+        "evidenceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "coreMoveId": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 354
+        }
+      }
+    },
+    "system-action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dataClass",
+        "identityEvidence",
+        "evidenceLocator"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "system-action"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dataClass": {
+          "enum": [
+            "original-confirmed",
+            "reference-main-series"
+          ]
+        },
+        "identityEvidence": {
+          "enum": [
+            "original-edition",
+            "main-series-candidate"
+          ]
+        },
+        "evidenceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "ability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dataClass",
+        "identityEvidence",
+        "evidenceLocator"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "ability"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dataClass": {
+          "enum": [
+            "original-confirmed",
+            "reference-main-series"
+          ]
+        },
+        "identityEvidence": {
+          "enum": [
+            "original-edition",
+            "main-series-candidate"
+          ]
+        },
+        "evidenceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "coreAbilityId": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 76
+        }
+      }
+    },
+    "item-class": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dataClass",
+        "identityEvidence",
+        "evidenceLocator"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "item-class"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dataClass": {
+          "enum": [
+            "original-confirmed",
+            "reference-main-series"
+          ]
+        },
+        "identityEvidence": {
+          "enum": [
+            "original-edition",
+            "main-series-candidate"
+          ]
+        },
+        "evidenceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dataClass",
+        "identityEvidence",
+        "evidenceLocator"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "status"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dataClass": {
+          "enum": [
+            "original-confirmed",
+            "reference-main-series"
+          ]
+        },
+        "identityEvidence": {
+          "enum": [
+            "original-edition",
+            "main-series-candidate"
+          ]
+        },
+        "evidenceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "condition-flag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dataClass",
+        "identityEvidence",
+        "evidenceLocator"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "condition-flag"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dataClass": {
+          "enum": [
+            "original-confirmed",
+            "reference-main-series"
+          ]
+        },
+        "identityEvidence": {
+          "enum": [
+            "original-edition",
+            "main-series-candidate"
+          ]
+        },
+        "evidenceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "trap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dataClass",
+        "identityEvidence",
+        "evidenceLocator"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "trap"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dataClass": {
+          "enum": [
+            "original-confirmed",
+            "reference-main-series"
+          ]
+        },
+        "identityEvidence": {
+          "enum": [
+            "original-edition",
+            "main-series-candidate"
+          ]
+        },
+        "evidenceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "weather": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dataClass",
+        "identityEvidence",
+        "evidenceLocator"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "weather"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dataClass": {
+          "enum": [
+            "original-confirmed",
+            "reference-main-series"
+          ]
+        },
+        "identityEvidence": {
+          "enum": [
+            "original-edition",
+            "main-series-candidate"
+          ]
+        },
+        "evidenceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "iq-skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dataClass",
+        "identityEvidence",
+        "evidenceLocator"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "iq-skill"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dataClass": {
+          "enum": [
+            "original-confirmed",
+            "reference-main-series"
+          ]
+        },
+        "identityEvidence": {
+          "enum": [
+            "original-edition",
+            "main-series-candidate"
+          ]
+        },
+        "evidenceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "friend-area": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "recordKind",
+        "provenanceIds",
+        "implementationPackage",
+        "assetPackage",
+        "implementationStatus",
+        "acceptanceStatus",
+        "sourceStatus",
+        "blockerIds",
+        "dataClass",
+        "identityEvidence",
+        "evidenceLocator"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "recordKind": {
+          "const": "friend-area"
+        },
+        "provenanceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "implementationPackage": {
+          "type": "string",
+          "pattern": "^P(?:0[0-9]|[12][0-9]|3[0-7])$"
+        },
+        "assetPackage": {
+          "const": "P32"
+        },
+        "implementationStatus": {
+          "const": "unstarted"
+        },
+        "acceptanceStatus": {
+          "const": "pending"
+        },
+        "sourceStatus": {
+          "enum": [
+            "supported",
+            "blocked"
+          ]
+        },
+        "blockerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "dataClass": {
+          "enum": [
+            "original-confirmed",
+            "reference-main-series"
+          ]
+        },
+        "identityEvidence": {
+          "enum": [
+            "original-edition",
+            "main-series-candidate"
+          ]
+        },
+        "evidenceLocator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 
 **Product baseline: original Nintendo DS Blue Rescue Team**, explicitly selected by Justin on 2026-10-04. Shared Red/Blue references remain useful research, but Red-only behavior does not create a second product edition or a version selector. Preserve Blue's documented cross-version unlock mechanisms where relevant; do not silently discard roster scope.
 
-> **For agentic workers:** This is a planning appendix, not authorization to implement. The current user instruction is to stop after the extensive plan and prerequisite setup for review. After explicit authorization, use `superpowers:subagent-driven-development` or `superpowers:executing-plans` task by task. Do not execute the future product tasks below during the planning turn.
+> **For agentic workers:** Justin authorized implementation on 2026-10-04 after planning PR #387 merged. Follow [PLAN.md](PLAN.md) package by package, starting with P01 source specifications; this appendix defines campaign requirements, not a separate execution order. Research blockers, visual acceptance and the P37 release/merge/deployment gates remain in force.
 
 **Goal:** Produce a fully playable, source-traceable third-person reinterpretation of the original *Pokémon Mystery Dungeon: Red Rescue Team / Blue Rescue Team* campaign, postgame stories, optional expeditions, and progression, while clearly identifying every deliberate adaptation and unfinished item.
 
@@ -17,9 +17,9 @@
 - Target the 2005/2006 original pair. Do not import DX floor counts, Pokémon availability, recruitment guarantees, boss transformations, rare qualities, Mystery Houses, camps, or level-5 challenge resets.
 - Preserve original dungeon lengths in the default faithful route. Any shortened or accelerated expedition is a separately labeled adaptation with independent completion tracking.
 - Author all dialogue, narration, visual staging, music, portraits, and models anew. Names and factual plot structure can guide content; original script passages, extracted assets, and reconstructed shot-for-shot cutscenes are not deliverables.
-- Preserve the user's restriction: no tests against game source. Future validation must follow the approved static-review and screenshot/manual-review boundaries in the parent plan. Website integration checks use substitute iframe content. This planning work runs no game tests.
-- Current task ends at reviewable planning and permitted setup. Do not create campaign product modules, gameplay, scene scripts in executable form, generated game assets, or commits that imply implementation was approved.
-- Maintain relative local assets, project-base-path compatibility, and offline runtime operation when implementation is authorized.
+- Preserve the user's restriction: no tests against game source. Future validation must follow the approved static-review and screenshot/manual-review boundaries in the parent plan. Website integration checks use substitute iframe content. P01 source research runs no game tests.
+- The current P01 package owns documentation and content specifications. Campaign runtime modules, executable scenes and asset production belong to their later parent packages and depend on their accepted rules and review gates.
+- Maintain relative local assets, project-base-path compatibility, and offline runtime operation throughout implementation.
 - Do not call a list of chapters, a dataset of Pokémon, or reachable boss arenas a complete game. Completion requires the playable transitions, failure/retry states, scene triggers, persistence, and content coverage described here.
 
 ## Review focus
@@ -65,13 +65,25 @@ Confidence concerns the evidence, not how appealing a design choice is. A beauti
 | Evolution location | Luminous Cave | Walkthrough's Luminous Spring wording is incorrect for this pair |
 | Groudon first battle | Level 27 if implementing original encounter values | Specific Magma Cavern page; walkthrough table also contains 37 |
 | Return to Sky Tower | Fly required after the Teleport Gem is damaged | Original Sky Tower section |
-| Gengar redemption | Require Stormy Sea clear as well as Medicham rescue unless direct verification disproves | Team Meanies article states both; broad walkthrough omits Stormy Sea |
+| Gengar redemption | Stormy Sea remains a provisional prerequisite; final unlock predicate is blocked | Original Serebii guide and Team Meanies state both conditions; walkthrough omission does not negate them; see CAMPAIGN-GAP-03 |
 
 Do not solve these discrepancies by adding one to every dungeon total. A terminal map is sometimes a numbered boss floor and sometimes an external narrative clearing. Each entry needs its own topology.
 
+### 1.3 P01 source audit — 2026-10-04
+
+[The Blue rules profile](RULES-BLUE.md) and [the versioned fact register](research/blue-rules-v1.json) carry the current scoped findings, precise source locators and retrieval outcomes. A verified reference fact is not a direct cartridge observation. P01 remains incomplete, and all campaign gaps below remain open.
+
+| Audited area | Supported finding | Remaining boundary / fact IDs |
+| --- | --- | --- |
+| Audited floor counts | Preserve Tiny Woods 3, Thunderwave Cave 5, Silent Chasm 9, Great Canyon 12 and Mt. Freeze 15 + 4; Murky Cave remains 19 | Exact labels and terminal transitions remain blocked by `P01-CAMPAIGN-TERMINAL-LABELS`; scene separation in §1.2 is a normalization convention, not an observed UI label |
+| Numbered event/boss floors | Magma Cavern is 23 + 3, with the fallen-allies event on Pit2 and Groudon on Pit3; Sky Tower is 25 + 9, with Rayquaza on Summit9 | `P01-CAMPAIGN-MAGMA-COUNT`, `P01-CAMPAIGN-SKY-COUNT`; Pit2 map/revisit behavior remains blocked |
+| Optional terminal maps | Howling Forest reports 15, but its ordinary encounter rows end at 14; Pitfall Valley reports 25 with inconsistent floor-25 table coverage | `P01-CAMPAIGN-HOWLING-SCENE`, `P01-CAMPAIGN-PITFALL-SCENE` remain blocked; do not infer procedural counts from these totals |
+| Gengar unlock | Original Serebii and Team Meanies both list Stormy Sea; Chapter 11 omits it | `P01-GENGAR-STORMY-PREREQUISITE` remains blocked; omission is not evidence that the requirement is absent |
+| Reset challenges | Original level 1 and generic exit restoration are supported; Joyous entry money and Purity entry money/toolbox items are permanently lost | `P01-RESET-WISH-ENTRY`, `P01-RESET-JOYOUS-ENTRY`, `P01-RESET-PURITY-ENTRY`; exact restoration and Purity held-item scope remain blocked |
+
 ## 2. Proposed content file responsibilities
 
-These are future files, not files to write in this planning task. Keep the module boundary compatible with the parent plan; a smaller implementer must not put every scene and every gameplay rule in one controller.
+These files belong to their parent implementation packages; P01 only specifies their source-backed contracts. Keep the module boundary compatible with the parent plan; a smaller implementer must not put every scene and every gameplay rule in one controller.
 
 | Planned file | Responsibility | Must not contain |
 | --- | --- | --- |
@@ -341,7 +353,7 @@ Required scenes: `wishes-secret-day-one`, `wishes-secret-day-two`, `ekans-alone`
 
 ### 5.7 Gengar and Gardevoir: package PG07
 
-After Medicham rescue and Stormy Sea, Ekans/Medicham's changing town locations introduce Gengar's change. Escort Gengar to the Ninetales summit, receive 9-Tail Crest, then escort him through Murky Cave's 19 floors to an external judgment scene. The resolution is remorse and gratitude, not a boss fight. Gardevoir returns without memories of her past with Gengar; the player receives Mobile Scarf and can later recruit her.
+After Medicham rescue, Ekans/Medicham's changing town locations introduce Gengar's change. Original references also list Stormy Sea; preserve it as a provisional condition while CAMPAIGN-GAP-03 blocks the final unlock predicate. Escort Gengar to the Ninetales summit, receive 9-Tail Crest, then escort him through Murky Cave's 19 floors to an external judgment scene. The resolution is remorse and gratitude, not a boss fight. Gardevoir returns without memories of her past with Gengar; the player receives Mobile Scarf and can later recruit her.
 
 Required scenes: `meanies-worry-at-post-office`, `meanies-gengar-freeze-hint`, `gengar-escort-request`, `ninetales-gengar-revelation`, `nine-tail-crest`, `murky-escort-request`, `crest-on-dais`, `judgment-questions`, `gengar-confession`, `curse-lifted`, `gardevoir-reawakens`, `gengar-thanks`, `gardevoir-square-invitation`.
 
@@ -351,15 +363,15 @@ Required scenes: `meanies-worry-at-post-office`, `meanies-gengar-freeze-hint`, `
 
 ### 5.8 Ultimate challenge and recruitment tower: package PG08
 
-Both Joyous Tower and Purity Forest unlock with Pitfall Valley clear and Sky Blue Plains. Each has 99 floors and level-1 rules. Joyous permits items and up to three entrants in the originals, clears carried money, has no legendary boss, and supplies rare recruits. Purity is solo, strips carried money/items, resets IQ for the expedition, forbids ordinary recruitment, and awards Celebi automatically on 99 without a battle.
+Both Joyous Tower and Purity Forest unlock with Pitfall Valley clear and Sky Blue Plains. Each has 99 floors and level-1 rules. Joyous permits items and up to three entrants in the originals, permanently loses carried entry money, has no legendary boss, and supplies rare recruits. Purity is solo, permanently loses carried money and toolbox items, resets IQ for the expedition, forbids ordinary recruitment, and awards Celebi automatically on 99 without a battle. Purity's held-item handling remains blocked by the source discrepancy in CAMPAIGN-GAP-12.
 
-**Production:** Pre-entry review must state what will be lost and what is temporarily reset. This is a direct consequence of a real game rule, not a generic warning. Preserve pre-entry stats separately from expedition growth; death, escape and successful exit all restore the correct baseline. Decide explicitly whether destructive item loss is faithful default or a disclosed quality-of-life adaptation before implementing.
+**Production:** Pre-entry review must state what will be lost and what is temporarily reset. Preserve pre-entry individual state separately from expedition growth, but resolve exact restoration fields and ordering for each exit outcome before implementation. Generic exit-restoration prose does not settle death, escape or Friend Rescue transitions. Entry money/item destruction is distinct from temporary stat reset; any convenience adaptation requires separate approval and disclosure.
 
 **Completion:** Record faithful clears separately from assisted/shortened runs. Celebi should not be reachable by a fabricated boss fight. Joyous completion and obtaining its rare species are separate achievements.
 
 ## 6. Optional, event, and version-specific content catalog
 
-All entries below need real per-floor population/item work after this planning stage. A name, floor count and generic procedural cave is not completed dungeon content.
+All entries below need real per-floor population/item work in their parent implementation packages. A name, floor count and generic procedural cave is not completed dungeon content.
 
 | ID | Floors | Original access | Required distinctive content |
 | --- | ---: | --- | --- |
@@ -547,7 +559,7 @@ The `C` labels below are campaign checklists, the `M` labels identify main-story
 | C09: optional/event/Dojo | P31 content; P20 service shell; P21 exchange contracts | Implement final optional content in P31 using earlier service/mail contracts; preserve original precredits availability of Howling Forest even if authored later |
 | C10: town continuity/audit | P20 initial schedules; P22 event arbitration; P23–P31 route-specific updates; P33 full audit; P35 manual sign-off | Update town records with each owning arc, then audit globally; asset completeness belongs to P32 and release integration to P36–P37 |
 
-All product checkboxes remain unstarted under the current planning hold. Record authorized progress in [PROGRESS.md](PROGRESS.md) and [COVERAGE.csv](COVERAGE.csv), not by treating this appendix's descriptive scope as completed work.
+Implementation is authorized; these product checkboxes remain unstarted while P01 source work proceeds. Record authorized progress in [PROGRESS.md](PROGRESS.md) and [COVERAGE.csv](COVERAGE.csv), not by treating this appendix's descriptive scope as completed work.
 
 ### C01 — Lock original-game evidence and topology
 
@@ -567,7 +579,7 @@ All product checkboxes remain unstarted under the current planning hold. Record 
 - [ ] Document restore points for mid-scene save, escort failure and ending skip.
 - [ ] Have a fresh reviewer trace the five Review Focus conditions on paper through proposed state transitions.
 
-**Deliverable:** A consistent non-executable interface spec, then implementation only after approval. Reject accidental reliance on a single `chapter` integer for all postgame state.
+**Deliverable:** A consistent non-executable interface spec, then implementation in the applicable parent package after its prerequisites are accepted. Reject accidental reliance on a single `chapter` integer for all postgame state.
 
 ### C03 — Author and integrate opening through Metapod
 
@@ -582,7 +594,7 @@ All product checkboxes remain unstarted under the current planning hold. Record 
 - [ ] Complete M03 and M04 without early revelation of Gengar's identity.
 - [ ] Produce A.C.T./Meanies individual actor records and town-state overrides.
 - [ ] Specify Silent Chasm's noncombat abduction map and Great Canyon's external Xatu map.
-- [ ] Integrate the town-lock transition and fugitive inventory/storage rules after approval.
+- [ ] Integrate the town-lock transition and fugitive inventory/storage rules after their source and parent-package prerequisites are accepted.
 - [ ] Review continuity from accusation to departure with all optional-town actions closed or safely deferred.
 
 ### C05 — Author and integrate fugitive route
@@ -598,7 +610,7 @@ All product checkboxes remain unstarted under the current planning hold. Record 
 - [ ] Complete M06/M07 manuscripts and the Chestnut task state machine.
 - [ ] Produce all hero-base appearance requirements, work stages and flag/figure attachment points.
 - [ ] Source original day/job thresholds and fixed Magma Pit event topology.
-- [ ] Integrate Mankey gathering and A.C.T. rescue as playable objectives after approval.
+- [ ] Integrate Mankey gathering and A.C.T. rescue as playable objectives in their applicable parent packages.
 - [ ] Review the timeline with Chestnut gathering, ordinary jobs and optional Howling Forest interleaved.
 
 ### C07 — Produce the full ending
@@ -639,7 +651,7 @@ All product checkboxes remain unstarted under the current planning hold. Record 
 
 The current research covers the full structural route graph, not every cartridge event flag or original script variant. All 13 records below are **open**. Their IDs are durable references for [RESEARCH.md](RESEARCH.md), [PROGRESS.md](PROGRESS.md) and [COVERAGE.csv](COVERAGE.csv); keep the IDs when a record is resolved or split into finer research tasks. Resolve these tasks only during authorized preparation under [PLAN.md](PLAN.md). Assigning an owner here neither starts a package nor changes its dependencies.
 
-Each record names the parent package that owns evidence resolution, the packages that consume the result, affected planned records, the exact question, candidate sources and a blocking gate. Candidate sources are investigation targets, not claims that those sources already answer the question. Source names and chapter numbers refer to the durable URLs in §11; original-game observation, manuals and script review remain proposed evidence methods, subject to the parent plan's authorization rules. No new source execution or gameplay observation was performed to add these fields.
+Each record names the parent package that owns evidence resolution, the packages that consume the result, affected planned records, the exact question, candidate sources and a blocking gate. Candidate sources are investigation targets, not claims that those sources already answer the question. Source names and chapter numbers refer to the durable URLs in §11; original-game observation, manuals and script review remain proposed evidence methods, subject to the parent plan's authorization rules. The 2026-10-04 P01 audit retrieved additional reference pages and narrowed the records below. It performed no game-source execution or gameplay observation.
 
 To close a record, attach edition/region-specific evidence, affected field/scene IDs, the resolved rule or approved adaptation, and the review outcome in the shared ledgers. An explicitly approved omission must remain visible in coverage and release claims. Merely adding a source URL or a runtime field does not resolve a gap. All dependent gates below also feed the whole-game audit in P33 and content sign-off in P35; they cannot be bypassed by the later P36 public integration step.
 
@@ -654,20 +666,22 @@ To close a record, attach edition/region-specific evidence, affected field/scene
 
 ### CAMPAIGN-GAP-02 — Floor labels, terminal maps and fixed scenes
 
-- **Unresolved scope:** Observe all main-story terminal maps and original numbered floor labels directly, particularly Howling Forest/Pitfall Valley scene placement and Magma Pit2 behavior. The corrected totals above should remain fixed unless direct evidence contradicts them.
-- **Owner and consumers:** P01 owns evidence resolution and P02 the topology inventory; P11 consumes fixed-floor/segment rules, with P19, P23–P26, P28 and P31 owning their affected scenes.
+- **P01 audit, 2026-10-04:** The §1.3 totals and segment/boss positions are supported by original-specific reference sections. `P01-CAMPAIGN-TERMINAL-LABELS`, `P01-CAMPAIGN-HOWLING-SCENE` and `P01-CAMPAIGN-PITFALL-SCENE` preserve the remaining blockers. Magma Pit2's event position is supported; its fixed-map and revisit mechanics are not.
+- **Unresolved scope:** Observe original Blue labels, terminal transitions, first/repeat map behavior and the Howling/Pitfall procedural-versus-scene split. Preserve the supported counts unless stronger direct evidence contradicts them.
+- **Owner and consumers:** P01 owns evidence resolution and P02 the topology inventory; P11 consumes fixed-floor/segment rules. Scene consumers are P19 Tiny Woods, P23 Thunderwave/Silent Chasm, P24 Great Canyon/Mt. Freeze, P25 Magma Cavern, P26 Sky Tower, P28 Pitfall Valley, P30 Mt. Freeze revisit/Murky Cave and P31 Howling Forest.
 - **Affected records:** `content/dungeons.js` segment counts, original local labels, `terminalScene` and `fixedFloors`; all main-story terminal-map references in §4; Howling Forest's rescue, Pitfall Valley's rescue and Magma Cavern Pit2's fallen-team scene.
 - **Resolution question:** For each named terminal or fixed map, is it a numbered floor or an external scene, what exact floor label is shown, and which transitions, encounters and objects occur there? Does direct original evidence contradict any corrected total in §1.2?
-- **Candidate sources:** The individual Tiny Woods, Thunderwave Cave, Silent Chasm, Great Canyon, Mt. Freeze, Magma Cavern, Sky Tower, Howling Forest and Pitfall Valley pages; corresponding walkthrough chapters; authorized original map/floor-label observation.
+- **Source paths:** The `P01-CAMPAIGN-*` count and blocked records in [blue-rules-v1.json](research/blue-rules-v1.json) link the retrieved dungeon pages, original walkthrough chapters and Serebii tables. Remaining work needs original Blue first/repeat map observations with region, displayed label and transition recorded.
 - **Dependent gate:** Block unverified topology fields in P02's accepted inventory and their P11 map records. Affected main-story scenes block M3; Howling Forest/Pitfall Valley content blocks the relevant P28/P31 and M4 acceptance. Preserve existing corrections until contrary direct evidence is reviewed.
 
 ### CAMPAIGN-GAP-03 — Gengar arc prerequisites and town sequence
 
-- **Unresolved scope:** Verify the Stormy Sea condition on Gengar's postgame arc and the exact timing/order of Medicham/Ekans locations.
+- **P01 audit, 2026-10-04:** [Original Serebii Murky Cave](https://www.serebii.net/mysteriousdungeon/dungeon/28.shtml) and Team Meanies both state Stormy Sea plus Medicham rescue. The original Chapter 11 walkthrough omits Stormy Sea without denying it. `P01-GENGAR-STORMY-PREREQUISITE` records this agreement/omission; source agreement alone does not establish the exact event predicate.
+- **Unresolved scope:** Determine whether Stormy Sea is a necessary Blue condition and resolve exact conversation/day predicates, competing town events and escort retry timing. `P01-GENGAR-EXACT-DAY-STATE` and `P01-WISH-EXACT-DAY-STATE` retain these timing blockers.
 - **Owner and consumers:** P01 owns evidence resolution; P30 owns the redemption route, with P20/P22 consuming NPC-location and event predicates and P27 supplying the Stormy Sea clear fact.
 - **Affected records:** PG06/PG07 prerequisites in `content/postgame.js`; `meanies-worry-at-post-office`, `meanies-gengar-freeze-hint`, `gengar-escort-request`; corresponding Medicham/Ekans schedules in `content/town.js`.
-- **Resolution question:** Is Stormy Sea completion required in each original edition, alongside Medicham's rescue, and what exact conversations, day advances and Post Office/Square location changes lead to Gengar's request? Reconcile the Team Meanies page's stated condition with the broader walkthrough's omission rather than silently choosing one.
-- **Candidate sources:** Team Meanies, walkthrough Chapter 11, Murky Cave and Gardevoir; authorized original saves/observations that distinguish Stormy Sea cleared from uncleared while recording the other prerequisites.
+- **Resolution question:** Can Gengar's arc begin in original Blue with Medicham rescued and Stormy Sea uncleared? Is any dependency direct or mediated by another event? Which conversations and day transitions are mandatory, including the conflicting notice timing after the Ekans-alone Wish Cave interaction? Record region and all other prerequisites; Red is comparative evidence only.
+- **Source paths:** `P01-GENGAR-STORMY-PREREQUISITE`, `P01-GENGAR-EXACT-DAY-STATE` and `P01-WISH-EXACT-DAY-STATE` in [blue-rules-v1.json](research/blue-rules-v1.json) preserve the retrieved Serebii, Team Meanies and Chapter 11 locators. Resolve with original Blue condition evidence or controlled observations distinguishing Stormy Sea clear/unclear states.
 - **Dependent gate:** Block PG07's final unlock predicate and dependent P30/P20/P22 scenes until resolved; this blocks P30 route acceptance and M4 postgame completeness. The currently documented Stormy Sea condition remains provisional, not newly confirmed.
 
 ### CAMPAIGN-GAP-04 — Legendary recruitment and rematch records
@@ -744,11 +758,12 @@ To close a record, attach edition/region-specific evidence, affected field/scene
 
 ### CAMPAIGN-GAP-12 — Failure loss and challenge reset semantics
 
-- **Unresolved scope:** Verify failure item/money loss, challenge entry destruction, reset-stat restoration and permanent-stat item behavior; these materially affect long-form campaign balance.
+- **P01 audit, 2026-10-04:** `P01-RESET-WISH-ENTRY`, `P01-RESET-JOYOUS-ENTRY` and `P01-RESET-PURITY-ENTRY` support level 1 and generic exit-level restoration. Joyous entry money and Purity entry money/toolbox items are permanently lost. `P01-RESET-MOVESET-GENERAL` and `P01-RESET-IQ-GENERAL` support generic move restoration and temporary IQ 0; `P01-RESET-WISH-STAT-REWARD` records that More Power rewards consumed inside Wish Cave do not boost the restored entrant. These facts do not establish the full outcome matrix.
+- **Unresolved scope:** Resolve `P01-RESET-OUTCOME-MATRIX` for each exit outcome and individual field. Resolve `P01-RESET-PURITY-HELD-ITEMS`: the general Mystery dungeon restrictions page exempts original held items, while dedicated Purity pages broadly forbid items. Do not guess which statement controls Purity.
 - **Owner and consumers:** P01 owns evidence resolution; P15 owns stat/item effects, P16 failure/reset rules and P08 persistence/recovery, with P30/P31 consuming Wish Cave, Joyous Tower and Purity Forest restrictions.
 - **Affected records:** Failure/escape/rescue outcome loss tables; challenge entry rules; pre-entry individual-stat snapshots versus expedition state; money/items/IQ/level restoration; permanent-stat item effects during reset expeditions and their exit handling.
-- **Resolution question:** For each original exit outcome and challenge, what is lost, retained, temporarily reset or restored, and do permanent-stat items used during the expedition affect the restored baseline? Distinguish entry destruction from temporary stat reset and distinguish failure from successful exit.
-- **Candidate sources:** Wish Cave, Joyous Tower, Purity Forest and their original-edition sections; [SYSTEMS.md](SYSTEMS.md) and [DATA.md](DATA.md)'s cited original failure/item references; authorized original entry/exit observations for unresolved combinations.
+- **Resolution question:** For each challenge and success, mission escape, Escape Orb, Give Up, fainting, wind expulsion and pending/resumed/abandoned rescue, which level/EXP, HP/stats, moves/PP/links/boosts, IQ/skill flags, items/held items, money and new-recruit fields restore, persist or disappear, and when? Determine stat-consumable behavior separately for entrants and new recruits. Distinguish entry destruction from temporary state reset; generic exit prose cannot supply this matrix.
+- **Source paths:** The `P01-RESET-*` records in [blue-rules-v1.json](research/blue-rules-v1.json) retain the Wish Cave, Joyous Tower, Purity Forest, IQ and Mystery dungeon locators and limitations. Original Blue entry/exit observations or condition evidence must resolve the remaining matrix and held-item discrepancy before consumer acceptance.
 - **Dependent gate:** Block unsupported P15/P16 rules and P08 recovery semantics before M2 kernel acceptance; challenge-specific content also blocks P30/P31 and M4 acceptance. Any approved convenience adaptation needs separate mode/coverage treatment before P35 sign-off.
 
 ### CAMPAIGN-GAP-13 — Newly written dialogue and source-distance review
@@ -809,8 +824,8 @@ These two official locations establish the original product context but did not 
 
 - Available research: [research/campaign.json](research/campaign.json), containing source URLs/refs, corrected floor conventions, main-story structure, postgame branches, optional dungeons and Dojo notes. It is factual input, not accepted runtime data.
 - Available planning: this [CAMPAIGN.md](CAMPAIGN.md), the governing [PLAN.md](PLAN.md), canonical contracts in [SYSTEMS.md](SYSTEMS.md), and the shared [RESEARCH.md](RESEARCH.md) ledger.
-- Current project status is recorded in [PROGRESS.md](PROGRESS.md) and [COVERAGE.csv](COVERAGE.csv). The game directory is reserved for future work; unreviewed implementation drafts were already removed/parked as described by parent P00. They must not be revived as accepted architecture or validation evidence.
+- Current project status is recorded in [PROGRESS.md](PROGRESS.md) and [COVERAGE.csv](COVERAGE.csv). Implementation is authorized and P01 source work is underway. Earlier unreviewed drafts were removed/parked as described by parent P00. They must not be revived as accepted architecture or validation evidence.
 - Campaign runtime files, including `content/campaign.js`, remain unimplemented. Main-story manuscripts, postgame integration, asset production and gameplay acceptance are future product work.
 - No game-source tests or gameplay acceptance were performed for this campaign research/planning appendix. Documentation reconciliation does not change that status.
 
-The next authorized step is review of the combined parent plan. Follow its authority order, dependencies and explicit approval gates before any implementation, game execution, release claim, merge or deployment.
+Continue the first incomplete P01 source batch under the parent plan. Only accepted rules may feed dependent implementation; unresolved records remain blocked. Visual acceptance, the prohibition on automated game-source tests, and explicit P37 release/merge/deployment approval remain required.

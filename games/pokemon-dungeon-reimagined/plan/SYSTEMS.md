@@ -1,6 +1,6 @@
 # Original Rescue Team Systems Implementation Plan
 
-> **For agentic workers:** The user has resolved the recommendation choices, but product implementation remains paused. Execute this appendix only after the parent plan's implementation gate is released. Human play and visual review are approved under D05; all automated tests that import or execute game source remain prohibited.
+> **For agentic workers:** Justin authorized implementation on 2026-10-04 after planning PR #387 merged. Execute the first incomplete dependency-ready package in PLAN.md. P01 source work is in progress; package evidence requirements, P06/P10 reviews and P37 merge/deployment approvals remain in force. Human play and visual review are approved under D05; all automated tests that import or execute game source remain prohibited.
 
 **Goal:** Build a complete, source-grounded simulation of the original Nintendo DS Blue Rescue Team systems beneath a newly authored 3D presentation. Red Rescue Team supplies comparative research only.
 
@@ -17,7 +17,7 @@
 - Retain original floor counts, main-story order, postgame branches, and all original obtainable species. A species name in a menu is not an implemented species.
 - Use original writing, models, effects, and audio. Do not extract Nintendo assets or reproduce long dialogue scripts.
 - Do not add or run automated tests against `games/` source. Static syntax, lint/type checks, source review, and requested screenshots are allowed. Website integration tests must use intercepted fixture HTML.
-- No product implementation is authorized in the current turn. Research, prerequisite setup, and this plan are the deliverables for review.
+- Implementation is authorized. P01 currently owns documentation/content specifications; resolve source blockers before implementing dependent behavior. Keep intermediate runtime-package PRs unmerged until P37 full-scope acceptance and explicit release/merge/deployment approval.
 - D04 approves static browser codes/files, Blue extra-mode equivalents and labeled archived event expeditions. D06 omits standalone practice encounters; do not implement a practice-session owner, bonus Groudon route or practice acceptance work. D08 fixes the source language as JavaScript with JSDoc and independent strict static type checks.
 - Unverified mechanics must appear in the data/provenance register, not be hidden behind plausible constants.
 - General website state-management rules remain unchanged. The standalone game's persistence exception must be documented in `AGENTS.md` before implementation.
@@ -32,11 +32,26 @@
 
 ## Evidence and current limitations
 
-The research report contains 28 source entries and a 14-system inventory. Read the original-game section of each multi-game article. The official Nintendo manuals establish controls and the player-facing loop; Bulbapedia supplies more detailed values. The report marks unresolved numerical and behavioral questions. URLs and retrieved reference IDs travel in that JSON so the final plan can cite them accurately.
+The historical research report contains 28 source entries and a 14-system inventory. Read the original-game section of each multi-game article. The official Nintendo manuals establish controls and the player-facing loop; edition-specific references supply more detailed values. The P01 source register preserves stable source IDs, URLs, retrieval dates, precise locators and evidence limitations alongside unresolved numerical and behavioral questions.
 
 An earlier implementation attempt was stopped before a simulation facade existed. Its incomplete combat, item, generation and persistence drafts are already excluded from this deliverable and are **not an approved baseline**. Their numerical approximations, incomplete catalogs and divergent roster fields must not be carried into implementation. The planned paths below describe future work only.
 
 Main-series PokéAPI data is useful for species identity, historical types, and historical learnsets. It is insufficient for original PMD stats, level-growth tables, experience, move PP/power/accuracy/range, recruitment rates, IQ, Friend Areas, or many move effects. The proposed 354-entry move limit also misses PMD-exclusive Wide Slash and Vacuum-Cut. A complete simulation needs these facts resolved before fidelity claims or balance-dependent implementation.
+
+### P01 foundation evidence
+
+Read [RULES-BLUE.md](RULES-BLUE.md) and the field-level records in
+[research/blue-rules-v1.json](research/blue-rules-v1.json). Verified status applies
+to each stated field within its source/edition scope; this partial audit does
+not complete P01 or S01.
+
+| Rule family | Supported fields and remaining limits | Evidence records |
+| --- | --- | --- |
+| Type effectiveness | Nominal factors are 1.5, 0.9, 1 and 0.5; defender-type factors multiply. Reported fixed-point constants do not establish Blue's complete damage pipeline or rounding order; exact arithmetic remains blocked. | `P01-MECH-TYPE-01`, `P01-MECH-TYPE-02`, `P01-MECH-TYPE-03` |
+| Abilities | Both original abilities apply when a species has two. Complete holder/effect/trigger-order records remain blocked. | `P01-MECH-ABILITY-01`, `P01-MECH-ABILITY-02` |
+| Expedition limits | General departure cap: 3 selected members; dungeon total cap: 4; combined body-size cap: 6. Stricter dungeon limits, guest handling and the complete species/form size table still require records. | `P01-MECH-PARTY-01`, `P01-MECH-PARTY-02`, `P01-MECH-PARTY-03` |
+| Ranks | Normal is the starting rank; Bronze/Silver/Gold/Platinum/Diamond/Lucario require 50/500/1,500/3,000/7,500/15,000 points. Job-point and reward generation require separate evidence. | `P01-MECH-RANK-01` |
+| Turns and speed | The Blue manual supports action-driven dungeon time; original Movement Speed affects action opportunities. Exact actor/phase order, speed counters and mid-turn changes remain blocked, so S04 has no approved exact scheduler trace. | `P01-MECH-TURN-01`, `P01-MECH-SPEED-01`, `P01-MECH-SPEED-02`, `P01-MECH-TURN-02` |
 
 ## File ownership and dependency order
 
@@ -174,7 +189,7 @@ For a valid replacement, keep the guard held through any required atomic storage
 
 ## Task S01: Complete the original-rules evidence ledger
 
-**Files:** `content/provenance.json`, original-data appendices; no product rules until approved.
+**Files:** `content/provenance.json`, original-data appendices; dependent rules require reviewed source records.
 
 **Consumes:** Research JSON, data plan, campaign plan and readable original manuals.
 
@@ -275,7 +290,7 @@ For a valid replacement, keep the guard held through any required atomic storage
 - [ ] Keep exact dungeon dimensions configurable and camera-independent. Boss exit locking is simulation state, not merely a missing stairs mesh.
 - [ ] Follow PLAN.md coordinates: logical `tiles[z][x]`, north is negative z and east is positive x. Renderer tile size and camera-relative quantization belong to presentation/input and do not alter logical passability.
 
-**Static acceptance:** Inspect the connectivity proof and placement ordering. Inspect narrow-corner, water-only, wall-mobile, locked-room and boss-exit examples by source reasoning. D05-approved human play checks cover navigation/camera clarity after implementation is authorized and available.
+**Static acceptance:** Inspect the connectivity proof and placement ordering. Inspect narrow-corner, water-only, wall-mobile, locked-room and boss-exit examples by source reasoning. D05-approved human play checks cover navigation/camera clarity when the implementation is available.
 
 ## Task S06: Expedition lifecycle and entry restrictions
 
@@ -475,7 +490,7 @@ For a valid replacement, keep the guard held through any required atomic storage
 - [ ] Run syntax checks and the approved game's static lint/type checks only; do not execute game-source tests.
 - [ ] Perform a fresh static review of imports, reference integrity, state ownership, turn transactions, save migrations, finite loops, exact rules and accessibility projections.
 - [ ] Run the website's required checks separately, with fixture content for the game iframe. Parent/root owns these repository checks.
-- [ ] Use the D05-approved human play/visual acceptance checklist after implementation is authorized and available: quiz/partner selection, initial rescue, PP/Belly/items, job turn-in, town purchases/deposits, linking, recruitment, failure/revival, save/reload, a story boss, postgame unlock, evolution and import rejection. These are human acceptance steps; all automated tests importing or executing game source remain excluded. Practice checks are omitted under D06.
+- [ ] Use the D05-approved human play/visual acceptance checklist when the implementation is available: quiz/partner selection, initial rescue, PP/Belly/items, job turn-in, town purchases/deposits, linking, recruitment, failure/revival, save/reload, a story boss, postgame unlock, evolution and import rejection. These are human acceptance steps; all automated tests importing or executing game source remain excluded. Practice checks are omitted under D06.
 - [ ] Report current limitations in the game credits/help and PR. Do not describe an implementation as a complete exact recreation until the source/data/interaction ledger supports that claim.
 
 ## Resolved choices and execution constraints
@@ -486,6 +501,6 @@ For a valid replacement, keep the guard held through any required atomic storage
 4. **Acceptance — D05:** Human play and visual review are approved. Automated tests importing or executing game source remain prohibited; website checks use inert fixtures.
 5. **Practice — D06:** Omit standalone practice, bonus Groudon encounters, practice-session implementation and practice acceptance work. Use the original campaign encounter for the final gameplay capture.
 6. **Language — D08:** Use JavaScript with JSDoc and strict independent static type checks; the TypeScript alternative is closed.
-7. **Delivery:** Internal milestones do not imply full-story/postgame/all-species completion. The parent plan's full-release and implementation gates remain in force; resolving these choices does not start product implementation.
+7. **Delivery:** Internal milestones do not imply full-story/postgame/all-species completion. Implementation authorization leaves package dependencies, source evidence, P06/P10 reviews and P37 full-release/merge/deployment approvals in force.
 
-Product implementation remains paused pending the parent plan's explicit execution release. Do not reopen the resolved choices as approval questions.
+Continue the first incomplete dependency-ready package under the 2026-10-04 authorization. Keep unresolved original rules blocked and record progress in PROGRESS.md. Do not reopen the resolved choices as approval questions.

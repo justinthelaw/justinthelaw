@@ -10,6 +10,7 @@ export default tseslint.config(
       "out/**",
       "node_modules/**",
       "games/**",
+      "tools/pokemon-dungeon/**",
       "ml/profile-qa/.venv*/**",
       "ml/profile-qa/checkpoints/**",
       "ml/profile-qa/data/**",

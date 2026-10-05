@@ -13,7 +13,7 @@
 
 | Slot | Current card | Planned work |
 | --- | --- | --- |
-| First | Coming soon, blue preview | [Pokémon Dungeon Reimagined](pokemon-dungeon-reimagined/plan/PLAN.md): WIP planning; decisions approved; awaiting separate implementation start; no runnable game or gameplay screenshot |
+| First | Coming soon, blue preview | [Pokémon Dungeon Reimagined](pokemon-dungeon-reimagined/plan/PLAN.md): unmerged startup/state primitives, normalized content inventories and [candidate 3D art](../tools/pokemon-dungeon/art/REVIEW.md); source audit incomplete; no playable adventure or gameplay screenshot |
 | Second | Coming soon, lavender preview | Unnamed; no game announced |
 | Third | Coming soon, apricot preview | Unnamed; no game announced |
 
@@ -22,8 +22,9 @@
 - Baseline: original **Blue Rescue Team**; Red is comparative research only,
   with no Red campaign or edition selector.
 - On **2026-10-04**, the user approved all recommendations except the design
-  recommendation, selecting **B**; implementation, merge, and deployment remain
-  held until their separate authorizations.
+  recommendation, selecting **B**; later that day they authorized implementation.
+- Package evidence and visual reviews still apply; merge, deployment and arcade
+  activation require separate release approval.
 
 | Decision | Approved choice |
 | --- | --- |
@@ -48,8 +49,8 @@
 - Keep Pokémon Dungeon authoring packages, dependencies, scripts, and caches in
   repository-relative `tools/pokemon-dungeon/`, outside the copied game tree.
   Git-ignored files inside `games/` would still be copied.
-- The future entry point is `games/pokemon-dungeon-reimagined/index.html`;
-  no entry point is included during the planning hold.
+- The development entry point is `games/pokemon-dungeon-reimagined/index.html`;
+  it currently starts the application shell and has no playable campaign.
 - Keep intermediate runtime-package PRs unmerged until P37 full-scope acceptance
   and explicit release approval: main deploys `games/**` at direct URLs even
   when the arcade card is disabled.
@@ -88,4 +89,4 @@
 | [Card](../src/components/arcade/ArcadeCard.tsx) / [player](../src/components/arcade/ArcadeGames.tsx) | Preview, action tooltips, embedded loading, and focus restoration |
 | [Exporter](../scripts/export-games.mjs) / [preview server](../scripts/serve-static-preview.mjs) | Static directory copying and base-path preview |
 | [Arcade tests](../tests/arcade.spec.ts) / [export fixtures](../tests/game-export.spec.ts) | Website behavior and fixture-only copy checks |
-| [Root instructions](../AGENTS.md) / [game instructions](pokemon-dungeon-reimagined/AGENTS.md) | Planning hold, quality requirements, and source-test exclusions |
+| [Root instructions](../AGENTS.md) / [game instructions](pokemon-dungeon-reimagined/AGENTS.md) | Execution/release gates, quality requirements, and source-test exclusions |

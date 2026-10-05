@@ -29,5 +29,5 @@
     ".next/types/**/*.ts",
     "**/*.d.ts"
   ],
-  "exclude": ["node_modules", "games"]
+  "exclude": ["node_modules", "games", "tools/pokemon-dungeon"]
 }

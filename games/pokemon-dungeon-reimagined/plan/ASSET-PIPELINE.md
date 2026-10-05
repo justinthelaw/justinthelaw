@@ -1,6 +1,6 @@
 # Raster asset production and atlas pipeline
 
-**Status: planning handoff only.** No images, crops, tools or runtime assets are created by this document. The fixed game baseline is original Nintendo DS **Blue Rescue Team**. The user requested consistent prompts, bulk image generation, and sheets that can later be chopped into reusable assets. The user selected **B: bold cel-shaded 3D** for D03 and accepted the recommendations, including D05 manual review and omission of D06 practice. This specifies the accepted strategy without lifting the separate implementation-start hold.
+**Status: implementation authorized by Justin on 2026-10-04 after planning PR #387 merged.** No images, crops, tools or runtime assets are created by this document. The fixed game baseline is original Nintendo DS **Blue Rescue Team**. The user requested consistent prompts, bulk image generation, and sheets that can later be chopped into reusable assets. The user selected **B: bold cel-shaded 3D** for D03 and accepted the recommendations, including D05 manual review and omission of D06 practice. Execute this strategy according to the parent plan's package dependencies and visual gates.
 
 Read [PLAN.md](PLAN.md) for authority, P03/P06/P32 dependencies and budgets; [RENDERING.md](RENDERING.md) for visual/character requirements; [DATA.md](DATA.md) for provenance and stable identities. Raster assets complement the 3D game. A sheet of pictures is not a mesh, skeleton, animated character, material package, or gameplay screenshot.
 
@@ -19,7 +19,7 @@ D03 is resolved to **B bold cel-shaded 3D**. The current concrete reference file
 
 Their exact source prompts and hashes are recorded in [PROMPTS.md](art-candidates/PROMPTS.md) and [provenance.json](art-candidates/provenance.json). The B cavern background is selected as future loading artwork and the environment-style reference. A remains archived comparison and must not enter production prompts. Do not mix A lighting/material response with B contours across batches. Selecting B does not approve uncreated character models, portraits, items, rigs or shaders. Earlier character image requests did not produce character assets, so no accepted Pokémon portrait anchor exists yet.
 
-At P06, after a separate implementation-start instruction, establish reviewed B class anchors: a portrait, an item/icon set, a UI-material tile set and a texture sample, using the selected B environment reference. D05 manual acceptance is already approved; actual anchor outputs still need the normal P06 quality review. Store approval ID/date and file hash. An approved environment anchor cannot establish correct Pokémon anatomy; character anchors need their own species-specific review. Do not bulk-generate 386 portraits before representative anchors pass.
+At P06, once its parent-plan dependencies are satisfied, establish reviewed B class anchors: a portrait, an item/icon set, a UI-material tile set and a texture sample, using the selected B environment reference. D05 manual acceptance is already approved; actual anchor outputs still need the normal P06 quality review. Store approval ID/date and file hash. An approved environment anchor cannot establish correct Pokémon anatomy; character anchors need their own species-specific review. Do not bulk-generate 386 portraits before representative anchors pass.
 
 ## 2. Asset classes and batch sizes
 
@@ -116,7 +116,7 @@ An atlas can be discarded as a batch even if one cell is attractive. Subject cor
 
 ## 5. Crop manifest and provenance example
 
-The future cropper is a deterministic **offline authoring tool**, not game runtime. The user has explicitly requested chopping sheets, so approved later production can crop accepted source atlases without asking again for each crop. That instruction does not authorize new generation while the current plan is paused.
+The future cropper is a deterministic **offline authoring tool**, not game runtime. The user has explicitly requested chopping sheets, so approved production can crop accepted source atlases without asking again for each crop. Generation and cropping follow the parent package dependencies and required anchor reviews.
 
 Illustrative JSON record (values are an example, not actual files or measured acceptance):
 

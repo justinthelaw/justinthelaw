@@ -1,0 +1,5481 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "blue-rescue-team-locations",
+  "scope": "original-ds-blue-rescue-team-authoring-inventory",
+  "authoringOnly": true,
+  "runtimeReady": false,
+  "provenanceSources": {
+    "PLAN-CAMPAIGN-4.1": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:4.1 Canonical expedition table"
+    },
+    "PLAN-CAMPAIGN-5.1": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:5.1 Ocean and buried history: package PG01"
+    },
+    "PLAN-CAMPAIGN-5.2": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:5.2 Latios and Latias: package PG02"
+    },
+    "PLAN-CAMPAIGN-5.3": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:5.3 Spinda, the wing, and the mirage: package PG03"
+    },
+    "PLAN-CAMPAIGN-5.4": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:5.4 Western Cave: package PG04"
+    },
+    "PLAN-CAMPAIGN-5.5": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:5.5 Birds, Lugia, and Deoxys: package PG05"
+    },
+    "PLAN-CAMPAIGN-5.6": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:5.6 Medicham and Jirachi: package PG06"
+    },
+    "PLAN-CAMPAIGN-5.7": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:5.7 Gengar and Gardevoir: package PG07"
+    },
+    "PLAN-CAMPAIGN-5.8": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:5.8 Ultimate challenge and recruitment tower: package PG08"
+    },
+    "PLAN-CAMPAIGN-6": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:6. Optional, event, and version-specific content catalog"
+    },
+    "PLAN-CAMPAIGN-6.2": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:6.2 Dojo scope"
+    },
+    "PLAN-CAMPAIGN-7.2": {
+      "document": "games/pokemon-dungeon-reimagined/plan/CAMPAIGN.md",
+      "locator": "section:7.2 Town services as story-connected content"
+    },
+    "PLAN-DATA-4": {
+      "document": "games/pokemon-dungeon-reimagined/plan/DATA.md",
+      "locator": "section:4. Dungeon and special-mode inventory"
+    },
+    "PLAN-BLUE-RULES-V1": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/blue-rules-v1.json",
+      "locator": "/rules"
+    },
+    "PLAN-BLUE-RULES-V2": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/blue-rules-v2.json",
+      "locator": "/addedRules"
+    },
+    "G2": {
+      "document": "games/pokemon-dungeon-reimagined/plan/DATA.md",
+      "locator": "record:G2",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Tiny_Woods"
+    },
+    "G4": {
+      "document": "games/pokemon-dungeon-reimagined/plan/DATA.md",
+      "locator": "record:G4",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Makuhita_Dojo"
+    },
+    "G5": {
+      "document": "games/pokemon-dungeon-reimagined/plan/DATA.md",
+      "locator": "record:G5",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Unknown_Dungeon_(Mystery_Dungeon)"
+    },
+    "campaign:c1": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c1",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_1"
+    },
+    "campaign:c2": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c2",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_2"
+    },
+    "campaign:c3": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c3",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_3"
+    },
+    "campaign:c4": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c4",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_4"
+    },
+    "campaign:c5": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c5",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_5"
+    },
+    "campaign:c6": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c6",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_6"
+    },
+    "campaign:c7": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c7",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_7"
+    },
+    "campaign:c8": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c8",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_8"
+    },
+    "campaign:c9": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c9",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_9"
+    },
+    "campaign:c10": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c10",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_10"
+    },
+    "campaign:c11": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/c11",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team/Chapter_11"
+    },
+    "campaign:main": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/main",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team"
+    },
+    "campaign:uproar": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/uproar",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Uproar_Forest"
+    },
+    "campaign:howling": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/howling",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Howling_Forest"
+    },
+    "campaign:magma": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/magma",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Magma_Cavern"
+    },
+    "campaign:sky": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/sky",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Sky_Tower"
+    },
+    "campaign:buried": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/buried",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Buried_Relic"
+    },
+    "campaign:silver": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/silver",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Silver_Trench"
+    },
+    "campaign:faraway": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/faraway",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Mt._Faraway"
+    },
+    "campaign:wish": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/wish",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Wish_Cave"
+    },
+    "campaign:joyous": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/joyous",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Joyous_Tower"
+    },
+    "campaign:purity": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/purity",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Purity_Forest"
+    },
+    "campaign:desert_region": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/desert_region",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Desert_Region"
+    },
+    "campaign:southern_cavern": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/southern_cavern",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Southern_Cavern"
+    },
+    "campaign:wyvern_hill": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/wyvern_hill",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Wyvern_Hill"
+    },
+    "campaign:solar_cave": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/solar_cave",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Solar_Cave"
+    },
+    "campaign:darknight_relic": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/darknight_relic",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Darknight_Relic"
+    },
+    "campaign:grand_sea": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/grand_sea",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Grand_Sea"
+    },
+    "campaign:waterfall_pond": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/waterfall_pond",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Waterfall_Pond"
+    },
+    "campaign:unown_relic": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/unown_relic",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Unown_Relic"
+    },
+    "campaign:far_off_sea": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/far_off_sea",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Far-off_Sea"
+    },
+    "campaign:oddity_cave": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/oddity_cave",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Oddity_Cave"
+    },
+    "campaign:remains_island": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/remains_island",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Remains_Island"
+    },
+    "campaign:marvelous_sea": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/marvelous_sea",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Marvelous_Sea"
+    },
+    "campaign:fantasy_strait": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/fantasy_strait",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Fantasy_Strait"
+    },
+    "campaign:dojo": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/dojo",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Makuhita_Dojo"
+    },
+    "campaign:tiny": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/tiny",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Tiny_Woods"
+    },
+    "campaign:thunderwave": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/thunderwave",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Thunderwave_Cave"
+    },
+    "campaign:great": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/great",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Great_Canyon"
+    },
+    "campaign:silent": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/silent",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Silent_Chasm"
+    },
+    "campaign:freeze": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/freeze",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Mt._Freeze"
+    },
+    "campaign:murky": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/murky",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Murky_Cave"
+    },
+    "campaign:meanies": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/meanies",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Team_Meanies"
+    },
+    "campaign:base": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/base",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Team_Base"
+    },
+    "campaign:square": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/square",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Square"
+    },
+    "campaign:snow_path": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/campaign.json",
+      "locator": "/sources/snow_path",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Snow_Path"
+    }
+  },
+  "blockerDefinitions": {
+    "CAMPAIGN-GAP-05-LOCATION-02": {
+      "issueId": "CAMPAIGN-GAP-05",
+      "fields": [
+        "floorDirection",
+        "unlockExpression",
+        "floorContent",
+        "proceduralFloorCount"
+      ],
+      "reason": "Counts and identity do not establish a complete Blue floor-content, direction, entry-predicate or procedural/fixed split specification. Resolve each field against original-specific evidence before runtime use."
+    },
+    "P01-CAMPAIGN-HOWLING-SCENE-LOCATION-01": {
+      "issueId": "P01-CAMPAIGN-HOWLING-SCENE",
+      "fields": [
+        "proceduralFloorCount"
+      ],
+      "reason": "The reported total does not resolve the original Blue rescue-scene versus traversal count or revisit behavior; v2 preserves this blocker."
+    },
+    "P01-CAMPAIGN-PITFALL-SCENE-LOCATION-01": {
+      "issueId": "P01-CAMPAIGN-PITFALL-SCENE",
+      "fields": [
+        "proceduralFloorCount"
+      ],
+      "reason": "The reported total does not resolve the original Blue rescue-scene versus traversal count or revisit behavior; v2 preserves this blocker."
+    },
+    "CAMPAIGN-GAP-03": {
+      "issueId": "CAMPAIGN-GAP-03",
+      "fields": [
+        "unlockExpression"
+      ],
+      "reason": "Stormy Sea necessity and the exact Gengar conversation/day/retry predicate remain unresolved; no complete unlock expression is authored."
+    },
+    "P02-LOC-EVENT-ACCESS": {
+      "issueId": "P02-LOC-EVENT-ACCESS",
+      "fields": [
+        "unlockExpression"
+      ],
+      "reason": "Historical Wonder Mail/distribution access and the approved archived-event browser adaptation require separate original-content and browser unlock specifications; no DX unlock is imported."
+    },
+    "P02-LOC-SUPPORT-MAPS": {
+      "issueId": "P02-LOC-SUPPORT-MAPS",
+      "fields": [
+        "mapGeometry"
+      ],
+      "reason": "This row establishes a required location identity or collection only; original map structure and the authored 3D spatial design are not supplied by the name inventory."
+    },
+    "CAMPAIGN-GAP-02-LOCATION-01": {
+      "issueId": "CAMPAIGN-GAP-02",
+      "fields": [
+        "originalFloorLabels"
+      ],
+      "reason": "Accepted segment counts are retained; exact original Blue display labels have not been observed."
+    },
+    "CAMPAIGN-GAP-02-LOCATION-02": {
+      "issueId": "CAMPAIGN-GAP-02",
+      "fields": [
+        "displayLabel",
+        "mapGeometry",
+        "transitionBehavior"
+      ],
+      "reason": "The normalized campaign table establishes a rest between segments; exact Blue midpoint labels, layout and first/repeat transitions remain unverified."
+    },
+    "CAMPAIGN-GAP-02-LOCATION-03": {
+      "issueId": "CAMPAIGN-GAP-02",
+      "fields": [
+        "mapGeometry"
+      ],
+      "reason": "The source establishes the route junction and return destination, not a verified original map layout."
+    },
+    "P01-CAMPAIGN-TERMINAL-LABELS": {
+      "issueId": "P01-CAMPAIGN-TERMINAL-LABELS",
+      "fields": [
+        "displayLabel",
+        "mapGeometry",
+        "controls",
+        "exitTrigger",
+        "revisitBehavior"
+      ],
+      "reason": "Scene identity is supported; exact original Blue map boundaries, floor labels, control/exit behavior and first/repeat layout remain blocked in the v1/v2 evidence. Descriptive names are authoring labels."
+    },
+    "P01-CAMPAIGN-HOWLING-SCENE-LOCATION-02": {
+      "issueId": "P01-CAMPAIGN-HOWLING-SCENE",
+      "fields": [
+        "displayLabel",
+        "mapGeometry",
+        "controls",
+        "exitTrigger",
+        "revisitBehavior",
+        "countRelation"
+      ],
+      "reason": "Scene identity is supported; exact original Blue map boundaries, floor labels, control/exit behavior and first/repeat layout remain blocked in the v1/v2 evidence. Descriptive names are authoring labels."
+    },
+    "P01-CAMPAIGN-PITFALL-SCENE-LOCATION-02": {
+      "issueId": "P01-CAMPAIGN-PITFALL-SCENE",
+      "fields": [
+        "displayLabel",
+        "mapGeometry",
+        "controls",
+        "exitTrigger",
+        "revisitBehavior",
+        "countRelation"
+      ],
+      "reason": "Scene identity is supported; exact original Blue map boundaries, floor labels, control/exit behavior and first/repeat layout remain blocked in the v1/v2 evidence. Descriptive names are authoring labels."
+    },
+    "CAMPAIGN-GAP-02-LOCATION-04": {
+      "issueId": "CAMPAIGN-GAP-02",
+      "fields": [
+        "fixedLayout",
+        "displayLabel",
+        "mapGeometry",
+        "revisitBehavior"
+      ],
+      "reason": "The named objective or encounter and numbered position are supported. Complete original fixed-layout classification, geometry, display labels and first/repeat behavior require evidence; this is a reserved authoring map identity."
+    },
+    "CAMPAIGN-GAP-05-LOCATION-03": {
+      "issueId": "CAMPAIGN-GAP-05",
+      "fields": [
+        "fixedLayout"
+      ],
+      "reason": "A rescue objective at this floor does not prove that the entire floor is a fixed layout or grant a full-dungeon clear."
+    },
+    "P02-LOC-DOJO-CONTENT": {
+      "issueId": "P02-LOC-DOJO-CONTENT",
+      "fields": [
+        "unlockExpression",
+        "floorContent"
+      ],
+      "reason": "Original three-floor identity and coarse unlock milestone are inventoried; exact executable unlock predicates and full floor/encounter content remain unauthored."
+    },
+    "CAMPAIGN-GAP-02-LOCATION-05": {
+      "issueId": "CAMPAIGN-GAP-02",
+      "fields": [
+        "fixedLayout",
+        "mapGeometry",
+        "revisitBehavior"
+      ],
+      "reason": "CAMPAIGN section 6.2 establishes the boss placement and B3F label. Complete original fixed-layout classification, geometry and first/repeat behavior require further evidence; this is a reserved authoring map identity."
+    },
+    "P02-LOC-BLUE-LINKED-MAZE": {
+      "issueId": "P02-LOC-BLUE-LINKED-MAZE",
+      "fields": [
+        "reportedFloorCount",
+        "bossLocalFloor",
+        "unlockMilestone",
+        "unlockExpression",
+        "floorContent"
+      ],
+      "reason": "The checked plan identifies a Blue maze importing a Red cartridge team; it does not specify the complete linked topology/unlock/encounter contract. Source it separately and design D04 browser team exchange without claiming cartridge compatibility."
+    },
+    "P02-LOC-TAG-MODE": {
+      "issueId": "P02-LOC-TAG-MODE",
+      "fields": [
+        "originalModeContract",
+        "browserAdaptation"
+      ],
+      "reason": "Unknown Dungeon is an off-screen Blue Tag Mode identity. Rewards, language/region matching, Trozei interaction and the approved browser equivalent remain unspecified; do not author a navigable cave or claim DS wireless compatibility."
+    }
+  },
+  "records": [
+    {
+      "id": "tiny-woods",
+      "name": "Tiny Woods",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c1",
+        "campaign:tiny",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P19",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasTerminalMap",
+          "targetId": "tiny-woods-caterpie-clearing"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-early",
+      "reportedFloorCount": 3,
+      "countBasis": "exploration",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "sourceRuleIds": [
+        "P01-CAMPAIGN-TINY-COUNT"
+      ],
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "thunderwave-cave",
+      "name": "Thunderwave Cave",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c1",
+        "campaign:thunderwave",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasTerminalMap",
+          "targetId": "thunderwave-cave-magnemite-clearing"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-early",
+      "reportedFloorCount": 5,
+      "countBasis": "exploration",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "sourceRuleIds": [
+        "P01-CAMPAIGN-THUNDERWAVE-COUNT"
+      ],
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "mt-steel",
+      "name": "Mt. Steel",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c1",
+        "campaign:c2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "mt-steel-skarmory-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-early",
+      "reportedFloorCount": 9,
+      "countBasis": "numbered",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "sinister-woods",
+      "name": "Sinister Woods",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "sinister-woods-team-meanies-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-early",
+      "reportedFloorCount": 13,
+      "countBasis": "numbered",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "silent-chasm",
+      "name": "Silent Chasm",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c2",
+        "campaign:silent",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasTerminalMap",
+          "targetId": "silent-chasm-rescue-clearing"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-early",
+      "reportedFloorCount": 9,
+      "countBasis": "exploration",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "sourceRuleIds": [
+        "P01-CAMPAIGN-SILENT-COUNT"
+      ],
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "mt-thunder",
+      "name": "Mt. Thunder",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasSegment",
+          "targetId": "mt-thunder-main"
+        },
+        {
+          "type": "hasSegment",
+          "targetId": "mt-thunder-peak"
+        },
+        {
+          "type": "hasRestStop",
+          "targetId": "mt-thunder-rest-stop"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-early",
+      "reportedFloorCount": 13,
+      "countBasis": "numbered",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "great-canyon",
+      "name": "Great Canyon",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c3",
+        "campaign:great",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasTerminalMap",
+          "targetId": "hill-of-the-ancients"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-early",
+      "reportedFloorCount": 12,
+      "countBasis": "exploration",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "sourceRuleIds": [
+        "P01-CAMPAIGN-CANYON-COUNT"
+      ],
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "lapis-cave",
+      "name": "Lapis Cave",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c3"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "main-fugitive",
+      "reportedFloorCount": 14,
+      "countBasis": "numbered",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "mt-blaze",
+      "name": "Mt. Blaze",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c3"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasSegment",
+          "targetId": "mt-blaze-main"
+        },
+        {
+          "type": "hasSegment",
+          "targetId": "mt-blaze-peak"
+        },
+        {
+          "type": "hasRestStop",
+          "targetId": "mt-blaze-rest-stop"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-fugitive",
+      "reportedFloorCount": 15,
+      "countBasis": "numbered",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "frosty-forest",
+      "name": "Frosty Forest",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c4",
+        "campaign:snow_path"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasSegment",
+          "targetId": "frosty-forest-main"
+        },
+        {
+          "type": "hasSegment",
+          "targetId": "frosty-grotto"
+        },
+        {
+          "type": "hasRestStop",
+          "targetId": "frosty-forest-rest-stop"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-fugitive",
+      "reportedFloorCount": 14,
+      "countBasis": "numbered",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "mt-freeze",
+      "name": "Mt. Freeze",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c4",
+        "campaign:freeze",
+        "campaign:snow_path",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasSegment",
+          "targetId": "mt-freeze-main"
+        },
+        {
+          "type": "hasSegment",
+          "targetId": "mt-freeze-peak"
+        },
+        {
+          "type": "hasRestStop",
+          "targetId": "mt-freeze-rest-stop"
+        },
+        {
+          "type": "hasTerminalMap",
+          "targetId": "mt-freeze-ninetales-summit"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-fugitive",
+      "reportedFloorCount": 19,
+      "countBasis": "exploration",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "sourceRuleIds": [
+        "P01-CAMPAIGN-FREEZE-COUNT"
+      ],
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "uproar-forest",
+      "name": "Uproar Forest",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:uproar"
+      ],
+      "implementationPackage": "P25",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "uproar-forest-mankey-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-closing",
+      "reportedFloorCount": 10,
+      "countBasis": "numbered",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "magma-cavern",
+      "name": "Magma Cavern",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:magma",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P25",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasSegment",
+          "targetId": "magma-cavern-main"
+        },
+        {
+          "type": "hasSegment",
+          "targetId": "magma-cavern-pit"
+        },
+        {
+          "type": "hasRestStop",
+          "targetId": "magma-cavern-rest-stop"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-closing",
+      "reportedFloorCount": 26,
+      "countBasis": "numbered",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "sourceRuleIds": [
+        "P01-CAMPAIGN-MAGMA-COUNT"
+      ],
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ],
+      "ordinaryExplorationFloorCount": 24
+    },
+    {
+      "id": "sky-tower",
+      "name": "Sky Tower",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:sky",
+        "campaign:main",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P26",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasSegment",
+          "targetId": "sky-tower-main"
+        },
+        {
+          "type": "hasSegment",
+          "targetId": "sky-tower-summit"
+        },
+        {
+          "type": "hasRestStop",
+          "targetId": "sky-tower-rest-stop"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "main-closing",
+      "reportedFloorCount": 34,
+      "countBasis": "numbered",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "sourceRuleIds": [
+        "P01-CAMPAIGN-SKY-COUNT"
+      ],
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ],
+      "ordinaryExplorationFloorCount": 33
+    },
+    {
+      "id": "rock-path",
+      "name": "Rock Path",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:c3"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "returnsToOriginatingJunction",
+          "targetId": "mt-blaze-junction"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "fugitive-path",
+      "reportedFloorCount": 4,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "snow-path",
+      "name": "Snow Path",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:snow_path"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "returnsToOriginatingJunction",
+          "targetId": "frosty-forest-junction"
+        },
+        {
+          "type": "returnsToOriginatingJunction",
+          "targetId": "mt-freeze-junction"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "fugitive-path",
+      "reportedFloorCount": 4,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "howling-forest",
+      "name": "Howling Forest",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:howling",
+        "PLAN-BLUE-RULES-V1",
+        "PLAN-BLUE-RULES-V2"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasTerminalMap",
+          "targetId": "howling-forest-smeargle-rescue"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 15,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "sourceRuleIds": [
+        "P01-CAMPAIGN-HOWLING-TOTAL"
+      ],
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02",
+        "P01-CAMPAIGN-HOWLING-SCENE-LOCATION-01"
+      ]
+    },
+    {
+      "id": "stormy-sea",
+      "name": "Stormy Sea",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.1",
+        "campaign:c6",
+        "campaign:buried"
+      ],
+      "implementationPackage": "P27",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "stormy-sea-kyogre-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 40,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "silver-trench",
+      "name": "Silver Trench",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.5",
+        "campaign:c8",
+        "campaign:silver"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "silver-trench-lugia-floor"
+        },
+        {
+          "type": "hasNumberedMap",
+          "targetId": "silver-trench-15-monster-house-floor"
+        },
+        {
+          "type": "hasNumberedMap",
+          "targetId": "silver-trench-35-monster-house-floor"
+        },
+        {
+          "type": "hasNumberedMap",
+          "targetId": "silver-trench-55-monster-house-floor"
+        },
+        {
+          "type": "hasNumberedMap",
+          "targetId": "silver-trench-75-monster-house-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 99,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "meteor-cave",
+      "name": "Meteor Cave",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.5",
+        "campaign:c8",
+        "campaign:silver"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "meteor-cave-deoxys-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 20,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "fiery-field",
+      "name": "Fiery Field",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.3",
+        "campaign:c9",
+        "campaign:c10",
+        "campaign:faraway",
+        "campaign:main"
+      ],
+      "implementationPackage": "P29",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "fiery-field-entei-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 30,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "lightning-field",
+      "name": "Lightning Field",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.3",
+        "campaign:c9",
+        "campaign:c10",
+        "campaign:faraway",
+        "campaign:main"
+      ],
+      "implementationPackage": "P29",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "lightning-field-raikou-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 30,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "northwind-field",
+      "name": "Northwind Field",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.3",
+        "campaign:c9",
+        "campaign:c10",
+        "campaign:faraway",
+        "campaign:main"
+      ],
+      "implementationPackage": "P29",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "northwind-field-suicune-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 30,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "mt-faraway",
+      "name": "Mt. Faraway",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.3",
+        "campaign:c9",
+        "campaign:c10",
+        "campaign:faraway",
+        "campaign:main"
+      ],
+      "implementationPackage": "P29",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "mt-faraway-ho-oh-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 40,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "western-cave",
+      "name": "Western Cave",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.4",
+        "campaign:c9",
+        "campaign:c10",
+        "campaign:faraway",
+        "campaign:main"
+      ],
+      "implementationPackage": "P29",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "western-cave-mewtwo-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 99,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "northern-range",
+      "name": "Northern Range",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.2",
+        "campaign:c7"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "northern-range-latios-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 25,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "pitfall-valley",
+      "name": "Pitfall Valley",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.2",
+        "campaign:c7",
+        "PLAN-BLUE-RULES-V1",
+        "PLAN-BLUE-RULES-V2"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasTerminalMap",
+          "targetId": "pitfall-valley-latias-rescue"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 25,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "sourceRuleIds": [
+        "P01-CAMPAIGN-PITFALL-TOTAL"
+      ],
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02",
+        "P01-CAMPAIGN-PITFALL-SCENE-LOCATION-01"
+      ]
+    },
+    {
+      "id": "buried-relic",
+      "name": "Buried Relic",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.1",
+        "campaign:c6",
+        "campaign:buried"
+      ],
+      "implementationPackage": "P27",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "buried-relic-regirock-floor"
+        },
+        {
+          "type": "hasNumberedMap",
+          "targetId": "buried-relic-regice-floor"
+        },
+        {
+          "type": "hasNumberedMap",
+          "targetId": "buried-relic-registeel-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 99,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "wish-cave",
+      "name": "Wish Cave",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.6",
+        "campaign:c11",
+        "campaign:wish",
+        "campaign:main",
+        "campaign:meanies",
+        "campaign:murky"
+      ],
+      "implementationPackage": "P30",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "wish-cave-medicham-floor"
+        },
+        {
+          "type": "hasNumberedMap",
+          "targetId": "wish-cave-jirachi-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 99,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "murky-cave",
+      "name": "Murky Cave",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.7",
+        "campaign:c11",
+        "campaign:wish",
+        "campaign:main",
+        "campaign:meanies",
+        "campaign:murky",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P30",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasTerminalMap",
+          "targetId": "murky-cave-judgment"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 19,
+      "countBasis": "exploration",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "sourceRuleIds": [
+        "P01-CAMPAIGN-MURKY-COUNT"
+      ],
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02",
+        "CAMPAIGN-GAP-03"
+      ]
+    },
+    {
+      "id": "desert-region",
+      "name": "Desert Region",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:desert_region"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 20,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "southern-cavern",
+      "name": "Southern Cavern",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:southern_cavern"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 50,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "wyvern-hill",
+      "name": "Wyvern Hill",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:wyvern_hill"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 30,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "solar-cave",
+      "name": "Solar Cave",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:solar_cave"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 20,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "darknight-relic",
+      "name": "Darknight Relic",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:darknight_relic"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 15,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "grand-sea",
+      "name": "Grand Sea",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:grand_sea"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 30,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "waterfall-pond",
+      "name": "Waterfall Pond",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:waterfall_pond"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 19,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "unown-relic",
+      "name": "Unown Relic",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:unown_relic"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 11,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "joyous-tower",
+      "name": "Joyous Tower",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.8",
+        "campaign:joyous"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 99,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "far-off-sea",
+      "name": "Far-off Sea",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:far_off_sea"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 75,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "purity-forest",
+      "name": "Purity Forest",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.8",
+        "campaign:purity"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "purity-forest-celebi-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "postgame-optional",
+      "reportedFloorCount": 99,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02"
+      ]
+    },
+    {
+      "id": "oddity-cave",
+      "name": "Oddity Cave",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:oddity_cave"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "archived-event",
+      "reportedFloorCount": 15,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02",
+        "P02-LOC-EVENT-ACCESS"
+      ]
+    },
+    {
+      "id": "remains-island",
+      "name": "Remains Island",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:remains_island"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "archived-event",
+      "reportedFloorCount": 20,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02",
+        "P02-LOC-EVENT-ACCESS"
+      ]
+    },
+    {
+      "id": "marvelous-sea",
+      "name": "Marvelous Sea",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:marvelous_sea"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "inventoryGroup": "field",
+      "routeGroup": "archived-event",
+      "reportedFloorCount": 20,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02",
+        "P02-LOC-EVENT-ACCESS"
+      ]
+    },
+    {
+      "id": "fantasy-strait",
+      "name": "Fantasy Strait",
+      "recordKind": "dungeon",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:fantasy_strait"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "fantasy-strait-15-monster-house-floor"
+        }
+      ],
+      "inventoryGroup": "field",
+      "routeGroup": "archived-event",
+      "reportedFloorCount": 30,
+      "countBasis": "reported-total",
+      "proceduralFloorCount": null,
+      "floorDirection": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "fixedFloorInventoryComplete": false,
+      "blockerIds": [
+        "CAMPAIGN-GAP-05-LOCATION-02",
+        "P02-LOC-EVENT-ACCESS"
+      ]
+    },
+    {
+      "id": "team-base",
+      "name": "Team Base",
+      "recordKind": "supportLocation",
+      "provenanceIds": [
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-7.2",
+        "campaign:base"
+      ],
+      "implementationPackage": "P20",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "locationRole": "base",
+      "inventoryGroup": "support",
+      "mapGeometry": null,
+      "blockerIds": [
+        "P02-LOC-SUPPORT-MAPS"
+      ]
+    },
+    {
+      "id": "pokemon-square",
+      "name": "Pokémon Square",
+      "recordKind": "supportLocation",
+      "provenanceIds": [
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-7.2",
+        "campaign:square"
+      ],
+      "implementationPackage": "P20",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "locationRole": "town",
+      "inventoryGroup": "support",
+      "mapGeometry": null,
+      "blockerIds": [
+        "P02-LOC-SUPPORT-MAPS"
+      ]
+    },
+    {
+      "id": "friend-areas",
+      "name": "Friend Areas",
+      "recordKind": "supportLocation",
+      "provenanceIds": [
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-7.2"
+      ],
+      "implementationPackage": "P20",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "locationRole": "location-collection",
+      "inventoryGroup": "support",
+      "mapGeometry": null,
+      "blockerIds": [
+        "P02-LOC-SUPPORT-MAPS"
+      ]
+    },
+    {
+      "id": "makuhita-dojo",
+      "name": "Makuhita Dojo",
+      "recordKind": "supportLocation",
+      "provenanceIds": [
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-7.2",
+        "G4"
+      ],
+      "implementationPackage": "P20",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-normal-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-fire-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-water-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-grass-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-electric-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-ice-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-fighting-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-ground-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-flying-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-psychic-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-poison-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-bug-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-rock-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-ghost-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-dragon-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-dark-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-steel-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-team-shifty-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-team-constrictor-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-team-hydro-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-team-rumblerock-maze"
+        },
+        {
+          "type": "containsMaze",
+          "targetId": "dojo-rescue-team-maze"
+        }
+      ],
+      "locationRole": "dojo-hub",
+      "inventoryGroup": "support",
+      "mapGeometry": null,
+      "blockerIds": [
+        "P02-LOC-SUPPORT-MAPS"
+      ]
+    },
+    {
+      "id": "whiscash-pond",
+      "name": "Whiscash Pond",
+      "recordKind": "supportLocation",
+      "provenanceIds": [
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-7.2"
+      ],
+      "implementationPackage": "P20",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "locationRole": "town-destination",
+      "inventoryGroup": "support",
+      "mapGeometry": null,
+      "blockerIds": [
+        "P02-LOC-SUPPORT-MAPS"
+      ]
+    },
+    {
+      "id": "luminous-cave",
+      "name": "Luminous Cave",
+      "recordKind": "supportLocation",
+      "provenanceIds": [
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-7.2",
+        "campaign:c6"
+      ],
+      "implementationPackage": "P20",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "locationRole": "evolution-location",
+      "inventoryGroup": "support",
+      "mapGeometry": null,
+      "blockerIds": [
+        "P02-LOC-SUPPORT-MAPS"
+      ]
+    },
+    {
+      "id": "pelipper-post-office",
+      "name": "Pelipper Post Office",
+      "recordKind": "supportLocation",
+      "provenanceIds": [
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-7.2",
+        "campaign:c1"
+      ],
+      "implementationPackage": "P20",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "locationRole": "town-destination",
+      "inventoryGroup": "support",
+      "mapGeometry": null,
+      "blockerIds": [
+        "P02-LOC-SUPPORT-MAPS"
+      ]
+    },
+    {
+      "id": "mt-thunder-main",
+      "name": "Mt. Thunder",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "mt-thunder",
+      "localFloorCount": 10,
+      "globalStartOrdinal": 1,
+      "countBasis": "numbered",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "mt-thunder-peak",
+      "name": "Mt. Thunder Peak",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "mt-thunder-peak-zapdos-floor"
+        }
+      ],
+      "parentId": "mt-thunder",
+      "localFloorCount": 3,
+      "globalStartOrdinal": 11,
+      "countBasis": "numbered",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "mt-thunder-rest-stop",
+      "name": "Mt. Thunder midpoint",
+      "recordKind": "restStop",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "afterSegment",
+          "targetId": "mt-thunder-main"
+        },
+        {
+          "type": "beforeSegment",
+          "targetId": "mt-thunder-peak"
+        }
+      ],
+      "parentId": "mt-thunder",
+      "afterGlobalOrdinal": 10,
+      "countRelation": "outside-numbered-floor-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "transitionBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-02"
+      ]
+    },
+    {
+      "id": "mt-blaze-main",
+      "name": "Mt. Blaze",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c3"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "mt-blaze",
+      "localFloorCount": 12,
+      "globalStartOrdinal": 1,
+      "countBasis": "numbered",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "mt-blaze-peak",
+      "name": "Mt. Blaze Peak",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c3"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "mt-blaze-peak-moltres-floor"
+        }
+      ],
+      "parentId": "mt-blaze",
+      "localFloorCount": 3,
+      "globalStartOrdinal": 13,
+      "countBasis": "numbered",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "mt-blaze-rest-stop",
+      "name": "Mt. Blaze midpoint",
+      "recordKind": "restStop",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c3"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "afterSegment",
+          "targetId": "mt-blaze-main"
+        },
+        {
+          "type": "beforeSegment",
+          "targetId": "mt-blaze-peak"
+        }
+      ],
+      "parentId": "mt-blaze",
+      "afterGlobalOrdinal": 12,
+      "countRelation": "outside-numbered-floor-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "transitionBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-02"
+      ]
+    },
+    {
+      "id": "frosty-forest-main",
+      "name": "Frosty Forest",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c4",
+        "campaign:snow_path"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "frosty-forest",
+      "localFloorCount": 9,
+      "globalStartOrdinal": 1,
+      "countBasis": "numbered",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "frosty-grotto",
+      "name": "Frosty Grotto",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c4",
+        "campaign:snow_path"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "frosty-grotto-articuno-floor"
+        }
+      ],
+      "parentId": "frosty-forest",
+      "localFloorCount": 5,
+      "globalStartOrdinal": 10,
+      "countBasis": "numbered",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "frosty-forest-rest-stop",
+      "name": "Frosty Forest midpoint",
+      "recordKind": "restStop",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c4",
+        "campaign:snow_path"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "afterSegment",
+          "targetId": "frosty-forest-main"
+        },
+        {
+          "type": "beforeSegment",
+          "targetId": "frosty-grotto"
+        }
+      ],
+      "parentId": "frosty-forest",
+      "afterGlobalOrdinal": 9,
+      "countRelation": "outside-numbered-floor-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "transitionBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-02"
+      ]
+    },
+    {
+      "id": "mt-freeze-main",
+      "name": "Mt. Freeze",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c4",
+        "campaign:freeze",
+        "campaign:snow_path",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "mt-freeze",
+      "localFloorCount": 15,
+      "globalStartOrdinal": 1,
+      "countBasis": "exploration",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "mt-freeze-peak",
+      "name": "Mt. Freeze Peak",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c4",
+        "campaign:freeze",
+        "campaign:snow_path",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "mt-freeze",
+      "localFloorCount": 4,
+      "globalStartOrdinal": 16,
+      "countBasis": "exploration",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "mt-freeze-rest-stop",
+      "name": "Mt. Freeze midpoint",
+      "recordKind": "restStop",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c4",
+        "campaign:freeze",
+        "campaign:snow_path",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "afterSegment",
+          "targetId": "mt-freeze-main"
+        },
+        {
+          "type": "beforeSegment",
+          "targetId": "mt-freeze-peak"
+        }
+      ],
+      "parentId": "mt-freeze",
+      "afterGlobalOrdinal": 15,
+      "countRelation": "outside-numbered-floor-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "transitionBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-02"
+      ]
+    },
+    {
+      "id": "magma-cavern-main",
+      "name": "Magma Cavern",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:magma",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P25",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "magma-cavern",
+      "localFloorCount": 23,
+      "globalStartOrdinal": 1,
+      "countBasis": "numbered",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "magma-cavern-pit",
+      "name": "Magma Cavern Pit",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:magma",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P25",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "magma-cavern-pit-fallen-allies-floor"
+        },
+        {
+          "type": "hasNumberedMap",
+          "targetId": "magma-cavern-pit-groudon-floor"
+        }
+      ],
+      "parentId": "magma-cavern",
+      "localFloorCount": 3,
+      "globalStartOrdinal": 24,
+      "countBasis": "numbered",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "magma-cavern-rest-stop",
+      "name": "Magma Cavern midpoint",
+      "recordKind": "restStop",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:magma",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P25",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "afterSegment",
+          "targetId": "magma-cavern-main"
+        },
+        {
+          "type": "beforeSegment",
+          "targetId": "magma-cavern-pit"
+        }
+      ],
+      "parentId": "magma-cavern",
+      "afterGlobalOrdinal": 23,
+      "countRelation": "outside-numbered-floor-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "transitionBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-02"
+      ]
+    },
+    {
+      "id": "sky-tower-main",
+      "name": "Sky Tower",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:sky",
+        "campaign:main",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P26",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "sky-tower",
+      "localFloorCount": 25,
+      "globalStartOrdinal": 1,
+      "countBasis": "numbered",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "sky-tower-summit",
+      "name": "Sky Tower Summit",
+      "recordKind": "dungeonSegment",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:sky",
+        "campaign:main",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P26",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "sky-tower-summit-rayquaza-floor"
+        }
+      ],
+      "parentId": "sky-tower",
+      "localFloorCount": 9,
+      "globalStartOrdinal": 26,
+      "countBasis": "numbered",
+      "originalFloorLabels": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-01"
+      ]
+    },
+    {
+      "id": "sky-tower-rest-stop",
+      "name": "Sky Tower midpoint",
+      "recordKind": "restStop",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:sky",
+        "campaign:main",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P26",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "afterSegment",
+          "targetId": "sky-tower-main"
+        },
+        {
+          "type": "beforeSegment",
+          "targetId": "sky-tower-summit"
+        }
+      ],
+      "parentId": "sky-tower",
+      "afterGlobalOrdinal": 25,
+      "countRelation": "outside-numbered-floor-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "transitionBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-02"
+      ]
+    },
+    {
+      "id": "mt-blaze-junction",
+      "name": "Mt. Blaze / Rock Path junction",
+      "recordKind": "supportLocation",
+      "provenanceIds": [
+        "PLAN-CAMPAIGN-4.1",
+        "PLAN-CAMPAIGN-6",
+        "campaign:c3"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "routeEntry",
+          "targetId": "mt-blaze"
+        },
+        {
+          "type": "detourEntry",
+          "targetId": "rock-path"
+        }
+      ],
+      "locationRole": "travel-junction",
+      "inventoryGroup": "travel-support",
+      "mapGeometry": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-03"
+      ]
+    },
+    {
+      "id": "frosty-forest-junction",
+      "name": "Frosty Forest / Snow Path junction",
+      "recordKind": "supportLocation",
+      "provenanceIds": [
+        "PLAN-CAMPAIGN-4.1",
+        "PLAN-CAMPAIGN-6",
+        "campaign:snow_path"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "routeEntry",
+          "targetId": "frosty-forest"
+        },
+        {
+          "type": "detourEntry",
+          "targetId": "snow-path"
+        }
+      ],
+      "locationRole": "travel-junction",
+      "inventoryGroup": "travel-support",
+      "mapGeometry": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-03"
+      ]
+    },
+    {
+      "id": "mt-freeze-junction",
+      "name": "Mt. Freeze / Snow Path junction",
+      "recordKind": "supportLocation",
+      "provenanceIds": [
+        "PLAN-CAMPAIGN-4.1",
+        "PLAN-CAMPAIGN-6",
+        "campaign:snow_path"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "routeEntry",
+          "targetId": "mt-freeze"
+        },
+        {
+          "type": "detourEntry",
+          "targetId": "snow-path"
+        }
+      ],
+      "locationRole": "travel-junction",
+      "inventoryGroup": "travel-support",
+      "mapGeometry": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-03"
+      ]
+    },
+    {
+      "id": "tiny-woods-caterpie-clearing",
+      "name": "Caterpie rescue clearing",
+      "recordKind": "terminalMap",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c1",
+        "campaign:tiny",
+        "PLAN-BLUE-RULES-V1",
+        "PLAN-BLUE-RULES-V2"
+      ],
+      "implementationPackage": "P19",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "tiny-woods",
+      "nameStatus": "authoring-description",
+      "narrativeRole": "Caterpie rescue",
+      "countRelation": "outside-normalized-exploration-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "controls": null,
+      "exitTrigger": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "P01-CAMPAIGN-TERMINAL-LABELS"
+      ]
+    },
+    {
+      "id": "thunderwave-cave-magnemite-clearing",
+      "name": "Magnemite rescue clearing",
+      "recordKind": "terminalMap",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c1",
+        "campaign:thunderwave",
+        "PLAN-BLUE-RULES-V1",
+        "PLAN-BLUE-RULES-V2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "thunderwave-cave",
+      "nameStatus": "authoring-description",
+      "narrativeRole": "Magnemite rescue",
+      "countRelation": "outside-normalized-exploration-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "controls": null,
+      "exitTrigger": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "P01-CAMPAIGN-TERMINAL-LABELS"
+      ]
+    },
+    {
+      "id": "silent-chasm-rescue-clearing",
+      "name": "Silent Chasm rescue clearing",
+      "recordKind": "terminalMap",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c2",
+        "campaign:silent",
+        "PLAN-BLUE-RULES-V1",
+        "PLAN-BLUE-RULES-V2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "silent-chasm",
+      "nameStatus": "authoring-description",
+      "narrativeRole": "Jumpluff rescue and Shiftry abduction; no player boss fight",
+      "countRelation": "outside-normalized-exploration-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "controls": null,
+      "exitTrigger": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "P01-CAMPAIGN-TERMINAL-LABELS"
+      ]
+    },
+    {
+      "id": "hill-of-the-ancients",
+      "name": "Hill of the Ancients",
+      "recordKind": "terminalMap",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c3",
+        "campaign:great",
+        "PLAN-BLUE-RULES-V1",
+        "PLAN-BLUE-RULES-V2"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "great-canyon",
+      "nameStatus": "source-location-name",
+      "narrativeRole": "Xatu encounters",
+      "countRelation": "outside-normalized-exploration-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "controls": null,
+      "exitTrigger": null,
+      "revisitBehavior": null,
+      "inventoryGroup": "support-and-terminal",
+      "blockerIds": [
+        "P01-CAMPAIGN-TERMINAL-LABELS"
+      ]
+    },
+    {
+      "id": "mt-freeze-ninetales-summit",
+      "name": "Ninetales summit scene",
+      "recordKind": "terminalMap",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c4",
+        "campaign:freeze",
+        "campaign:snow_path",
+        "PLAN-BLUE-RULES-V1",
+        "PLAN-BLUE-RULES-V2"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "mt-freeze",
+      "nameStatus": "authoring-description",
+      "narrativeRole": "Vindication and later Gengar escort; no Ninetales boss fight",
+      "countRelation": "outside-normalized-exploration-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "controls": null,
+      "exitTrigger": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "P01-CAMPAIGN-TERMINAL-LABELS"
+      ]
+    },
+    {
+      "id": "murky-cave-judgment",
+      "name": "Murky Cave judgment scene",
+      "recordKind": "terminalMap",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.7",
+        "campaign:c11",
+        "campaign:wish",
+        "campaign:main",
+        "campaign:meanies",
+        "campaign:murky",
+        "PLAN-BLUE-RULES-V1",
+        "PLAN-BLUE-RULES-V2"
+      ],
+      "implementationPackage": "P30",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "murky-cave",
+      "nameStatus": "authoring-description",
+      "narrativeRole": "Gengar and Gardevoir judgment; no boss fight",
+      "countRelation": "outside-normalized-exploration-count",
+      "displayLabel": null,
+      "mapGeometry": null,
+      "controls": null,
+      "exitTrigger": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "P01-CAMPAIGN-TERMINAL-LABELS"
+      ]
+    },
+    {
+      "id": "howling-forest-smeargle-rescue",
+      "name": "Smeargle rescue scene",
+      "recordKind": "terminalMap",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:howling",
+        "PLAN-BLUE-RULES-V1",
+        "PLAN-BLUE-RULES-V2"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "howling-forest",
+      "nameStatus": "authoring-description",
+      "narrativeRole": "Smeargle rescue",
+      "countRelation": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "controls": null,
+      "exitTrigger": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "P01-CAMPAIGN-HOWLING-SCENE-LOCATION-02"
+      ]
+    },
+    {
+      "id": "pitfall-valley-latias-rescue",
+      "name": "Latias rescue scene",
+      "recordKind": "terminalMap",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.2",
+        "campaign:c7",
+        "PLAN-BLUE-RULES-V1",
+        "PLAN-BLUE-RULES-V2"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "pitfall-valley",
+      "nameStatus": "authoring-description",
+      "narrativeRole": "Latias rescue; no boss fight",
+      "countRelation": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "controls": null,
+      "exitTrigger": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "P01-CAMPAIGN-PITFALL-SCENE-LOCATION-02"
+      ]
+    },
+    {
+      "id": "mt-steel-skarmory-floor",
+      "name": "Skarmory encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c1",
+        "campaign:c2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "mt-steel",
+      "localFloorNumber": 9,
+      "globalFloorOrdinal": 9,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "sinister-woods-team-meanies-floor",
+      "name": "Team Meanies encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "sinister-woods",
+      "localFloorNumber": 13,
+      "globalFloorOrdinal": 13,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "mt-thunder-peak-zapdos-floor",
+      "name": "Zapdos encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c2"
+      ],
+      "implementationPackage": "P23",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "mt-thunder-peak",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 13,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "mt-blaze-peak-moltres-floor",
+      "name": "Moltres encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c3"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "mt-blaze-peak",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 15,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "frosty-grotto-articuno-floor",
+      "name": "Articuno encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c4",
+        "campaign:snow_path"
+      ],
+      "implementationPackage": "P24",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "frosty-grotto",
+      "localFloorNumber": 5,
+      "globalFloorOrdinal": 14,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "uproar-forest-mankey-floor",
+      "name": "Mankey gang encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:uproar"
+      ],
+      "implementationPackage": "P25",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "uproar-forest",
+      "localFloorNumber": 10,
+      "globalFloorOrdinal": 10,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "magma-cavern-pit-fallen-allies-floor",
+      "name": "Fallen A.C.T. event",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:magma",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P25",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "magma-cavern-pit",
+      "localFloorNumber": 2,
+      "globalFloorOrdinal": 25,
+      "floorRole": "story-event",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "magma-cavern-pit-groudon-floor",
+      "name": "Groudon encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:magma",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P25",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "magma-cavern-pit",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 26,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "sky-tower-summit-rayquaza-floor",
+      "name": "Rayquaza encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-4.1",
+        "campaign:c5",
+        "campaign:sky",
+        "campaign:main",
+        "PLAN-BLUE-RULES-V1"
+      ],
+      "implementationPackage": "P26",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "sky-tower-summit",
+      "localFloorNumber": 9,
+      "globalFloorOrdinal": 34,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "stormy-sea-kyogre-floor",
+      "name": "Kyogre encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.1",
+        "campaign:c6",
+        "campaign:buried"
+      ],
+      "implementationPackage": "P27",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "stormy-sea",
+      "localFloorNumber": 40,
+      "globalFloorOrdinal": 40,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "buried-relic-regirock-floor",
+      "name": "Regirock encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.1",
+        "campaign:c6",
+        "campaign:buried"
+      ],
+      "implementationPackage": "P27",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "buried-relic",
+      "localFloorNumber": 15,
+      "globalFloorOrdinal": 15,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "buried-relic-regice-floor",
+      "name": "Regice encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.1",
+        "campaign:c6",
+        "campaign:buried"
+      ],
+      "implementationPackage": "P27",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "buried-relic",
+      "localFloorNumber": 25,
+      "globalFloorOrdinal": 25,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "buried-relic-registeel-floor",
+      "name": "Registeel encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.1",
+        "campaign:c6",
+        "campaign:buried"
+      ],
+      "implementationPackage": "P27",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "buried-relic",
+      "localFloorNumber": 35,
+      "globalFloorOrdinal": 35,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "northern-range-latios-floor",
+      "name": "Latios encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.2",
+        "campaign:c7"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "northern-range",
+      "localFloorNumber": 25,
+      "globalFloorOrdinal": 25,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "silver-trench-lugia-floor",
+      "name": "Lugia encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.5",
+        "campaign:c8",
+        "campaign:silver"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "silver-trench",
+      "localFloorNumber": 99,
+      "globalFloorOrdinal": 99,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "meteor-cave-deoxys-floor",
+      "name": "Deoxys encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.5",
+        "campaign:c8",
+        "campaign:silver"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "meteor-cave",
+      "localFloorNumber": 20,
+      "globalFloorOrdinal": 20,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "fiery-field-entei-floor",
+      "name": "Entei encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.3",
+        "campaign:c9",
+        "campaign:c10",
+        "campaign:faraway",
+        "campaign:main"
+      ],
+      "implementationPackage": "P29",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "fiery-field",
+      "localFloorNumber": 30,
+      "globalFloorOrdinal": 30,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "lightning-field-raikou-floor",
+      "name": "Raikou encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.3",
+        "campaign:c9",
+        "campaign:c10",
+        "campaign:faraway",
+        "campaign:main"
+      ],
+      "implementationPackage": "P29",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "lightning-field",
+      "localFloorNumber": 30,
+      "globalFloorOrdinal": 30,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "northwind-field-suicune-floor",
+      "name": "Suicune encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.3",
+        "campaign:c9",
+        "campaign:c10",
+        "campaign:faraway",
+        "campaign:main"
+      ],
+      "implementationPackage": "P29",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "northwind-field",
+      "localFloorNumber": 30,
+      "globalFloorOrdinal": 30,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "mt-faraway-ho-oh-floor",
+      "name": "Ho-Oh encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.3",
+        "campaign:c9",
+        "campaign:c10",
+        "campaign:faraway",
+        "campaign:main"
+      ],
+      "implementationPackage": "P29",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "mt-faraway",
+      "localFloorNumber": 40,
+      "globalFloorOrdinal": 40,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "western-cave-mewtwo-floor",
+      "name": "Mewtwo encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.4",
+        "campaign:c9",
+        "campaign:c10",
+        "campaign:faraway",
+        "campaign:main"
+      ],
+      "implementationPackage": "P29",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "western-cave",
+      "localFloorNumber": 99,
+      "globalFloorOrdinal": 99,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "wish-cave-medicham-floor",
+      "name": "Medicham rescue objective",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.6",
+        "campaign:c11",
+        "campaign:wish",
+        "campaign:main",
+        "campaign:meanies",
+        "campaign:murky"
+      ],
+      "implementationPackage": "P30",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "wish-cave",
+      "localFloorNumber": 20,
+      "globalFloorOrdinal": 20,
+      "floorRole": "rescue-objective",
+      "countRelation": "objective-within-full-expedition",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04",
+        "CAMPAIGN-GAP-05-LOCATION-03"
+      ]
+    },
+    {
+      "id": "wish-cave-jirachi-floor",
+      "name": "Jirachi encounter",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.6",
+        "campaign:c11",
+        "campaign:wish",
+        "campaign:main",
+        "campaign:meanies",
+        "campaign:murky"
+      ],
+      "implementationPackage": "P30",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "wish-cave",
+      "localFloorNumber": 99,
+      "globalFloorOrdinal": 99,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "purity-forest-celebi-floor",
+      "name": "Celebi automatic recruitment",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.8",
+        "campaign:purity"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "purity-forest",
+      "localFloorNumber": 99,
+      "globalFloorOrdinal": 99,
+      "floorRole": "automatic-recruitment",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "silver-trench-15-monster-house-floor",
+      "name": "Whole-floor Monster House",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.5",
+        "campaign:c8",
+        "campaign:silver"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "silver-trench",
+      "localFloorNumber": 15,
+      "globalFloorOrdinal": 15,
+      "floorRole": "monster-house",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "silver-trench-35-monster-house-floor",
+      "name": "Whole-floor Monster House",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.5",
+        "campaign:c8",
+        "campaign:silver"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "silver-trench",
+      "localFloorNumber": 35,
+      "globalFloorOrdinal": 35,
+      "floorRole": "monster-house",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "silver-trench-55-monster-house-floor",
+      "name": "Whole-floor Monster House",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.5",
+        "campaign:c8",
+        "campaign:silver"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "silver-trench",
+      "localFloorNumber": 55,
+      "globalFloorOrdinal": 55,
+      "floorRole": "monster-house",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "silver-trench-75-monster-house-floor",
+      "name": "Whole-floor Monster House",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-5.5",
+        "campaign:c8",
+        "campaign:silver"
+      ],
+      "implementationPackage": "P28",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "silver-trench",
+      "localFloorNumber": 75,
+      "globalFloorOrdinal": 75,
+      "floorRole": "monster-house",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "fantasy-strait-15-monster-house-floor",
+      "name": "Whole-floor Monster House",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G2",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6",
+        "campaign:fantasy_strait"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "fantasy-strait",
+      "localFloorNumber": 15,
+      "globalFloorOrdinal": 15,
+      "floorRole": "monster-house",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": null,
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-04"
+      ]
+    },
+    {
+      "id": "dojo-normal-maze",
+      "name": "Normal Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-normal-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "return_mt_freeze",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-normal-maze-boss-floor",
+      "name": "Normal Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-normal-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-fire-maze",
+      "name": "Fire Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-fire-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "return_mt_freeze",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-fire-maze-boss-floor",
+      "name": "Fire Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-fire-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-water-maze",
+      "name": "Water Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-water-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "meanies_mailbox_event",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-water-maze-boss-floor",
+      "name": "Water Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-water-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-grass-maze",
+      "name": "Grass Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-grass-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "friend_areas",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-grass-maze-boss-floor",
+      "name": "Grass Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-grass-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-electric-maze",
+      "name": "Electric Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-electric-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "friend_areas",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-electric-maze-boss-floor",
+      "name": "Electric Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-electric-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-ice-maze",
+      "name": "Ice Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-ice-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "return_mt_freeze",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-ice-maze-boss-floor",
+      "name": "Ice Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-ice-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-fighting-maze",
+      "name": "Fighting Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-fighting-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "friend_areas",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-fighting-maze-boss-floor",
+      "name": "Fighting Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-fighting-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-ground-maze",
+      "name": "Ground Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-ground-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "return_mt_freeze",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-ground-maze-boss-floor",
+      "name": "Ground Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-ground-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-flying-maze",
+      "name": "Flying Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-flying-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "friend_areas",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-flying-maze-boss-floor",
+      "name": "Flying Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-flying-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-psychic-maze",
+      "name": "Psychic Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-psychic-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "return_mt_freeze",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-psychic-maze-boss-floor",
+      "name": "Psychic Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-psychic-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-poison-maze",
+      "name": "Poison Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-poison-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "meanies_mailbox_event",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-poison-maze-boss-floor",
+      "name": "Poison Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-poison-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-bug-maze",
+      "name": "Bug Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-bug-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "meanies_mailbox_event",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-bug-maze-boss-floor",
+      "name": "Bug Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-bug-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-rock-maze",
+      "name": "Rock Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-rock-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "meanies_mailbox_event",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-rock-maze-boss-floor",
+      "name": "Rock Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-rock-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-ghost-maze",
+      "name": "Ghost Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-ghost-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "credits",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-ghost-maze-boss-floor",
+      "name": "Ghost Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-ghost-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-dragon-maze",
+      "name": "Dragon Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-dragon-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "return_mt_freeze",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-dragon-maze-boss-floor",
+      "name": "Dragon Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-dragon-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-dark-maze",
+      "name": "Dark Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-dark-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "friend_areas",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-dark-maze-boss-floor",
+      "name": "Dark Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-dark-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-steel-maze",
+      "name": "Steel Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-steel-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "type",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "friend_areas",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-steel-maze-boss-floor",
+      "name": "Steel Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-steel-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-team-shifty-maze",
+      "name": "Team Shifty Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-team-shifty-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "presetTeam",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "credits",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-team-shifty-maze-boss-floor",
+      "name": "Team Shifty Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-team-shifty-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-team-constrictor-maze",
+      "name": "Team Constrictor Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-team-constrictor-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "presetTeam",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "credits",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-team-constrictor-maze-boss-floor",
+      "name": "Team Constrictor Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-team-constrictor-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-team-hydro-maze",
+      "name": "Team Hydro Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-team-hydro-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "presetTeam",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "credits",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-team-hydro-maze-boss-floor",
+      "name": "Team Hydro Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-team-hydro-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-team-rumblerock-maze",
+      "name": "Team Rumblerock Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [
+        {
+          "type": "hasNumberedMap",
+          "targetId": "dojo-team-rumblerock-maze-boss-floor"
+        }
+      ],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "standard-dojo",
+      "mazeKind": "presetTeam",
+      "reportedFloorCount": 3,
+      "bossLocalFloor": 3,
+      "unlockMilestone": "credits",
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-DOJO-CONTENT"
+      ]
+    },
+    {
+      "id": "dojo-team-rumblerock-maze-boss-floor",
+      "name": "Team Rumblerock Maze boss floor",
+      "recordKind": "fixedFloor",
+      "provenanceIds": [
+        "G4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "dojo-team-rumblerock-maze",
+      "localFloorNumber": 3,
+      "globalFloorOrdinal": 3,
+      "floorRole": "boss",
+      "countRelation": "included-in-reported-count",
+      "fixedLayout": null,
+      "displayLabel": "B3F",
+      "mapGeometry": null,
+      "revisitBehavior": null,
+      "blockerIds": [
+        "CAMPAIGN-GAP-02-LOCATION-05"
+      ]
+    },
+    {
+      "id": "dojo-rescue-team-maze",
+      "name": "Rescue Team Maze",
+      "recordKind": "dojoMaze",
+      "provenanceIds": [
+        "G4",
+        "PLAN-DATA-4",
+        "PLAN-CAMPAIGN-6.2",
+        "campaign:dojo"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "parentId": "makuhita-dojo",
+      "inventoryGroup": "blue-linked-maze",
+      "mazeKind": "linkedTeam",
+      "reportedFloorCount": null,
+      "bossLocalFloor": null,
+      "unlockMilestone": null,
+      "unlockExpression": null,
+      "floorContent": null,
+      "blockerIds": [
+        "P02-LOC-BLUE-LINKED-MAZE"
+      ]
+    },
+    {
+      "id": "unknown-dungeon",
+      "name": "Unknown Dungeon",
+      "recordKind": "specialMode",
+      "provenanceIds": [
+        "G5",
+        "PLAN-DATA-4"
+      ],
+      "implementationPackage": "P31",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "blocked",
+      "relationships": [],
+      "modeKind": "offscreen-tag-mode",
+      "navigableDungeon": false,
+      "originalModeContract": null,
+      "browserAdaptation": null,
+      "blockerIds": [
+        "P02-LOC-TAG-MODE"
+      ]
+    }
+  ]
+}

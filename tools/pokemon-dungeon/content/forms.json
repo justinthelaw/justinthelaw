@@ -1,0 +1,876 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "blue-rescue-team-forms-and-npc-exceptions",
+  "scope": "authoring-identity-inventory",
+  "provenanceSources": {
+    "G6": {
+      "document": "games/pokemon-dungeon-reimagined/plan/DATA.md",
+      "locator": "record:G6",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Munchlax_(Pok%C3%A9mon)",
+      "retrievedAt": "2026-10-05",
+      "fieldScope": [
+        "NPC-only Munchlax identity"
+      ],
+      "sourceLocator": "In the spin-off games / original Red and Blue Rescue Team paragraph"
+    },
+    "G7": {
+      "document": "games/pokemon-dungeon-reimagined/plan/DATA.md",
+      "locator": "record:G7",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Unown_Relic",
+      "retrievedAt": "2026-10-05",
+      "fieldScope": [
+        "original Unown form collection",
+        "separate recruitment-search identities"
+      ],
+      "sourceLocator": "Gameplay / Generation III; Pokémon encountered / Generation III"
+    },
+    "G8": {
+      "document": "games/pokemon-dungeon-reimagined/plan/DATA.md",
+      "locator": "record:G8",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Deoxys_(Pok%C3%A9mon)",
+      "retrievedAt": "2026-10-05",
+      "fieldScope": [
+        "four original Deoxys identities",
+        "temporary form classification"
+      ],
+      "sourceLocator": "Side game data / Normal, Attack, Defense, Speed original RB tables; Form data / Mystery Dungeon paragraphs"
+    },
+    "P02-S-UNOWN": {
+      "document": "tools/pokemon-dungeon/content/species-notes.md",
+      "locator": "section:P02-S-UNOWN",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Unown_(Pok%C3%A9mon)",
+      "retrievedAt": "2026-10-05",
+      "fieldScope": [
+        "A-Z and punctuation identity labels; combine with G7 for original-game inclusion"
+      ],
+      "sourceLocator": "Biology / Forms; Game data / Form data"
+    },
+    "P02-S-CASTFORM": {
+      "document": "tools/pokemon-dungeon/content/species-notes.md",
+      "locator": "section:P02-S-CASTFORM",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Castform_(Pok%C3%A9mon)",
+      "retrievedAt": "2026-10-05",
+      "fieldScope": [
+        "four original Castform identities"
+      ],
+      "sourceLocator": "Side game data / Normal, Sunny Form, Rainy Form, Snowy Form / Red and Blue Rescue Team tables"
+    },
+    "P02-S-FORECAST": {
+      "document": "tools/pokemon-dungeon/content/species-notes.md",
+      "locator": "section:P02-S-FORECAST",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Forecast_(Ability)",
+      "retrievedAt": "2026-10-05",
+      "fieldScope": [
+        "weather-associated Castform form/type relationship; not a complete transition program"
+      ],
+      "sourceLocator": "In other games / Pokémon Mystery Dungeon series / original Red and Blue paragraphs"
+    },
+    "systems:shops": {
+      "document": "games/pokemon-dungeon-reimagined/plan/research/blue-rules-v1.json",
+      "locator": "/sources/63",
+      "url": "https://bulbapedia.bulbagarden.net/wiki/Kecleon_Shop",
+      "retrievedAt": "2026-10-05",
+      "fieldScope": [
+        "purple Kecleon Wares shopkeeper identity"
+      ],
+      "sourceLocator": "In towns / original Red and Blue Rescue Team paragraph; checked-in research/systems.json / town_services"
+    }
+  },
+  "blockerDefinitions": {
+    "P02-UNOWN-FORM-BINDING": {
+      "fields": [
+        "originalMonsterIndex",
+        "recruitmentSearchId",
+        "transitionRuleId"
+      ],
+      "reason": "Persistent identities are supported; internal-index and search/state bindings are unauthored."
+    },
+    "P02-CASTFORM-TRANSITIONS": {
+      "fields": [
+        "transitionRuleId",
+        "typeTransitions",
+        "weatherSuppression",
+        "originalMonsterIndex"
+      ],
+      "reason": "Identity is supported; complete original Forecast timing, weather and suppression transitions remain unauthored."
+    },
+    "DATA-03-deoxys-form-bindings": {
+      "fields": [
+        "transitionRuleId",
+        "formLearning",
+        "formEffects",
+        "originalMonsterIndex"
+      ],
+      "reason": "Identity is supported; exact floor-selection, learning, modifiers and original-index mapping remain unbound."
+    },
+    "P02-MUNCHLAX-EVENT": {
+      "fields": [
+        "eventRuleId",
+        "appearanceConditions",
+        "rewards"
+      ],
+      "reason": "NPC cameo identity is supported; exact original event conditions and outcomes remain unauthored."
+    },
+    "P02-KECLEON-STORY-VARIANT": {
+      "fields": [
+        "appearanceId",
+        "serviceRuleId"
+      ],
+      "reason": "The purple shopkeeper is an actor appearance, not a separate collectible form; service and asset bindings remain unauthored."
+    }
+  },
+  "records": [
+    {
+      "id": "unown-a",
+      "name": "Unown A",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-b",
+      "name": "Unown B",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-c",
+      "name": "Unown C",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-d",
+      "name": "Unown D",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-e",
+      "name": "Unown E",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-f",
+      "name": "Unown F",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-g",
+      "name": "Unown G",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-h",
+      "name": "Unown H",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-i",
+      "name": "Unown I",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-j",
+      "name": "Unown J",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-k",
+      "name": "Unown K",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-l",
+      "name": "Unown L",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-m",
+      "name": "Unown M",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-n",
+      "name": "Unown N",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-o",
+      "name": "Unown O",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-p",
+      "name": "Unown P",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-q",
+      "name": "Unown Q",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-r",
+      "name": "Unown R",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-s",
+      "name": "Unown S",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-t",
+      "name": "Unown T",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-u",
+      "name": "Unown U",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-v",
+      "name": "Unown V",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-w",
+      "name": "Unown W",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-x",
+      "name": "Unown X",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-y",
+      "name": "Unown Y",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-z",
+      "name": "Unown Z",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-exclamation",
+      "name": "Unown !",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "unown-question",
+      "name": "Unown ?",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G7",
+        "P02-S-UNOWN"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-201",
+      "classification": "persistent",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-UNOWN-FORM-BINDING"
+      ]
+    },
+    {
+      "id": "castform-normal",
+      "name": "Castform Normal",
+      "recordKind": "form",
+      "provenanceIds": [
+        "P02-S-CASTFORM",
+        "P02-S-FORECAST"
+      ],
+      "implementationPackage": "P14",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-351",
+      "classification": "temporary",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-CASTFORM-TRANSITIONS"
+      ]
+    },
+    {
+      "id": "castform-sunny",
+      "name": "Castform Sunny Form",
+      "recordKind": "form",
+      "provenanceIds": [
+        "P02-S-CASTFORM",
+        "P02-S-FORECAST"
+      ],
+      "implementationPackage": "P14",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-351",
+      "classification": "temporary",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-CASTFORM-TRANSITIONS"
+      ]
+    },
+    {
+      "id": "castform-rainy",
+      "name": "Castform Rainy Form",
+      "recordKind": "form",
+      "provenanceIds": [
+        "P02-S-CASTFORM",
+        "P02-S-FORECAST"
+      ],
+      "implementationPackage": "P14",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-351",
+      "classification": "temporary",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-CASTFORM-TRANSITIONS"
+      ]
+    },
+    {
+      "id": "castform-snowy",
+      "name": "Castform Snowy Form",
+      "recordKind": "form",
+      "provenanceIds": [
+        "P02-S-CASTFORM",
+        "P02-S-FORECAST"
+      ],
+      "implementationPackage": "P14",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-351",
+      "classification": "temporary",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "P02-CASTFORM-TRANSITIONS"
+      ]
+    },
+    {
+      "id": "deoxys-normal",
+      "name": "Deoxys Normal Forme",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G8"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-386",
+      "classification": "temporary",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "DATA-03-deoxys-form-bindings"
+      ]
+    },
+    {
+      "id": "deoxys-attack",
+      "name": "Deoxys Attack Forme",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G8"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-386",
+      "classification": "temporary",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "DATA-03-deoxys-form-bindings"
+      ]
+    },
+    {
+      "id": "deoxys-defense",
+      "name": "Deoxys Defense Forme",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G8"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-386",
+      "classification": "temporary",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "DATA-03-deoxys-form-bindings"
+      ]
+    },
+    {
+      "id": "deoxys-speed",
+      "name": "Deoxys Speed Forme",
+      "recordKind": "form",
+      "provenanceIds": [
+        "G8"
+      ],
+      "implementationPackage": "P17",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-386",
+      "classification": "temporary",
+      "transitionRuleId": null,
+      "blockerIds": [
+        "DATA-03-deoxys-form-bindings"
+      ]
+    },
+    {
+      "id": "square-munchlax",
+      "name": "Munchlax",
+      "recordKind": "storyActor",
+      "provenanceIds": [
+        "G6"
+      ],
+      "implementationPackage": "P20",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": null,
+      "formId": null,
+      "blockerIds": [
+        "P02-MUNCHLAX-EVENT"
+      ]
+    },
+    {
+      "id": "square-kecleon-purple",
+      "name": "Purple Kecleon shopkeeper",
+      "recordKind": "storyActor",
+      "provenanceIds": [
+        "systems:shops"
+      ],
+      "implementationPackage": "P20",
+      "assetPackage": "P32",
+      "implementationStatus": "unstarted",
+      "acceptanceStatus": "pending",
+      "sourceStatus": "supported",
+      "speciesId": "pokemon-352",
+      "formId": null,
+      "blockerIds": [
+        "P02-KECLEON-STORY-VARIANT"
+      ]
+    }
+  ]
+}
