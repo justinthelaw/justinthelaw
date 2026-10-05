@@ -1,6 +1,12 @@
 import { test, expect, type Locator, type Page } from "@playwright/test";
 
 async function expectConciseTooltip(page: Page, control: Locator, topic: RegExp): Promise<void> {
+  // Scroll events are queued after geometry updates. Drain them before focus
+  // opens Radix's scroll-sensitive tooltip.
+  await control.scrollIntoViewIfNeeded();
+  await page.evaluate(() => new Promise<void>((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+  }));
   await control.focus();
   const tooltip = page.locator('[role="tooltip"][data-state$="open"]');
   await expect(tooltip).toBeVisible();
@@ -14,6 +20,9 @@ async function expectConciseTooltip(page: Page, control: Locator, topic: RegExp)
 }
 
 test.beforeEach(async ({ page }) => {
+  await page.route("**/games/pokemon-dungeon-reimagined/**", (route) =>
+    route.fulfill({ contentType: "text/html", body: "<!doctype html><html><body>Website game fixture</body></html>" }),
+  );
   await page.route("https://api.github.com/users/**", (route) => route.fulfill({ status: 503 }));
   await page.route("https://drive.google.com/**", (route) => route.fulfill({ contentType: "text/html", body: "Resume preview" }));
 });
@@ -33,9 +42,12 @@ test("home controls explain their destinations on keyboard focus and hover", asy
   }
 });
 
-test("arcade navigation and unavailable games explain their actions", async ({ page }) => {
+test("arcade navigation and available and unavailable games explain their actions", async ({ page }) => {
   await page.goto("/arcade/");
   await expectConciseTooltip(page, page.getByRole("link", { name: "Back to home" }), /home/i);
+  const available = page.getByRole("button", { name: "Play Pokemon Mystery Dungeon Blue Rescue Team - Reimagined", exact: true });
+  await expect(available).toBeEnabled();
+  await expectConciseTooltip(page, available, /play game/i);
   const unavailable = page.getByRole("button", { name: "Play, coming soon" }).first();
   await expect(unavailable).toBeDisabled();
   await expectConciseTooltip(page, unavailable.locator(".."), /coming soon/i);

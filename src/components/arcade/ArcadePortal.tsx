@@ -2,7 +2,6 @@ import Link from "next/link";
 import { DERIVED_CONFIG } from "@/config/site";
 import { responsiveIconStyles } from "@/components/ui/button";
 import { CornerIconButton } from "@/components/ui/corner-icon-button";
-import { PixelBlob } from "./PixelBlob";
 
 export function ArcadePortal(): React.ReactElement {
   return (
@@ -13,7 +12,13 @@ export function ArcadePortal(): React.ReactElement {
       tooltipSide="left"
     >
       <Link href="/arcade/" aria-label={`Open ${DERIVED_CONFIG.possessiveName} arcade`}>
-        <PixelBlob variant="blue" className={responsiveIconStyles.icon} decorative />
+        <span
+          data-testid="arcade-joystick"
+          aria-hidden="true"
+          className={`${responsiveIconStyles.icon} flex items-center justify-center text-[28px] leading-none sm:text-[32px] md:text-[36px]`}
+        >
+          🕹️
+        </span>
       </Link>
     </CornerIconButton>
   );

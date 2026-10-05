@@ -21,9 +21,9 @@ export function ArcadeCard({ game, onPlay }: ArcadeCardProps): React.ReactElemen
   return (
     <article aria-labelledby={headingId} className="min-w-0">
       <Card className="gap-0 border border-border/70 bg-card/70 py-0 shadow-sm ring-0">
-        <div className={`${styles.preview} ${styles[game.blobVariant]}`}>
+        <div className={`${styles.preview} ${styles[game.blobVariant]} ${game.preview ? styles.imagePreview : ""}`}>
           {game.preview && previewSrc ? (
-            <Image src={previewSrc} alt={game.preview.alt} width={640} height={360} className="max-h-full w-auto max-w-full object-contain" unoptimized />
+            <Image src={previewSrc} alt={game.preview.alt} width={640} height={360} className={styles.previewImage} unoptimized />
           ) : (
             <PixelBlob variant={game.blobVariant} />
           )}

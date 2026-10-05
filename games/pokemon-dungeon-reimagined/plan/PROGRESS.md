@@ -4,9 +4,9 @@
 
 - **State:** implementation authorized on 2026-10-04 and continued on 2026-10-05; P01 source audit and full P02 content coverage remain incomplete.
 - **Planning baseline:** [PR #387](https://github.com/justinthelaw/justinthelaw/pull/387) merged as `0d34db51c258368ade8f081557200905214cebcd`.
-- **Delivery:** continue draft [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388) on `impl/pokemon-dungeon-p01-source-freeze`; the local foundation work began from reviewed head `ce4d3151ba4e966517978fb9279c318e4c1185f9`. Keep this runtime-bearing PR unmerged.
+- **Delivery:** foundations [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388) and README [PR #390](https://github.com/justinthelaw/justinthelaw/pull/390) are merged. The authorized website launcher is being delivered separately on `feat/arcade-game-launcher`, based on main `41586f8b7f572a7d6e03165da11023316b29dea0`.
 - **Current work:** P02-A normalized authoring identities and coverage with static validation, plus reviewed P07-A ID/snapshot/RNG primitives. Prior P01-B, P03-A/P04-A, P05 shell and P06 candidate art remain. Gameplay and whole-game acceptance are unstarted.
-- **Next safe action:** finish P02 individual-item and scene/flag inventories; resolve the three precise P01 scheduler/interruption/arithmetic gaps below before implementing their gameplay consumers. The latest continuation accepts the shown P06 scene/motion direction; full clip/rig/device and P05 device acceptance remain open. Follow [STATE-FOUNDATION.md](STATE-FOUNDATION.md) for P07-A boundaries. Arcade activation, merge and deployment remain held for P36/P37.
+- **Next safe action:** deliver the explicitly requested development launcher, then finish P02 individual-item and scene/flag inventories and the three P01 scheduler/interruption/arithmetic gaps before gameplay consumers. Full clip/rig/device and P05 device acceptance remain open. Follow [STATE-FOUNDATION.md](STATE-FOUNDATION.md) for P07-A boundaries. Full-game acceptance remains held for P36/P37; the new launcher PR is not authorized for merge.
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
 
@@ -14,6 +14,7 @@
 
 | Instruction | Effect |
 | --- | --- |
+| Merge #390; new PR for joystick, first WIP Pokémon card, full-page modal and usable mobile/desktop controls; implement autonomously and ignore external Codex review | 2026-10-05 scoped launcher authorization overrides the older placeholder hold. Card uses a labelled P06 art study and explicitly unavailable campaign; website input bridge is verified with inert fixtures. This does not complete gameplay or P36/P37 |
 | Continue after the P06 scene and motion-study checkpoint | 2026-10-05 continuation is treated as acceptance of the shown visual direction and instruction to resume. It does not certify unseen clips, hardware performance, runtime promotion or the full game |
 | Make the game work and be playable from beginning to end; provide the full experience | Reaffirms full main story, postgame, optional content and systems. Passing website CI, a shell or art preview cannot establish gameplay completion. Continue reviewed packages until actual acceptance gates; do not stop merely because a research PR is clean |
 | Continue the @Codex implementation in justinthelaw/justinthelaw, starting from any uncommitted changes | Separate implementation-start authorization on 2026-10-04. The supplied workspace had no checkout or uncommitted files; no open Pokémon PR/branch was found. Resumed from merged PR #387 in an isolated clone. Abandoned prototype drafts remain excluded under the existing plan |
@@ -43,11 +44,12 @@
 | `COVERAGE.csv` | Traceable initial scope and evidence fields |
 | This file | Approval status, current handoff, decisions and validation |
 
-The development branch contains a startup-only entry point, pinned local
+The merged foundations contain a startup-only entry point, pinned local
 engine, P02 authoring inventories and P07-A state primitives. It has no playable
 adventure or assets promoted into gameplay. Root package
 and lockfile remain unchanged; independent tools are excluded from website lint
-and type checks. The public arcade continues to show three placeholders.
+and type checks. The launcher PR replaces the first placeholder with the
+clearly labelled development preview; the other two remain Coming soon.
 
 ## Foundation implementation handoff
 

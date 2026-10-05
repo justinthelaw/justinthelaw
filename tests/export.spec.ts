@@ -327,7 +327,14 @@ test("should reject malformed absolute request targets without stopping the serv
   }
 });
 
-test("should load and reload the arcade directly under the exported base path", async ({ page }) => {
+test("should load the arcade picture and fixture player under the exported base path", async ({ page }) => {
+  const gameTitle = "Pokemon Mystery Dungeon Blue Rescue Team - Reimagined";
+  let requestedEntryPoint = "";
+  // Exercise exported website integration without running real game source.
+  await page.route("**/games/pokemon-dungeon-reimagined/**", (route) => {
+    requestedEntryPoint = new URL(route.request().url()).pathname;
+    return route.fulfill({ contentType: "text/html", body: "<!doctype html><html><body>Static player fixture</body></html>" });
+  });
   const previewServer = await startStaticPreviewServer();
   try {
     const response = await page.goto(new URL("arcade/", previewServer.origin).href);
@@ -336,6 +343,20 @@ test("should load and reload the arcade directly under the exported base path", 
     const reloaded = await page.reload();
     expect(reloaded?.status()).toBe(200);
     await expect(page.getByRole("article")).toHaveCount(3);
+    const firstCard = page.getByRole("article").first();
+    const preview = firstCard.getByRole("img", { name: /art study|development/i });
+    await expect.poll(() => preview.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    expect(new URL((await preview.getAttribute("src"))!, page.url()).pathname).toBe(new URL("arcade/blue-rescue-team-preview.jpg", previewServer.origin).pathname);
+    const play = firstCard.getByRole("button", { name: `Play ${gameTitle}`, exact: true });
+    await expect(play).toBeEnabled();
+    await expect(page.locator("iframe")).toHaveCount(0);
+    expect(requestedEntryPoint).toBe("");
+    await play.click();
+    await expect(page.getByRole("dialog", { name: gameTitle, exact: true })).toBeVisible();
+    await expect(page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("body")).toHaveText("Static player fixture");
+    expect(requestedEntryPoint).toBe(new URL("games/pokemon-dungeon-reimagined/index.html", previewServer.origin).pathname);
+    await page.getByRole("button", { name: "Back to games", exact: true }).click();
+    await expect(play).toBeFocused();
   } finally {
     await previewServer.close();
   }

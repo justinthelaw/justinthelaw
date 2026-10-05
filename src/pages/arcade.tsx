@@ -26,9 +26,9 @@ export default function Arcade({ games }: ArcadePageProps): React.ReactElement {
   return (
     <Fragment>
       <Head>
-        <title>{title} | {SITE_CONFIG.fullName}</title>
+        <title>{`${title} | ${SITE_CONFIG.fullName}`}</title>
         <meta name="description" content={description} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="canonical" href={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />

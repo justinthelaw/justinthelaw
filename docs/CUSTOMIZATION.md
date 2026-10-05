@@ -70,7 +70,8 @@ file ID from `drive.google.com/file/d/[FILE_ID]/view`, and paste it into
 
 ## Arcade
 
-The top-right blue pixel blob opens `/arcade/`. Edit `ARCADE_GAMES` in
+The top-right 🕹️ joystick opens `/arcade/`. Its box and font use the shared
+28/32/36px icon sizes. Edit `ARCADE_GAMES` in
 `src/config/arcade.ts` to change the cards. Each entry has a stable `id`, `title`,
 `description`, and `blobVariant` (`blue`, `lavender`, or `apricot`). The original
 pixel characters bob with squash and stretch; reduced-motion preferences keep
@@ -83,11 +84,26 @@ relative asset URLs inside each game so it works under the GitHub Pages base pat
 
 Replace the card's title and description and add
 `entryPoint: "/games/my-game/index.html"`. Play loads the entire game in an iframe
-inside the arcade, with a Back to games control. Without `entryPoint`, Play stays
+in a page-filling modal, with a Back to games control and Play focus restoration.
+Without `entryPoint`, Play stays
 disabled. Add `preview: { src: "/arcade/game.gif", alt: "Description of the game" }`
 for a screenshot or GIF in `public/arcade/`; the component adds the configured
 GitHub Pages base path. An absolute HTTPS image URL also works. Without a
 preview, the card keeps its pixel blob placeholder.
+
+The first Pokémon card is an in-development preview of the startup shell;
+its picture is a 3D art study and its campaign is not playable yet.
+Touch devices show semitransparent emulator controls; desktop devices start
+with native keyboard input. Show/Hide controls switches the overlay manually.
+The bridge sends these keys to the focused same-origin game iframe:
+
+| Control | Keyboard key |
+| --- | --- |
+| D-pad | Arrow keys; diagonals hold two arrows |
+| A / B | Z / X |
+| Start / Select / Menu | Enter / Shift / Escape |
+
+The game must implement those keys. The launcher does not supply gameplay.
 
 Static export uses trailing slashes so `/arcade/` resolves to
 `out/arcade/index.html` on GitHub Pages, including direct visits and reloads.
