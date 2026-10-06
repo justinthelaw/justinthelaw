@@ -4,6 +4,7 @@ import { loadDungeonCatalog } from '../../content/dungeons.js';
 import { loadEffectCatalog } from '../../content/effects.js';
 import { loadCampaignCatalog } from '../../content/campaign.js';
 import { loadNavigationCatalog } from '../../content/navigation.js';
+import { SPECIES_MANIFEST_SHA256, ONBOARDING_MANIFEST_SHA256 } from '../../content/catalog-integrity.js';
 import { EFFECT_INDEX_SHA256 } from '../../content/effects-integrity.js';
 import { readLocalBytes, sha256 } from '../rendering/assets.js';
 
@@ -18,6 +19,10 @@ export async function loadCatalogs(signal, status) {
   /** @type {(()=>void)[]} */ const cleanup = [];
   try {
     status('Loading species and onboarding…');
+    for (const [relative, expected] of [['species', SPECIES_MANIFEST_SHA256], ['onboarding', ONBOARDING_MANIFEST_SHA256]]) {
+      const bytes = await readLocalBytes(new URL(`../../content/${relative}/manifest.json`, import.meta.url), 1048576, signal);
+      if (await sha256(bytes) !== expected) throw new Error(`${relative} manifest differs from the reviewed save boundary.`);
+    }
     const species = await loadSpeciesCatalog({ signal }); cleanup.push(() => species.dispose());
     const onboarding = await loadOnboardingCatalog({ signal }); cleanup.push(() => onboarding.dispose());
     const base = new URL('../../content/effects/', import.meta.url);

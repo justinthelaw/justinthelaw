@@ -1,3 +1,4 @@
+import { MORNING } from '../../content/authored/first-morning.js';
 import { TEAM } from '../../content/authored/team-formation.js';
 import { immutableRenderSnapshot, projectDungeon } from '../presentation/projection.js';
 /** @typedef {import('../contracts/campaign.js').CampaignSnapshot} Snapshot */
@@ -35,6 +36,7 @@ function teamBase(snapshot, epoch, species) {
     const clip = scene?.sceneId === TEAM.celebration && scene.cursor === 0 ? /** @type {const} */ ('celebrate') : scene?.sceneId === TEAM.celebration && scene.cursor === 2 ? /** @type {const} */ ('rest-sleep') : actor.clip;
     return { ...actor, heading, clip, clipToken: `${epoch}:${actor.actorId}:${scene?.sceneInstanceId ?? 'base'}:${scene?.cursor ?? 0}:${clip}` };
   });
+  if (scene && scene.sceneId === MORNING.scenes[5] && scene.cursor === 0) actors.push({ actorId: 'story-pelipper-delivery', speciesId: 'pokemon-279', formId: null, name: 'Pelipper', x: 9, z: 5, heading: -Math.PI / 2, role: 'npc', hp: 1, maxHp: 1, statuses: [], clip: 'idle', clipToken: `${epoch}:${scene.sceneInstanceId}:delivery`, tint: '#ffffff', bounds: { width: 1, height: 1 } });
   return immutableRenderSnapshot({ epoch, revision: snapshot.revision,
     world: { worldId: `${epoch}:${TEAM.map}`, revision: snapshot.revision, width: TEAM.width, height: TEAM.height, biomeId: TEAM.kitId, tiles, visible: mask, explored: mask, exits: [], props: TEAM.props },
     actors, pickups: [], events: [] });
@@ -70,6 +72,7 @@ export function renderSnapshot(snapshot, gameplay, epoch, species, events = []) 
     switch (snapshot.town.mapDefinitionId) {
       case gameplay.authored.town.mapDefinitionId: return meadow(snapshot, gameplay, epoch, species);
       case TEAM.map: return teamBase(snapshot, epoch, species);
+      case MORNING.interior: return baseInterior(snapshot, epoch, species);
       default: throw new Error(`Unavailable ground map: ${snapshot.town.mapDefinitionId}`);
     }
   }
@@ -107,4 +110,20 @@ export function eventMessages(previous, view, events) {
     if (event.type === 'itemChanged' && view.pickups.every(item => item.pickupId !== event.itemInstanceId)) lines.push('An item changed. Check your held item or toolbox.');
   }
   return lines;
+}
+
+/** Original open-roof 3D shelter interior, lit by the town kit and its window.
+ * Indoor occupancy is canonical; clips are presentation-only.
+ * @param {Snapshot} snapshot @param {string} epoch
+ * @param {import('../../content/species.js').SpeciesCatalog} species */
+function baseInterior(snapshot, epoch, species) {
+  const tiles = MORNING.ground.map(row => [...row].map(cell => cell === '#' ? /** @type {const} */ ('wall') : /** @type {const} */ ('floor')));
+  const mask = tiles.map(row => row.map(() => true));
+  const scene = snapshot.pendingScene;
+  const actors = groundActors(snapshot, epoch, species).map(actor => {
+    const clip = scene?.sceneId === MORNING.scenes[0] && scene?.cursor === 0 || scene?.sceneId === MORNING.scenes[1] ? /** @type {const} */ ('rest-sleep') : actor.clip;
+    return { ...actor, ...(clip === 'rest-sleep' ? { z: 3, elevation: .72 } : {}), clip, clipToken: `${epoch}:${actor.actorId}:${scene?.sceneInstanceId}:${scene?.cursor}:${clip}` };
+  });
+  return immutableRenderSnapshot({ epoch, revision: snapshot.revision,
+    world: { worldId: `${epoch}:${MORNING.interior}`, revision: snapshot.revision, width: MORNING.width, height: MORNING.height, biomeId: MORNING.kitId, tiles, visible: mask, explored: mask, exits: [], props: MORNING.props }, actors, pickups: [], events: [] });
 }

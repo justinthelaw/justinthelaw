@@ -5,10 +5,44 @@
 - **State:** implementation authorized on 2026-10-04 and continued on 2026-10-05; P01 source audit and full P02 content coverage remain incomplete.
 - **Planning baseline:** [PR #387](https://github.com/justinthelaw/justinthelaw/pull/387) merged as `0d34db51c258368ade8f081557200905214cebcd`.
 - **Delivery:** foundations [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388), README [PR #390](https://github.com/justinthelaw/justinthelaw/pull/390) and launcher [PR #391](https://github.com/justinthelaw/justinthelaw/pull/391) are merged. Full-game work is isolated on `feat/pokemon-full-campaign`, based on main `c7270c8b4ed73c28144abd09dc6811b6ca9d3b50`; it is not deployed.
-- **Current work:** the canonical opening, Tiny Woods rescue/reunion, team formation/name confirmation and resumable day-zero base are implemented on PR #392. The recovered checkpoint also contains validated held-v2 save conversion, quiz RNG isolation and touch submission for opted-in name forms. Human gameplay/visual/device acceptance and the rest of the campaign remain open.
-- **Next safe action:** continue [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md) with the sourced first morning, save tutorial, rescue-kit/news/mail/request gates, then Thunderwave Cave. Preserve the existing save boundary and once-only grants. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
+- **Current work:** the canonical opening, Tiny Woods rescue/reunion, team formation/name confirmation, first morning/save tutorial and accepted Magnemite request are implemented on PR #392. The recovered checkpoint also contains validated held-v2 save conversion, quiz RNG isolation and touch submission for opted-in name forms. Human gameplay/visual/device acceptance and the rest of the campaign remain open.
+- **Next safe action:** continue [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md) with the sourced Thunderwave Cave departure/mission consumers from the accepted-request base boundary. Preserve the existing save boundary and once-only grants. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
+
+## First morning checkpoint (2026-10-06)
+
+- Added the sourced first groggy awakening, mandatory bed checkpoint, refreshed
+  interior, partner outside, starter set/news, Pelipper delivery and Magnemite
+  letter with repeatable refusal and accepted-request base boundary. Distinct
+  morning/save/kit/news/delivered/read/accepted receipts remain once-only;
+  existing berries, held IDs, individual IDs, growth and RNG are preserved.
+- Bed completion requires an actual current browser save through the existing
+  service. Explicit memory mode prepares an exported-session checkpoint with
+  honest retention guidance. Frozen snapshot, binding epoch and owning-panel
+  guards prevent stale asynchronous completion from advancing replaced games.
+- Exact v3-team saves migrate through the original six-scene authoring and
+  policy bodies; held-v2 retains its prior bounded conversion. The codec checks
+  original bodies/envelopes/timestamps/SHA-256 before one guarded conversion
+  revision. Independent source pins cover 22 unchanged shared dependencies and
+  six predecessor bodies; the factory guards factual catalog revisions, and
+  shared composition authenticates species/onboarding manifest bytes.
+- Original open-roof 3D interior, five-part bed and four-part window use local
+  textures and lighting. A bounded presentation-only elevation grounds the sleep
+  pose on its mattress and defaults existing actors to zero. Pelipper is presentation-only during delivery. Prior
+  capture bytes remain unchanged; only declared base props are admitted against
+  the historical manifest. No new visual acceptance is claimed.
+- [FIRST-MORNING.md](FIRST-MORNING.md) records exact native source consumers,
+  primary Blue manual support and Red comparative qualifications. Native MAIN
+  remains (3,5) at the explicit accepted-request browser boundary; (3,6) belongs
+  to actual departure. No fabricated kit consumables, extra rescue/clear,
+  ordinary jobs or recruits are awarded. Thunderwave departure stays disabled.
+- Scoped static lint/types/source-pin/content/campaign/navigation/environment
+  audits pass. No game-source import/execution, automated game tests, browser
+  boot or playthrough was used. Human game/visual/device acceptance remains open.
+- Next: implement sourced Thunderwave Cave departure and mission consumers.
+  Full Task 5 and all full-game release gates remain incomplete; no merge or
+  deployment is authorized.
 
 ## Recovered publication checkpoint (2026-10-06)
 

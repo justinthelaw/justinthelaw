@@ -45,7 +45,7 @@ export function immutableRenderSnapshot(input) {
         throw new Error('Presentation revision mismatch.');
     const ids = new Set();
     for (const actor of copy.actors) {
-        if (!onMap(actor.x, actor.z, copy.world) || !actor.actorId || !actor.clipToken || !['hero','partner','boss','enemy','client','npc'].includes(actor.role) || !Number.isFinite(actor.hp) || !Number.isFinite(actor.maxHp) || actor.hp < 0 || actor.maxHp <= 0 || actor.hp > actor.maxHp || actor.statuses.length > 80 || ids.has(actor.actorId) || !copy.world.visible[actor.z]?.[actor.x] || !Number.isFinite(actor.heading) || actor.bounds.height <= 0 || actor.bounds.width <= 0 || !Number.isFinite(actor.bounds.height + actor.bounds.width) || !/^#[0-9a-f]{6}$/i.test(actor.tint))
+        if (!onMap(actor.x, actor.z, copy.world) || actor.elevation !== undefined && (!Number.isFinite(actor.elevation) || actor.elevation < 0 || actor.elevation > 4) || !actor.actorId || !actor.clipToken || !['hero','partner','boss','enemy','client','npc'].includes(actor.role) || !Number.isFinite(actor.hp) || !Number.isFinite(actor.maxHp) || actor.hp < 0 || actor.maxHp <= 0 || actor.hp > actor.maxHp || actor.statuses.length > 80 || ids.has(actor.actorId) || !copy.world.visible[actor.z]?.[actor.x] || !Number.isFinite(actor.heading) || actor.bounds.height <= 0 || actor.bounds.width <= 0 || !Number.isFinite(actor.bounds.height + actor.bounds.width) || !/^#[0-9a-f]{6}$/i.test(actor.tint))
             throw new Error('Invalid or concealed projected actor.');
         ids.add(actor.actorId);
     }

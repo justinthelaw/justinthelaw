@@ -1,5 +1,6 @@
 import { createOpeningCompatibility } from '../persistence/opening-compatibility.js';
 import { createScenePresenter } from '../application/team-formation.js';
+import { MORNING } from '../../content/authored/first-morning.js';
 import { TEAM } from '../../content/authored/team-formation.js';
 import { loadCatalogs } from '../application/catalogs.js';
 import { createGameplay } from '../domain/gameplay/index.js';
@@ -66,7 +67,7 @@ export async function createApplication(canvas, signal, startup) {
   function title() {
     close(); followsGame = false;
     view.hud('', [], []); view.minimap(null);
-    view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods, Caterpie's rescue and team formation. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
+    view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods, Caterpie's rescue, team formation and the first morning's accepted Magnemite request. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
       { label: 'New game', run: newGame }, { label: 'Continue / backup', run: () => { saves?.load(); context(); } }, { label: 'Saves & import', run: () => { saves?.menu(); context(); } },
       { label: 'Controls', run: help },
     ]); context();
@@ -149,6 +150,7 @@ export async function createApplication(canvas, signal, startup) {
         run: () => { if (leader) act({ type: 'useItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel'); } };
     }), 'Items & held slot');
   }
+  function readNews() { panel('First rescue-team news: the badge marks your team, the toolbox carries dungeon supplies, and letters in your mailbox bring requests. Resting at home is a good time to keep a checkpoint. Check your mailbox before heading out to help.', [], 'Pokémon News'); }
   /** @param {Snapshot} snapshot */
   function screen(snapshot) {
     if (!gameplay || !followsGame) return;
@@ -158,7 +160,7 @@ export async function createApplication(canvas, signal, startup) {
     if (session) team.push(`Moves · ${gameplay.getMoveChoices(snapshot).map(move => `${move.name} ${move.currentPp} PP`).join(' · ')}`);
     const location = session?.floor.location;
     const floor = location?.kind === 'exploration' && loaded ? loaded.catalogs.dungeons.getFloorById(location.address.floorId).display : null;
-    const goal = session ? `Tiny Woods ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · Find stairs and rescue Caterpie · Poké ${session.carriedMoney}` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
+    const goal = session ? `Tiny Woods ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · Find stairs and rescue Caterpie · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
     const onStairs = leader?.placement.kind === 'map' && Object.values(session?.floor.exits ?? {}).some(exit => leader.placement.kind === 'map' && exit.position.x === leader.placement.position.x && exit.position.z === leader.placement.position.z);
     view.hud(goal, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
       { label: 'Attack', run: () => act({ type: 'attack' }), disabled: snapshot.mode !== 'dungeon' || !ready },
@@ -174,11 +176,17 @@ export async function createApplication(canvas, signal, startup) {
       // Capture binding and snapshot with the displayed gate, never refresh an
       // obsolete callback's authority at activation time.
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
-      showScene({ snapshot, epoch, prompt: gameplay.getScenePrompt(snapshot), ready, saves: menu,
+      showScene({ snapshot, epoch, prompt: gameplay.getScenePrompt(snapshot), ready, saves: menu, news: readNews, memoryOnly: saves?.isMemoryOnly() ?? false,
+        saveTutorial(complete) { saves?.saveTutorial(snapshot, complete); },
         send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This scene prompt is stale.'); return; } act(intent, 'panel'); } });
     } else if (!session && snapshot.town.mapDefinitionId === TEAM.map) {
       dialogue = false;
-      view.show(`Team ${snapshot.profile.teamName}`, 'Your team is founded. The next morning continuation is not integrated yet. Your rescue rewards and team name are saved at this base boundary.', [
+      const accepted = snapshot.progress.storyNodeId === MORNING.story;
+      let basePanel = Symbol('unpresented');
+      const shownBinding = saves?.service.getBinding().adventureEpoch;
+      basePanel = view.show(`Team ${snapshot.profile.teamName}`, accepted ? 'Magnemite\'s request is accepted. Your badge, toolbox and first news are ready at the base. Thunderwave Cave is still in development.' : 'Your team is founded. Rest tonight, then begin the first morning at your rescue base.', [
+        { label: accepted ? 'Thunderwave Cave unavailable' : 'Begin first morning', disabled: accepted || !ready, detail: accepted ? 'Mission consumers are not integrated yet' : 'Rest and wake at home', run: () => { if (view.ownsPanel(basePanel) && current() === snapshot && saves?.service.getBinding().adventureEpoch === shownBinding) act({ type: 'beginMorning' }, 'panel'); } },
+        ...(accepted ? [{ label: 'Read Pokémon News', run: readNews }] : []),
         { label: 'Campaign & saves', run: menu }, { label: 'View rewards', run: inventory },
       ]);
     } else if (!session) {
@@ -271,7 +279,7 @@ export async function createApplication(canvas, signal, startup) {
   }
   signal.addEventListener('abort', dispose, { once: true });
   try {
-    loaded = await loadCatalogs(lifetime.signal, startup.status); gameplay = createGameplay(loaded.catalogs);
+    loaded = await loadCatalogs(lifetime.signal, startup.status); gameplay = createGameplay(loaded.catalogs, { tutorialSaved: snapshot => saves?.tutorialSaved(snapshot) ?? false });
     startup.status('Loading textured world and exact local character art…');
     const forest = await loadEnvironmentKit('forest', lifetime.signal);
     kit = forest; // Retain cleanup ownership if the second local kit fails.

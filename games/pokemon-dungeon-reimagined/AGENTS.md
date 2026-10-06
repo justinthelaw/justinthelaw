@@ -8,9 +8,9 @@ the first incomplete dependency-ready package in `plan/PROGRESS.md`. P01 retains
 open source questions; merged PR #388 adds static tooling, a
 pinned vendor bundle and a startup-only shell. The development branch now
 contains the canonical opening adventure through
-Tiny Woods, Caterpie reunion and confirmed team formation at the day-zero base
-boundary. Static checks do not establish human play/visual acceptance or a
-complete campaign; first morning and later routes remain gated. The latest 2026-10-05 direction rejects the P06 rigid-mesh character candidates
+Tiny Woods, Caterpie reunion, confirmed team formation and the first morning
+through the accepted Magnemite request at the base. Static checks do not establish human play/visual acceptance or a
+complete campaign; Thunderwave Cave departure and later routes remain gated. The latest 2026-10-05 direction rejects the P06 rigid-mesh character candidates
 and requires faithful directional pixel characters in textured real 3D spaces.
 Earlier inferred acceptance is superseded; all visual acceptance stays open.
 Preserve package evidence, visual review and full-release gates.

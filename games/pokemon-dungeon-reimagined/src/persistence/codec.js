@@ -5,7 +5,7 @@ import { fail, succeed } from './results.js';
 /** @typedef {import('./contracts.js').EncodedSave} EncodedSave */
 /** @typedef {import('./contracts.js').SaveBody} SaveBody */
 /** @typedef {import('./contracts.js').SaveEnvelope} SaveEnvelope */
-/** @typedef {{content:CampaignContent,convert:(snapshot:CampaignSnapshot)=>Result<CampaignSnapshot>}} SaveCompatibility */
+/** @typedef {ReadonlyArray<{content:CampaignContent,convert:(snapshot:CampaignSnapshot)=>Result<CampaignSnapshot>}>} SaveCompatibility */
 /** @template T @typedef {import('./contracts.js').Result<T>} Result */
 
 /** Engineering byte budget, not an original-game roster limit. */
@@ -107,8 +107,8 @@ export async function decodeSave(text, content, compatibility) {
   if (!canonicalTime(raw.savedAt) || typeof raw.contentRevision !== 'string' || !Number.isSafeInteger(raw.revision)
       || !exactRecord(raw.integrity, ['algorithm', 'digest']) || raw.integrity.algorithm !== 'SHA-256'
       || typeof raw.integrity.digest !== 'string' || !/^[0-9a-f]{64}$/.test(raw.integrity.digest)) return fail('invalid');
-  const legacy = raw.contentRevision !== content.contentRevision && raw.contentRevision === compatibility?.content.contentRevision;
-  const checked = validateSave(raw.state, legacy && compatibility ? compatibility.content : content);
+  const predecessor = raw.contentRevision !== content.contentRevision ? compatibility?.find(row => row.content.contentRevision === raw.contentRevision) : undefined;
+  const checked = validateSave(raw.state, predecessor ? predecessor.content : content);
   if (!checked.ok) return checked;
   const snapshot = checked.value;
   if (snapshot.revision !== raw.revision || snapshot.contentRevision !== raw.contentRevision || snapshot.schemaVersion !== raw.schemaVersion
@@ -119,8 +119,8 @@ export async function decodeSave(text, content, compatibility) {
   const originalHash = await digest(canonical(body));
   if (!originalHash.ok) return originalHash;
   if (originalHash.value !== raw.integrity.digest) return fail('integrity');
-  if (legacy && compatibility) {
-    const converted = compatibility.convert(snapshot);
+  if (predecessor) {
+    const converted = predecessor.convert(snapshot);
     if (!converted.ok) return converted;
     return encodeSave(converted.value, content, raw.savedAt);
   }

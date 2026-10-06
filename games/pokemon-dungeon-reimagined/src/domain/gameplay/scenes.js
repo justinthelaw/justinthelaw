@@ -1,3 +1,4 @@
+import { MORNING, morningIndex, placeInside, recordMorningGrant } from '../../../content/authored/first-morning.js';
 import { TEAM, placeAtBase } from '../../../content/authored/team-formation.js';
 import { checkName, diagnostics } from '../../../content/state/pokemon-rules.js';
 import { OPENING_EXPEDITION as O } from '../../../content/authored/expedition.js';
@@ -15,11 +16,13 @@ export function requestScene(context, authored, script) {
 /** Scene cursor changes and completion receipts remain in the Adventure draft.
  * @param {import('../../../content/authored/opening.js').AuthoredOpening} authored
  * @param {import('./support.js').Catalogs} catalogs
+ * @param {(snapshot:import('../../contracts/campaign.js').CampaignSnapshot)=>boolean} tutorialSaved
  * @returns {import('../turns/types.js').CommandHandler} */
-export function sceneHandler(authored, catalogs) { return {
+export function sceneHandler(authored, catalogs, tutorialSaved) { return {
   plan(state, intent) {
     const scene = state.pendingScene;
     if (state.mode !== 'scene' || !scene || intent.type !== 'ackScene') return { kind: 'rejected', reason: 'unavailable' };
+    if (scene.sceneId === MORNING.scenes[1] && !tutorialSaved(state)) return { kind: 'rejected', reason: 'unavailable' };
     const script = authored.scenes.find(row => row.id === scene.sceneId);
     if (!script) return { kind: 'content-blocked', requirement: 'scene-script' };
     if (scene.awaiting.kind === 'advance') {
@@ -57,12 +60,24 @@ export function sceneHandler(authored, catalogs) { return {
       }
     }
     if (next !== null) {
+      if (scene.sceneId === MORNING.scenes[6] && scene.cursor === 0) { const read = MORNING.grants[5]; if (!read) return blocked('morning-mail-read'); recordMorningGrant(state, read); }
       scene.cursor = next;
       scene.awaiting = clone(script.stages?.[next]?.awaiting ?? { kind: 'advance' });
     }
     else {
       const revision = state.revision + 1; const day = state.town.day;
       state.progress.seenScenes[scene.sceneId] = { sceneId: scene.sceneId, count: 1, firstRevision: revision, lastRevision: revision, firstDay: day, lastDay: day };
+      const morning = morningIndex(scene.sceneId);
+      if (morning >= 0) {
+        const positions = morning < 2 ? [morning] : morning === 4 ? [2, 3] : morning === 5 ? [4] : morning === 6 ? [6] : [];
+        for (const position of positions) { const id = MORNING.grants[position]; if (!id) return blocked('morning-receipt'); recordMorningGrant(state, id); }
+        state.progress.native.scenarios.MAIN = { chapter: 3, step: morning === 0 ? 2 : morning === 1 ? 3 : morning === 2 ? 4 : morning >= 5 ? 5 : 4 };
+        if (morning === 2) placeAtBase(state);
+        const nextId = MORNING.scenes[morning + 1];
+        if (nextId) { const nextScript = authored.scenes.find(row => row.id === nextId); if (!nextScript) return blocked('morning-scene'); requestScene(context, authored, nextScript); }
+        else { state.pendingScene = null; state.mode = 'town'; }
+        return { kind: 'changed', resumeDungeon: false };
+      }
       if (scene.sceneId === O.rescueScene) {
         settleExpedition(context, 'success', catalogs);
         const next = authored.scenes.find(row => row.id === O.returnScene); if (!next) return blocked('reunion-scene');
@@ -142,3 +157,15 @@ export function scenePrompt(state, authored) {
   return { text: scene.sceneId === TEAM.celebration && scene.cursor === 0 ? `Team ${state.profile.teamName}! ${text}` : text,
     awaiting: scene.awaiting, options: script.stages?.[scene.cursor]?.options ?? [] };
 }
+
+/** @param {import('../../../content/authored/opening.js').AuthoredOpening} authored
+ * @returns {import('../turns/types.js').CommandHandler} */
+export function morningHandler(authored) { return {
+  plan(state) { return state.mode === 'town' && !state.pendingScene && state.progress.storyNodeId === TEAM.foundedStory && state.progress.seenScenes[TEAM.celebration]?.count === 1 ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }; },
+  apply(context) {
+    const script = authored.scenes.find(row => row.id === MORNING.scenes[0]); if (!script) return blocked('morning-scene');
+    context.state.progress.storyNodeId = MORNING.story; context.state.progress.native.scenarios.MAIN = { chapter: 3, step: 1 };
+    context.state.town.day = 1; placeInside(context.state); requestScene(context, authored, script);
+    return { kind: 'changed', resumeDungeon: false };
+  },
+}; }

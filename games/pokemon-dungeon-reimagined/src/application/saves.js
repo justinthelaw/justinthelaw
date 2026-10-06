@@ -14,7 +14,9 @@ export function createSaves(options) {
     bind(snapshot) { const created = createAdventure({ initial: snapshot, content: gameplay.content, handlers: gameplay.handlers, turns: gameplay.turns }); if (!created.ok) throw new Error(created.message); return created.adventure; },
     pause: options.pause,
   });
-  let disposed = false; let memory = false;
+  let disposed = false; let memory = false; let tutorialSaving = false;
+  /** Exact session export receipt; never represents durable browser storage.
+   * @type {{snapshot:Snapshot,epoch:symbol}|null} */ let tutorialSession = null;
   /** @type {Set<ReplacementRequest>} */ const previews = new Set();
   function cancelPreviews() { for (const token of previews) service.cancelReplacement(token); previews.clear(); }
   /** @param {()=>Promise<void>} action */
@@ -94,6 +96,34 @@ export function createSaves(options) {
     options.busy(false);
   }
   return { service, menu, load, cancelPreviews,
+    /** @param {Snapshot} snapshot */
+    tutorialSaved(snapshot) { return service.getBinding().instance?.getSnapshot() === snapshot && (service.isCurrentRevisionSaved() || tutorialSession?.snapshot === snapshot && tutorialSession.epoch === service.getBinding().adventureEpoch); },
+    /** Called only by the owning bed panel. Success cannot dispatch until the
+     * operation has settled and input ownership has been restored.
+     * @param {Snapshot} snapshot @param {()=>void} complete */
+    saveTutorial(snapshot, complete) {
+      if (disposed || tutorialSaving || service.getBinding().instance?.getSnapshot() !== snapshot) return;
+      const epoch = service.getBinding().adventureEpoch;
+      const current = () => !disposed && service.getBinding().adventureEpoch === epoch && service.getBinding().instance?.getSnapshot() === snapshot;
+      tutorialSaving = true; options.busy(true); cancelPreviews();
+      void (async () => {
+        if (memory) {
+          const outcome = await service.exportSave();
+          if (!current()) return false;
+          if (!outcome.result.ok) { view.notify(outcome.result.message); return false; }
+          const url = URL.createObjectURL(new Blob([outcome.result.value.text], { type: 'application/json' }));
+          const link = document.createElement('a'); link.href = url; link.download = 'pokemon-dungeon-save.json'; link.click(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+          tutorialSession = { snapshot, epoch };
+          view.notify('Memory-only tutorial checkpoint prepared for download. This browser has not saved it. Keep the file; later progress needs a new export.');
+          return true;
+        }
+        const outcome = await service.save();
+        if (!current()) return false;
+        if (!outcome.result.ok || !service.isCurrentRevisionSaved()) { view.notify(outcome.result.ok ? 'The tutorial checkpoint is stale. Save again.' : outcome.result.message); return false; }
+        view.notify('Bed checkpoint saved in this browser.'); return true;
+      })().then(saved => { tutorialSaving = false; if (!disposed) options.busy(false); if (saved && current()) complete(); }).catch(error => { tutorialSaving = false; if (!disposed) { options.busy(false); view.notify(error instanceof Error ? error.message : 'Tutorial checkpoint failed.'); } });
+    },
+    isMemoryOnly: () => memory,
     /** @param {Snapshot} snapshot @param {'durable'|'memory'} storageMode */
     newCampaign(snapshot, storageMode) { run(async () => prepared(await service.prepareNewGame(snapshot, storageMode))); },
     autosave() { void save(true).catch(error => { if (!disposed) view.notify(error instanceof Error ? error.message : 'Autosave failed.'); }); },

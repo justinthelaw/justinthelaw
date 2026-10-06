@@ -59,7 +59,7 @@ export function withGameplayPolicies(authored, opening) { return { ...opening,
 /** Exhaustive team formation histories and once-only receipt boundaries.
  * @param {import('../../src/contracts/campaign.js').CampaignSnapshot} state
  * @param {import('../authored/opening.js').AuthoredOpening} authored */
-function formationProgress(state, authored) {
+export function formationProgress(state, authored) {
   const r = diagnostics(), p = state.progress, scene = state.pendingScene;
   const founded = p.storyNodeId === TEAM.foundedStory;
   const expectedNative = { ...INITIAL_NATIVE_PROGRESS, scenarios: { ...INITIAL_NATIVE_PROGRESS.scenarios, MAIN: founded ? { chapter: 3, step: 0 } : INITIAL_NATIVE_PROGRESS.scenarios.MAIN } };

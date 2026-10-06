@@ -1,13 +1,14 @@
 import { canMeleeAttack } from '../navigation/geometry.js';
 import { movementPlan } from './movement.js';
 import { admission, enterOpening } from './expedition.js';
-import { sceneHandler, nameHandler } from './scenes.js';
+import { sceneHandler, nameHandler, morningHandler } from './scenes.js';
 import { supportedMove } from './combat.js';
 import { facing, navActor, navigationContext, FACINGS } from './support.js';
 
 /** @param {import('./support.js').Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} authored
+ * @param {(snapshot:import('../../contracts/campaign.js').CampaignSnapshot)=>boolean} tutorialSaved
  * @returns {import('../turns/types.js').CommandHandlers} */
-export function createCommandHandlers(catalogs, authored) {
+export function createCommandHandlers(catalogs, authored, tutorialSaved) {
   /** @type {import('../turns/types.js').CommandHandler} */ const dungeonAction = { plan(state, intent) {
     const session = state.session; const leader = session?.actors[session.leaderActorId];
     if (!session || state.mode !== 'dungeon' || session.scheduler.kind !== 'ready' || leader?.placement.kind !== 'map') return { kind: 'rejected', reason: 'unavailable' };
@@ -44,7 +45,7 @@ export function createCommandHandlers(catalogs, authored) {
     }
     return { kind: 'rejected', reason: 'invalid-command' };
   } };
-  return { submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs), move: dungeonAction, wait: dungeonAction, attack: dungeonAction, useMove: dungeonAction, useItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
+  return { beginMorning: morningHandler(authored), submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs, tutorialSaved), move: dungeonAction, wait: dungeonAction, attack: dungeonAction, useMove: dungeonAction, useItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
     presentation: { plan: () => ({ kind: 'presentation' }) },
     advance: { plan: state => state.mode === 'dungeon' && state.session?.scheduler.kind === 'ready' ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }, apply: () => ({ kind: 'changed', resumeDungeon: true }) },
     enterDungeon: { plan(state, intent) { if (intent.type !== 'enterDungeon' || intent.dungeonId !== 'tiny-woods') return { kind: 'content-blocked', requirement: 'dungeon-entry-not-supported' }; const reason = admission(catalogs, state); return reason ? { kind: 'content-blocked', requirement: reason } : { kind: 'mutation' }; }, apply(context) { enterOpening(context, catalogs, authored); return { kind: 'changed', resumeDungeon: true }; } },

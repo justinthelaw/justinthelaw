@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "98a37cf",
+  "scope": "Shared factual and policy source pins for held-v2 and v3-team admission; no runtime execution or gameplay acceptance.",
+  "modules": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/identities.js",
+      "sha256": "cd529e869f7d151697edf1ff3813e7cd9ca5bb68d500e406cf3f0177f5606d71"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/profile.js",
+      "sha256": "3eea881ddf45a70f04fa2dd0064520984b4dbacf0c1e73eb40b7ecbe4ff6c29e"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/pokemon.js",
+      "sha256": "4097360ed79843d8b6ca2ef1320c38606430999724f81a05f0d4d97c3c492c6d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/pokemon-rules.js",
+      "sha256": "4b17cd3eef64cf87a8c3d6e212c33effe456b691885c278cde0311d2f74c66e3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/starters.js",
+      "sha256": "57d2180d02bab588c6b30da52ec160e9f73a77902f0632e9b5bd7dd9fe76b6d2"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/initial.js",
+      "sha256": "363ac8722cb238bdc78b670656f42efab4057ae038ebfba8bc1dfec29bcf60ec"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/items.js",
+      "sha256": "667e75249b4446477ece36f4d21633f1d1b781ba242f922323d7469cb3f5c28a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/economy.js",
+      "sha256": "03ec43a6eb901ac7ade36a73c505d52e72243d8e19f2df590d128687dc4c76e7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/options.js",
+      "sha256": "8f85c1bb720b4656ebc25f45b6372e12da6ba8d38411fa59df51b77effd3bd4c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/expedition.js",
+      "sha256": "b44eb7cfa2b94cee9a789ea91304d89ebc1700c5e5b01f0210d9039b6528e73f"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/held-v2-campaign.js",
+      "sha256": "d0d13504767feb2b31376419ac7ad3290187817312692d30ecdd858bcfbabdcd"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/held-v2-opening-policies.js",
+      "sha256": "9fbfc8e0b8185770a31f3d128753bf6af4cc97f12a9cdeb0290b5c64cc0ba278"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/held-v2-gameplay.js",
+      "sha256": "d8c2c8b236442b18af7953e2b6cf025b5cfae9d5d8fb6cdd2f5b507117e4335d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/team-formation.js",
+      "sha256": "5b192ec8bee5825796fb22d3a533c4b5325fdcd38d363b01ef5e6a16681a90a4"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/held-v2-opening.js",
+      "sha256": "09a5381603d87705e38a2909063d462294abfd95854e4b94d00bbc6b0ee7b084"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/expedition.js",
+      "sha256": "ac88110f283ed4f3d219de7f9605c469dc80cefa6938e31162c8b797c9e003d0"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/campaign-integrity.js",
+      "sha256": "bc99edacc9be5d5b378606f3af8f087d159a3c3ae9233a5dd6751455dd5530dc"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/dungeons-integrity.js",
+      "sha256": "2a3201cf89910f69ece41a433e149d8d7aa8f9fe04aeef607f439b6ac224387b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/effects-integrity.js",
+      "sha256": "02cf98cb2e73169ecdd016d7f6a794232adcce0d190db1399f45dda84b58a447"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/navigation-integrity.js",
+      "sha256": "f1cc18f8c1889f81efb435278cc6eb8bd537bbec6d4391b1fca38b1d000e3e64"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species.js",
+      "sha256": "e9a60a773248fcee136d6e1289677f8a0962403d199ff2dc05dc4c53885ec462"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/onboarding.js",
+      "sha256": "eb46560906a8e6f37919b4ce8494e2899cfe5778c4a45eb463f6ab9d144753cd"
+    }
+  ],
+  "functionBodies": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createTeamOpeningContent",
+      "sha256": "fc198f90c00cee4830d24cfa08bef4113c6f3a30fb02384f63e4b9be8299b1f5"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createInitialNativeProgress",
+      "sha256": "f99c27b6578b24798b7475c34e2c245374e4750de2badc246bb0d07b8700ba6e"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/gameplay.js",
+      "functionName": "withGameplayPolicies",
+      "sha256": "f264a67f060bd48b7e9bcea271e22448df9a05bdd893ef6968cc226a1da01538"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/gameplay.js",
+      "functionName": "formationProgress",
+      "sha256": "2d3e7487aece78c163731fbde9221da1ab8692425c8dfcfb9ef6a005a1777010"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/gameplay.js",
+      "functionName": "formationScene",
+      "sha256": "2ba0edf8ada80a72077afd0589a3a97dfff93a709c4bce9740878f33e54effaa"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/opening-policies.js",
+      "functionName": "createOpeningPolicies",
+      "sha256": "23d83df0cc8e66256e4cfa23e1256379867c65c360b7df7a12717c9dab3d503a"
+    }
+  ],
+  "catalogManifests": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/manifest.json",
+      "sha256": "947d052df0e8b6a6715b1d1039dd8b1cb425f974fa934b45363cecefaf0997dd"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/onboarding/manifest.json",
+      "sha256": "923f411ea7427579335db655885ec792ea30bbb7528c04242d980c99d34afa68"
+    }
+  ]
+}

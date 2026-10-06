@@ -10,12 +10,13 @@ import { supportedMove } from './combat.js';
 
 /** Compose actual canonical content, commands and fifteen turn hooks. The caller
  * retains catalog lifetime and creates Adventure; no secondary state store exists.
- * @param {import('./support.js').Catalogs} catalogs */
-export function createGameplay(catalogs) {
+ * @param {import('./support.js').Catalogs} catalogs
+ * @param {{tutorialSaved?:(snapshot:import('../../contracts/campaign.js').CampaignSnapshot)=>boolean}} [options] */
+export function createGameplay(catalogs, options = {}) {
   const authored = freezeData(createOpeningContent());
   const content = createCampaignContent(catalogs, authored);
   return Object.freeze({ content, authored,
-    handlers: createCommandHandlers(catalogs, authored), turns: createTurnHooks(catalogs, authored),
+    handlers: createCommandHandlers(catalogs, authored, options.tutorialSaved ?? (() => false)), turns: createTurnHooks(catalogs, authored),
     getScenePrompt: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => scenePrompt(snapshot, authored),
     getSceneText: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => sceneText(snapshot, authored),
     getDungeonChoices: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => Object.freeze([{ dungeonId: 'tiny-woods', name: 'Tiny Woods', requirement: admission(catalogs, snapshot) }]),

@@ -4,20 +4,30 @@
     "originalPath": "games/pokemon-dungeon-reimagined/assets/environment/production/manifest.json",
     "sha256": "9da1ab8f1098db484fcc60449d1211cc24db67aacc00722f94278062c6de7c6c",
     "archivePath": "art/environment/production/evidence/pre-team-formation-manifest.json",
-    "allowedAddition": {
-      "kitId": "town",
-      "propId": "mailbox"
-    },
-    "acceptance": "historical-captures-only-new-mailbox-unaccepted"
+    "allowedAdditions": [
+      {
+        "kitId": "town",
+        "propId": "mailbox"
+      },
+      {
+        "kitId": "town",
+        "propId": "rescue-bed"
+      },
+      {
+        "kitId": "town",
+        "propId": "interior-window"
+      }
+    ],
+    "acceptance": "historical-captures-only-new-base-props-unaccepted"
   },
   "sources": [
     {
       "path": "art/environment/production/geometry.mjs",
-      "sha256": "1070f57fbe7be7105a62996cf24ed98e6ed9c287b103d9d4feb8dc3f598ee842"
+      "sha256": "449825c338179197bb0e7d235eaa2c454244cfbf033c77b48397979af181545b"
     },
     {
       "path": "art/environment/production/kits.mjs",
-      "sha256": "02bc7b73fc640fbe95b4bf480beede9d4a636a4632585009fceba05276d1a347"
+      "sha256": "72561ec8603cb6e4dbe2ad1aea5ac7914bcf6fad5bf686f0a4e86295db76ad19"
     },
     {
       "path": "art/environment/production/textures.mjs",
@@ -29,7 +39,7 @@
     },
     {
       "path": "scripts/export-environments.mjs",
-      "sha256": "72980689c78ea8fc16354a0dfb81a7e617564ab5913d46ff2c85725308b00238"
+      "sha256": "dce4130735fedcd6f02c6cab4a38b99c4da3dc4e3369bcf678d678adb7b07b02"
     },
     {
       "path": "art/pixel/raster.mjs",
@@ -56,8 +66,8 @@
   ],
   "runtimeManifest": {
     "path": "games/pokemon-dungeon-reimagined/assets/environment/production/manifest.json",
-    "sha256": "7ff17abddb393b4e104692901c8b7030efca2bf8da57a35e93b7478b3465530a",
-    "encodedBytes": 494478
+    "sha256": "450d404430cfaebcb7755cabc5c60dc0f6b1ac58b7b56d330b5632944c14fe79",
+    "encodedBytes": 498556
   },
   "scope": {
     "kits": 12,
@@ -66,7 +76,7 @@
     "friendAreas": 57,
     "locations": 86,
     "textures": 41,
-    "uniqueProps": 41
+    "uniqueProps": 43
   },
   "sceneStagingComplete": false
 }

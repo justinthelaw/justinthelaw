@@ -55,3 +55,14 @@ No new browser capture or runtime play occurred. The mailbox and original base
 courtyard/shelter staging remain candidate-unaccepted. Existing shared outdoor
 lighting and the unchanged renderer API are used; all species-specific native
 base appearances, interiors and later morning events remain unimplemented.
+
+## First morning extension - static evidence only
+
+The current town kit also contains an original five-part bed and four-part
+interior window, bringing the vocabulary to 43 props. Original open-roof base
+interior staging uses the existing textures/materials/lighting. The checker
+allows only the three declared base additions against the unchanged historical
+archive, and preserves capture/source/texture/budget checks. The 34 historical
+captures do not show these additions. No browser boot, new capture, gameplay
+execution or visual acceptance occurred. Species-specific native base layouts
+and later location staging remain open.

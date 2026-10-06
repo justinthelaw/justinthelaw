@@ -80,6 +80,8 @@ export const propLibrary = {
   'floating-island': [cone([3.2, 3.5, 3.0], [0, 0, 0], 'wall', [Math.PI, .2, 0], 7), cylinder([3.25, .25, 3.05], [0, 1.85, 0], 'floor', undefined, 7)],
   'coral-fan': coral(), 'reed-bed': reeds(), 'shell-cluster': [ball([.7, .3, .5], [0, .16, 0], 'trim', [0, .3, 0], 5), ball([.4, .22, .35], [.5, .1, .3], 'accent', [0, 1.1, 0], 5)],
   'waterfall-rock': [...boulder(), box([1.35, 2.4, 1.2], [0, 1.2, -.35], 'wall'), box([.75, 2.1, .12], [0, 1.4, .3], 'water'), ball([1.3, .15, .8], [0, .12, .6], 'trim')],
+  'rescue-bed': [box([1.5, .25, 2], [0, .2, 0], 'bark'), box([1.4, .28, 1.9], [0, .46, 0], 'trim'), box([1.25, .18, .42], [0, .68, -.65], 'plaster'), box([1.4, .12, 1.1], [0, .64, .28], 'leaf'), box([1.5, .7, .12], [0, .53, -1], 'bark')],
+  'interior-window': [box([1.45, 1.1, .12], [0, 1.1, 0], 'bark'), box([1.2, .85, .16], [0, 1.1, .08], 'window'), box([.07, .9, .2], [0, 1.1, .17], 'bark'), box([1.2, .07, .2], [0, 1.1, .17], 'bark')],
   // Original letter box: post, raised housing, pitched cap, dark slot and flag.
   'mailbox': [box([.18, 1.25, .18], [0, .625, 0], 'bark'), box([.78, .55, .65], [0, 1.45, 0], 'trim'), cone([1.1, .4, .95], [0, 1.91, 0], 'roof', [0, Math.PI / 4, 0], 4), box([.48, .07, .035], [0, 1.48, .345], 'bark'), box([.04, .55, .04], [.45, 1.55, 0], 'bark'), box([.24, .15, .04], [.55, 1.8, 0], 'accent')],
   'cottage': cottage(), 'timber-gate': gate(),

@@ -97,3 +97,12 @@ the archive against that historical association, checks every other captured
 source unchanged, and admits only the declared town mailbox addition relative
 to the archived manifest. Current artifact/source hashes remain mandatory.
 Historical captures do not accept the new mailbox or base composition.
+
+## First morning interior extension
+
+The town kit adds `rescue-bed` (five parts) and `interior-window` (four parts),
+using existing local materials. The vocabulary is now 43 props. The original
+open-roof browser interior is authored separately from native map geometry.
+The historical archive/captures remain unchanged; the checker permits only the
+three declared base additions and no other historical manifest difference.
+No new visual or gameplay acceptance follows from static validation.

@@ -43,7 +43,7 @@ export class ActorLayer {
                 const shadow = new Mesh(shadowGeometry, new MeshBasicMaterial({ color: '#161b24', transparent: true, opacity: .28, depthWrite: false }));
                 shadow.position.y = .012;
                 root.add(shadow);
-                root.position.set(view.x * 2, 0, view.z * 2);
+                root.position.set(view.x * 2, view.elevation ?? 0, view.z * 2);
                 this.root.add(root);
                 actor = { view, root, mesh, shadow, lease: null, key: '', generation: 0, clock: 0, target: root.position.clone(), clip: null, pending: null };
                 this.actors.set(view.actorId, actor);
@@ -52,7 +52,7 @@ export class ActorLayer {
                 actor.clock = 0;
             actor.view = view;
             actor.clip = clip;
-            actor.target.set(view.x * 2, 0, view.z * 2);
+            actor.target.set(view.x * 2, view.elevation ?? 0, view.z * 2);
             actor.mesh.scale.setScalar(character.worldHeight);
             actor.mesh.material.color.set(view.tint);
             if (actor.root.position.distanceToSquared(actor.target) > 16)

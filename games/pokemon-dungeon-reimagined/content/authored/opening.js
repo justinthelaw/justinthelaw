@@ -1,3 +1,4 @@
+import { createMorningScenes } from './first-morning.js';
 import { createTeamScenes, baseContinuation } from './team-formation.js';
 import { freezeData } from '../../src/domain/state/validate.js';
 
@@ -11,7 +12,7 @@ import { freezeData } from '../../src/domain/state/validate.js';
 
 /** Return a detached, typed authoring definition; the adapter snapshots it.
  * @returns {AuthoredOpening} */
-export function createOpeningContent() {
+export function createTeamOpeningContent() {
   const map = /** @type {import('../../src/contracts/campaign.js').MapDefinitionId} */ ('browser-opening-meadow');
   const scene = /** @type {import('../../src/contracts.js').SceneId} */ ('browser-opening-awakening');
   return {
@@ -33,6 +34,13 @@ export function createOpeningContent() {
     { id: /** @type {import('../../src/contracts.js').SceneId} */ ('browser-caterpie-clearing'), lines: ['In a quiet clearing, a small Caterpie calls out. Your companion answers, and you guide him toward the path home.', 'Caterpie stays close as you lead him safely out of the woods.'], continuation: { kind: 'town', destination: { kind: 'town', mapDefinitionId: map, entryId: 'rescue-return' } } },
     { id: /** @type {import('../../src/contracts.js').SceneId} */ ('browser-butterfree-reunion'), lines: ['Butterfree gathers Caterpie close. Relief gives way to a warm smile. She offers three berries in thanks: Oran, Pecha, and Rawst.', 'Your companion suggests a place to rest, and a new idea: a rescue team. There are others who could use your help.'], continuation: baseContinuation() }, ...createTeamScenes()],
   };
+}
+
+/** Append-only successor; the v3 team definition above is frozen in scope.
+ * @returns {AuthoredOpening} */
+export function createOpeningContent() {
+  const prior = createTeamOpeningContent();
+  return { ...prior, revision: 'browser-opening-v4-morning', scenes: [...prior.scenes, ...createMorningScenes()] };
 }
 
 /** Native new-game reset, before scene-driven scenario assignments. Pinned
