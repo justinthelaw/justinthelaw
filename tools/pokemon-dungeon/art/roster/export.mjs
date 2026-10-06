@@ -7,7 +7,7 @@ import { characters } from './characters.mjs';
 import { render } from './characters.mjs';
 const root=new URL('./',import.meta.url),check=process.argv.includes('--check'),materialize=process.argv.includes('--materialize'),sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 if(check&&materialize)throw Error('Choose --check or --materialize, not both');
-const sourcePaths=['characters.mjs','campaign.mjs','refinements.mjs','anatomy.mjs','forms.mjs','rig.mjs','records-kanto.mjs','records-johto.mjs','records-hoenn.mjs','export.mjs','../production/manifest.json','../production/characters.mjs','../production/painter.mjs','../production/pose.mjs','../pixel/raster.mjs'];
+const sourcePaths=['characters.mjs','campaign.mjs','refinements.mjs','opening.mjs','anatomy.mjs','forms.mjs','rig.mjs','records-kanto.mjs','records-johto.mjs','records-hoenn.mjs','export.mjs','../production/manifest.json','../production/characters.mjs','../production/painter.mjs','../production/pose.mjs','../pixel/raster.mjs'];
 const starterManifest=JSON.parse(await readFile(new URL('../production/manifest.json',root),'utf8'));
 sourcePaths.push(...starterManifest.provenance.sourceFiles.filter(s=>s.path.startsWith('species/')).map(s=>'../production/'+s.path));
 const sources=await Promise.all(sourcePaths.map(async path=>({path,sha256:sha(await readFile(new URL(path,root)))})));

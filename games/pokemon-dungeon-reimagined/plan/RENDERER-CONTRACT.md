@@ -1,8 +1,9 @@
 # Production presentation boundary (P10)
 
 This package implements the production rendering boundary and provisionally
-integrates the 16 reviewed starter species' 192 original clip pages. It does
-not activate a campaign, certify device performance, complete the full roster,
+integrates all419 canonical profiles'5,028 original candidate clip pages,
+preserving the16 reviewed starters'192 PNG byte sequences. It does
+not activate a campaign, certify device performance, accept the full roster art,
 or replace later campaign, biome, camera and character visual acceptance.
 
 ## Immutable projection
@@ -83,13 +84,15 @@ no simulation snapshot is reconstructed or mutated. Failures report onError.
 
 ## Character pages and bounded ownership
 
-Runtime export copies the original reviewed production PNGs byte-for-byte;
-it never imports the rejected models or re-rasterizes generic bodies. The
-compact manifest contains clip timing, exact identities/scales, page paths,
-encoded sizes, SHA-256 and decoded sizes. A generated local integrity module
-pins the exact manifest bytes. Static verification compares manifest/schema,
-integrity pin, original PNG bytes, SHA, dimensions, local paths and file closure.
-Authoring sources/previews remain outside the game tree.
+Runtime export packages exact source PNG bytes into78 bundles capped at900KiB;
+it never imports rejected models or re-rasterizes art in the browser. The pinned
+root manifest contains clip timing and exact species/form identities/scales, with
+27 lazy page-metadata shards. Bundles and extracted PNGs each have hash/length
+checks. A shard owns complete nonoverlapping bundle ranges. Static verification
+joins canonical forms, source bytes, dimensions, safe paths and exact file closure.
+Authoring sources/previews remain outside the game tree. Format, internal caller
+APIs and compressed/transient budgets are detailed in
+[RUNTIME-PIXELS.md](RUNTIME-PIXELS.md).
 
 Each 384x768 page is 1,179,648 decoded RGBA bytes. ClipPageCache reserves before
 fetch/decode and never exceeds 25,165,824 bytes: at most 21 pages, 23.625 MiB.
@@ -155,6 +158,6 @@ schema/hash/copy checks and source review. No automated test or capture imports
 or executes game source. Existing starter captures execute authoring tools only
 and are not production renderer evidence. Runtime camera, context restoration,
 repeated transitions, rapid cancellation, mobile frame budgets, and actual
-campaign animation/composition acceptance remain unmeasured. Full roster,
-non-starter forms, rich pickup UI, encounter staging and campaign binding are
+campaign animation/composition acceptance remain unmeasured. Full-roster visual
+acceptance, rich pickup UI, encounter staging and campaign binding are
 separate package work, not silently substituted by this renderer.

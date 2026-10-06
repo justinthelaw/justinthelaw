@@ -1,100 +1,42 @@
 import { Texture, NearestFilter, SRGBColorSpace } from '../../vendor/three/three.module.min.js';
-import { PIXEL_MANIFEST_SHA256 } from '../../assets/characters/pixel/integrity.js';
-/** @typedef {import('../presentation/types.js').ClipId} ClipId */
-/** @typedef {{speciesId:string,assetId:string,clip:ClipId,path:string,sha256:string,encodedBytes:number,decodedRgbaBytes:number}} Page */
-/** @typedef {{id:ClipId,durationsMs:number[],loop:boolean}} Clip */
-/** @typedef {{schemaVersion:number,profile:string,review:string,sourceIndexSha256:string,cell:{width:number,height:number,footAnchor:number[]},page:{width:number,height:number},characters:{speciesId:string,formId:null,worldHeight:number}[],clips:Clip[],pages:Page[]}} Manifest */
+import { sha256 } from './asset-io.js';
+import { PAGE_BYTES, PAGE_BUDGET, MAX_PNG_BYTES, MAX_SHARD_BYTES, MAX_BUNDLE_BYTES, identityKey, loadPixelShard, readArtResource } from './pixel-catalog.js';
+import { ArtResourcePool, withArtLease } from './art-resources.js';
+export { readLocalBytes, sha256 } from './asset-io.js';
+export { PAGE_BYTES, PAGE_BUDGET, loadPixelManifest } from './pixel-catalog.js';
+/** @typedef {import('./pixel-catalog.js').Manifest} Manifest */
+/** @typedef {import('./pixel-catalog.js').Character} Character */
+/** @typedef {import('./pixel-catalog.js').Clip} Clip */
+/** @typedef {import('./pixel-catalog.js').Page} Page */
 /** @typedef {{texture:Texture,bitmap:ImageBitmap}} LoadedPage */
-/** @typedef {{page:Page,refs:number,controller:AbortController,promise:Promise<LoadedPage>,loaded:LoadedPage|null,settled:boolean}} Entry */
+/** @typedef {{character:Character,clip:Clip,refs:number,controller:AbortController,promise:Promise<LoadedPage>,loaded:LoadedPage|null,settled:boolean}} Entry */
 /** @typedef {{promise:Promise<LoadedPage>,release:()=>void}} PageLease */
-export const PAGE_BYTES = 1179648;
-export const PAGE_BUDGET = 24 * 1024 * 1024;
-const base = new URL('../../assets/characters/pixel/', import.meta.url);
-const clipNames = ['idle', 'walk', 'turn', 'attack-physical', 'attack-special', 'cast-status', 'hit-light', 'hit-heavy', 'defeat', 'celebrate', 'rest-sleep', 'interact'];
-/** Bounded stream reads before allocation/JSON/decode. @param {URL} url @param {number} limit @param {AbortSignal} signal */
-export async function readLocalBytes(url, limit, signal) {
-    if (url.origin !== base.origin || !url.pathname.startsWith(new URL('../../', import.meta.url).pathname))
-        throw new Error('Art URL leaves the local game.');
-    const response = await fetch(url, { signal, redirect: 'error', cache: 'no-cache' });
-    if (!response.ok)
-        throw new Error(`Art fetch failed (${response.status}).`);
-    const reader = response.body?.getReader();
-    if (!reader)
-        throw new Error('Art response is empty.');
-    let length = 0;
-    const chunks = [];
-    try {
-        for (;;) {
-            const value = await reader.read();
-            if (value.done)
-                break;
-            length += value.value.byteLength;
-            if (length > limit)
-                throw new Error('Art response exceeds declared budget.');
-            chunks.push(value.value);
-        }
-    }
-    finally {
-        await reader.cancel();
-        reader.releaseLock();
-    }
-    const bytes = new Uint8Array(length);
-    let offset = 0;
-    for (const chunk of chunks) {
-        bytes.set(chunk, offset);
-        offset += chunk.byteLength;
-    }
-    return bytes;
-}
-/** @param {Uint8Array<ArrayBuffer>} bytes */
-export async function sha256(bytes) { return [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(value => value.toString(16).padStart(2, '0')).join(''); }
-/** @param {AbortSignal} signal @returns {Promise<Manifest>} */
-export async function loadPixelManifest(signal) {
-    const manifestBytes = await readLocalBytes(new URL('manifest.json', base), 262144, signal);
-    if (await sha256(manifestBytes) !== PIXEL_MANIFEST_SHA256) throw new Error('Pixel manifest integrity failed.');
-    /** @type {Manifest} */ const manifest = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(manifestBytes));
-    if (manifest.schemaVersion !== 1 || manifest.profile !== 'directional-pixel-clip-v2' || manifest.review !== 'starter-provisional-integration' || !/^[a-f0-9]{64}$/.test(manifest.sourceIndexSha256) || manifest.cell?.width !== 96 || manifest.cell.height !== 96 || String(manifest.cell.footAnchor) !== '48,92' || manifest.page?.width !== 384 || manifest.page.height !== 768 || !Array.isArray(manifest.pages) || !Array.isArray(manifest.characters) || !Array.isArray(manifest.clips) || manifest.pages.length > 8192 || manifest.clips.length !== 12)
-        throw new Error('Pixel manifest does not match the reviewed contract.');
-    const clips = new Set(), keys = new Set(), paths = new Set(), species = new Set();
-    for (const clip of manifest.clips) {
-        if (!clipNames.includes(clip.id) || clips.has(clip.id) || typeof clip.loop !== 'boolean' || clip.durationsMs.length !== 4 || clip.durationsMs.some(ms => !Number.isSafeInteger(ms) || ms < 1 || ms > 5000))
-            throw new Error('Invalid clip timing.');
-        clips.add(clip.id);
-    }
-    for (const character of manifest.characters) {
-        if (!/^pokemon-\d{3}$/.test(character.speciesId) || character.formId !== null || species.has(character.speciesId) || !Number.isFinite(character.worldHeight) || character.worldHeight <= 0 || character.worldHeight > 16)
-            throw new Error('Invalid character identity/scale.');
-        species.add(character.speciesId);
-    }
-    for (const page of manifest.pages) {
-        const key = `${page.speciesId}:${page.clip}`;
-        if (keys.has(key) || paths.has(page.path) || !species.has(page.speciesId) || !clips.has(page.clip) || page.assetId !== `character.${page.speciesId}.default.pixel-v2` || !/^[a-z0-9-]+\.png$/.test(page.path) || !/^[a-f0-9]{64}$/.test(page.sha256) || !Number.isSafeInteger(page.encodedBytes) || page.encodedBytes < 1 || page.encodedBytes >= 1048576 || page.decodedRgbaBytes !== PAGE_BYTES)
-            throw new Error('Invalid pixel page declaration.');
-        keys.add(key);
-        paths.add(page.path);
-    }
-    if (keys.size !== species.size * 12)
-        throw new Error('Incomplete declared clip coverage.');
-    return manifest;
-}
 /** Reference counted pages. Reservations persist until an aborted decode settles.
  * No idle-page cache, speculative roster preloads, hidden references or unbounded queue.
  */
 export class ClipPageCache {
     constructor() {
         /** @type {Map<string,Entry>} */ this.entries = new Map();
+        /** @type {Manifest|null} */ this.manifest = null;
+        /** @type {ArtResourcePool<import('./pixel-catalog.js').Shard>} */ this.metadata = new ArtResourcePool(MAX_SHARD_BYTES * 2, 21, 2, (definition, signal) => {
+            if (!this.manifest) throw new Error('Pixel directory is unavailable.');
+            return loadPixelShard(definition, this.manifest, signal);
+        });
+        /** @type {ArtResourcePool<Uint8Array<ArrayBuffer>>} */ this.bundles = new ArtResourcePool(MAX_BUNDLE_BYTES * 2, 21, 2, readArtResource);
         this.reservedBytes = 0;
         this.peakBytes = 0;
         this.disposedPages = 0;
         this.disposed = false;
     }
-    /** @param {Page} page @returns {PageLease} */
-    acquire(page) {
+    /** @param {Character} character @param {Clip} clip @param {Manifest} manifest @returns {PageLease} */
+    acquire(character, clip, manifest) {
         if (this.disposed)
             throw new Error('Pixel cache is disposed.');
-        const key = page.path;
+        if (this.manifest && this.manifest !== manifest) throw new Error('A pixel cache cannot mix catalog revisions.');
+        this.manifest = manifest;
+        const key = `${identityKey(character)}:${clip.id}`;
         let entry = this.entries.get(key);
-        if (entry && (entry.page.sha256 !== page.sha256 || entry.controller.signal.aborted))
+        if (entry && (entry.character.assetId !== character.assetId || entry.controller.signal.aborted))
             throw new Error('Pixel page is still cancelling; retry the presentation sync.');
         if (!entry) {
             if (this.reservedBytes + PAGE_BYTES > PAGE_BUDGET)
@@ -102,10 +44,10 @@ export class ClipPageCache {
             this.reservedBytes += PAGE_BYTES;
             this.peakBytes = Math.max(this.peakBytes, this.reservedBytes);
             const controller = new AbortController();
-            entry = { page, refs: 0, controller, promise: Promise.resolve(/** @type {LoadedPage} */ ({})), loaded: null, settled: false };
+            entry = { character, clip, refs: 0, controller, promise: Promise.resolve(/** @type {LoadedPage} */ ({})), loaded: null, settled: false };
             const owned = entry;
             this.entries.set(key, owned);
-            owned.promise = this.load(page, controller.signal).then(loaded => { owned.loaded = loaded; return loaded; }).finally(() => { owned.settled = true; if (owned.refs === 0 || this.disposed || !owned.loaded)
+            owned.promise = this.load(character, clip, manifest, controller.signal).then(loaded => { owned.loaded = loaded; return loaded; }).finally(() => { owned.settled = true; if (owned.refs === 0 || this.disposed || !owned.loaded)
                 this.evict(key, owned); });
         }
         entry.refs++;
@@ -118,9 +60,31 @@ export class ClipPageCache {
                     this.evict(key, owned);
             } } };
     }
-    /** @param {Page} page @param {AbortSignal} signal @returns {Promise<LoadedPage>} */
-    async load(page, signal) {
-        const bytes = await readLocalBytes(new URL(page.path, base), page.encodedBytes, signal);
+    /** Lazy metadata and bundle ownership ends before PNG hash/decode. Each
+     * extracted PNG has its own <=64KiB reservation within the 21 page slots.
+     * @param {Character} character @param {Clip} clip @param {Manifest} manifest @param {AbortSignal} signal */
+    async pngBytes(character, clip, manifest, signal) {
+        const definition = manifest.shards.find(shard => shard.id === character.shardId);
+        if (!definition) throw new Error('Missing exact character metadata.');
+        const metadata = this.metadata.acquire(definition);
+        /** @type {Page} */ let page;
+        try {
+            const shard = await withArtLease(metadata, signal);
+            const found = shard.pages.find(page => page.speciesId === character.speciesId && page.formId === character.formId && page.clip === clip.id);
+            if (!found) throw new Error('Missing exact species/form/clip page.');
+            page = { ...found };
+        } finally { metadata.release(); }
+        const bundle = manifest.bundles.find(bundle => bundle.id === page.bundleId);
+        if (!bundle) throw new Error('Missing declared PNG bundle.');
+        const lease = this.bundles.acquire(bundle);
+        try {
+            const packed = await withArtLease(lease, signal);
+            return { page, bytes: packed.slice(page.offset, page.offset + page.encodedBytes) };
+        } finally { lease.release(); }
+    }
+    /** @param {Character} character @param {Clip} clip @param {Manifest} manifest @param {AbortSignal} signal @returns {Promise<LoadedPage>} */
+    async load(character, clip, manifest, signal) {
+        const { page, bytes } = await this.pngBytes(character, clip, manifest, signal);
         if (bytes.length !== page.encodedBytes || await sha256(bytes) !== page.sha256)
             throw new Error(`Character art integrity failed: ${page.path}`);
         signal.throwIfAborted();
@@ -155,10 +119,10 @@ export class ClipPageCache {
         }
     }
     dispose() { if (this.disposed)
-        return; this.disposed = true; for (const [key, entry] of this.entries) {
+        return; this.disposed = true; this.metadata.dispose(); this.bundles.dispose(); for (const [key, entry] of this.entries) {
         entry.controller.abort();
         if (entry.settled)
             this.evict(key, entry);
     } }
-    get metrics() { return Object.freeze({ reservedBytes: this.reservedBytes, peakBytes: this.peakBytes, residentPages: [...this.entries.values()].filter(entry => entry.loaded).length, inflightPages: [...this.entries.values()].filter(entry => !entry.settled).length, disposedPages: this.disposedPages, limitBytes: PAGE_BUDGET }); }
+    get metrics() { return Object.freeze({ reservedBytes: this.reservedBytes, peakBytes: this.peakBytes, residentPages: [...this.entries.values()].filter(entry => entry.loaded).length, inflightPages: [...this.entries.values()].filter(entry => !entry.settled).length, disposedPages: this.disposedPages, limitBytes: PAGE_BUDGET, pngReservedBytes: this.entries.size * MAX_PNG_BYTES, transientBufferLimitBytes: 3 * (2 * MAX_BUNDLE_BYTES + 2 * MAX_SHARD_BYTES) + 2 * 21 * MAX_PNG_BYTES, metadata: this.metadata.metrics, bundles: this.bundles.metrics }); }
 }

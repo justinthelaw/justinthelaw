@@ -19,7 +19,7 @@ export class ActorLayer {
         if (this.disposed)
             return;
         for (const view of views) {
-            if (!manifest.characters.some(character => character.speciesId === view.speciesId && character.formId === view.formId) || !manifest.pages.some(page => page.speciesId === view.speciesId && page.clip === view.clip)) throw new Error(`No reviewed pixel art for ${view.speciesId}/${view.formId ?? 'default'}/${view.clip}.`);
+            if (!manifest.characters.some(character => character.speciesId === view.speciesId && character.formId === view.formId) || !manifest.clips.some(clip => clip.id === view.clip)) throw new Error(`No declared pixel art for ${view.speciesId}/${view.formId ?? 'default'}/${view.clip}.`);
         }
         const ids = new Set(views.map(view => view.actorId));
         for (const [id, actor] of this.actors)
@@ -28,9 +28,9 @@ export class ActorLayer {
         /** @type {Promise<void>[]} */ const pending = [];
         for (const view of views) {
             const character = manifest.characters.find(character => character.speciesId === view.speciesId && character.formId === view.formId);
-            const page = manifest.pages.find(page => page.speciesId === view.speciesId && page.clip === view.clip), clip = manifest.clips.find(clip => clip.id === view.clip);
-            if (!character || !page || !clip)
-                throw new Error(`No reviewed pixel art for ${view.speciesId}/${view.formId ?? 'default'}/${view.clip}.`);
+            const clip = manifest.clips.find(clip => clip.id === view.clip);
+            if (!character || !clip)
+                throw new Error(`No declared pixel art for ${view.speciesId}/${view.formId ?? 'default'}/${view.clip}.`);
             let actor = this.actors.get(view.actorId);
             if (!actor) {
                 const root = new Group(), geometry = new PlaneGeometry(1, 1);
@@ -57,7 +57,7 @@ export class ActorLayer {
             actor.mesh.material.color.set(view.tint);
             if (actor.root.position.distanceToSquared(actor.target) > 16)
                 actor.root.position.copy(actor.target);
-            const key = `${page.path}:${view.formId ?? 'default'}`;
+            const key = JSON.stringify([view.speciesId, view.formId, view.clip]);
             if (actor.key !== key) {
                 actor.generation++;
                 actor.lease?.release();
@@ -69,7 +69,7 @@ export class ActorLayer {
                 actor.mesh.material.needsUpdate = true;
                 const owned = actor, token = actor.generation;
                 try {
-                    const lease = this.cache.acquire(page);
+                    const lease = this.cache.acquire(character, clip, manifest);
                     actor.lease = lease;
                     actor.pending = lease.promise.then(({ texture }) => { if (this.disposed || owned.generation !== token || this.actors.get(view.actorId) !== owned)
                         return; owned.mesh.material.map = texture; owned.mesh.material.needsUpdate = true; owned.mesh.visible = true; owned.shadow.visible = true; }).catch(error => { if (!this.disposed && owned.generation === token && this.actors.get(view.actorId) === owned) {

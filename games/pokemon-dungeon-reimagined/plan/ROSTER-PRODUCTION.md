@@ -99,3 +99,14 @@ Capture serves only `tools/pokemon-dungeon/`; game routes and source are exclude
 Raster symmetry and intentional pose holds are reported separately from malformed
 cells so a symmetric organism is not forced to gain invented asymmetric details.
 Runtime promotion remains a separate reviewed adapter responsibility.
+
+## Provisional runtime adapter
+
+The whole-roster delivery adapter now exists; see
+[RUNTIME-PIXELS.md](RUNTIME-PIXELS.md). It preserves the192 starter PNG byte
+sequences, packages all5,028 pages into bounded hash-pinned local bundles, and
+loads only requested canonical species/form/clip pages. The art-only source
+manifest retains its candidate/runtimeIntegrated:false declaration; the separate
+runtime manifest explicitly declares provisional integration. Neither is visual
+acceptance. Dedicated opening refinements in `opening.mjs` correct Sunkern's
+limbless anatomy and improve the readability of Exeggcute's six shells.
