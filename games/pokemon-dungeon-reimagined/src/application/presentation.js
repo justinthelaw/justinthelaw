@@ -1,8 +1,44 @@
+import { TEAM } from '../../content/authored/team-formation.js';
 import { immutableRenderSnapshot, projectDungeon } from '../presentation/projection.js';
 /** @typedef {import('../contracts/campaign.js').CampaignSnapshot} Snapshot */
 /** @typedef {import('../presentation/types.js').ActorView} ActorView */
 /** @typedef {ReturnType<typeof import('../domain/gameplay/index.js').createGameplay>} Gameplay */
 const headings = { s: 0, se: Math.PI / 4, e: Math.PI / 2, ne: Math.PI * 3 / 4, n: Math.PI, nw: -Math.PI * 3 / 4, w: -Math.PI / 2, sw: -Math.PI / 4 };
+
+/** @param {Snapshot} snapshot @param {string} epoch
+ * @param {import('../../content/species.js').SpeciesCatalog} species
+ * @returns {ActorView[]} */
+function groundActors(snapshot, epoch, species) {
+  return snapshot.town.placements.flatMap(placement => {
+    if (placement.reference.kind !== 'pokemon') return [];
+    const pokemon = snapshot.roster[placement.reference.pokemonId]; if (!pokemon) return [];
+    const hp = pokemon.growth.naturalStats.hp + pokemon.growth.permanentStatBonuses.hp;
+    return [{ actorId: pokemon.pokemonId, ...pokemon.identity, name: pokemon.nickname || species.getSpecies(pokemon.identity.speciesId).name,
+      ...placement.position, heading: headings[placement.facing], role: pokemon.pokemonId === snapshot.profile.heroId ? 'hero' : 'partner', hp, maxHp: hp,
+      statuses: [], clip: 'idle', clipToken: `${epoch}:${pokemon.pokemonId}:idle`, tint: '#ffffff', bounds: { width: 1, height: 1 } }];
+  });
+}
+
+/** Explicit original base geometry and pair attention. No reunion NPC remains.
+ * Camera follow stays with the original hero; facing and supported clips carry
+ * attention without moving canonical placements or requiring animation timing.
+ * @param {Snapshot} snapshot @param {string} epoch
+ * @param {import('../../content/species.js').SpeciesCatalog} species */
+function teamBase(snapshot, epoch, species) {
+  const tiles = TEAM.ground.map(row => [...row].map(cell => cell === '#' ? /** @type {const} */ ('wall') : cell === '.' ? /** @type {const} */ ('floor') : /** @type {const} */ ('void')));
+  const mask = tiles.map(row => row.map(tile => tile !== 'void'));
+  const scene = snapshot.pendingScene;
+  const actors = groundActors(snapshot, epoch, species).map(actor => {
+    const mailbox = scene?.sceneId === TEAM.offer && scene.cursor === 1;
+    const partners = scene?.sceneId === TEAM.naming || scene?.sceneId === TEAM.offer && scene.cursor >= 3;
+    const heading = mailbox ? Math.atan2(8 - actor.x, 5 - actor.z) : partners ? actor.role === 'hero' ? Math.PI / 2 : -Math.PI / 2 : actor.heading;
+    const clip = scene?.sceneId === TEAM.celebration && scene.cursor === 0 ? /** @type {const} */ ('celebrate') : scene?.sceneId === TEAM.celebration && scene.cursor === 2 ? /** @type {const} */ ('rest-sleep') : actor.clip;
+    return { ...actor, heading, clip, clipToken: `${epoch}:${actor.actorId}:${scene?.sceneInstanceId ?? 'base'}:${scene?.cursor ?? 0}:${clip}` };
+  });
+  return immutableRenderSnapshot({ epoch, revision: snapshot.revision,
+    world: { worldId: `${epoch}:${TEAM.map}`, revision: snapshot.revision, width: TEAM.width, height: TEAM.height, biomeId: TEAM.kitId, tiles, visible: mask, explored: mask, exits: [], props: TEAM.props },
+    actors, pickups: [], events: [] });
+}
 
 /** Presentation-only meadow staging, from authored bounds/placements. NPC staging
  * is original composition and never writes town/session records.
@@ -12,14 +48,7 @@ function meadow(snapshot, gameplay, epoch, species) {
   const { width, height } = gameplay.authored;
   const tiles = Array.from({ length: height }, (_, z) => Array.from({ length: width }, (_, x) => x === 0 || z === 0 || x === width - 1 || z === height - 1 ? /** @type {const} */ ('wall') : /** @type {const} */ ('floor')));
   const mask = tiles.map(row => row.map(() => true));
-  /** @type {ActorView[]} */ const actors = snapshot.town.placements.flatMap(placement => {
-    if (placement.reference.kind !== 'pokemon') return [];
-    const pokemon = snapshot.roster[placement.reference.pokemonId]; if (!pokemon) return [];
-    const hp = pokemon.growth.naturalStats.hp + pokemon.growth.permanentStatBonuses.hp;
-    return [{ actorId: pokemon.pokemonId, ...pokemon.identity, name: pokemon.nickname || species.getSpecies(pokemon.identity.speciesId).name,
-      ...placement.position, heading: headings[placement.facing], role: pokemon.pokemonId === snapshot.profile.heroId ? 'hero' : 'partner', hp, maxHp: hp,
-      statuses: [], clip: 'idle', clipToken: `${epoch}:${pokemon.pokemonId}:idle`, tint: '#ffffff', bounds: { width: 1, height: 1 } }];
-  });
+  const actors = groundActors(snapshot, epoch, species);
   const scene = snapshot.pendingScene;
   const requester = scene?.sceneId === 'browser-butterfree-reunion' || scene?.sceneId === 'browser-opening-awakening' && scene.cursor === 3;
   const client = scene?.sceneId === 'browser-caterpie-clearing' || scene?.sceneId === 'browser-butterfree-reunion';
@@ -37,7 +66,14 @@ function meadow(snapshot, gameplay, epoch, species) {
  * @param {import('../../content/species.js').SpeciesCatalog} species
  * @param {readonly import('../domain/turns/types.js').Event[]} [events] */
 export function renderSnapshot(snapshot, gameplay, epoch, species, events = []) {
-  if (!snapshot.session) return meadow(snapshot, gameplay, epoch, species);
+  if (!snapshot.session) {
+    switch (snapshot.town.mapDefinitionId) {
+      case gameplay.authored.town.mapDefinitionId: return meadow(snapshot, gameplay, epoch, species);
+      case TEAM.map: return teamBase(snapshot, epoch, species);
+      default: throw new Error(`Unavailable ground map: ${snapshot.town.mapDefinitionId}`);
+    }
+  }
+  if (snapshot.session.dungeonId !== 'tiny-woods') throw new Error('Unavailable dungeon environment binding.');
   const visibility = gameplay.getVisibility(snapshot);
   if (!visibility) throw new Error('Current dungeon visibility is unavailable.');
   const source = gameplay.getPresentation(snapshot, epoch);

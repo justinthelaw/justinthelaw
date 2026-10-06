@@ -5,10 +5,72 @@
 - **State:** implementation authorized on 2026-10-04 and continued on 2026-10-05; P01 source audit and full P02 content coverage remain incomplete.
 - **Planning baseline:** [PR #387](https://github.com/justinthelaw/justinthelaw/pull/387) merged as `0d34db51c258368ade8f081557200905214cebcd`.
 - **Delivery:** foundations [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388), README [PR #390](https://github.com/justinthelaw/justinthelaw/pull/390) and launcher [PR #391](https://github.com/justinthelaw/justinthelaw/pull/391) are merged. Full-game work is isolated on `feat/pokemon-full-campaign`, based on main `c7270c8b4ed73c28144abd09dc6811b6ca9d3b50`; it is not deployed.
-- **Current work:** pixel foundation (`7055dbf`), bounded input (`30c646b`), numeric rules (`bfde294`), complete species profiles (`7edf083`), dungeon facts (`ae8a77e`), full canonical state (`117845e`), effect facts (`2f232ce`) and persistence (`7d9f1a6`) passed their scoped independent reviews. Sixteen starter art candidates (`51071af`) passed source/visual review for provisional renderer integration. Renderer, onboarding facts, environment kits and whole-roster artwork are in progress; no playable campaign or whole-game acceptance exists yet.
-- **Next safe action:** follow [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md), completing source/runtime catalog and adventure-kernel dependencies while continuing species art refinement. The merged launcher does not add gameplay. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
+- **Current work:** the canonical opening, Tiny Woods rescue/reunion, team formation/name confirmation and resumable day-zero base are implemented on PR #392. The recovered checkpoint also contains validated held-v2 save conversion, quiz RNG isolation and touch submission for opted-in name forms. Human gameplay/visual/device acceptance and the rest of the campaign remain open.
+- **Next safe action:** continue [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md) with the sourced first morning, save tutorial, rescue-kit/news/mail/request gates, then Thunderwave Cave. Preserve the existing save boundary and once-only grants. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
+
+## Recovered publication checkpoint (2026-10-06)
+
+- Recovered 34 modified and eight new files from the surviving local checkout
+  after its linked Git directory disappeared. Compared every tracked file
+  against PR head `f3f8024`; no tracked file was missing. Original recovery files
+  are preserved; the active isolated clone uses the existing PR branch.
+- Independent source review found no Critical or Important issues in scene
+  transitions, once-only rewards, naming, held-v2 migration, input ownership or
+  relative asset routing. Current factual catalogs are unchanged.
+- Deferred minor: the legacy content revision guard is not an independent pin
+  on future shared factual-catalog changes. Add a pinned catalog boundary before
+  changing those shared dependencies; no current mismatch was found.
+- Review scope excludes runtime gameplay, physical devices, visual acceptance,
+  native fidelity beyond recorded contracts and full-campaign completeness.
+  These remain explicit acceptance gates, not inferred from static checks.
+- `npm run flight-check` passes website lint and production export, then fails
+  during the pinned Chromium download (truncated ZIP) before browser tests.
+  Current-head CI must supply browser-fixture evidence; no gate is weakened.
+- Ruling: D05's explicit prohibition on executing game source supersedes the
+  generic TDD workflow. Use game static checks/source review and website fixtures;
+  do not claim gameplay or human acceptance from those results.
+
+## Team formation checkpoint (2026-10-06)
+
+- The actual final reunion acknowledgment now atomically awards the existing
+  berry receipt, records reunion and places the original pair at an explicitly
+  authored base exterior. Repeatable refusal returns to the same offer instance.
+  Accepting proceeds to a saved name-input gate, then candidate confirmation;
+  editing preserves the candidate without changing the profile. Shared native
+  validation permits one to ten admitted source cells, including spaces, without
+  trimming or normalization.
+- Confirmation alone commits the team name, native MAIN(3,0), one founding
+  receipt, naming completion and celebration. The original-written evening
+  interlude leads to a resumable base boundary. No first morning, kit, mail,
+  toolbox grant, Thunderwave unlock, job/recruitment gate, new Pokémon or extra
+  rescue/clear is implemented or awarded. Full P19/P20/P22 remain open.
+- Exact full-navigation held-v2 saves are validated with frozen predecessor
+  authored/scene/progress/town policies. The codec bounds and validates original
+  state, checks original envelope agreement/time and original canonical-body
+  SHA-256, then converts in one guarded revision and validates/encodes current
+  content. Active/retry held slots, RNG, turn continuation and individual IDs
+  survive; pending reunion retains cursor/cast with its new continuation;
+  already-rewarded reunion requires its visit and exact receipt context and
+  enters the base without awarding berries again. held-v1, unknown or invalid
+  saves are never repaired/reset. Preview reads do not overwrite either slot.
+- Original courtyard geometry binds the sourced base identity (map index 9)
+  explicitly to the local town kit, shelter and a new six-part mailbox. No
+  native map/script/art was copied and species-specific base appearances are
+  not claimed. Original capture-record bytes are unchanged; a pinned
+  byte-identical historical manifest archive preserves what those captures
+  actually served. The checker permits only the added mailbox in the current
+  manifest, retaining all texture/material/budget/source/capture checks.
+- Verification: the full independent `npm run check` passes, including source
+  lint, strict JSDoc types, catalog/schema/coverage, 419-profile roster, runtime
+  asset closure, environment and vendor checks. Scoped contribution hooks pass;
+  detailed results are recorded in the execution report. No game-source imports, automated game tests, browser boot or
+  playthroughs were used. New mailbox/base visuals, saved form behavior on real
+  devices and human campaign acceptance remain pending.
+- Next dependency remains the sourced first-morning sequence and its distinct
+  once-only kit/news/mail/request gates; do not skip the save tutorial or grant
+  later resources at team confirmation. No merge/deployment is authorized.
 
 ## Latest user instructions
 
@@ -635,3 +697,19 @@ visual/device/save acceptance is claimed. Untracked evolution work is preserved.
 The checkpoint is implemented for review, not full-campaign/P36/P37 acceptance;
 team naming, rescue kit, later routes/services, full move/AI/mechanics, audio,
 human gameplay/visual/save/device observations and release gates remain open.
+
+### Quiz entropy and raw-name source corrections — 2026-10-06
+
+The uncommitted `onboardingQuiz` now owns one freshly seeded, non-security
+`xoshiro128ss-v1` state through the existing RNG helper. Native low-16-bit product
+mapping, question/category rejection, follow-up scoring and circular-first-maximum
+ties remain unchanged. Quiz state never consumes or enters canonical campaign
+streams. Removed hero/partner input trimming: native space cells pass unchanged
+to the shared one-to-ten-cell/glyph validation, with no duplicate rule.
+
+Verification is static lint/types, scoped hooks and source review only. Root
+owns fresh CodeQL analysis and aggregate CI; their clearance remains pending.
+No domain RNG, source catalog, save/schema changes, suppressions, game execution,
+tests or browser boot accompany these corrections. Native provenance and exact
+application ownership are recorded in PLAYABLE-APPLICATION.md and the scoped
+quiz entropy decision/report; full campaign and human acceptance remain open.

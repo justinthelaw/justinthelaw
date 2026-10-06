@@ -49,7 +49,8 @@ export function startOnboarding({ catalogs, gameplay, view, commit, back }) {
     const names = node('div', '', 'name-fields'); names.append(heroLabel, heroInput, partnerLabel, partnerInput);
     /** @param {'durable'|'memory'} mode */
     function prepare(mode) { safely(() => {
-      const result = createCampaign({ selection, heroName: heroInput.value.trim(), partnerName: partnerInput.value.trim(), teamName: 'Pokémon',
+      // Spaces are native name cells; canonical validation owns length/glyphs.
+      const result = createCampaign({ selection, heroName: heroInput.value, partnerName: partnerInput.value, teamName: 'Pokémon',
         seed: campaignSeed(), createdAt: new Date().toISOString(), options: initialOptions(), initialProfileId: gameplay.authored.profileId }, gameplay.content);
       if (!result.ok) { view.notify(result.kind === 'blocked' ? `New campaign needs: ${result.requirementIds.join(', ')}` : result.issues.map(issue => issue.message).join(' ')); return; }
       commit(result.snapshot, mode);

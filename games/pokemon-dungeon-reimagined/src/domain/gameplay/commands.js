@@ -1,7 +1,7 @@
 import { canMeleeAttack } from '../navigation/geometry.js';
 import { movementPlan } from './movement.js';
 import { admission, enterOpening } from './expedition.js';
-import { sceneHandler } from './scenes.js';
+import { sceneHandler, nameHandler } from './scenes.js';
 import { supportedMove } from './combat.js';
 import { facing, navActor, navigationContext, FACINGS } from './support.js';
 
@@ -44,7 +44,7 @@ export function createCommandHandlers(catalogs, authored) {
     }
     return { kind: 'rejected', reason: 'invalid-command' };
   } };
-  return { ackScene: sceneHandler(authored, catalogs), move: dungeonAction, wait: dungeonAction, attack: dungeonAction, useMove: dungeonAction, useItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
+  return { submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs), move: dungeonAction, wait: dungeonAction, attack: dungeonAction, useMove: dungeonAction, useItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
     presentation: { plan: () => ({ kind: 'presentation' }) },
     advance: { plan: state => state.mode === 'dungeon' && state.session?.scheduler.kind === 'ready' ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }, apply: () => ({ kind: 'changed', resumeDungeon: true }) },
     enterDungeon: { plan(state, intent) { if (intent.type !== 'enterDungeon' || intent.dungeonId !== 'tiny-woods') return { kind: 'content-blocked', requirement: 'dungeon-entry-not-supported' }; const reason = admission(catalogs, state); return reason ? { kind: 'content-blocked', requirement: reason } : { kind: 'mutation' }; }, apply(context) { enterOpening(context, catalogs, authored); return { kind: 'changed', resumeDungeon: true }; } },

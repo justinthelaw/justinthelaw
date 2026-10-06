@@ -23,6 +23,7 @@ export function createView(root) {
   root.tabIndex = -1;
   hud.append(objective, stats, toolbar); root.replaceChildren(hud, map, log, notice, panel);
   let panelOpen = false;
+  let panelToken = Symbol('closed');
   const controlSelector = 'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)';
   function focusPanel() {
     const focus = panel.querySelector(controlSelector);
@@ -43,17 +44,19 @@ export function createView(root) {
   /** @type {string[]} */ let history = [];
   /** @param {string} title @param {string} text @param {Action[]} actions @param {HTMLElement[]} [extra] */
   function show(title, text, actions, extra = []) {
-    panelOpen = true; panel.hidden = false; hud.inert = true;
+    panelToken = Symbol('panel'); panelOpen = true; panel.hidden = false; hud.inert = true;
     const heading = node('h2', title); heading.id = 'panel-heading';
     const content = node('p', text); const controls = node('div', '', 'choices'); controls.append(...actions.map(button));
     panel.replaceChildren(heading, content, ...extra, controls);
-    focusPanel();
+    focusPanel(); return panelToken;
   }
   return {
     show,
+    /** @param {symbol} token */
+    ownsPanel: token => panelOpen && panelToken === token,
     close() {
       const restoreFocus = panelOpen && panel.contains(document.activeElement);
-      panelOpen = false; panel.hidden = true; hud.inert = false;
+      panelToken = Symbol('closed'); panelOpen = false; panel.hidden = true; hud.inert = false;
       if (restoreFocus) root.focus({ preventScroll: true });
     },
     isOpen: () => panelOpen,

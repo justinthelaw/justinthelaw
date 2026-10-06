@@ -5,6 +5,7 @@ import { fail, succeed } from './results.js';
 /** @typedef {import('./contracts.js').EncodedSave} EncodedSave */
 /** @typedef {import('./contracts.js').SaveBody} SaveBody */
 /** @typedef {import('./contracts.js').SaveEnvelope} SaveEnvelope */
+/** @typedef {{content:CampaignContent,convert:(snapshot:CampaignSnapshot)=>Result<CampaignSnapshot>}} SaveCompatibility */
 /** @template T @typedef {import('./contracts.js').Result<T>} Result */
 
 /** Engineering byte budget, not an original-game roster limit. */
@@ -93,9 +94,9 @@ export async function encodeSave(state, content, savedAt = new Date().toISOStrin
 }
 /** Decode untrusted file/storage text without touching a binding or storage.
  * Hashing detects accidental corruption; it is not authentication or anti-editing.
- * @param {string} text @param {CampaignContent} content @returns {Promise<Result<EncodedSave>>}
+ * @param {string} text @param {CampaignContent} content @param {SaveCompatibility} [compatibility] @returns {Promise<Result<EncodedSave>>}
  */
-export async function decodeSave(text, content) {
+export async function decodeSave(text, content, compatibility) {
   if (typeof text !== 'string') return fail('invalid');
   if (!withinSaveLimit(text)) return fail('too-large');
   /** @type {unknown} */ let parsed;
@@ -106,13 +107,22 @@ export async function decodeSave(text, content) {
   if (!canonicalTime(raw.savedAt) || typeof raw.contentRevision !== 'string' || !Number.isSafeInteger(raw.revision)
       || !exactRecord(raw.integrity, ['algorithm', 'digest']) || raw.integrity.algorithm !== 'SHA-256'
       || typeof raw.integrity.digest !== 'string' || !/^[0-9a-f]{64}$/.test(raw.integrity.digest)) return fail('invalid');
-  const checked = validateSave(raw.state, content);
+  const legacy = raw.contentRevision !== content.contentRevision && raw.contentRevision === compatibility?.content.contentRevision;
+  const checked = validateSave(raw.state, legacy && compatibility ? compatibility.content : content);
   if (!checked.ok) return checked;
   const snapshot = checked.value;
   if (snapshot.revision !== raw.revision || snapshot.contentRevision !== raw.contentRevision || snapshot.schemaVersion !== raw.schemaVersion
       || snapshot.profile.referenceEdition !== raw.referenceEdition || raw.savedAt < snapshot.profile.createdAt) return fail('invalid');
-  const encoded = await encodeSave(snapshot, content, raw.savedAt);
-  if (!encoded.ok) return encoded;
-  if (encoded.value.envelope.integrity.digest !== raw.integrity.digest) return fail('integrity');
-  return encoded;
+  // Verify original integrity after bounded structural/content validation,
+  // before transforming. Never compare an old digest with a rewritten body.
+  const body = Object.fromEntries(bodyKeys.map(key => [key, raw[key]]));
+  const originalHash = await digest(canonical(body));
+  if (!originalHash.ok) return originalHash;
+  if (originalHash.value !== raw.integrity.digest) return fail('integrity');
+  if (legacy && compatibility) {
+    const converted = compatibility.convert(snapshot);
+    if (!converted.ok) return converted;
+    return encodeSave(converted.value, content, raw.savedAt);
+  }
+  return encodeSave(snapshot, content, raw.savedAt);
 }

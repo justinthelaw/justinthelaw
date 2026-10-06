@@ -4,7 +4,7 @@ import { freezeData } from '../state/validate.js';
 import { createCommandHandlers } from './commands.js';
 import { createTurnHooks } from './hooks.js';
 import { visibility, presentation, actorsView } from './projection.js';
-import { sceneText } from './scenes.js';
+import { sceneText, scenePrompt } from './scenes.js';
 import { admission } from './expedition.js';
 import { supportedMove } from './combat.js';
 
@@ -13,8 +13,10 @@ import { supportedMove } from './combat.js';
  * @param {import('./support.js').Catalogs} catalogs */
 export function createGameplay(catalogs) {
   const authored = freezeData(createOpeningContent());
-  return Object.freeze({ content: createCampaignContent(catalogs, authored), authored,
+  const content = createCampaignContent(catalogs, authored);
+  return Object.freeze({ content, authored,
     handlers: createCommandHandlers(catalogs, authored), turns: createTurnHooks(catalogs, authored),
+    getScenePrompt: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => scenePrompt(snapshot, authored),
     getSceneText: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => sceneText(snapshot, authored),
     getDungeonChoices: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => Object.freeze([{ dungeonId: 'tiny-woods', name: 'Tiny Woods', requirement: admission(catalogs, snapshot) }]),
     getMoveChoices: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => {

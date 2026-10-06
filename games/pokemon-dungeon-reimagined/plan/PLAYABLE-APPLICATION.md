@@ -28,13 +28,19 @@ Menus, dialogue, typing, replacement, blur, hidden tabs and context loss cancel
 or pause world input. Camera controls use the existing adapter. The website
 continues to own the emulator overlay; no second touch command owner is created.
 
-The quiz samples browser cryptographic words and applies the catalog's native
-low-16-bit product mapper. It preserves the eight main slots, used-category
-rejection, special follow-up scoring and biased circular-first-maximum tie rule.
+The uncommitted `onboardingQuiz` owner receives a fresh four-word browser seed
+once per quiz and draws from the existing non-security `xoshiro128ss-v1` helper,
+then applies the catalog's native low-16-bit product mapper. It preserves the
+eight main slots, used-category rejection, special follow-up scoring and biased
+circular-first-maximum tie rule.
 Browser entropy/sequence is a platform adaptation; native sequence parity is
-not claimed. Quiz entropy never consumes canonical campaign streams. Hero
+not claimed. Quiz entropy never consumes canonical campaign streams. Raw hero
+and partner names, including space cells, pass unchanged to canonical validation;
+the UI does not trim them or supply a second name rule. The shared
+`content/state/pokemon-rules.js` name policy retains the pinned Red comparative
+`naming_screen.c` END/length branch and `global.h` ten-cell limit. Hero
 identity comes solely from nature/gender via `createInitialSelection`; team name
-stays its initial `Pokémon` until a later naming owner exists.
+stays its initial `Pokémon` until the team-formation name is confirmed.
 
 Browser saving uses `createIndexedDbAdapter` → `createSaveRepository` →
 `createPersistenceService`. Detached `bind` constructs a new Adventure and

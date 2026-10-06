@@ -39,3 +39,19 @@ Named previews `power-plant`, `decrepit-lab`, `aged-chamber-an`, `mystic-lake`, 
 ## Limits and acceptance
 
 The imagery uses visible low-poly facets and original small textures. It is a coherent provisional foundation, not a claim to reproduce the reference's final polish or foliage richness. Repeated arches/stairs serve as reusable study landmarks; actual scene composition must replace those generic placements where appropriate. No wall-collision, legal-movement, campaign-state or runtime game behavior was exercised. Draw/triangle counters are observed scene complexity, not mobile frame-time measurements. Human review must judge complete authored locations and their integrated renderer separately.
+
+## Team formation extension — static evidence only
+
+The original 34 captures and their provenance record are unchanged. Their
+original manifest is archived byte-identically as
+`evidence/pre-team-formation-manifest.json`; `source-index.json.historicalArt`
+records the original served path/hash and archive association. The new current
+manifest differs only by the town kit's six-part original mailbox, bringing the
+prop vocabulary to 41. The independent environment audit checks that exact
+limited difference and preserves all existing texture, path, budget and capture
+integrity gates.
+
+No new browser capture or runtime play occurred. The mailbox and original base
+courtyard/shelter staging remain candidate-unaccepted. Existing shared outdoor
+lighting and the unchanged renderer API are used; all species-specific native
+base appearances, interiors and later morning events remain unimplemented.

@@ -1,8 +1,12 @@
-/** Browser entropy is deliberately separate from campaign streams. Preserve the
- * sourced low-16-bit product mapper and circular-first-maximum tie rule, without
- * claiming cartridge sequence parity. This controller owns only uncommitted quiz.
+import { createRandomState, nextRandom } from '../domain/rng.js';
+
+/** The non-security onboardingQuiz game stream is freshly seeded once and owned
+ * only by this uncommitted quiz, separately from saved campaign streams. Preserve
+ * the sourced low-16-bit product mapper and circular-first-maximum tie rule;
+ * browser PRNG sequences do not claim cartridge sequence parity.
  * @param {import('../../content/onboarding.js').OnboardingCatalog} catalog */
 export function createQuiz(catalog) {
+  let quizRandom = createRandomState(browserRandomSeed());
   const algorithm = catalog.getAlgorithm();
   const scores = { ...algorithm.initialScores };
   const used = new Set();
@@ -11,9 +15,9 @@ export function createQuiz(catalog) {
   let followUp = false;
   /** @param {number} maximum */
   function draw(maximum) {
-    const word = window.crypto.getRandomValues(new Uint32Array(1))[0];
-    if (word === undefined) throw new Error('Quiz entropy is unavailable.');
-    return Math.floor((word & algorithm.integerMapper.nativeInputMask) * maximum / algorithm.integerMapper.denominator);
+    const result = nextRandom(quizRandom);
+    quizRandom = result.state;
+    return Math.floor((result.value & algorithm.integerMapper.nativeInputMask) * maximum / algorithm.integerMapper.denominator);
   }
   function next() {
     if (count >= algorithm.sampling.mainQuestionCount) { question = null; return; }
@@ -51,12 +55,17 @@ export function createQuiz(catalog) {
   };
 }
 
-/** @returns {import('../contracts.js').RandomWords} */
-export function campaignSeed() {
+/** Entropy initializes an explicitly owned browser game stream, never a secure
+ * bounded random value. Each caller receives independently allocated words.
+ * @returns {import('../contracts.js').RandomWords} */
+function browserRandomSeed() {
   const words = window.crypto.getRandomValues(new Uint32Array(4));
-  if (words.every(word => word === 0)) return campaignSeed();
+  if (words.every(word => word === 0)) return browserRandomSeed();
   return [words[0] ?? 0, words[1] ?? 0, words[2] ?? 0, words[3] ?? 0];
 }
+
+/** @returns {import('../contracts.js').RandomWords} */
+export function campaignSeed() { return browserRandomSeed(); }
 
 /** Application defaults are presentation preferences, never game-rule defaults.
  * @returns {import('../contracts/campaign.js').CampaignOptions} */

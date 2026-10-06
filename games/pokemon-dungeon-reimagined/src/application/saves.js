@@ -5,10 +5,10 @@ import { createAdventure } from '../domain/adventure.js';
 
 /** Persistence/UI owner: exact frozen snapshot identity is retained by detached
  * bind; observers run after service operations. No save callback dispatches.
- * @param {{gameplay:ReturnType<typeof import('../domain/gameplay/index.js').createGameplay>,view:ReturnType<typeof import('../ui/view.js').createView>,pause:()=>()=>void,busy:(value:boolean)=>void,changed:()=>void,back:()=>void,newGame:()=>void}} options */
+ * @param {{compatibility:import('../persistence/codec.js').SaveCompatibility,gameplay:ReturnType<typeof import('../domain/gameplay/index.js').createGameplay>,view:ReturnType<typeof import('../ui/view.js').createView>,pause:()=>()=>void,busy:(value:boolean)=>void,changed:()=>void,back:()=>void,newGame:()=>void}} options */
 export function createSaves(options) {
-  const { gameplay, view } = options;
-  const repository = createSaveRepository({ adapter: createIndexedDbAdapter(), content: gameplay.content });
+  const { gameplay, view, compatibility } = options;
+  const repository = createSaveRepository({ adapter: createIndexedDbAdapter(), content: gameplay.content, compatibility });
   const service = createPersistenceService({ repository, initial: /** @type {import('../domain/turns/types.js').Adventure|null} */ (null),
     getCurrent: instance => instance.getSnapshot(),
     bind(snapshot) { const created = createAdventure({ initial: snapshot, content: gameplay.content, handlers: gameplay.handlers, turns: gameplay.turns }); if (!created.ok) throw new Error(created.message); return created.adventure; },

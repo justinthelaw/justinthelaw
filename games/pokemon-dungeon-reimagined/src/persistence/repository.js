@@ -28,9 +28,9 @@ function slotView(result) {
 }
 /** Repository owns all adapter access. A scope is valid only inside exclusive().
  * Saves serialize; waiting autosaves coalesce only within one epoch and slot.
- * @param {{adapter:StorageAdapter,content:CampaignContent,now?:()=>string}} options
+ * @param {{adapter:StorageAdapter,content:CampaignContent,compatibility?:import('./codec.js').SaveCompatibility,now?:()=>string}} options
  */
-export function createSaveRepository({ adapter, content, now = () => new Date().toISOString() }) {
+export function createSaveRepository({ adapter, content, compatibility, now = () => new Date().toISOString() }) {
   let disposed = false;
   /** Last observed/committed generation prevents a later old-tab autosave
    * from adopting another tab's new generation as its write authority.
@@ -47,7 +47,7 @@ export function createSaveRepository({ adapter, content, now = () => new Date().
    */
   async function decodeSlot(slot) {
     if (!slot.ok) return slot;
-    return slot.value === null ? fail('empty') : decodeSave(slot.value, content);
+    return slot.value === null ? fail('empty') : decodeSave(slot.value, content, compatibility);
   }
   /** @param {CommitGuard} guard @returns {Promise<Result<PreparedLoad>>} */
   async function prepareLoad(guard) {
@@ -121,7 +121,7 @@ export function createSaveRepository({ adapter, content, now = () => new Date().
     },
     prepareLoad,
     /** @param {string} text @returns {Promise<Result<EncodedSave>>} */
-    prepareImport: text => disposed ? Promise.resolve(fail('disposed')) : decodeSave(text, content),
+    prepareImport: text => disposed ? Promise.resolve(fail('disposed')) : decodeSave(text, content, compatibility),
     /** Export never opens browser storage. @param {CampaignSnapshot} snapshot @returns {Promise<Result<EncodedSave>>} */
     exportSave: snapshot => disposed ? Promise.resolve(fail('disposed')) : encodeSave(snapshot, content, now()),
     /** Invalidate queued old work first, then drain the one running atomic write.

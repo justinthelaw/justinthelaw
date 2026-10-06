@@ -1,3 +1,6 @@
+import { createOpeningCompatibility } from '../persistence/opening-compatibility.js';
+import { createScenePresenter } from '../application/team-formation.js';
+import { TEAM } from '../../content/authored/team-formation.js';
 import { loadCatalogs } from '../application/catalogs.js';
 import { createGameplay } from '../domain/gameplay/index.js';
 import { commandContext } from '../domain/state/transaction.js';
@@ -26,9 +29,10 @@ export async function createApplication(canvas, signal, startup) {
   /** @type {DungeonRenderer|undefined} */ let renderer;
   /** @type {ReturnType<typeof createSaves>|undefined} */ let saves;
   /** @type {Awaited<ReturnType<typeof loadCatalogs>>|undefined} */ let loaded;
-  /** @type {Awaited<ReturnType<typeof loadEnvironmentKit>>|undefined} */ let kit;
+  /** @type {import('../rendering/environment.js').EnvironmentKit|undefined} */ let kit;
   /** @type {ResizeObserver|undefined} */ let observer;
   const view = createView(root);
+  const showScene = createScenePresenter(view);
   let booted = false;
   let disposed = false, busy = false, paused = false, failed = false, lost = false, ready = false;
   let frame = 0, lastFrame = 0, permitAt = 0, generation = 0, epochCounter = 0;
@@ -62,7 +66,7 @@ export async function createApplication(canvas, signal, startup) {
   function title() {
     close(); followsGame = false;
     view.hud('', [], []); view.minimap(null);
-    view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods and Caterpie's rescue. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
+    view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods, Caterpie's rescue and team formation. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
       { label: 'New game', run: newGame }, { label: 'Continue / backup', run: () => { saves?.load(); context(); } }, { label: 'Saves & import', run: () => { saves?.menu(); context(); } },
       { label: 'Controls', run: help },
     ]); context();
@@ -106,6 +110,7 @@ export async function createApplication(canvas, signal, startup) {
     const adventure = saves.service.getBinding().instance; if (!adventure) return;
     const before = adventure.getSnapshot();
     if (['move', 'face', 'attack', 'wait', 'useMove', 'useItem', 'useStairs', 'giveUp'].includes(intent.type) && (!ready || performance.now() < permitAt)) return;
+    if (['ackScene', 'submitSceneName'].includes(intent.type) && !ready) return;
     if (view.isOpen()) close();
     permitAt = performance.now() + 240;
     const result = adventure.dispatch({ ...commandContext(before), epoch: adventure.getEpoch(), intent });
@@ -123,10 +128,6 @@ export async function createApplication(canvas, signal, startup) {
       }
       refresh(events, before);
     } else { screen(before); rearmWorldPermit(); }
-  }
-  function acknowledge() {
-    const snapshot = current(); const scene = snapshot?.pendingScene; if (!snapshot || !scene) return;
-    act({ type: 'ackScene', sceneId: scene.sceneId, sceneInstanceId: scene.sceneInstanceId, cursor: scene.cursor, revision: snapshot.revision, optionId: null }, 'panel');
   }
   /** @param {number} position */
   function useMove(position) {
@@ -157,9 +158,9 @@ export async function createApplication(canvas, signal, startup) {
     if (session) team.push(`Moves · ${gameplay.getMoveChoices(snapshot).map(move => `${move.name} ${move.currentPp} PP`).join(' · ')}`);
     const location = session?.floor.location;
     const floor = location?.kind === 'exploration' && loaded ? loaded.catalogs.dungeons.getFloorById(location.address.floorId).display : null;
-    const goal = session ? `Tiny Woods ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · Find stairs and rescue Caterpie · Poké ${session.carriedMoney}` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · opening checkpoint complete' : 'Butterfree needs help · prepare to enter Tiny Woods';
+    const goal = session ? `Tiny Woods ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · Find stairs and rescue Caterpie · Poké ${session.carriedMoney}` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
     const onStairs = leader?.placement.kind === 'map' && Object.values(session?.floor.exits ?? {}).some(exit => leader.placement.kind === 'map' && exit.position.x === leader.placement.position.x && exit.position.z === leader.placement.position.z);
-    view.hud(goal, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory },
+    view.hud(goal, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
       { label: 'Attack', run: () => act({ type: 'attack' }), disabled: snapshot.mode !== 'dungeon' || !ready },
       { label: 'Wait', run: () => act({ type: 'wait' }), disabled: snapshot.mode !== 'dungeon' || !ready },
       { label: 'Use stairs', run: () => { if (session) act({ type: 'useStairs', sessionId: session.sessionId }); }, disabled: snapshot.mode !== 'dungeon' || !onStairs || !ready },
@@ -167,11 +168,23 @@ export async function createApplication(canvas, signal, startup) {
     view.minimap(session ? projected : null);
     if (snapshot.pendingScene) {
       dialogue = true;
-      view.show('Awakening & rescue', gameplay.getSceneText(snapshot) ?? 'This scene needs unavailable authored content.', [{ label: 'Continue', run: acknowledge, disabled: !ready }, { label: 'Campaign & saves', run: menu }]);
+      // A readiness repaint can change the focused control without changing
+      // revision/mode. Drop queued confirms before replacing that owner.
+      input?.cancel();
+      // Capture binding and snapshot with the displayed gate, never refresh an
+      // obsolete callback's authority at activation time.
+      const shownEpoch = saves?.service.getBinding().adventureEpoch;
+      showScene({ snapshot, epoch, prompt: gameplay.getScenePrompt(snapshot), ready, saves: menu,
+        send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This scene prompt is stale.'); return; } act(intent, 'panel'); } });
+    } else if (!session && snapshot.town.mapDefinitionId === TEAM.map) {
+      dialogue = false;
+      view.show(`Team ${snapshot.profile.teamName}`, 'Your team is founded. The next morning continuation is not integrated yet. Your rescue rewards and team name are saved at this base boundary.', [
+        { label: 'Campaign & saves', run: menu }, { label: 'View rewards', run: inventory },
+      ]);
     } else if (!session) {
       const choice = gameplay.getDungeonChoices(snapshot)[0];
       dialogue = false;
-      view.show(snapshot.progress.clears['tiny-woods'] ? 'Home from Tiny Woods' : snapshot.progress.statistics.expeditions ? 'A chance to retry' : "Butterfree's request", snapshot.progress.clears['tiny-woods'] ? 'Caterpie is reunited with Butterfree. Your three berry rewards are recorded. Team naming, the rescue kit and later routes still need implementation.' : 'Guide your partner through Tiny Woods. Find the stairs on each floor. Defeat retains growth and follows the sourced item and money loss rules.', [
+      view.show(snapshot.progress.statistics.expeditions ? 'A chance to retry' : "Butterfree's request", 'Guide your partner through Tiny Woods. Find the stairs on each floor. Defeat retains growth and follows the sourced item and money loss rules.', [
         { label: snapshot.progress.statistics.expeditions ? 'Retry Tiny Woods' : 'Enter Tiny Woods', disabled: !choice || !!choice.requirement, detail: choice?.requirement ?? 'Begin rescue', run: () => act({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ ('tiny-woods') }, 'panel') },
         { label: 'Campaign & saves', run: menu }, { label: 'View rewards', run: inventory },
       ]);
@@ -188,6 +201,7 @@ export async function createApplication(canvas, signal, startup) {
     try {
       projected = renderSnapshot(snapshot, gameplay, epoch, loaded.catalogs.species, events);
       renderer.loadWorld(projected.world); renderer.syncPickups(projected.pickups);
+      if (before && before.town.mapDefinitionId !== snapshot.town.mapDefinitionId && snapshot.town.mapDefinitionId === TEAM.map) renderer.recenter();
       renderer.setFollow(snapshot.session?.leaderActorId ?? snapshot.profile.heroId);
       view.messages(eventMessages(before, projected, events));
       for (const actor of projected.actors) if (before?.session?.actors[actor.actorId] && actor.hp < (before.session.actors[actor.actorId]?.resources.hp ?? actor.hp)) renderer.flash(actor.x, actor.z, 'hit');
@@ -258,12 +272,22 @@ export async function createApplication(canvas, signal, startup) {
   signal.addEventListener('abort', dispose, { once: true });
   try {
     loaded = await loadCatalogs(lifetime.signal, startup.status); gameplay = createGameplay(loaded.catalogs);
-    startup.status('Loading textured world and exact local character art…'); kit = await loadEnvironmentKit('forest', lifetime.signal);
+    startup.status('Loading textured world and exact local character art…');
+    const forest = await loadEnvironmentKit('forest', lifetime.signal);
+    kit = forest; // Retain cleanup ownership if the second local kit fails.
+    const town = await loadEnvironmentKit(TEAM.kitId, lifetime.signal);
+    // One renderer API, explicit finite material/prop routing. Shared outdoor
+    // lighting remains the admitted woodland daylight across the base exterior.
+    kit = { lighting: forest.lighting, create(world) {
+      if (world.biomeId === 'forest') return forest.create(world);
+      if (world.biomeId === TEAM.kitId) return town.create(world);
+      throw new Error(`Unavailable environment kit: ${world.biomeId}`);
+    }, dispose() { forest.dispose?.(); town.dispose?.(); } };
     renderer = new DungeonRenderer(canvas, { environmentKit: kit, reducedMotion: reducedMotion.matches,
       onError: fail, onContextState(state) { lost = state === 'lost'; ready = false; input?.cancel(); context(); if (lost) view.notify('Graphics interrupted. Commands paused until recovery.'); else { lastFrame = 0; view.notify('Graphics restored.'); refresh(); } },
     });
     await renderer.ready; lifetime.signal.throwIfAborted();
-    saves = createSaves({ gameplay, view, pause() { paused = true; input?.cancel(); context(); return () => { paused = false; }; },
+    saves = createSaves({ gameplay, compatibility: createOpeningCompatibility(loaded.catalogs, gameplay.content, gameplay.authored), view, pause() { paused = true; input?.cancel(); context(); return () => { paused = false; }; },
       busy(value) { busy = value; if (busy) input?.cancel(); context(); }, changed() { close(); resumedBinding(); }, back: resume, newGame });
     input = createInputController({ target: document, cameraSurface: canvas, onIntent: intent });
     canvas.hidden = false; root.hidden = false;

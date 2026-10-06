@@ -80,6 +80,8 @@ export const propLibrary = {
   'floating-island': [cone([3.2, 3.5, 3.0], [0, 0, 0], 'wall', [Math.PI, .2, 0], 7), cylinder([3.25, .25, 3.05], [0, 1.85, 0], 'floor', undefined, 7)],
   'coral-fan': coral(), 'reed-bed': reeds(), 'shell-cluster': [ball([.7, .3, .5], [0, .16, 0], 'trim', [0, .3, 0], 5), ball([.4, .22, .35], [.5, .1, .3], 'accent', [0, 1.1, 0], 5)],
   'waterfall-rock': [...boulder(), box([1.35, 2.4, 1.2], [0, 1.2, -.35], 'wall'), box([.75, 2.1, .12], [0, 1.4, .3], 'water'), ball([1.3, .15, .8], [0, .12, .6], 'trim')],
+  // Original letter box: post, raised housing, pitched cap, dark slot and flag.
+  'mailbox': [box([.18, 1.25, .18], [0, .625, 0], 'bark'), box([.78, .55, .65], [0, 1.45, 0], 'trim'), cone([1.1, .4, .95], [0, 1.91, 0], 'roof', [0, Math.PI / 4, 0], 4), box([.48, .07, .035], [0, 1.48, .345], 'bark'), box([.04, .55, .04], [.45, 1.55, 0], 'bark'), box([.24, .15, .04], [.55, 1.8, 0], 'accent')],
   'cottage': cottage(), 'timber-gate': gate(),
   'fence-section': [box([.14, 1.1, .14], [-.75, .55, 0], 'bark'), box([.14, 1.1, .14], [.75, .55, 0], 'bark'), box([1.6, .13, .1], [0, .4, 0], 'bark'), box([1.6, .13, .1], [0, .85, 0], 'bark')],
   'notice-board': [box([.14, 1.6, .14], [-.55, .8, 0], 'bark'), box([.14, 1.6, .14], [.55, .8, 0], 'bark'), box([1.5, .85, .16], [0, 1.25, 0], 'bark'), box([.92, .6, .025], [0, 1.25, .1], 'trim'), box([1.75, .16, .5], [0, 1.77, 0], 'roof')],

@@ -82,3 +82,18 @@ Explicit `world.props[].kind` selects one kit prop ID. Terrain types remain
 `wall|floor|water|lava|void`. The adapter must honor exploration/visibility;
 a material or prop never changes tile rules. Authoring preview/capture never
 imports or executes this runtime bridge or other game source.
+
+## Team formation mailbox extension
+
+The town kit adds one original six-part `mailbox` prop using existing local
+materials. The vocabulary is now 41 props; texture files, kit count, maps,
+materials, budgets and prior props are unchanged. The browser base binds this
+prop and `cottage` explicitly in `content/authored/team-formation.js`.
+
+`source-index.json.historicalArt` pins the original served manifest path/hash
+and its byte-identical archive under `evidence/`. The original capture record
+and all its source paths remain unchanged. The independent checker verifies
+the archive against that historical association, checks every other captured
+source unchanged, and admits only the declared town mailbox addition relative
+to the archived manifest. Current artifact/source hashes remain mandatory.
+Historical captures do not accept the new mailbox or base composition.

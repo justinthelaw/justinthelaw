@@ -1,11 +1,11 @@
-import { createTeamScenes, baseContinuation } from './team-formation.js';
+// Frozen held-v2 opening policy boundary from 0e16251; do not widen admission.
 import { freezeData } from '../../src/domain/state/validate.js';
 
 /** Independently authored browser staging content. Geometry, dialogue, day zero,
  * roles and story IDs are adaptations; native reset data is separately sourced.
  * This meadow is not a claim to reproduce the cartridge ground-map layout.
  * @typedef {import('../../src/contracts/campaign.js').InitialTownDefinition} InitialTownDefinition
- * @typedef {{id:import('../../src/contracts.js').SceneId,lines:string[],stages?:import('./team-formation.js').SceneStage[],continuation:import('../../src/contracts/campaign.js').InitialContinuation}} AuthoredScene
+ * @typedef {{id:import('../../src/contracts.js').SceneId,lines:string[],continuation:import('../../src/contracts/campaign.js').InitialContinuation}} AuthoredScene
  * @typedef {{revision:string,profileId:string,storyNodeId:import('../../src/contracts/campaign.js').StoryNodeId,town:InitialTownDefinition,width:number,height:number,entryId:string,scenes:AuthoredScene[],heroRoleId:import('../../src/contracts/campaign.js').SceneRoleId,partnerRoleId:import('../../src/contracts/campaign.js').SceneRoleId}} AuthoredOpening
  */
 
@@ -15,7 +15,7 @@ export function createOpeningContent() {
   const map = /** @type {import('../../src/contracts/campaign.js').MapDefinitionId} */ ('browser-opening-meadow');
   const scene = /** @type {import('../../src/contracts.js').SceneId} */ ('browser-opening-awakening');
   return {
-    revision: 'browser-opening-v3-team', profileId: 'original-blue-opening-v1',
+    revision: 'browser-opening-v2', profileId: 'original-blue-opening-v1',
     storyNodeId: /** @type {import('../../src/contracts/campaign.js').StoryNodeId} */ ('browser-story-awakening'),
     heroRoleId: /** @type {import('../../src/contracts/campaign.js').SceneRoleId} */ ('browser-role-hero'),
     partnerRoleId: /** @type {import('../../src/contracts/campaign.js').SceneRoleId} */ ('browser-role-partner'),
@@ -31,7 +31,7 @@ export function createOpeningContent() {
       'A Butterfree hurries into the meadow. Her Caterpie is trapped beyond Tiny Woods. Your new companion looks to you. Together, you can bring him home.',
     ], continuation: { kind: 'town', destination: { kind: 'town', mapDefinitionId: map, entryId: 'awakening' } } },
     { id: /** @type {import('../../src/contracts.js').SceneId} */ ('browser-caterpie-clearing'), lines: ['In a quiet clearing, a small Caterpie calls out. Your companion answers, and you guide him toward the path home.', 'Caterpie stays close as you lead him safely out of the woods.'], continuation: { kind: 'town', destination: { kind: 'town', mapDefinitionId: map, entryId: 'rescue-return' } } },
-    { id: /** @type {import('../../src/contracts.js').SceneId} */ ('browser-butterfree-reunion'), lines: ['Butterfree gathers Caterpie close. Relief gives way to a warm smile. She offers three berries in thanks: Oran, Pecha, and Rawst.', 'Your companion suggests a place to rest, and a new idea: a rescue team. There are others who could use your help.'], continuation: baseContinuation() }, ...createTeamScenes()],
+    { id: /** @type {import('../../src/contracts.js').SceneId} */ ('browser-butterfree-reunion'), lines: ['Butterfree gathers Caterpie close. Relief gives way to a warm smile. She offers three berries in thanks: Oran, Pecha, and Rawst.', 'Your companion suggests a place to rest, and a new idea: a rescue team. There are others who could use your help.'], continuation: { kind: 'town', destination: { kind: 'town', mapDefinitionId: map, entryId: 'team-base' } } }],
   };
 }
 

@@ -2536,6 +2536,8 @@ export const SHAPES = {
   "SceneAwait": {
     "kind": "union",
     "members": [
+      {"kind":"object","fields":{"kind":{"kind":"literal","value":"name-input"},"field":{"kind":"literal","value":"team"},"value":{"kind":"string"}}},
+      {"kind":"object","fields":{"kind":{"kind":"literal","value":"name-confirm"},"field":{"kind":"literal","value":"team"},"value":{"kind":"string"},"choiceId":{"kind":"ref","name":"SceneChoiceId"},"optionIds":{"kind":"array","value":{"kind":"ref","name":"SceneOptionId"}}}},
       {"kind":"object","fields":{"kind":{"kind":"literal","value":"advance"}}},
       {
         "kind": "object",

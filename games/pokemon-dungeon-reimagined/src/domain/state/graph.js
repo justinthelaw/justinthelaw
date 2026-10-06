@@ -33,7 +33,7 @@ function checkFlows(context) {
   if (scene) {
     unique(context, scene.bindings.map(binding => binding.roleId), '/pendingScene/bindings');
     unique(context, scene.choices.map(choice => choice.choiceId), '/pendingScene/choices');
-    if (scene.awaiting.kind === 'choice') unique(context, scene.awaiting.optionIds, '/pendingScene/awaiting');
+    if ((scene.awaiting.kind === 'choice' || scene.awaiting.kind === 'name-confirm')) unique(context, scene.awaiting.optionIds, '/pendingScene/awaiting');
     for (const binding of scene.bindings) {
       if (binding.kind === 'pokemon') check(context, !!state.roster[binding.pokemonId], '/pendingScene', 'Scene Pokemon binding is absent.');
       if (binding.kind === 'actor') check(context, !!state.session?.actors[binding.actorId], '/pendingScene', 'Scene actor binding is absent.');

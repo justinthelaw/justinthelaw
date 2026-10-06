@@ -64,12 +64,20 @@ function isTyping(element: Element | null): boolean {
   return Boolean(element?.closest("input, textarea, select, [contenteditable]:not([contenteditable='false'])"));
 }
 
-function recipientFor(iframe: HTMLIFrameElement | null): Recipient | null {
+function recipientFor(iframe: HTMLIFrameElement | null, keys: readonly GameKey[]): Recipient | null {
   try {
     const frameDocument = iframe?.contentDocument;
     if (!frameDocument?.body || isTyping(document.activeElement)) return null;
     const target = frameDocument.activeElement ?? frameDocument.body;
-    return isTyping(target) ? null : { document: frameDocument, target };
+    if (isTyping(target)) {
+      // A form can opt its focused editable text field into submit only.
+      // Movement, B, Select/Menu and every other typing surface stay protected.
+      const confirmsInput = keys.length === 1 && (keys[0]?.code === GAME_KEYS.a.code || keys[0]?.code === GAME_KEYS.start.code)
+        && target.matches('input[type="text"][data-game-controls-confirm="submit"]:not(:disabled):not([readonly])')
+        && !target.closest("[inert], [hidden]");
+      if (!confirmsInput) return null;
+    }
+    return { document: frameDocument, target };
   } catch {
     // An external frame cannot receive this same-origin adapter.
     return null;
@@ -162,7 +170,7 @@ export function useGameControls(iframeRef: RefObject<HTMLIFrameElement | null>) 
   }, [releaseKeys]);
 
   const pressKeys = useCallback((keys: readonly GameKey[]): boolean => {
-    const recipient = recipientFor(iframeRef.current);
+    const recipient = recipientFor(iframeRef.current, keys);
     if (!recipient) return false;
     for (const key of keys) {
       const held = heldKeysRef.current.get(key.code);

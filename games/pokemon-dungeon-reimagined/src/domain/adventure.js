@@ -63,7 +63,7 @@ export function createAdventure(options) {
         const result = snapshot.pendingResult;
         if (!result || result.resultId !== intent.resultId || result.cursor !== intent.cursor || intent.revision !== snapshot.revision) return failure('rejected', 'stale');
       }
-      if (intent.type === 'ackScene') {
+      if (intent.type === 'ackScene' || intent.type === 'submitSceneName') {
         const scene = snapshot.pendingScene;
         if (!scene || scene.sceneId !== intent.sceneId || scene.sceneInstanceId !== intent.sceneInstanceId || scene.cursor !== intent.cursor || intent.revision !== snapshot.revision) return failure('rejected', 'stale');
       }

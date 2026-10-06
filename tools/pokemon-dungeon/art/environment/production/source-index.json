@@ -1,13 +1,23 @@
 {
   "schemaVersion": 1,
+  "historicalArt": {
+    "originalPath": "games/pokemon-dungeon-reimagined/assets/environment/production/manifest.json",
+    "sha256": "9da1ab8f1098db484fcc60449d1211cc24db67aacc00722f94278062c6de7c6c",
+    "archivePath": "art/environment/production/evidence/pre-team-formation-manifest.json",
+    "allowedAddition": {
+      "kitId": "town",
+      "propId": "mailbox"
+    },
+    "acceptance": "historical-captures-only-new-mailbox-unaccepted"
+  },
   "sources": [
     {
       "path": "art/environment/production/geometry.mjs",
-      "sha256": "3328d6b57f2d9acd1e2538c50589c91f31a621451b54860b688bd91090291466"
+      "sha256": "1070f57fbe7be7105a62996cf24ed98e6ed9c287b103d9d4feb8dc3f598ee842"
     },
     {
       "path": "art/environment/production/kits.mjs",
-      "sha256": "7bfd00654ab3a161209ace72d3f1a52673b48c950ea8f2185a1ab8096d8c88fe"
+      "sha256": "02bc7b73fc640fbe95b4bf480beede9d4a636a4632585009fceba05276d1a347"
     },
     {
       "path": "art/environment/production/textures.mjs",
@@ -19,7 +29,7 @@
     },
     {
       "path": "scripts/export-environments.mjs",
-      "sha256": "782bba1e5b33830cd55526f0d2ffe3fcdbafe733f1204a691d6f56703bb0bf61"
+      "sha256": "72980689c78ea8fc16354a0dfb81a7e617564ab5913d46ff2c85725308b00238"
     },
     {
       "path": "art/pixel/raster.mjs",
@@ -46,8 +56,8 @@
   ],
   "runtimeManifest": {
     "path": "games/pokemon-dungeon-reimagined/assets/environment/production/manifest.json",
-    "sha256": "9da1ab8f1098db484fcc60449d1211cc24db67aacc00722f94278062c6de7c6c",
-    "encodedBytes": 491765
+    "sha256": "7ff17abddb393b4e104692901c8b7030efca2bf8da57a35e93b7478b3465530a",
+    "encodedBytes": 494478
   },
   "scope": {
     "kits": 12,
@@ -56,7 +66,7 @@
     "friendAreas": 57,
     "locations": 86,
     "textures": 41,
-    "uniqueProps": 40
+    "uniqueProps": 41
   },
   "sceneStagingComplete": false
 }

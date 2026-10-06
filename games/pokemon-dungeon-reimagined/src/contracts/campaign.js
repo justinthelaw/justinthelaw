@@ -1191,7 +1191,7 @@
  * }} Continuation
  */
 
-/** @typedef {| {kind:'advance';} | {kind:'choice'; choiceId:SceneChoiceId; optionIds:SceneOptionId[];}} SceneAwait */
+/** @typedef {| {kind:'advance';} | {kind:'choice'; choiceId:SceneChoiceId; optionIds:SceneOptionId[];} | {kind:'name-input';field:'team';value:string;} | {kind:'name-confirm';field:'team';value:string;choiceId:SceneChoiceId;optionIds:SceneOptionId[];}} SceneAwait */
 
 /**
  * @typedef {{

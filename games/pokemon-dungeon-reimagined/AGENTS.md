@@ -1,14 +1,16 @@
 # Pokémon Dungeon Reimagined
 
-## Current status: implementation authorized; foundations in progress
+## Current status: opening implemented; full campaign acceptance pending
 
 Planning PR #387 was merged on 2026-10-04. Justin's later instruction to
 "Continue the @Codex implementation" authorizes execution of this plan. Resume
 the first incomplete dependency-ready package in `plan/PROGRESS.md`. P01 retains
 open source questions; merged PR #388 adds static tooling, a
-pinned vendor bundle and a startup-only shell. P02 authoring inventories and
-P07-A identity/snapshot/RNG primitives are being added; no playable adventure
-exists yet. The latest 2026-10-05 direction rejects the P06 rigid-mesh character candidates
+pinned vendor bundle and a startup-only shell. The development branch now
+contains the canonical opening adventure through
+Tiny Woods, Caterpie reunion and confirmed team formation at the day-zero base
+boundary. Static checks do not establish human play/visual acceptance or a
+complete campaign; first morning and later routes remain gated. The latest 2026-10-05 direction rejects the P06 rigid-mesh character candidates
 and requires faithful directional pixel characters in textured real 3D spaces.
 Earlier inferred acceptance is superseded; all visual acceptance stays open.
 Preserve package evidence, visual review and full-release gates.

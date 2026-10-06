@@ -1,6 +1,6 @@
-import { TEAM } from '../authored/team-formation.js';
+// Frozen held-v2 opening policy boundary from 0e16251; do not widen admission.
 import { fingerprint } from '../../src/domain/state/relations.js';
-import { INITIAL_NATIVE_PROGRESS } from '../authored/opening.js';
+import { INITIAL_NATIVE_PROGRESS } from '../authored/held-v2-opening.js';
 import { diagnostics, sameForm } from './pokemon-rules.js';
 
 /** @typedef {import('../../src/contracts/campaign.js').CampaignStatePolicies} Policies */
@@ -10,7 +10,7 @@ const equal = (a, b) => fingerprint(a) === fingerprint(b);
 /** Concrete admission for the authored awakening and its empty meadow boundary.
  * These checks admit any coherent scene cursor, not only revision zero. Later
  * story nodes have their own explicit owner; no callback receipt replaces it.
- * @param {import('../authored/opening.js').AuthoredOpening} authored
+ * @param {import('../authored/held-v2-opening.js').AuthoredOpening} authored
  * @param {import('../../src/contracts/campaign.js').CampaignContent['initialCampaign']} initialCampaign
  * @returns {Pick<Policies,'progress'|'scene'|'town'|'rescue'|'job'|'result'>} */
 export function createOpeningPolicies(authored, initialCampaign) {
@@ -63,15 +63,7 @@ export function createOpeningPolicies(authored, initialCampaign) {
     },
     town(town, state) {
       const r = diagnostics();
-      if (town.mapDefinitionId === TEAM.map) {
-        r.check([TEAM.story, TEAM.foundedStory].includes(state.progress.storyNodeId), '', 'Base belongs only to admitted team formation or founded boundary.');
-        r.check(town.day === 0 && town.serviceStock.length === 0, '', 'Base remains day zero before morning services.');
-        const placements = [{ reference: { kind: 'pokemon', pokemonId: state.profile.heroId }, ...TEAM.hero }, { reference: { kind: 'pokemon', pokemonId: state.profile.partnerId }, ...TEAM.partner }];
-        r.check(equal(town.placements, placements), '/placements', 'Base requires exact original pair placements.');
-        return r.result();
-      }
       if (town.mapDefinitionId !== authored.town.mapDefinitionId) { r.need(`P20:ground-map:${town.mapDefinitionId}`); return r.result(); }
-      r.check(![TEAM.story, TEAM.foundedStory].includes(state.progress.storyNodeId), '', 'Formation cannot remain in the meadow.');
       r.check(town.day === authored.town.day && town.serviceStock.length === 0, '', 'The opening meadow has day zero and no town services.');
       r.check(town.placements.length === 2, '/placements', 'Opening meadow contains the hero and partner.');
       const occupied = new Set(); const present = new Set();

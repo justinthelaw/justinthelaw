@@ -228,6 +228,13 @@ Desktop input uses native iframe focus. Controls default to visible for touch
 devices, remain manually toggleable, use targets of at least 44px, and release
 held keys on interruption, hiding, navigation and disposal. The bridge does
 not implement missing game simulation; tests use inert key-recording fixtures.
+Typing surfaces normally suppress every overlay key. A focused editable text
+input can explicitly opt into overlay A/Start only with
+`data-game-controls-confirm="submit"`; movement, B, Select/Menu, readonly fields,
+other typing surfaces and host-page typing retain protection. The game owns
+submission, validation and scene guards; the bridge only emits the bounded key
+pair to the captured input recipient. Website fixture tests cover this contract
+without importing or executing game source.
 
 For a screenshot or GIF, set
 `preview: { src: "/arcade/my-game.gif", alt: "Description of the game" }` and put
