@@ -2,8 +2,8 @@
 /** @typedef {import('../contracts.js').InstanceKind} InstanceKind */
 /** @typedef {import('../contracts.js').CatalogKind} CatalogKind */
 
-const instanceKinds = new Set(['pokemon', 'actor', 'item-instance', 'move-slot', 'session', 'job', 'transaction']);
-const catalogKinds = new Set(['species', 'form', 'move', 'item', 'dungeon', 'scene', 'friend-area']);
+const instanceKinds = new Set(['pokemon', 'actor', 'move-slot', 'item-instance', 'session', 'job', 'transaction', 'map', 'room', 'container', 'trap', 'exit', 'scene-instance', 'result', 'shop', 'shop-lot', 'rescue-request', 'imported-team']);
+const catalogKinds = new Set(['species', 'form', 'move', 'item', 'dungeon', 'scene', 'friend-area', 'section', 'floor', 'map-definition', 'terrain', 'trap-kind', 'weather', 'type', 'ability', 'iq-skill', 'tactic', 'story-node', 'story-branch', 'milestone', 'grant', 'scene-role', 'scene-choice', 'scene-option', 'story-actor', 'encounter', 'policy', 'effect-program', 'item-variant']);
 const forbiddenKeys = new Set(['__proto__', 'prototype', 'constructor']);
 
 /** Membership is evidence supplied by an accepted catalog, not by spelling.

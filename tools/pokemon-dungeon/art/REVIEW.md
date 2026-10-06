@@ -1,12 +1,67 @@
-# P06 candidate 3D review
+# P06 art review — current pixels and historical rejected meshes
 
 **P06 art preview; not gameplay.** These are actual locally rendered GLB assets,
-not generated gameplay illustrations. Justin's 2026-10-05 continuation after
-the scene and motion-study checkpoint is treated as acceptance of the shown
-visual direction. Full clip/device/rig acceptance remains open; P06 is not
-complete and no asset is approved for runtime promotion.
+not generated gameplay illustrations. The earlier record interpreted Justin's continuation as direction acceptance.
+The later explicit EthrA pixel/real-3D reference and rejection of primitive
+character anatomy supersede that inference. These rigid character candidates
+are rejected and retained as historical evidence. P06 is not complete and no
+asset is approved for runtime promotion.
 
-## Concrete output
+## Current directional pixel proof (2026-10-05)
+
+**Original art foundation; no gameplay and no final acceptance.** The actual user
+EthrA frame was inspected: crisp directional pixel characters occupy textured,
+illuminated three-dimensional spaces. The new code-native sources draw original
+species-specific silhouettes; they do not pixelate the rejected GLBs or reuse
+commercial pixels. The failed ImageGen attempt produced no asset and was not
+retried or routed through an API.
+
+| Candidate | Visible identity evidence | Remaining refinement |
+| --- | --- | --- |
+| Pikachu | Long black-tipped ears, red cheeks, two brown back stripes, broad angular lightning tail, flat paws; dedicated side silhouette | Diagonal volume, expressive poses, gait/contact refinement |
+| Charmander | Rounded connected skull/muzzle, teal eyes, cream underside, three-toed feet, tapering tail with attached layered flame; distinct profile | Diagonal muzzle/body volume, flame/motion polish and full action clips |
+| Groudon | Wedge snout, focused gold eyes, red plate seams, pale belly plates/side spikes/claws, broad haunches and flat armored tail; distinct hunched profile | Forward wedge jaw, raised shoulder hump and shortened visible belly revised after actual front-capture feedback; diagonal mass still stylized; full armor/anatomy and animation acceptance remains open |
+
+All three use the [versioned contract](pixel/CONTRACT.md): eight rows, twelve
+columns, 96×96 RGBA cells, fixed `[48,92]` feet, nearest character sampling and
+explicit idle/walk/physical-attack studies. Full clips are missing and listed in
+[the manifest](pixel/manifest.json). Three candidates are not roster coverage.
+
+| Current evidence | Files |
+| --- | --- |
+| Direction strips | [Pikachu](pixel/output/pikachu-directions.png), [Charmander](pixel/output/charmander-directions.png), [Groudon](pixel/output/groudon-directions.png) |
+| Real 3D material/composition proof | [Desktop](pixel/captures/composition-desktop.jpg), [390×844 mobile](pixel/captures/composition-mobile.jpg) |
+| Individual examples | [Pikachu front](pixel/captures/pikachu-front.jpg), [Charmander side](pixel/captures/charmander-right.jpg), [Groudon side](pixel/captures/groudon-right.jpg), [Groudon back](pixel/captures/groudon-back.jpg) |
+| Full capture inventory | [Browser/viewports/queries/errors](pixel/captures/capture-record.json): all 24 neutral directions, 8 fixed-world-forward orientation proofs and 12 held animation-study frames |
+
+The proof viewer shows actual local Three.js textured terrain/rocks, warm lights,
+fog/depth and yaw-only billboard sprites. The authoring camera selects rows from actor heading minus camera bearing.
+A fixed +Z cyan world arrow in eight dedicated orientation captures independently
+checks projected facing; camera +X must show the heading-zero nose pointing left. Ground contacts are simple translucent ellipses, not physical
+character shadows. Sprite palette ramps are authored, with basic unlit materials;
+scene lighting currently affects terrain, not dynamic character relighting.
+The cavern is a texture/depth proof, not a finished campaign biome.
+
+Visual inspection found frontal-image reuse did not provide adequate profiles;
+independent side silhouettes were drawn for all three species. Feet were aligned
+to the shared anchor and safety borders were checked across all 288 cells. The
+first terrain capture hid most lava beneath an over-wide floor; the revised floor
+reveals the side channels and replaces regular brick lines with broken stone.
+Further front-capture feedback prompted a wider/forward Groudon jaw, a raised shoulder hump, shorter belly, lowered profile head, darker ground contacts and brighter warm terrain fill. Phone composition keeps hero/partner distinct but small; closer campaign camera
+and physical-device review remain necessary. No quality/FPS claim is made.
+
+Capture runs execute only the art viewer. Browser is Chromium 153.0.8010.12,
+Linux SwiftShader software WebGL2; captured poses are held frames, not measured
+frame pacing. The reproducible capture script reports zero page/console/resource
+errors, with every request inside tools. No domain state, game route, combat,
+save or playthrough is executed. Exact commands/results are in Task 1's report.
+
+`npm run pixel:export`, `npm run pixel:check`, `npm run check` and
+`PIXEL_CAPTURE_BROWSER=/path/to/chromium npm run pixel:capture` from the tools
+package reproduce the original bytes and the art-only evidence. The new viewer
+is `art-preview/pixel/`; the original viewer below remains a historical inspector.
+
+## Historical rigid-mesh output
 
 | Candidate revision 2 | LOD0 / LOD1 / LOD2 triangles | GLB bytes, LOD0 / LOD1 / LOD2 |
 | --- | --- | --- |
@@ -22,7 +77,7 @@ All model bytes, local notices, sources, bounds, names, counts and clips are
 recorded in [the candidate manifest](manifests/assets.json). Canonical form and
 dungeon bindings remain unresolved, and licensing/review status stays pending.
 
-## Rendered views
+## Historical rendered views
 
 | Subject | Views |
 | --- | --- |
@@ -49,11 +104,10 @@ embedded smaller Charmander eyes, broader Groudon anatomy/curved belly plates,
 less washed-out lighting and portrait camera framing. These changes improve the
 candidate; they do not constitute Justin's acceptance.
 
-## Remaining acceptance
+## Historical candidate limitations
 
-- Continue the shown direction under the latest continuation instruction.
-  Review further character production and unresolved details individually;
-  this continuation does not certify unseen clips, devices or future assets.
+- The old continuation inference was superseded by explicit rejection. Do not
+  continue the primitive anatomy or claim acceptance; preserve this evidence.
 - Review all eleven clips per character, joins/deformation, contact and
   expression in the local harness; a short locomotion sample is not exhaustive.
 - Review actual low/standard/high quality and reduced motion on agreed physical

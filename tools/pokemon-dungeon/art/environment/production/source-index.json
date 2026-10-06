@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "path": "art/environment/production/geometry.mjs",
+      "sha256": "3328d6b57f2d9acd1e2538c50589c91f31a621451b54860b688bd91090291466"
+    },
+    {
+      "path": "art/environment/production/kits.mjs",
+      "sha256": "7bfd00654ab3a161209ace72d3f1a52673b48c950ea8f2185a1ab8096d8c88fe"
+    },
+    {
+      "path": "art/environment/production/textures.mjs",
+      "sha256": "68c505a1da8f4d4a1756341b7350611aad5af55418038cfa12dcd73ec1a50d6a"
+    },
+    {
+      "path": "art/environment/production/mappings.mjs",
+      "sha256": "35a7d4cfa57161228f6f07758a8e6570eef2e46fd7b85c9a7a4e56fd3b71b55d"
+    },
+    {
+      "path": "scripts/export-environments.mjs",
+      "sha256": "782bba1e5b33830cd55526f0d2ffe3fcdbafe733f1204a691d6f56703bb0bf61"
+    },
+    {
+      "path": "art/pixel/raster.mjs",
+      "sha256": "9199a2a4eb2cfaaa4b5027e4107e5420368026456f50948fae2f28f899756406"
+    }
+  ],
+  "catalogs": [
+    {
+      "path": "content/dungeon-runtime/dungeons-01.json",
+      "sha256": "f9490918f5b70ea5ebcf76fab77d99b37a53155659d250c8667be9b05dc623c8"
+    },
+    {
+      "path": "content/dungeon-runtime/sections-01.json",
+      "sha256": "a1627bca6dc5a94449f079f766eb30bb256a7762f10d08ea231cc296fc8440bb"
+    },
+    {
+      "path": "content/locations.json",
+      "sha256": "285dfefafdddbc3f4b059193e9fc38594893fe06c224403f1b5b242861ae244d"
+    },
+    {
+      "path": "content/species-runtime/identities.json",
+      "sha256": "278d7717c1e2dcf0db63cbdaff74dd8bdafe08c350450ed28c76ed2151cda224"
+    }
+  ],
+  "runtimeManifest": {
+    "path": "games/pokemon-dungeon-reimagined/assets/environment/production/manifest.json",
+    "sha256": "9da1ab8f1098db484fcc60449d1211cc24db67aacc00722f94278062c6de7c6c",
+    "encodedBytes": 491765
+  },
+  "scope": {
+    "kits": 12,
+    "dungeons": 67,
+    "sections": 73,
+    "friendAreas": 57,
+    "locations": 86,
+    "textures": 41,
+    "uniqueProps": 40
+  },
+  "sceneStagingComplete": false
+}

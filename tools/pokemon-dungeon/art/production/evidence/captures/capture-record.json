@@ -1,0 +1,970 @@
+{
+  "browser": "153.0.8010.12",
+  "renderer": "headless Chromium / SwiftShader",
+  "scope": "art-only; no game modules or game routes",
+  "sourceFiles": [
+    {
+      "path": "art/production/manifest.json",
+      "sha256": "a55a0dde9087d249c25b4358732d656674f3e45997137f5c56c0c210a5fafa5c"
+    },
+    {
+      "path": "art/production/page-index.json",
+      "sha256": "a954edb557af167bfc079a065e55ab922248875f60ad5a2a089a4f293745ea98"
+    },
+    {
+      "path": "art-preview/production/viewer.js",
+      "sha256": "ca983c84edc3a9931d701a51ae69e749c01974fe6c8d1753b803dba5df6c4fa9"
+    },
+    {
+      "path": "art-preview/pixel/environment.js",
+      "sha256": "13e056c0c52afb2289f1354d2dea3e72cee1881152a7af07625b78a98d918159"
+    },
+    {
+      "path": "art-preview/production/index.html",
+      "sha256": "c5ae0513384b2d5ceccbf02ccdc49557e4ef412cbaa4ee395cea4d06b338f195"
+    },
+    {
+      "path": "art-preview/production/style.css",
+      "sha256": "5c076d7d44e256fa85210dc75ae7ed5bb96bce2260d8bf2f2e37d72c173582db"
+    }
+  ],
+  "motion": "held clip-page frames; not measured performance",
+  "lifecycle": {
+    "live": 3,
+    "peak": 3,
+    "disposed": 12
+  },
+  "errors": [],
+  "captures": [
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "bulbasaur-camera-0.jpg",
+      "query": "still=1&subject=bulbasaur&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "bulbasaur-camera-1.jpg",
+      "query": "still=1&subject=bulbasaur&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "bulbasaur-camera-2.jpg",
+      "query": "still=1&subject=bulbasaur&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "bulbasaur-camera-4.jpg",
+      "query": "still=1&subject=bulbasaur&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "charmander-camera-0.jpg",
+      "query": "still=1&subject=charmander&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "charmander-camera-1.jpg",
+      "query": "still=1&subject=charmander&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "charmander-camera-2.jpg",
+      "query": "still=1&subject=charmander&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "charmander-camera-4.jpg",
+      "query": "still=1&subject=charmander&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "squirtle-camera-0.jpg",
+      "query": "still=1&subject=squirtle&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "squirtle-camera-1.jpg",
+      "query": "still=1&subject=squirtle&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "squirtle-camera-2.jpg",
+      "query": "still=1&subject=squirtle&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "squirtle-camera-4.jpg",
+      "query": "still=1&subject=squirtle&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "chikorita-camera-0.jpg",
+      "query": "still=1&subject=chikorita&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "chikorita-camera-1.jpg",
+      "query": "still=1&subject=chikorita&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "chikorita-camera-2.jpg",
+      "query": "still=1&subject=chikorita&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "chikorita-camera-4.jpg",
+      "query": "still=1&subject=chikorita&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "cyndaquil-camera-0.jpg",
+      "query": "still=1&subject=cyndaquil&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "cyndaquil-camera-1.jpg",
+      "query": "still=1&subject=cyndaquil&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "cyndaquil-camera-2.jpg",
+      "query": "still=1&subject=cyndaquil&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "cyndaquil-camera-4.jpg",
+      "query": "still=1&subject=cyndaquil&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "totodile-camera-0.jpg",
+      "query": "still=1&subject=totodile&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "totodile-camera-1.jpg",
+      "query": "still=1&subject=totodile&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "totodile-camera-2.jpg",
+      "query": "still=1&subject=totodile&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "totodile-camera-4.jpg",
+      "query": "still=1&subject=totodile&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "treecko-camera-0.jpg",
+      "query": "still=1&subject=treecko&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "treecko-camera-1.jpg",
+      "query": "still=1&subject=treecko&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "treecko-camera-2.jpg",
+      "query": "still=1&subject=treecko&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "treecko-camera-4.jpg",
+      "query": "still=1&subject=treecko&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "torchic-camera-0.jpg",
+      "query": "still=1&subject=torchic&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "torchic-camera-1.jpg",
+      "query": "still=1&subject=torchic&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "torchic-camera-2.jpg",
+      "query": "still=1&subject=torchic&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "torchic-camera-4.jpg",
+      "query": "still=1&subject=torchic&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "mudkip-camera-0.jpg",
+      "query": "still=1&subject=mudkip&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "mudkip-camera-1.jpg",
+      "query": "still=1&subject=mudkip&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "mudkip-camera-2.jpg",
+      "query": "still=1&subject=mudkip&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "mudkip-camera-4.jpg",
+      "query": "still=1&subject=mudkip&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "pikachu-camera-0.jpg",
+      "query": "still=1&subject=pikachu&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "pikachu-camera-1.jpg",
+      "query": "still=1&subject=pikachu&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "pikachu-camera-2.jpg",
+      "query": "still=1&subject=pikachu&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "pikachu-camera-4.jpg",
+      "query": "still=1&subject=pikachu&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "meowth-camera-0.jpg",
+      "query": "still=1&subject=meowth&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "meowth-camera-1.jpg",
+      "query": "still=1&subject=meowth&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "meowth-camera-2.jpg",
+      "query": "still=1&subject=meowth&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "meowth-camera-4.jpg",
+      "query": "still=1&subject=meowth&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "psyduck-camera-0.jpg",
+      "query": "still=1&subject=psyduck&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "psyduck-camera-1.jpg",
+      "query": "still=1&subject=psyduck&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "psyduck-camera-2.jpg",
+      "query": "still=1&subject=psyduck&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "psyduck-camera-4.jpg",
+      "query": "still=1&subject=psyduck&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "machop-camera-0.jpg",
+      "query": "still=1&subject=machop&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "machop-camera-1.jpg",
+      "query": "still=1&subject=machop&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "machop-camera-2.jpg",
+      "query": "still=1&subject=machop&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "machop-camera-4.jpg",
+      "query": "still=1&subject=machop&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "cubone-camera-0.jpg",
+      "query": "still=1&subject=cubone&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "cubone-camera-1.jpg",
+      "query": "still=1&subject=cubone&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "cubone-camera-2.jpg",
+      "query": "still=1&subject=cubone&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "cubone-camera-4.jpg",
+      "query": "still=1&subject=cubone&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "eevee-camera-0.jpg",
+      "query": "still=1&subject=eevee&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "eevee-camera-1.jpg",
+      "query": "still=1&subject=eevee&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "eevee-camera-2.jpg",
+      "query": "still=1&subject=eevee&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "eevee-camera-4.jpg",
+      "query": "still=1&subject=eevee&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "skitty-camera-0.jpg",
+      "query": "still=1&subject=skitty&angle=0",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "skitty-camera-1.jpg",
+      "query": "still=1&subject=skitty&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "skitty-camera-2.jpg",
+      "query": "still=1&subject=skitty&angle=2",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "skitty-camera-4.jpg",
+      "query": "still=1&subject=skitty&angle=4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-bulbasaur-1440.jpg",
+      "query": "still=1&subject=bulbasaur&composition=1&clip=idle",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-chikorita-1440.jpg",
+      "query": "still=1&subject=chikorita&composition=1&clip=idle",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-treecko-1440.jpg",
+      "query": "still=1&subject=treecko&composition=1&clip=idle",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-pikachu-1440.jpg",
+      "query": "still=1&subject=pikachu&composition=1&clip=idle",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-machop-1440.jpg",
+      "query": "still=1&subject=machop&composition=1&clip=idle",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-skitty-1440.jpg",
+      "query": "still=1&subject=skitty&composition=1&clip=idle",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-bulbasaur-390.jpg",
+      "query": "still=1&subject=bulbasaur&composition=1&clip=idle",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-chikorita-390.jpg",
+      "query": "still=1&subject=chikorita&composition=1&clip=idle",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-treecko-390.jpg",
+      "query": "still=1&subject=treecko&composition=1&clip=idle",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-pikachu-390.jpg",
+      "query": "still=1&subject=pikachu&composition=1&clip=idle",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-machop-390.jpg",
+      "query": "still=1&subject=machop&composition=1&clip=idle",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "residentPages": 3,
+      "facingRow": 4,
+      "file": "composition-skitty-390.jpg",
+      "query": "still=1&subject=skitty&composition=1&clip=idle",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 0,
+      "file": "facing-pikachu-camera-0.jpg",
+      "query": "still=1&subject=pikachu&angle=0",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 7,
+      "file": "facing-pikachu-camera-1.jpg",
+      "query": "still=1&subject=pikachu&angle=1",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 6,
+      "file": "facing-pikachu-camera-2.jpg",
+      "query": "still=1&subject=pikachu&angle=2",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 5,
+      "file": "facing-pikachu-camera-3.jpg",
+      "query": "still=1&subject=pikachu&angle=3",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 4,
+      "file": "facing-pikachu-camera-4.jpg",
+      "query": "still=1&subject=pikachu&angle=4",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 3,
+      "file": "facing-pikachu-camera-5.jpg",
+      "query": "still=1&subject=pikachu&angle=5",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 2,
+      "file": "facing-pikachu-camera-6.jpg",
+      "query": "still=1&subject=pikachu&angle=6",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 1,
+      "file": "facing-pikachu-camera-7.jpg",
+      "query": "still=1&subject=pikachu&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 1,
+      "file": "pose-bulbasaur-walk.jpg",
+      "query": "still=1&subject=bulbasaur&clip=walk&frame=2&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 1,
+      "file": "pose-pikachu-attack-physical.jpg",
+      "query": "still=1&subject=pikachu&clip=attack-physical&frame=2&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 1,
+      "file": "pose-squirtle-attack-special.jpg",
+      "query": "still=1&subject=squirtle&clip=attack-special&frame=2&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 1,
+      "file": "pose-chikorita-cast-status.jpg",
+      "query": "still=1&subject=chikorita&clip=cast-status&frame=2&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 1,
+      "file": "pose-machop-hit-heavy.jpg",
+      "query": "still=1&subject=machop&clip=hit-heavy&frame=1&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 1,
+      "file": "pose-eevee-defeat.jpg",
+      "query": "still=1&subject=eevee&clip=defeat&frame=3&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 1,
+      "file": "pose-torchic-celebrate.jpg",
+      "query": "still=1&subject=torchic&clip=celebrate&frame=1&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 1,
+      "file": "pose-skitty-rest-sleep.jpg",
+      "query": "still=1&subject=skitty&clip=rest-sleep&frame=1&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    },
+    {
+      "residentPages": 1,
+      "facingRow": 1,
+      "file": "pose-meowth-interact.jpg",
+      "query": "still=1&subject=meowth&clip=interact&frame=1&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 1000
+      }
+    }
+  ]
+}

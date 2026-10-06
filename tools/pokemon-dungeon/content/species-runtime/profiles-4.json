@@ -1,0 +1,4833 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-species-profiles",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "profiles",
+  "records": [
+    {
+      "id": "pokemon-276",
+      "speciesId": "pokemon-276",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 301,
+      "resources": {
+        "blueGrowthResourceId": 301,
+        "redGrowthResourceId": 301,
+        "blueLearnsetResourceId": 301,
+        "redLearnsetResourceId": 301
+      },
+      "levelResourceId": "level-8094bbf6a1829038e2bd6455d94c8421801c747db51dcb0ec722a6d7c04b63f1",
+      "learnsetResourceId": "learn-32f0c01cbb6cd6f2780007a003887f29a56d69b782cb1b727e935c3c7aaa5622",
+      "typeIds": [1, 10],
+      "abilityIds": [
+        17,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 6,
+      "friendAreaId": "friend-area-beau-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 75,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp301",
+        "redNumericTableSha256": "c306bd43c8c459ab855b6bfd4306a8f4d8d18579da1ffb0b471c46bb34c7a731",
+        "redDecodedPayloadSha256": "6ebe6f37c11ec41a8b4eefb2dd58e4faca69c8fb692d2d36091dbff5a12a9ba1",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-277",
+      "speciesId": "pokemon-277",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 302,
+      "resources": {
+        "blueGrowthResourceId": 302,
+        "redGrowthResourceId": 302,
+        "blueLearnsetResourceId": 302,
+        "redLearnsetResourceId": 302
+      },
+      "levelResourceId": "level-aec3ba6005db719a9b03c6d28914e4eeac7c655c61d88be7e807a782d3b02a1d",
+      "learnsetResourceId": "learn-8f183d406c81b0772bc50915ce27646ebff84ac64cff1e0ffb2479dc1fc9b1a5",
+      "typeIds": [1, 10],
+      "abilityIds": [
+        17,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 57,
+      "friendAreaId": "friend-area-beau-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp302",
+        "redNumericTableSha256": "220b1e060902e535a6581bd58c52730f5ac7152187d9dee288a027cec81c86a3",
+        "redDecodedPayloadSha256": "b30ac54723e1022b7ce839da887c3103692499d573b7ebaf6223613578279567",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-278",
+      "speciesId": "pokemon-278",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 303,
+      "resources": {
+        "blueGrowthResourceId": 303,
+        "redGrowthResourceId": 303,
+        "blueLearnsetResourceId": 303,
+        "redLearnsetResourceId": 303
+      },
+      "levelResourceId": "level-e3688c2f5f529b14fb24b8f2f983077063369cc64f9db1b8d1beff19ab31b0c9",
+      "learnsetResourceId": "learn-6173fd1d0d6e13feca0deeb18c53e9976505651b1b8b9a553d6dc63742d031d0",
+      "typeIds": [3, 10],
+      "abilityIds": [
+        30,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 27,
+      "friendAreaId": "friend-area-shallow-beach",
+      "recruitment": {
+        "baseRateTenthsPercent": 125,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp303",
+        "redNumericTableSha256": "d48489ddadd19fda3c096b17fade4d05537ed61d7e981e8f75a61409e67552df",
+        "redDecodedPayloadSha256": "c971cca8423d5f12eef833db1a62d9f380f3900878668c3daef7af68698e81b6",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-279",
+      "speciesId": "pokemon-279",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 304,
+      "resources": {
+        "blueGrowthResourceId": 304,
+        "redGrowthResourceId": 304,
+        "blueLearnsetResourceId": 304,
+        "redLearnsetResourceId": 304
+      },
+      "levelResourceId": "level-1603b05c15295879f2b822881afe1d0f22d01bf56e0ac8b57694f7d2d3bb63f4",
+      "learnsetResourceId": "learn-d9415b230078dd3c70dba0ba748ecee3b10b9ea35585720ef131bf64496ebccc",
+      "typeIds": [3, 10],
+      "abilityIds": [
+        30,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 84,
+      "friendAreaId": "friend-area-shallow-beach",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp304",
+        "redNumericTableSha256": "697a2078677179fab666c6480a2c19e90270cef563f6e3f4f30b603785091cf2",
+        "redDecodedPayloadSha256": "bf0fe3b24f244989c807b46dc0889632412f75145fa512c9438ed9c0198e6f4b",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-280",
+      "speciesId": "pokemon-280",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 305,
+      "resources": {
+        "blueGrowthResourceId": 305,
+        "redGrowthResourceId": 305,
+        "blueLearnsetResourceId": 305,
+        "redLearnsetResourceId": 305
+      },
+      "levelResourceId": "level-a356e94543c00fbc787c351ab85badbe5078a49476d82e3ed9a02eb11d42f508",
+      "learnsetResourceId": "learn-228218dac4a1cc9e4dc7f17db08414aa22e97e3545d9362a249bf93c3408fd92",
+      "typeIds": [11],
+      "abilityIds": [25, 40],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 18,
+      "friendAreaId": "friend-area-sky-blue-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 10,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp305",
+        "redNumericTableSha256": "e53f0e939f79497c5cb8123c88073b76b355e6e4350fbac6204cb828c9bd11b6",
+        "redDecodedPayloadSha256": "782a425971b43e12fcf48d752013fd92190e72c6924efa697f2eb91f6a3d29ff",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-281",
+      "speciesId": "pokemon-281",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 306,
+      "resources": {
+        "blueGrowthResourceId": 306,
+        "redGrowthResourceId": 306,
+        "blueLearnsetResourceId": 306,
+        "redLearnsetResourceId": 306
+      },
+      "levelResourceId": "level-13c6e92479c61ad2efbf43a990eeb1760906800a456dc4872d4dee83ba581d67",
+      "learnsetResourceId": "learn-1f773f7e9f7e34d96d800fd1226d7d4ae1aa6268ca7ae7fd159b7ff9d85db409",
+      "typeIds": [11],
+      "abilityIds": [25, 40],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-sky-blue-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp306",
+        "redNumericTableSha256": "4737e0a5267c3ea3bab81cd311edacf43de18356d132e41a73b9cf1ee4e4fe77",
+        "redDecodedPayloadSha256": "02ef8f419511afc39e16efce7ee78ea3bff32c7506f53daf99c11d1be225e870",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-282",
+      "speciesId": "pokemon-282",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 307,
+      "resources": {
+        "blueGrowthResourceId": 307,
+        "redGrowthResourceId": 307,
+        "blueLearnsetResourceId": 307,
+        "redLearnsetResourceId": 307
+      },
+      "levelResourceId": "level-5eff401aa01884c5e64c9c24e065525f0d839210045d97b0e10260be6afd8794",
+      "learnsetResourceId": "learn-fe9cd2c8ede8b888eda4d2d0ece08402268eb0f369377fc77c952882ed7cd3db",
+      "typeIds": [11],
+      "abilityIds": [25, 40],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 120,
+      "friendAreaId": "friend-area-sky-blue-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp307",
+        "redNumericTableSha256": "a3673315d4c2d8afb66f914441f185eab471991ab62b7a3e3ddf9e8921f718a7",
+        "redDecodedPayloadSha256": "b1fcd61f98bfd2e50aea6cb21348d1f1799bca329d36c14cd3b12c98cbdd13e8",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-283",
+      "speciesId": "pokemon-283",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 308,
+      "resources": {
+        "blueGrowthResourceId": 308,
+        "redGrowthResourceId": 308,
+        "blueLearnsetResourceId": 308,
+        "redLearnsetResourceId": 308
+      },
+      "levelResourceId": "level-3dde1a616f672491b7babedb88aadc457bf0081d3e8aa0560e9f528648177aed",
+      "learnsetResourceId": "learn-c7b731650a67b3d9af7fac9cd7b345cb47e4b0f33d64925e054307037f38a115",
+      "typeIds": [12, 3],
+      "abilityIds": [
+        27,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 10,
+      "friendAreaId": "friend-area-tadpole-pond",
+      "recruitment": {
+        "baseRateTenthsPercent": 38,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp308",
+        "redNumericTableSha256": "5361c9245a0e1939ccf3dbd5fc07607af01ce7b2046b9fad7d37d00e5fb28220",
+        "redDecodedPayloadSha256": "62afbf243e994e36f11a5856af964096d9ef71033e0d5f3401d5b4424a1698bb",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-284",
+      "speciesId": "pokemon-284",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 309,
+      "resources": {
+        "blueGrowthResourceId": 309,
+        "redGrowthResourceId": 309,
+        "blueLearnsetResourceId": 309,
+        "redLearnsetResourceId": 309
+      },
+      "levelResourceId": "level-4ac06f89b88b420d6e447fe07bde1daa936aca2cc81d3e7183a6f89e146045ce",
+      "learnsetResourceId": "learn-cf5ca2a468c5ceb72643d0d555d248ff29692b1eee797a686cc5f3de9194e290",
+      "typeIds": [12, 10],
+      "abilityIds": [
+        6,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 40,
+      "friendAreaId": "friend-area-tadpole-pond",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp309",
+        "redNumericTableSha256": "51522401fea0de42f9cea45452931cef4c130dc37a038d82de3c6ebf4d00b792",
+        "redDecodedPayloadSha256": "3d152d9b415806c1418e96200f78de8aa05a0f962478cb6ef30d239bc5a43f84",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-285",
+      "speciesId": "pokemon-285",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 310,
+      "resources": {
+        "blueGrowthResourceId": 310,
+        "redGrowthResourceId": 310,
+        "blueLearnsetResourceId": 310,
+        "redLearnsetResourceId": 310
+      },
+      "levelResourceId": "level-15f4b56f974b5385d75a64572e10a6c5ccd687fc5c96f6d6004814eb87f4411f",
+      "learnsetResourceId": "learn-2f147a3f393452ca52e5b2a81d93ced19a92da5cb62311c7e0925cc8f1b635ad",
+      "typeIds": [4],
+      "abilityIds": [
+        61,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-mushroom-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 77,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp310",
+        "redNumericTableSha256": "25db354bf07cb93a1015e0c74f3b1e0a9ed1516dac1e680318a7f2b3c2042570",
+        "redDecodedPayloadSha256": "8262ac3f2668f0113ab1d600b35e626e73403a7d7fbd74432950294adb1a1cbb",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-286",
+      "speciesId": "pokemon-286",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 311,
+      "resources": {
+        "blueGrowthResourceId": 311,
+        "redGrowthResourceId": 311,
+        "blueLearnsetResourceId": 311,
+        "redLearnsetResourceId": 311
+      },
+      "levelResourceId": "level-a3b32e0579d1db9867daee1d562d67ba9f4121a44911b93553c8483bb3f82724",
+      "learnsetResourceId": "learn-32be99e14872661ed7fe0659393b0efa4cc955b67074711fd7d2535e5c050028",
+      "typeIds": [4, 7],
+      "abilityIds": [
+        61,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 55,
+      "friendAreaId": "friend-area-mushroom-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp311",
+        "redNumericTableSha256": "bcdbe8edf45a6c372f536f11387f7b0a36f9f706b635ccbab34ee7e91661a79b",
+        "redDecodedPayloadSha256": "21aded444112614de343812397c3c65125bc08223b59429cd31841c8f6728c63",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-287",
+      "speciesId": "pokemon-287",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 312,
+      "resources": {
+        "blueGrowthResourceId": 312,
+        "redGrowthResourceId": 312,
+        "blueLearnsetResourceId": 312,
+        "redLearnsetResourceId": 312
+      },
+      "levelResourceId": "level-2de2fa20c39fd9e36fb439a239a666f7c4c69d02312e05cf0efe9d20f5a21f7f",
+      "learnsetResourceId": "learn-eec66dbbf0b22d0f1edb1e60045d66433a6e4bcae0018a9daa22c2d911fc57fb",
+      "typeIds": [1],
+      "abilityIds": [
+        42,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-energetic-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 113,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp312",
+        "redNumericTableSha256": "50c93e89ab8487200fe14e0fc7cae668f633af45cc57adc5349a80232611ddbc",
+        "redDecodedPayloadSha256": "7354a4d594f04b75d6cdf427aa73d399c6a64b1ccfdba8f06c88961d44294bbd",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-288",
+      "speciesId": "pokemon-288",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 313,
+      "resources": {
+        "blueGrowthResourceId": 313,
+        "redGrowthResourceId": 313,
+        "blueLearnsetResourceId": 313,
+        "redLearnsetResourceId": 313
+      },
+      "levelResourceId": "level-0de5c6bce13f7d9b09e4649ef48fc9ca5a224a2f14cc15e30a54d94364189491",
+      "learnsetResourceId": "learn-902c11a3c6d6c58b08f9cfe87294150fad685e35fb0c363883af05f718e9f628",
+      "typeIds": [1],
+      "abilityIds": [
+        73,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 51,
+      "friendAreaId": "friend-area-energetic-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp313",
+        "redNumericTableSha256": "7b4ff23fca17985f37edc94575b23e7db1172400efd9f2ae0cf55f12fd2c3bcd",
+        "redDecodedPayloadSha256": "8d936ec80b729d8ffc081eaaa2fd1f661003dda18e0609b86932e88288f805b4",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-289",
+      "speciesId": "pokemon-289",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 314,
+      "resources": {
+        "blueGrowthResourceId": 314,
+        "redGrowthResourceId": 314,
+        "blueLearnsetResourceId": 314,
+        "redLearnsetResourceId": 314
+      },
+      "levelResourceId": "level-db80472a7a1167af19eeeec11c7d7153921e6e48507d6dd1d4872a18f25bddf4",
+      "learnsetResourceId": "learn-b10285a802fbd423bd907e6cf4b017a3e64a8de283ae2f6a45a07ae9ec0783fd",
+      "typeIds": [1],
+      "abilityIds": [
+        42,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 72,
+      "friendAreaId": "friend-area-energetic-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp314",
+        "redNumericTableSha256": "479a59122f113eadc1a0dcee100d056a26fe604cccdd781beedc59c29553a8df",
+        "redDecodedPayloadSha256": "8869cebec47f27e6de1a1939ca1591c09831f0936235d8f75c295a7ae384d15e",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-290",
+      "speciesId": "pokemon-290",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 315,
+      "resources": {
+        "blueGrowthResourceId": 315,
+        "redGrowthResourceId": 315,
+        "blueLearnsetResourceId": 315,
+        "redLearnsetResourceId": 315
+      },
+      "levelResourceId": "level-657e67fa9b40611173fe009f82ced4055dc58a95a4fe2272043ebbc9cbd5343a",
+      "learnsetResourceId": "learn-ca213aa3f966a6ab06d5d6ad55038598fc6ea7f7e8bd475db96c0a3fd9a41aa2",
+      "typeIds": [12, 9],
+      "abilityIds": [
+        51,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 30,
+      "friendAreaId": "friend-area-secretive-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 74,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp315",
+        "redNumericTableSha256": "a81094f3c1f4211536e53b957471f22bde0e71788ed92ea363e7d8d5bcbaf87a",
+        "redDecodedPayloadSha256": "89b751ac6558d8bc593ba0835d0dc3426f35779800313746da0872c0b1e0fc2c",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-291",
+      "speciesId": "pokemon-291",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 316,
+      "resources": {
+        "blueGrowthResourceId": 316,
+        "redGrowthResourceId": 316,
+        "blueLearnsetResourceId": 316,
+        "redLearnsetResourceId": 316
+      },
+      "levelResourceId": "level-76c8ba55b263e39de30c8c3b783569a74b2093e060f337c895aa661618a63c7d",
+      "learnsetResourceId": "learn-01eee7f7b002ae675abdef97dc0062b63c3a6c29d84fd9a785ac84b2129091ce",
+      "typeIds": [12, 10],
+      "abilityIds": [
+        11,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 70,
+      "friendAreaId": "friend-area-secretive-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp316",
+        "redNumericTableSha256": "6d770c282e83be69e4f2df8a48cb1fd30f02c372319c6b7b0f17d777341114bf",
+        "redDecodedPayloadSha256": "afa5509ebefd3a229207a59c94aa76b10786b6fb215f3050a6a388e69d9df115",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-292",
+      "speciesId": "pokemon-292",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 317,
+      "resources": {
+        "blueGrowthResourceId": 317,
+        "redGrowthResourceId": 317,
+        "blueLearnsetResourceId": 317,
+        "redLearnsetResourceId": 317
+      },
+      "levelResourceId": "level-8cf71cb784775c83991556d220b55d0e8f31e4ef9994a892ab6f5d3ac13bf617",
+      "learnsetResourceId": "learn-4ebc787d03392adf030e9aa7f4f30c42ecc5334197acc54f17b6ba2941e94c7e",
+      "typeIds": [12, 14],
+      "abilityIds": [
+        53,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 3,
+      "friendAreaId": "friend-area-secretive-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp317",
+        "redNumericTableSha256": "af7c1c57688ad5e7b9197378265d5bb0350eb244dc511f2d55ef4b8b9f8a77ed",
+        "redDecodedPayloadSha256": "56e7f4ae547e53dac3a6465b0fa8e8e6cacb137470c6c7580309e5bb4e0245a7",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-293",
+      "speciesId": "pokemon-293",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 318,
+      "resources": {
+        "blueGrowthResourceId": 318,
+        "redGrowthResourceId": 318,
+        "blueLearnsetResourceId": 318,
+        "redLearnsetResourceId": 318
+      },
+      "levelResourceId": "level-453d6cd4162af29bc1c36e8604f89cf601cb332f5388a7ff78bb1a51bb3ae73a",
+      "learnsetResourceId": "learn-ffc47997b1c9d62f372474d6742d8e2bc689a67ca9dfec8b9674154b6befae8c",
+      "typeIds": [1],
+      "abilityIds": [
+        60,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 48,
+      "friendAreaId": "friend-area-echo-cave",
+      "recruitment": {
+        "baseRateTenthsPercent": 88,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp318",
+        "redNumericTableSha256": "ef0faf8d78028f10885740027e308805f23467e7deec478ffd287fc9e24407e4",
+        "redDecodedPayloadSha256": "0cc9bc742b91f81f364e0c4e7fe5e038525aacec0add1ed0014933c7ca8d56e8",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-294",
+      "speciesId": "pokemon-294",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 319,
+      "resources": {
+        "blueGrowthResourceId": 319,
+        "redGrowthResourceId": 319,
+        "blueLearnsetResourceId": 319,
+        "redLearnsetResourceId": 319
+      },
+      "levelResourceId": "level-c768be08f2cd78e9fb55523d154e9e19feae2db3c4ab5977e79f2bfb750b9ee2",
+      "learnsetResourceId": "learn-c05560c269815dcf78347fef826d037ac3564989cc4eda2e3c928e03b141ff51",
+      "typeIds": [1],
+      "abilityIds": [
+        60,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 70,
+      "friendAreaId": "friend-area-echo-cave",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp319",
+        "redNumericTableSha256": "c9ae14adb4fb1f2ee2830045d373c012822982d8132f8eac26bf60c1babc442a",
+        "redDecodedPayloadSha256": "e980fc01f7f5c4d90b1c340c475f8ba98f464e2a2ac3d5da92baa4404a251412",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-295",
+      "speciesId": "pokemon-295",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 320,
+      "resources": {
+        "blueGrowthResourceId": 320,
+        "redGrowthResourceId": 320,
+        "blueLearnsetResourceId": 320,
+        "redLearnsetResourceId": 320
+      },
+      "levelResourceId": "level-5ec804be1176413ca4a93a9bfcd07d1b149c780672b5f35045b54e9796d75d47",
+      "learnsetResourceId": "learn-20332cf3790bfb5a869562a7e741caf6c108ea279fce6159d10d851b33a0af7f",
+      "typeIds": [1],
+      "abilityIds": [
+        60,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 89,
+      "friendAreaId": "friend-area-echo-cave",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp320",
+        "redNumericTableSha256": "3ba4b0218568d7692ec63d9d1ee869bf0f49ec4870777754e7ba56a7b827f749",
+        "redDecodedPayloadSha256": "0ba43e09fe7a73aa7ca65c569f9b38bdfbe710c7c12af746126ede949a99239a",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-296",
+      "speciesId": "pokemon-296",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 321,
+      "resources": {
+        "blueGrowthResourceId": 321,
+        "redGrowthResourceId": 321,
+        "blueLearnsetResourceId": 321,
+        "redLearnsetResourceId": 321
+      },
+      "levelResourceId": "level-f8d8b7ce86201d6971a8b5f615da3505d91d5196325224d31921d458b66c6346",
+      "learnsetResourceId": "learn-a900b392a0bcc791943dc392114edf2bb42e2e02af5bf2428b9d5c8431052a84",
+      "typeIds": [7],
+      "abilityIds": [2, 17],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-mt-discipline",
+      "recruitment": {
+        "baseRateTenthsPercent": 102,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp321",
+        "redNumericTableSha256": "2d62f13bb79f7157ced6bd53e41f5e69368048583ba5758c11ef72bbcd824b53",
+        "redDecodedPayloadSha256": "e86c2159c8d57852e4b4cd323f6f7feec06eedbb267e6147e8f167bdd3065269",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-297",
+      "speciesId": "pokemon-297",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 322,
+      "resources": {
+        "blueGrowthResourceId": 322,
+        "redGrowthResourceId": 322,
+        "blueLearnsetResourceId": 322,
+        "redLearnsetResourceId": 322
+      },
+      "levelResourceId": "level-31fad6e8c5d308e757b5c454a0af255f36213b5d1ac9ff14df59be9889624265",
+      "learnsetResourceId": "learn-220bbd5d3b60f92c50fd3037137915c41b8c9256e1f60b845bff40fb4e075f14",
+      "typeIds": [7],
+      "abilityIds": [2, 17],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 155,
+      "friendAreaId": "friend-area-mt-discipline",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp322",
+        "redNumericTableSha256": "e178f1befb70300224d2a2fe243b918c3182f106fc1368f0fc89097823730a59",
+        "redDecodedPayloadSha256": "6cd2abf630129c5be8154839daf939ab2365e9b407a827a075b3ada64408e467",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-298",
+      "speciesId": "pokemon-298",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 323,
+      "resources": {
+        "blueGrowthResourceId": 323,
+        "redGrowthResourceId": 323,
+        "blueLearnsetResourceId": 323,
+        "redLearnsetResourceId": 323
+      },
+      "levelResourceId": "level-550c02d756f79d5fe677ba342d1be7b5c78807805bd480f6fb085d913bc637de",
+      "learnsetResourceId": "learn-5c4e9216f0e52ffbfbb6b0749979c28bcefc6d14d3cd70deb5825fafab4705c1",
+      "typeIds": [1],
+      "abilityIds": [2, 34],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 30,
+      "friendAreaId": "friend-area-turtleshell-pond",
+      "recruitment": {
+        "baseRateTenthsPercent": 102,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp323",
+        "redNumericTableSha256": "e9b1f37098ed26089c7d64f12f9d819af1d9ddf419be62c15ce495e15a3cf108",
+        "redDecodedPayloadSha256": "6734cbc9d98c98fb12ed03502b091efe70bf9e51463ed786244c89e9af57e087",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-299",
+      "speciesId": "pokemon-299",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 324,
+      "resources": {
+        "blueGrowthResourceId": 324,
+        "redGrowthResourceId": 324,
+        "blueLearnsetResourceId": 324,
+        "redLearnsetResourceId": 324
+      },
+      "levelResourceId": "level-3862143f3c79c73e9c4cbdf5ae2c6bd152b5d34fdb83c6e0a272988df8879b79",
+      "learnsetResourceId": "learn-3f1e835f3bd1b9537e92633ba8e9c72ea42aca864260fbb6e396d94a0a406a15",
+      "typeIds": [13],
+      "abilityIds": [13, 23],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 45,
+      "friendAreaId": "friend-area-echo-cave",
+      "recruitment": {
+        "baseRateTenthsPercent": 74,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp324",
+        "redNumericTableSha256": "48953ea26e793f10583b46479632d5175f42fa0e07cd212a28bf9fb67dea4322",
+        "redDecodedPayloadSha256": "e9de0a40b0ce3ed7e708da86cd4cb3b2260adcfad07b64f67f053c9575964198",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-300",
+      "speciesId": "pokemon-300",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 325,
+      "resources": {
+        "blueGrowthResourceId": 325,
+        "redGrowthResourceId": 325,
+        "blueLearnsetResourceId": 325,
+        "redLearnsetResourceId": 325
+      },
+      "levelResourceId": "level-11c61abd9ec8fe634401918bcc3b96d4cf7b19c0ec02d61fdae8acb89f3954a7",
+      "learnsetResourceId": "learn-da1902027eab80d242243f64a24fe13ff104968a3ab23cfe134af92550c6be46",
+      "typeIds": [1],
+      "abilityIds": [
+        68,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 33,
+      "friendAreaId": "friend-area-energetic-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 72,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp325",
+        "redNumericTableSha256": "3ee4a748ab88fcc1b53b73b70414ce60d72bf3f97868e899f9d3ed76b7eb06e5",
+        "redDecodedPayloadSha256": "72feef082100b9f7d0d18a0acd1602732a9d899fc0649a2abc3da1f1bae16c2c",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-301",
+      "speciesId": "pokemon-301",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 326,
+      "resources": {
+        "blueGrowthResourceId": 326,
+        "redGrowthResourceId": 326,
+        "blueLearnsetResourceId": 326,
+        "redLearnsetResourceId": 326
+      },
+      "levelResourceId": "level-e5f5cf0b3892306ef2bc434dce31a842e4da72d59f26ca07338a8514e384ab03",
+      "learnsetResourceId": "learn-d69dcb7ac0d419705607da30dc16189dce39c100fc65fdeb528a8b89dbb2b227",
+      "typeIds": [1],
+      "abilityIds": [
+        68,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 96,
+      "friendAreaId": "friend-area-energetic-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp326",
+        "redNumericTableSha256": "cdbca27c2e506182826f9bdec1dbfbc3f27058f0bb6100652d06d4a90d737262",
+        "redDecodedPayloadSha256": "0d6fe16bc6c612819fd8b1f2a6132153e8cc367f214269150c834c4b140655e0",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-302",
+      "speciesId": "pokemon-302",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 327,
+      "resources": {
+        "blueGrowthResourceId": 327,
+        "redGrowthResourceId": 327,
+        "blueLearnsetResourceId": 327,
+        "redLearnsetResourceId": 327
+      },
+      "levelResourceId": "level-c46662af7a5f95d648603dec39c726600cf86349c3426d07148ed12846f82361",
+      "learnsetResourceId": "learn-d308a479a00f179e43c2d8f92f66891098beaa7ef773bebb38264662c92653f8",
+      "typeIds": [16, 14],
+      "abilityIds": [
+        30,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 33,
+      "friendAreaId": "friend-area-darkness-ridge",
+      "recruitment": {
+        "baseRateTenthsPercent": 82,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp327",
+        "redNumericTableSha256": "13a1cf2e2518e754376f5050e2a99eaf019f3d745294d7af1376e33c6cc78985",
+        "redDecodedPayloadSha256": "52a4c8b6b84e1cfd402f364b6ac8644084d5d16995830824e7deab00cb2bf95e",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-303",
+      "speciesId": "pokemon-303",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 328,
+      "resources": {
+        "blueGrowthResourceId": 328,
+        "redGrowthResourceId": 328,
+        "blueLearnsetResourceId": 328,
+        "redLearnsetResourceId": 328
+      },
+      "levelResourceId": "level-3f9fb1989fedb6a113f8698e2b98d5180fbf5bb9c355d8947cff16e5e80d54a5",
+      "learnsetResourceId": "learn-c5e2ad1ae120bfbf29084b34bfb8cef41457ef65f28de777ae5e8de386baa6ca",
+      "typeIds": [17],
+      "abilityIds": [9, 6],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 33,
+      "friendAreaId": "friend-area-echo-cave",
+      "recruitment": {
+        "baseRateTenthsPercent": 71,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp328",
+        "redNumericTableSha256": "014c3ce94bb2e0df935687530b9c5525f285fd006a7d0392f3d9440997f00504",
+        "redDecodedPayloadSha256": "ddf3c7ec47a6cbca493d4041abef8a083ed3bd145dd2fa71734f67570143c7a6",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-304",
+      "speciesId": "pokemon-304",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 329,
+      "resources": {
+        "blueGrowthResourceId": 329,
+        "redGrowthResourceId": 329,
+        "blueLearnsetResourceId": 329,
+        "redLearnsetResourceId": 329
+      },
+      "levelResourceId": "level-a932535351b28990d229e4cd6477e8148571050f4b5f98aa1479d9491d4900e1",
+      "learnsetResourceId": "learn-8ddd164c9120ad3df8d2500da585b910707e5a34672be76b5fb9d6805f2df2fa",
+      "typeIds": [17, 13],
+      "abilityIds": [13, 7],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 35,
+      "friendAreaId": "friend-area-mt-cleft",
+      "recruitment": {
+        "baseRateTenthsPercent": 78,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp329",
+        "redNumericTableSha256": "65cf468fa8ef4637bcc3682b35cf33c3c0e519f5a128c9908ebf09b9f060b1ba",
+        "redDecodedPayloadSha256": "551095722f0acd27bf6dd70b44b76a7ec5f5f678ec70d24d7d29901f2098f99c",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-305",
+      "speciesId": "pokemon-305",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 330,
+      "resources": {
+        "blueGrowthResourceId": 330,
+        "redGrowthResourceId": 330,
+        "blueLearnsetResourceId": 330,
+        "redLearnsetResourceId": 330
+      },
+      "levelResourceId": "level-57ee7c802df8a62647a8569e788684730a098f2f3a1b54012fb47e31cdc31b85",
+      "learnsetResourceId": "learn-da7ea94955bede0f85070daad26f3d7b9f5005146180928446ab7ed05b91b0d2",
+      "typeIds": [17, 13],
+      "abilityIds": [13, 7],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-mt-cleft",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp330",
+        "redNumericTableSha256": "a73279cb157b886c76e21d66534b1963e7e53198ebca586c283d39c38348aee2",
+        "redDecodedPayloadSha256": "dbf4c9de1d66a0eddd1a824b9aa35a98658ba83a14255c218f51b50468c953a6",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-306",
+      "speciesId": "pokemon-306",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 331,
+      "resources": {
+        "blueGrowthResourceId": 331,
+        "redGrowthResourceId": 331,
+        "blueLearnsetResourceId": 331,
+        "redLearnsetResourceId": 331
+      },
+      "levelResourceId": "level-81ef8be7c5f4b945dcb8be23d065fbc9d82f8f3a84be2aa910b176e365432abd",
+      "learnsetResourceId": "learn-adca6c6c0ef80be4d65627e67d5a4aa850ab5a471fe21e1c5e69846adad4607a",
+      "typeIds": [17, 13],
+      "abilityIds": [13, 7],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 165,
+      "friendAreaId": "friend-area-mt-cleft",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp331",
+        "redNumericTableSha256": "60473d7a7bfb2c259c1d63ad5a895a24827d6dfd779461a0647009065696f2b7",
+        "redDecodedPayloadSha256": "1f369234ba9f37fbe4afb608471e14cd9e592902edd450ea450c957d95b32872",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-307",
+      "speciesId": "pokemon-307",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 332,
+      "resources": {
+        "blueGrowthResourceId": 332,
+        "redGrowthResourceId": 332,
+        "blueLearnsetResourceId": 332,
+        "redLearnsetResourceId": 332
+      },
+      "levelResourceId": "level-3c889bcbf41fdac8a26999db4bb3641aa3b5ee85ee0e917f08bad357a6b64e38",
+      "learnsetResourceId": "learn-9d970fa56aa167979493c4d2ba94300df6196a02b772843331415cf8752c0723",
+      "typeIds": [7, 11],
+      "abilityIds": [
+        75,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 32,
+      "friendAreaId": "friend-area-mt-discipline",
+      "recruitment": {
+        "baseRateTenthsPercent": 55,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp332",
+        "redNumericTableSha256": "4407f1cd1c1023cf35b5192cb7f871eb46429a7ec7a9e5b5b1072d7d0e5e51e7",
+        "redDecodedPayloadSha256": "364bb52347c13b30cdf8f65d6e10b36b17c048e64fd52ae41fe09fc7ae2104b5",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-308",
+      "speciesId": "pokemon-308",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 333,
+      "resources": {
+        "blueGrowthResourceId": 333,
+        "redGrowthResourceId": 333,
+        "blueLearnsetResourceId": 333,
+        "redLearnsetResourceId": 333
+      },
+      "levelResourceId": "level-11be2e59794ff4f5ec85f41bf5f490e0277c444a18a655b90344a54bb936d1c5",
+      "learnsetResourceId": "learn-81240cff0ac5f108d5027240b2c48576b4f3dc6ef6d632ffe7121e4444b26b86",
+      "typeIds": [7, 11],
+      "abilityIds": [
+        75,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-mt-discipline",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp333",
+        "redNumericTableSha256": "2990bd6a9541398d0823432593a567ffbd2005c0adf5beb6ed63cae33e39cf26",
+        "redDecodedPayloadSha256": "4264cca1c90fceaa63f59cb07e6cac32eae71b0de948995680f09dcf8f558e02",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-309",
+      "speciesId": "pokemon-309",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 334,
+      "resources": {
+        "blueGrowthResourceId": 334,
+        "redGrowthResourceId": 334,
+        "blueLearnsetResourceId": 334,
+        "redLearnsetResourceId": 334
+      },
+      "levelResourceId": "level-477bffcced7029c85edb7d08b285e8e9bd08315b373c05506640ed68b3c298a3",
+      "learnsetResourceId": "learn-97b9c7010579a662b2f39ced9460e3586da483718fc7993d7d14ca90f6c14840",
+      "typeIds": [5],
+      "abilityIds": [32, 50],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 25,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": 78,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp334",
+        "redNumericTableSha256": "bcd0b9d8fcda987af90887e9005e84cef83befdf4ec37d718f7916f920c429be",
+        "redDecodedPayloadSha256": "3a446d8c0b2e8ad705f854ca7eac45f19ba1bbf8b9d4b16aae7816e04d30bf0b",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-310",
+      "speciesId": "pokemon-310",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 335,
+      "resources": {
+        "blueGrowthResourceId": 335,
+        "redGrowthResourceId": 335,
+        "blueLearnsetResourceId": 335,
+        "redLearnsetResourceId": 335
+      },
+      "levelResourceId": "level-253678a613d50f4d01c4289c1b9014a83fa8cf35b85d9a4092cc9ffed62495ea",
+      "learnsetResourceId": "learn-7723d15e483fc6713ef0d47b31c41414590978dd4f0cbf11bb3ea79f3d0e7657",
+      "typeIds": [5],
+      "abilityIds": [32, 50],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 65,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp335",
+        "redNumericTableSha256": "ad08f1711069b684db0987426bc034b5d36c4614b8366d7fdffadbea4b872537",
+        "redDecodedPayloadSha256": "407733ad3634199a9853eb4c344c99ae718a069ae0cf9fb53f80c37284714cfc",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-311",
+      "speciesId": "pokemon-311",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 336,
+      "resources": {
+        "blueGrowthResourceId": 336,
+        "redGrowthResourceId": 336,
+        "blueLearnsetResourceId": 336,
+        "redLearnsetResourceId": 336
+      },
+      "levelResourceId": "level-339622a7d2c6708bf636d376fcbf5719c72d8b0154c9ce48652c702073fb1751",
+      "learnsetResourceId": "learn-8ecf8e272e5104baa64ed28ec385e094e19d40068c41f664ae7c7bbdcbe0546d",
+      "typeIds": [5],
+      "abilityIds": [
+        56,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 40,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": 350,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp336",
+        "redNumericTableSha256": "5124bca8c2ff0045663b7f2a9828eda13e84e56a31c96b109c14db09bfb32ac4",
+        "redDecodedPayloadSha256": "7f809e71b5e1f9e9fbfe2ff83758bdbc6779fae5f2f2d034a9b9fe8ba8095e17",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-312",
+      "speciesId": "pokemon-312",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 337,
+      "resources": {
+        "blueGrowthResourceId": 337,
+        "redGrowthResourceId": 337,
+        "blueLearnsetResourceId": 337,
+        "redLearnsetResourceId": 337
+      },
+      "levelResourceId": "level-339622a7d2c6708bf636d376fcbf5719c72d8b0154c9ce48652c702073fb1751",
+      "learnsetResourceId": "learn-f9b5990cc9843299a1e522bfab972943a555996bd9e974a3d4e9dedeaac690e0",
+      "typeIds": [5],
+      "abilityIds": [
+        63,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 40,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": 350,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp337",
+        "redNumericTableSha256": "5124bca8c2ff0045663b7f2a9828eda13e84e56a31c96b109c14db09bfb32ac4",
+        "redDecodedPayloadSha256": "7f809e71b5e1f9e9fbfe2ff83758bdbc6779fae5f2f2d034a9b9fe8ba8095e17",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-313",
+      "speciesId": "pokemon-313",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 338,
+      "resources": {
+        "blueGrowthResourceId": 338,
+        "redGrowthResourceId": 338,
+        "blueLearnsetResourceId": 338,
+        "redLearnsetResourceId": 338
+      },
+      "levelResourceId": "level-aa4bb5cc3bb8efdc4d5f8810ea01658d5850ffa04ac9b05ebd609e47ee119878",
+      "learnsetResourceId": "learn-fd0ea01f0322608db4496d19f1dfff2bcd456aad5eedad01598211a5db7a8795",
+      "typeIds": [12],
+      "abilityIds": [46, 67],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 51,
+      "friendAreaId": "friend-area-rub-a-dub-river",
+      "recruitment": {
+        "baseRateTenthsPercent": 86,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp338",
+        "redNumericTableSha256": "90c4b5ff1acc28c7bfd36bfa8e7167f3a66e7d5bc4f347de458411677929f56c",
+        "redDecodedPayloadSha256": "df336a393a7624799308b6fb33d4e45f68e4ed1f843327964c63cadaa2761afc",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-314",
+      "speciesId": "pokemon-314",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 339,
+      "resources": {
+        "blueGrowthResourceId": 339,
+        "redGrowthResourceId": 339,
+        "blueLearnsetResourceId": 339,
+        "redLearnsetResourceId": 339
+      },
+      "levelResourceId": "level-51f7adb7aa36ec9a4910d2a9b68a52e8d0913bbf5db5cf95e4eff6145f4ac91e",
+      "learnsetResourceId": "learn-9961dd239e5e3f258916c169adda03a5aaaf8b33c4ef711862f8fc7c3e198890",
+      "typeIds": [12],
+      "abilityIds": [
+        41,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 35,
+      "friendAreaId": "friend-area-rub-a-dub-river",
+      "recruitment": {
+        "baseRateTenthsPercent": 73,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp339",
+        "redNumericTableSha256": "9d35d92f5a45f84ba6221265e147f6827e4b80ea04d052f5876483419807c0f9",
+        "redDecodedPayloadSha256": "b7eff4be3d1e7a6ab8a30e1ff342df10529200739dcff15f212d67894f33e24e",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-315",
+      "speciesId": "pokemon-315",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 340,
+      "resources": {
+        "blueGrowthResourceId": 340,
+        "redGrowthResourceId": 340,
+        "blueLearnsetResourceId": 340,
+        "redLearnsetResourceId": 340
+      },
+      "levelResourceId": "level-5cbbda46ed66e90a79e7c03088509eeeab3bf20f614e25afed215469d52defab",
+      "learnsetResourceId": "learn-438cde27a168759736f1c187b22c2f50627ec156176540ba58b2561f19b0da8c",
+      "typeIds": [4, 8],
+      "abilityIds": [20, 39],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 36,
+      "friendAreaId": "friend-area-beau-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 70,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp340",
+        "redNumericTableSha256": "19a79cf8283c61a69f4087f5053150601830642e71da89d6338e42729655f962",
+        "redDecodedPayloadSha256": "7bc88dd7002d978aceafe5371c12da612e839b619968ea837879d460d45faaa9",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-316",
+      "speciesId": "pokemon-316",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 341,
+      "resources": {
+        "blueGrowthResourceId": 341,
+        "redGrowthResourceId": 341,
+        "blueLearnsetResourceId": 341,
+        "redLearnsetResourceId": 341
+      },
+      "levelResourceId": "level-a8a98ad2b848802eafe0c2c6502ae585e1759fa1c9077f545a81167156073dc9",
+      "learnsetResourceId": "learn-3255c49868e56ac6c971e178113682c31f06ae6d6a8409b5dcc0efd2402a33c8",
+      "typeIds": [8],
+      "abilityIds": [58, 44],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 30,
+      "friendAreaId": "friend-area-poison-swamp",
+      "recruitment": {
+        "baseRateTenthsPercent": 69,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp341",
+        "redNumericTableSha256": "1d097c41a3ba4f52883be191b805f664b16689d59aca2ff9c4c19b27872d0d8a",
+        "redDecodedPayloadSha256": "6b011c1a5db9fca3ce49fa089fc63f7e5f3956426e9caac7a0ff2360d961771e",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-317",
+      "speciesId": "pokemon-317",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 342,
+      "resources": {
+        "blueGrowthResourceId": 342,
+        "redGrowthResourceId": 342,
+        "blueLearnsetResourceId": 342,
+        "redLearnsetResourceId": 342
+      },
+      "levelResourceId": "level-951f16777c91cc23b8ba3775c5079c68944c3fe971a69d6775ec595aaaa5c695",
+      "learnsetResourceId": "learn-598b6db54adfff92f710ae7fc7b2b7893bbd31d57049161335ddec0832374703",
+      "typeIds": [8],
+      "abilityIds": [58, 44],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 90,
+      "friendAreaId": "friend-area-poison-swamp",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp342",
+        "redNumericTableSha256": "73cdb00824b5cb3f1e498866dfbb819f38c1c89be5efd0d89047913aa4521651",
+        "redDecodedPayloadSha256": "cb23ec1c2e7c8c72ffadd1b83c9a2046325ef2552eb0e4719067619c1e73aae3",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-318",
+      "speciesId": "pokemon-318",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 343,
+      "resources": {
+        "blueGrowthResourceId": 343,
+        "redGrowthResourceId": 343,
+        "blueLearnsetResourceId": 343,
+        "redLearnsetResourceId": 343
+      },
+      "levelResourceId": "level-632eb60f5dd2204ec4f7fdedeb49950b1698f02af1696d7bbb4c9509aa25d69a",
+      "learnsetResourceId": "learn-95437c9c9f3bc63c8ac27cff84d42cc071ea63e0e0138355c210f961464b3a21",
+      "typeIds": [3, 16],
+      "abilityIds": [
+        18,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-treasure-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": 89,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp343",
+        "redNumericTableSha256": "f5f4ba99f744e4fe4a03fa7094a82194069be49b400eea582752cf3131a77359",
+        "redDecodedPayloadSha256": "1dd9d5444a5039cf50a363ee58fe72d49ad74a733501524a1b5d1dc5434c1683",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-319",
+      "speciesId": "pokemon-319",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 344,
+      "resources": {
+        "blueGrowthResourceId": 344,
+        "redGrowthResourceId": 344,
+        "blueLearnsetResourceId": 344,
+        "redLearnsetResourceId": 344
+      },
+      "levelResourceId": "level-2479c59f85a8c0391f851ef45e37e2ef49022384259443992fb0b6063952f941",
+      "learnsetResourceId": "learn-9265adb4f3d6243c725538f686cedc80f35f0b24e50e1969ab56950166143d69",
+      "typeIds": [3, 16],
+      "abilityIds": [
+        18,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 190,
+      "friendAreaId": "friend-area-treasure-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp344",
+        "redNumericTableSha256": "9f3d3b0bc49dcc41589b9db3d1ce4ec90669c52aa583c2d57648bfb250188eef",
+        "redDecodedPayloadSha256": "e6a48eff8dd9db7b51ade8ae442ec5d392de104598b391aa18cd39cdc7da0274",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-320",
+      "speciesId": "pokemon-320",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 345,
+      "resources": {
+        "blueGrowthResourceId": 345,
+        "redGrowthResourceId": 345,
+        "blueLearnsetResourceId": 345,
+        "redLearnsetResourceId": 345
+      },
+      "levelResourceId": "level-a9e99ec4bd135bfc442e14a6d68e3abb22632c99078b4f805d2a2997a0a38d0d",
+      "learnsetResourceId": "learn-ee3d0afc37bc90c6c59cd208ce9b82fefef88ee13de9f525d56eea80a91d443d",
+      "typeIds": [3],
+      "abilityIds": [66, 41],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 100,
+      "friendAreaId": "friend-area-serene-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": 82,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp345",
+        "redNumericTableSha256": "d82c00b65378838b5594be2a1bd4c0a0c87d2f6ba84dab7579a40dabcd85442a",
+        "redDecodedPayloadSha256": "7ea6686bcbc3836c5df8dea6431b1710a5abddd11cf4363589612c41a4b0b5f5",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-321",
+      "speciesId": "pokemon-321",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 346,
+      "resources": {
+        "blueGrowthResourceId": 346,
+        "redGrowthResourceId": 346,
+        "blueLearnsetResourceId": 346,
+        "redLearnsetResourceId": 346
+      },
+      "levelResourceId": "level-3cbec8161083a3907bad9032a1d0d9a9d49db838c713dfeedb09028076726b84",
+      "learnsetResourceId": "learn-f4527133b022b96cf44e317514634508dde90632d7b1e9932eca8d9a7c94fa8b",
+      "typeIds": [3],
+      "abilityIds": [66, 41],
+      "bodySize": 4,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 250,
+      "friendAreaId": "friend-area-serene-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp346",
+        "redNumericTableSha256": "f68f1e02aaaab24bb1a26b55c2aa0f0a52663c08f319dd3574827ac014004e23",
+        "redDecodedPayloadSha256": "fd753e686b2c03d91d9bd3bcea37f84b15066a143b59007d74b7b24a84a90cfa",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-322",
+      "speciesId": "pokemon-322",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 347,
+      "resources": {
+        "blueGrowthResourceId": 347,
+        "redGrowthResourceId": 347,
+        "blueLearnsetResourceId": 347,
+        "redLearnsetResourceId": 347
+      },
+      "levelResourceId": "level-74c92358413ddf0e5923d35ee6eb4a51838d5f48bedf716b0cf6aa598d636c24",
+      "learnsetResourceId": "learn-e3b9adf6294831a226e9a3725825607ad79d6071b1f02c7e70d3bfdc237605e2",
+      "typeIds": [2, 9],
+      "abilityIds": [
+        41,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-crater",
+      "recruitment": {
+        "baseRateTenthsPercent": 81,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp347",
+        "redNumericTableSha256": "6014ee3c35b83ab4b43cf8959c2e98234b48fece2df7df3cfc87bdcd986350d7",
+        "redDecodedPayloadSha256": "fdc0e38fb39a3720f35d6b32e24c90ee67a52065d2d133d935f4ae2ffe62d165",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-323",
+      "speciesId": "pokemon-323",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 348,
+      "resources": {
+        "blueGrowthResourceId": 348,
+        "redGrowthResourceId": 348,
+        "blueLearnsetResourceId": 348,
+        "redLearnsetResourceId": 348
+      },
+      "levelResourceId": "level-46e1760c40ba69a233f945ace329f4107000f3fb09b76f953c5eacbd5b13dfb8",
+      "learnsetResourceId": "learn-a4ea669f41563ec87dd536ae09578988c84c941bd6b0de15525b77e7871de7ca",
+      "typeIds": [2, 9],
+      "abilityIds": [
+        65,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 115,
+      "friendAreaId": "friend-area-crater",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp348",
+        "redNumericTableSha256": "5e3e9c9124fcc0fec8ae20d95acae7f799df9a665f513d4ad93e253d5cfb06a0",
+        "redDecodedPayloadSha256": "de3f2130ba364c78d1f28a68517728cf1b3c63d0be4389c683f0b90f7fe08863",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-324",
+      "speciesId": "pokemon-324",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 349,
+      "resources": {
+        "blueGrowthResourceId": 349,
+        "redGrowthResourceId": 349,
+        "blueLearnsetResourceId": 349,
+        "redLearnsetResourceId": 349
+      },
+      "levelResourceId": "level-37bd07e6babf1510119ec61ed2fdeb53c3fb650a6e3606cd4305093d211a7f83",
+      "learnsetResourceId": "learn-b84721dadec862d42cd16453b734695df8e7b31638abd6f0eb0287f82f435f39",
+      "typeIds": [2],
+      "abilityIds": [
+        24,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-crater",
+      "recruitment": {
+        "baseRateTenthsPercent": 81,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp349",
+        "redNumericTableSha256": "3913beda55c434889f087270b8e7c20892795844c63611d0840d36dc13fd9037",
+        "redDecodedPayloadSha256": "505a283068120aaa9daecb16d95b91e0238c1680b0cd1b8a5b04711bf23b73ee",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-325",
+      "speciesId": "pokemon-325",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 350,
+      "resources": {
+        "blueGrowthResourceId": 350,
+        "redGrowthResourceId": 350,
+        "blueLearnsetResourceId": 350,
+        "redLearnsetResourceId": 350
+      },
+      "levelResourceId": "level-be87265544f58321e2f85f845b99d255c6f335ec4186663cd94cba70ca4ea295",
+      "learnsetResourceId": "learn-1549bf813a3697d5845b120d8005fc440e60bfdb100c9f34dbcf6d5764e6ae61",
+      "typeIds": [11],
+      "abilityIds": [2, 64],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 90,
+      "friendAreaId": "friend-area-mt-deepgreen",
+      "recruitment": {
+        "baseRateTenthsPercent": 75,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp350",
+        "redNumericTableSha256": "2a9fdc7ce9be14e88cf9594d1ef5da94278b33943a5f35a76e8f6199f7a9a3cd",
+        "redDecodedPayloadSha256": "d34bc064d6e3eb9e2a38336b9c96171a45640899c50b1b653707f7ecc582b891",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-326",
+      "speciesId": "pokemon-326",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 351,
+      "resources": {
+        "blueGrowthResourceId": 351,
+        "redGrowthResourceId": 351,
+        "blueLearnsetResourceId": 351,
+        "redLearnsetResourceId": 351
+      },
+      "levelResourceId": "level-f70905119aa7036c2127b85960a0ec545f60a74d944e73fe4b9f8a4eb9004427",
+      "learnsetResourceId": "learn-c410f01f186af96677f790714ef4ad9064a2f7a92d110831b19ef7186a403067",
+      "typeIds": [11],
+      "abilityIds": [2, 64],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 124,
+      "friendAreaId": "friend-area-mt-deepgreen",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp351",
+        "redNumericTableSha256": "578713a6b0ed4bebabde509ac49751e0b7ca64c036a1a833b72b5e7945499bd0",
+        "redDecodedPayloadSha256": "677a855076439eadcc5920ac6fb5d54b6746a5f7545b873c91da0d0571d701cd",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-327",
+      "speciesId": "pokemon-327",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 352,
+      "resources": {
+        "blueGrowthResourceId": 352,
+        "redGrowthResourceId": 352,
+        "blueLearnsetResourceId": 352,
+        "redLearnsetResourceId": 352
+      },
+      "levelResourceId": "level-60b14b7c2b9f605b25bb875b45a2c567acd0a88d739f6ac81944fb49f3c285dc",
+      "learnsetResourceId": "learn-76bdeb6cee9f7afde9da0709cf68e12e42a464cf00493e68dbcf924f2a09ecec",
+      "typeIds": [1],
+      "abilityIds": [
+        64,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 15,
+      "friendAreaId": "friend-area-mt-deepgreen",
+      "recruitment": {
+        "baseRateTenthsPercent": 72,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp352",
+        "redNumericTableSha256": "60ca7748224410d190ecd07da4cccee6268088ece10e637c39b217ebfae88140",
+        "redDecodedPayloadSha256": "3ce1a7fa71dd2ee129a5fc4fb2c252da5a22658ad092a059bd2b6a92b1c4c199",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-328",
+      "speciesId": "pokemon-328",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 353,
+      "resources": {
+        "blueGrowthResourceId": 353,
+        "redGrowthResourceId": 353,
+        "blueLearnsetResourceId": 353,
+        "redLearnsetResourceId": 353
+      },
+      "levelResourceId": "level-968b3c202b3fdf7aea9669745e1744f5fe9e49de2630dc38c3e1f491912c9a0e",
+      "learnsetResourceId": "learn-2f34a250600669ffc1d4167e8e9f911562547a25b04f68829ffe9498021dc9d9",
+      "typeIds": [9],
+      "abilityIds": [9, 5],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-furnace-desert",
+      "recruitment": {
+        "baseRateTenthsPercent": 83,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp353",
+        "redNumericTableSha256": "b51fafb3f57b9a7aac02584072189d859dee108d2ac1197b7a4c27275e488a1e",
+        "redDecodedPayloadSha256": "3e549ac4abc98ec73f56fcdeb4a14da727acb01525dfaaeafcec4a3a5de0534f",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-329",
+      "speciesId": "pokemon-329",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 354,
+      "resources": {
+        "blueGrowthResourceId": 354,
+        "redGrowthResourceId": 354,
+        "blueLearnsetResourceId": 354,
+        "redLearnsetResourceId": 354
+      },
+      "levelResourceId": "level-5b9a0073633d82799986753446075d5c2e92e20097a6dd91a006c8c5d763197e",
+      "learnsetResourceId": "learn-1ecec307e50a8001f9c3b99ece5df54881292b6322e6e3226cc81ecfbf751485",
+      "typeIds": [9, 15],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 70,
+      "friendAreaId": "friend-area-furnace-desert",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp354",
+        "redNumericTableSha256": "78ec93d0039b8762a46d76d0b46ad98cd408c74bcb2bef02ccb827cc1dc0ebc3",
+        "redDecodedPayloadSha256": "466d839a9992046d1f01b4f88862df56ff92722736da0b38022378928684c2b3",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-330",
+      "speciesId": "pokemon-330",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 355,
+      "resources": {
+        "blueGrowthResourceId": 355,
+        "redGrowthResourceId": 355,
+        "blueLearnsetResourceId": 355,
+        "redLearnsetResourceId": 355
+      },
+      "levelResourceId": "level-8b63b1a1cbd5f657953f28d11e050189558a2dd19210fd1304ba84561500b0fe",
+      "learnsetResourceId": "learn-13d1f016b2f08d815e64f7269e022008e20c156d366bfe4c52ae0c0909317b29",
+      "typeIds": [9, 15],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 90,
+      "friendAreaId": "friend-area-furnace-desert",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp355",
+        "redNumericTableSha256": "230db192377324346676b59c4092b77568b55f790369ce5166b23ee5c2cc5067",
+        "redDecodedPayloadSha256": "e7525bbb7e57b0a65c2991682972bd258ad28f10d5eef89b16ddf8c109fb01a3",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-331",
+      "speciesId": "pokemon-331",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 356,
+      "resources": {
+        "blueGrowthResourceId": 356,
+        "redGrowthResourceId": 356,
+        "blueLearnsetResourceId": 356,
+        "redLearnsetResourceId": 356
+      },
+      "levelResourceId": "level-f02d9a81c4312ecad5547148f7e1138756661ff91a90061c41a362765d0545ae",
+      "learnsetResourceId": "learn-a919c7bccd3805e5dc730d1e5c964614e6a7d534e54f5fc32e64eb87fd75dba2",
+      "typeIds": [4],
+      "abilityIds": [
+        29,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 35,
+      "friendAreaId": "friend-area-furnace-desert",
+      "recruitment": {
+        "baseRateTenthsPercent": 72,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp356",
+        "redNumericTableSha256": "bf5f6d4294491c4f77ae10e6e98a34cc4d11c53b4650a5d7ff5e44447c8c0b05",
+        "redDecodedPayloadSha256": "3569df70111830b9e38bd976ef582c5ac0d0d4e9425fa21ceaf5070a6ffd28a9",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-332",
+      "speciesId": "pokemon-332",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 357,
+      "resources": {
+        "blueGrowthResourceId": 357,
+        "redGrowthResourceId": 357,
+        "blueLearnsetResourceId": 357,
+        "redLearnsetResourceId": 357
+      },
+      "levelResourceId": "level-2eae52166c56d1809bda9d2848b2c7157742662fe14ac4bb1ad932a351bd1e25",
+      "learnsetResourceId": "learn-2ce1d429c0054c5ed33ee157d6808b0545237a355955d29c89469fa9f372745b",
+      "typeIds": [4, 16],
+      "abilityIds": [
+        29,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-furnace-desert",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp357",
+        "redNumericTableSha256": "0d6a704940fae2d6ca4b1ad7923ff1e3570bed68d435fc43eb40d4775a328097",
+        "redDecodedPayloadSha256": "5dd4032b38b55f21d847e8c0905ef506dbf22491cfc6f9877363c5418fe82945",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-333",
+      "speciesId": "pokemon-333",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 358,
+      "resources": {
+        "blueGrowthResourceId": 358,
+        "redGrowthResourceId": 358,
+        "blueLearnsetResourceId": 358,
+        "redLearnsetResourceId": 358
+      },
+      "levelResourceId": "level-b101fbfe0a9f28c5523cdd03c1f7661dd3f61cf494a185eb705dc3aa1b572539",
+      "learnsetResourceId": "learn-e5f7a3f08d429272458c7243180ca5607e11c9f68a4784c87f4d0fa9bb9c983d",
+      "typeIds": [1, 10],
+      "abilityIds": [
+        20,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 59,
+      "friendAreaId": "friend-area-flyaway-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 75,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp358",
+        "redNumericTableSha256": "b9da0d31a034afc748a94b8d993c1a2cef99a014c558b4842859abc624129cbb",
+        "redDecodedPayloadSha256": "63922bbf4543b701ea8b120a3366d9c3f85f6ac817cf31b167ab8bc5fdcb00ee",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-334",
+      "speciesId": "pokemon-334",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 359,
+      "resources": {
+        "blueGrowthResourceId": 359,
+        "redGrowthResourceId": 359,
+        "blueLearnsetResourceId": 359,
+        "redLearnsetResourceId": 359
+      },
+      "levelResourceId": "level-793359115256caa3d97f1af07c280621dcc4a1c633a4b6817b5eda82e0393e18",
+      "learnsetResourceId": "learn-31d631597672a8ffede5bd90c2fda07d51668f48e52ba43a648e46b88be27c4d",
+      "typeIds": [15, 10],
+      "abilityIds": [
+        20,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-flyaway-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp359",
+        "redNumericTableSha256": "83ae9ab0bcb15aebed2e7b476f38b1027ec1b57126fb403438a56a0ecc591951",
+        "redDecodedPayloadSha256": "2939be376bfa76e263e6c56229d6c82e25254bd434cf022c6f79ee0ca30d8fcb",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-335",
+      "speciesId": "pokemon-335",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 360,
+      "resources": {
+        "blueGrowthResourceId": 360,
+        "redGrowthResourceId": 360,
+        "blueLearnsetResourceId": 360,
+        "redLearnsetResourceId": 360
+      },
+      "levelResourceId": "level-24e3e60d062fb9a293cffeaddcf9e57c26b3ce286cd55c1fca521fea41167ae6",
+      "learnsetResourceId": "learn-03353e3ad937b73aa1a601df0fca9e0a5d2073cea1cb65dad8decfbdd63bb39e",
+      "typeIds": [1],
+      "abilityIds": [
+        69,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 40,
+      "friendAreaId": "friend-area-wild-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 72,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp360",
+        "redNumericTableSha256": "34c922165364e1a1da549e97c32d0439578c588ba27593d08a0e7c05f9940bb0",
+        "redDecodedPayloadSha256": "22a970e1ebb529292b33b4832a032c67518cdda78ea433661f81fdea4bcb8132",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-336",
+      "speciesId": "pokemon-336",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 361,
+      "resources": {
+        "blueGrowthResourceId": 361,
+        "redGrowthResourceId": 361,
+        "blueLearnsetResourceId": 361,
+        "redLearnsetResourceId": 361
+      },
+      "levelResourceId": "level-91dfd0ae33ee5a349dfc07e35e809c228737860cc6b7614830cde2481e0c8a2b",
+      "learnsetResourceId": "learn-34e0f173d49ed9ea6b835f42d896ae6a43488a73a83e8d3d2a1577e01ee785bc",
+      "typeIds": [8],
+      "abilityIds": [
+        33,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 54,
+      "friendAreaId": "friend-area-wild-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 72,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp361",
+        "redNumericTableSha256": "6ba5e91f360998d24703d106f0aa02bc12fbc28071c80ee6dfaff43219ffda2e",
+        "redDecodedPayloadSha256": "bc2f21b759a689d5e98ac3893c998ec0bd35682219fcd2afa0b86e919da58c47",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-337",
+      "speciesId": "pokemon-337",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 362,
+      "resources": {
+        "blueGrowthResourceId": 362,
+        "redGrowthResourceId": 362,
+        "blueLearnsetResourceId": 362,
+        "redLearnsetResourceId": 362
+      },
+      "levelResourceId": "level-3c7afbedd5db9ab2281a45eb716b9ed469f00d29c42c67c7f3d00054ffd38656",
+      "learnsetResourceId": "learn-cfe6191d93e3d959c67f93e4689c6adb0c596f3fcc373805883c562772c82aab",
+      "typeIds": [13, 11],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 115,
+      "friendAreaId": "friend-area-mt-moonview",
+      "recruitment": {
+        "baseRateTenthsPercent": 50,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp362",
+        "redNumericTableSha256": "50962137ec550da86ebbada9386591fa089127edd026441108803efba70b885c",
+        "redDecodedPayloadSha256": "e3cc6a60ceff0c901cece5c16b2fc727f2a5d0a0866f4e10da77c629d375ebc0",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-338",
+      "speciesId": "pokemon-338",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 363,
+      "resources": {
+        "blueGrowthResourceId": 363,
+        "redGrowthResourceId": 363,
+        "blueLearnsetResourceId": 363,
+        "redLearnsetResourceId": 363
+      },
+      "levelResourceId": "level-ee326ecdfdc913b23116dde04397f9e064115490be7b4b5469a6de7c29098676",
+      "learnsetResourceId": "learn-728bfb5e2c44b0e647b27d252a84d2d4a9f72f5371a8f1c184ec223296303184",
+      "typeIds": [13, 11],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 120,
+      "friendAreaId": "friend-area-mt-moonview",
+      "recruitment": {
+        "baseRateTenthsPercent": 50,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp363",
+        "redNumericTableSha256": "7ef45b9e4c65de2880a445fd9407a84899638708c674412abbd824fbfb8f45ba",
+        "redDecodedPayloadSha256": "f4d92325bd2fbfebe1d5a44792d8797a418ff4e143a836cd7092bb037ea52040",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-339",
+      "speciesId": "pokemon-339",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 364,
+      "resources": {
+        "blueGrowthResourceId": 364,
+        "redGrowthResourceId": 364,
+        "blueLearnsetResourceId": 364,
+        "redLearnsetResourceId": 364
+      },
+      "levelResourceId": "level-ba67168df285fa73eed65b66c8056a38f789e6ab954ab9938d368bb1ddc8302d",
+      "learnsetResourceId": "learn-75e250360a2aa932f564e16a40f900e9c43fa7c57bfdf5bce7894fca96562562",
+      "typeIds": [3, 9],
+      "abilityIds": [
+        41,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 3,
+      "friendAreaId": "friend-area-peanut-swamp",
+      "recruitment": {
+        "baseRateTenthsPercent": 83,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp364",
+        "redNumericTableSha256": "4b39affa3c66689c417c1b649bab9c565e88ebd5ebb5821597382341526da1d1",
+        "redDecodedPayloadSha256": "16e3f55076a5b76ab81d5ca9bf9da607f2b1ba915280367c2ae4cce5369490d3",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-340",
+      "speciesId": "pokemon-340",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 365,
+      "resources": {
+        "blueGrowthResourceId": 365,
+        "redGrowthResourceId": 365,
+        "blueLearnsetResourceId": 365,
+        "redLearnsetResourceId": 365
+      },
+      "levelResourceId": "level-4dcc290b37b81a69af778e4af1fa98a40630e9699050f6918ac988506679d6b7",
+      "learnsetResourceId": "learn-f55ce79e682792ff82a254c8e84cf1392c854ca8feb8fbd28e490a9723af5570",
+      "typeIds": [3, 9],
+      "abilityIds": [
+        41,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 69,
+      "friendAreaId": "friend-area-peanut-swamp",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp365",
+        "redNumericTableSha256": "b4822437dc31fc5928734dda323b4853ae204f416a58ec4d7d88b610db6fb1c7",
+        "redDecodedPayloadSha256": "632a200b014fed6472b4dbc07c879cb6f362268d016cd627bc3445d02fd548e9",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-341",
+      "speciesId": "pokemon-341",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 366,
+      "resources": {
+        "blueGrowthResourceId": 366,
+        "redGrowthResourceId": 366,
+        "blueLearnsetResourceId": 366,
+        "redLearnsetResourceId": 366
+      },
+      "levelResourceId": "level-b76b924ce29d253cd8571b374d296206fcb06d60fa168b7e268bbe13d8d93aa7",
+      "learnsetResourceId": "learn-550fa6f8bc7dd9a2c6a718c5a02387fb423b5a3bcf4ab03a46cebffba8d2764a",
+      "typeIds": [3],
+      "abilityIds": [9, 19],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 33,
+      "friendAreaId": "friend-area-turtleshell-pond",
+      "recruitment": {
+        "baseRateTenthsPercent": 88,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp366",
+        "redNumericTableSha256": "689fe9537561c0eed0b098c5d191b65585c7f28d51ed3f15dcb5d4de0f37c206",
+        "redDecodedPayloadSha256": "226039fa437fb8345a231c54f0eb2d3340e64e15bcd42ab46ea616d0ed504d78",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-342",
+      "speciesId": "pokemon-342",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 367,
+      "resources": {
+        "blueGrowthResourceId": 367,
+        "redGrowthResourceId": 367,
+        "blueLearnsetResourceId": 367,
+        "redLearnsetResourceId": 367
+      },
+      "levelResourceId": "level-45c30f13db37180d40d42a2a7bdd44f983cd34b3a000fd04aa9e8cf745e83faa",
+      "learnsetResourceId": "learn-c405c34d2f37590f15199a41bfb08a71fb24093465f34569380dab8a19faa03b",
+      "typeIds": [3, 16],
+      "abilityIds": [9, 19],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 96,
+      "friendAreaId": "friend-area-turtleshell-pond",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp367",
+        "redNumericTableSha256": "f9d56339120308c7a857df27e4c557d6c169e9965a69cb53d0b3cbff39c79073",
+        "redDecodedPayloadSha256": "b0ad131ded0b627b18e51de5807ff1a688558999a78cf210164c53453741d0ef",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-343",
+      "speciesId": "pokemon-343",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 368,
+      "resources": {
+        "blueGrowthResourceId": 368,
+        "redGrowthResourceId": 368,
+        "blueLearnsetResourceId": 368,
+        "redLearnsetResourceId": 368
+      },
+      "levelResourceId": "level-7b522bd0128a2dbda42ca2a939a282cd4c353945afc887fe1721897c7dd9b67e",
+      "learnsetResourceId": "learn-d3730fd5c6919f90b935b9ab734bad0e2bff2262daeb7652db0a765423e0a020",
+      "typeIds": [9, 11],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 21,
+      "friendAreaId": "friend-area-ancient-relic",
+      "recruitment": {
+        "baseRateTenthsPercent": 56,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp368",
+        "redNumericTableSha256": "cf198e356facca590c2a4b349c7f78ccc3da2a738d0afb12c51627027d8b909c",
+        "redDecodedPayloadSha256": "257956954b6eb90c517703d10e4c8e89b02f264db47e1e13616da81d36079583",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-344",
+      "speciesId": "pokemon-344",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 369,
+      "resources": {
+        "blueGrowthResourceId": 369,
+        "redGrowthResourceId": 369,
+        "blueLearnsetResourceId": 369,
+        "redLearnsetResourceId": 369
+      },
+      "levelResourceId": "level-ec4b19685068331d7289ea30ab22d9f7d8485d4fc1ae211e129480c6a18a1852",
+      "learnsetResourceId": "learn-7855c14da9a6600a9d2ac3f662915980e19f05dc5ebfef986afe7ca85bd1b4ae",
+      "typeIds": [9, 11],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 90,
+      "friendAreaId": "friend-area-ancient-relic",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp369",
+        "redNumericTableSha256": "a89b3fe445a505f83517a06a4aed75b61381f01e1af796e17d4903c820ca2eaa",
+        "redDecodedPayloadSha256": "4e1467db796d1fe99c56ce78ea4d5e2b8b2e74c052422921e12c2c9c00e48358",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-345",
+      "speciesId": "pokemon-345",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 370,
+      "resources": {
+        "blueGrowthResourceId": 370,
+        "redGrowthResourceId": 370,
+        "blueLearnsetResourceId": 370,
+        "redLearnsetResourceId": 370
+      },
+      "levelResourceId": "level-72fe6fc5d1d11546e67e31542fa911d268e09062aeebd03957845a3bbf642146",
+      "learnsetResourceId": "learn-d93339ac8f9cf6185f0d5bb99a4906f4d9de7e41613e749ff18496650880ba50",
+      "typeIds": [13, 4],
+      "abilityIds": [
+        14,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 70,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": 73,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp370",
+        "redNumericTableSha256": "c8c802c2e81860e4cbb0d15efd3324fe94fc6e1bc875623df7c7e00f6061ef17",
+        "redDecodedPayloadSha256": "602d95830adb8154cf34b7b29d0653e40067f02d586e8d529f7dc2e828c016a8",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-346",
+      "speciesId": "pokemon-346",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 371,
+      "resources": {
+        "blueGrowthResourceId": 371,
+        "redGrowthResourceId": 371,
+        "blueLearnsetResourceId": 371,
+        "redLearnsetResourceId": 371
+      },
+      "levelResourceId": "level-ae4da81fa5cef589e1c2293a95b98148e151b44f4a20ab0f064a619c8caf1f72",
+      "learnsetResourceId": "learn-1f069aaaa41099b28339c106086e0cd2a5f7f363e4efe3f786707ffe4d34da0a",
+      "typeIds": [13, 4],
+      "abilityIds": [
+        14,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 110,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": -300,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp371",
+        "redNumericTableSha256": "d18d37ef338a696802b281cc7f2964497cad8bb2aed7404a74805d03beda105c",
+        "redDecodedPayloadSha256": "b735ba02447fc4cc00908a54284989c27dac0c30b4c07a90c157cfd42dc58e1c",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-347",
+      "speciesId": "pokemon-347",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 372,
+      "resources": {
+        "blueGrowthResourceId": 372,
+        "redGrowthResourceId": 372,
+        "blueLearnsetResourceId": 372,
+        "redLearnsetResourceId": 372
+      },
+      "levelResourceId": "level-2bbd2292b2023234cf8874b5e004859cb51b334a6cba5b5f2379c99d7f584c10",
+      "learnsetResourceId": "learn-25764050bebe07c38d25a6a842ce187bd984baee83fa78b668be678df7df7575",
+      "typeIds": [13, 12],
+      "abilityIds": [
+        12,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-treasure-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": 87,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp372",
+        "redNumericTableSha256": "a59f1977f138d881719fea3b099a38064da806cc6907f576a4f43d0069d98bb5",
+        "redDecodedPayloadSha256": "a651ac73f87f9d34c4d81382ad256897b3e65b0061fabe2a1b5a79746ce38829",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-348",
+      "speciesId": "pokemon-348",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 373,
+      "resources": {
+        "blueGrowthResourceId": 373,
+        "redGrowthResourceId": 373,
+        "blueLearnsetResourceId": 373,
+        "redLearnsetResourceId": 373
+      },
+      "levelResourceId": "level-430a70d73205f10817c558c2f4f632fe0f64ad5cbc68bf39590bd14fab27bf32",
+      "learnsetResourceId": "learn-2012ffdc10a913c43b96ab9934ef4e1e37b0f770247c29800cb44acbc1708a6f",
+      "typeIds": [13, 12],
+      "abilityIds": [
+        12,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 120,
+      "friendAreaId": "friend-area-treasure-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp373",
+        "redNumericTableSha256": "be617163c35a5a44f1125a28e922f8c78fb4f59018021fbdd0e6163e20876b86",
+        "redDecodedPayloadSha256": "6612227f1ec3f18429f046b88af0bb2e0d9997bf8cb35245dc154ba9ddc1c02a",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-349",
+      "speciesId": "pokemon-349",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 374,
+      "resources": {
+        "blueGrowthResourceId": 374,
+        "redGrowthResourceId": 374,
+        "blueLearnsetResourceId": 374,
+        "redLearnsetResourceId": 374
+      },
+      "levelResourceId": "level-b802623e3dd616be4b05680c1d2e7bcc5a70e82f880aeb52771b4e016018de08",
+      "learnsetResourceId": "learn-b297d2e868712d9aa91b1561867c5aebda828d558bda73dbbd1f5105b3fd274c",
+      "typeIds": [3],
+      "abilityIds": [
+        27,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 21,
+      "friendAreaId": "friend-area-waterfall-lake",
+      "recruitment": {
+        "baseRateTenthsPercent": 92,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp374",
+        "redNumericTableSha256": "6459dc3e34d15df1ca701246171a8e59634ba12a646c4143572e97d01eb237b3",
+        "redDecodedPayloadSha256": "731ec29e0aeb3a8e56980dbd4763694392166ced759f1f4ce56aff937a39268e",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-350",
+      "speciesId": "pokemon-350",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 375,
+      "resources": {
+        "blueGrowthResourceId": 375,
+        "redGrowthResourceId": 375,
+        "blueLearnsetResourceId": 375,
+        "redLearnsetResourceId": 375
+      },
+      "levelResourceId": "level-83240304e7a56009649542c5fbf44785d15527e858508ec533742efe364ebd2d",
+      "learnsetResourceId": "learn-3c4bd0c8c64277c159519d289fa1a22cee576bb65596263272fde936dd5f2a83",
+      "typeIds": [3],
+      "abilityIds": [
+        52,
+        null
+      ],
+      "bodySize": 4,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 222,
+      "friendAreaId": "friend-area-waterfall-lake",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp375",
+        "redNumericTableSha256": "0f571525e1feceb2058e6bb91ff22aa430c7a79e6357b5b8d3da09acd5fa10c3",
+        "redDecodedPayloadSha256": "9aeff6ad39fa3a431f1e48f0d33487177d246d3e8ecaf47750fe5d4b1b246566",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "castform-normal",
+      "speciesId": "pokemon-351",
+      "formId": "castform-normal",
+      "persistence": "persistent",
+      "internalId": 376,
+      "resources": {
+        "blueGrowthResourceId": 376,
+        "redGrowthResourceId": 376,
+        "blueLearnsetResourceId": 376,
+        "redLearnsetResourceId": 376
+      },
+      "levelResourceId": "level-5f610936e693eceb39ca7cadf76057d68fb7fb9dbded46144475020ecda6049a",
+      "learnsetResourceId": "learn-a5add1627e195a7044a52d88a33d5ab861bddfa93f76c0a2db29cd8964f1d1a0",
+      "typeIds": [1],
+      "abilityIds": [
+        37,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 200,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": 74,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp376",
+        "redNumericTableSha256": "d0b975902f590a7e24bf6240dd3b299b82166b689299b02028ec45f00c0b8965",
+        "redDecodedPayloadSha256": "8806d63e0f15f94be080ebc71f60c84f74efeeaafb1ee58d3608dd112240cc0f",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "castform-snowy",
+      "speciesId": "pokemon-351",
+      "formId": "castform-snowy",
+      "persistence": "temporary",
+      "internalId": 377,
+      "resources": {
+        "blueGrowthResourceId": null,
+        "redGrowthResourceId": 377,
+        "blueLearnsetResourceId": 377,
+        "redLearnsetResourceId": 377
+      },
+      "levelResourceId": "level-5f610936e693eceb39ca7cadf76057d68fb7fb9dbded46144475020ecda6049a",
+      "learnsetResourceId": "learn-a5add1627e195a7044a52d88a33d5ab861bddfa93f76c0a2db29cd8964f1d1a0",
+      "typeIds": [1],
+      "abilityIds": [
+        37,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 200,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": 74,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "red-only-levels",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "red-only-metadata",
+        "bodySize": "red-only-metadata",
+        "friendArea": "red-only-metadata",
+        "recruitment": "red-only-metadata",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp377",
+        "redNumericTableSha256": "d0b975902f590a7e24bf6240dd3b299b82166b689299b02028ec45f00c0b8965",
+        "redDecodedPayloadSha256": "8806d63e0f15f94be080ebc71f60c84f74efeeaafb1ee58d3608dd112240cc0f",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "castform-sunny",
+      "speciesId": "pokemon-351",
+      "formId": "castform-sunny",
+      "persistence": "temporary",
+      "internalId": 378,
+      "resources": {
+        "blueGrowthResourceId": null,
+        "redGrowthResourceId": 378,
+        "blueLearnsetResourceId": 378,
+        "redLearnsetResourceId": 378
+      },
+      "levelResourceId": "level-5f610936e693eceb39ca7cadf76057d68fb7fb9dbded46144475020ecda6049a",
+      "learnsetResourceId": "learn-a5add1627e195a7044a52d88a33d5ab861bddfa93f76c0a2db29cd8964f1d1a0",
+      "typeIds": [1],
+      "abilityIds": [
+        37,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 200,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": 74,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "red-only-levels",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "red-only-metadata",
+        "bodySize": "red-only-metadata",
+        "friendArea": "red-only-metadata",
+        "recruitment": "red-only-metadata",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp378",
+        "redNumericTableSha256": "d0b975902f590a7e24bf6240dd3b299b82166b689299b02028ec45f00c0b8965",
+        "redDecodedPayloadSha256": "8806d63e0f15f94be080ebc71f60c84f74efeeaafb1ee58d3608dd112240cc0f",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "castform-rainy",
+      "speciesId": "pokemon-351",
+      "formId": "castform-rainy",
+      "persistence": "temporary",
+      "internalId": 379,
+      "resources": {
+        "blueGrowthResourceId": null,
+        "redGrowthResourceId": 379,
+        "blueLearnsetResourceId": 379,
+        "redLearnsetResourceId": 379
+      },
+      "levelResourceId": "level-5f610936e693eceb39ca7cadf76057d68fb7fb9dbded46144475020ecda6049a",
+      "learnsetResourceId": "learn-a5add1627e195a7044a52d88a33d5ab861bddfa93f76c0a2db29cd8964f1d1a0",
+      "typeIds": [1],
+      "abilityIds": [
+        37,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 200,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": 74,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "red-only-levels",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "red-only-metadata",
+        "bodySize": "red-only-metadata",
+        "friendArea": "red-only-metadata",
+        "recruitment": "red-only-metadata",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp379",
+        "redNumericTableSha256": "d0b975902f590a7e24bf6240dd3b299b82166b689299b02028ec45f00c0b8965",
+        "redDecodedPayloadSha256": "8806d63e0f15f94be080ebc71f60c84f74efeeaafb1ee58d3608dd112240cc0f",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-352",
+      "speciesId": "pokemon-352",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 380,
+      "resources": {
+        "blueGrowthResourceId": 380,
+        "redGrowthResourceId": 380,
+        "blueLearnsetResourceId": 380,
+        "redLearnsetResourceId": 380
+      },
+      "levelResourceId": "level-a83881ee9a470a8fafa5c277a94066cf9be41d599cb88fcc1c40570cd78da13c",
+      "learnsetResourceId": "learn-85982dcd2d8fb561db8edb96d74734bef657cb69b38fd7fbc1921ad8fbfd56cd",
+      "typeIds": [1],
+      "abilityIds": [
+        59,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 1,
+      "friendAreaId": "friend-area-overgrown-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -339,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp380",
+        "redNumericTableSha256": "d93e0ec5bf9363dc8fa0a0e54c2c8ab8c4dd89693ec3558ed6cb971b553b50e0",
+        "redDecodedPayloadSha256": "89cdefc8fcf30896f5c6a1a8d4b5cffc031f4b00b646db7c2310afcea34b1920",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-353",
+      "speciesId": "pokemon-353",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 381,
+      "resources": {
+        "blueGrowthResourceId": 381,
+        "redGrowthResourceId": 381,
+        "blueLearnsetResourceId": 381,
+        "redLearnsetResourceId": 381
+      },
+      "levelResourceId": "level-f851c0b6f12d94cc245300ab2a10fae94f503a1a2d8147e6ff469bc61af0f540",
+      "learnsetResourceId": "learn-c774c0aa3d4318684fdf079d3dba92717a0c39ab07b78ea89185d3697691443d",
+      "typeIds": [14],
+      "abilityIds": [
+        54,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-darkness-ridge",
+      "recruitment": {
+        "baseRateTenthsPercent": 80,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp381",
+        "redNumericTableSha256": "8018b3b0997a94bb5ee4d1b9e81e2710ff7a0c358dc959f0f1b263d04dcdb273",
+        "redDecodedPayloadSha256": "0a936130e3fa7a1b0eb6de2c4e6fb488d00ffbb729c559d85ff24f0fda515fcd",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-354",
+      "speciesId": "pokemon-354",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 382,
+      "resources": {
+        "blueGrowthResourceId": 382,
+        "redGrowthResourceId": 382,
+        "blueLearnsetResourceId": 382,
+        "redLearnsetResourceId": 382
+      },
+      "levelResourceId": "level-e0d30f624806f5bfbcb7b34611bfaae868e5474645cb101b1377e1bcbf7dc1aa",
+      "learnsetResourceId": "learn-0365b85bbfccbd3135dd3085cecadb46fd9595cbe8d77c67503b9767ba3bd193",
+      "typeIds": [14],
+      "abilityIds": [
+        54,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 105,
+      "friendAreaId": "friend-area-darkness-ridge",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp382",
+        "redNumericTableSha256": "5386f49a3e060613e8f06ced57969c52db6271dc0393993140e06e14c25db8ac",
+        "redDecodedPayloadSha256": "1de97a1636a79eeefe8164c28ddb1c575fbe5e69639e89a8cdbad206da63e217",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-355",
+      "speciesId": "pokemon-355",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 383,
+      "resources": {
+        "blueGrowthResourceId": 383,
+        "redGrowthResourceId": 383,
+        "blueLearnsetResourceId": 383,
+        "redLearnsetResourceId": 383
+      },
+      "levelResourceId": "level-db5683a913c0eb104112ada15cdbe22bbdb13c1b5760a75b93cb1fe83d4cd36d",
+      "learnsetResourceId": "learn-de9eaeee47d59e144996202c188f44617c94757e41a26078f9487b2656c7d7e0",
+      "typeIds": [14],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 55,
+      "friendAreaId": "friend-area-darkness-ridge",
+      "recruitment": {
+        "baseRateTenthsPercent": 75,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp383",
+        "redNumericTableSha256": "c029637af80de137db262f9c42516dd8534158c5652b5bedaa48c94c3477de6d",
+        "redDecodedPayloadSha256": "1333d60e6fdaed84b78c7548c8722d5d3125e45aa655fd04652e7a0a86282475",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-356",
+      "speciesId": "pokemon-356",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 384,
+      "resources": {
+        "blueGrowthResourceId": 384,
+        "redGrowthResourceId": 384,
+        "blueLearnsetResourceId": 384,
+        "redLearnsetResourceId": 384
+      },
+      "levelResourceId": "level-c23cc6294995e0622b394050b641d74e869dc198dd63012c4bc445e0f610c834",
+      "learnsetResourceId": "learn-408f3ad98a09f3dff626c138da6002567f7e91d4bbe85c52f4b7764559278f27",
+      "typeIds": [14],
+      "abilityIds": [
+        57,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 75,
+      "friendAreaId": "friend-area-darkness-ridge",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp384",
+        "redNumericTableSha256": "4e402fab8d2bdb29b80022e72b0026b12f90d9d954962c37d5329faf53c66766",
+        "redDecodedPayloadSha256": "d1780cba6306949fc1127a2cad83c3dc9cee8997ac96e52de160f7b0699751c2",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-357",
+      "speciesId": "pokemon-357",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 385,
+      "resources": {
+        "blueGrowthResourceId": 385,
+        "redGrowthResourceId": 385,
+        "blueLearnsetResourceId": 385,
+        "redLearnsetResourceId": 385
+      },
+      "levelResourceId": "level-5d62b1ba7f85271a4e18902d9e1f4828bfc1c65651581d9b5333ca0585d6dd13",
+      "learnsetResourceId": "learn-2f3a0a4853d617b6ce483bcb78bc716490d39e02116a1e4e1865ed771fa20cb3",
+      "typeIds": [4, 10],
+      "abilityIds": [
+        74,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 100,
+      "friendAreaId": "friend-area-jungle",
+      "recruitment": {
+        "baseRateTenthsPercent": 76,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp385",
+        "redNumericTableSha256": "20900d9f763fdd152ab82add2e09d9c9a1469de04b7343bb61aa72c2fa086368",
+        "redDecodedPayloadSha256": "d3354e22f9577b07c39948e37dc85e6f4e11a24301a4cdc11fa1e8fa3310f958",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-358",
+      "speciesId": "pokemon-358",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 386,
+      "resources": {
+        "blueGrowthResourceId": 386,
+        "redGrowthResourceId": 386,
+        "blueLearnsetResourceId": 386,
+        "redLearnsetResourceId": 386
+      },
+      "levelResourceId": "level-4fdb8f7eca425e5169c626f3d022362baec4dd926fb4cfc41bd0d5a05edc2454",
+      "learnsetResourceId": "learn-3d6184974ab997d01de3e9ed0fe9c51e5684d937f886226bc6fac0167e962ec6",
+      "typeIds": [11],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 20,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": 69,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp386",
+        "redNumericTableSha256": "c7c9ab0ba2c8fd70fb8d36e1b65613af9901406d3db0eac17e1582db4a110f7c",
+        "redDecodedPayloadSha256": "f69b4d1dcba8c1c3a18d00c3f5b387c0b8ea37b2e9e814d56da9f65a478d2719",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-359",
+      "speciesId": "pokemon-359",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 387,
+      "resources": {
+        "blueGrowthResourceId": 387,
+        "redGrowthResourceId": 387,
+        "blueLearnsetResourceId": 387,
+        "redLearnsetResourceId": 387
+      },
+      "levelResourceId": "level-590a3a34636a9c7a3720c88a8ad15d3b1caadc0b69f81394a36c6e5349b481d5",
+      "learnsetResourceId": "learn-a4eb4f31bedbf522a853185b3da90b23e51b803f69373939ec20c23a1ee32c3e",
+      "typeIds": [16],
+      "abilityIds": [
+        57,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 200,
+      "friendAreaId": "friend-area-darkness-ridge",
+      "recruitment": {
+        "baseRateTenthsPercent": 68,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp387",
+        "redNumericTableSha256": "00720e7dd81ddb74e518f325b30bd0b9e2062aa1f76644ec48ccd2791dabd9ac",
+        "redDecodedPayloadSha256": "ff175aae9b6b998376b30a3713c5aa8bf31c38ada65e898d8bac29813064dcd6",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-360",
+      "speciesId": "pokemon-360",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 388,
+      "resources": {
+        "blueGrowthResourceId": 388,
+        "redGrowthResourceId": 388,
+        "blueLearnsetResourceId": 388,
+        "redLearnsetResourceId": 388
+      },
+      "levelResourceId": "level-0f809d1a3e4429efdc02641c12b5581c2aece1c94407e2c455bc1bd8be9ce6da",
+      "learnsetResourceId": "learn-67b8bfb1cb3772378c9f9d64900613304bd354f34d70f33b6babe04ff5a6a9ac",
+      "typeIds": [11],
+      "abilityIds": [
+        10,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 25,
+      "friendAreaId": "friend-area-echo-cave",
+      "recruitment": {
+        "baseRateTenthsPercent": 96,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp388",
+        "redNumericTableSha256": "7f4c7183d0f41eb4dd2b52575850e4d8483d6e90ccd9479ca9faf1f0f81eec88",
+        "redDecodedPayloadSha256": "65d1b7cc7ca8e93498e0c7774be03dd451e483f48d5225dd74d641efd976d3fc",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-361",
+      "speciesId": "pokemon-361",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 389,
+      "resources": {
+        "blueGrowthResourceId": 389,
+        "redGrowthResourceId": 389,
+        "blueLearnsetResourceId": 389,
+        "redLearnsetResourceId": 389
+      },
+      "levelResourceId": "level-ce995139c2d3cfd8f539f621e9e48baaac686da20930cb16073f61f69ecbd2cb",
+      "learnsetResourceId": "learn-f3702a7569168e2465472c230a1657f148451589dcda7241ccddeec1779e9c14",
+      "typeIds": [6],
+      "abilityIds": [
+        31,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-frigid-cavern",
+      "recruitment": {
+        "baseRateTenthsPercent": 75,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp389",
+        "redNumericTableSha256": "3982cf7e6ef4bafdfcab3e44cd938f88109f3339e67214736699c1fa9fe164ae",
+        "redDecodedPayloadSha256": "2ea104e19abc2f597a826526325290b88311f4f5186f71b3cc14251cd18743ae",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-362",
+      "speciesId": "pokemon-362",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 390,
+      "resources": {
+        "blueGrowthResourceId": 390,
+        "redGrowthResourceId": 390,
+        "blueLearnsetResourceId": 390,
+        "redLearnsetResourceId": 390
+      },
+      "levelResourceId": "level-6e619c10cae271f92ca7c5a7823d1c0e4d91d389757e0cd0ce6cf1eaba83b8e6",
+      "learnsetResourceId": "learn-5abb6eed736af39619aaff76a16d1ed7cb55368f73e7eda25020380fbfc39b97",
+      "typeIds": [6],
+      "abilityIds": [
+        31,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-frigid-cavern",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp390",
+        "redNumericTableSha256": "559248b8418907ef8b2e1ffc3b703af7dcb02dea7e65e6e474e0c6fbcbd6966f",
+        "redDecodedPayloadSha256": "1ea8aab04d39c1f13a2fe2876bbc77e9526336d25b2744bdf01ce3661fd2529c",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-363",
+      "speciesId": "pokemon-363",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 391,
+      "resources": {
+        "blueGrowthResourceId": 391,
+        "redGrowthResourceId": 391,
+        "blueLearnsetResourceId": 391,
+        "redLearnsetResourceId": 391
+      },
+      "levelResourceId": "level-9f5e87f664baba1cdc5652f76a113cabead36efc7ee6a513da4816ca3b51161d",
+      "learnsetResourceId": "learn-5f3c92e35b08aed2669854433d271bfbc9bfda69086f52da59aad3ba6f629e57",
+      "typeIds": [6, 3],
+      "abilityIds": [
+        2,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 78,
+      "friendAreaId": "friend-area-ice-floe-beach",
+      "recruitment": {
+        "baseRateTenthsPercent": 88,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp391",
+        "redNumericTableSha256": "08bd98c04204ed0bdb8caff7d659cd1e5cc8ac7fd5ee119b7dd1616326c67a36",
+        "redDecodedPayloadSha256": "fdafd015bfe0a2e77df551765d0b7f0d3a6942424a2eb30333ab966304fd7b5a",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-364",
+      "speciesId": "pokemon-364",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 392,
+      "resources": {
+        "blueGrowthResourceId": 392,
+        "redGrowthResourceId": 392,
+        "blueLearnsetResourceId": 392,
+        "redLearnsetResourceId": 392
+      },
+      "levelResourceId": "level-fd6ffd23c640f748f707c3a5adce21de150f2f3f937c30661739c8db1f9ca5db",
+      "learnsetResourceId": "learn-e7db2a2bc2e6a6c82828719cad0f2646d0b76e59be5e1dc9b49a7c55aab18b97",
+      "typeIds": [6, 3],
+      "abilityIds": [
+        2,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 103,
+      "friendAreaId": "friend-area-ice-floe-beach",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp392",
+        "redNumericTableSha256": "7ea8e83b92eded2c5bcb41ef708c47121f9cf3e7821348e3f4b38716a261e6ae",
+        "redDecodedPayloadSha256": "c3f150966b7ae41c168d0da0e7c37cf4a2bc89b14e296a99772557e8eb418357",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-365",
+      "speciesId": "pokemon-365",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 393,
+      "resources": {
+        "blueGrowthResourceId": 393,
+        "redGrowthResourceId": 393,
+        "blueLearnsetResourceId": 393,
+        "redLearnsetResourceId": 393
+      },
+      "levelResourceId": "level-249d6115fae0ff4b5208d7fa215748df72b90b55d103e9265888a8c03ee1d0ef",
+      "learnsetResourceId": "learn-650a5b717af1e5234520b20b170b24b7a2fb1ec4f6cf2f033e1dfbd40607fae3",
+      "typeIds": [6, 3],
+      "abilityIds": [
+        2,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 130,
+      "friendAreaId": "friend-area-ice-floe-beach",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp393",
+        "redNumericTableSha256": "49b52d7b7f700e93f7f168733696e6b9475692fc5264f6acc391bff0d065a17b",
+        "redDecodedPayloadSha256": "9035ddd033529672e0cc32638db331c6045228203301c8bf4bf333588bff607b",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-366",
+      "speciesId": "pokemon-366",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 394,
+      "resources": {
+        "blueGrowthResourceId": 394,
+        "redGrowthResourceId": 394,
+        "blueLearnsetResourceId": 394,
+        "redLearnsetResourceId": 394
+      },
+      "levelResourceId": "level-f347fba3cc66f4c1becd1d4fbbfc0566149c97bd3c4c0259523ba0ee60ab476c",
+      "learnsetResourceId": "learn-90d79b705b5d4b270477b57dc6dbcbcd776719aff5cbc93b6455633403f7475e",
+      "typeIds": [3],
+      "abilityIds": [
+        19,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 70,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": 85,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp394",
+        "redNumericTableSha256": "a2f9a2506c9df86d5e768d96f00b7a98fb5fe6fdcb5c0481bd14da3a4080dc7a",
+        "redDecodedPayloadSha256": "d4e6f6ee2f70ea77d42482f40b985fe0bf2998f64f9987484dc5168b7b68bdb2",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-367",
+      "speciesId": "pokemon-367",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 395,
+      "resources": {
+        "blueGrowthResourceId": 395,
+        "redGrowthResourceId": 395,
+        "blueLearnsetResourceId": 395,
+        "redLearnsetResourceId": 395
+      },
+      "levelResourceId": "level-de5e88a810bd5c43bff330b7cc9727a4c03cd8bfcafca7bcea224d2940f8a7f2",
+      "learnsetResourceId": "learn-1ddfb50a3b745132b0b84d7bfc4bbfc8394b525e8ab359008c36984ac814f768",
+      "typeIds": [3],
+      "abilityIds": [
+        27,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 105,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp395",
+        "redNumericTableSha256": "498d025ffefbddc2717e41b50b15754b7bed0ac1f2f17fe219dd6bf71249100c",
+        "redDecodedPayloadSha256": "2cbcefe63504e9e550187dadda7a8307dfbb13bf2d0b018e0d896d4bff657e43",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-368",
+      "speciesId": "pokemon-368",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 396,
+      "resources": {
+        "blueGrowthResourceId": 396,
+        "redGrowthResourceId": 396,
+        "blueLearnsetResourceId": 396,
+        "redLearnsetResourceId": 396
+      },
+      "levelResourceId": "level-4fa546c72c0cc1a4ee30c5473a0d680795e5f715b4ed64355cb750dd4b42b174",
+      "learnsetResourceId": "learn-161d33cc4cec667923073baef8128444bb23513d7be0615124a8c0a92578eeda",
+      "typeIds": [3],
+      "abilityIds": [
+        27,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 120,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp396",
+        "redNumericTableSha256": "d733d90ea1d0bc2eb18846efc70d6f5500f054a5f26dd1e231560eae8848104c",
+        "redDecodedPayloadSha256": "d93635bd082a2f5465d533fe643e0a0517046cd25189e96818f5606f759f1332",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-369",
+      "speciesId": "pokemon-369",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 397,
+      "resources": {
+        "blueGrowthResourceId": 397,
+        "redGrowthResourceId": 397,
+        "blueLearnsetResourceId": 397,
+        "redLearnsetResourceId": 397
+      },
+      "levelResourceId": "level-0007c5e556538ac6a00000aa50d34a0b80b7504e9df4ee286a95029423bf10c9",
+      "learnsetResourceId": "learn-22bb6ef9f95c01b112c0222e065a4cbf2c741feb628041a70d315b28173cbf62",
+      "typeIds": [3, 13],
+      "abilityIds": [27, 7],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 69,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": 79,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp397",
+        "redNumericTableSha256": "d4759261e88b1cea8914b22f3f5ab40b3af16ed25c1217ea6d600ff9749d9e16",
+        "redDecodedPayloadSha256": "5f68985904e5acc1584d6485fcf1acbfccfcb5b21938233c7d4835994073646a",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-370",
+      "speciesId": "pokemon-370",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 398,
+      "resources": {
+        "blueGrowthResourceId": 398,
+        "redGrowthResourceId": 398,
+        "blueLearnsetResourceId": 398,
+        "redLearnsetResourceId": 398
+      },
+      "levelResourceId": "level-b870cd3a074d4fb6364913d0560c0a260b0922164b42623f1ebca38f752ea73b",
+      "learnsetResourceId": "learn-f4009ae8f575d198b21c0970bcd798ccf3b11e0287b26d480a852fd63ece2722",
+      "typeIds": [3],
+      "abilityIds": [
+        27,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-treasure-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": 86,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp398",
+        "redNumericTableSha256": "1dc4540170bf13302b32536778ae0b06114be4579b67771de61d1d0a9f0f85ab",
+        "redDecodedPayloadSha256": "6c31461121916c6225f8ebf7cbf6ada6f2f1cdc7fe254b69ac9e1338d20c6e43",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-371",
+      "speciesId": "pokemon-371",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 399,
+      "resources": {
+        "blueGrowthResourceId": 399,
+        "redGrowthResourceId": 399,
+        "blueLearnsetResourceId": 399,
+        "redLearnsetResourceId": 399
+      },
+      "levelResourceId": "level-86d64c0d477223f9c785606657e216227b7327e3bf83d7c21e9d4fa835bb696e",
+      "learnsetResourceId": "learn-9121c46f7bde9938e87b70312a905cc1e8883536cb7dc69bb18f7a9cdbfece05",
+      "typeIds": [15],
+      "abilityIds": [
+        7,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-dragon-cave",
+      "recruitment": {
+        "baseRateTenthsPercent": 76,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp399",
+        "redNumericTableSha256": "114a8a91ad31d0834b1ad686c611ec10bde85f012e44c3476bca95392dd7249f",
+        "redDecodedPayloadSha256": "21623bbf47d4f05fcc8b771a8eda9d31aa61eca9178ba52c2fd6e1ba362aef60",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    },
+    {
+      "id": "pokemon-372",
+      "speciesId": "pokemon-372",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 400,
+      "resources": {
+        "blueGrowthResourceId": 400,
+        "redGrowthResourceId": 400,
+        "blueLearnsetResourceId": 400,
+        "redLearnsetResourceId": 400
+      },
+      "levelResourceId": "level-e9a4ffd2609bf51365b6a37c7e75caf9612a8aeca8b2e9ff2e5b1c2bfec95657",
+      "learnsetResourceId": "learn-73958bed7c385440eb841e4175aeee89743d3c89c38904dd00ae2addc61c4deb",
+      "typeIds": [15],
+      "abilityIds": [
+        7,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 65,
+      "friendAreaId": "friend-area-dragon-cave",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "red-comparative-only",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp400",
+        "redNumericTableSha256": "a1c31d7f9eed9ddc944358fc6ddf15c5e9cbfa8debe417f97a1d834dc1a701e8",
+        "redDecodedPayloadSha256": "027862cc85f5d8f089624da258e2bf9064f1cf5bf5c9061af105bad5c81475e3",
+        "upcUrl": null,
+        "upcNumericTableSha256": null
+      }
+    }
+  ]
+}

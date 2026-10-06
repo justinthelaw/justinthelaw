@@ -1,0 +1,1256 @@
+[
+  {
+    "authoringId": "tiny-woods",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "tiny-woods",
+        "sourceDirectory": "TinyWoods",
+        "sourceDungeonIndex": 0,
+        "sourceFloorRows": 3,
+        "localFloorStart": 1,
+        "localFloorEnd": 3,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 3
+      }
+    ],
+    "sourceFloorRowCount": 3,
+    "canonicalCount": 3,
+    "canonicalCountBasis": "exploration",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "thunderwave-cave",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "thunderwave-cave",
+        "sourceDirectory": "ThunderwaveCave",
+        "sourceDungeonIndex": 1,
+        "sourceFloorRows": 5,
+        "localFloorStart": 1,
+        "localFloorEnd": 5,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 5
+      }
+    ],
+    "sourceFloorRowCount": 5,
+    "canonicalCount": 5,
+    "canonicalCountBasis": "exploration",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "mt-steel",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "mt-steel",
+        "sourceDirectory": "MtSteel",
+        "sourceDungeonIndex": 2,
+        "sourceFloorRows": 9,
+        "localFloorStart": 1,
+        "localFloorEnd": 9,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 9
+      }
+    ],
+    "sourceFloorRowCount": 9,
+    "canonicalCount": 9,
+    "canonicalCountBasis": "numbered",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "sinister-woods",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "sinister-woods",
+        "sourceDirectory": "SinisterWoods",
+        "sourceDungeonIndex": 3,
+        "sourceFloorRows": 13,
+        "localFloorStart": 1,
+        "localFloorEnd": 13,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 13
+      }
+    ],
+    "sourceFloorRowCount": 13,
+    "canonicalCount": 13,
+    "canonicalCountBasis": "numbered",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "silent-chasm",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "silent-chasm",
+        "sourceDirectory": "SilentChasm",
+        "sourceDungeonIndex": 4,
+        "sourceFloorRows": 9,
+        "localFloorStart": 1,
+        "localFloorEnd": 9,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 9
+      }
+    ],
+    "sourceFloorRowCount": 9,
+    "canonicalCount": 9,
+    "canonicalCountBasis": "exploration",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "mt-thunder",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "mt-thunder-main",
+        "sourceDirectory": "MtThunder",
+        "sourceDungeonIndex": 5,
+        "sourceFloorRows": 10,
+        "localFloorStart": 1,
+        "localFloorEnd": 10,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 10
+      },
+      {
+        "authoringSegmentId": "mt-thunder-peak",
+        "sourceDirectory": "MtThunderPeak",
+        "sourceDungeonIndex": 6,
+        "sourceFloorRows": 3,
+        "localFloorStart": 1,
+        "localFloorEnd": 3,
+        "cumulativeOrdinalStart": 11,
+        "cumulativeOrdinalEnd": 13
+      }
+    ],
+    "sourceFloorRowCount": 13,
+    "canonicalCount": 13,
+    "canonicalCountBasis": "numbered",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "great-canyon",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "great-canyon",
+        "sourceDirectory": "GreatCanyon",
+        "sourceDungeonIndex": 7,
+        "sourceFloorRows": 12,
+        "localFloorStart": 1,
+        "localFloorEnd": 12,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 12
+      }
+    ],
+    "sourceFloorRowCount": 12,
+    "canonicalCount": 12,
+    "canonicalCountBasis": "exploration",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "lapis-cave",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "lapis-cave",
+        "sourceDirectory": "LapisCave",
+        "sourceDungeonIndex": 8,
+        "sourceFloorRows": 14,
+        "localFloorStart": 1,
+        "localFloorEnd": 14,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 14
+      }
+    ],
+    "sourceFloorRowCount": 14,
+    "canonicalCount": 14,
+    "canonicalCountBasis": "numbered",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "mt-blaze",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "mt-blaze-main",
+        "sourceDirectory": "MtBlaze",
+        "sourceDungeonIndex": 9,
+        "sourceFloorRows": 12,
+        "localFloorStart": 1,
+        "localFloorEnd": 12,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 12
+      },
+      {
+        "authoringSegmentId": "mt-blaze-peak",
+        "sourceDirectory": "MtBlazePeak",
+        "sourceDungeonIndex": 10,
+        "sourceFloorRows": 3,
+        "localFloorStart": 1,
+        "localFloorEnd": 3,
+        "cumulativeOrdinalStart": 13,
+        "cumulativeOrdinalEnd": 15
+      }
+    ],
+    "sourceFloorRowCount": 15,
+    "canonicalCount": 15,
+    "canonicalCountBasis": "numbered",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "frosty-forest",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "frosty-forest-main",
+        "sourceDirectory": "FrostyForest",
+        "sourceDungeonIndex": 11,
+        "sourceFloorRows": 9,
+        "localFloorStart": 1,
+        "localFloorEnd": 9,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 9
+      },
+      {
+        "authoringSegmentId": "frosty-grotto",
+        "sourceDirectory": "FrostyGrotto",
+        "sourceDungeonIndex": 12,
+        "sourceFloorRows": 5,
+        "localFloorStart": 1,
+        "localFloorEnd": 5,
+        "cumulativeOrdinalStart": 10,
+        "cumulativeOrdinalEnd": 14
+      }
+    ],
+    "sourceFloorRowCount": 14,
+    "canonicalCount": 14,
+    "canonicalCountBasis": "numbered",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "mt-freeze",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "mt-freeze-main",
+        "sourceDirectory": "MtFreeze",
+        "sourceDungeonIndex": 13,
+        "sourceFloorRows": 15,
+        "localFloorStart": 1,
+        "localFloorEnd": 15,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 15
+      },
+      {
+        "authoringSegmentId": "mt-freeze-peak",
+        "sourceDirectory": "MtFreezePeak",
+        "sourceDungeonIndex": 14,
+        "sourceFloorRows": 5,
+        "localFloorStart": 1,
+        "localFloorEnd": 5,
+        "cumulativeOrdinalStart": 16,
+        "cumulativeOrdinalEnd": 20
+      }
+    ],
+    "sourceFloorRowCount": 20,
+    "canonicalCount": 19,
+    "canonicalCountBasis": "exploration",
+    "terminalSceneSourceRows": [
+      {
+        "directory": "MtFreezePeak",
+        "row": 5,
+        "authoringMapId": "mt-freeze-ninetales-summit",
+        "countsAsExplorationFloor": false
+      }
+    ],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "uproar-forest",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "uproar-forest",
+        "sourceDirectory": "UproarForest",
+        "sourceDungeonIndex": 42,
+        "sourceFloorRows": 10,
+        "localFloorStart": 1,
+        "localFloorEnd": 10,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 10
+      }
+    ],
+    "sourceFloorRowCount": 10,
+    "canonicalCount": 10,
+    "canonicalCountBasis": "numbered",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "magma-cavern",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "magma-cavern-main",
+        "sourceDirectory": "MagmaCavern",
+        "sourceDungeonIndex": 15,
+        "sourceFloorRows": 23,
+        "localFloorStart": 1,
+        "localFloorEnd": 23,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 23
+      },
+      {
+        "authoringSegmentId": "magma-cavern-pit",
+        "sourceDirectory": "MagmaCavernPit",
+        "sourceDungeonIndex": 16,
+        "sourceFloorRows": 3,
+        "localFloorStart": 1,
+        "localFloorEnd": 3,
+        "cumulativeOrdinalStart": 24,
+        "cumulativeOrdinalEnd": 26
+      }
+    ],
+    "sourceFloorRowCount": 26,
+    "canonicalCount": 26,
+    "canonicalCountBasis": "numbered",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "sky-tower",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "sky-tower-main",
+        "sourceDirectory": "SkyTower",
+        "sourceDungeonIndex": 17,
+        "sourceFloorRows": 25,
+        "localFloorStart": 1,
+        "localFloorEnd": 25,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 25
+      },
+      {
+        "authoringSegmentId": "sky-tower-summit",
+        "sourceDirectory": "SkyTowerSummit",
+        "sourceDungeonIndex": 18,
+        "sourceFloorRows": 9,
+        "localFloorStart": 1,
+        "localFloorEnd": 9,
+        "cumulativeOrdinalStart": 26,
+        "cumulativeOrdinalEnd": 34
+      }
+    ],
+    "sourceFloorRowCount": 34,
+    "canonicalCount": 34,
+    "canonicalCountBasis": "numbered",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "rock-path",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "rock-path",
+        "sourceDirectory": "RockPath",
+        "sourceDungeonIndex": 47,
+        "sourceFloorRows": 4,
+        "localFloorStart": 1,
+        "localFloorEnd": 4,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 4
+      }
+    ],
+    "sourceFloorRowCount": 4,
+    "canonicalCount": 4,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "snow-path",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "snow-path",
+        "sourceDirectory": "SnowPath",
+        "sourceDungeonIndex": 48,
+        "sourceFloorRows": 4,
+        "localFloorStart": 1,
+        "localFloorEnd": 4,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 4
+      }
+    ],
+    "sourceFloorRowCount": 4,
+    "canonicalCount": 4,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "howling-forest",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "howling-forest",
+        "sourceDirectory": "HowlingForest",
+        "sourceDungeonIndex": 53,
+        "sourceFloorRows": 15,
+        "localFloorStart": 1,
+        "localFloorEnd": 15,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 15
+      }
+    ],
+    "sourceFloorRowCount": 15,
+    "canonicalCount": 15,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "stormy-sea",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "stormy-sea",
+        "sourceDirectory": "StormySea",
+        "sourceDungeonIndex": 19,
+        "sourceFloorRows": 40,
+        "localFloorStart": 1,
+        "localFloorEnd": 40,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 40
+      }
+    ],
+    "sourceFloorRowCount": 40,
+    "canonicalCount": 40,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "silver-trench",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "silver-trench",
+        "sourceDirectory": "SilverTrench",
+        "sourceDungeonIndex": 20,
+        "sourceFloorRows": 99,
+        "localFloorStart": 1,
+        "localFloorEnd": 99,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 99
+      }
+    ],
+    "sourceFloorRowCount": 99,
+    "canonicalCount": 99,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "meteor-cave",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "meteor-cave",
+        "sourceDirectory": "MeteorCave",
+        "sourceDungeonIndex": 21,
+        "sourceFloorRows": 20,
+        "localFloorStart": 1,
+        "localFloorEnd": 20,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 20
+      }
+    ],
+    "sourceFloorRowCount": 20,
+    "canonicalCount": 20,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "fiery-field",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "fiery-field",
+        "sourceDirectory": "FieryField",
+        "sourceDungeonIndex": 34,
+        "sourceFloorRows": 30,
+        "localFloorStart": 1,
+        "localFloorEnd": 30,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 30
+      }
+    ],
+    "sourceFloorRowCount": 30,
+    "canonicalCount": 30,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "lightning-field",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "lightning-field",
+        "sourceDirectory": "LightningField",
+        "sourceDungeonIndex": 37,
+        "sourceFloorRows": 30,
+        "localFloorStart": 1,
+        "localFloorEnd": 30,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 30
+      }
+    ],
+    "sourceFloorRowCount": 30,
+    "canonicalCount": 30,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "northwind-field",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "northwind-field",
+        "sourceDirectory": "NorthwindField",
+        "sourceDungeonIndex": 35,
+        "sourceFloorRows": 30,
+        "localFloorStart": 1,
+        "localFloorEnd": 30,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 30
+      }
+    ],
+    "sourceFloorRowCount": 30,
+    "canonicalCount": 30,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "mt-faraway",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "mt-faraway",
+        "sourceDirectory": "MtFaraway",
+        "sourceDungeonIndex": 60,
+        "sourceFloorRows": 40,
+        "localFloorStart": 1,
+        "localFloorEnd": 40,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 40
+      }
+    ],
+    "sourceFloorRowCount": 40,
+    "canonicalCount": 40,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "western-cave",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "western-cave",
+        "sourceDirectory": "WesternCave",
+        "sourceDungeonIndex": 23,
+        "sourceFloorRows": 99,
+        "localFloorStart": 1,
+        "localFloorEnd": 99,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 99
+      }
+    ],
+    "sourceFloorRowCount": 99,
+    "canonicalCount": 99,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "northern-range",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "northern-range",
+        "sourceDirectory": "NorthernRange",
+        "sourceDungeonIndex": 29,
+        "sourceFloorRows": 25,
+        "localFloorStart": 1,
+        "localFloorEnd": 25,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 25
+      }
+    ],
+    "sourceFloorRowCount": 25,
+    "canonicalCount": 25,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "pitfall-valley",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "pitfall-valley",
+        "sourceDirectory": "PitfallValley",
+        "sourceDungeonIndex": 28,
+        "sourceFloorRows": 25,
+        "localFloorStart": 1,
+        "localFloorEnd": 25,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 25
+      }
+    ],
+    "sourceFloorRowCount": 25,
+    "canonicalCount": 25,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "buried-relic",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "buried-relic",
+        "sourceDirectory": "BuriedRelic",
+        "sourceDungeonIndex": 27,
+        "sourceFloorRows": 99,
+        "localFloorStart": 1,
+        "localFloorEnd": 99,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 99
+      }
+    ],
+    "sourceFloorRowCount": 99,
+    "canonicalCount": 99,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "wish-cave",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "wish-cave",
+        "sourceDirectory": "WishCave",
+        "sourceDungeonIndex": 26,
+        "sourceFloorRows": 99,
+        "localFloorStart": 1,
+        "localFloorEnd": 99,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 99
+      }
+    ],
+    "sourceFloorRowCount": 99,
+    "canonicalCount": 99,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "murky-cave",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "murky-cave",
+        "sourceDirectory": "MurkyCave",
+        "sourceDungeonIndex": 40,
+        "sourceFloorRows": 19,
+        "localFloorStart": 1,
+        "localFloorEnd": 19,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 19
+      }
+    ],
+    "sourceFloorRowCount": 19,
+    "canonicalCount": 19,
+    "canonicalCountBasis": "exploration",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "desert-region",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "desert-region",
+        "sourceDirectory": "DesertRegion",
+        "sourceDungeonIndex": 31,
+        "sourceFloorRows": 20,
+        "localFloorStart": 1,
+        "localFloorEnd": 20,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 20
+      }
+    ],
+    "sourceFloorRowCount": 20,
+    "canonicalCount": 20,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "southern-cavern",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "southern-cavern",
+        "sourceDirectory": "SouthernCavern",
+        "sourceDungeonIndex": 32,
+        "sourceFloorRows": 50,
+        "localFloorStart": 1,
+        "localFloorEnd": 50,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 50
+      }
+    ],
+    "sourceFloorRowCount": 50,
+    "canonicalCount": 50,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "wyvern-hill",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "wyvern-hill",
+        "sourceDirectory": "WyvernHill",
+        "sourceDungeonIndex": 33,
+        "sourceFloorRows": 30,
+        "localFloorStart": 1,
+        "localFloorEnd": 30,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 30
+      }
+    ],
+    "sourceFloorRowCount": 30,
+    "canonicalCount": 30,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "solar-cave",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "solar-cave",
+        "sourceDirectory": "SolarCave",
+        "sourceDungeonIndex": 36,
+        "sourceFloorRows": 20,
+        "localFloorStart": 1,
+        "localFloorEnd": 20,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 20
+      }
+    ],
+    "sourceFloorRowCount": 20,
+    "canonicalCount": 20,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "darknight-relic",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "darknight-relic",
+        "sourceDirectory": "DarknightRelic",
+        "sourceDungeonIndex": 38,
+        "sourceFloorRows": 15,
+        "localFloorStart": 1,
+        "localFloorEnd": 15,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 15
+      }
+    ],
+    "sourceFloorRowCount": 15,
+    "canonicalCount": 15,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "grand-sea",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "grand-sea",
+        "sourceDirectory": "GrandSea",
+        "sourceDungeonIndex": 41,
+        "sourceFloorRows": 30,
+        "localFloorStart": 1,
+        "localFloorEnd": 30,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 30
+      }
+    ],
+    "sourceFloorRowCount": 30,
+    "canonicalCount": 30,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "waterfall-pond",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "waterfall-pond",
+        "sourceDirectory": "WaterfallPond",
+        "sourceDungeonIndex": 56,
+        "sourceFloorRows": 19,
+        "localFloorStart": 1,
+        "localFloorEnd": 19,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 19
+      }
+    ],
+    "sourceFloorRowCount": 19,
+    "canonicalCount": 19,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "unown-relic",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "unown-relic",
+        "sourceDirectory": "UnownRelic",
+        "sourceDungeonIndex": 57,
+        "sourceFloorRows": 11,
+        "localFloorStart": 1,
+        "localFloorEnd": 11,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 11
+      }
+    ],
+    "sourceFloorRowCount": 11,
+    "canonicalCount": 11,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "joyous-tower",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "joyous-tower",
+        "sourceDirectory": "JoyousTower",
+        "sourceDungeonIndex": 58,
+        "sourceFloorRows": 99,
+        "localFloorStart": 1,
+        "localFloorEnd": 99,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 99
+      }
+    ],
+    "sourceFloorRowCount": 99,
+    "canonicalCount": 99,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "far-off-sea",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "far-off-sea",
+        "sourceDirectory": "FaroffSea",
+        "sourceDungeonIndex": 59,
+        "sourceFloorRows": 75,
+        "localFloorStart": 1,
+        "localFloorEnd": 75,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 75
+      }
+    ],
+    "sourceFloorRowCount": 75,
+    "canonicalCount": 75,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "purity-forest",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "purity-forest",
+        "sourceDirectory": "PurityForest",
+        "sourceDungeonIndex": 62,
+        "sourceFloorRows": 99,
+        "localFloorStart": 1,
+        "localFloorEnd": 99,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 99
+      }
+    ],
+    "sourceFloorRowCount": 99,
+    "canonicalCount": 99,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "oddity-cave",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "oddity-cave",
+        "sourceDirectory": "OddityCave",
+        "sourceDungeonIndex": 43,
+        "sourceFloorRows": 15,
+        "localFloorStart": 1,
+        "localFloorEnd": 15,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 15
+      }
+    ],
+    "sourceFloorRowCount": 15,
+    "canonicalCount": 15,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "remains-island",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "remains-island",
+        "sourceDirectory": "RemainsIsland",
+        "sourceDungeonIndex": 44,
+        "sourceFloorRows": 20,
+        "localFloorStart": 1,
+        "localFloorEnd": 20,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 20
+      }
+    ],
+    "sourceFloorRowCount": 20,
+    "canonicalCount": 20,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "marvelous-sea",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "marvelous-sea",
+        "sourceDirectory": "MarvelousSea",
+        "sourceDungeonIndex": 45,
+        "sourceFloorRows": 20,
+        "localFloorStart": 1,
+        "localFloorEnd": 20,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 20
+      }
+    ],
+    "sourceFloorRowCount": 20,
+    "canonicalCount": 20,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "fantasy-strait",
+    "kind": "field",
+    "segments": [
+      {
+        "authoringSegmentId": "fantasy-strait",
+        "sourceDirectory": "FantasyStrait",
+        "sourceDungeonIndex": 46,
+        "sourceFloorRows": 30,
+        "localFloorStart": 1,
+        "localFloorEnd": 30,
+        "cumulativeOrdinalStart": 1,
+        "cumulativeOrdinalEnd": 30
+      }
+    ],
+    "sourceFloorRowCount": 30,
+    "canonicalCount": 30,
+    "canonicalCountBasis": "reported-total",
+    "terminalSceneSourceRows": [],
+    "restFloorsCounted": false
+  },
+  {
+    "authoringId": "dojo-normal-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 75,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 1,
+    "generalizedFloorEnd": 3,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-fire-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 76,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 4,
+    "generalizedFloorEnd": 6,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-water-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 77,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 7,
+    "generalizedFloorEnd": 9,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-grass-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 78,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 10,
+    "generalizedFloorEnd": 12,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-electric-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 79,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 13,
+    "generalizedFloorEnd": 15,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-ice-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 80,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 16,
+    "generalizedFloorEnd": 18,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-fighting-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 81,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 19,
+    "generalizedFloorEnd": 21,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-ground-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 82,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 22,
+    "generalizedFloorEnd": 24,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-flying-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 83,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 25,
+    "generalizedFloorEnd": 27,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-psychic-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 84,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 28,
+    "generalizedFloorEnd": 30,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-poison-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 85,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 31,
+    "generalizedFloorEnd": 33,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-bug-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 86,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 34,
+    "generalizedFloorEnd": 36,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-rock-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 87,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 37,
+    "generalizedFloorEnd": 39,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-ghost-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 88,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 40,
+    "generalizedFloorEnd": 42,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-dragon-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 89,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 43,
+    "generalizedFloorEnd": 45,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-dark-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 90,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 46,
+    "generalizedFloorEnd": 48,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-steel-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 91,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 49,
+    "generalizedFloorEnd": 51,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-team-shifty-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 92,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 52,
+    "generalizedFloorEnd": 54,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-team-constrictor-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 93,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 55,
+    "generalizedFloorEnd": 57,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-team-hydro-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 94,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 58,
+    "generalizedFloorEnd": 60,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-team-rumblerock-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 95,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 61,
+    "generalizedFloorEnd": 63,
+    "numberedFloorCount": 3,
+    "sourceQualification": "red-comparative; UPC floor facts corroboration available"
+  },
+  {
+    "authoringId": "dojo-rescue-team-maze",
+    "kind": "dojo",
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 97,
+    "generalizedDungeonIndex": 52,
+    "generalizedFloorStart": 67,
+    "generalizedFloorEnd": 69,
+    "numberedFloorCount": 3,
+    "sourceQualification": "shared-original-table; Blue-imported-team payload separately required"
+  }
+]

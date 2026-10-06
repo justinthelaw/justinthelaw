@@ -62,3 +62,22 @@ reference transition and jump. Lint and strict JSDoc checks pass. A stale
 module name in this document was corrected. No runtime consumer, saved
 campaign, game-source execution or manual gameplay acceptance exists at this
 checkpoint.
+
+## Complete P07 structural interface
+
+The bounded P07-A history above is superseded for canonical campaign structure by
+[CAMPAIGN-STATE.md](CAMPAIGN-STATE.md) and `src/contracts/campaign.js`. The full
+root/session/ownership/conditions/scheduler/progression/scene/rescue records now
+have exact structural and relational validation and required version-matched
+semantic-policy call sites. Source-dependent rule readiness remains separate.
+
+The campaign owns four streams; `jobsRewards` starts at the next jump after
+`combatRecruitment`. The existing three-stream API and sequences are preserved.
+Campaign loading requires four streams and never fabricates a missing stream.
+One global ID allocator includes transactions, with exact-next transaction
+preparation and one persisted revision. Events remain epoch-scoped runtime state.
+
+`createCampaign` now exists as a pure catalog-injected constructor, but cannot
+succeed without the sourced P19 profile and all required policies. It does not
+invent a starting town, scene, stat or move. Read the complete API, scope,
+engineering-budget and policy obligations in CAMPAIGN-STATE before consuming it.

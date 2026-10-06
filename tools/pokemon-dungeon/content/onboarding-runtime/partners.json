@@ -1,0 +1,1315 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-onboarding",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "partners",
+  "orderedPool": [
+    "pokemon-004",
+    "pokemon-001",
+    "pokemon-007",
+    "pokemon-025",
+    "pokemon-152",
+    "pokemon-158",
+    "pokemon-155",
+    "pokemon-255",
+    "pokemon-252",
+    "pokemon-258"
+  ],
+  "pairs": [
+    {
+      "heroSpeciesId": "pokemon-001",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-001",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-001",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-001",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-001",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-001",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-001",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-004",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-cleft",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-004",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-cleft",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-004",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-cleft",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-004",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-cleft",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-004",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-cleft",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-004",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-cleft",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-004",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-cleft",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-007",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-007",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-007",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-007",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-007",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-007",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-007",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-025",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-025",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-025",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-025",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-025",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-025",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-025",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-025",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-025",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-052",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-052",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-052",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-052",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-052",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-052",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-052",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-052",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-052",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-052",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-054",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-054",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-054",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-054",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-054",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-054",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-054",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-turtleshell-pond",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-066",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-discipline",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-066",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-discipline",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-066",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-discipline",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-066",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-discipline",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-066",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-discipline",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-066",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-discipline",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-066",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-discipline",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-066",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-discipline",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-066",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-discipline",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-066",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-discipline",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-104",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-deepgreen",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-104",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-deepgreen",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-104",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-deepgreen",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-104",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-deepgreen",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-104",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-deepgreen",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-104",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-deepgreen",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-104",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-deepgreen",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-104",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-deepgreen",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-104",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-deepgreen",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-104",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-mt-deepgreen",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-133",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-transform-forest",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-133",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-transform-forest",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-133",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-transform-forest",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-133",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-transform-forest",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-133",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-transform-forest",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-133",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-transform-forest",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-133",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-transform-forest",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-133",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-transform-forest",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-133",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-transform-forest",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-133",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-transform-forest",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-152",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-152",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-152",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-152",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-152",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-152",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-152",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-beau-plains",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-155",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-155",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-155",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-155",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-155",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-155",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-155",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-158",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-rub-a-dub-river",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-158",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-rub-a-dub-river",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-158",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-rub-a-dub-river",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-158",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-rub-a-dub-river",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-158",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-rub-a-dub-river",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-158",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-rub-a-dub-river",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-158",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-rub-a-dub-river",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-252",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-overgrown-forest",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-252",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-overgrown-forest",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-252",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-overgrown-forest",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-252",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-overgrown-forest",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-252",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-overgrown-forest",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-252",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-overgrown-forest",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-252",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-overgrown-forest",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-255",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-255",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-255",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-255",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-255",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-255",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-255",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-scorched-plains",
+        "friend-area-peanut-swamp"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-258",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-peanut-swamp",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-258",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-peanut-swamp",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-258",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-peanut-swamp",
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-258",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-peanut-swamp",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-258",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-peanut-swamp",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-258",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-peanut-swamp",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-258",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-peanut-swamp",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-300",
+      "partnerSpeciesId": "pokemon-004",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-mt-cleft"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-300",
+      "partnerSpeciesId": "pokemon-001",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-300",
+      "partnerSpeciesId": "pokemon-007",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-turtleshell-pond"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-300",
+      "partnerSpeciesId": "pokemon-025",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-300",
+      "partnerSpeciesId": "pokemon-152",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-beau-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-300",
+      "partnerSpeciesId": "pokemon-158",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-rub-a-dub-river"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-300",
+      "partnerSpeciesId": "pokemon-155",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-300",
+      "partnerSpeciesId": "pokemon-255",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-scorched-plains"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-300",
+      "partnerSpeciesId": "pokemon-252",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-overgrown-forest"
+      ]
+    },
+    {
+      "heroSpeciesId": "pokemon-300",
+      "partnerSpeciesId": "pokemon-258",
+      "heroFormId": null,
+      "partnerFormId": null,
+      "ownedFriendAreaIds": [
+        "friend-area-energetic-forest",
+        "friend-area-peanut-swamp"
+      ]
+    }
+  ],
+  "policy": {
+    "excludeAnySharedNonNoneType": true,
+    "preservePoolOrder": true,
+    "genderConditioned": false,
+    "eligibilityEvidenceId": "shared-results",
+    "orderEvidenceId": "red-algorithm"
+  }
+}

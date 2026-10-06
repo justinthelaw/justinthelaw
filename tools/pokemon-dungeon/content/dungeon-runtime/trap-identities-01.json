@@ -1,0 +1,22 @@
+{"schemaVersion": 1, "catalogId": "original-blue-dungeon-facts", "family": "trap-identities", "records": [
+{"id":"trap-chestnut-trap","sourceOrder":16,"sourceName":"Chestnut Trap"},
+{"id":"trap-explosion-trap","sourceOrder":14,"sourceName":"Explosion Trap"},
+{"id":"trap-grimy-trap","sourceOrder":3,"sourceName":"Grimy Trap"},
+{"id":"trap-gust-trap","sourceOrder":7,"sourceName":"Gust Trap"},
+{"id":"trap-mud-trap","sourceOrder":1,"sourceName":"Mud Trap"},
+{"id":"trap-pitfall-trap","sourceOrder":5,"sourceName":"Pitfall Trap"},
+{"id":"trap-poison-trap","sourceOrder":12,"sourceName":"Poison Trap"},
+{"id":"trap-pokemon-trap","sourceOrder":18,"sourceName":"Pokemon Trap"},
+{"id":"trap-pp-zero-trap","sourceOrder":15,"sourceName":"PP-Zero Trap"},
+{"id":"trap-seal-trap","sourceOrder":11,"sourceName":"Seal Trap"},
+{"id":"trap-selfdestruct-trap","sourceOrder":13,"sourceName":"Selfdestruct Trap"},
+{"id":"trap-slow-trap","sourceOrder":10,"sourceName":"Slow Trap"},
+{"id":"trap-slumber-trap","sourceOrder":9,"sourceName":"Slumber Trap"},
+{"id":"trap-spiked-tile","sourceOrder":19,"sourceName":"Spiked Tile"},
+{"id":"trap-spin-trap","sourceOrder":8,"sourceName":"Spin Trap"},
+{"id":"trap-sticky-trap","sourceOrder":2,"sourceName":"Sticky Trap"},
+{"id":"trap-summon-trap","sourceOrder":4,"sourceName":"Summon Trap"},
+{"id":"trap-trip-trap","sourceOrder":0,"sourceName":"Trip Trap"},
+{"id":"trap-warp-trap","sourceOrder":6,"sourceName":"Warp Trap"},
+{"id":"trap-wonder-tile","sourceOrder":17,"sourceName":"Wonder Tile"}
+]}

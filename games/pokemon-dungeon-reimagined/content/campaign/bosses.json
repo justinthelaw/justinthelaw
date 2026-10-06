@@ -1,0 +1,678 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-campaign-facts",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "bosses",
+  "records": [
+    {
+      "id": "campaign-boss-mt-steel-skarmory",
+      "fixedRoomId": "mt-steel-skarmory-floor",
+      "firstSceneId": "campaign-scene-cutscene-mt-steel-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-mt-steel-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-mt-steel-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-mt-steel-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-mt-steel-complete",
+      "evidenceIds": [
+        "evidence-045c398a44f57ca8"
+      ]
+    },
+    {
+      "id": "campaign-boss-sinister-woods-team-meanies",
+      "fixedRoomId": "sinister-woods-team-meanies-floor",
+      "firstSceneId": "campaign-scene-cutscene-sinister-woods-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-sinister-woods-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-sinister-woods-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-sinister-woods-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-sinister-woods-complete",
+      "evidenceIds": [
+        "evidence-c47404f7b41dac16"
+      ]
+    },
+    {
+      "id": "campaign-boss-mt-thunder-peak-zapdos",
+      "fixedRoomId": "mt-thunder-peak-zapdos-floor",
+      "firstSceneId": "campaign-scene-cutscene-mt-thunder-peak-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-mt-thunder-peak-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-mt-thunder-peak-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-mt-thunder-peak-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-mt-thunder-peak-complete",
+      "evidenceIds": [
+        "evidence-44b46d109d478ef2"
+      ]
+    },
+    {
+      "id": "campaign-boss-mt-blaze-peak-moltres",
+      "fixedRoomId": "mt-blaze-peak-moltres-floor",
+      "firstSceneId": "campaign-scene-cutscene-mt-blaze-peak-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-mt-blaze-peak-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-mt-blaze-peak-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-mt-blaze-peak-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-mt-blaze-peak-complete",
+      "evidenceIds": [
+        "evidence-28740d35070c1476"
+      ]
+    },
+    {
+      "id": "campaign-boss-frosty-grotto-articuno",
+      "fixedRoomId": "frosty-grotto-articuno-floor",
+      "firstSceneId": "campaign-scene-cutscene-frosty-grotto-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-frosty-grotto-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-frosty-grotto-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-frosty-grotto-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-frosty-grotto-complete",
+      "evidenceIds": [
+        "evidence-eac2c59b6882bed3"
+      ]
+    },
+    {
+      "id": "campaign-boss-mt-freeze-peak-ninetales",
+      "fixedRoomId": "mt-freeze-ninetales-summit",
+      "firstSceneId": "campaign-scene-cutscene-mt-freeze-peak",
+      "retrySceneId": "campaign-scene-cutscene-mt-freeze-peak-poststory",
+      "revisitSceneId": "campaign-scene-cutscene-mt-freeze-peak-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-mt-freeze-peak-complete",
+      "completeFlagId": "campaign-flag-cutscene-flag-mt-freeze-peak-complete",
+      "evidenceIds": [
+        "evidence-89a2398adc62e2d4"
+      ]
+    },
+    {
+      "id": "campaign-boss-magma-cavern-pit-groudon",
+      "fixedRoomId": "magma-cavern-pit-groudon-floor",
+      "firstSceneId": "campaign-scene-cutscene-magma-cavern-pit-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-magma-cavern-pit-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-magma-cavern-pit-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-magma-cavern-pit-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-magma-cavern-pit-complete",
+      "evidenceIds": [
+        "evidence-bac8541174318b44"
+      ]
+    },
+    {
+      "id": "campaign-boss-magma-cavern-pit-tyranitar-alakazam",
+      "fixedRoomId": "magma-cavern-pit-fallen-allies-floor",
+      "firstSceneId": "campaign-scene-cutscene-magma-cavern-mid",
+      "retrySceneId": "campaign-scene-cutscene-magma-cavern-mid-poststory",
+      "revisitSceneId": "campaign-scene-cutscene-magma-cavern-mid-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-magma-cavern-mid-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-magma-cavern-mid-reached",
+      "evidenceIds": [
+        "evidence-d8b5156cc0df474b"
+      ]
+    },
+    {
+      "id": "campaign-boss-sky-tower-summit-rayquaza",
+      "fixedRoomId": "sky-tower-summit-rayquaza-floor",
+      "firstSceneId": "campaign-scene-cutscene-sky-tower-summit-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-sky-tower-summit-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-sky-tower-summit-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-sky-tower-summit-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-sky-tower-summit-complete",
+      "evidenceIds": [
+        "evidence-7da01863cd081cb4"
+      ]
+    },
+    {
+      "id": "campaign-boss-uproar-forest-mankey",
+      "fixedRoomId": "uproar-forest-mankey-floor",
+      "firstSceneId": "campaign-scene-cutscene-uproar-forest-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-uproar-forest-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-uproar-forest-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-uproar-forest-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-uproar-forest-complete",
+      "evidenceIds": [
+        "evidence-3da4100749216922"
+      ]
+    },
+    {
+      "id": "campaign-boss-western-cave-mewtwo",
+      "fixedRoomId": "western-cave-mewtwo-floor",
+      "firstSceneId": "campaign-scene-cutscene-western-cave-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-western-cave-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-western-cave-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-western-cave-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-western-cave-complete",
+      "evidenceIds": [
+        "evidence-7ec1471a0bec8588"
+      ]
+    },
+    {
+      "id": "campaign-boss-fiery-field-entei",
+      "fixedRoomId": "fiery-field-entei-floor",
+      "firstSceneId": "campaign-scene-cutscene-fiery-field-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-fiery-field-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-fiery-field-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-fiery-field-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-fiery-field-complete",
+      "evidenceIds": [
+        "evidence-102e67b789d89efc"
+      ]
+    },
+    {
+      "id": "campaign-boss-lightning-field-raikou",
+      "fixedRoomId": "lightning-field-raikou-floor",
+      "firstSceneId": "campaign-scene-cutscene-lightning-field-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-lightning-field-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-lightning-field-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-lightning-field-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-lightning-field-complete",
+      "evidenceIds": [
+        "evidence-dec44be808f942cd"
+      ]
+    },
+    {
+      "id": "campaign-boss-northwind-field-suicune",
+      "fixedRoomId": "northwind-field-suicune-floor",
+      "firstSceneId": "campaign-scene-cutscene-northwind-field-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-northwind-field-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-northwind-field-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-northwind-field-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-northwind-field-complete",
+      "evidenceIds": [
+        "evidence-52cc31a5e18d0e96"
+      ]
+    },
+    {
+      "id": "campaign-boss-mt-faraway-ho-oh",
+      "fixedRoomId": "mt-faraway-ho-oh-floor",
+      "firstSceneId": "campaign-scene-cutscene-mt-faraway",
+      "retrySceneId": "campaign-scene-cutscene-mt-faraway",
+      "revisitSceneId": "campaign-scene-cutscene-mt-faraway-poststory",
+      "reachedFlagId": null,
+      "completeFlagId": "campaign-flag-cutscene-flag-mt-faraway-complete",
+      "evidenceIds": [
+        "evidence-ba4999a9e947d6d9"
+      ]
+    },
+    {
+      "id": "campaign-boss-northern-range-latios",
+      "fixedRoomId": "northern-range-latios-floor",
+      "firstSceneId": "campaign-scene-cutscene-northern-range-attempt1",
+      "retrySceneId": "campaign-scene-cutscene-northern-range-attempt2",
+      "revisitSceneId": "campaign-scene-cutscene-northern-range-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-northern-range-reached",
+      "completeFlagId": "campaign-flag-cutscene-flag-northern-range-complete",
+      "evidenceIds": [
+        "evidence-8c5187ac6ec7f2ec"
+      ]
+    },
+    {
+      "id": "campaign-boss-buried-relic-regirock",
+      "fixedRoomId": "buried-relic-regirock-floor",
+      "firstSceneId": "campaign-scene-cutscene-regirock",
+      "retrySceneId": "campaign-scene-cutscene-regirock",
+      "revisitSceneId": "campaign-scene-cutscene-regirock",
+      "reachedFlagId": null,
+      "completeFlagId": null,
+      "evidenceIds": [
+        "evidence-3cfd684fbec6f932"
+      ]
+    },
+    {
+      "id": "campaign-boss-buried-relic-regice",
+      "fixedRoomId": "buried-relic-regice-floor",
+      "firstSceneId": "campaign-scene-cutscene-regice",
+      "retrySceneId": "campaign-scene-cutscene-regice",
+      "revisitSceneId": "campaign-scene-cutscene-regice",
+      "reachedFlagId": null,
+      "completeFlagId": null,
+      "evidenceIds": [
+        "evidence-265057ac78d92d52"
+      ]
+    },
+    {
+      "id": "campaign-boss-buried-relic-registeel",
+      "fixedRoomId": "buried-relic-registeel-floor",
+      "firstSceneId": "campaign-scene-cutscene-registeel",
+      "retrySceneId": "campaign-scene-cutscene-registeel",
+      "revisitSceneId": "campaign-scene-cutscene-registeel",
+      "reachedFlagId": null,
+      "completeFlagId": null,
+      "evidenceIds": [
+        "evidence-5f5dd2b53656bbeb"
+      ]
+    },
+    {
+      "id": "campaign-boss-wish-cave-jirachi",
+      "fixedRoomId": "wish-cave-jirachi-floor",
+      "firstSceneId": "campaign-scene-cutscene-jirachi",
+      "retrySceneId": "campaign-scene-cutscene-jirachi",
+      "revisitSceneId": "campaign-scene-cutscene-jirachi-poststory",
+      "reachedFlagId": null,
+      "completeFlagId": "campaign-flag-cutscene-flag-jirachi-complete",
+      "evidenceIds": [
+        "evidence-7b2fb6f13bebe062"
+      ]
+    },
+    {
+      "id": "campaign-boss-silver-trench-lugia",
+      "fixedRoomId": "silver-trench-lugia-floor",
+      "firstSceneId": "campaign-scene-cutscene-silver-trench",
+      "retrySceneId": "campaign-scene-cutscene-silver-trench",
+      "revisitSceneId": "campaign-scene-cutscene-silver-trench",
+      "reachedFlagId": null,
+      "completeFlagId": null,
+      "evidenceIds": [
+        "evidence-3b4d83b0d7680210"
+      ]
+    },
+    {
+      "id": "campaign-boss-stormy-sea-kyogre",
+      "fixedRoomId": "stormy-sea-kyogre-floor",
+      "firstSceneId": "campaign-scene-cutscene-stormy-sea",
+      "retrySceneId": "campaign-scene-cutscene-stormy-sea",
+      "revisitSceneId": "campaign-scene-cutscene-stormy-sea",
+      "reachedFlagId": null,
+      "completeFlagId": null,
+      "evidenceIds": [
+        "evidence-553c33ca2eda956f"
+      ]
+    },
+    {
+      "id": "campaign-boss-meteor-cave-deoxys",
+      "fixedRoomId": "meteor-cave-deoxys-floor",
+      "firstSceneId": "campaign-scene-cutscene-meteor-cave",
+      "retrySceneId": "campaign-scene-cutscene-meteor-cave",
+      "revisitSceneId": "campaign-scene-cutscene-meteor-cave",
+      "reachedFlagId": null,
+      "completeFlagId": null,
+      "evidenceIds": [
+        "evidence-39f1a4fd8f7a69c2"
+      ]
+    },
+    {
+      "id": "campaign-boss-purity-forest-celebi",
+      "fixedRoomId": "purity-forest-celebi-floor",
+      "firstSceneId": "campaign-scene-cutscene-purity-forest",
+      "retrySceneId": "campaign-scene-cutscene-purity-forest",
+      "revisitSceneId": "campaign-scene-cutscene-purity-forest",
+      "reachedFlagId": null,
+      "completeFlagId": null,
+      "evidenceIds": [
+        "evidence-7b49635aaf6590ec"
+      ]
+    },
+    {
+      "id": "campaign-boss-wish-cave-medicham",
+      "fixedRoomId": "wish-cave-medicham-floor",
+      "firstSceneId": "campaign-scene-cutscene-medicham",
+      "retrySceneId": "campaign-scene-cutscene-medicham-poststory",
+      "revisitSceneId": "campaign-scene-cutscene-medicham-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-medicham-complete",
+      "completeFlagId": "campaign-flag-cutscene-flag-medicham-complete",
+      "evidenceIds": [
+        "evidence-4df8cee0e7a2c77c"
+      ]
+    },
+    {
+      "id": "campaign-boss-howling-forest-smeargle",
+      "fixedRoomId": "howling-forest-smeargle-rescue",
+      "firstSceneId": "campaign-scene-cutscene-howling-forest",
+      "retrySceneId": "campaign-scene-cutscene-howling-forest-poststory",
+      "revisitSceneId": "campaign-scene-cutscene-howling-forest-poststory",
+      "reachedFlagId": "campaign-flag-cutscene-flag-howling-forest-complete",
+      "completeFlagId": "campaign-flag-cutscene-flag-howling-forest-complete",
+      "evidenceIds": [
+        "evidence-e17dddf176b2f75f"
+      ]
+    }
+  ],
+  "recruitment": [
+    {
+      "id": "recruit-story-skarmory",
+      "speciesId": "pokemon-227",
+      "requiredFlagId": "campaign-flag-cutscene-flag-mt-steel-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-ekans",
+      "speciesId": "pokemon-023",
+      "requiredFlagId": "campaign-flag-cutscene-flag-sinister-woods-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-gengar",
+      "speciesId": "pokemon-094",
+      "requiredFlagId": "campaign-flag-cutscene-flag-sinister-woods-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-medicham",
+      "speciesId": "pokemon-308",
+      "requiredFlagId": "campaign-flag-cutscene-flag-sinister-woods-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-zapdos",
+      "speciesId": "pokemon-145",
+      "requiredFlagId": "campaign-flag-cutscene-flag-mt-thunder-peak-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-moltres",
+      "speciesId": "pokemon-146",
+      "requiredFlagId": "campaign-flag-cutscene-flag-mt-blaze-peak-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-articuno",
+      "speciesId": "pokemon-144",
+      "requiredFlagId": "campaign-flag-cutscene-flag-frosty-grotto-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-groudon",
+      "speciesId": "pokemon-383",
+      "requiredFlagId": "campaign-flag-cutscene-flag-magma-cavern-pit-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-rayquaza",
+      "speciesId": "pokemon-384",
+      "requiredFlagId": "campaign-flag-cutscene-flag-sky-tower-summit-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-mewtwo",
+      "speciesId": "pokemon-150",
+      "requiredFlagId": "campaign-flag-cutscene-flag-western-cave-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-entei",
+      "speciesId": "pokemon-244",
+      "requiredFlagId": "campaign-flag-cutscene-flag-fiery-field-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-raikou",
+      "speciesId": "pokemon-243",
+      "requiredFlagId": "campaign-flag-cutscene-flag-lightning-field-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-suicune",
+      "speciesId": "pokemon-245",
+      "requiredFlagId": "campaign-flag-cutscene-flag-northwind-field-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-ho-oh",
+      "speciesId": "pokemon-250",
+      "requiredFlagId": "campaign-flag-cutscene-flag-mt-faraway-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-mankey",
+      "speciesId": "pokemon-056",
+      "requiredFlagId": "campaign-flag-cutscene-flag-uproar-forest-complete",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-regirock",
+      "speciesId": "pokemon-377",
+      "requiredFlagId": "campaign-flag-cutscene-flag-regi-item-obtained",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-regice",
+      "speciesId": "pokemon-378",
+      "requiredFlagId": "campaign-flag-cutscene-flag-regi-item-obtained",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "recruit-story-registeel",
+      "speciesId": "pokemon-379",
+      "requiredFlagId": "campaign-flag-cutscene-flag-regi-item-obtained",
+      "flagScope": "persistent",
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    }
+  ],
+  "rematches": [
+    {
+      "id": "rematch-zapdos",
+      "speciesId": "pokemon-145",
+      "formId": null,
+      "presencePredicateId": "predicate-7063803124a5a664",
+      "levelIncrement": 20,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-1cc14ca6afe77129",
+        "evidence-31c0f4d1afb0dc05",
+        "evidence-44f88f4b48958b17"
+      ]
+    },
+    {
+      "id": "rematch-moltres",
+      "speciesId": "pokemon-146",
+      "formId": null,
+      "presencePredicateId": "predicate-9ddc03f10f16565a",
+      "levelIncrement": 20,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-1cc14ca6afe77129",
+        "evidence-31c0f4d1afb0dc05",
+        "evidence-44f88f4b48958b17"
+      ]
+    },
+    {
+      "id": "rematch-articuno",
+      "speciesId": "pokemon-144",
+      "formId": null,
+      "presencePredicateId": "predicate-daeef584e6261d64",
+      "levelIncrement": 20,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-1cc14ca6afe77129",
+        "evidence-31c0f4d1afb0dc05",
+        "evidence-44f88f4b48958b17"
+      ]
+    },
+    {
+      "id": "rematch-groudon",
+      "speciesId": "pokemon-383",
+      "formId": null,
+      "presencePredicateId": "predicate-6fb89752f1a884db",
+      "levelIncrement": 10,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-1cc14ca6afe77129",
+        "evidence-31c0f4d1afb0dc05",
+        "evidence-44f88f4b48958b17"
+      ]
+    },
+    {
+      "id": "rematch-rayquaza",
+      "speciesId": "pokemon-384",
+      "formId": null,
+      "presencePredicateId": "predicate-a926176c5ace1d1f",
+      "levelIncrement": 10,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-1cc14ca6afe77129",
+        "evidence-31c0f4d1afb0dc05",
+        "evidence-44f88f4b48958b17"
+      ]
+    },
+    {
+      "id": "rematch-entei",
+      "speciesId": "pokemon-244",
+      "formId": null,
+      "presencePredicateId": "predicate-0dc0344f02050bda",
+      "levelIncrement": 0,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "rematch-raikou",
+      "speciesId": "pokemon-243",
+      "formId": null,
+      "presencePredicateId": "predicate-c03ce1534c196cb8",
+      "levelIncrement": 0,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "rematch-suicune",
+      "speciesId": "pokemon-245",
+      "formId": null,
+      "presencePredicateId": "predicate-8812a8aa86279b27",
+      "levelIncrement": 0,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "rematch-mewtwo",
+      "speciesId": "pokemon-150",
+      "formId": null,
+      "presencePredicateId": "predicate-a24dcd8b3b02e93c",
+      "levelIncrement": 0,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "rematch-ho-oh",
+      "speciesId": "pokemon-250",
+      "formId": null,
+      "presencePredicateId": "predicate-d4d120a82c6ecf26",
+      "levelIncrement": 0,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "rematch-kyogre",
+      "speciesId": "pokemon-382",
+      "formId": null,
+      "presencePredicateId": "predicate-b2aaa1313dcfca05",
+      "levelIncrement": 0,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "rematch-lugia",
+      "speciesId": "pokemon-249",
+      "formId": null,
+      "presencePredicateId": "predicate-f160fc27a6c57371",
+      "levelIncrement": 0,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "rematch-deoxys",
+      "speciesId": "pokemon-386",
+      "formId": "deoxys-normal",
+      "presencePredicateId": "predicate-30f0edbe66d0b203",
+      "levelIncrement": 0,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    },
+    {
+      "id": "rematch-jirachi",
+      "speciesId": "pokemon-385",
+      "formId": null,
+      "presencePredicateId": "predicate-1d2fcd33c7cc8c36",
+      "levelIncrement": 0,
+      "maximumLevel": 100,
+      "requiresValidActor": true,
+      "requiresUnlockedExperience": true,
+      "evidenceIds": [
+        "evidence-39732ee6468e32ad"
+      ]
+    }
+  ]
+}

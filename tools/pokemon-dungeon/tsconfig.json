@@ -19,6 +19,7 @@
   },
   "include": [
     "../../games/pokemon-dungeon-reimagined/src/**/*.js",
+    "../../games/pokemon-dungeon-reimagined/content/**/*.js",
     "art-preview/**/*.js"
   ],
   "exclude": ["node_modules", "../../games/pokemon-dungeon-reimagined/vendor"]

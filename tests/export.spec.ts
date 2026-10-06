@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { access, readFile, readdir } from "node:fs/promises";
 import { createConnection } from "node:net";

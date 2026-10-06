@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page } from "./fixtures";
 import { DERIVED_CONFIG } from "../src/config/site";
 
 const gameTitle = "Pokemon Mystery Dungeon Blue Rescue Team - Reimagined";
@@ -28,12 +28,6 @@ test.beforeEach(async ({ page }) => {
   // Register before navigation so no real game module can execute.
   await page.route("**/games/pokemon-dungeon-reimagined/**", (route) =>
     route.fulfill({ contentType: "text/html", body: inputFixture }),
-  );
-  await page.route("https://api.github.com/users/**", (route) =>
-    route.fulfill({ status: 503, body: "Unavailable" }),
-  );
-  await page.route("https://drive.google.com/**", (route) =>
-    route.fulfill({ contentType: "text/html", body: "Resume preview" }),
   );
 });
 

@@ -4,9 +4,9 @@
 
 - **State:** implementation authorized on 2026-10-04 and continued on 2026-10-05; P01 source audit and full P02 content coverage remain incomplete.
 - **Planning baseline:** [PR #387](https://github.com/justinthelaw/justinthelaw/pull/387) merged as `0d34db51c258368ade8f081557200905214cebcd`.
-- **Delivery:** foundations [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388) and README [PR #390](https://github.com/justinthelaw/justinthelaw/pull/390) are merged. The authorized website launcher is being delivered separately on `feat/arcade-game-launcher`, based on main `41586f8b7f572a7d6e03165da11023316b29dea0`.
-- **Current work:** P02-A normalized authoring identities and coverage with static validation, plus reviewed P07-A ID/snapshot/RNG primitives. Prior P01-B, P03-A/P04-A, P05 shell and P06 candidate art remain. Gameplay and whole-game acceptance are unstarted.
-- **Next safe action:** deliver the explicitly requested development launcher, then finish P02 individual-item and scene/flag inventories and the three P01 scheduler/interruption/arithmetic gaps before gameplay consumers. Full clip/rig/device and P05 device acceptance remain open. Follow [STATE-FOUNDATION.md](STATE-FOUNDATION.md) for P07-A boundaries. Full-game acceptance remains held for P36/P37; the new launcher PR is not authorized for merge.
+- **Delivery:** foundations [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388), README [PR #390](https://github.com/justinthelaw/justinthelaw/pull/390) and launcher [PR #391](https://github.com/justinthelaw/justinthelaw/pull/391) are merged. Full-game work is isolated on `feat/pokemon-full-campaign`, based on main `c7270c8b4ed73c28144abd09dc6811b6ca9d3b50`; it is not deployed.
+- **Current work:** pixel foundation (`7055dbf`), bounded input (`30c646b`), numeric rules (`bfde294`), complete species profiles (`7edf083`), dungeon facts (`ae8a77e`), full canonical state (`117845e`), effect facts (`2f232ce`) and persistence (`7d9f1a6`) passed their scoped independent reviews. Sixteen starter art candidates (`51071af`) passed source/visual review for provisional renderer integration. Renderer, onboarding facts, environment kits and whole-roster artwork are in progress; no playable campaign or whole-game acceptance exists yet.
+- **Next safe action:** follow [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md), completing source/runtime catalog and adventure-kernel dependencies while continuing species art refinement. The merged launcher does not add gameplay. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
 
@@ -14,8 +14,9 @@
 
 | Instruction | Effect |
 | --- | --- |
+| Use a goal for full-game/campaign graphical improvements, playability and GitHub Pages delivery; no unavailable Codex review looping | [FULL-GAME-GOAL.md](FULL-GAME-GOAL.md) records all completion gates and [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md) tracks implementation. No native Goals capability was available; these documents are not a background task. Independent review and current-head CI remain required; unavailable external review is waived |
 | Merge #390; new PR for joystick, first WIP Pokémon card, full-page modal and usable mobile/desktop controls; implement autonomously and ignore external Codex review | 2026-10-05 scoped launcher authorization overrides the older placeholder hold. Card uses a labelled P06 art study and explicitly unavailable campaign; website input bridge is verified with inert fixtures. This does not complete gameplay or P36/P37 |
-| Continue after the P06 scene and motion-study checkpoint | 2026-10-05 continuation is treated as acceptance of the shown visual direction and instruction to resume. It does not certify unseen clips, hardware performance, runtime promotion or the full game |
+| Continue after the P06 scene and motion-study checkpoint | Historical interpretation: continuation was treated as visual-direction acceptance. The later explicit pixel/real-3D reference and rejection of primitive character anatomy supersede that inference; no rigid candidate is approved |
 | Make the game work and be playable from beginning to end; provide the full experience | Reaffirms full main story, postgame, optional content and systems. Passing website CI, a shell or art preview cannot establish gameplay completion. Continue reviewed packages until actual acceptance gates; do not stop merely because a research PR is clean |
 | Continue the @Codex implementation in justinthelaw/justinthelaw, starting from any uncommitted changes | Separate implementation-start authorization on 2026-10-04. The supplied workspace had no checkout or uncommitted files; no open Pokémon PR/branch was found. Resumed from merged PR #387 in an isolated clone. Abandoned prototype drafts remain excluded under the existing plan |
 | Clean first, then develop the first game | Cleanup completed; source and tooling preserved |
@@ -38,7 +39,7 @@
 | `games/pokemon-dungeon-reimagined/AGENTS.md` | Scoped execution constraints and remaining quality/release gates |
 | `tools/pokemon-dungeon/.gitignore` | Excludes future authoring caches outside the exported game tree |
 | `games/pokemon-dungeon-reimagined/plan/PLAN.md` | Goals, boundaries, architecture, decisions, dependencies, 38 work packages |
-| `DECISIONS.md` and `art-candidates/` | Recorded choices, selected B future loading background, and archived A comparison with provenance |
+| `DECISIONS.md` and `art-candidates/` | Recorded choices and historical B/A illustrations with provenance; latest pixel/real-3D direction supersedes B |
 | Five domain appendices | Campaign, mechanics, data, rendering, integration detail |
 | `RESEARCH.md` and `research/*.json` | Source register, structured facts, source limitations and gaps |
 | `COVERAGE.csv` | Traceable initial scope and evidence fields |
@@ -53,13 +54,58 @@ clearly labelled development preview; the other two remain Coming soon.
 
 ## Foundation implementation handoff
 
+### Full-game branch verification checkpoint
+
+- Website flight-check passes lint, strict types, static export and all 334
+  applicable browser tests; 21 device-specific skips are expected. Game requests
+  remain intercepted with inert fixtures, so this is website evidence only.
+- Local Firefox required `MOZ_DISABLE_CONTENT_SANDBOX=1` for this workspace's
+  user-namespace restriction. No repository browser-sandbox setting changed.
+- Shared UI fixtures remove unrelated Drive/avatar TLS delays; dedicated profile
+  success/failure tests still override the default fixture. Three failing Firefox
+  reload tests passed after the fix; independent fixture review is clean.
+- Full standalone source/content/asset static checks passed after state/effect
+  implementation. Starter production adds 192 clip pages and 93 art-only captures;
+  whole-roster production, runtime integration and human visual acceptance remain
+  open. A captured art scene is not the arcade gameplay image.
+- GitHub branch/PR publication has not been confirmed. Small goal/art blob writes
+  succeeded after the earlier canceled large call, but uploading objects does not
+  publish a branch. Preserve local commits and continue implementation; no main
+  deployment or full-game release is claimed.
+
+### Reviewed campaign state and saves
+
+- P07 now validates the complete canonical campaign graph. Review corrections
+  preserve copied effective moves and reciprocal participant/settlement ownership;
+  a structural schema alone still cannot certify missing gameplay policies.
+- P08 uses one atomic IndexedDB record with primary/backup and generation checks,
+  full state validation, serialized checkpoints, guarded application replacement,
+  explicit recovery/reset and confirmed memory-only play. The review repair keeps
+  one damaged envelope from hiding a healthy sibling while retaining generation
+  authority; ordinary saves cannot promote a corrupt primary into the backup.
+- Focused save-source types and contribution hooks pass; independent review of
+  `7d9f1a6` is clean. Save UI, actual Adventure integration and manual interruption,
+  quota, export/import and device acceptance remain open.
+- Effect facts now include exact Return/Frustration IQ tables, the canonical
+  Reviver contract reference and closed per-contract persistent schemas. Review
+  of `2f232ce` is clean; effect catalog coverage is not implemented combat.
+- The rules checker now compares all 324 raw type-matchup cells to independently
+  extracted pinned factual data, including neutral cells omitted from the sparse
+  runtime literal. It reads syntax and JSON without evaluating game functions;
+  this closes the earlier deferred literal-table audit gap.
+- Renderer repair `bc036db` passed scoped independent review. Parent and local
+  prop transforms now compose correctly for both drawing and camera obstruction.
+  The static asset chain includes all 192 exact production PNGs; onboarding is
+  also included in the standard check command. The complete static chain passed
+  at this integration checkpoint before subsequent concurrent navigation edits.
+
 | Package | Concrete result | Evidence / remaining gate |
 | --- | --- | --- |
 | P01-B | Additive v2 research profile preserves the v1 hash and caveats; 31 new qualified records and 11 blocker clarifications | Independent review finding addressed; JSON composition/IDs/joins checked. `runtimeReady` remains false |
 | P03-A | Asset authoring contract and strict glTF manifest schema | Independent consumer review accepted; manifest-relative path ambiguity resolved. No asset has human approval |
 | P04-A | Exact Three.js 0.186.1 local closure, pinned tools, reproducible minification, separate strict JS types, source/schema/hash checks | `npm run check` passes; vendor symlink boundary review finding fixed. No game tests or source execution |
 | P05 | Semantic loading/errors/retry, bounded initial manifest, WebGL2 startup, resize/visibility/disposal | Static review fixed BFCache forced-loss and loss-during-loading races; interface accepted for the independent art preview. Direct-page/iframe/device observation pending; no gameplay or save operations |
-| P06 | Original Pikachu/Charmander/Groudon models, eleven clips each, three LODs and a Magma Cavern composition; measured candidate manifests and rendered evidence | All 12 GLBs pass Khronos validation and file limits. Latest continuation accepts the shown direction; full device/clip/rig acceptance remains open |
+| P06 | Original Pikachu/Charmander/Groudon models, eleven clips each, three LODs and a Magma Cavern composition; measured candidate manifests and rendered evidence | All 12 GLBs pass Khronos validation and file limits. Their primitive character art is rejected; prior inferred continuation acceptance is superseded. Preserve files as historical evidence |
 | P02-A | Normalized species/form, location and systems identity inventories; strict schema, cross-reference audit and reproducible coverage export | Identity-only sub-batch; no runtime content or full P02 acceptance |
 | P07-A | Branded IDs, pure ID allocation, bounded JSON copying/immutable snapshots, versioned seeded streams and command/result types | Independent static review accepted the bounded primitives; no full state schema, campaign initialization, commands or persistence |
 
@@ -127,13 +173,13 @@ On **2026-10-04**, Justin instructed: "Solidfy the decisions to be all your reco
 
 | Decision | Approved selection |
 | --- | --- |
-| D03 | B: bold cel-shaded 3D, `style-b-v1`; B loading background selected, A archived comparison |
+| D03 | Historical 2026-10-04 B selection; superseded on 2026-10-05 by directional pixel characters in textured real 3D. B/A illustrations remain historical evidence |
 | D04 | Browser rescue codes/files, Blue extra-mode equivalents and archived event expeditions; original cartridge interoperability is not a completion gate |
 | D05 | Human play and visual review allowed; automated game-source tests remain prohibited |
 | D06 | Omit separate Groudon practice; use campaign encounter and actual campaign capture |
 | D08 | JavaScript ES modules with JSDoc and strict independent static type checks |
 
-These choices do not authorize implementation, merge or deployment, silently omitted original content, guessed numerical data, or generic models labeled complete. Actual authored characters and 3D quality still require their future reviews.
+Historical planning choices alone did not authorize implementation; later user instructions did. They do not authorize merge/deployment, silently omitted original content, guessed numerical data, or generic models labeled complete. Actual authored characters and 3D quality still require their future reviews.
 
 | Planning reconciliation | Reason |
 | --- | --- |
@@ -263,9 +309,11 @@ next model must know.
 
 ### Authority, interfaces and scope
 
-- **Instruction:** Continue after the actual P06 scene and motion-study review.
-  This is treated as acceptance of that shown direction; unseen animation,
-  rigs, physical devices, asset promotion and whole-game acceptance stay open.
+- **Historical instruction:** Continue after the actual P06 scene and motion-study review.
+- **Later correction:** the explicit EthrA pixel/real-3D direction and rejection of
+  primitive anatomy supersede the acceptance inferred below.
+  The old record treated continuation as acceptance; that inference is now
+  superseded. Clips, devices, asset promotion and whole-game acceptance stay open.
 - **Base:** `f8348f307f01c3c955015af4657ba2dab34ad97c` on draft PR #388. The
   published result SHA and its checks are recorded on the existing PR.
 - **P02-A:** four normalized authoring catalogs, a strict schema/reference audit
@@ -351,3 +399,110 @@ or storage. The startup shell does not yet consume these primitives.
 5. Complete accepted canonical state/content contracts before P08 persistence
    or P11–P13 gameplay consumers. Keep the source-gated full game on this draft
    development branch until P37 and explicit release authorization.
+
+## Full-game execution Task 1 — pixel production foundation (2026-10-05)
+
+- Latest authority: [FULL-GAME-GOAL.md](FULL-GAME-GOAL.md), faithful directional
+  pixel characters in textured real 3D; no no-pixel/cel-shaded character mandate.
+  The entire Blue story, return, postgame, roster and systems remain required.
+- Original code-native art sources export Pikachu, Charmander and Groudon into
+  96×96-cell, 1152×768 RGBA atlases: 8 directions × 12 columns, 288 total cells.
+  Dedicated side silhouettes, facial/marking changes, flat grounded feet and
+  attached tails replace the rejected primitive geometry. This is candidate
+  species art, not full animation or final anatomy acceptance.
+- [Pixel contract](../../../tools/pokemon-dungeon/art/pixel/CONTRACT.md) freezes
+  species/default-form identities, foot anchor, timing, clips, local paths,
+  nearest sampling, alpha, provenance and missing coverage. P07 APIs unchanged.
+- [Art-only proof viewer](../../../tools/pokemon-dungeon/art-preview/pixel/index.html)
+  displays depth-tested directional billboards in textured, lit 3D terrain.
+  It imports only tools-local Three.js and art modules, never game source.
+- [Capture evidence](../../../tools/pokemon-dungeon/art/pixel/captures/capture-record.json):
+  1440×1000 desktop and 390×844 mobile compositions; all 24 neutral directional
+  views; 12 held animation-study frames. These are art captures, not a campaign
+  encounter, automated playthrough or final arcade picture.
+- Built-in ImageGen returned a moderation error/no asset. No retry, API fallback
+  or commercial asset extraction was used. Editable original shapes are the
+  production source; independent source/PNG validation does not execute them.
+- Static checks preserve historical GLB validation and add pixel identity,
+  source/hash, PNG CRC/dimension/alpha/gutter, timing and coverage validation.
+  Current exact validation and capture results are in the Task 1 report and
+  [art review](../../../tools/pokemon-dungeon/art/REVIEW.md).
+- Remaining: 383 species, all applicable original forms, complete clips/expressions,
+  portraits/UI/effects/audio, all finished biome kits, P10 integration, gameplay,
+  saves, full campaign/postgame and physical-device acceptance. No full-game
+  completion gate is closed by this foundation.
+
+## PR #392 recovery — 2026-10-06
+
+The original `feat/pokemon-full-campaign` linked worktree is resumed. Local
+history through `f2adf39` contains twenty-five implementation commits beyond
+main; merge `130c936` retains the published partial checkpoint `f864282`.
+Recovered uncommitted work includes campaign facts, generation/navigation,
+Adventure/turns, scheduler state, roster authoring and historical handoffs.
+See [the recovery contract](RECOVERY-2026-10-06.md).
+
+| Responsibility | Current evidence |
+| --- | --- |
+| Campaign facts | Static catalog checks pass; bounded native evaluator/operations added below; full transaction owner, callbacks and scenes remain unimplemented |
+| Navigation | Streamed local integrity/cancellation/disposal and nested source joins reviewed; exact export, source lint and strict types pass |
+| Generation | Reviewed fixes exclude secondary rooms from Monster Houses and preserve final-recovery population/RNG behavior |
+| Turns | Recovered typed scheduler and atomic Adventure boundary; concrete command handlers and fifteen hooks remain missing |
+| Roster | Corrected Skarmory beak and Tyranitar tail gutter overflow; 419 profiles / 386 species pass structural raster checks |
+| Roster storage | Preserve source/hash expectations; materialize missing tools-only PNGs without rewriting expected metadata; runtime assets remain checked in |
+| Website | Earlier recovered checkpoint recorded 334 passed / 21 expected skips across five inert-fixture projects; current continuation results are recorded below |
+| Contribution checks | Run on the final recovered source checkpoint before publication |
+| Runtime | Startup still loads only the background development shell; no playable campaign claim |
+
+Roster structure is not visual acceptance. The checker reports fourteen
+neutral-view symmetry advisories, 277 static directional clip rows and three
+neutral-silhouette collisions. The current renderer still supports only the
+sixteen starter assets; whole-roster promotion and species/form art acceptance
+remain open.
+
+The scoped independent source review established no Critical/Important
+regression in navigation loading, generation fixes or roster materialization.
+It does not complete P11/P12, the original campaign, postgame or release gates.
+No check imports/executes game code or performs an automated playthrough.
+
+Website verification uses the static preview (`CI=1`); Firefox additionally
+uses `MOZ_DISABLE_CONTENT_SANDBOX=1` to accommodate this container's denied
+user-namespace mapping. These environment choices do not modify repository
+tests or production code.
+
+Next: implement the concrete `CampaignContent` policies/initial state,
+source-backed effects/items/statuses/outcomes/AI and canonical commands,
+transactional progression and scene engine, then the full application and
+main/postgame content. Keep PR #392 draft/unmerged until actual gameplay,
+visual, device and final delivery acceptance are recorded.
+
+## PR #392 reviewed continuation — 2026-10-06
+
+The published `f864282` contained only a partial upload. Restore the complete
+reviewed local tree before assessing delivery. Missing species/dungeon/effects
+payloads, pixel contract and effects types account for five existing review
+findings. The source checker now covers `content/**/*.js` as well as `src/**`.
+The default game gate includes campaign, navigation and whole-roster validation.
+
+| Change | Evidence / remaining ownership |
+| --- | --- |
+| Dungeon loading | Generated index fingerprint authenticates schema and all 23 shards from bounded raw bytes before decoding; deterministic export and independent integrity review pass |
+| Visual policy | Current directional pixel billboards in real 3D supersede historical B; stale unconditional loading-art promotion removed; scoped rereview passes |
+| State catalog joins | Immutable identity/floor/section and exact starting-pair joins plus options bounds; fifteen other semantic policies and complete initial campaign remain open |
+| Native progression | Required eleven scenario pairs, separate counters, pending/persistent cutscene flags and scalar arrays; bounded predicates and atomic candidate operations; source/spec/quality review passes |
+| Progress ownership | No automatic grant, scene, return or boss authority is implied; receipts, milestones, callback execution and authored-state joins still require their transaction owners |
+| Source provenance | Fresh pinned comparative source blobs support identified native semantics; four historical catalog fingerprint discrepancies remain explicitly unreconciled in `PROGRESSION-STATE.md` |
+| Roster | Final deterministic export/materialization and raster audit pass for 419 profiles / 386 species; structural acceptance remains separate from visual/gameplay acceptance |
+| Current Pages export | Production build passes; final source-to-export equality and current-head CI are delivery gates, not evidence of a playable campaign |
+| Local website fixtures | Fresh `flight-check` passes lint/types/build, then fails downloading the pinned Chromium archive before tests start; preserve the earlier 334/21 result as historical only |
+| Final contribution gates | All-file pre-commit and pre-push checks pass, including website ESLint; final whole-game static gate pending |
+
+Independent reports are preserved under `recovery/`. The new required native
+fields change the unpublished campaign schema; no compatibility migration or
+zero-filled opening profile is claimed. Existing saves cannot be accepted by
+inventing the missing facts.
+
+The application still starts the background-only development shell. No full-game
+completion gate is closed. Concrete CampaignContent, commands/TurnHooks,
+effects/AI, transactional scenes and progression, onboarding/town/jobs, main
+story/postgame, whole-roster renderer promotion and manual/device acceptance
+remain required by `FULL-GAME-EXECUTION.md`. Keep this PR draft and unmerged.

@@ -1,0 +1,1952 @@
+{
+  "schemaVersion": 1,
+  "profile": "directional-pixel-clip-v2",
+  "review": "starter-provisional-integration",
+  "sourceIndexSha256": "a954edb557af167bfc079a065e55ab922248875f60ad5a2a089a4f293745ea98",
+  "cell": {
+    "width": 96,
+    "height": 96,
+    "footAnchor": [
+      48,
+      92
+    ]
+  },
+  "page": {
+    "width": 384,
+    "height": 768
+  },
+  "clips": [
+    {
+      "id": "idle",
+      "durationsMs": [
+        240,
+        200,
+        240,
+        200
+      ],
+      "loop": true
+    },
+    {
+      "id": "walk",
+      "durationsMs": [
+        110,
+        110,
+        110,
+        110
+      ],
+      "loop": true
+    },
+    {
+      "id": "turn",
+      "durationsMs": [
+        110,
+        110,
+        130,
+        160
+      ],
+      "loop": false
+    },
+    {
+      "id": "attack-physical",
+      "durationsMs": [
+        140,
+        90,
+        110,
+        180
+      ],
+      "loop": false
+    },
+    {
+      "id": "attack-special",
+      "durationsMs": [
+        180,
+        120,
+        140,
+        200
+      ],
+      "loop": false
+    },
+    {
+      "id": "cast-status",
+      "durationsMs": [
+        170,
+        170,
+        200,
+        160
+      ],
+      "loop": false
+    },
+    {
+      "id": "hit-light",
+      "durationsMs": [
+        90,
+        100,
+        130,
+        160
+      ],
+      "loop": false
+    },
+    {
+      "id": "hit-heavy",
+      "durationsMs": [
+        100,
+        170,
+        180,
+        220
+      ],
+      "loop": false
+    },
+    {
+      "id": "defeat",
+      "durationsMs": [
+        150,
+        200,
+        240,
+        800
+      ],
+      "loop": false
+    },
+    {
+      "id": "celebrate",
+      "durationsMs": [
+        130,
+        160,
+        170,
+        170
+      ],
+      "loop": false
+    },
+    {
+      "id": "rest-sleep",
+      "durationsMs": [
+        320,
+        500,
+        640,
+        500
+      ],
+      "loop": true
+    },
+    {
+      "id": "interact",
+      "durationsMs": [
+        180,
+        150,
+        190,
+        190
+      ],
+      "loop": false
+    }
+  ],
+  "characters": [
+    {
+      "speciesId": "pokemon-001",
+      "formId": null,
+      "worldHeight": 1.7
+    },
+    {
+      "speciesId": "pokemon-004",
+      "formId": null,
+      "worldHeight": 1.8
+    },
+    {
+      "speciesId": "pokemon-007",
+      "formId": null,
+      "worldHeight": 1.65
+    },
+    {
+      "speciesId": "pokemon-152",
+      "formId": null,
+      "worldHeight": 1.75
+    },
+    {
+      "speciesId": "pokemon-155",
+      "formId": null,
+      "worldHeight": 1.65
+    },
+    {
+      "speciesId": "pokemon-158",
+      "formId": null,
+      "worldHeight": 1.8
+    },
+    {
+      "speciesId": "pokemon-252",
+      "formId": null,
+      "worldHeight": 1.8
+    },
+    {
+      "speciesId": "pokemon-255",
+      "formId": null,
+      "worldHeight": 1.55
+    },
+    {
+      "speciesId": "pokemon-258",
+      "formId": null,
+      "worldHeight": 1.65
+    },
+    {
+      "speciesId": "pokemon-025",
+      "formId": null,
+      "worldHeight": 1.7
+    },
+    {
+      "speciesId": "pokemon-052",
+      "formId": null,
+      "worldHeight": 1.75
+    },
+    {
+      "speciesId": "pokemon-054",
+      "formId": null,
+      "worldHeight": 1.7
+    },
+    {
+      "speciesId": "pokemon-066",
+      "formId": null,
+      "worldHeight": 1.9
+    },
+    {
+      "speciesId": "pokemon-104",
+      "formId": null,
+      "worldHeight": 1.75
+    },
+    {
+      "speciesId": "pokemon-133",
+      "formId": null,
+      "worldHeight": 1.8
+    },
+    {
+      "speciesId": "pokemon-300",
+      "formId": null,
+      "worldHeight": 1.65
+    }
+  ],
+  "pages": [
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "idle",
+      "path": "bulbasaur-idle.png",
+      "sha256": "feaef1c16ea230a69a2918391e863952fcfd73a857c24974eea29871522b5a4f",
+      "encodedBytes": 11385,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "walk",
+      "path": "bulbasaur-walk.png",
+      "sha256": "ad9c4fd5cca8a3cf7e03475ee57bd05e0b6219e4a95aaf0e5523db9e2e01643e",
+      "encodedBytes": 13790,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "turn",
+      "path": "bulbasaur-turn.png",
+      "sha256": "28682d1f61b0a4fa9b449f61272a2cf68bd8af14bbc8b69babd31b7318569217",
+      "encodedBytes": 17845,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "bulbasaur-attack-physical.png",
+      "sha256": "1a8e9aab0f6b94060c96be3020c1c71942bffaed61e5cbd03c6d1151ab4d573d",
+      "encodedBytes": 18884,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "bulbasaur-attack-special.png",
+      "sha256": "3306ac151340e0118387b75e538a172f1761c38f5d960be6e5ff33abf1dc7f41",
+      "encodedBytes": 18608,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "bulbasaur-cast-status.png",
+      "sha256": "6970bbdbd25872f000255ae423052380000bb174911190645dfb5ab1aaeb92ff",
+      "encodedBytes": 14390,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "bulbasaur-hit-light.png",
+      "sha256": "350a0c9a403cb62661853c66e4c85678425a9f2abba87b68fdaf062fd9de4791",
+      "encodedBytes": 17463,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "bulbasaur-hit-heavy.png",
+      "sha256": "a6bcb3b542b2ab2edab90e1964ee76c8a9e797d9dcbeaff77664d9c1344b25d9",
+      "encodedBytes": 19645,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "defeat",
+      "path": "bulbasaur-defeat.png",
+      "sha256": "5f5484ce946d9e6ee4c1c9e037e982871413f17f55ca792fdcc71b7d4e08d7e7",
+      "encodedBytes": 19125,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "bulbasaur-celebrate.png",
+      "sha256": "c366453e1d9d88efc10bb4e62970c5a18945cfd2ee21d283bc7c6dd962783d28",
+      "encodedBytes": 19998,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "bulbasaur-rest-sleep.png",
+      "sha256": "55db610930d9ec56751836db605719a2f303b5ad779c3d9281066579e9d157ce",
+      "encodedBytes": 11629,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-001",
+      "assetId": "character.pokemon-001.default.pixel-v2",
+      "clip": "interact",
+      "path": "bulbasaur-interact.png",
+      "sha256": "c2e497a02ba2fa743520d523ab3b6ad991771b636b13b06cf87b5210123d7997",
+      "encodedBytes": 16374,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "idle",
+      "path": "charmander-idle.png",
+      "sha256": "02faa9bb38f64d55142261cdf36ef5cb941009917e47932a6672e3fb622773a9",
+      "encodedBytes": 11488,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "walk",
+      "path": "charmander-walk.png",
+      "sha256": "e1df871328cb030ce1621b7eba0060be42568ca445cbf4c7a436585be5863492",
+      "encodedBytes": 13402,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "turn",
+      "path": "charmander-turn.png",
+      "sha256": "73414340cf49ea95c9a8debe10d4bb1f4ce52c2b1fce044574dd3b1fa7de5271",
+      "encodedBytes": 15685,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "charmander-attack-physical.png",
+      "sha256": "ec413e1e0fbed4536aad05f3c0469821c0e284685d0edee5e987904b61d595cc",
+      "encodedBytes": 16550,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "charmander-attack-special.png",
+      "sha256": "adc0ee36b624e5eb46edc0f0a4fd246b4cec4023976a97eac6e697e0825975d3",
+      "encodedBytes": 16837,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "charmander-cast-status.png",
+      "sha256": "a07964b4ae8c8a11631da22da07c729fca9b2b161ff73f3aae7678e951ac25c1",
+      "encodedBytes": 14129,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "charmander-hit-light.png",
+      "sha256": "38ce9a128a8e36a99985c52b6bd483f2a56e13d941ed9929425c4799a44879e5",
+      "encodedBytes": 15611,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "charmander-hit-heavy.png",
+      "sha256": "01bc2be182613ccba253db837d075acd066aa1687c79f026b19c1016f99cdfdd",
+      "encodedBytes": 16559,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "defeat",
+      "path": "charmander-defeat.png",
+      "sha256": "38666756110e43e77904c3791490c7b35826f0e3d6bd35896b337b9479db362d",
+      "encodedBytes": 15236,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "charmander-celebrate.png",
+      "sha256": "2325fbcad7a9e654feff24b074cc734acff28f8cd443167ceae224ff844abec1",
+      "encodedBytes": 18012,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "charmander-rest-sleep.png",
+      "sha256": "d356d6e773c2df5ef819efdb0db0b502d661b81ce62a08b01ee5451c0600ff78",
+      "encodedBytes": 9330,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-004",
+      "assetId": "character.pokemon-004.default.pixel-v2",
+      "clip": "interact",
+      "path": "charmander-interact.png",
+      "sha256": "b6500093fbf915ae40bf0c570eff5483f2c10f45d6e1c823770a5c415d6ee7bc",
+      "encodedBytes": 15084,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "idle",
+      "path": "squirtle-idle.png",
+      "sha256": "097141c2a91f8c58f584e05c13e17c02f3e2b75ec7b755e98b37124b91fed9fd",
+      "encodedBytes": 11195,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "walk",
+      "path": "squirtle-walk.png",
+      "sha256": "16e7256aeba06fb905db8c6d356df38ac40cdc1cc4eef9e88acceaf08954394e",
+      "encodedBytes": 13355,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "turn",
+      "path": "squirtle-turn.png",
+      "sha256": "7e7ebd526630b599c66e1d2dbfc50fd07a45c27a35222e3f734e2701093a6a2a",
+      "encodedBytes": 15444,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "squirtle-attack-physical.png",
+      "sha256": "9100a80f65cbb7d06a08c155fac6d80b9f7914fd3b304949f7359e9da3ac8059",
+      "encodedBytes": 16869,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "squirtle-attack-special.png",
+      "sha256": "c38dadd97f7e179ea7823a472acb21f5776290a5ba9948f96a2d141fe92a3a5e",
+      "encodedBytes": 17283,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "squirtle-cast-status.png",
+      "sha256": "dd4cffc014ac80177a0814c722459751f5813ec4d0fc90c229da0079ba125d8c",
+      "encodedBytes": 13966,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "squirtle-hit-light.png",
+      "sha256": "d540aebd264d6d1cb825bad5b4c67396bfdffe7adcb3776b5566ea4c38630111",
+      "encodedBytes": 16323,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "squirtle-hit-heavy.png",
+      "sha256": "4d6fe3f8ceaf8a62be28e3e9b39f493e218cd908f35f27d6fc7fefedf214c3d7",
+      "encodedBytes": 17529,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "defeat",
+      "path": "squirtle-defeat.png",
+      "sha256": "b8d3d1a0b0cc86698950582295c6d6f3d58ff4eb12db2fd99b5f7b9fbd889d8f",
+      "encodedBytes": 15966,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "squirtle-celebrate.png",
+      "sha256": "6f11a35962af4476099089840b7dbb5ea51de88657dbfeb3e76f302a4962abaa",
+      "encodedBytes": 18355,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "squirtle-rest-sleep.png",
+      "sha256": "9f37749b5e6a1f39f0004588ac6d4e4564e7d1b827cac18c07c0ef89f7ce6e65",
+      "encodedBytes": 9335,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-007",
+      "assetId": "character.pokemon-007.default.pixel-v2",
+      "clip": "interact",
+      "path": "squirtle-interact.png",
+      "sha256": "a2226d161ca7a7b1a91ed9e43d35de128a428707a3f1f55332a8dd74a1b8e862",
+      "encodedBytes": 14890,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "idle",
+      "path": "chikorita-idle.png",
+      "sha256": "bdfd32186b99d312d16fad89cd62e1dbe80da3c520690f1c257e3c15cebd5924",
+      "encodedBytes": 11608,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "walk",
+      "path": "chikorita-walk.png",
+      "sha256": "d0fed5f35dc059e9b64d140cc8de60a8a3fde5fa484cbecfb6d16916c936b8b7",
+      "encodedBytes": 12962,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "turn",
+      "path": "chikorita-turn.png",
+      "sha256": "b18354f972d9972a56392e35226f0f8856db34344a4bf7bcd4b2cca3fbc2a0da",
+      "encodedBytes": 17552,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "chikorita-attack-physical.png",
+      "sha256": "3ecfe9a43fc82fcab4a226d8cb6c4be6275c6a8af4f7ad14102da2fc67343c21",
+      "encodedBytes": 18089,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "chikorita-attack-special.png",
+      "sha256": "44477a712bd8d2d9ce49554f059a211e20d4d990d04342cc78c53ba847513a8d",
+      "encodedBytes": 18375,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "chikorita-cast-status.png",
+      "sha256": "36c1f9458ecedaa2fc3ed399467e981c9f1ba521586ee74ae39fe29e279a0293",
+      "encodedBytes": 14616,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "chikorita-hit-light.png",
+      "sha256": "d56ca3f7bec30f2ce60aaab48e11b48921dc76009e73200a55c2cf4cb0c9ac7f",
+      "encodedBytes": 17176,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "chikorita-hit-heavy.png",
+      "sha256": "5ac4d244d7a58eb5f94ad916880e6d25755f808d536331064eeb263799acadea",
+      "encodedBytes": 18655,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "defeat",
+      "path": "chikorita-defeat.png",
+      "sha256": "ffef6efba30c516de46899a702b1fbc64e282d6e5c72dfd501a268e3bb5502da",
+      "encodedBytes": 17291,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "chikorita-celebrate.png",
+      "sha256": "7078ffe3cc61c4f1a12ac213710a4672ca56c546b90cbc2a34b6af33baa4da2a",
+      "encodedBytes": 19427,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "chikorita-rest-sleep.png",
+      "sha256": "df99753615d6b6ab71a9998e82179db8ad7d57fdf9808313afb05097ebb2ad57",
+      "encodedBytes": 10682,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-152",
+      "assetId": "character.pokemon-152.default.pixel-v2",
+      "clip": "interact",
+      "path": "chikorita-interact.png",
+      "sha256": "c392c69a2ba819e966e6948a37aff70ad15313aad388869d6e8e748eee16c986",
+      "encodedBytes": 16906,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "idle",
+      "path": "cyndaquil-idle.png",
+      "sha256": "547955fcf4a6d80e5788b516a1b226af3a41ccc7ae6af961f0c76b65ae819e0e",
+      "encodedBytes": 10480,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "walk",
+      "path": "cyndaquil-walk.png",
+      "sha256": "9d99690f6c94ae36d9b557008595fbb12d0998d73fa639b25a6f92c94c84db90",
+      "encodedBytes": 12099,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "turn",
+      "path": "cyndaquil-turn.png",
+      "sha256": "4806f162fd07491eea8a0d7c6adf858d23411bab3f4d10912179ae3713234215",
+      "encodedBytes": 15111,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "cyndaquil-attack-physical.png",
+      "sha256": "e23f1d48964fe7514a09e2b396e3d6f8670b061dc28b6917d5e654a35807fabc",
+      "encodedBytes": 17120,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "cyndaquil-attack-special.png",
+      "sha256": "fe7edcf51e4952523dfe2b77d4a04f4d836ed31c7f0030fe4210f3720849dabb",
+      "encodedBytes": 17338,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "cyndaquil-cast-status.png",
+      "sha256": "b6a672bf0948624e7a6fdbfe70d5dcb2551480a281857b2f70b201bed7753df3",
+      "encodedBytes": 12788,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "cyndaquil-hit-light.png",
+      "sha256": "c27be4a3ad46c3138f5c83847de1c8289236a5cc981bdada2b30e9b01f37d553",
+      "encodedBytes": 16167,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "cyndaquil-hit-heavy.png",
+      "sha256": "6af949670865f4b7cd57cc8b5532b04e45769bf0beedb0d33ceb42f5b1a92d83",
+      "encodedBytes": 17332,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "defeat",
+      "path": "cyndaquil-defeat.png",
+      "sha256": "22a02584607f6164a5295b63889d2db0380d6778b36b8d1f141612911c99bfc7",
+      "encodedBytes": 17162,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "cyndaquil-celebrate.png",
+      "sha256": "fbac024bca1cbf949be7c881c209d94859610cc89de1b8b9685fe02997bfb2bd",
+      "encodedBytes": 18034,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "cyndaquil-rest-sleep.png",
+      "sha256": "d68fcb985b071177d692ed190e8d9f8e2204a996eff2d199d1fba81eb31733a5",
+      "encodedBytes": 8131,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-155",
+      "assetId": "character.pokemon-155.default.pixel-v2",
+      "clip": "interact",
+      "path": "cyndaquil-interact.png",
+      "sha256": "4eea8e6c6c3180d827d4b6d6a259a68f35db1aca8b714d8a99479199f7e23589",
+      "encodedBytes": 14408,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "idle",
+      "path": "totodile-idle.png",
+      "sha256": "dd57980ed3529910f5d9c5f0a44178091aedcf3a2bf3d780ece8628221d8b8e9",
+      "encodedBytes": 11544,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "walk",
+      "path": "totodile-walk.png",
+      "sha256": "029e5ea935bd6fb6e49c516eb179f41ed7560ea2a915bad98493a8dcd2d3d501",
+      "encodedBytes": 13701,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "turn",
+      "path": "totodile-turn.png",
+      "sha256": "298987570935bbfc7b4188cd775f8343babc698699f92070c36351c6491788a7",
+      "encodedBytes": 16768,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "totodile-attack-physical.png",
+      "sha256": "53ee9756dfd730d5520bc9a2c3b9ce92212221b3136bfd259cd9a4b9d9d6d5ff",
+      "encodedBytes": 17516,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "totodile-attack-special.png",
+      "sha256": "852470c3f8d7084ed98c6ee3fff5f2c77698b4c87459b84993acbfb29bfd66d8",
+      "encodedBytes": 17707,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "totodile-cast-status.png",
+      "sha256": "6c18257f6ac271c8b312c0896c0218a590d33491fc438cdad084f4b72c6529aa",
+      "encodedBytes": 14895,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "totodile-hit-light.png",
+      "sha256": "9fe1ced09bb56041363327c2b9d957c8de990b54a13e3ba2e290526c85cc3ec6",
+      "encodedBytes": 16836,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "totodile-hit-heavy.png",
+      "sha256": "0405a32fa6d7d4870a6298394bb3d87eb964c3c357f7bd2ea6cd975d8d06d78f",
+      "encodedBytes": 17785,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "defeat",
+      "path": "totodile-defeat.png",
+      "sha256": "d3959c3920f256dd2aea4e0a9fd020ae95b2345475a7a3182b4d8a5e2ca9ac70",
+      "encodedBytes": 16310,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "totodile-celebrate.png",
+      "sha256": "b63f5730216a1a587b911328d06f3b61cb8559367bd229224e2ff18fd31af81d",
+      "encodedBytes": 19015,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "totodile-rest-sleep.png",
+      "sha256": "49fb14bf5a67344ee02126c82c66398dc67644ed85b490a5e0fc5526177eaa32",
+      "encodedBytes": 10267,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-158",
+      "assetId": "character.pokemon-158.default.pixel-v2",
+      "clip": "interact",
+      "path": "totodile-interact.png",
+      "sha256": "664e9be4f1c8680b55bf7c00428541c8f737c77b4318671f55f0b2c9e0968959",
+      "encodedBytes": 16178,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "idle",
+      "path": "treecko-idle.png",
+      "sha256": "e3934f660f89a3adea0cb0b7b87ad03f9d3cd7fb8987a7396a832ea77a816f36",
+      "encodedBytes": 12603,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "walk",
+      "path": "treecko-walk.png",
+      "sha256": "82eb9b62ee69449c5a018b6a975205bf7359cddadcb11946ba6eaf80723e6783",
+      "encodedBytes": 13646,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "turn",
+      "path": "treecko-turn.png",
+      "sha256": "c39e6bbd9ccb8854c0dd95cdca3b023918b6aa75b6327ba869db818f53caf79d",
+      "encodedBytes": 17260,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "treecko-attack-physical.png",
+      "sha256": "1b2dbc6ae1a243258d7c85eb5d8d515f26dbf2edd0709d976699c121fed8c853",
+      "encodedBytes": 17317,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "treecko-attack-special.png",
+      "sha256": "64495bd20436a7102384e536b4794c648a21f04486c36330ecdc4f7d978f367f",
+      "encodedBytes": 18233,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "treecko-cast-status.png",
+      "sha256": "43e0eab40aee8c1b92639fe4fc9f92d5fa87c4fe2642d8df018dc280ba501e50",
+      "encodedBytes": 15359,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "treecko-hit-light.png",
+      "sha256": "ff448e35923876fd5213a5944e53130f8c246506b5e127507f87f2a335495113",
+      "encodedBytes": 16995,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "treecko-hit-heavy.png",
+      "sha256": "56662c889f4a7de6fdfe0dbd0c4e4e462219966359d39da623a3915f59dd0c7d",
+      "encodedBytes": 18221,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "defeat",
+      "path": "treecko-defeat.png",
+      "sha256": "9d476bd98cef3c451e6931ab1fe4deb256e0b6279680c79773fdadbefb7469ee",
+      "encodedBytes": 16733,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "treecko-celebrate.png",
+      "sha256": "94d8c1e3575c5e7c250af07bc5bbd542efd9c51a12aaac299378c70c6189a04d",
+      "encodedBytes": 19015,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "treecko-rest-sleep.png",
+      "sha256": "af9678767b116cdf3bfe7a3932905d8e0cc1e69f4f0b8f6f5519df5925853ff2",
+      "encodedBytes": 10254,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-252",
+      "assetId": "character.pokemon-252.default.pixel-v2",
+      "clip": "interact",
+      "path": "treecko-interact.png",
+      "sha256": "fe06e9beb6404ae7fb2a94503df8f4eb26064e40ae17d0361dee22f674b47d55",
+      "encodedBytes": 16724,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "idle",
+      "path": "torchic-idle.png",
+      "sha256": "9de8444a036df4e34a228db4e8aa50e6aa8eaa9038f8f782867416c8d5e82923",
+      "encodedBytes": 9761,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "walk",
+      "path": "torchic-walk.png",
+      "sha256": "43d0b6579195181aef097dd9e984b4c9f244e97294562b724897b14cba73d7f6",
+      "encodedBytes": 10678,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "turn",
+      "path": "torchic-turn.png",
+      "sha256": "fc4f6aa4f03629f4afd720485d7b8494636452bcd93c8ac192a05b17529cf839",
+      "encodedBytes": 14327,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "torchic-attack-physical.png",
+      "sha256": "49cb44770017d7df18ce66ac540cc110656c1d6872f9427dd2e2650a90aac871",
+      "encodedBytes": 14190,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "torchic-attack-special.png",
+      "sha256": "f79694810819b07cbe147f69865608cc35b0772966fc7cf2b52c61383f944304",
+      "encodedBytes": 14507,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "torchic-cast-status.png",
+      "sha256": "6f1038a395c1db1a2b5ca198951b46bd356d83498f0221cba9a70bcc8fff25cd",
+      "encodedBytes": 12073,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "torchic-hit-light.png",
+      "sha256": "a76c7db2aa8e7e8216e1da25fe62061549ff460de35d124c29bc899b01019e67",
+      "encodedBytes": 13738,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "torchic-hit-heavy.png",
+      "sha256": "a0bf2424129afa71979f9165ccdeb2ce2a81d645cf6b125eeccbed2e5d65c28b",
+      "encodedBytes": 15113,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "defeat",
+      "path": "torchic-defeat.png",
+      "sha256": "5d82845e19786dc64d58a243cbb883919e3dbbe22b60e4a926d03a405724e2d7",
+      "encodedBytes": 14027,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "torchic-celebrate.png",
+      "sha256": "969d5f23361f89a2893e63bd454662ebe64a92aa5eec03088b0320342d4c3742",
+      "encodedBytes": 15756,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "torchic-rest-sleep.png",
+      "sha256": "1d51bea8bc6a426f98b693ece65611e8d293a523aa41b171404e596aae31a765",
+      "encodedBytes": 8961,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-255",
+      "assetId": "character.pokemon-255.default.pixel-v2",
+      "clip": "interact",
+      "path": "torchic-interact.png",
+      "sha256": "2089c903f5e6ee6bdd9d8ceebbab76e3022dac59604b7b7f751dac94f534afc7",
+      "encodedBytes": 13878,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "idle",
+      "path": "mudkip-idle.png",
+      "sha256": "845d4235fcb6565ca01c5ce35edfce9df5c765c64411cbc546591dd575cf3fe8",
+      "encodedBytes": 12234,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "walk",
+      "path": "mudkip-walk.png",
+      "sha256": "0fc6b279d94625f2c732625b24ebf39faa7af47c79cb0c97b56f9492a9e8f181",
+      "encodedBytes": 13104,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "turn",
+      "path": "mudkip-turn.png",
+      "sha256": "46aade149171a3797c796a0d57730afb13c0b058b4106e0ecc9d0cd0c287a2be",
+      "encodedBytes": 18325,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "mudkip-attack-physical.png",
+      "sha256": "434ab63eec390a4486a6c85b8c8dfba1af88f7de56913bd33d21d48da152d272",
+      "encodedBytes": 17443,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "mudkip-attack-special.png",
+      "sha256": "41baba86f23a9fd4362a26bd9356eb6a5fb03b9c0c6bab341eaa3f18f00aa746",
+      "encodedBytes": 17919,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "mudkip-cast-status.png",
+      "sha256": "76910cd3688437fdecf20a5111db44c76cee25b5a8cbfb445baff4fa3900b048",
+      "encodedBytes": 15235,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "mudkip-hit-light.png",
+      "sha256": "d2026b941c0776369d851f4f3e827072993d77cb44cd4bb792c45b9bb676450d",
+      "encodedBytes": 16727,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "mudkip-hit-heavy.png",
+      "sha256": "66988299116902f177873a19c744487199374408162bb407fd80cf34271a43e6",
+      "encodedBytes": 18241,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "defeat",
+      "path": "mudkip-defeat.png",
+      "sha256": "7562eb57d40f370e7f24a6002d0c93bf98bd22f60596186096616135e3bc7e7f",
+      "encodedBytes": 16553,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "mudkip-celebrate.png",
+      "sha256": "8c6869ad0e894270a8ffd5f9ece8934890f0a8315be82e3a7db81d7432f916b4",
+      "encodedBytes": 18937,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "mudkip-rest-sleep.png",
+      "sha256": "b2f7e9806fe56e276ba9802b9607adda5a970346a8e2fc42673e9c9c9044f5cf",
+      "encodedBytes": 9981,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-258",
+      "assetId": "character.pokemon-258.default.pixel-v2",
+      "clip": "interact",
+      "path": "mudkip-interact.png",
+      "sha256": "ebf381fb6d2f675411e57287de8702a52f882abb9a58287b71da05cfacfcbda6",
+      "encodedBytes": 17427,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "idle",
+      "path": "pikachu-idle.png",
+      "sha256": "e33878b4aaa516fbf5a3f2ed0fba9b25c7293fb554d5aab4c031e772006091d0",
+      "encodedBytes": 12081,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "walk",
+      "path": "pikachu-walk.png",
+      "sha256": "ffeb0d24832b7c26a3b3d49039d9e6d5ff4d8d80810306f3d5337fcbdc0bffd4",
+      "encodedBytes": 14022,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "turn",
+      "path": "pikachu-turn.png",
+      "sha256": "4a5f7a6c3de2dc44d60fdbbf85b2ec91721790f18f6135a8e5cfd64a8720d2fc",
+      "encodedBytes": 17796,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "pikachu-attack-physical.png",
+      "sha256": "ed3796b01a4abc00c36d444e2af1475facdd811b4fb47110fcd65b692f65ca29",
+      "encodedBytes": 17467,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "pikachu-attack-special.png",
+      "sha256": "45b47930c4e84e34807632ab0f91de17ca2ea73135b018f0257e3fb7c753fa81",
+      "encodedBytes": 18328,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "pikachu-cast-status.png",
+      "sha256": "10b1de761bd801b98d99b2befd60b8aeaf1506e7c3a337e7f8363d2d274fa15a",
+      "encodedBytes": 15619,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "pikachu-hit-light.png",
+      "sha256": "ff45c6d3ee384f0f3788e64f2c33d449ef19cc11e8ee15b4e1c033495b4ce5dd",
+      "encodedBytes": 17200,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "pikachu-hit-heavy.png",
+      "sha256": "21b0f30cdf890d173a2123128c84c9d409670bac9ccc554949b3c2eb25ebd738",
+      "encodedBytes": 18327,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "defeat",
+      "path": "pikachu-defeat.png",
+      "sha256": "2925e798439ac823cadfb65eb1237611574091e3e06922151534a205cc2316a4",
+      "encodedBytes": 17010,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "pikachu-celebrate.png",
+      "sha256": "279f4073e98980e2047ac069c5da05f3cd0d4b37b96fe78ed270ace5f6ff9270",
+      "encodedBytes": 19160,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "pikachu-rest-sleep.png",
+      "sha256": "34a8c04df26e7310953bb3aea957d70a4e9a4638d510b631102f4e1887f6c782",
+      "encodedBytes": 9915,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-025",
+      "assetId": "character.pokemon-025.default.pixel-v2",
+      "clip": "interact",
+      "path": "pikachu-interact.png",
+      "sha256": "810cb808f999d401ab864e29fc36b2aa5f03751c6d2f808b81aa018e9515cbd6",
+      "encodedBytes": 17193,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "idle",
+      "path": "meowth-idle.png",
+      "sha256": "f7223bcd879cccb391f4de6b758e83485dd1459bf5db2601f9ce7b04af20ee7a",
+      "encodedBytes": 12367,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "walk",
+      "path": "meowth-walk.png",
+      "sha256": "67684445816446faac7348645bd85d9df3fdd527251d5592a82529ab3db4dd7a",
+      "encodedBytes": 13474,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "turn",
+      "path": "meowth-turn.png",
+      "sha256": "8b0e9ff3eaaba3c5340f485088ae03afa1dd5215f18655256cd4b7cf24ccc837",
+      "encodedBytes": 19110,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "meowth-attack-physical.png",
+      "sha256": "a7471e8082b6a70eab78fce1eb54b5b8a1e007fe17283f6a79675548b248fe09",
+      "encodedBytes": 17710,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "meowth-attack-special.png",
+      "sha256": "96d6504c87a1e8d97b839b89a0558effd74f59c485107ed4c1d40dd567c9fc25",
+      "encodedBytes": 18462,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "meowth-cast-status.png",
+      "sha256": "1da81299125d69962f7c8101fef92d2aed64abfa4a767c2d58ecffe48a84964c",
+      "encodedBytes": 15599,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "meowth-hit-light.png",
+      "sha256": "d336cebbc7218d1cbde5301cd0b7887c9801e288044449a05aa78cf4493c880e",
+      "encodedBytes": 17320,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "meowth-hit-heavy.png",
+      "sha256": "43799f4d9f69a13759b616db44713858461e41c8e69366e39d0ed07bd7a7b339",
+      "encodedBytes": 19208,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "defeat",
+      "path": "meowth-defeat.png",
+      "sha256": "54ff5999e76f2a49ef6a44d9c539f947d57e4722b26c0f895c3f70f1387f1282",
+      "encodedBytes": 18043,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "meowth-celebrate.png",
+      "sha256": "e29c8f43ed091a958d38affd9e7ec45fb5e4f7a249d8f70fd7472ab93b2e6ce2",
+      "encodedBytes": 19937,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "meowth-rest-sleep.png",
+      "sha256": "0f0e2d17c97d078c1e4dcc4f173607cb92c3ead6190876ab49c14d81c3ee5566",
+      "encodedBytes": 11312,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-052",
+      "assetId": "character.pokemon-052.default.pixel-v2",
+      "clip": "interact",
+      "path": "meowth-interact.png",
+      "sha256": "f19a534ff88f9ecdd9249d6e5b38170f6f637ccab327505a54d0c284e5b18d1d",
+      "encodedBytes": 18258,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "idle",
+      "path": "psyduck-idle.png",
+      "sha256": "6b9961767a8839b2499b90a24d04ca7cb04a4e992d090d5c120c6774c9eb88d3",
+      "encodedBytes": 10508,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "walk",
+      "path": "psyduck-walk.png",
+      "sha256": "6a3557ea46ec484c1d78d5d5bf53ae3f05d683891b8b07a1a8ec1136808e89d0",
+      "encodedBytes": 10742,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "turn",
+      "path": "psyduck-turn.png",
+      "sha256": "6fde3e4345bf9b9a3657fafe78210ba2ebf761cd914b61ff785f579b293ac753",
+      "encodedBytes": 14596,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "psyduck-attack-physical.png",
+      "sha256": "2c56e8937886dde92266a221510f527362cd176b2665b8211ba82bfcbef91b90",
+      "encodedBytes": 14997,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "psyduck-attack-special.png",
+      "sha256": "5b6c233f7057243e40291e34462207069fa201b21267f7f9d16a8c306b3748b7",
+      "encodedBytes": 15698,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "psyduck-cast-status.png",
+      "sha256": "1670c761454861973f2024cd14e43507e52123517061828e66e138c273ec6617",
+      "encodedBytes": 13630,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "psyduck-hit-light.png",
+      "sha256": "45b62bec22c48c8611cfe063252b7755f66c066afad22331ac26ed607ccb1145",
+      "encodedBytes": 15107,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "psyduck-hit-heavy.png",
+      "sha256": "631ef45c936cb682614ee8961df33d5477f99a78681aea17e578003dd8e96e58",
+      "encodedBytes": 15982,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "defeat",
+      "path": "psyduck-defeat.png",
+      "sha256": "c949f5b62306da50dc88c68977f60345ed8a729f300f5a2ee4b8e8a465fd00dd",
+      "encodedBytes": 14582,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "psyduck-celebrate.png",
+      "sha256": "d89343c8211c05905ab46d52bb51c2b76d803cd37c5c3ac7e2afcb289e0c4822",
+      "encodedBytes": 16729,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "psyduck-rest-sleep.png",
+      "sha256": "4d813dd338b2cefa6701a6b81e9ab83990ffc99d8321abed2182b593ac505864",
+      "encodedBytes": 9254,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-054",
+      "assetId": "character.pokemon-054.default.pixel-v2",
+      "clip": "interact",
+      "path": "psyduck-interact.png",
+      "sha256": "ba5c77309d01b94ea2388206d7f71e95849ddab5846232fccc2e266006955df7",
+      "encodedBytes": 14744,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "idle",
+      "path": "machop-idle.png",
+      "sha256": "778c093cd651a4de691608960806dacc0d02e4ffb2d9017723c4403ba2e171eb",
+      "encodedBytes": 10931,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "walk",
+      "path": "machop-walk.png",
+      "sha256": "708cb3c5a83e424a789bd55a1584a92afe0f4d707820a6dba733cb2c85b166bf",
+      "encodedBytes": 13444,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "turn",
+      "path": "machop-turn.png",
+      "sha256": "d7ca32a4fb882519c20dda29972a91f9189dcd56a3cc928f71aeec7354bcd35f",
+      "encodedBytes": 15971,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "machop-attack-physical.png",
+      "sha256": "818032b39fdfae59973edac9de63e6969f55f5c7f32559dfb3971830630f1b24",
+      "encodedBytes": 17196,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "machop-attack-special.png",
+      "sha256": "ac29b4c436bdb53840b7a8a91109f0366823ec7ffbdeae12cc34ed7a674bd700",
+      "encodedBytes": 17596,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "machop-cast-status.png",
+      "sha256": "17ce6de72b0709289fff881628548b72919b83cdb0a0fb419e3f76d09ff999be",
+      "encodedBytes": 14844,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "machop-hit-light.png",
+      "sha256": "5d27f4981a853feeec48d54802a937702b54a8312cdb90651896a2579979bf9e",
+      "encodedBytes": 16274,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "machop-hit-heavy.png",
+      "sha256": "ffac8d16cfc59596c149b03a6019effbd0a6f3239e5043c1c3a2fcd7ed688380",
+      "encodedBytes": 17869,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "defeat",
+      "path": "machop-defeat.png",
+      "sha256": "03d85ddc04ff842bff5751c11cb317665621a8a6b1451fc88569a74160871faa",
+      "encodedBytes": 16959,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "machop-celebrate.png",
+      "sha256": "fc0e1403759535afa8f079c4fd99c75c1a4e2c862750403262b79ae1094ada6b",
+      "encodedBytes": 18881,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "machop-rest-sleep.png",
+      "sha256": "7ce32d50d1a724059d724f80d9994dcd63616482180da52ed80cf3eaee36c01b",
+      "encodedBytes": 10245,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-066",
+      "assetId": "character.pokemon-066.default.pixel-v2",
+      "clip": "interact",
+      "path": "machop-interact.png",
+      "sha256": "5eab7398571e18620ea3b6c47924af64789edc99488dd384396af4159736dd03",
+      "encodedBytes": 15748,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "idle",
+      "path": "cubone-idle.png",
+      "sha256": "942e32504d8ed3bfbdadbf24dd532ac3a2b4548670a17371b1717242ecad7f70",
+      "encodedBytes": 12457,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "walk",
+      "path": "cubone-walk.png",
+      "sha256": "c4c03ca9b8ce66d4fa414ce37dec382743843351096abc9895b4b1e7190fd9c0",
+      "encodedBytes": 14405,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "turn",
+      "path": "cubone-turn.png",
+      "sha256": "f514a747991a79d39eddb1c37e0a0d8700d1c3530798379117d20e3f857a4040",
+      "encodedBytes": 19284,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "cubone-attack-physical.png",
+      "sha256": "d3c57de80dbdd34704afe82d023438e1a17cfa092baedce23ad5fbf290231e01",
+      "encodedBytes": 19544,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "cubone-attack-special.png",
+      "sha256": "b56d9e3d9cc3e5b976279475bbc055880a412b261c6fd3042cff86c5e12f49f7",
+      "encodedBytes": 19972,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "cubone-cast-status.png",
+      "sha256": "ae0a3d867161cc9e0109c25c63cb37b761c8ec30e090d551d9593f552a5a79ef",
+      "encodedBytes": 17458,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "cubone-hit-light.png",
+      "sha256": "80091c73d9ee52491079dca73fb08ef238919752f34b86346391469f9f8b38bc",
+      "encodedBytes": 18534,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "cubone-hit-heavy.png",
+      "sha256": "d4bf083641b1f53b41bba27db2b7bc87827f448a3a2d6074861b6dce70915261",
+      "encodedBytes": 20214,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "defeat",
+      "path": "cubone-defeat.png",
+      "sha256": "154db3d3f56c8cf3c92fff752c7fec6682a42d6c22235ac27af3379d53c9d47c",
+      "encodedBytes": 19047,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "cubone-celebrate.png",
+      "sha256": "99be73033f27eb2a22695d1daf3a1b0219b3d5312fba17dc9e7b557c6294351f",
+      "encodedBytes": 21053,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "cubone-rest-sleep.png",
+      "sha256": "4b5340bdb1439ac05f6dfd9ee2f7d1c25b88058ccbf05e4688e5ae1f28654a06",
+      "encodedBytes": 11385,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-104",
+      "assetId": "character.pokemon-104.default.pixel-v2",
+      "clip": "interact",
+      "path": "cubone-interact.png",
+      "sha256": "f609c3d9b716b720c52efe004930b302a62e53aa94817bcd74409db555549191",
+      "encodedBytes": 18979,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "idle",
+      "path": "eevee-idle.png",
+      "sha256": "0389f111fd772837cd5e4279f896280a23c3a0cb924187d4d2395ee9a3ef8ee2",
+      "encodedBytes": 13529,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "walk",
+      "path": "eevee-walk.png",
+      "sha256": "d0ebe422f03b81063fd735e96322ef9fb586515ae42d258424e3bff6f8494305",
+      "encodedBytes": 15370,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "turn",
+      "path": "eevee-turn.png",
+      "sha256": "0b4af784b640005d0c87ff17a042d5d2b3ba1869b23f9b9c518dafb194585d78",
+      "encodedBytes": 19694,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "eevee-attack-physical.png",
+      "sha256": "cef2725de223421489d86ccc0ff77710fc63abbf9b31ca21215b62051530916a",
+      "encodedBytes": 19812,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "eevee-attack-special.png",
+      "sha256": "4ac6dc1afcd9a44c3797b49cc58b55ca74ca674673a929c0c259807735a92e39",
+      "encodedBytes": 20904,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "eevee-cast-status.png",
+      "sha256": "2865d97a570403634cd4174d481ebada4ceb640afd0b176169dcbeb36de38902",
+      "encodedBytes": 16588,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "eevee-hit-light.png",
+      "sha256": "7ae6ffd3b2df2daccb28b643835dd167b26c1f7fa81d3390042b7e492ff64dc0",
+      "encodedBytes": 19170,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "eevee-hit-heavy.png",
+      "sha256": "4400de8e1d0ce86a43932eb56eb672a49685472aeda34cd885963c7511df1e9b",
+      "encodedBytes": 20930,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "defeat",
+      "path": "eevee-defeat.png",
+      "sha256": "5352ac9e438877ba4ccc15049daee2c1295a51596894ab61f83773883b2404c6",
+      "encodedBytes": 19816,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "eevee-celebrate.png",
+      "sha256": "8a65ecc47f79e6fdf72661c706afa0455eb09861c24fb3d70603d1688f3213ab",
+      "encodedBytes": 21814,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "eevee-rest-sleep.png",
+      "sha256": "29ff34126d7407899ec8ff17c637177542e17590ed3b32390ecea12c9f9054f0",
+      "encodedBytes": 11484,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-133",
+      "assetId": "character.pokemon-133.default.pixel-v2",
+      "clip": "interact",
+      "path": "eevee-interact.png",
+      "sha256": "950558d834f934ca62950823bfebc5a2ff06aa07e813a34890b34a1b2dc95018",
+      "encodedBytes": 18543,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "idle",
+      "path": "skitty-idle.png",
+      "sha256": "52c2000ac269578ba69c5811a37e9d23ab94458e1b4d468ae5b9c05cc221f9b9",
+      "encodedBytes": 12584,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "walk",
+      "path": "skitty-walk.png",
+      "sha256": "dab42edfd0753533f978f84633777b4af504f2a53c4436275160dda0c11b1fc3",
+      "encodedBytes": 13648,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "turn",
+      "path": "skitty-turn.png",
+      "sha256": "32384bffdba129b66043ec40d698ad79611fbc056199cd7522bbe91ef712af82",
+      "encodedBytes": 18568,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "attack-physical",
+      "path": "skitty-attack-physical.png",
+      "sha256": "ebef2f425e1f9acde949e8b21c8f279ce224801696cb28b998907ccf134eaa12",
+      "encodedBytes": 17862,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "attack-special",
+      "path": "skitty-attack-special.png",
+      "sha256": "d2b3e86e0473721cfb543edcf713e03db9deae1f6337788d7d3b0e264e63e7b0",
+      "encodedBytes": 18420,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "cast-status",
+      "path": "skitty-cast-status.png",
+      "sha256": "20551974c1eee30696d2bc5ed59d60398dcd0a997175cb440ad6b4c2a9d43ae6",
+      "encodedBytes": 15487,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "hit-light",
+      "path": "skitty-hit-light.png",
+      "sha256": "ec74446016ef90a482b33a087a6673b2d04c278f940d62034ed0e66177fb8508",
+      "encodedBytes": 17079,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "hit-heavy",
+      "path": "skitty-hit-heavy.png",
+      "sha256": "fbc0a7d17abb182525b5990343c31e1e2235312244e5a370421e1ee8d61356c2",
+      "encodedBytes": 18642,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "defeat",
+      "path": "skitty-defeat.png",
+      "sha256": "5273df80ed08b8504622499e8bcf6267e0b0abd2ee47d97fa501ca72d4e2c814",
+      "encodedBytes": 18256,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "celebrate",
+      "path": "skitty-celebrate.png",
+      "sha256": "0adf6cd05291be386bbe121b5d60943242ba4795918545b8e0bb255c460b8121",
+      "encodedBytes": 19524,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "rest-sleep",
+      "path": "skitty-rest-sleep.png",
+      "sha256": "bf9cb65635fc5724a9418e3074bdbe7b01a673992ac6f2b9a448204efc3c0049",
+      "encodedBytes": 11578,
+      "decodedRgbaBytes": 1179648
+    },
+    {
+      "speciesId": "pokemon-300",
+      "assetId": "character.pokemon-300.default.pixel-v2",
+      "clip": "interact",
+      "path": "skitty-interact.png",
+      "sha256": "b51a809a0329a9699b44df16c243e117cff113c339b240d322f7f7b8a3f28d4d",
+      "encodedBytes": 17563,
+      "decodedRgbaBytes": 1179648
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-onboarding",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "initialization",
+  "selectionOrder": [
+    "main-questions-with-conditional-followup",
+    "gender-result-column",
+    "nature-and-hero-result",
+    "partner-selection",
+    "partner-nickname-confirmation",
+    "opening-awakening-hero-name",
+    "butterfree-request",
+    "tiny-woods-first-player-turn"
+  ],
+  "stageOrder": [
+    "clear-new-game-records",
+    "create-level-one-roster",
+    "own-starter-friend-areas",
+    "consume-fresh-entry-guard",
+    "apply-tiny-woods-levels-two-to-five",
+    "fill-free-move-slots",
+    "project-full-dungeon-resources"
+  ],
+  "boost": {
+    "freshEntryOnly": true,
+    "initialConsumedFlag": false,
+    "setConsumedBeforeDungeonCheck": true,
+    "dungeonId": "tiny-woods",
+    "levelsApplied": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "repeatOnRetry": false,
+    "repeatOnResume": false,
+    "applyToAllExistingOnTeamMembers": true,
+    "hpCap": 999,
+    "otherStatCap": 255,
+    "sourcePredicate": "sub_80980A4",
+    "canonicalGuardId": null,
+    "evidenceId": "red-initialization"
+  },
+  "members": {
+    "iq": 1,
+    "tacticSourceSymbol": "TACTIC_LETS_GO_TOGETHER",
+    "canonicalTacticId": null,
+    "enabledIqSourceSymbols": [
+      "IQ_ITEM_CATCHER",
+      "IQ_COURSE_CHECKER",
+      "IQ_ITEM_MASTER"
+    ],
+    "canonicalEnabledIqIds": null,
+    "selfCurerEnabled": false,
+    "exists": true,
+    "onTeam": true,
+    "speciesSeen": true,
+    "heroIsLeader": true,
+    "partnerIsLeader": false,
+    "heldItemId": null,
+    "belly": 100,
+    "maximumBelly": 100,
+    "heroOriginSourceSymbol": "DUNGEON_JOIN_LOCATION_LEADER",
+    "partnerOriginSourceSymbol": "DUNGEON_JOIN_LOCATION_PARTNER",
+    "canonicalHeroOriginId": null,
+    "canonicalPartnerOriginId": null,
+    "evidenceId": "red-initialization"
+  },
+  "moves": {
+    "maximumSlots": 4,
+    "initialEntriesAtLevel": 1,
+    "appendLevels": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "preserveSourceOrder": true,
+    "appendToFirstFreeSlot": true,
+    "replaceWhenFull": false,
+    "rosterStoredPP": 0,
+    "dungeonFullPP": true,
+    "dungeonFullHP": true,
+    "ginsengBoost": 0,
+    "linkedToPrevious": false,
+    "setForShortcut": false,
+    "enabledForAI": true,
+    "evidenceId": "red-initialization"
+  },
+  "economy": {
+    "carriedItems": [],
+    "storedItems": [],
+    "carriedMoney": 0,
+    "bankSavings": 0,
+    "friendAreaOwnershipCost": 0,
+    "friendAreasFromSelectedPairOnly": true,
+    "friendAreaServiceAvailable": false,
+    "inventoryMenuAvailable": false,
+    "inventoryUnlockSourcePredicate": "QUEST_SET_TEAM_NAME",
+    "canonicalInventoryUnlockId": null,
+    "evidenceId": "red-initialization"
+  },
+  "party": {
+    "memberCount": 2,
+    "escortCount": 0,
+    "roles": [
+      "hero",
+      "partner"
+    ],
+    "leaderRole": "hero",
+    "inferLeaderFromArrayIndex": false,
+    "recruitmentEnabled": false,
+    "leaderChangeEnabled": false,
+    "evolutionEnabled": false,
+    "clientJoinsParty": false
+  },
+  "naming": {
+    "heroNamePlanSceneId": "opening-awakening",
+    "heroCustomNameRequired": false,
+    "partnerCustomNicknameRequired": false,
+    "partnerDefaultName": "selected-species-display-name",
+    "nicknameChangesScores": false,
+    "teamNamedBeforeRescue": false,
+    "teamNamePlanSceneId": "team-base-offer",
+    "inputRulesCanonicalId": null,
+    "evidenceId": "red-initialization"
+  },
+  "opening": {
+    "planSceneOrder": [
+      "opening-awakening",
+      "butterfree-request",
+      "caterpie-clearing",
+      "butterfree-reunion",
+      "team-base-offer",
+      "first-mail-delivery"
+    ],
+    "runtimeSceneIds": null,
+    "dungeonId": "tiny-woods",
+    "floorIds": [
+      "tiny-woods-floor-01",
+      "tiny-woods-floor-02",
+      "tiny-woods-floor-03"
+    ],
+    "initialFloorId": "tiny-woods-floor-01",
+    "targetSpeciesId": "pokemon-010",
+    "requesterSpeciesId": "pokemon-012",
+    "bossSpeciesId": null,
+    "terminalMapSourceSymbol": "MAP_TINY_WOODS_END",
+    "terminalMapSourceIndex": 179,
+    "terminalMapCanonicalId": null,
+    "terminalIsExplorationFloor": false,
+    "terminalDisplayedFloorLabel": null,
+    "completionOnFloorThreeEntry": false,
+    "completionRequiresRescueAcknowledgement": true,
+    "failureCompletesObjective": false,
+    "reunionRewardBeforeTeamNaming": true,
+    "firstMailKitAfterTeamNaming": true,
+    "rewardGrantCanonicalId": null,
+    "firstMailKitGrantCanonicalId": null,
+    "evidenceId": "red-initialization"
+  },
+  "integrationJoins": [
+    {
+      "field": "initialCampaign",
+      "canonicalId": null,
+      "owner": "P19/P22",
+      "requirement": "Accepted scene/cursor/actor/map/profile definitions before campaign creation"
+    },
+    {
+      "field": "iq-and-tactic",
+      "canonicalId": null,
+      "owner": "P17",
+      "requirement": "Normalize supported source symbols into accepted IQ/tactic IDs and behavior"
+    },
+    {
+      "field": "starter-origins",
+      "canonicalId": null,
+      "owner": "P17/P19",
+      "requirement": "Bind leader/partner join-location symbols to canonical origin definitions"
+    },
+    {
+      "field": "entry-guard",
+      "canonicalId": null,
+      "owner": "P19/P22",
+      "requirement": "Bind consumed initial boost state through failure and resume"
+    },
+    {
+      "field": "scene-and-grant-ids",
+      "canonicalId": null,
+      "owner": "P19/P22",
+      "requirement": "Bind ordered plan scenes, reward and later kit grants to accepted definitions"
+    },
+    {
+      "field": "names",
+      "canonicalId": null,
+      "owner": "P19",
+      "requirement": "Supply accepted name bounds, validation and correction policy"
+    },
+    {
+      "field": "quiz-rng-stream",
+      "canonicalId": null,
+      "owner": "P07/P19",
+      "requirement": "Select the accepted named stream and consume uint16 draws without native seed parity claims"
+    },
+    {
+      "field": "hidden-power",
+      "canonicalId": null,
+      "owner": "P17",
+      "requirement": "Provide actor-conversion parameters; no initial loadout uses Hidden Power"
+    }
+  ],
+  "evidenceId": "red-initialization"
+}

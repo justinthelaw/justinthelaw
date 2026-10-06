@@ -1,0 +1,1251 @@
+{
+  "repository": "pret/pmd-red",
+  "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "retrieved": "2026-10-05",
+  "qualification": "Red comparative numerical facts; UPC original Red+Blue field corroboration is separate",
+  "files": [
+    {
+      "path": "data/dungeon/Autopilot/floor_id.json",
+      "sha256": "099289b69bfa6e907d07515b6685be33adba3600b204698106b234993f5a53a1",
+      "bytes": 1947,
+      "gitBlobSha": "7c7662a4f2ff72c8a1079120b2ea0f32a52c84ed",
+      "sourceBytes": 1947,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/Boss3/floor_id.json",
+      "sha256": "d1e20b680eefdef6bf85a808a939acf8ff35f51725e19e7548342b02dffa6702",
+      "bytes": 3813,
+      "gitBlobSha": "8e9c4a55b84f4c0f8e6ef78f4b01d8ddf85b619f",
+      "sourceBytes": 3813,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/Boss3/pokemon_found.json",
+      "sha256": "57c03266547967780313cdf59b0f66b784e122723029248eb00ea4dcfe5a8598",
+      "bytes": 759,
+      "gitBlobSha": "0914a648ddc1a411ab522f94b93ae562ca85f02a",
+      "sourceBytes": 759,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/Boss4/floor_id.json",
+      "sha256": "b6be5d32dec485da45f595e9bd2df84752b36b0fc714703bb8c27ba3a028db4f",
+      "bytes": 2121,
+      "gitBlobSha": "8653db91640893affdb6ef84f482f4b30a4018d8",
+      "sourceBytes": 2121,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/Boss4/pokemon_found.json",
+      "sha256": "9c8d65554072f079654661eeb071a74adeae59c26470b2462556d44b7cd6e347",
+      "bytes": 9269,
+      "gitBlobSha": "9f9b747e9ee8590601a7a5ea80de48685ce6b75c",
+      "sourceBytes": 9269,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/Boss9/floor_id.json",
+      "sha256": "efe852f2758a4e8deb4d8dc9a0b2be1027524d6edb2d2a691102f83e435bc529",
+      "bytes": 2297,
+      "gitBlobSha": "1d7ed323b015a092af5b31c1c502b8c9da59dea4",
+      "sourceBytes": 2297,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/Boss9/pokemon_found.json",
+      "sha256": "b466b1553c75a25e9660051a8c01e29198fd791b0eb8aaaa8837e005007b36ad",
+      "bytes": 599,
+      "gitBlobSha": "096d59254e8912e3206e494ab5c1cfde60f46ff9",
+      "sourceBytes": 599,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/BuriedRelic/floor_id.json",
+      "sha256": "61e753125984c81cb260dc3a245406fe32641a18ebd9c413cf31dbe3e620fdab",
+      "bytes": 18644,
+      "gitBlobSha": "5eeffe3f6ce1d25bc5995131c2d3642c837631b1",
+      "sourceBytes": 18644,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/BuriedRelic/pokemon_found.json",
+      "sha256": "fd676cdd7deb0688e0717740837bd5dc5ae01d51dedcf78376ce999f5443336d",
+      "bytes": 44488,
+      "gitBlobSha": "bf8ae596e9d0f36a290d1e449042c43d1261c519",
+      "sourceBytes": 44488,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/D50/floor_id.json",
+      "sha256": "946642e7869d4b3447a138bc1c5e1c8cf1916153b5f87aa0ec442a356f79af11",
+      "bytes": 427,
+      "gitBlobSha": "6f23a99c4cfc8d464f73983632c615dcd0a07e70",
+      "sourceBytes": 427,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/D51/floor_id.json",
+      "sha256": "d7ce65e707b31d40b41c10c8493b83eb9faefd003e49da84489c952ee37972e6",
+      "bytes": 9451,
+      "gitBlobSha": "6c6740012803a756ca36fc99f8fb4f4a92fe68b1",
+      "sourceBytes": 9451,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/D51/pokemon_found.json",
+      "sha256": "e9740f3827e3a0a357581e27f1a57c00dedc41de0c8253ba28c0f729aec6dc81",
+      "bytes": 25246,
+      "gitBlobSha": "5d4702189f525c602acb2f5c32cfb66856767d2a",
+      "sourceBytes": 25246,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/D54/floor_id.json",
+      "sha256": "16ebea60a12e21a9fd7ccdde868d454e2f21dbb782a3d63048ff9d983bd03663",
+      "bytes": 5661,
+      "gitBlobSha": "df03c60246ec4004269bb1f6f4b63362f0f8d6b1",
+      "sourceBytes": 5661,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/D61/floor_id.json",
+      "sha256": "d3944f8cca2169088b928e1181513ea72efb1bcf58ae714e5d96eb4e64514b94",
+      "bytes": 18663,
+      "gitBlobSha": "885165e99260c28d9e006d266d6f8824f8267ece",
+      "sourceBytes": 18663,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/D61/pokemon_found.json",
+      "sha256": "ec3774c80c31964e566a46a8e891d3fc90a82c188a9bad2bb878082f1a81c3f6",
+      "bytes": 26940,
+      "gitBlobSha": "61d7da52a7403b100a3f173cceced1d2edf5fd93",
+      "sourceBytes": 26940,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/D63/floor_id.json",
+      "sha256": "41890ff3bd41209cf62c64840488383b1c9ccf1c4d2de77eb23b2244fdf6392f",
+      "bytes": 243,
+      "gitBlobSha": "0f6bd5d6231a33376f94d5fd50678679e8829536",
+      "sourceBytes": 243,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/DarknightRelic/floor_id.json",
+      "sha256": "6d7c4f9de80981e032f5565514508b9927b16a8dc48679fa790e304e642f1933",
+      "bytes": 2927,
+      "gitBlobSha": "5d9bbc2608359bb7b3e899b64225acda0657bed4",
+      "sourceBytes": 2927,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/DarknightRelic/pokemon_found.json",
+      "sha256": "e4de43e73c88f6acf8339f322a9cb64bede06c730307e48c41d85784510d645b",
+      "bytes": 6140,
+      "gitBlobSha": "bdf97e5d2ad5524149ae723d97ca7132dd1f1408",
+      "sourceBytes": 6140,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/DesertRegion/floor_id.json",
+      "sha256": "cc8f812a785971d191e325279ab9e6e37b1357cde0cb98a67534d63940c43713",
+      "bytes": 3840,
+      "gitBlobSha": "862ab4bbf8bb988a59b096d47609f6fb7f45e9be",
+      "sourceBytes": 3840,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/DesertRegion/pokemon_found.json",
+      "sha256": "11ca9d82749f26d19962d6a0bf87e78fc1048ed802793441b7561d2f806ee690",
+      "bytes": 5646,
+      "gitBlobSha": "3eec8bd64f70cc48be7df057079b2048b96ef627",
+      "sourceBytes": 5646,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/DojoRegistration/floor_id.json",
+      "sha256": "1ca7927770d4a48c88bc0b0faabc4e34664336df509dba614dbae15315ddd5a9",
+      "bytes": 13036,
+      "gitBlobSha": "3fc17d14aeffae1392c9e9c6edf3bc9fb96a2f4e",
+      "sourceBytes": 13036,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/DojoRegistration/pokemon_found.json",
+      "sha256": "4416cfa2030e7d199515b1bbc1cf0a20c2a162d5a1f5d8b2aead33cf1d2e1156",
+      "bytes": 30323,
+      "gitBlobSha": "5cb610821ca3bbe7831b1f299b6e7dbf76913729",
+      "sourceBytes": 30323,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FantasyStrait/floor_id.json",
+      "sha256": "89ef178fc541e4c31bbf9279c7084a0d0a36f16802a468014d76387c8f773dbb",
+      "bytes": 5731,
+      "gitBlobSha": "38b8b3e97e3a5f2c08764f2a1d1cb47234e6e811",
+      "sourceBytes": 5731,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FantasyStrait/pokemon_found.json",
+      "sha256": "3d2f760c9c14226c35edd2242d1e093401fb965c24f4517646e48d776597e1d2",
+      "bytes": 16581,
+      "gitBlobSha": "6e31ef14a74eeee24ba136224cf4e19e8e7ffa8f",
+      "sourceBytes": 16581,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FantasyStraitAlt/floor_id.json",
+      "sha256": "cf0e4f25c9925660960374c83482d6a2e653c6eaa1c022729f8d94d19f6acb05",
+      "bytes": 3617,
+      "gitBlobSha": "b3a4e2ddae75951d38522ca50cb33012e70e0dc5",
+      "sourceBytes": 3617,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FaroffSea/floor_id.json",
+      "sha256": "342a60dce4d784659422c98b353f35b7f23e827156eb16e170a16596b7fbd01d",
+      "bytes": 14157,
+      "gitBlobSha": "88532742cebacd77fe56b251558f9b491212824c",
+      "sourceBytes": 14157,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FaroffSea/pokemon_found.json",
+      "sha256": "b0731de620fdafe14f05578a804d421917cdc0bbb02ea0b918d07e9b54f5d7a9",
+      "bytes": 26691,
+      "gitBlobSha": "3226c3e052307e96a8af5f2b4e1e4ebc7dcd97b9",
+      "sourceBytes": 26691,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FieryField/floor_id.json",
+      "sha256": "85942b11a6f599411654371fabf4d5d482294ce667662ecf31b35ba8527e9bc6",
+      "bytes": 5728,
+      "gitBlobSha": "b3b2c00c016130454c0f1c7f8f40acfcb149ed0e",
+      "sourceBytes": 5728,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FieryField/pokemon_found.json",
+      "sha256": "17db184a3b76520f918dcedffc827d143d7b306107f24489c5bbab95ba6b7b85",
+      "bytes": 15302,
+      "gitBlobSha": "bfbc18e3cb712b271b0487548cdce3f2efc0f18e",
+      "sourceBytes": 15302,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FrostyForest/floor_id.json",
+      "sha256": "22cecd5b3e0a90ef25ff6ae8f7d2850db3918a766c94bcdbbd2d30e08c246ebc",
+      "bytes": 1718,
+      "gitBlobSha": "9e907aaff6987b64c641ffb49cb8b1cdc1b7fc83",
+      "sourceBytes": 1718,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FrostyForest/main_data.inc",
+      "sha256": "906254da0872f62bb236988857cc55e4b6b0b66da5cf571ea993e99592c4974c",
+      "bytes": 1557,
+      "gitBlobSha": "614c48176b4111ff97f28959fd0182ca6700bcd7",
+      "sourceBytes": 1557,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FrostyForest/pokemon_found.json",
+      "sha256": "96821e0b7593b7ce3d276bb3e4c6e00fb1926fc33a36746c8be4346544c38cde",
+      "bytes": 3246,
+      "gitBlobSha": "db2f767f13110f405c2b6bf73f3c745deeda2906",
+      "sourceBytes": 3246,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FrostyGrotto/floor_id.json",
+      "sha256": "dc234a9b6e65b7b6e94e1d5c5fd653d38def0853767ff838a572d10a4040c81f",
+      "bytes": 985,
+      "gitBlobSha": "2b8c806cf310597b2cc630b9522c85268f019521",
+      "sourceBytes": 985,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FrostyGrotto/main_data.inc",
+      "sha256": "b29a37c18cb5baf9a4c79b0a308210480c6836883a6ae414721366cf1265f1f8",
+      "bytes": 873,
+      "gitBlobSha": "4dc2c4978ae5b7f295e8de785bada2d5a322bbb9",
+      "sourceBytes": 873,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/FrostyGrotto/pokemon_found.json",
+      "sha256": "67602bfbd251c0371a56e6d255d21a00d1a06e5f2fff26be550c5a9f362f87fc",
+      "bytes": 784,
+      "gitBlobSha": "6bd5c4642f6f48924046fe1ef46f166f9d4a2b53",
+      "sourceBytes": 784,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/GrandSea/floor_id.json",
+      "sha256": "3ffb7a98f759efed5c2a9e8e7c25e59e55239f773cd8769bd1d27733f47946db",
+      "bytes": 5692,
+      "gitBlobSha": "a69fa5c9aac57ad9a77d667f4e63da98390ef46b",
+      "sourceBytes": 5692,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/GrandSea/pokemon_found.json",
+      "sha256": "5868554dda5291b8669bec4be712797bc3decb8fc8379bfffc292f739e485394",
+      "bytes": 17312,
+      "gitBlobSha": "2b6901a947725c84c9cb3c48374343c2289d7b21",
+      "sourceBytes": 17312,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/GreatCanyon/floor_id.json",
+      "sha256": "da23968aba80a91977aab5f9da4054c096be1d01db4c035706b1a5d9515c5384",
+      "bytes": 2267,
+      "gitBlobSha": "2e30d01c15eab52f5312abf6105065fb83aace7f",
+      "sourceBytes": 2267,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/GreatCanyon/main_data.inc",
+      "sha256": "b302785cb09a441012fc0168385a90311e6e8e1e93aa470bcbd17b3e5c89c972",
+      "bytes": 2076,
+      "gitBlobSha": "6c60315005ee1b814d56d49641b37afe4bbbd705",
+      "sourceBytes": 2076,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/GreatCanyon/pokemon_found.json",
+      "sha256": "25ac24098a6b52edab258a61634cd50e061c86eeac504a51c1b81b46ecfd76a8",
+      "bytes": 4796,
+      "gitBlobSha": "5ebec7d8cfc8777a4af2108817f19de368025279",
+      "sourceBytes": 4796,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/HowlingForest/floor_id.json",
+      "sha256": "e8c57a0c1b90af1f3738768e4faa2fa720666db10ce5a24fa816c36d78fa5611",
+      "bytes": 2881,
+      "gitBlobSha": "e24db95b74f97b0d388f02a5a45f264eb280f69a",
+      "sourceBytes": 2881,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/HowlingForest/pokemon_found.json",
+      "sha256": "97e0a6e9fc8b11d58f262757d23e4c245eaa1f3f010f0db9cb5e4f883779b2b9",
+      "bytes": 11487,
+      "gitBlobSha": "4f626592d43861964ffde66060a3684fdfbef802",
+      "sourceBytes": 11487,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/JoyousTower/floor_id.json",
+      "sha256": "c902cc64f9da19da55b2a861cd9a3a01d8e33a83477235d92646a36f16798575",
+      "bytes": 19136,
+      "gitBlobSha": "7dfa4e1cd1b98b6b6de645c97d99ccd817630c4f",
+      "sourceBytes": 19136,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/JoyousTower/pokemon_found.json",
+      "sha256": "4aabdfca9ca35ebb5fa5f0e5ad800d46d6f8f127da381146df8674137434205c",
+      "bytes": 107165,
+      "gitBlobSha": "39fc98a2bdc9ff9bb739f581e1d7dda114ebc105",
+      "sourceBytes": 107165,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/LapisCave/floor_id.json",
+      "sha256": "c584dcedc9d444f38ee879663ab634eab1fccb34bb18d030192284d21519c1cc",
+      "bytes": 2619,
+      "gitBlobSha": "9ea5acaa54f35f15c98c8ae04666696c8c7fd2ca",
+      "sourceBytes": 2619,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/LapisCave/main_data.inc",
+      "sha256": "60ba03e86e4c20efd22bf3166657033f6987e3528a9f7c620c6171c23b9f691e",
+      "bytes": 2422,
+      "gitBlobSha": "634b70ac67b4e74f9ed8c05b4eb9e70557447ce3",
+      "sourceBytes": 2422,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/LapisCave/pokemon_found.json",
+      "sha256": "0bf4145c66f6b1f4a5d36d6e0646957bade7cf22312a51647e52c780948cfbaa",
+      "bytes": 2923,
+      "gitBlobSha": "82c5224f82b9b4c22053c6b04a8858f2cf497cc5",
+      "sourceBytes": 2923,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/LightningField/floor_id.json",
+      "sha256": "624663e92a981965d6ee5e5179bf967ee57e549b4be645d9a5d06fb5ead3928e",
+      "bytes": 5762,
+      "gitBlobSha": "3cb8074ff5fd9e0e7d713d17a7aa16e495a0865c",
+      "sourceBytes": 5762,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/LightningField/pokemon_found.json",
+      "sha256": "840680dc4cdb2f0e1469941b693248baadb53aadae5c2fd842f65212283a1de4",
+      "bytes": 19700,
+      "gitBlobSha": "dd42981bb2a58a3d98c061645fb79aeecbc15538",
+      "sourceBytes": 19700,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MagmaCavern/floor_id.json",
+      "sha256": "00160a83588a4c06e7cb5aac7716e899c65b6e9b912dee8946bad45b09b6a157",
+      "bytes": 4314,
+      "gitBlobSha": "23dcfdd8c6d191d8712f6ca686f7fc1503bcb6e3",
+      "sourceBytes": 4314,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MagmaCavern/main_data.inc",
+      "sha256": "df2e3053cc2b50515203a1711bc9f8048b7d23ab692439ccf2f77dce135c731c",
+      "bytes": 3979,
+      "gitBlobSha": "a1cae1e03916ab08eab08664527cfb8da5485365",
+      "sourceBytes": 3979,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MagmaCavern/pokemon_found.json",
+      "sha256": "a397818374f7a99535a834e5f3f73e82bee890061c69a1cc75e9efc8ac852c42",
+      "bytes": 14116,
+      "gitBlobSha": "5c55c64d7e01dc9188c31be1899b6ed0dccafb27",
+      "sourceBytes": 14116,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MagmaCavernPit/floor_id.json",
+      "sha256": "c38e1f7d387b2efbbc30531a00ae16e33ba43affccb1766a651eab79864e403d",
+      "bytes": 617,
+      "gitBlobSha": "837d1d196a6f8d17052b7942c7ba26883c3cf908",
+      "sourceBytes": 617,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MagmaCavernPit/main_data.inc",
+      "sha256": "330dbbeb4029092645591e34c214f0aeacb7fb0b6beacd4628d071665ef18163",
+      "bytes": 519,
+      "gitBlobSha": "ea0f9ecb06a3eabc85612895961f1f3ca98028c8",
+      "sourceBytes": 519,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MagmaCavernPit/pokemon_found.json",
+      "sha256": "6e51fb510c95ea7c0926dd725f12e3928b32457d8432244e18b93eee9d5b675c",
+      "bytes": 2578,
+      "gitBlobSha": "c1b120a7a5f00c11bc0d6ee46f1310f3ee495f91",
+      "sourceBytes": 2578,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MarvelousSea/floor_id.json",
+      "sha256": "3b3b449b22677a2a7d5a51a3bf115ce733809ddc82f0fcd65dc1d0ade89edd09",
+      "bytes": 3840,
+      "gitBlobSha": "ffd84e42274fe50a7ec82a1bebfd49a7008f1df0",
+      "sourceBytes": 3840,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MarvelousSea/pokemon_found.json",
+      "sha256": "e32b424736d250474117e60061c95c28524edcc5d7ad66adb5c87939bf155eda",
+      "bytes": 7440,
+      "gitBlobSha": "0fcbf233032c02006bc82d4b720aac63db2fe9c1",
+      "sourceBytes": 7440,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MeteorCave/floor_id.json",
+      "sha256": "baa1b96c669074963dd3760e904672e77ac3e776aaab87836256fb075dc32c56",
+      "bytes": 3798,
+      "gitBlobSha": "7a5dc81679c899b2b63cee63c99b78db2bc9260c",
+      "sourceBytes": 3798,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MeteorCave/main_data.inc",
+      "sha256": "357e8d1b7c70a1f4cc82cb123ebe847814574f8a1f4f948e1ae9f69e6a7266c6",
+      "bytes": 3461,
+      "gitBlobSha": "19232f69c5dc9ade0113a91f7e5948eb809a0e87",
+      "sourceBytes": 3461,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MeteorCave/pokemon_found.json",
+      "sha256": "7479ca333b29708bcc290b8153b364432a7993a1952ec5115dfad6ea1ff2f23c",
+      "bytes": 2014,
+      "gitBlobSha": "9dcec663f142ab97843df3c80ea7a09b475ee2f8",
+      "sourceBytes": 2014,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtBlaze/floor_id.json",
+      "sha256": "59f907ed7a46ecbc1ba6789afa41761fddae6a3c7ab821137120e78b24499ea8",
+      "bytes": 2251,
+      "gitBlobSha": "6c6cc42315ca305ae9d28eba16ed14017a9efb3d",
+      "sourceBytes": 2251,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtBlaze/main_data.inc",
+      "sha256": "a67ed524e8f582f9873a091cf4c55afd7655058e17a9f62759dbaa461a9fd6df",
+      "bytes": 2076,
+      "gitBlobSha": "e35d75c5afdba09cf5f0155ceaec34c94324ab7e",
+      "sourceBytes": 2076,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtBlaze/pokemon_found.json",
+      "sha256": "3e5a668e74daa6300d1c25bb16d75a68ffed26ca0eaf8aaded0ceea1b4a22660",
+      "bytes": 3670,
+      "gitBlobSha": "8f528b1dc421c8043a1c5c4e53037c1244987134",
+      "sourceBytes": 3670,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtBlazePeak/floor_id.json",
+      "sha256": "df6e8e6f79da08f20736b2df800fcf8a6e5375b9ed96557705897fce72190d71",
+      "bytes": 608,
+      "gitBlobSha": "e21fe805306e734006714340b16ba14757a3615d",
+      "sourceBytes": 608,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtBlazePeak/main_data.inc",
+      "sha256": "05de5e670b91520e2ca213b7d0910680a4d9568a08ff5ba3248749f2bb11bb08",
+      "bytes": 527,
+      "gitBlobSha": "c709a95afc6b9546f9f22a558b3bb5786400ae84",
+      "sourceBytes": 527,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtBlazePeak/pokemon_found.json",
+      "sha256": "cf85b013ded32c38c5068c282cb6baae4ab5a6932bd73d8c2c741adb6a4f938b",
+      "bytes": 741,
+      "gitBlobSha": "50a7cd605f4726e966ca9640bf8338dd18f2482a",
+      "sourceBytes": 741,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtFaraway/floor_id.json",
+      "sha256": "bf2ee77fa0c0bd07afcce85919da100396eddcdd22a4910f08a4aade58c991c5",
+      "bytes": 7718,
+      "gitBlobSha": "5ab910341069eb3f0681e67c3eddabfd7c7caf29",
+      "sourceBytes": 7718,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtFaraway/pokemon_found.json",
+      "sha256": "58e9e04a2207c4dcf85a5a3ae1ddc3afe99559487c12080e0aa1e3f9b47ce22a",
+      "bytes": 12240,
+      "gitBlobSha": "370200c171f0e9831d4a8e4e84df64bad62b134b",
+      "sourceBytes": 12240,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtFreeze/floor_id.json",
+      "sha256": "3639de16a44c7b2422e390f3fe97a1b5d61bb73921e1be00314ffa27e2bde178",
+      "bytes": 2831,
+      "gitBlobSha": "9fc3948d8f966c51e36df0a33c8fbfd837cc5700",
+      "sourceBytes": 2831,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtFreeze/main_data.inc",
+      "sha256": "22f81a257283ecfe9e0460a9e6b76e9109e4fde2fd3d32bbe547849be127c297",
+      "bytes": 2595,
+      "gitBlobSha": "3dba0e301cf03c15019efd3767b6b1d639fe3602",
+      "sourceBytes": 2595,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtFreeze/pokemon_found.json",
+      "sha256": "6f5b84863141a001f5c9e9df479497e0b5e40bd9fa3e58ca474dcb009186aad7",
+      "bytes": 3585,
+      "gitBlobSha": "462e187d91c3feb56181f5554282acaba47b3005",
+      "sourceBytes": 3585,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtFreezePeak/floor_id.json",
+      "sha256": "d75f2ff5d9024639122b75220aaf7f6208e5420bb9cb561b0123de8f0cc80f92",
+      "bytes": 985,
+      "gitBlobSha": "31275ad3a2b0a56c3e581c66a8543b8fb991a032",
+      "sourceBytes": 985,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtFreezePeak/main_data.inc",
+      "sha256": "69ccdb1c7b4953828ef7f1914bcf54a15b89fb63e236d01895c83651b34d481d",
+      "bytes": 873,
+      "gitBlobSha": "3da3d6ce34e4062e28d41a3fbbbc1899e6b54b2f",
+      "sourceBytes": 873,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtFreezePeak/pokemon_found.json",
+      "sha256": "9454b7c6eb8ff99f8c05d9333837894465f7b834289fa28bdac5da9a6575e4a1",
+      "bytes": 893,
+      "gitBlobSha": "46a088143707b83d0971f5cb9b92168e04b72ab7",
+      "sourceBytes": 893,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtFreezePeakAlt/floor_id.json",
+      "sha256": "22526558e08f7299c72f63ce451f6bf9fc1316824aec058c5aab4cb9e6adb3f1",
+      "bytes": 807,
+      "gitBlobSha": "03836e0eadac82b77dec27ad1fc7fdd8369ec3cf",
+      "sourceBytes": 807,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtFreezePeakAlt/main_data.inc",
+      "sha256": "6cdfab7f319ae2038f29b0329e9b1e6773798444925270b23f7938438c16dcb3",
+      "bytes": 693,
+      "gitBlobSha": "e414fa67d8f8ac94e9edcf01ab1873c9d1538d3a",
+      "sourceBytes": 693,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtSteel/floor_id.json",
+      "sha256": "18c68e321ec1a389b07aac4b53830ef7e8b1cf1f9fad59d3d439f0e5a6bc05f7",
+      "bytes": 2009,
+      "gitBlobSha": "986c5f3d7338c7c7ab672e3cfbc2ab5b7b189680",
+      "sourceBytes": 2009,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtSteel/main_data.inc",
+      "sha256": "a9a4c8bee6f84e2b5c6df8e63b30aa7a3b5219e4d4f296d90037a40c7525b61e",
+      "bytes": 1559,
+      "gitBlobSha": "51ec7b2daa93ca4d6052cd13ae3b20f192ff28a2",
+      "sourceBytes": 1559,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtSteel/pokemon_found.json",
+      "sha256": "ce95685bb964fa5c93d9facd03a47192f5c9c7526ec3bff8c25da8a6401e5d10",
+      "bytes": 3120,
+      "gitBlobSha": "5e62f5f1e88438e1871692fac32418cd86a629c2",
+      "sourceBytes": 3120,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtThunder/floor_id.json",
+      "sha256": "50f6c276097dc6e886ef5f3ab1ea40941d7014115becf1abbb7a5009055c07c8",
+      "bytes": 1887,
+      "gitBlobSha": "db527458ddf46a256bb371cc58b299bea81d23ba",
+      "sourceBytes": 1887,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtThunder/main_data.inc",
+      "sha256": "b78b81be8f975803fd24408dc0497179034320f3792f2ee61002bcefb7f9f299",
+      "bytes": 1730,
+      "gitBlobSha": "64b620403b7305bba80678bdb2c7d59af4ce471e",
+      "sourceBytes": 1730,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtThunder/pokemon_found.json",
+      "sha256": "72d6044ad2768102b6a50c2600da37e559a829fcc8057fea682732893c5a0249",
+      "bytes": 5125,
+      "gitBlobSha": "45243d6a901a833680ff86a6001d7d04a290dbc2",
+      "sourceBytes": 5125,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtThunderPeak/floor_id.json",
+      "sha256": "6191ef3c51db7f3941adbe42b7001b49452d7ee987f1a3721eff24f2d89ea4f2",
+      "bytes": 611,
+      "gitBlobSha": "6e39e107a8ecfd02d3b96b6427ec2f46574221f2",
+      "sourceBytes": 611,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtThunderPeak/main_data.inc",
+      "sha256": "c82bef1fa05cb43ec95bd3d1d496f5468c31c4d544934a5c1a814252fb5cd9c2",
+      "bytes": 519,
+      "gitBlobSha": "abc386d93df129e631b62e7e2460dfb37177ff59",
+      "sourceBytes": 519,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MtThunderPeak/pokemon_found.json",
+      "sha256": "165efd8f55d2cb5eb493d3b4e5802a56fd597a9f972b7b4851ee63c022efc9b4",
+      "bytes": 983,
+      "gitBlobSha": "c2cdacf5ce51c5091f3a3dc96f5901549ac0b23f",
+      "sourceBytes": 983,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MurkyCave/floor_id.json",
+      "sha256": "67783f531cd221b9a2331b351a1257879cd0fe26d4285422708cf4158c168412",
+      "bytes": 3648,
+      "gitBlobSha": "1dfc130c94245dd773fc34a40c76555b8a6ad003",
+      "sourceBytes": 3648,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/MurkyCave/pokemon_found.json",
+      "sha256": "0eb88ad3f11f5e972b99c7cc3a629a8de606bf06ffd9fdc77b09946fd10b85ff",
+      "bytes": 12089,
+      "gitBlobSha": "5d9ddb0a1bc9e1d5a88da91d279a5b5afc99d401",
+      "sourceBytes": 12089,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/NorthernRange/floor_id.json",
+      "sha256": "f62738640acee0cf7bff4f2607bd5d93f4b7fda1d7f4835c7325965f1bd1896b",
+      "bytes": 4736,
+      "gitBlobSha": "27ca365e4827de5a41f52ea618aafe33fb2f959e",
+      "sourceBytes": 4736,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/NorthernRange/pokemon_found.json",
+      "sha256": "df8a8aa1b600b36e6f5938dac34713ea9fbc653fedb1b4ba0c8ab43eae655714",
+      "bytes": 12566,
+      "gitBlobSha": "f2632cf63e2dcd89d30fa0ba7d8437339b68ad0a",
+      "sourceBytes": 12566,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/NorthwindField/floor_id.json",
+      "sha256": "38e067783590bd58235c830a874f8bfbbaab2f1fc752192ac84da44617e45b13",
+      "bytes": 5762,
+      "gitBlobSha": "e5a2481088f37ac9e600314d6d95a651d272c8af",
+      "sourceBytes": 5762,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/NorthwindField/pokemon_found.json",
+      "sha256": "feb42fcb6681f030c6f0e68bd5c12d9aa7c97366fc1130b74c78c91f4fd5b0bb",
+      "bytes": 17111,
+      "gitBlobSha": "16e7316d5a9f02bb7dd93e47a3157d5172418360",
+      "sourceBytes": 17111,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/OddityCave/floor_id.json",
+      "sha256": "97d67762e2cca0ae63983d8ff8e36c94b80b0c49de09ed3052e22277c738ffe8",
+      "bytes": 2913,
+      "gitBlobSha": "3c6b0ead893e7f1acc344ebc44209e771cc7f334",
+      "sourceBytes": 2913,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/OddityCave/pokemon_found.json",
+      "sha256": "bd197a4d823bb22fc593105223113b01414b407d08e4740f49f50d21cdd0f654",
+      "bytes": 11220,
+      "gitBlobSha": "5c069e8f9335ad942c98ba647c8fff4b41a73962",
+      "sourceBytes": 11220,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/PitfallValley/floor_id.json",
+      "sha256": "e98a9e020a4a07595878c4ecde4fb6845e0d64c25d6d70c49415a972d9345cb3",
+      "bytes": 4736,
+      "gitBlobSha": "0b06593a341d081bb3ddce8de24bb5ff6ae8f720",
+      "sourceBytes": 4736,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/PitfallValley/pokemon_found.json",
+      "sha256": "dacd852eaa0b1977957a941df8b7205a29e5ac509988bcc945431315637232f4",
+      "bytes": 10815,
+      "gitBlobSha": "6736b7dffed1413693c551da319c93ce7dd5f2b2",
+      "sourceBytes": 10815,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/PurityForest/floor_id.json",
+      "sha256": "19f1a968a88bfafc7a3bae280c0c8a0b3dad553d1213a2a9e6a811da58f45ed4",
+      "bytes": 19248,
+      "gitBlobSha": "17cfa6b4c99ea12f3b8050de7425c9e9e6c97c02",
+      "sourceBytes": 19248,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/PurityForest/pokemon_found.json",
+      "sha256": "06bd245769cfafa79dd35effaffbf30cc78c2ffd6d158406d686063ba0fcac54",
+      "bytes": 130347,
+      "gitBlobSha": "436a3ef7283d64b0069ecb4281bd2a7599ee3665",
+      "sourceBytes": 130347,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/RemainsIsland/floor_id.json",
+      "sha256": "b85f876c1a257ccb4e2b54f6017f61d92e4074eecde879c9923174e6595d4c08",
+      "bytes": 3881,
+      "gitBlobSha": "62383f7fced5dbd47b33363d62eb2f7a656e453f",
+      "sourceBytes": 3881,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/RemainsIsland/pokemon_found.json",
+      "sha256": "3c6beadbeef0b567226dadace056fd5bd83a83762eef74ea42dc5d1ab6b96449",
+      "bytes": 14099,
+      "gitBlobSha": "2538db91ccc04cb10e6459840b6c8b8dbf9ab0d0",
+      "sourceBytes": 14099,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/RockPath/floor_id.json",
+      "sha256": "5aeed27b331c12e51076a71f08489199bd96ba8af53c06bf27d534edede30cb9",
+      "bytes": 808,
+      "gitBlobSha": "6c8aed9dfcd176811c65a142761cd5a8fd4487fb",
+      "sourceBytes": 808,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/RockPath/pokemon_found.json",
+      "sha256": "7208acdf7e671fd55de623ce08b2496d01c9a8e9ec3c308cc6a2679fb51052a6",
+      "bytes": 1238,
+      "gitBlobSha": "f4c7bb256775d94e93e7f5ec4b3c88e954c17876",
+      "sourceBytes": 1238,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SilentChasm/floor_id.json",
+      "sha256": "0c8692296eebd3ecf07d37662e15ef175b6dcc0c8c88961fb91f4ea3c1b7b359",
+      "bytes": 1706,
+      "gitBlobSha": "4f90018e2fe5f2b1de168eb5cfc8f37ecb8d3db9",
+      "sourceBytes": 1706,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SilentChasm/main_data.inc",
+      "sha256": "4ae7bf05026f3713f3bd32232b051598fd3143d572951f014c501a2a82857c10",
+      "bytes": 1557,
+      "gitBlobSha": "71aa254104b6f0de00b527d272d582db462aa382",
+      "sourceBytes": 1557,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SilentChasm/pokemon_found.json",
+      "sha256": "0539d0b50ae224b9492c3d1d80f4cc99a4b6024923a4590f1c6943a4a148826e",
+      "bytes": 5327,
+      "gitBlobSha": "3bf2e01029e0bfdc66d97f4bfa9721f5cc48d347",
+      "sourceBytes": 5327,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SilverTrench/floor_id.json",
+      "sha256": "264d46bef36746f9243098f4380a3c996f7942a387e9babd3c83698e63892bb4",
+      "bytes": 18474,
+      "gitBlobSha": "18be825b7fac984624af4324ca367bf75dc8eb07",
+      "sourceBytes": 18474,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SilverTrench/main_data.inc",
+      "sha256": "d773259eb21f682488bc8d29ddae75f69d7fe768d639c153d028f0c0fab5d717",
+      "bytes": 17128,
+      "gitBlobSha": "8530a4d2f4fe0187dd9a8eef237ddef7fc64207d",
+      "sourceBytes": 17128,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SilverTrench/pokemon_found.json",
+      "sha256": "45c851a5452540e508ef3366988db08fe659e8ade9b174854f2ada2e7913f0e3",
+      "bytes": 39812,
+      "gitBlobSha": "12137fa97102152e18e877915802a0f5fd54d8cb",
+      "sourceBytes": 39812,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SinisterWoods/floor_id.json",
+      "sha256": "eda015601b93b676ddb6e5076527f1d5a3430e6861dcf555ea7fc675481f0429",
+      "bytes": 2440,
+      "gitBlobSha": "ca7f97f171c65173ac6a2eb888d83e7fc778d417",
+      "sourceBytes": 2440,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SinisterWoods/main_data.inc",
+      "sha256": "a43588ea68d2c844805a4f8e01e64456a4bbbe1e177f79a0c0012ff20015d15d",
+      "bytes": 2250,
+      "gitBlobSha": "3cd2cea39307c028c87351f3358f908b76d5b453",
+      "sourceBytes": 2250,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SinisterWoods/pokemon_found.json",
+      "sha256": "73c9b828f114b5f47eaf312dbd0148236c1999a6ea5c83a7ca6ff801d8fb499d",
+      "bytes": 7676,
+      "gitBlobSha": "d72f543264889584cb9d1cf36d33a22d0a62758d",
+      "sourceBytes": 7676,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SkyTower/floor_id.json",
+      "sha256": "d496d1bd82dc86f3b52395f96f3f0d915517e4012661626130e1c118bf77717e",
+      "bytes": 4698,
+      "gitBlobSha": "e1bbcd06b53824cafa92ae0d75adf91a5046cb75",
+      "sourceBytes": 4698,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SkyTower/main_data.inc",
+      "sha256": "f945d9fc5c5dca0e62bd26afd55bbde6e90a5cc74bf9bb23feb23df6a5bf6cc6",
+      "bytes": 4325,
+      "gitBlobSha": "8843c39207557278c7577a80b4ed15998544e753",
+      "sourceBytes": 4325,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SkyTower/pokemon_found.json",
+      "sha256": "c471ab8ae8d4ecdf745772f20a9373a3b94f536e5f8ffd0d5951bdfb93f7b273",
+      "bytes": 17120,
+      "gitBlobSha": "cb6b0e6e49aedd6013167d05c11fd7e59b0b270d",
+      "sourceBytes": 17120,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SkyTowerSummit/floor_id.json",
+      "sha256": "90327199c2534c1cfe8a55a7c9978e14039a3245cfcafd647f7cd45ff397f558",
+      "bytes": 1727,
+      "gitBlobSha": "88f70427f3af071272a01ddbf0588c01eb312a0a",
+      "sourceBytes": 1727,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SkyTowerSummit/main_data.inc",
+      "sha256": "e2b2c48cf87fbd95cea120bc51e0b92b2b4415ac210de13812802d4f1cfc2834",
+      "bytes": 1557,
+      "gitBlobSha": "e1bbe6afb78178ffbc3dd4c5813372f182468c2c",
+      "sourceBytes": 1557,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SkyTowerSummit/pokemon_found.json",
+      "sha256": "e70bd0f27ab8436427d57501d563b4e809c6e8fb2cfd0f85185a3ec9eb307924",
+      "bytes": 2335,
+      "gitBlobSha": "430f01bdd866e7ae1fb4108843c69c08e4179a6f",
+      "sourceBytes": 2335,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SnowPath/floor_id.json",
+      "sha256": "c8aeb87c6e9d157f333e549d73944dfda04ba134620f6cf3a6d5fa9a643cc81d",
+      "bytes": 808,
+      "gitBlobSha": "e7c8b2370a8a1366d8a0b85d2a310ab443350b0f",
+      "sourceBytes": 808,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SnowPath/pokemon_found.json",
+      "sha256": "a3c16402c7bc8240a54c9905a2424d5773d6b80fe9d36e9d03d1a40550d6d889",
+      "bytes": 3593,
+      "gitBlobSha": "96e2a71ffaa1bee315f012469a81cc87c443aa06",
+      "sourceBytes": 3593,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SolarCave/floor_id.json",
+      "sha256": "64618efc7c9d7f19763568b59c0cd72ae3ae8a062d4d46acf873149a25baab13",
+      "bytes": 3817,
+      "gitBlobSha": "b742d12dd4377a90c5042670000401778e447839",
+      "sourceBytes": 3817,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SolarCave/pokemon_found.json",
+      "sha256": "733757704b3473b71a9f22ab470dd16bd775ad32dd6cd11e60b24cec13236c46",
+      "bytes": 19007,
+      "gitBlobSha": "58767e5bbeba7380f1610d9ad69c302caac49c3f",
+      "sourceBytes": 19007,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SouthernCavern/floor_id.json",
+      "sha256": "1ecd18ef124d6e708c82e4622daa6fa27a30825e2481630a7b5253d6ce135e7d",
+      "bytes": 9512,
+      "gitBlobSha": "b1695501edd823fa22aab3383b00b964a9267642",
+      "sourceBytes": 9512,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/SouthernCavern/pokemon_found.json",
+      "sha256": "0b0effb1107183a89c1fa3ce2c8bdd563bfef081c72beba423c29e14f8f8fe73",
+      "bytes": 24367,
+      "gitBlobSha": "fd9f312d31fc882a878d9fa4cf8a0198c3898a58",
+      "sourceBytes": 24367,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/StormySea/floor_id.json",
+      "sha256": "a84b8098162d6edbabb51a8d45399f871317d9b2890f0e9d09a76df8dd129d98",
+      "bytes": 7497,
+      "gitBlobSha": "c740654b3a0f54f0a1396574cbec30c09ac1981e",
+      "sourceBytes": 7497,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/StormySea/main_data.inc",
+      "sha256": "7e2d46d4435d135299be22e2de44e8a761ab873e40e07c92919b29026853add6",
+      "bytes": 6921,
+      "gitBlobSha": "3082bbb0ec2be640615b23df0bcd834c3b9f0129",
+      "sourceBytes": 6921,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/StormySea/pokemon_found.json",
+      "sha256": "22f415dcf60194f0aa4471e24f69f1f96706d7a2a84dbe019f0cc5538df1f1c9",
+      "bytes": 18957,
+      "gitBlobSha": "09907c6dbdfbacc9c02c08850b10f5be13848359",
+      "sourceBytes": 18957,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/ThunderwaveCave/floor_id.json",
+      "sha256": "5b55e89fe5279820f40dc2d9df2bc9168f0b3743d409099e41d20de90adbb5c0",
+      "bytes": 1143,
+      "gitBlobSha": "a90b7cbabc1001dfe545c27f77362aff8d3cba08",
+      "sourceBytes": 1143,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/ThunderwaveCave/main_data.inc",
+      "sha256": "ac6054a56dcd1bd56375bddf9f83ad3bd6400c038b96e5e773928ae8bc814d85",
+      "bytes": 865,
+      "gitBlobSha": "4f11c8c0f0b359145a28836603f13a928fabf9c4",
+      "sourceBytes": 865,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/ThunderwaveCave/pokemon_found.json",
+      "sha256": "e3e7a3dd6fa753ab65dff31b4c702d9954502243cd42e4064e193afba1c4891c",
+      "bytes": 1705,
+      "gitBlobSha": "693155569b122b5e887be5c8c821e7104c164771",
+      "sourceBytes": 1705,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/TinyWoods/floor_id.json",
+      "sha256": "4f9288865fab0eab57c7eff3e77bbe99ead6839d85182ee26c98812993c69d8c",
+      "bytes": 705,
+      "gitBlobSha": "44715944fca3c0459a3c48972b38e3116a01d8b8",
+      "sourceBytes": 705,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/TinyWoods/main_data.inc",
+      "sha256": "48ba71a95e46dd89a789d2d1da0feba6fab7e73d7b4e44efc86d602ecf3961e0",
+      "bytes": 519,
+      "gitBlobSha": "c0f59d78495cbd248ec487aad06320e5baffaca2",
+      "sourceBytes": 519,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/TinyWoods/pokemon_found.json",
+      "sha256": "9ff96f6bd9b0efe614a15dc46d616b0e7927d8b8b4df00139839e4a8470ff805",
+      "bytes": 1046,
+      "gitBlobSha": "c453986838426bbcb0dfd6a8c6391e0fc30744ee",
+      "sourceBytes": 1046,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/UnownRelic/floor_id.json",
+      "sha256": "f426c218e7f22ab29a7b2f336e797f73f5ae9f6990d7bca5ec83b38054b916db",
+      "bytes": 2148,
+      "gitBlobSha": "caa3d8175cd26dc76a41d52943c43e0512167518",
+      "sourceBytes": 2148,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/UnownRelic/pokemon_found.json",
+      "sha256": "7d7b16bc94ef8e607b6b019e73bf897d0dbcb1469259075028d76a6791225aa4",
+      "bytes": 18880,
+      "gitBlobSha": "6643ca3d929414a3130da1b13d274b31645df332",
+      "sourceBytes": 18880,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/UproarForest/floor_id.json",
+      "sha256": "2790e7af7dd4b759f490b0ffb7c2ba142c0d816f33004cc41c852a30d94ff16b",
+      "bytes": 1960,
+      "gitBlobSha": "d09025d90e0ae99b87cf2e2900ba40e9b9bc61ff",
+      "sourceBytes": 1960,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/UproarForest/pokemon_found.json",
+      "sha256": "9512597fbf97b43dda895b39e90b051be5fdadf1fb9b1f4a111f4874faf80ef0",
+      "bytes": 6036,
+      "gitBlobSha": "777dab5aabfd88978aaf06194175081b478ebccc",
+      "sourceBytes": 6036,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/WaterfallPond/floor_id.json",
+      "sha256": "4f98e9deb93df3adc1a609aecd55e3817647feed1b5bbe348d653fe47d9113e5",
+      "bytes": 3633,
+      "gitBlobSha": "7c039c83a37ec8c3b9cf203eb9da7521d7cb821c",
+      "sourceBytes": 3633,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/WaterfallPond/pokemon_found.json",
+      "sha256": "41b055ba67df91a0af787b4b40e523873ba3a29b5ba1f68858ac4d7075b53d81",
+      "bytes": 17069,
+      "gitBlobSha": "813eb746aeaf17f8d382f19db2abbf96317cca97",
+      "sourceBytes": 17069,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/WesternCave/floor_id.json",
+      "sha256": "87850d9ac525e77abaffebcf7a6642be4fb420e5507dca3f41c121e26f11330e",
+      "bytes": 18770,
+      "gitBlobSha": "dbf76835c953dbf67a53f80a12d18612dd50a38b",
+      "sourceBytes": 18770,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/WesternCave/pokemon_found.json",
+      "sha256": "9ff3b35f6eb2c6ac649dbac653564633757cc6b6459591fec61ab1829253eedf",
+      "bytes": 45911,
+      "gitBlobSha": "68d5da186c043e5a2c2f7458c7b6a5fc8e7695dc",
+      "sourceBytes": 45911,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/WishCave/floor_id.json",
+      "sha256": "f919e64ef2b1db5467a5bb913a051ce753f77904a55b0691d37a99639b80a19d",
+      "bytes": 18668,
+      "gitBlobSha": "9a2ef7115f615401eea9da2ab995c4c792dbb289",
+      "sourceBytes": 18668,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/WishCave/pokemon_found.json",
+      "sha256": "5bf9ee8100c82f0b5d8797001fdd0de762e497506ab8a1025d88b2dac34ccbe6",
+      "bytes": 65996,
+      "gitBlobSha": "ce16a067724754752fe98c64a19e6860803032b1",
+      "sourceBytes": 65996,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/WondrousSea/floor_id.json",
+      "sha256": "67b010300436c047200e1aaa12e18600c85cb17aa3a318e9d7818cb3cb9b59a2",
+      "bytes": 2315,
+      "gitBlobSha": "6c47397428e85f3de6e03c020f7e120867e49543",
+      "sourceBytes": 2315,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/WondrousSea/pokemon_found.json",
+      "sha256": "09ce365f02d373371da177c77a0c2ab76c32fe39c78f195527ceeb86de314384",
+      "bytes": 1078,
+      "gitBlobSha": "00c4dc0dfe6c8ac0ec8d74bc4dafcd0ce006c215",
+      "sourceBytes": 1078,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/WyvernHill/floor_id.json",
+      "sha256": "27e471fce689a98e2968769b8b5a00eea9250ceaf7c4790b09be06f7143a1991",
+      "bytes": 5699,
+      "gitBlobSha": "33e728aa6d46d010230dfcfd9e33e084eae6c156",
+      "sourceBytes": 5699,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/WyvernHill/pokemon_found.json",
+      "sha256": "490a9f97960ec402ef9b2d7ec90a3640308bb1245e0ef3c10ab8e72838a36635",
+      "bytes": 14785,
+      "gitBlobSha": "897c0777a7f4a758919db64b58a4930ef83956e6",
+      "sourceBytes": 14785,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/dungeon_data.json",
+      "sha256": "3fbd20baee5576a4500cf02b839b47291022b53dc297a4a12ed3ad69f6ea8e2f",
+      "bytes": 37443,
+      "gitBlobSha": "16106271576fb046e648d4a8abc8cf382d9aa992",
+      "sourceBytes": 37443,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/main_data.inc",
+      "sha256": "091ca0cce080acd6ef9d572e96d8024747d0828a93ccc52bf6314c72d276e85e",
+      "bytes": 244678,
+      "gitBlobSha": "6ea59467d41bab3044aa423836cfeb7c99d67e3b",
+      "sourceBytes": 244678,
+      "gitBlobVerified": true
+    },
+    {
+      "path": "data/dungeon/trap_data.json",
+      "sha256": "303be7c00395cc562fa3d92fddf048573a84957c32d5051e2e098d77425a71fb",
+      "bytes": 104247,
+      "gitBlobSha": "259f6c563a30235473a5c74ed9064e170ab702d2",
+      "sourceBytes": 104247,
+      "gitBlobVerified": true
+    }
+  ],
+  "sha256Meaning": "Exact source bytes, verified against pinned Git blob SHA-1; extra cache newline removed before hashing.",
+  "normalization": "Independent numerical/identity normalization; no source implementation, assembly, tile grids, dialogue or assets.",
+  "additionalInspectedFiles": [
+    {
+      "path": "tools-dungeonjson-dungeonjson.cpp",
+      "sha256": "fad9c7b8e31865eb98c7130669cf638ad71cdbbf8246cb254566d90884800e69"
+    },
+    {
+      "path": "effect-item.h",
+      "sha256": "dd9bea1bbb6e297e11e650908cbc4dd70c23bfd5736dfd507a7bbf225aae064f"
+    },
+    {
+      "path": "species-monster.h",
+      "sha256": "ad46e24854f57998cbe6544faf73b87260d094d8d640cbc6cde1fb21564d1285"
+    },
+    {
+      "path": "rescue-team-profile-crosswalk.json",
+      "sha256": "dd155e70e4c57a891e8e3ed3a826d048fdf45cd7708d5b0f54282d6ff60ad58f"
+    }
+  ],
+  "converterDefaultEvidence": {
+    "function": "get_json_bool_value / generate_dungeon_table_text",
+    "sourceLines": [
+      630,
+      631,
+      861,
+      874
+    ],
+    "omittedBooleanValue": false,
+    "fields": [
+      "stairDirectionUp",
+      "enemiesEvolveWhenKOed",
+      "recruitingEnabled",
+      "levelResetTo1",
+      "keepMoney",
+      "leaderCanSwitch",
+      "hasCheckpoint",
+      "enterWithoutGameSave"
+    ]
+  },
+  "researcherSources": [
+    {
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-pokemon-found-in-dungeons.html",
+      "qualification": "Peter O. joint-original Rescue Team researcher facts; not build-hash Blue proof"
+    },
+    {
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-dungeon-floor-data.html",
+      "qualification": "Peter O. joint-original Rescue Team researcher facts; not build-hash Blue proof"
+    },
+    {
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-item-chances.html",
+      "qualification": "Peter O. joint-original Rescue Team researcher facts; not build-hash Blue proof"
+    }
+  ],
+  "versionAvailabilitySources": [
+    "https://bulbapedia.bulbagarden.net/wiki/RRT",
+    "https://gamefaqs.gamespot.com/ds/929407-pokemon-mystery-dungeon-blue-rescue-team/faqs/79172/version-exclusive-pokemon"
+  ],
+  "normalizationDate": "2026-10-05"
+}

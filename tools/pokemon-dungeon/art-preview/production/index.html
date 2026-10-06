@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Starter character production review</title><link rel="stylesheet" href="./style.css"><script type="importmap">{"imports":{"three":"../../node_modules/three/build/three.module.js"}}</script></head>
+<body>
+<header><div><p class="eyebrow">ORIGINAL PIXEL CHARACTERS / REAL 3D SPACE</p><h1>The starter company</h1></div><p class="badge">Art review · acceptance pending</p></header>
+<main><canvas id="preview" tabindex="0" aria-label="3D character art inspection. Left and right arrows orbit the camera."></canvas><p id="status" role="status">Loading selected clip page…</p><div class="caption"><strong>STARTER WAVE · 16 SPECIES / 12 CLIPS</strong><p>Original pixel poses in a textured cavern. No gameplay.</p></div></main>
+<section class="controls" aria-label="Art inspection controls"><label>Species<select id="subject"></select></label><label>Camera bearing<select id="angle"><option value="0">0° · +Z</option><option value="1">45°</option><option value="2">90° · +X</option><option value="3">135°</option><option value="4">180° · −Z</option><option value="5">225°</option><option value="6">270° · −X</option><option value="7">315°</option></select></label><label>Clip<select id="clip"></select></label><label>Held frame<select id="frame"><option>0</option><option>1</option><option>2</option><option>3</option></select></label><label class="check"><input id="still" type="checkbox">Hold pose</label><label class="check"><input id="composition" type="checkbox">Three-character scene</label><button id="restart" type="button">Restart clip</button><button id="orbit" type="button" aria-pressed="false">Orbit camera</button></section>
+<section class="inspection"><div><h2>Current directional strip</h2><p id="detail">Four authored frames at native 96-pixel cell size.</p></div><canvas id="strip" width="384" height="96" aria-label="Four frames for the selected species, clip and camera-relative direction"></canvas></section>
+<footer><p id="memory">Decoded character page accounting…</p><p>Keyboard: tab through controls; arrow keys on the 3D view orbit. Cyan arrow is fixed world +Z. Rendering proof only; device performance and human art acceptance remain open.</p></footer>
+<script type="module" src="./viewer.js"></script>
+</body></html>

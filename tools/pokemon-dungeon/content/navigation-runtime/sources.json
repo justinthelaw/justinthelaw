@@ -1,0 +1,2289 @@
+{
+  "sources": {
+    "repository": "pret/pmd-red",
+    "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+    "qualification": "Every species mobility row and algorithm here is pinned-original-Red-comparative unless specifically marked shared-original or independent inference. This is usable implementation evidence, not a claim that all instructions or tables were checked against a Blue binary.",
+    "license": "Public source availability does not grant rights to proprietary game assets. Deliverable contains independently stated factual behavior, numerical parameters and identifiers; no original scripts, dialogue, source implementation, tile arrays, art or ROM data. No license conclusion for commercial assets is made.",
+    "sources": [
+      {
+        "repositoryPath": "src/dungeon_generation.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c",
+        "localEvidence": "/tmp/pokemon-research/src-dungeon_generation.c",
+        "sha256": "88e0cbc3454429f42c413420d69ddd271d8dee285918561af3c31c75de60180a",
+        "gitBlobSha1": "3aa4085748ad76ac97ca2cdec9aeadf6bf137069"
+      },
+      {
+        "repositoryPath": "src/dungeon_generation_fixed.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation_fixed.c",
+        "localEvidence": "/tmp/pokemon-research/red-generation-fixed.c",
+        "sha256": "83092b212b927345c1ccfdc60f1e48cdc7afd5bf549c1c572fcb27da623c3606",
+        "gitBlobSha1": "287ae51709156d98a55ee25f1d7fafeba158a0ae"
+      },
+      {
+        "repositoryPath": "data/dungeon/fixedmap.inc",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/data/dungeon/fixedmap.inc",
+        "localEvidence": "/tmp/pokemon-research/red-fixedmap.inc",
+        "sha256": "79a4575e4102890c8cb26785863c855019bcd27f9e546196146e8a91059d963f",
+        "gitBlobSha1": "2194aff823be067204f61c473bf4265cb333857d"
+      },
+      {
+        "repositoryPath": "include/constants/fixed_rooms.h",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/fixed_rooms.h",
+        "localEvidence": "/tmp/pokemon-research/red-fixed-rooms.h",
+        "sha256": "1dffb82e6de66892a270dfc582a59104aeebabe1cd2eb79a9c171e7e1a035d2d",
+        "gitBlobSha1": "af6d5363a584b3d83f88fd8b651894e5a9ef0414"
+      },
+      {
+        "repositoryPath": "data/monster/monster_data.json",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/data/monster/monster_data.json",
+        "localEvidence": "/tmp/pokemon-research/red-monster-data.json",
+        "sha256": "024f8d2b42582e4d017e3d408b1229b369396d9321ab11c1b7737d19b52bce2e",
+        "gitBlobSha1": "cdcce326580ce11e4ed1c1ece945370c57aa4b7b"
+      },
+      {
+        "repositoryPath": "src/pokemon.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/pokemon.c",
+        "localEvidence": "/tmp/pokemon-research/red-pokemon.c",
+        "sha256": "ca46804becf408ad3a3a8cad21d7ac16309b2e43fd80bf4945a29951b66aa58b",
+        "gitBlobSha1": "3c5ab6eec362d6fccea49d1254cbb07682f1b172"
+      },
+      {
+        "repositoryPath": "tools/dungeonjson/dungeonjson.cpp",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/tools/dungeonjson/dungeonjson.cpp",
+        "localEvidence": "/tmp/pokemon-research/tools-dungeonjson-dungeonjson.cpp",
+        "sha256": "fad9c7b8e31865eb98c7130669cf638ad71cdbbf8246cb254566d90884800e69",
+        "gitBlobSha1": "1c922b9c5b2b4dd22f5cb0feb015001d3e2dc84d"
+      },
+      {
+        "repositoryPath": "src/dungeon_logic.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_logic.c",
+        "localEvidence": "/tmp/pokemon-research/red-dungeon-logic.c",
+        "sha256": "2e738c498d2d6d818b3b30a5a003ee78a143736f6c26b8cf1c099848187f1727",
+        "gitBlobSha1": "1472ad54b2d0eb6900161a005ae4cb548e179b32"
+      },
+      {
+        "repositoryPath": "src/dungeon_misc.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_misc.c",
+        "localEvidence": "/tmp/pokemon-research/red-dungeon-misc.c",
+        "sha256": "46f0f8282eba2632b776637c48f9acf6697700dc1b2e1d3d40345a468be16003",
+        "gitBlobSha1": "4a84df03ea53fe96e07c5be9bedf4367ab333335"
+      },
+      {
+        "repositoryPath": "src/dungeon_entity_movement.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_entity_movement.c",
+        "localEvidence": "/tmp/pokemon-research/red-dungeon-entity-movement.c",
+        "sha256": "12c97924c71687c75f0d26e46c588e04cfca89032ba2ffe96df37c922cb9563b",
+        "gitBlobSha1": "708b6f987a7165e13d665930cab66769aeb3e21d"
+      },
+      {
+        "repositoryPath": "src/dungeon_action_execution.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_action_execution.c",
+        "localEvidence": "/tmp/pokemon-research/red-dungeon-action-execution.c",
+        "sha256": "f053c6fc56b64682c0e10e56dcd0daa99d01a3e592b921795e54af1f6c147352",
+        "gitBlobSha1": "9db1cbfcb9121822cff8f97344f3457799e4891f"
+      },
+      {
+        "repositoryPath": "src/dungeon_move_util.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_move_util.c",
+        "localEvidence": "/tmp/pokemon-research/effect-dungeon_move_util.c",
+        "sha256": "b47cf0a7de4d79cb7252ef8a64f5c4ff5265d52bbdda450b86d2338731f0850f",
+        "gitBlobSha1": "18abd8371b749f3fe9b18aeddb6dfd38a7811807"
+      },
+      {
+        "repositoryPath": "src/dungeon_ai_attack.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_ai_attack.c",
+        "localEvidence": "/tmp/pokemon-research/effect-dungeon_ai_attack.c",
+        "sha256": "c7bf41c963be43feb09cc5310844413ca211cff180a325daedf6582d91511f64",
+        "gitBlobSha1": "8054356b818172e591a00dfc35c1bd76c8b71c7c"
+      },
+      {
+        "repositoryPath": "src/dungeon_projectile_throw.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_projectile_throw.c",
+        "localEvidence": "/tmp/pokemon-research/effect-dungeon_projectile_throw.c",
+        "sha256": "cd0cd6bbc8a7fee91b4fa8f869c418df085fd98653f8185297228f5e6d78ab4c",
+        "gitBlobSha1": "6efaead3d0216cc4ddaf6283971422f6a4f7539a"
+      },
+      {
+        "repositoryPath": "src/dungeon_range.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_range.c",
+        "localEvidence": "/tmp/pokemon-research/effect-dungeon_range.c",
+        "sha256": "38d7556ececa256ee7eadbfc5ce33d4fdeccc022fcadf1e99f084acb1b07ef21",
+        "gitBlobSha1": "c7615b49e87237b464a7e6a2ce207177d048350e"
+      },
+      {
+        "repositoryPath": "src/run_dungeon.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/run_dungeon.c",
+        "localEvidence": "/tmp/pokemon-research/effect-run_dungeon.c",
+        "sha256": "e18fe340d743bb3e54e8326e1f5de9dbf1119e408792a2869451f517b9941905",
+        "gitBlobSha1": "c3bc8b25c4c25187afa7cb5a58ab2cd348aaf1bb"
+      },
+      {
+        "repositoryPath": "src/dungeon_floor_spawns.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_floor_spawns.c",
+        "localEvidence": "/tmp/pokemon-research/src-dungeon_floor_spawns.c",
+        "sha256": "33fca01d2d3fed6d50c7caec54bb3e5109480cbe10e18d5214781f528f1a06a0",
+        "gitBlobSha1": "832854b2a112847269ee6dc3b409f5f6c48fd9b7"
+      },
+      {
+        "repositoryPath": "src/dungeon_info.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_info.c",
+        "localEvidence": "/tmp/pokemon-research/src-dungeon_info.c",
+        "sha256": "696b19bc31fe09fc41fb28f8dd0dd0b4171f8e7a16fc438b0cf99e4385feb118",
+        "gitBlobSha1": "4321c6d9db2b62f896ea7bac3fb59fcde19621cb"
+      },
+      {
+        "repositoryPath": "src/dungeon_random.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_random.c",
+        "localEvidence": "/tmp/pokemon-research/red-dungeon-random.c",
+        "sha256": "0d5cab530c996f0cfe7e770b5f9b6fa58c6b73e3333a3913d55ccf170514ae42",
+        "gitBlobSha1": "b2d8e238f0dbdb8c4de0b459e2b483eb6c7f6a5b"
+      },
+      {
+        "repositoryPath": "src/dungeon_main.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_main.c",
+        "localEvidence": "/tmp/pokemon-research/policy-src-dungeon_main.c",
+        "sha256": "cfbe70617f3d857ce7975ac53d4a243eb607265dff8af3058d4f6a9a45bdff8d",
+        "gitBlobSha1": "50830ff4e3d8dcd975571587af2a46ef3369d370"
+      },
+      {
+        "repositoryPath": "include/constants/monster.h",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/monster.h",
+        "localEvidence": "/tmp/pokemon-research/species-monster.h",
+        "sha256": "ad46e24854f57998cbe6544faf73b87260d094d8d640cbc6cde1fb21564d1285",
+        "gitBlobSha1": "4629d59f16a06b7f070ffdf6df807f60d9bbfde7"
+      },
+      {
+        "repositoryPath": "src/dungeon_data.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_data.c",
+        "localEvidence": "/tmp/pokemon-research/nav-src-dungeon_data.c",
+        "sha256": "28c06bcf591952d4f408a1361b78f85aa46149364a29ebea0bd9194670b50d81",
+        "gitBlobSha1": "25055753adfffd3bbe8960ff742f9a40e68cb7c4"
+      },
+      {
+        "repositoryPath": "src/dungeon_config.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_config.c",
+        "localEvidence": "/tmp/pokemon-research/nav-src-dungeon_config.c",
+        "sha256": "f4ef6e42a0df5182c4b8eba90ea53481550d90e44cc089bdeddc0e60c8cf44d5",
+        "gitBlobSha1": "fd1ba72bcab788ee80aab853d1a1f4ce2e55f8b2"
+      },
+      {
+        "repositoryPath": "src/dungeon_map_access.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_map_access.c",
+        "localEvidence": "/tmp/pokemon-research/nav-src-dungeon_map_access.c",
+        "sha256": "67e7723adc2b9f1b582b9fc4c50b552afd418f500eb0bcd1a2974ec16ad2c814",
+        "gitBlobSha1": "43a1d34e448d60e2f8f40e2db0c4685dcdbf591b"
+      },
+      {
+        "repositoryPath": "src/dungeon_util.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_util.c",
+        "localEvidence": "/tmp/pokemon-research/nav-src-dungeon_util.c",
+        "sha256": "41a1d1cd1e2d52df6d791afa8f591c42629c1ca8a2f6f7ea9979dcda5dcb6a9c",
+        "gitBlobSha1": "65ef8c346ef4a9e41cf62f7e04332e38ab172a9f"
+      },
+      {
+        "repositoryPath": "src/dungeon_ai_movement.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_ai_movement.c",
+        "localEvidence": "/tmp/pokemon-research/nav-src-dungeon_ai_movement.c",
+        "sha256": "c5000f1bfc9d0443250ece4c01bf304ca5f4a763c272d676e2cbe03b533f9edb",
+        "gitBlobSha1": "24d15696ad8615389690020d267978e110d0934b"
+      },
+      {
+        "repositoryPath": "src/dungeon_pos_data.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_pos_data.c",
+        "localEvidence": "/tmp/pokemon-research/nav-src-dungeon_pos_data.c",
+        "sha256": "e765a794bf8e8d58ad7cde06dafb30d87d927e378a00500b366000383abc1012",
+        "gitBlobSha1": "f141a9c2c941b652933bfa0b6161f3346a4b303d"
+      },
+      {
+        "repositoryPath": "include/constants/move.h",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/move.h",
+        "localEvidence": "/tmp/pokemon-research/nav-include-constants-move.h",
+        "sha256": "6e340d4d532bae148255019e8453ed8a95c5e3dc61fc1dde82d7a6bf62c88d7a",
+        "gitBlobSha1": "6b6b427efa07afd56fa964a9ddac6ff1245dde92"
+      },
+      {
+        "repositoryPath": "include/constants/walkable_tile.h",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/walkable_tile.h",
+        "localEvidence": "/tmp/pokemon-research/nav-include-constants-walkable_tile.h",
+        "sha256": "5701fa190bf6f768fbc8ebbd463854ef4125e63f8b359f0d0de4753076edaed8",
+        "gitBlobSha1": "00e47453968b8643fda7ce0fafabf93c7932c03a"
+      },
+      {
+        "repositoryPath": "include/structs/map.h",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/structs/map.h",
+        "localEvidence": "/tmp/pokemon-research/nav-include-structs-map.h",
+        "sha256": "73617e4da53b299b65c25d7fc00bfb454c995594a418304bb161dcafdeb5e14b",
+        "gitBlobSha1": "af8c764cba4dd25ffeb26ab4707715745fa41061"
+      },
+      {
+        "repositoryPath": "include/dungeon_generation.h",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/dungeon_generation.h",
+        "localEvidence": "/tmp/pokemon-research/nav-include-dungeon_generation.h",
+        "sha256": "a32a8315d5ac4062cd7aaa40627698707e94ac21c9218bcc14d8ca9d7404c8dc",
+        "gitBlobSha1": "e32f58d563fc3ca2ebce084e5200b66f808ff47a"
+      },
+      {
+        "repositoryPath": "include/dungeon_range.h",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/dungeon_range.h",
+        "localEvidence": "/tmp/pokemon-research/nav-include-dungeon_range.h",
+        "sha256": "74ff0e2f304d6fa03b928b7a2cf11c621b77b2211408acf7f72045ffc1bcc8d7",
+        "gitBlobSha1": "719cf3d4ec02fecc953414c5d53518233d089da9"
+      },
+      {
+        "repositoryPath": "src/dungeon_cutscene.c",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c",
+        "gitBlobSha1": "6e83b5dc8653982b6ebbd49051dccf71bca0640f",
+        "savedExtract": "navigation-cutscene-facts.json",
+        "commercialScriptSavedInDeliverable": false
+      },
+      {
+        "repositoryPath": "src/data/ground/ground_data_d11p02_station.h",
+        "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_d11p02_station.h",
+        "gitBlobSha1": "60bbd8aeb252e3a7de3a139e7feb2ee29d197f55",
+        "savedExtract": "navigation-mt-freeze-branch-facts.json",
+        "commercialScriptSavedInDeliverable": false
+      }
+    ],
+    "secondaryCorroboration": [
+      {
+        "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-attack-explanations.html",
+        "scope": "Shared original Rescue Team researcher: species movement categories and non-Flying exceptions, move ranges. Not treated as binary-parity proof."
+      },
+      {
+        "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-various-notes.html",
+        "scope": "Shared original researcher: wall Belly cost, boss restrictions and projectile/terrain distinctions."
+      }
+    ]
+  },
+  "contracts": {
+    "navigationContracts": [
+      {
+        "id": "terrain-and-base-mobility",
+        "source": [
+          {
+            "file": "include/constants/walkable_tile.h",
+            "symbol": "movement constants",
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/walkable_tile.h"
+          },
+          {
+            "file": "include/structs/map.h",
+            "symbol": "TerrainType",
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/structs/map.h"
+          },
+          {
+            "file": "src/dungeon_map_access.c",
+            "symbol": "GetCrossableTerrain",
+            "line": 112,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_map_access.c#L112"
+          },
+          {
+            "file": "src/pokemon.c",
+            "symbol": "GetMovementType",
+            "line": 759,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/pokemon.c#L759"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "terrainCodes": {
+          "0": "wall",
+          "1": "ordinary floor",
+          "2": "tileset secondary liquid",
+          "3": "chasm"
+        },
+        "separateFlags": {
+          "impassable": 16,
+          "unbreakable": 256,
+          "door": 4096,
+          "specialNoOrdinarySpawn": 2048,
+          "naturalJunction": 8,
+          "shop": 32,
+          "monsterHouse": 64,
+          "generationCornerCuttable": 4
+        },
+        "mobilityClasses": [
+          {
+            "native": 0,
+            "name": "regular",
+            "allowedTerrain": [
+              1
+            ]
+          },
+          {
+            "native": 1,
+            "name": "liquid",
+            "allowedTerrain": [
+              1,
+              2
+            ],
+            "assignedSpecies": 0
+          },
+          {
+            "native": 2,
+            "name": "chasm",
+            "allowedTerrain": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "native": 3,
+            "name": "wall",
+            "allowedTerrain": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "native": 4,
+            "name": "lava-only",
+            "effectiveClass": "liquid if tileset kind LAVA, otherwise regular"
+          },
+          {
+            "native": 5,
+            "name": "water-only",
+            "effectiveClass": "regular if tileset kind LAVA, otherwise liquid"
+          }
+        ],
+        "identity": "Use actual internal species/form id, not apparent transformed species, current types, Levitate, or a main-series Flying-type test.",
+        "notes": [
+          "All movement classes still reject destination impassable flag. Unbreakable prevents terrain destruction, not necessarily traversal; keep these flags separate.",
+          "Tileset NONE follows the non-LAVA branch for water-only mobility. Use the 76-row table, not dungeon display-name inference."
+        ]
+      },
+      {
+        "id": "one-step-movement",
+        "source": [
+          {
+            "file": "src/dungeon_logic.c",
+            "symbol": "CanMoveInDirection",
+            "line": 685,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_logic.c#L685"
+          },
+          {
+            "file": "src/dungeon_map_access.c",
+            "symbol": "sub_8049BB0",
+            "line": 341,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_map_access.c#L341"
+          },
+          {
+            "file": "src/run_dungeon.c",
+            "symbol": "IsCurrentFixedRoomBossFight",
+            "line": 907,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/run_dungeon.c#L907"
+          },
+          {
+            "file": "src/dungeon_pos_data.c",
+            "symbol": "gAdjacentTileOffsets",
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_pos_data.c"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "directionOrder": [
+          "S",
+          "SE",
+          "E",
+          "NE",
+          "N",
+          "NW",
+          "W",
+          "SW"
+        ],
+        "steps": [
+          "Reject destination out of map, impassable, or occupied by any monster.",
+          "Get base effective class from the species table and tileset.",
+          "Only if tileset <=63: Mobile status OR usable Mobile Scarf sets wall class; otherwise enabled All-Terrain Hiker sets chasm class; otherwise enabled Super Mobile sets wall on cardinal directions and chasm on diagonal directions. This is an else-if chain, not union of permissions.",
+          "Check source-tile neighbor mask for this class and direction."
+        ],
+        "diagonalPredicate": "For regular/liquid/chasm: destination terrain is allowed by class, and both orthogonal side terrain low-two-bit codes are nonzero. Side occupancy and side impassable flags are not checked here. Wall class ignores side terrain.",
+        "wallOuterBounds": {
+          "permittedCoordinates": {
+            "x": [
+              1,
+              54
+            ],
+            "y": [
+              1,
+              30
+            ]
+          },
+          "mapSize": [
+            56,
+            32
+          ]
+        },
+        "bossException": "Boss suppression is tileset >63, not fixedRoomId !=0.",
+        "heldUsability": "HasHeldItem requires an existing, nonsticky item; use existing item-effect contract.",
+        "counterexamples": [
+          "A water tile can serve as an orthogonal diagonal corner for an ordinary walker even when that walker cannot enter water.",
+          "Native wall species can lose diagonal wall permission when All-Terrain Hiker or Super Mobile takes precedence outside boss tilesets."
+        ]
+      },
+      {
+        "id": "post-step-terrain",
+        "source": [
+          {
+            "file": "src/dungeon_map_access.c",
+            "symbol": "sub_804AE08",
+            "line": 1133,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_map_access.c#L1133"
+          },
+          {
+            "file": "src/dungeon_misc.c",
+            "symbol": "sub_806A5B8",
+            "line": 1415,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_misc.c#L1415"
+          },
+          {
+            "file": "src/dungeon_entity_movement.c",
+            "symbol": "movement completion",
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_entity_movement.c"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "rules": [
+          "Super Mobile can convert a visited wall to floor only if it is neither unbreakable nor impassable. Recompute adjacency for its surrounding 3x3 neighborhood. Mobile status/scarf movement does not perform this conversion.",
+          "On secondary lava: thaw Frozen; attempt Burn unless native mobility is4, species is Ho-Oh or Moltres, or actor already has Burn. Burn effect applies its own Fire-type/Water Veil immunity checks.",
+          "On other secondary liquid: cure Burn.",
+          "A leader in wall terrain pays5 Belly in this terrain hook; do not treat this as ordinary per-turn Belly cost."
+        ],
+        "scope": "Use status engine action gates separately: rooted/wrapped actors cannot choose a normal step. Traversal ability does not imply immunity to lava effects."
+      },
+      {
+        "id": "ai-movement-preferences",
+        "source": [
+          {
+            "file": "src/dungeon_logic.c",
+            "symbol": "CanAIMonsterMoveInDirection",
+            "line": 917,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_logic.c#L917"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "additionalDestinationRejections": [
+          "House Avoider rejects a Monster House tile while that house has not triggered.",
+          "Trap Avoider rejects trap tile if visible or actor has Eyedrops.",
+          "Lava Evader rejects secondary terrain in a LAVA tileset."
+        ],
+        "then": "Apply one-step mobility override order and source neighbor mask; empty target succeeds. Occupied target fails and reports pokemonInFront=true only if terrain otherwise allowed.",
+        "scope": "These are AI preferences; do not globally block player input or projectile travel with them."
+      },
+      {
+        "id": "position-occupancy-helper",
+        "source": [
+          {
+            "file": "src/dungeon_logic.c",
+            "symbol": "sub_80703A0 / sub_807049C / sub_80705F0",
+            "line": 83,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_logic.c#L83"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "rules": [
+          "sub_80703A0 returns blocked for any occupied tile; sub_807049C permits occupancy by a monster but rejects nonmonster entities. Both reject bounds and impassable.",
+          "These position checks use Mobile/scarf unless boss tileset; in their base branch IQ All-Terrain Hiker then IQ Super Mobile are separate assignments, with Super Mobile last, even on boss tilesets. They have no diagonal-corner context.",
+          "sub_80705F0 accepts any nonwall terrain; it accepts wall under its position-helper Mobile/scarf or native/IQ wall-class rules, and is used for front/two-away move targeting. Do not substitute a walking predicate.",
+          "CanCrossWalls tests native wall class or Mobile status or Mobile Scarf only; it does not include Super Mobile or All-Terrain Hiker."
+        ],
+        "integration": "Keep purpose-specific predicates; a single universal canEnterTile loses source distinctions."
+      },
+      {
+        "id": "ally-swap",
+        "source": [
+          {
+            "file": "src/dungeon_main.c",
+            "symbol": "sub_805EC4C",
+            "line": 860,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_main.c#L860"
+          },
+          {
+            "file": "src/dungeon_logic.c",
+            "symbol": "sub_8070F80",
+            "line": 777,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_logic.c#L777"
+          },
+          {
+            "file": "src/dungeon_logic.c",
+            "symbol": "sub_807049C",
+            "line": 151,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_logic.c#L151"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "eligibility": [
+          "Target is a monster and either team member, shopkeeper mode1/2, an experience-locked client, or rescue target.",
+          "Neither participant may have Shadow Hold, Frozen, Constriction, Ingrain, Wrap, Wrapped or Confused. Sleep-class status must be None, Sleepless or Yawning. Target must not be charging a two-turn move.",
+          "Leader must pass direction mobility check that allows monster occupancy."
+        ],
+        "steps": [
+          "If target cannot occupy leader old position by sub_807049C, native asks confirmation.",
+          "On accept: mark swapping, assign opposed walking actions, exchange occupancy atomically in browser state; preserve per-actor postmove handling.",
+          "Native can allow the unsafe swap after confirmation, followed by normal invalid-terrain relocation handling."
+        ],
+        "implementationChoice": "Keep an explicit confirmable unsafe-swap action; ordinary directional stepping alone should not silently strand an ally."
+      },
+      {
+        "id": "visibility-and-targetability",
+        "source": [
+          {
+            "file": "src/dungeon_range.c",
+            "symbol": "IsPositionActuallyInSight",
+            "line": 16,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_range.c#L16"
+          },
+          {
+            "file": "src/dungeon_range.c",
+            "symbol": "IsPositionInSight",
+            "line": 37,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_range.c#L37"
+          },
+          {
+            "file": "src/dungeon_range.c",
+            "symbol": "IsPositionWithinTwoTiles",
+            "line": 111,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_range.c#L111"
+          },
+          {
+            "file": "src/dungeon_util.c",
+            "symbol": "CanSeeTarget",
+            "line": 487,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_util.c#L487"
+          },
+          {
+            "file": "src/dungeon_util.c",
+            "symbol": "CanTargetEntity",
+            "line": 514,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_util.c#L514"
+          },
+          {
+            "file": "src/dungeon_util.c",
+            "symbol": "sub_8045A70",
+            "line": 541,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_util.c#L541"
+          },
+          {
+            "file": "src/dungeon_map_access.c",
+            "symbol": "room bounds recomputation",
+            "line": 956,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_map_access.c#L956"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "roomBounds": "Compute minX,minY,maxXExclusive,maxYExclusive from tiles sharing roomId. Actual sight rectangle is [minX-1,maxXExclusive+1) by [minY-1,maxYExclusive+1). It tests the rectangle, not equal roomId, ray casting, or wall occlusion.",
+        "corridorActualSight": "If origin roomId=255, Chebyshev distance <= floor.visibilityRange; stored zero means2.",
+        "extendedTargetSight": "Room rectangle first; otherwise distance<=1 succeeds, distance>2 fails. At distance2, walk two sign(dx),sign(dy) steps from each endpoint toward the other. All visited cells in both paths must have nonzero low-two-bit terrain. Impassable flags and diagonal side walls are not tested here.",
+        "entityGates": {
+          "CanSeeTarget": "valid viewer and target; target.isVisible; invisible target needs Eyedrops or usable Goggle Specs; viewer Blinker fails; then ActualSight",
+          "CanTargetEntity": "same entity/invisibility/blinker gates, then ExtendedTargetSight",
+          "sub_8045A70": "valid entities, target.isVisible, then ActualSight; does not apply invisible-status or viewer-Blinker checks"
+        },
+        "scope": "Do not equate rendered visibility, AI target acquisition, actual room-move selection and tile memory."
+      },
+      {
+        "id": "melee-and-move-range",
+        "source": [
+          {
+            "file": "src/dungeon_logic.c",
+            "symbol": "CanAttackInDirection",
+            "line": 869,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_logic.c#L869"
+          },
+          {
+            "file": "src/dungeon_misc.c",
+            "symbol": "sub_80696A8 / sub_80696FC / sub_806977C",
+            "line": 727,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_misc.c#L727"
+          },
+          {
+            "file": "src/dungeon_move_util.c",
+            "symbol": "SetTargetsForMove",
+            "line": 822,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_move_util.c#L822"
+          },
+          {
+            "file": "src/dungeon_move_util.c",
+            "symbol": "SetNewTarget",
+            "line": 962,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_move_util.c#L962"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "melee": "Use effective class at least chasm, so ordinary melee can reach a neighboring creature on water/lava/chasm. Apply the same boss/override precedence and diagonal corner mask as movement; reject impassable; allow monster occupancy. Native wall mobility can attack through walls.",
+        "rangeCodes": {
+          "0": "one ahead through CanAttackInDirection",
+          "1": "three front-adjacent tiles at facing-1,facing,facing+1; direct entity lookup, no melee corner test",
+          "2": "all eight adjacent tiles starting facing then native direction order; direct lookup",
+          "3": "active entity order filtered by sub_8045A70 ActualSight; actor self inclusion governed by move flags",
+          "4": "first eligible entity at one ahead through sub_80705F0, else eligible entity two ahead if both forward tiles pass that helper; no diagonal side-corner check",
+          "5": "straight-line handling elsewhere",
+          "6": "all active entities on floor, subject to target category",
+          "7": "self",
+          "8": "one ahead through sub_80705F0"
+        },
+        "categoryFilters": "Apply move ally/enemy/self/traitor target contract after geometric eligibility. Room moves actually use the weaker sub_8045A70 gate although AI selection uses CanSeeTarget. Preserve that distinction."
+      },
+      {
+        "id": "straight-projectile-geometry",
+        "source": [
+          {
+            "file": "src/dungeon_projectile_throw.c",
+            "symbol": "HandleStraightProjectileThrow",
+            "line": 31,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_projectile_throw.c#L31"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "steps": [
+          "Advance one direction vector per step until configured projectile range exhausted.",
+          "Stop outside56x32; ordinary straight projectile stops on low-two-bit wall0. It does not apply walking diagonal corner checks or block on water/chasm.",
+          "Impassable flag on an otherwise floor tile is not the wall-stop predicate in this routine.",
+          "Piercing mode crosses walls and continues after targets; ordinary mode stops after its first applicable hit.",
+          "Bouncy trajectory and Bounce Band use their own redirection before continued stepping."
+        ],
+        "scope": "Read max steps/piercing/bounce flags from the existing item/move effect contract. Do not hardcode every projectile to ten tiles. Arced stones follow their separate targeting routine and ignore wall ray obstruction."
+      }
+    ],
+    "layoutFamilies": [
+      {
+        "id": "large",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateStandardFloor",
+          "line": 462,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L462"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 0,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": "Draw X in[2,8],Y in[2,7], reject X>6 orY>4 up to32 draws; fallback4x4. Cell sizes floor(56/X),floor(32/Y).",
+        "construction": [
+          "Initialize valid grid; AssignRooms; CreateRoomsAndAnchors; random connectivity walk; carve grid connections with merging; ensure connected."
+        ],
+        "featureOrder": [
+          "ordinaryMazeAttempt",
+          "shop",
+          "monsterHouse",
+          "extraHallways",
+          "imperfections",
+          "secondaryStructures"
+        ],
+        "externalSecondaryTerrain": true,
+        "acceptedCanonicalProceduralFloorCount": 385,
+        "rawLayoutCodes": [
+          0,
+          12,
+          13,
+          14,
+          15
+        ],
+        "rawCanonicalUsage": {
+          "0": 358,
+          "13": 7,
+          "15": 20
+        }
+      },
+      {
+        "id": "small",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateFloor / GenerateStandardFloor",
+          "line": 263,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L263"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 1,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": {
+          "columns": 4,
+          "rows": "2+R(2)",
+          "validColumns": [
+            0,
+            1
+          ]
+        },
+        "construction": [
+          "Uses standard stages; invalidate x>=2. Extra hallway eastward walks stop at x>=32."
+        ],
+        "featureOrder": [
+          "ordinaryMazeAttempt",
+          "shop",
+          "monsterHouse",
+          "extraHallways",
+          "imperfections",
+          "secondaryStructures"
+        ],
+        "externalSecondaryTerrain": true,
+        "acceptedCanonicalProceduralFloorCount": 475,
+        "rawLayoutCodes": [
+          1
+        ],
+        "rawCanonicalUsage": {
+          "1": 475
+        }
+      },
+      {
+        "id": "one-room-monster-house",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateOneRoomMonsterHouseFloor",
+          "line": 1090,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L1090"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 2,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": {
+          "columns": 1,
+          "rows": 1,
+          "roomBoundsHalfOpen": [
+            2,
+            2,
+            54,
+            30
+          ]
+        },
+        "construction": [
+          "Carve one52x28 room with roomId0; invoke Monster House selection with chance999; set forceMonsterHouse."
+        ],
+        "featureOrder": [
+          "monsterHouse"
+        ],
+        "externalSecondaryTerrain": false,
+        "validationQuirk": "One room fails ordinary two-room validation; after ten inner attempts the same family is used as fallback. House eligibility guards can still suppress its Monster House.",
+        "acceptedCanonicalProceduralFloorCount": 5,
+        "rawLayoutCodes": [
+          2
+        ],
+        "rawCanonicalUsage": {
+          "2": 5
+        }
+      },
+      {
+        "id": "outer-ring",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateOuterRingFloor",
+          "line": 491,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L491"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 3,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": {
+          "columns": 6,
+          "rows": 4,
+          "xBoundaries": [
+            0,
+            5,
+            16,
+            28,
+            39,
+            51,
+            56
+          ],
+          "yBoundaries": [
+            2,
+            7,
+            16,
+            25,
+            30
+          ]
+        },
+        "construction": [
+          "Eight inner4x2 cells are rooms; perimeter cells are one-tile hallway anchors. Carve explicit continuous perimeter ring, add random grid connections, permit merges and ensure connected.",
+          "Special room dimensions use RngRange(5,cellWidth-3), RngRange(4,cellHeight-3); origin cell start+2 plus R(range-size), without standard odd/aspect adjustment. Perimeter anchors use cellStart+1+R(cellDimension-3)."
+        ],
+        "featureOrder": [
+          "shop",
+          "monsterHouse",
+          "extraHallways",
+          "imperfections"
+        ],
+        "externalSecondaryTerrain": true,
+        "acceptedCanonicalProceduralFloorCount": 10,
+        "rawLayoutCodes": [
+          3
+        ],
+        "rawCanonicalUsage": {
+          "3": 10
+        }
+      },
+      {
+        "id": "crossroads",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateCrossroadsFloor",
+          "line": 640,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L640"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 4,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": {
+          "columns": 5,
+          "rows": 4,
+          "xBoundaries": [
+            0,
+            11,
+            22,
+            33,
+            44,
+            56
+          ],
+          "yBoundaries": [
+            1,
+            9,
+            16,
+            23,
+            31
+          ]
+        },
+        "construction": [
+          "Perimeter cells except four invalid corners are rooms; inner3x2 cells are corridor anchors. Connect the three interior columns vertically and two interior rows horizontally. Disable merging; ensure connected.",
+          "Special room width RngRange(5,cellWidth-3), height RngRange(4,cellHeight-3), origin start+2+R(range-size), no standard odd/aspect adjustment. Interior anchors use cellStart+1+R(cellDimension-3)."
+        ],
+        "featureOrder": [
+          "shop",
+          "monsterHouse",
+          "extraHallways",
+          "imperfections"
+        ],
+        "externalSecondaryTerrain": true,
+        "acceptedCanonicalProceduralFloorCount": 15,
+        "rawLayoutCodes": [
+          4
+        ],
+        "rawCanonicalUsage": {
+          "4": 15
+        }
+      },
+      {
+        "id": "two-rooms-monster-house",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateTwoRoomsWithMonsterHouseFloor",
+          "line": 1116,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L1116"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 5,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": {
+          "columns": 2,
+          "rows": 1,
+          "xBoundaries": [
+            2,
+            28,
+            54
+          ],
+          "yBoundaries": [
+            2,
+            30
+          ]
+        },
+        "construction": [
+          "Create two rooms with widths RngRange(10,23), heights RngRange(16,25), origins cellStart+1+R(range-size). Connect left to right with merging enabled. Monster House chance999 chooses one eligible room; set forceMonsterHouse."
+        ],
+        "featureOrder": [
+          "monsterHouse"
+        ],
+        "externalSecondaryTerrain": false,
+        "acceptedCanonicalProceduralFloorCount": 0,
+        "rawLayoutCodes": [
+          5
+        ],
+        "rawCanonicalUsage": {}
+      },
+      {
+        "id": "line",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateLineFloor",
+          "line": 771,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L771"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 6,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": {
+          "columns": 5,
+          "rows": 1,
+          "xBoundaries": [
+            0,
+            11,
+            22,
+            33,
+            44,
+            56
+          ],
+          "yBoundaries": [
+            4,
+            15
+          ]
+        },
+        "construction": [
+          "Assign rooms/anchors using roomDensity; random connectivity walk; connections with merging disabled; ensure connected."
+        ],
+        "featureOrder": [
+          "shop",
+          "monsterHouse",
+          "extraHallways",
+          "imperfections"
+        ],
+        "externalSecondaryTerrain": true,
+        "acceptedCanonicalProceduralFloorCount": 3,
+        "rawLayoutCodes": [
+          6
+        ],
+        "rawCanonicalUsage": {
+          "6": 3
+        }
+      },
+      {
+        "id": "cross",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateCrossFloor",
+          "line": 809,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L809"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 7,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": {
+          "columns": 3,
+          "rows": 3,
+          "xBoundaries": [
+            11,
+            22,
+            33,
+            44
+          ],
+          "yBoundaries": [
+            2,
+            11,
+            20,
+            30
+          ]
+        },
+        "construction": [
+          "Mark all cells rooms then invalidate four corners; connect center to four arms. Create standard rooms; no merging; ensure connected."
+        ],
+        "featureOrder": [
+          "shop",
+          "monsterHouse",
+          "extraHallways",
+          "imperfections"
+        ],
+        "externalSecondaryTerrain": false,
+        "acceptedCanonicalProceduralFloorCount": 19,
+        "rawLayoutCodes": [
+          7
+        ],
+        "rawCanonicalUsage": {
+          "7": 19
+        }
+      },
+      {
+        "id": "large-narrow-grid",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateFloor / GenerateStandardFloor",
+          "line": 232,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L232"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 8,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": "Grid draw X in[2,4],Y in[2,3], otherwise standard large construction.",
+        "construction": [
+          "Same standard stages as layout0; distinct initial grid distribution."
+        ],
+        "featureOrder": [
+          "ordinaryMazeAttempt",
+          "shop",
+          "monsterHouse",
+          "extraHallways",
+          "imperfections",
+          "secondaryStructures"
+        ],
+        "externalSecondaryTerrain": true,
+        "acceptedCanonicalProceduralFloorCount": 5,
+        "rawLayoutCodes": [
+          8
+        ],
+        "rawCanonicalUsage": {
+          "8": 5
+        }
+      },
+      {
+        "id": "beetle",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateBeetleFloor",
+          "line": 865,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L865"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 9,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": {
+          "columns": 3,
+          "rows": 3,
+          "xBoundaries": [
+            5,
+            15,
+            35,
+            50
+          ],
+          "yBoundaries": [
+            2,
+            11,
+            20,
+            30
+          ]
+        },
+        "construction": [
+          "Create nine standard rooms. Connect left-center-right in each row without random merging; merge all three center cells vertically into their enclosing rectangle, retaining first center room ID; topology has six wings and one long center room. Ensure connected."
+        ],
+        "featureOrder": [
+          "shop",
+          "monsterHouse",
+          "extraHallways",
+          "imperfections"
+        ],
+        "externalSecondaryTerrain": false,
+        "acceptedCanonicalProceduralFloorCount": 22,
+        "rawLayoutCodes": [
+          9
+        ],
+        "rawCanonicalUsage": {
+          "9": 22
+        }
+      },
+      {
+        "id": "outer-rooms",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateOuterRoomsFloor",
+          "line": 948,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L948"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 10,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": "Use standard large grid draw; perimeter cells rooms, interior invalid.",
+        "construction": [
+          "Create standard rooms, assign source perimeter connections, carve with merging, ensure connected.",
+          "Native top/bottom connections omit top/bottom corner horizontal edges: for x=0..X-2 set cell(x,top/bottom).right iff x!=0; set cell(x+1,top/bottom).left iff x<X-2. Side-column connections for y=0..Y-2 set top iff y!=0 and bottom iff y<Y-2. Connectivity cleanup/retries resolve degenerate grids."
+        ],
+        "featureOrder": [
+          "ordinaryMazeAttempt",
+          "shop",
+          "monsterHouse",
+          "extraHallways",
+          "imperfections",
+          "secondaryStructures"
+        ],
+        "externalSecondaryTerrain": true,
+        "acceptedCanonicalProceduralFloorCount": 0,
+        "rawLayoutCodes": [
+          10
+        ],
+        "rawCanonicalUsage": {}
+      },
+      {
+        "id": "medium",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateFloor / GenerateStandardFloor",
+          "line": 270,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L270"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "layoutCode": 11,
+        "mapSize": [
+          56,
+          32
+        ],
+        "grid": {
+          "columns": 4,
+          "rows": "2+R(2)",
+          "validColumns": [
+            0,
+            1,
+            2
+          ]
+        },
+        "construction": [
+          "Standard stages with x>=3 invalid. Extra hallway eastward walks stop at x>=48."
+        ],
+        "featureOrder": [
+          "ordinaryMazeAttempt",
+          "shop",
+          "monsterHouse",
+          "extraHallways",
+          "imperfections",
+          "secondaryStructures"
+        ],
+        "externalSecondaryTerrain": true,
+        "acceptedCanonicalProceduralFloorCount": 494,
+        "rawLayoutCodes": [
+          11
+        ],
+        "rawCanonicalUsage": {
+          "11": 494
+        }
+      }
+    ],
+    "generationContracts": [
+      {
+        "id": "rng-and-grid-conventions",
+        "source": [
+          {
+            "file": "src/dungeon_random.c",
+            "symbol": "DungeonRandInt / DungeonRandRange",
+            "line": 49,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_random.c#L49"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "GetGridPositions",
+            "line": 1398,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L1398"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "InitDungeonGrid",
+            "line": 1421,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L1421"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "R": "For cap>=0, R(cap)=floor(u16*cap/65536); R(0) still draws and returns0. Native general helper also masks final result to16bits.",
+        "range": "RngRange(a,b)=min(a,b)+R(abs(a-b)); endpoints equal returns that endpoint without a draw; high endpoint exclusive.",
+        "nativeStream": "Unsigned32 LCG state=1566083941*state+1 modulo2^32; return state>>16. Seed initialized seed|1. Browser seed compatibility is not required.",
+        "coordinates": "All room rectangles half-open. Integer division truncates. Normal shared grid loops frequently x-major; standard room carving assigns room IDs y-major. Preserve explicitly stated order where it affects selection.",
+        "roomFlags": {
+          "allowSecondaryTerrain": 1,
+          "imperfections": 4
+        },
+        "warning": "Use accepted byte/signed fields exactly. roomDensity signed negative means fixed count; enemyDensity is read unsigned despite dead negative-density branch."
+      },
+      {
+        "id": "floor-generation-lifecycle",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateFloor",
+          "line": 159,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L159"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "sequence": [
+          "Initialize floor-wide globals, secondary structure budget, secondaryGen=false and sSecondSpawn=true.",
+          "Up to10 spawn/layout outer attempts. Each begins player/stairs anchors absent.",
+          "Within each outer attempt, up to10 geometry attempts. Any inner attempt index>0 zeros secondaryStructuresBudget for the remainder of this generation call. Reset grid/tile state and per-layout shop/house state.",
+          "If fixedRoomNumber!=0 call fixed construction. A floorwide fixed layout returns immediately from the inner loop; embedded chambers continue normal geometry validation.",
+          "For ordinary layout draw grid (up to32 retries), then select layout code modulo16. Codes12..15 dispatch standard large. Accepted canonical floor rows use raw13 seven times and raw15 twenty times; retain raw IDs and normalize behavior to family0.",
+          "After layout: reset inner boundary rows y1,y30; force any impassable tiles to wall; validate at least30 normal room tiles (roomId<=240) and at least2 distinct roomIds<64.",
+          "If all10 inner attempts fail, reset floor and create one-room Monster House fallback.",
+          "Finalize junctions. If secondaryGen true, run external secondary formations. secondaryGen is set true by eligible family and is not reset per retry.",
+          "Draw itemless house flag R(100)<itemlessMonsterHouseChance; nonenemy spawns; enemy spawns; resolve incompatible spawn flags.",
+          "Require player anchor. FloorType FIXED accepts without stairs reachability. Other floors require stairs and successful StairsAlwaysReachable. Failure starts next outer attempt.",
+          "After all10 outer attempts fail, reset/create one-room Monster House and spawn with itemless=false; source does not rerun normal validation.",
+          "Apply Kecleon shop stock rectangle/density and final tile bookkeeping."
+        ],
+        "bounds": {
+          "outerAttempts": 10,
+          "innerAttempts": 10,
+          "gridDimensionAttempts": 32
+        },
+        "sourceCommentConflict": "A nearby comment says20 room tiles. The executable C condition is >=30.",
+        "floorType": "Rescue target floor takes rescue classification first; otherwise fixed IDs1..49 are FIXED. Embedded fixed IDs>=50 are normal floor type."
+      },
+      {
+        "id": "room-assignment",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "AssignRooms",
+          "line": 1474,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L1474"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "steps": [
+          "Draw extra=R(3) even if roomDensity negative. Negative density requests absolute value; nonnegative requests density+extra.",
+          "Create256 false flags, set first requested count true; perform64 swaps at positions R(gridX*gridY),R(gridX*gridY).",
+          "Visit grid x-major then y; invalid cells do not advance flag cursor. Copy next flag into isRoom.",
+          "Odd grid-width special cell (floor(gridX/2),1) is forced not-room after accounting in source room counter.",
+          "Source nominal32-room guard can be overwritten by following assignment; accepted grids <=24 cells make this irrelevant.",
+          "If counted rooms<2, set the source sSecondSpawn flag false (no consumer in this generation translation unit) and perform up to200 x-major scans, selecting the first valid cell with R(100)<60 to force a room. Final whole-floor validator remains responsible for requiring2 rooms."
+        ],
+        "selection": "Fixed64 random swaps are not a uniform Fisher-Yates shuffle. Do not describe roomDensity as guaranteed final number after connectivity, merges and retries."
+      },
+      {
+        "id": "standard-room-and-anchor-construction",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "CreateRoomsAndAnchors",
+          "line": 1574,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L1574"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "room": {
+          "originMinimum": "cellStart+2",
+          "availableWidth": "cellWidth-4",
+          "availableHeight": "cellHeight-3",
+          "width": "RngRange(5,availableWidth)",
+          "height": "RngRange(4,availableHeight)",
+          "oddPreference": "For each dimension, replace with dimension|1 only if result is strictly less than available dimension.",
+          "aspectCorrection": "Shrink width if > floor(3*height/2), then height if > floor(3*width/2).",
+          "origin": "minimum+R(availableDimension-finalSize)",
+          "roomIdOrder": "y-major, then x-major; increment only rooms"
+        },
+        "anchor": "One ordinary floor tile with temporary roomId254 (converted during final junction processing). For X: minX=cellStartX+2, rangeX=cellWidth-4; lower=minX+(1 if first column else2), upper=minX+rangeX-(2 if last column else4); choose RngRange(lower,upper). For Y use minY=cellStartY+2, rangeY=cellHeight-3 and analogous first/last row margins.",
+        "features": [
+          "Always draw R(100)<80 for flagSecondaryStructure; then clear the flag if secondaryStructuresBudget==0.",
+          "flagImperfect follows roomFlags imperfections. If both flags would be true, a50/50 draw clears one."
+        ],
+        "boundsSource": "Same function lines1574\u20131717 supplies edge-specific anchor minimum/margin rules; use these if reproducing statistical placement, while standalone fixed chambers only require stated dimensions/gates."
+      },
+      {
+        "id": "grid-connections-and-hallways",
+        "source": [
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "AssignGridCellConnections",
+            "line": 1771,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L1771"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "CreateGridCellConnections",
+            "line": 2002,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L2002"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "CreateHallway",
+            "line": 2643,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L2643"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "EnsureConnectedGrid",
+            "line": 2803,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L2803"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "connectionWalk": [
+          "Random starting valid-grid cursor selection uses R(X),R(Y), not rejection sampling. Initial direction R(4): east,north,west,south.",
+          "For each floorConnectivity iteration always draw R(8) and R(4); replace direction iff first<4, else retain momentum. Rotate counterclockwise until direction stays in grid. If target invalid, stay; else mark reciprocal edge and move cursor.",
+          "If dead ends forbidden, repeatedly scan valid nonroom anchors with exactly1 edge; try up to8 random directions to add missing valid edge, until no additions."
+        ],
+        "carving": [
+          "Sanitize out-of-grid/invalid links. For each cell x-major/y-major choose interior room point or anchor. Process up/down/left/right links.",
+          "Each connection is an orthogonal three-leg hallway through the intervening grid boundary coordinate. Each leg has a56-step bound and stops on existing floor after leaving start.",
+          "If merging enabled, each eligible room has R(100)<5 opportunity followed by random cardinal neighbor. Merge connected, unmerged, valid room pair without secondary structures; carve enclosing rectangle and preserve source room assignment. Do not treat this as independent9.75% for every pair.",
+          "Connectivity repair connects an unconnected room to a connected neighbor in up,down,left,right priority. Remove unused isolated anchors and any still-disconnected rooms."
+        ],
+        "nativeBug": "Dead-end repair checks grid[x+1][y] validity for every chosen direction. At right edge this may read uninitialized grid storage. Native behavior is not a defined portable algorithm.",
+        "browserAdaptation": {
+          "qualification": "explicit-application-adaptation",
+          "rule": "Check the actual chosen neighbor with bounds, add only absent reciprocal valid edges, and stop after a pass adds none. At most2*X*Y-X-Y unique grid edges can be added. Cap boundary rotations at4 and fail attempt if none available.",
+          "why": "Preserves intended dead-end removal and finite generation without emulating uninitialized native memory."
+        }
+      },
+      {
+        "id": "extra-hallways-and-imperfections",
+        "source": [
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "GenerateExtraHallways",
+            "line": 1200,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L1200"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "GenerateRoomImperfections",
+            "line": 2432,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L2432"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "extraHallways": [
+          "Exactly numExtraHallways attempts; pick grid cell by R(X),R(Y). Require valid connected nonmaze room. Pick an interior tile and cardinal direction, adjusted away from extreme edges.",
+          "Walk out of room and past existing floor; abort if secondary terrain is encountered.",
+          "Maintain two-tile map margin, avoid side-adjacent floor and2x2 floor squares. Carve a stride of3..5 cells, then turn left/right equally. Stop on collision, impassable terrain, map/size boundary or existing connection. Eastward walks stop at x>=32 in small layout or x>=48 in medium layout."
+        ],
+        "imperfections": [
+          "Only flagged, valid, connected unmerged rooms with no maze/secondary feature.60% skip.",
+          "Use max(1,(width+height)//4) rounds, with two corner/edge searches per round. Select random corner and clockwise/counterclockwise progression, search at most10 cells for candidate floor.",
+          "Reject candidate near corridor within2 tiles or whose four cardinal neighbors do not match the selected corner cutting pattern; otherwise turn floor into wall."
+        ],
+        "invariant": "Imperfections must preserve intended room connectivity; whole-floor validation/retry checks reachability after later stages."
+      },
+      {
+        "id": "shop-and-monster-house-selection",
+        "source": [
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "GenerateKecleonShop",
+            "line": 3089,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L3089"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "GenerateMonsterHouse",
+            "line": 3247,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L3247"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "shop": [
+          "No shop if Monster House already selected, chance0, rescue target floor, or chance<=R(100).",
+          "Shuffle each0..14 coordinate list with200 random swaps; scan their Cartesian order for first valid connected room at least5x4, without merged/maze/secondary structure/exclusion flag.",
+          "Mark shop interior leaving1-tile room margin; suppress ordinary stairs/monster placements there; keep shop center for keeper."
+        ],
+        "monsterHouse": [
+          "No house if shop already exists; chance0 or chance<=R(100); special mission flag unk644.unk44!=0; or floor type not NORMAL.",
+          "Candidate must be valid, unabsorbed by merge, connected room, not shop/maze/secondary structure or unk15 exclusion.",
+          "One true bit among candidateCount shuffled64 random swaps selects house; enumerate source x-major. Mark every tile in selected room, store room ID. chance999 forces only the probability check, not other guards."
+        ],
+        "mutualExclusion": "Shop runs first, so a successful shop prevents subsequent house selection on that attempt.",
+        "itemless": "Separate R(100)<itemlessMonsterHouseChance is drawn after geometry and changes initial house spawns, not room identity."
+      },
+      {
+        "id": "maze-and-secondary-room-features",
+        "source": [
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "GenerateMazeRoom",
+            "line": 3374,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L3374"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "GenerateMaze",
+            "line": 3482,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L3482"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "GenerateMazeLine",
+            "line": 3573,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L3573"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "GenerateSecondaryStructure",
+            "line": 3706,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L3706"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "ordinaryMaze": "After chance passes, function returns whenever generationAttempt>=0. GenerateFloor sets attempt0..9, so ordinary mazeRoomChance never creates a maze in this pinned source. Do not quietly enable it as if source-backed.",
+        "secondaryMaze": "Secondary-structure case1 can still invoke maze carving. Seed walls/liquid from every-other border location then every-other interior location; grow by2 tiles in a random cardinal direction, rotate through up to4 choices until a floor destination is found; fill origin/intermediate. Stop when no direction available. Each success consumes floor cells, so bounded by room area.",
+        "structureEligibility": "Valid non-Monster-House, unmerged room, not imperfect, flaggedSecondaryStructure; only while remaining budget permits actual branch.",
+        "branches": [
+          {
+            "draw": 0,
+            "effect": "none"
+          },
+          {
+            "draw": 1,
+            "effect": "Spend1 budget; both room dimensions odd => secondary-terrain maze; otherwise if both>=5 place central plus in5x5 region, else central liquid dot."
+          },
+          {
+            "draw": 2,
+            "effect": "Only odd dimensions; spend1 budget,64 random cell picks, turn positions with (localX+localY)%2==1 into secondary terrain."
+          },
+          {
+            "draw": 3,
+            "effect": "Only dimensions>=5; four draws between start+2 and end-3 form two sorted coordinate pairs; spend1 budget; fill inclusive rectangle with liquid."
+          },
+          {
+            "draw": 4,
+            "effect": "Only dimensions>=6; spend1 budget; central2x2 island, surrounding4x4 secondary moat with corner-cuttable flags; place3 item flags and one Warp Trap; mark special region so ordinary reachability does not reject it."
+          },
+          {
+            "draw": 5,
+            "effect": "Spend1 budget then orientation R(2); attempt liquid divider through room center. Abort if any proposed cell is adjacent to corridor, but keep spent budget. Mark one side as special spawn region."
+          }
+        ],
+        "branchDraw": "R(6) once for each eligible cell; do not resample a branch that fails dimensions."
+      },
+      {
+        "id": "external-secondary-terrain",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "GenerateSecondaryTerrainFormations",
+          "line": 4609,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L4609"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "qualificationNote": "Nonmatching C in pinned Red source; comments link an original Blue comparison scratch at https://decomp.me/scratch/sA4YH. This report uses independently stated semantic behavior, not instruction-level equivalence.",
+        "guard": "Family externalSecondaryTerrain flag and roomFlags&1.",
+        "riverCountDistribution": [
+          {
+            "count": 1,
+            "drawSlots": 3
+          },
+          {
+            "count": 2,
+            "drawSlots": 3
+          },
+          {
+            "count": 3,
+            "drawSlots": 2
+          }
+        ],
+        "river": [
+          "Begin at top or bottom equally, x=RngRange(2,54), vertical heading toward opposite edge. Alternate vertical and horizontal chunks of2..7 cells; random horizontal left/right. Only convert eligible wall tiles.",
+          "After10..59 steps seed a lake:64 random offsets in[-3,3] around current point, accept if adjacent in8-neighborhood to existing liquid and inside two-tile margin; then7x7 smoothing converts eligible walls with>=4 liquid neighbors.",
+          "Stop when reaching existing secondary terrain or leaving vertical bounds."
+        ],
+        "standaloneLakes": [
+          "Repeat standaloneLakeDensity attempts; each seeks an eligible interior wall seed in at most200 full-map samples.",
+          "On a10x10 local boolean field start border true, interior false;80 random interior choices become true if a cardinal neighbor is true. Remaining false cells produce a compact liquid patch, clipped by map bounds and wall eligibility."
+        ],
+        "terrainSetter": "Never overwrites ordinary room floor, impassable walls, or protected secondary features. Cleanup resets secondary on shops, Monster Houses, unbreakable or stairs tiles to floor; outer rows/columns are forced back to walls as specified by boundary hook."
+      },
+      {
+        "id": "initial-spawn-density-and-order",
+        "source": [
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "ShuffleSpawnPositions",
+            "line": 4045,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L4045"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "SpawnNonEnemies",
+            "line": 4073,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L4073"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "SpawnEnemies",
+            "line": 4409,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L4409"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "ResolveInvalidSpawns",
+            "line": 3911,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L3911"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "order": [
+          "stairs",
+          "ordinary floor items",
+          "buried items",
+          "Monster House items/traps",
+          "ordinary traps",
+          "leader",
+          "ordinary enemies",
+          "forced Monster House enemies"
+        ],
+        "positionSelection": "Enumerate candidate cells x-major/y-major. For repeated placements shuffle with2*count random swaps, draw a start index, consume consecutive indices wrapping. Repeated flags can collapse when requested count exceeds candidate count. Empty lists skip.",
+        "densities": {
+          "floorItems": "If density0 skip; otherwise max(1,RngRange(d-2,d+2)).",
+          "buriedItems": "If density0 skip; otherwise RngRange(d-2,d+2), no min1 clamp.",
+          "monsterHouseItemsTraps": "RngRange(candidateCount//2,(8*candidateCount)//10), clamp lower6 and upper maxItemsInMonsterHouse (normally7); each slot R(2) chooses item versus trap, trap additionally requires leader-change capability. Skip entirely if itemless house.",
+          "ordinaryTraps": "RngRange(d//2,d), cap56.",
+          "ordinaryEnemies": "enemyDensity is unsigned; if >0 max(1,RngRange(d//2,d)), else abs(d). Special mission flag may add1.",
+          "forcedHouseEnemies": "For forceMonsterHouse, RngRange(7*candidateCount//10,8*candidateCount//10), min1, cap(3*maxMonsInMonsterHouse)//2 (normally18). Empty house uses3*3//2=4 cap."
+        },
+        "candidateRules": {
+          "stairs": "normal terrain, roomId!=255, not shop/monster spawn/special spawn/natural junction/unbreakable",
+          "floorItems": "normal room, not shop/MonsterHouse/natural junction/unbreakable",
+          "buriedItems": "wall terrain",
+          "houseItemsTraps": "normal MonsterHouse room tile not special spawn",
+          "ordinaryTraps": "normal room, not shop/item spawn/natural junction/unbreakable",
+          "leader": "normal room not shop/natural junction/unbreakable/item/monster/trap spawn; stairs not explicitly excluded",
+          "enemies": "normal room not shop/item/stairs/natural junction/unbreakable/player"
+        },
+        "resolve": [
+          "Remove traps from nonfloor terrain.",
+          "Impassable removes item spawn.",
+          "Stairs and item spawns remove trap spawn."
+        ],
+        "integration": "These are location/count stages; species/item/trap weighted selection remains the already accepted dungeon pool engine. Later triggered-house reinforcements use a separate contract."
+      },
+      {
+        "id": "stairs-reachability-validator",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "StairsAlwaysReachable",
+          "line": 5593,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L5593"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "predicate": "Flood from stairs over ordinary-floor cells and special CORNER_CUTTABLE-marked cells. Ordinary wall/liquid cells without that flag block. Eight-neighbor expansion uses side-cell blocked bits for diagonals. Any unvisited otherwise required traversable cell without unbreakable flag invalidates floor.",
+        "qualificationNote": "This is generation validation, not actor mobility. Its corner-cuttable flag does not grant actor passage. Fixed floor type bypasses this test."
+      },
+      {
+        "id": "shop-stock-placement",
+        "source": {
+          "file": "src/dungeon_generation.c",
+          "symbol": "sub_8051654",
+          "line": 6003,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L6003"
+        },
+        "qualification": "pinned-original-Red-comparative",
+        "steps": [
+          "Choose target width=max(3,RngRange(3,shopWidth-2)), height analogous. Native loops permit20 tries but clamp guarantees first iteration always succeeds.",
+          "Draw shrink rounds RngRange(2,4), i.e.2 or3, reused for X andY. For each axis while rectangle exceeds target dimension, remove left/right or top/bottom strip at50/50; clear shop flag there.",
+          "Clear shop flags on natural junctions. Center a3x3 stock template at floor((min+max)/2)-1.",
+          "For every template cell still shop, not MonsterHouse/natural-junction: mark item iff templateChance>R(100)."
+        ],
+        "chanceTables": [
+          {
+            "layoutId": 0,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 1,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 2,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 3,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 4,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 5,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 6,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 7,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 8,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 9,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 10,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 11,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 12,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 13,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 14,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          },
+          {
+            "layoutId": 15,
+            "centered3x3ItemChancesByYX": [
+              [
+                57,
+                57,
+                57
+              ],
+              [
+                100,
+                57,
+                100
+              ],
+              [
+                57,
+                57,
+                57
+              ]
+            ]
+          }
+        ],
+        "sourceTable": {
+          "file": "src/dungeon_config.c",
+          "symbol": "sKecleonShopItemSpawnChances",
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_config.c"
+        }
+      }
+    ],
+    "fixedRoomContracts": [
+      {
+        "id": "fixed-layout-dispatch",
+        "source": [
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "ProcessFixedRoom",
+            "line": 1026,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L1026"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "sub_8051288",
+            "line": 5888,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L5888"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "sub_8051438",
+            "line": 5949,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L5949"
+          },
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "CreateRoomsAndAnchorsForFixedFloor",
+            "line": 5732,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L5732"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "none": "ID0 means ordinary procedural generation; its nonempty pointer is not activated by a floor with fixedRoomNumber0.",
+        "floorwide": "IDs1..49: place bounding region at(5,5) in56x32 map, make outside region impassable; retain chasm versus wall presentation as tileset dictates. Boss tileset>=64 forces walls impassable. Fixed floor dimensions and actor/player anchors come from pointer facts; do not reuse a generic boss square.",
+        "embedded": "IDs>=50: grid=max(1,56//(width+4)) by max(1,32//(height+4)); AssignRooms; up to64 random cell choices seek isRoom, with final cursor fallback; reserve a cell for chamber dimensions, create ordinary surrounding rooms/anchors and connections from that cell with merging disabled, then insert chamber. Does not call ordinary shop/maze/secondary-room feature passes.",
+        "zeroDimensions": "Zero width/height falls back to one-room Monster House. None of the140 extracted pointers have zero dimensions.",
+        "protection": "Tile dispatch first sets unbreakable; only breakable-wall action1 clears it. Door and unbreakable are independent semantic fields.",
+        "sourceActionTable": "PlaceFixedRoomTile handles terrain/player/stairs/door codes and a204-entry entity metadata table. Special actions67/68/69 take priority over entity indexing. No tile arrays or original geometry are included here."
+      },
+      {
+        "id": "locked-chamber-reveal-and-key",
+        "source": [
+          {
+            "file": "src/dungeon_generation.c",
+            "symbol": "sub_8051438",
+            "line": 5949,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation.c#L5949"
+          },
+          {
+            "file": "src/dungeon_generation_fixed.c",
+            "symbol": "sub_8051E7C (Key handler)",
+            "line": 986,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation_fixed.c#L986"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "generation": "Header bit1 defers the chamber inner rectangle (two-cell inset) as impassable unbreakable walls; preserves up to8x8 action records for reveal. This hides the reward until unlocking, even for wall-traversing species.",
+        "use": "Key checks only the tile immediately north of the actor, independent of actor facing. It must have door flag0x1000 and remain closed. Restore stored chamber cells excluding one-cell perimeter, mark/reveal them, assign actor room ID, remove door+impassable flags from door; keep unbreakable flag.",
+        "after": "Run local adjacency, map/trap visibility refresh. Reward access may still require water or wall mobility according to each chamber accessContract."
+      },
+      {
+        "id": "fixed-rewards-and-actors",
+        "source": [
+          {
+            "file": "src/dungeon_generation_fixed.c",
+            "symbol": "SpawnItemAtPos",
+            "line": 23,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation_fixed.c#L23"
+          },
+          {
+            "file": "src/dungeon_generation_fixed.c",
+            "symbol": "sub_805210C",
+            "line": 1064,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation_fixed.c#L1064"
+          },
+          {
+            "file": "src/dungeon_generation_fixed.c",
+            "symbol": "SpawnSpeciesAtPos",
+            "line": 43,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_generation_fixed.c#L43"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "duplicateReward": "If the nominal fixed reward already exists in inventory, selected dungeon-team held slots, any recruited roster member held slot, or storage quantity>0, replace it with Link Cable. Existence flag governs bag/team; persistent held test uses itemId!=0. Do not limit this check to the bag.",
+        "actors": "Source species actions use current floor encounter pool level lookup, behavior code and fixed spawn. MONSTER_DECOY becomes Poliwag in this helper. Cutscene callbacks may remove or replace those actors; fixed pointer role list alone is not a campaign encounter predicate.",
+        "recruits": "Boss/reward recruitment behavior remains the existing campaign/recruitment corpus; do not infer from geometry."
+      },
+      {
+        "id": "fixed-layout-campaign-activation",
+        "source": [
+          {
+            "file": "src/dungeon_cutscene.c",
+            "symbol": "cutscene dispatch table",
+            "line": 73,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L73"
+          },
+          {
+            "file": "src/dungeon_cutscene.c",
+            "symbol": "sub_8084854",
+            "line": 137,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L137"
+          },
+          {
+            "file": "src/data/ground/ground_data_d11p02_station.h",
+            "symbol": "s_gs202_g0_s0_evt0_sref_script",
+            "line": 63,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_d11p02_station.h#L63"
+          },
+          {
+            "file": "src/dungeon_info.c",
+            "symbol": "GeneralizeMazeDungeonLoc",
+            "line": 2467,
+            "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_info.c#L2467"
+          }
+        ],
+        "qualification": "pinned-original-Red-comparative",
+        "rules": [
+          "The current floor fixed ID is loaded each visit; story completion does not automatically make its geometry procedural. Choose first/retry/post encounter callback separately.",
+          "For dispatch, dojo fixed IDs28..49 normalize to27.",
+          "For matching row: if missionKind != source UNK0 use post callback; otherwise if postFlag is set use post; else if retryFlag is set use retry; else use first and set retryFlag unless sentinel NUM_CUTSCENE_FLAGS.",
+          "Flags equal NUM_CUTSCENE_FLAGS have no mutable campaign flag; see exact27-row table.",
+          "Mt. Freeze mid rest stop chooses alternate source dungeon MtFreezePeak2 when RESCUE_SCENARIO_JOB_LIST[29] is true, otherwise primary MtFreezePeak. Alternate omits Ninetales fifth source floor; canonical playable peak has4 floors and terminal scene is separate.",
+          "Dojo native dungeon75..97 maps to shared table52 at source floor (nativeId-75)*3+localFloor; use already accepted source section crosswalk."
+        ],
+        "sceneDispatchRows": [
+          {
+            "fixedSymbol": "FIXED_ROOM_MT_STEEL_SKARMORY",
+            "first": "CUTSCENE_MT_STEEL_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_MT_STEEL_REACHED",
+            "retry": "CUTSCENE_MT_STEEL_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_MT_STEEL_COMPLETE",
+            "post": "CUTSCENE_MT_STEEL_POSTSTORY",
+            "sourceLine": 74
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_SINISTER_WOODS_TEAM_MEANIES",
+            "first": "CUTSCENE_SINISTER_WOODS_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_SINISTER_WOODS_REACHED",
+            "retry": "CUTSCENE_SINISTER_WOODS_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_SINISTER_WOODS_COMPLETE",
+            "post": "CUTSCENE_SINISTER_WOODS_POSTSTORY",
+            "sourceLine": 75
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_MT_THUNDER_PEAK_ZAPDOS",
+            "first": "CUTSCENE_MT_THUNDER_PEAK_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_MT_THUNDER_PEAK_REACHED",
+            "retry": "CUTSCENE_MT_THUNDER_PEAK_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_MT_THUNDER_PEAK_COMPLETE",
+            "post": "CUTSCENE_MT_THUNDER_PEAK_POSTSTORY",
+            "sourceLine": 76
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_MT_BLAZE_PEAK_MOLTRES",
+            "first": "CUTSCENE_MT_BLAZE_PEAK_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_MT_BLAZE_PEAK_REACHED",
+            "retry": "CUTSCENE_MT_BLAZE_PEAK_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_MT_BLAZE_PEAK_COMPLETE",
+            "post": "CUTSCENE_MT_BLAZE_PEAK_POSTSTORY",
+            "sourceLine": 77
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_FROSTY_GROTTO_ARTICUNO",
+            "first": "CUTSCENE_FROSTY_GROTTO_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_FROSTY_GROTTO_REACHED",
+            "retry": "CUTSCENE_FROSTY_GROTTO_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_FROSTY_GROTTO_COMPLETE",
+            "post": "CUTSCENE_FROSTY_GROTTO_POSTSTORY",
+            "sourceLine": 78
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_MT_FREEZE_PEAK_NINETALES",
+            "first": "CUTSCENE_MT_FREEZE_PEAK",
+            "retryFlag": "CUTSCENE_FLAG_MT_FREEZE_PEAK_COMPLETE",
+            "retry": "CUTSCENE_MT_FREEZE_PEAK_POSTSTORY",
+            "postFlag": "CUTSCENE_FLAG_MT_FREEZE_PEAK_COMPLETE",
+            "post": "CUTSCENE_MT_FREEZE_PEAK_POSTSTORY",
+            "sourceLine": 79
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_MAGMA_CAVERN_PIT_GROUDON",
+            "first": "CUTSCENE_MAGMA_CAVERN_PIT_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_MAGMA_CAVERN_PIT_REACHED",
+            "retry": "CUTSCENE_MAGMA_CAVERN_PIT_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_MAGMA_CAVERN_PIT_COMPLETE",
+            "post": "CUTSCENE_MAGMA_CAVERN_PIT_POSTSTORY",
+            "sourceLine": 80
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_MAGMA_CAVERN_PIT_TYRANITAR_ALAKAZAM",
+            "first": "CUTSCENE_MAGMA_CAVERN_MID",
+            "retryFlag": "CUTSCENE_FLAG_MAGMA_CAVERN_MID_REACHED",
+            "retry": "CUTSCENE_MAGMA_CAVERN_MID_POSTSTORY",
+            "postFlag": "CUTSCENE_FLAG_MAGMA_CAVERN_MID_REACHED",
+            "post": "CUTSCENE_MAGMA_CAVERN_MID_POSTSTORY",
+            "sourceLine": 81
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_SKY_TOWER_SUMMIT_RAYQUAZA",
+            "first": "CUTSCENE_SKY_TOWER_SUMMIT_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_SKY_TOWER_SUMMIT_REACHED",
+            "retry": "CUTSCENE_SKY_TOWER_SUMMIT_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_SKY_TOWER_SUMMIT_COMPLETE",
+            "post": "CUTSCENE_SKY_TOWER_SUMMIT_POSTSTORY",
+            "sourceLine": 82
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_UPROAR_FOREST_MANKEY",
+            "first": "CUTSCENE_UPROAR_FOREST_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_UPROAR_FOREST_REACHED",
+            "retry": "CUTSCENE_UPROAR_FOREST_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_UPROAR_FOREST_COMPLETE",
+            "post": "CUTSCENE_UPROAR_FOREST_POSTSTORY",
+            "sourceLine": 83
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_WESTERN_CAVE_MEWTWO",
+            "first": "CUTSCENE_WESTERN_CAVE_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_WESTERN_CAVE_REACHED",
+            "retry": "CUTSCENE_WESTERN_CAVE_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_WESTERN_CAVE_COMPLETE",
+            "post": "CUTSCENE_WESTERN_CAVE_POSTSTORY",
+            "sourceLine": 84
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_FIERY_FIELD_ENTEI",
+            "first": "CUTSCENE_FIERY_FIELD_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_FIERY_FIELD_REACHED",
+            "retry": "CUTSCENE_FIERY_FIELD_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_FIERY_FIELD_COMPLETE",
+            "post": "CUTSCENE_FIERY_FIELD_POSTSTORY",
+            "sourceLine": 85
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_LIGHTNING_FIELD_RAIKOU",
+            "first": "CUTSCENE_LIGHTNING_FIELD_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_LIGHTNING_FIELD_REACHED",
+            "retry": "CUTSCENE_LIGHTNING_FIELD_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_LIGHTNING_FIELD_COMPLETE",
+            "post": "CUTSCENE_LIGHTNING_FIELD_POSTSTORY",
+            "sourceLine": 86
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_NORTHWIND_FIELD_SUICUNE",
+            "first": "CUTSCENE_NORTHWIND_FIELD_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_NORTHWIND_FIELD_REACHED",
+            "retry": "CUTSCENE_NORTHWIND_FIELD_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_NORTHWIND_FIELD_COMPLETE",
+            "post": "CUTSCENE_NORTHWIND_FIELD_POSTSTORY",
+            "sourceLine": 87
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_MT_FARAWAY_HO_OH",
+            "first": "CUTSCENE_MT_FARAWAY",
+            "retryFlag": "NUM_CUTSCENE_FLAGS",
+            "retry": "CUTSCENE_MT_FARAWAY",
+            "postFlag": "CUTSCENE_FLAG_MT_FARAWAY_COMPLETE",
+            "post": "CUTSCENE_MT_FARAWAY_POSTSTORY",
+            "sourceLine": 88
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_NORTHERN_RANGE_LATIOS",
+            "first": "CUTSCENE_NORTHERN_RANGE_ATTEMPT1",
+            "retryFlag": "CUTSCENE_FLAG_NORTHERN_RANGE_REACHED",
+            "retry": "CUTSCENE_NORTHERN_RANGE_ATTEMPT2",
+            "postFlag": "CUTSCENE_FLAG_NORTHERN_RANGE_COMPLETE",
+            "post": "CUTSCENE_NORTHERN_RANGE_POSTSTORY",
+            "sourceLine": 89
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_BURIED_RELIC_REGIROCK",
+            "first": "CUTSCENE_REGIROCK",
+            "retryFlag": "NUM_CUTSCENE_FLAGS",
+            "retry": "CUTSCENE_REGIROCK",
+            "postFlag": "NUM_CUTSCENE_FLAGS",
+            "post": "CUTSCENE_REGIROCK",
+            "sourceLine": 90
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_BURIED_RELIC_REGICE",
+            "first": "CUTSCENE_REGICE",
+            "retryFlag": "NUM_CUTSCENE_FLAGS",
+            "retry": "CUTSCENE_REGICE",
+            "postFlag": "NUM_CUTSCENE_FLAGS",
+            "post": "CUTSCENE_REGICE",
+            "sourceLine": 91
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_BURIED_RELIC_REGISTEEL",
+            "first": "CUTSCENE_REGISTEEL",
+            "retryFlag": "NUM_CUTSCENE_FLAGS",
+            "retry": "CUTSCENE_REGISTEEL",
+            "postFlag": "NUM_CUTSCENE_FLAGS",
+            "post": "CUTSCENE_REGISTEEL",
+            "sourceLine": 92
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_WISH_CAVE_JIRACHI",
+            "first": "CUTSCENE_JIRACHI",
+            "retryFlag": "NUM_CUTSCENE_FLAGS",
+            "retry": "CUTSCENE_JIRACHI",
+            "postFlag": "CUTSCENE_FLAG_JIRACHI_COMPLETE",
+            "post": "CUTSCENE_JIRACHI_POSTSTORY",
+            "sourceLine": 93
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_SILVER_TRENCH_LUGIA",
+            "first": "CUTSCENE_SILVER_TRENCH",
+            "retryFlag": "NUM_CUTSCENE_FLAGS",
+            "retry": "CUTSCENE_SILVER_TRENCH",
+            "postFlag": "NUM_CUTSCENE_FLAGS",
+            "post": "CUTSCENE_SILVER_TRENCH",
+            "sourceLine": 94
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_STORMY_SEA_KYOGRE",
+            "first": "CUTSCENE_STORMY_SEA",
+            "retryFlag": "NUM_CUTSCENE_FLAGS",
+            "retry": "CUTSCENE_STORMY_SEA",
+            "postFlag": "NUM_CUTSCENE_FLAGS",
+            "post": "CUTSCENE_STORMY_SEA",
+            "sourceLine": 95
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_METEOR_CAVE_DEOXYS",
+            "first": "CUTSCENE_METEOR_CAVE",
+            "retryFlag": "NUM_CUTSCENE_FLAGS",
+            "retry": "CUTSCENE_METEOR_CAVE",
+            "postFlag": "NUM_CUTSCENE_FLAGS",
+            "post": "CUTSCENE_METEOR_CAVE",
+            "sourceLine": 96
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_PURITY_FOREST_CELEBI",
+            "first": "CUTSCENE_PURITY_FOREST",
+            "retryFlag": "NUM_CUTSCENE_FLAGS",
+            "retry": "CUTSCENE_PURITY_FOREST",
+            "postFlag": "NUM_CUTSCENE_FLAGS",
+            "post": "CUTSCENE_PURITY_FOREST",
+            "sourceLine": 97
+          },
+          {
+            "fixedSymbol": "FIRST_DOJO_MAZE_BOSS_ROOM",
+            "first": "CUTSCENE_MAZE_BOSS",
+            "retryFlag": "NUM_CUTSCENE_FLAGS",
+            "retry": "CUTSCENE_MAZE_BOSS",
+            "postFlag": "NUM_CUTSCENE_FLAGS",
+            "post": "CUTSCENE_MAZE_BOSS",
+            "sourceLine": 98
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_WISH_CAVE_MEDICHAM",
+            "first": "CUTSCENE_MEDICHAM",
+            "retryFlag": "CUTSCENE_FLAG_MEDICHAM_COMPLETE",
+            "retry": "CUTSCENE_MEDICHAM_POSTSTORY",
+            "postFlag": "CUTSCENE_FLAG_MEDICHAM_COMPLETE",
+            "post": "CUTSCENE_MEDICHAM_POSTSTORY",
+            "sourceLine": 99
+          },
+          {
+            "fixedSymbol": "FIXED_ROOM_HOWLING_FOREST_SMEARGLE",
+            "first": "CUTSCENE_HOWLING_FOREST",
+            "retryFlag": "CUTSCENE_FLAG_HOWLING_FOREST_COMPLETE",
+            "retry": "CUTSCENE_HOWLING_FOREST_POSTSTORY",
+            "postFlag": "CUTSCENE_FLAG_HOWLING_FOREST_COMPLETE",
+            "post": "CUTSCENE_HOWLING_FOREST_POSTSTORY",
+            "sourceLine": 100
+          }
+        ],
+        "mtFreezeBranch": {
+          "path": "src/data/ground/ground_data_d11p02_station.h",
+          "sha": "60bbd8aeb252e3a7de3a139e7feb2ee29d197f55",
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_d11p02_station.h",
+          "sourceLine": 63,
+          "condition": "RESCUE_SCENARIO_JOB_LIST[29] != 0",
+          "trueScriptDungeon": "SCRIPT_DUNGEON_MT_FREEZE_PEAK_2",
+          "falseScriptDungeon": "SCRIPT_DUNGEON_MT_FREEZE_PEAK",
+          "commercialScriptIncluded": false
+        },
+        "unresolvedBoundary": "Campaign callback actor spawning/removal/recruitment/completion is intentionally delegated to existing campaign corpus; this task does not copy commercial cutscene scripts."
+      }
+    ]
+  },
+  "commercialTilesIncluded": false
+}

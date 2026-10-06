@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-species-profiles",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "sources",
+  "createdAt": "2026-10-05",
+  "sources": [
+    {
+      "id": "blue-species",
+      "url": "https://github.com/diegogliarte/tools.diegogliarte.com/tree/f8890eb4ae9867c380381b3b95349092076fa4a6/src/lib/data/pmd-blue/",
+      "scope": "Blue-reported researcher stats/growth and ability identities; no identified binary",
+      "artifact": {
+        "filename": "blue-pokemons.json",
+        "sha256": "b95afc0ad68fccfbcb5d2a0541df3d5e43372550faa7b50f387c1233f15fbd16",
+        "bytes": 915699
+      }
+    },
+    {
+      "id": "blue-learning",
+      "url": "https://github.com/diegogliarte/tools.diegogliarte.com/tree/f8890eb4ae9867c380381b3b95349092076fa4a6/src/lib/data/pmd-blue/",
+      "scope": "Blue-reported researcher learning resources; exact pinned Red table agreement",
+      "artifact": {
+        "filename": "blue-pokemon-moves.json",
+        "sha256": "32b9c0e83b3c5ae37e71c2b0ab92ca6bee566461c1d620d4baf62d05a98531fa",
+        "bytes": 268908
+      }
+    },
+    {
+      "id": "blue-moves",
+      "url": "https://github.com/diegogliarte/tools.diegogliarte.com/tree/f8890eb4ae9867c380381b3b95349092076fa4a6/src/lib/data/pmd-blue/",
+      "scope": "Original move indices and English names",
+      "artifact": {
+        "filename": "blue-moves.json",
+        "sha256": "b72e1be275fb380e45be39357bd225fa3c82ecc7c41e60dc213f5730d80f29e2",
+        "bytes": 121782
+      }
+    },
+    {
+      "id": "red-monsters",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/data/monster/monster_data.json",
+      "scope": "Red comparative monster numerical facts and identities",
+      "artifact": {
+        "filename": "red-monster-data.json",
+        "sha256": "024f8d2b42582e4d017e3d408b1229b369396d9321ab11c1b7737d19b52bce2e",
+        "bytes": 460024
+      }
+    },
+    {
+      "id": "red-levels",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/data/system_sbin.s",
+      "scope": "Red comparative numerical level maps; independently decoded",
+      "artifact": {
+        "filename": "red-system-sbin.s",
+        "sha256": "4989a865b000ac89253da6445405233af2efffb16f08e0e838d01a1745f8932d",
+        "bytes": 2072451
+      }
+    },
+    {
+      "id": "red-learning",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/data/monster/learnset/learnset_data.json",
+      "scope": "Red comparative level-up and HMTMMoves compatibility lists",
+      "artifact": {
+        "filename": "species-learnset-data.json",
+        "sha256": "306eed9d1c14888b5730ee535818759fd96a6f3a302c1c244bd6fd4d8dad5ad8",
+        "bytes": 739774
+      }
+    },
+    {
+      "id": "red-move-ids",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/move_id.h",
+      "scope": "Red original move index constants",
+      "artifact": {
+        "filename": "effect-move_id.h",
+        "sha256": "e83705e5d1db64125c4a7c125e57fab63e5c26f79012090afd555693ee25daff",
+        "bytes": 12658
+      }
+    },
+    {
+      "id": "red-monster-ids",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/monster.h",
+      "scope": "Original internal identity constants; Castform 377 snowy, 378 sunny, 379 rainy",
+      "artifact": {
+        "filename": "species-monster.h",
+        "sha256": "ad46e24854f57998cbe6544faf73b87260d094d8d640cbc6cde1fb21564d1285",
+        "bytes": 12606
+      }
+    },
+    {
+      "id": "red-types",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/type.h",
+      "scope": "Red original type index constants",
+      "artifact": {
+        "filename": "species-type.h",
+        "sha256": "628667ffbbf3978dd988d4f2e98b4092e0d22aab19f04273fa964b9036ec26ab",
+        "bytes": 516
+      }
+    },
+    {
+      "id": "red-abilities",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/ability.h",
+      "scope": "Red original ability index constants",
+      "artifact": {
+        "filename": "species-ability.h",
+        "sha256": "3a510a3c84b4ab7800fe9abd1b97c3b9b1d9403bffde34963f8f1bf56844e711",
+        "bytes": 2491
+      }
+    },
+    {
+      "id": "red-areas",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/friend_area.h",
+      "scope": "Red original Friend Area index constants",
+      "artifact": {
+        "filename": "red-friend-area-constants.h",
+        "sha256": "d08e117a1b571bd32b8f4f1f6e84e89780c917d89a08f1f7620eab56495bdea5",
+        "bytes": 2995
+      }
+    },
+    {
+      "id": "red-learning-access",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/moves.c",
+      "scope": "GetLevelUpMoves and GetHMTMMoves resource semantics; source read only",
+      "artifact": {
+        "filename": "effect-moves.c",
+        "sha256": "77f7ecf51d1eaad857d145a5395bd68e7042bf633611983041aa782cdebb0eaa",
+        "bytes": 41128
+      }
+    },
+    {
+      "id": "red-learning-consumer",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/pokemon.c",
+      "scope": "CanMonLearnMove union and separate level/IQ gating; source read only",
+      "artifact": {
+        "filename": "red-pokemon.c",
+        "sha256": "ca46804becf408ad3a3a8cad21d7ac16309b2e43fd80bf4945a29951b66aa58b",
+        "bytes": 35082
+      }
+    },
+    {
+      "id": "upc-levels",
+      "url": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php.html",
+      "scope": "256 shared-original researcher numerical tables; hashes are normalized data, not raw HTML",
+      "artifact": {
+        "filename": "upc-level-exp-corpus.json",
+        "sha256": "8807a0c8c5ff000fc5d4ad54313900689a39a6da53c84cbc3688d02e75b465ee",
+        "bytes": 3529590
+      }
+    },
+    {
+      "id": "upc-body",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-various-notes.html#body-size",
+      "scope": "Shared-original body sizes; independent report comparison to Red"
+    },
+    {
+      "id": "upc-areas",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-friend-areas.html",
+      "scope": "57 shared-original areas and memberships; Slaking correction"
+    },
+    {
+      "id": "upc-recruit",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-recruiting.html",
+      "scope": "Shared-original raw base rates in tenths of percent; Sentret correction"
+    }
+  ],
+  "evidence": {
+    "crosswalk": {
+      "qualification": "Red comparative internal indices; Blue-reported persistent identity matched by dex/name; Unown explicitly crosswalked",
+      "sourceIds": [
+        "blue-species",
+        "red-monsters",
+        "red-monster-ids"
+      ]
+    },
+    "blue-red-stats": {
+      "qualification": "Blue-reported base/growth; all 413 profiles agree with pinned Red",
+      "sourceIds": [
+        "blue-species",
+        "red-monsters",
+        "red-levels"
+      ]
+    },
+    "red-only-levels": {
+      "qualification": "Red comparative temporary form base/growth only",
+      "sourceIds": [
+        "red-monsters",
+        "red-levels"
+      ]
+    },
+    "upc-shared-original-corroborated-red": {
+      "qualification": "Shared-original UPC table agrees with pinned Red EXP",
+      "sourceIds": [
+        "upc-levels",
+        "red-levels"
+      ]
+    },
+    "red-comparative-only": {
+      "qualification": "Pinned Red EXP; UPC table not retrieved; no specific Blue binary verification",
+      "sourceIds": [
+        "red-levels"
+      ]
+    },
+    "red-only-metadata": {
+      "qualification": "Pinned Red comparative numeric/identity metadata only",
+      "sourceIds": [
+        "red-monsters",
+        "red-types",
+        "red-abilities",
+        "red-areas"
+      ]
+    },
+    "blue-red-abilities": {
+      "qualification": "Both Blue-reported ability slots agree with Red",
+      "sourceIds": [
+        "blue-species",
+        "red-monsters",
+        "red-abilities"
+      ]
+    },
+    "shared-body": {
+      "qualification": "Shared-original UPC body-size facts agree with Red",
+      "sourceIds": [
+        "upc-body",
+        "red-monsters"
+      ]
+    },
+    "shared-area": {
+      "qualification": "Shared-original UPC memberships and Red; corrected Slaking/Raticate annotations",
+      "sourceIds": [
+        "upc-areas",
+        "red-areas",
+        "red-monsters"
+      ]
+    },
+    "shared-recruit": {
+      "qualification": "Shared-original raw base values and Red; corrected Sentret; eligibility and autojoin not represented by rates",
+      "sourceIds": [
+        "upc-recruit",
+        "red-monsters"
+      ]
+    },
+    "blue-red-learning": {
+      "qualification": "All 419 Blue-reported level-up/auxiliary tables agree with Red; auxiliary is HMTMMoves compatibility, not machine availability",
+      "sourceIds": [
+        "blue-learning",
+        "blue-moves",
+        "red-learning",
+        "red-learning-access",
+        "red-learning-consumer",
+        "red-move-ids"
+      ]
+    }
+  },
+  "blueBinaryBuildVerified": false,
+  "statOrder": [
+    "hp",
+    "attack",
+    "specialAttack",
+    "defense",
+    "specialDefense"
+  ],
+  "levelRowOrder": [
+    "cumulativeExp",
+    "hp",
+    "attack",
+    "specialAttack",
+    "defense",
+    "specialDefense"
+  ],
+  "levelIndexing": "Index 0 is level 1; rows store growth increments, not cumulative stats; EXP is cumulative.",
+  "learnsetInterpretation": "Raw ordered level-up records and HMTMMoves compatibility. Repeated levels retained. Does not authorize learning without level/IQ/form/state/availability rules.",
+  "capabilities": {
+    "numericProfileLookup": true,
+    "rawLearnsetLookup": true,
+    "metadataLookup": true,
+    "gameplayRules": []
+  },
+  "excluded": [
+    {
+      "internalId": 420,
+      "identity": "Munchlax",
+      "reason": "NPC-only; unused Munchlax to Snorlax evolution excluded"
+    },
+    {
+      "internalId": 421,
+      "identity": "Decoy",
+      "reason": "Special internal record"
+    },
+    {
+      "internalId": 422,
+      "identity": "Statue",
+      "reason": "Special internal record"
+    },
+    {
+      "internalId": 423,
+      "identity": "Rayquaza duplicate",
+      "reason": "Duplicate internal record"
+    }
+  ],
+  "reconciliation": {
+    "persistentProfiles": 413,
+    "nationalDexSpecies": 386,
+    "temporaryFormRecords": 6,
+    "redLevelMaps": 421,
+    "redUniquePayloads": 380,
+    "redDecodedBytesPerMap": 1200,
+    "redDecodedLevelRows": 42100,
+    "profileExpThresholds": 41300,
+    "upcTablesRetrieved": 256,
+    "upcExpThresholds": 25600,
+    "upcMissingPersistentTables": 157,
+    "upcMissingTemporaryTables": 6,
+    "blueVersusRedBaseStatCells": 2065,
+    "blueVersusRedGrowthCells": 206500,
+    "blueVersusRedCumulativeStatCells": 206500,
+    "upcVersusRedNumericCells": 153600,
+    "upcVersusBlueCumulativeStatCells": 128000,
+    "blueVersusRedBaseMismatchCount": 0,
+    "blueVersusRedGrowthMismatchCount": 0,
+    "blueVersusRedCumulativeMismatchCount": 0,
+    "upcVersusRedMismatchCount": 0,
+    "upcVersusBlueMismatchCount": 0
+  },
+  "researchArtifacts": [
+    {
+      "filename": "rescue-team-profile-crosswalk.json",
+      "sha256": "dd155e70e4c57a891e8e3ed3a826d048fdf45cd7708d5b0f54282d6ff60ad58f",
+      "bytes": 117119
+    },
+    {
+      "filename": "upc-level-exp-corpus.json",
+      "sha256": "8807a0c8c5ff000fc5d4ad54313900689a39a6da53c84cbc3688d02e75b465ee",
+      "bytes": 3529590
+    },
+    {
+      "filename": "red-level-exp-decoded.json",
+      "sha256": "619b34605705495aaaab57e3290236d8c99bb1cf8f9ecf1474deae43059ae977",
+      "bytes": 9020090
+    },
+    {
+      "filename": "level-exp-reconciliation.json",
+      "sha256": "b276e15af54786271d1eca580668299accbdafb405fae1bf298f04c76d98846d",
+      "bytes": 1660
+    },
+    {
+      "filename": "rescue-team-level-profiles.json",
+      "sha256": "246e9780418e3046c1174931a7e9c782a1d37d27feb079c63f62801e0a5586c8",
+      "bytes": 3864886
+    },
+    {
+      "filename": "build-level-research.py",
+      "sha256": "4c483adc18b455e825c25aa2ad6fd1629bec1f18088278ef2af874846a4ed2b0",
+      "bytes": 16716
+    }
+  ],
+  "distribution": "Independently structured numerical facts and identity/source references only. Public accessibility is not distribution permission for source prose, code, art or commercial content; none is reproduced here."
+}

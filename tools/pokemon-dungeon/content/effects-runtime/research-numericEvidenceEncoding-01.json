@@ -1,0 +1,1 @@
+"Scalar integers are exact source facts. Decimal fixed-point macro arguments are source literals before truncating 24.8/48.16 conversion; prefer explicitly rational effect parameters and do not execute literal decimals as exact binary values."

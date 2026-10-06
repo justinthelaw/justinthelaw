@@ -1,0 +1,448 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-campaign-facts",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "contracts",
+  "contracts": {
+    "routeSelection": {
+      "absentEntryIndex": -1,
+      "absentEntryMapId": "campaign-map-team-base-inside",
+      "wrapperRouteId": "campaign-route-81",
+      "wrapperResolvesField": "campaign-variable-dungeon-enter-index",
+      "successOutcome": "won",
+      "successField": "successMapId",
+      "otherOutcomeField": "failureMapId",
+      "tinyWoodsFailureMapId": "campaign-map-tiny-woods-entry",
+      "tinyWoodsOverridePredicateId": "predicate-3869df493c91b34e",
+      "fugitiveFailureMapIds": [
+        "campaign-map-lapis-cave-entry",
+        "campaign-map-mt-blaze-entry",
+        "campaign-map-frosty-forest-entry",
+        "campaign-map-mt-freeze-entry"
+      ],
+      "fugitiveActivePredicateId": "predicate-36e081dc59b7fdd2",
+      "inactiveFugitiveOverrideMapId": "campaign-map-team-base-inside",
+      "firstEntryCount": 0,
+      "firstEntryCountScope": "script-dungeon-identity",
+      "otherwiseRepeatEntry": true,
+      "nativeMapSentinelMeaning": "retain-caller-routing-context",
+      "excludedRouteId": "campaign-route-76",
+      "excludedRouteCapability": "blue-exchange-adapters",
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    },
+    "bossSpecials": {
+      "nonrepeatSpeciesIds": [
+        "pokemon-227",
+        "pokemon-023",
+        "pokemon-094",
+        "pokemon-308",
+        "pokemon-056"
+      ],
+      "ordinaryCombatRecruitmentDeniedSpeciesIds": [
+        "pokemon-380",
+        "pokemon-381"
+      ],
+      "namedEonRecruitmentCallbackId": "recruit-latias-latios",
+      "celebi": {
+        "speciesId": "pokemon-251",
+        "presencePredicateId": "predicate-ba29fcdc7785c04b",
+        "eligibilityCallbackId": "recruitment-eligibility",
+        "eligibleOutcome": "scripted-invitation",
+        "ineligibleOutcome": "remove-actor",
+        "combat": false
+      },
+      "jirachi": {
+        "speciesId": "pokemon-385",
+        "faintCompletionFlagId": "campaign-flag-cutscene-flag-jirachi-complete",
+        "faintFlagScope": "pending",
+        "recruitedOutcome": "finish",
+        "unrecruitedWithStoneCallbackId": "wish-menu",
+        "stonePredicateId": "predicate-ae0161207657c752",
+        "withoutStoneOutcome": "finish-without-wish",
+        "ownedRevisitOutcome": "remove-actor-without-wish-warp"
+      },
+      "regis": [
+        {
+          "speciesId": "pokemon-377",
+          "partItemId": "item-rock-part",
+          "sharedFlagId": "campaign-flag-cutscene-flag-regi-item-obtained",
+          "refreshHooks": [
+            "boss-regirock-entry",
+            "corresponding-part-pickup"
+          ],
+          "dropPartWhenFlagFalse": true,
+          "ownedExitSpawnsMissingPart": true,
+          "ownedExitPartBlockedByMusicBox": true,
+          "exitPosition": "designated-exit-or-leader-fallback",
+          "partOffsetY": -1,
+          "pickupRequiresUnrecruitedFlag": true,
+          "pickupWritesPersistentFlag": true,
+          "storageQualifies": false
+        },
+        {
+          "speciesId": "pokemon-378",
+          "partItemId": "item-ice-part",
+          "sharedFlagId": "campaign-flag-cutscene-flag-regi-item-obtained",
+          "refreshHooks": [
+            "boss-regice-entry",
+            "corresponding-part-pickup"
+          ],
+          "dropPartWhenFlagFalse": true,
+          "ownedExitSpawnsMissingPart": true,
+          "ownedExitPartBlockedByMusicBox": true,
+          "exitPosition": "designated-exit-or-leader-fallback",
+          "partOffsetY": -1,
+          "pickupRequiresUnrecruitedFlag": true,
+          "pickupWritesPersistentFlag": true,
+          "storageQualifies": false
+        },
+        {
+          "speciesId": "pokemon-379",
+          "partItemId": "item-steel-part",
+          "sharedFlagId": "campaign-flag-cutscene-flag-regi-item-obtained",
+          "refreshHooks": [
+            "boss-registeel-entry",
+            "corresponding-part-pickup"
+          ],
+          "dropPartWhenFlagFalse": true,
+          "ownedExitSpawnsMissingPart": true,
+          "ownedExitPartBlockedByMusicBox": true,
+          "exitPosition": "designated-exit-or-leader-fallback",
+          "partOffsetY": -1,
+          "pickupRequiresUnrecruitedFlag": true,
+          "pickupWritesPersistentFlag": true,
+          "storageQualifies": false
+        }
+      ],
+      "magmaPitSecondMap": {
+        "fixedRoomId": "magma-cavern-pit-fallen-allies-floor",
+        "firstOutcome": "fallen-allies-event",
+        "reachedOutcome": "remove-protected-event-actors-and-short-continuation"
+      },
+      "evidenceIds": [
+        "evidence-083b43d6ad149b7d",
+        "evidence-c31c4ecce0d75dd2",
+        "evidence-21eee82f2c0cb1db",
+        "evidence-d8b5156cc0df474b",
+        "evidence-b0b0e6d05b8664b4"
+      ]
+    },
+    "ambient": {
+      "smeargle": {
+        "requestVariableId": "campaign-variable-flag-kind-change-request",
+        "styleVariableId": "campaign-variable-flag-kind",
+        "requestedValue": 1,
+        "increment": 1,
+        "maximumBeforeWrap": 15,
+        "wrapTo": 0,
+        "clearRequestTo": 0
+      },
+      "munchlax": {
+        "counterVariableId": "campaign-variable-event-gonbe-0",
+        "callbackId": "munchlax-roll",
+        "drawMaximumExclusive": 256,
+        "successValue": 0,
+        "successCooldown": 4,
+        "failureCooldown": 1,
+        "tickDecrement": 1,
+        "tickMinimum": 0,
+        "presentationVariantDrawMaximumExclusive": 2
+      },
+      "refreshBoundaries": [
+        "fresh-game",
+        "final-dungeon-return",
+        "explicit-native-callback-1"
+      ],
+      "chansey": {
+        "speciesId": "pokemon-113",
+        "leaderTopic": 2,
+        "seenTopic": 1,
+        "unseenTopic": 0
+      },
+      "evidenceIds": [
+        "evidence-f2706fbf134161f1",
+        "evidence-608efa24de571307",
+        "evidence-88d21ad22964c812",
+        "evidence-1f26be83c56c5266"
+      ]
+    },
+    "callbackProtocol": {
+      "nativeOpcode": 59,
+      "argumentOrder": [
+        "callback-id",
+        "short-argument",
+        "argument-one"
+      ],
+      "resultHandling": "explicit-branch-discriminant",
+      "missingConsumer": "block-operation",
+      "implicitSuccess": false
+    },
+    "domains": [
+      {
+        "scenarioId": "MAIN",
+        "chapter": 2,
+        "milestoneId": "campaign-stage-main-2"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 3,
+        "milestoneId": "campaign-stage-main-3"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 4,
+        "milestoneId": "campaign-stage-main-4"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 5,
+        "milestoneId": "campaign-stage-main-5"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 6,
+        "milestoneId": "campaign-stage-main-6"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 7,
+        "milestoneId": "campaign-stage-main-7"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 8,
+        "milestoneId": "campaign-stage-main-8"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 9,
+        "milestoneId": "campaign-stage-main-9"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 10,
+        "milestoneId": "campaign-stage-main-10"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 11,
+        "milestoneId": "campaign-stage-main-11"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 12,
+        "milestoneId": "campaign-stage-main-12"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 13,
+        "milestoneId": "campaign-stage-main-13"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 14,
+        "milestoneId": "campaign-stage-main-14"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 15,
+        "milestoneId": "campaign-stage-main-15"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 16,
+        "milestoneId": "campaign-stage-main-16"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 17,
+        "milestoneId": "campaign-stage-main-17"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 18,
+        "milestoneId": "campaign-stage-main-18"
+      },
+      {
+        "scenarioId": "MAIN",
+        "chapter": 19,
+        "milestoneId": "campaign-stage-main-19"
+      },
+      {
+        "scenarioId": "SUB1",
+        "chapter": 29,
+        "milestoneId": "campaign-stage-sub1-29"
+      },
+      {
+        "scenarioId": "SUB1",
+        "chapter": 30,
+        "milestoneId": "campaign-stage-sub1-30"
+      },
+      {
+        "scenarioId": "SUB1",
+        "chapter": 31,
+        "milestoneId": "campaign-stage-sub1-31"
+      },
+      {
+        "scenarioId": "SUB1",
+        "chapter": 32,
+        "milestoneId": "campaign-stage-sub1-32"
+      },
+      {
+        "scenarioId": "SUB2",
+        "chapter": 33,
+        "milestoneId": "campaign-stage-sub2-33"
+      },
+      {
+        "scenarioId": "SUB2",
+        "chapter": 34,
+        "milestoneId": "campaign-stage-sub2-34"
+      },
+      {
+        "scenarioId": "SUB2",
+        "chapter": 35,
+        "milestoneId": "campaign-stage-sub2-35"
+      },
+      {
+        "scenarioId": "SUB3",
+        "chapter": 36,
+        "milestoneId": "campaign-stage-sub3-36"
+      },
+      {
+        "scenarioId": "SUB4",
+        "chapter": 38,
+        "milestoneId": "campaign-stage-sub4-38"
+      },
+      {
+        "scenarioId": "SUB4",
+        "chapter": 39,
+        "milestoneId": "campaign-stage-sub4-39"
+      },
+      {
+        "scenarioId": "SUB4",
+        "chapter": 40,
+        "milestoneId": "campaign-stage-sub4-40"
+      },
+      {
+        "scenarioId": "SUB4",
+        "chapter": 41,
+        "milestoneId": "campaign-stage-sub4-41"
+      },
+      {
+        "scenarioId": "SUB4",
+        "chapter": 42,
+        "milestoneId": "campaign-stage-sub4-42"
+      },
+      {
+        "scenarioId": "SUB4",
+        "chapter": 43,
+        "milestoneId": "campaign-stage-sub4-43"
+      },
+      {
+        "scenarioId": "SUB5",
+        "chapter": 44,
+        "milestoneId": "campaign-stage-sub5-44"
+      },
+      {
+        "scenarioId": "SUB6",
+        "chapter": 46,
+        "milestoneId": "campaign-stage-sub6-46"
+      },
+      {
+        "scenarioId": "SUB6",
+        "chapter": 47,
+        "milestoneId": "campaign-stage-sub6-47"
+      },
+      {
+        "scenarioId": "SUB6",
+        "chapter": 48,
+        "milestoneId": "campaign-stage-sub6-48"
+      },
+      {
+        "scenarioId": "SUB7",
+        "chapter": 49,
+        "milestoneId": "campaign-stage-sub7-49"
+      },
+      {
+        "scenarioId": "SUB8",
+        "chapter": 51,
+        "milestoneId": "campaign-stage-sub8-51"
+      },
+      {
+        "scenarioId": "SUB8",
+        "chapter": 52,
+        "milestoneId": "campaign-stage-sub8-52"
+      },
+      {
+        "scenarioId": "SUB9",
+        "chapter": 53,
+        "milestoneId": "campaign-stage-sub9-53"
+      },
+      {
+        "scenarioId": "SUB9",
+        "chapter": 54,
+        "milestoneId": "campaign-stage-sub9-54"
+      },
+      {
+        "scenarioId": "SUB9",
+        "chapter": 55,
+        "milestoneId": "campaign-stage-sub9-55"
+      }
+    ],
+    "retryPolicies": [
+      {
+        "id": "gengar-freeze-failure",
+        "scenarioId": "SUB9",
+        "chapter": 53,
+        "minimumAttemptStep": null,
+        "restartRumor": false,
+        "evidenceIds": [
+          "evidence-b4ff90a0ca5400af",
+          "evidence-af87ffc121e54b6e",
+          "evidence-9c71e9fe7d5965a0",
+          "evidence-685b7bbda831089d"
+        ]
+      },
+      {
+        "id": "gengar-murky-failure",
+        "scenarioId": "SUB9",
+        "chapter": 54,
+        "minimumAttemptStep": 4,
+        "restartRumor": false,
+        "evidenceIds": [
+          "evidence-b4ff90a0ca5400af",
+          "evidence-af87ffc121e54b6e",
+          "evidence-9c71e9fe7d5965a0",
+          "evidence-685b7bbda831089d"
+        ]
+      }
+    ],
+    "evidenceIds": [
+      "evidence-2f3d9d492d4da5e0",
+      "evidence-2b644b97d8c405cb",
+      "evidence-569ae39fbdf3e998",
+      "evidence-b85f319bb5463d40"
+    ],
+    "returnDecisionCount": 488,
+    "returnHookCount": 41,
+    "returnDecisionPolicy": {
+      "predicateEvaluation": "against-entry-state",
+      "actionApplication": "ordered-after-unique-matching-decision",
+      "callbacksReadOnly": true,
+      "callbackQueryCaching": "once-per-return-dispatch",
+      "sourceScriptsExecuted": false
+    },
+    "nativeNamespaces": {
+      "scriptDungeon": "83-row route index",
+      "proceduralDungeon": "accepted dungeon generation index",
+      "rescueDungeon": "source rescue symbol, absent sentinel represented by null",
+      "groundMap": "source index on map identity; adjusted base species map resolved by town owner",
+      "scenarioSelect": "continuation pair distinct from quest scenarios"
+    }
+  }
+}

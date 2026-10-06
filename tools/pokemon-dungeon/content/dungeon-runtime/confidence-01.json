@@ -1,0 +1,11 @@
+{"schemaVersion": 1, "catalogId": "original-blue-dungeon-facts", "family": "confidence", "records": [
+{"id":"accessible-floor-joins","qualification":"All 1427 field and 66 maze floors crosswalk to source profiles; accessible ordinary items: 136 pools exactly corroborated by UPC. Context pools and endpoint behavior remain Red comparative."},
+{"id":"canonical-identity","qualification":"Existing original-Blue authoring identity ledger; source section indices are provenance only."},
+{"id":"red-comparative-context-pools","qualification":"Shop, Monster House and buried weights are pinned Red comparative numerical facts; ordinary accessible floor pools have separate UPC joint-original corroboration."},
+{"id":"red-comparative-exclusions","qualification":"Preserved internal or unused source rows; unavailable as canonical dungeon floors."},
+{"id":"red-comparative-fixed-rooms","qualification":"Pinned Red comparative identity and dimensions only; all geometry requires independent authorship."},
+{"id":"red-comparative-generation","qualification":"All 28 parameters are pinned Red comparative facts. Money and terrain have 1763 exact joint-original UPC joins."},
+{"id":"red-comparative-restrictions","qualification":"Pinned Red comparative restrictions; omitted Boolean fields resolve false in inspected dungeonjson converter, not inferred gameplay defaults."},
+{"id":"red-comparative-traps","qualification":"Pinned Red comparative trap distribution facts; not Blue cartridge proof."},
+{"id":"shared-original-encounters","qualification":"UPC joint-original corroborates all 839 source pools and 3814 positive rows; zero-weight level lookups remain Red comparative."}
+]}

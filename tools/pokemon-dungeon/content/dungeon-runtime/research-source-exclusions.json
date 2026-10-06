@@ -1,0 +1,80 @@
+[
+  {
+    "sourceDirectory": "WondrousSea",
+    "sourceDungeonIndex": 39,
+    "floorRows": 12,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "Autopilot",
+    "sourceDungeonIndex": 49,
+    "floorRows": 10,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "D51",
+    "sourceDungeonIndex": 51,
+    "floorRows": 50,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "D61",
+    "sourceDungeonIndex": 61,
+    "floorRows": 99,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "D63",
+    "sourceDungeonIndex": 63,
+    "floorRows": 1,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "D54",
+    "sourceDungeonIndex": 54,
+    "floorRows": 30,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "Boss9",
+    "sourceDungeonIndex": 30,
+    "floorRows": 12,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "FantasyStraitAlt",
+    "sourceDungeonIndex": 55,
+    "floorRows": 19,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "Boss4",
+    "sourceDungeonIndex": 25,
+    "floorRows": 11,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "D50",
+    "sourceDungeonIndex": 50,
+    "floorRows": 2,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "Boss3",
+    "sourceDungeonIndex": 24,
+    "floorRows": 20,
+    "reason": "internal/special/unused; not a new accessible field dungeon"
+  },
+  {
+    "sourceDirectory": "MtFreezePeakAlt",
+    "sourceDungeonIndex": 22,
+    "floorRows": 4,
+    "reason": "alternate visit; retain separately from the 45 field identity count"
+  },
+  {
+    "sourceDirectory": "DojoRegistration",
+    "sourceDungeonIndex": 52,
+    "floorRows": 69,
+    "reason": "maze backing table; split by 23 slots, excluding unused slot21"
+  }
+]

@@ -1,6 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { resolve } from "node:path";
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 test("profile warning leaves the initial message unobstructed", async ({ page }) => {
   // Render the real website component with a trimmed profile, independently of

@@ -1,3 +1,5 @@
+import { DUNGEON_INDEX_SHA256 } from './dungeons-integrity.js';
+
 /**
  * Original-Blue factual dungeon catalog; no generation/spawning or campaign selection.
  * @template T
@@ -120,15 +122,36 @@ function validateWeights(rows, total, label) {
 export async function loadDungeonCatalog(dependencies) {
   requireCondition(typeof dependencies?.isSpeciesForm === 'function' && typeof dependencies?.isItemId === 'function', 'Species/form and item membership validators are required');
   const fetchResource = dependencies.fetchResource ?? fetch;
-  /** @param {string} filename @returns {Promise<unknown>} */
-  const read = async filename => {
-    const response = await fetchResource(new URL(`./dungeons/${filename}`, import.meta.url));
-    if (!response.ok) throw new Error(`Cannot load dungeon resource ${filename}: ${response.status}`);
-    return response.json();
+  /** Authenticate bounded bytes before decoding; a valid but stale shard must reject.
+   * @param {string} filename @param {string} expectedHash @returns {Promise<unknown>}
+   */
+  const read = async (filename, expectedHash) => {
+    requireCondition(/^[a-z][a-z0-9-]*\.json$/.test(filename) && /^[a-f0-9]{64}$/.test(expectedHash), 'Invalid dungeon resource descriptor');
+    const url = new URL(`./dungeons/${filename}`, import.meta.url);
+    const response = await fetchResource(url, { redirect: 'error', credentials: 'same-origin' });
+    if (!response.ok || response.redirected || !response.body || (response.url && response.url !== url.href)) {
+      void response.body?.cancel().catch(() => {});
+      throw new Error(`Cannot load local dungeon resource ${filename}`);
+    }
+    const reader = response.body.getReader();
+    const buffer = new Uint8Array(1024 * 1024);
+    let size = 0;
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        requireCondition(size + value.byteLength < buffer.byteLength, `Oversize dungeon resource ${filename}`);
+        buffer.set(value, size); size += value.byteLength;
+      }
+    } finally { await reader.cancel(); reader.releaseLock(); }
+    const bytes = buffer.slice(0, size);
+    const digest = new Uint8Array(await globalThis.crypto.subtle.digest('SHA-256', bytes));
+    const hash = [...digest].map(value => value.toString(16).padStart(2, '0')).join('');
+    requireCondition(hash === expectedHash, `Dungeon resource hash mismatch: ${filename}`);
+    return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
   };
-  const [rawIndex, rawSchemas] = await Promise.all([read('index.json'), read('schemas.json')]);
-  const manifest = object(rawIndex, 'dungeon index');
-  const schemaDocument = object(rawSchemas, 'dungeon schemas');
+  const manifest = object(await read('index.json', DUNGEON_INDEX_SHA256), 'dungeon index');
+  const schemaDocument = object(await read('schemas.json', string(manifest.schemaSha256, 'schema hash')), 'dungeon schemas');
   requireCondition(manifest.schemaVersion === 1 && manifest.catalogId === CATALOG_ID && schemaDocument.schemaVersion === 1, 'Unsupported dungeon catalog header');
   const resources = array(manifest.resources, 'resource list').map(r => object(r, 'resource'));
   requireCondition(resources.map(r => r.file).join('|') === RESOURCE_FILES.join('|'), 'Exact local dungeon resource list required');
@@ -137,7 +160,7 @@ export async function loadDungeonCatalog(dependencies) {
   requireCondition(Object.keys(schemas).sort().join('|') === expectedNames.join('|'), 'Exact dungeon schema families required');
   /** @type {Record<string, ObjectValue[]>} */
   const families = Object.fromEntries(expectedNames.map(name => [name, []]));
-  const documents = await Promise.all(RESOURCE_FILES.map(read));
+  const documents = await Promise.all(resources.map(resource => read(string(resource.file, 'resource file'), string(resource.sha256, 'resource hash'))));
   documents.forEach((raw, i) => {
     const doc = object(raw, 'resource document');
     const resource = resources[i];

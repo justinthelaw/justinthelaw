@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-campaign-facts",
+  "kind": "manifest",
+  "resources": [
+    {
+      "file": "schema.json",
+      "bytes": 412416,
+      "sha256": "6c30df00f5cfbc5407af6fedfd36632ff2e1b991649611f68cd94a25b3695c03"
+    },
+    {
+      "file": "model.json",
+      "bytes": 2618,
+      "sha256": "28b9642fea639fbfd21ccb043ae2ce8963848828d940832f670f09be8d9b7325"
+    },
+    {
+      "file": "predicates.json",
+      "bytes": 238579,
+      "sha256": "20c3f83d16d438bd901b2e95d47ebfbb7c6e1c194935032cece53f5e5bd61715"
+    },
+    {
+      "file": "transitions.json",
+      "bytes": 294263,
+      "sha256": "3af820aa515b91e085428bf959d927b03acb39f24dd503146715e0f0d617c58d"
+    },
+    {
+      "file": "routes.json",
+      "bytes": 78025,
+      "sha256": "f7c92090e644d29fafcd86cb3ebe351c20fe01bfb1abf12583b4e28fce3952b4"
+    },
+    {
+      "file": "bosses.json",
+      "bytes": 23632,
+      "sha256": "0c8b930a3bb36e986b3953d8fc152ff9d86517e4ec6af420ae9f51963ddff15b"
+    },
+    {
+      "file": "contracts.json",
+      "bytes": 13055,
+      "sha256": "a412725afdb391027b8408b0838b6f39f523c78fa3c3f0e7aebad9f8fa545ddb"
+    },
+    {
+      "file": "identities.json",
+      "bytes": 180678,
+      "sha256": "0592f2a92af4c4152480156ed8ade20f095f280fccc7124d3d0b9da8c817f6ae"
+    },
+    {
+      "file": "sources.json",
+      "bytes": 106316,
+      "sha256": "a43da59e5d0209fb8bae2aa11ce4a4a2b9f913cb0b2341bfa0402fd2baf65dfb"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { DERIVED_CONFIG, SITE_CONFIG } from "../src/config/site";
 
 function getSocialIconFiles(): string[] {

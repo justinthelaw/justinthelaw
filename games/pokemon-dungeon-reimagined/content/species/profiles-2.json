@@ -1,0 +1,4785 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-species-profiles",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "profiles",
+  "records": [
+    {
+      "id": "pokemon-101",
+      "speciesId": "pokemon-101",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 101,
+      "resources": {
+        "blueGrowthResourceId": 101,
+        "redGrowthResourceId": 101,
+        "blueLearnsetResourceId": 101,
+        "redLearnsetResourceId": 101
+      },
+      "levelResourceId": "level-121a0c2765568cf02541db58c5bc3251dbd0edd4f73c1535c61f522a904affee",
+      "learnsetResourceId": "learn-e4984071a32bb72b2a3c73cb371fc5d708825faf6083b75e70ac0e75159f61ea",
+      "typeIds": [5],
+      "abilityIds": [60, 32],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 160,
+      "friendAreaId": "friend-area-power-plant",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp101",
+        "redNumericTableSha256": "6f167f9ca8cb06eca2cdc7e8ab78dc299a014d4a837d74e35cfe96c4b3ba24e3",
+        "redDecodedPayloadSha256": "0add207809ea2878e98311073ab5456e3ef00b221ca8ab2937dc9471b329c05c",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=101.html",
+        "upcNumericTableSha256": "6f167f9ca8cb06eca2cdc7e8ab78dc299a014d4a837d74e35cfe96c4b3ba24e3"
+      }
+    },
+    {
+      "id": "pokemon-102",
+      "speciesId": "pokemon-102",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 102,
+      "resources": {
+        "blueGrowthResourceId": 102,
+        "redGrowthResourceId": 102,
+        "blueLearnsetResourceId": 102,
+        "redLearnsetResourceId": 102
+      },
+      "levelResourceId": "level-0fd232eab79d06300a3c8fc0dfb7ff13543fa6fe5b83e0384ccd6196bd702ef3",
+      "learnsetResourceId": "learn-27f098ee14d14f0ac379f2a4238668aa86d4c1d2d5938e7213374c771dbc8a72",
+      "typeIds": [4, 11],
+      "abilityIds": [
+        74,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 45,
+      "friendAreaId": "friend-area-jungle",
+      "recruitment": {
+        "baseRateTenthsPercent": 60,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp102",
+        "redNumericTableSha256": "904e1ae01d2f953e89c45497687e08a0473b48ebc762d95bb2391b0ceb95355f",
+        "redDecodedPayloadSha256": "7bc842ac0c7f4773df7bc74c5d9823dd8b2fbdcc99621d807944e4899f4f670c",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=102.html",
+        "upcNumericTableSha256": "904e1ae01d2f953e89c45497687e08a0473b48ebc762d95bb2391b0ceb95355f"
+      }
+    },
+    {
+      "id": "pokemon-103",
+      "speciesId": "pokemon-103",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 103,
+      "resources": {
+        "blueGrowthResourceId": 103,
+        "redGrowthResourceId": 103,
+        "blueLearnsetResourceId": 103,
+        "redLearnsetResourceId": 103
+      },
+      "levelResourceId": "level-60fd2b8a2ecc81c4768eb187c67a5fadc42ccfe3671113e8ad8742e68f77bad8",
+      "learnsetResourceId": "learn-85f04fdc6c8a1302abf54417d043510c4e4a9027b92b27cbb1e1d4f8f96a282c",
+      "typeIds": [4, 11],
+      "abilityIds": [
+        74,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-jungle",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp103",
+        "redNumericTableSha256": "7fac266450304dd559f26d65f012a1733c7064eedfafda2c18d213dc308cbfd2",
+        "redDecodedPayloadSha256": "fe74be439e26c9066db749174d925cff973acb950ff4804d197584c8b21f4ec4",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=103.html",
+        "upcNumericTableSha256": "7fac266450304dd559f26d65f012a1733c7064eedfafda2c18d213dc308cbfd2"
+      }
+    },
+    {
+      "id": "pokemon-104",
+      "speciesId": "pokemon-104",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 104,
+      "resources": {
+        "blueGrowthResourceId": 104,
+        "redGrowthResourceId": 104,
+        "blueLearnsetResourceId": 104,
+        "redLearnsetResourceId": 104
+      },
+      "levelResourceId": "level-4bdb041962e3a1fc78320710e46b18035d9fca2f370c34af4a3a2a3c60609afb",
+      "learnsetResourceId": "learn-845675944acfc5f7c0380e12b57a3860fb3ac15267003815b0da23b44f343e30",
+      "typeIds": [9],
+      "abilityIds": [7, 50],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 18,
+      "friendAreaId": "friend-area-mt-deepgreen",
+      "recruitment": {
+        "baseRateTenthsPercent": 105,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp104",
+        "redNumericTableSha256": "d3bb704d83cb3f9d38ae9d618af20e8400cfc11033a3d44ec8687f65cc42b6de",
+        "redDecodedPayloadSha256": "1bef98ad966bcd521f12f1448b7d6c871959470c4221b7b507dfea72f317149f",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=104.html",
+        "upcNumericTableSha256": "d3bb704d83cb3f9d38ae9d618af20e8400cfc11033a3d44ec8687f65cc42b6de"
+      }
+    },
+    {
+      "id": "pokemon-105",
+      "speciesId": "pokemon-105",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 105,
+      "resources": {
+        "blueGrowthResourceId": 105,
+        "redGrowthResourceId": 105,
+        "blueLearnsetResourceId": 105,
+        "redLearnsetResourceId": 105
+      },
+      "levelResourceId": "level-07623ce1affef6d62b332f55f77f6ef5d967662f7bdcfdbbadef21d172690f8c",
+      "learnsetResourceId": "learn-95b7d8740ba4f9978186522d48d5e21d5ca349472dcaa8b265b31829dd2aa521",
+      "typeIds": [9],
+      "abilityIds": [7, 50],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-mt-deepgreen",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp105",
+        "redNumericTableSha256": "56290303465b4d097a870cd0ad75614a84e7107dc13e2fee28508326eeffc7a4",
+        "redDecodedPayloadSha256": "1518514b3757afe2c3f026337f225de483943260f8db04f5939efbc917f7323c",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=105.html",
+        "upcNumericTableSha256": "56290303465b4d097a870cd0ad75614a84e7107dc13e2fee28508326eeffc7a4"
+      }
+    },
+    {
+      "id": "pokemon-106",
+      "speciesId": "pokemon-106",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 106,
+      "resources": {
+        "blueGrowthResourceId": 106,
+        "redGrowthResourceId": 106,
+        "blueLearnsetResourceId": 106,
+        "redLearnsetResourceId": 106
+      },
+      "levelResourceId": "level-cd2550c5982e56a4d2b85e54bfd1092edaf2869402825eb5cc8d64f963ecf8ef",
+      "learnsetResourceId": "learn-fe41d22461c977db047d6e68480e02bb65e8c875abd427927f900c478614d785",
+      "typeIds": [7],
+      "abilityIds": [
+        22,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-mt-discipline",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp106",
+        "redNumericTableSha256": "84bc875e3c91d53645e5ea9ecc0c6a29d03b037b506a8f0b20ec5e507e80a4e2",
+        "redDecodedPayloadSha256": "fe90a343cd157df1f6c7b17b3f2f2c0b12e0be6b93d0c2026840ed3f5d6bf7af",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=106.html",
+        "upcNumericTableSha256": "84bc875e3c91d53645e5ea9ecc0c6a29d03b037b506a8f0b20ec5e507e80a4e2"
+      }
+    },
+    {
+      "id": "pokemon-107",
+      "speciesId": "pokemon-107",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 107,
+      "resources": {
+        "blueGrowthResourceId": 107,
+        "redGrowthResourceId": 107,
+        "blueLearnsetResourceId": 107,
+        "redLearnsetResourceId": 107
+      },
+      "levelResourceId": "level-417553bdae6b099017a730182d8c3e498dcdf2578f6816f75cecd33411684ecb",
+      "learnsetResourceId": "learn-14dfb1423b8e1ced7202a3cbcf45b49baae8e7149077bbaf3d830d1e42890055",
+      "typeIds": [7],
+      "abilityIds": [
+        30,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 90,
+      "friendAreaId": "friend-area-mt-discipline",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp107",
+        "redNumericTableSha256": "0444e3d3451fa59ea1720c07c7e0dac3e9d9a235427475f39279c781b4b7a0f1",
+        "redDecodedPayloadSha256": "2f5e48b6f2c9f8949d3036a30e0dec5df88360ab278a8e6b928acede83354166",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=107.html",
+        "upcNumericTableSha256": "0444e3d3451fa59ea1720c07c7e0dac3e9d9a235427475f39279c781b4b7a0f1"
+      }
+    },
+    {
+      "id": "pokemon-108",
+      "speciesId": "pokemon-108",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 108,
+      "resources": {
+        "blueGrowthResourceId": 108,
+        "redGrowthResourceId": 108,
+        "blueLearnsetResourceId": 108,
+        "redLearnsetResourceId": 108
+      },
+      "levelResourceId": "level-8d77d3dd097a0b411c7f16782b485cebedc003db73f32d983c419fd66a7454e4",
+      "learnsetResourceId": "learn-0ff8fd4c5056042a0142a4068dcd55d9dee9491c6c5f1d897c7d72db94d3b3c7",
+      "typeIds": [1],
+      "abilityIds": [64, 41],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 95,
+      "friendAreaId": "friend-area-sky-blue-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 86,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp108",
+        "redNumericTableSha256": "5e64d6dfcf997c2d2e653d12e96f2352a9642b225d4766def34b5af33d85a083",
+        "redDecodedPayloadSha256": "1ed2e56dd10b15307025747ed49dae32d1982dbf31633bdde96a6f0a3386936d",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=108.html",
+        "upcNumericTableSha256": "5e64d6dfcf997c2d2e653d12e96f2352a9642b225d4766def34b5af33d85a083"
+      }
+    },
+    {
+      "id": "pokemon-109",
+      "speciesId": "pokemon-109",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 109,
+      "resources": {
+        "blueGrowthResourceId": 109,
+        "redGrowthResourceId": 109,
+        "blueLearnsetResourceId": 109,
+        "redLearnsetResourceId": 109
+      },
+      "levelResourceId": "level-43d10217c272e0ee188cef2865cfba3330f0275c088a6a48b6965d1610975ce5",
+      "learnsetResourceId": "learn-0befaf7c17e864dc89d84020b2bf0d70ac178887d5c5f2aaa36de3adcde61c5f",
+      "typeIds": [8],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 70,
+      "friendAreaId": "friend-area-poison-swamp",
+      "recruitment": {
+        "baseRateTenthsPercent": 79,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp109",
+        "redNumericTableSha256": "6d0fa687df57a3b0a0367c808398e2befde259abada31fcee416c76c37221e58",
+        "redDecodedPayloadSha256": "f23940a8b2928a178e6b8be7c0672eaab9d83df334890f0f8673d4a7089bef34",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=109.html",
+        "upcNumericTableSha256": "6d0fa687df57a3b0a0367c808398e2befde259abada31fcee416c76c37221e58"
+      }
+    },
+    {
+      "id": "pokemon-110",
+      "speciesId": "pokemon-110",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 110,
+      "resources": {
+        "blueGrowthResourceId": 110,
+        "redGrowthResourceId": 110,
+        "blueLearnsetResourceId": 110,
+        "redLearnsetResourceId": 110
+      },
+      "levelResourceId": "level-d1b3546a04c0b00081bc679b2efce0be23114ec6e2982b234a6b9bcea98aacd7",
+      "learnsetResourceId": "learn-4fdb1d3c87b0defdcd0243c8a461039f8638437f5940de79d5139817018d4839",
+      "typeIds": [8],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-poison-swamp",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp110",
+        "redNumericTableSha256": "9f56ac35bd85e2ff205bfec55c73e98efc61b5124d890256b6f0341983c1c608",
+        "redDecodedPayloadSha256": "4d4242ca70970cf53d703842f35d5d0a4a4941d656fb9236ec26f44362fd091a",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=110.html",
+        "upcNumericTableSha256": "9f56ac35bd85e2ff205bfec55c73e98efc61b5124d890256b6f0341983c1c608"
+      }
+    },
+    {
+      "id": "pokemon-111",
+      "speciesId": "pokemon-111",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 111,
+      "resources": {
+        "blueGrowthResourceId": 111,
+        "redGrowthResourceId": 111,
+        "blueLearnsetResourceId": 111,
+        "redLearnsetResourceId": 111
+      },
+      "levelResourceId": "level-5b379841e2216ecdea82b3adba0bc9fc8fe383c11851f3c7b3eee15ac9979eb8",
+      "learnsetResourceId": "learn-a69c033edf11dead6c0b79c71d98a7a558587e4a2f5a1df3c0956ef7b0678bbe",
+      "typeIds": [9, 13],
+      "abilityIds": [50, 7],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 100,
+      "friendAreaId": "friend-area-safari",
+      "recruitment": {
+        "baseRateTenthsPercent": 77,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp111",
+        "redNumericTableSha256": "0258c2c3535ced9a66283f3dd3e81ed21f92b1ad630f95e33081bfd913a1cc29",
+        "redDecodedPayloadSha256": "0335cda9ada9aa0e74f0c1e1afd0f70aad53f47e3b7d7d2533b48f773c158ad1",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=111.html",
+        "upcNumericTableSha256": "0258c2c3535ced9a66283f3dd3e81ed21f92b1ad630f95e33081bfd913a1cc29"
+      }
+    },
+    {
+      "id": "pokemon-112",
+      "speciesId": "pokemon-112",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 112,
+      "resources": {
+        "blueGrowthResourceId": 112,
+        "redGrowthResourceId": 112,
+        "blueLearnsetResourceId": 112,
+        "redLearnsetResourceId": 112
+      },
+      "levelResourceId": "level-a720b7882ed74ecd3b5cd5fb43a021223732cd5d63b1dc9b6b669ac60f6ff83f",
+      "learnsetResourceId": "learn-7c21ab05e86bc1494e567cd8c81756a245b0af23d39c4f3b324c63725e1d8862",
+      "typeIds": [9, 13],
+      "abilityIds": [50, 7],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 110,
+      "friendAreaId": "friend-area-safari",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp112",
+        "redNumericTableSha256": "9b86820261d3e57e543f71ae4f559aa1cd737de2059b141da79b59ab4d13c4a8",
+        "redDecodedPayloadSha256": "40c2b6bb910db314d808d0f05adc75e13929f14a4daa8f57176030f7851fa6c8",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=112.html",
+        "upcNumericTableSha256": "9b86820261d3e57e543f71ae4f559aa1cd737de2059b141da79b59ab4d13c4a8"
+      }
+    },
+    {
+      "id": "pokemon-113",
+      "speciesId": "pokemon-113",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 113,
+      "resources": {
+        "blueGrowthResourceId": 113,
+        "redGrowthResourceId": 113,
+        "blueLearnsetResourceId": 113,
+        "redLearnsetResourceId": 113
+      },
+      "levelResourceId": "level-71cbfe3d808f18ddbedf7c72fc5824bfa90a46e502432c6ca58b4e3eebc55aa9",
+      "learnsetResourceId": "learn-94db47cbdd9b41ef5da430a1424dd535f665a8475dc93edc64deebf24bdbb0be",
+      "typeIds": [1],
+      "abilityIds": [20, 38],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 7,
+      "friendAreaId": "friend-area-sky-blue-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 69,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp113",
+        "redNumericTableSha256": "1be3af6bd4afa87e56ff73a3cd581408045c38297b68d812311ece47c6207d0f",
+        "redDecodedPayloadSha256": "bd86fa15da457c64aa711751a1e351135ac5f8cdf735a82345606d6c722343e9",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=113.html",
+        "upcNumericTableSha256": "1be3af6bd4afa87e56ff73a3cd581408045c38297b68d812311ece47c6207d0f"
+      }
+    },
+    {
+      "id": "pokemon-114",
+      "speciesId": "pokemon-114",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 114,
+      "resources": {
+        "blueGrowthResourceId": 114,
+        "redGrowthResourceId": 114,
+        "blueLearnsetResourceId": 114,
+        "redLearnsetResourceId": 114
+      },
+      "levelResourceId": "level-412561d10d52cac3f1fd8639dfcc6bcb6fd5423cce366c8395660eab86685d99",
+      "learnsetResourceId": "learn-be53d957c4874134aac79d90c856d693ada7420eca5ba5e8dde4eeeecad487ab",
+      "typeIds": [4],
+      "abilityIds": [
+        74,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-jungle",
+      "recruitment": {
+        "baseRateTenthsPercent": 74,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp114",
+        "redNumericTableSha256": "a11e3922802fd891c28f108e36ec944da83b39c79ba4f1782b518b54cc06b5fd",
+        "redDecodedPayloadSha256": "6caca3354cf750d9440bfd91ac61fb6a71c8f76f28665ee9a053b82593647174",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=114.html",
+        "upcNumericTableSha256": "a11e3922802fd891c28f108e36ec944da83b39c79ba4f1782b518b54cc06b5fd"
+      }
+    },
+    {
+      "id": "pokemon-115",
+      "speciesId": "pokemon-115",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 115,
+      "resources": {
+        "blueGrowthResourceId": 115,
+        "redGrowthResourceId": 115,
+        "blueLearnsetResourceId": 115,
+        "redLearnsetResourceId": 115
+      },
+      "levelResourceId": "level-c101fd14806e66d664c340b9d4411274f1a8ef6fd3161c239b02055af96100d7",
+      "learnsetResourceId": "learn-2970cef5a36704a323b66b63e3e1c7aacef7dae6abead10f2bec57d098cd0f2e",
+      "typeIds": [1],
+      "abilityIds": [
+        47,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 125,
+      "friendAreaId": "friend-area-safari",
+      "recruitment": {
+        "baseRateTenthsPercent": 76,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp115",
+        "redNumericTableSha256": "1286eb089c6b5cc206635a8fda5a2793c1fa290b96dac6f975c8bf7142e94175",
+        "redDecodedPayloadSha256": "110f1696e8cabced92fc130c7fe6fd23eb71f9ff473b059625272287b65625a1",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=115.html",
+        "upcNumericTableSha256": "1286eb089c6b5cc206635a8fda5a2793c1fa290b96dac6f975c8bf7142e94175"
+      }
+    },
+    {
+      "id": "pokemon-116",
+      "speciesId": "pokemon-116",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 116,
+      "resources": {
+        "blueGrowthResourceId": 116,
+        "redGrowthResourceId": 116,
+        "blueLearnsetResourceId": 116,
+        "redLearnsetResourceId": 116
+      },
+      "levelResourceId": "level-ed8392a806873899125f9b5e99c20ad39c1c9b503fbb94ddc052f5bf6a55c07a",
+      "learnsetResourceId": "learn-e9e7e251dd8975018dce839b435370f6c2e9c8d837eb15e92073e0127f2b6a1a",
+      "typeIds": [3],
+      "abilityIds": [
+        27,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 65,
+      "friendAreaId": "friend-area-treasure-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": 124,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp116",
+        "redNumericTableSha256": "863c164c1dbcef0ebd4d325ffc60c5c08f14e4d8b1c35a69f26c2180f87183b6",
+        "redDecodedPayloadSha256": "0fc79c82f0adafcce0632a43662716dfdaced62973918988693c75399c71fcc9",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=116.html",
+        "upcNumericTableSha256": "863c164c1dbcef0ebd4d325ffc60c5c08f14e4d8b1c35a69f26c2180f87183b6"
+      }
+    },
+    {
+      "id": "pokemon-117",
+      "speciesId": "pokemon-117",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 117,
+      "resources": {
+        "blueGrowthResourceId": 117,
+        "redGrowthResourceId": 117,
+        "blueLearnsetResourceId": 117,
+        "redLearnsetResourceId": 117
+      },
+      "levelResourceId": "level-2ae2127297e71c974afff8c6ee940803ac8c5d57d1033a4fa3dc7dbf5bd53bf0",
+      "learnsetResourceId": "learn-ca8207ca567d0b39ff01b25e5fa98d80ad432f679b7a2820cc26db7c954ed26e",
+      "typeIds": [3],
+      "abilityIds": [
+        39,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 95,
+      "friendAreaId": "friend-area-treasure-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp117",
+        "redNumericTableSha256": "8c72cd7d2240349c5a2104ada2af67b4dae3206654c57005dc80663eabe1e66f",
+        "redDecodedPayloadSha256": "bf9defaed4e71b7b9ad25e7a79940352a71824973fa47c72278e97b813c6285e",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=117.html",
+        "upcNumericTableSha256": "8c72cd7d2240349c5a2104ada2af67b4dae3206654c57005dc80663eabe1e66f"
+      }
+    },
+    {
+      "id": "pokemon-118",
+      "speciesId": "pokemon-118",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 118,
+      "resources": {
+        "blueGrowthResourceId": 118,
+        "redGrowthResourceId": 118,
+        "blueLearnsetResourceId": 118,
+        "redLearnsetResourceId": 118
+      },
+      "levelResourceId": "level-93d5fc1f786356c243c3abf536146d5ffcbfa6f75daf40b1a11a86bbf4919a12",
+      "learnsetResourceId": "learn-42f2acc0e587b3a21a84b05087c8083cdc4134bd3f8e908bbb46a75ff0eab66e",
+      "typeIds": [3],
+      "abilityIds": [27, 66],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-rub-a-dub-river",
+      "recruitment": {
+        "baseRateTenthsPercent": 119,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp118",
+        "redNumericTableSha256": "2907f8756fc2ba9517709ac2b5d49b5feaf55dedb4fa6d30780f9374b90c8c2d",
+        "redDecodedPayloadSha256": "a8629980974388f4139321d017bf8a308c313f18f6f39ed4cf141d770a249246",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=118.html",
+        "upcNumericTableSha256": "2907f8756fc2ba9517709ac2b5d49b5feaf55dedb4fa6d30780f9374b90c8c2d"
+      }
+    },
+    {
+      "id": "pokemon-119",
+      "speciesId": "pokemon-119",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 119,
+      "resources": {
+        "blueGrowthResourceId": 119,
+        "redGrowthResourceId": 119,
+        "blueLearnsetResourceId": 119,
+        "redLearnsetResourceId": 119
+      },
+      "levelResourceId": "level-1bca17543f2e8ae1d547202c72a0a82cc601acbc2681c6f5b630476c692c64dc",
+      "learnsetResourceId": "learn-a3b1bb3f9ef45840f68c4fec4bdd9503e17461110810201056ac6f9167d2dfab",
+      "typeIds": [3],
+      "abilityIds": [27, 66],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 65,
+      "friendAreaId": "friend-area-rub-a-dub-river",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp119",
+        "redNumericTableSha256": "9bb18e30b97d19084606c670ade3e7254fb4c5da4c3d73f382d70223bd17f5e9",
+        "redDecodedPayloadSha256": "219b2d14e1637dac75bf187a8fff0db235a742fd088305f5c1be8d38e6f08e55",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=119.html",
+        "upcNumericTableSha256": "9bb18e30b97d19084606c670ade3e7254fb4c5da4c3d73f382d70223bd17f5e9"
+      }
+    },
+    {
+      "id": "pokemon-120",
+      "speciesId": "pokemon-120",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 120,
+      "resources": {
+        "blueGrowthResourceId": 120,
+        "redGrowthResourceId": 120,
+        "blueLearnsetResourceId": 120,
+        "redLearnsetResourceId": 120
+      },
+      "levelResourceId": "level-d9ac6903ec0a03b0ed12e5d4c214fd250eb05c158bd24dd5ce168a9f8e10b266",
+      "learnsetResourceId": "learn-ea6a8103b0a06a6822f5d81de1c13f215ec58ff35567a2839e9901722c37725d",
+      "typeIds": [3],
+      "abilityIds": [46, 20],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 85,
+      "friendAreaId": "friend-area-bountiful-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": 89,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp120",
+        "redNumericTableSha256": "fb54ebeba5c9e6bbb6f509d0b898964d254b5678fea2abf20aa466013eaa5fde",
+        "redDecodedPayloadSha256": "8ea732262a6b9844bde09e07e79d83a54323a4b864a3118c78464b9055ca0edf",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=120.html",
+        "upcNumericTableSha256": "fb54ebeba5c9e6bbb6f509d0b898964d254b5678fea2abf20aa466013eaa5fde"
+      }
+    },
+    {
+      "id": "pokemon-121",
+      "speciesId": "pokemon-121",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 121,
+      "resources": {
+        "blueGrowthResourceId": 121,
+        "redGrowthResourceId": 121,
+        "blueLearnsetResourceId": 121,
+        "redLearnsetResourceId": 121
+      },
+      "levelResourceId": "level-c3aae7923c8891a4a673cbf119d223f3eea69ee8f1703e06cd6c63ce80c40908",
+      "learnsetResourceId": "learn-bdc9727de44a10f13ae04136cf2c166087ff586169cdb8308466f99aacdfda56",
+      "typeIds": [3, 11],
+      "abilityIds": [46, 20],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 115,
+      "friendAreaId": "friend-area-bountiful-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp121",
+        "redNumericTableSha256": "bea537309e7b25d15dc387b3c890c701773bbffd84ef5468454f9d9ebdd516b8",
+        "redDecodedPayloadSha256": "e05b5ef107dbb5c3b10b3b357a48876ae88038fff3520ed1e187621c83c63aad",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=121.html",
+        "upcNumericTableSha256": "bea537309e7b25d15dc387b3c890c701773bbffd84ef5468454f9d9ebdd516b8"
+      }
+    },
+    {
+      "id": "pokemon-122",
+      "speciesId": "pokemon-122",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 122,
+      "resources": {
+        "blueGrowthResourceId": 122,
+        "redGrowthResourceId": 122,
+        "blueLearnsetResourceId": 122,
+        "redLearnsetResourceId": 122
+      },
+      "levelResourceId": "level-f7b12531c38e6a54cbb0e18a12abb8e200c8ebca1f80208a974e784366a55c5d",
+      "learnsetResourceId": "learn-0b6508d21474fa18b6ff97c51424929df09d3db2509379a402d4e44de37e405e",
+      "typeIds": [11],
+      "abilityIds": [
+        60,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 160,
+      "friendAreaId": "friend-area-decrepit-lab",
+      "recruitment": {
+        "baseRateTenthsPercent": 74,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp122",
+        "redNumericTableSha256": "b05cfbdcdf1b304d67d2970e2727a81239913ad7bfa95fbb1b19af3bb8036f04",
+        "redDecodedPayloadSha256": "17e47b4d0949d550e6a786088b025a722ca372ee1c2de0d84ce435872dab6ab1",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=122.html",
+        "upcNumericTableSha256": "b05cfbdcdf1b304d67d2970e2727a81239913ad7bfa95fbb1b19af3bb8036f04"
+      }
+    },
+    {
+      "id": "pokemon-123",
+      "speciesId": "pokemon-123",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 123,
+      "resources": {
+        "blueGrowthResourceId": 123,
+        "redGrowthResourceId": 123,
+        "blueLearnsetResourceId": 123,
+        "redLearnsetResourceId": 123
+      },
+      "levelResourceId": "level-a85b30f77edc826441b205004cabedbe7f44c045e5a3b7b6555591149bfc1b07",
+      "learnsetResourceId": "learn-6d7c162a54e5dfb1bb24de4191cd8512ec8dc50bc22c34efd1dad78579fd8711",
+      "typeIds": [12, 10],
+      "abilityIds": [
+        67,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-overgrown-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 100,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp123",
+        "redNumericTableSha256": "172aa9076026578955cfd0bd418850b50f9a13ab1680d8a8ebd5ed99f5c99fc5",
+        "redDecodedPayloadSha256": "776f8018c4188ca9836235ae7cb5ba453b1d790bc548ee66db25149bb5cb910a",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=123.html",
+        "upcNumericTableSha256": "172aa9076026578955cfd0bd418850b50f9a13ab1680d8a8ebd5ed99f5c99fc5"
+      }
+    },
+    {
+      "id": "pokemon-124",
+      "speciesId": "pokemon-124",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 124,
+      "resources": {
+        "blueGrowthResourceId": 124,
+        "redGrowthResourceId": 124,
+        "blueLearnsetResourceId": 124,
+        "redLearnsetResourceId": 124
+      },
+      "levelResourceId": "level-4f7dc4c74821dedee3fb79f1de7311804e42612fad3cb9f6f7ed0b0d83ad7c59",
+      "learnsetResourceId": "learn-b8f3101f13e46c11e184d76773aaa1c0f158860540a80967d7b49f712a0becf3",
+      "typeIds": [6, 11],
+      "abilityIds": [
+        41,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 100,
+      "friendAreaId": "friend-area-frigid-cavern",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp124",
+        "redNumericTableSha256": "eaae6f0b05cd564aeb9402e012c81f1225dcfbc3cf54e21ed1ac893fd6970495",
+        "redDecodedPayloadSha256": "880dd990de3d092ffaaf16e0f9f1eace7dd4c577c7c56e5c35e2496e267d1197",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=124.html",
+        "upcNumericTableSha256": "eaae6f0b05cd564aeb9402e012c81f1225dcfbc3cf54e21ed1ac893fd6970495"
+      }
+    },
+    {
+      "id": "pokemon-125",
+      "speciesId": "pokemon-125",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 125,
+      "resources": {
+        "blueGrowthResourceId": 125,
+        "redGrowthResourceId": 125,
+        "blueLearnsetResourceId": 125,
+        "redLearnsetResourceId": 125
+      },
+      "levelResourceId": "level-dbc4fc0cbd5550b91100b74272e8a3c750a0b33457f4054942acc6ed577da198",
+      "learnsetResourceId": "learn-a79e5450a413d2f3208da021c516fd7f43245f728090b496037fb56eaadff481",
+      "typeIds": [5],
+      "abilityIds": [
+        32,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-power-plant",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp125",
+        "redNumericTableSha256": "400a4fdb378cc3e30a8c3929aa67fad5f4824c07f464f43ed2e7fef41f47b291",
+        "redDecodedPayloadSha256": "6f36dc80d511bb4de0384da81575f66a9639d1544d2b3617b7946c6b3b6debc9",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=125.html",
+        "upcNumericTableSha256": "400a4fdb378cc3e30a8c3929aa67fad5f4824c07f464f43ed2e7fef41f47b291"
+      }
+    },
+    {
+      "id": "pokemon-126",
+      "speciesId": "pokemon-126",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 126,
+      "resources": {
+        "blueGrowthResourceId": 126,
+        "redGrowthResourceId": 126,
+        "blueLearnsetResourceId": 126,
+        "redLearnsetResourceId": 126
+      },
+      "levelResourceId": "level-437be1a5ad84617d1af11429088156a5835408f4adb471a69368d89d0778b464",
+      "learnsetResourceId": "learn-8b3913dbfe639247ede5e1d41ce809eaab7d858cf137e0a967b72506943ace24",
+      "typeIds": [2],
+      "abilityIds": [
+        62,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 45,
+      "friendAreaId": "friend-area-crater",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp126",
+        "redNumericTableSha256": "64c09c9c220f334ee6b6bd6de1a608324de5b2c889f363eba39de3e7b3647a0b",
+        "redDecodedPayloadSha256": "fa13e008c878485ac70d74cc394dd5f0172ea5ce8ff79efe4915652bbdb45007",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=126.html",
+        "upcNumericTableSha256": "64c09c9c220f334ee6b6bd6de1a608324de5b2c889f363eba39de3e7b3647a0b"
+      }
+    },
+    {
+      "id": "pokemon-127",
+      "speciesId": "pokemon-127",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 127,
+      "resources": {
+        "blueGrowthResourceId": 127,
+        "redGrowthResourceId": 127,
+        "blueLearnsetResourceId": 127,
+        "redLearnsetResourceId": 127
+      },
+      "levelResourceId": "level-16b4c21f8ca656d9aba6a613c02adf1814e702075a2c5c8b0e96ff021380c2e7",
+      "learnsetResourceId": "learn-a6d06411957c20c5e5c54c3b560fb277a33a1a0e950e3b0460addad0d6c7265d",
+      "typeIds": [12],
+      "abilityIds": [
+        9,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 40,
+      "friendAreaId": "friend-area-overgrown-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 83,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp127",
+        "redNumericTableSha256": "bc3cf448d2842ce85682ef44dcf73545cc3a53464055dfa4ac31a93d927749f9",
+        "redDecodedPayloadSha256": "cf8b9fe4e58f312caec2ba8a352be8c32a7556cfd44fbc5419c6ab2ec3662f26",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=127.html",
+        "upcNumericTableSha256": "bc3cf448d2842ce85682ef44dcf73545cc3a53464055dfa4ac31a93d927749f9"
+      }
+    },
+    {
+      "id": "pokemon-128",
+      "speciesId": "pokemon-128",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 128,
+      "resources": {
+        "blueGrowthResourceId": 128,
+        "redGrowthResourceId": 128,
+        "blueLearnsetResourceId": 128,
+        "redLearnsetResourceId": 128
+      },
+      "levelResourceId": "level-b2a2a433efeefa0670c9770ff4fb0ec098b7872c2d36336ab50028c91de022a7",
+      "learnsetResourceId": "learn-7270ac00f098c19f2dcfaf64ace148a88c787fa747f5085baaea2680cd19a877",
+      "typeIds": [1],
+      "abilityIds": [
+        6,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 41,
+      "friendAreaId": "friend-area-safari",
+      "recruitment": {
+        "baseRateTenthsPercent": 79,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp128",
+        "redNumericTableSha256": "79a4283cb1ec90d669223e65a74d77b4eb5bb904cde2979a325b60776f5eec07",
+        "redDecodedPayloadSha256": "ff85ad072f515fc89ea8f93a702679f1f57898d61f2c20b04cf625dcb388ec54",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=128.html",
+        "upcNumericTableSha256": "79a4283cb1ec90d669223e65a74d77b4eb5bb904cde2979a325b60776f5eec07"
+      }
+    },
+    {
+      "id": "pokemon-129",
+      "speciesId": "pokemon-129",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 129,
+      "resources": {
+        "blueGrowthResourceId": 129,
+        "redGrowthResourceId": 129,
+        "blueLearnsetResourceId": 129,
+        "redLearnsetResourceId": 129
+      },
+      "levelResourceId": "level-f1cf913620830677024f3a07447b8e55d0fcef2b149afe3f09a62438c582c7e9",
+      "learnsetResourceId": "learn-12e15e36e589c389e09ec9dc8a5cc320d376e6e8adea294d2bd1428aa015f4db",
+      "typeIds": [3],
+      "abilityIds": [
+        27,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 10,
+      "friendAreaId": "friend-area-waterfall-lake",
+      "recruitment": {
+        "baseRateTenthsPercent": 92,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp129",
+        "redNumericTableSha256": "5af1dd406dafb34e5569d85ba0ae08787fe3dd954d564180d3ba51bc0dd7a1e4",
+        "redDecodedPayloadSha256": "975d1a00288fed01293587055dab308d4ea3b27c8aabab6f313112545cdbd950",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=129.html",
+        "upcNumericTableSha256": "5af1dd406dafb34e5569d85ba0ae08787fe3dd954d564180d3ba51bc0dd7a1e4"
+      }
+    },
+    {
+      "id": "pokemon-130",
+      "speciesId": "pokemon-130",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 130,
+      "resources": {
+        "blueGrowthResourceId": 130,
+        "redGrowthResourceId": 130,
+        "blueLearnsetResourceId": 130,
+        "redLearnsetResourceId": 130
+      },
+      "levelResourceId": "level-068e57280b56f758254f00c1c4806bb39ffcdacd28469fa2fc28d7aeea24f3bb",
+      "learnsetResourceId": "learn-532b5b2318ff06616221e643019d382a04159d1341c16cd58c4a83da652fbaad",
+      "typeIds": [3, 10],
+      "abilityIds": [
+        6,
+        null
+      ],
+      "bodySize": 4,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 225,
+      "friendAreaId": "friend-area-waterfall-lake",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp130",
+        "redNumericTableSha256": "5af4a638fb97829b8c075052b85e29ccd01642e31ade7a5ae894723b7f05ae6c",
+        "redDecodedPayloadSha256": "8892e966531c2b29cf28d7bf89527c989586bd0f74bcbf58d676f31c54102b95",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=130.html",
+        "upcNumericTableSha256": "5af4a638fb97829b8c075052b85e29ccd01642e31ade7a5ae894723b7f05ae6c"
+      }
+    },
+    {
+      "id": "pokemon-131",
+      "speciesId": "pokemon-131",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 131,
+      "resources": {
+        "blueGrowthResourceId": 131,
+        "redGrowthResourceId": 131,
+        "blueLearnsetResourceId": 131,
+        "redLearnsetResourceId": 131
+      },
+      "levelResourceId": "level-688c68cf86a94bcaeaf0d80da1bc2c9fa6ef41ea213016cf6031d6ceb5b67c04",
+      "learnsetResourceId": "learn-c51f6a88115e3a3d740225c973db69e6eea22c7aabac41d742a76cd2f77dbd02",
+      "typeIds": [3, 6],
+      "abilityIds": [36, 19],
+      "bodySize": 4,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 185,
+      "friendAreaId": "friend-area-mystic-lake",
+      "recruitment": {
+        "baseRateTenthsPercent": 67,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp131",
+        "redNumericTableSha256": "02e062f130446a3e0acc3f98e537b946db838fdebd8620e728f9ec12caa80aed",
+        "redDecodedPayloadSha256": "e4516a1046f0e7195bea7bd04fa6646903c5abc2adebb093333a9017af0d1963",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=131.html",
+        "upcNumericTableSha256": "02e062f130446a3e0acc3f98e537b946db838fdebd8620e728f9ec12caa80aed"
+      }
+    },
+    {
+      "id": "pokemon-132",
+      "speciesId": "pokemon-132",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 132,
+      "resources": {
+        "blueGrowthResourceId": 132,
+        "redGrowthResourceId": 132,
+        "blueLearnsetResourceId": 132,
+        "redLearnsetResourceId": 132
+      },
+      "levelResourceId": "level-cafd9120ec5ebeccedf03d1223f2a97dae952cebdee106ff5aee4bfbb4ddd8f0",
+      "learnsetResourceId": "learn-0a565247a13bf3cd45f730903769e426a05152bfaf8f91ed91df230586a6986b",
+      "typeIds": [1],
+      "abilityIds": [
+        22,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 5,
+      "friendAreaId": "friend-area-decrepit-lab",
+      "recruitment": {
+        "baseRateTenthsPercent": 68,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp132",
+        "redNumericTableSha256": "2b83e54bed5ca1f3e8cacb718dd87d0b6884830c575ba295970fa988762f98b5",
+        "redDecodedPayloadSha256": "d5729a178fca1dfa31d8e893528649cf45600b2baecd8fab2a4cdcf986f904b5",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=132.html",
+        "upcNumericTableSha256": "2b83e54bed5ca1f3e8cacb718dd87d0b6884830c575ba295970fa988762f98b5"
+      }
+    },
+    {
+      "id": "pokemon-133",
+      "speciesId": "pokemon-133",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 133,
+      "resources": {
+        "blueGrowthResourceId": 133,
+        "redGrowthResourceId": 133,
+        "blueLearnsetResourceId": 133,
+        "redLearnsetResourceId": 133
+      },
+      "levelResourceId": "level-fb2bc08c3571d3c75868460b587a94ba1a3c8df1b45e478eb895d8e5a0d16fa4",
+      "learnsetResourceId": "learn-b26159ba414185e2ca03a424469d3ccaacac27732c66b6c52cea8c7f60ae88bf",
+      "typeIds": [1],
+      "abilityIds": [
+        43,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 18,
+      "friendAreaId": "friend-area-transform-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 102,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp133",
+        "redNumericTableSha256": "0d158c4ecfade37ce87769a35418666ea12c8446346da93051d9207551b1cd26",
+        "redDecodedPayloadSha256": "248b93821e2a3929f677efd63855aec9d959904ad1285fc4add437dca6ccf455",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=133.html",
+        "upcNumericTableSha256": "0d158c4ecfade37ce87769a35418666ea12c8446346da93051d9207551b1cd26"
+      }
+    },
+    {
+      "id": "pokemon-134",
+      "speciesId": "pokemon-134",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 134,
+      "resources": {
+        "blueGrowthResourceId": 134,
+        "redGrowthResourceId": 134,
+        "blueLearnsetResourceId": 134,
+        "redLearnsetResourceId": 134
+      },
+      "levelResourceId": "level-32e62bbde9c48fe1380d881781361b51fd9ef356a25fe504c89388d38fbe6b9f",
+      "learnsetResourceId": "learn-990ab26fe0ea6f6db7698e7640936dfe4f810aead01d0b8761f6e87b714758a3",
+      "typeIds": [3],
+      "abilityIds": [
+        36,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-transform-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp134",
+        "redNumericTableSha256": "c46b5419558c9d4fa69fc65a4858e349f0dcdeef719950852576b380cc5a3765",
+        "redDecodedPayloadSha256": "9d8491d66cf22f7fafa4e78060383e2fe67e68e7b9ad01666e9b6143ccafb4a8",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=134.html",
+        "upcNumericTableSha256": "c46b5419558c9d4fa69fc65a4858e349f0dcdeef719950852576b380cc5a3765"
+      }
+    },
+    {
+      "id": "pokemon-135",
+      "speciesId": "pokemon-135",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 135,
+      "resources": {
+        "blueGrowthResourceId": 135,
+        "redGrowthResourceId": 135,
+        "blueLearnsetResourceId": 135,
+        "redLearnsetResourceId": 135
+      },
+      "levelResourceId": "level-a8beae9fb667ed2be24a7925e234cff0e01cdab7758d5a215c2fbb722d9da7d5",
+      "learnsetResourceId": "learn-fb164a521a4a7515a0c05583f0097673871ed85a816981a7069933a4f3b1c9dc",
+      "typeIds": [5],
+      "abilityIds": [
+        35,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 70,
+      "friendAreaId": "friend-area-transform-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp135",
+        "redNumericTableSha256": "87bd79f83b1bd389e098b9d96d28eedc2a98e8c0d3fa29cfe5c7457c363c90bf",
+        "redDecodedPayloadSha256": "f7552ebbce325ec237a13b69122f2aef7c7a95bf4d90490b17d94cbdf60b97e8",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=135.html",
+        "upcNumericTableSha256": "87bd79f83b1bd389e098b9d96d28eedc2a98e8c0d3fa29cfe5c7457c363c90bf"
+      }
+    },
+    {
+      "id": "pokemon-136",
+      "speciesId": "pokemon-136",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 136,
+      "resources": {
+        "blueGrowthResourceId": 136,
+        "redGrowthResourceId": 136,
+        "blueLearnsetResourceId": 136,
+        "redLearnsetResourceId": 136
+      },
+      "levelResourceId": "level-e47c56a7d7d978fbb6a69e79190fcb0fecf0877edfd6c21ae2983672f81c93e9",
+      "learnsetResourceId": "learn-2a88b8543441a10b7bcec342abe25452048aba73bf0d8523172c442df7062fe6",
+      "typeIds": [2],
+      "abilityIds": [
+        72,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 75,
+      "friendAreaId": "friend-area-transform-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp136",
+        "redNumericTableSha256": "df16e9cf9d9222ee9bdb336e22f0d48479de0859f07b45cd6f44c0da958b732b",
+        "redDecodedPayloadSha256": "4c4a22ac9569248cc627ee8487b3b2c4081dfd12c13d270dcd0c63b8c64dc627",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=136.html",
+        "upcNumericTableSha256": "df16e9cf9d9222ee9bdb336e22f0d48479de0859f07b45cd6f44c0da958b732b"
+      }
+    },
+    {
+      "id": "pokemon-137",
+      "speciesId": "pokemon-137",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 137,
+      "resources": {
+        "blueGrowthResourceId": 137,
+        "redGrowthResourceId": 137,
+        "blueLearnsetResourceId": 137,
+        "redLearnsetResourceId": 137
+      },
+      "levelResourceId": "level-3ca9c2284877fedf07af316838aae6c926a18b61ed43b8fb55d2d15c09852a21",
+      "learnsetResourceId": "learn-d824b5a8c7bb2efb319e08f690c133c06c8b1c63392e73cf88762aa62b5f705b",
+      "typeIds": [1],
+      "abilityIds": [
+        40,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 88,
+      "friendAreaId": "friend-area-decrepit-lab",
+      "recruitment": {
+        "baseRateTenthsPercent": 76,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp137",
+        "redNumericTableSha256": "be3c56da8c3002694d58f984443a352a57aa06716da99f5c0c00f9ff8e11227e",
+        "redDecodedPayloadSha256": "41f45484e98302ee4124efcbecad6273758f90fe6710ff673a8570379a8f71dd",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=137.html",
+        "upcNumericTableSha256": "be3c56da8c3002694d58f984443a352a57aa06716da99f5c0c00f9ff8e11227e"
+      }
+    },
+    {
+      "id": "pokemon-138",
+      "speciesId": "pokemon-138",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 138,
+      "resources": {
+        "blueGrowthResourceId": 138,
+        "redGrowthResourceId": 138,
+        "blueLearnsetResourceId": 138,
+        "redLearnsetResourceId": 138
+      },
+      "levelResourceId": "level-b2b8c38783948f2d4eb5fec97b6c7748972364f2de6b081da510b34d2ea90258",
+      "learnsetResourceId": "learn-9997e625e94c00bc503bc5fac8e1a262688416acf7dd8d97f779b4a1abf620fb",
+      "typeIds": [13, 3],
+      "abilityIds": [27, 19],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": 80,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp138",
+        "redNumericTableSha256": "3890d1e9bb2e3c13d35ada728ac2cbbf2e1f194ec6add278c413fbcc7979922f",
+        "redDecodedPayloadSha256": "a26fdb36343082e53c993737142eaa261504d0a200c5ff33d24b79757551186e",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=138.html",
+        "upcNumericTableSha256": "3890d1e9bb2e3c13d35ada728ac2cbbf2e1f194ec6add278c413fbcc7979922f"
+      }
+    },
+    {
+      "id": "pokemon-139",
+      "speciesId": "pokemon-139",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 139,
+      "resources": {
+        "blueGrowthResourceId": 139,
+        "redGrowthResourceId": 139,
+        "blueLearnsetResourceId": 139,
+        "redLearnsetResourceId": 139
+      },
+      "levelResourceId": "level-b543d34363b2366044ac559850498ecf714ed120b2fc90b2e89dde6d833caa98",
+      "learnsetResourceId": "learn-646722da013ae81a9ab28f61f3502675b96c1c52ed90f6d916a85c94e2219cab",
+      "typeIds": [13, 3],
+      "abilityIds": [27, 19],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 85,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp139",
+        "redNumericTableSha256": "612b4bfd34f7063e2d1766b54e9c6d2411391a7d5042f2013a926e22c580e047",
+        "redDecodedPayloadSha256": "d765288c14ebe45e0085bd0e3cde12f1ee36b559f4244a838bb69d04b95de719",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=139.html",
+        "upcNumericTableSha256": "612b4bfd34f7063e2d1766b54e9c6d2411391a7d5042f2013a926e22c580e047"
+      }
+    },
+    {
+      "id": "pokemon-140",
+      "speciesId": "pokemon-140",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 140,
+      "resources": {
+        "blueGrowthResourceId": 140,
+        "redGrowthResourceId": 140,
+        "blueLearnsetResourceId": 140,
+        "redLearnsetResourceId": 140
+      },
+      "levelResourceId": "level-2009cddbc37cf1f4c26e019121c886afe382206448efb9b9ec3e89b2f3638020",
+      "learnsetResourceId": "learn-89b9547f56798f8500af61d03943784b3763e3cacd7fcbd8d611dce902233b06",
+      "typeIds": [13, 3],
+      "abilityIds": [27, 12],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 45,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": 72,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp140",
+        "redNumericTableSha256": "b5241b1e172416f1d429dbbc7d271635c528aff2b0061dda95cd5ebec8102a7d",
+        "redDecodedPayloadSha256": "fcb913af98a4e790cef4b8780ddfc76801140a36afde4bbf569293b22e0f580f",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=140.html",
+        "upcNumericTableSha256": "b5241b1e172416f1d429dbbc7d271635c528aff2b0061dda95cd5ebec8102a7d"
+      }
+    },
+    {
+      "id": "pokemon-141",
+      "speciesId": "pokemon-141",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 141,
+      "resources": {
+        "blueGrowthResourceId": 141,
+        "redGrowthResourceId": 141,
+        "blueLearnsetResourceId": 141,
+        "redLearnsetResourceId": 141
+      },
+      "levelResourceId": "level-40627acf03e1c2e7e3298ed1624dcb37ab9b2bd11de61a8808924245c6eb7bda",
+      "learnsetResourceId": "learn-96a1fcd67b0e08b622558bd9a0ef0cf43ee78943339d6984c284fe4b3366f13a",
+      "typeIds": [13, 3],
+      "abilityIds": [27, 12],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 85,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp141",
+        "redNumericTableSha256": "7f8191747e39f5b4611ac332d71d6d3ff029bf39565c0e98eb9793c6e7c64364",
+        "redDecodedPayloadSha256": "5ca4447e27e76cac1d2cb9484c95d1adfad83367b65441875df0546f6f5f63e3",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=141.html",
+        "upcNumericTableSha256": "7f8191747e39f5b4611ac332d71d6d3ff029bf39565c0e98eb9793c6e7c64364"
+      }
+    },
+    {
+      "id": "pokemon-142",
+      "speciesId": "pokemon-142",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 142,
+      "resources": {
+        "blueGrowthResourceId": 142,
+        "redGrowthResourceId": 142,
+        "blueLearnsetResourceId": 142,
+        "redLearnsetResourceId": 142
+      },
+      "levelResourceId": "level-e4e755b2ac04d715d1c7c9d78ea7d857b830d82d3ac57ff92a904d5eeaf4297c",
+      "learnsetResourceId": "learn-64f7ef727c19865f5297bb2d664d3936f2d11e6f822a687cfca729421ed21f3f",
+      "typeIds": [13, 10],
+      "abilityIds": [7, 57],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 70,
+      "friendAreaId": "friend-area-ancient-relic",
+      "recruitment": {
+        "baseRateTenthsPercent": 84,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp142",
+        "redNumericTableSha256": "f3d475128ee5bfb079c5542848aea47c6e3afa360572802eed5d511300be94ac",
+        "redDecodedPayloadSha256": "70b93405a60742ba2f5f586337d740eb04aa0d2081a875015d5a53ba7df8f694",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=142.html",
+        "upcNumericTableSha256": "f3d475128ee5bfb079c5542848aea47c6e3afa360572802eed5d511300be94ac"
+      }
+    },
+    {
+      "id": "pokemon-143",
+      "speciesId": "pokemon-143",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 143,
+      "resources": {
+        "blueGrowthResourceId": 143,
+        "redGrowthResourceId": 143,
+        "blueLearnsetResourceId": 143,
+        "redLearnsetResourceId": 143
+      },
+      "levelResourceId": "level-3d8abacd0e1e8f3c3dcbacc48ac9a0625c4e4ec57792c2e419c02e7f8cd23932",
+      "learnsetResourceId": "learn-f209f61b1e839e2f367b599971f6334af0016e3b1596e9a7f6647717fd55d599",
+      "typeIds": [1],
+      "abilityIds": [69, 2],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 89,
+      "friendAreaId": "friend-area-energetic-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 20,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp143",
+        "redNumericTableSha256": "ad954efc613906137af97f003c487cbc26f80da94e86a785bcc286277388aa69",
+        "redDecodedPayloadSha256": "085bd78f0cc00b9c0a0fcbf105f0bdba8835e17f26385046b6c0091787049bd0",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=143.html",
+        "upcNumericTableSha256": "ad954efc613906137af97f003c487cbc26f80da94e86a785bcc286277388aa69"
+      }
+    },
+    {
+      "id": "pokemon-144",
+      "speciesId": "pokemon-144",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 144,
+      "resources": {
+        "blueGrowthResourceId": 144,
+        "redGrowthResourceId": 144,
+        "blueLearnsetResourceId": 144,
+        "redLearnsetResourceId": 144
+      },
+      "levelResourceId": "level-67c907940f3c0d757cf1210e7ae40163fc5485f9f9bd8c6e305e5acdf294fbe8",
+      "learnsetResourceId": "learn-bfc89a4eabda1d4d422e4cca5611ffe0a2bf4eed1be06a1493afdba935a99969",
+      "typeIds": [6, 10],
+      "abilityIds": [
+        57,
+        null
+      ],
+      "bodySize": 4,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 150,
+      "friendAreaId": "friend-area-legendary-island",
+      "recruitment": {
+        "baseRateTenthsPercent": 300,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp144",
+        "redNumericTableSha256": "72f7cd94ba62b449d895e47452fc7a507a161eb82a40c91e228f6d1b363dc6a3",
+        "redDecodedPayloadSha256": "94a6620f61a6de8a343b6bbc19b840d28c8832671175286ef61cd6475c2abaa4",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=144.html",
+        "upcNumericTableSha256": "72f7cd94ba62b449d895e47452fc7a507a161eb82a40c91e228f6d1b363dc6a3"
+      }
+    },
+    {
+      "id": "pokemon-145",
+      "speciesId": "pokemon-145",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 145,
+      "resources": {
+        "blueGrowthResourceId": 145,
+        "redGrowthResourceId": 145,
+        "blueLearnsetResourceId": 145,
+        "redLearnsetResourceId": 145
+      },
+      "levelResourceId": "level-ef5235662160da1343797fae6c426398bf053471c518037538baaf1f9c272fe5",
+      "learnsetResourceId": "learn-a2b86e7ba8a1799e0e13870e0a127b8c2d45a4006cf90f8747195f03177c6f83",
+      "typeIds": [5, 10],
+      "abilityIds": [
+        57,
+        null
+      ],
+      "bodySize": 4,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 160,
+      "friendAreaId": "friend-area-legendary-island",
+      "recruitment": {
+        "baseRateTenthsPercent": 300,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp145",
+        "redNumericTableSha256": "3cf6237a0355d002d43af3cae7339393c2ef51c7a55df3af51b8ef7144062c9e",
+        "redDecodedPayloadSha256": "db274ff0a9153ff04fc0acc5a41f15f52c3040546c78b51d9b8628b1173ebcab",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=145.html",
+        "upcNumericTableSha256": "3cf6237a0355d002d43af3cae7339393c2ef51c7a55df3af51b8ef7144062c9e"
+      }
+    },
+    {
+      "id": "pokemon-146",
+      "speciesId": "pokemon-146",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 146,
+      "resources": {
+        "blueGrowthResourceId": 146,
+        "redGrowthResourceId": 146,
+        "blueLearnsetResourceId": 146,
+        "redLearnsetResourceId": 146
+      },
+      "levelResourceId": "level-450305b004c2f3f9309a0ae60c7ae960521380b9e7d6b8a00398a6eac4c0ee57",
+      "learnsetResourceId": "learn-6b8078e9daba0406827351f69fada03b5b38462dad9fd1fd4d603f344f5febb8",
+      "typeIds": [2, 10],
+      "abilityIds": [
+        57,
+        null
+      ],
+      "bodySize": 4,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 170,
+      "friendAreaId": "friend-area-legendary-island",
+      "recruitment": {
+        "baseRateTenthsPercent": 300,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp146",
+        "redNumericTableSha256": "5a298fb885b7384f03ac55a6e2a7367d2456bd1ac575753c1d195ce596a10c1a",
+        "redDecodedPayloadSha256": "78e0ee4462f1494ef3b5e485da19153385433d840c74487859b32d0d517f8db4",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=146.html",
+        "upcNumericTableSha256": "5a298fb885b7384f03ac55a6e2a7367d2456bd1ac575753c1d195ce596a10c1a"
+      }
+    },
+    {
+      "id": "pokemon-147",
+      "speciesId": "pokemon-147",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 147,
+      "resources": {
+        "blueGrowthResourceId": 147,
+        "redGrowthResourceId": 147,
+        "blueLearnsetResourceId": 147,
+        "redLearnsetResourceId": 147
+      },
+      "levelResourceId": "level-6c4e635d681c5151b61c5e79f22dcce898aff9286b2e09fbd2df1dd084975e0c",
+      "learnsetResourceId": "learn-77f74100678fec725ec9995cda0b0ba7f4ac5ef6f0bd6ff179288797b2388221",
+      "typeIds": [15],
+      "abilityIds": [
+        33,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-mystic-lake",
+      "recruitment": {
+        "baseRateTenthsPercent": 110,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp147",
+        "redNumericTableSha256": "a0caf9b5028c71f8fcf135359c35a97c54e1f4873a761284722dbf127b90cff0",
+        "redDecodedPayloadSha256": "603c6155e444ae6c4e264da55958133f8a5cc431e961e3ee194b7430b64d0b58",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=147.html",
+        "upcNumericTableSha256": "a0caf9b5028c71f8fcf135359c35a97c54e1f4873a761284722dbf127b90cff0"
+      }
+    },
+    {
+      "id": "pokemon-148",
+      "speciesId": "pokemon-148",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 148,
+      "resources": {
+        "blueGrowthResourceId": 148,
+        "redGrowthResourceId": 148,
+        "blueLearnsetResourceId": 148,
+        "redLearnsetResourceId": 148
+      },
+      "levelResourceId": "level-0cbc796b4ae82d766a82248b5e08fd630f001c89c6c64ddf6439395febb9636b",
+      "learnsetResourceId": "learn-a6a773b120250c304aaab4f5cd39ee26b617ec6c6635339ddcc39fced8d10d74",
+      "typeIds": [15],
+      "abilityIds": [
+        33,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-mystic-lake",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp148",
+        "redNumericTableSha256": "3776f9529bf14c64b66d216892fd2fb99fcaedfd841273ee7055decf60fecbab",
+        "redDecodedPayloadSha256": "e6c49aa0f7a3aae7d510ffdd9258bafaf5cadfd4620777ca446a0b5b2f50a833",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=148.html",
+        "upcNumericTableSha256": "3776f9529bf14c64b66d216892fd2fb99fcaedfd841273ee7055decf60fecbab"
+      }
+    },
+    {
+      "id": "pokemon-149",
+      "speciesId": "pokemon-149",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 149,
+      "resources": {
+        "blueGrowthResourceId": 149,
+        "redGrowthResourceId": 149,
+        "blueLearnsetResourceId": 149,
+        "redLearnsetResourceId": 149
+      },
+      "levelResourceId": "level-13fb92bfb824bbfceef854a6682f5d15f16417c7499126f6f8d65584d6bfa265",
+      "learnsetResourceId": "learn-4afc0c29d4863e0fca6429ac0deae823ae7a7caaff02c5c5a78b95dcc082fb5e",
+      "typeIds": [15, 10],
+      "abilityIds": [
+        31,
+        null
+      ],
+      "bodySize": 4,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 215,
+      "friendAreaId": "friend-area-mystic-lake",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp149",
+        "redNumericTableSha256": "21d6f41a5c6bc929281c6cafd849702228d9b1ad069e001eae6d6f84056ad797",
+        "redDecodedPayloadSha256": "d4758209c60cbdb264b4eb72f9408839e10fadcba7cc9e0b369ecae5c7cf4440",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=149.html",
+        "upcNumericTableSha256": "21d6f41a5c6bc929281c6cafd849702228d9b1ad069e001eae6d6f84056ad797"
+      }
+    },
+    {
+      "id": "pokemon-150",
+      "speciesId": "pokemon-150",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 150,
+      "resources": {
+        "blueGrowthResourceId": 150,
+        "redGrowthResourceId": 150,
+        "blueLearnsetResourceId": 150,
+        "redLearnsetResourceId": 150
+      },
+      "levelResourceId": "level-c00a0c87d4a27438402521ea3cc9951d5c498e9004662bd1445cfb9c55e94249",
+      "learnsetResourceId": "learn-756e1f909a117184353802a7693547b2d155bf127aca1d03918c21a0b948407d",
+      "typeIds": [11],
+      "abilityIds": [
+        57,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 250,
+      "friendAreaId": "friend-area-cryptic-cave",
+      "recruitment": {
+        "baseRateTenthsPercent": 999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp150",
+        "redNumericTableSha256": "8e4055d5848dcfcc097cb98b22ee6fbd0628b8736106a6c34c4a26fcd20de8c6",
+        "redDecodedPayloadSha256": "9e480976e6a1841de57e5c1c44d99f31292ac5acd8a74d3e9b7240ca018c87c3",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=150.html",
+        "upcNumericTableSha256": "8e4055d5848dcfcc097cb98b22ee6fbd0628b8736106a6c34c4a26fcd20de8c6"
+      }
+    },
+    {
+      "id": "pokemon-151",
+      "speciesId": "pokemon-151",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 151,
+      "resources": {
+        "blueGrowthResourceId": 151,
+        "redGrowthResourceId": 151,
+        "blueLearnsetResourceId": 151,
+        "redLearnsetResourceId": 151
+      },
+      "levelResourceId": "level-c83d23643b7b03da370ca7b25184ba852062142256da2333236098c9f2ccf96b",
+      "learnsetResourceId": "learn-c62bab100d41cdb4ea18751731b41e7766f8d2e2b0d2bf3f2819e8d9957a85ca",
+      "typeIds": [11],
+      "abilityIds": [
+        25,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 250,
+      "friendAreaId": "friend-area-final-island",
+      "recruitment": {
+        "baseRateTenthsPercent": 9,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp151",
+        "redNumericTableSha256": "6635dccc7e88b2d1d8330dc65a6a24e592c2b92b5009dfff3347d894ddbb48a7",
+        "redDecodedPayloadSha256": "5b65153ef8e641a17288b52866b89d655b4fb868e0cc58ad7b603bea35cffdff",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=151.html",
+        "upcNumericTableSha256": "6635dccc7e88b2d1d8330dc65a6a24e592c2b92b5009dfff3347d894ddbb48a7"
+      }
+    },
+    {
+      "id": "pokemon-152",
+      "speciesId": "pokemon-152",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 152,
+      "resources": {
+        "blueGrowthResourceId": 152,
+        "redGrowthResourceId": 152,
+        "blueLearnsetResourceId": 152,
+        "redLearnsetResourceId": 152
+      },
+      "levelResourceId": "level-3bbddf7b38ae049240d4afcc6d632261526902b72fc865d4df98593ce5fb6e4c",
+      "learnsetResourceId": "learn-bd0bb2640b9be00e755a2babbf34c428688aba9d76dbbbcbca5af9ab2d3d4e8d",
+      "typeIds": [4],
+      "abilityIds": [
+        26,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 18,
+      "friendAreaId": "friend-area-beau-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 114,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp152",
+        "redNumericTableSha256": "86c71aa1d844d018fbc7cfb004844ebdf08e9939fd609219935bb473c626738a",
+        "redDecodedPayloadSha256": "18563986f98d9a18ae1ca214b71a3879c8f016b10317f41b490763b8626b1633",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=152.html",
+        "upcNumericTableSha256": "86c71aa1d844d018fbc7cfb004844ebdf08e9939fd609219935bb473c626738a"
+      }
+    },
+    {
+      "id": "pokemon-153",
+      "speciesId": "pokemon-153",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 153,
+      "resources": {
+        "blueGrowthResourceId": 153,
+        "redGrowthResourceId": 153,
+        "blueLearnsetResourceId": 153,
+        "redLearnsetResourceId": 153
+      },
+      "levelResourceId": "level-f3227be21524f1aac94d6b9673705ab38d942bcdfa48856bdecf2d0c4249dfd4",
+      "learnsetResourceId": "learn-553f6f19e77f1242e2467c52b12cc2c9411173f7d1a206df022e806bae3229bc",
+      "typeIds": [4],
+      "abilityIds": [
+        26,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 45,
+      "friendAreaId": "friend-area-beau-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp153",
+        "redNumericTableSha256": "dd71c839393c52f055e7d7407a18009459d83a3dc72eed8f020c2a6250dbb719",
+        "redDecodedPayloadSha256": "28a9fbeb858dd6f665c5458c96fc16181ce303369e802884917d4aa1255b8cc8",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=153.html",
+        "upcNumericTableSha256": "dd71c839393c52f055e7d7407a18009459d83a3dc72eed8f020c2a6250dbb719"
+      }
+    },
+    {
+      "id": "pokemon-154",
+      "speciesId": "pokemon-154",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 154,
+      "resources": {
+        "blueGrowthResourceId": 154,
+        "redGrowthResourceId": 154,
+        "blueLearnsetResourceId": 154,
+        "redLearnsetResourceId": 154
+      },
+      "levelResourceId": "level-333bf64f4cb2882d07b91f232d9132fc42e3b82e3e4f62240eae325489f542fb",
+      "learnsetResourceId": "learn-e43ae8e0fdfc82e72deed49d2bf0a9add5142e4619af14a1575db02baaad36cc",
+      "typeIds": [4],
+      "abilityIds": [
+        26,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 135,
+      "friendAreaId": "friend-area-beau-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp154",
+        "redNumericTableSha256": "d7bcb1a6da5ccad5d79265ee770e6a04021073c42552aaa73d7d62f22a9e9705",
+        "redDecodedPayloadSha256": "e8fcf9fec974b9cb74747974ed98928826e3158e3e596d06cf7ab5f732575d22",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=154.html",
+        "upcNumericTableSha256": "d7bcb1a6da5ccad5d79265ee770e6a04021073c42552aaa73d7d62f22a9e9705"
+      }
+    },
+    {
+      "id": "pokemon-155",
+      "speciesId": "pokemon-155",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 155,
+      "resources": {
+        "blueGrowthResourceId": 155,
+        "redGrowthResourceId": 155,
+        "blueLearnsetResourceId": 155,
+        "redLearnsetResourceId": 155
+      },
+      "levelResourceId": "level-1f5234623e7e9ec7222cba8ff67fd3146f98221e0707bb36d5c450a47f7611c1",
+      "learnsetResourceId": "learn-cb1e835b0c86a34bf00dc30671d029a34f471c0b277d8ece1d703238816199b6",
+      "typeIds": [2],
+      "abilityIds": [
+        70,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 21,
+      "friendAreaId": "friend-area-scorched-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 112,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp155",
+        "redNumericTableSha256": "a4ffc8556f3b700aadd56a34c13ee57c5eb5bc60ce65936a227c47d79cd0db43",
+        "redDecodedPayloadSha256": "1dac03f98801ac396cdf280f6a4a92c2b9c89f347003fffae6a8a10382e67f36",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=155.html",
+        "upcNumericTableSha256": "a4ffc8556f3b700aadd56a34c13ee57c5eb5bc60ce65936a227c47d79cd0db43"
+      }
+    },
+    {
+      "id": "pokemon-156",
+      "speciesId": "pokemon-156",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 156,
+      "resources": {
+        "blueGrowthResourceId": 156,
+        "redGrowthResourceId": 156,
+        "blueLearnsetResourceId": 156,
+        "redLearnsetResourceId": 156
+      },
+      "levelResourceId": "level-5ce41a9f5976760b92e740983af6df5bbbb1379dffb256a6eadfd3a151a1dbcc",
+      "learnsetResourceId": "learn-c6a83ceac170fbf8868d168081690986d7b7f2aa210064fae7db2125b20564f5",
+      "typeIds": [2],
+      "abilityIds": [
+        70,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 57,
+      "friendAreaId": "friend-area-scorched-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp156",
+        "redNumericTableSha256": "f637bf3221af9330e13c3b11f2f13028564fa42ab73950e0d3539dab68b4b805",
+        "redDecodedPayloadSha256": "a04f0119a3fe5bd1f7814e8d4ce26e466e4519e4d1eb680dc10ec9488356b0b9",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=156.html",
+        "upcNumericTableSha256": "f637bf3221af9330e13c3b11f2f13028564fa42ab73950e0d3539dab68b4b805"
+      }
+    },
+    {
+      "id": "pokemon-157",
+      "speciesId": "pokemon-157",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 157,
+      "resources": {
+        "blueGrowthResourceId": 157,
+        "redGrowthResourceId": 157,
+        "blueLearnsetResourceId": 157,
+        "redLearnsetResourceId": 157
+      },
+      "levelResourceId": "level-989aaaf0cea2f9e944f085a8934243ed4fb1ed47c573810e25a1366d8901b55d",
+      "learnsetResourceId": "learn-f65e10655207b69034ae2b1c3f28bf33bf63bc58cf9ee6cad873c536a75a50d7",
+      "typeIds": [2],
+      "abilityIds": [
+        70,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 180,
+      "friendAreaId": "friend-area-scorched-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp157",
+        "redNumericTableSha256": "1de8de5168958b9d813aed915745ddb1f78ad52de583504cd2815b62058e098f",
+        "redDecodedPayloadSha256": "fb6fc757fd7e1b1820d72c9fb56b0375ec15a302b9c7f05ce75bdd557d2d0bf4",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=157.html",
+        "upcNumericTableSha256": "1de8de5168958b9d813aed915745ddb1f78ad52de583504cd2815b62058e098f"
+      }
+    },
+    {
+      "id": "pokemon-158",
+      "speciesId": "pokemon-158",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 158,
+      "resources": {
+        "blueGrowthResourceId": 158,
+        "redGrowthResourceId": 158,
+        "blueLearnsetResourceId": 158,
+        "redLearnsetResourceId": 158
+      },
+      "levelResourceId": "level-2e1763a68b888506e9655dfab2e6bb13b227a3f0631db2921434a3546d9d8ce9",
+      "learnsetResourceId": "learn-d5d5f7cf43f72f67da97292c32e541de2553b43a76908fa3e0ef2d924fee5e25",
+      "typeIds": [3],
+      "abilityIds": [
+        16,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 27,
+      "friendAreaId": "friend-area-rub-a-dub-river",
+      "recruitment": {
+        "baseRateTenthsPercent": 114,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp158",
+        "redNumericTableSha256": "f51f75c3842e8dfb643cfe1fdf86edc764c56d1527f641bb9952f4bc2796b9fe",
+        "redDecodedPayloadSha256": "3da996c618135f7788d34336768dfeb280bd38818b534f6437b9042a3496fa6f",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=158.html",
+        "upcNumericTableSha256": "f51f75c3842e8dfb643cfe1fdf86edc764c56d1527f641bb9952f4bc2796b9fe"
+      }
+    },
+    {
+      "id": "pokemon-159",
+      "speciesId": "pokemon-159",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 159,
+      "resources": {
+        "blueGrowthResourceId": 159,
+        "redGrowthResourceId": 159,
+        "blueLearnsetResourceId": 159,
+        "redLearnsetResourceId": 159
+      },
+      "levelResourceId": "level-7a321ae465d3dfab8dc40a6c33f88c0d72f2191e2346332291da6b5b24e4e527",
+      "learnsetResourceId": "learn-a84da8d1219023f8ce40a29dfd88ef369673352afd4899379df7b243a5e0ffe2",
+      "typeIds": [3],
+      "abilityIds": [
+        16,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 75,
+      "friendAreaId": "friend-area-rub-a-dub-river",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp159",
+        "redNumericTableSha256": "58b550b6035db68471f5de0d584aabbf5590021fd92f939cfac4f57bb2321743",
+        "redDecodedPayloadSha256": "9281d012f7b8260230a990fbc6e49954d928744dbb4df7cc256f2a72c866bce6",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=159.html",
+        "upcNumericTableSha256": "58b550b6035db68471f5de0d584aabbf5590021fd92f939cfac4f57bb2321743"
+      }
+    },
+    {
+      "id": "pokemon-160",
+      "speciesId": "pokemon-160",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 160,
+      "resources": {
+        "blueGrowthResourceId": 160,
+        "redGrowthResourceId": 160,
+        "blueLearnsetResourceId": 160,
+        "redLearnsetResourceId": 160
+      },
+      "levelResourceId": "level-f988d4a6ef1058eb8d4898dcb5ef2e8cefb77a69a101508d43bd5b6a81e4a656",
+      "learnsetResourceId": "learn-9111d104c36abb24f8b738a5c929b87a049edb0a82392117b23ff14ed814cb15",
+      "typeIds": [3],
+      "abilityIds": [
+        16,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 180,
+      "friendAreaId": "friend-area-rub-a-dub-river",
+      "recruitment": {
+        "baseRateTenthsPercent": -339,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp160",
+        "redNumericTableSha256": "6574e8bd4a305a839f60b6ea2b8dc4d8ceae41a8463d63273af99e85a1b2ee40",
+        "redDecodedPayloadSha256": "34cad84d81739516776bc9c854926bdbd58906e33bee22043bbf3d7bb771639a",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=160.html",
+        "upcNumericTableSha256": "6574e8bd4a305a839f60b6ea2b8dc4d8ceae41a8463d63273af99e85a1b2ee40"
+      }
+    },
+    {
+      "id": "pokemon-161",
+      "speciesId": "pokemon-161",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 161,
+      "resources": {
+        "blueGrowthResourceId": 161,
+        "redGrowthResourceId": 161,
+        "blueLearnsetResourceId": 161,
+        "redLearnsetResourceId": 161
+      },
+      "levelResourceId": "level-5d7ed153a5ff693d5acafd18b80eb9d5d076e125b3838b7ffbddd9e619addee6",
+      "learnsetResourceId": "learn-d088e9e8b75cac87bc5509238fd0e309dc560deaa81ef366597d39f79ab54d0a",
+      "typeIds": [1],
+      "abilityIds": [43, 30],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": 73,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp161",
+        "redNumericTableSha256": "10630189005e6d686973aaed68f940da90a979f21dd4ec840acfed3fa3f0b301",
+        "redDecodedPayloadSha256": "e9af39d393ee240e2ed1499bdede155ca0c8c74484bba3b7ad512a00cf04846f",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=161.html",
+        "upcNumericTableSha256": "10630189005e6d686973aaed68f940da90a979f21dd4ec840acfed3fa3f0b301"
+      }
+    },
+    {
+      "id": "pokemon-162",
+      "speciesId": "pokemon-162",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 162,
+      "resources": {
+        "blueGrowthResourceId": 162,
+        "redGrowthResourceId": 162,
+        "blueLearnsetResourceId": 162,
+        "redLearnsetResourceId": 162
+      },
+      "levelResourceId": "level-3c6f550eb1df792f0b1575bab05eb212d752a9aae926930ca57efda1848ac5bb",
+      "learnsetResourceId": "learn-4063115177e1ae801092bea543c194ebe923a4e36a993db5909f88f18209b3b5",
+      "typeIds": [1],
+      "abilityIds": [43, 30],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 35,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp162",
+        "redNumericTableSha256": "641ed12d472f4b4e3685c5e205ac6edafec5b584fd6e0a18441c1bd791bf0608",
+        "redDecodedPayloadSha256": "003bce135fb3f215f32777c9023cdaef727e455dcd91b687630c9d70c54a2bc8",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=162.html",
+        "upcNumericTableSha256": "641ed12d472f4b4e3685c5e205ac6edafec5b584fd6e0a18441c1bd791bf0608"
+      }
+    },
+    {
+      "id": "pokemon-163",
+      "speciesId": "pokemon-163",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 163,
+      "resources": {
+        "blueGrowthResourceId": 163,
+        "redGrowthResourceId": 163,
+        "blueLearnsetResourceId": 163,
+        "redLearnsetResourceId": 163
+      },
+      "levelResourceId": "level-9bd2659c496fd6b937d1ecd5aa8ccc04c893ea914a5d450fcbb5ca1497bb8f75",
+      "learnsetResourceId": "learn-967fe7ce5e225778545d72b15229dba33ab67a14d3ababab85666d4f8adea6b7",
+      "typeIds": [1, 10],
+      "abilityIds": [54, 30],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 40,
+      "friendAreaId": "friend-area-flyaway-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 70,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp163",
+        "redNumericTableSha256": "e866065fa9f9070e913be690a1b7b42fd87bb1b3034b5074e88bc41e203b7dc9",
+        "redDecodedPayloadSha256": "5f02f50705bab2a69417f31962c5c0ec7cf43e6fdaa0af00bb9227ffdd1cc512",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=163.html",
+        "upcNumericTableSha256": "e866065fa9f9070e913be690a1b7b42fd87bb1b3034b5074e88bc41e203b7dc9"
+      }
+    },
+    {
+      "id": "pokemon-164",
+      "speciesId": "pokemon-164",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 164,
+      "resources": {
+        "blueGrowthResourceId": 164,
+        "redGrowthResourceId": 164,
+        "blueLearnsetResourceId": 164,
+        "redLearnsetResourceId": 164
+      },
+      "levelResourceId": "level-4b310b345ed465417219788f290ccb3431ebf2ffbe01bbc2bebaaea46b0aa77a",
+      "learnsetResourceId": "learn-31acd956e97b32d2806f70d006ad72ca64adc80e5ff7972cf7848b1341637dac",
+      "typeIds": [1, 10],
+      "abilityIds": [54, 30],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-flyaway-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp164",
+        "redNumericTableSha256": "124c472e28c2a6f34a4be0aace38b3c6fd03854d47352695975f258cd071393e",
+        "redDecodedPayloadSha256": "f7e62517b90fc0700c20070ec62a0756ed50636b403f22e5aa3a589932fd5ca2",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=164.html",
+        "upcNumericTableSha256": "124c472e28c2a6f34a4be0aace38b3c6fd03854d47352695975f258cd071393e"
+      }
+    },
+    {
+      "id": "pokemon-165",
+      "speciesId": "pokemon-165",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 165,
+      "resources": {
+        "blueGrowthResourceId": 165,
+        "redGrowthResourceId": 165,
+        "blueLearnsetResourceId": 165,
+        "redLearnsetResourceId": 165
+      },
+      "levelResourceId": "level-5b34a886393220db1827ef54651e1de8b0476425bd96da65dbc1aecb233617ae",
+      "learnsetResourceId": "learn-3d512fc538b6eb6e62fb0f38a08a1c5cb997de538f68a1404a4bc493350072dd",
+      "typeIds": [12, 10],
+      "abilityIds": [67, 47],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 55,
+      "friendAreaId": "friend-area-mist-rise-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 121,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp165",
+        "redNumericTableSha256": "97f90ff43f1771db9f754be655b2255cf889adc5e152db719ac2882808f0f594",
+        "redDecodedPayloadSha256": "2c4d3c860867e3c0e96e9187370f6b4d5491534516575d3b46eaeef2a119850f",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=165.html",
+        "upcNumericTableSha256": "97f90ff43f1771db9f754be655b2255cf889adc5e152db719ac2882808f0f594"
+      }
+    },
+    {
+      "id": "pokemon-166",
+      "speciesId": "pokemon-166",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 166,
+      "resources": {
+        "blueGrowthResourceId": 166,
+        "redGrowthResourceId": 166,
+        "blueLearnsetResourceId": 166,
+        "redLearnsetResourceId": 166
+      },
+      "levelResourceId": "level-13afffdb5b7a50a0bf13835b0900e7cbae9c0f52b745b95d421436c7186a9b3f",
+      "learnsetResourceId": "learn-07df8ea0eb49aa984d81756318db4c44cb0eea673838d7ea66bb548746e25e58",
+      "typeIds": [12, 10],
+      "abilityIds": [67, 47],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 75,
+      "friendAreaId": "friend-area-mist-rise-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp166",
+        "redNumericTableSha256": "be855e761a7b14221c6e5198a57f82919b6c9f197fc15fa7d8e4da80181b3c1d",
+        "redDecodedPayloadSha256": "101813c985d28b29094ce909f20d4b40729bcc935c36417935c49ee0cf89ebdd",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=166.html",
+        "upcNumericTableSha256": "be855e761a7b14221c6e5198a57f82919b6c9f197fc15fa7d8e4da80181b3c1d"
+      }
+    },
+    {
+      "id": "pokemon-167",
+      "speciesId": "pokemon-167",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 167,
+      "resources": {
+        "blueGrowthResourceId": 167,
+        "redGrowthResourceId": 167,
+        "blueLearnsetResourceId": 167,
+        "redLearnsetResourceId": 167
+      },
+      "levelResourceId": "level-2ad65913267ed87dbfcd196bf5f6535eb407311857d6e5a40fded838aa919d39",
+      "learnsetResourceId": "learn-9bb570ccec9a202cb612d7f57d20461f61ca6db03878340c1fd05dbaf5ff288c",
+      "typeIds": [12, 8],
+      "abilityIds": [67, 54],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-secretive-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 78,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp167",
+        "redNumericTableSha256": "bd23ff0d2b1027911471e1eafb3bad9c8650d24efc449ec9c31877aa3832ef6d",
+        "redDecodedPayloadSha256": "aef80fe2a1f65ffd903cff7f0fd001cd685046cf03a42d8f1a19462dfe62b83e",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=167.html",
+        "upcNumericTableSha256": "bd23ff0d2b1027911471e1eafb3bad9c8650d24efc449ec9c31877aa3832ef6d"
+      }
+    },
+    {
+      "id": "pokemon-168",
+      "speciesId": "pokemon-168",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 168,
+      "resources": {
+        "blueGrowthResourceId": 168,
+        "redGrowthResourceId": 168,
+        "blueLearnsetResourceId": 168,
+        "redLearnsetResourceId": 168
+      },
+      "levelResourceId": "level-2ed872f0a1b56d816b29360c678fa2b44df54b0f19f8934999561e62559f6c3b",
+      "learnsetResourceId": "learn-e24179a86cb7f1abfb5e4462a4e6762aeac16e05d5649db63a58c95e3aafd146",
+      "typeIds": [12, 8],
+      "abilityIds": [67, 54],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-secretive-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp168",
+        "redNumericTableSha256": "b02b9edc3658b25055cf596b9aacf10590a08fbc15ea01b7d268e4cadada23e1",
+        "redDecodedPayloadSha256": "8efc473105a2af497b978a4d14b521c153f5abb4b04728de1cf43f3129b2581b",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=168.html",
+        "upcNumericTableSha256": "b02b9edc3658b25055cf596b9aacf10590a08fbc15ea01b7d268e4cadada23e1"
+      }
+    },
+    {
+      "id": "pokemon-169",
+      "speciesId": "pokemon-169",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 169,
+      "resources": {
+        "blueGrowthResourceId": 169,
+        "redGrowthResourceId": 169,
+        "blueLearnsetResourceId": 169,
+        "redLearnsetResourceId": 169
+      },
+      "levelResourceId": "level-efe2ecf2e1619e868737eb1d6f00ebd47777b3e3a2917171cb7874dec96e29e2",
+      "learnsetResourceId": "learn-7ceae841b41c22607566de60321dc44037446ef21ca3fc4586b0b9a30ee2a506",
+      "typeIds": [8, 10],
+      "abilityIds": [
+        31,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-echo-cave",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp169",
+        "redNumericTableSha256": "f84dfdd850467440227d9756269a3d03d5351b511b7da6419e2d78db964eed97",
+        "redDecodedPayloadSha256": "828dabacd2261367b9177283629d2ee4d0039ae516eec7eefc352c95be498b54",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=169.html",
+        "upcNumericTableSha256": "f84dfdd850467440227d9756269a3d03d5351b511b7da6419e2d78db964eed97"
+      }
+    },
+    {
+      "id": "pokemon-170",
+      "speciesId": "pokemon-170",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 170,
+      "resources": {
+        "blueGrowthResourceId": 170,
+        "redGrowthResourceId": 170,
+        "blueLearnsetResourceId": 170,
+        "redLearnsetResourceId": 170
+      },
+      "levelResourceId": "level-115bf67aafd16c8d7e5be2231d1abbcecea30f08894fa97bd3d8284982c955a6",
+      "learnsetResourceId": "learn-1ea3166d6dbec5403b4c48a947329be60ecec905ad25a3bf1013070e401b823a",
+      "typeIds": [3, 5],
+      "abilityIds": [35, 46],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": 87,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp170",
+        "redNumericTableSha256": "b9b7fab8ab4dcbbe899c64c366731c83060318d9271f099898504352191567bb",
+        "redDecodedPayloadSha256": "cedc818f2fc6bb01d613f5f83867544c0fe3959943a07abbbe6435b3174d3e77",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=170.html",
+        "upcNumericTableSha256": "b9b7fab8ab4dcbbe899c64c366731c83060318d9271f099898504352191567bb"
+      }
+    },
+    {
+      "id": "pokemon-171",
+      "speciesId": "pokemon-171",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 171,
+      "resources": {
+        "blueGrowthResourceId": 171,
+        "redGrowthResourceId": 171,
+        "blueLearnsetResourceId": 171,
+        "redLearnsetResourceId": 171
+      },
+      "levelResourceId": "level-2d00bff2f735b5677ee1f02771eae043dc7055dd257095a94e73bb2aed3fdd9c",
+      "learnsetResourceId": "learn-23bf00a96f136d5b048a847da21460e6eb083965beef5f3d45482dc2bf49f02e",
+      "typeIds": [3, 5],
+      "abilityIds": [35, 46],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 80,
+      "friendAreaId": "friend-area-deep-sea-floor",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp171",
+        "redNumericTableSha256": "db518dc44d938233a80fa4d90a1a15c81f9ad303ac40358d5e09b8a9d8e0e90a",
+        "redDecodedPayloadSha256": "63add6a218584934fb00c66b6cafebf6544a17f4a3c9789c90b54109cf3b3fe0",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=171.html",
+        "upcNumericTableSha256": "db518dc44d938233a80fa4d90a1a15c81f9ad303ac40358d5e09b8a9d8e0e90a"
+      }
+    },
+    {
+      "id": "pokemon-172",
+      "speciesId": "pokemon-172",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 172,
+      "resources": {
+        "blueGrowthResourceId": 172,
+        "redGrowthResourceId": 172,
+        "blueLearnsetResourceId": 172,
+        "redLearnsetResourceId": 172
+      },
+      "levelResourceId": "level-d3625ba457cfecedd8db2d513b66a9ebc7e6bce463a00a006f3003ab1d34ca3d",
+      "learnsetResourceId": "learn-8108e837d0b8b90216cb2c067d75c0fa38391e4459911c632b487b679a723bb3",
+      "typeIds": [5],
+      "abilityIds": [
+        32,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 6,
+      "friendAreaId": "friend-area-energetic-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 51,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp172",
+        "redNumericTableSha256": "73462d5d49a2d2c6165dafd7cfdda444e720a22d44dca1a559670dcb00624035",
+        "redDecodedPayloadSha256": "ce8df659a6683c5f05902e5727eec43f92aaad8422b5f661282ce4833ceb2a01",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=172.html",
+        "upcNumericTableSha256": "73462d5d49a2d2c6165dafd7cfdda444e720a22d44dca1a559670dcb00624035"
+      }
+    },
+    {
+      "id": "pokemon-173",
+      "speciesId": "pokemon-173",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 173,
+      "resources": {
+        "blueGrowthResourceId": 173,
+        "redGrowthResourceId": 173,
+        "blueLearnsetResourceId": 173,
+        "redLearnsetResourceId": 173
+      },
+      "levelResourceId": "level-4d03b8a42a7956d33d2591e85babd87e3c74507731d0836f98e0fb9214d08803",
+      "learnsetResourceId": "learn-ce8de20c769fc611ae755c5e4c1692a1ef2a70877c71f6bc0fee1ae93432e4c2",
+      "typeIds": [1],
+      "abilityIds": [
+        68,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 12,
+      "friendAreaId": "friend-area-mt-moonview",
+      "recruitment": {
+        "baseRateTenthsPercent": 131,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp173",
+        "redNumericTableSha256": "cea202776e23172c14317e761874c38ecd37ce8130d53fe44740648ee0428d6b",
+        "redDecodedPayloadSha256": "101c3cffe66ec67be225d01e81552bf4c1c12fffe40f32bb80db34320b950ef5",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=173.html",
+        "upcNumericTableSha256": "cea202776e23172c14317e761874c38ecd37ce8130d53fe44740648ee0428d6b"
+      }
+    },
+    {
+      "id": "pokemon-174",
+      "speciesId": "pokemon-174",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 174,
+      "resources": {
+        "blueGrowthResourceId": 174,
+        "redGrowthResourceId": 174,
+        "blueLearnsetResourceId": 174,
+        "redLearnsetResourceId": 174
+      },
+      "levelResourceId": "level-c4e9d4ee848d9f1c86f4da453e203486645831f8d9e00616645ba91a370d90da",
+      "learnsetResourceId": "learn-54bacea1801d957abbac3d6271b030d634bdf261bc7d5d5609cd7c0c116075bb",
+      "typeIds": [1],
+      "abilityIds": [
+        68,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 15,
+      "friendAreaId": "friend-area-sky-blue-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 113,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp174",
+        "redNumericTableSha256": "e771dd269dbeb65b8e33e3ebb87a2dd166266ff67212bbf2d3bd31d7bd2e4efa",
+        "redDecodedPayloadSha256": "eb04ef1ea59d25b4eb5d6f3ceb974148a22ea199e5a65331d0f8a32bd00d3a4e",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=174.html",
+        "upcNumericTableSha256": "e771dd269dbeb65b8e33e3ebb87a2dd166266ff67212bbf2d3bd31d7bd2e4efa"
+      }
+    },
+    {
+      "id": "pokemon-175",
+      "speciesId": "pokemon-175",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 175,
+      "resources": {
+        "blueGrowthResourceId": 175,
+        "redGrowthResourceId": 175,
+        "blueLearnsetResourceId": 175,
+        "redLearnsetResourceId": 175
+      },
+      "levelResourceId": "level-e1b9ab8de41b8970b422c82cdbf215e2d15061934e2293f180408d932d08a7aa",
+      "learnsetResourceId": "learn-0130438481c7e5381a7d185e1309012b9160c75cfbd3f74d9bed3eed4e78da06",
+      "typeIds": [1],
+      "abilityIds": [48, 38],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 20,
+      "friendAreaId": "friend-area-flyaway-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 79,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp175",
+        "redNumericTableSha256": "37ea27f335cb82e98c4b26cd2c826a5baa46c0f22f8653216c927bfc28ce14d4",
+        "redDecodedPayloadSha256": "e1935fd7956df2d4e8f42e753ce2bde8e9b24b89e86ae17f620012b161652888",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=175.html",
+        "upcNumericTableSha256": "37ea27f335cb82e98c4b26cd2c826a5baa46c0f22f8653216c927bfc28ce14d4"
+      }
+    },
+    {
+      "id": "pokemon-176",
+      "speciesId": "pokemon-176",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 176,
+      "resources": {
+        "blueGrowthResourceId": 176,
+        "redGrowthResourceId": 176,
+        "blueLearnsetResourceId": 176,
+        "redLearnsetResourceId": 176
+      },
+      "levelResourceId": "level-7ed8534ceb73ccdcd0e11d8dd41e40180598ec83844621a47fa00635f4068e29",
+      "learnsetResourceId": "learn-c3af4dc077cb0fca1748a0faf64afd2d50b8691b7e73e46105a229bc6a9d3fc0",
+      "typeIds": [1, 10],
+      "abilityIds": [48, 38],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 18,
+      "friendAreaId": "friend-area-flyaway-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp176",
+        "redNumericTableSha256": "a07115b4ae7eb28e3c34b023e4611c219a1f3009dbf9c181810d8f72a9a8f374",
+        "redDecodedPayloadSha256": "4fcc4249971ebcf1270e36f2b73598011052940098ff0546ed851f79b5c8025c",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=176.html",
+        "upcNumericTableSha256": "a07115b4ae7eb28e3c34b023e4611c219a1f3009dbf9c181810d8f72a9a8f374"
+      }
+    },
+    {
+      "id": "pokemon-177",
+      "speciesId": "pokemon-177",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 177,
+      "resources": {
+        "blueGrowthResourceId": 177,
+        "redGrowthResourceId": 177,
+        "blueLearnsetResourceId": 177,
+        "redLearnsetResourceId": 177
+      },
+      "levelResourceId": "level-70e54398c4c405bf3f83b6e258b24541d5c80a33dfc7812d2d84a39708b7ac5b",
+      "learnsetResourceId": "learn-4ede4b2ae53d14ac115e4735504261c1f3d9849e4522dc0bbdb576452be52737",
+      "typeIds": [11, 10],
+      "abilityIds": [25, 47],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 6,
+      "friendAreaId": "friend-area-flyaway-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 94,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp177",
+        "redNumericTableSha256": "c8cbc27bebdda5885a2a9fe399b76979aab06d1d82e2228b3e3a5329ee027a39",
+        "redDecodedPayloadSha256": "7eeec925ce02285ebf7a1788d3187a1327234c79d8e1ae5c9162bf964bee4cb7",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=177.html",
+        "upcNumericTableSha256": "c8cbc27bebdda5885a2a9fe399b76979aab06d1d82e2228b3e3a5329ee027a39"
+      }
+    },
+    {
+      "id": "pokemon-178",
+      "speciesId": "pokemon-178",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 178,
+      "resources": {
+        "blueGrowthResourceId": 178,
+        "redGrowthResourceId": 178,
+        "blueLearnsetResourceId": 178,
+        "redLearnsetResourceId": 178
+      },
+      "levelResourceId": "level-599bc8a9c89ed86a1303fa7cd474450985af0763f74472529618c90e5884b1f4",
+      "learnsetResourceId": "learn-4ad56c3cfc5270f6d5cf59fa69c4840027b3fcef9ee634d4518d92ae2c880907",
+      "typeIds": [11, 10],
+      "abilityIds": [25, 47],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 45,
+      "friendAreaId": "friend-area-flyaway-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp178",
+        "redNumericTableSha256": "935a1549b5dfe87b0ca54cf20047e81661e695bced74f2aab5dda51ead963c0c",
+        "redDecodedPayloadSha256": "a9fd7ef8f632a1f600ec7689c2badd3c30258b46cf41f9be1b6805e568fe3e26",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=178.html",
+        "upcNumericTableSha256": "935a1549b5dfe87b0ca54cf20047e81661e695bced74f2aab5dda51ead963c0c"
+      }
+    },
+    {
+      "id": "pokemon-179",
+      "speciesId": "pokemon-179",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 179,
+      "resources": {
+        "blueGrowthResourceId": 179,
+        "redGrowthResourceId": 179,
+        "blueLearnsetResourceId": 179,
+        "redLearnsetResourceId": 179
+      },
+      "levelResourceId": "level-1cc5ba1e70fdcae9f30e15c786ebdbe807c3943e2e91a078611fd0bf886ea172",
+      "learnsetResourceId": "learn-b57193ebd592f4d7d7f33584af0e96d2ffffaba35851acf2cb11231d83ab8307",
+      "typeIds": [5],
+      "abilityIds": [
+        32,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": 119,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp179",
+        "redNumericTableSha256": "74dc42c53efbb4b33e7907739ea7f1258328465681e8349317a4ac6f6704b96f",
+        "redDecodedPayloadSha256": "ff6eff01452c54a4ab000bbcc24d08b8a616b8057f1b378730fe77d9447edcd3",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=179.html",
+        "upcNumericTableSha256": "74dc42c53efbb4b33e7907739ea7f1258328465681e8349317a4ac6f6704b96f"
+      }
+    },
+    {
+      "id": "pokemon-180",
+      "speciesId": "pokemon-180",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 180,
+      "resources": {
+        "blueGrowthResourceId": 180,
+        "redGrowthResourceId": 180,
+        "blueLearnsetResourceId": 180,
+        "redLearnsetResourceId": 180
+      },
+      "levelResourceId": "level-83f2ddbd9f31b996ecb96f739b761a937a59400b76360ea5407673fc99c9a999",
+      "learnsetResourceId": "learn-8d422420a5a1a924e441bdd6b15d7de7869eed4689f5677d6aad1939148df25c",
+      "typeIds": [5],
+      "abilityIds": [
+        32,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 55,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp180",
+        "redNumericTableSha256": "d18b05cf92dfc181b57c2587cb29f1e8c40279b76976fa99015b11df9de65aa1",
+        "redDecodedPayloadSha256": "149fee3ad9396acf246b5e05bd69beb6c5319d720ddbcca45606997d9f86b463",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=180.html",
+        "upcNumericTableSha256": "d18b05cf92dfc181b57c2587cb29f1e8c40279b76976fa99015b11df9de65aa1"
+      }
+    },
+    {
+      "id": "pokemon-181",
+      "speciesId": "pokemon-181",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 181,
+      "resources": {
+        "blueGrowthResourceId": 181,
+        "redGrowthResourceId": 181,
+        "blueLearnsetResourceId": 181,
+        "redLearnsetResourceId": 181
+      },
+      "levelResourceId": "level-ad25341aaf65a073550671d40782618664eec449e43237d7018669beb3c461a8",
+      "learnsetResourceId": "learn-053b43b5c2a45e65913478b68a52959c12bd877380398278b514ccdc93a782b6",
+      "typeIds": [5],
+      "abilityIds": [
+        32,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 40,
+      "friendAreaId": "friend-area-thunder-meadow",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp181",
+        "redNumericTableSha256": "9857b0471c67f7720fcf1f5d25664c0c5039d9ba26d2fad105dd86b33bc2d7da",
+        "redDecodedPayloadSha256": "d4392c0b19dd865481f19f46bd9a90183bc543c9a9e07c9978d23947af0c15bf",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=181.html",
+        "upcNumericTableSha256": "9857b0471c67f7720fcf1f5d25664c0c5039d9ba26d2fad105dd86b33bc2d7da"
+      }
+    },
+    {
+      "id": "pokemon-182",
+      "speciesId": "pokemon-182",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 182,
+      "resources": {
+        "blueGrowthResourceId": 182,
+        "redGrowthResourceId": 182,
+        "blueLearnsetResourceId": 182,
+        "redLearnsetResourceId": 182
+      },
+      "levelResourceId": "level-8b91854499e29d5f6d226b377e97de04e5321ee242a681b4ec52f5a9613be2fe",
+      "learnsetResourceId": "learn-9d2e26b618e8c7724074d7a344f85c52a5fab7ba7f4148d5345776f5bd35a73a",
+      "typeIds": [4],
+      "abilityIds": [
+        74,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 15,
+      "friendAreaId": "friend-area-jungle",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp182",
+        "redNumericTableSha256": "9e7d3d5bfb62688aab40cb5ea275108fd5b3e681a3fd964ba7ef7da5c8b3f909",
+        "redDecodedPayloadSha256": "6ca46a5fb5c9d821d853f761fd5f5144309b08d635522567925dd351fcda679d",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=182.html",
+        "upcNumericTableSha256": "9e7d3d5bfb62688aab40cb5ea275108fd5b3e681a3fd964ba7ef7da5c8b3f909"
+      }
+    },
+    {
+      "id": "pokemon-183",
+      "speciesId": "pokemon-183",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 183,
+      "resources": {
+        "blueGrowthResourceId": 183,
+        "redGrowthResourceId": 183,
+        "blueLearnsetResourceId": 183,
+        "redLearnsetResourceId": 183
+      },
+      "levelResourceId": "level-190ae7d92b44da822d1a161bd766d6252b41f9673ed2a14faa18ae3ffe2b97d9",
+      "learnsetResourceId": "learn-0e3d88943cf1ec7cb9d83e08bb8fe87b5fc832017e9648da672c57b9b2824215",
+      "typeIds": [3],
+      "abilityIds": [2, 34],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 30,
+      "friendAreaId": "friend-area-turtleshell-pond",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp183",
+        "redNumericTableSha256": "fbf17c0771e51fdf25dae97f2b80a1fa8d526276f6e2ddeb8d34a8286e3302af",
+        "redDecodedPayloadSha256": "8413d461f405950668aa85dbfa04b9354bfa4277bd37c9ca3d4bc4f72c637046",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=183.html",
+        "upcNumericTableSha256": "fbf17c0771e51fdf25dae97f2b80a1fa8d526276f6e2ddeb8d34a8286e3302af"
+      }
+    },
+    {
+      "id": "pokemon-184",
+      "speciesId": "pokemon-184",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 184,
+      "resources": {
+        "blueGrowthResourceId": 184,
+        "redGrowthResourceId": 184,
+        "blueLearnsetResourceId": 184,
+        "redLearnsetResourceId": 184
+      },
+      "levelResourceId": "level-877c3b459c4f4f3a02f833a5e0db44f94d282313c5f083b68a4817199111d9cd",
+      "learnsetResourceId": "learn-5deaeb5fb32df664a1048c107f66b743fdbb6b6afaa9dc323d4a313591aaa56a",
+      "typeIds": [3],
+      "abilityIds": [2, 34],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-turtleshell-pond",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp184",
+        "redNumericTableSha256": "d2a048e4018d91023d1e0bc69d77e9358658e9fcd9807a76af87edae2c05885d",
+        "redDecodedPayloadSha256": "81809fb163e126bb4c1c4d6b0ae769084fc9bb07c70b75858bcd3c2940089c42",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=184.html",
+        "upcNumericTableSha256": "d2a048e4018d91023d1e0bc69d77e9358658e9fcd9807a76af87edae2c05885d"
+      }
+    },
+    {
+      "id": "pokemon-185",
+      "speciesId": "pokemon-185",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 185,
+      "resources": {
+        "blueGrowthResourceId": 185,
+        "redGrowthResourceId": 185,
+        "blueLearnsetResourceId": 185,
+        "redLearnsetResourceId": 185
+      },
+      "levelResourceId": "level-9f878d7e7690e477b1558cfb4db5eac5ae731f3a7309916e3df6ad95b3b6ced9",
+      "learnsetResourceId": "learn-1cf5bac789c7787eccfd3711119a8335a765d65ec974fb2c500065c5cff1145d",
+      "typeIds": [13],
+      "abilityIds": [13, 7],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 48,
+      "friendAreaId": "friend-area-overgrown-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 104,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp185",
+        "redNumericTableSha256": "e4bffe91606c85ce5626dbf0f45d0eabc9dc564ec3cfa67035c262d5b42521c9",
+        "redDecodedPayloadSha256": "b0b1b7dc2987cd60604220073af44b12ba6dc25eabc3a624342b8ccb3090cbfb",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=185.html",
+        "upcNumericTableSha256": "e4bffe91606c85ce5626dbf0f45d0eabc9dc564ec3cfa67035c262d5b42521c9"
+      }
+    },
+    {
+      "id": "pokemon-186",
+      "speciesId": "pokemon-186",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 186,
+      "resources": {
+        "blueGrowthResourceId": 186,
+        "redGrowthResourceId": 186,
+        "blueLearnsetResourceId": 186,
+        "redLearnsetResourceId": 186
+      },
+      "levelResourceId": "level-77534c122c31a114da396151a93be632951e2d04cbc732a1153632b754b2b270",
+      "learnsetResourceId": "learn-0e43118f0892e412bab0fc1d58df5206c8f814af2fe046f31b484329a447d62f",
+      "typeIds": [3],
+      "abilityIds": [36, 21],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 99,
+      "friendAreaId": "friend-area-tadpole-pond",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp186",
+        "redNumericTableSha256": "edd9cb1a909827f27076784aa03f987069e05a6fd16ee1040043db31ec71f227",
+        "redDecodedPayloadSha256": "9d624a5d0f0551233094280b91c0ab67bd6288eef8ad39d4071bc4d8ba8e1346",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=186.html",
+        "upcNumericTableSha256": "edd9cb1a909827f27076784aa03f987069e05a6fd16ee1040043db31ec71f227"
+      }
+    },
+    {
+      "id": "pokemon-187",
+      "speciesId": "pokemon-187",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 187,
+      "resources": {
+        "blueGrowthResourceId": 187,
+        "redGrowthResourceId": 187,
+        "blueLearnsetResourceId": 187,
+        "redLearnsetResourceId": 187
+      },
+      "levelResourceId": "level-42a76a20a379e3163abea46d1b2204661a91ec22c08108368664cb35cd932df3",
+      "learnsetResourceId": "learn-6fab04d18a5652873c8117df82b74b75de6f1f269f20af777fb6a522a90396e2",
+      "typeIds": [4, 10],
+      "abilityIds": [
+        74,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 15,
+      "friendAreaId": "friend-area-beau-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": 85,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp187",
+        "redNumericTableSha256": "c7a0895426b565a6e7f2d570ce131f641822e0dd23c5d870d4554fba6b5fad07",
+        "redDecodedPayloadSha256": "2fb9dc382cfb6201c4d03613a4a6d6498b69baad054b84f73e0c283ad54a8370",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=187.html",
+        "upcNumericTableSha256": "c7a0895426b565a6e7f2d570ce131f641822e0dd23c5d870d4554fba6b5fad07"
+      }
+    },
+    {
+      "id": "pokemon-188",
+      "speciesId": "pokemon-188",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 188,
+      "resources": {
+        "blueGrowthResourceId": 188,
+        "redGrowthResourceId": 188,
+        "blueLearnsetResourceId": 188,
+        "redLearnsetResourceId": 188
+      },
+      "levelResourceId": "level-61ecfc8b5c7eca91b67f21e0a91f808b5fd817da6169ca0a0877735347d7a067",
+      "learnsetResourceId": "learn-1469866da6d4ed1b3f3dba7424cf760c9216ec2aecf6745890a449f81a04cebf",
+      "typeIds": [4, 10],
+      "abilityIds": [
+        74,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 25,
+      "friendAreaId": "friend-area-beau-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": -190,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp188",
+        "redNumericTableSha256": "47d048df46d4a041123f8f2af65d4d638b9905786e0d2092bd7f2cf363848d4c",
+        "redDecodedPayloadSha256": "7c2f3bee709971c9c7023bf2f91dc94c30a69c184a46dcc5e36cecd8016eb081",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=188.html",
+        "upcNumericTableSha256": "47d048df46d4a041123f8f2af65d4d638b9905786e0d2092bd7f2cf363848d4c"
+      }
+    },
+    {
+      "id": "pokemon-189",
+      "speciesId": "pokemon-189",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 189,
+      "resources": {
+        "blueGrowthResourceId": 189,
+        "redGrowthResourceId": 189,
+        "blueLearnsetResourceId": 189,
+        "redLearnsetResourceId": 189
+      },
+      "levelResourceId": "level-c2bbec6a904850258eaf3069d5f0765d467d9c79d013788ad892b5ed9d8d9937",
+      "learnsetResourceId": "learn-969086a06462a6c7030dcc93fffc3e8bdc92db60ea65e86545a0d34a416b1d95",
+      "typeIds": [4, 10],
+      "abilityIds": [
+        74,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 33,
+      "friendAreaId": "friend-area-beau-plains",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp189",
+        "redNumericTableSha256": "f67a718181f3ff3caddb68ffcad57193e40e96827cf334e1f02712eb6ce2ee1f",
+        "redDecodedPayloadSha256": "9ca3376cf1491e6089e40110acb5df9ebbc102910a252fe9dc5668aab006380a",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=189.html",
+        "upcNumericTableSha256": "f67a718181f3ff3caddb68ffcad57193e40e96827cf334e1f02712eb6ce2ee1f"
+      }
+    },
+    {
+      "id": "pokemon-190",
+      "speciesId": "pokemon-190",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 190,
+      "resources": {
+        "blueGrowthResourceId": 190,
+        "redGrowthResourceId": 190,
+        "blueLearnsetResourceId": 190,
+        "redLearnsetResourceId": 190
+      },
+      "levelResourceId": "level-d3e37bfb0f77012c2a6a424384e5163457218b2ce6cfa351225321735b44ed08",
+      "learnsetResourceId": "learn-c5bc7390bd61b5d47879e7b3a3045a504cccea48ddf593225483f8315666880a",
+      "typeIds": [1],
+      "abilityIds": [43, 71],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 40,
+      "friendAreaId": "friend-area-energetic-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 72,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp190",
+        "redNumericTableSha256": "77df8bef8eea03b0060e4d07e603e81a79dd1014743b9ccc49870356614280e8",
+        "redDecodedPayloadSha256": "47bdb9c7125107ab8c3932ac8daeab9598a859aba3b49ffb8aa997d69cd110e1",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=190.html",
+        "upcNumericTableSha256": "77df8bef8eea03b0060e4d07e603e81a79dd1014743b9ccc49870356614280e8"
+      }
+    },
+    {
+      "id": "pokemon-191",
+      "speciesId": "pokemon-191",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 191,
+      "resources": {
+        "blueGrowthResourceId": 191,
+        "redGrowthResourceId": 191,
+        "blueLearnsetResourceId": 191,
+        "redLearnsetResourceId": 191
+      },
+      "levelResourceId": "level-4d4bd5f0d5c04f7a116411527ff27ffefffb621ac86bb0abd0b10c22d2354fc1",
+      "learnsetResourceId": "learn-fe109615f6abb1a8d84db0df7aa81762ce5728f61ca993be2c77f6d42aa86ece",
+      "typeIds": [4],
+      "abilityIds": [
+        74,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 16,
+      "friendAreaId": "friend-area-jungle",
+      "recruitment": {
+        "baseRateTenthsPercent": 52,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp191",
+        "redNumericTableSha256": "8bdc99a3962128ff87d3919e46d91eea0155a814f72c0ac7f2c48d9097a0000d",
+        "redDecodedPayloadSha256": "5cfb5671950e14b235cb9d8e4264bc71e2ebfa004cbe1ca44b0589faddf9a000",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=191.html",
+        "upcNumericTableSha256": "8bdc99a3962128ff87d3919e46d91eea0155a814f72c0ac7f2c48d9097a0000d"
+      }
+    },
+    {
+      "id": "pokemon-192",
+      "speciesId": "pokemon-192",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 192,
+      "resources": {
+        "blueGrowthResourceId": 192,
+        "redGrowthResourceId": 192,
+        "blueLearnsetResourceId": 192,
+        "redLearnsetResourceId": 192
+      },
+      "levelResourceId": "level-a71a320f9632c0b5a110139ad830522712fb374194ffd77cdaac0db596eb8190",
+      "learnsetResourceId": "learn-d78e149b8887fc5c8537214de2b0d34297da41dc6a03add162fb201153c25769",
+      "typeIds": [4],
+      "abilityIds": [
+        74,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 70,
+      "friendAreaId": "friend-area-jungle",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp192",
+        "redNumericTableSha256": "53e20477a7f305d6f098d3e01143fa6d7fc6620cb4b7c06ab75dc2fef1491311",
+        "redDecodedPayloadSha256": "5170079735e8b0b58b58b2483d64791af3daea100fa1b225c635756f95067e2c",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=192.html",
+        "upcNumericTableSha256": "53e20477a7f305d6f098d3e01143fa6d7fc6620cb4b7c06ab75dc2fef1491311"
+      }
+    },
+    {
+      "id": "pokemon-193",
+      "speciesId": "pokemon-193",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 193,
+      "resources": {
+        "blueGrowthResourceId": 193,
+        "redGrowthResourceId": 193,
+        "blueLearnsetResourceId": 193,
+        "redLearnsetResourceId": 193
+      },
+      "levelResourceId": "level-31efec3878e01cd9da978b626514d5d5b7c539acd248dfc643969ed809bcec82",
+      "learnsetResourceId": "learn-3b5b2c89e33ce7ad89ac976a296b0be5a04fc77d303673758673fc2a06a5065f",
+      "typeIds": [12, 10],
+      "abilityIds": [11, 51],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 55,
+      "friendAreaId": "friend-area-mist-rise-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 74,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp193",
+        "redNumericTableSha256": "cbabba1a7b282ebe720e8991fe895530ca98e14b72f86840f331152b1816a0d5",
+        "redDecodedPayloadSha256": "ccc44a63b7f178f998a2cecb9a59adb52d0dc2811e563ccdcdabed1439595f12",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=193.html",
+        "upcNumericTableSha256": "cbabba1a7b282ebe720e8991fe895530ca98e14b72f86840f331152b1816a0d5"
+      }
+    },
+    {
+      "id": "pokemon-194",
+      "speciesId": "pokemon-194",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 194,
+      "resources": {
+        "blueGrowthResourceId": 194,
+        "redGrowthResourceId": 194,
+        "blueLearnsetResourceId": 194,
+        "redLearnsetResourceId": 194
+      },
+      "levelResourceId": "level-b2a9b5c8f75d64bf65b3f586dc5cef5fe33bb111d22755634e67375992c3e712",
+      "learnsetResourceId": "learn-3c45cc3e20e4f37263af7d176de261f96d3f0df396465b8870bd1dd7a233386b",
+      "typeIds": [3, 9],
+      "abilityIds": [21, 36],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 24,
+      "friendAreaId": "friend-area-peanut-swamp",
+      "recruitment": {
+        "baseRateTenthsPercent": 119,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp194",
+        "redNumericTableSha256": "39d9865a9ce88872e074a29b2c0c156fcbb7e7b1d861cacc6babf103bfe88fc9",
+        "redDecodedPayloadSha256": "d75331f00af0161fe07e33849b1bf611af1e9ee13aeb6dede4e9552daa88aafc",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=194.html",
+        "upcNumericTableSha256": "39d9865a9ce88872e074a29b2c0c156fcbb7e7b1d861cacc6babf103bfe88fc9"
+      }
+    },
+    {
+      "id": "pokemon-195",
+      "speciesId": "pokemon-195",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 195,
+      "resources": {
+        "blueGrowthResourceId": 195,
+        "redGrowthResourceId": 195,
+        "blueLearnsetResourceId": 195,
+        "redLearnsetResourceId": 195
+      },
+      "levelResourceId": "level-bb2253051cfe019b4760476f03cbdb2e8b86d15647c90655c095d11061dda00f",
+      "learnsetResourceId": "learn-ff0b5f3604e9da9a23e2c9fd3b51091b3012149e7aed76bdd927fd5492193059",
+      "typeIds": [3, 9],
+      "abilityIds": [21, 36],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 105,
+      "friendAreaId": "friend-area-peanut-swamp",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp195",
+        "redNumericTableSha256": "0c6130ae4571da3deb565f15d719e91486bb7efc463441a6eb82d4d87d2b69a4",
+        "redDecodedPayloadSha256": "77a36b6e1096880cecbbdf6ad7b461cdb5497edba8387f76b0861152a60cd4b6",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=195.html",
+        "upcNumericTableSha256": "0c6130ae4571da3deb565f15d719e91486bb7efc463441a6eb82d4d87d2b69a4"
+      }
+    },
+    {
+      "id": "pokemon-196",
+      "speciesId": "pokemon-196",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 196,
+      "resources": {
+        "blueGrowthResourceId": 196,
+        "redGrowthResourceId": 196,
+        "blueLearnsetResourceId": 196,
+        "redLearnsetResourceId": 196
+      },
+      "levelResourceId": "level-4c1a6854e94815687526bf17c1519fea5bf26c6716003936f408b5e4df6759ed",
+      "learnsetResourceId": "learn-29972afe645b5bff524faf2c559a2706948efc8937f15d1498e07f6568957576",
+      "typeIds": [11],
+      "abilityIds": [
+        25,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 78,
+      "friendAreaId": "friend-area-transform-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp196",
+        "redNumericTableSha256": "3d610c7320fb5e6160e60b99cc9d1a8df56fe46ab10a491e7966205e26c33b74",
+        "redDecodedPayloadSha256": "9d8491d66cf22f7fafa4e78060383e2fe67e68e7b9ad01666e9b6143ccafb4a8",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=196.html",
+        "upcNumericTableSha256": "3d610c7320fb5e6160e60b99cc9d1a8df56fe46ab10a491e7966205e26c33b74"
+      }
+    },
+    {
+      "id": "pokemon-197",
+      "speciesId": "pokemon-197",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 197,
+      "resources": {
+        "blueGrowthResourceId": 197,
+        "redGrowthResourceId": 197,
+        "blueLearnsetResourceId": 197,
+        "redLearnsetResourceId": 197
+      },
+      "levelResourceId": "level-4c1a6854e94815687526bf17c1519fea5bf26c6716003936f408b5e4df6759ed",
+      "learnsetResourceId": "learn-35ec41bb80c30cbd3ced1a1edaee7b7936e5093cf6efb37222405cf183f8859b",
+      "typeIds": [16],
+      "abilityIds": [
+        25,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 81,
+      "friendAreaId": "friend-area-transform-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp197",
+        "redNumericTableSha256": "3d610c7320fb5e6160e60b99cc9d1a8df56fe46ab10a491e7966205e26c33b74",
+        "redDecodedPayloadSha256": "9d8491d66cf22f7fafa4e78060383e2fe67e68e7b9ad01666e9b6143ccafb4a8",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=197.html",
+        "upcNumericTableSha256": "3d610c7320fb5e6160e60b99cc9d1a8df56fe46ab10a491e7966205e26c33b74"
+      }
+    },
+    {
+      "id": "pokemon-198",
+      "speciesId": "pokemon-198",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 198,
+      "resources": {
+        "blueGrowthResourceId": 198,
+        "redGrowthResourceId": 198,
+        "blueLearnsetResourceId": 198,
+        "redLearnsetResourceId": 198
+      },
+      "levelResourceId": "level-c091d09954a4cbb7f44ebb584ad1b82f1595ea033ab6f683110c2f34f5afe068",
+      "learnsetResourceId": "learn-7a46bd8cb496ce0f1e35a63f4ebeed9ed2673f9b51d30fa962d8d3bd330076b2",
+      "typeIds": [16, 10],
+      "abilityIds": [
+        54,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 40,
+      "friendAreaId": "friend-area-flyaway-forest",
+      "recruitment": {
+        "baseRateTenthsPercent": 72,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp198",
+        "redNumericTableSha256": "ebb89c6924800ef80f704312159f04914b65ddc7576394475c70a79949676a77",
+        "redDecodedPayloadSha256": "748c59dfa54bc153caafb3d8f845b85d117a2bb6c3ce3243a45186b659357e52",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=198.html",
+        "upcNumericTableSha256": "ebb89c6924800ef80f704312159f04914b65ddc7576394475c70a79949676a77"
+      }
+    },
+    {
+      "id": "pokemon-199",
+      "speciesId": "pokemon-199",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 199,
+      "resources": {
+        "blueGrowthResourceId": 199,
+        "redGrowthResourceId": 199,
+        "blueLearnsetResourceId": 199,
+        "redLearnsetResourceId": 199
+      },
+      "levelResourceId": "level-8a344f008cb8d623c8ceacdfa8fa986a8628d57a04d6f8481bbf96f3a79905db",
+      "learnsetResourceId": "learn-f25d5a4ae17bdc0275b8c955e939ae880cd514daa2c0a5b657821255e3566d9c",
+      "typeIds": [3, 11],
+      "abilityIds": [41, 64],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 50,
+      "friendAreaId": "friend-area-bountiful-sea",
+      "recruitment": {
+        "baseRateTenthsPercent": -999,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp199",
+        "redNumericTableSha256": "803478337fbf13b9ddd2fa86deba86eef9c9802f37f4511a8bf40c1d0509bc75",
+        "redDecodedPayloadSha256": "2dc424c671f163d170ea9d1e9556577f6a23aa4c0e0c4d6505ed310541850fee",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=199.html",
+        "upcNumericTableSha256": "803478337fbf13b9ddd2fa86deba86eef9c9802f37f4511a8bf40c1d0509bc75"
+      }
+    },
+    {
+      "id": "pokemon-200",
+      "speciesId": "pokemon-200",
+      "formId": null,
+      "persistence": "persistent",
+      "internalId": 200,
+      "resources": {
+        "blueGrowthResourceId": 200,
+        "redGrowthResourceId": 200,
+        "blueLearnsetResourceId": 200,
+        "redLearnsetResourceId": 200
+      },
+      "levelResourceId": "level-71b36863e257b43eb4480043c486be672bb639c94b4d20fa61d770249f2d26d3",
+      "learnsetResourceId": "learn-6e893c30beffbebd0e6b309adb7f99e800653ad580710d4f34f2ade4442706b3",
+      "typeIds": [14],
+      "abilityIds": [
+        55,
+        null
+      ],
+      "bodySize": 1,
+      "baseMovementSpeed": 1,
+      "regenerationRate": 100,
+      "experienceYield": 60,
+      "friendAreaId": "friend-area-darkness-ridge",
+      "recruitment": {
+        "baseRateTenthsPercent": 88,
+        "eligibility": null,
+        "scriptedAcquisition": null
+      },
+      "evidence": {
+        "identity": "crosswalk",
+        "stats": "blue-red-stats",
+        "experience": "upc-shared-original-corroborated-red",
+        "types": "red-only-metadata",
+        "abilities": "blue-red-abilities",
+        "bodySize": "shared-body",
+        "friendArea": "shared-area",
+        "recruitment": "shared-recruit",
+        "mechanicalValues": "red-only-metadata",
+        "learnset": "blue-red-learning"
+      },
+      "levelEvidence": {
+        "redResource": "lvmp200",
+        "redNumericTableSha256": "2af0c50519cbdd3260c6f964137475262c456bd1286715fd30fceea321c6e7d0",
+        "redDecodedPayloadSha256": "7f273f99539c4fe7337dfecaeeddca6d951dc9eca9baeff8bca5fbb228083a56",
+        "upcUrl": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php%3Fid=200.html",
+        "upcNumericTableSha256": "2af0c50519cbdd3260c6f964137475262c456bd1286715fd30fceea321c6e7d0"
+      }
+    }
+  ]
+}

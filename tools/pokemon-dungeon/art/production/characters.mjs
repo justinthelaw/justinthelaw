@@ -1,0 +1,20 @@
+import * as bulbasaur from './species/bulbasaur.mjs';
+import * as charmander from './species/charmander.mjs';
+import * as squirtle from './species/squirtle.mjs';
+import * as chikorita from './species/chikorita.mjs';
+import * as cyndaquil from './species/cyndaquil.mjs';
+import * as totodile from './species/totodile.mjs';
+import * as treecko from './species/treecko.mjs';
+import * as torchic from './species/torchic.mjs';
+import * as mudkip from './species/mudkip.mjs';
+import * as pikachu from './species/pikachu.mjs';
+import * as meowth from './species/meowth.mjs';
+import * as psyduck from './species/psyduck.mjs';
+import * as machop from './species/machop.mjs';
+import * as cubone from './species/cubone.mjs';
+import * as eevee from './species/eevee.mjs';
+import * as skitty from './species/skitty.mjs';
+import { painter } from './painter.mjs';
+import { pose } from './pose.mjs';
+export const characters = [bulbasaur, charmander, squirtle, chikorita, cyndaquil, totodile, treecko, torchic, mudkip, pikachu, meowth, psyduck, machop, cubone, eevee, skitty];
+export function render(character, direction, clip, frame) { const a = painter(direction, pose(clip, frame)); character.draw(a); return a.finish(); }

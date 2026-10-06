@@ -41,8 +41,8 @@ choice and any earlier inferred approval of the P06 character models.
 
 - Preserve the original Blue species silhouettes, proportions, markings,
   palettes and distinctive features in newly authored artwork.
-- Use directional pixel sprites or pixel-textured character geometry within
-  actual 3D environments; maintain coherent texel density and nearest sampling.
+- Use directional RGBA pixel atlases on depth-tested billboards within actual
+  3D environments; maintain coherent texel density and nearest sampling.
 - Keep the hero and partner legible at a close third-person distance. Camera
   orbit, obstructions, dialogue framing and boss framing must remain usable.
 - Author distinct town, forest, cave, volcanic, snow, sky, ocean, ruin and

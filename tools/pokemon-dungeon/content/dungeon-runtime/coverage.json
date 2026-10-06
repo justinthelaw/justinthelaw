@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "expectedRecords": {
+    "generation": 1764,
+    "encounters": 839,
+    "items": 133,
+    "traps": 142,
+    "item-identities": 202,
+    "categories": 10,
+    "trap-identities": 20,
+    "restrictions": 98,
+    "fixed-rooms": 140,
+    "floors": 1497,
+    "scenes": 1,
+    "excluded-floors": 269,
+    "dungeons": 67,
+    "sections": 73,
+    "confidence": 9
+  },
+  "sourceRecordCounts": {
+    "generation": 1764,
+    "encounters": 839,
+    "items": 178,
+    "traps": 148
+  },
+  "canonical": {
+    "fieldDungeons": 45,
+    "dojoDungeons": 22,
+    "fieldFloors": 1427,
+    "dojoFloors": 66,
+    "terminalScenes": 1,
+    "alternateVisitFloors": 4,
+    "embeddedRewardRooms": 17,
+    "fixedRooms": 140
+  },
+  "restMapIds": [
+    "mt-thunder-rest-stop",
+    "mt-blaze-rest-stop",
+    "frosty-forest-rest-stop",
+    "mt-freeze-rest-stop",
+    "magma-cavern-rest-stop",
+    "sky-tower-rest-stop"
+  ],
+  "semantics": {
+    "weightDenominator": 10000,
+    "drawMinimum": 0,
+    "drawMaximum": 9999,
+    "comparison": "first-positive-cumulative-greater-than-or-equal",
+    "availability": "post-draw-rejection-without-renormalization",
+    "effectiveDrawCount": "adopted Red endpoint semantics before availability gates; not final spawn probability",
+    "mew": "initial-mew-eligibility required initially; ordinary arrival excludes Mew",
+    "importedMaze": "Imported actor identities/stats replace source placeholder pools; no substitute team",
+    "campaign": "source-primary and alternate-visit records require separately authored applicability; no default visit selection",
+    "geometry": "No grids supplied; independent geometry coverage is required",
+    "loading": "Factual catalog readiness is not gameplay acceptance"
+  },
+  "openConsumers": [
+    "campaign-variant-predicates",
+    "independent-fixed-room-geometry",
+    "imported-team-payload-rules",
+    "generation-algorithms",
+    "item-trap-effects",
+    "Blue-endpoint-confirmation"
+  ]
+}

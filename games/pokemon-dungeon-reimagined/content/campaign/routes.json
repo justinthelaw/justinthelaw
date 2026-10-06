@@ -1,0 +1,2161 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-campaign-facts",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "routes",
+  "records": [
+    {
+      "id": "campaign-route-00",
+      "sourceScriptDungeonIndex": 0,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_TINY_WOODS",
+      "sourceProceduralDungeonIndex": 0,
+      "sourceProceduralDungeonSymbol": "DUNGEON_TINY_WOODS",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_TINY_WOODS",
+      "dungeonId": "tiny-woods",
+      "sectionId": "tiny-woods",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-tiny-woods-entry",
+      "successMapId": "campaign-map-tiny-woods-entry",
+      "failureMapId": "campaign-map-tiny-woods-entry",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-d1416bc59c446495"
+      ],
+      "returnHookId": "return-dispatch-m01e01a"
+    },
+    {
+      "id": "campaign-route-01",
+      "sourceScriptDungeonIndex": 1,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_THUNDERWAVE_CAVE",
+      "sourceProceduralDungeonIndex": 1,
+      "sourceProceduralDungeonSymbol": "DUNGEON_THUNDERWAVE_CAVE",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_THUNDERWAVE_CAVE",
+      "dungeonId": "thunderwave-cave",
+      "sectionId": "thunderwave-cave",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": "campaign-scene-event-m01e02a-l003",
+      "repeatEntrySceneId": "campaign-scene-event-m01e02a-l005",
+      "returnSceneId": "campaign-scene-getout-m01e02a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-58490929c2a3158e"
+      ],
+      "returnHookId": "return-dispatch-m01e02a"
+    },
+    {
+      "id": "campaign-route-02",
+      "sourceScriptDungeonIndex": 2,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MT_STEEL",
+      "sourceProceduralDungeonIndex": 2,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_STEEL",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_STEEL",
+      "dungeonId": "mt-steel",
+      "sectionId": "mt-steel",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": "campaign-scene-event-m01e02b-l005",
+      "repeatEntrySceneId": "campaign-scene-event-m01e02b-l007",
+      "returnSceneId": "campaign-scene-getout-m01e02b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-a20a85a275c9b4bf"
+      ],
+      "returnHookId": "return-dispatch-m01e02b"
+    },
+    {
+      "id": "campaign-route-03",
+      "sourceScriptDungeonIndex": 3,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_3",
+      "sourceProceduralDungeonIndex": 2,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_STEEL",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_STEEL",
+      "dungeonId": "mt-steel",
+      "sectionId": "mt-steel",
+      "variantId": "source-primary",
+      "purpose": "repeat-story",
+      "departureMapId": null,
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e02b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-9cb4ac17d0717314"
+      ],
+      "returnHookId": "return-dispatch-m01e02b"
+    },
+    {
+      "id": "campaign-route-04",
+      "sourceScriptDungeonIndex": 4,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_SINISTER_WOODS",
+      "sourceProceduralDungeonIndex": 3,
+      "sourceProceduralDungeonSymbol": "DUNGEON_SINISTER_WOODS",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_SINISTER_WOODS",
+      "dungeonId": "sinister-woods",
+      "sectionId": "sinister-woods",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": "campaign-scene-event-m01e03a-l008",
+      "repeatEntrySceneId": "campaign-scene-event-m01e03a-l010",
+      "returnSceneId": "campaign-scene-getout-m01e03a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-001d0ab10d55153f"
+      ],
+      "returnHookId": "return-dispatch-m01e03a"
+    },
+    {
+      "id": "campaign-route-05",
+      "sourceScriptDungeonIndex": 5,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_5",
+      "sourceProceduralDungeonIndex": 3,
+      "sourceProceduralDungeonSymbol": "DUNGEON_SINISTER_WOODS",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_SINISTER_WOODS",
+      "dungeonId": "sinister-woods",
+      "sectionId": "sinister-woods",
+      "variantId": "source-primary",
+      "purpose": "repeat-story",
+      "departureMapId": null,
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e03a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-50c3025661efa333"
+      ],
+      "returnHookId": "return-dispatch-m01e03a"
+    },
+    {
+      "id": "campaign-route-06",
+      "sourceScriptDungeonIndex": 6,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_SILENT_CHASM",
+      "sourceProceduralDungeonIndex": 4,
+      "sourceProceduralDungeonSymbol": "DUNGEON_SILENT_CHASM",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_SILENT_CHASM",
+      "dungeonId": "silent-chasm",
+      "sectionId": "silent-chasm",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": "campaign-scene-event-m01e04a-l003",
+      "repeatEntrySceneId": "campaign-scene-event-m01e04a-l005",
+      "returnSceneId": "campaign-scene-getout-m01e04a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-aa291c25d1c17611"
+      ],
+      "returnHookId": "return-dispatch-m01e04a"
+    },
+    {
+      "id": "campaign-route-07",
+      "sourceScriptDungeonIndex": 7,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MT_THUNDER",
+      "sourceProceduralDungeonIndex": 5,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_THUNDER",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_THUNDER",
+      "dungeonId": "mt-thunder",
+      "sectionId": "mt-thunder-main",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-mt-thunder-mid",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": "campaign-scene-event-m01e04b-l003",
+      "repeatEntrySceneId": "campaign-scene-event-m01e04b-l005",
+      "returnSceneId": "campaign-scene-getout-m01e04b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-e27b4c52cf81b842"
+      ],
+      "returnHookId": "return-dispatch-m01e04b"
+    },
+    {
+      "id": "campaign-route-08",
+      "sourceScriptDungeonIndex": 8,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MT_THUNDER_PEAK",
+      "sourceProceduralDungeonIndex": 6,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_THUNDER_PEAK",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_THUNDER",
+      "dungeonId": "mt-thunder",
+      "sectionId": "mt-thunder-peak",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": null,
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-mt-thunder-mid",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e04b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-ebbb5c41eeb00713"
+      ],
+      "returnHookId": "return-dispatch-m01e04b"
+    },
+    {
+      "id": "campaign-route-09",
+      "sourceScriptDungeonIndex": 9,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_GREAT_CANYON",
+      "sourceProceduralDungeonIndex": 7,
+      "sourceProceduralDungeonSymbol": "DUNGEON_GREAT_CANYON",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_GREAT_CANYON",
+      "dungeonId": "great-canyon",
+      "sectionId": "great-canyon",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": "campaign-scene-event-m01e05a-l003",
+      "repeatEntrySceneId": "campaign-scene-event-m01e05a-l005",
+      "returnSceneId": "campaign-scene-getout-m01e05a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-105cbc0e6b519f2e"
+      ],
+      "returnHookId": "return-dispatch-m01e05a"
+    },
+    {
+      "id": "campaign-route-10",
+      "sourceScriptDungeonIndex": 10,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_LAPIS_CAVE",
+      "sourceProceduralDungeonIndex": 8,
+      "sourceProceduralDungeonSymbol": "DUNGEON_LAPIS_CAVE",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_LAPIS_CAVE",
+      "dungeonId": "lapis-cave",
+      "sectionId": "lapis-cave",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-lapis-cave-entry",
+      "successMapId": "campaign-map-lapis-cave-end",
+      "failureMapId": "campaign-map-lapis-cave-entry",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e07a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-70839fe1e5785df2"
+      ],
+      "returnHookId": "return-dispatch-m01e07a"
+    },
+    {
+      "id": "campaign-route-11",
+      "sourceScriptDungeonIndex": 11,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MT_BLAZE",
+      "sourceProceduralDungeonIndex": 9,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_BLAZE",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_BLAZE",
+      "dungeonId": "mt-blaze",
+      "sectionId": "mt-blaze-main",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-mt-blaze-entry",
+      "successMapId": "campaign-map-mt-blaze-mid",
+      "failureMapId": "campaign-map-mt-blaze-entry",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e07b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-fa2ea7d3a08ddcb4"
+      ],
+      "returnHookId": "return-dispatch-m01e07b"
+    },
+    {
+      "id": "campaign-route-12",
+      "sourceScriptDungeonIndex": 12,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MT_BLAZE_PEAK",
+      "sourceProceduralDungeonIndex": 10,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_BLAZE_PEAK",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_BLAZE",
+      "dungeonId": "mt-blaze",
+      "sectionId": "mt-blaze-peak",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": "campaign-map-mt-blaze-mid",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e07b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-4e4563d2035bf045"
+      ],
+      "returnHookId": "return-dispatch-m01e07b"
+    },
+    {
+      "id": "campaign-route-13",
+      "sourceScriptDungeonIndex": 13,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_FROSTY_FOREST",
+      "sourceProceduralDungeonIndex": 11,
+      "sourceProceduralDungeonSymbol": "DUNGEON_FROSTY_FOREST",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_FROSTY_FOREST",
+      "dungeonId": "frosty-forest",
+      "sectionId": "frosty-forest-main",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-frosty-forest-entry",
+      "successMapId": "campaign-map-frosty-forest-mid",
+      "failureMapId": "campaign-map-frosty-forest-entry",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e08a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-76562ee4227cdc5e"
+      ],
+      "returnHookId": "return-dispatch-m01e08a"
+    },
+    {
+      "id": "campaign-route-14",
+      "sourceScriptDungeonIndex": 14,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_FROSTY_GROTTO",
+      "sourceProceduralDungeonIndex": 12,
+      "sourceProceduralDungeonSymbol": "DUNGEON_FROSTY_GROTTO",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_FROSTY_FOREST",
+      "dungeonId": "frosty-forest",
+      "sectionId": "frosty-grotto",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": "campaign-map-frosty-forest-mid",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e08a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-b8467f6618b3f064"
+      ],
+      "returnHookId": "return-dispatch-m01e08a"
+    },
+    {
+      "id": "campaign-route-15",
+      "sourceScriptDungeonIndex": 15,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MT_FREEZE",
+      "sourceProceduralDungeonIndex": 13,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_FREEZE",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_FREEZE",
+      "dungeonId": "mt-freeze",
+      "sectionId": "mt-freeze-main",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-mt-freeze-entry",
+      "successMapId": "campaign-map-mt-freeze-mid",
+      "failureMapId": "campaign-map-mt-freeze-entry",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e08b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-de86540fd8f382d8"
+      ],
+      "returnHookId": "return-dispatch-m01e08b"
+    },
+    {
+      "id": "campaign-route-16",
+      "sourceScriptDungeonIndex": 16,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MT_FREEZE_PEAK",
+      "sourceProceduralDungeonIndex": 14,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_FREEZE_PEAK",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_FREEZE",
+      "dungeonId": "mt-freeze",
+      "sectionId": "mt-freeze-peak",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": "campaign-map-mt-freeze-mid",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e08b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-c30f626c5a3b9ae4"
+      ],
+      "returnHookId": "return-dispatch-m01e08b"
+    },
+    {
+      "id": "campaign-route-17",
+      "sourceScriptDungeonIndex": 17,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MAGMA_CAVERN",
+      "sourceProceduralDungeonIndex": 15,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MAGMA_CAVERN",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MAGMA_CAVERN",
+      "dungeonId": "magma-cavern",
+      "sectionId": "magma-cavern-main",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-magma-cavern-mid",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": "campaign-scene-event-m01e09a-l011",
+      "repeatEntrySceneId": "campaign-scene-event-m01e09a-l013",
+      "returnSceneId": "campaign-scene-getout-m01e09a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-1610abe181b7e9c4"
+      ],
+      "returnHookId": "return-dispatch-m01e09a"
+    },
+    {
+      "id": "campaign-route-18",
+      "sourceScriptDungeonIndex": 18,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MAGMA_CAVERN_PIT",
+      "sourceProceduralDungeonIndex": 16,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MAGMA_CAVERN_PIT",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MAGMA_CAVERN",
+      "dungeonId": "magma-cavern",
+      "sectionId": "magma-cavern-pit",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": "campaign-map-magma-cavern-mid",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e09a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-14a5d912a6faaf59"
+      ],
+      "returnHookId": "return-dispatch-m01e09a"
+    },
+    {
+      "id": "campaign-route-19",
+      "sourceScriptDungeonIndex": 19,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_SKY_TOWER",
+      "sourceProceduralDungeonIndex": 17,
+      "sourceProceduralDungeonSymbol": "DUNGEON_SKY_TOWER",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_SKY_TOWER",
+      "dungeonId": "sky-tower",
+      "sectionId": "sky-tower-main",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-sky-tower-mid",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": "campaign-scene-event-m01e10a-l004",
+      "repeatEntrySceneId": "campaign-scene-event-m01e10a-l006",
+      "returnSceneId": "campaign-scene-getout-m01e10a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-529666c8c19b5649"
+      ],
+      "returnHookId": "return-dispatch-m01e10a"
+    },
+    {
+      "id": "campaign-route-20",
+      "sourceScriptDungeonIndex": 20,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_SKY_TOWER_SUMMIT",
+      "sourceProceduralDungeonIndex": 18,
+      "sourceProceduralDungeonSymbol": "DUNGEON_SKY_TOWER_SUMMIT",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_SKY_TOWER",
+      "dungeonId": "sky-tower",
+      "sectionId": "sky-tower-summit",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": "campaign-map-sky-tower-mid",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e10a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-c4e3a4554e2d5719"
+      ],
+      "returnHookId": "return-dispatch-m01e10a"
+    },
+    {
+      "id": "campaign-route-21",
+      "sourceScriptDungeonIndex": 21,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_DUMMY",
+      "sourceProceduralDungeonIndex": 0,
+      "sourceProceduralDungeonSymbol": "DUNGEON_TINY_WOODS",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_DUMMY",
+      "dungeonId": "tiny-woods",
+      "sectionId": "tiny-woods",
+      "variantId": "source-primary",
+      "purpose": "unused-alias",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-d65b826477e21519"
+      ],
+      "returnHookId": "return-dispatch-s00e01a"
+    },
+    {
+      "id": "campaign-route-22",
+      "sourceScriptDungeonIndex": 22,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_UPROAR_FOREST",
+      "sourceProceduralDungeonIndex": 42,
+      "sourceProceduralDungeonSymbol": "DUNGEON_UPROAR_FOREST",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_UPROAR_FOREST",
+      "dungeonId": "uproar-forest",
+      "sectionId": "uproar-forest",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s01e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-3ec705f0f4fcf888"
+      ],
+      "returnHookId": "return-dispatch-s01e01a"
+    },
+    {
+      "id": "campaign-route-23",
+      "sourceScriptDungeonIndex": 23,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_HOWLING_FOREST",
+      "sourceProceduralDungeonIndex": 53,
+      "sourceProceduralDungeonSymbol": "DUNGEON_HOWLING_FOREST",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_HOWLING_FOREST",
+      "dungeonId": "howling-forest",
+      "sectionId": "howling-forest",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s01e02a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-312ddf2a941ab9fb"
+      ],
+      "returnHookId": "return-dispatch-s01e02a"
+    },
+    {
+      "id": "campaign-route-24",
+      "sourceScriptDungeonIndex": 24,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_STORMY_SEA",
+      "sourceProceduralDungeonIndex": 19,
+      "sourceProceduralDungeonSymbol": "DUNGEON_STORMY_SEA",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_STORMY_SEA",
+      "dungeonId": "stormy-sea",
+      "sectionId": "stormy-sea",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s02e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-9c4e8f62d6c6ebb9"
+      ],
+      "returnHookId": "return-dispatch-s02e01a"
+    },
+    {
+      "id": "campaign-route-25",
+      "sourceScriptDungeonIndex": 25,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_SILVER_TRENCH",
+      "sourceProceduralDungeonIndex": 20,
+      "sourceProceduralDungeonSymbol": "DUNGEON_SILVER_TRENCH",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_SILVER_TRENCH",
+      "dungeonId": "silver-trench",
+      "sectionId": "silver-trench",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s02e02a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-1fd1b9e7750948f0"
+      ],
+      "returnHookId": "return-dispatch-s02e02a"
+    },
+    {
+      "id": "campaign-route-26",
+      "sourceScriptDungeonIndex": 26,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_METEOR_CAVE",
+      "sourceProceduralDungeonIndex": 21,
+      "sourceProceduralDungeonSymbol": "DUNGEON_METEOR_CAVE",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_METEOR_CAVE",
+      "dungeonId": "meteor-cave",
+      "sectionId": "meteor-cave",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s03e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-96d56d56d49f8a1e"
+      ],
+      "returnHookId": "return-dispatch-s03e01a"
+    },
+    {
+      "id": "campaign-route-27",
+      "sourceScriptDungeonIndex": 27,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_GREAT_CANYON_2",
+      "sourceProceduralDungeonIndex": 7,
+      "sourceProceduralDungeonSymbol": "DUNGEON_GREAT_CANYON",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_GREAT_CANYON_2",
+      "dungeonId": "great-canyon",
+      "sectionId": "great-canyon",
+      "variantId": "source-primary",
+      "purpose": "repeat-story",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s04e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-1ddea849b325d320"
+      ],
+      "returnHookId": "return-dispatch-s04e01a"
+    },
+    {
+      "id": "campaign-route-28",
+      "sourceScriptDungeonIndex": 28,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_FIERY_FIELD",
+      "sourceProceduralDungeonIndex": 34,
+      "sourceProceduralDungeonSymbol": "DUNGEON_FIERY_FIELD",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_FIERY_FIELD",
+      "dungeonId": "fiery-field",
+      "sectionId": "fiery-field",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s04e01b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-ed1f56534699b479"
+      ],
+      "returnHookId": "return-dispatch-s04e01b"
+    },
+    {
+      "id": "campaign-route-29",
+      "sourceScriptDungeonIndex": 29,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_LIGHTNING_FIELD",
+      "sourceProceduralDungeonIndex": 37,
+      "sourceProceduralDungeonSymbol": "DUNGEON_LIGHTNING_FIELD",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_LIGHTNING_FIELD",
+      "dungeonId": "lightning-field",
+      "sectionId": "lightning-field",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s04e01c",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-a5303726f0983381"
+      ],
+      "returnHookId": "return-dispatch-s04e01c"
+    },
+    {
+      "id": "campaign-route-30",
+      "sourceScriptDungeonIndex": 30,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_NORTHWIND_FIELD",
+      "sourceProceduralDungeonIndex": 35,
+      "sourceProceduralDungeonSymbol": "DUNGEON_NORTHWIND_FIELD",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_NORTHWIND_FIELD",
+      "dungeonId": "northwind-field",
+      "sectionId": "northwind-field",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s04e01d",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-729f45e54b6dade2"
+      ],
+      "returnHookId": "return-dispatch-s04e01d"
+    },
+    {
+      "id": "campaign-route-31",
+      "sourceScriptDungeonIndex": 31,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MT_FARAWAY",
+      "sourceProceduralDungeonIndex": 60,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_FARAWAY",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_FARAWAY",
+      "dungeonId": "mt-faraway",
+      "sectionId": "mt-faraway",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s04e01e",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-0e4a7540e37ee707"
+      ],
+      "returnHookId": "return-dispatch-s04e01e"
+    },
+    {
+      "id": "campaign-route-32",
+      "sourceScriptDungeonIndex": 32,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_WESTERN_CAVE",
+      "sourceProceduralDungeonIndex": 23,
+      "sourceProceduralDungeonSymbol": "DUNGEON_WESTERN_CAVE",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_WESTERN_CAVE",
+      "dungeonId": "western-cave",
+      "sectionId": "western-cave",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s05e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-80d85cefd25c275e"
+      ],
+      "returnHookId": "return-dispatch-s05e01a"
+    },
+    {
+      "id": "campaign-route-33",
+      "sourceScriptDungeonIndex": 33,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_NORTHERN_RANGE",
+      "sourceProceduralDungeonIndex": 29,
+      "sourceProceduralDungeonSymbol": "DUNGEON_NORTHERN_RANGE",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_NORTHERN_RANGE",
+      "dungeonId": "northern-range",
+      "sectionId": "northern-range",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s06e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-c189c755f8c8179b"
+      ],
+      "returnHookId": "return-dispatch-s06e01a"
+    },
+    {
+      "id": "campaign-route-34",
+      "sourceScriptDungeonIndex": 34,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_PITFALL_VALLEY",
+      "sourceProceduralDungeonIndex": 28,
+      "sourceProceduralDungeonSymbol": "DUNGEON_PITFALL_VALLEY",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_PITFALL_VALLEY",
+      "dungeonId": "pitfall-valley",
+      "sectionId": "pitfall-valley",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s06e01b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-a1f6828b45a89ba4"
+      ],
+      "returnHookId": "return-dispatch-s06e01b"
+    },
+    {
+      "id": "campaign-route-35",
+      "sourceScriptDungeonIndex": 35,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_BURIED_RELIC",
+      "sourceProceduralDungeonIndex": 27,
+      "sourceProceduralDungeonSymbol": "DUNGEON_BURIED_RELIC",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_BURIED_RELIC",
+      "dungeonId": "buried-relic",
+      "sectionId": "buried-relic",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s07e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-0e0aa15e3aadd750"
+      ],
+      "returnHookId": "return-dispatch-s07e01a"
+    },
+    {
+      "id": "campaign-route-36",
+      "sourceScriptDungeonIndex": 36,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_WISH_CAVE",
+      "sourceProceduralDungeonIndex": 26,
+      "sourceProceduralDungeonSymbol": "DUNGEON_WISH_CAVE",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_WISH_CAVE",
+      "dungeonId": "wish-cave",
+      "sectionId": "wish-cave",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s08e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-9ee2a315aea1c0fe"
+      ],
+      "returnHookId": "return-dispatch-s08e01a"
+    },
+    {
+      "id": "campaign-route-37",
+      "sourceScriptDungeonIndex": 37,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MT_FREEZE_2",
+      "sourceProceduralDungeonIndex": 13,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_FREEZE",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_FREEZE_2",
+      "dungeonId": "mt-freeze",
+      "sectionId": "mt-freeze-main",
+      "variantId": "source-primary",
+      "purpose": "escort",
+      "departureMapId": "campaign-map-mt-freeze-entry",
+      "successMapId": "campaign-map-mt-freeze-mid",
+      "failureMapId": "campaign-map-mt-freeze-entry",
+      "firstEntrySceneId": "campaign-scene-event-s09e01a-l004b",
+      "repeatEntrySceneId": "campaign-scene-event-s09e01a-l004b",
+      "returnSceneId": "campaign-scene-getout-s09e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-a10a647ec923e1d3"
+      ],
+      "returnHookId": "return-dispatch-s09e01a"
+    },
+    {
+      "id": "campaign-route-38",
+      "sourceScriptDungeonIndex": 38,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MT_FREEZE_PEAK_2",
+      "sourceProceduralDungeonIndex": 22,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MT_FREEZE_PEAK_2",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MT_FREEZE_2",
+      "dungeonId": "mt-freeze",
+      "sectionId": "mt-freeze-peak",
+      "variantId": "alternate-visit",
+      "purpose": "escort",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": "campaign-map-mt-freeze-mid",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-s09e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-bf64344849c2e312"
+      ],
+      "returnHookId": "return-dispatch-s09e01a"
+    },
+    {
+      "id": "campaign-route-39",
+      "sourceScriptDungeonIndex": 39,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MURKY_CAVE",
+      "sourceProceduralDungeonIndex": 40,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MURKY_CAVE",
+      "sourceRescueDungeonSymbol": "RESCUE_DUNGEON_MURKY_CAVE",
+      "dungeonId": "murky-cave",
+      "sectionId": "murky-cave",
+      "variantId": "source-primary",
+      "purpose": "escort",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": "campaign-scene-event-s09e01b-l001b",
+      "repeatEntrySceneId": "campaign-scene-event-s09e01b-l001b",
+      "returnSceneId": "campaign-scene-getout-s09e01b",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-4bfe2f7862783c12"
+      ],
+      "returnHookId": "return-dispatch-s09e01b"
+    },
+    {
+      "id": "campaign-route-40",
+      "sourceScriptDungeonIndex": 40,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_DESERT_REGION",
+      "sourceProceduralDungeonIndex": 31,
+      "sourceProceduralDungeonSymbol": "DUNGEON_DESERT_REGION",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "desert-region",
+      "sectionId": "desert-region",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-02b2df8c7329dc0a"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-41",
+      "sourceScriptDungeonIndex": 41,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_SOUTHERN_CAVERN",
+      "sourceProceduralDungeonIndex": 32,
+      "sourceProceduralDungeonSymbol": "DUNGEON_SOUTHERN_CAVERN",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "southern-cavern",
+      "sectionId": "southern-cavern",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-6492170f0dc1ef9c"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-42",
+      "sourceScriptDungeonIndex": 42,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_WYVERN_HILL",
+      "sourceProceduralDungeonIndex": 33,
+      "sourceProceduralDungeonSymbol": "DUNGEON_WYVERN_HILL",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "wyvern-hill",
+      "sectionId": "wyvern-hill",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-36a177b3d1268470"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-43",
+      "sourceScriptDungeonIndex": 43,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_SOLAR_CAVE",
+      "sourceProceduralDungeonIndex": 36,
+      "sourceProceduralDungeonSymbol": "DUNGEON_SOLAR_CAVE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "solar-cave",
+      "sectionId": "solar-cave",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-ff2aeeab09e052ac"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-44",
+      "sourceScriptDungeonIndex": 44,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_DARKNIGHT_RELIC",
+      "sourceProceduralDungeonIndex": 38,
+      "sourceProceduralDungeonSymbol": "DUNGEON_DARKNIGHT_RELIC",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "darknight-relic",
+      "sectionId": "darknight-relic",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-b827d2af9fb1298e"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-45",
+      "sourceScriptDungeonIndex": 45,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_GRAND_SEA",
+      "sourceProceduralDungeonIndex": 41,
+      "sourceProceduralDungeonSymbol": "DUNGEON_GRAND_SEA",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "grand-sea",
+      "sectionId": "grand-sea",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-702f18df4f50a781"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-46",
+      "sourceScriptDungeonIndex": 46,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_WATERFALL_POND",
+      "sourceProceduralDungeonIndex": 56,
+      "sourceProceduralDungeonSymbol": "DUNGEON_WATERFALL_POND",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "waterfall-pond",
+      "sectionId": "waterfall-pond",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-110f69377ece4db3"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-47",
+      "sourceScriptDungeonIndex": 47,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_UNOWN_RELIC",
+      "sourceProceduralDungeonIndex": 57,
+      "sourceProceduralDungeonSymbol": "DUNGEON_UNOWN_RELIC",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "unown-relic",
+      "sectionId": "unown-relic",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-4eebb73ac7484281"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-48",
+      "sourceScriptDungeonIndex": 48,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_JOYOUS_TOWER",
+      "sourceProceduralDungeonIndex": 58,
+      "sourceProceduralDungeonSymbol": "DUNGEON_JOYOUS_TOWER",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "joyous-tower",
+      "sectionId": "joyous-tower",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-3dada990c3f0d5e7"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-49",
+      "sourceScriptDungeonIndex": 49,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_FAR_OFF_SEA",
+      "sourceProceduralDungeonIndex": 59,
+      "sourceProceduralDungeonSymbol": "DUNGEON_FAR_OFF_SEA",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "far-off-sea",
+      "sectionId": "far-off-sea",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-0ba013b44b9f5ed2"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-50",
+      "sourceScriptDungeonIndex": 50,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_PURITY_FOREST",
+      "sourceProceduralDungeonIndex": 62,
+      "sourceProceduralDungeonSymbol": "DUNGEON_PURITY_FOREST",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "purity-forest",
+      "sectionId": "purity-forest",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-d62e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-6f1135d114e06467"
+      ],
+      "returnHookId": "return-dispatch-d62e01a"
+    },
+    {
+      "id": "campaign-route-51",
+      "sourceScriptDungeonIndex": 51,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_ODDITY_CAVE",
+      "sourceProceduralDungeonIndex": 43,
+      "sourceProceduralDungeonSymbol": "DUNGEON_ODDITY_CAVE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "oddity-cave",
+      "sectionId": "oddity-cave",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-d43e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-ce10edf830000753"
+      ],
+      "returnHookId": "return-dispatch-d43e01a"
+    },
+    {
+      "id": "campaign-route-52",
+      "sourceScriptDungeonIndex": 52,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_REMAINS_ISLAND",
+      "sourceProceduralDungeonIndex": 44,
+      "sourceProceduralDungeonSymbol": "DUNGEON_REMAINS_ISLAND",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "remains-island",
+      "sectionId": "remains-island",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-d44e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-893f9eee689e2ca3"
+      ],
+      "returnHookId": "return-dispatch-d44e01a"
+    },
+    {
+      "id": "campaign-route-53",
+      "sourceScriptDungeonIndex": 53,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_MARVELOUS_SEA",
+      "sourceProceduralDungeonIndex": 45,
+      "sourceProceduralDungeonSymbol": "DUNGEON_MARVELOUS_SEA",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "marvelous-sea",
+      "sectionId": "marvelous-sea",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-d45e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-fca221ab6c789b88"
+      ],
+      "returnHookId": "return-dispatch-d45e01a"
+    },
+    {
+      "id": "campaign-route-54",
+      "sourceScriptDungeonIndex": 54,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_FANTASY_STRAIT",
+      "sourceProceduralDungeonIndex": 46,
+      "sourceProceduralDungeonSymbol": "DUNGEON_FANTASY_STRAIT",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "fantasy-strait",
+      "sectionId": "fantasy-strait",
+      "variantId": "source-primary",
+      "purpose": "campaign-expedition",
+      "departureMapId": "campaign-map-team-base",
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-d46e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-9be14f44fc9ffca7"
+      ],
+      "returnHookId": "return-dispatch-d46e01a"
+    },
+    {
+      "id": "campaign-route-55",
+      "sourceScriptDungeonIndex": 55,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_NORMAL_MAZE_2",
+      "sourceProceduralDungeonIndex": 75,
+      "sourceProceduralDungeonSymbol": "DUNGEON_NORMAL_MAZE_2",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-normal-maze",
+      "sectionId": "dojo-normal-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-b377501c5599bf07"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-56",
+      "sourceScriptDungeonIndex": 56,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_FIRE_MAZE",
+      "sourceProceduralDungeonIndex": 76,
+      "sourceProceduralDungeonSymbol": "DUNGEON_FIRE_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-fire-maze",
+      "sectionId": "dojo-fire-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-6a9d36c12e9e413d"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-57",
+      "sourceScriptDungeonIndex": 57,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_WATER_MAZE",
+      "sourceProceduralDungeonIndex": 77,
+      "sourceProceduralDungeonSymbol": "DUNGEON_WATER_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-water-maze",
+      "sectionId": "dojo-water-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-8db7f52ede85544f"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-58",
+      "sourceScriptDungeonIndex": 58,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_GRASS_MAZE",
+      "sourceProceduralDungeonIndex": 78,
+      "sourceProceduralDungeonSymbol": "DUNGEON_GRASS_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-grass-maze",
+      "sectionId": "dojo-grass-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-f0c1ef823d5402ee"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-59",
+      "sourceScriptDungeonIndex": 59,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_ELECTRIC_MAZE",
+      "sourceProceduralDungeonIndex": 79,
+      "sourceProceduralDungeonSymbol": "DUNGEON_ELECTRIC_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-electric-maze",
+      "sectionId": "dojo-electric-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-ae2e5716c64cac20"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-60",
+      "sourceScriptDungeonIndex": 60,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_ICE_MAZE",
+      "sourceProceduralDungeonIndex": 80,
+      "sourceProceduralDungeonSymbol": "DUNGEON_ICE_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-ice-maze",
+      "sectionId": "dojo-ice-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-a8bde8071c728304"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-61",
+      "sourceScriptDungeonIndex": 61,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_FIGHTING_MAZE",
+      "sourceProceduralDungeonIndex": 81,
+      "sourceProceduralDungeonSymbol": "DUNGEON_FIGHTING_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-fighting-maze",
+      "sectionId": "dojo-fighting-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-c3442f8049e80848"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-62",
+      "sourceScriptDungeonIndex": 62,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_GROUND_MAZE",
+      "sourceProceduralDungeonIndex": 82,
+      "sourceProceduralDungeonSymbol": "DUNGEON_GROUND_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-ground-maze",
+      "sectionId": "dojo-ground-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-d52cc366b6221b0f"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-63",
+      "sourceScriptDungeonIndex": 63,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_FLYING_MAZE",
+      "sourceProceduralDungeonIndex": 83,
+      "sourceProceduralDungeonSymbol": "DUNGEON_FLYING_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-flying-maze",
+      "sectionId": "dojo-flying-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-4e210412596aa6d8"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-64",
+      "sourceScriptDungeonIndex": 64,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_PSYCHIC_MAZE",
+      "sourceProceduralDungeonIndex": 84,
+      "sourceProceduralDungeonSymbol": "DUNGEON_PSYCHIC_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-psychic-maze",
+      "sectionId": "dojo-psychic-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-c139da30ba0b09e2"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-65",
+      "sourceScriptDungeonIndex": 65,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_POISON_MAZE_2",
+      "sourceProceduralDungeonIndex": 85,
+      "sourceProceduralDungeonSymbol": "DUNGEON_POISON_MAZE_2",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-poison-maze",
+      "sectionId": "dojo-poison-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-2f87af49e2a5c426"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-66",
+      "sourceScriptDungeonIndex": 66,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_BUG_MAZE",
+      "sourceProceduralDungeonIndex": 86,
+      "sourceProceduralDungeonSymbol": "DUNGEON_BUG_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-bug-maze",
+      "sectionId": "dojo-bug-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-96ac88712cbd70d3"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-67",
+      "sourceScriptDungeonIndex": 67,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_ROCK_MAZE",
+      "sourceProceduralDungeonIndex": 87,
+      "sourceProceduralDungeonSymbol": "DUNGEON_ROCK_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-rock-maze",
+      "sectionId": "dojo-rock-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-922e36a8ca087cf6"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-68",
+      "sourceScriptDungeonIndex": 68,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_GHOST_MAZE",
+      "sourceProceduralDungeonIndex": 88,
+      "sourceProceduralDungeonSymbol": "DUNGEON_GHOST_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-ghost-maze",
+      "sectionId": "dojo-ghost-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-919e26da0cc529b8"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-69",
+      "sourceScriptDungeonIndex": 69,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_DRAGON_MAZE",
+      "sourceProceduralDungeonIndex": 89,
+      "sourceProceduralDungeonSymbol": "DUNGEON_DRAGON_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-dragon-maze",
+      "sectionId": "dojo-dragon-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-887ba4d618eea4de"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-70",
+      "sourceScriptDungeonIndex": 70,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_DARK_MAZE",
+      "sourceProceduralDungeonIndex": 90,
+      "sourceProceduralDungeonSymbol": "DUNGEON_DARK_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-dark-maze",
+      "sectionId": "dojo-dark-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-0aa287df87399ea7"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-71",
+      "sourceScriptDungeonIndex": 71,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_STEEL_MAZE",
+      "sourceProceduralDungeonIndex": 91,
+      "sourceProceduralDungeonSymbol": "DUNGEON_STEEL_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-steel-maze",
+      "sectionId": "dojo-steel-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-9cde4ed4203f24c2"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-72",
+      "sourceScriptDungeonIndex": 72,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_TEAM_SHIFTY",
+      "sourceProceduralDungeonIndex": 92,
+      "sourceProceduralDungeonSymbol": "DUNGEON_TEAM_SHIFTY",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-team-shifty-maze",
+      "sectionId": "dojo-team-shifty-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-e2ebde091dd7a82e"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-73",
+      "sourceScriptDungeonIndex": 73,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_TEAM_CONSTRICTOR",
+      "sourceProceduralDungeonIndex": 93,
+      "sourceProceduralDungeonSymbol": "DUNGEON_TEAM_CONSTRICTOR",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-team-constrictor-maze",
+      "sectionId": "dojo-team-constrictor-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-fd331c40e3f5f543"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-74",
+      "sourceScriptDungeonIndex": 74,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_TEAM_HYDRO",
+      "sourceProceduralDungeonIndex": 94,
+      "sourceProceduralDungeonSymbol": "DUNGEON_TEAM_HYDRO",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-team-hydro-maze",
+      "sectionId": "dojo-team-hydro-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-c67a6ecbe0ebfda9"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-75",
+      "sourceScriptDungeonIndex": 75,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_TEAM_RUMBLEROCK",
+      "sourceProceduralDungeonIndex": 95,
+      "sourceProceduralDungeonSymbol": "DUNGEON_TEAM_RUMBLEROCK",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-team-rumblerock-maze",
+      "sectionId": "dojo-team-rumblerock-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-4d669ff38768d7d8"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-76",
+      "sourceScriptDungeonIndex": 76,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_RESCUE_TEAM_2",
+      "sourceProceduralDungeonIndex": 96,
+      "sourceProceduralDungeonSymbol": "DUNGEON_RESCUE_TEAM_2",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": null,
+      "sectionId": null,
+      "variantId": null,
+      "purpose": "excluded-source-slot",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-bd8f31eb4300eda4"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-77",
+      "sourceScriptDungeonIndex": 77,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_RESCUE_TEAM_MAZE",
+      "sourceProceduralDungeonIndex": 97,
+      "sourceProceduralDungeonSymbol": "DUNGEON_RESCUE_TEAM_MAZE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "dojo-rescue-team-maze",
+      "sectionId": "dojo-rescue-team-maze",
+      "variantId": "source-primary",
+      "purpose": "dojo",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-55d75af286248c06"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    },
+    {
+      "id": "campaign-route-78",
+      "sourceScriptDungeonIndex": 78,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_ROCK_PATH",
+      "sourceProceduralDungeonIndex": 47,
+      "sourceProceduralDungeonSymbol": "DUNGEON_ROCK_PATH",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "rock-path",
+      "sectionId": "rock-path",
+      "variantId": "source-primary",
+      "purpose": "fugitive-detour",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e07t",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-edc87829ad0a54f1"
+      ],
+      "returnHookId": "return-dispatch-m01e07t"
+    },
+    {
+      "id": "campaign-route-79",
+      "sourceScriptDungeonIndex": 79,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_SNOW_PATH",
+      "sourceProceduralDungeonIndex": 48,
+      "sourceProceduralDungeonSymbol": "DUNGEON_SNOW_PATH",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": "snow-path",
+      "sectionId": "snow-path",
+      "variantId": "source-primary",
+      "purpose": "fugitive-detour",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-m01e08t",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-f9e81d4568889105"
+      ],
+      "returnHookId": "return-dispatch-m01e08t"
+    },
+    {
+      "id": "campaign-route-80",
+      "sourceScriptDungeonIndex": 80,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_80",
+      "sourceProceduralDungeonIndex": 63,
+      "sourceProceduralDungeonSymbol": "DUNGEON_OUT_ON_RESCUE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": null,
+      "sectionId": null,
+      "variantId": null,
+      "purpose": "rescue-wrapper",
+      "departureMapId": null,
+      "successMapId": "campaign-map-pelipper-post-office-inside",
+      "failureMapId": "campaign-map-pelipper-post-office-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-u00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-2e48a56dd0579242"
+      ],
+      "returnHookId": "return-dispatch-u00e01a"
+    },
+    {
+      "id": "campaign-route-81",
+      "sourceScriptDungeonIndex": 81,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_81",
+      "sourceProceduralDungeonIndex": 63,
+      "sourceProceduralDungeonSymbol": "DUNGEON_OUT_ON_RESCUE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": null,
+      "sectionId": null,
+      "variantId": null,
+      "purpose": "rescue-wrapper",
+      "departureMapId": null,
+      "successMapId": "campaign-map-team-base-inside",
+      "failureMapId": "campaign-map-team-base-inside",
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-r00e01a",
+      "resolvesThroughEnterIndex": true,
+      "evidenceIds": [
+        "evidence-287bb8569f9d0b07"
+      ],
+      "returnHookId": "return-dispatch-r00e01a"
+    },
+    {
+      "id": "campaign-route-82",
+      "sourceScriptDungeonIndex": 82,
+      "sourceScriptDungeonSymbol": "SCRIPT_DUNGEON_82",
+      "sourceProceduralDungeonIndex": 63,
+      "sourceProceduralDungeonSymbol": "DUNGEON_OUT_ON_RESCUE",
+      "sourceRescueDungeonSymbol": null,
+      "dungeonId": null,
+      "sectionId": null,
+      "variantId": null,
+      "purpose": "rescue-wrapper",
+      "departureMapId": null,
+      "successMapId": null,
+      "failureMapId": null,
+      "firstEntrySceneId": null,
+      "repeatEntrySceneId": null,
+      "returnSceneId": "campaign-scene-getout-t00e01a",
+      "resolvesThroughEnterIndex": false,
+      "evidenceIds": [
+        "evidence-eebdad254d444d9b"
+      ],
+      "returnHookId": "return-dispatch-t00e01a"
+    }
+  ],
+  "returns": [
+    {
+      "id": "base-victory",
+      "outcomes": [
+        "won"
+      ],
+      "advancesNarrativeDay": true,
+      "actions": [
+        {
+          "kind": "require-callback",
+          "callbackId": "dismissal-1"
+        },
+        {
+          "kind": "require-callback",
+          "callbackId": "next-day-hook"
+        },
+        {
+          "kind": "queue-scene",
+          "sceneId": "campaign-scene-base-interior-group-8"
+        }
+      ],
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    },
+    {
+      "id": "base-loss",
+      "outcomes": [
+        "lost",
+        "mode-11"
+      ],
+      "advancesNarrativeDay": true,
+      "actions": [
+        {
+          "kind": "require-callback",
+          "callbackId": "dismissal-3"
+        },
+        {
+          "kind": "require-callback",
+          "callbackId": "next-day-hook"
+        },
+        {
+          "kind": "queue-scene",
+          "sceneId": "campaign-scene-base-interior-group-7"
+        }
+      ],
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    },
+    {
+      "id": "base-mode10",
+      "outcomes": [
+        "mode-10"
+      ],
+      "advancesNarrativeDay": true,
+      "actions": [
+        {
+          "kind": "require-callback",
+          "callbackId": "dismissal-2"
+        },
+        {
+          "kind": "require-callback",
+          "callbackId": "next-day-hook"
+        },
+        {
+          "kind": "queue-scene",
+          "sceneId": "campaign-scene-base-interior-group-7"
+        }
+      ],
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    },
+    {
+      "id": "jobs-rewards",
+      "outcomes": [
+        "won",
+        "mode-10"
+      ],
+      "advancesNarrativeDay": true,
+      "actions": [
+        {
+          "kind": "set-scenario",
+          "scenarioId": "SELECT",
+          "chapter": 56,
+          "step": 0
+        },
+        {
+          "kind": "require-callback",
+          "callbackId": "reward-loop"
+        },
+        {
+          "kind": "set-scenario",
+          "scenarioId": "SELECT",
+          "chapter": 57,
+          "step": 0
+        },
+        {
+          "kind": "require-callback",
+          "callbackId": "next-day-hook"
+        },
+        {
+          "kind": "queue-scene",
+          "sceneId": "campaign-scene-event-divide"
+        }
+      ],
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    },
+    {
+      "id": "jobs-failure",
+      "outcomes": [
+        "lost",
+        "mode-11"
+      ],
+      "advancesNarrativeDay": true,
+      "actions": [
+        {
+          "kind": "require-callback",
+          "callbackId": "dismissal-3"
+        },
+        {
+          "kind": "require-callback",
+          "callbackId": "next-day-hook"
+        }
+      ],
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    },
+    {
+      "id": "dojo-return",
+      "outcomes": [
+        "won",
+        "lost",
+        "mode-10",
+        "mode-11"
+      ],
+      "advancesNarrativeDay": false,
+      "actions": [
+        {
+          "kind": "queue-scene",
+          "sceneId": "campaign-scene-getout-t00e01a"
+        }
+      ],
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    },
+    {
+      "id": "fugitive-continuation",
+      "outcomes": [
+        "won",
+        "lost",
+        "mode-10",
+        "mode-11"
+      ],
+      "advancesNarrativeDay": false,
+      "actions": [
+        {
+          "kind": "require-callback",
+          "callbackId": "route-fugitive-continuation"
+        }
+      ],
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    },
+    {
+      "id": "rescue-wait",
+      "outcomes": [
+        "awaiting-rescue"
+      ],
+      "advancesNarrativeDay": false,
+      "actions": [],
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    },
+    {
+      "id": "continue-game",
+      "outcomes": [
+        "continue"
+      ],
+      "advancesNarrativeDay": false,
+      "actions": [
+        {
+          "kind": "require-callback",
+          "callbackId": "population-refresh"
+        }
+      ],
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    },
+    {
+      "id": "town-movement",
+      "outcomes": [
+        "town-movement"
+      ],
+      "advancesNarrativeDay": false,
+      "actions": [
+        {
+          "kind": "require-callback",
+          "callbackId": "population-refresh"
+        }
+      ],
+      "evidenceIds": [
+        "evidence-31fcb40e868738f5",
+        "evidence-ee9d6110379863e5",
+        "evidence-5890fc8d5517dfe3",
+        "evidence-3e5232bb9e7ec2f9"
+      ]
+    }
+  ]
+}

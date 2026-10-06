@@ -1,0 +1,3515 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-species-profiles",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "species",
+  "records": [
+    {
+      "id": "pokemon-001",
+      "dexNo": 1,
+      "name": "Bulbasaur",
+      "profileIds": [
+        "pokemon-001"
+      ],
+      "defaultProfileId": "pokemon-001"
+    },
+    {
+      "id": "pokemon-002",
+      "dexNo": 2,
+      "name": "Ivysaur",
+      "profileIds": [
+        "pokemon-002"
+      ],
+      "defaultProfileId": "pokemon-002"
+    },
+    {
+      "id": "pokemon-003",
+      "dexNo": 3,
+      "name": "Venusaur",
+      "profileIds": [
+        "pokemon-003"
+      ],
+      "defaultProfileId": "pokemon-003"
+    },
+    {
+      "id": "pokemon-004",
+      "dexNo": 4,
+      "name": "Charmander",
+      "profileIds": [
+        "pokemon-004"
+      ],
+      "defaultProfileId": "pokemon-004"
+    },
+    {
+      "id": "pokemon-005",
+      "dexNo": 5,
+      "name": "Charmeleon",
+      "profileIds": [
+        "pokemon-005"
+      ],
+      "defaultProfileId": "pokemon-005"
+    },
+    {
+      "id": "pokemon-006",
+      "dexNo": 6,
+      "name": "Charizard",
+      "profileIds": [
+        "pokemon-006"
+      ],
+      "defaultProfileId": "pokemon-006"
+    },
+    {
+      "id": "pokemon-007",
+      "dexNo": 7,
+      "name": "Squirtle",
+      "profileIds": [
+        "pokemon-007"
+      ],
+      "defaultProfileId": "pokemon-007"
+    },
+    {
+      "id": "pokemon-008",
+      "dexNo": 8,
+      "name": "Wartortle",
+      "profileIds": [
+        "pokemon-008"
+      ],
+      "defaultProfileId": "pokemon-008"
+    },
+    {
+      "id": "pokemon-009",
+      "dexNo": 9,
+      "name": "Blastoise",
+      "profileIds": [
+        "pokemon-009"
+      ],
+      "defaultProfileId": "pokemon-009"
+    },
+    {
+      "id": "pokemon-010",
+      "dexNo": 10,
+      "name": "Caterpie",
+      "profileIds": [
+        "pokemon-010"
+      ],
+      "defaultProfileId": "pokemon-010"
+    },
+    {
+      "id": "pokemon-011",
+      "dexNo": 11,
+      "name": "Metapod",
+      "profileIds": [
+        "pokemon-011"
+      ],
+      "defaultProfileId": "pokemon-011"
+    },
+    {
+      "id": "pokemon-012",
+      "dexNo": 12,
+      "name": "Butterfree",
+      "profileIds": [
+        "pokemon-012"
+      ],
+      "defaultProfileId": "pokemon-012"
+    },
+    {
+      "id": "pokemon-013",
+      "dexNo": 13,
+      "name": "Weedle",
+      "profileIds": [
+        "pokemon-013"
+      ],
+      "defaultProfileId": "pokemon-013"
+    },
+    {
+      "id": "pokemon-014",
+      "dexNo": 14,
+      "name": "Kakuna",
+      "profileIds": [
+        "pokemon-014"
+      ],
+      "defaultProfileId": "pokemon-014"
+    },
+    {
+      "id": "pokemon-015",
+      "dexNo": 15,
+      "name": "Beedrill",
+      "profileIds": [
+        "pokemon-015"
+      ],
+      "defaultProfileId": "pokemon-015"
+    },
+    {
+      "id": "pokemon-016",
+      "dexNo": 16,
+      "name": "Pidgey",
+      "profileIds": [
+        "pokemon-016"
+      ],
+      "defaultProfileId": "pokemon-016"
+    },
+    {
+      "id": "pokemon-017",
+      "dexNo": 17,
+      "name": "Pidgeotto",
+      "profileIds": [
+        "pokemon-017"
+      ],
+      "defaultProfileId": "pokemon-017"
+    },
+    {
+      "id": "pokemon-018",
+      "dexNo": 18,
+      "name": "Pidgeot",
+      "profileIds": [
+        "pokemon-018"
+      ],
+      "defaultProfileId": "pokemon-018"
+    },
+    {
+      "id": "pokemon-019",
+      "dexNo": 19,
+      "name": "Rattata",
+      "profileIds": [
+        "pokemon-019"
+      ],
+      "defaultProfileId": "pokemon-019"
+    },
+    {
+      "id": "pokemon-020",
+      "dexNo": 20,
+      "name": "Raticate",
+      "profileIds": [
+        "pokemon-020"
+      ],
+      "defaultProfileId": "pokemon-020"
+    },
+    {
+      "id": "pokemon-021",
+      "dexNo": 21,
+      "name": "Spearow",
+      "profileIds": [
+        "pokemon-021"
+      ],
+      "defaultProfileId": "pokemon-021"
+    },
+    {
+      "id": "pokemon-022",
+      "dexNo": 22,
+      "name": "Fearow",
+      "profileIds": [
+        "pokemon-022"
+      ],
+      "defaultProfileId": "pokemon-022"
+    },
+    {
+      "id": "pokemon-023",
+      "dexNo": 23,
+      "name": "Ekans",
+      "profileIds": [
+        "pokemon-023"
+      ],
+      "defaultProfileId": "pokemon-023"
+    },
+    {
+      "id": "pokemon-024",
+      "dexNo": 24,
+      "name": "Arbok",
+      "profileIds": [
+        "pokemon-024"
+      ],
+      "defaultProfileId": "pokemon-024"
+    },
+    {
+      "id": "pokemon-025",
+      "dexNo": 25,
+      "name": "Pikachu",
+      "profileIds": [
+        "pokemon-025"
+      ],
+      "defaultProfileId": "pokemon-025"
+    },
+    {
+      "id": "pokemon-026",
+      "dexNo": 26,
+      "name": "Raichu",
+      "profileIds": [
+        "pokemon-026"
+      ],
+      "defaultProfileId": "pokemon-026"
+    },
+    {
+      "id": "pokemon-027",
+      "dexNo": 27,
+      "name": "Sandshrew",
+      "profileIds": [
+        "pokemon-027"
+      ],
+      "defaultProfileId": "pokemon-027"
+    },
+    {
+      "id": "pokemon-028",
+      "dexNo": 28,
+      "name": "Sandslash",
+      "profileIds": [
+        "pokemon-028"
+      ],
+      "defaultProfileId": "pokemon-028"
+    },
+    {
+      "id": "pokemon-029",
+      "dexNo": 29,
+      "name": "Nidoran♀",
+      "profileIds": [
+        "pokemon-029"
+      ],
+      "defaultProfileId": "pokemon-029"
+    },
+    {
+      "id": "pokemon-030",
+      "dexNo": 30,
+      "name": "Nidorina",
+      "profileIds": [
+        "pokemon-030"
+      ],
+      "defaultProfileId": "pokemon-030"
+    },
+    {
+      "id": "pokemon-031",
+      "dexNo": 31,
+      "name": "Nidoqueen",
+      "profileIds": [
+        "pokemon-031"
+      ],
+      "defaultProfileId": "pokemon-031"
+    },
+    {
+      "id": "pokemon-032",
+      "dexNo": 32,
+      "name": "Nidoran♂",
+      "profileIds": [
+        "pokemon-032"
+      ],
+      "defaultProfileId": "pokemon-032"
+    },
+    {
+      "id": "pokemon-033",
+      "dexNo": 33,
+      "name": "Nidorino",
+      "profileIds": [
+        "pokemon-033"
+      ],
+      "defaultProfileId": "pokemon-033"
+    },
+    {
+      "id": "pokemon-034",
+      "dexNo": 34,
+      "name": "Nidoking",
+      "profileIds": [
+        "pokemon-034"
+      ],
+      "defaultProfileId": "pokemon-034"
+    },
+    {
+      "id": "pokemon-035",
+      "dexNo": 35,
+      "name": "Clefairy",
+      "profileIds": [
+        "pokemon-035"
+      ],
+      "defaultProfileId": "pokemon-035"
+    },
+    {
+      "id": "pokemon-036",
+      "dexNo": 36,
+      "name": "Clefable",
+      "profileIds": [
+        "pokemon-036"
+      ],
+      "defaultProfileId": "pokemon-036"
+    },
+    {
+      "id": "pokemon-037",
+      "dexNo": 37,
+      "name": "Vulpix",
+      "profileIds": [
+        "pokemon-037"
+      ],
+      "defaultProfileId": "pokemon-037"
+    },
+    {
+      "id": "pokemon-038",
+      "dexNo": 38,
+      "name": "Ninetales",
+      "profileIds": [
+        "pokemon-038"
+      ],
+      "defaultProfileId": "pokemon-038"
+    },
+    {
+      "id": "pokemon-039",
+      "dexNo": 39,
+      "name": "Jigglypuff",
+      "profileIds": [
+        "pokemon-039"
+      ],
+      "defaultProfileId": "pokemon-039"
+    },
+    {
+      "id": "pokemon-040",
+      "dexNo": 40,
+      "name": "Wigglytuff",
+      "profileIds": [
+        "pokemon-040"
+      ],
+      "defaultProfileId": "pokemon-040"
+    },
+    {
+      "id": "pokemon-041",
+      "dexNo": 41,
+      "name": "Zubat",
+      "profileIds": [
+        "pokemon-041"
+      ],
+      "defaultProfileId": "pokemon-041"
+    },
+    {
+      "id": "pokemon-042",
+      "dexNo": 42,
+      "name": "Golbat",
+      "profileIds": [
+        "pokemon-042"
+      ],
+      "defaultProfileId": "pokemon-042"
+    },
+    {
+      "id": "pokemon-043",
+      "dexNo": 43,
+      "name": "Oddish",
+      "profileIds": [
+        "pokemon-043"
+      ],
+      "defaultProfileId": "pokemon-043"
+    },
+    {
+      "id": "pokemon-044",
+      "dexNo": 44,
+      "name": "Gloom",
+      "profileIds": [
+        "pokemon-044"
+      ],
+      "defaultProfileId": "pokemon-044"
+    },
+    {
+      "id": "pokemon-045",
+      "dexNo": 45,
+      "name": "Vileplume",
+      "profileIds": [
+        "pokemon-045"
+      ],
+      "defaultProfileId": "pokemon-045"
+    },
+    {
+      "id": "pokemon-046",
+      "dexNo": 46,
+      "name": "Paras",
+      "profileIds": [
+        "pokemon-046"
+      ],
+      "defaultProfileId": "pokemon-046"
+    },
+    {
+      "id": "pokemon-047",
+      "dexNo": 47,
+      "name": "Parasect",
+      "profileIds": [
+        "pokemon-047"
+      ],
+      "defaultProfileId": "pokemon-047"
+    },
+    {
+      "id": "pokemon-048",
+      "dexNo": 48,
+      "name": "Venonat",
+      "profileIds": [
+        "pokemon-048"
+      ],
+      "defaultProfileId": "pokemon-048"
+    },
+    {
+      "id": "pokemon-049",
+      "dexNo": 49,
+      "name": "Venomoth",
+      "profileIds": [
+        "pokemon-049"
+      ],
+      "defaultProfileId": "pokemon-049"
+    },
+    {
+      "id": "pokemon-050",
+      "dexNo": 50,
+      "name": "Diglett",
+      "profileIds": [
+        "pokemon-050"
+      ],
+      "defaultProfileId": "pokemon-050"
+    },
+    {
+      "id": "pokemon-051",
+      "dexNo": 51,
+      "name": "Dugtrio",
+      "profileIds": [
+        "pokemon-051"
+      ],
+      "defaultProfileId": "pokemon-051"
+    },
+    {
+      "id": "pokemon-052",
+      "dexNo": 52,
+      "name": "Meowth",
+      "profileIds": [
+        "pokemon-052"
+      ],
+      "defaultProfileId": "pokemon-052"
+    },
+    {
+      "id": "pokemon-053",
+      "dexNo": 53,
+      "name": "Persian",
+      "profileIds": [
+        "pokemon-053"
+      ],
+      "defaultProfileId": "pokemon-053"
+    },
+    {
+      "id": "pokemon-054",
+      "dexNo": 54,
+      "name": "Psyduck",
+      "profileIds": [
+        "pokemon-054"
+      ],
+      "defaultProfileId": "pokemon-054"
+    },
+    {
+      "id": "pokemon-055",
+      "dexNo": 55,
+      "name": "Golduck",
+      "profileIds": [
+        "pokemon-055"
+      ],
+      "defaultProfileId": "pokemon-055"
+    },
+    {
+      "id": "pokemon-056",
+      "dexNo": 56,
+      "name": "Mankey",
+      "profileIds": [
+        "pokemon-056"
+      ],
+      "defaultProfileId": "pokemon-056"
+    },
+    {
+      "id": "pokemon-057",
+      "dexNo": 57,
+      "name": "Primeape",
+      "profileIds": [
+        "pokemon-057"
+      ],
+      "defaultProfileId": "pokemon-057"
+    },
+    {
+      "id": "pokemon-058",
+      "dexNo": 58,
+      "name": "Growlithe",
+      "profileIds": [
+        "pokemon-058"
+      ],
+      "defaultProfileId": "pokemon-058"
+    },
+    {
+      "id": "pokemon-059",
+      "dexNo": 59,
+      "name": "Arcanine",
+      "profileIds": [
+        "pokemon-059"
+      ],
+      "defaultProfileId": "pokemon-059"
+    },
+    {
+      "id": "pokemon-060",
+      "dexNo": 60,
+      "name": "Poliwag",
+      "profileIds": [
+        "pokemon-060"
+      ],
+      "defaultProfileId": "pokemon-060"
+    },
+    {
+      "id": "pokemon-061",
+      "dexNo": 61,
+      "name": "Poliwhirl",
+      "profileIds": [
+        "pokemon-061"
+      ],
+      "defaultProfileId": "pokemon-061"
+    },
+    {
+      "id": "pokemon-062",
+      "dexNo": 62,
+      "name": "Poliwrath",
+      "profileIds": [
+        "pokemon-062"
+      ],
+      "defaultProfileId": "pokemon-062"
+    },
+    {
+      "id": "pokemon-063",
+      "dexNo": 63,
+      "name": "Abra",
+      "profileIds": [
+        "pokemon-063"
+      ],
+      "defaultProfileId": "pokemon-063"
+    },
+    {
+      "id": "pokemon-064",
+      "dexNo": 64,
+      "name": "Kadabra",
+      "profileIds": [
+        "pokemon-064"
+      ],
+      "defaultProfileId": "pokemon-064"
+    },
+    {
+      "id": "pokemon-065",
+      "dexNo": 65,
+      "name": "Alakazam",
+      "profileIds": [
+        "pokemon-065"
+      ],
+      "defaultProfileId": "pokemon-065"
+    },
+    {
+      "id": "pokemon-066",
+      "dexNo": 66,
+      "name": "Machop",
+      "profileIds": [
+        "pokemon-066"
+      ],
+      "defaultProfileId": "pokemon-066"
+    },
+    {
+      "id": "pokemon-067",
+      "dexNo": 67,
+      "name": "Machoke",
+      "profileIds": [
+        "pokemon-067"
+      ],
+      "defaultProfileId": "pokemon-067"
+    },
+    {
+      "id": "pokemon-068",
+      "dexNo": 68,
+      "name": "Machamp",
+      "profileIds": [
+        "pokemon-068"
+      ],
+      "defaultProfileId": "pokemon-068"
+    },
+    {
+      "id": "pokemon-069",
+      "dexNo": 69,
+      "name": "Bellsprout",
+      "profileIds": [
+        "pokemon-069"
+      ],
+      "defaultProfileId": "pokemon-069"
+    },
+    {
+      "id": "pokemon-070",
+      "dexNo": 70,
+      "name": "Weepinbell",
+      "profileIds": [
+        "pokemon-070"
+      ],
+      "defaultProfileId": "pokemon-070"
+    },
+    {
+      "id": "pokemon-071",
+      "dexNo": 71,
+      "name": "Victreebel",
+      "profileIds": [
+        "pokemon-071"
+      ],
+      "defaultProfileId": "pokemon-071"
+    },
+    {
+      "id": "pokemon-072",
+      "dexNo": 72,
+      "name": "Tentacool",
+      "profileIds": [
+        "pokemon-072"
+      ],
+      "defaultProfileId": "pokemon-072"
+    },
+    {
+      "id": "pokemon-073",
+      "dexNo": 73,
+      "name": "Tentacruel",
+      "profileIds": [
+        "pokemon-073"
+      ],
+      "defaultProfileId": "pokemon-073"
+    },
+    {
+      "id": "pokemon-074",
+      "dexNo": 74,
+      "name": "Geodude",
+      "profileIds": [
+        "pokemon-074"
+      ],
+      "defaultProfileId": "pokemon-074"
+    },
+    {
+      "id": "pokemon-075",
+      "dexNo": 75,
+      "name": "Graveler",
+      "profileIds": [
+        "pokemon-075"
+      ],
+      "defaultProfileId": "pokemon-075"
+    },
+    {
+      "id": "pokemon-076",
+      "dexNo": 76,
+      "name": "Golem",
+      "profileIds": [
+        "pokemon-076"
+      ],
+      "defaultProfileId": "pokemon-076"
+    },
+    {
+      "id": "pokemon-077",
+      "dexNo": 77,
+      "name": "Ponyta",
+      "profileIds": [
+        "pokemon-077"
+      ],
+      "defaultProfileId": "pokemon-077"
+    },
+    {
+      "id": "pokemon-078",
+      "dexNo": 78,
+      "name": "Rapidash",
+      "profileIds": [
+        "pokemon-078"
+      ],
+      "defaultProfileId": "pokemon-078"
+    },
+    {
+      "id": "pokemon-079",
+      "dexNo": 79,
+      "name": "Slowpoke",
+      "profileIds": [
+        "pokemon-079"
+      ],
+      "defaultProfileId": "pokemon-079"
+    },
+    {
+      "id": "pokemon-080",
+      "dexNo": 80,
+      "name": "Slowbro",
+      "profileIds": [
+        "pokemon-080"
+      ],
+      "defaultProfileId": "pokemon-080"
+    },
+    {
+      "id": "pokemon-081",
+      "dexNo": 81,
+      "name": "Magnemite",
+      "profileIds": [
+        "pokemon-081"
+      ],
+      "defaultProfileId": "pokemon-081"
+    },
+    {
+      "id": "pokemon-082",
+      "dexNo": 82,
+      "name": "Magneton",
+      "profileIds": [
+        "pokemon-082"
+      ],
+      "defaultProfileId": "pokemon-082"
+    },
+    {
+      "id": "pokemon-083",
+      "dexNo": 83,
+      "name": "Farfetch'd",
+      "profileIds": [
+        "pokemon-083"
+      ],
+      "defaultProfileId": "pokemon-083"
+    },
+    {
+      "id": "pokemon-084",
+      "dexNo": 84,
+      "name": "Doduo",
+      "profileIds": [
+        "pokemon-084"
+      ],
+      "defaultProfileId": "pokemon-084"
+    },
+    {
+      "id": "pokemon-085",
+      "dexNo": 85,
+      "name": "Dodrio",
+      "profileIds": [
+        "pokemon-085"
+      ],
+      "defaultProfileId": "pokemon-085"
+    },
+    {
+      "id": "pokemon-086",
+      "dexNo": 86,
+      "name": "Seel",
+      "profileIds": [
+        "pokemon-086"
+      ],
+      "defaultProfileId": "pokemon-086"
+    },
+    {
+      "id": "pokemon-087",
+      "dexNo": 87,
+      "name": "Dewgong",
+      "profileIds": [
+        "pokemon-087"
+      ],
+      "defaultProfileId": "pokemon-087"
+    },
+    {
+      "id": "pokemon-088",
+      "dexNo": 88,
+      "name": "Grimer",
+      "profileIds": [
+        "pokemon-088"
+      ],
+      "defaultProfileId": "pokemon-088"
+    },
+    {
+      "id": "pokemon-089",
+      "dexNo": 89,
+      "name": "Muk",
+      "profileIds": [
+        "pokemon-089"
+      ],
+      "defaultProfileId": "pokemon-089"
+    },
+    {
+      "id": "pokemon-090",
+      "dexNo": 90,
+      "name": "Shellder",
+      "profileIds": [
+        "pokemon-090"
+      ],
+      "defaultProfileId": "pokemon-090"
+    },
+    {
+      "id": "pokemon-091",
+      "dexNo": 91,
+      "name": "Cloyster",
+      "profileIds": [
+        "pokemon-091"
+      ],
+      "defaultProfileId": "pokemon-091"
+    },
+    {
+      "id": "pokemon-092",
+      "dexNo": 92,
+      "name": "Gastly",
+      "profileIds": [
+        "pokemon-092"
+      ],
+      "defaultProfileId": "pokemon-092"
+    },
+    {
+      "id": "pokemon-093",
+      "dexNo": 93,
+      "name": "Haunter",
+      "profileIds": [
+        "pokemon-093"
+      ],
+      "defaultProfileId": "pokemon-093"
+    },
+    {
+      "id": "pokemon-094",
+      "dexNo": 94,
+      "name": "Gengar",
+      "profileIds": [
+        "pokemon-094"
+      ],
+      "defaultProfileId": "pokemon-094"
+    },
+    {
+      "id": "pokemon-095",
+      "dexNo": 95,
+      "name": "Onix",
+      "profileIds": [
+        "pokemon-095"
+      ],
+      "defaultProfileId": "pokemon-095"
+    },
+    {
+      "id": "pokemon-096",
+      "dexNo": 96,
+      "name": "Drowzee",
+      "profileIds": [
+        "pokemon-096"
+      ],
+      "defaultProfileId": "pokemon-096"
+    },
+    {
+      "id": "pokemon-097",
+      "dexNo": 97,
+      "name": "Hypno",
+      "profileIds": [
+        "pokemon-097"
+      ],
+      "defaultProfileId": "pokemon-097"
+    },
+    {
+      "id": "pokemon-098",
+      "dexNo": 98,
+      "name": "Krabby",
+      "profileIds": [
+        "pokemon-098"
+      ],
+      "defaultProfileId": "pokemon-098"
+    },
+    {
+      "id": "pokemon-099",
+      "dexNo": 99,
+      "name": "Kingler",
+      "profileIds": [
+        "pokemon-099"
+      ],
+      "defaultProfileId": "pokemon-099"
+    },
+    {
+      "id": "pokemon-100",
+      "dexNo": 100,
+      "name": "Voltorb",
+      "profileIds": [
+        "pokemon-100"
+      ],
+      "defaultProfileId": "pokemon-100"
+    },
+    {
+      "id": "pokemon-101",
+      "dexNo": 101,
+      "name": "Electrode",
+      "profileIds": [
+        "pokemon-101"
+      ],
+      "defaultProfileId": "pokemon-101"
+    },
+    {
+      "id": "pokemon-102",
+      "dexNo": 102,
+      "name": "Exeggcute",
+      "profileIds": [
+        "pokemon-102"
+      ],
+      "defaultProfileId": "pokemon-102"
+    },
+    {
+      "id": "pokemon-103",
+      "dexNo": 103,
+      "name": "Exeggutor",
+      "profileIds": [
+        "pokemon-103"
+      ],
+      "defaultProfileId": "pokemon-103"
+    },
+    {
+      "id": "pokemon-104",
+      "dexNo": 104,
+      "name": "Cubone",
+      "profileIds": [
+        "pokemon-104"
+      ],
+      "defaultProfileId": "pokemon-104"
+    },
+    {
+      "id": "pokemon-105",
+      "dexNo": 105,
+      "name": "Marowak",
+      "profileIds": [
+        "pokemon-105"
+      ],
+      "defaultProfileId": "pokemon-105"
+    },
+    {
+      "id": "pokemon-106",
+      "dexNo": 106,
+      "name": "Hitmonlee",
+      "profileIds": [
+        "pokemon-106"
+      ],
+      "defaultProfileId": "pokemon-106"
+    },
+    {
+      "id": "pokemon-107",
+      "dexNo": 107,
+      "name": "Hitmonchan",
+      "profileIds": [
+        "pokemon-107"
+      ],
+      "defaultProfileId": "pokemon-107"
+    },
+    {
+      "id": "pokemon-108",
+      "dexNo": 108,
+      "name": "Lickitung",
+      "profileIds": [
+        "pokemon-108"
+      ],
+      "defaultProfileId": "pokemon-108"
+    },
+    {
+      "id": "pokemon-109",
+      "dexNo": 109,
+      "name": "Koffing",
+      "profileIds": [
+        "pokemon-109"
+      ],
+      "defaultProfileId": "pokemon-109"
+    },
+    {
+      "id": "pokemon-110",
+      "dexNo": 110,
+      "name": "Weezing",
+      "profileIds": [
+        "pokemon-110"
+      ],
+      "defaultProfileId": "pokemon-110"
+    },
+    {
+      "id": "pokemon-111",
+      "dexNo": 111,
+      "name": "Rhyhorn",
+      "profileIds": [
+        "pokemon-111"
+      ],
+      "defaultProfileId": "pokemon-111"
+    },
+    {
+      "id": "pokemon-112",
+      "dexNo": 112,
+      "name": "Rhydon",
+      "profileIds": [
+        "pokemon-112"
+      ],
+      "defaultProfileId": "pokemon-112"
+    },
+    {
+      "id": "pokemon-113",
+      "dexNo": 113,
+      "name": "Chansey",
+      "profileIds": [
+        "pokemon-113"
+      ],
+      "defaultProfileId": "pokemon-113"
+    },
+    {
+      "id": "pokemon-114",
+      "dexNo": 114,
+      "name": "Tangela",
+      "profileIds": [
+        "pokemon-114"
+      ],
+      "defaultProfileId": "pokemon-114"
+    },
+    {
+      "id": "pokemon-115",
+      "dexNo": 115,
+      "name": "Kangaskhan",
+      "profileIds": [
+        "pokemon-115"
+      ],
+      "defaultProfileId": "pokemon-115"
+    },
+    {
+      "id": "pokemon-116",
+      "dexNo": 116,
+      "name": "Horsea",
+      "profileIds": [
+        "pokemon-116"
+      ],
+      "defaultProfileId": "pokemon-116"
+    },
+    {
+      "id": "pokemon-117",
+      "dexNo": 117,
+      "name": "Seadra",
+      "profileIds": [
+        "pokemon-117"
+      ],
+      "defaultProfileId": "pokemon-117"
+    },
+    {
+      "id": "pokemon-118",
+      "dexNo": 118,
+      "name": "Goldeen",
+      "profileIds": [
+        "pokemon-118"
+      ],
+      "defaultProfileId": "pokemon-118"
+    },
+    {
+      "id": "pokemon-119",
+      "dexNo": 119,
+      "name": "Seaking",
+      "profileIds": [
+        "pokemon-119"
+      ],
+      "defaultProfileId": "pokemon-119"
+    },
+    {
+      "id": "pokemon-120",
+      "dexNo": 120,
+      "name": "Staryu",
+      "profileIds": [
+        "pokemon-120"
+      ],
+      "defaultProfileId": "pokemon-120"
+    },
+    {
+      "id": "pokemon-121",
+      "dexNo": 121,
+      "name": "Starmie",
+      "profileIds": [
+        "pokemon-121"
+      ],
+      "defaultProfileId": "pokemon-121"
+    },
+    {
+      "id": "pokemon-122",
+      "dexNo": 122,
+      "name": "Mr. Mime",
+      "profileIds": [
+        "pokemon-122"
+      ],
+      "defaultProfileId": "pokemon-122"
+    },
+    {
+      "id": "pokemon-123",
+      "dexNo": 123,
+      "name": "Scyther",
+      "profileIds": [
+        "pokemon-123"
+      ],
+      "defaultProfileId": "pokemon-123"
+    },
+    {
+      "id": "pokemon-124",
+      "dexNo": 124,
+      "name": "Jynx",
+      "profileIds": [
+        "pokemon-124"
+      ],
+      "defaultProfileId": "pokemon-124"
+    },
+    {
+      "id": "pokemon-125",
+      "dexNo": 125,
+      "name": "Electabuzz",
+      "profileIds": [
+        "pokemon-125"
+      ],
+      "defaultProfileId": "pokemon-125"
+    },
+    {
+      "id": "pokemon-126",
+      "dexNo": 126,
+      "name": "Magmar",
+      "profileIds": [
+        "pokemon-126"
+      ],
+      "defaultProfileId": "pokemon-126"
+    },
+    {
+      "id": "pokemon-127",
+      "dexNo": 127,
+      "name": "Pinsir",
+      "profileIds": [
+        "pokemon-127"
+      ],
+      "defaultProfileId": "pokemon-127"
+    },
+    {
+      "id": "pokemon-128",
+      "dexNo": 128,
+      "name": "Tauros",
+      "profileIds": [
+        "pokemon-128"
+      ],
+      "defaultProfileId": "pokemon-128"
+    },
+    {
+      "id": "pokemon-129",
+      "dexNo": 129,
+      "name": "Magikarp",
+      "profileIds": [
+        "pokemon-129"
+      ],
+      "defaultProfileId": "pokemon-129"
+    },
+    {
+      "id": "pokemon-130",
+      "dexNo": 130,
+      "name": "Gyarados",
+      "profileIds": [
+        "pokemon-130"
+      ],
+      "defaultProfileId": "pokemon-130"
+    },
+    {
+      "id": "pokemon-131",
+      "dexNo": 131,
+      "name": "Lapras",
+      "profileIds": [
+        "pokemon-131"
+      ],
+      "defaultProfileId": "pokemon-131"
+    },
+    {
+      "id": "pokemon-132",
+      "dexNo": 132,
+      "name": "Ditto",
+      "profileIds": [
+        "pokemon-132"
+      ],
+      "defaultProfileId": "pokemon-132"
+    },
+    {
+      "id": "pokemon-133",
+      "dexNo": 133,
+      "name": "Eevee",
+      "profileIds": [
+        "pokemon-133"
+      ],
+      "defaultProfileId": "pokemon-133"
+    },
+    {
+      "id": "pokemon-134",
+      "dexNo": 134,
+      "name": "Vaporeon",
+      "profileIds": [
+        "pokemon-134"
+      ],
+      "defaultProfileId": "pokemon-134"
+    },
+    {
+      "id": "pokemon-135",
+      "dexNo": 135,
+      "name": "Jolteon",
+      "profileIds": [
+        "pokemon-135"
+      ],
+      "defaultProfileId": "pokemon-135"
+    },
+    {
+      "id": "pokemon-136",
+      "dexNo": 136,
+      "name": "Flareon",
+      "profileIds": [
+        "pokemon-136"
+      ],
+      "defaultProfileId": "pokemon-136"
+    },
+    {
+      "id": "pokemon-137",
+      "dexNo": 137,
+      "name": "Porygon",
+      "profileIds": [
+        "pokemon-137"
+      ],
+      "defaultProfileId": "pokemon-137"
+    },
+    {
+      "id": "pokemon-138",
+      "dexNo": 138,
+      "name": "Omanyte",
+      "profileIds": [
+        "pokemon-138"
+      ],
+      "defaultProfileId": "pokemon-138"
+    },
+    {
+      "id": "pokemon-139",
+      "dexNo": 139,
+      "name": "Omastar",
+      "profileIds": [
+        "pokemon-139"
+      ],
+      "defaultProfileId": "pokemon-139"
+    },
+    {
+      "id": "pokemon-140",
+      "dexNo": 140,
+      "name": "Kabuto",
+      "profileIds": [
+        "pokemon-140"
+      ],
+      "defaultProfileId": "pokemon-140"
+    },
+    {
+      "id": "pokemon-141",
+      "dexNo": 141,
+      "name": "Kabutops",
+      "profileIds": [
+        "pokemon-141"
+      ],
+      "defaultProfileId": "pokemon-141"
+    },
+    {
+      "id": "pokemon-142",
+      "dexNo": 142,
+      "name": "Aerodactyl",
+      "profileIds": [
+        "pokemon-142"
+      ],
+      "defaultProfileId": "pokemon-142"
+    },
+    {
+      "id": "pokemon-143",
+      "dexNo": 143,
+      "name": "Snorlax",
+      "profileIds": [
+        "pokemon-143"
+      ],
+      "defaultProfileId": "pokemon-143"
+    },
+    {
+      "id": "pokemon-144",
+      "dexNo": 144,
+      "name": "Articuno",
+      "profileIds": [
+        "pokemon-144"
+      ],
+      "defaultProfileId": "pokemon-144"
+    },
+    {
+      "id": "pokemon-145",
+      "dexNo": 145,
+      "name": "Zapdos",
+      "profileIds": [
+        "pokemon-145"
+      ],
+      "defaultProfileId": "pokemon-145"
+    },
+    {
+      "id": "pokemon-146",
+      "dexNo": 146,
+      "name": "Moltres",
+      "profileIds": [
+        "pokemon-146"
+      ],
+      "defaultProfileId": "pokemon-146"
+    },
+    {
+      "id": "pokemon-147",
+      "dexNo": 147,
+      "name": "Dratini",
+      "profileIds": [
+        "pokemon-147"
+      ],
+      "defaultProfileId": "pokemon-147"
+    },
+    {
+      "id": "pokemon-148",
+      "dexNo": 148,
+      "name": "Dragonair",
+      "profileIds": [
+        "pokemon-148"
+      ],
+      "defaultProfileId": "pokemon-148"
+    },
+    {
+      "id": "pokemon-149",
+      "dexNo": 149,
+      "name": "Dragonite",
+      "profileIds": [
+        "pokemon-149"
+      ],
+      "defaultProfileId": "pokemon-149"
+    },
+    {
+      "id": "pokemon-150",
+      "dexNo": 150,
+      "name": "Mewtwo",
+      "profileIds": [
+        "pokemon-150"
+      ],
+      "defaultProfileId": "pokemon-150"
+    },
+    {
+      "id": "pokemon-151",
+      "dexNo": 151,
+      "name": "Mew",
+      "profileIds": [
+        "pokemon-151"
+      ],
+      "defaultProfileId": "pokemon-151"
+    },
+    {
+      "id": "pokemon-152",
+      "dexNo": 152,
+      "name": "Chikorita",
+      "profileIds": [
+        "pokemon-152"
+      ],
+      "defaultProfileId": "pokemon-152"
+    },
+    {
+      "id": "pokemon-153",
+      "dexNo": 153,
+      "name": "Bayleef",
+      "profileIds": [
+        "pokemon-153"
+      ],
+      "defaultProfileId": "pokemon-153"
+    },
+    {
+      "id": "pokemon-154",
+      "dexNo": 154,
+      "name": "Meganium",
+      "profileIds": [
+        "pokemon-154"
+      ],
+      "defaultProfileId": "pokemon-154"
+    },
+    {
+      "id": "pokemon-155",
+      "dexNo": 155,
+      "name": "Cyndaquil",
+      "profileIds": [
+        "pokemon-155"
+      ],
+      "defaultProfileId": "pokemon-155"
+    },
+    {
+      "id": "pokemon-156",
+      "dexNo": 156,
+      "name": "Quilava",
+      "profileIds": [
+        "pokemon-156"
+      ],
+      "defaultProfileId": "pokemon-156"
+    },
+    {
+      "id": "pokemon-157",
+      "dexNo": 157,
+      "name": "Typhlosion",
+      "profileIds": [
+        "pokemon-157"
+      ],
+      "defaultProfileId": "pokemon-157"
+    },
+    {
+      "id": "pokemon-158",
+      "dexNo": 158,
+      "name": "Totodile",
+      "profileIds": [
+        "pokemon-158"
+      ],
+      "defaultProfileId": "pokemon-158"
+    },
+    {
+      "id": "pokemon-159",
+      "dexNo": 159,
+      "name": "Croconaw",
+      "profileIds": [
+        "pokemon-159"
+      ],
+      "defaultProfileId": "pokemon-159"
+    },
+    {
+      "id": "pokemon-160",
+      "dexNo": 160,
+      "name": "Feraligatr",
+      "profileIds": [
+        "pokemon-160"
+      ],
+      "defaultProfileId": "pokemon-160"
+    },
+    {
+      "id": "pokemon-161",
+      "dexNo": 161,
+      "name": "Sentret",
+      "profileIds": [
+        "pokemon-161"
+      ],
+      "defaultProfileId": "pokemon-161"
+    },
+    {
+      "id": "pokemon-162",
+      "dexNo": 162,
+      "name": "Furret",
+      "profileIds": [
+        "pokemon-162"
+      ],
+      "defaultProfileId": "pokemon-162"
+    },
+    {
+      "id": "pokemon-163",
+      "dexNo": 163,
+      "name": "Hoothoot",
+      "profileIds": [
+        "pokemon-163"
+      ],
+      "defaultProfileId": "pokemon-163"
+    },
+    {
+      "id": "pokemon-164",
+      "dexNo": 164,
+      "name": "Noctowl",
+      "profileIds": [
+        "pokemon-164"
+      ],
+      "defaultProfileId": "pokemon-164"
+    },
+    {
+      "id": "pokemon-165",
+      "dexNo": 165,
+      "name": "Ledyba",
+      "profileIds": [
+        "pokemon-165"
+      ],
+      "defaultProfileId": "pokemon-165"
+    },
+    {
+      "id": "pokemon-166",
+      "dexNo": 166,
+      "name": "Ledian",
+      "profileIds": [
+        "pokemon-166"
+      ],
+      "defaultProfileId": "pokemon-166"
+    },
+    {
+      "id": "pokemon-167",
+      "dexNo": 167,
+      "name": "Spinarak",
+      "profileIds": [
+        "pokemon-167"
+      ],
+      "defaultProfileId": "pokemon-167"
+    },
+    {
+      "id": "pokemon-168",
+      "dexNo": 168,
+      "name": "Ariados",
+      "profileIds": [
+        "pokemon-168"
+      ],
+      "defaultProfileId": "pokemon-168"
+    },
+    {
+      "id": "pokemon-169",
+      "dexNo": 169,
+      "name": "Crobat",
+      "profileIds": [
+        "pokemon-169"
+      ],
+      "defaultProfileId": "pokemon-169"
+    },
+    {
+      "id": "pokemon-170",
+      "dexNo": 170,
+      "name": "Chinchou",
+      "profileIds": [
+        "pokemon-170"
+      ],
+      "defaultProfileId": "pokemon-170"
+    },
+    {
+      "id": "pokemon-171",
+      "dexNo": 171,
+      "name": "Lanturn",
+      "profileIds": [
+        "pokemon-171"
+      ],
+      "defaultProfileId": "pokemon-171"
+    },
+    {
+      "id": "pokemon-172",
+      "dexNo": 172,
+      "name": "Pichu",
+      "profileIds": [
+        "pokemon-172"
+      ],
+      "defaultProfileId": "pokemon-172"
+    },
+    {
+      "id": "pokemon-173",
+      "dexNo": 173,
+      "name": "Cleffa",
+      "profileIds": [
+        "pokemon-173"
+      ],
+      "defaultProfileId": "pokemon-173"
+    },
+    {
+      "id": "pokemon-174",
+      "dexNo": 174,
+      "name": "Igglybuff",
+      "profileIds": [
+        "pokemon-174"
+      ],
+      "defaultProfileId": "pokemon-174"
+    },
+    {
+      "id": "pokemon-175",
+      "dexNo": 175,
+      "name": "Togepi",
+      "profileIds": [
+        "pokemon-175"
+      ],
+      "defaultProfileId": "pokemon-175"
+    },
+    {
+      "id": "pokemon-176",
+      "dexNo": 176,
+      "name": "Togetic",
+      "profileIds": [
+        "pokemon-176"
+      ],
+      "defaultProfileId": "pokemon-176"
+    },
+    {
+      "id": "pokemon-177",
+      "dexNo": 177,
+      "name": "Natu",
+      "profileIds": [
+        "pokemon-177"
+      ],
+      "defaultProfileId": "pokemon-177"
+    },
+    {
+      "id": "pokemon-178",
+      "dexNo": 178,
+      "name": "Xatu",
+      "profileIds": [
+        "pokemon-178"
+      ],
+      "defaultProfileId": "pokemon-178"
+    },
+    {
+      "id": "pokemon-179",
+      "dexNo": 179,
+      "name": "Mareep",
+      "profileIds": [
+        "pokemon-179"
+      ],
+      "defaultProfileId": "pokemon-179"
+    },
+    {
+      "id": "pokemon-180",
+      "dexNo": 180,
+      "name": "Flaaffy",
+      "profileIds": [
+        "pokemon-180"
+      ],
+      "defaultProfileId": "pokemon-180"
+    },
+    {
+      "id": "pokemon-181",
+      "dexNo": 181,
+      "name": "Ampharos",
+      "profileIds": [
+        "pokemon-181"
+      ],
+      "defaultProfileId": "pokemon-181"
+    },
+    {
+      "id": "pokemon-182",
+      "dexNo": 182,
+      "name": "Bellossom",
+      "profileIds": [
+        "pokemon-182"
+      ],
+      "defaultProfileId": "pokemon-182"
+    },
+    {
+      "id": "pokemon-183",
+      "dexNo": 183,
+      "name": "Marill",
+      "profileIds": [
+        "pokemon-183"
+      ],
+      "defaultProfileId": "pokemon-183"
+    },
+    {
+      "id": "pokemon-184",
+      "dexNo": 184,
+      "name": "Azumarill",
+      "profileIds": [
+        "pokemon-184"
+      ],
+      "defaultProfileId": "pokemon-184"
+    },
+    {
+      "id": "pokemon-185",
+      "dexNo": 185,
+      "name": "Sudowoodo",
+      "profileIds": [
+        "pokemon-185"
+      ],
+      "defaultProfileId": "pokemon-185"
+    },
+    {
+      "id": "pokemon-186",
+      "dexNo": 186,
+      "name": "Politoed",
+      "profileIds": [
+        "pokemon-186"
+      ],
+      "defaultProfileId": "pokemon-186"
+    },
+    {
+      "id": "pokemon-187",
+      "dexNo": 187,
+      "name": "Hoppip",
+      "profileIds": [
+        "pokemon-187"
+      ],
+      "defaultProfileId": "pokemon-187"
+    },
+    {
+      "id": "pokemon-188",
+      "dexNo": 188,
+      "name": "Skiploom",
+      "profileIds": [
+        "pokemon-188"
+      ],
+      "defaultProfileId": "pokemon-188"
+    },
+    {
+      "id": "pokemon-189",
+      "dexNo": 189,
+      "name": "Jumpluff",
+      "profileIds": [
+        "pokemon-189"
+      ],
+      "defaultProfileId": "pokemon-189"
+    },
+    {
+      "id": "pokemon-190",
+      "dexNo": 190,
+      "name": "Aipom",
+      "profileIds": [
+        "pokemon-190"
+      ],
+      "defaultProfileId": "pokemon-190"
+    },
+    {
+      "id": "pokemon-191",
+      "dexNo": 191,
+      "name": "Sunkern",
+      "profileIds": [
+        "pokemon-191"
+      ],
+      "defaultProfileId": "pokemon-191"
+    },
+    {
+      "id": "pokemon-192",
+      "dexNo": 192,
+      "name": "Sunflora",
+      "profileIds": [
+        "pokemon-192"
+      ],
+      "defaultProfileId": "pokemon-192"
+    },
+    {
+      "id": "pokemon-193",
+      "dexNo": 193,
+      "name": "Yanma",
+      "profileIds": [
+        "pokemon-193"
+      ],
+      "defaultProfileId": "pokemon-193"
+    },
+    {
+      "id": "pokemon-194",
+      "dexNo": 194,
+      "name": "Wooper",
+      "profileIds": [
+        "pokemon-194"
+      ],
+      "defaultProfileId": "pokemon-194"
+    },
+    {
+      "id": "pokemon-195",
+      "dexNo": 195,
+      "name": "Quagsire",
+      "profileIds": [
+        "pokemon-195"
+      ],
+      "defaultProfileId": "pokemon-195"
+    },
+    {
+      "id": "pokemon-196",
+      "dexNo": 196,
+      "name": "Espeon",
+      "profileIds": [
+        "pokemon-196"
+      ],
+      "defaultProfileId": "pokemon-196"
+    },
+    {
+      "id": "pokemon-197",
+      "dexNo": 197,
+      "name": "Umbreon",
+      "profileIds": [
+        "pokemon-197"
+      ],
+      "defaultProfileId": "pokemon-197"
+    },
+    {
+      "id": "pokemon-198",
+      "dexNo": 198,
+      "name": "Murkrow",
+      "profileIds": [
+        "pokemon-198"
+      ],
+      "defaultProfileId": "pokemon-198"
+    },
+    {
+      "id": "pokemon-199",
+      "dexNo": 199,
+      "name": "Slowking",
+      "profileIds": [
+        "pokemon-199"
+      ],
+      "defaultProfileId": "pokemon-199"
+    },
+    {
+      "id": "pokemon-200",
+      "dexNo": 200,
+      "name": "Misdreavus",
+      "profileIds": [
+        "pokemon-200"
+      ],
+      "defaultProfileId": "pokemon-200"
+    },
+    {
+      "id": "pokemon-201",
+      "dexNo": 201,
+      "name": "Unown",
+      "profileIds": [
+        "unown-a",
+        "unown-b",
+        "unown-c",
+        "unown-d",
+        "unown-e",
+        "unown-f",
+        "unown-g",
+        "unown-h",
+        "unown-i",
+        "unown-j",
+        "unown-k",
+        "unown-l",
+        "unown-m",
+        "unown-n",
+        "unown-o",
+        "unown-p",
+        "unown-q",
+        "unown-r",
+        "unown-s",
+        "unown-t",
+        "unown-u",
+        "unown-v",
+        "unown-w",
+        "unown-x",
+        "unown-y",
+        "unown-z",
+        "unown-exclamation",
+        "unown-question"
+      ],
+      "defaultProfileId": null
+    },
+    {
+      "id": "pokemon-202",
+      "dexNo": 202,
+      "name": "Wobbuffet",
+      "profileIds": [
+        "pokemon-202"
+      ],
+      "defaultProfileId": "pokemon-202"
+    },
+    {
+      "id": "pokemon-203",
+      "dexNo": 203,
+      "name": "Girafarig",
+      "profileIds": [
+        "pokemon-203"
+      ],
+      "defaultProfileId": "pokemon-203"
+    },
+    {
+      "id": "pokemon-204",
+      "dexNo": 204,
+      "name": "Pineco",
+      "profileIds": [
+        "pokemon-204"
+      ],
+      "defaultProfileId": "pokemon-204"
+    },
+    {
+      "id": "pokemon-205",
+      "dexNo": 205,
+      "name": "Forretress",
+      "profileIds": [
+        "pokemon-205"
+      ],
+      "defaultProfileId": "pokemon-205"
+    },
+    {
+      "id": "pokemon-206",
+      "dexNo": 206,
+      "name": "Dunsparce",
+      "profileIds": [
+        "pokemon-206"
+      ],
+      "defaultProfileId": "pokemon-206"
+    },
+    {
+      "id": "pokemon-207",
+      "dexNo": 207,
+      "name": "Gligar",
+      "profileIds": [
+        "pokemon-207"
+      ],
+      "defaultProfileId": "pokemon-207"
+    },
+    {
+      "id": "pokemon-208",
+      "dexNo": 208,
+      "name": "Steelix",
+      "profileIds": [
+        "pokemon-208"
+      ],
+      "defaultProfileId": "pokemon-208"
+    },
+    {
+      "id": "pokemon-209",
+      "dexNo": 209,
+      "name": "Snubbull",
+      "profileIds": [
+        "pokemon-209"
+      ],
+      "defaultProfileId": "pokemon-209"
+    },
+    {
+      "id": "pokemon-210",
+      "dexNo": 210,
+      "name": "Granbull",
+      "profileIds": [
+        "pokemon-210"
+      ],
+      "defaultProfileId": "pokemon-210"
+    },
+    {
+      "id": "pokemon-211",
+      "dexNo": 211,
+      "name": "Qwilfish",
+      "profileIds": [
+        "pokemon-211"
+      ],
+      "defaultProfileId": "pokemon-211"
+    },
+    {
+      "id": "pokemon-212",
+      "dexNo": 212,
+      "name": "Scizor",
+      "profileIds": [
+        "pokemon-212"
+      ],
+      "defaultProfileId": "pokemon-212"
+    },
+    {
+      "id": "pokemon-213",
+      "dexNo": 213,
+      "name": "Shuckle",
+      "profileIds": [
+        "pokemon-213"
+      ],
+      "defaultProfileId": "pokemon-213"
+    },
+    {
+      "id": "pokemon-214",
+      "dexNo": 214,
+      "name": "Heracross",
+      "profileIds": [
+        "pokemon-214"
+      ],
+      "defaultProfileId": "pokemon-214"
+    },
+    {
+      "id": "pokemon-215",
+      "dexNo": 215,
+      "name": "Sneasel",
+      "profileIds": [
+        "pokemon-215"
+      ],
+      "defaultProfileId": "pokemon-215"
+    },
+    {
+      "id": "pokemon-216",
+      "dexNo": 216,
+      "name": "Teddiursa",
+      "profileIds": [
+        "pokemon-216"
+      ],
+      "defaultProfileId": "pokemon-216"
+    },
+    {
+      "id": "pokemon-217",
+      "dexNo": 217,
+      "name": "Ursaring",
+      "profileIds": [
+        "pokemon-217"
+      ],
+      "defaultProfileId": "pokemon-217"
+    },
+    {
+      "id": "pokemon-218",
+      "dexNo": 218,
+      "name": "Slugma",
+      "profileIds": [
+        "pokemon-218"
+      ],
+      "defaultProfileId": "pokemon-218"
+    },
+    {
+      "id": "pokemon-219",
+      "dexNo": 219,
+      "name": "Magcargo",
+      "profileIds": [
+        "pokemon-219"
+      ],
+      "defaultProfileId": "pokemon-219"
+    },
+    {
+      "id": "pokemon-220",
+      "dexNo": 220,
+      "name": "Swinub",
+      "profileIds": [
+        "pokemon-220"
+      ],
+      "defaultProfileId": "pokemon-220"
+    },
+    {
+      "id": "pokemon-221",
+      "dexNo": 221,
+      "name": "Piloswine",
+      "profileIds": [
+        "pokemon-221"
+      ],
+      "defaultProfileId": "pokemon-221"
+    },
+    {
+      "id": "pokemon-222",
+      "dexNo": 222,
+      "name": "Corsola",
+      "profileIds": [
+        "pokemon-222"
+      ],
+      "defaultProfileId": "pokemon-222"
+    },
+    {
+      "id": "pokemon-223",
+      "dexNo": 223,
+      "name": "Remoraid",
+      "profileIds": [
+        "pokemon-223"
+      ],
+      "defaultProfileId": "pokemon-223"
+    },
+    {
+      "id": "pokemon-224",
+      "dexNo": 224,
+      "name": "Octillery",
+      "profileIds": [
+        "pokemon-224"
+      ],
+      "defaultProfileId": "pokemon-224"
+    },
+    {
+      "id": "pokemon-225",
+      "dexNo": 225,
+      "name": "Delibird",
+      "profileIds": [
+        "pokemon-225"
+      ],
+      "defaultProfileId": "pokemon-225"
+    },
+    {
+      "id": "pokemon-226",
+      "dexNo": 226,
+      "name": "Mantine",
+      "profileIds": [
+        "pokemon-226"
+      ],
+      "defaultProfileId": "pokemon-226"
+    },
+    {
+      "id": "pokemon-227",
+      "dexNo": 227,
+      "name": "Skarmory",
+      "profileIds": [
+        "pokemon-227"
+      ],
+      "defaultProfileId": "pokemon-227"
+    },
+    {
+      "id": "pokemon-228",
+      "dexNo": 228,
+      "name": "Houndour",
+      "profileIds": [
+        "pokemon-228"
+      ],
+      "defaultProfileId": "pokemon-228"
+    },
+    {
+      "id": "pokemon-229",
+      "dexNo": 229,
+      "name": "Houndoom",
+      "profileIds": [
+        "pokemon-229"
+      ],
+      "defaultProfileId": "pokemon-229"
+    },
+    {
+      "id": "pokemon-230",
+      "dexNo": 230,
+      "name": "Kingdra",
+      "profileIds": [
+        "pokemon-230"
+      ],
+      "defaultProfileId": "pokemon-230"
+    },
+    {
+      "id": "pokemon-231",
+      "dexNo": 231,
+      "name": "Phanpy",
+      "profileIds": [
+        "pokemon-231"
+      ],
+      "defaultProfileId": "pokemon-231"
+    },
+    {
+      "id": "pokemon-232",
+      "dexNo": 232,
+      "name": "Donphan",
+      "profileIds": [
+        "pokemon-232"
+      ],
+      "defaultProfileId": "pokemon-232"
+    },
+    {
+      "id": "pokemon-233",
+      "dexNo": 233,
+      "name": "Porygon2",
+      "profileIds": [
+        "pokemon-233"
+      ],
+      "defaultProfileId": "pokemon-233"
+    },
+    {
+      "id": "pokemon-234",
+      "dexNo": 234,
+      "name": "Stantler",
+      "profileIds": [
+        "pokemon-234"
+      ],
+      "defaultProfileId": "pokemon-234"
+    },
+    {
+      "id": "pokemon-235",
+      "dexNo": 235,
+      "name": "Smeargle",
+      "profileIds": [
+        "pokemon-235"
+      ],
+      "defaultProfileId": "pokemon-235"
+    },
+    {
+      "id": "pokemon-236",
+      "dexNo": 236,
+      "name": "Tyrogue",
+      "profileIds": [
+        "pokemon-236"
+      ],
+      "defaultProfileId": "pokemon-236"
+    },
+    {
+      "id": "pokemon-237",
+      "dexNo": 237,
+      "name": "Hitmontop",
+      "profileIds": [
+        "pokemon-237"
+      ],
+      "defaultProfileId": "pokemon-237"
+    },
+    {
+      "id": "pokemon-238",
+      "dexNo": 238,
+      "name": "Smoochum",
+      "profileIds": [
+        "pokemon-238"
+      ],
+      "defaultProfileId": "pokemon-238"
+    },
+    {
+      "id": "pokemon-239",
+      "dexNo": 239,
+      "name": "Elekid",
+      "profileIds": [
+        "pokemon-239"
+      ],
+      "defaultProfileId": "pokemon-239"
+    },
+    {
+      "id": "pokemon-240",
+      "dexNo": 240,
+      "name": "Magby",
+      "profileIds": [
+        "pokemon-240"
+      ],
+      "defaultProfileId": "pokemon-240"
+    },
+    {
+      "id": "pokemon-241",
+      "dexNo": 241,
+      "name": "Miltank",
+      "profileIds": [
+        "pokemon-241"
+      ],
+      "defaultProfileId": "pokemon-241"
+    },
+    {
+      "id": "pokemon-242",
+      "dexNo": 242,
+      "name": "Blissey",
+      "profileIds": [
+        "pokemon-242"
+      ],
+      "defaultProfileId": "pokemon-242"
+    },
+    {
+      "id": "pokemon-243",
+      "dexNo": 243,
+      "name": "Raikou",
+      "profileIds": [
+        "pokemon-243"
+      ],
+      "defaultProfileId": "pokemon-243"
+    },
+    {
+      "id": "pokemon-244",
+      "dexNo": 244,
+      "name": "Entei",
+      "profileIds": [
+        "pokemon-244"
+      ],
+      "defaultProfileId": "pokemon-244"
+    },
+    {
+      "id": "pokemon-245",
+      "dexNo": 245,
+      "name": "Suicune",
+      "profileIds": [
+        "pokemon-245"
+      ],
+      "defaultProfileId": "pokemon-245"
+    },
+    {
+      "id": "pokemon-246",
+      "dexNo": 246,
+      "name": "Larvitar",
+      "profileIds": [
+        "pokemon-246"
+      ],
+      "defaultProfileId": "pokemon-246"
+    },
+    {
+      "id": "pokemon-247",
+      "dexNo": 247,
+      "name": "Pupitar",
+      "profileIds": [
+        "pokemon-247"
+      ],
+      "defaultProfileId": "pokemon-247"
+    },
+    {
+      "id": "pokemon-248",
+      "dexNo": 248,
+      "name": "Tyranitar",
+      "profileIds": [
+        "pokemon-248"
+      ],
+      "defaultProfileId": "pokemon-248"
+    },
+    {
+      "id": "pokemon-249",
+      "dexNo": 249,
+      "name": "Lugia",
+      "profileIds": [
+        "pokemon-249"
+      ],
+      "defaultProfileId": "pokemon-249"
+    },
+    {
+      "id": "pokemon-250",
+      "dexNo": 250,
+      "name": "Ho-Oh",
+      "profileIds": [
+        "pokemon-250"
+      ],
+      "defaultProfileId": "pokemon-250"
+    },
+    {
+      "id": "pokemon-251",
+      "dexNo": 251,
+      "name": "Celebi",
+      "profileIds": [
+        "pokemon-251"
+      ],
+      "defaultProfileId": "pokemon-251"
+    },
+    {
+      "id": "pokemon-252",
+      "dexNo": 252,
+      "name": "Treecko",
+      "profileIds": [
+        "pokemon-252"
+      ],
+      "defaultProfileId": "pokemon-252"
+    },
+    {
+      "id": "pokemon-253",
+      "dexNo": 253,
+      "name": "Grovyle",
+      "profileIds": [
+        "pokemon-253"
+      ],
+      "defaultProfileId": "pokemon-253"
+    },
+    {
+      "id": "pokemon-254",
+      "dexNo": 254,
+      "name": "Sceptile",
+      "profileIds": [
+        "pokemon-254"
+      ],
+      "defaultProfileId": "pokemon-254"
+    },
+    {
+      "id": "pokemon-255",
+      "dexNo": 255,
+      "name": "Torchic",
+      "profileIds": [
+        "pokemon-255"
+      ],
+      "defaultProfileId": "pokemon-255"
+    },
+    {
+      "id": "pokemon-256",
+      "dexNo": 256,
+      "name": "Combusken",
+      "profileIds": [
+        "pokemon-256"
+      ],
+      "defaultProfileId": "pokemon-256"
+    },
+    {
+      "id": "pokemon-257",
+      "dexNo": 257,
+      "name": "Blaziken",
+      "profileIds": [
+        "pokemon-257"
+      ],
+      "defaultProfileId": "pokemon-257"
+    },
+    {
+      "id": "pokemon-258",
+      "dexNo": 258,
+      "name": "Mudkip",
+      "profileIds": [
+        "pokemon-258"
+      ],
+      "defaultProfileId": "pokemon-258"
+    },
+    {
+      "id": "pokemon-259",
+      "dexNo": 259,
+      "name": "Marshtomp",
+      "profileIds": [
+        "pokemon-259"
+      ],
+      "defaultProfileId": "pokemon-259"
+    },
+    {
+      "id": "pokemon-260",
+      "dexNo": 260,
+      "name": "Swampert",
+      "profileIds": [
+        "pokemon-260"
+      ],
+      "defaultProfileId": "pokemon-260"
+    },
+    {
+      "id": "pokemon-261",
+      "dexNo": 261,
+      "name": "Poochyena",
+      "profileIds": [
+        "pokemon-261"
+      ],
+      "defaultProfileId": "pokemon-261"
+    },
+    {
+      "id": "pokemon-262",
+      "dexNo": 262,
+      "name": "Mightyena",
+      "profileIds": [
+        "pokemon-262"
+      ],
+      "defaultProfileId": "pokemon-262"
+    },
+    {
+      "id": "pokemon-263",
+      "dexNo": 263,
+      "name": "Zigzagoon",
+      "profileIds": [
+        "pokemon-263"
+      ],
+      "defaultProfileId": "pokemon-263"
+    },
+    {
+      "id": "pokemon-264",
+      "dexNo": 264,
+      "name": "Linoone",
+      "profileIds": [
+        "pokemon-264"
+      ],
+      "defaultProfileId": "pokemon-264"
+    },
+    {
+      "id": "pokemon-265",
+      "dexNo": 265,
+      "name": "Wurmple",
+      "profileIds": [
+        "pokemon-265"
+      ],
+      "defaultProfileId": "pokemon-265"
+    },
+    {
+      "id": "pokemon-266",
+      "dexNo": 266,
+      "name": "Silcoon",
+      "profileIds": [
+        "pokemon-266"
+      ],
+      "defaultProfileId": "pokemon-266"
+    },
+    {
+      "id": "pokemon-267",
+      "dexNo": 267,
+      "name": "Beautifly",
+      "profileIds": [
+        "pokemon-267"
+      ],
+      "defaultProfileId": "pokemon-267"
+    },
+    {
+      "id": "pokemon-268",
+      "dexNo": 268,
+      "name": "Cascoon",
+      "profileIds": [
+        "pokemon-268"
+      ],
+      "defaultProfileId": "pokemon-268"
+    },
+    {
+      "id": "pokemon-269",
+      "dexNo": 269,
+      "name": "Dustox",
+      "profileIds": [
+        "pokemon-269"
+      ],
+      "defaultProfileId": "pokemon-269"
+    },
+    {
+      "id": "pokemon-270",
+      "dexNo": 270,
+      "name": "Lotad",
+      "profileIds": [
+        "pokemon-270"
+      ],
+      "defaultProfileId": "pokemon-270"
+    },
+    {
+      "id": "pokemon-271",
+      "dexNo": 271,
+      "name": "Lombre",
+      "profileIds": [
+        "pokemon-271"
+      ],
+      "defaultProfileId": "pokemon-271"
+    },
+    {
+      "id": "pokemon-272",
+      "dexNo": 272,
+      "name": "Ludicolo",
+      "profileIds": [
+        "pokemon-272"
+      ],
+      "defaultProfileId": "pokemon-272"
+    },
+    {
+      "id": "pokemon-273",
+      "dexNo": 273,
+      "name": "Seedot",
+      "profileIds": [
+        "pokemon-273"
+      ],
+      "defaultProfileId": "pokemon-273"
+    },
+    {
+      "id": "pokemon-274",
+      "dexNo": 274,
+      "name": "Nuzleaf",
+      "profileIds": [
+        "pokemon-274"
+      ],
+      "defaultProfileId": "pokemon-274"
+    },
+    {
+      "id": "pokemon-275",
+      "dexNo": 275,
+      "name": "Shiftry",
+      "profileIds": [
+        "pokemon-275"
+      ],
+      "defaultProfileId": "pokemon-275"
+    },
+    {
+      "id": "pokemon-276",
+      "dexNo": 276,
+      "name": "Taillow",
+      "profileIds": [
+        "pokemon-276"
+      ],
+      "defaultProfileId": "pokemon-276"
+    },
+    {
+      "id": "pokemon-277",
+      "dexNo": 277,
+      "name": "Swellow",
+      "profileIds": [
+        "pokemon-277"
+      ],
+      "defaultProfileId": "pokemon-277"
+    },
+    {
+      "id": "pokemon-278",
+      "dexNo": 278,
+      "name": "Wingull",
+      "profileIds": [
+        "pokemon-278"
+      ],
+      "defaultProfileId": "pokemon-278"
+    },
+    {
+      "id": "pokemon-279",
+      "dexNo": 279,
+      "name": "Pelipper",
+      "profileIds": [
+        "pokemon-279"
+      ],
+      "defaultProfileId": "pokemon-279"
+    },
+    {
+      "id": "pokemon-280",
+      "dexNo": 280,
+      "name": "Ralts",
+      "profileIds": [
+        "pokemon-280"
+      ],
+      "defaultProfileId": "pokemon-280"
+    },
+    {
+      "id": "pokemon-281",
+      "dexNo": 281,
+      "name": "Kirlia",
+      "profileIds": [
+        "pokemon-281"
+      ],
+      "defaultProfileId": "pokemon-281"
+    },
+    {
+      "id": "pokemon-282",
+      "dexNo": 282,
+      "name": "Gardevoir",
+      "profileIds": [
+        "pokemon-282"
+      ],
+      "defaultProfileId": "pokemon-282"
+    },
+    {
+      "id": "pokemon-283",
+      "dexNo": 283,
+      "name": "Surskit",
+      "profileIds": [
+        "pokemon-283"
+      ],
+      "defaultProfileId": "pokemon-283"
+    },
+    {
+      "id": "pokemon-284",
+      "dexNo": 284,
+      "name": "Masquerain",
+      "profileIds": [
+        "pokemon-284"
+      ],
+      "defaultProfileId": "pokemon-284"
+    },
+    {
+      "id": "pokemon-285",
+      "dexNo": 285,
+      "name": "Shroomish",
+      "profileIds": [
+        "pokemon-285"
+      ],
+      "defaultProfileId": "pokemon-285"
+    },
+    {
+      "id": "pokemon-286",
+      "dexNo": 286,
+      "name": "Breloom",
+      "profileIds": [
+        "pokemon-286"
+      ],
+      "defaultProfileId": "pokemon-286"
+    },
+    {
+      "id": "pokemon-287",
+      "dexNo": 287,
+      "name": "Slakoth",
+      "profileIds": [
+        "pokemon-287"
+      ],
+      "defaultProfileId": "pokemon-287"
+    },
+    {
+      "id": "pokemon-288",
+      "dexNo": 288,
+      "name": "Vigoroth",
+      "profileIds": [
+        "pokemon-288"
+      ],
+      "defaultProfileId": "pokemon-288"
+    },
+    {
+      "id": "pokemon-289",
+      "dexNo": 289,
+      "name": "Slaking",
+      "profileIds": [
+        "pokemon-289"
+      ],
+      "defaultProfileId": "pokemon-289"
+    },
+    {
+      "id": "pokemon-290",
+      "dexNo": 290,
+      "name": "Nincada",
+      "profileIds": [
+        "pokemon-290"
+      ],
+      "defaultProfileId": "pokemon-290"
+    },
+    {
+      "id": "pokemon-291",
+      "dexNo": 291,
+      "name": "Ninjask",
+      "profileIds": [
+        "pokemon-291"
+      ],
+      "defaultProfileId": "pokemon-291"
+    },
+    {
+      "id": "pokemon-292",
+      "dexNo": 292,
+      "name": "Shedinja",
+      "profileIds": [
+        "pokemon-292"
+      ],
+      "defaultProfileId": "pokemon-292"
+    },
+    {
+      "id": "pokemon-293",
+      "dexNo": 293,
+      "name": "Whismur",
+      "profileIds": [
+        "pokemon-293"
+      ],
+      "defaultProfileId": "pokemon-293"
+    },
+    {
+      "id": "pokemon-294",
+      "dexNo": 294,
+      "name": "Loudred",
+      "profileIds": [
+        "pokemon-294"
+      ],
+      "defaultProfileId": "pokemon-294"
+    },
+    {
+      "id": "pokemon-295",
+      "dexNo": 295,
+      "name": "Exploud",
+      "profileIds": [
+        "pokemon-295"
+      ],
+      "defaultProfileId": "pokemon-295"
+    },
+    {
+      "id": "pokemon-296",
+      "dexNo": 296,
+      "name": "Makuhita",
+      "profileIds": [
+        "pokemon-296"
+      ],
+      "defaultProfileId": "pokemon-296"
+    },
+    {
+      "id": "pokemon-297",
+      "dexNo": 297,
+      "name": "Hariyama",
+      "profileIds": [
+        "pokemon-297"
+      ],
+      "defaultProfileId": "pokemon-297"
+    },
+    {
+      "id": "pokemon-298",
+      "dexNo": 298,
+      "name": "Azurill",
+      "profileIds": [
+        "pokemon-298"
+      ],
+      "defaultProfileId": "pokemon-298"
+    },
+    {
+      "id": "pokemon-299",
+      "dexNo": 299,
+      "name": "Nosepass",
+      "profileIds": [
+        "pokemon-299"
+      ],
+      "defaultProfileId": "pokemon-299"
+    },
+    {
+      "id": "pokemon-300",
+      "dexNo": 300,
+      "name": "Skitty",
+      "profileIds": [
+        "pokemon-300"
+      ],
+      "defaultProfileId": "pokemon-300"
+    },
+    {
+      "id": "pokemon-301",
+      "dexNo": 301,
+      "name": "Delcatty",
+      "profileIds": [
+        "pokemon-301"
+      ],
+      "defaultProfileId": "pokemon-301"
+    },
+    {
+      "id": "pokemon-302",
+      "dexNo": 302,
+      "name": "Sableye",
+      "profileIds": [
+        "pokemon-302"
+      ],
+      "defaultProfileId": "pokemon-302"
+    },
+    {
+      "id": "pokemon-303",
+      "dexNo": 303,
+      "name": "Mawile",
+      "profileIds": [
+        "pokemon-303"
+      ],
+      "defaultProfileId": "pokemon-303"
+    },
+    {
+      "id": "pokemon-304",
+      "dexNo": 304,
+      "name": "Aron",
+      "profileIds": [
+        "pokemon-304"
+      ],
+      "defaultProfileId": "pokemon-304"
+    },
+    {
+      "id": "pokemon-305",
+      "dexNo": 305,
+      "name": "Lairon",
+      "profileIds": [
+        "pokemon-305"
+      ],
+      "defaultProfileId": "pokemon-305"
+    },
+    {
+      "id": "pokemon-306",
+      "dexNo": 306,
+      "name": "Aggron",
+      "profileIds": [
+        "pokemon-306"
+      ],
+      "defaultProfileId": "pokemon-306"
+    },
+    {
+      "id": "pokemon-307",
+      "dexNo": 307,
+      "name": "Meditite",
+      "profileIds": [
+        "pokemon-307"
+      ],
+      "defaultProfileId": "pokemon-307"
+    },
+    {
+      "id": "pokemon-308",
+      "dexNo": 308,
+      "name": "Medicham",
+      "profileIds": [
+        "pokemon-308"
+      ],
+      "defaultProfileId": "pokemon-308"
+    },
+    {
+      "id": "pokemon-309",
+      "dexNo": 309,
+      "name": "Electrike",
+      "profileIds": [
+        "pokemon-309"
+      ],
+      "defaultProfileId": "pokemon-309"
+    },
+    {
+      "id": "pokemon-310",
+      "dexNo": 310,
+      "name": "Manectric",
+      "profileIds": [
+        "pokemon-310"
+      ],
+      "defaultProfileId": "pokemon-310"
+    },
+    {
+      "id": "pokemon-311",
+      "dexNo": 311,
+      "name": "Plusle",
+      "profileIds": [
+        "pokemon-311"
+      ],
+      "defaultProfileId": "pokemon-311"
+    },
+    {
+      "id": "pokemon-312",
+      "dexNo": 312,
+      "name": "Minun",
+      "profileIds": [
+        "pokemon-312"
+      ],
+      "defaultProfileId": "pokemon-312"
+    },
+    {
+      "id": "pokemon-313",
+      "dexNo": 313,
+      "name": "Volbeat",
+      "profileIds": [
+        "pokemon-313"
+      ],
+      "defaultProfileId": "pokemon-313"
+    },
+    {
+      "id": "pokemon-314",
+      "dexNo": 314,
+      "name": "Illumise",
+      "profileIds": [
+        "pokemon-314"
+      ],
+      "defaultProfileId": "pokemon-314"
+    },
+    {
+      "id": "pokemon-315",
+      "dexNo": 315,
+      "name": "Roselia",
+      "profileIds": [
+        "pokemon-315"
+      ],
+      "defaultProfileId": "pokemon-315"
+    },
+    {
+      "id": "pokemon-316",
+      "dexNo": 316,
+      "name": "Gulpin",
+      "profileIds": [
+        "pokemon-316"
+      ],
+      "defaultProfileId": "pokemon-316"
+    },
+    {
+      "id": "pokemon-317",
+      "dexNo": 317,
+      "name": "Swalot",
+      "profileIds": [
+        "pokemon-317"
+      ],
+      "defaultProfileId": "pokemon-317"
+    },
+    {
+      "id": "pokemon-318",
+      "dexNo": 318,
+      "name": "Carvanha",
+      "profileIds": [
+        "pokemon-318"
+      ],
+      "defaultProfileId": "pokemon-318"
+    },
+    {
+      "id": "pokemon-319",
+      "dexNo": 319,
+      "name": "Sharpedo",
+      "profileIds": [
+        "pokemon-319"
+      ],
+      "defaultProfileId": "pokemon-319"
+    },
+    {
+      "id": "pokemon-320",
+      "dexNo": 320,
+      "name": "Wailmer",
+      "profileIds": [
+        "pokemon-320"
+      ],
+      "defaultProfileId": "pokemon-320"
+    },
+    {
+      "id": "pokemon-321",
+      "dexNo": 321,
+      "name": "Wailord",
+      "profileIds": [
+        "pokemon-321"
+      ],
+      "defaultProfileId": "pokemon-321"
+    },
+    {
+      "id": "pokemon-322",
+      "dexNo": 322,
+      "name": "Numel",
+      "profileIds": [
+        "pokemon-322"
+      ],
+      "defaultProfileId": "pokemon-322"
+    },
+    {
+      "id": "pokemon-323",
+      "dexNo": 323,
+      "name": "Camerupt",
+      "profileIds": [
+        "pokemon-323"
+      ],
+      "defaultProfileId": "pokemon-323"
+    },
+    {
+      "id": "pokemon-324",
+      "dexNo": 324,
+      "name": "Torkoal",
+      "profileIds": [
+        "pokemon-324"
+      ],
+      "defaultProfileId": "pokemon-324"
+    },
+    {
+      "id": "pokemon-325",
+      "dexNo": 325,
+      "name": "Spoink",
+      "profileIds": [
+        "pokemon-325"
+      ],
+      "defaultProfileId": "pokemon-325"
+    },
+    {
+      "id": "pokemon-326",
+      "dexNo": 326,
+      "name": "Grumpig",
+      "profileIds": [
+        "pokemon-326"
+      ],
+      "defaultProfileId": "pokemon-326"
+    },
+    {
+      "id": "pokemon-327",
+      "dexNo": 327,
+      "name": "Spinda",
+      "profileIds": [
+        "pokemon-327"
+      ],
+      "defaultProfileId": "pokemon-327"
+    },
+    {
+      "id": "pokemon-328",
+      "dexNo": 328,
+      "name": "Trapinch",
+      "profileIds": [
+        "pokemon-328"
+      ],
+      "defaultProfileId": "pokemon-328"
+    },
+    {
+      "id": "pokemon-329",
+      "dexNo": 329,
+      "name": "Vibrava",
+      "profileIds": [
+        "pokemon-329"
+      ],
+      "defaultProfileId": "pokemon-329"
+    },
+    {
+      "id": "pokemon-330",
+      "dexNo": 330,
+      "name": "Flygon",
+      "profileIds": [
+        "pokemon-330"
+      ],
+      "defaultProfileId": "pokemon-330"
+    },
+    {
+      "id": "pokemon-331",
+      "dexNo": 331,
+      "name": "Cacnea",
+      "profileIds": [
+        "pokemon-331"
+      ],
+      "defaultProfileId": "pokemon-331"
+    },
+    {
+      "id": "pokemon-332",
+      "dexNo": 332,
+      "name": "Cacturne",
+      "profileIds": [
+        "pokemon-332"
+      ],
+      "defaultProfileId": "pokemon-332"
+    },
+    {
+      "id": "pokemon-333",
+      "dexNo": 333,
+      "name": "Swablu",
+      "profileIds": [
+        "pokemon-333"
+      ],
+      "defaultProfileId": "pokemon-333"
+    },
+    {
+      "id": "pokemon-334",
+      "dexNo": 334,
+      "name": "Altaria",
+      "profileIds": [
+        "pokemon-334"
+      ],
+      "defaultProfileId": "pokemon-334"
+    },
+    {
+      "id": "pokemon-335",
+      "dexNo": 335,
+      "name": "Zangoose",
+      "profileIds": [
+        "pokemon-335"
+      ],
+      "defaultProfileId": "pokemon-335"
+    },
+    {
+      "id": "pokemon-336",
+      "dexNo": 336,
+      "name": "Seviper",
+      "profileIds": [
+        "pokemon-336"
+      ],
+      "defaultProfileId": "pokemon-336"
+    },
+    {
+      "id": "pokemon-337",
+      "dexNo": 337,
+      "name": "Lunatone",
+      "profileIds": [
+        "pokemon-337"
+      ],
+      "defaultProfileId": "pokemon-337"
+    },
+    {
+      "id": "pokemon-338",
+      "dexNo": 338,
+      "name": "Solrock",
+      "profileIds": [
+        "pokemon-338"
+      ],
+      "defaultProfileId": "pokemon-338"
+    },
+    {
+      "id": "pokemon-339",
+      "dexNo": 339,
+      "name": "Barboach",
+      "profileIds": [
+        "pokemon-339"
+      ],
+      "defaultProfileId": "pokemon-339"
+    },
+    {
+      "id": "pokemon-340",
+      "dexNo": 340,
+      "name": "Whiscash",
+      "profileIds": [
+        "pokemon-340"
+      ],
+      "defaultProfileId": "pokemon-340"
+    },
+    {
+      "id": "pokemon-341",
+      "dexNo": 341,
+      "name": "Corphish",
+      "profileIds": [
+        "pokemon-341"
+      ],
+      "defaultProfileId": "pokemon-341"
+    },
+    {
+      "id": "pokemon-342",
+      "dexNo": 342,
+      "name": "Crawdaunt",
+      "profileIds": [
+        "pokemon-342"
+      ],
+      "defaultProfileId": "pokemon-342"
+    },
+    {
+      "id": "pokemon-343",
+      "dexNo": 343,
+      "name": "Baltoy",
+      "profileIds": [
+        "pokemon-343"
+      ],
+      "defaultProfileId": "pokemon-343"
+    },
+    {
+      "id": "pokemon-344",
+      "dexNo": 344,
+      "name": "Claydol",
+      "profileIds": [
+        "pokemon-344"
+      ],
+      "defaultProfileId": "pokemon-344"
+    },
+    {
+      "id": "pokemon-345",
+      "dexNo": 345,
+      "name": "Lileep",
+      "profileIds": [
+        "pokemon-345"
+      ],
+      "defaultProfileId": "pokemon-345"
+    },
+    {
+      "id": "pokemon-346",
+      "dexNo": 346,
+      "name": "Cradily",
+      "profileIds": [
+        "pokemon-346"
+      ],
+      "defaultProfileId": "pokemon-346"
+    },
+    {
+      "id": "pokemon-347",
+      "dexNo": 347,
+      "name": "Anorith",
+      "profileIds": [
+        "pokemon-347"
+      ],
+      "defaultProfileId": "pokemon-347"
+    },
+    {
+      "id": "pokemon-348",
+      "dexNo": 348,
+      "name": "Armaldo",
+      "profileIds": [
+        "pokemon-348"
+      ],
+      "defaultProfileId": "pokemon-348"
+    },
+    {
+      "id": "pokemon-349",
+      "dexNo": 349,
+      "name": "Feebas",
+      "profileIds": [
+        "pokemon-349"
+      ],
+      "defaultProfileId": "pokemon-349"
+    },
+    {
+      "id": "pokemon-350",
+      "dexNo": 350,
+      "name": "Milotic",
+      "profileIds": [
+        "pokemon-350"
+      ],
+      "defaultProfileId": "pokemon-350"
+    },
+    {
+      "id": "pokemon-351",
+      "dexNo": 351,
+      "name": "Castform",
+      "profileIds": [
+        "castform-normal",
+        "castform-snowy",
+        "castform-sunny",
+        "castform-rainy"
+      ],
+      "defaultProfileId": "castform-normal"
+    },
+    {
+      "id": "pokemon-352",
+      "dexNo": 352,
+      "name": "Kecleon",
+      "profileIds": [
+        "pokemon-352"
+      ],
+      "defaultProfileId": "pokemon-352"
+    },
+    {
+      "id": "pokemon-353",
+      "dexNo": 353,
+      "name": "Shuppet",
+      "profileIds": [
+        "pokemon-353"
+      ],
+      "defaultProfileId": "pokemon-353"
+    },
+    {
+      "id": "pokemon-354",
+      "dexNo": 354,
+      "name": "Banette",
+      "profileIds": [
+        "pokemon-354"
+      ],
+      "defaultProfileId": "pokemon-354"
+    },
+    {
+      "id": "pokemon-355",
+      "dexNo": 355,
+      "name": "Duskull",
+      "profileIds": [
+        "pokemon-355"
+      ],
+      "defaultProfileId": "pokemon-355"
+    },
+    {
+      "id": "pokemon-356",
+      "dexNo": 356,
+      "name": "Dusclops",
+      "profileIds": [
+        "pokemon-356"
+      ],
+      "defaultProfileId": "pokemon-356"
+    },
+    {
+      "id": "pokemon-357",
+      "dexNo": 357,
+      "name": "Tropius",
+      "profileIds": [
+        "pokemon-357"
+      ],
+      "defaultProfileId": "pokemon-357"
+    },
+    {
+      "id": "pokemon-358",
+      "dexNo": 358,
+      "name": "Chimecho",
+      "profileIds": [
+        "pokemon-358"
+      ],
+      "defaultProfileId": "pokemon-358"
+    },
+    {
+      "id": "pokemon-359",
+      "dexNo": 359,
+      "name": "Absol",
+      "profileIds": [
+        "pokemon-359"
+      ],
+      "defaultProfileId": "pokemon-359"
+    },
+    {
+      "id": "pokemon-360",
+      "dexNo": 360,
+      "name": "Wynaut",
+      "profileIds": [
+        "pokemon-360"
+      ],
+      "defaultProfileId": "pokemon-360"
+    },
+    {
+      "id": "pokemon-361",
+      "dexNo": 361,
+      "name": "Snorunt",
+      "profileIds": [
+        "pokemon-361"
+      ],
+      "defaultProfileId": "pokemon-361"
+    },
+    {
+      "id": "pokemon-362",
+      "dexNo": 362,
+      "name": "Glalie",
+      "profileIds": [
+        "pokemon-362"
+      ],
+      "defaultProfileId": "pokemon-362"
+    },
+    {
+      "id": "pokemon-363",
+      "dexNo": 363,
+      "name": "Spheal",
+      "profileIds": [
+        "pokemon-363"
+      ],
+      "defaultProfileId": "pokemon-363"
+    },
+    {
+      "id": "pokemon-364",
+      "dexNo": 364,
+      "name": "Sealeo",
+      "profileIds": [
+        "pokemon-364"
+      ],
+      "defaultProfileId": "pokemon-364"
+    },
+    {
+      "id": "pokemon-365",
+      "dexNo": 365,
+      "name": "Walrein",
+      "profileIds": [
+        "pokemon-365"
+      ],
+      "defaultProfileId": "pokemon-365"
+    },
+    {
+      "id": "pokemon-366",
+      "dexNo": 366,
+      "name": "Clamperl",
+      "profileIds": [
+        "pokemon-366"
+      ],
+      "defaultProfileId": "pokemon-366"
+    },
+    {
+      "id": "pokemon-367",
+      "dexNo": 367,
+      "name": "Huntail",
+      "profileIds": [
+        "pokemon-367"
+      ],
+      "defaultProfileId": "pokemon-367"
+    },
+    {
+      "id": "pokemon-368",
+      "dexNo": 368,
+      "name": "Gorebyss",
+      "profileIds": [
+        "pokemon-368"
+      ],
+      "defaultProfileId": "pokemon-368"
+    },
+    {
+      "id": "pokemon-369",
+      "dexNo": 369,
+      "name": "Relicanth",
+      "profileIds": [
+        "pokemon-369"
+      ],
+      "defaultProfileId": "pokemon-369"
+    },
+    {
+      "id": "pokemon-370",
+      "dexNo": 370,
+      "name": "Luvdisc",
+      "profileIds": [
+        "pokemon-370"
+      ],
+      "defaultProfileId": "pokemon-370"
+    },
+    {
+      "id": "pokemon-371",
+      "dexNo": 371,
+      "name": "Bagon",
+      "profileIds": [
+        "pokemon-371"
+      ],
+      "defaultProfileId": "pokemon-371"
+    },
+    {
+      "id": "pokemon-372",
+      "dexNo": 372,
+      "name": "Shelgon",
+      "profileIds": [
+        "pokemon-372"
+      ],
+      "defaultProfileId": "pokemon-372"
+    },
+    {
+      "id": "pokemon-373",
+      "dexNo": 373,
+      "name": "Salamence",
+      "profileIds": [
+        "pokemon-373"
+      ],
+      "defaultProfileId": "pokemon-373"
+    },
+    {
+      "id": "pokemon-374",
+      "dexNo": 374,
+      "name": "Beldum",
+      "profileIds": [
+        "pokemon-374"
+      ],
+      "defaultProfileId": "pokemon-374"
+    },
+    {
+      "id": "pokemon-375",
+      "dexNo": 375,
+      "name": "Metang",
+      "profileIds": [
+        "pokemon-375"
+      ],
+      "defaultProfileId": "pokemon-375"
+    },
+    {
+      "id": "pokemon-376",
+      "dexNo": 376,
+      "name": "Metagross",
+      "profileIds": [
+        "pokemon-376"
+      ],
+      "defaultProfileId": "pokemon-376"
+    },
+    {
+      "id": "pokemon-377",
+      "dexNo": 377,
+      "name": "Regirock",
+      "profileIds": [
+        "pokemon-377"
+      ],
+      "defaultProfileId": "pokemon-377"
+    },
+    {
+      "id": "pokemon-378",
+      "dexNo": 378,
+      "name": "Regice",
+      "profileIds": [
+        "pokemon-378"
+      ],
+      "defaultProfileId": "pokemon-378"
+    },
+    {
+      "id": "pokemon-379",
+      "dexNo": 379,
+      "name": "Registeel",
+      "profileIds": [
+        "pokemon-379"
+      ],
+      "defaultProfileId": "pokemon-379"
+    },
+    {
+      "id": "pokemon-380",
+      "dexNo": 380,
+      "name": "Latias",
+      "profileIds": [
+        "pokemon-380"
+      ],
+      "defaultProfileId": "pokemon-380"
+    },
+    {
+      "id": "pokemon-381",
+      "dexNo": 381,
+      "name": "Latios",
+      "profileIds": [
+        "pokemon-381"
+      ],
+      "defaultProfileId": "pokemon-381"
+    },
+    {
+      "id": "pokemon-382",
+      "dexNo": 382,
+      "name": "Kyogre",
+      "profileIds": [
+        "pokemon-382"
+      ],
+      "defaultProfileId": "pokemon-382"
+    },
+    {
+      "id": "pokemon-383",
+      "dexNo": 383,
+      "name": "Groudon",
+      "profileIds": [
+        "pokemon-383"
+      ],
+      "defaultProfileId": "pokemon-383"
+    },
+    {
+      "id": "pokemon-384",
+      "dexNo": 384,
+      "name": "Rayquaza",
+      "profileIds": [
+        "pokemon-384"
+      ],
+      "defaultProfileId": "pokemon-384"
+    },
+    {
+      "id": "pokemon-385",
+      "dexNo": 385,
+      "name": "Jirachi",
+      "profileIds": [
+        "pokemon-385"
+      ],
+      "defaultProfileId": "pokemon-385"
+    },
+    {
+      "id": "pokemon-386",
+      "dexNo": 386,
+      "name": "Deoxys",
+      "profileIds": [
+        "deoxys-normal",
+        "deoxys-attack",
+        "deoxys-defense",
+        "deoxys-speed"
+      ],
+      "defaultProfileId": "deoxys-normal"
+    }
+  ]
+}

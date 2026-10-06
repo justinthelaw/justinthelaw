@@ -1,4 +1,4 @@
-import { copyPlainData } from './state.js';
+import { copyPlainData } from './state/plain.js';
 
 /** Browser engineering choice, NOT the original DS generator or call schedule.
  * xoshiro128** 1.1 transition/jump: Blackman & Vigna, 2018, public domain.
@@ -137,4 +137,32 @@ export function createDomainStreams(seed) {
   const encountersItems = createRandomState(jump(layout.words));
   const combatRecruitment = createRandomState(jump(encountersItems.words));
   return Object.freeze({ layout, encountersItems, combatRecruitment });
+}
+
+/** Four root-owned campaign streams. The previous three seeds remain unchanged.
+ * @param {RandomWords} seed
+ * @returns {import('../contracts.js').CampaignRandomStreams}
+ */
+export function createCampaignStreams(seed) {
+  const original = createDomainStreams(seed);
+  const jobsRewards = createRandomState(jump(original.combatRecruitment.words));
+  return Object.freeze({ ...original, jobsRewards });
+}
+
+/** No derivation, seeding or repair is performed during validation.
+ * @param {unknown} input
+ * @returns {import('../contracts.js').CampaignRandomStreams}
+ */
+export function validateCampaignStreams(input) {
+  const value = copyPlainData(input);
+  if (!value || typeof value !== 'object' || Array.isArray(value) ||
+      Object.keys(value).sort().join(',') !== 'combatRecruitment,encountersItems,jobsRewards,layout') {
+    throw new TypeError('Campaign requires exactly four random streams.');
+  }
+  return Object.freeze({
+    layout: validateRandomState(value.layout),
+    encountersItems: validateRandomState(value.encountersItems),
+    combatRecruitment: validateRandomState(value.combatRecruitment),
+    jobsRewards: validateRandomState(value.jobsRewards),
+  });
 }

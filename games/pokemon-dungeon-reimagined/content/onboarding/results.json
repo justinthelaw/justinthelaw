@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-onboarding",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "results",
+  "records": [
+    {
+      "natureId": "hardy",
+      "description": "You keep putting one foot in front of the other. Your steady effort can help a team through a difficult day.",
+      "maleSpeciesId": "pokemon-004",
+      "femaleSpeciesId": "pokemon-025",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "docile",
+      "description": "You make room for other people and their ideas. That willingness to listen can turn strangers into companions.",
+      "maleSpeciesId": "pokemon-001",
+      "femaleSpeciesId": "pokemon-152",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "brave",
+      "description": "You are willing to act when something matters. Courage can mean taking a step even while you feel afraid.",
+      "maleSpeciesId": "pokemon-066",
+      "femaleSpeciesId": "pokemon-004",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "jolly",
+      "description": "You bring a little brightness wherever you go. Shared laughter can make a long journey feel shorter.",
+      "maleSpeciesId": "pokemon-007",
+      "femaleSpeciesId": "pokemon-158",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "impish",
+      "description": "You notice opportunities for a little mischief. Your lively ideas can keep your friends guessing.",
+      "maleSpeciesId": "pokemon-025",
+      "femaleSpeciesId": "pokemon-104",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "naive",
+      "description": "You find delight in small and unexpected things. That open curiosity gives familiar places a fresh look.",
+      "maleSpeciesId": "pokemon-158",
+      "femaleSpeciesId": "pokemon-133",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "timid",
+      "description": "You notice danger and take your feelings seriously. A trusted companion can help you find the next safe step.",
+      "maleSpeciesId": "pokemon-155",
+      "femaleSpeciesId": "pokemon-258",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "hasty",
+      "description": "When an idea catches you, you want to get moving. Your energy can help a team make its first move.",
+      "maleSpeciesId": "pokemon-255",
+      "femaleSpeciesId": "pokemon-300",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "sassy",
+      "description": "You have your own point of view and aren't quick to hide it. Speaking honestly can be a gift when you also listen.",
+      "maleSpeciesId": "pokemon-252",
+      "femaleSpeciesId": "pokemon-255",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "calm",
+      "description": "You value a little breathing room. Your quiet presence can help others gather their thoughts.",
+      "maleSpeciesId": "pokemon-258",
+      "femaleSpeciesId": "pokemon-001",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "relaxed",
+      "description": "You are comfortable letting the day unfold. Your unhurried pace can remind a busy team to rest.",
+      "maleSpeciesId": "pokemon-054",
+      "femaleSpeciesId": "pokemon-007",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "lonely",
+      "description": "Connection matters to you. A familiar voice and a shared journey can mean more than a grand destination.",
+      "maleSpeciesId": "pokemon-104",
+      "femaleSpeciesId": "pokemon-054",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "natureId": "quirky",
+      "description": "You don't always follow the expected path. An unusual idea may help your team notice something everyone else missed.",
+      "maleSpeciesId": "pokemon-052",
+      "femaleSpeciesId": "pokemon-252",
+      "formId": null,
+      "evidenceId": "shared-results",
+      "textProvenanceId": "project-original-en-v1"
+    }
+  ],
+  "gender": {
+    "prompt": "Choose your character's gender.",
+    "labels": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "sourceValues": {
+      "male": 0,
+      "female": 1
+    },
+    "changesScores": false,
+    "changesResultColumn": true,
+    "directSpeciesOverride": false,
+    "evidenceId": "shared-results"
+  }
+}
