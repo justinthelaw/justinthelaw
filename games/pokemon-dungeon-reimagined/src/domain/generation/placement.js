@@ -1,3 +1,4 @@
+import { selectEncounter } from './encounters.js';
 import { cell, positions, ordinary, reachable } from './support.js';
 /** @typedef {import('./types.js').Position} Position */
 /** @typedef {import('./types.js').Placement} Placement */
@@ -20,14 +21,8 @@ function choosePositions(list, count, rng) { if (!list.length || count <= 0)
  */
 function enemy(input, dependencies, rng, roleId) {
     const pool = dependencies.dungeons.getEncounterPool(input.profile.encounterPoolId);
-    for (let attempt = 0; attempt < 1024; attempt++) {
-        const selected = weighted(pool.rows, rng.int(10000)) ?? pool.rows.find(row => row.selectionThreshold > 0);
-        if (!selected)
-            return null;
-        if (selected.speciesId !== null && selected.entryRole === 'weighted-candidate' && dependencies.isEncounterEligible(selected, 'initial'))
-            return { roleId, speciesId: selected.speciesId, formId: selected.formId, level: selected.level };
-    }
-    return null;
+    const selected = selectEncounter(pool.rows, row => dependencies.isEncounterEligible(row, 'initial'), cap => rng.int(cap));
+    return selected?.speciesId ? { roleId, speciesId: selected.speciesId, formId: selected.formId, level: selected.level } : null;
 }
 /** Placement count/location stream is encountersItems; terrain feature stream is layout.
  * Typed item requests preserve the exact selected identity and quantity policy context.

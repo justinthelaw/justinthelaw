@@ -10,6 +10,21 @@
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
 
+## Thunderwave preparation checkpoint (2026-10-06)
+
+- Centralized threshold/rejection encounter selection without changing factual
+  pools or initial eligibility. Added separate cave sleep/Blue eligibility facts;
+  departure remains gated until all route consumers are integrated.
+- [THUNDERWAVE.md](THUNDERWAVE.md) records source-traced reward, return, status,
+  item and Wonder Tile mechanics with explicit Red comparative qualification.
+- Parent published the morning tree as remote `0a700433` (exact local
+  `be2fe092`). Parent full static checks,22+6+2 source pins,419 profiles,12 kits,
+  vendor, pre-commit/pre-push and production export passed.455 tracked game
+  resources (83,499,895 bytes) served identically under the project base path.
+  Flight lint/types/build passed; truncated browser ZIP prevented fixture tests.
+- Focused static lint/types pass; no game execution/import, playthrough or tests.
+  Full campaign, human acceptance, review and release gates remain open.
+
 ## First morning checkpoint (2026-10-06)
 
 - Added the sourced first groggy awakening, mandatory bed checkpoint, refreshed
