@@ -13,6 +13,9 @@ tactic is supplied while their accepted definitions are absent.
 | `joinStartingPair({onboarding,species,effects},natureId,column,partnerSpeciesId)` | Exact male/female result and permitted pair, with independent species/growth/EXP/learnset/move/PP/area joins |
 | `validateCampaignOptions(options)` | Concrete semantic options policy, after exact CampaignOptions shape validation |
 | `OPTION_BOUNDS` | Frozen application preference bounds; no defaults or load-time clamping |
+| `createItemPolicy(catalogs)` / `createEconomyPolicy(catalogs)` | Concrete snapshot policies; see `STATE-ITEM-ECONOMY.md` for exact boundaries |
+| `decodePokeQuantity(index)` / `encodePokeQuantity(amount)` | Exact inverse native-index / monetary-quantity conversions |
+| Profile/Pokémon and IQ/tactic exports | Supported original-selection, names and permanent-roster admission; exact API/limits in `STATE-PROFILE-POKEMON.md` |
 
 Catalog dependencies are trusted local results of the existing loaders, not
 save-supplied membership functions. Loaders retain ownership and disposal.
@@ -65,11 +68,11 @@ remain usable within their documented scope.
 
 | Required policy | Exact missing responsibility |
 | --- | --- |
-| `profile` | Canonical quiz revision/outcome encoding, name rules and timing, original-selection integrity through evolution; source pair lookup is available |
-| `pokemon` | IQ/tactic identity and unlock behavior, permanent growth/inheritance/evolution and accommodation/capacity rules, recruitability; numerical profiles alone are insufficient |
+| `profile` | Implemented stable quiz selections, original-selection integrity, supported names and initial naming boundary; opening/scene commands remain P19 responsibilities |
+| `pokemon` | Implemented supported permanent bounds, moves, IQ/tactic identities and starter provenance; accepted evolution edges, recruitment/scripted grants and unsupported acquisition/glyph mappings remain explicit requirements |
 | `actor` | Role/reset/override/copy/Hidden Power rules, effective HP/PP/Belly/gains limits and imported team projections |
-| `item` | Payload/variant joins, obtainability and origin, stack/held/sticky/scope rules; item-ID membership alone is insufficient |
-| `economy` | Account/storage/area capacities and sourced grant/entry restrictions |
+| `item` | Implemented supported payload/stack/sticky/scope and acquisition joins; unresolved event/source-only items remain explicit requirements; action execution remains separate |
+| `economy` | Implemented account/storage/area capacities and ownership reservation; grant, service, route-entry and settlement transactions remain separate |
 | `floor` | Accepted map/terrain/weather/trap identity joins, occupancy and authored geometry, exits/events, shop arithmetic and applicable variants |
 | `conditions` | Canonical duration policy IDs and status payload/lifetime/source mapping to qualified effect contracts, stage/multiplier bounds and effect-specific unresolved subfields |
 | `scheduler` | Concrete schedule policy/effect-program registry and legal saved PC/target/random-decision semantics supplied by the fifteen real TurnHooks |
@@ -82,15 +85,17 @@ remain usable within their documented scope.
 | `town` | Accepted ground maps/coordinates/placements, service stock and source day/population rules |
 | `options` | Implemented here; presentation consumers remain unconnected |
 
-`onboarding/initialization.json` explicitly keeps runtime scene IDs, IQ/tactic
-IDs, boost guard, inventory predicate, name policy, RNG stream and reward/kit
-grants null. An accepted initial profile additionally needs initial town/day,
+`onboarding/initialization.json` retains its original unjoined runtime fields.
+`STATE-PROFILE-POKEMON.md` now supplies reviewed quiz IDs, IQ/tactic identities,
+name rules and the native initial team name; the opening adapter must explicitly
+join these definitions rather than read null source-consumer fields as defaults.
+Runtime scene IDs, boost guard, inventory predicate, RNG stream and reward/kit
+grants still require their concrete consumers. An accepted initial profile additionally needs initial town/day,
 placements, scene cursor/bindings/awaiting/continuation, branch/milestone and
-recruitment-history decisions. The input contract currently requires a team-name
-string before the opening; source naming happens after the first rescue.
-No semantic policy defines an unnamed value yet. An explicit deferred-name
-representation or accepted input/staging adaptation is required, rather than
-an invented team name or an undocumented empty-string convention.
+recruitment-history decisions. The input contract requires a team-name string before the opening. Pinned source
+now establishes the actual initialized name `Pokémon`; custom naming becomes
+available at its sourced MAIN boundary. The opening/input adapter must use that
+reviewed rule and preserve later retained names, not invent an unnamed convention.
 
 [PROGRESSION-STATE.md](PROGRESSION-STATE.md) now defines the required
 `ProgressState.native` representation, bounded source projections and pure

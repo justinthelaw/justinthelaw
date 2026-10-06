@@ -487,14 +487,14 @@ The default game gate includes campaign, navigation and whole-roster validation.
 | --- | --- |
 | Dungeon loading | Generated index fingerprint authenticates schema and all 23 shards from bounded raw bytes before decoding; deterministic export and independent integrity review pass |
 | Visual policy | Current directional pixel billboards in real 3D supersede historical B; stale unconditional loading-art promotion removed; scoped rereview passes |
-| State catalog joins | Immutable identity/floor/section and exact starting-pair joins plus options bounds; fifteen other semantic policies and complete initial campaign remain open |
+| State catalog joins | Immutable identity/floor/section and exact starting-pair joins plus options bounds; other semantic policies and complete initial campaign remain open |
 | Native progression | Required eleven scenario pairs, separate counters, pending/persistent cutscene flags and scalar arrays; bounded predicates and atomic candidate operations; source/spec/quality review passes |
 | Progress ownership | No automatic grant, scene, return or boss authority is implied; receipts, milestones, callback execution and authored-state joins still require their transaction owners |
 | Source provenance | Fresh pinned comparative source blobs support identified native semantics; four historical catalog fingerprint discrepancies remain explicitly unreconciled in `PROGRESSION-STATE.md` |
 | Roster | Final deterministic export/materialization and raster audit pass for 419 profiles / 386 species; structural acceptance remains separate from visual/gameplay acceptance |
-| Current Pages export | Production build passes; final source-to-export equality and current-head CI are delivery gates, not evidence of a playable campaign |
+| Current Pages export | Recovery commit `2974199` builds; all 484 game files match the export byte-for-byte at `/justinthelaw/`; current-head CI remains a delivery gate |
 | Local website fixtures | Fresh `flight-check` passes lint/types/build, then fails downloading the pinned Chromium archive before tests start; preserve the earlier 334/21 result as historical only |
-| Final contribution gates | All-file pre-commit and pre-push checks pass, including website ESLint; final whole-game static gate pending |
+| Recovery contribution gates | All-file pre-commit and pre-push pass; complete game static gate passes from a fresh checkout of `2974199`, including regenerated roster artifacts |
 
 Independent reports are preserved under `recovery/`. The new required native
 fields change the unpublished campaign schema; no compatibility migration or
@@ -506,3 +506,46 @@ completion gate is closed. Concrete CampaignContent, commands/TurnHooks,
 effects/AI, transactional scenes and progression, onboarding/town/jobs, main
 story/postgame, whole-roster renderer promotion and manual/device acceptance
 remain required by `FULL-GAME-EXECUTION.md`. Keep this PR draft and unmerged.
+
+## Item/economy policy continuation — 2026-10-06
+
+`content/state/{items,economy}.js` adds two concrete semantic policies to the
+existing supported joins. Independent specification and quality review pass
+without actionable findings. The exact source qualifications, representation
+choices and unresolved acquisition rows are in `STATE-ITEM-ECONOMY.md` and
+`recovery/item-economy-{report,review}.md`.
+
+- Enforce portable quantities, exact TM origin/state, sticky/context restrictions,
+  live/entry/suspended archive ownership and container capacities.
+- Preserve the bijection between all 100 native Poké indexes and monetary amounts.
+  Ground exchange can legally place Poké in a bag or held slot; conversion to cash
+  depends on the operation, so no false floor-only restriction was introduced.
+- Enforce sourced money/storage limits, 57 Friend Area capacities and single-owner
+  home-versus-expedition reservations. Storage has one normalized count per item ID.
+- Keep source-only machine actions, unsupported acquisition/event routes and
+  actual grant/entry/settlement/action consumers explicit. No full adapter or
+  item-execution implementation is implied by snapshot validation.
+- Scoped lint/types and species/effects/dungeon/campaign validators pass without
+  importing game code. Final publication and current-head CI remain pending.
+
+## Profile/permanent-roster continuation — 2026-10-06
+
+Independent spec and quality review pass for the supported subset in
+`content/state/{profile,pokemon,pokemon-rules}.js`. Stable quiz selections retain
+original hero/partner identities through evolution. Source-backed name mapping,
+initial `Pokémon` team name, IQ identities/groups/thresholds and tactic selection
+rules now have explicit implementations. Existing valid names and tactics do not
+require invented historical receipts when edit/unlock availability later changes.
+
+The retained natural/bonus components explicitly sum to the bounded effective
+persistent stat. Prior caps, level loss and copied evolved stats need not equal
+the current species' numerical table. Future commands must preserve the documented
+attribution and saturation rules; those mutation commands are not implemented here.
+Duplicate learned move IDs remain legal while move-slot identities stay unique.
+
+Supported profile and permanent-starter states can pass. Recruitment/scripted
+origin admission, accepted evolution edge/policy facts, unsupported acquisition
+and glyph mappings remain named requirements. This is not a complete roster
+adapter or campaign. Static lint/types (177/101 authored files) and species,
+effects, onboarding and campaign checks pass without game execution. Reports and
+source qualifications are in `STATE-PROFILE-POKEMON.md` and `recovery/`.

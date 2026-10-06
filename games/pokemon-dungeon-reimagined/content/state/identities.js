@@ -1,3 +1,5 @@
+import { IQ_SKILLS, TACTICS } from './pokemon-rules.js';
+
 /** @typedef {import('../../src/contracts.js').CatalogKind} CatalogKind */
 /** @typedef {import('../../src/contracts/campaign.js').RuleCheck} RuleCheck */
 /** @typedef {import('../species.js').SpeciesCatalog} SpeciesCatalog */
@@ -29,6 +31,8 @@ export function createCatalogIdentityJoins({ species, dungeons, effects }) {
     /** @param {CatalogKind} kind @param {string} id */
     has(kind, id) {
       switch (kind) {
+        case 'iq-skill': return IQ_SKILLS.some(row => row.id === id);
+        case 'tactic': return TACTICS.some(row => row.id === id);
         case 'species': return contains(() => species.getSpecies(id));
         case 'form': {
           if (!contains(() => species.getProfileById(id))) return false;
