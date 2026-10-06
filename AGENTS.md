@@ -139,6 +139,7 @@ try { ... } catch (err) {
 | Known issues | GitHub API and HuggingFace model loading may fail in sandboxed environments; PDF viewer may have CORS issues in dev |
 | After changes | Always run `npm run flight-check` |
 | Website coverage | Test website navigation, responsive layout, accessibility, animations, reduced motion, static export, and game-loading integration |
+| External UI fixtures | Browser UI specs import `test` from `tests/fixtures.ts` so resume, avatar and default profile requests are deterministic. Explicit profile-response tests override those routes. This does not replace the fresh live profile required for review screenshots |
 | Game source exclusion | Do not test source code inside `games/`. Website export tests may use temporary fixture files to verify copying and asset paths without testing game behavior |
 | Game tooling boundary | Independent games use their own framework/language lint and type checks. Website ESLint and TypeScript exclude `games/` builds; this does not relax the DRY, SOLID, or source-quality requirements for game code |
 | Pokémon static checks | `tools/pokemon-dungeon/` has its own pinned package and `npm run check`; root lint/types exclude it. `game-static.yml` parses/types source, validates authoring inventories/coverage and asset files without executing game modules. Content/art authoring and the disposable art preview stay outside `games/` |
@@ -298,8 +299,10 @@ and implementation and waived external Codex review. This overrides the older
 placeholder hold for that scoped launcher; it does not certify a playable
 campaign or authorize merging the new PR.
 
-The 2026-10-05 continuation after the actual P06 scene/motion study accepts
-the shown direction. Full clip/rig/device acceptance remains open. P02-A
+The latest 2026-10-05 visual instruction rejects the primitive rigid-mesh
+character candidates and supersedes the earlier inferred P06 acceptance. Use
+faithful directional pixel characters in a textured, illuminated real 3D world,
+following the user-supplied EthrA reference. All character/device acceptance remains open. P02-A
 authoring inventories are not runtime catalogs, and P07-A ID/snapshot/RNG
 primitives do not complete the campaign state, save system or playable game.
 See `games/pokemon-dungeon-reimagined/plan/STATE-FOUNDATION.md` for the reviewed
@@ -307,13 +310,13 @@ bounded interface; do not
 consume unresolved original mechanics through an invented default.
 
 On **2026-10-04**, the user approved all recommended decisions except D03,
-selecting **B: bold cel-shaded 3D**. These choices are binding; do not ask the
-same decision questions again. The later start instruction authorizes
+selecting **B: bold cel-shaded 3D**. D03 below reflects the newer 2026-10-05 pixel direction; the other choices
+remain binding. Do not repeat resolved decision questions. The later start instruction authorizes
 implementation; it does not authorize merge, deployment or arcade activation.
 
 | Decision | Binding selection |
 | --- | --- |
-| D03 | B: bold cel-shaded 3D; `games/pokemon-dungeon-reimagined/plan/art-candidates/b-cel-shaded-cavern.webp` is the selected future loading background. Actual 3D models/animation/quality slices still require review. |
+| D03 | Directional pixel characters in textured real 3D environments, per the latest EthrA reference. Faithful silhouettes/proportions/markings are mandatory. Historical B illustration and rejected rigid models are evidence only; new pixel candidates need review. |
 | D04 | Browser rescue codes/file exchange and equivalents for Blue's extra modes/events; preserve content/progression. Original cartridge interoperability is not a completion gate; claim compatibility only where sourced and demonstrably verified. |
 | D05 | Human play and visual review are allowed after implementation; automated tests importing/executing game source remain prohibited. |
 | D06 | No separate Groudon practice mode; use the original campaign route and campaign gameplay capture. |
@@ -321,7 +324,7 @@ implementation; it does not authorize merge, deployment or arcade activation.
 
 Keep both generated raster illustrations under
 `games/pokemon-dungeon-reimagined/plan/art-candidates/` with their provenance.
-B is selected for future loading use; A is an archived comparison. Neither
+B was formerly selected; both are retained historical references pending a new loading-art review. Neither
 is a 3D runtime model or a gameplay screenshot, and neither may replace the
 arcade's eventual real campaign capture.
 
@@ -365,4 +368,7 @@ For the Blue game, require emulator-style semi-transparent controls across the
 lower half of the viewport, with accessible touch/keyboard handling. Follow the
 [asset pipeline](games/pokemon-dungeon-reimagined/plan/ASSET-PIPELINE.md) for consistent
 master prompts, reference assets, uniform sheets, verified cropping and provenance.
-Raster sheets support 2D assets; they do not replace the separate 3D rig/model work.
+Directional RGBA atlases now supply character animation on depth-tested billboards
+in actual 3D environments. Follow `tools/pokemon-dungeon/art/pixel/CONTRACT.md`;
+retain historical GLB validation separately. Do not pixelate unchanged rejected
+models, retry blocked ImageGen requests, or substitute paid API generation.

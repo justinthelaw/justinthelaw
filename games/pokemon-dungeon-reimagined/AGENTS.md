@@ -8,13 +8,14 @@ the first incomplete dependency-ready package in `plan/PROGRESS.md`. P01 retains
 open source questions; merged PR #388 adds static tooling, a
 pinned vendor bundle and a startup-only shell. P02 authoring inventories and
 P07-A identity/snapshot/RNG primitives are being added; no playable adventure
-exists yet. The 2026-10-05 continuation accepts the shown P06 visual direction,
-with full clip/rig/device acceptance still open.
+exists yet. The latest 2026-10-05 direction rejects the P06 rigid-mesh character candidates
+and requires faithful directional pixel characters in textured real 3D spaces.
+Earlier inferred acceptance is superseded; all visual acceptance stays open.
 Preserve package evidence, visual review and full-release gates.
 
 On **2026-10-04**, the user approved all recommendations except the visual
-recommendation, selecting **D03 B: bold cel-shaded 3D**. The choices below are
-binding and need no repeat decision question. Implementation is now authorized;
+recommendation, selecting **D03 B: bold cel-shaded 3D**. The updated D03 below supersedes that historical choice; the other choices
+remain binding and need no repeat decision question. Implementation is now authorized;
 full-game acceptance and subsequent runtime releases remain open.
 
 On 2026-10-05, Justin authorized merging #390 and a new PR for the joystick,
@@ -28,14 +29,14 @@ keyboard events; gameplay consumers still belong to future game packages.
 
 | Decision | Binding selection |
 | --- | --- |
-| D03 | B: bold cel-shaded 3D; `plan/art-candidates/b-cel-shaded-cavern.webp` is the selected future loading background. Review actual 3D assets and quality slices separately. |
+| D03 | Directional pixel characters in textured real 3D environments, per the latest EthrA reference. Preserve species anatomy, silhouettes and markings; historical B and rigid-mesh studies do not approve current art. |
 | D04 | Browser rescue codes/file exchange, browser equivalents for Blue's extra modes, and labeled archived event access preserving content/progression. Original cartridge interoperability is not a completion gate; claim compatibility only where sourced and demonstrably verified. |
 | D05 | Human play and visual review are permitted after implementation; no automated game-source tests or playthroughs. |
 | D06 | Omit separate Groudon practice; retain the campaign encounter and campaign screenshot capture. |
 | D08 | JavaScript ES modules with JSDoc and strict independent static type checks; tools live in `tools/pokemon-dungeon/`. |
 
 The two generated loading illustrations remain under `plan/art-candidates/`
-with provenance: B is selected, A is an archived comparison. These raster
+with provenance: B was formerly selected; both are historical comparisons under the new direction. These raster
 assets are neither 3D models nor gameplay screenshots and cannot replace the
 eventual arcade gameplay capture.
 
@@ -89,9 +90,13 @@ applicable, with the standalone-game exceptions stated here.
   of the screen; follow RENDERING for touch, keyboard, safe areas and visibility.
 - Use [ASSET-PIPELINE.md](plan/ASSET-PIPELINE.md) for bulk asset sheets: locked master
   prompts, approved references, uniform grids, verified crop manifests and hashes.
-- Keep raster icon/portrait/material sheets distinct from 3D geometry, rigs and
-  animations. Candidate B is the selected future loading background; candidate
-  A is an archived planning comparison. Neither approves the 3D quality slice.
+- Use the versioned [directional pixel contract](../../tools/pokemon-dungeon/art/pixel/CONTRACT.md)
+  for character atlases; keep icon/portrait/material sheets distinct. Real 3D
+  geometry remains required for environments. Historical A/B illustrations and
+  rejected rigid models remain archived evidence, not approval of current art.
+- Do not retry the failed ImageGen character request or use API generation as
+  a fallback. Author original editable shapes/geometry, then deterministic pixel
+  frames. Do not pixelate the unchanged rejected primitive models.
 
 ## Executor discipline
 
