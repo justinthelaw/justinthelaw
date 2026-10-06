@@ -549,3 +549,51 @@ and glyph mappings remain named requirements. This is not a complete roster
 adapter or campaign. Static lint/types (177/101 authored files) and species,
 effects, onboarding and campaign checks pass without game execution. Reports and
 source qualifications are in `STATE-PROFILE-POKEMON.md` and `recovery/`.
+
+## Concrete campaign state and authored opening — 2026-10-06
+
+Implemented `createCampaignContent(catalogs, authoredContent?)` and initial
+selection/profile helpers in `content/state.js` and focused `content/state/`
+owners. The default original-Blue opening profile constructs exact level-one
+starters, source IQ/tactic/name/area/economy joins and native reset state. The
+existing `createCampaign`/`validateCampaign` boundary remains the only state
+format; absent future sessions, jobs and results no longer blanket-block it.
+Source review caught and corrected zero-valued non-HP level-one natural stats in
+the prior permanent policy (Bulbasaur, Charmander and Chikorita); HP stays positive.
+
+`content/authored/opening.js` supplies explicitly authored scene lines, roles,
+meadow geometry, day zero and continuation. Native scenario reset and native map
+162 remain separate source projections. Strict opening progress/scene/town
+validators check exact starter facts, cursors/bindings, once-only history, bounds
+and collisions. The native default team name remains `Pokémon`. Full facts,
+source Git blobs and browser adaptation qualifications are recorded in
+`STATE-CAMPAIGN-CONTENT.md`; historical provenance discrepancies remain qualified.
+
+Added effective actor PP/resources/IQ/stat checks, condition/stage/Q8/speed
+validation, exact initial scheduler admission and entry projection checks.
+Optional borrowed navigation supplies real generated-map/terrain identity and
+geometry/mobility checks with ordinary next-floor stairs. Active unsupported
+states name their actual status/effect, variant, special exit, shop, weather,
+entry or outcome owner. No permissive fallback policies were introduced.
+
+Static verification: scoped `lint` (186 authored files), `typecheck` (108 source
+files), species/effects/onboarding/dungeons/campaign/navigation/rules checks and
+`git diff --check` pass. Catalog counts remain unchanged. Checks parse source and
+data; no game module was imported/executed, no game tests or automated gameplay
+were added, and no manual play was claimed. The initial state was reviewed
+against the complete structural/identity/policy path; it was not runtime-tested.
+
+Next: implement authored scene commands, sourced Tiny Woods first-entry boost and
+all departure/rescue outcome policies, concrete TurnHooks/action effects and
+application composition. Initial campaign admission is a usable state boundary,
+not full dungeon play or completion of the Blue campaign/postgame. Untracked
+evolution research and exports remain untouched. No push, merge or publication.
+
+### Concrete opening review fix — 2026-10-06
+
+Corrected exact starter move admission after independent review: compare all four
+positions including nulls, plus linked groups and set shortcut projected to
+positions against the same initial definition. A source-slot-zero move shifted
+to slot three now differs instead of being compacted into an accepted list.
+Scoped lint (186 files), strict types (108 files) and whitespace checks pass;
+verification remains static with no game imports, execution or new tests.

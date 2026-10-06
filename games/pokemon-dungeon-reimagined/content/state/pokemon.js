@@ -39,7 +39,7 @@ export function createPokemonPolicy({ species, effects }) {
         const cap = stat === 'hp' ? 999 : 255;
         const natural = growth.naturalStats[stat];
         const bonus = growth.permanentStatBonuses[stat];
-        report.check(bounded(natural, 1, cap) && bounded(bonus, 0, cap - 1), `/growth/${stat}`, 'Permanent stat components exceed source bounds.');
+        report.check(bounded(natural, stat === 'hp' ? 1 : 0, cap) && bounded(bonus, 0, cap - (stat === 'hp' ? 1 : 0)), `/growth/${stat}`, 'Permanent stat components exceed source bounds.');
         // Components retain effective contributions after saturation/loss, not
         // unbounded lifetime gains. Their sum is the source's stored stat.
         report.check(natural + bonus <= cap, `/growth/${stat}`, 'Retained natural and bonus components must sum within the effective stat cap.');

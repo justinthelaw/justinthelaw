@@ -163,3 +163,9 @@ Only numerical facts, short symbol crosswalks and original policy code ship.
 Original source cache stays outside the exported game tree. Static lint/types,
 catalog integrity checks and independent textual/numerical comparisons are used;
 no game module imports/execution, game tests or playthroughs are permitted.
+
+The concrete opening join additionally verifies exact source level-one stats.
+Non-HP natural components allow zero: accepted onboarding contains Bulbasaur
+Special Defense 0, Charmander Defense/Special Defense 0 and Chikorita Special
+Defense 0. HP remains positive. See `STATE-CAMPAIGN-CONTENT.md` for the initial
+state and the canonical natural/bonus component bounds correction.

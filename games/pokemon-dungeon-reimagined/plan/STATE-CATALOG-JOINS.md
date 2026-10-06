@@ -1,9 +1,10 @@
 # State catalog joins: supported boundary
 
-`content/state.js` supplies independently usable joins for P07-B. It is **not a
-complete CampaignContent** and cannot admit a campaign, create a save, or start
-Adventure. No sixteen-policy facade, content revision, initial scene or starter
-tactic is supplied while their accepted definitions are absent.
+`content/state.js` supplies independently usable joins and now exports the concrete
+`createCampaignContent` adapter. [STATE-CAMPAIGN-CONTENT.md](STATE-CAMPAIGN-CONTENT.md)
+describes its accepted initial profile, authored opening and scoped active-state
+validators. The policy-gap inventory below is historical context for the remaining
+full-game owners; absent future sessions/jobs/results do not block initial state.
 
 ## Implemented API
 

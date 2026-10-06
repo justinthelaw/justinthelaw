@@ -32,10 +32,10 @@ function joinProfile({ onboarding, species, effects }, speciesId) {
     }
   }
   return Object.freeze({
-    identity: Object.freeze({ speciesId: starting.speciesId, formId: starting.formId }),
+    identity: Object.freeze(/** @type {import('../../src/contracts/campaign.js').SpeciesForm} */ ({ speciesId: starting.speciesId, formId: starting.formId })),
     rosterCreation: starting.rosterCreation,
     firstPlayable: starting.firstPlayable,
-    friendAreaId: starting.friendAreaId,
+    friendAreaId: /** @type {import('../../src/contracts.js').FriendAreaId} */ (starting.friendAreaId),
     profile,
     evidence: starting.evidence,
   });
