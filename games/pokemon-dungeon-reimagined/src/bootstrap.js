@@ -18,6 +18,7 @@ const progress = element('progress');
 const retry = element('retry');
 const application = element('application');
 const canvas = sceneCanvas();
+const startup = element('startup');
 document.documentElement.dataset.bootstrap = 'started';
 
 /** @type {Application | undefined} */
@@ -28,6 +29,7 @@ let active = true;
 
 /** @param {string} message */
 function showFailure(message) {
+  startup.hidden = false;
   heading.textContent = 'Unable to start';
   status.textContent = 'Check your connection and browser, then try again.';
   failure.textContent = message;
@@ -48,6 +50,7 @@ async function start() {
   failure.hidden = true;
   progress.hidden = false;
   application.setAttribute('aria-busy', 'true');
+  startup.hidden = false;
   heading.textContent = 'Preparing the adventure';
   status.textContent = 'Loading the application…';
   const timeout = window.setTimeout(() => {
@@ -64,8 +67,9 @@ async function start() {
     });
     if (!active || controller.signal.aborted) { next.dispose(); return; }
     running = next;
-    heading.textContent = 'Adventure in development';
-    status.textContent = 'The application is ready. The campaign is not available in this development build.';
+    heading.textContent = 'Opening checkpoint ready';
+    status.textContent = 'Begin or continue your adventure.';
+    startup.hidden = true;
     application.setAttribute('aria-busy', 'false');
     progress.hidden = true;
   } catch (error) {

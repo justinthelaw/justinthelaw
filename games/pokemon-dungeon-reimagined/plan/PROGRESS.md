@@ -597,3 +597,41 @@ positions against the same initial definition. A source-slot-zero move shifted
 to slot three now differs instead of being compacted into an accepted list.
 Scoped lint (186 files), strict types (108 files) and whitespace checks pass;
 verification remains static with no game imports, execution or new tests.
+
+### Playable opening application composition — 2026-10-06
+
+Implemented the actual browser opening entry, replacing the background-only
+success message: sourced quiz/column, legal partner/names, title/new/continue,
+Awakening dialogue, Tiny Woods movement/attacks/PP/held berries/stairs,
+rescue/reunion/rewards, defeat/give-up/retry and final town checkpoint. Renderer
+consumes immutable source-visibility projections, exact local species/form art
+and the textured forest kit; original meadow/NPC staging stays qualified.
+Responsive DOM HUD/dialogue/menus, explored minimap, damage/PP/Belly feedback,
+camera controls and the website-owned touch bridge share the existing input
+adapter. Current asset readiness plus a 240 ms presentation cadence gates one
+discrete world intent; frames never tick rules or create a backlog.
+
+Canonical IDB service owns exact-identity bindings, autosave after committed
+transactions, primary/backup previews, new/import/reset confirmations,
+explicit memory-only play and export. Menus, replacement, typing, hidden tabs
+and graphics interruption pause/cancel input. Context restore and bounded
+asset-cancellation retry reproject current state; fatal display errors retain
+save/export access. Imported fresh-floor continuations resume canonically.
+Complete item membership is authenticated from all 240 effect item IDs before
+loading the consuming catalogs; Tiny Woods explicitly maps to the forest kit.
+
+Source review corrected pre-team-name floor berries to the leader held slot,
+with self-held use, atomic entry/return ownership and complete held loss on
+failure. Existing graph/capacity/archive policies remain; opening admission
+requires empty pre-name toolbox inventory. The revised content identity rejects
+older incorrectly-owned checkpoints instead of silently repairing them.
+Source details: GAMEPLAY-OPENING.md. Consumer contract: PLAYABLE-APPLICATION.md.
+
+Static lint (211 files), strict types (132 files), local module paths, HTML/CSS
+source checks and whitespace pass. Full catalog/asset checks are recorded in
+the application report after their final result. No game module was imported or
+executed, no automated game tests/playthroughs were added, and no manual play or
+visual/device/save acceptance is claimed. Untracked evolution work is preserved.
+The checkpoint is implemented for review, not full-campaign/P36/P37 acceptance;
+team naming, rescue kit, later routes/services, full move/AI/mechanics, audio,
+human gameplay/visual/save/device observations and release gates remain open.

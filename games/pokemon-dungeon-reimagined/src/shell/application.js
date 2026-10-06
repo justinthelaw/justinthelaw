@@ -1,113 +1,277 @@
-import { Color, PerspectiveCamera, Scene, WebGLRenderer } from '../../vendor/three/three.module.min.js';
-import { loadInitialScene } from './resources.js';
+import { loadCatalogs } from '../application/catalogs.js';
+import { createGameplay } from '../domain/gameplay/index.js';
+import { commandContext } from '../domain/state/transaction.js';
+import { createInputController } from '../input/index.js';
+import { DungeonRenderer, loadEnvironmentKit } from '../rendering/index.js';
+import { renderSnapshot, eventMessages } from '../application/presentation.js';
+import { createView } from '../ui/view.js';
+import { createSaves } from '../application/saves.js';
+import { startOnboarding } from '../application/onboarding.js';
+/** @typedef {{status(message:string):void,unavailable(message:string):void}} StartupView */
+/** @typedef {import('../contracts/campaign.js').CampaignSnapshot} Snapshot */
+/** @typedef {import('../domain/turns/types.js').Intent} Intent */
+/** @typedef {import('../ui/view.js').Action} Action */
 
-/** @typedef {{ status(message: string): void, unavailable(message: string): void }} StartupView */
-
-/** Owns only presentation lifetime. There is no simulation or save access here.
- * @param {HTMLCanvasElement} canvas
- * @param {AbortSignal} signal
- * @param {StartupView} view
- */
-export async function createApplication(canvas, signal, view) {
-  view.status('Checking graphics support…');
-  const context = canvas.getContext('webgl2', { alpha: false, antialias: true });
-  if (!context) throw new Error('WebGL 2 is unavailable. Enable hardware acceleration or use a supported browser.');
-  /** @type {WebGLRenderer | undefined} */
-  let renderer;
-  /** @type {ResizeObserver | undefined} */
-  let observer;
-  /** @type {MediaQueryList | undefined} */
-  let densityQuery;
+/** Composition owns lifetimes and command admission; domain owns every game
+ * mutation. Frames animate and admit one bounded intent, never tick rules.
+ * @param {HTMLCanvasElement} canvas @param {AbortSignal} signal @param {StartupView} startup */
+export async function createApplication(canvas, signal, startup) {
+  const root = document.getElementById('game-ui');
+  if (!root) throw new Error('Adventure UI is missing.');
   const listeners = new AbortController();
-  let disposed = false;
-  let contextLost = false;
-  let frame = 0;
-  const scene = new Scene();
-  const camera = new PerspectiveCamera(45, 1, 0.1, 100);
-  camera.position.set(0, 2, 5);
+  const lifetime = new AbortController();
+  const abort = () => lifetime.abort(signal.reason); signal.addEventListener('abort', abort, { once: true });
+  if (signal.aborted) abort();
+  /** @type {ReturnType<typeof createInputController>|undefined} */ let input;
+  /** @type {DungeonRenderer|undefined} */ let renderer;
+  /** @type {ReturnType<typeof createSaves>|undefined} */ let saves;
+  /** @type {Awaited<ReturnType<typeof loadCatalogs>>|undefined} */ let loaded;
+  /** @type {Awaited<ReturnType<typeof loadEnvironmentKit>>|undefined} */ let kit;
+  /** @type {ResizeObserver|undefined} */ let observer;
+  const view = createView(root);
+  let booted = false;
+  let disposed = false, busy = false, paused = false, failed = false, lost = false, ready = false;
+  let frame = 0, lastFrame = 0, permitAt = 0, generation = 0, epochCounter = 0;
+  let epoch = 'title';
+  let dialogue = false;
+  let followsGame = false;
+  /** @type {symbol|null} */ let bindingEpoch = null;
+  /** @type {ReturnType<typeof renderSnapshot>|null} */ let projected = null;
+  /** @type {Snapshot|null} */ let presented = null;
+  /** @type {ReturnType<typeof createGameplay>|undefined} */ let gameplay;
+  let idleAt = 0;
+  let assetRetries = 0;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  /** @type {MediaQueryList|undefined} */ let density;
 
-  function dispose() {
-    if (disposed) return;
-    disposed = true;
-    window.cancelAnimationFrame(frame);
-    observer?.disconnect();
-    densityQuery?.removeEventListener('change', watchDensity);
-    listeners.abort();
-    signal.removeEventListener('abort', dispose);
-    renderer?.dispose();
-    // Keep the context reusable when this document enters the back/forward cache.
-    // The browser destroys it with the document when the iframe is removed.
-    canvas.hidden = true;
+  function current() { return saves?.service.getBinding().instance?.getSnapshot() ?? null; }
+  function mode() {
+    if (disposed || busy || paused || document.hidden) return /** @type {const} */ ('blocked');
+    if (failed || lost) return view.isOpen() ? /** @type {const} */ ('menu') : /** @type {const} */ ('blocked');
+    const snapshot = current();
+    if (snapshot?.pendingScene && dialogue) return /** @type {const} */ ('dialogue');
+    if (view.isOpen()) return /** @type {const} */ ('menu');
+    return snapshot?.mode === 'dungeon' ? /** @type {const} */ ('world') : /** @type {const} */ ('menu');
   }
-
-  function render() {
-    frame = 0;
-    if (disposed || contextLost || document.hidden || !renderer) return;
-    try { renderer.render(scene, camera); }
-    catch (error) {
-      console.error('Presentation failed', error);
-      dispose();
-      view.unavailable('Graphics could not be displayed. Reload to try again.');
+  /** @param {boolean} [worldReady] */
+  function context(worldReady = ready && !failed && !lost) {
+    input?.setContext({ mode: mode(), epoch, revision: current()?.revision ?? null, worldReady,
+      cameraYaw: renderer?.cameraYaw ?? 0, controlDirection: 'camera' });
+  }
+  function close() { followsGame = true; dialogue = false; saves?.cancelPreviews(); view.close(); input?.cancel(); context(); }
+  function title() {
+    close(); followsGame = false;
+    view.hud('', [], []); view.minimap(null);
+    view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods and Caterpie's rescue. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
+      { label: 'New game', run: newGame }, { label: 'Continue / backup', run: () => { saves?.load(); context(); } }, { label: 'Saves & import', run: () => { saves?.menu(); context(); } },
+      { label: 'Controls', run: help },
+    ]); context();
+  }
+  function help() { panel('Move: arrows/WASD (camera relative). Hold left Shift to face without stepping. Z/A attacks; Space waits; 1–4 use the exact move slots. Enter/Start opens menus, Escape/Menu opens expedition actions, X/B cancels. Right Shift/Select opens the explored map. Q/E and drag orbit the camera; R recenters. Menus use arrows and Z/Enter. The website owns the touch emulator overlay.', [], 'Controls'); }
+  function newGame() {
+    if (!gameplay || !loaded || busy) return;
+    close(); followsGame = false; context();
+    startOnboarding({ catalogs: loaded.catalogs, gameplay, view, commit: (snapshot, storageMode) => saves?.newCampaign(snapshot, storageMode), back: title }); context();
+  }
+  function menu() { if (busy) return; followsGame = false; dialogue = false; input?.cancel(); saves?.menu(); context(); }
+  function resumedBinding() {
+    const adventure = saves?.service.getBinding().instance;
+    const snapshot = adventure?.getSnapshot();
+    if (!adventure || !snapshot || !saves?.service.canAcceptCommands()) { refresh(); return; }
+    const scheduler = snapshot.session?.scheduler;
+    if (snapshot.mode === 'dungeon' && scheduler?.kind === 'ready' && scheduler.roundNumber === 0 && scheduler.continuation.pass === 'prephase' && scheduler.continuation.stage === 'select') {
+      // A saved fresh-floor boundary is a canonical continuation, not a timer.
+      const result = adventure.dispatch({ ...commandContext(snapshot), epoch: adventure.getEpoch(), intent: { type: 'advance' } });
+      if (result.kind !== 'accepted') { fail(new Error('The saved floor cannot resume. Export the checkpoint and reload.')); return; }
+      if (result.changed) saves.autosave(); refresh(result.events, snapshot); return;
     }
+    refresh();
   }
-
-  function scheduleFrame() {
-    if (!frame && !disposed && !contextLost && !document.hidden) frame = window.requestAnimationFrame(render);
+  function resume() { close(); const snapshot = current(); if (snapshot) screen(snapshot); else title(); context(); }
+  /** @param {string} text @param {Action[]} actions @param {string} [titleText] */
+  function panel(text, actions, titleText = 'Adventure menu') { followsGame = false; dialogue = false; input?.cancel(); view.show(titleText, text, [...actions, { label: 'Back', run: resume }]); context(); }
+  function rearmWorldPermit() {
+    if (!ready || failed || lost || mode() !== 'world') return;
+    permitAt = performance.now() + 240;
+    // A consumed no-change intent admits the next held step after the cadence.
+    // Keep actor readiness, binding, revision and the one-intent queue intact.
+    context(false); context();
   }
-
-  function resize() {
-    if (!renderer || disposed || contextLost) return;
-    const { width, height } = canvas.getBoundingClientRect();
-    if (width <= 0 || height <= 0) return;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setSize(width, height, false);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    scheduleFrame();
+  /** @param {Intent} intent @param {'world'|'panel'} [origin] */
+  function act(intent, origin = 'world') {
+    if (!saves || !saves.service.canAcceptCommands() || busy || paused || failed || lost || disposed || document.hidden) return;
+    // Only deliberate choices inside the owning panel may close it and commit.
+    // Background HUD/world activations cannot dismiss saves, previews or forms.
+    if (origin === 'panel' ? !view.isOpen() : view.isOpen()) return;
+    const adventure = saves.service.getBinding().instance; if (!adventure) return;
+    const before = adventure.getSnapshot();
+    if (['move', 'face', 'attack', 'wait', 'useMove', 'useItem', 'useStairs', 'giveUp'].includes(intent.type) && (!ready || performance.now() < permitAt)) return;
+    if (view.isOpen()) close();
+    permitAt = performance.now() + 240;
+    const result = adventure.dispatch({ ...commandContext(before), epoch: adventure.getEpoch(), intent });
+    if (result.kind !== 'accepted') { view.notify(result.kind === 'content-blocked' ? `Unavailable content: ${result.requirement.replaceAll('-', ' ')}.` : `Action unavailable: ${result.reason}.`); screen(before); rearmWorldPermit(); return; }
+    permitAt = performance.now() + 240;
+    if (result.changed) {
+      saves.autosave();
+      // A committed new floor needs one canonical scheduler advance; never run
+      // this on RAF or after ordinary actions/initial dungeon entry.
+      let events = [...result.events];
+      if (intent.type === 'useStairs' && result.events.some(event => event.type === 'floorChanged') && adventure.getSnapshot().mode === 'dungeon') {
+        const next = adventure.getSnapshot(); const advanced = adventure.dispatch({ ...commandContext(next), epoch: adventure.getEpoch(), intent: { type: 'advance' } });
+        if (advanced.kind !== 'accepted') { view.notify('The new floor cannot resume. Export the checkpoint and reload.'); failed = true; }
+        else if (advanced.changed) { saves.autosave(); events = [...events, ...advanced.events]; }
+      }
+      refresh(events, before);
+    } else { screen(before); rearmWorldPermit(); }
   }
-
-  function watchDensity() {
-    densityQuery?.removeEventListener('change', watchDensity);
-    if (disposed) return;
-    densityQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio || 1}dppx)`);
-    densityQuery.addEventListener('change', watchDensity, { once: true });
-    resize();
+  function acknowledge() {
+    const snapshot = current(); const scene = snapshot?.pendingScene; if (!snapshot || !scene) return;
+    act({ type: 'ackScene', sceneId: scene.sceneId, sceneInstanceId: scene.sceneInstanceId, cursor: scene.cursor, revision: snapshot.revision, optionId: null }, 'panel');
   }
-
+  /** @param {number} position */
+  function useMove(position) {
+    const snapshot = current(); const leader = snapshot?.session?.actors[snapshot.session.leaderActorId]; const slot = leader?.moves.slots[position];
+    if (!leader || !slot) { view.notify('That move slot is empty.'); rearmWorldPermit(); return; }
+    act({ type: 'useMove', actorId: leader.actorId, moveSlotId: slot.moveSlotId });
+  }
+  function moves() {
+    const snapshot = current(); if (!snapshot || !gameplay) return;
+    panel('Only supported front single-hit damage effects are admitted. Other effects remain unavailable.', gameplay.getMoveChoices(snapshot).map(move => ({ label: `${move.name} · ${move.currentPp} PP${move.requirement ? ' · unavailable' : ''}`, detail: move.requirement ?? 'Use current move', disabled: !!move.requirement,
+      run: () => act({ type: 'useMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') })), 'Moves');
+  }
+  function inventory() {
+    const snapshot = current(); const session = snapshot?.session; const leader = session?.actors[session.leaderActorId];
+    if (!snapshot) return;
+    const ids = session ? [...(snapshot.containers[session.inventory]?.itemIds ?? []), ...(leader ? snapshot.containers[leader.heldContainerId]?.itemIds ?? [] : [])] : [...(snapshot.containers[snapshot.economy.toolbox]?.itemIds ?? []), ...snapshot.selectedPartyIds.flatMap(id => snapshot.containers[snapshot.roster[id]?.heldContainerId ?? '']?.itemIds ?? [])];
+    panel('Before team naming, floor pickups use your held slot. Berry self-use is supported; equip, throw, drop and other item effects are unavailable.', ids.map(id => {
+      const item = snapshot.items[id]; return { label: item ? item.template.itemId.replace('item-', '').replaceAll('-', ' ') : 'Unavailable item', disabled: !leader || !item || !['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry'].includes(item.template.itemId),
+        run: () => { if (leader) act({ type: 'useItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel'); } };
+    }), 'Items & held slot');
+  }
+  /** @param {Snapshot} snapshot */
+  function screen(snapshot) {
+    if (!gameplay || !followsGame) return;
+    const session = snapshot.session;
+    const leader = session?.actors[session.leaderActorId];
+    const team = session ? gameplay.getActors(snapshot).filter(actor => actor.role === 'hero' || actor.role === 'partner').map(actor => `${actor.name} · HP ${actor.hp}/${actor.maxHp} · Lv ${session.actors[actor.actorId]?.growth.level ?? 1}${actor.role === 'hero' && leader ? ` · Belly ${Math.floor(leader.resources.belly.numerator / leader.resources.belly.denominator)}/${Math.floor(leader.resources.maxBelly.numerator / leader.resources.maxBelly.denominator)}` : ''}`) : [snapshot.profile.heroId, snapshot.profile.partnerId].map(id => `${snapshot.roster[id]?.nickname} · Lv ${snapshot.roster[id]?.growth.level}`);
+    if (session) team.push(`Moves · ${gameplay.getMoveChoices(snapshot).map(move => `${move.name} ${move.currentPp} PP`).join(' · ')}`);
+    const location = session?.floor.location;
+    const floor = location?.kind === 'exploration' && loaded ? loaded.catalogs.dungeons.getFloorById(location.address.floorId).display : null;
+    const goal = session ? `Tiny Woods ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · Find stairs and rescue Caterpie · Poké ${session.carriedMoney}` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · opening checkpoint complete' : 'Butterfree needs help · prepare to enter Tiny Woods';
+    const onStairs = leader?.placement.kind === 'map' && Object.values(session?.floor.exits ?? {}).some(exit => leader.placement.kind === 'map' && exit.position.x === leader.placement.position.x && exit.position.z === leader.placement.position.z);
+    view.hud(goal, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory },
+      { label: 'Attack', run: () => act({ type: 'attack' }), disabled: snapshot.mode !== 'dungeon' || !ready },
+      { label: 'Wait', run: () => act({ type: 'wait' }), disabled: snapshot.mode !== 'dungeon' || !ready },
+      { label: 'Use stairs', run: () => { if (session) act({ type: 'useStairs', sessionId: session.sessionId }); }, disabled: snapshot.mode !== 'dungeon' || !onStairs || !ready },
+    ]);
+    view.minimap(session ? projected : null);
+    if (snapshot.pendingScene) {
+      dialogue = true;
+      view.show('Awakening & rescue', gameplay.getSceneText(snapshot) ?? 'This scene needs unavailable authored content.', [{ label: 'Continue', run: acknowledge, disabled: !ready }, { label: 'Campaign & saves', run: menu }]);
+    } else if (!session) {
+      const choice = gameplay.getDungeonChoices(snapshot)[0];
+      dialogue = false;
+      view.show(snapshot.progress.clears['tiny-woods'] ? 'Home from Tiny Woods' : snapshot.progress.statistics.expeditions ? 'A chance to retry' : "Butterfree's request", snapshot.progress.clears['tiny-woods'] ? 'Caterpie is reunited with Butterfree. Your three berry rewards are recorded. Team naming, the rescue kit and later routes still need implementation.' : 'Guide your partner through Tiny Woods. Find the stairs on each floor. Defeat retains growth and follows the sourced item and money loss rules.', [
+        { label: snapshot.progress.statistics.expeditions ? 'Retry Tiny Woods' : 'Enter Tiny Woods', disabled: !choice || !!choice.requirement, detail: choice?.requirement ?? 'Begin rescue', run: () => act({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ ('tiny-woods') }, 'panel') },
+        { label: 'Campaign & saves', run: menu }, { label: 'View rewards', run: inventory },
+      ]);
+    } else if (!view.isOpen()) view.close();
+  }
+  /** @param {readonly import('../domain/turns/types.js').Event[]} [events] @param {Snapshot|null} [before] */
+  function refresh(events = [], before = null) {
+    const snapshot = current();
+    if (!snapshot || !gameplay || !loaded || !renderer || !saves) { title(); return; }
+    const bound = saves.service.getBinding();
+    if (bindingEpoch !== bound.adventureEpoch) { bindingEpoch = bound.adventureEpoch; epoch = `campaign-${++epochCounter}`; input?.cancel(); view.clearMessages(); renderer.recenter(); renderer.zoom((snapshot.options.camera.zoom - 7) / 3); renderer.reducedMotion = snapshot.options.reducedMotion === 'on' || snapshot.options.reducedMotion === 'system' && reducedMotion.matches; root?.style.setProperty('--text-scale', String(snapshot.options.accessibility.textScale)); }
+    if (before) assetRetries = 0;
+    const ticket = ++generation; ready = false; context();
+    try {
+      projected = renderSnapshot(snapshot, gameplay, epoch, loaded.catalogs.species, events);
+      renderer.loadWorld(projected.world); renderer.syncPickups(projected.pickups);
+      renderer.setFollow(snapshot.session?.leaderActorId ?? snapshot.profile.heroId);
+      view.messages(eventMessages(before, projected, events));
+      for (const actor of projected.actors) if (before?.session?.actors[actor.actorId] && actor.hp < (before.session.actors[actor.actorId]?.resources.hp ?? actor.hp)) renderer.flash(actor.x, actor.z, 'hit');
+      presented = snapshot; idleAt = events.length ? performance.now() + 280 : 0;
+      const actors = projected.actors;
+      void renderer.syncActors(actors).then(() => {
+        if (disposed || ticket !== generation || current() !== snapshot || bound.adventureEpoch !== saves?.service.getBinding().adventureEpoch || failed || lost) return;
+        ready = true; screen(snapshot); context();
+      }).catch(error => { if (!disposed && ticket === generation && current() === snapshot) fail(error); });
+      screen(snapshot);
+    } catch (error) { fail(error); }
+  }
+  /** @param {unknown} error */
+  function fail(error) {
+    if (disposed) return; followsGame = false; failed = true; ready = false; input?.cancel(); context();
+    const cancellation = error instanceof Error && (error.name === 'AbortError' || error.message === 'Art resource is cancelling or has conflicting identity.');
+    if (cancellation && current() && assetRetries < 2) {
+      dialogue = false;
+      view.show('Character art interrupted', 'A previous character clip is still being released. Commands are paused. Retry the current scene after that request settles; no game turn will advance.', [
+        { label: 'Retry character art', run: () => { assetRetries++; failed = false; close(); refresh(); } },
+        { label: 'Saves & export', run: menu },
+      ]); context(); return;
+    }
+    const message = error instanceof Error ? error.message : 'Adventure presentation failed.';
+    if (booted) {
+      dialogue = false;
+      view.show('Adventure display unavailable', `${message} Commands are paused. Export unsaved progress before reloading.`, [
+        { label: 'Saves & export', run: menu }, { label: 'Reload application', run: () => window.location.reload() },
+      ]); context();
+    } else startup.unavailable(message);
+  }
+  /** @param {import('../input/controller.js').IntentEnvelope} envelope */
+  function intent(envelope) {
+    if (envelope.epoch !== epoch || envelope.revision !== current()?.revision && current() !== null || envelope.mode !== mode()) return;
+    const action = envelope.intent;
+    if (action.type === 'cameraAdjust') { renderer?.rotate(action.yaw); renderer?.zoom(action.zoom); return; }
+    if (action.type === 'cameraRecenter') { renderer?.recenter(); return; }
+    if (action.type === 'navigate') { view.navigate(action.direction); return; }
+    if (action.type === 'confirm') { view.confirm(); return; }
+    if (action.type === 'cancel') { if (view.isOpen()) resume(); else menu(); return; }
+    if (action.type === 'panel') {
+      if (action.panel === 'inventory') inventory(); else if (action.panel === 'map') panel('Gold marks your leader, blue your partner, red visible enemies and white discovered stairs. Only explored terrain is shown.', [], 'Explored map');
+      else if (action.panel === 'tactics') panel('Your partner follows and attacks adjacent enemies using the reviewed opening policy. Changing tactics and IQ is not available yet.', [], 'Partner tactics');
+      else panel('Use stairs when standing on them, or give up this expedition. Defeat settlement retains growth and applies carried-item/money loss.', [ { label: 'Campaign & saves', run: menu }, { label: 'Give up expedition', disabled: !current()?.session, run: () => { const session = current()?.session; if (session) panel('Giving up ends this expedition and applies the sourced defeat losses.', [{ label: 'Confirm give up', run: () => act({ type: 'giveUp', sessionId: session.sessionId }, 'panel') }], 'Give up?'); } } ]);
+      return;
+    }
+    if (action.type === 'move' || action.type === 'face') act({ type: action.type, dx: action.direction.dx, dz: action.direction.dz });
+    else if (action.type === 'primary') act({ type: 'attack' });
+    else if (action.type === 'wait') act({ type: 'wait' });
+    else if (action.type === 'moveSlot') useMove(action.slot);
+  }
+  function tick(/** @type {number} */ now) {
+    frame = 0; if (disposed || document.hidden) return;
+    if (!failed && !lost) renderer?.update(lastFrame ? (now - lastFrame) / 1000 : 0); lastFrame = now;
+    // Returning event clips to idle is presentation-only. It neither advances a
+    // turn nor commits a revision, and actor readiness is rechecked normally.
+    if (idleAt && now >= idleAt && current() === presented && ready) { idleAt = 0; refresh(); }
+    context(); if (mode() !== 'world' || now >= permitAt) input?.flush();
+    frame = window.requestAnimationFrame(tick);
+  }
+  function resize() { renderer?.resize(); }
+  function watchDensity() { density?.removeEventListener('change', watchDensity); density = window.matchMedia(`(resolution: ${window.devicePixelRatio || 1}dppx)`); density.addEventListener('change', watchDensity, { once: true }); resize(); }
+  function dispose() {
+    if (disposed) return; disposed = true; generation++; lifetime.abort(); listeners.abort(); signal.removeEventListener('abort', abort);
+    window.cancelAnimationFrame(frame); observer?.disconnect(); density?.removeEventListener('change', watchDensity);
+    input?.dispose(); saves?.dispose(); renderer?.dispose(); kit?.dispose?.(); loaded?.dispose(); view.dispose(); canvas.hidden = true; if (root) root.hidden = true;
+  }
   signal.addEventListener('abort', dispose, { once: true });
   try {
-    signal.throwIfAborted();
-    // Attach loss handling before the renderer so recovery never leaves a blank page.
-    canvas.addEventListener('webglcontextlost', event => {
-      event.preventDefault();
-      contextLost = true;
-      window.cancelAnimationFrame(frame);
-      frame = 0;
-      view.status('Graphics were interrupted. Waiting for recovery…');
-      view.unavailable('The graphics connection was lost. Reload to restore the scene.');
-    }, { signal: listeners.signal });
-    canvas.addEventListener('webglcontextrestored', () => {
-      // Deliberate reload reconstructs resources; partial GPU state is never reused.
-      view.unavailable('Graphics are available again. Reload to restore the scene.');
-    }, { signal: listeners.signal });
-    renderer = new WebGLRenderer({ canvas, context, alpha: false, antialias: true });
-    view.status('Loading scene resources…');
-    const initial = await loadInitialScene(signal);
-    signal.throwIfAborted();
-    if (contextLost) throw new Error('Graphics were interrupted during loading. Reload to restore the scene.');
-    scene.background = new Color(initial.background);
-    canvas.hidden = false;
-    observer = new ResizeObserver(resize);
-    observer.observe(canvas);
-    window.addEventListener('resize', resize, { signal: listeners.signal });
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) { window.cancelAnimationFrame(frame); frame = 0; }
-      else resize();
-    }, { signal: listeners.signal });
-    watchDensity();
+    loaded = await loadCatalogs(lifetime.signal, startup.status); gameplay = createGameplay(loaded.catalogs);
+    startup.status('Loading textured world and exact local character art…'); kit = await loadEnvironmentKit('forest', lifetime.signal);
+    renderer = new DungeonRenderer(canvas, { environmentKit: kit, reducedMotion: reducedMotion.matches,
+      onError: fail, onContextState(state) { lost = state === 'lost'; ready = false; input?.cancel(); context(); if (lost) view.notify('Graphics interrupted. Commands paused until recovery.'); else { lastFrame = 0; view.notify('Graphics restored.'); refresh(); } },
+    });
+    await renderer.ready; lifetime.signal.throwIfAborted();
+    saves = createSaves({ gameplay, view, pause() { paused = true; input?.cancel(); context(); return () => { paused = false; }; },
+      busy(value) { busy = value; if (busy) input?.cancel(); context(); }, changed() { close(); resumedBinding(); }, back: resume, newGame });
+    input = createInputController({ target: document, cameraSurface: canvas, onIntent: intent });
+    canvas.hidden = false; root.hidden = false;
+    observer = new ResizeObserver(resize); observer.observe(canvas); window.addEventListener('resize', resize, { signal: listeners.signal });
+    reducedMotion.addEventListener('change', () => { if (renderer) { const preference = current()?.options.reducedMotion ?? 'system'; renderer.reducedMotion = preference === 'on' || preference === 'system' && reducedMotion.matches; } }, { signal: listeners.signal });
+    document.addEventListener('visibilitychange', () => { input?.cancel(); lastFrame = 0; context(); if (document.hidden) { window.cancelAnimationFrame(frame); frame = 0; } else { resize(); if (!frame) frame = window.requestAnimationFrame(tick); } }, { signal: listeners.signal });
+    window.addEventListener('blur', () => { input?.cancel(); }, { signal: listeners.signal });
+    watchDensity(); booted = true; title(); frame = window.requestAnimationFrame(tick);
     return { dispose };
-  } catch (error) {
-    dispose();
-    throw error;
-  }
+  } catch (error) { dispose(); throw error; }
 }

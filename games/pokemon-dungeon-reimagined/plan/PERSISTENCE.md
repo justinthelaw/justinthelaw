@@ -209,3 +209,15 @@ implementation report records exact checks and adversarial trace paths. Actual
 IndexedDB/device interruption, quota and file-picker observations remain part of
 P18's human save/export/import/recovery acceptance. No browser save UI, playable
 campaign, manual persistence acceptance, or full-game release is claimed here.
+
+## Opening application consumer — 2026-10-06
+
+`src/application/saves.js` composes the reviewed adapter/repository/service.
+Its detached binder returns a new Adventure retaining the exact validated
+snapshot identity. Primary/backup load, new, import, reset and memory-to-browser
+persist expose concrete validated previews and single-use confirmations. The
+UI offers explicit memory-only new/import, independent file export and current
+binding notifications; autosave follows only committed changed transactions.
+Imported/loaded fresh-floor continuations resume through one canonical command
+after binding publication. Human IDB, quota, interruption and download/import
+acceptance is still open; static checks do not certify these observations.

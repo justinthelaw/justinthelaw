@@ -144,10 +144,12 @@ export function createTurnHooks(catalogs, authored) {
       const a = actor(context, ref); const s = sessionOf(context); if (a.actorId !== s.leaderActorId || a.placement.kind !== 'map') return CONTINUE;
       const position = a.placement.position;
       for (const c of Object.values(context.state.containers)) if (c.owner.kind === 'floor' && c.owner.mapId === s.floor.mapId && c.owner.position.x === position.x && c.owner.position.z === position.z) {
-        const bag = context.state.containers[s.inventory]; if (!bag) return blocked('toolbox');
+        // QUEST_SET_TEAM_NAME is false throughout this admitted opening.
+        // Source TryLeaderItemPickUp therefore selects only the leader held slot.
+        const held = context.state.containers[a.heldContainerId]; if (!held) return blocked('held-container');
         for (const id of [...c.itemIds]) { const item = context.state.items[id]; if (!item) continue;
           if (item.template.itemId === 'item-poke') { s.carriedMoney = Math.min(99999, s.carriedMoney + item.quantity); delete context.state.items[id]; }
-          else { if (bag.itemIds.length >= 20) continue; bag.itemIds.push(id); }
+          else { if (held.itemIds.length) continue; held.itemIds.push(id); }
           c.itemIds.splice(c.itemIds.indexOf(id), 1); context.emit({ type: 'itemChanged', itemInstanceId: id });
         }
         if (!c.itemIds.length) delete context.state.containers[c.containerId];

@@ -1,5 +1,5 @@
 import { DEFAULT_IQ } from '../../../content/state/opening-facts.js';
-import { allocate, clone, quantity, draw, profile } from './support.js';
+import { allocate, clone, quantity, draw, profile, blocked } from './support.js';
 
 /** @typedef {import('./support.js').Catalogs} Catalogs */
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
@@ -20,7 +20,10 @@ export function createActor(state, catalogs, binding, identity, level, mapId, po
     }
   }
   const actorId = allocate(state, 'actor'); const heldContainerId = allocate(state, 'container');
-  state.containers[heldContainerId] = { containerId: heldContainerId, owner: { kind: 'actor-held', sessionId, actorId }, itemIds: [] };
+  const homeHeld = permanent ? state.containers[permanent.heldContainerId] : null;
+  if (permanent && !homeHeld) return blocked('entry-held-container');
+  state.containers[heldContainerId] = { containerId: heldContainerId, owner: { kind: 'actor-held', sessionId, actorId }, itemIds: [...(homeHeld?.itemIds ?? [])] };
+  if (homeHeld) homeHeld.itemIds = [];
   return { actorId, binding, affiliation: permanent ? 'team' : 'hostile', identity: clone(identity),
     growth: permanent ? clone(permanent.growth) : { level, totalExperience: quantity(growth.cumulativeExperience), naturalStats: { ...growth.stats }, permanentStatBonuses: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0 }, iqPoints: 1 },
     moves, enabledIqSkillIds: permanent ? [...permanent.enabledIqSkillIds] : [...DEFAULT_IQ], tacticId: permanent?.tacticId ?? /** @type {import('../../contracts/campaign.js').TacticId} */ ('tactic-lets-go-together'),

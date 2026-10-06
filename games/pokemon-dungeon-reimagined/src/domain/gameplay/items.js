@@ -5,7 +5,7 @@ import { value, quantity, maxHp, blocked } from './support.js';
  * @param {import('../turns/types.js').MutationContext} context @param {import('../../contracts/campaign.js').ResolvedAction & {kind:'item'}} action */
 export function useBerry(context, action) {
   const state = context.state; const session = state.session; const actor = session?.actors[action.actorId];
-  const item = state.items[action.itemInstanceId]; const bag = session ? state.containers[session.inventory] : null;
+  const item = state.items[action.itemInstanceId]; const bag = session ? [state.containers[session.inventory], actor ? state.containers[actor.heldContainerId] : null].find(container => container?.itemIds.includes(action.itemInstanceId)) : null;
   if (!session || !actor || !item || !bag?.itemIds.includes(item.itemInstanceId) || action.operation !== 'use' || action.target.kind !== 'self' || !['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry'].includes(item.template.itemId)) return blocked('item-action-not-supported');
   if (item.template.sticky) { context.emit({ type: 'message', messageId: 'item-sticky' }); return; }
   bag.itemIds.splice(bag.itemIds.indexOf(item.itemInstanceId), 1); delete state.items[item.itemInstanceId];

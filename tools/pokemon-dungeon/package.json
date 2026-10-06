@@ -13,7 +13,7 @@
     "vendor": "node scripts/vendor.mjs",
     "lint": "node scripts/check-source.mjs",
     "typecheck": "node scripts/check-types.mjs",
-    "assets": "node scripts/check-assets.mjs && npm run pixel:check && npm run production:check && npm run runtime-pixels:check && npm run roster:check && npm run environment:check",
+    "assets": "node scripts/check-assets.mjs && npm run pixel:check && npm run production:check && npm run roster:check && npm run runtime-pixels:check && npm run environment:check",
     "art:export": "node art/export.mjs",
     "check": "npm run lint && npm run typecheck && npm run content && npm run species:check && npm run rules:check && npm run dungeons:check && npm run effects:check && npm run onboarding:check && npm run campaign:check && npm run navigation:check && node scripts/export-content-coverage.mjs --check && npm run assets && npm run vendor -- --check",
     "content": "node scripts/check-content.mjs",

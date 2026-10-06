@@ -14,3 +14,28 @@ button { font: inherit; font-weight: 650; color: #151e30; background: #ffd185; b
 button:focus-visible { outline: 3px solid white; outline-offset: 4px; }
 [hidden] { display: none !important; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }
+#game-ui { position: fixed; inset: 0; pointer-events: none; padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+.hud { position: relative; width: min(100%, 42rem); background: #122b2ce0; border: 1px solid #a2bfa5; border-radius: 14px; padding: 10px 14px; }
+.objective { margin: 0 0 6px; font-weight: 750; color: #ffe0a0; font-size: .92rem; }
+.team-stats { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.team-stats p { margin: 0; font-size: .82rem; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; pointer-events: auto; }
+.toolbar button { font-size: .75rem; padding: 6px 9px; min-height: 36px; }
+button:disabled { background: #91a49a; opacity: .62; cursor: default; }
+.panel { pointer-events: auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(calc(100% - 24px), 35rem); max-height: min(78svh, 48rem); overflow: auto; background: #12282cf5; border: 1px solid #b3c0a5; border-radius: 18px; padding: clamp(18px, 3vw, 30px); box-shadow: 0 20px 70px #0008; }
+.panel h2 { margin: 0; font-size: clamp(1.2rem, 4vw, 1.65rem); color: #ffe0a0; }
+.panel p { font-size: .94rem; margin: 14px 0; }
+.choices { display: grid; gap: 8px; }
+.choices button { text-align: left; padding: 10px 14px; font-size: .9rem; }
+.name-fields { display: grid; gap: 8px; margin-bottom: 18px; }
+input { font: inherit; background: #0b191f; color: #f2f5ff; border: 1px solid #a2bfa5; border-radius: 8px; padding: 10px; min-height: 44px; max-width: 100%; }
+input:focus-visible { outline: 3px solid #ffe0a0; outline-offset: 2px; }
+.notice { position: absolute; left: 12px; bottom: max(12px, env(safe-area-inset-bottom)); background: #0c1a24e8; border-radius: 8px; padding: 8px 12px; margin: 0; max-width: min(90%, 48rem); font-size: .8rem; }
+.notice:empty { display: none; }
+.event-log { position: absolute; top: 145px; left: 12px; margin: 0; padding: 8px 14px; max-width: min(75%, 30rem); list-style: none; border-radius: 8px; background: #0c1a24c9; font-size: .78rem; }
+.event-log:empty { display: none; }
+.minimap { position: absolute; inset: 12px 12px auto auto; width: 160px; height: 120px; border: 1px solid #91a49a; border-radius: 8px; image-rendering: pixelated; background: #0d1721; }
+.startup { z-index: 5; }
+@media (max-width: 850px) { .hud { width: calc(100% - 105px); } .minimap { width: 96px; height: 72px; } .toolbar { gap: 4px; } .toolbar button { min-height: 44px; } .event-log { top: 195px; max-width: 75%; } }
+@media (max-width: 460px) { #game-ui { padding: 8px; } .hud { padding: 8px; width: calc(100% - 84px); } .minimap { width: 78px; height: 60px; right: 8px; top: 8px; } .team-stats p { font-size: .72rem; } .objective { font-size: .78rem; } .toolbar button { padding: 5px 6px; } .event-log { top: 235px; font-size: .7rem; max-width: 66%; } .panel { max-height: 74svh; } }
+.panel { font-size: calc(1rem * var(--text-scale, 1)); }

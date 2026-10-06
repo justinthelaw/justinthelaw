@@ -29,6 +29,9 @@ export function withGameplayPolicies(authored, opening) { return { ...opening,
       r.check(p.seenScenes[O.rescueScene]?.count === 1, '/seenScenes', 'Success requires Caterpie rescue acknowledgement.');
       r.check(p.appliedGrants.length === Number(p.seenScenes[O.returnScene]?.count === 1), '/appliedGrants', 'Reunion reward is granted exactly once on acknowledgement.');
     }
+    if (state.session) {
+      r.check(state.containers[state.session.inventory]?.itemIds.length === 0 && state.session.entry.itemArchive.containers[state.session.entry.toolboxContainerId]?.itemIds.length === 0, '/session/inventory', 'Before team naming, this opening uses held slots and has no usable toolbox inventory.');
+    }
     if (state.session) r.check(state.session.dungeonId === 'tiny-woods' && state.session.purpose.kind === 'story' && state.session.purpose.storyNodeId === O.storyNode, '/session', 'Only the Tiny Woods story expedition is admitted.');
     return r.result();
   },

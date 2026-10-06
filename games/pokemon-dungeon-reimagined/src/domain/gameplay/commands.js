@@ -20,7 +20,7 @@ export function createCommandHandlers(catalogs, authored) {
     }
     if (intent.type === 'useItem') {
       const item = state.items[intent.itemInstanceId]; const bag = state.containers[session.inventory];
-      if (intent.actorId !== leader.actorId || intent.target.kind !== 'self' || !item || !bag?.itemIds.includes(item.itemInstanceId)) return { kind: 'rejected', reason: 'unavailable' };
+      if (intent.actorId !== leader.actorId || intent.target.kind !== 'self' || !item || !bag?.itemIds.includes(item.itemInstanceId) && !state.containers[leader.heldContainerId]?.itemIds.includes(item.itemInstanceId)) return { kind: 'rejected', reason: 'unavailable' };
       if (!['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry'].includes(item.template.itemId)) return { kind: 'content-blocked', requirement: 'item-action-not-supported' };
       return { kind: 'action', action: { kind: 'item', actorId: leader.actorId, itemInstanceId: item.itemInstanceId, operation: 'use', target: { kind: 'self' } } };
     }

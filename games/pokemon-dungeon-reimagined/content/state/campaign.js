@@ -55,7 +55,7 @@ export function createCampaignContent(catalogs, authoredContent = createOpeningC
   return Object.freeze({ referenceEdition: 'blue-rescue-team', campaignSchemaVersion: 1,
     // Reviewed adapter revision binds all five factual catalogs plus authored
     // script/state contract; it is not one catalog's schemaVersion.
-    contentRevision: `blue-campaign-state-v1:${authored.revision}:${EFFECT_INDEX_SHA256}:${DUNGEON_INDEX_SHA256}:${CAMPAIGN_MANIFEST_SHA256}:${catalogs.navigation ? NAVIGATION_MANIFEST_SHA256 : 'no-navigation'}:947d052df0e8b6a6715b1d1039dd8b1cb425f974fa934b45363cecefaf0997dd:923f411ea7427579335db655885ec792ea30bbb7528c04242d980c99d34afa68`,
+    contentRevision: `blue-campaign-state-v2-held-opening:${authored.revision}:${EFFECT_INDEX_SHA256}:${DUNGEON_INDEX_SHA256}:${CAMPAIGN_MANIFEST_SHA256}:${catalogs.navigation ? NAVIGATION_MANIFEST_SHA256 : 'no-navigation'}:947d052df0e8b6a6715b1d1039dd8b1cb425f974fa934b45363cecefaf0997dd:923f411ea7427579335db655885ec792ea30bbb7528c04242d980c99d34afa68`,
     identities, initialCampaign,
     policies: Object.freeze({ profile: createProfilePolicy(catalogs), pokemon: createPokemonPolicy(catalogs),
       actor: createActorPolicy(catalogs), item: createItemPolicy(catalogs), economy: createEconomyPolicy(catalogs),

@@ -95,3 +95,24 @@ reward choices are also unsupported, but unreachable through this opening's
 empty-storage, once-only reward path. Application/controls/persistence/runtime art
 and human play/visual review are the next responsibility and are not evidenced by
 static checks.
+
+## Pre-team-name held pickup correction — 2026-10-06
+
+Pinned comparative source `6bcbec4f906938c0243aa2026bcbd41b577bab85`:
+`main_loops.c:1031` sets `hasInventory=CheckQuest(QUEST_SET_TEAM_NAME)`;
+`dungeon_items.c:147–294` (`TryLeaderItemPickUp`) uses the leader held slot
+while false, leaves another berry on the floor when occupied, and handles Poké
+independently. `dungeon_action.c:112–140` (`sub_8044CC8`) admits self-held item
+use (`0x81`). `pokemon.c:980–1020` retains held items on dungeon return;
+`main_loops.c:1041–1064` removes all team held items on failure, separately
+from the toolbox's 50% loss policy.
+
+The opening now transfers persistent held ownership to the actor on entry,
+picks berries into that one slot, consumes self-used berries from their actual
+owner, retains held items on success, and deletes them on failure. Entry admits
+supported held berries; reciprocal graph/capacity/item policies still validate
+both live containers and immutable entry history. The opening progress policy
+requires empty active and entry toolbox inventories before team naming; reunion
+rewards still enter the home toolbox. No guessed unlock or naming command was
+added. `blue-campaign-state-v2-held-opening` makes earlier adapter saves explicitly
+incompatible, rather than silently repairing their incorrect pickup ownership.

@@ -14,7 +14,7 @@ import { requestScene } from './scenes.js';
 /** @param {Catalogs} catalogs @param {import('../../contracts/campaign.js').CampaignSnapshot} state */
 export function admission(catalogs, state) {
   if (state.session || state.mode !== 'town' || state.progress.clears['tiny-woods']) return 'expedition-unavailable';
-  if (state.selectedPartyIds.length !== 2 || Object.values(state.items).some(item => !['item-oran-berry', 'item-pecha-berry'].includes(item.template.itemId)) || Object.values(state.containers).some(container => container.owner.kind === 'pokemon-held' && container.itemIds.length)) return 'opening-party-inventory';
+  if (state.selectedPartyIds.length !== 2 || Object.values(state.items).some(item => !['item-oran-berry', 'item-pecha-berry'].includes(item.template.itemId))) return 'opening-party-inventory';
   // Abilities needing post-hit reactions cannot be silently ignored.
   const reactive = ['Poison Point', 'Effect Spore', 'Synchronize', 'Color Change'];
   for (const id of state.selectedPartyIds) {
@@ -128,6 +128,11 @@ export function settleExpedition(context, outcome, catalogs) {
   for (const actor of Object.values(session.actors)) if (actor.binding.kind === 'roster') {
     applyExperience(context, actor, catalogs);
     const pokemon = state.roster[actor.binding.pokemonId]; if (!pokemon) return blocked('settlement-participant');
+    const held = state.containers[actor.heldContainerId]; const homeHeld = state.containers[pokemon.heldContainerId];
+    if (!held || !homeHeld || homeHeld.itemIds.length) return blocked('settlement-held-container');
+    if (outcome === 'success') homeHeld.itemIds = [...held.itemIds];
+    else for (const id of held.itemIds) delete state.items[id];
+    held.itemIds = [];
     pokemon.growth = clone(actor.growth); pokemon.moves = clone(actor.moves); pokemon.enabledIqSkillIds = [...actor.enabledIqSkillIds]; pokemon.tacticId = actor.tacticId;
   }
   const bag = state.containers[session.inventory]; const home = state.containers[state.economy.toolbox]; if (!bag || !home) return blocked('settlement-inventory');

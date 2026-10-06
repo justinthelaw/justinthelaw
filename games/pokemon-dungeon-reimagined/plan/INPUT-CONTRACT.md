@@ -214,3 +214,14 @@ tests are prohibited. Later authorized manual acceptance must cover diagonal
 bridge presses, blocked moves, readiness acknowledgment, simultaneous trusted
 and synthetic keys, typing/shadow focus, yaw boundaries, multi-pointer capture,
 camera/HUD crossings, interruption cleanup and complete game UI integration.
+
+## Opening application consumer — 2026-10-06
+
+`src/shell/application.js` now composes this adapter with canonical Adventure
+commands. A 240 ms presentation admission interval bounds world `flush()` calls;
+current generation actor synchronization is a second independent gate. Revision
+and epoch contexts remain fresh, held movement survives ordinary revisions,
+rejected/no-change actions rearm a single permit, and no timer advances turns.
+Menus/dialogue/typing, replacement, blur, visibility and context loss interrupt
+world input. Website touch controls remain the sole emulator overlay owner.
+Human keyboard/touch acceptance remains open.
