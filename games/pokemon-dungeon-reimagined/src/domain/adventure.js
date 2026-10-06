@@ -13,6 +13,18 @@ import { TurnFault, requireTurnHooks, resultShape } from './turns/support.js';
 /** @type {readonly []} */
 const EMPTY_EVENTS = Object.freeze([]);
 
+/** Command failures carry their own public code; generic turn-result handling
+ * deliberately has different fallback codes. Preserve synchronous declared
+ * failures before that handler, without admitting promised/malformed results.
+ * @param {import('./turns/types.js').CommandPlan|import('./turns/types.js').MutationResult} result */
+function commandResultShape(result) {
+  if (result && typeof result === 'object' && !('then' in result)) {
+    if (result.kind === 'rejected' && typeof result.reason === 'string') throw new TurnFault('rejected', result.reason);
+    if (result.kind === 'content-blocked' && typeof result.requirement === 'string') throw new TurnFault('content-blocked', result.requirement);
+  }
+  resultShape(result);
+}
+
 /** Full validation is mandatory. A validated snapshot is retained by identity for
  * P08 detached binding; mutable inputs are detached by the validator first.
  * The domain epoch is instance-local, separate from P08's application binding epoch.
@@ -58,7 +70,7 @@ export function createAdventure(options) {
       const handler = Object.getOwnPropertyDescriptor(options.handlers, intent.type)?.value;
       if (!handler || typeof Object.getOwnPropertyDescriptor(handler, 'plan')?.value !== 'function') return failure('content-blocked', 'command-handler');
       const plan = /** @type {import('./turns/types.js').CommandHandler} */ (handler).plan(snapshot, intent);
-      resultShape(plan);
+      commandResultShape(plan);
       if (plan.kind === 'presentation') return Object.freeze({ kind: 'accepted', changed: false, consumedTurn: false, revision: snapshot.revision, events: Object.freeze([]) });
       if (plan.kind !== 'mutation' && plan.kind !== 'action') return failure('content-blocked', 'command-plan');
       if (plan.kind === 'action') requireTurnHooks(options.turns);
@@ -76,7 +88,7 @@ export function createAdventure(options) {
         consumedTurn = outcome.consumedTurn;
       } else {
         if (!apply) throw new TurnFault('content-blocked', 'command-mutation');
-        const applied = apply(context, intent); resultShape(applied);
+        const applied = apply(context, intent); commandResultShape(applied);
         if (applied.kind === 'unchanged') return Object.freeze({ kind: 'accepted', changed: false, consumedTurn: false, revision: snapshot.revision, events: Object.freeze([]) });
         if (applied.kind !== 'changed' || typeof applied.resumeDungeon !== 'boolean') throw new TurnFault('content-blocked', 'command-result');
         if (applied.resumeDungeon) consumedTurn = advanceTurns(context, options.turns).consumedTurn;

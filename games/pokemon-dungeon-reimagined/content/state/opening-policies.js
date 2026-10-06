@@ -44,10 +44,10 @@ export function createOpeningPolicies(authored, initialCampaign) {
         r.check(p.recruitedHistory.length === 2 && p.recruitedHistory[0] && p.recruitedHistory[1] && sameForm(p.recruitedHistory[0], state.profile.originalHeroIdentity) && sameForm(p.recruitedHistory[1], state.profile.originalPartnerIdentity), '/recruitedHistory', 'Initial acquisition history contains the ordered original starters.');
         r.check(state.session === null && state.pendingResult === null && (state.mode === 'scene' || state.mode === 'town'), '', 'Awakening is a ground scene or its meadow continuation.');
         for (const visit of Object.values(p.seenScenes)) {
-          r.check(authored.scenes.some(scene => scene.id === visit.sceneId) && visit.count === 1, '/seenScenes', 'Opening scenes may complete only once.');
+          r.check(authored.scenes[0]?.id === visit.sceneId && visit.count === 1, '/seenScenes', 'Opening scenes may complete only once.');
           r.check(state.pendingScene?.sceneId !== visit.sceneId, '/seenScenes', 'Completed opening cannot be active again.');
         }
-        if (state.mode === 'town') r.check(authored.scenes.every(scene => p.seenScenes[scene.id]?.count === 1), '/seenScenes', 'Meadow continuation requires the completed opening scene.');
+        if (state.mode === 'town') r.check(p.seenScenes[authored.scenes[0]?.id ?? '']?.count === 1, '/seenScenes', 'Meadow continuation requires the completed opening scene.');
       }
       return r.result();
     },

@@ -14,7 +14,7 @@ export function createOpeningContent() {
   const map = /** @type {import('../../src/contracts/campaign.js').MapDefinitionId} */ ('browser-opening-meadow');
   const scene = /** @type {import('../../src/contracts.js').SceneId} */ ('browser-opening-awakening');
   return {
-    revision: 'browser-opening-v1', profileId: 'original-blue-opening-v1',
+    revision: 'browser-opening-v2', profileId: 'original-blue-opening-v1',
     storyNodeId: /** @type {import('../../src/contracts/campaign.js').StoryNodeId} */ ('browser-story-awakening'),
     heroRoleId: /** @type {import('../../src/contracts/campaign.js').SceneRoleId} */ ('browser-role-hero'),
     partnerRoleId: /** @type {import('../../src/contracts/campaign.js').SceneRoleId} */ ('browser-role-partner'),
@@ -27,7 +27,10 @@ export function createOpeningContent() {
       'A breeze moves through the grass. You open your eyes beneath a sky you do not recognize.',
       'Someone nearby notices you stirring. "Easy there. Take a moment. Can you stand?"',
       'Your paws press into the earth. The stranger waits as you find your balance.',
-    ], continuation: { kind: 'town', destination: { kind: 'town', mapDefinitionId: map, entryId: 'awakening' } } }],
+      'A Butterfree hurries into the meadow. Her Caterpie is trapped beyond Tiny Woods. Your new companion looks to you. Together, you can bring him home.',
+    ], continuation: { kind: 'town', destination: { kind: 'town', mapDefinitionId: map, entryId: 'awakening' } } },
+    { id: /** @type {import('../../src/contracts.js').SceneId} */ ('browser-caterpie-clearing'), lines: ['In a quiet clearing, a small Caterpie calls out. Your companion answers, and you guide him toward the path home.', 'Caterpie stays close as you lead him safely out of the woods.'], continuation: { kind: 'town', destination: { kind: 'town', mapDefinitionId: map, entryId: 'rescue-return' } } },
+    { id: /** @type {import('../../src/contracts.js').SceneId} */ ('browser-butterfree-reunion'), lines: ['Butterfree gathers Caterpie close. Relief gives way to a warm smile. She offers three berries in thanks: Oran, Pecha, and Rawst.', 'Your companion suggests a place to rest, and a new idea: a rescue team. There are others who could use your help.'], continuation: { kind: 'town', destination: { kind: 'town', mapDefinitionId: map, entryId: 'team-base' } } }],
   };
 }
 

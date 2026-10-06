@@ -1,3 +1,5 @@
+import { OPENING_EXPEDITION as OPENING } from '../authored/expedition.js';
+import { withGameplayPolicies } from './gameplay.js';
 import { NAVIGATION_MANIFEST_SHA256 } from '../navigation-integrity.js';
 import { EFFECT_INDEX_SHA256 } from '../effects-integrity.js';
 import { DUNGEON_INDEX_SHA256 } from '../dungeons-integrity.js';
@@ -27,15 +29,15 @@ import { createActorPolicy, createConditionsPolicy, createFloorPolicy, validateS
  * @returns {Readonly<CampaignContent>} */
 export function createCampaignContent(catalogs, authoredContent = createOpeningContent()) {
   const authored = /** @type {import('../authored/opening.js').AuthoredOpening} */ (/** @type {unknown} */ (copyPlainData(authoredContent)));
-  if (!authored.revision || !authored.profileId || authored.scenes.length !== 1 || !authored.scenes[0]?.lines.length || authored.scenes[0].lines.some(line => typeof line !== 'string' || !line.length) || !Number.isSafeInteger(authored.width) || !Number.isSafeInteger(authored.height) || authored.width < 1 || authored.height < 1) throw new TypeError('Incomplete authored opening contract.');
+  if (!authored.revision || !authored.profileId || authored.scenes.length !== 3 || !authored.scenes[0]?.lines.length || authored.scenes[0].lines.some(line => typeof line !== 'string' || !line.length) || !Number.isSafeInteger(authored.width) || !Number.isSafeInteger(authored.height) || authored.width < 1 || authored.height < 1) throw new TypeError('Incomplete authored opening contract.');
   freezeData(authored);
   const factual = createCatalogIdentityJoins(catalogs);
   /** @type {Partial<Record<import('../../src/contracts.js').CatalogKind,ReadonlySet<string>>>} */
   const authoredIds = {
     scene: new Set(authored.scenes.map(scene => scene.id)), 'map-definition': new Set([authored.town.mapDefinitionId, ...(catalogs.navigation?.definitionIds ?? [])]),
-    'story-node': new Set([authored.storyNodeId]), 'scene-role': new Set([authored.heroRoleId, authored.partnerRoleId]),
-    'story-branch': new Set(catalogs.campaign.getIdentities().filter(row => row.kind === 'branch').map(row => row.id)), milestone: new Set(catalogs.campaign.getIdentities().filter(row => row.kind === 'milestone').map(row => row.id)), grant: new Set(), 'scene-choice': new Set(), 'scene-option': new Set(), 'story-actor': new Set(),
-    policy: new Set([INITIAL_SCHEDULE_POLICY_ID]),
+    'story-node': new Set([authored.storyNodeId, OPENING.storyNode, OPENING.returnNode]), 'scene-role': new Set([authored.heroRoleId, authored.partnerRoleId]),
+    'story-branch': new Set(catalogs.campaign.getIdentities().filter(row => row.kind === 'branch').map(row => row.id)), milestone: new Set([OPENING.boostGuard, ...catalogs.campaign.getIdentities().filter(row => row.kind === 'milestone').map(row => row.id)]), grant: new Set(['browser-reunion-reward']), 'scene-choice': new Set(), 'scene-option': new Set(), 'story-actor': new Set(),
+    policy: new Set([INITIAL_SCHEDULE_POLICY_ID, OPENING.entryPolicy, OPENING.outcomePolicy, 'native-spawn-sleep', 'native-opening-reaction']), encounter: new Set(['pokemon-016', 'pokemon-191', 'pokemon-265', 'pokemon-102'].map(id => `tiny-woods-${id}`)),
   };
   /** @type {CampaignContent['identities']} */
   const identities = Object.freeze({ ...factual,
@@ -49,7 +51,7 @@ export function createCampaignContent(catalogs, authoredContent = createOpeningC
     },
   });
   const initialCampaign = createInitialCampaignLookup(catalogs, authored);
-  const opening = createOpeningPolicies(authored, initialCampaign);
+  const opening = withGameplayPolicies(authored, createOpeningPolicies(authored, initialCampaign));
   return Object.freeze({ referenceEdition: 'blue-rescue-team', campaignSchemaVersion: 1,
     // Reviewed adapter revision binds all five factual catalogs plus authored
     // script/state contract; it is not one catalog's schemaVersion.

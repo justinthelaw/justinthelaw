@@ -126,7 +126,16 @@ function beginAction(context, hooks, session, action) {
   frame.action = action; frame.actionStop = 'none'; frame.leaderChanged = false;
   actor.speed.endEffectsPending = true;
   if (action.kind !== 'move' && action.kind !== 'wait') actor.speed.attackLocked = true;
-  settleEffect(context, hooks, session, hooks.startAction(context, ref, action));
+  const mapId = session.floor.mapId;
+  const result = hooks.startAction(context, ref, action);
+  // A terminal action may atomically install a new floor and fresh scheduler.
+  // Never write the old action's after-stage into that new continuation.
+  if (context.state.session !== session || session.floor.mapId !== mapId) {
+    resultShape(result);
+    if (result.kind !== 'done' || result.movement || result.leaderChanged || result.stop !== 'none') throw new TurnFault('content-blocked', 'terminal-action-result');
+    return;
+  }
+  settleEffect(context, hooks, session, result);
 }
 
 /** Runs synchronously until the next leader command, an explicit canonical prompt,

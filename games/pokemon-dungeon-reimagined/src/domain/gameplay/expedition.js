@@ -1,0 +1,145 @@
+import { OPENING_SLEEP_CHANCES } from '../../../content/state/opening-facts.js';
+import { applyExperience } from './growth.js';
+import { generateFloor, materializeFloor } from '../generation.js';
+import { createScheduler } from '../turns.js';
+import { INITIAL_SCHEDULE_POLICY_ID } from '../../../content/state/expedition.js';
+import { OPENING_EXPEDITION as OPENING } from '../../../content/authored/expedition.js';
+import { decodePokeQuantity } from '../../../content/state/items.js';
+import { createActor } from './actors.js';
+import { allocate, blocked, clone, draw, quantity } from './support.js';
+import { requestScene } from './scenes.js';
+
+/** @typedef {import('./support.js').Catalogs} Catalogs */
+/** @typedef {import('../turns/types.js').MutationContext} Context */
+/** @param {Catalogs} catalogs @param {import('../../contracts/campaign.js').CampaignSnapshot} state */
+export function admission(catalogs, state) {
+  if (state.session || state.mode !== 'town' || state.progress.clears['tiny-woods']) return 'expedition-unavailable';
+  if (state.selectedPartyIds.length !== 2 || Object.values(state.items).some(item => !['item-oran-berry', 'item-pecha-berry'].includes(item.template.itemId)) || Object.values(state.containers).some(container => container.owner.kind === 'pokemon-held' && container.itemIds.length)) return 'opening-party-inventory';
+  // Abilities needing post-hit reactions cannot be silently ignored.
+  const reactive = ['Poison Point', 'Effect Spore', 'Synchronize', 'Color Change'];
+  for (const id of state.selectedPartyIds) {
+    const pokemon = state.roster[id]; if (!pokemon) return 'opening-party';
+    const p = catalogs.species.getProfile(pokemon.identity.speciesId, pokemon.identity.formId);
+    if (reactive.some(name => { const ability = catalogs.species.identities.abilities.find(row => row.name === name); return ability && p.abilityIds.includes(ability.originalId); })) return 'reaction-ability-not-supported';
+  }
+  return null;
+}
+/** @param {Context} context @param {Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} authored */
+export function enterOpening(context, catalogs, authored) {
+  const state = context.state;
+  if (!state.progress.milestones[OPENING.boostGuard]) {
+    for (const id of state.selectedPartyIds) {
+      const pokemon = state.roster[id]; if (!pokemon) return blocked('opening-party');
+      const start = catalogs.onboarding.getStartingProfile(pokemon.identity.speciesId).firstPlayable;
+      pokemon.growth.level = start.level; pokemon.growth.totalExperience = quantity(start.cumulativeExp); pokemon.growth.naturalStats = { ...start.stats };
+      for (let i = 0; i < start.moves.length; i++) {
+        const move = start.moves[i]; if (!move) continue;
+        const old = pokemon.moves.slots[i];
+        pokemon.moves.slots[i] = { moveSlotId: old?.moveSlotId ?? allocate(state, 'move-slot'), moveId: /** @type {import('../../contracts.js').MoveId} */ (move.moveId), enabled: true, powerBoost: 0, ppCapacityBonus: 0 };
+      }
+    }
+    state.progress.milestones[OPENING.boostGuard] = { milestoneId: OPENING.boostGuard, acquiredRevision: state.revision + 1, acquiredDay: state.town.day };
+  }
+  const itemArchive = clone({ items: state.items, containers: state.containers });
+  const home = state.containers[state.economy.toolbox]; if (!home) return blocked('entry-toolbox');
+  const sessionId = allocate(state, 'session'); const inventory = allocate(state, 'container');
+  state.containers[inventory] = { containerId: inventory, owner: { kind: 'session-toolbox', sessionId }, itemIds: [...home.itemIds] }; home.itemIds = [];
+  const blueprint = buildFloor(state, catalogs, 'tiny-woods-floor-01', authored);
+  /** @type {import('../../contracts/campaign.js').ExpeditionState['actors']} */ const actors = {};
+  /** @type {import('../../contracts/campaign.js').ExpeditionEntryBaseline['entrants']} */ const entrants = {};
+  for (let i = 0; i < state.selectedPartyIds.length; i++) {
+    const id = state.selectedPartyIds[i]; const pokemon = id ? state.roster[id] : null; const position = blueprint.partyPositions[i];
+    if (!pokemon || !position) return blocked('party-placement');
+    const actor = createActor(state, catalogs, { kind: 'roster', pokemonId: pokemon.pokemonId }, pokemon.identity, pokemon.growth.level, blueprint.floor.mapId, position, sessionId);
+    actors[actor.actorId] = actor;
+    entrants[pokemon.pokemonId] = { pokemon: clone(pokemon), projectedGrowth: clone(actor.growth), projectedMoves: clone(actor.moves), projectedIqSkillIds: [...actor.enabledIqSkillIds], projectedResources: clone(actor.resources), projectedPp: clone(actor.battleMoves), projectedTacticId: actor.tacticId, projectedHiddenPower: null };
+  }
+  const teamOrder = Object.values(actors).map(actor => actor.actorId); const leaderActorId = teamOrder[0]; if (!leaderActorId) return blocked('party-leader');
+  const money = state.economy.carriedMoney; state.economy.carriedMoney = 0;
+  state.session = { sessionId, dungeonId: /** @type {import('../../contracts.js').DungeonId} */ ('tiny-woods'), purpose: { kind: 'story', storyNodeId: OPENING.storyNode }, status: 'active', leaderActorId, teamOrder, actors,
+    floor: /** @type {import('../../contracts/campaign.js').FloorState} */ (clone(blueprint.floor)), inventory, carriedMoney: money, shops: {}, objectives: [],
+    scheduler: createScheduler(INITIAL_SCHEDULE_POLICY_ID, [leaderActorId, teamOrder[1] ?? null, null, null], Array(16).fill(null)),
+    entry: { sessionId, entryRevision: state.revision + 1, entryPolicyId: OPENING.entryPolicy, outcomePolicySetId: OPENING.outcomePolicy, entrants, selectedPartyIds: [...state.selectedPartyIds], carriedMoney: money, toolboxContainerId: state.economy.toolbox, itemArchive },
+    visitedFloorIds: [/** @type {import('../../contracts/campaign.js').FloorId} */ ('tiny-woods-floor-01')], completedEventIds: [], participantSettlements: [] };
+  state.progress.storyNodeId = OPENING.storyNode; state.mode = 'dungeon'; state.progress.statistics.expeditions++;
+  populate(context, catalogs, blueprint.placements);
+  context.emit({ type: 'floorChanged', mapId: blueprint.floor.mapId });
+}
+/** @param {import('../../contracts/campaign.js').CampaignState} state @param {Catalogs} catalogs @param {string} floorId @param {import('../../../content/authored/opening.js').AuthoredOpening} authored */
+function buildFloor(state, catalogs, floorId, authored) {
+  const factual = catalogs.dungeons.getFloorById(floorId); const generation = catalogs.dungeons.getGeneration(factual.generationId);
+  const result = generateFloor({ profile: factual, generation, streams: { layout: state.random.layout, encountersItems: state.random.encountersItems }, context: {
+    floorType: 'normal', missionSuppressesHouse: false, missionAddsEnemy: false, canChangeLeader: false, teamSize: 2, enemyLimit: 16, required: [], fixedEncounter: null, receivedTeam: null, specialPopulation: null, ownedRewardItemIds: [],
+  } }, { navigation: catalogs.navigation, dungeons: catalogs.dungeons, isEncounterEligible: row => row.blueGate === 'default-available' && row.applicabilityPredicate === 'ordinary-floor-candidate' });
+  if (result.kind !== 'ready') return blocked('floor-generation');
+  const section = catalogs.dungeons.getSection(factual.sectionId); const floors = section.variants[0]?.floorIds ?? []; const next = floors[floors.indexOf(floorId) + 1];
+  const materialized = materializeFloor(result.blueprint, { sequence: state.idSequence, existingIds: new Set(), location: { kind: 'exploration', address: /** @type {import('../../contracts/campaign.js').FloorAddress} */ ({ dungeonId: factual.dungeonId, sectionId: factual.sectionId, floorId }) }, definitionId: /** @type {import('../../contracts/campaign.js').MapDefinitionId} */ ('navigation-procedural'),
+    weather: { natural: [], contributions: [], damageCounter: 0 }, windCounter: catalogs.dungeons.getRestrictions(factual.restrictionId).fields.turnLimit,
+    exit: { kind: 'stairs-down', lock: { kind: 'open' }, destination: next ? { kind: 'floor', address: /** @type {import('../../contracts/campaign.js').FloorAddress} */ ({ dungeonId: factual.dungeonId, sectionId: factual.sectionId, floorId: next }), entryId: 'stairs' } : { kind: 'town', mapDefinitionId: authored.town.mapDefinitionId, entryId: 'caterpie-clearing' } }, trapKindIds: new Set() }, catalogs.navigation);
+  state.idSequence = materialized.sequence; state.random.layout = result.streams.layout; state.random.encountersItems = result.streams.encountersItems;
+  return materialized;
+}
+/** @param {Context} context @param {Catalogs} catalogs @param {readonly import('../generation/types.js').ReadonlyData<import('../generation/types.js').Placement>[]} placements */
+function populate(context, catalogs, placements) {
+  const state = context.state; const session = state.session; if (!session || !('address' in session.floor.location)) return blocked('population-session');
+  for (const placement of placements) {
+    if (placement.kind === 'enemy') {
+      const identity = /** @type {import('../../contracts/campaign.js').SpeciesForm} */ ({ speciesId: placement.encounter.speciesId, formId: placement.encounter.formId });
+      const actor = createActor(state, catalogs, { kind: 'wild', encounterId: /** @type {import('../../contracts/campaign.js').EncounterId} */ (`tiny-woods-${identity.speciesId}`), spawnedAt: { ...session.floor.location.address } }, identity, placement.encounter.level, session.floor.mapId, placement.position, session.sessionId);
+      const index = session.scheduler.wildSlots.indexOf(null); if (index < 0) return blocked('wild-capacity');
+      session.actors[actor.actorId] = actor; session.scheduler.wildSlots[index] = actor.actorId;
+      const chance = OPENING_SLEEP_CHANCES[identity.speciesId];
+      if (chance === undefined) return blocked('spawn-sleep-chance');
+      if (draw(state, 100, 'encountersItems') < chance) actor.conditions.sleep = { statusId: 'sleep', source: { kind: 'actor', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: actor.actorId, identity: actor.identity }, moveId: null }, duration: { kind: 'indefinite', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-spawn-sleep') }, periodicCountdown: null, payload: { kind: 'none' } };
+    } else if (placement.kind === 'item') {
+      if (!['item-poke', 'item-oran-berry', 'item-pecha-berry'].includes(placement.itemId)) return blocked('floor-item-construction');
+      let amount = 1;
+      if (placement.itemId === 'item-poke') { let index = draw(state, 100, 'encountersItems'); for (let i = 0; i < 200 && decodePokeQuantity(index) > placement.quantityContext.moneyUpperBound * 40; i++) index = Math.trunc(index / 2); amount = decodePokeQuantity(index); }
+      const itemInstanceId = allocate(state, 'item-instance'); const containerId = allocate(state, 'container');
+      state.items[itemInstanceId] = { itemInstanceId, template: { itemId: /** @type {import('../../contracts.js').ItemId} */ (placement.itemId), sticky: placement.sticky, payload: { kind: 'none' } }, quantity: amount, shopLotId: null };
+      state.containers[containerId] = { containerId, owner: { kind: 'floor', sessionId: session.sessionId, mapId: session.floor.mapId, position: { ...placement.position }, placement: 'ground' }, itemIds: [itemInstanceId] };
+    } else return blocked('floor-population');
+  }
+}
+/** @param {Context} context @param {Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} authored @param {import('../../contracts/campaign.js').ExitId} exitId */
+export function takeStairs(context, catalogs, authored, exitId) {
+  const session = context.state.session; const exit = session?.floor.exits[exitId]; if (!session || !exit) return blocked('exit-unavailable');
+  if (exit.destination.kind === 'town') {
+    const script = authored.scenes.find(row => row.id === OPENING.rescueScene); if (!script) return blocked('rescue-scene');
+    requestScene(context, authored, script); const scene = context.state.pendingScene; if (!scene) return blocked('rescue-scene');
+    session.scheduler = { ...session.scheduler, kind: 'scene-paused', sceneInstanceId: scene.sceneInstanceId };
+    session.scheduler.continuation.terminal = 'dungeon-exit'; return;
+  }
+  if (exit.destination.kind !== 'floor') return blocked('exit-destination');
+  const next = buildFloor(context.state, catalogs, exit.destination.address.floorId, authored);
+  for (const [id, actor] of Object.entries(session.actors)) if (actor.affiliation !== 'team') { delete context.state.containers[actor.heldContainerId]; delete session.actors[id]; }
+  for (const [id, container] of Object.entries(context.state.containers)) if (container.owner.kind === 'floor') { for (const item of container.itemIds) delete context.state.items[item]; delete context.state.containers[id]; }
+  session.floor = /** @type {import('../../contracts/campaign.js').FloorState} */ (clone(next.floor)); session.visitedFloorIds.push(exit.destination.address.floorId);
+  session.teamOrder.forEach((id, i) => { const actor = session.actors[id]; const pos = next.partyPositions[i]; if (!actor || !pos) return blocked('party-placement'); actor.placement = { kind: 'map', mapId: session.floor.mapId, position: { ...pos } }; actor.speed.movementPending = false; actor.speed.endEffectsPending = false; actor.speed.deferred = false; actor.resources.hpRegenerationAccumulator = quantity(0); actor.memory.lastUsedMove = null; actor.memory.lastIncomingMove = null; actor.memory.lastDamage = null; actor.memory.experienceContributors = []; });
+  session.scheduler = createScheduler(INITIAL_SCHEDULE_POLICY_ID, [session.teamOrder[0] ?? null, session.teamOrder[1] ?? null, null, null], Array(16).fill(null));
+  populate(context, catalogs, next.placements); context.emit({ type: 'floorChanged', mapId: session.floor.mapId });
+}
+
+/** Source-qualified non-reset retention; all participant, floor and inventory
+ * ownership changes commit together in the dispatch transaction.
+ * @param {Context} context @param {'success'|'fainting'|'wind-expulsion'|'give-up'} outcome @param {Catalogs} catalogs */
+export function settleExpedition(context, outcome, catalogs) {
+  const state = context.state; const session = state.session; if (!session) return blocked('settlement-session');
+  for (const actor of Object.values(session.actors)) if (actor.binding.kind === 'roster') {
+    applyExperience(context, actor, catalogs);
+    const pokemon = state.roster[actor.binding.pokemonId]; if (!pokemon) return blocked('settlement-participant');
+    pokemon.growth = clone(actor.growth); pokemon.moves = clone(actor.moves); pokemon.enabledIqSkillIds = [...actor.enabledIqSkillIds]; pokemon.tacticId = actor.tacticId;
+  }
+  const bag = state.containers[session.inventory]; const home = state.containers[state.economy.toolbox]; if (!bag || !home) return blocked('settlement-inventory');
+  for (const id of bag.itemIds) { if (outcome === 'success' || draw(state, 100, 'encountersItems') >= 50) home.itemIds.push(id); else delete state.items[id]; }
+  for (const [id, container] of Object.entries(state.containers)) if ('sessionId' in container.owner && container.owner.sessionId === session.sessionId) {
+    if (container.containerId !== session.inventory) for (const item of container.itemIds) delete state.items[item];
+    delete state.containers[id];
+  }
+  state.economy.carriedMoney = outcome === 'success' ? session.carriedMoney : 0;
+  if (outcome === 'success') {
+    state.progress.clears[session.dungeonId] = { dungeonId: session.dungeonId, firstClearRevision: state.revision + 1, lastClearRevision: state.revision + 1, firstClearDay: state.town.day, lastClearDay: state.town.day, clearCount: 1, reachedFloorIds: [...session.visitedFloorIds] };
+    state.progress.statistics.rescuesCompleted++; state.progress.storyNodeId = OPENING.returnNode;
+  }
+  state.session = null; state.pendingScene = null; state.mode = 'town'; context.emit({ type: 'expeditionEnded', outcome });
+}

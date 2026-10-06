@@ -33,6 +33,14 @@ strategic configuration commits a revision without necessarily consuming dungeon
 time. Retained drafts are sealed; no storage, animation or asynchronous callback
 belongs inside domain mutation.
 
+Declared command-plan and mutation-result failures preserve `rejected.reason`
+or `content-blocked.requirement` through the dispatch failure envelope (including
+its existing safe requirement-code filter). Plan failure occurs before draft
+preparation. Mutation failure discards and seals the private draft, including any
+temporary IDs, RNG draws and emitted events; neither failure advances the live
+revision, allocator, random streams or event counter. Promise/malformed-result
+guards still apply. Generic turn-hook failure fallbacks are a separate boundary.
+
 | Result / handler type | Meaning |
 | --- | --- |
 | `DispatchResult` | `accepted` with changed/consumedTurn/revision/events, or safe `rejected` / `content-blocked` with empty events |
@@ -109,3 +117,14 @@ save/UI/application integration and manual normal/speed/link/recruit/faint/termi
 prompt/recovery observations remain open. The startup shell remains unconnected.
 These APIs do not establish a playable adventure or any full-game completion gate.
 No automated game-source tests, imports or playthroughs are permitted.
+
+## Concrete opening consumer
+
+`src/domain/gameplay/index.js:createGameplay` now supplies the actual command and
+fifteen-hook consumer for the scoped Tiny Woods opening. See
+[GAMEPLAY-OPENING.md](GAMEPLAY-OPENING.md) for exact APIs, accepted saved boundaries,
+source decisions, browser AI/learning policies and unsupported requirements.
+The engine detects terminal session/floor replacement before applying the prior
+action's after-stage, preserving the newly materialized floor's scheduler.
+This consumer does not close application wiring, manual evidence or full-campaign
+gates described above.
