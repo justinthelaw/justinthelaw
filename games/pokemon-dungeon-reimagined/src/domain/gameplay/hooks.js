@@ -9,6 +9,7 @@ import { findPath } from '../navigation/path.js';
 import { isActuallyInSight, visibleTiles } from '../navigation/sight.js';
 import { actorAt, sessionOf } from '../turns/support.js';
 import { attack } from './combat.js';
+import { tryRevive } from './revival.js';
 import { createActor } from './actors.js';
 import { takeStairs, settleExpedition } from './expedition.js';
 import { draw, value, quantity, maxHp, profile, ability, blocked, navActor, navigationContext, occupants, facing, FACINGS } from './support.js';
@@ -68,6 +69,7 @@ export function createTurnHooks(catalogs, authored) {
     },
     forcedLoss(context) {
       const s = context.state.session;
+      if (s) for (const id of s.teamOrder) { const member = s.actors[id]; if (member) tryRevive(context, member, catalogs); }
       if (s && s.teamOrder.some(id => s.actors[id]?.resources.hp === 0)) settleExpedition(context, 'fainting', catalogs);
       return CONTINUE;
     },

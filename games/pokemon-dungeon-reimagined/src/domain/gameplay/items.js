@@ -16,11 +16,16 @@ export function useDungeonItem(context, action, catalogs) {
   if (item.quantity > 1) item.quantity--;
   else { bag.itemIds.splice(bag.itemIds.indexOf(item.itemInstanceId), 1); delete state.items[item.itemInstanceId]; }
   if (item.template.itemId === 'item-gravelerock') { throwRock(context, actor, item, catalogs); context.emit({ type: 'itemChanged', itemInstanceId: item.itemInstanceId }); return; }
-  if (item.template.itemId === 'item-apple' && Math.trunc(value(actor.resources.belly)) >= Math.trunc(value(actor.resources.maxBelly))) {
-    actor.resources.maxBelly = quantity(Math.min(200, value(actor.resources.maxBelly) + 5)); actor.resources.belly = actor.resources.maxBelly; actor.gains.maxBelly = quantity(value(actor.resources.maxBelly) - 100);
+  const apple = item.template.itemId === 'item-apple' || item.template.itemId === 'item-big-apple';
+  if (apple && Math.trunc(value(actor.resources.belly)) >= Math.trunc(value(actor.resources.maxBelly))) {
+    actor.resources.maxBelly = quantity(Math.min(200, value(actor.resources.maxBelly) + (item.template.itemId === 'item-big-apple' ? 10 : 5))); actor.resources.belly = actor.resources.maxBelly; actor.gains.maxBelly = quantity(value(actor.resources.maxBelly) - 100);
   }
-  const raw = Math.min(value(actor.resources.maxBelly) * 65536, value(actor.resources.belly) * 65536 + (item.template.itemId === 'item-apple' ? 50 : 5) * 65536);
+  const raw = Math.min(value(actor.resources.maxBelly) * 65536, value(actor.resources.belly) * 65536 + (apple ? item.template.itemId === 'item-big-apple' ? 100 : 50 : 5) * 65536);
   actor.resources.belly = quantity(raw, 65536);
+  if (item.template.itemId === 'item-max-elixir') for (const slot of actor.moves.slots) if (slot) {
+    const battle = actor.battleMoves.slots.find(row => row.moveSlotId === slot.moveSlotId);
+    if (battle) battle.currentPp = catalogs.effects.getMove(slot.moveId).numeric.pp;
+  }
   if (item.template.itemId === 'item-oran-berry') actor.resources.hp = Math.min(maxHp(actor), actor.resources.hp + 100);
   if (item.template.itemId === 'item-pecha-berry' && ['poisoned', 'badly-poisoned'].includes(actor.conditions.burn?.statusId ?? '') || item.template.itemId === 'item-rawst-berry' && actor.conditions.burn?.statusId === 'burn') actor.conditions.burn = null;
   if (item.template.itemId === 'item-cheri-berry' && actor.conditions.burn?.statusId === 'paralysis') { actor.conditions.burn = null; refreshSpeed(actor, catalogs); }
@@ -37,9 +42,9 @@ export function useDungeonItem(context, action, catalogs) {
   context.emit({ type: 'itemChanged', itemInstanceId: item.itemInstanceId }); context.emit({ type: 'message', messageId: 'berry-used' });
 }
 
-/** Finite supported use surface. Reviver Seed is rewarded only at the terminal
- * return boundary; no post-return departure admits it yet. */
-export const USABLE_ITEMS = Object.freeze(['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry', 'item-cheri-berry', 'item-apple', 'item-sleep-seed', 'item-blast-seed', 'item-gravelerock']);
+/** Finite supported use surface. Eating Reviver Seed has only the native seed
+ * Belly effect; automatic revival is owned by the shared faint boundary. */
+export const USABLE_ITEMS = Object.freeze(['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry', 'item-cheri-berry', 'item-apple', 'item-big-apple', 'item-max-elixir', 'item-reviver-seed', 'item-plain-seed', 'item-sleep-seed', 'item-blast-seed', 'item-gravelerock']);
 /** Native pickup chooses largest nonfull same-sticky stack, then largest with
  * either sticky flag. Native saturation discards excess over99; no second stack.
  * @param {import('../turns/types.js').MutationContext} context @param {import('../../contracts/campaign.js').SessionActor} actor */

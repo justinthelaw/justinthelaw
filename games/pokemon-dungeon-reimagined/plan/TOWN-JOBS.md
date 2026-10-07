@@ -104,10 +104,30 @@ projectile units and do not add a stickiness discount.
 The checkpoint deliberately has no generated offers or ordinary expedition
 entry yet. CLEAR_COUNT stays0, so Diglett/Mt. Steel cannot unlock. Gulpin and
 Dojo transactions remain explicitly unavailable; Friend Areas retain their
-later native gate. Purchased TMs, orbs, Warp/Stun/Reviver Seeds, Max Elixir and
-Big Apple are owned and storable but have no newly enabled use consumer in this
-checkpoint. Existing supported consumables retain their previous consumers;
-ordinary-route essentials must be implemented before later expedition entry.
+later native gate. Purchased TMs, orbs and Warp/Stun Seeds are owned and storable but their use
+consumers remain unavailable. The shared item prerequisite now supports Big
+Apple, Max Elixir, Plain Seed and Reviver Seed; ordinary expedition entry remains
+gated until its job consumers are implemented.
+
+### Shared restorative items
+
+Pinned comparative `dungeon_item_action.c:sub_80479B8/MaxElixirAction` and
+`move_orb_effects_2.c:RestorePPTarget/sub_8078B5C` supply Big Apple100 Belly,
++10 maximum only when already full (cap200), and Max Elixir restoring every
+existing move to base PP without altering links, seal or experience flags.
+The berries/seeds/vitamins category contributes5 Belly, including Max Elixir,
+Plain Seed and a deliberately eaten Reviver Seed. The inventory explains that
+eating the latter consumes its passive revival opportunity.
+
+`dungeon_damage.c:604–650` requires Item Master and a clean Reviver Seed, checks
+the held slot first, then team bag order, changes that same instance to Plain
+Seed, fills HP/Belly and clears temporary conditions/stat stages/speed counters
+before any faint/EXP/loss settlement. `ResetMonEntityData` and `sub_8078084` do
+not restore PP. The shared faint and forced-loss consumers cover combat, fixed
+item damage, poison and hunger; revival does not use failure retention rolls.
+Unsupported auxiliary/tether conditions remain blocked by current admission;
+future support must also clear cross-actor Leech Seed/Destiny Bond tethers as
+the native helper does. No old admission body/hash is changed.
 
 ## Save boundary
 

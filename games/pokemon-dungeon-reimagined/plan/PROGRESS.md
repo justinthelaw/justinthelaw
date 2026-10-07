@@ -10,6 +10,17 @@
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
 
+## Shared restorative-item prerequisite (2026-10-07)
+
+- Implemented Big Apple, Max Elixir, Plain Seed and automatic Reviver Seed
+  consumption through shared damage/loss consumers. The same item instance
+  becomes Plain Seed; held priority, Item Master, stickiness, full HP/Belly,
+  condition reset and unchanged PP follow the pinned comparative source.
+- UI describes eating versus keeping Reviver Seed; full TM/orb/Warp/Stun
+  consumers and ordinary-job entry remain explicit later dependencies.
+- Existing save shapes, revisions and predecessor policy pins stay unchanged.
+  Focused static verification only; no game execution or human acceptance.
+
 ## First town day and service checkpoint (2026-10-07)
 
 - Added dream/awakening, empty-mailbox partner meeting, Square introduction and

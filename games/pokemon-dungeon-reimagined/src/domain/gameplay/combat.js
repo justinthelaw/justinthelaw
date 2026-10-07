@@ -1,4 +1,5 @@
 import { contactReactions } from './conditions.js';
+import { tryRevive } from './revival.js';
 import { calculateNormalDamage } from '../rules/damage.js';
 import { ELEMENT_TYPES, isPhysicalType } from '../rules/type-context.js';
 import { canMeleeAttack } from '../navigation/geometry.js';
@@ -81,6 +82,7 @@ export function attack(context, attacker, action, catalogs) {
  * @param {Context} context @param {Actor} target @param {Catalogs} catalogs */
 export function finishDamage(context, target, catalogs) {
   const session = context.state.session; if (!session) return blocked('damage-session');
+  if (tryRevive(context, target, catalogs)) return;
   if (target.resources.hp === 0 && target.affiliation !== 'team') {
     // R CalculateEXPGain and dungeon_damage.c: half credit until a move hits.
     const p = profile(target.identity, catalogs); const base = p.experienceYield + Math.trunc(p.experienceYield * (target.growth.level - 1) / 10);
