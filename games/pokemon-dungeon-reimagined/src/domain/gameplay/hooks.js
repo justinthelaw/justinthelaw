@@ -31,8 +31,8 @@ const done = (movement = false) => ({ kind: 'done', movement, leaderChanged: fal
 function actor(context, ref) { const result = actorAt(sessionOf(context), ref); if (!result) return blocked('actor-reference'); return result; }
 
 /** All fifteen hooks are synchronous, using the single canonical draft. AI is
- * an explicit deterministic browser choice policy: adjacent regular attack,
- * otherwise a legal sight-limited path; no unavailable move is substituted.
+ * earlier/Steel wild move selection uses the source kernel. Partner move/item
+ * selection and native movement remain explicit implementation obligations.
  * @param {Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} authored
  * @returns {import('../turns/types.js').TurnHooks} */
 export function createTurnHooks(catalogs, authored) {
@@ -130,7 +130,7 @@ export function createTurnHooks(catalogs, authored) {
         return { kind: 'action', action: destination ? { kind: 'move', actorId: a.actorId, destination } : { kind: 'wait', actorId: a.actorId } };
       }
       const skipAttack = a.conditions.burn?.statusId === 'paralysis' || runningAway || confused && draw(context.state, 100) < 70;
-      const nativeWild = s.dungeonId === 'mt-steel' && a.affiliation === 'hostile';
+      const nativeWild = ['tiny-woods', 'thunderwave-cave', 'mt-steel'].includes(s.dungeonId) && a.affiliation === 'hostile';
       if (nativeWild && !skipAttack) {
         const chosen = chooseNativeWildMove(context, a, catalogs);
         if (chosen) return { kind: 'action', action: chosen };

@@ -16,10 +16,12 @@ Square wind request and rest at MAIN5,5, with navigable owned areas and resident
 management. Later chapter-five work, escort, wild recruitment and Sinister remain
 in implementation. Static checks do not establish human play/visual acceptance or a complete
 campaign; later services, escort admission and routes remain incomplete.
-Current v12 Friend Area saves preserve exact v2-v11 import admission. Bide, Focus
+Current v13 earlier-wild-AI saves preserve exact v2-v12 import admission. Bide, Focus
 Energy and Confusion now have sourced lifecycle consumers; Mt. Steel uses exact scoped wild move selection, boss/neutral roles, retry/loss
 return history and shared reward delivery. Metal Sound, Thundershock/paralysis, Hypnosis, Charge, Absorb and Quick Attack
-retain shared source consumers. Earlier partner/wild AI, extra-party dungeon
+retain shared source consumers. Tiny/Thunderwave wilds now use native move
+weights, active IQ and Charge/sleep targeting. Native movement, partner move/item
+AI, extra-party dungeon
 entry, recruitment/capacity return and the broader move/item inventory remain
 incomplete. MAIN5 onboarding refreshes source rank0 Steel jobs without opening
 unlimited work; future work must close Bronze escorts and their source rewards. Accepted requests,

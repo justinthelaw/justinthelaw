@@ -1054,3 +1054,21 @@ record until a later legal farewell. Check IQ now lists all eligible skills and
 persists native threshold/group-aware switches; exact defaults remain required
 during enrollment. Static lint/types and predecessor pins pass; native battle
 AI and the remaining chapter-five dependencies are still in implementation.
+
+### Earlier wild selection prerequisite - 2026-10-07
+
+V13 activates native weighted move choice for the ten earlier Tiny/Thunderwave
+wild profiles, including Charge, Hypnosis and Quick Attack targeting. Native
+wild IQ/tactic initialization replaces the earlier friendly-default projection;
+exact v2-v12 admission runs before prospective import conversion. The accepted
+v12 factory, new dependencies, root and FriendsState remain pinned. Exhausted
+or sealed move attempts complete without target or move-use side effects.
+
+Party move/item AI, native movement, extra-party entry and faint continuation,
+recruitment/capacity, escorts and the MAIN5 work gates remain in implementation.
+No game source was executed; human gameplay and visual acceptance remain open.
+
+Withdraw and Helping Hand now consume existing stat-stage owners, with ally-room
+execution targeting and distinct enemy-room AI eligibility for Helping Hand.
+No learned slot was filtered and no save admission changed. Party dispatch and
+remaining status/damage families continue as the next dependency.

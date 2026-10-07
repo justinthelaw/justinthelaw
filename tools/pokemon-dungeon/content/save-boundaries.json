@@ -214,6 +214,38 @@
     {
       "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/job-generation.js",
       "sha256": "90a3da8e4162be42ea29f5d43576eb823654d8c8c0a40c30a2ac4066563a38ed"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/friends-campaign.js",
+      "sha256": "24bd570de557c9d7c27a16c450be7e9986ec6db50f3d8b69c3cfe5fd23c8768a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/friend-progress.js",
+      "sha256": "ecff3e9f68e39d85025e5aa84a004b8a1ee339e1e24f47c774b63f66061854ff"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/friend-jobs.js",
+      "sha256": "a6839f801d255fd1717aabba5d6b992400b24f793a54a133b08cccff70b77835"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/friends.js",
+      "sha256": "1e4c68deb2477145be83d037b14d3eee4738cf6d8cf753fa8fbfb20e84d472fd"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/friend-area-facts.js",
+      "sha256": "3bfd238d21fe76a8f585f110103536454f02428207d3d2c044b190a479ed6b92"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/friend-job-facts.js",
+      "sha256": "856385e179fbf1295a264fa3f9481c18c34e1a21fb46d3ab7ff1a5b87103e467"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/friend-job-generation.js",
+      "sha256": "4cfe78b98b3e0e78b90cd41fd2e5f4be14607f9dffb98b84d202992c6e0af06e"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/friend-job-records.js",
+      "sha256": "89be18a79c859be756fe90518d940a18d57fcfe0cd1e56272598018b80edd79b"
     }
   ],
   "functionBodies": [
@@ -325,5 +357,14 @@
   "movesRootShape": {
     "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
     "sha256": "49008d65cd79547a85503c0494a68f629970a635012476bb01f0d275dec7ab8d"
+  },
+  "nativeAiPredecessorBaselineCommit": "91733e1b6ffa4794437b1b270eb760a3507040c0",
+  "friendsRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "0a8386936a7538f8eb52607482922e92afb8f7f4c693012c1a9ac8ad5bbbaee7"
+  },
+  "friendsOwnerShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "eb07bef2971f397ab30463f65c8e3140872547a1b437be8b1f6f23b6ea432ad2"
   }
 }

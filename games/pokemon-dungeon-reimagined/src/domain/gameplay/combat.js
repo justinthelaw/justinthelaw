@@ -54,12 +54,16 @@ export function attack(context, attacker, action, catalogs) {
   const slot = learned ? attacker.moves.slots.find(row => row?.moveSlotId === action.moveSlotId) : null;
   if (learned) {
     const pp = attacker.battleMoves.slots.find(row => row.moveSlotId === action.moveSlotId);
-    if (!pp || pp.currentPp === 0 || pp.sealed || !slot) return blocked('move-pp-unavailable');
+    if (!pp || !slot) return blocked('move-slot-unavailable');
+    // Default party AI has no PP Checker and may choose an exhausted slot.
+    // Native failed use still completes the action, before last-used, PP/EXP
+    // flags, target enumeration, wake or accuracy. Charge cleanup is external.
+    if (pp.currentPp === 0 || pp.sealed) { context.emit({ type: 'message', messageId: pp.sealed ? 'move-is-sealed' : 'move-has-no-pp' }); return; }
     pp.currentPp--; pp.usedForExperience = true;
     attacker.memory.lastUsedMove = { moveId: action.moveId, moveSlotId: action.moveSlotId };
   }
   if (action.kind === 'struggle') attacker.memory.lastUsedMove = { moveId: /** @type {import('../../contracts/campaign.js').MoveId} */ ('move-struggle'), moveSlotId: null };
-  const targets = moveTargets(session, attacker, move.target.rangeCode, catalogs, action.target);
+  const targets = moveTargets(session, attacker, move.target.rangeCode, catalogs, action.target, move.target.categoryCode);
   if (learned && SELF_STATUS_MOVES.includes(action.moveId) && slot) {
     if (move.numeric.type === 'electric') {
       const redirect = lightningRodTarget(context.state, attacker, attacker);
@@ -76,8 +80,8 @@ export function attack(context, attacker, action, catalogs) {
     context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: attacker.actorId, outcome: 'hit' }); return;
   }
   if (learned && STAT_MOVES.includes(action.moveId)) {
-    const effect = move.effects[0];
-    if (effect?.op !== 'stat-stage' || !['attack', 'defense', 'accuracy', 'special-defense'].includes(effect.stat)) return blocked('stat-move-projection');
+    const effects = move.effects.filter(effect => effect.op === 'stat-stage');
+    if (!effects.length || effects.some(effect => !['attack', 'defense', 'accuracy', 'special-attack', 'special-defense'].includes(effect.stat))) return blocked('stat-move-projection');
     for (const target of targets) {
       wakeSpawnSleeper(context, target);
       if (['move-growl', 'move-metal-sound'].includes(action.moveId) && ability(target, catalogs, 'Soundproof')) {
@@ -89,7 +93,9 @@ export function attack(context, attacker, action, catalogs) {
       // Native UseMoveAgainstTargets raises the experience multiplier before
       // dispatch, even when a stat cap or protection makes the effect fail.
       if (target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
-      changeStatStage(context, target, effect.stat === 'special-defense' ? 'specialDefense' : /** @type {'attack'|'defense'|'accuracy'} */ (effect.stat), effect.delta, catalogs);
+      // Helping Hand can include the user only through confusion's target
+      // override; its handler rejects self after the common hit/EXP boundary.
+      if (action.moveId !== 'move-helping-hand' || attacker.actorId !== target.actorId) for (const effect of effects) changeStatStage(context, target, effect.stat === 'special-defense' ? 'specialDefense' : effect.stat === 'special-attack' ? 'specialAttack' : /** @type {'attack'|'defense'|'accuracy'} */ (effect.stat), effect.delta, catalogs);
       context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'hit' });
     }
     if (!targets.length) context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: null, outcome: 'miss' });

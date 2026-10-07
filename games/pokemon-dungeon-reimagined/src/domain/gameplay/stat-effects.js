@@ -5,7 +5,7 @@ import { hasHeldItem } from './held-effects.js';
 /** @typedef {import('../turns/types.js').MutationContext} Context */
 /** @typedef {import('./support.js').Catalogs} Catalogs */
 /** Explicitly audited stage consumers. Other catalog effects stay gated. */
-export const STAT_MOVES = Object.freeze(['move-harden', 'move-defense-curl', 'move-meditate', 'move-growl', 'move-tail-whip', 'move-leer', 'move-sand-attack', 'move-metal-sound']);
+export const STAT_MOVES = Object.freeze(['move-harden', 'move-defense-curl', 'move-meditate', 'move-growl', 'move-tail-whip', 'move-leer', 'move-sand-attack', 'move-metal-sound', 'move-withdraw', 'move-helping-hand']);
 
 /** Native protection precedes clamping; offensive drops alone check Twist Band
  * and physical Hyper Cutter. Accuracy alone checks Keen Eye after shared guard.

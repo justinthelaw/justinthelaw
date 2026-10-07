@@ -14,13 +14,14 @@ export function activeActors(session) {
 /** Shared execution targeting for admitted single-front/self/room moves.
  * AI target search deliberately uses separate native AI flags.
  * @param {Session} session @param {Actor} actor @param {number} range
- * @param {Catalogs} catalogs @param {import('../../contracts/campaign.js').TargetSelector} selector */
-export function moveTargets(session, actor, range, catalogs, selector) {
+ * @param {Catalogs} catalogs @param {import('../../contracts/campaign.js').TargetSelector} selector
+ * @param {number} [category] */
+export function moveTargets(session, actor, range, catalogs, selector, category = 0) {
   if (actor.placement.kind !== 'map') return [];
   if (range === 7) return [actor];
   const origin = actor.placement.position, nav = navigationContext(session, catalogs);
   const confused = actor.conditions.cringe?.statusId === 'confused' && !actor.enabledIqSkillIds.some(id => id === 'iq-nontraitor');
-  const eligible = (/** @type {Actor} */ other) => other.affiliation !== 'neutral' && (confused || other.affiliation !== actor.affiliation);
+  const eligible = (/** @type {Actor} */ other) => other.affiliation !== 'neutral' && (confused || (category === 6 ? other.actorId !== actor.actorId && other.affiliation === actor.affiliation : other.affiliation !== actor.affiliation));
   if (range === 3) return activeActors(session).filter(other => eligible(other) && other.placement.kind === 'map' && isActuallyInSight(session.floor, origin, other.placement.position, nav.visibilityRange));
   const angle = FACINGS.indexOf(actor.facing) * Math.PI / 4;
   if (range === 4) {

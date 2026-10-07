@@ -151,3 +151,48 @@ then receive `friends:null`; an existing v11 Lightningrod cache is preserved.
 The new root validates each scene prefix, grant/name boundary, roster origin,
 area purchase, old-history projection and navigable ground placement. Static
 checks do not replace human gameplay, visual or device acceptance.
+
+## V13 earlier wild move selection prerequisite
+
+Tiny Woods and Thunderwave wilds now use the same sourced weighted selector as
+Steel, with their exact complete learned inventories. Charge suppresses its own
+weight and regular attacks while charging, gives non-Electric moves weight1,
+and leaves Electric weights intact. Status Checker rejects redundant Charge
+and Hypnosis against existing sleep; default friendly IQ does not apply wild
+PP/status filtering. Cut-corners follows active actor order and Course Checker
+when present. All-zero total PP retains Struggle. Exhausted/sealed move attempts
+complete ordinarily before PP spend, last-used, target wake or experience flags.
+Locators: `dungeon_ai_attack.c:53–340,341–533,754–828,830–903`,
+`move_checks.c:115–120,453–478,612`, `dungeon_move_util.c:52–224,337–383`.
+
+Earlier wild creation now uses native Status Checker/PP Checker/Item Catcher
+and Go After Foes. Exact v12 factory/dependencies/root and FriendsState are
+pinned before widening actor admission. Older imports authenticate and validate
+first, then prospectively initialize only earlier-wild IQ/tactic, preserving
+move/PP/RNG/seen/history and existing Friend Area progress. V13 uses unchanged
+v12 authoring and root shape with a distinct campaign content revision.
+
+This is move selection closure for the earlier fixed encounter inventory, not
+complete AI. Native movement/remembered targets, party Item Master/throws, the
+remaining actual party effects and move learning/replacement, companion faint
+continuation, extra-party entry, escorts, recruitment and chapter-five work
+remain required before those intervals open. No higher-level move is filtered
+or invented level cap imposed to avoid those dependencies.
+
+## Additional party stat consumers
+
+Withdraw now uses the same defense+1 consumer as Harden, as in native dispatch.
+Helping Hand resolves all room allies in active-actor order, excluding the user
+unless confusion overrides targeting; its handler still rejects the user after
+the common hit boundary. Each eligible target receives physical attack+1 then
+special attack+1 with ordinary caps. Native AI has a separate enemy-room trigger
+for Helping Hand, and its Status Checker guard requires a visible teammate with
+both offensive stages below the cap. Default party lacks that checker. This
+selection kernel remains preparatory until the rest of party dispatch closes.
+Locators: `dungeon_move.c:985–987`, `move_orb_actions_2.c:843–857`,
+`dungeon_move_util.c:875–889,930–982`, `move_checks.c:400–450`; immutable
+AI action185 flags48 versus execution flags54 are retained separately.
+
+No admission widening is needed: these effects use existing validated stat
+stages. Other actual party move effects, native movement and recruitment remain
+active dependencies.

@@ -28,7 +28,7 @@ export function createActor(state, catalogs, binding, identity, level, mapId, po
   if (homeHeld) homeHeld.itemIds = [];
   return { actorId, binding, affiliation: permanent ? 'team' : binding.kind === 'job-client' || binding.kind === 'guest' && binding.storyActorId === STEEL.clientRole ? 'neutral' : 'hostile', identity: clone(identity),
     growth: permanent ? clone(permanent.growth) : { level, totalExperience: quantity(growth.cumulativeExperience), naturalStats: { ...growth.stats }, permanentStatBonuses: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0 }, iqPoints: 1 },
-    moves, enabledIqSkillIds: permanent ? [...permanent.enabledIqSkillIds] : /** @type {import('../../contracts/campaign.js').IqSkillId[]} */ ([...(state.session?.dungeonId === STEEL.dungeonId ? WILD_ACTIVE_IQ : DEFAULT_IQ)]), tacticId: permanent?.tacticId ?? /** @type {import('../../contracts/campaign.js').TacticId} */ ('tactic-lets-go-together'),
+    moves, enabledIqSkillIds: permanent ? [...permanent.enabledIqSkillIds] : /** @type {import('../../contracts/campaign.js').IqSkillId[]} */ ([...(binding.kind === 'wild' || state.session?.dungeonId === STEEL.dungeonId ? WILD_ACTIVE_IQ : DEFAULT_IQ)]), tacticId: permanent?.tacticId ?? /** @type {import('../../contracts/campaign.js').TacticId} */ (binding.kind === 'wild' && ['tiny-woods', 'thunderwave-cave'].includes(state.session?.dungeonId ?? '') ? 'tactic-go-after-foes' : 'tactic-lets-go-together'),
     battleMoves: { slots: moves.slots.flatMap(slot => slot ? [{ moveSlotId: slot.moveSlotId, currentPp: catalogs.effects.getMove(slot.moveId).numeric.pp, sealed: false, usedForExperience: false }] : []) },
     resources: { hp: permanent ? permanent.growth.naturalStats.hp + permanent.growth.permanentStatBonuses.hp : growth.stats.hp, belly: quantity(100), maxBelly: quantity(100), hpRegenerationAccumulator: quantity(0) },
     placement: { kind: 'map', mapId, position: { ...position } }, facing: 's',
@@ -41,4 +41,17 @@ export function createActor(state, catalogs, binding, identity, level, mapId, po
     overrides: { types: null, abilities: null, form: null, hiddenPower: null }, heldContainerId,
     gains: { experience: quantity(0), statItems: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0 }, iq: 0, maxBelly: quantity(0), moveBoosts: [] },
     ai: { target: null, destination: null, waitingForLeader: false } };
+}
+
+/** Exact predecessor validation must precede this prospective initialization.
+ * It changes no encounter, move, PP, RNG, seen or recruitment history.
+ * @param {import('../../contracts/campaign.js').CampaignState} state */
+export function initializeEarlierWildAi(state) {
+  for (const session of [state.session, state.rescue.suspended?.session]) {
+    if (!session || !['tiny-woods', 'thunderwave-cave'].includes(session.dungeonId)) continue;
+    for (const actor of Object.values(session.actors)) if (actor.binding.kind === 'wild') {
+      actor.enabledIqSkillIds = /** @type {import('../../contracts/campaign.js').IqSkillId[]} */ ([...WILD_ACTIVE_IQ]);
+      actor.tacticId = /** @type {import('../../contracts/campaign.js').TacticId} */ ('tactic-go-after-foes');
+    }
+  }
 }

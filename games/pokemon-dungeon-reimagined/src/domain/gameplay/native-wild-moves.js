@@ -1,3 +1,4 @@
+import { DEFAULT_IQ } from '../../../content/state/opening-facts.js';
 import { AI_ACTION_FACTS, REGULAR_ATTACK_WEIGHTS, WILD_ACTIVE_IQ } from '../../../content/ai-facts.js';
 import { DIRECTIONS, canMeleeAttack } from '../navigation/geometry.js';
 import { isActuallyInSight } from '../navigation/sight.js';
@@ -11,11 +12,13 @@ import { draw, facing, navActor, navigationContext, blocked } from './support.js
 /** @typedef {typeof AI_ACTION_FACTS[number]} Fact */
 /** Explicit admission, not a move-weight filter. Broader wild/partner selection
  * remains a recorded consumer obligation until its effects/AI branches close. */
-const MOVES = Object.freeze(['move-peck', 'move-growl', 'move-tackle', 'move-tail-whip', 'move-harden', 'move-confusion', 'move-rapid-spin', 'move-defense-curl', 'move-bide', 'move-meditate', 'move-take-down', 'move-focus-energy', 'move-vice-grip', 'move-leer', 'move-sand-attack']);
+const MOVES = Object.freeze(['move-peck', 'move-growl', 'move-tackle', 'move-tail-whip', 'move-harden', 'move-confusion', 'move-rapid-spin', 'move-defense-curl', 'move-bide', 'move-meditate', 'move-take-down', 'move-focus-energy', 'move-vice-grip', 'move-leer', 'move-sand-attack', 'move-scratch', 'move-pound', 'move-thunder-shock', 'move-hypnosis', 'move-absorb', 'move-quick-attack', 'move-charge', 'move-metal-sound', 'move-withdraw', 'move-helping-hand']);
 /** @param {Actor} actor @param {string} moveId */
 function selfEligible(actor, moveId) {
+  if (!actor.enabledIqSkillIds.some(id => id === 'iq-status-checker')) return true;
+  if (moveId === 'move-charge') return actor.conditions.bide?.statusId !== 'charging';
   if (moveId === 'move-meditate') return actor.stages.attack < 20;
-  if (['move-harden', 'move-defense-curl'].includes(moveId)) return actor.stages.defense < 20;
+  if (['move-harden', 'move-defense-curl', 'move-withdraw'].includes(moveId)) return actor.stages.defense < 20;
   if (moveId === 'move-bide') return actor.conditions.bide?.statusId !== 'bide';
   if (moveId === 'move-focus-energy') return actor.conditions.sureShot?.statusId !== 'focus-energy';
   return true;
@@ -23,16 +26,20 @@ function selfEligible(actor, moveId) {
 /** @param {Actor} actor @param {Actor} target @param {string} moveId @param {Fact} fact */
 function targetEligible(actor, target, moveId, fact) {
   if (target.affiliation === 'neutral' || target.affiliation === actor.affiliation || target.resources.hp === 0 || target.placement.kind !== 'map') return false;
+  if (actor.affiliation === 'team' && target.conditions.frozen?.statusId === 'petrified') return false;
+  if (!actor.enabledIqSkillIds.some(id => id === 'iq-status-checker')) return true;
+  if (moveId === 'move-hypnosis' && ['sleep', 'nightmare', 'napping'].includes(target.conditions.sleep?.statusId ?? '')) return false;
   if (target.conditions.frozen?.statusId === 'frozen' && fact.cannotHitFrozen) return false;
+  if (moveId === 'move-metal-sound') return target.stages.specialDefense > 0;
   if (['move-leer', 'move-tail-whip'].includes(moveId)) return target.stages.defense > 0;
   if (moveId === 'move-sand-attack') return target.stages.accuracy > 0;
   if (moveId === 'move-growl') return target.stages.attack > 0;
   return true;
 }
 /** Current scoped wild IQ has neither Course Checker nor targeting-weight IQ.
- * Range0x80 therefore has no extra terrain/line-clearance check in AI: native
- * IsTargetInRange returns true before its Course Checker traversal. Execution
- * still owns its separate move geometry.
+ * Range0x80 has no extra line check without Course Checker. Default party IQ
+ * does have it: wall tiles and intervening actors block before reaching the
+ * intended target. Execution still owns its separate move geometry.
  * @param {Session} session @param {Actor} actor @param {string} moveId
  * @param {Fact} fact @param {Catalogs} catalogs @returns {number[]} */
 function potentialDirections(session, actor, moveId, fact, catalogs) {
@@ -47,11 +54,18 @@ function potentialDirections(session, actor, moveId, fact, catalogs) {
     if (!target || result.includes(direction) || !targetEligible(actor, target, moveId, fact)) return false;
     result.push(direction); return true;
   };
+  if (moveId === 'move-helping-hand' && actor.enabledIqSkillIds.some(id => id === 'iq-status-checker') && !live.some(other => other.actorId !== actor.actorId && other.affiliation === actor.affiliation && other.placement.kind === 'map' && isActuallyInSight(session.floor, origin, other.placement.position, nav.visibilityRange) && other.stages.attack < 20 && other.stages.specialAttack < 20)) return [];
+  if (fact.targetFlags === 48) {
+    const direction = DIRECTIONS.findIndex(d => facing(d.x, d.z) === actor.facing);
+    for (const target of live) if (target.placement.kind === 'map' && isActuallyInSight(session.floor, origin, target.placement.position, nav.visibilityRange)) add(direction, target);
+    return result;
+  }
   if (fact.targetFlags === 128) {
     for (const target of live) {
       if (target.placement.kind !== 'map' || target.actorId === actor.actorId) continue;
       const p = target.placement.position, dx = p.x - origin.x, dz = p.z - origin.z;
       if (Math.max(Math.abs(dx), Math.abs(dz)) !== 1 || !isActuallyInSight(session.floor, origin, p, nav.visibilityRange)) continue;
+      if (actor.enabledIqSkillIds.some(id => id === 'iq-course-checker') && catalogs.navigation.terrain(session.floor.tiles[p.z]?.[p.x]?.terrainId ?? '').kind === 'wall') continue;
       add(DIRECTIONS.findIndex(d => d.x === dx && d.z === dz), target);
     }
     return result;
@@ -75,13 +89,17 @@ function regularDirection(session, actor, catalogs) {
 }
 /** Preconditions: outer CannotAttack/Run Away/confusion guard has already run.
  * Every slot is retained; unsupported admission blocks before any selection.
- * Native unlinked Steel wild profiles have Status/PP Checker at IQ1, no
- * threshold gating, linked slots, Taunt/Encore, or targeting-weight skills.
+ * Native unlinked early wild profiles have Status/PP Checker independently of
+ * IQ1. Default party IQ instead has Course Checker and may select exhausted
+ * slots. These profiles have no targeting-weight skills or linked chains.
+ * Party dispatch remains gated until every actual learned effect is closed.
  * @param {import('../turns/types.js').MutationContext} context @param {Actor} actor
  * @param {Catalogs} catalogs @returns {Action|null} */
 export function chooseNativeWildMove(context, actor, catalogs) {
   const session = context.state.session;
-  if (!session || actor.affiliation !== 'hostile' || actor.moves.links.length || actor.enabledIqSkillIds.length !== WILD_ACTIVE_IQ.length || !WILD_ACTIVE_IQ.every(id => actor.enabledIqSkillIds.some(value => value === id))) return blocked('wild-ai-profile-not-supported');
+  const expectedIq = actor.affiliation === 'team' ? DEFAULT_IQ : WILD_ACTIVE_IQ;
+  if (!session || actor.affiliation === 'neutral' || actor.moves.links.length || actor.enabledIqSkillIds.length !== expectedIq.length || !expectedIq.every(id => actor.enabledIqSkillIds.some(value => value === id))) return blocked('wild-ai-profile-not-supported');
+  const ppChecker = actor.enabledIqSkillIds.some(id => id === 'iq-pp-checker'), charging = actor.conditions.bide?.statusId === 'charging';
   const slots = actor.moves.slots.flatMap(slot => slot ? [slot] : []);
   if (!slots.every(slot => MOVES.includes(slot.moveId))) return blocked('wild-ai-move-not-supported');
   const ppFor = (/** @type {typeof slots[number]} */ slot) => { const pp = actor.battleMoves.slots.find(row => row.moveSlotId === slot.moveSlotId); if (!pp) return blocked('wild-ai-pp'); return pp; };
@@ -104,9 +122,11 @@ export function chooseNativeWildMove(context, actor, catalogs) {
     const fact = nativeId === undefined ? undefined : AI_ACTION_FACTS[nativeId];
     if (!fact) return blocked('wild-ai-move-fact');
     const pp = ppFor(slot);
-    return { slot, fact, weight: slot.enabled && pp.currentPp > 0 && !pp.sealed ? fact.weight : 0 };
+    const available = slot.enabled && !pp.sealed && (!ppChecker || pp.currentPp > 0);
+    const weight = charging ? slot.moveId === 'move-charge' ? 0 : catalogs.effects.getMove(slot.moveId).numeric.type === 'electric' ? fact.weight : 1 : fact.weight;
+    return { slot, fact, weight: available ? weight : 0 };
   });
-  const regularWeight = REGULAR_ATTACK_WEIGHTS[slots.filter(slot => slot.enabled).length];
+  const regularWeight = charging ? 0 : REGULAR_ATTACK_WEIGHTS[slots.filter(slot => slot.enabled).length];
   if (regularWeight === undefined) return blocked('wild-ai-slot-count');
   const total = weighted.reduce((sum, row) => sum + row.weight, regularWeight);
   if (total === 0) return null;
