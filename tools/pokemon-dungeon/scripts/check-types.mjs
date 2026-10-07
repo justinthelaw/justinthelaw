@@ -1,5 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// Upgrade deferred: TypeScript 7.0.2 has no stable CompilerHost API; retain 6.0.3.
+// Revisit when custom module resolution is supported: https://github.com/microsoft/typescript-go#what-works-so-far
 import ts from 'typescript';
 
 const toolRoot = fileURLToPath(new URL('../', import.meta.url));

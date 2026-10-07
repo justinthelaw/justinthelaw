@@ -1,7 +1,62 @@
 """Regression checks for dependency APIs used by the training entry point."""
 
 import ast
+from argparse import Namespace
 from pathlib import Path
+
+import pytest
+
+from profile_qa.train_lora import build_training_arguments
+
+
+@pytest.mark.parametrize("ratio, expected_steps", [(0.0, 0), (0.05, 10), (1.0, 200)])
+def test_training_preserves_fractional_warmup(tmp_path, ratio, expected_steps) -> None:
+    """Construct the real training API without downloading weights or using a GPU."""
+
+    transformers = pytest.importorskip("transformers")
+    torch = pytest.importorskip("torch")
+    args = Namespace(
+        output_dir=str(tmp_path),
+        train_batch_size=1,
+        eval_batch_size=1,
+        gradient_accumulation_steps=1,
+        learning_rate=0.0001,
+        max_steps=200,
+        lr_scheduler_type="linear",
+        warmup_ratio=ratio,
+        weight_decay=0.0,
+        optim="adamw_torch",
+        eval_steps=10,
+        save_steps=10,
+    )
+
+    training_args = build_training_arguments(
+        args,
+        {
+            "torch": torch,
+            "Seq2SeqTrainingArguments": transformers.Seq2SeqTrainingArguments,
+        },
+        torch.float32,
+    )
+
+    assert training_args.get_warmup_steps(args.max_steps) == expected_steps
+
+
+@pytest.mark.parametrize(
+    "ratio, max_steps, message",
+    [
+        (-0.1, 200, "between 0 and 1"),
+        (1.1, 200, "between 0 and 1"),
+        (1.0, -1, "positive max-steps"),
+    ],
+)
+def test_training_rejects_ambiguous_warmup(ratio, max_steps, message) -> None:
+    """Do not silently reinterpret an invalid ratio as an absolute step count."""
+
+    with pytest.raises(ValueError, match=message):
+        build_training_arguments(
+            Namespace(warmup_ratio=ratio, max_steps=max_steps), {}, None
+        )
 
 
 def test_trainer_uses_transformers_5_processing_class() -> None:
