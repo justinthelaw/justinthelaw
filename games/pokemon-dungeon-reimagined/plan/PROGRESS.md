@@ -10,6 +10,16 @@
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
 
+## Town transaction prerequisites (2026-10-07)
+
+- Added bounded bank and normalized storage draft transactions with ownership,
+  per-item capacity, money capacity and projectile withdrawal checks. These
+  helpers are not yet exposed as functioning town services.
+- [TOWN-JOBS.md](TOWN-JOBS.md) records comparative native sources and the
+  numeric mission-enum distinction that must guide ordinary-job generation.
+- Current scenes, canonical policies, v5 revision and all predecessor admission
+  source pins are unchanged. Town UI/story integration and real jobs remain next.
+
 ## Thunderwave route checkpoint (2026-10-07)
 
 - Enabled the accepted request through five source exploration floors, a separate
