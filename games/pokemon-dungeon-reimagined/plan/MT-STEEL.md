@@ -254,3 +254,24 @@ The separate `RunGains.moveBoosts` ledger remains empty/unadmitted; reset-dungeo
 projection/retention is future work and must not invent old gain history from
 previously admitted boosts. Source: `dungeon_menu_moves.c:130-143,715-740`,
 `dungeon_item_action.c:519-563`, and `moves.c:1389-1418`.
+
+## Original Steel staging foundation
+
+The nine-floor route's original dialogue now distinguishes first/retry travel,
+first/retry battle, loss recovery, departure, non-running return bridge, gap
+rescue, thanks and home. This authoring is not yet active admission. The fixed
+arena has independent9x17 composition inside the shared56x32 grid, a broad lower
+fighting platform and Diglett's isolated ledge across a sky gap. Its isolated
+fixed-role placement is explicit in the generator request; ordinary required
+placements still require the entry component. No stairs exist on the boss map.
+The shared generator/materializer remains the only floor construction kernel.
+
+New sleep facts use the actual native species crosswalk. Fixed Skarmory and
+Diglett skip spawn-sleep RNG completely (`SpawnWildMon(...,TRUE)` and nonzero
+behavior; `dungeon_generation_fixed.c:43-67`, `dungeon_mon_spawn.c:513-523`).
+Mt. Steel's entire floor item pool is retained, including White/Orange Gummi and
+Switcher/Blowback/Warp/Petrify/Escape/Hurl Orbs. Their currently missing optional
+use consumers will remain visibly unavailable, never rerolled into another item;
+carrying/storage and reward Ginseng/Pecha consumers are separate responsibilities.
+Complete item consumers remain a full-game obligation. Source pooled facts come
+from the existing qualified dungeon catalog, not guessed drops.

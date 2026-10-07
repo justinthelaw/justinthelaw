@@ -1,3 +1,4 @@
+import { buildSteelArena } from './steel-arena.js';
 import { blankGeometry, cell, addRoom, carve, center, routeAround } from './support.js';
 /** @typedef {import('./types.js').Geometry} Geometry */
 /** @typedef {import('../../../content/navigation-types.js').ReadonlyData<import('../../../content/navigation-types.js').FixedDefinition>} FixedDefinition */
@@ -6,6 +7,7 @@ import { blankGeometry, cell, addRoom, carve, center, routeAround } from './supp
  * @param {FixedDefinition} fixed @param {'water'|'lava'} liquid @returns {Geometry}
  */
 export function buildFixedArena(fixed, liquid) {
+    if (fixed.index === 1) return buildSteelArena();
     const map = blankGeometry(), b = { x: 5, z: 5, width: fixed.width, height: fixed.height };
     map.protectedBounds = b;
     for (const row of map.cells)

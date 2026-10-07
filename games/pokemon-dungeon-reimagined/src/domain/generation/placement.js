@@ -146,7 +146,7 @@ export function placePopulation(map, input, dependencies, rng, finalRecovery = f
             let pos = null;
             for (; cursor < anchors.length; cursor++) {
                 const candidate = anchors[cursor];
-                if (candidate && !occupied.has(key(candidate)) && component.has(key(candidate))) {
+                if (candidate && !occupied.has(key(candidate)) && (component.has(key(candidate)) || fixedFloor && context.fixedEncounter?.isolatedRoleIds?.includes(encounter.roleId))) {
                     pos = candidate;
                     cursor++;
                     break;
