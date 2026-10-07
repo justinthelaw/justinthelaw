@@ -189,3 +189,68 @@ attack execution randomizes direction and excludes neutral targets. Native
 Run Away short-circuits the attack-choice chance, then confused actors pass/walk
 directly without flee pathfinding. Source: `dungeon_main.c:244-247,898-899`,
 `dungeon_ai_attack.c:69-75`, and `dungeon_ai.c:104-127`. No save policy changed.
+
+## Scoped native wild move selection and Struggle
+
+Steel hostile actors use the source weighted selector after the existing
+CannotAttack/Run Away/confusion guards. All learned slots remain present; an
+unsupported slot or IQ/link profile blocks admission instead of disappearing
+from the weights. Enabled-slot count includes exhausted moves; total PP includes
+disabled moves. PP Checker excludes exhausted/sealed candidate slots, then native
+move weights and the regular weight are drawn before target range is checked.
+The cumulative comparison intentionally retains source `>=` against a zero-based
+sample. An untargetable selected move falls back to the already considered
+regular attack, without rerolling another move. Exact Steel actor/IQ admission
+will be supplied by the route policy; the selector is wired only for Steel
+hostiles, not yet-accessible campaign floors.
+
+AI targeting uses the factual AI flags, separately from execution geometry:
+front0, around32, two-ahead64 and corner128. Self buffs still seek enemies under
+their native AI flags, after the appropriate self stage/status checks. Target
+stage minima/frozen exclusions precede target selection. Native active order and
+direction order are retained, with one target draw even for a single candidate.
+Without Course Checker, corner AI has the source early-true range behavior;
+actual move execution retains its terrain checks. Regular attacks scan from
+current facing and select the first eligible enemy without another draw.
+Neutral clients/Diglett never become candidates. Source:
+`dungeon_ai_attack.c:53-338,341-572,596-851`,
+`dungeon_move_util.c:1224-1289`, and `move_checks.c:22-451,453-710`.
+
+Zero total PP considers Struggle instead of a regular-attack substitute. Its
+explicit temporary action uses native352, no invented learned slot or PP debit,
+records last-used Struggle with a null owning slot, and participates in normal
+execution-time confusion. Positive damage triggers maxHP/4 recoil, rounded down
+with minimum1 and no Rock Head exemption; recoil faint grants no experience.
+Source: `dungeon_action_handler.c:767-816`,
+`dungeon_move_util.c:277-361`, `dungeon_misc.c:1739-1756`, and
+`move_orb_actions_4.c:343-369`. The action discriminant is additive; unchanged
+predecessor scheduler admission accepts only initial/leader-input boundaries or
+its exact paused exit scene, so no old save gains a new in-flight action. No
+predecessor source pin or factual resource was changed.
+
+Earlier wild/partner native move selection and the broader move inventory remain
+required full-game work. This checkpoint does not admit Steel floors or claim
+human gameplay/visual acceptance.
+
+## SET and Ginseng
+
+The move menu now exposes a persistent SET/UNSET toggle independently from move
+use. It acts only at the leader input boundary and consumes no turn, PP, Belly
+or random draw. Existing shortcut/slot identity is retained; no initial first
+slot is automatically selected. Linked-menu semantics remain gated. The menu
+shows the selected move and accumulated power boost. Ginseng is eaten through
+the shared sticky/consumption/Belly owner, samples random100 before any effect
+eligibility check, adds3 below12 and otherwise1, and caps at the move's sourced
+maximum. Only the leader's actual SET slot with nonzero base power can change.
+The gate does not depend on the effect-consumer allowlist: an unavailable
+damaging move can still be SET and strengthened. Ineffective use still consumes
+the item and the Ginseng sample.
+
+Canonical `MoveSlot.powerBoost` and `MoveSet.setMoveSlotId` were already admitted
+by the exact current/predecessor actor and permanent policies. Existing non-reset
+settlement copies those canonical moves for both success and loss, preserving
+slot IDs and power. No policy/hash/version change is needed to use those fields.
+The separate `RunGains.moveBoosts` ledger remains empty/unadmitted; reset-dungeon
+projection/retention is future work and must not invent old gain history from
+previously admitted boosts. Source: `dungeon_menu_moves.c:130-143,715-740`,
+`dungeon_item_action.c:519-563`, and `moves.c:1389-1418`.

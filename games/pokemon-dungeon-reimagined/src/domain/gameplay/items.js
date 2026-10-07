@@ -1,3 +1,4 @@
+import { useGinseng } from './move-menu.js';
 import { damageHp } from './hp-damage.js';
 import { sleepSeed, refreshSpeed } from './conditions.js';
 import { finishDamage } from './combat.js';
@@ -31,6 +32,7 @@ export function useDungeonItem(context, action, catalogs) {
   if (item.template.itemId === 'item-oran-berry') actor.resources.hp = Math.min(maxHp(actor), actor.resources.hp + 100);
   if (item.template.itemId === 'item-pecha-berry' && ['poisoned', 'badly-poisoned'].includes(actor.conditions.burn?.statusId ?? '') || item.template.itemId === 'item-rawst-berry' && actor.conditions.burn?.statusId === 'burn') actor.conditions.burn = null;
   if (item.template.itemId === 'item-cheri-berry' && actor.conditions.burn?.statusId === 'paralysis') { actor.conditions.burn = null; refreshSpeed(actor, catalogs); }
+  if (item.template.itemId === 'item-ginseng') useGinseng(context, actor, catalogs);
   if (item.template.itemId === 'item-sleep-seed') sleepSeed(context, actor, catalogs);
   if (item.template.itemId === 'item-blast-seed' && actor.placement.kind === 'map') {
     const angle = FACINGS.indexOf(actor.facing) * Math.PI / 4, pos = actor.placement.position;
@@ -46,7 +48,7 @@ export function useDungeonItem(context, action, catalogs) {
 
 /** Finite supported use surface. Eating Reviver Seed has only the native seed
  * Belly effect; automatic revival is owned by the shared faint boundary. */
-export const USABLE_ITEMS = Object.freeze(['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry', 'item-cheri-berry', 'item-apple', 'item-big-apple', 'item-max-elixir', 'item-reviver-seed', 'item-plain-seed', 'item-sleep-seed', 'item-blast-seed', 'item-gravelerock']);
+export const USABLE_ITEMS = Object.freeze(['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry', 'item-cheri-berry', 'item-apple', 'item-big-apple', 'item-max-elixir', 'item-reviver-seed', 'item-plain-seed', 'item-sleep-seed', 'item-blast-seed', 'item-gravelerock', 'item-ginseng']);
 /** Native pickup chooses largest nonfull same-sticky stack, then largest with
  * either sticky flag. Native saturation discards excess over99; no second stack.
  * @param {import('../turns/types.js').MutationContext} context @param {import('../../contracts/campaign.js').SessionActor} actor */

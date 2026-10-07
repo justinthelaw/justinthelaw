@@ -32,3 +32,11 @@ export function takeDownRecoil(actor, catalogs) {
   damageHp(actor, Math.max(1, Math.trunc(maxHp(actor) / 8)));
   return true;
 }
+
+/** Native Struggle uses its own quarter-maxHP recoil with no Rock Head check.
+ * @param {Actor} actor */
+export function struggleRecoil(actor) {
+  if (actor.placement.kind !== 'map' || actor.resources.hp === 0) return false;
+  damageHp(actor, Math.max(1, Math.trunc(maxHp(actor) / 4)));
+  return true;
+}

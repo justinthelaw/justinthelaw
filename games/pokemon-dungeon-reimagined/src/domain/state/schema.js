@@ -1844,7 +1844,7 @@ export const SHAPES = {
       {
         "kind": "object",
         "fields": {
-          "kind": {"kind":"literal","value":"attack"},
+          "kind": {"kind":"union","members":[{"kind":"literal","value":"attack"},{"kind":"literal","value":"struggle"}]},
           "actorId": {"kind":"ref","name":"ActorId"},
           "target": {"kind":"ref","name":"TargetSelector"}
         }

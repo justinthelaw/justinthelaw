@@ -1,3 +1,4 @@
+import { chooseNativeWildMove } from './native-wild-moves.js';
 import { confusedAction } from './confused-action.js';
 import { tickBattleStatus, endBide } from './battle-status.js';
 import { damageHp } from './hp-damage.js';
@@ -116,8 +117,13 @@ export function createTurnHooks(catalogs, authored) {
         return { kind: 'action', action: destination ? { kind: 'move', actorId: a.actorId, destination } : { kind: 'wait', actorId: a.actorId } };
       }
       const skipAttack = a.conditions.burn?.statusId === 'paralysis' || runningAway || confused && draw(context.state, 100) < 70;
+      const nativeWild = s.dungeonId === 'mt-steel' && a.affiliation === 'hostile';
+      if (nativeWild && !skipAttack) {
+        const chosen = chooseNativeWildMove(context, a, catalogs);
+        if (chosen) return { kind: 'action', action: chosen };
+      }
       const adjacent = enemies.find(other => other.placement.kind === 'map' && canMeleeAttack(navActor(a), s.floor, other.placement.position, nav));
-      if (adjacent && !skipAttack) return { kind: 'action', action: { kind: 'attack', actorId: a.actorId, target: { kind: 'actor', actorId: adjacent.actorId } } };
+      if (!nativeWild && adjacent && !skipAttack) return { kind: 'action', action: { kind: 'attack', actorId: a.actorId, target: { kind: 'actor', actorId: adjacent.actorId } } };
       if (confused) {
         if (!catalogs.navigation.mobility(a.identity.speciesId, a.identity.formId).canMove) return { kind: 'action', action: { kind: 'wait', actorId: a.actorId } };
         const angle = FACINGS.indexOf(a.facing) * Math.PI / 4;
@@ -151,7 +157,7 @@ export function createTurnHooks(catalogs, authored) {
         a.placement.position = { ...action.destination };
         context.emit({ type: 'actorMoved', actorId: a.actorId, from, to: { ...action.destination } }); return done(true);
       }
-      if (action.kind === 'attack' || action.kind === 'move-use') { attack(context, a, action, catalogs); return done(); }
+      if (action.kind === 'attack' || action.kind === 'struggle' || action.kind === 'move-use') { attack(context, a, action, catalogs); return done(); }
       if (action.kind === 'exit') { takeStairs(context, catalogs, authored, action.exitId); return done(); }
       if (action.kind === 'give-up') { settleExpedition(context, 'give-up', catalogs); return done(); }
       return blocked('action-effect');

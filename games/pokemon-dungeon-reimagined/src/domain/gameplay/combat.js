@@ -1,6 +1,6 @@
 import { SELF_STATUS_MOVES, selfBattleStatus } from './battle-status.js';
 import { damageHp } from './hp-damage.js';
-import { rapidSpinCleanup, takeDownRecoil } from './post-hit-effects.js';
+import { rapidSpinCleanup, takeDownRecoil, struggleRecoil } from './post-hit-effects.js';
 import { contactReactions, confusionSecondary, hasNegativeStatus } from './conditions.js';
 import { tryRevive } from './revival.js';
 import { recordSpeciesSeen } from '../state/species-seen.js';
@@ -40,30 +40,31 @@ function wakeSpawnSleeper(context, target) {
   context.emit({ type: 'conditionChanged', actorId: target.actorId });
 }
 /** Single-impact supported actions resolve HP before returning to the scheduler.
- * @param {Context} context @param {Actor} attacker @param {import('../../contracts/campaign.js').ResolvedAction & {kind:'attack'|'move-use'}} action @param {Catalogs} catalogs */
+ * @param {Context} context @param {Actor} attacker @param {import('../../contracts/campaign.js').ResolvedAction & {kind:'attack'|'struggle'|'move-use'}} action @param {Catalogs} catalogs */
 export function attack(context, attacker, action, catalogs) {
   const session = context.state.session;
   if (!session || attacker.placement.kind !== 'map') return blocked('combat-session');
   if (attacker.conditions.burn?.statusId === 'paralysis') { context.emit({ type: 'message', messageId: 'paralysis-prevents-attack' }); return; }
-  const regular = action.kind === 'attack';
-  const move = regular ? catalogs.effects.getAction(355) : catalogs.effects.getMove(action.moveId);
-  if (!regular && !supportedMove(catalogs, action.moveId)) return blocked('move-effect-not-supported');
-  const slot = !regular ? attacker.moves.slots.find(row => row?.moveSlotId === action.moveSlotId) : null;
-  if (!regular) {
+  const regular = action.kind === 'attack', learned = action.kind === 'move-use';
+  const move = learned ? catalogs.effects.getMove(action.moveId) : catalogs.effects.getAction(regular ? 355 : 352);
+  if (learned && !supportedMove(catalogs, action.moveId)) return blocked('move-effect-not-supported');
+  const slot = learned ? attacker.moves.slots.find(row => row?.moveSlotId === action.moveSlotId) : null;
+  if (learned) {
     const pp = attacker.battleMoves.slots.find(row => row.moveSlotId === action.moveSlotId);
     if (!pp || pp.currentPp === 0 || pp.sealed || !slot) return blocked('move-pp-unavailable');
     pp.currentPp--; pp.usedForExperience = true;
     attacker.memory.lastUsedMove = { moveId: action.moveId, moveSlotId: action.moveSlotId };
   }
+  if (action.kind === 'struggle') attacker.memory.lastUsedMove = { moveId: /** @type {import('../../contracts/campaign.js').MoveId} */ ('move-struggle'), moveSlotId: null };
   const targets = moveTargets(session, attacker, move.target.rangeCode, catalogs, action.target);
-  if (!regular && SELF_STATUS_MOVES.includes(action.moveId) && slot) {
+  if (learned && SELF_STATUS_MOVES.includes(action.moveId) && slot) {
     wakeSpawnSleeper(context, attacker);
     accuracy(context, attacker, attacker, move.numeric.accuracyBeforeEffect, true, catalogs);
     if (attacker.affiliation !== 'team' && !attacker.memory.experienceContributors.includes(attacker.actorId)) attacker.memory.experienceContributors.push(attacker.actorId);
     selfBattleStatus(context, attacker, slot);
     context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: attacker.actorId, outcome: 'hit' }); return;
   }
-  if (!regular && STAT_MOVES.includes(action.moveId)) {
+  if (learned && STAT_MOVES.includes(action.moveId)) {
     const effect = move.effects[0];
     if (effect?.op !== 'stat-stage' || !['attack', 'defense', 'accuracy'].includes(effect.stat)) return blocked('stat-move-projection');
     for (const target of targets) {
@@ -124,13 +125,13 @@ export function attack(context, attacker, action, catalogs) {
   if (result.damage > 0) contactReactions(context, attacker, target, physical, catalogs);
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
   const resolution = finishDamage(context, target, catalogs, attacker);
-  if (!regular && action.moveId === 'move-confusion' && result.damage > 0 && resolution !== 'revived') confusionSecondary(context, attacker, target, catalogs);
+  if (learned && action.moveId === 'move-confusion' && result.damage > 0 && resolution !== 'revived') confusionSecondary(context, attacker, target, catalogs);
   if (!regular && result.damage > 0) {
-    if (action.moveId === 'move-take-down' && takeDownRecoil(attacker, catalogs)) {
+    if (action.kind === 'struggle' ? struggleRecoil(attacker) : learned && action.moveId === 'move-take-down' && takeDownRecoil(attacker, catalogs)) {
       finishDamage(context, attacker, catalogs, attacker, false);
       context.emit({ type: 'message', messageId: 'move-recoil' });
     }
-    if (action.moveId === 'move-rapid-spin') rapidSpinCleanup(context, attacker);
+    if (learned && action.moveId === 'move-rapid-spin') rapidSpinCleanup(context, attacker);
   }
 }
 

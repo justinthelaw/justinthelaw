@@ -26,7 +26,7 @@ export function createGameplay(catalogs, options = {}) {
       return freezeData(actor?.moves.slots.flatMap(slot => {
         if (!slot) return [];
         const pp = actor.battleMoves.slots.find(pp => pp.moveSlotId === slot.moveSlotId);
-        return [{ actorId: actor.actorId, moveSlotId: slot.moveSlotId, moveId: slot.moveId, name: catalogs.effects.getMove(slot.moveId).name, currentPp: pp?.currentPp ?? 0,
+        return [{ actorId: actor.actorId, moveSlotId: slot.moveSlotId, moveId: slot.moveId, isSet: actor.moves.setMoveSlotId === slot.moveSlotId, powerBoost: slot.powerBoost, canSet: actor.moves.links.length === 0, name: catalogs.effects.getMove(slot.moveId).name, currentPp: pp?.currentPp ?? 0,
           requirement: !supportedMove(catalogs, slot.moveId) || actor.moves.links.some(link => link.includes(slot.moveSlotId)) ? 'move-effect-not-supported' : !pp || pp.sealed || pp.currentPp === 0 ? 'move-pp-unavailable' : null }];
       }) ?? []);
     },

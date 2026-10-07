@@ -39,7 +39,7 @@
  * {readonly type: 'move' | 'face', readonly dx: DirectionDelta, readonly dz: DirectionDelta} |
  * {readonly type: 'attack', readonly targetId?: ActorId} |
  * {readonly type: 'wait'} |
- * {readonly type: 'useMove', readonly actorId: ActorId, readonly moveSlotId: MoveSlotId} |
+ * {readonly type: 'useMove' | 'setMove', readonly actorId: ActorId, readonly moveSlotId: MoveSlotId} |
  * {readonly type: 'useStairs' | 'escape' | 'giveUp', readonly sessionId: SessionId} |
  * {readonly type: 'ackResult', readonly resultId: ResultId, readonly cursor: number, readonly revision: number} |
  * {readonly type: 'ackScene', readonly sceneId: SceneId, readonly cursor: number, readonly revision: number}

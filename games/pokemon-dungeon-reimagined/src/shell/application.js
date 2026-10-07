@@ -117,7 +117,7 @@ export async function createApplication(canvas, signal, startup) {
     if (origin === 'panel' ? !view.isOpen() : view.isOpen()) return;
     const adventure = saves.service.getBinding().instance; if (!adventure) return;
     const before = adventure.getSnapshot();
-    if (['move', 'face', 'attack', 'wait', 'useMove', 'useItem', 'useStairs', 'giveUp'].includes(intent.type) && (!ready || performance.now() < permitAt)) return;
+    if (['move', 'face', 'attack', 'wait', 'useMove', 'setMove', 'useItem', 'useStairs', 'giveUp'].includes(intent.type) && (!ready || performance.now() < permitAt)) return;
     if (['ackScene', 'submitSceneName'].includes(intent.type) && !ready) return;
     if (view.isOpen()) close();
     permitAt = performance.now() + 240;
@@ -145,8 +145,8 @@ export async function createApplication(canvas, signal, startup) {
   }
   function moves() {
     const snapshot = current(); if (!snapshot || !gameplay) return;
-    panel('Only supported front single-hit damage effects are admitted. Other effects remain unavailable.', gameplay.getMoveChoices(snapshot).map(move => ({ label: `${move.name} · ${move.currentPp} PP${move.requirement ? ' · unavailable' : ''}`, detail: move.requirement ?? 'Use current move', disabled: !!move.requirement,
-      run: () => act({ type: 'useMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') })), 'Moves');
+    panel('Use a move, or SET one for Ginseng. Selecting SET again unsets it without taking a turn.', gameplay.getMoveChoices(snapshot).flatMap(move => [{ label: `${move.isSet ? 'SET · ' : ''}${move.name}${move.powerBoost ? ` +${move.powerBoost}` : ''} · ${move.currentPp} PP${move.requirement ? ' · unavailable' : ''}`, detail: move.requirement ?? 'Use this move', disabled: !!move.requirement,
+      run: () => act({ type: 'useMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') }, { label: `${move.isSet ? 'Unset' : 'Set'} ${move.name}`, detail: 'Choose the move Ginseng can strengthen', disabled: !move.canSet, run: () => act({ type: 'setMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') }]), 'Moves');
   }
   function inventory() {
     const snapshot = current(); const session = snapshot?.session; const leader = session?.actors[session.leaderActorId];

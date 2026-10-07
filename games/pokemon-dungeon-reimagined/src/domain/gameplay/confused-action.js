@@ -11,7 +11,7 @@ import { draw, facing, navActor, navigationContext, occupants } from './support.
  * @returns {import('../../contracts/campaign.js').ResolvedAction} */
 export function confusedAction(context, actor, action, catalogs) {
   const session = context.state.session;
-  if (!session || actor.placement.kind !== 'map' || actor.conditions.cringe?.statusId !== 'confused' || !['move', 'attack', 'move-use'].includes(action.kind)) return action;
+  if (!session || actor.placement.kind !== 'map' || actor.conditions.cringe?.statusId !== 'confused' || !['move', 'attack', 'struggle', 'move-use'].includes(action.kind)) return action;
   const first = draw(context.state, 8), origin = actor.placement.position;
   let direction = DIRECTIONS[first];
   if (action.kind === 'move' && actor.actorId === session.leaderActorId) {
@@ -22,7 +22,7 @@ export function confusedAction(context, actor, action, catalogs) {
     }
   }
   if (direction) actor.facing = facing(direction.x, direction.z);
-  if (action.kind === 'attack' || action.kind === 'move-use') return { ...action, target: { kind: 'facing' } };
+  if (action.kind === 'attack' || action.kind === 'struggle' || action.kind === 'move-use') return { ...action, target: { kind: 'facing' } };
   if (action.kind !== 'move' || !direction) return action;
   const destination = { x: origin.x + direction.x, z: origin.z + direction.z };
   return canStep(navActor(actor), session.floor, origin, destination, occupants(session), navigationContext(session, catalogs)) ? { ...action, destination } : { kind: 'wait', actorId: actor.actorId };

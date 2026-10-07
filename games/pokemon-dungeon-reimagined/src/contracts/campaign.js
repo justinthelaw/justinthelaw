@@ -711,7 +711,7 @@
  *     actorId: ActorId;
  *     facing: Facing;
  * } | {
- *     kind: 'attack';
+ *     kind: 'attack' | 'struggle';
  *     actorId: ActorId;
  *     target: TargetSelector;
  * } | {
