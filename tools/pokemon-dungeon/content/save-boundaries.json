@@ -138,6 +138,42 @@
     {
       "path": "games/pokemon-dungeon-reimagined/content/state/species-seen.js",
       "sha256": "21bac0816359fb93f72e19334965d2c828e373c46e81822fce02f52879c8ff86"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/work-campaign.js",
+      "sha256": "092d7da1ef2a271f9e31bbfae5898128562c8a58805d84bfcdda0043af2928bd"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/early-work.js",
+      "sha256": "572e98d73afec085ba4ac090cb42a27a8737327b62e04ad7836935098f678050"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/work-expedition.js",
+      "sha256": "c916bb82ffbb24970c3390738a41b1d274162c28b870197d50abb07a45f7a370"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/work-jobs.js",
+      "sha256": "961a9452cf596ce1245a5eff3e84c49cbff1197cb8e3a1f55f54e4ad8fac8ab3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/early-work.js",
+      "sha256": "98ea8f886c1c39d4a13ec1f531fbe75a34c3681e35a0186767dd7a603db57904"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/early-job-facts.js",
+      "sha256": "80b4ea818c79054d1f5f56af226a0d576b5c04dfc99b59bc029aa64ad4c1ce46"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/job-interaction.js",
+      "sha256": "7677e77c3e8a6ef141378472771789381bea84d4699fd17ebb6a79f19cdaa732"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/job-records.js",
+      "sha256": "b882210b1987f0e65b1dc6c7db8aa8893cea0b6eb8c2b72afe0b4c9f4573c96a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/reward-items.js",
+      "sha256": "0004340b7c2e5215be654914fe8954e970f659e1a90b16cefb02cd0c58ad8b28"
     }
   ],
   "functionBodies": [
@@ -205,6 +241,11 @@
       "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
       "functionName": "createSeenOpeningContent",
       "sha256": "efa8ea2bcf98c28a4b3695160850d843e39649cececc80796cf91ade470502f9"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createOpeningContent",
+      "sha256": "ceac89d5e7daa1db7a2ec024f4026c71c86e6210ed76eceed16ae68ab1c39502"
     }
   ],
   "catalogManifests": [
@@ -228,5 +269,10 @@
   "seenRootShape": {
     "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
     "sha256": "90cf67ccc6c0c27fdfa6ed237cdd682169a39fddee06e8f5bfbcb09291a5297a"
-  }
+  },
+  "workRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "7ae54b1204078f8e9161d3bd5e4d0f51581a3ee4312abf10438d56e590f57a18"
+  },
+  "battlePredecessorBaselineCommit": "e59a35dba62b144294d0eb730438060797862831"
 }

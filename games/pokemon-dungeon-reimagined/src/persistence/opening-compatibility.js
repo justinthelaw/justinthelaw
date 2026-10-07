@@ -1,3 +1,4 @@
+import { createCampaignContent as createWorkCampaignContent } from '../../content/state/work-campaign.js';
 import { createCampaignContent as createSeenCampaignContent } from '../../content/state/seen-campaign.js';
 import { initializeEarlyWork } from '../domain/gameplay/job-records.js';
 import { createCampaignContent as createTownCampaignContent } from '../../content/state/town-campaign.js';
@@ -45,7 +46,10 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   const seen = createSeenCampaignContent(catalogs, createSeenOpeningContent());
   const seenRevision = HELD_V2_REVISION.replace('blue-campaign-state-v2-held-opening:browser-opening-v2:', 'blue-campaign-state-v7-seen-opening:browser-opening-v7-seen:');
   if (seen.contentRevision !== seenRevision) throw new TypeError('Seen-v7 factual catalog boundary differs.');
-  return Object.freeze([...([seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
+  const work = createWorkCampaignContent(catalogs);
+  const workRevision = HELD_V2_REVISION.replace('blue-campaign-state-v2-held-opening:browser-opening-v2:', 'blue-campaign-state-v8-work-opening:browser-opening-v8-work:');
+  if (work.contentRevision !== workRevision) throw new TypeError('Work-v8 factual catalog boundary differs.');
+  return Object.freeze([...([work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);
@@ -54,7 +58,7 @@ export function createOpeningCompatibility(catalogs, content, authored) {
         const { draft, commitRevision } = prepareTransaction(admitted.snapshot, commandContext(admitted.snapshot));
         draft.contentRevision = content.contentRevision; draft.revision = commitRevision;
         if (!draft.speciesSeen) initializeSpeciesSeen(draft, true);
-        initializeEarlyWork(draft, commitRevision, true);
+        if (!Object.hasOwn(draft, 'earlyWork')) initializeEarlyWork(draft, commitRevision, true);
         const checked = validateCampaign(draft, content);
         return checked.ok ? succeed(checked.snapshot) : fail(checked.kind === 'blocked' ? 'content-blocked' : 'invalid');
       } catch { return fail('invalid'); }

@@ -6,9 +6,9 @@ const root = new URL('../../../', import.meta.url);
 const manifest = JSON.parse(await readFile(new URL('../content/save-boundaries.json', import.meta.url), 'utf8'));
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
-assert(manifest.schemaVersion === 1 && manifest.baselineCommit === '98a37cf' && manifest.successorBaselineCommit === 'be2fe0926eabd5a7706f12939e9b49f5b0640b73' && manifest.townPredecessorBaselineCommit === '1b71c26fcc1d5c51decf243eb98f5be89052d7e9' && manifest.seenPredecessorBaselineCommit === '1991d70ecf1b9b004d4366b3b4ea8da7cdc40b76' && manifest.workPredecessorBaselineCommit === 'e1b97cc1c4dda6e216aa896bcf815a8008cb8440' && manifest.modules.length === 34 && manifest.catalogManifests.length === 2 && manifest.functionBodies.length === 13, 'Exact save source pin inventory.');
+assert(manifest.schemaVersion === 1 && manifest.baselineCommit === '98a37cf' && manifest.successorBaselineCommit === 'be2fe0926eabd5a7706f12939e9b49f5b0640b73' && manifest.townPredecessorBaselineCommit === '1b71c26fcc1d5c51decf243eb98f5be89052d7e9' && manifest.seenPredecessorBaselineCommit === '1991d70ecf1b9b004d4366b3b4ea8da7cdc40b76' && manifest.workPredecessorBaselineCommit === 'e1b97cc1c4dda6e216aa896bcf815a8008cb8440' && manifest.battlePredecessorBaselineCommit === 'e59a35dba62b144294d0eb730438060797862831' && manifest.modules.length === 43 && manifest.catalogManifests.length === 2 && manifest.functionBodies.length === 14, 'Exact save source pin inventory.');
 for (const row of manifest.modules) {
-  assert(/^games\/pokemon-dungeon-reimagined\/content\/[a-z0-9/-]+\.js$/.test(row.path), 'Local source pin path.');
+  assert(/^games\/pokemon-dungeon-reimagined\/(content\/[a-z0-9/-]+|src\/domain\/gameplay\/(job-interaction|job-records|reward-items))\.js$/.test(row.path), 'Local source pin path.');
   assert(hash(await readFile(new URL(row.path, root))) === row.sha256, `Reviewed predecessor dependency changed: ${row.path}`);
 }
 for (const row of manifest.catalogManifests) {
@@ -38,4 +38,6 @@ const legacyRoot = shapes?.properties.find(property => property.key.value === 'C
 assert(legacyRoot && hash(schemaSource.slice(legacyRoot.start, legacyRoot.end)) === manifest.legacyRootShape.sha256, 'Reviewed legacy root shape changed.');
 const seenRoot = shapes?.properties.find(property => property.key.value === 'CampaignStateWithSeen')?.value;
 assert(manifest.seenRootShape.path === manifest.legacyRootShape.path && seenRoot && hash(schemaSource.slice(seenRoot.start, seenRoot.end)) === manifest.seenRootShape.sha256, 'Reviewed v7 seen root shape changed.');
+const workRoot = shapes?.properties.find(property => property.key.value === 'CampaignStateWithWork')?.value;
+assert(manifest.workRootShape.path === manifest.legacyRootShape.path && workRoot && hash(schemaSource.slice(workRoot.start, workRoot.end)) === manifest.workRootShape.sha256, 'Reviewed v8 work root shape changed.');
 console.log(`Save admission source pins: ${manifest.modules.length} unchanged dependencies / ${manifest.functionBodies.length} exact predecessor bodies / 2 factual manifests and their resources; no game code executed.`);

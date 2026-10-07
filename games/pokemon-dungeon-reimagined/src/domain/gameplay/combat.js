@@ -1,10 +1,11 @@
+import { SELF_STATUS_MOVES, selfBattleStatus } from './battle-status.js';
 import { damageHp } from './hp-damage.js';
 import { rapidSpinCleanup, takeDownRecoil } from './post-hit-effects.js';
-import { contactReactions } from './conditions.js';
+import { contactReactions, confusionSecondary, hasNegativeStatus } from './conditions.js';
 import { tryRevive } from './revival.js';
 import { recordSpeciesSeen } from '../state/species-seen.js';
 import { calculateNormalDamage } from '../rules/damage.js';
-import { ELEMENT_TYPES, isPhysicalType } from '../rules/type-context.js';
+import { ELEMENT_TYPES, isPhysicalType, lookupTypeMatchup, combineTypeMatchups } from '../rules/type-context.js';
 import { moveTargets } from './move-targets.js';
 import { STAT_MOVES, changeStatStage } from './stat-effects.js';
 import { draw, value, maxHp, ability, profile, blocked, quantity } from './support.js';
@@ -20,7 +21,7 @@ function types(actor, catalogs) { const ids = profile(actor.identity, catalogs).
 /** @param {Catalogs} catalogs @param {string} id */
 export function supportedMove(catalogs, id) {
   const move = catalogs.effects.getMove(id);
-  return ['move-rapid-spin', 'move-take-down'].includes(id) || STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
+  return SELF_STATUS_MOVES.includes(id) || ['move-rapid-spin', 'move-take-down', 'move-confusion'].includes(id) || STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
 }
 /** @param {Context} context @param {Actor} attacker @param {Actor} target @param {number} base @param {boolean} physical @param {Catalogs} catalogs */
 function accuracy(context, attacker, target, base, physical, catalogs) {
@@ -55,6 +56,13 @@ export function attack(context, attacker, action, catalogs) {
     attacker.memory.lastUsedMove = { moveId: action.moveId, moveSlotId: action.moveSlotId };
   }
   const targets = moveTargets(session, attacker, move.target.rangeCode, catalogs, action.target);
+  if (!regular && SELF_STATUS_MOVES.includes(action.moveId) && slot) {
+    wakeSpawnSleeper(context, attacker);
+    accuracy(context, attacker, attacker, move.numeric.accuracyBeforeEffect, true, catalogs);
+    if (attacker.affiliation !== 'team' && !attacker.memory.experienceContributors.includes(attacker.actorId)) attacker.memory.experienceContributors.push(attacker.actorId);
+    selfBattleStatus(context, attacker, slot);
+    context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: attacker.actorId, outcome: 'hit' }); return;
+  }
   if (!regular && STAT_MOVES.includes(action.moveId)) {
     const effect = move.effects[0];
     if (effect?.op !== 'stat-stage' || !['attack', 'defense', 'accuracy'].includes(effect.stat)) return blocked('stat-move-projection');
@@ -101,8 +109,8 @@ export function attack(context, attacker, action, catalogs) {
       attackerHp: attacker.resources.hp, attackerMaxHp: maxHp(attacker), weather: 'clear', mudSport: false, waterSport: false, charging: false },
     stats: { rawOffense: attacker.growth.naturalStats[offense] + attacker.growth.permanentStatBonuses[offense], rawDefense: target.growth.naturalStats[defense] + target.growth.permanentStatBonuses[defense], movePower: move.numeric.power + (slot?.powerBoost ?? 0), offenseStage: attacker.stages[offense], defenseStage: target.stages[defense], offensiveMultiplierQ8: value(attacker.multipliers[offense]) * 256, defensiveMultiplierQ8: value(target.multipliers[defense]) * 256,
       flashFireBoost: 0, attackerForm: 'none', defenderForm: 'none', skullBash: false, attackerItem: 'none', defenderItem: 'none',
-      abilities: { guts: a('Guts'), attackerNegativeStatus: Object.values(attacker.conditions).some(Boolean), hugePower: a('Huge Power'), purePower: a('Pure Power'), hustle: a('Hustle'), plus: a('Plus'), minus: a('Minus'), sameSidePlus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Plus')), sameSideMinus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Minus')), intimidate: d('Intimidate'), marvelScale: d('Marvel Scale'), defenderNegativeStatus: Object.values(target.conditions).some(Boolean) } },
-    critical: { moveChance: move.numeric.criticalPercent, focusEnergy: false, typeAdvantageMaster: false, battleArmor: d('Battle Armor'), shellArmor: d('Shell Armor') },
+      abilities: { guts: a('Guts'), attackerNegativeStatus: hasNegativeStatus(attacker), hugePower: a('Huge Power'), purePower: a('Pure Power'), hustle: a('Hustle'), plus: a('Plus'), minus: a('Minus'), sameSidePlus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Plus')), sameSideMinus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Minus')), intimidate: d('Intimidate'), marvelScale: d('Marvel Scale'), defenderNegativeStatus: hasNegativeStatus(target) } },
+    critical: { moveChance: move.numeric.criticalPercent, focusEnergy: attacker.conditions.sureShot?.statusId === 'focus-energy', typeAdvantageMaster: false, battleArmor: d('Battle Armor'), shellArmor: d('Shell Armor') },
     teamMember: attacker.affiliation === 'team', leader: attacker.actorId === session.leaderActorId, integerBelly: Math.floor(value(attacker.resources.belly)), level: attacker.growth.level, regularAttack: regular,
     targetEffectsApply: true, reflect: false, lightScreen: false, moveEffectMultiplierQ8: Math.trunc(multiplier * 256), rolls: early ? null : { sharedPowerRoll: draw(context.state, 100), criticalRoll: armor ? null : draw(context.state, 100), varianceRoll: draw(context.state, 16384) } });
   // Native CalcDamage draws precede the second accuracy check. Stat effects
@@ -115,7 +123,8 @@ export function attack(context, attacker, action, catalogs) {
   damageHp(target, result.damage);
   if (result.damage > 0) contactReactions(context, attacker, target, physical, catalogs);
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
-  finishDamage(context, target, catalogs, attacker);
+  const resolution = finishDamage(context, target, catalogs, attacker);
+  if (!regular && action.moveId === 'move-confusion' && result.damage > 0 && resolution !== 'revived') confusionSecondary(context, attacker, target, catalogs);
   if (!regular && result.damage > 0) {
     if (action.moveId === 'move-take-down' && takeDownRecoil(attacker, catalogs)) {
       finishDamage(context, attacker, catalogs, attacker, false);
@@ -129,7 +138,7 @@ export function attack(context, attacker, action, catalogs) {
  * @param {Context} context @param {Actor} target @param {Catalogs} catalogs @param {Actor} attacker @param {boolean} [giveExperience] */
 export function finishDamage(context, target, catalogs, attacker, giveExperience = true) {
   const session = context.state.session; if (!session) return blocked('damage-session');
-  if (tryRevive(context, target, catalogs)) return;
+  if (tryRevive(context, target, catalogs)) return 'revived';
   if (target.resources.hp === 0 && attacker.actorId === session.leaderActorId) recordSpeciesSeen(context.state, target.identity);
   if (target.resources.hp === 0 && target.affiliation !== 'team') {
     // R CalculateEXPGain and dungeon_damage.c: half credit until a move hits.
@@ -145,4 +154,26 @@ export function finishDamage(context, target, catalogs, attacker, giveExperience
     const index = session.scheduler.wildSlots.indexOf(target.actorId); if (index >= 0) session.scheduler.wildSlots[index] = null;
     context.emit({ type: 'message', messageId: 'enemy-fainted' });
   }
+  return target.resources.hp === 0 ? 'fainted' : 'alive';
+}
+
+/** Source internal Bide2 release is typed fixed damage and consumes no learned
+ * slot PP, second accuracy, variance or critical roll. Current facing is used.
+ * @param {Context} context @param {Actor} actor @param {number} amount @param {Catalogs} catalogs */
+export function releaseBide(context, actor, amount, catalogs) {
+  const session = context.state.session; if (!session) return;
+  const target = moveTargets(session, actor, 0, catalogs, { kind: 'facing' })[0];
+  if (!target) { context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: null, outcome: 'miss' }); return; }
+  wakeSpawnSleeper(context, target);
+  if (!accuracy(context, actor, target, catalogs.effects.getAction(357).numeric.accuracyBeforeEffect, true, catalogs)) {
+    context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'miss' }); return;
+  }
+  const targetTypes = types(target, catalogs);
+  const matchup = combineTypeMatchups(lookupTypeMatchup('Fighting', targetTypes[0], false), lookupTypeMatchup('Fighting', targetTypes[1], false));
+  const damage = ability(target, catalogs, 'Wonder Guard') && matchup !== 'super' ? 0 : amount;
+  if (damage > 0 && target.affiliation !== 'team' && !target.memory.experienceContributors.includes(actor.actorId)) target.memory.experienceContributors.push(actor.actorId);
+  damageHp(target, damage);
+  if (damage > 0) contactReactions(context, actor, target, true, catalogs);
+  context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: damage ? 'hit' : 'immune' });
+  finishDamage(context, target, catalogs, actor);
 }

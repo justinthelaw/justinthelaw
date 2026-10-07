@@ -1,3 +1,5 @@
+import { confusedAction } from './confused-action.js';
+import { tickBattleStatus, endBide } from './battle-status.js';
 import { damageHp } from './hp-damage.js';
 import { SPAWN_SLEEP_CHANCES, eligibleEncounter } from '../../../content/state/expedition-facts.js';
 import { selectEncounter } from '../generation/encounters.js';
@@ -9,7 +11,7 @@ import { canStep, canMeleeAttack } from '../navigation/geometry.js';
 import { findPath } from '../navigation/path.js';
 import { isActuallyInSight, visibleTiles } from '../navigation/sight.js';
 import { actorAt, sessionOf } from '../turns/support.js';
-import { attack } from './combat.js';
+import { attack, releaseBide, finishDamage } from './combat.js';
 import { tryRevive } from './revival.js';
 import { createActor } from './actors.js';
 import { takeStairs, settleExpedition } from './expedition.js';
@@ -81,7 +83,8 @@ export function createTurnHooks(catalogs, authored) {
         a.resources.hp = Math.min(maxHp(a), a.resources.hp + Math.trunc(total / rate)); a.resources.hpRegenerationAccumulator = quantity(total % rate);
       }
       tickConditions(context, a, catalogs);
-      return { kind: 'continue', canAct: a.conditions.sleep === null && a.conditions.cringe?.statusId !== 'infatuated' };
+      tickBattleStatus(context, a);
+      return { kind: 'continue', canAct: a.conditions.sleep === null && a.conditions.cringe?.statusId !== 'infatuated' && a.conditions.bide?.statusId !== 'bide' };
     },
     experience(context, ref) { if (ref) applyExperience(context, actor(context, ref), catalogs); return CONTINUE; },
     ai(context, ref) {
@@ -100,7 +103,11 @@ export function createTurnHooks(catalogs, authored) {
         return { kind: 'action', action: { kind: 'move', actorId: a.actorId, destination: { x: a.placement.position.x + Math.round(Math.sin(angle)), z: a.placement.position.z - Math.round(Math.cos(angle)) } } };
       }
       const nav = navigationContext(s, catalogs); const enemies = Object.values(s.actors).filter(other => other.placement.kind === 'map' && other.affiliation !== a.affiliation && other.affiliation !== 'neutral');
-      if (a.actorId !== s.leaderActorId && ability(a, catalogs, 'Run Away') && a.resources.hp < Math.trunc(maxHp(a) / 2)) {
+      const confused = a.conditions.cringe?.statusId === 'confused';
+      const runningAway = a.actorId !== s.leaderActorId && ability(a, catalogs, 'Run Away') && a.resources.hp < Math.trunc(maxHp(a) / 2);
+      // ChooseAIMove exits for Run Away before its confusion chance. Confused
+      // actors then use pass/walk directly, without entering flee pathfinding.
+      if (runningAway && !confused) {
         const origin = a.placement.position;
         const threats = enemies.filter(other => other.placement.kind === 'map' && isActuallyInSight(s.floor, origin, other.placement.position, nav.visibilityRange));
         const distance = (/** @type {import('../../contracts.js').GridPosition} */ pos) => Math.min(...threats.map(other => other.placement.kind === 'map' ? Math.max(Math.abs(pos.x - other.placement.position.x), Math.abs(pos.z - other.placement.position.z)) : Infinity));
@@ -108,8 +115,14 @@ export function createTurnHooks(catalogs, authored) {
         const destination = threats.length ? moves.find(pos => distance(pos) > distance(origin)) : null;
         return { kind: 'action', action: destination ? { kind: 'move', actorId: a.actorId, destination } : { kind: 'wait', actorId: a.actorId } };
       }
+      const skipAttack = a.conditions.burn?.statusId === 'paralysis' || runningAway || confused && draw(context.state, 100) < 70;
       const adjacent = enemies.find(other => other.placement.kind === 'map' && canMeleeAttack(navActor(a), s.floor, other.placement.position, nav));
-      if (adjacent && a.conditions.burn?.statusId !== 'paralysis') return { kind: 'action', action: { kind: 'attack', actorId: a.actorId, target: { kind: 'actor', actorId: adjacent.actorId } } };
+      if (adjacent && !skipAttack) return { kind: 'action', action: { kind: 'attack', actorId: a.actorId, target: { kind: 'actor', actorId: adjacent.actorId } } };
+      if (confused) {
+        if (!catalogs.navigation.mobility(a.identity.speciesId, a.identity.formId).canMove) return { kind: 'action', action: { kind: 'wait', actorId: a.actorId } };
+        const angle = FACINGS.indexOf(a.facing) * Math.PI / 4;
+        return { kind: 'action', action: { kind: 'move', actorId: a.actorId, destination: { x: a.placement.position.x + Math.round(Math.sin(angle)), z: a.placement.position.z - Math.round(Math.cos(angle)) } } };
+      }
       const target = a.affiliation === 'team' ? s.actors[s.leaderActorId] : enemies.find(other => other.placement.kind === 'map' && isActuallyInSight(s.floor, navActor(a).position, other.placement.position, nav.visibilityRange));
       if (target?.placement.kind === 'map') {
         const path = findPath(navActor(a), s.floor, target.placement.position, occupants(s), nav, { allowOccupiedGoal: true, maxSteps: 4096 }); const step = path.path[0];
@@ -119,6 +132,7 @@ export function createTurnHooks(catalogs, authored) {
     },
     startAction(context, ref, action) {
       const s = sessionOf(context); const a = actor(context, ref);
+      action = confusedAction(context, a, action, catalogs);
       if (action.kind === 'wait') return done();
       if (action.kind === 'item') { useDungeonItem(context, action, catalogs); return done(); }
       if (action.kind === 'move') {
@@ -155,6 +169,8 @@ export function createTurnHooks(catalogs, authored) {
       if (a.resources.hp === 0) return hooks.forcedLoss(context);
       draw(context.state, 100); // Native Shed Skin sample precedes periodic poison.
       poisonDamage(context, a);
+      if (a.resources.hp === 0) finishDamage(context, a, catalogs, a, false);
+      if (a.resources.hp > 0) { const stored = endBide(context, a, catalogs); if (stored !== null) releaseBide(context, a, stored, catalogs); }
       return hooks.forcedLoss(context);
     },
     tile(context, ref) {

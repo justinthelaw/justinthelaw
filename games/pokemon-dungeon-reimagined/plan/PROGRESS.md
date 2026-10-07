@@ -954,3 +954,22 @@ revival without recoil experience. Shared HP subtraction prepares consistent
 Bide damage accumulation across moves, items and residual sources; Bide remains
 gated pending its timing/state owner. No old save boundary is changed. Source
 qualification and wrap admission limits remain explicit in MT-STEEL.md.
+
+### Mt. Steel timed-status and v9 save prerequisite - 2026-10-07
+
+Implemented Bide's pass/nominal-damage/end-phase fixed release, Focus Energy's
+before-action timer/critical precedence, and Confusion's post-revival secondary
+and source execution-direction consequences. Confused friendly targeting retains
+neutral exclusion and actual contact-ability provenance. Pecha Scarf's nonsticky
+held predicate now protects the admitted poison reaction. v9-battle freezes the
+exact v8 work factory/admission and authenticates v2-v8 envelopes before conversion;
+existing work owners are retained, never regenerated. Additive source pins now
+cover43 modules/14 bodies/two factual manifests and three old root shapes.
+
+MT-STEEL.md records source phases and boundaries; MT-STEEL-MOVE-COVERAGE.md lists
+10 earlier wild species/level rows and all16 starter level-up inventories through
+100. Native earlier-wild/partner skill choice and remaining consumers remain
+explicit work; no slot filtering, substitute skill or arbitrary level cap was
+introduced. Steel wild move selection and the nine-floor route remain next.
+Verification is static only; human status timing/save/confusion/visual acceptance
+and full-campaign release gates remain open.

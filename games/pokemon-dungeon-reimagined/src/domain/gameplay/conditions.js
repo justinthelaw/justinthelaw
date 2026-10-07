@@ -1,8 +1,16 @@
 import { damageHp } from './hp-damage.js';
+import { hasHeldItem } from './held-effects.js';
 import { ability, profile, draw, blocked, quantity } from './support.js';
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
 /** @typedef {import('../turns/types.js').MutationContext} Context */
 /** @typedef {import('./support.js').Catalogs} Catalogs */
+/** Native MonsterHasNegativeStatus excludes Bide and beneficial sureShot
+ * effects; positive statuses must not activate Guts or Marvel Scale.
+ * @param {Actor} actor */
+export function hasNegativeStatus(actor) {
+  const c = actor.conditions, a = actor.auxiliaryConditions;
+  return ['sleep', 'nightmare', 'yawning'].includes(c.sleep?.statusId ?? '') || c.burn !== null || c.frozen !== null && c.frozen.statusId !== 'ingrain' || c.cringe !== null || ['cursed', 'decoy'].includes(c.curse?.statusId ?? '') || c.leechSeed?.statusId === 'leech-seed' || c.sureShot?.statusId === 'whiffer' || ['blinker', 'cross-eyed'].includes(c.blinker?.statusId ?? '') || a.muzzled !== null || a.exposed !== null || a.perishSong !== null || actor.battleMoves.slots.some(slot => slot.sealed) || actor.speed.negativeTimers.some(Boolean);
+}
 /** Native CalculateStatusTurns; equal endpoints do not draw. @param {Context} context @param {Actor} actor @param {number} low @param {number} high @param {Catalogs} catalogs */
 function turns(context, actor, low, high, catalogs) {
   let n = low + (high === low ? 0 : draw(context.state, high - low));
@@ -24,12 +32,26 @@ export function contactReactions(context, attacker, defender, physical, catalogs
     if (name !== 'Poison Point' && !physical || !ability(defender, catalogs, name) || draw(context.state, 100) >= 12) continue;
     if (attacker.conditions[group]?.statusId === status) continue;
     if (status === 'paralysis' && ability(attacker, catalogs, 'Limber') || status === 'infatuated' && ability(attacker, catalogs, 'Oblivious')) continue;
-    if (status === 'poisoned' && (ability(attacker, catalogs, 'Immunity') || profile(attacker.identity, catalogs).typeIds.some(id => id === 8 || id === 17) || attacker.conditions.burn?.statusId === 'badly-poisoned')) continue;
+    if (status === 'poisoned' && (attacker.conditions.reflect?.statusId === 'safeguard' || hasHeldItem(context.state, attacker, 'item-pecha-scarf') || ability(attacker, catalogs, 'Immunity') || profile(attacker.identity, catalogs).typeIds.some(id => id === 8 || id === 17) || attacker.conditions.burn?.statusId === 'badly-poisoned')) continue;
     const source = catalogs.species.identities.abilities.find(row => row.name === name); if (!source) return blocked('reaction-ability');
     const duration = status === 'poisoned' ? 128 : status === 'paralysis' ? turns(context, attacker, 1, 2, catalogs) + 1 : turns(context, attacker, 4, 6, catalogs) + 1;
     attacker.conditions[group] = { statusId: status, source: { kind: 'ability', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: defender.actorId, identity: { ...defender.identity } }, abilityId: /** @type {import('../../contracts/campaign.js').AbilityId} */ (source.id) }, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-cave-condition'), remaining: duration }, periodicCountdown: status === 'poisoned' ? 0 : null, payload: { kind: 'none' } };
     refreshSpeed(attacker, catalogs); context.emit({ type: 'conditionChanged', actorId: attacker.actorId });
   }
+}
+/** Confusion secondary chance follows damage/faint/revival. The caller skips
+ * revived targets; successful chance is then blocked by Shield Dust before
+ * Safeguard, held Persim Band and Own Tempo application guards.
+ * @param {Context} context @param {Actor} user @param {Actor} target @param {Catalogs} catalogs */
+export function confusionSecondary(context, user, target, catalogs) {
+  const session = context.state.session;
+  if (!session || user.placement.kind !== 'map' || user.resources.hp === 0 || target.placement.kind !== 'map' || target.resources.hp === 0 || session.teamOrder.some(id => session.actors[id]?.resources.hp === 0)) return;
+  if (draw(context.state, 100) >= (ability(user, catalogs, 'Serene Grace') ? 20 : 10)) return;
+  if (user.actorId !== target.actorId && ability(target, catalogs, 'Shield Dust')) return;
+  if (target.conditions.reflect?.statusId === 'safeguard' || hasHeldItem(context.state, target, 'item-persim-band') || ability(target, catalogs, 'Own Tempo') || target.conditions.cringe?.statusId === 'confused') return;
+  target.conditions.cringe = { statusId: 'confused', source: { kind: 'actor', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: user.actorId, identity: { ...user.identity } }, moveId: /** @type {import('../../contracts.js').MoveId} */ ('move-confusion') }, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-battle-status-v9'), remaining: turns(context, target, 6, 12, catalogs) + 1 }, periodicCountdown: null, payload: { kind: 'none' } };
+  context.emit({ type: 'conditionChanged', actorId: target.actorId });
+  context.emit({ type: 'message', messageId: 'confused-status' });
 }
 /** @param {Context} context @param {Actor} actor @param {Catalogs} catalogs */
 export function sleepSeed(context, actor, catalogs) {

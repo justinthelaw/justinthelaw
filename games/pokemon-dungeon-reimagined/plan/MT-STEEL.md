@@ -111,7 +111,8 @@ wrap application and admission remain gated. This does not claim that the
 predecessor trap-removal projection has become supported or that a Blue-only
 difference has been proved. Wonder Tiles are unaffected.
 
-Take Down applies source `DoubleEdgeMoveAction` (`move_orb_actions_2.c:502-522`):
+Take Down dispatches `dungeon_move.c:726-729` to `sub_8058E5C`
+(`move_orb_actions_2.c:222-243`):
 successful positive damage, valid user, Rock Head check, then maxHP/8 rounded
 down with minimum1. Recoil uses shared faint/revival and does not grant team
 experience for a wild user's recoil faint. The source chance-zero helper uses
@@ -119,3 +120,72 @@ no random draw. All existing HP damage paths now share a narrow subtraction
 owner; its Bide accumulation hook counts nominal damage up to999 before HP
 subtraction. Bide itself remains unavailable until its lifecycle/save admission
 is integrated. Existing save resources and policies remain unchanged.
+
+## v9 timed battle statuses and v8 preservation
+
+Bide records its owning slot and nominal accumulated damage in the existing
+charge payload, but is not implemented as a normal two-turn charge. Initiation
+uses one learned-slot PP and counter4/5. Holding opportunities auto-pass; their
+end phase decrements after residual damage, including the initiation action.
+Expiry clears Bide first, checks the distinct native status/Run Away guards,
+then runs fresh internal357 (Fighting/front) through current-facing targeting.
+Release consumes no extra learned-slot PP or last-used update. Fixed damage is
+min(999,2*stored), with only the typed Wonder Guard matchup exception and no
+normal critical/variance/type multiplier or second accuracy draw.
+
+Focus Energy occupies sureShot, starts3/4, decrements before actions and is not
+refreshed or rerolled when already present. It overrides critical chance but
+still draws the normal critical roll unless Battle/Shell Armor bypasses it.
+Guts/Marvel Scale use the native negative-status predicate; neither Bide nor
+Focus Energy is a negative status. Source: `move_orb_effects_3.c:31-80`,
+`move_orb_effects_2.c:417-434`, `dungeon_turn_effects.c:360-377,504-509`,
+`dungeon_damage.c:240-417,1310-1340,1415-1456`,
+`dungeon_move_util.c:53-216,1002-1028,1356-1391`,
+`dungeon_logic.c:471-509,534-550,608-647,1056-1088`, and
+`move_orb_actions_1.c:652-673`.
+
+Confusion resolves its10% secondary only after positive damage and immediate
+faint/revival; a revived target is excluded without drawing. Serene Grace doubles
+chance; Shield Dust blocks a successful secondary before application checks.
+Safeguard, nonsticky Persim Band and Own Tempo prevent it. An existing confused
+status keeps its timer without another duration draw. Otherwise native6-12
+upper-exclusive duration applies Self Curer/Natural Cure and then adds1.
+Execution draws one native direction. Leader movement searches cyclically for a
+legal unoccupied step; nonleaders accept the sampled direction and wait if
+blocked. Attacks discard the earlier selected target and resolve the new front
+tile, with Nontraitor and neutral-client guards retained. Player items, waits
+and menus do not randomize direction. Confused AI skips attack selection on
+its70% early draw and otherwise retains normal faction-based selection; failed
+selection walks if species mobility permits, with no pass/walk RNG. Existing
+AI otherwise remains regular-attack-only until the scoped Steel selection
+consumer is connected. Source: `dungeon_ai.c:104-167`,
+`dungeon_ai_attack.c:69-75,754-794`, `dungeon_action.c:96-108`,
+`dungeon_action_execution.c:69-78`, `dungeon_main.c:449-478,1007-1027`,
+`dungeon_config.c:696-765`, `dungeon_move_util.c:819-991,1179-1209`,
+`move_orb_effects_2.c:35-75`, and `dungeon_random.c:85-105`.
+
+The current factory is v9-battle. The exact v8 factory lives in work-campaign.js;
+all its data/policies and v2-v7 predecessor hashes are unchanged. Additive pins
+cover43 modules,14 exact function bodies, two factual manifests/resources and
+three predecessor root shapes, captured from accepted e59a35d. V8 imports first
+pass original envelope authentication and original v8 admission, then retain all
+posting, reward, scene, RNG and stable IDs through conversion. Only legacy saves
+without the work root initialize prospective ordinary work. New statuses require
+exact classes, counters, payload/slot bounds and actual same-session source-move
+actors. All other condition fields are checked by the unchanged predecessor
+policy. Unsupported statuses cannot use the new policy label to enter saves.
+
+[The static move inventory](MT-STEEL-MOVE-COVERAGE.md) records every earlier wild
+candidate and every starter level-up candidate through100. Missing native
+partner/earlier-wild move use, remaining effect families and move replacement/
+linking remain full-game obligations, not omissions from the requested scope.
+Human timing, confusion movement, interruption/import and visual acceptance are
+still required. Static checks alone do not establish those observations.
+
+Status review corrections preserve input and AI ordering: a confused leader's
+regular-attack input is accepted even while facing a teammate or neutral client.
+Talking is still suppressed by the shared client interaction predicate; actual
+attack execution randomizes direction and excludes neutral targets. Native
+Run Away short-circuits the attack-choice chance, then confused actors pass/walk
+directly without flee pathfinding. Source: `dungeon_main.c:244-247,898-899`,
+`dungeon_ai_attack.c:69-75`, and `dungeon_ai.c:104-127`. No save policy changed.
