@@ -121,9 +121,10 @@ events never decide combat/progression; scenes commit idempotent transitions.
 records; preserve original numbered floors, terminal maps and unlock gates.
 
 Bounded checkpoint: opening/Tiny Woods/team formation and first morning through
-an accepted Magnemite request are implemented. See [FIRST-MORNING.md](FIRST-MORNING.md)
-for save gates, compatibility, source qualifications and remaining acceptance.
-Thunderwave execution, later services/routes and whole-story acceptance remain open.
+the accepted Magnemite request and Thunderwave return are implemented. See
+[FIRST-MORNING.md](FIRST-MORNING.md) and [THUNDERWAVE.md](THUNDERWAVE.md) for save
+gates, source qualifications and remaining acceptance. The next checkpoint is
+the MAIN(4,0) interior; later services/routes and whole-story acceptance remain open.
 
 - [ ] Implement onboarding, first rescues, town services, jobs and Friend Areas.
 - [ ] Implement early rescues, Team Meanies, Mt. Thunder and Great Canyon.

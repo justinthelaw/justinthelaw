@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baselineCommit": "98a37cf",
-  "scope": "Shared factual and policy source pins for held-v2 and v3-team admission; no runtime execution or gameplay acceptance.",
+  "scope": "Exact held-v2, v3-team and v4-morning predecessor admission dependencies; static source pins only, no game execution or acceptance.",
   "modules": [
     {
       "path": "games/pokemon-dungeon-reimagined/content/state/identities.js",
@@ -90,6 +90,18 @@
     {
       "path": "games/pokemon-dungeon-reimagined/content/onboarding.js",
       "sha256": "eb46560906a8e6f37919b4ce8494e2899cfe5778c4a45eb463f6ab9d144753cd"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/opening-facts.js",
+      "sha256": "a8049b3959946f693a4a35a085c14c997cc2ce9950e8a46085f2eeb98b095b75"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/first-morning.js",
+      "sha256": "a73df8d4b956ccaa70647b8888b571e0b740a7a84802bbdf6664238926e9bed7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/first-morning.js",
+      "sha256": "c7ed5d0bde75bf122066c02bbbf67d9b07a29304e9013b7f249f75e171c0a08c"
     }
   ],
   "functionBodies": [
@@ -122,6 +134,11 @@
       "path": "games/pokemon-dungeon-reimagined/content/state/opening-policies.js",
       "functionName": "createOpeningPolicies",
       "sha256": "23d83df0cc8e66256e4cfa23e1256379867c65c360b7df7a12717c9dab3d503a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createMorningOpeningContent",
+      "sha256": "b3f4a93f94dad6b35c157ef7a729a66ec3ec18b8f1e7cf967376b273b2014cc4"
     }
   ],
   "catalogManifests": [
@@ -133,5 +150,6 @@
       "path": "games/pokemon-dungeon-reimagined/content/onboarding/manifest.json",
       "sha256": "923f411ea7427579335db655885ec792ea30bbb7528c04242d980c99d34afa68"
     }
-  ]
+  ],
+  "successorBaselineCommit": "be2fe0926eabd5a7706f12939e9b49f5b0640b73"
 }

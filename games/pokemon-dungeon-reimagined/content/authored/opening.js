@@ -1,3 +1,4 @@
+import { createThunderwaveScenes } from './thunderwave.js';
 import { createMorningScenes } from './first-morning.js';
 import { createTeamScenes, baseContinuation } from './team-formation.js';
 import { freezeData } from '../../src/domain/state/validate.js';
@@ -38,7 +39,7 @@ export function createTeamOpeningContent() {
 
 /** Append-only successor; the v3 team definition above is frozen in scope.
  * @returns {AuthoredOpening} */
-export function createOpeningContent() {
+export function createMorningOpeningContent() {
   const prior = createTeamOpeningContent();
   return { ...prior, revision: 'browser-opening-v4-morning', scenes: [...prior.scenes, ...createMorningScenes()] };
 }
@@ -60,3 +61,9 @@ export function createInitialNativeProgress() {
 
 /** Shared immutable native reset for comparisons, never a load-time repair. */
 export const INITIAL_NATIVE_PROGRESS = freezeData(createInitialNativeProgress());
+
+/** Current append-only expedition continuation. @returns {AuthoredOpening} */
+export function createOpeningContent() {
+  const prior = createMorningOpeningContent();
+  return { ...prior, revision: 'browser-opening-v5-thunderwave', scenes: [...prior.scenes, ...createThunderwaveScenes()] };
+}

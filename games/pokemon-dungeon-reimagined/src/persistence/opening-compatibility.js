@@ -1,5 +1,5 @@
 import { createCampaignContent } from '../../content/state/campaign.js';
-import { createTeamOpeningContent } from '../../content/authored/opening.js';
+import { createTeamOpeningContent, createMorningOpeningContent } from '../../content/authored/opening.js';
 import { createCampaignContent as createHeldV2Content, HELD_V2_REVISION } from '../../content/state/held-v2-campaign.js';
 import { OPENING_EXPEDITION as O } from '../../content/authored/expedition.js';
 import { commandContext, prepareTransaction } from '../domain/state/transaction.js';
@@ -7,11 +7,11 @@ import { validateCampaign } from '../domain/state/validate.js';
 import { beginFormation } from '../domain/gameplay/scenes.js';
 import { fail, succeed } from './results.js';
 
-/** Exactly the navigation-backed held-v2 and v3-team predecessors. held-v1, partial catalog variants
+/** Exactly the navigation-backed held-v2, v3-team and v4-morning predecessors. held-v1, partial catalog variants
  * and unknown revisions are not repair candidates. The four frozen held-v2 authoring/
  * policy modules preserve held-v2 scene, item and session admission; shared
  * factual catalog/held ownership policies have not changed in this slice. V3
- * uses its exact six-scene body/shared policy pins, not full module copies. */
+ * uses its exact six-scene body/shared policy pins; v4 retains its exact thirteen-scene body and morning wrappers. */
 
 /** Conversion runs only after codec checks original envelope agreement, time,
  * SHA-256 and exact selected predecessor policy admission. It neither dispatches turns nor
@@ -26,10 +26,14 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   const team = createCampaignContent(catalogs, createTeamOpeningContent(), 'team');
   const teamRevision = HELD_V2_REVISION.replace('blue-campaign-state-v2-held-opening:browser-opening-v2:', 'blue-campaign-state-v3-team-opening:browser-opening-v3-team:');
   if (team.contentRevision !== teamRevision) throw new TypeError('Team-v3 factual catalog boundary differs.');
-  return Object.freeze([{ content: team,
+  const morning = createCampaignContent(catalogs, createMorningOpeningContent(), 'morning');
+  const morningRevision = HELD_V2_REVISION.replace('blue-campaign-state-v2-held-opening:browser-opening-v2:', 'blue-campaign-state-v4-morning-opening:browser-opening-v4-morning:');
+  if (morning.contentRevision !== morningRevision) throw new TypeError('Morning-v4 factual catalog boundary differs.');
+  return Object.freeze([...([morning, team].map(predecessor => ({ content: predecessor,
+    /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
-      const admitted = validateCampaign(snapshot, team);
-      if (!admitted.ok || snapshot.contentRevision !== teamRevision) return fail('invalid');
+      const admitted = validateCampaign(snapshot, predecessor);
+      if (!admitted.ok || snapshot.contentRevision !== predecessor.contentRevision) return fail('invalid');
       try {
         const { draft, commitRevision } = prepareTransaction(admitted.snapshot, commandContext(admitted.snapshot));
         draft.contentRevision = content.contentRevision; draft.revision = commitRevision;
@@ -37,7 +41,8 @@ export function createOpeningCompatibility(catalogs, content, authored) {
         return checked.ok ? succeed(checked.snapshot) : fail(checked.kind === 'blocked' ? 'content-blocked' : 'invalid');
       } catch { return fail('invalid'); }
     },
-  }, { content: legacy,
+  }))), { content: legacy,
+    /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       if (snapshot.contentRevision !== HELD_V2_REVISION) return fail('content-mismatch');
       // Defense in depth for direct callers; this cannot repair a malformed old

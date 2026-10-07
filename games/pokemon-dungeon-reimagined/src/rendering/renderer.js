@@ -37,6 +37,7 @@ export class DungeonRenderer {
         const ambient = new HemisphereLight(lighting?.ambient.sky ?? '#d9e8ff', lighting?.ambient.ground ?? '#32343a', lighting?.ambient.intensity ?? 2.2);
         const key = new DirectionalLight(lighting?.key.color ?? '#ffedcb', lighting?.key.intensity ?? 2.4);
         key.position.fromArray(lighting?.key.position ?? [6, 12, 8]);
+        this.ambientLight = ambient; this.keyLight = key;
         this.scene.add(ambient, key);
         this.pickupRoot = new Group();
         this.scene.add(this.pickupRoot);
@@ -122,6 +123,13 @@ export class DungeonRenderer {
             return;
         }
         const next = this.environmentKit.create(world);
+        const lighting = this.environmentKit.lightingFor?.(world) ?? this.environmentKit.lighting;
+        if (lighting) {
+            this.scene.background = new Color(lighting.background);
+            this.scene.fog = new Fog(lighting.fog.color, lighting.fog.near, lighting.fog.far);
+            this.ambientLight.color.set(lighting.ambient.sky); this.ambientLight.groundColor.set(lighting.ambient.ground); this.ambientLight.intensity = lighting.ambient.intensity;
+            this.keyLight.color.set(lighting.key.color); this.keyLight.intensity = lighting.key.intensity; this.keyLight.position.fromArray(lighting.key.position);
+        }
         this.generation++;
         this.syncGeneration++;
         this.options.onAssetsPending?.(false);

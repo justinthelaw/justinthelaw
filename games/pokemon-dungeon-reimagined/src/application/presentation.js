@@ -1,3 +1,4 @@
+import { THUNDERWAVE as T } from '../../content/authored/thunderwave.js';
 import { MORNING } from '../../content/authored/first-morning.js';
 import { TEAM } from '../../content/authored/team-formation.js';
 import { immutableRenderSnapshot, projectDungeon } from '../presentation/projection.js';
@@ -63,11 +64,12 @@ function meadow(snapshot, gameplay, epoch, species) {
 }
 
 /** All dungeon knowledge and effective appearances come from their existing
- * source owners. Adapt the accepted Tiny Woods→forest kit binding explicitly.
+ * source owners. Bind the implemented forest/cave routes to their environment kits explicitly.
  * @param {Snapshot} snapshot @param {Gameplay} gameplay @param {string} epoch
  * @param {import('../../content/species.js').SpeciesCatalog} species
  * @param {readonly import('../domain/turns/types.js').Event[]} [events] */
 export function renderSnapshot(snapshot, gameplay, epoch, species, events = []) {
+  if (snapshot.pendingScene?.sceneId === T.rescue || snapshot.pendingScene?.sceneId === T.reward) return caveScene(snapshot, epoch, species);
   if (!snapshot.session) {
     switch (snapshot.town.mapDefinitionId) {
       case gameplay.authored.town.mapDefinitionId: return meadow(snapshot, gameplay, epoch, species);
@@ -76,7 +78,7 @@ export function renderSnapshot(snapshot, gameplay, epoch, species, events = []) 
       default: throw new Error(`Unavailable ground map: ${snapshot.town.mapDefinitionId}`);
     }
   }
-  if (snapshot.session.dungeonId !== 'tiny-woods') throw new Error('Unavailable dungeon environment binding.');
+  if (!['tiny-woods', T.dungeonId].includes(snapshot.session.dungeonId)) throw new Error('Unavailable dungeon environment binding.');
   const visibility = gameplay.getVisibility(snapshot);
   if (!visibility) throw new Error('Current dungeon visibility is unavailable.');
   const source = gameplay.getPresentation(snapshot, epoch);
@@ -89,7 +91,7 @@ export function renderSnapshot(snapshot, gameplay, epoch, species, events = []) 
     if (event.type === 'attackResolved') presentation.actors[event.actorId] = { ...actor, clip: 'attack-physical', clipToken: `${epoch}:${event.eventId}:attack` };
   }
   const projected = projectDungeon(snapshot, visibility, presentation);
-  return immutableRenderSnapshot({ ...projected, world: { ...projected.world, biomeId: 'forest' } });
+  return immutableRenderSnapshot({ ...projected, world: { ...projected.world, biomeId: snapshot.session.dungeonId === T.dungeonId ? 'cave' : 'forest' } });
 }
 
 /** Only player-visible facts may enter the log; concealed enemies stay concealed.
@@ -102,11 +104,11 @@ export function eventMessages(previous, view, events) {
     const before = previous?.session?.actors[actor.actorId];
     if (before && before.resources.hp !== actor.hp) lines.push(`${actor.name}: ${actor.hp < before.resources.hp ? '−' : '+'}${Math.abs(actor.hp - before.resources.hp)} HP`);
   }
-  const messages = { 'berry-used': 'The berry was used.', 'item-sticky': 'The item is sticky.', 'enemy-fainted': 'An enemy fainted.', 'level-up': 'A team member gained a level.', 'hunger-damage': 'Your Belly is empty. Hunger costs HP.', 'move-learning-declined-full-slots': 'Four move slots are full; the new move was declined.', 'reward-sent-to-storage': 'A reward berry was sent to storage.' };
+  const messages = { 'berry-used': 'The item was used.', 'poison-damage': 'Poison costs 4 HP.', 'wonder-tile': 'The Wonder Tile reset stat changes.', 'paralysis-prevents-attack': 'Paralysis prevented the attack.', 'item-sticky': 'The item is sticky.', 'enemy-fainted': 'An enemy fainted.', 'level-up': 'A team member gained a level.', 'hunger-damage': 'Your Belly is empty. Hunger costs HP.', 'move-learning-declined-full-slots': 'Four move slots are full; the new move was declined.', 'reward-sent-to-storage': 'A reward item was sent to storage.' };
   for (const event of events) {
     if (event.type === 'attackResolved' && names.has(event.actorId) && event.outcome !== 'hit') lines.push(`${names.get(event.actorId)}: ${event.outcome === 'miss' ? 'miss' : 'no effect'}`);
     if (event.type === 'message') lines.push(Object.hasOwn(messages, event.messageId) ? /** @type {Record<string,string>} */ (messages)[event.messageId] ?? event.messageId : event.messageId.startsWith('wind-') ? 'A mysterious wind is approaching. Find the stairs.' : event.messageId.replaceAll('-', ' '));
-    if (event.type === 'expeditionEnded') lines.push(event.outcome === 'success' ? 'Caterpie is safe.' : 'The expedition ended. Growth is retained; carried items and money follow the defeat rules. You can retry.');
+    if (event.type === 'expeditionEnded') lines.push(event.outcome === 'success' ? previous?.session?.dungeonId === T.dungeonId ? 'The Magnemite are safe.' : 'Caterpie is safe.' : 'The expedition ended. Growth is retained; carried items and money follow the defeat rules. You can retry.');
     if (event.type === 'itemChanged' && view.pickups.every(item => item.pickupId !== event.itemInstanceId)) lines.push('An item changed. Check your held item or toolbox.');
   }
   return lines;
@@ -126,4 +128,16 @@ function baseInterior(snapshot, epoch, species) {
   });
   return immutableRenderSnapshot({ epoch, revision: snapshot.revision,
     world: { worldId: `${epoch}:${MORNING.interior}`, revision: snapshot.revision, width: MORNING.width, height: MORNING.height, biomeId: MORNING.kitId, tiles, visible: mask, explored: mask, exits: [], props: MORNING.props }, actors, pickups: [], events: [] });
+}
+
+/** Original separate scene composition; never a generated sixth floor.
+ * @param {Snapshot} snapshot @param {string} epoch @param {import('../../content/species.js').SpeciesCatalog} species */
+function caveScene(snapshot, epoch, species) {
+  const rescue = snapshot.pendingScene?.sceneId === T.rescue;
+  const width = 13, height = 11;
+  const tiles = Array.from({ length: height }, (_, z) => Array.from({ length: width }, (_, x) => x === 0 || z === 0 || x === width - 1 || z === height - 1 ? /** @type {const} */ ('wall') : /** @type {const} */ ('floor')));
+  const mask = tiles.map(row => row.map(() => true));
+  const actors = groundActors(snapshot, epoch, species).map((actor, index) => ({ ...actor, actorId: snapshot.session?.teamOrder[index] ?? actor.actorId, x: 4 + index * 2, z: 6, heading: Math.PI }));
+  for (let index = 0; index < (rescue ? 2 : 3); index++) actors.push({ actorId: `story-magnemite-${index}`, speciesId: 'pokemon-081', formId: null, name: index === 2 ? 'Magnemite friend' : 'Magnemite', x: rescue ? 5 + index : 4 + index * 2, z: 4, heading: 0, role: 'client', hp: 1, maxHp: 1, statuses: [], clip: rescue ? 'idle' : 'celebrate', clipToken: `${epoch}:magnemite:${index}:${snapshot.pendingScene?.sceneInstanceId}`, tint: '#ffffff', bounds: { width: 1, height: 1 } });
+  return immutableRenderSnapshot({ epoch, revision: snapshot.revision, world: { worldId: `${epoch}:${rescue ? T.clearing : T.entrance}`, revision: snapshot.revision, width, height, biomeId: 'cave', tiles, visible: mask, explored: mask, exits: [], props: [] }, actors, pickups: [], events: [] });
 }

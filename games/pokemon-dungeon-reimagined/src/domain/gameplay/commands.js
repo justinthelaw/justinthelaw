@@ -1,3 +1,5 @@
+import { USABLE_ITEMS } from './items.js';
+import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { canMeleeAttack } from '../navigation/geometry.js';
 import { movementPlan } from './movement.js';
 import { admission, enterOpening } from './expedition.js';
@@ -22,8 +24,8 @@ export function createCommandHandlers(catalogs, authored, tutorialSaved) {
     if (intent.type === 'useItem') {
       const item = state.items[intent.itemInstanceId]; const bag = state.containers[session.inventory];
       if (intent.actorId !== leader.actorId || intent.target.kind !== 'self' || !item || !bag?.itemIds.includes(item.itemInstanceId) && !state.containers[leader.heldContainerId]?.itemIds.includes(item.itemInstanceId)) return { kind: 'rejected', reason: 'unavailable' };
-      if (!['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry'].includes(item.template.itemId)) return { kind: 'content-blocked', requirement: 'item-action-not-supported' };
-      return { kind: 'action', action: { kind: 'item', actorId: leader.actorId, itemInstanceId: item.itemInstanceId, operation: 'use', target: { kind: 'self' } } };
+      if (!USABLE_ITEMS.includes(item.template.itemId)) return { kind: 'content-blocked', requirement: 'item-action-not-supported' };
+      return { kind: 'action', action: { kind: 'item', actorId: leader.actorId, itemInstanceId: item.itemInstanceId, operation: item.template.itemId === 'item-gravelerock' ? 'throw' : 'use', target: { kind: 'self' } } };
     }
     if (intent.type === 'wait') return { kind: 'action', action: { kind: 'wait', actorId: leader.actorId } };
     if (intent.type === 'giveUp' && intent.sessionId === session.sessionId) return { kind: 'action', action: { kind: 'give-up' } };
@@ -48,7 +50,7 @@ export function createCommandHandlers(catalogs, authored, tutorialSaved) {
   return { beginMorning: morningHandler(authored), submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs, tutorialSaved), move: dungeonAction, wait: dungeonAction, attack: dungeonAction, useMove: dungeonAction, useItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
     presentation: { plan: () => ({ kind: 'presentation' }) },
     advance: { plan: state => state.mode === 'dungeon' && state.session?.scheduler.kind === 'ready' ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }, apply: () => ({ kind: 'changed', resumeDungeon: true }) },
-    enterDungeon: { plan(state, intent) { if (intent.type !== 'enterDungeon' || intent.dungeonId !== 'tiny-woods') return { kind: 'content-blocked', requirement: 'dungeon-entry-not-supported' }; const reason = admission(catalogs, state); return reason ? { kind: 'content-blocked', requirement: reason } : { kind: 'mutation' }; }, apply(context) { enterOpening(context, catalogs, authored); return { kind: 'changed', resumeDungeon: true }; } },
+    enterDungeon: { plan(state, intent) { if (intent.type !== 'enterDungeon' || !['tiny-woods', T.dungeonId].includes(intent.dungeonId)) return { kind: 'content-blocked', requirement: 'dungeon-entry-not-supported' }; const reason = admission(catalogs, state, intent.dungeonId); return reason ? { kind: 'content-blocked', requirement: reason } : { kind: 'mutation' }; }, apply(context, intent) { if (intent.type !== 'enterDungeon') return { kind: 'rejected', reason: 'invalid-command' }; enterOpening(context, catalogs, authored, intent.dungeonId); return { kind: 'changed', resumeDungeon: true }; } },
     face: { plan(state, intent) { if (intent.type !== 'face' || !state.session || state.mode !== 'dungeon' || ![-1, 0, 1].includes(intent.dx) || ![-1, 0, 1].includes(intent.dz) || !intent.dx && !intent.dz) return { kind: 'rejected', reason: 'unavailable' }; return { kind: 'mutation' }; }, apply(context, intent) { const session = context.state.session; const actor = session?.actors[session.leaderActorId]; if (!actor || intent.type !== 'face') return { kind: 'rejected', reason: 'unavailable' }; const next = facing(intent.dx, intent.dz); if (actor.facing === next) return { kind: 'unchanged' }; actor.facing = next; return { kind: 'changed', resumeDungeon: false }; } },
   };
 }

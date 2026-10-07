@@ -5,10 +5,35 @@
 - **State:** implementation authorized on 2026-10-04 and continued on 2026-10-05; P01 source audit and full P02 content coverage remain incomplete.
 - **Planning baseline:** [PR #387](https://github.com/justinthelaw/justinthelaw/pull/387) merged as `0d34db51c258368ade8f081557200905214cebcd`.
 - **Delivery:** foundations [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388), README [PR #390](https://github.com/justinthelaw/justinthelaw/pull/390) and launcher [PR #391](https://github.com/justinthelaw/justinthelaw/pull/391) are merged. Full-game work is isolated on `feat/pokemon-full-campaign`, based on main `c7270c8b4ed73c28144abd09dc6811b6ca9d3b50`; it is not deployed.
-- **Current work:** the canonical opening, Tiny Woods rescue/reunion, team formation/name confirmation, first morning/save tutorial and accepted Magnemite request are implemented on PR #392. The recovered checkpoint also contains validated held-v2 save conversion, quiz RNG isolation and touch submission for opted-in name forms. Human gameplay/visual/device acceptance and the rest of the campaign remain open.
-- **Next safe action:** continue [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md) with the sourced Thunderwave Cave departure/mission consumers from the accepted-request base boundary. Preserve the existing save boundary and once-only grants. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
+- **Current work:** the canonical opening, Tiny Woods rescue/reunion, team formation/name confirmation, first morning/save tutorial and Thunderwave Cave through its first-request return checkpoint are implemented on PR #392. The recovered checkpoint also contains validated held-v2 save conversion, quiz RNG isolation and touch submission for opted-in name forms. Human gameplay/visual/device acceptance and the rest of the campaign remain open.
+- **Next safe action:** continue [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md) with the next sourced town/story consumers from the MAIN(4,0) interior checkpoint, after independent Thunderwave review. Preserve the existing save boundary and once-only grants. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
+
+## Thunderwave route checkpoint (2026-10-07)
+
+- Enabled the accepted request through five source exploration floors, a separate
+  Magnemite rescue, cave-entry thanks, base evening and resumable interior at
+  MAIN(4,0). Defeat/give-up/wind return inside for retry. Rescue and the sourced
+  500 Poké/Reviver Seed/Rawst Berry reward have separate exact-once receipts;
+  no later jobs, recruitment or next-day story is invented.
+- Shared initial/arrival eligibility preserves the Blue Plusle gate. Integrated
+  source level3/4 wild actors, sleep, contact reactions/poison/paralysis/charm,
+  next-floor cleanup, toolbox acquisition, Gravelerock, consumables and reusable
+  Wonder Tiles. Cave art/lighting and original scene placements are read-only.
+  [THUNDERWAVE.md](THUNDERWAVE.md) records source qualifications and AI/item limits.
+- Exact v4-morning admission joins existing held-v2/v3 migrations. Frozen
+  predecessor expedition/scene wrappers remain unchanged; current policy
+  expansion is isolated.25 module/7 function/2 manifest pins pass, including
+  morning dependencies pinned from accepted `be2fe092` source.
+- Parent published preparation local `21f1809` as remote `2eab65a`; independent
+  preparation review found no Critical/Important issues. Parent static220/142,
+  source pins, hooks and458-file Pages export passed. The earlier morning
+  `0a700433` publication completed all CI, including the website workflow.
+- Focused implementation lint225/type147, predecessor pins, dungeon/campaign/
+  navigation audits pass. Controller owns full export/publication and independent
+  route review. No game-source execution/import/tests, browser boot or automated
+  playthrough was performed. Human acceptance and full-campaign gates stay open.
 
 ## Thunderwave preparation checkpoint (2026-10-06)
 

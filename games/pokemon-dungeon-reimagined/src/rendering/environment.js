@@ -4,7 +4,7 @@ import { readLocalBytes, sha256 } from './assets.js';
 /** @typedef {import('../../vendor/three/three.module.min.js').Box3} Box3 */
 /** @typedef {{root:Group,obstacles:readonly Box3[],syncVisibility:(world:WorldView)=>void,dispose:()=>void}} EnvironmentInstance */
 /** @typedef {{background:string,fog:{color:string,near:number,far:number},ambient:{sky:string,ground:string,intensity:number},key:{color:string,intensity:number,position:number[]}}} Lighting */
-/** @typedef {{create:(world:WorldView)=>EnvironmentInstance,lighting?:Lighting,dispose?:()=>void}} EnvironmentKit */
+/** @typedef {{create:(world:WorldView)=>EnvironmentInstance,lighting?:Lighting,lightingFor?:(world:WorldView)=>Lighting|undefined,dispose?:()=>void}} EnvironmentKit */
 /** @typedef {{id:string,color:string,texturePath?:string,roughness:number,emissive?:string,emissiveIntensity?:number}} MaterialDef */
 /** @typedef {{shape:'box'|'cylinder'|'cone'|'sphere',size:number[],position:number[],rotation:number[],materialId:string,segments?:number}} Part */
 /** @typedef {{id:string,name:string,materials:MaterialDef[],props:{id:string,parts:Part[]}[],terrain:{floor:string,wall:string,water:string,lava:string},lighting:Lighting,wallHeight:number,floorRepeat:number[]}} KitDef */

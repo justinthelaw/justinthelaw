@@ -1,3 +1,5 @@
+import { THUNDERWAVE as T } from '../../content/authored/thunderwave.js';
+import { USABLE_ITEMS } from '../domain/gameplay/items.js';
 import { createOpeningCompatibility } from '../persistence/opening-compatibility.js';
 import { createScenePresenter } from '../application/team-formation.js';
 import { MORNING } from '../../content/authored/first-morning.js';
@@ -67,7 +69,7 @@ export async function createApplication(canvas, signal, startup) {
   function title() {
     close(); followsGame = false;
     view.hud('', [], []); view.minimap(null);
-    view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods, Caterpie's rescue, team formation and the first morning's accepted Magnemite request. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
+    view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods, Caterpie's rescue, team formation, the first morning, and the Thunderwave Cave rescue and return. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
       { label: 'New game', run: newGame }, { label: 'Continue / backup', run: () => { saves?.load(); context(); } }, { label: 'Saves & import', run: () => { saves?.menu(); context(); } },
       { label: 'Controls', run: help },
     ]); context();
@@ -145,8 +147,8 @@ export async function createApplication(canvas, signal, startup) {
     const snapshot = current(); const session = snapshot?.session; const leader = session?.actors[session.leaderActorId];
     if (!snapshot) return;
     const ids = session ? [...(snapshot.containers[session.inventory]?.itemIds ?? []), ...(leader ? snapshot.containers[leader.heldContainerId]?.itemIds ?? [] : [])] : [...(snapshot.containers[snapshot.economy.toolbox]?.itemIds ?? []), ...snapshot.selectedPartyIds.flatMap(id => snapshot.containers[snapshot.roster[id]?.heldContainerId ?? '']?.itemIds ?? [])];
-    panel('Before team naming, floor pickups use your held slot. Berry self-use is supported; equip, throw, drop and other item effects are unavailable.', ids.map(id => {
-      const item = snapshot.items[id]; return { label: item ? item.template.itemId.replace('item-', '').replaceAll('-', ' ') : 'Unavailable item', disabled: !leader || !item || !['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry'].includes(item.template.itemId),
+    panel(snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[2]) ? 'Use berries, seeds or food yourself. Blast Seed hits directly ahead; Gravelerock is thrown toward enemies in the direction you face. Pickups enter your toolbox.' : 'Before the starter toolbox, floor pickups use your held slot. Use a held berry here.', ids.map(id => {
+      const item = snapshot.items[id]; return { label: item ? `${item.template.itemId === 'item-gravelerock' ? 'Throw ' : ''}${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Unavailable item', disabled: !leader || !item || !USABLE_ITEMS.includes(item.template.itemId),
         run: () => { if (leader) act({ type: 'useItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel'); } };
     }), 'Items & held slot');
   }
@@ -160,7 +162,7 @@ export async function createApplication(canvas, signal, startup) {
     if (session) team.push(`Moves · ${gameplay.getMoveChoices(snapshot).map(move => `${move.name} ${move.currentPp} PP`).join(' · ')}`);
     const location = session?.floor.location;
     const floor = location?.kind === 'exploration' && loaded ? loaded.catalogs.dungeons.getFloorById(location.address.floorId).display : null;
-    const goal = session ? `Tiny Woods ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · Find stairs and rescue Caterpie · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
+    const goal = session ? `${session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
     const onStairs = leader?.placement.kind === 'map' && Object.values(session?.floor.exits ?? {}).some(exit => leader.placement.kind === 'map' && exit.position.x === leader.placement.position.x && exit.position.z === leader.placement.position.z);
     view.hud(goal, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
       { label: 'Attack', run: () => act({ type: 'attack' }), disabled: snapshot.mode !== 'dungeon' || !ready },
@@ -179,13 +181,21 @@ export async function createApplication(canvas, signal, startup) {
       showScene({ snapshot, epoch, prompt: gameplay.getScenePrompt(snapshot), ready, saves: menu, news: readNews, memoryOnly: saves?.isMemoryOnly() ?? false,
         saveTutorial(complete) { saves?.saveTutorial(snapshot, complete); },
         send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This scene prompt is stale.'); return; } act(intent, 'panel'); } });
+    } else if (!session && [T.story, T.complete].includes(snapshot.progress.storyNodeId)) {
+      dialogue = false;
+      const complete = snapshot.progress.storyNodeId === T.complete;
+      const choice = gameplay.getDungeonChoices(snapshot).find(row => row.dungeonId === T.dungeonId);
+      view.show(complete ? 'First request complete' : 'Back at the base', complete ? 'The Magnemite are safe, your reward is settled, and your partner has gone home. Keep a checkpoint here. The next story continues in a later development update.' : 'The rescue is unfinished. Your team has recovered at home. Growth is retained; carried money and items follow the defeat rules. You can try Thunderwave Cave again.', [
+        ...(!complete ? [{ label: 'Retry Thunderwave Cave', disabled: !ready || !choice || !!choice.requirement, detail: choice?.requirement ?? 'Return to the rescue', run: () => act({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (T.dungeonId) }, 'panel') }] : []),
+        { label: 'Campaign & saves', run: menu }, { label: 'View rewards', run: inventory },
+      ]);
     } else if (!session && snapshot.town.mapDefinitionId === TEAM.map) {
       dialogue = false;
       const accepted = snapshot.progress.storyNodeId === MORNING.story;
       let basePanel = Symbol('unpresented');
       const shownBinding = saves?.service.getBinding().adventureEpoch;
-      basePanel = view.show(`Team ${snapshot.profile.teamName}`, accepted ? 'Magnemite\'s request is accepted. Your badge, toolbox and first news are ready at the base. Thunderwave Cave is still in development.' : 'Your team is founded. Rest tonight, then begin the first morning at your rescue base.', [
-        { label: accepted ? 'Thunderwave Cave unavailable' : 'Begin first morning', disabled: accepted || !ready, detail: accepted ? 'Mission consumers are not integrated yet' : 'Rest and wake at home', run: () => { if (view.ownsPanel(basePanel) && current() === snapshot && saves?.service.getBinding().adventureEpoch === shownBinding) act({ type: 'beginMorning' }, 'panel'); } },
+      basePanel = view.show(`Team ${snapshot.profile.teamName}`, accepted ? 'Magnemite\'s request is accepted. Your badge, toolbox and first news are ready at the base. It is time to help the two Magnemite in Thunderwave Cave.' : 'Your team is founded. Rest tonight, then begin the first morning at your rescue base.', [
+        { label: accepted ? 'Enter Thunderwave Cave' : 'Begin first morning', disabled: !ready || accepted && !!gameplay.getDungeonChoices(snapshot).find(row => row.dungeonId === T.dungeonId)?.requirement, detail: accepted ? 'Begin the Magnemite rescue' : 'Rest and wake at home', run: () => { if (view.ownsPanel(basePanel) && current() === snapshot && saves?.service.getBinding().adventureEpoch === shownBinding) act(accepted ? { type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (T.dungeonId) } : { type: 'beginMorning' }, 'panel'); } },
         ...(accepted ? [{ label: 'Read Pokémon News', run: readNews }] : []),
         { label: 'Campaign & saves', run: menu }, { label: 'View rewards', run: inventory },
       ]);
@@ -284,13 +294,15 @@ export async function createApplication(canvas, signal, startup) {
     const forest = await loadEnvironmentKit('forest', lifetime.signal);
     kit = forest; // Retain cleanup ownership if the second local kit fails.
     const town = await loadEnvironmentKit(TEAM.kitId, lifetime.signal);
-    // One renderer API, explicit finite material/prop routing. Shared outdoor
-    // lighting remains the admitted woodland daylight across the base exterior.
-    kit = { lighting: forest.lighting, create(world) {
+    kit = { lighting: forest.lighting, create: world => world.biomeId === 'forest' ? forest.create(world) : town.create(world), dispose() { forest.dispose?.(); town.dispose?.(); } };
+    const cave = await loadEnvironmentKit('cave', lifetime.signal);
+    // One renderer API with read-only world-driven material and lighting routing.
+    kit = { lighting: forest.lighting, lightingFor: world => world.biomeId === 'cave' ? cave.lighting : world.biomeId === TEAM.kitId ? town.lighting : forest.lighting, create(world) {
       if (world.biomeId === 'forest') return forest.create(world);
       if (world.biomeId === TEAM.kitId) return town.create(world);
+      if (world.biomeId === 'cave') return cave.create(world);
       throw new Error(`Unavailable environment kit: ${world.biomeId}`);
-    }, dispose() { forest.dispose?.(); town.dispose?.(); } };
+    }, dispose() { forest.dispose?.(); town.dispose?.(); cave.dispose?.(); } };
     renderer = new DungeonRenderer(canvas, { environmentKit: kit, reducedMotion: reducedMotion.matches,
       onError: fail, onContextState(state) { lost = state === 'lost'; ready = false; input?.cancel(); context(); if (lost) view.notify('Graphics interrupted. Commands paused until recovery.'); else { lastFrame = 0; view.notify('Graphics restored.'); refresh(); } },
     });

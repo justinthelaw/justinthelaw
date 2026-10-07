@@ -1,3 +1,4 @@
+import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { createOpeningContent } from '../../../content/authored/opening.js';
 import { createCampaignContent } from '../../../content/state/campaign.js';
 import { freezeData } from '../state/validate.js';
@@ -19,7 +20,7 @@ export function createGameplay(catalogs, options = {}) {
     handlers: createCommandHandlers(catalogs, authored, options.tutorialSaved ?? (() => false)), turns: createTurnHooks(catalogs, authored),
     getScenePrompt: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => scenePrompt(snapshot, authored),
     getSceneText: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => sceneText(snapshot, authored),
-    getDungeonChoices: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => Object.freeze([{ dungeonId: 'tiny-woods', name: 'Tiny Woods', requirement: admission(catalogs, snapshot) }]),
+    getDungeonChoices: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => Object.freeze([{ dungeonId: 'tiny-woods', name: 'Tiny Woods' }, { dungeonId: T.dungeonId, name: 'Thunderwave Cave' }].map(route => ({ ...route, requirement: admission(catalogs, snapshot, route.dungeonId) }))),
     getMoveChoices: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => {
       const actor = snapshot.session?.actors[snapshot.session.leaderActorId];
       return freezeData(actor?.moves.slots.flatMap(slot => {

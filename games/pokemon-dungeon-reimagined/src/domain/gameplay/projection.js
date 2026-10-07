@@ -36,6 +36,6 @@ export function presentation(state, catalogs, epoch) {
       clip: actor.conditions.sleep ? 'rest-sleep' : 'idle', clipToken: `${epoch}:${actor.actorId}:idle`, tint: '#ffffff', bounds: { width: 1, height: 1 },
     }; return [actor.actorId, view];
   }));
-  return { epoch, biomeId: 'tiny-woods', terrain: Object.fromEntries(catalogs.navigation.terrainIds.map(id => [id, catalogs.navigation.terrain(id).kind])), actors,
-    items: Object.fromEntries(Object.values(state.items).map(item => [item.itemInstanceId, { label: item.template.itemId.replace(/^item-/, '').replaceAll('-', ' '), color: '#f4d35e', kind: item.template.itemId === 'item-poke' ? 'money' : 'item' }])), traps: {}, props: [], events: [] };
+  return { epoch, biomeId: state.session?.dungeonId ?? 'tiny-woods', terrain: Object.fromEntries(catalogs.navigation.terrainIds.map(id => [id, catalogs.navigation.terrain(id).kind])), actors,
+    items: Object.fromEntries(Object.values(state.items).map(item => [item.itemInstanceId, { label: item.template.itemId.replace(/^item-/, '').replaceAll('-', ' '), color: '#f4d35e', kind: item.template.itemId === 'item-poke' ? 'money' : 'item' }])), traps: Object.fromEntries(Object.values(state.session?.floor.traps ?? {}).map(trap => [trap.trapId, { label: 'Wonder Tile', color: '#77c9e8' }])), props: [], events: [] };
 }

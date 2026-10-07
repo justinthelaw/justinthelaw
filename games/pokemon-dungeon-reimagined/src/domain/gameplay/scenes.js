@@ -1,3 +1,5 @@
+import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
+import { grantItem } from './items.js';
 import { MORNING, morningIndex, placeInside, recordMorningGrant } from '../../../content/authored/first-morning.js';
 import { TEAM, placeAtBase } from '../../../content/authored/team-formation.js';
 import { checkName, diagnostics } from '../../../content/state/pokemon-rules.js';
@@ -78,6 +80,24 @@ export function sceneHandler(authored, catalogs, tutorialSaved) { return {
         else { state.pendingScene = null; state.mode = 'town'; }
         return { kind: 'changed', resumeDungeon: false };
       }
+      if (scene.sceneId === T.rescue || scene.sceneId === T.reward || scene.sceneId === T.evening) {
+        if (scene.sceneId === T.rescue) {
+          settleExpedition(context, 'success', catalogs);
+          state.town.mapDefinitionId = T.entrance;
+        } else if (scene.sceneId === T.reward) {
+          if (state.progress.appliedGrants.some(row => row.grantId === T.grant)) return blocked('magnemite-reward-replay');
+          state.economy.carriedMoney = Math.min(99999, state.economy.carriedMoney + 500);
+          grantItem(context, 'item-reviver-seed'); grantItem(context, 'item-rawst-berry');
+          state.progress.appliedGrants.push({ grantId: T.grant, revision, day }); placeAtBase(state);
+        } else {
+          state.progress.storyNodeId = T.complete; state.progress.native.scenarios.MAIN = { chapter: 4, step: 0 };
+          placeInside(state); state.pendingScene = null; state.mode = 'town';
+          return { kind: 'changed', resumeDungeon: false };
+        }
+        const next = authored.scenes.find(row => row.id === (scene.sceneId === T.rescue ? T.reward : T.evening));
+        if (!next) return blocked('thunderwave-return-scene');
+        requestScene(context, authored, next); return { kind: 'changed', resumeDungeon: false };
+      }
       if (scene.sceneId === O.rescueScene) {
         settleExpedition(context, 'success', catalogs);
         const next = authored.scenes.find(row => row.id === O.returnScene); if (!next) return blocked('reunion-scene');
@@ -86,20 +106,7 @@ export function sceneHandler(authored, catalogs, tutorialSaved) { return {
       if (scene.sceneId === O.returnScene) {
         const grantId = /** @type {import('../../contracts/campaign.js').GrantId} */ ('browser-reunion-reward');
         if (state.progress.appliedGrants.some(row => row.grantId === grantId)) return blocked('reunion-reward-replay');
-        const bag = state.containers[state.economy.toolbox]; if (!bag) return blocked('reunion-toolbox');
-        for (const id of ['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry']) {
-          const template = { itemId: /** @type {import('../../contracts.js').ItemId} */ (id), sticky: false, payload: /** @type {const} */ ({ kind: 'none' }) };
-          if (bag.itemIds.length >= 20) {
-            // R code_801B60C.c:180–198 automatically sends full-bag berry
-            // rewards to per-item storage. Opening storage starts empty.
-            const stored = state.economy.storedItems.find(row => row.template.itemId === id);
-            if (stored && stored.count >= 999) return blocked('reward-storage-choice');
-            if (stored) stored.count++; else state.economy.storedItems.push({ template, count: 1 });
-            context.emit({ type: 'message', messageId: 'reward-sent-to-storage' }); continue;
-          }
-          const itemInstanceId = allocate(state, 'item-instance');
-          state.items[itemInstanceId] = { itemInstanceId, template, quantity: 1, shopLotId: null }; bag.itemIds.push(itemInstanceId);
-        }
+        for (const id of ['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry']) grantItem(context, id);
         state.progress.appliedGrants.push({ grantId, revision, day });
         beginFormation(context, authored); return { kind: 'changed', resumeDungeon: false };
       }

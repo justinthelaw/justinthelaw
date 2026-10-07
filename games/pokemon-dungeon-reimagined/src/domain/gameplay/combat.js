@@ -1,3 +1,4 @@
+import { contactReactions } from './conditions.js';
 import { calculateNormalDamage } from '../rules/damage.js';
 import { ELEMENT_TYPES, isPhysicalType } from '../rules/type-context.js';
 import { canMeleeAttack } from '../navigation/geometry.js';
@@ -29,6 +30,7 @@ function accuracy(context, attacker, target, base, physical, catalogs) {
 export function attack(context, attacker, action, catalogs) {
   const session = context.state.session;
   if (!session || attacker.placement.kind !== 'map') return blocked('combat-session');
+  if (attacker.conditions.burn?.statusId === 'paralysis') { context.emit({ type: 'message', messageId: 'paralysis-prevents-attack' }); return; }
   const regular = action.kind === 'attack';
   const move = regular ? catalogs.effects.getAction(355) : catalogs.effects.getMove(action.moveId);
   if (!regular && !supportedMove(catalogs, action.moveId)) return blocked('move-effect-not-supported');
@@ -63,25 +65,22 @@ export function attack(context, attacker, action, catalogs) {
       attackerHp: attacker.resources.hp, attackerMaxHp: maxHp(attacker), weather: 'clear', mudSport: false, waterSport: false, charging: false },
     stats: { rawOffense: attacker.growth.naturalStats[offense] + attacker.growth.permanentStatBonuses[offense], rawDefense: target.growth.naturalStats[defense] + target.growth.permanentStatBonuses[defense], movePower: move.numeric.power + (slot?.powerBoost ?? 0), offenseStage: attacker.stages[offense], defenseStage: target.stages[defense], offensiveMultiplierQ8: value(attacker.multipliers[offense]) * 256, defensiveMultiplierQ8: value(target.multipliers[defense]) * 256,
       flashFireBoost: 0, attackerForm: 'none', defenderForm: 'none', skullBash: false, attackerItem: 'none', defenderItem: 'none',
-      abilities: { guts: a('Guts'), attackerNegativeStatus: false, hugePower: a('Huge Power'), purePower: a('Pure Power'), hustle: a('Hustle'), plus: a('Plus'), minus: a('Minus'), sameSidePlus: false, sameSideMinus: false, intimidate: d('Intimidate'), marvelScale: d('Marvel Scale'), defenderNegativeStatus: false } },
+      abilities: { guts: a('Guts'), attackerNegativeStatus: Object.values(attacker.conditions).some(Boolean), hugePower: a('Huge Power'), purePower: a('Pure Power'), hustle: a('Hustle'), plus: a('Plus'), minus: a('Minus'), sameSidePlus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Plus')), sameSideMinus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Minus')), intimidate: d('Intimidate'), marvelScale: d('Marvel Scale'), defenderNegativeStatus: Object.values(target.conditions).some(Boolean) } },
     critical: { moveChance: move.numeric.criticalPercent, focusEnergy: false, typeAdvantageMaster: false, battleArmor: d('Battle Armor'), shellArmor: d('Shell Armor') },
     teamMember: attacker.affiliation === 'team', leader: attacker.actorId === session.leaderActorId, integerBelly: Math.floor(value(attacker.resources.belly)), level: attacker.growth.level, regularAttack: regular,
     targetEffectsApply: true, reflect: false, lightScreen: false, moveEffectMultiplierQ8: Math.trunc(multiplier * 256), rolls: early ? null : { sharedPowerRoll: draw(context.state, 100), criticalRoll: armor ? null : draw(context.state, 100), varianceRoll: draw(context.state, 16384) } });
   if (target.conditions.sleep?.duration.kind === 'indefinite') target.conditions.sleep = null;
   target.resources.hp = Math.max(0, target.resources.hp - result.damage);
-  if (physical && result.damage > 0 && target.resources.hp > 0 && (!target.conditions.sleep || target.conditions.sleep.statusId === 'sleepless') && target.conditions.frozen?.statusId !== 'frozen' && target.conditions.frozen?.statusId !== 'petrified' && !target.conditions.bide) {
-    for (const [name, status, group, lower, width] of /** @type {const} */ ([['Static', 'paralysis', 'burn', 1, 1], ['Cute Charm', 'infatuated', 'cringe', 4, 2]])) {
-      if (!d(name) || draw(context.state, 100) >= 12) continue;
-      if (ability(attacker, catalogs, status === 'paralysis' ? 'Limber' : 'Oblivious') || attacker.conditions[group]?.statusId === status) continue;
-      // Opening reactions affect native wild actors; neither has curer abilities/IQ.
-      const sourceAbility = catalogs.species.identities.abilities.find(row => row.name === name); if (!sourceAbility) return blocked('reaction-ability');
-      attacker.conditions[group] = { statusId: status, source: { kind: 'ability', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: target.actorId, identity: { ...target.identity } }, abilityId: /** @type {import('../../contracts/campaign.js').AbilityId} */ (sourceAbility.id) }, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-opening-reaction'), remaining: lower + draw(context.state, width) + 1 }, periodicCountdown: null, payload: { kind: 'none' } };
-      if (status === 'paralysis') attacker.speed.cachedStage = Math.max(0, attacker.speed.cachedStage - 1);
-      context.emit({ type: 'conditionChanged', actorId: attacker.actorId });
-    }
-  }
+  if (result.damage > 0) contactReactions(context, attacker, target, physical, catalogs);
   if (!regular && result.damage > 0 && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
+  finishDamage(context, target, catalogs);
+}
+
+/** Shared faint/experience ownership for damage moves and fixed item damage.
+ * @param {Context} context @param {Actor} target @param {Catalogs} catalogs */
+export function finishDamage(context, target, catalogs) {
+  const session = context.state.session; if (!session) return blocked('damage-session');
   if (target.resources.hp === 0 && target.affiliation !== 'team') {
     // R CalculateEXPGain and dungeon_damage.c: half credit until a move hits.
     const p = profile(target.identity, catalogs); const base = p.experienceYield + Math.trunc(p.experienceYield * (target.growth.level - 1) / 10);

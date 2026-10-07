@@ -4,9 +4,9 @@
 
 This bounded Task 5 continuation covers the first morning, bed save tutorial,
 refreshed interior, partner outside, starter set, Pelipper delivery, Magnemite
-letter and accepted-request base boundary. Thunderwave Cave departure and
-mission execution remain unsupported. No main-story or human acceptance gate
-is complete.
+letter and accepted-request base boundary. Its original checkpoint stopped
+before departure; [THUNDERWAVE.md](THUNDERWAVE.md) records the subsequent route
+implementation. No full main-story or human acceptance gate is complete.
 
 Nintendo's original **Blue Rescue Team** manual, printed pages 16-19, supports
 saving at the bed and the starter set's badge, toolbox and Pokemon News:
