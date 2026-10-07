@@ -44,7 +44,7 @@ export function attack(context, attacker, action, catalogs) {
     attacker.memory.lastUsedMove = { moveId: action.moveId, moveSlotId: action.moveSlotId };
   }
   const target = action.target.kind === 'actor' ? session.actors[action.target.actorId] : null;
-  if (!target || target.placement.kind !== 'map' || !canMeleeAttack(navActor(attacker), session.floor, target.placement.position, navigationContext(session, catalogs))) {
+  if (!target || target.binding.kind === 'job-client' || target.placement.kind !== 'map' || !canMeleeAttack(navActor(attacker), session.floor, target.placement.position, navigationContext(session, catalogs))) {
     context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: null, outcome: 'miss' }); return;
   }
   const moveType = ELEMENT_TYPES.find(type => type.toLowerCase() === move.numeric.type);

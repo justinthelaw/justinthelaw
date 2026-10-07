@@ -85,6 +85,15 @@ export function createTurnHooks(catalogs, authored) {
     experience(context, ref) { if (ref) applyExperience(context, actor(context, ref), catalogs); return CONTINUE; },
     ai(context, ref) {
       const s = sessionOf(context); const a = actor(context, ref); if (a.placement.kind !== 'map') return blocked('ai-placement');
+      if (a.binding.kind === 'job-client') {
+        // Rescue-target AI passes/walks with a random facing. Native role
+        // treatment suppresses pursuit/attacks, not eaten Blast Seed damage.
+        const direction = draw(context.state, 8), angle = direction * Math.PI / 4;
+        a.facing = FACINGS[direction] ?? 'n';
+        const destination = { x: a.placement.position.x + Math.round(Math.sin(angle)), z: a.placement.position.z - Math.round(Math.cos(angle)) };
+        const walk = catalogs.navigation.mobility(a.identity.speciesId, a.identity.formId).canMove && movementPlan(s, a, destination, catalogs).kind === 'walk';
+        return { kind: 'action', action: walk ? { kind: 'move', actorId: a.actorId, destination } : { kind: 'wait', actorId: a.actorId } };
+      }
       if (a.speed.petrifiedSwap) {
         const angle = FACINGS.indexOf(a.facing) * Math.PI / 4;
         return { kind: 'action', action: { kind: 'move', actorId: a.actorId, destination: { x: a.placement.position.x + Math.round(Math.sin(angle)), z: a.placement.position.z - Math.round(Math.cos(angle)) } } };

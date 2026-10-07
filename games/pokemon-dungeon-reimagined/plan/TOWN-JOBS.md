@@ -241,3 +241,67 @@ Generic faint only forces the special joined-at-client escort loss;
 `HandleBossFaint_Async` does nothing for CUTSCENE_NONE, so an ordinary rescue
 client faint is not a whole-expedition loss. These consumers are integration
 requirements, not blanket damage immunity.
+
+## Ordinary job lifecycle integration prerequisites
+
+Generated records now retain posting origin, native24-bit seed, numeric mission,
+target item, promised item and reward kind. The additive generated-source shape
+keeps the existing generation-policy discriminator. `suspended` represents
+accepted native5; `accepted` represents taken6. All predecessor content policies
+still require no jobs. The current v7 root still rejects `earlyWork`; no command
+or current policy enables ordinary expeditions at this prerequisite checkpoint.
+
+`job-records.js` owns board refresh, eight-slot acceptance, separate Take/Suspend,
+and deletion. Accepting a board request keeps its visible offer; accepting mail
+removes its mailbox slot. Removing the accepted copy permits accepting a still
+visible board offer again. Occupancy includes board, mailbox and accepted jobs,
+including suspended jobs, but excludes detached claimed history.
+
+Mailbox delivery retains the source sampled fill bound, four-slot capacity,
+pending flag and queued/read newsletter priority. In `sub_80961D8`, the news
+`goto _flag` continues the loop: remaining slots can receive jobs. Native reward
+kinds4–7 promise200Poké,200Poké plus item, item, or item plus two distinct extra
+items. Board type3 adds one distinct item. Extra draws occur only at station
+preparation; every pair is distinct. Difficulty1 grants5 rank points per receipt.
+The source Friend Area helper still samples its four unowned mail-only areas
+before rankF discards that result and rewrites reward8 to4. The exporter now
+verifies those four native areas and their initialized-unowned source facts.
+
+The ground timing is significant. `ground_main.c:216–229` refreshes shops,
+board and pending mail before successful reward processing; completed accepted
+slots still occupy their floors during this refresh. Reward cleanup then frees
+those floors before morning mail. Thus mailbox jobs are reachable after one
+receipt even though an immediately refreshed early board covers every free
+location. Failure clears completed native7/8/9 in `main_loops.c` before ground
+refresh and never invokes the reward station. Unfinished taken6 remains retryable.
+Base map9 groups5/7 route through group8 opcode3b04 to delivery; the interior
+morning routes back there. MAIN(4,4) with at least two reward receipts prioritizes
+the Diglett request before the normal morning/mail path.
+
+`job-objectives.js` owns taken-job expedition objectives, exact floor/client
+binding, complete-slot delivery consumption and outcome transitions. Find-item
+eligibility uses returned toolbox ownership without a mission-floor requirement;
+held items do not count. Item loss precedes eligibility. Successful candidates
+must be rechecked individually at the station so one item cannot satisfy two
+requests. Completed clients become reward-ready only after success; losing after
+rescuing a client removes that completed request without a reward. An unfinished
+or fainted ordinary client leaves its taken request retryable.
+
+The shared expedition kernel now has an explicitly selected ordinary purpose,
+ordinary final stairs and client placement/objective hooks; current commands
+still select only story purpose. A client replaces the first monster placement
+without a wild-species or spawn-sleep sample and adds the source mission enemy
+count/Monster House suppression. The actor uses source level1 growth/moves,
+neutral affiliation, random-direction AI and client presentation. Generic moves
+and arc projectiles exclude it before hit RNG; eaten Blast remains unchanged.
+Floor exit clears transient actor references while preserving completed state.
+No story rescue, clear receipt or story item is replayed by the ordinary branch.
+Current save admission, no-turn dialogue, reward queue UI and Diglett scenes are
+still integration work, so these paths are not yet user-playable.
+
+Review correction: acceptance callers in `pelipper_board.c:378–381` and
+`mailbox.c:416–418` invoke `SortJobSlots` after copying the request. Its native
+dungeon/floor order now shares a comparator with mailbox sorting. Take/Suspend
+and deletion preserve that order, which flows through settlement into station
+eligibility. With only one returned item for two find-item requests, the earlier
+native floor is therefore processed first rather than the first accepted job.

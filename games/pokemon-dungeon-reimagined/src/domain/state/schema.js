@@ -2725,6 +2725,17 @@ export const SHAPES = {
       "source": {
         "kind": "union",
         "members": [
+          {"kind":"object","fields": {
+            "kind":{"kind":"literal","value":"generated"},
+            "generationPolicyId":{"kind":"ref","name":"PolicyId"},
+            "posting":{"kind":"union","members":[{"kind":"literal","value":"board"},{"kind":"literal","value":"mailbox"}]},
+            "generatedDay":{"kind":"ref","name":"Int"},
+            "seed":{"kind":"ref","name":"Int"},
+            "missionType":{"kind":"union","members":[{"kind":"literal","value":0},{"kind":"literal","value":1},{"kind":"literal","value":3},{"kind":"literal","value":4}]},
+            "targetItem":{"kind":"catalog","name":"item"},
+            "itemReward":{"kind":"catalog","name":"item"},
+            "rewardType":{"kind":"union","members":[{"kind":"literal","value":0},{"kind":"literal","value":1},{"kind":"literal","value":2},{"kind":"literal","value":3},{"kind":"literal","value":4},{"kind":"literal","value":5},{"kind":"literal","value":6},{"kind":"literal","value":7}]}
+          }},
           {
             "kind": "object",
             "fields": {
@@ -2760,6 +2771,7 @@ export const SHAPES = {
           "expiryDay": {"kind":"union","members":[{"kind":"ref","name":"Int"},{"kind":"literal","value":null}]}
         }
       },
+      {"kind":"object","fields":{"kind":{"kind":"literal","value":"suspended"},"acceptedRevision":{"kind":"ref","name":"Int"}}},
       {
         "kind": "object",
         "fields": {"kind":{"kind":"literal","value":"accepted"},"acceptedRevision":{"kind":"ref","name":"Int"}}

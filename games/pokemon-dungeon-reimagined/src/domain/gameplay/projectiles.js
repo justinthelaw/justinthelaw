@@ -25,13 +25,13 @@ export function throwRock(context, actor, rock, catalogs) {
   let landing = { x: origin.x + search.fallback.x, z: origin.z + search.fallback.z };
   for (const offset of search.positions) {
     const x = origin.x + offset.x, z = origin.z + offset.z;
-    const enemy = Object.values(session.actors).find(other => other.affiliation !== actor.affiliation && other.placement.kind === 'map' && other.placement.position.x === x && other.placement.position.z === z) ?? null;
+    const enemy = Object.values(session.actors).find(other => other.affiliation !== actor.affiliation && other.binding.kind !== 'job-client' && other.placement.kind === 'map' && other.placement.position.x === x && other.placement.position.z === z) ?? null;
     if (enemy) { landing = { x, z }; break; }
   }
   // Source HandleCurvedProjectileThrow resolves the landing tile's occupant
   // after enemy-oriented destination selection. Its fallback can hit a teammate.
   const target = Object.values(session.actors).find(other => other.resources.hp > 0 && other.placement.kind === 'map' && other.placement.mapId === session.floor.mapId && other.placement.position.x === landing.x && other.placement.position.z === landing.z);
-  if (target && draw(context.state, 100) < 90) {
+  if (target && target.binding.kind !== 'job-client' && draw(context.state, 100) < 90) {
     if (target.conditions.sleep?.duration.kind === 'indefinite') target.conditions.sleep = null;
     target.resources.hp = Math.max(0, target.resources.hp - 20);
     context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'hit' });

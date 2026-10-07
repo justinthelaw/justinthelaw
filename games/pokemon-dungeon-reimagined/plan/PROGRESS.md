@@ -1,5 +1,19 @@
 # Pokémon Dungeon Reimagined progress and decisions
 
+## Ordinary job lifecycle prerequisites — 2026-10-07
+
+Source-qualified generated records, Take/Suspend, board/mail occupancy and early
+mail delivery/reward kinds now have shared owners. The expedition kernel has
+explicit ordinary-purpose objective/client/settlement branches, with neutral
+client AI and target exclusions. Current v7 admission/commands still expose no
+ordinary run; save-policy, no-turn dialogue, station UI and Diglett continuation
+remain in progress. TOWN-JOBS records the board-before-reward/mail ordering,
+failed-return cleanup, exact source qualifications and bounded coverage.
+
+Focused static lint244/types166, source exporter and unchanged predecessor pins
+pass; no game modules/tests/browser gameplay were executed. Human acceptance and
+full campaign/service/mechanics coverage remain open.
+
 ## Reward inventory owner prerequisite — 2026-10-07
 
 Shared `reward-items.js` now provides native fresh-slot delivery, whole-quantity
@@ -863,3 +877,11 @@ No domain RNG, source catalog, save/schema changes, suppressions, game execution
 tests or browser boot accompany these corrections. Native provenance and exact
 application ownership are recorded in PLAYABLE-APPLICATION.md and the scoped
 quiz entropy decision/report; full campaign and human acceptance remain open.
+
+### Accepted-job order review correction — 2026-10-07
+
+Verified native board/mailbox acceptance callers and `SortJobSlots`. Acceptance
+now sorts by native dungeon then floor using the mailbox comparator; Take,
+Suspend and deletion preserve the order. This also fixes station priority when
+two find-item requests compete for one returned item. Static validation only;
+current ordinary-work admission/UI integration remains in progress.

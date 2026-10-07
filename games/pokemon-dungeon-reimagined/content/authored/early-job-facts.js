@@ -9,6 +9,9 @@ import { freezeData } from '../../src/domain/state/validate.js';
  * src/pokemon_3.c SHA-256 4198a6531fe283e0a13aba9cb613c7425f778072098647cad8b9d37d3bf2155b
  * src/code_803C1B4.c SHA-256 03f622b11bb45539b0713ef3b2a9756d69f61721cfc47a129a1b86006704805f
  * src/code_80958E8.c SHA-256 00669bfa30bdd675360b2134063ed1528f63f62e06291a4d331c3a12f46a8c9a
+ * src/dungeon_data.c SHA-256 ca56c6807cb1a2918e9fee4bf4f8410fbde21ad52e3bcbfdffaa6d5766af66b4
+ * src/friend_area.c SHA-256 6b675a3aa0dcddcfae224fc427efea4259c43bc01cecc8b348934c306c197ca8
+ * include/constants/friend_area.h SHA-256 0b69749ffafdb948cb0114c254965f28da36897593e9c9b0d3adacbda75880d4
  * Static exporter proves no eligible pair/favorite-item substitution in this
  * finite seen pool. Generation still consumes the native subtype sample.
  */
@@ -93,5 +96,11 @@ export const EARLY_JOB_FACTS = freezeData({
       "category": "berries_seeds_vitamins",
       "threshold": 10000
     }
+  ],
+  "unownedNativeMailAreaIds": [
+    10,
+    14,
+    35,
+    36
   ]
 });

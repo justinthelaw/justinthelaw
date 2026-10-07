@@ -28,7 +28,8 @@ def block(text, name):
 
 files = ['src/items.c', 'src/dungeon_info.c', 'src/data/pokemon_mail_pre.h',
          'src/data/pokemon_mail.h', 'include/constants/monster.h',
-         'src/pokemon_3.c', 'src/code_803C1B4.c', 'src/code_80958E8.c']
+         'src/pokemon_3.c', 'src/code_803C1B4.c', 'src/code_80958E8.c',
+         'src/dungeon_data.c', 'src/friend_area.c', 'include/constants/friend_area.h']
 texts = {name: (source / name).read_text() for name in files}
 items = records('effects', 'items-*.json')
 item_by_id = {row['internalId']: row for row in items}
@@ -95,9 +96,16 @@ for symbol, percent in re.findall(r'(?:FIRST_CATEGORY_CHANCE|NEXT_CHANCE)\s*\(\s
     else:
         item = item_by_symbol[symbol]
         reward_items.append({'itemId': item['id'], 'category': item['category'], 'threshold': threshold})
+area_symbols = re.findall(r'\[(FRIEND_AREA_\w+)\]\s*=\s*\{[^}]*?\.unlock_condition\s*=\s*UNLOCK_WONDER_MAIL', texts['src/dungeon_data.c'])
+area_numbers = {symbol: int(number) for symbol, number in re.findall(
+    r'^#define (FRIEND_AREA_\w+)\s+(\d+)\s*$', texts['include/constants/friend_area.h'], re.M)}
+mail_areas = [area_numbers[symbol] for symbol in area_symbols]
+assert mail_areas == [10, 14, 35, 36]
+assert 'gFriendAreas[i] = FALSE;' in texts['src/friend_area.c'].split('void InitializeFriendAreas(void)', 1)[1].split('\n}', 1)[0]
 facts = {'routes': routes, 'eligibleSeenSpecies': [profiles[i]['speciesId'] for i in sorted(native_candidates)],
          'fallbackClient': profiles[0x10]['speciesId'], 'fallbackTarget': profiles[0x122]['speciesId'],
-         'rewardCategories': reward_categories, 'rewardItems': reward_items}
+         'rewardCategories': reward_categories, 'rewardItems': reward_items,
+         'unownedNativeMailAreaIds': mail_areas}
 header = '\n'.join(' * ' + name + ' SHA-256 ' + hashlib.sha256((source / name).read_bytes()).hexdigest() for name in files)
 output = "import { freezeData } from '../../src/domain/state/validate.js';\n\n/** Early ordinary-job facts; Red comparative6bcbec4f, not Blue binary proof.\n" + header + "\n * Static exporter proves no eligible pair/favorite-item substitution in this\n * finite seen pool. Generation still consumes the native subtype sample.\n */\nexport const EARLY_JOB_FACTS = freezeData(" + json.dumps(facts, indent=2) + ");\n"
 path = content / 'authored/early-job-facts.js'

@@ -211,6 +211,7 @@
  * @typedef {{
  *     schemaVersion: 1;
  *     speciesSeen?: SpeciesSeenHistory;
+ *     earlyWork?: import('./early-work.js').EarlyWorkState;
  *     contentRevision: ContentRevision;
  *     revision: Int;
  *     idSequence: IdSequence;
@@ -1018,6 +1019,9 @@
  *     offeredDay: Int;
  *     expiryDay: Int | null;
  * } | {
+ *     kind: 'suspended';
+ *     acceptedRevision: Int;
+ * } | {
  *     kind: 'accepted';
  *     acceptedRevision: Int;
  * } | {
@@ -1045,6 +1049,16 @@
  * @typedef {{
  *     jobId: JobId;
  *     source: {
+ *         kind: 'generated';
+ *         generationPolicyId: PolicyId;
+ *         posting: 'board'|'mailbox';
+ *         generatedDay: Int;
+ *         seed: Int;
+ *         missionType: 0|1|3|4;
+ *         targetItem: ItemId;
+ *         itemReward: ItemId;
+ *         rewardType: 0|1|2|3|4|5|6|7;
+ *     } | {
  *         kind: 'generated';
  *         generationPolicyId: PolicyId;
  *         generatedDay: Int;

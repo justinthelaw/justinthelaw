@@ -162,11 +162,15 @@ export function placePopulation(map, input, dependencies, rng, finalRecovery = f
         const density = p.enemyDensity;
         const count = Math.min(context.enemyLimit, (density > 0 ? Math.max(1, rng.range(Math.floor(density / 2), density)) : Math.abs(density)) + (context.missionAddsEnemy ? 1 : 0));
         const candidates = ordinaryPoints().filter(pos => !occupied.has(key(pos)));
+        let missionClient = context.missionClient;
         for (const pos of choosePositions(candidates, count, rng)) {
-            const encounter = enemy(input, dependencies, rng, `ordinary-${placements.length}`);
+            // Native first flagged monster becomes the level1 client without a
+            // normal encounter sample; it is not an extra required placement.
+            const encounter = missionClient ?? enemy(input, dependencies, rng, `ordinary-${placements.length}`);
             if (!encounter)
                 return null;
-            placements.push({ kind: 'enemy', encounter, position: pos, route: 'ordinary' });
+            placements.push({ kind: 'enemy', encounter, position: pos, route: missionClient ? 'mission-client' : 'ordinary' });
+            missionClient = undefined;
             occupied.add(key(pos));
         }
         if (map.forceHouse) {

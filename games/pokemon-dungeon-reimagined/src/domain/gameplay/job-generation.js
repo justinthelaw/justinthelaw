@@ -4,7 +4,7 @@ import { draw, blocked } from './support.js';
 /** Native numeric mission semantics, independent of the conflicting C names.
  * @typedef {0|1|3|4} EarlyMissionType
  * @typedef {{dungeonId:string,floor:number,escort:boolean}} JobLocation
- * @typedef {{missionType:EarlyMissionType,dungeonId:string,floor:number,seed:number,clientSpecies:string,targetSpecies:string,targetItem:string,itemReward:string,rewardType:0|1|2|3}} GeneratedJob
+ * @typedef {{missionType:EarlyMissionType,dungeonId:string,floor:number,seed:number,clientSpecies:string,targetSpecies:string,targetItem:string,itemReward:string,rewardType:0|1|2|3|4|5|6|7}} GeneratedJob
  * @typedef {import('../../contracts/campaign.js').CampaignState} State
  */
 /** Native rescue_team_info.c thresholds; points are never truncated to keep a

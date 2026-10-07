@@ -112,9 +112,9 @@ export function checkGraph(state, issues) {
   keyed(context, state.progress.clears, clear => clear.dungeonId, '/progress/clears');
   keyed(context, state.progress.seenScenes, scene => scene.sceneId, '/progress/seenScenes');
   unique(context, state.progress.acceptedJobIds, '/progress/acceptedJobIds');
-  for (const id of state.progress.acceptedJobIds) check(context, !!state.progress.jobs[id] && ['accepted', 'active', 'objective-complete', 'reward-ready'].includes(state.progress.jobs[id].phase.kind), '/progress/acceptedJobIds', 'Accepted job is missing or has an incompatible phase.');
+  for (const id of state.progress.acceptedJobIds) check(context, !!state.progress.jobs[id] && ['suspended', 'accepted', 'active', 'objective-complete', 'reward-ready'].includes(state.progress.jobs[id].phase.kind), '/progress/acceptedJobIds', 'Accepted job is missing or has an incompatible phase.');
   for (const job of Object.values(state.progress.jobs)) {
-    if (['accepted', 'active', 'objective-complete', 'reward-ready'].includes(job.phase.kind)) check(context, state.progress.acceptedJobIds.includes(job.jobId), '/progress/jobs', 'Accepted job is missing from order.');
+    if (['suspended', 'accepted', 'active', 'objective-complete', 'reward-ready'].includes(job.phase.kind)) check(context, state.progress.acceptedJobIds.includes(job.jobId), '/progress/jobs', 'Accepted job is missing from order.');
     if (job.phase.kind === 'active') {
       const phase = job.phase;
       const run = [state.session, suspended?.session].find(session => session?.sessionId === phase.sessionId);

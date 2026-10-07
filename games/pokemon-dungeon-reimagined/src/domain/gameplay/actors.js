@@ -24,7 +24,7 @@ export function createActor(state, catalogs, binding, identity, level, mapId, po
   if (permanent && !homeHeld) return blocked('entry-held-container');
   state.containers[heldContainerId] = { containerId: heldContainerId, owner: { kind: 'actor-held', sessionId, actorId }, itemIds: [...(homeHeld?.itemIds ?? [])] };
   if (homeHeld) homeHeld.itemIds = [];
-  return { actorId, binding, affiliation: permanent ? 'team' : 'hostile', identity: clone(identity),
+  return { actorId, binding, affiliation: permanent ? 'team' : binding.kind === 'job-client' ? 'neutral' : 'hostile', identity: clone(identity),
     growth: permanent ? clone(permanent.growth) : { level, totalExperience: quantity(growth.cumulativeExperience), naturalStats: { ...growth.stats }, permanentStatBonuses: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0 }, iqPoints: 1 },
     moves, enabledIqSkillIds: permanent ? [...permanent.enabledIqSkillIds] : [...DEFAULT_IQ], tacticId: permanent?.tacticId ?? /** @type {import('../../contracts/campaign.js').TacticId} */ ('tactic-lets-go-together'),
     battleMoves: { slots: moves.slots.flatMap(slot => slot ? [{ moveSlotId: slot.moveSlotId, currentPp: catalogs.effects.getMove(slot.moveId).numeric.pp, sealed: false, usedForExperience: false }] : []) },
