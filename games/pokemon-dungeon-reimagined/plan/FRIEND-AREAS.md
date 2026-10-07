@@ -442,6 +442,10 @@ dungeon entry remains outside this checkpoint. This pickup implementation adds
 no passive-effect claim or item filter. Future construction/recruitment must recheck newly reachable
 held effects rather than treating the all240 factual export as support.
 
+[ITEM-MASTER-DEPENDENCIES.md](ITEM-MASTER-DEPENDENCIES.md) records the complete
+fresh-construction and saved-state item admission trace, including the39 native
+roster candidates and concrete effects that must close before Item Master.
+
 Current item policies already admit1..99 line/arc lots, one-stack held/floor
 owners, twenty bag slots and current-session ownership. Roster settlement
 transfers held lot IDs into home-held, clears sticky at the existing ordinary/
@@ -457,3 +461,49 @@ omissions stay null. The source snapshot and hashes are qualified Red facts
 at6bcbec4f, not Blue instruction parity. The old effects corpus is unchanged.
 Autonomous item use/throw, catching, full party AI, recruitment/party admission
 and chapter-five completion remain separate dependencies.
+
+### T01 shared early recipient item effects and impact
+
+`item-effects.js` separates detached origin payload from the explicit user,
+recipient and eaten/uncaught-thrown dispatch. The finite thirteen-item list is
+unchanged; no inventory or learned-slot filtering closes unsupported effects.
+Player self ingestion and the existing Gravelerock-facing arc search consume
+this owner. Whole lots detach their canonical ID before flight; a split rock
+retains the source stack ID and allocates a distinct caught/dropped ID only when
+ownership is assigned. Catch returns before any sticky/ordinary effect.
+
+Pinned comparative Red `6bcbec4f906938c0243aa2026bcbd41b577bab85` locators:
+
+| Behavior | Source | Supported result |
+| --- | --- | --- |
+| Catch before effects | `dungeon_item_action.c:84–143`, `dungeon_logic.c:535–550,591–619,1056–1087` | Team Item Catcher accepts rocks/food; wild categories exclude line/arc/berries/seeds/vitamins. Empty own held, actual sleep/frozen/Bide/pause/infatuation and nonleader flee guards apply. Confusion/paralysis/cringe/Charge/Rage do not stand in for missing two-turn charge state. |
+| Successful-hit wake | `dungeon_projectile_throw.c:189,363`, `move_orb_effects_5.c:541–554` | Ordinary indefinite Sleep ends before catch eligibility. No petrification lifecycle is introduced. |
+| Native early effects | `dungeon_item_action.c:155–358,366–402,430–447,484–494,565–616`, `dungeon_config.c:208–218,271–272` | Sticky uncaught hit2; berry/seed/vitamin Belly5; Gravelerock20; Oran100; explicit cures, food50/100/max gain5/10/cap200, base-PP Max Elixir, existing Ginseng and Belly-only Reviver/Plain. Shared damage retains immediate revival, held drop, XP and removal. |
+| Food/PP/sleep guards | `move_orb_effects_2.c:725–804,1056–1085`, `move_orb_effects_1.c:37–130`, `dungeon_random.c:85–101` | Recipient resources and slot identity persist; Diet Ribbon's actual held check suppresses nonleader Belly. Sleep samples recipient duration before Safeguard/IQ/ability/held/class guards; real source user persists. |
+| Blast target distinction | `dungeon_item_action.c:565–611`, `dungeon_misc.c:746–765`, `dungeon_logic.c:241–278` | Thrown recipient20/boss15; eaten front actor45/boss30, with native position eligibility rather than melee corner checks. Thaws only frozen class. Client/Diglett direct-hit immunity does not prohibit eaten front Blast damage. |
+
+V17 adds exact nonself Sleep Seed session/map/user identity, live active or
+exact historical fainted recipient, finite1..6 counter and empty-payload
+admission. Historical recipients require zero HP, off-map/fainted placement and
+no active team/wild slot; live effect application guards remain unchanged.
+Self sources retain the old
+`native-cave-condition` owner. Exact v16 factory, field policies, revision
+predicate and root shape are newly pinned without refreshing any prior pin or
+factual catalog byte. Compatibility validates v2-v16 before conversion and
+initializes Water Sport only when absent; existing v16 counters and Leech links
+survive. No trajectory, second target field or item-AI replay is serialized.
+
+T02 still owns straight throws, source role/species throw admission and exact
+explicit Item Master arc tiles. T03 still owns Item Master selection, native
+choice/accuracy RNG ordering and confusion item direction. Closure must cover
+actual shop/grant/reward/held/import routes: early stock includes Warp/Stun Seeds,
+and accepted imported inventories expose broader nonzero native AI candidates.
+Do not strip those lots or zero their source weights. Line `MOVE_PROJECTILE`
+damage; Heal/Life/visibility/speed/level/hunger/status seeds, vitamins, Grimy Food,
+Rollcall and other named items; Long Toss/Pierce/Lock-On/Curve/Bounce/No Aim/Whiff/
+Dodge equipment; terrified/petrification/two-turn charging; experience-locked
+join-origin policies beyond the represented Diglett role; shopkeeper aggression,
+decoy/transformation/invisibility/semi-invulnerability and full relationship
+owners remain concrete gates. Held Diet/Insomniscope checks do not complete their
+wider availability/held-admission owners. No Blue instruction parity, gameplay,
+party AI, whole-game or visual acceptance is inferred from static checks.

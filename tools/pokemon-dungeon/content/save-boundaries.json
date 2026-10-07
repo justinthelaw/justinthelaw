@@ -274,6 +274,18 @@
     {
       "path": "games/pokemon-dungeon-reimagined/content/state/damage-status.js",
       "sha256": "db1adaf7036b9bd682e70775e73697e6b9b4d4a0013f9e3c2cc21e0a9855f37e"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/field-moves-campaign.js",
+      "sha256": "9215bad830a23b224dd791d364914b67d17d356d7456b6872af2d16871fd9337"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/field-moves.js",
+      "sha256": "e214eea4b99d5743b0615e454e52ab73cf5c0a84ba0c70433e598d5045e9b3d7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v16.js",
+      "sha256": "644880630bbfd4953f0f579af5c865b230d226c38c11c7442b529a1b9a30967c"
     }
   ],
   "functionBodies": [
@@ -397,5 +409,10 @@
   },
   "partyStatusPredecessorBaselineCommit": "b38fdfa44cd98f9aefc427cda2473d7ec67a2075",
   "damageStatusPredecessorBaselineCommit": "ac3c02cab4779be597a0496bdb89cc70869e577c",
-  "linkedStatusPredecessorBaselineCommit": "97d7d90023ebb7fa2f01d84ef4f5fff90e31d490"
+  "linkedStatusPredecessorBaselineCommit": "97d7d90023ebb7fa2f01d84ef4f5fff90e31d490",
+  "itemImpactPredecessorBaselineCommit": "20b0a7f7382e2fb5edb9afd0797b55f122a7ac0e",
+  "fieldMovesRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "19c50f1dbe7c141aebe90ec14f2e161ac94599a49326642d9c2051bef68f6c4d"
+  }
 }

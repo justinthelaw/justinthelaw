@@ -1174,3 +1174,35 @@ FRIEND-AREAS.md and item-ai/AUTHORING.md. Lint, types, effects, save-boundary an
 item-AI static checks pass; no game source was imported/executed and no tests or
 playthroughs were performed. Review/publication is left to the controller.
 Full party/movement/recruitment/escort/MAIN5 and visual acceptance remain open.
+
+### T01 early recipient item effects, catch and v17 provenance prerequisite
+
+Separated canonical origin consumption from transient payload and explicit
+recipient effects. Existing self use and Gravelerock impact now share catch
+before sticky/ordinary effect ordering, native fixed damage/Belly/resource/cure
+consumers and distinct eaten/thrown Blast values/roles. Split rock IDs cannot
+alias their retained source stack; whole detached lots reuse their ID on catch
+or miss. Sleep Seed records the actual user and samples target duration before
+application guards. Ginseng, Reviver/Plain and all thirteen supported items are
+retained; inventories and learned slots are unchanged.
+
+Added a narrow v17 nonself Sleep Seed policy over frozen exact v16 admission.
+All original v2-v16 envelope checks remain before conversion; field move
+initialization/shape selection preserve Leech links and nonzero Water Sport.
+New v16 source/root pins are additive; historical hashes and effects factual
+bytes were not refreshed. Source locators, qualified Red evidence and exact
+T02/T03/wider owner dependencies are recorded in FRIEND-AREAS.md. Ruling: D05
+static verification overrides generic skill TDD; no game import/execution,
+browser boot, tests or playthrough occurred. Controller review/publication and
+complete export verification remain separate. Full Friend Area, partner AI,
+movement/recruitment/escort/MAIN5, Blue parity and visual acceptance stay open.
+
+T01 scoped validation: game lint/local module paths (320 authored files), strict
+static types (239), save boundaries (71 pinned dependencies/14 frozen bodies),
+effects (27 deterministic resources/240 items), all240 item-AI joins, Friend
+Area facts and campaign schema/provenance/catalog checks passed. Changed-file
+pre-commit and pre-push hooks passed after the Markdown hook normalized blank
+lines. Static baseline comparison confirmed every historical pin value retained
+and the v16 revision predicate frozen byte-for-byte; `git diff --check` passed.
+No full build/export or acceptance claim is made here; those remain controller
+and human gates. The bounded commit/check record is in the ignored T01 handoff.

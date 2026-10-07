@@ -1,6 +1,6 @@
 import { dropFloorItem } from './item-drops.js';
 import { draw, FACINGS, blocked } from './support.js';
-import { dealDamage } from './damage-resolution.js';
+import { impactDungeonItem, protectedItemTarget } from './item-effects.js';
 /** @typedef {import('../turns/types.js').MutationContext} Context */
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
 /** Source R dungeon_pos_data.c directional arc search, including N/S's radius8
@@ -19,7 +19,7 @@ function arcOffsets(actor) {
   }
   return { positions, fallback: { x: dx * 2, z: dz * 2 } };
 }
-/** @param {Context} context @param {Actor} actor @param {import('../../contracts/campaign.js').ItemInstance} rock @param {import('./support.js').Catalogs} catalogs */
+/** @param {Context} context @param {Actor} actor @param {import('./item-effects.js').DetachedItem} rock @param {import('./support.js').Catalogs} catalogs */
 export function throwRock(context, actor, rock, catalogs) {
   const session = context.state.session; if (!session || actor.placement.kind !== 'map') return blocked('projectile-session');
   const origin = actor.placement.position, search = arcOffsets(actor);
@@ -32,12 +32,10 @@ export function throwRock(context, actor, rock, catalogs) {
   // Source HandleCurvedProjectileThrow resolves the landing tile's occupant
   // after enemy-oriented destination selection. Its fallback can hit a teammate.
   const target = Object.values(session.actors).find(other => other.resources.hp > 0 && other.placement.kind === 'map' && other.placement.mapId === session.floor.mapId && other.placement.position.x === landing.x && other.placement.position.z === landing.z);
-  if (target && target.binding.kind !== 'job-client' && draw(context.state, 100) < 90) {
-    if (target.conditions.sleep?.duration.kind === 'indefinite') target.conditions.sleep = null;
-    dealDamage(context, target, catalogs, { attacker: actor, amount: 20, contact: false, physical: false });
-    context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'hit' });
+  if (target && !protectedItemTarget(target) && draw(context.state, 100) < 90) {
+    impactDungeonItem(context, actor, target, rock, catalogs);
     return;
   }
   // Native missed arcs skip the impact tile but reveal/preserve its trap.
-  dropFloorItem(context, landing, { ...rock, quantity: 1 }, catalogs, false);
+  dropFloorItem(context, landing, rock.payload, catalogs, false, rock.existingId);
 }

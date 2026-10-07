@@ -71,3 +71,15 @@ baseline only as an explicit reviewed contract change.
 Frustration threshold/damage facts. Parameter references resolve those tables;
 source sentinels are separate from the 11 ordered comparison rows. The source
 artifact URL/hash is joined to the original provenance manifest.
+
+## T01 execution provenance (2026-10-07)
+
+The independent recipient owner in game `src/domain/gameplay/item-effects.js`
+uses the finite early item cases documented in `plan/FRIEND-AREAS.md`. Fresh
+connector reads at Red pin `6bcbec4f906938c0243aa2026bcbd41b577bab85` verified
+`dungeon_item_action.c` catch/sticky/Belly/Blast, `dungeon_logic.c` represented
+condition/role guards, `dungeon_misc.c` front targeting, and
+`move_orb_effects_1/2/5.c` sleep/resources/wake. Existing effects resources and
+integrity pins remain byte-identical. This is comparative source traceability;
+Blue instruction parity, full item availability, straight throw/Item Master,
+wider named effect consumers and gameplay acceptance remain separate gates.

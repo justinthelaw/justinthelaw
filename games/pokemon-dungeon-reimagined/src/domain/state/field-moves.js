@@ -1,3 +1,4 @@
-/** Exact successor root; older envelopes retain their own field cache shape.
+import { recordsFieldMoves as recordsV16FieldMoves } from './field-moves-v16.js';
+/** Exact admitted roots retain the v16 field cache shape and links.
  * @param {string} revision */
-export const recordsFieldMoves = revision => revision.startsWith('blue-campaign-state-v16-field-moves-opening:browser-opening-v12-friends:');
+export const recordsFieldMoves = revision => recordsV16FieldMoves(revision) || revision.startsWith('blue-campaign-state-v17-item-impact-opening:browser-opening-v12-friends:');

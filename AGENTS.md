@@ -379,3 +379,8 @@ Directional RGBA atlases now supply character animation on depth-tested billboar
 in actual 3D environments. Follow `tools/pokemon-dungeon/art/pixel/CONTRACT.md`;
 retain historical GLB validation separately. Do not pixelate unchanged rejected
 models, retry blocked ImageGen requests, or substitute paid API generation.
+
+Shared early recipient item effects and catching now route self ingestion and
+player Gravelerock impact through one owner. V17 admits only actual nonself
+Sleep Seed provenance over frozen v16. Straight throws and Item Master remain
+separate gates; all admitted inventories/learned slots remain intact.

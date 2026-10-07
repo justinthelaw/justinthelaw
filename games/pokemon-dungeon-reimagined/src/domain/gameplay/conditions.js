@@ -78,14 +78,16 @@ export function confusionSecondary(context, user, target, catalogs) {
   context.emit({ type: 'conditionChanged', actorId: target.actorId });
   context.emit({ type: 'message', messageId: 'confused-status' });
 }
-/** @param {Context} context @param {Actor} actor @param {Catalogs} catalogs */
-export function sleepSeed(context, actor, catalogs) {
+/** Native duration draw precedes all sleep guards. Real user provenance is
+ * retained; only nonself item sources require the additive v17 policy.
+ * @param {Context} context @param {Actor} user @param {Actor} target @param {Catalogs} catalogs */
+export function sleepSeed(context, user, target, catalogs) {
   const session = context.state.session; if (!session) return blocked('sleep-session');
-  let duration = statusTurns(context, actor, 3, 7, catalogs);
-  if (ability(actor, catalogs, 'Insomnia') || ability(actor, catalogs, 'Vital Spirit') || actor.enabledIqSkillIds.some(id => id === 'iq-nonsleeper') || actor.conditions.sleep) return;
-  if (ability(actor, catalogs, 'Early Bird')) duration = Math.max(1, Math.trunc(duration / 2));
-  actor.conditions.sleep = { statusId: 'sleep', source: { kind: 'item', itemId: /** @type {import('../../contracts.js').ItemId} */ ('item-sleep-seed'), user: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: actor.actorId, identity: { ...actor.identity } } }, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-cave-condition'), remaining: duration }, periodicCountdown: null, payload: { kind: 'none' } };
-  context.emit({ type: 'conditionChanged', actorId: actor.actorId });
+  let duration = statusTurns(context, target, 3, 7, catalogs);
+  if (target.placement.kind !== 'map' || target.resources.hp === 0 || target.conditions.reflect?.statusId === 'safeguard' || ability(target, catalogs, 'Insomnia') || ability(target, catalogs, 'Vital Spirit') || target.enabledIqSkillIds.some(id => id === 'iq-nonsleeper') || hasHeldItem(context.state, target, 'item-insomniscope') || ['sleep', 'nightmare', 'sleepless', 'napping'].includes(target.conditions.sleep?.statusId ?? '')) return;
+  if (ability(target, catalogs, 'Early Bird')) duration = Math.max(1, Math.trunc(duration / 2));
+  target.conditions.sleep = { statusId: 'sleep', source: { kind: 'item', itemId: /** @type {import('../../contracts.js').ItemId} */ ('item-sleep-seed'), user: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: user.actorId, identity: { ...user.identity } } }, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ (user.actorId === target.actorId ? 'native-cave-condition' : 'native-item-impact-v17'), remaining: duration }, periodicCountdown: null, payload: { kind: 'none' } };
+  context.emit({ type: 'conditionChanged', actorId: target.actorId });
 }
 /** Native counter 127 persists, including poison's 128→127 first tick.
  * @param {Context} context @param {Actor} actor @param {Catalogs} catalogs */

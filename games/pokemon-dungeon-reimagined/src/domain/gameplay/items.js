@@ -1,53 +1,25 @@
-import { useGinseng } from './move-menu.js';
-import { sleepSeed, refreshSpeed } from './conditions.js';
-import { dealDamage } from './damage-resolution.js';
 import { throwRock } from './projectiles.js';
-import { canMeleeAttack } from '../navigation/geometry.js';
-import { navActor, navigationContext } from './support.js';
+import { consumeItemOrigin, applyDungeonItemEffect, USABLE_ITEMS } from './item-effects.js';
 import { receiveRewardItem } from './reward-items.js';
-import { value, quantity, maxHp, ability, blocked, FACINGS } from './support.js';
+import { maxHp, ability, blocked } from './support.js';
+export { USABLE_ITEMS } from './item-effects.js';
 
-/** Source item facts: Oran heals100; Oran/Pecha/Rawst each restore5 Belly.
- * Deletion precedes the effect, including a full-resource ineffective use.
+/** Origin/operation admission stays separate from recipient effects. Existing
+ * self ingestion and player Gravelerock arc search remain the finite surface.
  * @param {import('../turns/types.js').MutationContext} context @param {import('../../contracts/campaign.js').ResolvedAction & {kind:'item'}} action @param {import('./support.js').Catalogs} catalogs */
 export function useDungeonItem(context, action, catalogs) {
   const state = context.state; const session = state.session; const actor = session?.actors[action.actorId];
-  const item = state.items[action.itemInstanceId]; const bag = session ? [state.containers[session.inventory], actor ? state.containers[actor.heldContainerId] : null].find(container => container?.itemIds.includes(action.itemInstanceId)) : null;
-  if (!session || !actor || !item || !bag?.itemIds.includes(item.itemInstanceId) || action.operation !== 'use' && action.operation !== 'throw' || action.target.kind !== 'self' || !USABLE_ITEMS.includes(item.template.itemId)) return blocked('item-action-not-supported');
+  const item = state.items[action.itemInstanceId]; const origin = session ? [state.containers[session.inventory], actor ? state.containers[actor.heldContainerId] : null].find(container => container?.itemIds.includes(action.itemInstanceId)) : null;
+  if (!session || !actor || !item || !origin?.itemIds.includes(item.itemInstanceId) || action.operation !== 'use' && action.operation !== 'throw' || action.target.kind !== 'self' || !USABLE_ITEMS.includes(item.template.itemId)) return blocked('item-action-not-supported');
   if (item.template.sticky) { context.emit({ type: 'message', messageId: 'item-sticky' }); return; }
-  if (item.quantity > 1) item.quantity--;
-  else { bag.itemIds.splice(bag.itemIds.indexOf(item.itemInstanceId), 1); delete state.items[item.itemInstanceId]; }
-  if (item.template.itemId === 'item-gravelerock') { throwRock(context, actor, item, catalogs); context.emit({ type: 'itemChanged', itemInstanceId: item.itemInstanceId }); return; }
-  const apple = item.template.itemId === 'item-apple' || item.template.itemId === 'item-big-apple';
-  if (apple && Math.trunc(value(actor.resources.belly)) >= Math.trunc(value(actor.resources.maxBelly))) {
-    actor.resources.maxBelly = quantity(Math.min(200, value(actor.resources.maxBelly) + (item.template.itemId === 'item-big-apple' ? 10 : 5))); actor.resources.belly = actor.resources.maxBelly; actor.gains.maxBelly = quantity(value(actor.resources.maxBelly) - 100);
-  }
-  const raw = Math.min(value(actor.resources.maxBelly) * 65536, value(actor.resources.belly) * 65536 + (apple ? item.template.itemId === 'item-big-apple' ? 100 : 50 : 5) * 65536);
-  actor.resources.belly = quantity(raw, 65536);
-  if (item.template.itemId === 'item-max-elixir') for (const slot of actor.moves.slots) if (slot) {
-    const battle = actor.battleMoves.slots.find(row => row.moveSlotId === slot.moveSlotId);
-    if (battle) battle.currentPp = catalogs.effects.getMove(slot.moveId).numeric.pp;
-  }
-  if (item.template.itemId === 'item-oran-berry') actor.resources.hp = Math.min(maxHp(actor), actor.resources.hp + 100);
-  if (item.template.itemId === 'item-pecha-berry' && ['poisoned', 'badly-poisoned'].includes(actor.conditions.burn?.statusId ?? '') || item.template.itemId === 'item-rawst-berry' && actor.conditions.burn?.statusId === 'burn') actor.conditions.burn = null;
-  if (item.template.itemId === 'item-cheri-berry' && actor.conditions.burn?.statusId === 'paralysis') { actor.conditions.burn = null; refreshSpeed(actor, catalogs); }
-  if (item.template.itemId === 'item-ginseng') useGinseng(context, actor, catalogs);
-  if (item.template.itemId === 'item-sleep-seed') sleepSeed(context, actor, catalogs);
-  if (item.template.itemId === 'item-blast-seed' && actor.placement.kind === 'map') {
-    const angle = FACINGS.indexOf(actor.facing) * Math.PI / 4, pos = actor.placement.position;
-    const target = Object.values(session.actors).find(other => other.placement.kind === 'map' && other.placement.position.x === pos.x + Math.round(Math.sin(angle)) && other.placement.position.z === pos.z - Math.round(Math.cos(angle)));
-    if (target?.placement.kind === 'map' && canMeleeAttack(navActor(actor), session.floor, target.placement.position, navigationContext(session, catalogs))) {
-      if (target.conditions.sleep?.duration.kind === 'indefinite') target.conditions.sleep = null;
-      dealDamage(context, target, catalogs, { attacker: actor, amount: session.dungeonId === 'mt-steel' && session.floor.location.kind === 'boss' ? 30 : 45, contact: false, physical: false });
-      context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'hit' });
-    }
-  }
-  context.emit({ type: 'itemChanged', itemInstanceId: item.itemInstanceId }); context.emit({ type: 'message', messageId: 'berry-used' });
+  const projectile = item.template.itemId === 'item-gravelerock';
+  if (!projectile && actor.auxiliaryConditions.muzzled && ['food_gummies', 'berries_seeds_vitamins'].includes(catalogs.effects.getItem(item.template.itemId).category)) { context.emit({ type: 'message', messageId: 'item-muzzled' }); return; }
+  const detached = consumeItemOrigin(context, origin, item, projectile);
+  if (projectile) throwRock(context, actor, detached, catalogs);
+  else { applyDungeonItemEffect(context, actor, actor, detached.payload, 'eaten', catalogs); context.emit({ type: 'message', messageId: 'berry-used' }); }
+  context.emit({ type: 'itemChanged', itemInstanceId: item.itemInstanceId });
 }
 
-/** Finite supported use surface. Eating Reviver Seed has only the native seed
- * Belly effect; automatic revival is owned by the shared faint boundary. */
-export const USABLE_ITEMS = Object.freeze(['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry', 'item-cheri-berry', 'item-apple', 'item-big-apple', 'item-max-elixir', 'item-reviver-seed', 'item-plain-seed', 'item-sleep-seed', 'item-blast-seed', 'item-gravelerock', 'item-ginseng']);
 /** Native pickup chooses largest nonfull same-sticky stack, then largest with
  * either sticky flag. Native saturation discards excess over99; no second stack.
  * @param {import('../turns/types.js').MutationContext} context @param {import('../../contracts/campaign.js').SessionActor} actor @param {import('./support.js').Catalogs} catalogs */
