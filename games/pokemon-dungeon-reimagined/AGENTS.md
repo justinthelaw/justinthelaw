@@ -21,7 +21,11 @@ and Water Sport now have shared action, upkeep, damage and persistence consumers
 Water Sport Weak Type Picker weighting remains a full party-AI dependency. Bide, Focus
 Energy and Confusion now have sourced lifecycle consumers; Mt. Steel uses exact scoped wild move selection, boss/neutral roles, retry/loss
 return history and shared reward delivery. Metal Sound, Thundershock/paralysis, Hypnosis, Charge, Absorb and Quick Attack
-retain shared source consumers. Withdraw, Helping Hand, Thunder Wave, Disable,
+retain shared source consumers. Roster companions now acquire ground items at
+completed movement using native bag/own-held order, projectile stacking and flee
+guards. All240 native item AI triples have a separate qualified factual export;
+these facts do not complete autonomous use/throw AI or native movement.
+Withdraw, Helping Hand, Thunder Wave, Disable,
 Attract, Smokescreen and Reflect now have scoped execution consumers; Reviver
 Seeds restore base move PP. Low Kick, Metal Claw, Mud-Slap and Water Gun have
 scoped damage consumers. Ember burn, Bite/Bone Club/Headbutt flinching and Rage

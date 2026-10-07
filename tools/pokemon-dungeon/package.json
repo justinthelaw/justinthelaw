@@ -15,7 +15,7 @@
     "typecheck": "node scripts/check-types.mjs",
     "assets": "node scripts/check-assets.mjs && npm run pixel:check && npm run production:check && npm run roster:check && npm run runtime-pixels:check && npm run environment:check",
     "art:export": "node art/export.mjs",
-    "check": "npm run lint && npm run typecheck && npm run save-boundaries:check && npm run friends:check && npm run content && npm run species:check && npm run rules:check && npm run dungeons:check && npm run effects:check && npm run ai:check && npm run onboarding:check && npm run campaign:check && npm run navigation:check && node scripts/export-content-coverage.mjs --check && npm run assets && npm run vendor -- --check",
+    "check": "npm run lint && npm run typecheck && npm run save-boundaries:check && npm run friends:check && npm run content && npm run species:check && npm run rules:check && npm run dungeons:check && npm run effects:check && npm run ai:check && npm run item-ai:check && npm run onboarding:check && npm run campaign:check && npm run navigation:check && node scripts/export-content-coverage.mjs --check && npm run assets && npm run vendor -- --check",
     "content": "node scripts/check-content.mjs",
     "content:coverage": "npm run content && node scripts/export-content-coverage.mjs",
     "pixel:export": "node art/pixel/export.mjs",
@@ -49,7 +49,9 @@
     "save-boundaries:check": "node scripts/check-save-boundaries.mjs",
     "ai:export": "node scripts/export-ai-facts.mjs",
     "ai:check": "node scripts/export-ai-facts.mjs --check",
-    "friends:check": "node scripts/check-friend-facts.mjs"
+    "friends:check": "node scripts/check-friend-facts.mjs",
+    "item-ai:export": "node scripts/export-item-ai.mjs",
+    "item-ai:check": "node scripts/export-item-ai.mjs --check"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

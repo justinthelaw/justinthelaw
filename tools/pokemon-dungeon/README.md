@@ -22,6 +22,8 @@ npm run check
 | `npm run vendor -- --check` | Recompute in memory and compare every output byte; never writes files. |
 | `npm run lint` | Parse/lint authored source and check local module boundaries. |
 | `npm run typecheck` | Independent strict JSDoc checks; the compiler host maps exact local vendor paths to pinned Three.js declarations. |
+| `npm run item-ai:export` | Export all240 qualified native item AI/category facts independently of frozen effects/save dependencies. |
+| `npm run item-ai:check` | Compare every identity/category/action/stack/ordered AI triple with the pinned native snapshot and existing complete item corpus, then compare export bytes. |
 | `npm run assets` | Validate asset metadata and local files without importing game modules. |
 | `npm run art:export` | Run original authoring generators and export candidate GLBs/manifests outside the game tree. |
 | `npm run content` | Validate the four authoring catalogs, exact identities, source locators, blockers and relationships; no game execution. |

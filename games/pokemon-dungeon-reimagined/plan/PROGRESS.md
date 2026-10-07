@@ -1153,3 +1153,24 @@ game execution, browser playthrough, merge, push or deployment were performed.
 Validation commands/results and scoped commit are in the v16 recovery report.
 Full party/extra-party/recruitment/escort/MAIN5 work and visual acceptance remain
 open before broader task integration.
+
+### Companion pickup and complete native item AI metadata prerequisite
+
+Roster/team companions now acquire current-session nonshop ground lots at the
+existing completed-movement hook with bag-then-own-held order, no-toolbox
+held-only fallback, largest projectile/sticky passes and stable ties,
+saturation99, money cap99999 and full-storage no-op. Native Run Away/Get Away/
+Avoid Trouble guards remain distinct. Leader behavior and all canonical lot,
+settlement and predecessor save owners stay unchanged; no revision bump.
+
+Added an independent all240-row native item AI factual owner and browser export
+with pinned source snapshot/hashes. Static checking compares complete canonical
+identity/category/action/spawn joins plus43 explicit and197 assembler-default
+ordered triples. Frozen effects bytes/save pins were not regenerated. The
+finite reachable held-effect trace closes through existing no-held-effect,
+Reviver Seed and supported protection consumers; it makes no broad passive or
+Item Master/use/throw/catching claim. Source/ownership evidence is in
+FRIEND-AREAS.md and item-ai/AUTHORING.md. Lint, types, effects, save-boundary and
+item-AI static checks pass; no game source was imported/executed and no tests or
+playthroughs were performed. Review/publication is left to the controller.
+Full party/movement/recruitment/escort/MAIN5 and visual acceptance remain open.

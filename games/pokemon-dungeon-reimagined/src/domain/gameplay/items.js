@@ -5,7 +5,7 @@ import { throwRock } from './projectiles.js';
 import { canMeleeAttack } from '../navigation/geometry.js';
 import { navActor, navigationContext } from './support.js';
 import { receiveRewardItem } from './reward-items.js';
-import { value, quantity, maxHp, blocked, FACINGS } from './support.js';
+import { value, quantity, maxHp, ability, blocked, FACINGS } from './support.js';
 
 /** Source item facts: Oran heals100; Oran/Pecha/Rawst each restore5 Belly.
  * Deletion precedes the effect, including a full-resource ineffective use.
@@ -50,10 +50,11 @@ export function useDungeonItem(context, action, catalogs) {
 export const USABLE_ITEMS = Object.freeze(['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry', 'item-cheri-berry', 'item-apple', 'item-big-apple', 'item-max-elixir', 'item-reviver-seed', 'item-plain-seed', 'item-sleep-seed', 'item-blast-seed', 'item-gravelerock', 'item-ginseng']);
 /** Native pickup chooses largest nonfull same-sticky stack, then largest with
  * either sticky flag. Native saturation discards excess over99; no second stack.
- * @param {import('../turns/types.js').MutationContext} context @param {import('../../contracts/campaign.js').SessionActor} actor */
-export function pickup(context, actor) {
+ * @param {import('../turns/types.js').MutationContext} context @param {import('../../contracts/campaign.js').SessionActor} actor @param {import('./support.js').Catalogs} catalogs */
+export function pickup(context, actor, catalogs) {
   const state = context.state, s = state.session;
-  if (!s || actor.actorId !== s.leaderActorId || actor.placement.kind !== 'map') return;
+  if (!s || actor.placement.kind !== 'map') return;
+  if (actor.actorId !== s.leaderActorId) return pickupCompanion(context, actor, catalogs);
   const pos = actor.placement.position;
   const toolbox = state.progress.appliedGrants.some(row => row.grantId === 'browser-starter-set');
   const bag = state.containers[toolbox ? s.inventory : actor.heldContainerId]; if (!bag) return blocked('pickup-container');
@@ -71,6 +72,55 @@ export function pickup(context, actor) {
       container.itemIds.splice(container.itemIds.indexOf(id), 1); context.emit({ type: 'itemChanged', itemInstanceId: id });
     }
     if (!container.itemIds.length) delete state.containers[container.containerId];
+  }
+}
+/** Completed-movement acquisition, pinned Red MonTryPickUpItem429..576.
+ * Candidates keep native bag order, then this roster companion's held slot.
+ * Special actors/shop lots and stationary pickup are outside this owner.
+ * @param {import('../turns/types.js').MutationContext} context
+ * @param {import('../../contracts/campaign.js').SessionActor} actor
+ * @param {import('./support.js').Catalogs} catalogs */
+function pickupCompanion(context, actor, catalogs) {
+  const state = context.state, s = state.session;
+  if (!s || s.scheduler.continuation.terminal !== 'none' || actor.binding.kind !== 'roster' || !state.roster[actor.binding.pokemonId] || actor.affiliation !== 'team' || actor.placement.kind !== 'map' || actor.placement.mapId !== s.floor.mapId || actor.resources.hp <= 0) return;
+  // Get Away and Avoid Trouble are distinct from the strict Run Away threshold.
+  // No terrified-turns field is admitted; no unrelated status stands in for it.
+  if (ability(actor, catalogs, 'Run Away') && actor.resources.hp < Math.trunc(maxHp(actor) / 2) || actor.tacticId === 'tactic-get-away' || actor.tacticId === 'tactic-avoid-trouble' && actor.resources.hp <= Math.trunc(maxHp(actor) / 2)) return;
+  const held = state.containers[actor.heldContainerId];
+  if (held?.owner.kind !== 'actor-held' || held.owner.actorId !== actor.actorId || held.owner.sessionId !== s.sessionId) return blocked('pickup-held-owner');
+  const toolbox = state.progress.appliedGrants.some(row => row.grantId === 'browser-starter-set');
+  const bag = toolbox ? state.containers[s.inventory] : null;
+  if (toolbox && (bag?.owner.kind !== 'session-toolbox' || bag.owner.sessionId !== s.sessionId)) return blocked('pickup-toolbox-owner');
+  const candidates = bag ? [bag, held] : [held];
+  const pos = actor.placement.position;
+  for (const floor of Object.values(state.containers)) {
+    const owner = floor.owner;
+    if (owner.kind !== 'floor' || owner.sessionId !== s.sessionId || owner.mapId !== s.floor.mapId || owner.placement !== 'ground' || owner.position.x !== pos.x || owner.position.z !== pos.z) continue;
+    for (const id of [...floor.itemIds]) {
+      const item = state.items[id]; if (!item) return blocked('pickup-item');
+      if (item.shopLotId !== null) continue;
+      const category = catalogs.effects.getItem(item.template.itemId).category;
+      if (category === 'poke') { s.carriedMoney = Math.min(99999, s.carriedMoney + item.quantity); delete state.items[id]; }
+      else {
+        /** @type {import('../../contracts/campaign.js').ItemInstance | null} */ let merge = null;
+        if (category === 'thrown_line' || category === 'thrown_arc') {
+          const stacks = candidates.flatMap(container => container.itemIds.map(key => state.items[key] ?? blocked('pickup-candidate-item')));
+          // Strict comparisons preserve first-candidate ties in both passes.
+          for (const sameSticky of [true, false]) {
+            for (const row of stacks) if (row.shopLotId === null && row.template.itemId === item.template.itemId && row.quantity < 99 && (!sameSticky || row.template.sticky === item.template.sticky) && (!merge || row.quantity > merge.quantity)) merge = row;
+            if (merge) break;
+          }
+        }
+        if (merge) { merge.quantity = Math.min(99, merge.quantity + item.quantity); merge.template.sticky ||= item.template.sticky; delete state.items[id]; }
+        else {
+          const destination = candidates.find(container => container.itemIds.length < (container === bag ? 20 : 1));
+          if (!destination) continue;
+          destination.itemIds.push(id);
+        }
+      }
+      floor.itemIds.splice(floor.itemIds.indexOf(id), 1); context.emit({ type: 'itemChanged', itemInstanceId: id });
+    }
+    if (!floor.itemIds.length) delete state.containers[floor.containerId];
   }
 }
 /** Source scripted item rewards overflow into per-item storage. One caller-owned

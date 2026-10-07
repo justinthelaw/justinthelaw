@@ -214,7 +214,7 @@ export function createTurnHooks(catalogs, authored) {
         resetStatChanges(a);
         context.emit({ type: 'message', messageId: 'wonder-tile' });
       }
-      pickup(context, a);
+      pickup(context, a, catalogs);
       return CONTINUE;
     },
     room(context, ref) {

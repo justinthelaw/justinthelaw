@@ -408,3 +408,52 @@ Static review does not establish game execution, human play or visual acceptance
 Remaining native party item/movement/selection, move learning/replacement,
 extra-party entry/faint, escort/work and recruitment/capacity block broader
 Friend Area continuation.
+
+## Companion movement pickup and additive item AI facts
+
+Pinned Red MonTryPickUpItem, dungeon_ai_items.c429–576, now owns a bounded
+roster/team companion branch at the existing completed-movement tile hook.
+The leader branch is unchanged. No stationary ACTION_PICK_UP_AI, extra turn,
+RNG draw, wild/client/guest pickup or parallel inventory is added. Ground lots
+must belong to the current session/map and have no shop claim; buried lots are
+excluded. Native IN_SHOP/UNPAID distinctions remain unrepresented and out of scope.
+Run Away uses HP<floor(maxHP/2); Get Away always blocks, while Avoid Trouble
+uses HP<=floor(maxHP/2), qualified by dungeon_logic.c1056–1111. No terrified
+state is inferred. Broader tactics and native companion movement remain open.
+
+With the existing toolbox grant, candidates are bag slots followed by the
+companion's own held slot; before naming, only its held slot is available.
+Poké converts before capacity checks and caps shared money at99999. Line/arc
+projectiles select the largest nonfull same-sticky same-ID nonshop stack first,
+then the largest regardless of sticky. Strict comparisons keep first-candidate
+ties. Merge saturates99 with sticky OR and no remainder; destination identity
+and payload survive. Otherwise the first free bag/held container receives the
+whole existing lot. Full storage leaves the ground placement intact. Shop
+claim, payload, quantity and identity are preserved without reconstruction.
+
+The construction boundary in gameplay/expedition.js134 admits USABLE_ITEMS/Poké
+outside Steel and the complete15-item STEEL_FLOOR_ITEMS pool in Steel. Their
+held effects are no-held-effect except Reviver Seed, already consumed by shared
+revival.js15–18 with own-held precedence, Item Master and sticky guards. Use
+consumers for gummies/orbs remain separately gated. Pecha Scarf/Twist Band have
+existing immunity/stat consumers; dungeon equip Give gates unsupported held
+effects. Friend Area resident Give accepts any complete bag lot; extra-party
+dungeon entry remains outside this checkpoint. This pickup implementation adds
+no passive-effect claim or item filter. Future construction/recruitment must recheck newly reachable
+held effects rather than treating the all240 factual export as support.
+
+Current item policies already admit1..99 line/arc lots, one-stack held/floor
+owners, twenty bag slots and current-session ownership. Roster settlement
+transfers held lot IDs into home-held, clears sticky at the existing ordinary/
+Steel success boundary and deletes held lots on failure. Nonroster held lots
+remain outside acquisition. No state revision, predecessor policy, factory or
+save integrity dependency changes; exact v2–v16 admission remains intact.
+
+All240 native item metadata rows now have a separately authored resource,
+export and static checker:43 explicit ordered self/ally/enemy triples and197
+assembler-default zero triples, joined deterministically to the existing entire
+item corpus by native ID. Category/action/spawn parity is complete; spawn
+omissions stay null. The source snapshot and hashes are qualified Red facts
+at6bcbec4f, not Blue instruction parity. The old effects corpus is unchanged.
+Autonomous item use/throw, catching, full party AI, recruitment/party admission
+and chapter-five completion remain separate dependencies.
