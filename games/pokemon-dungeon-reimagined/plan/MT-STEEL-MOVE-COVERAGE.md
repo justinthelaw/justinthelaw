@@ -1,10 +1,12 @@
 # Early and starter move-consumer inventory
 
 Static joins of existing immutable species learnsets/profiles, onboarding profiles,
-dungeon floor/encounter catalogs and the explicit v9 consumer scope. This is
+dungeon floor/encounter catalogs and the v11 move-consumer scope. This is
 coverage evidence, not execution of constructors or a gameplay test. All
 levels1-100 are included for starters; no invented level cap limits the inventory.
-Each retained learned slot stays visible even when its consumer is unavailable.
+The starter table below retains the v9 historical split; v11 additionally closes
+Thunder Shock, Charge, Hypnosis, Absorb and Quick Attack effects, not broader
+AI selection. Each retained learned slot stays visible even when its consumer is unavailable.
 
 ## Earlier wild encounter candidates
 
@@ -17,10 +19,10 @@ supported. Unsupported slots must never be removed from native move weights.
 | pokemon-016 / 1 | tackle | None |
 | pokemon-019 / 3 | tail-whip, tackle | None |
 | pokemon-029 / 4 | growl, scratch | None |
-| pokemon-100 / 3 | tackle | charge |
-| pokemon-102 / 1 | None | hypnosis |
-| pokemon-191 / 1 | None | absorb |
-| pokemon-239 / 4 | leer | quick-attack |
+| pokemon-100 / 3 | tackle, charge | None |
+| pokemon-102 / 1 | hypnosis | None |
+| pokemon-191 / 1 | absorb | None |
+| pokemon-239 / 4 | leer, quick-attack | None |
 | pokemon-261 / 3 | tackle | None |
 | pokemon-265 / 1 | tackle | None |
 | pokemon-312 / 3 | growl | None |

@@ -1,3 +1,4 @@
+import { refreshFieldAbilities } from './field-abilities.js';
 import { transferHeldItem } from './held-items.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
 import { STEEL_SLEEP_CHANCES } from '../../../content/state/steel-facts.js';
@@ -76,6 +77,7 @@ export function createTurnHooks(catalogs, authored) {
     },
     refreshSides(context) {
       const s = sessionOf(context);
+      refreshFieldAbilities(context.state, catalogs);
       for (const id of s.scheduler.teamSlots) if (id && s.actors[id]?.affiliation !== 'team') return blocked('team-affiliation');
       return CONTINUE;
     },
@@ -94,6 +96,7 @@ export function createTurnHooks(catalogs, authored) {
       }
       tickConditions(context, a, catalogs);
       tickBattleStatus(context, a);
+      if (a.conditions.bide?.statusId === 'charging' && (a.conditions.sleep || a.conditions.cringe?.statusId === 'infatuated')) { a.conditions.bide = null; context.emit({ type: 'conditionChanged', actorId: a.actorId }); }
       return { kind: 'continue', canAct: a.conditions.sleep === null && a.conditions.cringe?.statusId !== 'infatuated' && a.conditions.bide?.statusId !== 'bide' };
     },
     experience(context, ref) { if (ref) applyExperience(context, actor(context, ref), catalogs); return CONTINUE; },
@@ -148,29 +151,36 @@ export function createTurnHooks(catalogs, authored) {
     },
     startAction(context, ref, action) {
       const s = sessionOf(context); const a = actor(context, ref);
-      action = confusedAction(context, a, action, catalogs);
-      if (action.kind === 'wait') return done();
-      if (action.kind === 'item') { if (action.operation === 'equip') transferHeldItem(context, action); else useDungeonItem(context, action, catalogs); return done(); }
-      if (action.kind === 'move') {
-        const plan = movementPlan(s, a, action.destination, catalogs);
-        if (a.placement.kind !== 'map' || plan.kind === 'blocked') return { kind: 'rejected', reason: 'unavailable' };
-        const from = { ...a.placement.position }; a.facing = facing(action.destination.x - from.x, action.destination.z - from.z);
-        if (plan.kind === 'swap') {
-          const other = s.actors[plan.other]; if (!other) return blocked('swap-participant');
-          // R dungeon_main.c:sub_805EC4C sets both 0x8000 flags and reverse
-          // walk direction. Engine's special pass ticks/moves the counterpart,
-          // then consumes 0x4000 in the ordinary team pass exactly once.
-          a.speed.petrifiedSwap = true; other.speed.petrifiedSwap = true;
-          other.facing = facing(from.x - action.destination.x, from.z - action.destination.z);
-          s.scheduler.continuation.petrifiedSwapPending = true;
+      const charging = a.conditions.bide?.statusId === 'charging' ? a.conditions.bide : null;
+      try {
+        action = confusedAction(context, a, action, catalogs);
+        if (action.kind === 'wait') return done();
+        if (action.kind === 'item') { if (action.operation === 'equip') transferHeldItem(context, action); else useDungeonItem(context, action, catalogs); return done(); }
+        if (action.kind === 'move') {
+          const plan = movementPlan(s, a, action.destination, catalogs);
+          if (a.placement.kind !== 'map' || plan.kind === 'blocked') return { kind: 'rejected', reason: 'unavailable' };
+          const from = { ...a.placement.position }; a.facing = facing(action.destination.x - from.x, action.destination.z - from.z);
+          if (plan.kind === 'swap') {
+            const other = s.actors[plan.other]; if (!other) return blocked('swap-participant');
+            // R dungeon_main.c:sub_805EC4C sets both 0x8000 flags and reverse
+            // walk direction. Engine's special pass ticks/moves the counterpart,
+            // then consumes 0x4000 in the ordinary team pass exactly once.
+            a.speed.petrifiedSwap = true; other.speed.petrifiedSwap = true;
+            other.facing = facing(from.x - action.destination.x, from.z - action.destination.z);
+            s.scheduler.continuation.petrifiedSwapPending = true;
+          }
+          a.placement.position = { ...action.destination };
+          context.emit({ type: 'actorMoved', actorId: a.actorId, from, to: { ...action.destination } }); return done(true);
         }
-        a.placement.position = { ...action.destination };
-        context.emit({ type: 'actorMoved', actorId: a.actorId, from, to: { ...action.destination } }); return done(true);
+        if (action.kind === 'attack' || action.kind === 'struggle' || action.kind === 'move-use') { attack(context, a, action, catalogs); return done(); }
+        if (action.kind === 'exit') { takeStairs(context, catalogs, authored, action.exitId); return done(); }
+        if (action.kind === 'give-up') { settleExpedition(context, 'give-up', catalogs, authored); return done(); }
+        return blocked('action-effect');
+      } finally {
+        // Native action completion clears an old Charge after any action, even
+        // a pass, item or non-electric move. A newly applied Charge survives.
+        if (charging && a.conditions.bide === charging) { a.conditions.bide = null; context.emit({ type: 'conditionChanged', actorId: a.actorId }); }
       }
-      if (action.kind === 'attack' || action.kind === 'struggle' || action.kind === 'move-use') { attack(context, a, action, catalogs); return done(); }
-      if (action.kind === 'exit') { takeStairs(context, catalogs, authored, action.exitId); return done(); }
-      if (action.kind === 'give-up') { settleExpedition(context, 'give-up', catalogs, authored); return done(); }
-      return blocked('action-effect');
     },
     effect() { return blocked('unsupported-effect-cursor'); },
     effectAllowed() { return blocked('unsupported-effect-cursor'); },

@@ -304,5 +304,9 @@
   },
   "battlePredecessorBaselineCommit": "e59a35dba62b144294d0eb730438060797862831",
   "steelPredecessorBaselineCommit": "2348abcc555e5a53f6f63d11c0a8ba47d8d1dff3",
-  "friendAreaPredecessorBaselineCommit": "2b828c0a6b984cb60a161014884a6693c86ae287"
+  "friendAreaPredecessorBaselineCommit": "2b828c0a6b984cb60a161014884a6693c86ae287",
+  "steelRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "0e42d7034857ee1768fdb963847e10af41f2b1415475394017bf623bfcc3bf5c"
+  }
 }

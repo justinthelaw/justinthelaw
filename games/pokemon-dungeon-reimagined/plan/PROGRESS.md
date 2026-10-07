@@ -1014,3 +1014,17 @@ The factual kebab-case stat maps explicitly to canonical actor state. Stat
 experience-credit and accuracy ordering remain shared. No save admission has
 changed. FRIEND-AREAS.md records exact qualified source locators and remaining
 status/onboarding/roster/recruitment work.
+
+### Friend Area shared move/status prerequisite - 2026-10-07
+
+Implemented Thundershock's sourced paralysis/secondary pipeline, shared Static
+paralysis/Synchronize, Hypnosis sleep guards/timing, Charge lifecycle/damage,
+Absorb/Liquid Ooze nominal-damage settlement and Quick Attack's two-tile probe.
+Lightningrod now retains the last native-phase ability owner in a versioned
+cache and suppresses redirected electric actions after the source accuracy draw.
+The v11 boundary admits exact new effect provenance and the field cache, while
+v2-v10 authenticate and pass unchanged predecessor admission before conversion.
+A fourth immutable root-shape pin now protects v10. FRIEND-AREAS.md records
+qualified source detail and prospective initialization of the new cache on old
+imports. Earlier wild/party native AI, actual onboarding/roster/recruitment and
+chapter-five integration remain active; human acceptance stays open.

@@ -40,4 +40,6 @@ const seenRoot = shapes?.properties.find(property => property.key.value === 'Cam
 assert(manifest.seenRootShape.path === manifest.legacyRootShape.path && seenRoot && hash(schemaSource.slice(seenRoot.start, seenRoot.end)) === manifest.seenRootShape.sha256, 'Reviewed v7 seen root shape changed.');
 const workRoot = shapes?.properties.find(property => property.key.value === 'CampaignStateWithWork')?.value;
 assert(manifest.workRootShape.path === manifest.legacyRootShape.path && workRoot && hash(schemaSource.slice(workRoot.start, workRoot.end)) === manifest.workRootShape.sha256, 'Reviewed v8 work root shape changed.');
+const steelRoot = shapes?.properties.find(property => property.key.value === 'CampaignStateWithSteel')?.value;
+assert(manifest.steelRootShape.path === manifest.legacyRootShape.path && steelRoot && hash(schemaSource.slice(steelRoot.start, steelRoot.end)) === manifest.steelRootShape.sha256, 'Reviewed v10 Steel root shape changed.');
 console.log(`Save admission source pins: ${manifest.modules.length} unchanged dependencies / ${manifest.functionBodies.length} exact predecessor bodies / 2 factual manifests and their resources; no game code executed.`);

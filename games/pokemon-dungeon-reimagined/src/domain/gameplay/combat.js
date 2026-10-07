@@ -1,3 +1,5 @@
+import { lightningRodTarget } from './field-abilities.js';
+import { secondaryAllowed, inflictParalysis, moveConditionSource, hypnosis } from './move-conditions.js';
 import { noteSteelBossFaint } from './steel.js';
 import { SELF_STATUS_MOVES, selfBattleStatus } from './battle-status.js';
 import { damageHp } from './hp-damage.js';
@@ -22,7 +24,7 @@ function types(actor, catalogs) { const ids = profile(actor.identity, catalogs).
 /** @param {Catalogs} catalogs @param {string} id */
 export function supportedMove(catalogs, id) {
   const move = catalogs.effects.getMove(id);
-  return SELF_STATUS_MOVES.includes(id) || ['move-rapid-spin', 'move-take-down', 'move-confusion'].includes(id) || STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
+  return SELF_STATUS_MOVES.includes(id) || ['move-rapid-spin', 'move-take-down', 'move-confusion', 'move-thunder-shock', 'move-hypnosis', 'move-absorb', 'move-quick-attack'].includes(id) || STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
 }
 /** @param {Context} context @param {Actor} attacker @param {Actor} target @param {number} base @param {boolean} physical @param {Catalogs} catalogs */
 function accuracy(context, attacker, target, base, physical, catalogs) {
@@ -59,6 +61,14 @@ export function attack(context, attacker, action, catalogs) {
   if (action.kind === 'struggle') attacker.memory.lastUsedMove = { moveId: /** @type {import('../../contracts/campaign.js').MoveId} */ ('move-struggle'), moveSlotId: null };
   const targets = moveTargets(session, attacker, move.target.rangeCode, catalogs, action.target);
   if (learned && SELF_STATUS_MOVES.includes(action.moveId) && slot) {
+    if (move.numeric.type === 'electric') {
+      const redirect = lightningRodTarget(context.state, attacker, attacker);
+      if (redirect.redirected) {
+        wakeSpawnSleeper(context, redirect.target);
+        accuracy(context, attacker, redirect.target, move.numeric.accuracyBeforeEffect, false, catalogs);
+        context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: redirect.target.actorId, outcome: 'immune' }); return;
+      }
+    }
     wakeSpawnSleeper(context, attacker);
     accuracy(context, attacker, attacker, move.numeric.accuracyBeforeEffect, true, catalogs);
     if (attacker.affiliation !== 'team' && !attacker.memory.experienceContributors.includes(attacker.actorId)) attacker.memory.experienceContributors.push(attacker.actorId);
@@ -85,7 +95,9 @@ export function attack(context, attacker, action, catalogs) {
     if (!targets.length) context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: null, outcome: 'miss' });
     return;
   }
-  const target = targets[0];
+  const initialTarget = targets[0];
+  const redirect = initialTarget && move.numeric.type === 'electric' ? lightningRodTarget(context.state, attacker, initialTarget) : null;
+  const target = redirect?.target ?? initialTarget;
   if (!target) { context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: null, outcome: 'miss' }); return; }
   wakeSpawnSleeper(context, target);
   const moveType = ELEMENT_TYPES.find(type => type.toLowerCase() === move.numeric.type);
@@ -94,6 +106,12 @@ export function attack(context, attacker, action, catalogs) {
   // Source physical-type retaliation is resolved below after positive damage.
   if (!accuracy(context, attacker, target, move.numeric.accuracyBeforeEffect, physical, catalogs)) {
     context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'miss' }); return;
+  }
+  if (redirect?.redirected) { context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'immune' }); return; }
+  if (learned && action.moveId === 'move-hypnosis') {
+    if (target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
+    hypnosis(context, attacker, target, catalogs);
+    context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'hit' }); return;
   }
   const provisionalCredit = !regular && target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId);
   if (provisionalCredit) target.memory.experienceContributors.push(attacker.actorId);
@@ -108,7 +126,7 @@ export function attack(context, attacker, action, catalogs) {
   const result = calculateNormalDamage({
     type: { moveType, attackerTypes: types(attacker, catalogs), defenderTypes: types(target, catalogs), defenderExposed: false,
       abilities: { wonderGuard: d('Wonder Guard'), thickFat: d('Thick Fat'), flashFire: d('Flash Fire'), levitate: d('Levitate'), torrent: a('Torrent'), overgrow: a('Overgrow'), swarm: a('Swarm'), blaze: a('Blaze') },
-      attackerHp: attacker.resources.hp, attackerMaxHp: maxHp(attacker), weather: 'clear', mudSport: false, waterSport: false, charging: false },
+      attackerHp: attacker.resources.hp, attackerMaxHp: maxHp(attacker), weather: 'clear', mudSport: false, waterSport: false, charging: attacker.conditions.bide?.statusId === 'charging' },
     stats: { rawOffense: attacker.growth.naturalStats[offense] + attacker.growth.permanentStatBonuses[offense], rawDefense: target.growth.naturalStats[defense] + target.growth.permanentStatBonuses[defense], movePower: move.numeric.power + (slot?.powerBoost ?? 0), offenseStage: attacker.stages[offense], defenseStage: target.stages[defense], offensiveMultiplierQ8: value(attacker.multipliers[offense]) * 256, defensiveMultiplierQ8: value(target.multipliers[defense]) * 256,
       flashFireBoost: 0, attackerForm: 'none', defenderForm: 'none', skullBash: false, attackerItem: 'none', defenderItem: 'none',
       abilities: { guts: a('Guts'), attackerNegativeStatus: hasNegativeStatus(attacker), hugePower: a('Huge Power'), purePower: a('Pure Power'), hustle: a('Hustle'), plus: a('Plus'), minus: a('Minus'), sameSidePlus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Plus')), sameSideMinus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Minus')), intimidate: d('Intimidate'), marvelScale: d('Marvel Scale'), defenderNegativeStatus: hasNegativeStatus(target) } },
@@ -122,11 +140,20 @@ export function attack(context, attacker, action, catalogs) {
     context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'miss' }); return;
   }
   if (result.damage === 0) restoreFailedCredit();
+  const liquidOoze = ability(target, catalogs, 'Liquid Ooze');
   damageHp(target, result.damage);
   if (result.damage > 0) contactReactions(context, attacker, target, physical, catalogs);
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
   const resolution = finishDamage(context, target, catalogs, attacker);
   if (!(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle') && learned && action.moveId === 'move-confusion' && result.damage > 0 && resolution !== 'revived') confusionSecondary(context, attacker, target, catalogs);
+  if (learned && action.moveId === 'move-thunder-shock' && result.damage > 0 && resolution !== 'revived' && secondaryAllowed(context, attacker, target, 10, catalogs)) inflictParalysis(context, target, moveConditionSource(context, attacker, action.moveId), catalogs);
+  if (learned && action.moveId === 'move-absorb' && result.damage > 0 && attacker.placement.kind === 'map' && attacker.resources.hp > 0) {
+    if (attacker.affiliation !== 'team' && !attacker.memory.experienceContributors.includes(attacker.actorId)) attacker.memory.experienceContributors.push(attacker.actorId);
+    const amount = Math.max(1, Math.trunc(result.damage / 2));
+    if (liquidOoze) { damageHp(attacker, amount); finishDamage(context, attacker, catalogs, attacker, false); }
+    else attacker.resources.hp = Math.min(maxHp(attacker), attacker.resources.hp + amount);
+    context.emit({ type: 'message', messageId: liquidOoze ? 'liquid-ooze-damage' : 'absorb-healed' });
+  }
   if (!regular && result.damage > 0) {
     if (action.kind === 'struggle' ? struggleRecoil(attacker) : learned && action.moveId === 'move-take-down' && takeDownRecoil(attacker, catalogs)) {
       finishDamage(context, attacker, catalogs, attacker, false);

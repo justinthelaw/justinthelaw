@@ -48,7 +48,7 @@ export function validateCampaign(input, content) {
   if (!data || typeof data !== 'object' || Array.isArray(data) || data.schemaVersion !== 1) {
     issue(issues, 'unsupported-version', '/schemaVersion', 'Unsupported campaign schema.'); return failure(issues, requirements);
   }
-  const campaignShape = typeof data.contentRevision === 'string' && recordsSteel(data.contentRevision) ? 'CampaignStateWithSteel' : typeof data.contentRevision === 'string' && recordsEarlyWork(data.contentRevision) ? 'CampaignStateWithWork' : typeof data.contentRevision === 'string' && recordsSpeciesSeen(data.contentRevision) ? 'CampaignStateWithSeen' : 'CampaignState';
+  const campaignShape = typeof data.contentRevision === 'string' && data.contentRevision.startsWith('blue-campaign-state-v11-moves-opening:browser-opening-v11-moves:') ? 'CampaignStateWithMoves' : typeof data.contentRevision === 'string' && recordsSteel(data.contentRevision) ? 'CampaignStateWithSteel' : typeof data.contentRevision === 'string' && recordsEarlyWork(data.contentRevision) ? 'CampaignStateWithWork' : typeof data.contentRevision === 'string' && recordsSpeciesSeen(data.contentRevision) ? 'CampaignStateWithSeen' : 'CampaignState';
   if (!inspectShape(data, campaignShape, issues)) return failure(issues, requirements);
   const state = /** @type {CampaignState} */ (/** @type {unknown} */ (data));
   checkNativeProgress(state.progress.native, issues, '/progress/native');

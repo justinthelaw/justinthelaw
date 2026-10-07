@@ -120,6 +120,7 @@ export function createCampaign(input, content) {
     if (recordsSpeciesSeen(content.contentRevision)) initializeSpeciesSeen(state, false);
     if (recordsEarlyWork(content.contentRevision)) state.earlyWork = null;
     if (recordsSteel(content.contentRevision)) state.steel = null;
+    if (content.contentRevision.startsWith('blue-campaign-state-v11-moves-opening:browser-opening-v11-moves:')) state.moveState = null;
     return validateCampaign(state, content);
   } catch { issue(issues, 'shape', '', 'Initial profile contains an invalid allocation, move projection or random seed.'); return failure(issues, requirements); }
 }

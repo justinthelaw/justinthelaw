@@ -23,6 +23,17 @@ export function moveTargets(session, actor, range, catalogs, selector) {
   const eligible = (/** @type {Actor} */ other) => other.affiliation !== 'neutral' && (confused || other.affiliation !== actor.affiliation);
   if (range === 3) return activeActors(session).filter(other => eligible(other) && other.placement.kind === 'map' && isActuallyInSight(session.floor, origin, other.placement.position, nav.visibilityRange));
   const angle = FACINGS.indexOf(actor.facing) * Math.PI / 4;
+  if (range === 4) {
+    // The native two-tile probe checks each destination tile, cuts corners and
+    // proceeds through an ineligible ally, but never through blocked terrain.
+    for (let distance = 1; distance <= 2; distance++) {
+      const at = { x: origin.x + Math.round(Math.sin(angle)) * distance, z: origin.z - Math.round(Math.cos(angle)) * distance };
+      if (!canTargetPosition(navActor(actor), session.floor, at, nav)) return [];
+      const target = activeActors(session).find(other => other.placement.kind === 'map' && other.placement.position.x === at.x && other.placement.position.z === at.z);
+      if (target && eligible(target)) return [target];
+    }
+    return [];
+  }
   const target = selector.kind === 'actor' ? session.actors[selector.actorId] : activeActors(session).find(other => other.placement.kind === 'map' && other.placement.position.x === origin.x + Math.round(Math.sin(angle)) && other.placement.position.z === origin.z - Math.round(Math.cos(angle)));
   if (!target || !eligible(target) || target.placement.kind !== 'map') return [];
   const at = target.placement.position;

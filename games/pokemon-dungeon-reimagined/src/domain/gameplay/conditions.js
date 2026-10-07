@@ -1,3 +1,5 @@
+import { DIRECTIONS } from '../navigation/geometry.js';
+import { activeActors } from './move-targets.js';
 import { damageHp } from './hp-damage.js';
 import { hasHeldItem } from './held-effects.js';
 import { ability, profile, draw, blocked, quantity } from './support.js';
@@ -12,7 +14,7 @@ export function hasNegativeStatus(actor) {
   return ['sleep', 'nightmare', 'yawning'].includes(c.sleep?.statusId ?? '') || c.burn !== null || c.frozen !== null && c.frozen.statusId !== 'ingrain' || c.cringe !== null || ['cursed', 'decoy'].includes(c.curse?.statusId ?? '') || c.leechSeed?.statusId === 'leech-seed' || c.sureShot?.statusId === 'whiffer' || ['blinker', 'cross-eyed'].includes(c.blinker?.statusId ?? '') || a.muzzled !== null || a.exposed !== null || a.perishSong !== null || actor.battleMoves.slots.some(slot => slot.sealed) || actor.speed.negativeTimers.some(Boolean);
 }
 /** Native CalculateStatusTurns; equal endpoints do not draw. @param {Context} context @param {Actor} actor @param {number} low @param {number} high @param {Catalogs} catalogs */
-function turns(context, actor, low, high, catalogs) {
+export function statusTurns(context, actor, low, high, catalogs) {
   let n = low + (high === low ? 0 : draw(context.state, high - low));
   if (n !== 127 && actor.enabledIqSkillIds.some(id => id === 'iq-self-curer')) n = Math.trunc(n / 2);
   if (n !== 127 && ability(actor, catalogs, 'Natural Cure')) n = Math.min(n, 5);
@@ -34,7 +36,11 @@ export function contactReactions(context, attacker, defender, physical, catalogs
     if (status === 'paralysis' && ability(attacker, catalogs, 'Limber') || status === 'infatuated' && ability(attacker, catalogs, 'Oblivious')) continue;
     if (status === 'poisoned' && (attacker.conditions.reflect?.statusId === 'safeguard' || hasHeldItem(context.state, attacker, 'item-pecha-scarf') || ability(attacker, catalogs, 'Immunity') || profile(attacker.identity, catalogs).typeIds.some(id => id === 8 || id === 17) || attacker.conditions.burn?.statusId === 'badly-poisoned')) continue;
     const source = catalogs.species.identities.abilities.find(row => row.name === name); if (!source) return blocked('reaction-ability');
-    const duration = status === 'poisoned' ? 128 : status === 'paralysis' ? turns(context, attacker, 1, 2, catalogs) + 1 : turns(context, attacker, 4, 6, catalogs) + 1;
+    if (status === 'paralysis') {
+      inflictParalysis(context, attacker, { kind: 'ability', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: defender.actorId, identity: { ...defender.identity } }, abilityId: /** @type {import('../../contracts/campaign.js').AbilityId} */ (source.id) }, catalogs);
+      continue;
+    }
+    const duration = status === 'poisoned' ? 128 : statusTurns(context, attacker, 4, 6, catalogs) + 1;
     attacker.conditions[group] = { statusId: status, source: { kind: 'ability', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: defender.actorId, identity: { ...defender.identity } }, abilityId: /** @type {import('../../contracts/campaign.js').AbilityId} */ (source.id) }, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-cave-condition'), remaining: duration }, periodicCountdown: status === 'poisoned' ? 0 : null, payload: { kind: 'none' } };
     refreshSpeed(attacker, catalogs); context.emit({ type: 'conditionChanged', actorId: attacker.actorId });
   }
@@ -49,14 +55,14 @@ export function confusionSecondary(context, user, target, catalogs) {
   if (draw(context.state, 100) >= (ability(user, catalogs, 'Serene Grace') ? 20 : 10)) return;
   if (user.actorId !== target.actorId && ability(target, catalogs, 'Shield Dust')) return;
   if (target.conditions.reflect?.statusId === 'safeguard' || hasHeldItem(context.state, target, 'item-persim-band') || ability(target, catalogs, 'Own Tempo') || target.conditions.cringe?.statusId === 'confused') return;
-  target.conditions.cringe = { statusId: 'confused', source: { kind: 'actor', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: user.actorId, identity: { ...user.identity } }, moveId: /** @type {import('../../contracts.js').MoveId} */ ('move-confusion') }, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-battle-status-v9'), remaining: turns(context, target, 6, 12, catalogs) + 1 }, periodicCountdown: null, payload: { kind: 'none' } };
+  target.conditions.cringe = { statusId: 'confused', source: { kind: 'actor', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: user.actorId, identity: { ...user.identity } }, moveId: /** @type {import('../../contracts.js').MoveId} */ ('move-confusion') }, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-battle-status-v9'), remaining: statusTurns(context, target, 6, 12, catalogs) + 1 }, periodicCountdown: null, payload: { kind: 'none' } };
   context.emit({ type: 'conditionChanged', actorId: target.actorId });
   context.emit({ type: 'message', messageId: 'confused-status' });
 }
 /** @param {Context} context @param {Actor} actor @param {Catalogs} catalogs */
 export function sleepSeed(context, actor, catalogs) {
   const session = context.state.session; if (!session) return blocked('sleep-session');
-  let duration = turns(context, actor, 3, 7, catalogs);
+  let duration = statusTurns(context, actor, 3, 7, catalogs);
   if (ability(actor, catalogs, 'Insomnia') || ability(actor, catalogs, 'Vital Spirit') || actor.enabledIqSkillIds.some(id => id === 'iq-nonsleeper') || actor.conditions.sleep) return;
   if (ability(actor, catalogs, 'Early Bird')) duration = Math.max(1, Math.trunc(duration / 2));
   actor.conditions.sleep = { statusId: 'sleep', source: { kind: 'item', itemId: /** @type {import('../../contracts.js').ItemId} */ ('item-sleep-seed'), user: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: actor.actorId, identity: { ...actor.identity } } }, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-cave-condition'), remaining: duration }, periodicCountdown: null, payload: { kind: 'none' } };
@@ -93,4 +99,23 @@ export function resetFloorConditions(actor, catalogs) {
   resetStatChanges(actor);
   actor.speed.positiveTimers.fill(0); actor.speed.negativeTimers.fill(0);
   refreshSpeed(actor, catalogs);
+}
+
+/** Source burn-class replacement, speed update and adjacent Synchronize recurse
+ * in native direction order. A repeated paralysis stops before duration RNG;
+ * this also terminates cycles. Propagation retains the original effect source.
+ * @param {Context} context @param {Actor} target
+ * @param {import('../../contracts/campaign.js').EffectSource} source @param {Catalogs} catalogs */
+export function inflictParalysis(context, target, source, catalogs) {
+  const session = context.state.session;
+  if (!session || target.placement.kind !== 'map' || target.resources.hp === 0 || target.conditions.reflect?.statusId === 'safeguard' || ability(target, catalogs, 'Limber') || target.conditions.burn?.statusId === 'paralysis') return;
+  target.conditions.burn = { statusId: 'paralysis', source, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-move-status-v11'), remaining: statusTurns(context, target, 1, 2, catalogs) + 1 }, periodicCountdown: null, payload: { kind: 'none' } };
+  refreshSpeed(target, catalogs); context.emit({ type: 'conditionChanged', actorId: target.actorId });
+  context.emit({ type: 'message', messageId: 'paralysis-status' });
+  if (!ability(target, catalogs, 'Synchronize')) return;
+  const position = target.placement.position;
+  for (const d of DIRECTIONS) {
+    const neighbor = activeActors(session).find(a => a.placement.kind === 'map' && a.placement.position.x === position.x + d.x && a.placement.position.z === position.z + d.z);
+    if (neighbor && target.affiliation !== 'neutral' && neighbor.affiliation !== 'neutral' && neighbor.affiliation !== target.affiliation) inflictParalysis(context, neighbor, source, catalogs);
+  }
 }

@@ -1,3 +1,5 @@
+import { refreshFieldAbilities } from '../domain/gameplay/field-abilities.js';
+import { createCampaignContent as createSteelCampaignContent } from '../../content/state/steel-campaign.js';
 import { createCampaignContent as createBattleCampaignContent } from '../../content/state/battle-campaign.js';
 import { createCampaignContent as createWorkCampaignContent } from '../../content/state/work-campaign.js';
 import { createCampaignContent as createSeenCampaignContent } from '../../content/state/seen-campaign.js';
@@ -53,16 +55,21 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   const battle = createBattleCampaignContent(catalogs);
   const battleRevision = HELD_V2_REVISION.replace('blue-campaign-state-v2-held-opening:browser-opening-v2:', 'blue-campaign-state-v9-battle-opening:browser-opening-v9-battle:');
   if (battle.contentRevision !== battleRevision) throw new TypeError('Battle-v9 factual catalog boundary differs.');
-  return Object.freeze([...([battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
+  const steel = createSteelCampaignContent(catalogs);
+  const steelRevision = HELD_V2_REVISION.replace('blue-campaign-state-v2-held-opening:browser-opening-v2:', 'blue-campaign-state-v10-steel-opening:browser-opening-v10-steel:');
+  if (steel.contentRevision !== steelRevision) throw new TypeError('Steel-v10 factual catalog boundary differs.');
+  return Object.freeze([...([steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);
       if (!admitted.ok || snapshot.contentRevision !== predecessor.contentRevision) return fail('invalid');
       try {
         const { draft, commitRevision } = prepareTransaction(admitted.snapshot, commandContext(admitted.snapshot));
-        draft.contentRevision = content.contentRevision; draft.revision = commitRevision; draft.steel = null;
+        draft.contentRevision = content.contentRevision; draft.revision = commitRevision;
+        if (!Object.hasOwn(draft, 'steel')) draft.steel = null;
         if (!draft.speciesSeen) initializeSpeciesSeen(draft, true);
         if (!Object.hasOwn(draft, 'earlyWork')) initializeEarlyWork(draft, commitRevision, true);
+        refreshFieldAbilities(draft, /** @type {import('../domain/gameplay/support.js').Catalogs} */ (catalogs));
         const checked = validateCampaign(draft, content);
         return checked.ok ? succeed(checked.snapshot) : fail(checked.kind === 'blocked' ? 'content-blocked' : 'invalid');
       } catch { return fail('invalid'); }
@@ -88,6 +95,7 @@ export function createOpeningCompatibility(catalogs, content, authored) {
           beginFormation({ state: draft, emit() {} }, authored);
         }
         draft.revision = commitRevision; initializeSpeciesSeen(draft, true); initializeEarlyWork(draft, commitRevision, true);
+        refreshFieldAbilities(draft, /** @type {import('../domain/gameplay/support.js').Catalogs} */ (catalogs));
         const checked = validateCampaign(draft, content);
         return checked.ok ? succeed(checked.snapshot) : fail(checked.kind === 'blocked' ? 'content-blocked' : 'invalid');
       } catch { return fail('invalid'); }

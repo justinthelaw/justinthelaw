@@ -76,6 +76,7 @@ export function enterOpening(context, catalogs, authored, dungeonId = 'tiny-wood
   }
   const teamOrder = Object.values(actors).map(actor => actor.actorId); const leaderActorId = teamOrder[0]; if (!leaderActorId) return blocked('party-leader');
   const money = state.economy.carriedMoney; state.economy.carriedMoney = 0;
+  state.moveState = null;
   state.session = { sessionId, dungeonId: /** @type {import('../../contracts.js').DungeonId} */ (dungeonId), purpose: ordinary ? { kind: 'ordinary' } : { kind: 'story', storyNodeId: route.storyNode }, status: 'active', leaderActorId, teamOrder, actors,
     floor: /** @type {import('../../contracts/campaign.js').FloorState} */ (clone(blueprint.floor)), inventory, carriedMoney: money, shops: {}, objectives: [],
     scheduler: createScheduler(INITIAL_SCHEDULE_POLICY_ID, [leaderActorId, teamOrder[1] ?? null, null, null], Array(16).fill(null)),
@@ -154,6 +155,7 @@ export function takeStairs(context, catalogs, authored, exitId) {
   leaveJobFloor(session);
   for (const [id, actor] of Object.entries(session.actors)) if (actor.affiliation !== 'team') { delete context.state.containers[actor.heldContainerId]; delete session.actors[id]; }
   for (const [id, container] of Object.entries(context.state.containers)) if (container.owner.kind === 'floor') { for (const item of container.itemIds) delete context.state.items[item]; delete context.state.containers[id]; }
+  context.state.moveState = null;
   session.floor = /** @type {import('../../contracts/campaign.js').FloorState} */ (clone(next.floor)); session.visitedFloorIds.push(exit.destination.address.floorId);
   session.teamOrder.forEach((id, i) => {
     const actor = session.actors[id], pos = next.partyPositions[i]; if (!actor || !pos) return blocked('party-placement');
@@ -214,6 +216,7 @@ export function settleExpedition(context, outcome, catalogs, authored) {
     state.progress.statistics.rescuesCompleted++; state.progress.storyNodeId = session.dungeonId === T.dungeonId ? T.returned : OPENING.returnNode;
   }
   if (session.purpose.kind !== 'ordinary' && session.dungeonId === T.dungeonId) { if (outcome === 'success') placeAtBase(state); else placeInside(state); }
+  state.moveState = null;
   state.session = null; state.pendingScene = null; state.mode = 'town'; context.emit({ type: 'expeditionEnded', outcome });
   if (session.dungeonId === STEEL.dungeonId) { refreshGround(state, catalogs); if (!authored) return blocked('steel-return-script'); afterSteelSettlement(context, outcome === 'success', authored); }
 }
