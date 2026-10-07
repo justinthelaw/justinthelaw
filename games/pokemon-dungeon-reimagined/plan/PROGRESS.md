@@ -913,3 +913,14 @@ now sorts by native dungeon then floor using the mailbox comparator; Take,
 Suspend and deletion preserve the order. This also fixes station priority when
 two find-item requests compete for one returned item. Static validation only;
 current ordinary-work admission/UI integration remains in progress.
+
+### Mt. Steel AI factual prerequisite - 2026-10-07
+
+Added the independent413-action AI projection and source/hash ledger described
+in MT-STEEL.md, preserving the frozen effects and predecessor save resources.
+Distinct AI targeting flags, native weights/condition chances, frozen/Taunt
+facts and wild IQ constants are now statically checked/exported. The existing
+regular-attack AI and Mt. Steel gate remain unchanged at this prerequisite;
+shared consumer and route integration continues. No game execution or manual
+acceptance is claimed. Static AI export check, lint255 files, strict types176
+files, and the34-module/13-body predecessor pin audit passed.
