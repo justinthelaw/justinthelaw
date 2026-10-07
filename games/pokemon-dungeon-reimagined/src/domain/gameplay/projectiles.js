@@ -1,4 +1,5 @@
-import { allocate, draw, FACINGS, blocked } from './support.js';
+import { dropFloorItem } from './item-drops.js';
+import { draw, FACINGS, blocked } from './support.js';
 import { dealDamage } from './damage-resolution.js';
 /** @typedef {import('../turns/types.js').MutationContext} Context */
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
@@ -37,19 +38,6 @@ export function throwRock(context, actor, rock, catalogs) {
     context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'hit' });
     return;
   }
-  // Native dropped-projectile search starts at offset1 (not its impact tile).
-  // Wonder Tiles remain reusable; landing beside them neither deletes nor fires them.
-  const offsets = [[0,-1],[1,0],[0,1],[-1,0],[-1,-1],[1,-1],[-1,1],[1,1]];
-  for (let z = -2; z <= 2; z++) for (let x = -2; x <= 2; x++) if (Math.abs(x) === 2 || Math.abs(z) === 2) offsets.push([x,z]);
-  for (const [x = 0, z = 0] of offsets) {
-    const pos = { x: landing.x + x, z: landing.z + z }, tile = session.floor.tiles[pos.z]?.[pos.x];
-    if (!tile || catalogs.navigation.terrain(tile.terrainId).kind === 'wall' || Object.values(session.floor.exits).some(exit => exit.position.x === pos.x && exit.position.z === pos.z) || Object.values(session.floor.traps).some(trap => trap.position.x === pos.x && trap.position.z === pos.z) || Object.values(context.state.containers).some(c => c.owner.kind === 'floor' && c.owner.mapId === session.floor.mapId && c.owner.position.x === pos.x && c.owner.position.z === pos.z)) continue;
-    const terrain = catalogs.navigation.terrain(tile.terrainId).kind;
-    if (terrain === 'void' || terrain === 'lava') break;
-    const id = allocate(context.state, 'item-instance'), container = allocate(context.state, 'container');
-    context.state.items[id] = { ...rock, itemInstanceId: id, quantity: 1 };
-    context.state.containers[container] = { containerId: container, owner: { kind: 'floor', sessionId: session.sessionId, mapId: session.floor.mapId, position: pos, placement: 'ground' }, itemIds: [id] };
-    context.emit({ type: 'itemChanged', itemInstanceId: id }); return;
-  }
-  context.emit({ type: 'message', messageId: 'projectile-lost' });
+  // Native missed arcs skip the impact tile but reveal/preserve its trap.
+  dropFloorItem(context, landing, { ...rock, quantity: 1 }, catalogs, false);
 }

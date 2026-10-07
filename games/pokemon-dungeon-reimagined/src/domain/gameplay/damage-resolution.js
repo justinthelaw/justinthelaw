@@ -1,3 +1,4 @@
+import { dropFaintedHeldItem } from './item-drops.js';
 import { changeStatStage } from './stat-effects.js';
 import { damageHp } from './hp-damage.js';
 import { rollContactReactions } from './conditions.js';
@@ -28,13 +29,14 @@ export function dealDamage(context, target, catalogs, damage) {
 export function finishDamage(context, target, catalogs, attacker, giveExperience = true) {
   const session = context.state.session; if (!session) return blocked('damage-session');
   if (tryRevive(context, target, catalogs)) return 'revived';
+  dropFaintedHeldItem(context, target, catalogs);
   if (target.resources.hp === 0 && attacker?.actorId === session.leaderActorId) recordSpeciesSeen(context.state, target.identity);
   if (target.resources.hp === 0 && target.affiliation !== 'team') {
     noteSteelBossFaint(context, target);
     // R CalculateEXPGain and dungeon_damage.c: half credit until a move hits.
     const p = profile(target.identity, catalogs); const base = p.experienceYield + Math.trunc(p.experienceYield * (target.growth.level - 1) / 10);
     const xp = Math.max(1, target.memory.experienceContributors.length ? base : Math.trunc(base / 2));
-    for (const id of giveExperience ? session.teamOrder : []) {
+    for (const id of giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile' ? session.teamOrder : []) {
       const actor = session.actors[id]; if (!actor) continue;
       actor.growth.totalExperience = quantity(Math.min(9999999, value(actor.growth.totalExperience) + xp));
       actor.gains.experience = quantity(value(actor.gains.experience) + xp);

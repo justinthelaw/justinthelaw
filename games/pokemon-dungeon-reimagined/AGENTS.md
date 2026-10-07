@@ -24,7 +24,8 @@ Attract, Smokescreen and Reflect now have scoped execution consumers; Reviver
 Seeds restore base move PP. Low Kick, Metal Claw, Mud-Slap and Water Gun have
 scoped damage consumers. Ember burn, Bite/Bone Club/Headbutt flinching and Rage
 now have sourced lifecycle consumers. Razor Leaf/Bubble use native line targeting
-and Bubble has a sourced speed drop. Tiny/Thunderwave wilds now use native move
+and Bubble has a sourced speed drop. Pay Day, nonleader fainted held-item drops
+and missed projectiles share native floor placement. Tiny/Thunderwave wilds now use native move
 weights, active IQ and Charge/sleep targeting. Native movement, partner move/item
 AI, extra-party dungeon
 entry, recruitment/capacity return and the broader move/item inventory remain

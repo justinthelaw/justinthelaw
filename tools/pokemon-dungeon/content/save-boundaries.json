@@ -266,6 +266,14 @@
     {
       "path": "games/pokemon-dungeon-reimagined/content/state/party-moves.js",
       "sha256": "a69807214720ab11a154c028e5afb8c9505feb4edf962e6e2b439f4827e93ae2"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/damage-status-campaign.js",
+      "sha256": "117295fb7d53822772d4e2691f6ed8832075addac08c995f88ee0a1ff6e1f65c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/damage-status.js",
+      "sha256": "db1adaf7036b9bd682e70775e73697e6b9b4d4a0013f9e3c2cc21e0a9855f37e"
     }
   ],
   "functionBodies": [
@@ -388,5 +396,6 @@
     "sha256": "eb07bef2971f397ab30463f65c8e3140872547a1b437be8b1f6f23b6ea432ad2"
   },
   "partyStatusPredecessorBaselineCommit": "b38fdfa44cd98f9aefc427cda2473d7ec67a2075",
-  "damageStatusPredecessorBaselineCommit": "ac3c02cab4779be597a0496bdb89cc70869e577c"
+  "damageStatusPredecessorBaselineCommit": "ac3c02cab4779be597a0496bdb89cc70869e577c",
+  "linkedStatusPredecessorBaselineCommit": "97d7d90023ebb7fa2f01d84ef4f5fff90e31d490"
 }

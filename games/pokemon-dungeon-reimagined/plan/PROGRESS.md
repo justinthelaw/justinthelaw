@@ -1127,3 +1127,12 @@ critical metadata; Bubble has the native chance/protection/timer order through
 shared speed arithmetic. Existing v2-v15 speed-array admission is unchanged.
 Remaining Pay Day, Water Sport, Leech Seed, native party item/movement and full
 Friend Area/work/recruitment integration continue. No gameplay execution claim.
+
+### Pay Day and shared drop prerequisite
+
+Added native Pay Day quantity/defeat/placement behavior and whole held-lot drops
+on unrevived nonleader faint. Rocks share deterministic placement and64-item
+capacity; traps remain revealed, water/lava holds items, void loses them. Money
+lands on the floor after held drops. Shared party XP now requires a team attacker,
+matching native attribution. No admission widening. Recruitment decisions must
+precede Pay Day's future target-removal branch; full Friend Area work continues.

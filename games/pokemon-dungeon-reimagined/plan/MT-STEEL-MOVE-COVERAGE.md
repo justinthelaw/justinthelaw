@@ -41,7 +41,7 @@ partial regular-attack policy; it does not pretend to use unsupported moves.
 | pokemon-004 | growl, scratch, slash, metal-claw, smokescreen, ember, rage | scary-face, flamethrower, dragon-rage, fire-spin |
 | pokemon-007 | tackle, tail-whip, rapid-spin, withdraw, water-gun, bite, bubble | protect, rain-dance, skull-bash, hydro-pump |
 | pokemon-025 | growl, tail-whip, slam, thunder-wave, thunder-shock, quick-attack | double-team, thunderbolt, agility, thunder, light-screen |
-| pokemon-052 | growl, scratch, feint-attack, slash, bite | pay-day, screech, fury-swipes, fake-out, swagger |
+| pokemon-052 | growl, scratch, feint-attack, slash, bite, pay-day | screech, fury-swipes, fake-out, swagger |
 | pokemon-054 | scratch, tail-whip, confusion, disable | water-sport, screech, psych-up, fury-swipes, hydro-pump |
 | pokemon-066 | leer, focus-energy, karate-chop, cross-chop, low-kick | seismic-toss, foresight, revenge, vital-throw, submission, scary-face, dynamic-punch |
 | pokemon-104 | growl, tail-whip, leer, focus-energy, bone-club, headbutt, rage | bonemerang, false-swipe, thrash, bone-rush, double-edge |

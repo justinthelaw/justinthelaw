@@ -329,3 +329,33 @@ actual two-turn charging statuses block transfer; Rage and Charge do not. Native
 CheckVariousConditions/CheckVariousStatuses and IsChargingAnyTwoTurnMove own that
 boundary, including the source's unreachable extra Charge check. Ordinary item
 use and movement already remain independent of Rage.
+
+## Pay Day and shared floor drops
+
+Unrevived nonleaders drop the whole held lot before experience/recruitment/removal.
+The shared placement owner preserves that instance identity, searches native
+center/cardinal/diagonal/radius2 order and attempts one of64 floor item slots.
+Walls, stairs, traps and existing items block; actors do not. Origin traps are
+revealed and preserved (trap.c235–252), never removed. Water/lava accepts an item;
+void loses it. Failed placement discards the lot with feedback. Missed rocks reuse
+this owner with the native center-skip; their old lava-loss approximation is fixed.
+
+Pay Day requires positive nominal damage, a still-valid user and actual target
+removal. Revival yields no money. It makes one index draw, folds the index until
+the existing amount table fits floor.moneyUpperBound*40, then drops a clean pile
+after any held item; no purse credit or sticky draw. Future recruitment must
+complete its target retention/removal decision before this post-hit branch.
+The shared XP boundary also now requires a team attacker; a hostile faint caused
+by another hostile does not award party experience.
+
+Source: qualified pinned Red damage650–723, items59–83/296–329/432–540/707–720,
+trap235–252, projectile_throw384 and actions_3:370–390/545–562. Existing canonical
+item shapes and exact admission are unchanged. Recruitment and full Friend Area
+integration remain pending; no game execution or human acceptance is implied.
+
+## Exact damage-status predecessor
+
+The accepted v15 factory and damage-status policy are independently frozen before
+Leech Seed or Water Sport admission broadens. The source manifest now pins68
+modules, retaining all earlier hashes,14 exact bodies and2 factual manifests.
+This checkpoint changes no runtime revision, migration or gameplay behavior.

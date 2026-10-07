@@ -5,7 +5,7 @@ import { changeStatStage } from './stat-effects.js';
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
 /** @typedef {import('../turns/types.js').MutationContext} Context */
 /** @typedef {import('./support.js').Catalogs} Catalogs */
-export const PARTY_DAMAGE_MOVES = Object.freeze(['move-low-kick', 'move-metal-claw', 'move-mud-slap', 'move-water-gun', 'move-ember', 'move-bite', 'move-bone-club', 'move-headbutt', 'move-razor-leaf', 'move-bubble']);
+export const PARTY_DAMAGE_MOVES = Object.freeze(['move-low-kick', 'move-metal-claw', 'move-mud-slap', 'move-water-gun', 'move-ember', 'move-bite', 'move-bone-club', 'move-headbutt', 'move-razor-leaf', 'move-bubble', 'move-pay-day']);
 /** Native GetWeight reads apparent species/form's Q8 multiplier, not body slots.
  * Reuse the qualified factual crosswalk; no weight bands or duplicate data.
  * @param {Actor} target @param {Catalogs} catalogs */

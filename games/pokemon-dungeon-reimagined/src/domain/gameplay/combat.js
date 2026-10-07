@@ -1,3 +1,4 @@
+import { payDayDrop } from './item-drops.js';
 import { damageStatusSecondary } from './damage-status.js';
 import { PARTY_DAMAGE_MOVES, lowKickMultiplier, damageStatSecondary } from './damage-moves.js';
 import { PARTY_STATUS_MOVES, applyPartyStatus } from './party-status.js';
@@ -156,10 +157,12 @@ export function attack(context, attacker, action, catalogs) {
   }
   if (result.damage === 0) restoreFailedCredit();
   const liquidOoze = ability(target, catalogs, 'Liquid Ooze');
+  const formerPosition = target.placement.kind === 'map' ? { ...target.placement.position } : null;
   const hit = dealDamage(context, target, catalogs, { attacker, amount: result.damage, contact: true, physical });
   const reactions = hit.reactions;
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
   const resolution = hit.resolution;
+  if (learned && action.moveId === 'move-pay-day' && result.damage > 0 && formerPosition) payDayDrop(context, attacker, target, formerPosition, catalogs);
   if (learned && result.damage > 0 && resolution !== 'revived') damageStatusSecondary(context, attacker, target, action.moveId, catalogs);
   if (learned && result.damage > 0) damageStatSecondary(context, attacker, target, action.moveId, resolution === 'revived', catalogs);
   if (!(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle') && learned && action.moveId === 'move-confusion' && result.damage > 0 && resolution !== 'revived') confusionSecondary(context, attacker, target, catalogs);
