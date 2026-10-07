@@ -40,7 +40,7 @@ export function createCommandHandlers(catalogs, authored, tutorialSaved) {
     if (intent.type === 'attack' || intent.type === 'useMove') {
       const angle = FACINGS.indexOf(leader.facing) * Math.PI / 4; const pos = leader.placement.position;
       const target = intent.type === 'attack' && intent.targetId ? session.actors[intent.targetId] : Object.values(session.actors).find(actor => actor.placement.kind === 'map' && actor.placement.position.x === pos.x + Math.round(Math.sin(angle)) && actor.placement.position.z === pos.z - Math.round(Math.cos(angle)));
-      if (target && (target.affiliation !== 'hostile' || target.placement.kind !== 'map' || !canMeleeAttack(navActor(leader), session.floor, target.placement.position, nav))) return { kind: 'rejected', reason: 'unavailable' };
+      if (intent.type === 'attack' && target && (target.affiliation !== 'hostile' || target.placement.kind !== 'map' || !canMeleeAttack(navActor(leader), session.floor, target.placement.position, nav))) return { kind: 'rejected', reason: 'unavailable' };
       const selector = target ? /** @type {const} */ ({ kind: 'actor', actorId: target.actorId }) : /** @type {const} */ ({ kind: 'facing' });
       if (intent.type === 'attack') return { kind: 'action', action: { kind: 'attack', actorId: leader.actorId, target: selector } };
       if (intent.actorId !== leader.actorId) return { kind: 'rejected', reason: 'unavailable' };

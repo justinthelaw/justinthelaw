@@ -924,3 +924,24 @@ regular-attack AI and Mt. Steel gate remain unchanged at this prerequisite;
 shared consumer and route integration continues. No game execution or manual
 acceptance is claimed. Static AI export check, lint255 files, strict types176
 files, and the34-module/13-body predecessor pin audit passed.
+
+### Mt. Steel shared stat effects - 2026-10-07
+
+Implemented seven explicitly admitted stat moves through shared stat, held-item
+and self/front/corner/room target owners. Native ability/held protection order,
+room actor order, first-versus-damage accuracy RNG and wild move experience
+credit are preserved; Wonder Tiles/floor cleanup reuse existing reset owners.
+Player selection supports self and room effects without a front enemy. Other
+move families retain explicit unsupported feedback and all learned slots.
+No save admission or old hash changes. Static lint258 and types179 passed;
+source details and qualifications are in MT-STEEL.md. Shared status/AI/reward
+consumers and route/save integration continue; no gameplay acceptance claimed.
+
+### Stat consumer review correction - 2026-10-07
+
+Shared target dispatch now wakes indefinite spawn sleep before hit/protection
+checks while preserving finite sleep. Damaging moves restore only newly added
+experience credit on damage-only misses or zero damage; true-return stat
+handlers retain their source credit at caps/protection. Existing credit is
+preserved. Scoped lint258/types179 and whitespace checks passed; independent
+re-review and human gameplay acceptance remain separate gates.

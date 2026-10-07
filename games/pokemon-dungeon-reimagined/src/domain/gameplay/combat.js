@@ -3,8 +3,9 @@ import { tryRevive } from './revival.js';
 import { recordSpeciesSeen } from '../state/species-seen.js';
 import { calculateNormalDamage } from '../rules/damage.js';
 import { ELEMENT_TYPES, isPhysicalType } from '../rules/type-context.js';
-import { canMeleeAttack } from '../navigation/geometry.js';
-import { draw, value, maxHp, ability, profile, blocked, navActor, navigationContext, quantity } from './support.js';
+import { moveTargets } from './move-targets.js';
+import { STAT_MOVES, changeStatStage } from './stat-effects.js';
+import { draw, value, maxHp, ability, profile, blocked, quantity } from './support.js';
 
 /** @typedef {import('./support.js').Catalogs} Catalogs */
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
@@ -17,15 +18,23 @@ function types(actor, catalogs) { const ids = profile(actor.identity, catalogs).
 /** @param {Catalogs} catalogs @param {string} id */
 export function supportedMove(catalogs, id) {
   const move = catalogs.effects.getMove(id);
-  return move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
+  return STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
 }
 /** @param {Context} context @param {Actor} attacker @param {Actor} target @param {number} base @param {boolean} physical @param {Catalogs} catalogs */
 function accuracy(context, attacker, target, base, physical, catalogs) {
   const roll = draw(context.state, 100);
-  if (base > 100) return true;
+  if (attacker.actorId === target.actorId || base > 100) return true;
   const a = Math.max(0, Math.min(20, attacker.stages.accuracy + (ability(attacker, catalogs, 'Compoundeyes') ? 2 : 0)));
   const e = Math.max(0, Math.min(20, target.stages.evasion + (physical && ability(attacker, catalogs, 'Hustle') ? 2 : 0)));
   return roll < Math.trunc(Math.trunc(base * (ACCURACY[a] ?? 256) / 256) * (EVASION[e] ?? 256) / 256);
+}
+/** Native pre-dispatch wake occurs before protection and hit checks, but only
+ * clears indefinite spawn sleep, never finite sleep from an item/effect.
+ * @param {Context} context @param {Actor} target */
+function wakeSpawnSleeper(context, target) {
+  if (target.conditions.sleep?.duration.kind !== 'indefinite') return;
+  target.conditions.sleep = null;
+  context.emit({ type: 'conditionChanged', actorId: target.actorId });
 }
 /** Single-impact supported actions resolve HP before returning to the scheduler.
  * @param {Context} context @param {Actor} attacker @param {import('../../contracts/campaign.js').ResolvedAction & {kind:'attack'|'move-use'}} action @param {Catalogs} catalogs */
@@ -43,17 +52,40 @@ export function attack(context, attacker, action, catalogs) {
     pp.currentPp--; pp.usedForExperience = true;
     attacker.memory.lastUsedMove = { moveId: action.moveId, moveSlotId: action.moveSlotId };
   }
-  const target = action.target.kind === 'actor' ? session.actors[action.target.actorId] : null;
-  if (!target || target.binding.kind === 'job-client' || target.placement.kind !== 'map' || !canMeleeAttack(navActor(attacker), session.floor, target.placement.position, navigationContext(session, catalogs))) {
-    context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: null, outcome: 'miss' }); return;
+  const targets = moveTargets(session, attacker, move.target.rangeCode, catalogs, action.target);
+  if (!regular && STAT_MOVES.includes(action.moveId)) {
+    const effect = move.effects[0];
+    if (effect?.op !== 'stat-stage' || !['attack', 'defense', 'accuracy'].includes(effect.stat)) return blocked('stat-move-projection');
+    for (const target of targets) {
+      wakeSpawnSleeper(context, target);
+      if (action.moveId === 'move-growl' && ability(target, catalogs, 'Soundproof')) {
+        context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'immune' }); continue;
+      }
+      if (!accuracy(context, attacker, target, move.numeric.accuracyBeforeEffect, move.numeric.type !== 'psychic', catalogs)) {
+        context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'miss' }); continue;
+      }
+      // Native UseMoveAgainstTargets raises the experience multiplier before
+      // dispatch, even when a stat cap or protection makes the effect fail.
+      if (target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
+      changeStatStage(context, target, /** @type {'attack'|'defense'|'accuracy'} */ (effect.stat), effect.delta, catalogs);
+      context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'hit' });
+    }
+    if (!targets.length) context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: null, outcome: 'miss' });
+    return;
   }
+  const target = targets[0];
+  if (!target) { context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: null, outcome: 'miss' }); return; }
+  wakeSpawnSleeper(context, target);
   const moveType = ELEMENT_TYPES.find(type => type.toLowerCase() === move.numeric.type);
   if (!moveType) return blocked('move-type');
   const physical = isPhysicalType(moveType);
   // Source physical-type retaliation is resolved below after positive damage.
-  if (!accuracy(context, attacker, target, move.numeric.accuracyBeforeEffect, physical, catalogs) || !accuracy(context, attacker, target, move.numeric.accuracyAfterDamage, physical, catalogs)) {
+  if (!accuracy(context, attacker, target, move.numeric.accuracyBeforeEffect, physical, catalogs)) {
     context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'miss' }); return;
   }
+  const provisionalCredit = !regular && target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId);
+  if (provisionalCredit) target.memory.experienceContributors.push(attacker.actorId);
+  const restoreFailedCredit = () => { if (provisionalCredit) target.memory.experienceContributors.splice(target.memory.experienceContributors.indexOf(attacker.actorId), 1); };
   const a = (/** @type {string} */ name) => ability(attacker, catalogs, name);
   const d = (/** @type {string} */ name) => ability(target, catalogs, name);
   const offense = physical ? 'attack' : 'specialAttack'; const defense = physical ? 'defense' : 'specialDefense';
@@ -71,10 +103,15 @@ export function attack(context, attacker, action, catalogs) {
     critical: { moveChance: move.numeric.criticalPercent, focusEnergy: false, typeAdvantageMaster: false, battleArmor: d('Battle Armor'), shellArmor: d('Shell Armor') },
     teamMember: attacker.affiliation === 'team', leader: attacker.actorId === session.leaderActorId, integerBelly: Math.floor(value(attacker.resources.belly)), level: attacker.growth.level, regularAttack: regular,
     targetEffectsApply: true, reflect: false, lightScreen: false, moveEffectMultiplierQ8: Math.trunc(multiplier * 256), rolls: early ? null : { sharedPowerRoll: draw(context.state, 100), criticalRoll: armor ? null : draw(context.state, 100), varianceRoll: draw(context.state, 16384) } });
-  if (target.conditions.sleep?.duration.kind === 'indefinite') target.conditions.sleep = null;
+  // Native CalcDamage draws precede the second accuracy check. Stat effects
+  // never run that damage-only check.
+  if (!accuracy(context, attacker, target, move.numeric.accuracyAfterDamage, physical, catalogs)) {
+    restoreFailedCredit();
+    context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'miss' }); return;
+  }
+  if (result.damage === 0) restoreFailedCredit();
   target.resources.hp = Math.max(0, target.resources.hp - result.damage);
   if (result.damage > 0) contactReactions(context, attacker, target, physical, catalogs);
-  if (!regular && result.damage > 0 && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
   finishDamage(context, target, catalogs, attacker);
 }

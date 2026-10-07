@@ -63,3 +63,40 @@ cleanup where applicable; this path contains no trap-removal call. The new
 consumer must explicitly override the old candidate while retaining its exact
 old resource hash for save verification. No Blue-specific trap difference has
 been established. Unsupported wrap/status consumers stay explicit.
+
+## Shared stat effects and execution targeting
+
+Harden, Defense Curl and Meditate now target the user; Tail Whip and Leer use
+front melee geometry, Sand Attack uses the separate corner-cutting position
+predicate, and Growl visits active team/wild slots in native room order. Neutral
+client targets are excluded before hit RNG. Original room sight includes the
+one-cell room border and corridor visibility range. These execution predicates
+are reusable and do not substitute for AI consideration flags.
+
+Stat drops apply Mist, Clear Body/White Smoke first. Offensive drops additionally
+check a real nonsticky held Twist Band, then physical Hyper Cutter; accuracy
+checks Keen Eye after the shared guard. Stages clamp to0-20. Growl checks
+Soundproof before accuracy. Boosts target self and still consume the source
+first accuracy draw with guaranteed self-hit. Non-damage effects do not run the
+second damage-only accuracy check. For damage, `CalcDamage` randomness precedes
+`TryHitTarget_Async`'s second accuracy draw. `UseMoveAgainstTargets` raises wild
+experience credit after the first hit check before dispatch, including capped
+or protected stat effects and self boosts. Damaging dispatch restores only its
+provisional credit when the damage-only accuracy check misses or returns zero
+damage, preserving prior credit. Each eligible target wakes from indefinite
+spawn sleep before protection/Soundproof/accuracy; finite sleep is retained.
+
+Source: `dungeon_move.c:189,239-315,1290-1294,1345-1400`,
+`move_orb_effects_5.c:541-554`,
+`dungeon_move_util.c:738-815,819-991`, `dungeon_misc.c:727-769`,
+`move_orb_effects_1.c:848-1046,1219-1256`,
+`dungeon_logic.c:241-280,1216-1239`, `dungeon_items.c:692-705`, and the
+individual effect dispatchers in `move_orb_actions_1.c`, `move_orb_actions_3.c`
+and `move_orb_actions_4.c`. Existing Wonder Tile and floor-reset owners restore
+stat stages. Stage fields were already admitted by the unchanged v8 policy;
+no prior save validator, hash or content revision is rewritten by this batch.
+
+Only the seven named stat moves are newly admitted. Complete status, copied,
+linked and multihit consumers remain open; learnsets are retained without
+level caps, dropped slots or generic-damage substitutions. Human play and
+visual acceptance of the additional effects remain open.
