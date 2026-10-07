@@ -1,3 +1,5 @@
+import { showFriends } from '../application/friends.js';
+import { nearbyResident, nearWigglytuff } from '../domain/gameplay/friend-residents.js';
 import { supportedHeldItem } from '../domain/gameplay/held-items.js';
 import { STEEL } from '../../content/authored/mt-steel.js';
 import { showSteelReward, steelGroundBoundary } from '../application/steel.js';
@@ -48,7 +50,7 @@ export async function createApplication(canvas, signal, startup) {
   let disposed = false, busy = false, paused = false, failed = false, lost = false, ready = false;
   let frame = 0, lastFrame = 0, permitAt = 0, generation = 0, epochCounter = 0;
   let epoch = 'title';
-  let dialogue = false;
+  let dialogue = false, groundExploring = false;
   let followsGame = false;
   /** @type {symbol|null} */ let bindingEpoch = null;
   /** @type {ReturnType<typeof renderSnapshot>|null} */ let projected = null;
@@ -66,7 +68,7 @@ export async function createApplication(canvas, signal, startup) {
     const snapshot = current();
     if (snapshot?.pendingScene && dialogue) return /** @type {const} */ ('dialogue');
     if (view.isOpen()) return /** @type {const} */ ('menu');
-    return snapshot?.mode === 'dungeon' ? /** @type {const} */ ('world') : /** @type {const} */ ('menu');
+    return snapshot?.mode === 'dungeon' || snapshot?.friends && snapshot.mode === 'town' && groundExploring ? /** @type {const} */ ('world') : /** @type {const} */ ('menu');
   }
   /** @param {boolean} [worldReady] */
   function context(worldReady = ready && !failed && !lost) {
@@ -102,7 +104,7 @@ export async function createApplication(canvas, signal, startup) {
     }
     refresh();
   }
-  function resume() { close(); const snapshot = current(); if (snapshot) screen(snapshot); else title(); context(); }
+  function resume() { groundExploring = false; close(); const snapshot = current(); if (snapshot) screen(snapshot); else title(); context(); }
   /** @param {string} text @param {Action[]} actions @param {string} [titleText] */
   function panel(text, actions, titleText = 'Adventure menu') { followsGame = false; dialogue = false; input?.cancel(); view.show(titleText, text, [...actions, { label: 'Back', run: resume }]); context(); }
   function rearmWorldPermit() {
@@ -122,6 +124,7 @@ export async function createApplication(canvas, signal, startup) {
     const before = adventure.getSnapshot();
     if (['move', 'face', 'attack', 'wait', 'useMove', 'setMove', 'useItem', 'useStairs', 'giveUp'].includes(intent.type) && (!ready || performance.now() < permitAt)) return;
     if (['ackScene', 'submitSceneName'].includes(intent.type) && !ready) return;
+    if (intent.type === 'townTravel' || intent.type === 'friendAction') groundExploring = false;
     if (view.isOpen()) close();
     permitAt = performance.now() + 240;
     const result = adventure.dispatch({ ...commandContext(before), epoch: adventure.getEpoch(), intent });
@@ -166,14 +169,14 @@ export async function createApplication(canvas, signal, startup) {
     if (!gameplay || !followsGame) return;
     const session = snapshot.session;
     const leader = session?.actors[session.leaderActorId];
-    const team = session ? gameplay.getActors(snapshot).filter(actor => actor.role === 'hero' || actor.role === 'partner').map(actor => `${actor.name} · HP ${actor.hp}/${actor.maxHp} · Lv ${session.actors[actor.actorId]?.growth.level ?? 1}${actor.role === 'hero' && leader ? ` · Belly ${Math.floor(leader.resources.belly.numerator / leader.resources.belly.denominator)}/${Math.floor(leader.resources.maxBelly.numerator / leader.resources.maxBelly.denominator)}` : ''}`) : [snapshot.profile.heroId, snapshot.profile.partnerId].map(id => `${snapshot.roster[id]?.nickname} · Lv ${snapshot.roster[id]?.growth.level}`);
+    const team = session ? gameplay.getActors(snapshot).filter(actor => actor.role === 'hero' || actor.role === 'partner').map(actor => `${actor.name} · HP ${actor.hp}/${actor.maxHp} · Lv ${session.actors[actor.actorId]?.growth.level ?? 1}${actor.role === 'hero' && leader ? ` · Belly ${Math.floor(leader.resources.belly.numerator / leader.resources.belly.denominator)}/${Math.floor(leader.resources.maxBelly.numerator / leader.resources.maxBelly.denominator)}` : ''}`) : snapshot.selectedPartyIds.map(id => `${snapshot.roster[id]?.nickname} · Lv ${snapshot.roster[id]?.growth.level}`);
     if (session) team.push(`Moves · ${gameplay.getMoveChoices(snapshot).map(move => `${move.name} ${move.currentPp} PP`).join(' · ')}`);
     const location = session?.floor.location;
     const floor = location?.kind === 'exploration' && loaded ? loaded.catalogs.dungeons.getFloorById(location.address.floorId).display : null;
-    const goal = session?.purpose.kind === 'ordinary' ? `${session.dungeonId === STEEL.dungeonId ? 'Mt. Steel' : session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ordinary rescue work · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === TOWN.story ? `Team ${snapshot.profile.teamName} · town services · Poké ${snapshot.economy.carriedMoney}` : session ? `${session.dungeonId === STEEL.dungeonId ? 'Mt. Steel' : session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === STEEL.dungeonId ? 'Rescue Diglett' : session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
+    const goal = snapshot.friends && !session ? `Team ${snapshot.profile.teamName} · Friend Areas · Poké ${snapshot.economy.carriedMoney}` : session?.purpose.kind === 'ordinary' ? `${session.dungeonId === STEEL.dungeonId ? 'Mt. Steel' : session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ordinary rescue work · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === TOWN.story ? `Team ${snapshot.profile.teamName} · town services · Poké ${snapshot.economy.carriedMoney}` : session ? `${session.dungeonId === STEEL.dungeonId ? 'Mt. Steel' : session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === STEEL.dungeonId ? 'Rescue Diglett' : session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
     const onStairs = leader?.placement.kind === 'map' && Object.values(session?.floor.exits ?? {}).some(exit => leader.placement.kind === 'map' && exit.position.x === leader.placement.position.x && exit.position.z === leader.placement.position.z);
     view.hud(goal, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
-      { label: loaded && facingJobClient(snapshot, loaded.catalogs) ? 'Talk to client' : 'Attack', run: () => act({ type: 'attack' }), disabled: snapshot.mode !== 'dungeon' || !ready },
+      { label: snapshot.friends && !session ? nearbyResident(snapshot) ? 'Talk to resident' : nearWigglytuff(snapshot) ? 'Wigglytuff' : 'Ground menu' : loaded && facingJobClient(snapshot, loaded.catalogs) ? 'Talk to client' : 'Attack', run: () => { if (snapshot.friends && !session) resume(); else act({ type: 'attack' }); }, disabled: snapshot.mode !== 'dungeon' && !(snapshot.friends && snapshot.mode === 'town') || !ready },
       { label: 'Wait', run: () => act({ type: 'wait' }), disabled: snapshot.mode !== 'dungeon' || !ready },
       { label: 'Use stairs', run: () => { if (session) act({ type: 'useStairs', sessionId: session.sessionId }); }, disabled: snapshot.mode !== 'dungeon' || !onStairs || !ready },
     ]);
@@ -182,7 +185,12 @@ export async function createApplication(canvas, signal, startup) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
       showSteelReward({ snapshot, view, saves: menu, send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This reward choice is stale.'); return; } act(intent, 'panel'); } });
+    } else if (snapshot.friends?.nicknamePrompt && loaded) {
+      dialogue = false;
+      const shownEpoch = saves?.service.getBinding().adventureEpoch;
+      showFriends({ snapshot,catalogs: loaded.catalogs,view,menu,open() { followsGame = false; input?.cancel(); context(); },explore() {},send(intent) { if (current() === snapshot && saves?.service.getBinding().adventureEpoch === shownEpoch) act(intent,'panel'); } });
     } else if (snapshot.pendingScene) {
+      groundExploring = false;
       dialogue = true;
       // A readiness repaint can change the focused control without changing
       // revision/mode. Drop queued confirms before replacing that owner.
@@ -193,6 +201,12 @@ export async function createApplication(canvas, signal, startup) {
       showScene({ snapshot, epoch, prompt: gameplay.getScenePrompt(snapshot), ready, saves: menu, news: readNews, memoryOnly: saves?.isMemoryOnly() ?? false,
         saveTutorial(complete) { saves?.saveTutorial(snapshot, complete); },
         send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This scene prompt is stale.'); return; } act(intent, 'panel'); } });
+    } else if (loaded && snapshot.friends && !session) {
+      dialogue = false;
+      if (!groundExploring) {
+        const shownEpoch = saves?.service.getBinding().adventureEpoch;
+        showFriends({ snapshot,catalogs: loaded.catalogs,view,menu,open() { followsGame = false; input?.cancel(); context(); },explore() { groundExploring = true; close(); screen(snapshot); context(); },send(intent) { if (current() === snapshot && saves?.service.getBinding().adventureEpoch === shownEpoch) act(intent,'panel'); } });
+      } else view.close();
     } else if (loaded && !session && (snapshot.progress.storyNodeId === WORK.story || snapshot.steel?.phase === 'ready') && [TOWN.square, TOWN.post].includes(snapshot.town.mapDefinitionId)) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
@@ -202,8 +216,8 @@ export async function createApplication(canvas, signal, startup) {
       const complete = snapshot.steel?.phase === 'complete', choice = gameplay.getDungeonChoices(snapshot).find(row => row.dungeonId === STEEL.dungeonId);
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
       let token = Symbol('pending');
-      token = view.show(complete ? 'Diglett is home' : 'Return to Mt. Steel', complete ? 'Diglett is safe. Your rewards and return home are saved with the campaign. Friend Area onboarding is the next story step and remains in development.' : 'Your team has recovered. Return to the mountain to finish the rescue.', [
-        ...(complete ? [] : [{ label: 'Retry Mt. Steel', disabled: !ready || !!choice?.requirement, run() { if (view.ownsPanel(token) && current() === snapshot && saves?.service.getBinding().adventureEpoch === shownEpoch) act({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (STEEL.dungeonId) }, 'panel'); } }]),
+      token = view.show(complete ? 'Diglett is home' : 'Return to Mt. Steel', complete ? 'Diglett is safe. Your rewards and return home are saved with the campaign. Rest, then visit Wigglytuff to help your new friends find a home.' : 'Your team has recovered. Return to the mountain to finish the rescue.', [
+        ...(complete ? [{ label: 'Begin next morning', disabled: !ready, run() { if (view.ownsPanel(token) && current() === snapshot && saves?.service.getBinding().adventureEpoch === shownEpoch) act({ type: 'friendAction', order: { kind: 'begin' } }, 'panel'); } }] : [{ label: 'Retry Mt. Steel', disabled: !ready || !!choice?.requirement, run() { if (view.ownsPanel(token) && current() === snapshot && saves?.service.getBinding().adventureEpoch === shownEpoch) act({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (STEEL.dungeonId) }, 'panel'); } }]),
         ...(!complete ? [{ label: 'Prepare in town', run: () => act({ type: 'townTravel', mapId: TOWN.square }, 'panel') }] : []),
         { label: 'Campaign & saves', run: menu }, { label: 'View rewards', run: inventory },
       ]);
@@ -255,7 +269,7 @@ export async function createApplication(canvas, signal, startup) {
     const snapshot = current();
     if (!snapshot || !gameplay || !loaded || !renderer || !saves) { title(); return; }
     const bound = saves.service.getBinding();
-    if (bindingEpoch !== bound.adventureEpoch) { bindingEpoch = bound.adventureEpoch; epoch = `campaign-${++epochCounter}`; input?.cancel(); view.clearMessages(); renderer.recenter(); renderer.zoom((snapshot.options.camera.zoom - 7) / 3); renderer.reducedMotion = snapshot.options.reducedMotion === 'on' || snapshot.options.reducedMotion === 'system' && reducedMotion.matches; root?.style.setProperty('--text-scale', String(snapshot.options.accessibility.textScale)); }
+    if (bindingEpoch !== bound.adventureEpoch) { groundExploring = false; bindingEpoch = bound.adventureEpoch; epoch = `campaign-${++epochCounter}`; input?.cancel(); view.clearMessages(); renderer.recenter(); renderer.zoom((snapshot.options.camera.zoom - 7) / 3); renderer.reducedMotion = snapshot.options.reducedMotion === 'on' || snapshot.options.reducedMotion === 'system' && reducedMotion.matches; root?.style.setProperty('--text-scale', String(snapshot.options.accessibility.textScale)); }
     if (before) assetRetries = 0;
     const ticket = ++generation; ready = false; context();
     try {
@@ -303,13 +317,14 @@ export async function createApplication(canvas, signal, startup) {
     if (action.type === 'confirm') { view.confirm(); return; }
     if (action.type === 'cancel') { if (view.isOpen()) resume(); else menu(); return; }
     if (action.type === 'panel') {
+      if (current()?.friends && !current()?.session) { groundExploring = false; resume(); return; }
       if (action.panel === 'inventory') inventory(); else if (action.panel === 'map') panel('Gold marks your leader, blue your partner, red visible enemies and white discovered stairs. Only explored terrain is shown.', [], 'Explored map');
       else if (action.panel === 'tactics') panel('Your partner follows and attacks adjacent enemies using the reviewed opening policy. Changing tactics and IQ is not available yet.', [], 'Partner tactics');
       else panel('Use stairs when standing on them, or give up this expedition. Defeat settlement retains growth and applies carried-item/money loss.', [ { label: 'Campaign & saves', run: menu }, { label: 'Give up expedition', disabled: !current()?.session, run: () => { const session = current()?.session; if (session) panel('Giving up ends this expedition and applies the sourced defeat losses.', [{ label: 'Confirm give up', run: () => act({ type: 'giveUp', sessionId: session.sessionId }, 'panel') }], 'Give up?'); } } ]);
       return;
     }
     if (action.type === 'move' || action.type === 'face') act({ type: action.type, dx: action.direction.dx, dz: action.direction.dz });
-    else if (action.type === 'primary') act({ type: 'attack' });
+    else if (action.type === 'primary') { const state = current(); if (state?.friends && !state.session) { groundExploring = false; resume(); } else act({ type: 'attack' }); }
     else if (action.type === 'wait') act({ type: 'wait' });
     else if (action.type === 'moveSlot') useMove(action.slot);
   }

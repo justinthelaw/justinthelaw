@@ -1,3 +1,4 @@
+import { FRIENDS, FRIEND_AREA_FACTS, areaMapId, friendAreaMap } from '../../content/authored/friends.js';
 import { STEEL } from '../../content/authored/mt-steel.js';
 import { steelScene } from './steel-presentation.js';
 import { WORK } from '../../content/authored/early-work.js';
@@ -80,6 +81,8 @@ export function renderSnapshot(snapshot, gameplay, epoch, species, events = []) 
   if (snapshot.pendingScene && STEEL.scenes.some((id, index) => ![4, 7, 8].includes(index) && id === snapshot.pendingScene?.sceneId)) return steelScene(snapshot, epoch, species);
   if (snapshot.pendingScene?.sceneId === T.rescue || snapshot.pendingScene?.sceneId === T.reward) return caveScene(snapshot, epoch, species);
   if (!snapshot.session) {
+    const area = FRIEND_AREA_FACTS.find(row => row.id && areaMapId(row.id) === snapshot.town.mapDefinitionId);
+    if (area?.id) { const map = friendAreaMap(area.id), mask = map.tiles.map(row => row.map(() => true)); return immutableRenderSnapshot({ epoch, revision: snapshot.revision, world: { ...map, worldId: `${epoch}:${snapshot.town.mapDefinitionId}`, revision: snapshot.revision, visible: mask, explored: mask, exits: [] }, actors: groundActors(snapshot,epoch,species), pickups: [], events: [] }); }
     switch (snapshot.town.mapDefinitionId) {
       case gameplay.authored.town.mapDefinitionId: return meadow(snapshot, gameplay, epoch, species);
       case TOWN.square: case TOWN.post: return townSquare(snapshot, epoch, species);
@@ -164,6 +167,9 @@ function townSquare(snapshot, epoch, species) {
   const actors = groundActors(snapshot, epoch, species);
   const residents = post ? [{ id: 'pelipper', speciesId: 'pokemon-279', x: 9, z: 5 }]
     : [{ id: 'kecleon-shop', speciesId: 'pokemon-352', x: 3, z: 5 }, { id: 'kecleon-wares', speciesId: 'pokemon-352', x: 5, z: 5 }, { id: 'persian', speciesId: 'pokemon-053', x: 14, z: 5 }, { id: 'kangaskhan', speciesId: 'pokemon-115', x: 4, z: 10 }, { id: 'gulpin', speciesId: 'pokemon-316', x: 14, z: 10 }];
+  if (!post && snapshot.friends) residents.push({ id: 'wigglytuff',speciesId: 'pokemon-040',...FRIENDS.wigglytuff });
+  if (!post && snapshot.pendingScene && snapshot.pendingScene.sceneId === FRIENDS.scenes[2] && snapshot.pendingScene.cursor >= 1 && snapshot.pendingScene.cursor < 4) residents.push({ id: 'magnemite-a',speciesId: 'pokemon-081',x: 6,z: 8 },{ id: 'magnemite-b',speciesId: 'pokemon-081',x: 8,z: 8 });
+  if (!post && ['encounter-ready','encounter'].includes(snapshot.friends?.phase ?? '')) for (const [i,id] of ['pokemon-189','pokemon-275',...(snapshot.pendingScene && snapshot.pendingScene.cursor >= 2 ? ['pokemon-065','pokemon-006','pokemon-248'] : [])].entries()) residents.push({ id: `wind-request-${i}`,speciesId: id,x: 11+i,z: 6 });
   for (const row of residents) actors.push({ actorId: `town-${row.id}`, speciesId: row.speciesId, formId: null, name: species.getSpecies(row.speciesId).name, x: row.x, z: row.z, heading: 0, role: 'npc', hp: 1, maxHp: 1, statuses: [], clip: 'idle', clipToken: `${epoch}:town-${row.id}:idle`, tint: '#ffffff', bounds: { width: 1, height: 1 } });
   const props = post ? [{ id: 'post-building', kind: 'cottage', x: 9, z: 3, yaw: 0 }, { id: 'post-board', kind: 'notice-board', x: 12, z: 7, yaw: 0 }, { id: 'post-mailbox', kind: 'mailbox', x: 6, z: 6, yaw: 0 }]
     : [{ id: 'shop-building', kind: 'cottage', x: 4, z: 3, yaw: 0 }, { id: 'bank-building', kind: 'cottage', x: 14, z: 3, yaw: 0 }, { id: 'storage-building', kind: 'cottage', x: 3, z: 11, yaw: Math.PI }, { id: 'square-well', kind: 'pond-well', x: 9, z: 5, yaw: 0 }];

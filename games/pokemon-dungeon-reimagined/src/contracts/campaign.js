@@ -213,6 +213,7 @@
  *     speciesSeen?: SpeciesSeenHistory;
  *     earlyWork?: import('./early-work.js').EarlyWorkState|null;
  *     steel?: import('./steel.js').SteelState|null;
+ *     friends?: import('./friends.js').FriendsState|null;
  *     moveState?: {sessionId:SessionId; mapId:MapId; lightningRodActorId:ActorId|null;}|null;
  *     contentRevision: ContentRevision;
  *     revision: Int;

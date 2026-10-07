@@ -202,6 +202,18 @@
     {
       "path": "games/pokemon-dungeon-reimagined/content/authored/mt-steel.js",
       "sha256": "207919e0c9c2fa7f780bdff6634da774f37dc31a294210071eba2d4b44f7d140"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/moves-campaign.js",
+      "sha256": "2d7f582c29e57124e2e40e9b5d1621102261b4d54d16db516531e258527c107a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/move-mechanics.js",
+      "sha256": "c151804a191b6420976b9e92fc064ef1c71e12114fb320bb30dfa65a2a9ac910"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/job-generation.js",
+      "sha256": "90a3da8e4162be42ea29f5d43576eb823654d8c8c0a40c30a2ac4066563a38ed"
     }
   ],
   "functionBodies": [
@@ -308,5 +320,10 @@
   "steelRootShape": {
     "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
     "sha256": "0e42d7034857ee1768fdb963847e10af41f2b1415475394017bf623bfcc3bf5c"
+  },
+  "areaPredecessorBaselineCommit": "ca714483d402cbb7e6e94cdd6e5c21fecd3a51b7",
+  "movesRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "49008d65cd79547a85503c0494a68f629970a635012476bb01f0d275dec7ab8d"
   }
 }

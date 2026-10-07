@@ -1,3 +1,4 @@
+import { friendsGroundReady, travelFriends } from './friends.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
 import { WORK } from '../../../content/authored/early-work.js';
 import { initializeEarlyWork } from './job-records.js';
@@ -10,7 +11,7 @@ import { blocked } from './support.js';
 import { refreshTownShops, shopOrderProblem, applyShopOrder } from './town-shop.js';
 import { economyOrderProblem, applyEconomyOrder } from './town-economy.js';
 /** @param {import('../../contracts/campaign.js').CampaignSnapshot} state */
-export function townReady(state) { return (state.progress.storyNodeId === TOWN.story || state.progress.storyNodeId === WORK.story && WORK.scenes.every(id => state.progress.seenScenes[id]?.count === 1) || state.progress.storyNodeId === STEEL.story && state.steel?.phase === 'ready') && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt && state.progress.seenScenes[TOWN.scenes[3] ?? '']?.count === 1; }
+export function townReady(state) { return (friendsGroundReady(state) || state.progress.storyNodeId === TOWN.story || state.progress.storyNodeId === WORK.story && WORK.scenes.every(id => state.progress.seenScenes[id]?.count === 1) || state.progress.storyNodeId === STEEL.story && state.steel?.phase === 'ready') && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt && state.progress.seenScenes[TOWN.scenes[3] ?? '']?.count === 1; }
 /** @param {import('./support.js').Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} authored
  * @returns {import('../turns/types.js').CommandHandlers} */
 export function townHandlers(catalogs, authored) { return {
@@ -25,9 +26,10 @@ export function townHandlers(catalogs, authored) { return {
     },
   },
   townTravel: {
-    plan(state, intent) { return intent.type === 'townTravel' && townReady(state) && [TOWN.square, TOWN.post, TEAM.map, MORNING.interior].includes(intent.mapId) ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }; },
+    plan(state, intent) { return intent.type === 'townTravel' && (friendsGroundReady(state) || townReady(state) && [TOWN.square, TOWN.post, TEAM.map, MORNING.interior].includes(intent.mapId)) ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }; },
     apply(context, intent) {
       if (intent.type !== 'townTravel') return { kind: 'rejected', reason: 'invalid-command' };
+      if (context.state.friends) return travelFriends(context, authored, intent.mapId) ? { kind: 'changed', resumeDungeon: false } : { kind: 'rejected', reason: 'unavailable' };
       if (context.state.town.mapDefinitionId === intent.mapId) return { kind: 'unchanged' };
       placeInTown(context.state, intent.mapId); return { kind: 'changed', resumeDungeon: false };
     },

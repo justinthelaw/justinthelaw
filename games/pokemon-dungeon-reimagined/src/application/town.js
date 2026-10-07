@@ -7,8 +7,8 @@ import { shopOrderProblem, shopPrice } from '../domain/gameplay/town-shop.js';
 /** @typedef {import('../domain/gameplay/town-economy.js').EconomyOrder|import('../domain/gameplay/town-shop.js').ShopOrder} Order */
 /** Complete selection/confirmation/cancel flow. Local forms never own money,
  * inventory, stock or story progress. Each send retains its shown snapshot.
- * @param {{snapshot:import('../contracts/campaign.js').CampaignSnapshot,catalogs:import('../domain/gameplay/support.js').Catalogs,view:ReturnType<typeof import('../ui/view.js').createView>,send:(intent:import('../domain/turns/types.js').Intent)=>void,menu:()=>void,open:()=>void}} options */
-export function showTown({ snapshot, catalogs, view, send, menu, open }) {
+ * @param {{snapshot:import('../contracts/campaign.js').CampaignSnapshot,catalogs:import('../domain/gameplay/support.js').Catalogs,view:ReturnType<typeof import('../ui/view.js').createView>,send:(intent:import('../domain/turns/types.js').Intent)=>void,menu:()=>void,open:()=>void,back?:()=>void}} options */
+export function showTown({ snapshot, catalogs, view, send, menu, open, back }) {
   const atSquare = snapshot.town.mapDefinitionId === TOWN.square;
   const name = snapshot.town.mapDefinitionId === TOWN.post ? 'Pelipper Post Office' : atSquare ? 'Pokémon Square' : 'Rescue base';
   /** @param {string} id */ const itemName = id => catalogs.effects.getItem(id).name;
@@ -81,11 +81,12 @@ export function showTown({ snapshot, catalogs, view, send, menu, open }) {
   function home() {
     show(name, `Team ${snapshot.profile.teamName} · ${snapshot.economy.carriedMoney} carried Poké · ${snapshot.economy.bankedMoney} saved Poké. ${snapshot.progress.storyNodeId === TOWN.story ? 'Accept requests, mark them Take Job, and complete their objectives in a real expedition.' : 'Prepare supplies for the Diglett rescue, then return to the base.'}${snapshot.earlyWork?.history === 'legacy-postings-unavailable' ? ' Imported town: this board begins new work; earlier postings were not recorded.' : ''}`, [
       ...(atSquare ? [{ label: 'Kecleon Shop', run: () => shop('kecleon-items') }, { label: 'Kecleon Wares', run: () => shop('kecleon-wares') }, { label: 'Felicity Bank', run: bank }, { label: 'Kangaskhan Storage', run: storage },
-        { label: 'Other services', run: () => show('Other services', 'Gulpin linking and the Dojo are still in development. Friend Area access follows the Diglett rescue and is not open yet.', [{ label: 'Back', run: home }]) }] : []),
+        { label: 'Other services', run: () => show('Other services', "Gulpin linking and the Dojo are still in development. Friend Areas are managed at Wigglytuff's counter after the Diglett rescue.", [{ label: 'Back', run: home }]) }] : []),
       ...(snapshot.progress.storyNodeId === TOWN.story && snapshot.town.mapDefinitionId === TOWN.post ? [{ label: 'Bulletin board', run: () => jobs('board') }] : []),
       ...(snapshot.progress.storyNodeId === TOWN.story ? [{ label: 'Job List', run: () => jobs('jobs') }] : []),
       ...(snapshot.progress.storyNodeId === TOWN.story && snapshot.town.mapDefinitionId === TEAM.map ? [{ label: 'Check mailbox', run: () => jobs('mailbox') }, { label: 'Choose dungeon', run: () => jobs('depart') }] : []),
       ...[{ mapId: TOWN.square, label: 'Visit Pokémon Square' }, { mapId: TOWN.post, label: 'Visit Post Office' }, { mapId: TEAM.map, label: 'Return to base' }, { mapId: MORNING.interior, label: 'Enter home' }].filter(row => row.mapId !== snapshot.town.mapDefinitionId).map(row => ({ label: row.label, run: () => send({ type: 'townTravel', mapId: row.mapId }) })),
+      ...(back ? [{ label: 'Back to ground', run: back }] : []),
       { label: 'Campaign & saves', run: menu },
     ]);
   }

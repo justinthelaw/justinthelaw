@@ -77,3 +77,77 @@ recruitment, seen history, mail or jobs. Native phase refresh owns later changes
 The earlier wild species keep their full move inventories. Their native AI
 selection, party AI and recruitment conversion remain separate active work;
 this checkpoint does not claim them from effect availability alone.
+
+## v12 onboarding and usable areas
+
+The original source route is now integrated from completed Steel MAIN5,0 through
+actual dream/base dispatch, Wigglytuff's proximity interaction, the distinct
+Team ACT/Shiftry/Jumpluff encounter and rest at MAIN5,5. Normal Square exploration
+owns the encounter trigger; buying an area or closing a menu cannot skip it.
+MAIN substage assignments reset CLEAR_COUNT. MAIN5,1 INIT and the post-encounter
+operation3 each refresh shops/board once; the already accepted Steel return and
+bridge refreshes are not repeated. Browser days advance at the actual mornings.
+Locators: `ground_data_b01p01a_station.h:54–69`,
+`ground_data_t01p01_station.h:185–200,1940–1951,2097–2113,2393–2407`.
+
+Wigglytuff opens Wild Plains and Mist-Rise Forest, then Power Plant, preserving
+the already owned original starter-area union (`pokemon.c:66–128`). The name
+question persists as a canonical ask/edit choice before Power Plant ownership.
+Both naming branches converge on operation0x19, which grants Power Plant and
+enrolls Magnemite in one transaction with same-revision receipts;
+it is not a recruitment refusal. Magnemite begins resident, level6, HP38,
+Attack20/SpecialAttack18/Defense20/SpecialDefense18, EXP4560, IQ1, default IQ/tactic,
+Metal Sound/Tackle/Thundershock/empty, no held item, with exact grant provenance
+representing Pokemon Square2 native origin70/floor0. Growth matches the existing
+natural-level table exactly. Persistent PP0 represents zero boost, not empty
+actor PP. Its historical ID cannot alias either starter; any live record must
+bind species081 and the exact scripted grant, and must exist until enrollment
+finishes. Locators: `ground_script.c:3479–3515`, `ground_data_t01p01_station.h:2235–2242`,
+`pokemon.c:198–254`.
+
+The factual shop table preserves all57 areas plus NONE, native order, total413
+capacity, prices and unlock kind. Current purchases expose only unowned story
+shop areas, with carried-money review and atomic recheck. Original area geometry
+uses existing textured real3D environment kits and directional pixel actors.
+Players walk beside residents to Join/Standby/Give/Take/Summary/Moves/CheckIQ or
+Farewell. Original hero/partner protections, town four-slot/six-body limits,
+whole-lot held swaps, free-slot Take and whole-fit Farewell storage fallback are
+owned by the domain. Check IQ lists every threshold-eligible skill in native
+order, including disabled skills, and offers a persisted Switch. Enabling a
+skill clears the other flags in its exclusive group; disabling clears only
+that flag. Enrollment still requires the exact initial defaults; later
+settings use the shared permanent threshold/group admission.
+Locators: `iq_skill_menu.c:26–38,126–131,183–186`, `pokemon_3.c:369–463`.
+A full bag still allows Give's atomic old-held swap. Farewell
+keeps acquisition history and cannot replay enrollment. The current gift has
+origin70; rare-origin68/69 double confirmation belongs to later admitted recruits.
+Locators: `dungeon_data.c:gFriendAreaSettings`, `wigglytuff_shop1.c:166–211`,
+`wigglytuff_shop3.c:442–460`, `friend_area_action_menu.c:235–315,594–610,697–801`.
+
+Onboarding's board refresh includes conquered Steel after Tiny/Thunderwave in
+native order. It draws from Steel candidate floors5..9 and circularly rejects
+fixed9, rather than drawing from a prefiltered four-floor list. The actual seen
+pool expands to19 eligible species; Magnemite/Diglett/Skarmory remain excluded by
+their source bans. Item mask and six eligible favorite-item rows retain native
+order. Rewrites replace client/target/item only after the ordinary reward draw;
+no eligible pair rewrite exists in this finite pool. Unchanged early reward
+helpers are shared. Accepted old generator, records and policy owners remain
+frozen; separate successor owners preserve old import admission. Static factual
+ledgers/checker live under `tools/pokemon-dungeon/content/friends` and scripts.
+Locators: `code_80958E8.c:180–345,408–434`, `code_803C1B4.c:267–297`,
+`pokemon_mail.c:407–439`, `dungeon_info.c:23,157,246–249,2452–2465`.
+
+Incoming admitted MAIN5,0 states have at most four old receipts and20 points,
+so these refreshes remain native Normal rank. No claim or expedition is added
+by onboarding. This is a bounded prerequisite: the two later work intervals,
+Bronze escort objectives/rewards, complete party/early-wild move AI, extra-party
+floor entry, wild offers/conversion, return-capacity choice and MAIN5,9 story
+request remain active work. No rank cap or filtered escort substitute is claimed.
+Gummi/Orb inventory identities remain intact; their use consumers remain open.
+
+The accepted v11 factory/policy/root and old generator are pinned before v12
+admission. v2–v11 envelopes authenticate and pass their exact policies first,
+then receive `friends:null`; an existing v11 Lightningrod cache is preserved.
+The new root validates each scene prefix, grant/name boundary, roster origin,
+area purchase, old-history projection and navigable ground placement. Static
+checks do not replace human gameplay, visual or device acceptance.

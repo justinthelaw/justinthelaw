@@ -1028,3 +1028,29 @@ A fourth immutable root-shape pin now protects v10. FRIEND-AREAS.md records
 qualified source detail and prospective initialization of the new cache on old
 imports. Earlier wild/party native AI, actual onboarding/roster/recruitment and
 chapter-five integration remain active; human acceptance stays open.
+
+### Friend Area onboarding and resident checkpoint - 2026-10-07
+
+Integrated v12 from Steel MAIN5,0 through dream/base dispatch, actual Wigglytuff
+interaction, exact three free areas and resident Magnemite enrollment/naming,
+Team ACT/Shiftry/Jumpluff proximity encounter and rest at MAIN5,5. Owned areas
+are explorable; resident Join/Standby/Give/Take/Farewell/Summary/Moves/CheckIQ and
+source-priced Friend Area purchases have canonical guards and retained state.
+Starter accommodation is preserved. Onboarding refreshes source rank0 Steel jobs
+with candidate-floor rejection and seen/favorite-item joins. Older job owners,
+v11 factory/policy/root and all previous pins remain unchanged. Existing v11
+field caches survive conversion. Exact scope/source ledgers are in FRIEND-AREAS.
+
+This independently useful checkpoint does not open unlimited chapter-five work
+or extra-party expeditions. Native party/earlier-wild AI, escort/reward/news
+closure, recruitment and return capacity, the separate three/two reward gates
+and Sinister request remain the active next dependency. All full-campaign,
+postgame, optional-content, item-effect and human acceptance obligations remain.
+
+Onboarding review corrections: Power Plant and Magnemite now commit together
+after naming, while the first two area gifts retain their earlier acknowledgment.
+The enrollment ID is distinct from both starters and binds the exact live story
+record until a later legal farewell. Check IQ now lists all eligible skills and
+persists native threshold/group-aware switches; exact defaults remain required
+during enrollment. Static lint/types and predecessor pins pass; native battle
+AI and the remaining chapter-five dependencies are still in implementation.

@@ -1,0 +1,546 @@
+{
+  "qualification": "pinned-red-comparative-not-blue-binary-proof",
+  "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "sourceFiles": [
+    {
+      "path": "src/dungeon_data.c",
+      "sha256": "ca56c6807cb1a2918e9fee4bf4f8410fbde21ad52e3bcbfdffaa6d5766af66b4"
+    },
+    {
+      "path": "include/constants/friend_area.h",
+      "sha256": "0b69749ffafdb948cb0114c254965f28da36897593e9c9b0d3adacbda75880d4"
+    },
+    {
+      "path": "src/wigglytuff_shop1.c",
+      "sha256": "cc7ccf20f520549725e3e1a8a34f433a527028ac161e9d429226a7b17d89cce2"
+    },
+    {
+      "path": "src/wigglytuff_shop3.c",
+      "sha256": "deb14e37633e06b3f1a9ab5afbe811e4ff433d682b9c2ded7f68381b7933da0b"
+    }
+  ],
+  "records": [
+    {
+      "nativeId": 0,
+      "id": null,
+      "name": "None",
+      "sourceSymbol": "FRIEND_AREA_NONE",
+      "capacity": 0,
+      "price": 0,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 1,
+      "id": "friend-area-bountiful-sea",
+      "name": "Bountiful Sea",
+      "sourceSymbol": "FRIEND_AREA_BOUNTIFUL_SEA",
+      "capacity": 9,
+      "price": 5500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 2,
+      "id": "friend-area-treasure-sea",
+      "name": "Treasure Sea",
+      "sourceSymbol": "FRIEND_AREA_TREASURE_SEA",
+      "capacity": 10,
+      "price": 4500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 3,
+      "id": "friend-area-serene-sea",
+      "name": "Serene Sea",
+      "sourceSymbol": "FRIEND_AREA_SERENE_SEA",
+      "capacity": 4,
+      "price": 8000,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 4,
+      "id": "friend-area-deep-sea-floor",
+      "name": "Deep-Sea Floor",
+      "sourceSymbol": "FRIEND_AREA_DEEP_SEA_FLOOR",
+      "capacity": 12,
+      "price": 5500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 5,
+      "id": "friend-area-deep-sea-current",
+      "name": "Deep-Sea Current",
+      "sourceSymbol": "FRIEND_AREA_DEEP_SEA_CURRENT",
+      "capacity": 1,
+      "price": 0,
+      "unlock": "legendary_request"
+    },
+    {
+      "nativeId": 6,
+      "id": "friend-area-seafloor-cave",
+      "name": "Seafloor Cave",
+      "sourceSymbol": "FRIEND_AREA_SEAFLOOR_CAVE",
+      "capacity": 1,
+      "price": 0,
+      "unlock": "legendary_request"
+    },
+    {
+      "nativeId": 7,
+      "id": "friend-area-shallow-beach",
+      "name": "Shallow Beach",
+      "sourceSymbol": "FRIEND_AREA_SHALLOW_BEACH",
+      "capacity": 5,
+      "price": 5000,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 8,
+      "id": "friend-area-mt-deepgreen",
+      "name": "Mt. Deepgreen",
+      "sourceSymbol": "FRIEND_AREA_MT_DEEPGREEN",
+      "capacity": 12,
+      "price": 130,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 9,
+      "id": "friend-area-mt-cleft",
+      "name": "Mt. Cleft",
+      "sourceSymbol": "FRIEND_AREA_MT_CLEFT",
+      "capacity": 9,
+      "price": 5000,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 10,
+      "id": "friend-area-mt-moonview",
+      "name": "Mt. Moonview",
+      "sourceSymbol": "FRIEND_AREA_MT_MOONVIEW",
+      "capacity": 6,
+      "price": 0,
+      "unlock": "wonder_mail"
+    },
+    {
+      "nativeId": 11,
+      "id": "friend-area-rainbow-peak",
+      "name": "Rainbow Peak",
+      "sourceSymbol": "FRIEND_AREA_RAINBOW_PEAK",
+      "capacity": 1,
+      "price": 6500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 12,
+      "id": "friend-area-wild-plains",
+      "name": "Wild Plains",
+      "sourceSymbol": "FRIEND_AREA_WILD_PLAINS",
+      "capacity": 13,
+      "price": 100,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 13,
+      "id": "friend-area-beau-plains",
+      "name": "Beau Plains",
+      "sourceSymbol": "FRIEND_AREA_BEAU_PLAINS",
+      "capacity": 12,
+      "price": 600,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 14,
+      "id": "friend-area-sky-blue-plains",
+      "name": "Sky Blue Plains",
+      "sourceSymbol": "FRIEND_AREA_SKY_BLUE_PLAINS",
+      "capacity": 13,
+      "price": 0,
+      "unlock": "wonder_mail"
+    },
+    {
+      "nativeId": 15,
+      "id": "friend-area-safari",
+      "name": "Safari",
+      "sourceSymbol": "FRIEND_AREA_SAFARI",
+      "capacity": 15,
+      "price": 700,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 16,
+      "id": "friend-area-scorched-plains",
+      "name": "Scorched Plains",
+      "sourceSymbol": "FRIEND_AREA_SCORCHED_PLAINS",
+      "capacity": 10,
+      "price": 5000,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 17,
+      "id": "friend-area-sacred-field",
+      "name": "Sacred Field",
+      "sourceSymbol": "FRIEND_AREA_SACRED_FIELD",
+      "capacity": 3,
+      "price": 6500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 18,
+      "id": "friend-area-mist-rise-forest",
+      "name": "Mist-Rise Forest",
+      "sourceSymbol": "FRIEND_AREA_MIST_RISE_FOREST",
+      "capacity": 14,
+      "price": 150,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 19,
+      "id": "friend-area-flyaway-forest",
+      "name": "Flyaway Forest",
+      "sourceSymbol": "FRIEND_AREA_FLYAWAY_FOREST",
+      "capacity": 12,
+      "price": 550,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 20,
+      "id": "friend-area-overgrown-forest",
+      "name": "Overgrown Forest",
+      "sourceSymbol": "FRIEND_AREA_OVERGROWN_FOREST",
+      "capacity": 9,
+      "price": 600,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 21,
+      "id": "friend-area-energetic-forest",
+      "name": "Energetic Forest",
+      "sourceSymbol": "FRIEND_AREA_ENERGETIC_FOREST",
+      "capacity": 15,
+      "price": 5000,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 22,
+      "id": "friend-area-mushroom-forest",
+      "name": "Mushroom Forest",
+      "sourceSymbol": "FRIEND_AREA_MUSHROOM_FOREST",
+      "capacity": 7,
+      "price": 500,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 23,
+      "id": "friend-area-healing-forest",
+      "name": "Healing Forest",
+      "sourceSymbol": "FRIEND_AREA_HEALING_FOREST",
+      "capacity": 1,
+      "price": 0,
+      "unlock": "legendary_request"
+    },
+    {
+      "nativeId": 24,
+      "id": "friend-area-transform-forest",
+      "name": "Transform Forest",
+      "sourceSymbol": "FRIEND_AREA_TRANSFORM_FOREST",
+      "capacity": 6,
+      "price": 500,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 25,
+      "id": "friend-area-secretive-forest",
+      "name": "Secretive Forest",
+      "sourceSymbol": "FRIEND_AREA_SECRETIVE_FOREST",
+      "capacity": 9,
+      "price": 6500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 26,
+      "id": "friend-area-rub-a-dub-river",
+      "name": "Rub-a-Dub River",
+      "sourceSymbol": "FRIEND_AREA_RUB_A_DUB_RIVER",
+      "capacity": 7,
+      "price": 500,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 27,
+      "id": "friend-area-tadpole-pond",
+      "name": "Tadpole Pond",
+      "sourceSymbol": "FRIEND_AREA_TADPOLE_POND",
+      "capacity": 9,
+      "price": 500,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 28,
+      "id": "friend-area-turtleshell-pond",
+      "name": "Turtleshell Pond",
+      "sourceSymbol": "FRIEND_AREA_TURTLESHELL_POND",
+      "capacity": 10,
+      "price": 5500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 29,
+      "id": "friend-area-mystic-lake",
+      "name": "Mystic Lake",
+      "sourceSymbol": "FRIEND_AREA_MYSTIC_LAKE",
+      "capacity": 4,
+      "price": 2500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 30,
+      "id": "friend-area-waterfall-lake",
+      "name": "Waterfall Lake",
+      "sourceSymbol": "FRIEND_AREA_WATERFALL_LAKE",
+      "capacity": 4,
+      "price": 3500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 31,
+      "id": "friend-area-peanut-swamp",
+      "name": "Peanut Swamp",
+      "sourceSymbol": "FRIEND_AREA_PEANUT_SWAMP",
+      "capacity": 7,
+      "price": 2500,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 32,
+      "id": "friend-area-poison-swamp",
+      "name": "Poison Swamp",
+      "sourceSymbol": "FRIEND_AREA_POISON_SWAMP",
+      "capacity": 6,
+      "price": 8500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 33,
+      "id": "friend-area-echo-cave",
+      "name": "Echo Cave",
+      "sourceSymbol": "FRIEND_AREA_ECHO_CAVE",
+      "capacity": 11,
+      "price": 7500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 34,
+      "id": "friend-area-cryptic-cave",
+      "name": "Cryptic Cave",
+      "sourceSymbol": "FRIEND_AREA_CRYPTIC_CAVE",
+      "capacity": 1,
+      "price": 6500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 35,
+      "id": "friend-area-dragon-cave",
+      "name": "Dragon Cave",
+      "sourceSymbol": "FRIEND_AREA_DRAGON_CAVE",
+      "capacity": 3,
+      "price": 0,
+      "unlock": "wonder_mail"
+    },
+    {
+      "nativeId": 36,
+      "id": "friend-area-boulder-cave",
+      "name": "Boulder Cave",
+      "sourceSymbol": "FRIEND_AREA_BOULDER_CAVE",
+      "capacity": 4,
+      "price": 0,
+      "unlock": "wonder_mail"
+    },
+    {
+      "nativeId": 37,
+      "id": "friend-area-jungle",
+      "name": "Jungle",
+      "sourceSymbol": "FRIEND_AREA_JUNGLE",
+      "capacity": 13,
+      "price": 800,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 38,
+      "id": "friend-area-decrepit-lab",
+      "name": "Decrepit Lab",
+      "sourceSymbol": "FRIEND_AREA_DECREPIT_LAB",
+      "capacity": 7,
+      "price": 1000,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 39,
+      "id": "friend-area-mt-discipline",
+      "name": "Mt. Discipline",
+      "sourceSymbol": "FRIEND_AREA_MT_DISCIPLINE",
+      "capacity": 11,
+      "price": 1200,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 40,
+      "id": "friend-area-thunder-meadow",
+      "name": "Thunder Meadow",
+      "sourceSymbol": "FRIEND_AREA_THUNDER_MEADOW",
+      "capacity": 11,
+      "price": 1000,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 41,
+      "id": "friend-area-power-plant",
+      "name": "Power Plant",
+      "sourceSymbol": "FRIEND_AREA_POWER_PLANT",
+      "capacity": 6,
+      "price": 600,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 42,
+      "id": "friend-area-crater",
+      "name": "Crater",
+      "sourceSymbol": "FRIEND_AREA_CRATER",
+      "capacity": 7,
+      "price": 7500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 43,
+      "id": "friend-area-furnace-desert",
+      "name": "Furnace Desert",
+      "sourceSymbol": "FRIEND_AREA_FURNACE_DESERT",
+      "capacity": 7,
+      "price": 8500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 44,
+      "id": "friend-area-aged-chamber-an",
+      "name": "Aged Chamber AN",
+      "sourceSymbol": "FRIEND_AREA_AGED_CHAMBER_AN",
+      "capacity": 14,
+      "price": 5500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 45,
+      "id": "friend-area-aged-chamber-o-question",
+      "name": "Aged Chamber O?",
+      "sourceSymbol": "FRIEND_AREA_AGED_CHAMBER_O_EXCLAIM",
+      "capacity": 14,
+      "price": 5500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 46,
+      "id": "friend-area-ancient-relic",
+      "name": "Ancient Relic",
+      "sourceSymbol": "FRIEND_AREA_ANCIENT_RELIC",
+      "capacity": 6,
+      "price": 8000,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 47,
+      "id": "friend-area-darkness-ridge",
+      "name": "Darkness Ridge",
+      "sourceSymbol": "FRIEND_AREA_DARKNESS_RIDGE",
+      "capacity": 13,
+      "price": 0,
+      "unlock": "legendary_request"
+    },
+    {
+      "nativeId": 48,
+      "id": "friend-area-frigid-cavern",
+      "name": "Frigid Cavern",
+      "sourceSymbol": "FRIEND_AREA_FRIGID_CAVERN",
+      "capacity": 7,
+      "price": 9000,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 49,
+      "id": "friend-area-ice-floe-beach",
+      "name": "Ice Floe Beach",
+      "sourceSymbol": "FRIEND_AREA_ICE_FLOE_BEACH",
+      "capacity": 5,
+      "price": 9500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 50,
+      "id": "friend-area-volcanic-pit",
+      "name": "Volcanic Pit",
+      "sourceSymbol": "FRIEND_AREA_VOLCANIC_PIT",
+      "capacity": 1,
+      "price": 0,
+      "unlock": "legendary_request"
+    },
+    {
+      "nativeId": 51,
+      "id": "friend-area-stratos-lookout",
+      "name": "Stratos Lookout",
+      "sourceSymbol": "FRIEND_AREA_STRATOS_LOOKOUT",
+      "capacity": 1,
+      "price": 0,
+      "unlock": "legendary_request"
+    },
+    {
+      "nativeId": 52,
+      "id": "friend-area-ravaged-field",
+      "name": "Ravaged Field",
+      "sourceSymbol": "FRIEND_AREA_RAVAGED_FIELD",
+      "capacity": 5,
+      "price": 1000,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 53,
+      "id": "friend-area-magnetic-quarry",
+      "name": "Magnetic Quarry",
+      "sourceSymbol": "FRIEND_AREA_MAGNETIC_QUARRY",
+      "capacity": 3,
+      "price": 1000,
+      "unlock": "shop_story"
+    },
+    {
+      "nativeId": 54,
+      "id": "friend-area-legendary-island",
+      "name": "Legendary Island",
+      "sourceSymbol": "FRIEND_AREA_LEGENDARY_ISLAND",
+      "capacity": 3,
+      "price": 7500,
+      "unlock": "legendary_request"
+    },
+    {
+      "nativeId": 55,
+      "id": "friend-area-southern-island",
+      "name": "Southern Island",
+      "sourceSymbol": "FRIEND_AREA_SOUTHERN_ISLAND",
+      "capacity": 2,
+      "price": 9500,
+      "unlock": "shop_post_game"
+    },
+    {
+      "nativeId": 56,
+      "id": "friend-area-enclosed-island",
+      "name": "Enclosed Island",
+      "sourceSymbol": "FRIEND_AREA_ENCLOSED_ISLAND",
+      "capacity": 1,
+      "price": 0,
+      "unlock": "legendary_request"
+    },
+    {
+      "nativeId": 57,
+      "id": "friend-area-final-island",
+      "name": "Final Island",
+      "sourceSymbol": "FRIEND_AREA_FINAL_ISLAND",
+      "capacity": 1,
+      "price": 8500,
+      "unlock": "shop_post_game"
+    }
+  ]
+}
