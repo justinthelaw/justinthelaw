@@ -162,3 +162,51 @@ Identity records retain exact species/form flags. Admission requires unique
 catalog forms, every historical recruit, and only reachable early encounter
 sources with Blue eligibility. Job eligibility will separately apply native
 base-species normalization and bans; this is not global generator eligibility.
+
+## Ordinary generator prerequisite
+
+`early-job-facts.js` is projected by the static Python exporter from pinned
+comparative text plus qualified catalog joins. `job-generation.js` has no UI
+caller yet. It preserves native-order seen-species selection, Pidgey/Wurmple
+no-eligible fallback, numeric mission draw `[0,1,2,3,4,2,1,0]`, Normal-rank2→0
+replacement,24-bit seed, target/reward distinction and subtype samples.
+`GetBaseSpecies` is form normalization, not an unevolved-species filter.
+The exporter proves all ten early candidates are base forms and absent from
+both native ban tables, no complete parent/friend/escort pair is eligible,
+and no preferred-gummi item intersects either early target mask. Thus native
+subtype transformations have zero candidates here; their samples are retained.
+Hero/partner exclusion and recorded seen flags remain runtime predicates.
+
+`GenerateMailJobDungeonInfo` uses conquered eligible dungeons once MAIN is after
+(3,3), per `CheckQuest(QUEST_UNK1)`. Here both Tiny Woods and Thunderwave are
+conquered before the town introduction. Source floor-count halves produce
+Tiny Woods2–3 and Thunderwave3–5. Existing board/mail/accepted occupancy rejects
+matching floors, with escort occupation excluding the whole dungeon. Circular
+dungeon/floor search retains source selection order. Board generation makes
+5–8 attempts, stopping when five total legal locations are exhausted.
+
+Source item masks exclude projectiles/money/used TM. Tiny Woods targets Oran or
+Pecha; Thunderwave additionally targets Cheri, Sleep Seed, Blast Seed or Apple.
+All these source locations have mission difficulty1 and5 rank points. Reward
+set1 contains Gravelerock, Reviver Seed, Cheri Berry and Max Elixir with native
+category/item thresholds. Each `sub_803C37C` call discards one complete item
+sample before returning the next, then rejects target/reward equality. Board
+reward kinds0–3 retain money/item/extra distinctions. Extra item draws occur at
+reward processing, not board generation. Browser xoshiro streams and rejection
+resource bounds remain the documented engineering adaptation; no native seed
+interoperability or exact DS RNG call stream is claimed.
+
+Take/Suspend is separate from board acceptance: `AcceptJob` copies mail5 into
+a free accepted slot; `wonder_mail_802C860.c:245,251` toggles taken6/suspended5.
+Ordinary board acceptance does not delete its displayed offer; duplicate
+acceptance must instead be rejected/marked until board refresh.
+
+### Failed find-item return gate
+
+`sub_8096AF8` alone is insufficient: it recognizes taken find6 plus matching
+returned toolbox ownership, without a floor-visit predicate. But failed ordinary
+81 returns skip the reward station. `ground_event_data.h:5054–5069` routes only
+STARTMODE_DUNGEON_WON/10 to SELECT56; other results go to EVENT_S00E01A_L001
+(2926–2932), NEXT_DAY and home without rewards. `main_loops.c:834` clears native
+7/8/9 objective records on loss, preserving taken6 for retry. The later eligible
+return must recheck ownership after its own settlement; no failed reward/count.

@@ -143,3 +143,12 @@ checkout with `python scripts/export-town-shop-facts.py --source-root PATH --che
 The script reads C/JSON as source data without importing or executing game code.
 Omit `--check` only for an intentional researched re-export. Numerical provenance
 and current service boundaries are in the game's `plan/TOWN-JOBS.md`.
+
+### Early ordinary-job facts
+
+`python scripts/export-early-job-facts.py --source-root /path/to/pinned/pmd-red --check`
+compares two early route item masks, ten finite source-qualified species,
+floor/rank facts and four reward items. It also proves that native pair and
+favorite-item transformations have no eligible rows in this slice. It reads
+source/data only; it neither imports nor executes the game. The pinned reference
+is original Red comparative6bcbec4f, not Blue binary proof.

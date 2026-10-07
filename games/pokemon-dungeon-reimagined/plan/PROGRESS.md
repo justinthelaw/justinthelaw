@@ -10,6 +10,18 @@
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
 
+## Ordinary-job generator prerequisite (2026-10-07)
+
+- Added a source/data-only exporter for early native floor/target/reward pools
+  and finite eligibility proofs, plus a reusable generator on jobsRewards RNG.
+  Native candidate order, fallback, category weights, normal-rank replacement,
+  subtype/discard draws and circular conflict search remain explicit.
+- These helpers are not yet wired to offers or expedition entry. Current v7
+  snapshots/policies are unchanged. Next is persisted offers/Take/Suspend, real
+  objective actors/items, settlement/reward overflow and the Diglett gate.
+- Failed ordinary returns skip the native reward station; retained find-item
+  ownership alone grants nothing. Source route and retry details: TOWN-JOBS.
+
 ## Persisted seen-history prerequisite (2026-10-07)
 
 - Current v7 requires explicit species/form seen flags, creation versus incomplete
