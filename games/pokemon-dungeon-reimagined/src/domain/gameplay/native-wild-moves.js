@@ -12,10 +12,11 @@ import { draw, facing, navActor, navigationContext, blocked } from './support.js
 /** @typedef {typeof AI_ACTION_FACTS[number]} Fact */
 /** Explicit admission, not a move-weight filter. Broader wild/partner selection
  * remains a recorded consumer obligation until its effects/AI branches close. */
-const MOVES = Object.freeze(['move-peck', 'move-growl', 'move-tackle', 'move-tail-whip', 'move-harden', 'move-confusion', 'move-rapid-spin', 'move-defense-curl', 'move-bide', 'move-meditate', 'move-take-down', 'move-focus-energy', 'move-vice-grip', 'move-leer', 'move-sand-attack', 'move-scratch', 'move-pound', 'move-thunder-shock', 'move-hypnosis', 'move-absorb', 'move-quick-attack', 'move-charge', 'move-metal-sound', 'move-withdraw', 'move-helping-hand', 'move-thunder-wave', 'move-disable', 'move-attract', 'move-smokescreen', 'move-reflect', 'move-low-kick', 'move-metal-claw', 'move-mud-slap', 'move-water-gun']);
+const MOVES = Object.freeze(['move-peck', 'move-growl', 'move-tackle', 'move-tail-whip', 'move-harden', 'move-confusion', 'move-rapid-spin', 'move-defense-curl', 'move-bide', 'move-meditate', 'move-take-down', 'move-focus-energy', 'move-vice-grip', 'move-leer', 'move-sand-attack', 'move-scratch', 'move-pound', 'move-thunder-shock', 'move-hypnosis', 'move-absorb', 'move-quick-attack', 'move-charge', 'move-metal-sound', 'move-withdraw', 'move-helping-hand', 'move-thunder-wave', 'move-disable', 'move-attract', 'move-smokescreen', 'move-reflect', 'move-low-kick', 'move-metal-claw', 'move-mud-slap', 'move-water-gun', 'move-ember', 'move-bite', 'move-bone-club', 'move-headbutt', 'move-rage', 'move-razor-leaf', 'move-bubble']);
 /** @param {Actor} actor @param {string} moveId */
 function selfEligible(actor, moveId) {
   if (!actor.enabledIqSkillIds.some(id => id === 'iq-status-checker')) return true;
+  if (moveId === 'move-rage') return actor.conditions.bide?.statusId !== 'enraged';
   if (moveId === 'move-reflect') return actor.conditions.reflect?.statusId !== 'reflect';
   if (moveId === 'move-charge') return actor.conditions.bide?.statusId !== 'charging';
   if (moveId === 'move-meditate') return actor.stages.attack < 20;
@@ -64,13 +65,26 @@ function potentialDirections(session, actor, moveId, fact, catalogs) {
     for (const target of live) if (target.placement.kind === 'map' && isActuallyInSight(session.floor, origin, target.placement.position, nav.visibilityRange)) add(direction, target);
     return result;
   }
-  if (fact.targetFlags === 128) {
+  if (fact.targetFlags === 128 || fact.targetFlags === 80) {
+    const maximum = fact.targetFlags === 80 ? 10 : 1;
     for (const target of live) {
       if (target.placement.kind !== 'map' || target.actorId === actor.actorId) continue;
       const p = target.placement.position, dx = p.x - origin.x, dz = p.z - origin.z;
-      if (Math.max(Math.abs(dx), Math.abs(dz)) !== 1 || !isActuallyInSight(session.floor, origin, p, nav.visibilityRange)) continue;
-      if (actor.enabledIqSkillIds.some(id => id === 'iq-course-checker') && catalogs.navigation.terrain(session.floor.tiles[p.z]?.[p.x]?.terrainId ?? '').kind === 'wall') continue;
-      add(DIRECTIONS.findIndex(d => d.x === dx && d.z === dz), target);
+      const distance = Math.max(Math.abs(dx), Math.abs(dz));
+      if (!distance || distance > maximum || dx !== 0 && dz !== 0 && Math.abs(dx) !== Math.abs(dz) || !isActuallyInSight(session.floor, origin, p, nav.visibilityRange)) continue;
+      const stepX = Math.sign(dx), stepZ = Math.sign(dz);
+      if (actor.enabledIqSkillIds.some(id => id === 'iq-course-checker')) {
+        let reaches = false;
+        for (let n = 1; n <= distance; n++) {
+          const x = origin.x + stepX * n, z = origin.z + stepZ * n, tile = session.floor.tiles[z]?.[x];
+          if (x < 1 || z < 1 || x >= session.floor.width - 1 || z >= session.floor.height - 1 || !tile || catalogs.navigation.terrain(tile.terrainId).kind === 'wall') break;
+          const occupant = live.find(other => other.placement.kind === 'map' && other.placement.position.x === x && other.placement.position.z === z);
+          if (occupant?.actorId === target.actorId) { reaches = true; break; }
+          if (occupant) break;
+        }
+        if (!reaches) continue;
+      }
+      add(DIRECTIONS.findIndex(d => d.x === stepX && d.z === stepZ), target);
     }
     return result;
   }

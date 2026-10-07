@@ -1,9 +1,10 @@
+import { DAMAGE_STATUS_POLICY } from './damage-status.js';
 import { MOVE_CONDITION_POLICY } from './move-conditions.js';
 import { draw, ability, maxHp } from './support.js';
 
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
 /** @typedef {import('../turns/types.js').MutationContext} Context */
-export const SELF_STATUS_MOVES = Object.freeze(['move-bide', 'move-focus-energy', 'move-charge']);
+export const SELF_STATUS_MOVES = Object.freeze(['move-bide', 'move-focus-energy', 'move-charge', 'move-rage']);
 /** Separate from generic two-turn charge moves: Bide holds/pass-ticks and
  * releases an internal action at end phase, never charges the learned slot twice.
  * @param {Context} context @param {Actor} actor
@@ -12,7 +13,11 @@ export function selfBattleStatus(context, actor, slot) {
   const session = context.state.session; if (!session) return;
   const source = /** @type {import('../../contracts/campaign.js').EffectSource} */ ({ kind: 'actor', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: actor.actorId, identity: { ...actor.identity } }, moveId: slot.moveId });
   const policyId = /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-battle-status-v9');
-  if (slot.moveId === 'move-charge') {
+  if (slot.moveId === 'move-rage') {
+    if (actor.conditions.bide?.statusId === 'enraged') { context.emit({ type: 'message', messageId: 'rage-already-active' }); return; }
+    actor.conditions.bide = { statusId: 'enraged', source, duration: { kind: 'counter', policyId: DAMAGE_STATUS_POLICY, remaining: 5 + draw(context.state, 6) }, periodicCountdown: null, payload: { kind: 'charge', moveSlotId: slot.moveSlotId, moveId: slot.moveId, target: { kind: 'self' }, storedDamage: 0 } };
+    context.emit({ type: 'message', messageId: 'rage-status' });
+  } else if (slot.moveId === 'move-charge') {
     actor.conditions.bide = { statusId: 'charging', source, duration: { kind: 'indefinite', policyId: MOVE_CONDITION_POLICY }, periodicCountdown: null, payload: { kind: 'charge', moveSlotId: slot.moveSlotId, moveId: slot.moveId, target: { kind: 'self' }, storedDamage: 0 } };
   } else if (slot.moveId === 'move-focus-energy') {
     if (actor.conditions.sureShot?.statusId === 'focus-energy') return;

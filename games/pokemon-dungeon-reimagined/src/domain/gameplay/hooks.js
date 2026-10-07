@@ -6,10 +6,10 @@ import { finishSteelBattle } from './steel.js';
 import { chooseNativeWildMove } from './native-wild-moves.js';
 import { confusedAction } from './confused-action.js';
 import { tickBattleStatus, endBide } from './battle-status.js';
-import { damageHp } from './hp-damage.js';
+import { endRage } from './damage-status.js';
 import { SPAWN_SLEEP_CHANCES, eligibleEncounter } from '../../../content/state/expedition-facts.js';
 import { selectEncounter } from '../generation/encounters.js';
-import { tickConditions, poisonDamage, resetStatChanges } from './conditions.js';
+import { tickConditions, periodicStatusDamage, resetStatChanges } from './conditions.js';
 import { useDungeonItem, pickup } from './items.js';
 import { applyExperience } from './growth.js';
 import { movementPlan } from './movement.js';
@@ -18,7 +18,7 @@ import { findPath } from '../navigation/path.js';
 import { isActuallyInSight, visibleTiles } from '../navigation/sight.js';
 import { actorAt, sessionOf } from '../turns/support.js';
 import { attack, releaseBide } from './combat.js';
-import { finishDamage } from './damage-resolution.js';
+import { dealDamage } from './damage-resolution.js';
 import { tryRevive } from './revival.js';
 import { createActor } from './actors.js';
 import { takeStairs, settleExpedition } from './expedition.js';
@@ -130,7 +130,7 @@ export function createTurnHooks(catalogs, authored) {
         const destination = threats.length ? moves.find(pos => distance(pos) > distance(origin)) : null;
         return { kind: 'action', action: destination ? { kind: 'move', actorId: a.actorId, destination } : { kind: 'wait', actorId: a.actorId } };
       }
-      const skipAttack = a.conditions.burn?.statusId === 'paralysis' || runningAway || confused && draw(context.state, 100) < 70;
+      const skipAttack = a.conditions.cringe?.statusId === 'cringe' || a.conditions.burn?.statusId === 'paralysis' || runningAway || confused && draw(context.state, 100) < 70;
       const nativeWild = ['tiny-woods', 'thunderwave-cave', 'mt-steel'].includes(s.dungeonId) && a.affiliation === 'hostile';
       if (nativeWild && !skipAttack) {
         const chosen = chooseNativeWildMove(context, a, catalogs);
@@ -191,13 +191,14 @@ export function createTurnHooks(catalogs, authored) {
       if (a.actorId === s.leaderActorId) {
         const belly = Math.trunc(value(a.resources.belly) * 65536) - 6554;
         a.resources.belly = belly < 65536 ? quantity(0) : quantity(belly, 65536);
-        if (!a.resources.belly.numerator) { damageHp(a, 1); context.emit({ type: 'message', messageId: 'hunger-damage' }); }
+        if (!a.resources.belly.numerator) { dealDamage(context, a, catalogs, { attacker: null, amount: 1, contact: false, physical: false, giveExperience: false }); context.emit({ type: 'message', messageId: 'hunger-damage' }); }
       }
       if (a.resources.hp === 0) return hooks.forcedLoss(context);
       draw(context.state, 100); // Native Shed Skin sample precedes periodic poison.
-      poisonDamage(context, a);
-      if (a.resources.hp === 0) finishDamage(context, a, catalogs, null, false);
+      const periodicDamage = periodicStatusDamage(context, a);
+      if (periodicDamage) dealDamage(context, a, catalogs, { attacker: null, amount: periodicDamage, contact: false, physical: false, giveExperience: false });
       if (a.resources.hp > 0) { const stored = endBide(context, a, catalogs); if (stored !== null) releaseBide(context, a, stored, catalogs); }
+      if (a.resources.hp > 0 && !s.teamOrder.some(id => s.actors[id]?.resources.hp === 0) && !(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle')) endRage(context, a);
       return hooks.forcedLoss(context);
     },
     tile(context, ref) {

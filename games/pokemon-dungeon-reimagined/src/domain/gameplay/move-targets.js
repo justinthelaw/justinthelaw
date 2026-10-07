@@ -24,6 +24,18 @@ export function moveTargets(session, actor, range, catalogs, selector, category 
   const eligible = (/** @type {Actor} */ other) => other.affiliation !== 'neutral' && (confused || (category === 6 ? other.actorId !== actor.actorId && other.affiliation === actor.affiliation : other.affiliation !== actor.affiliation));
   if (range === 3) return activeActors(session).filter(other => eligible(other) && other.placement.kind === 'map' && isActuallyInSight(session.floor, origin, other.placement.position, nav.visibilityRange));
   const angle = FACINGS.indexOf(actor.facing) * Math.PI / 4;
+  if (range === 5) {
+    // Native straight-line execution stops at the first actor, including allies
+    // and protected clients. These moves' category2 can hit either combat side.
+    for (let distance = 1; distance <= 10; distance++) {
+      const at = { x: origin.x + Math.round(Math.sin(angle)) * distance, z: origin.z - Math.round(Math.cos(angle)) * distance };
+      const tile = session.floor.tiles[at.z]?.[at.x];
+      if (!tile || catalogs.navigation.terrain(tile.terrainId).kind === 'wall') return [];
+      const target = activeActors(session).find(other => other.placement.kind === 'map' && other.placement.position.x === at.x && other.placement.position.z === at.z);
+      if (target) return target.affiliation !== 'neutral' && (category === 2 || eligible(target)) ? [target] : [];
+    }
+    return [];
+  }
   if (range === 4) {
     // The native two-tile probe checks each destination tile, cuts corners and
     // proceeds through an ineligible ally, but never through blocked terrain.

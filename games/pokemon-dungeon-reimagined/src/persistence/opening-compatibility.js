@@ -1,3 +1,4 @@
+import { createCampaignContent as createPartyCampaignContent } from '../../content/state/party-status-campaign.js';
 import { createCampaignContent as createWildCampaignContent } from '../../content/state/wild-ai-campaign.js';
 import { createCampaignContent as createFriendsCampaignContent } from '../../content/state/friends-campaign.js';
 import { initializeEarlierWildAi } from '../domain/gameplay/actors.js';
@@ -71,7 +72,9 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   const wild = createWildCampaignContent(catalogs);
   const wildRevision = friendsRevision.replace('v12-friends-opening:', 'v13-wild-ai-opening:');
   if (wild.contentRevision !== wildRevision) throw new TypeError('Wild-v13 factual catalog boundary differs.');
-  return Object.freeze([...([wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
+  const party = createPartyCampaignContent(catalogs);
+  if (party.contentRevision !== wildRevision.replace('v13-wild-ai-opening:', 'v14-party-moves-opening:')) throw new TypeError('Party-v14 factual catalog boundary differs.');
+  return Object.freeze([...([party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);

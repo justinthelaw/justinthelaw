@@ -37,20 +37,20 @@ partial regular-attack policy; it does not pretend to use unsupported moves.
 
 | Starter | Supported effects | Consumers still required |
 | --- | --- | --- |
-| pokemon-001 | tackle, growl, vine-whip | leech-seed, poison-powder, sleep-powder, razor-leaf, sweet-scent, growth, synthesis, solar-beam |
-| pokemon-004 | growl, scratch, slash, metal-claw, smokescreen | ember, rage, scary-face, flamethrower, dragon-rage, fire-spin |
-| pokemon-007 | tackle, tail-whip, rapid-spin, withdraw, water-gun | bubble, bite, protect, rain-dance, skull-bash, hydro-pump |
+| pokemon-001 | tackle, growl, vine-whip, razor-leaf | leech-seed, poison-powder, sleep-powder, sweet-scent, growth, synthesis, solar-beam |
+| pokemon-004 | growl, scratch, slash, metal-claw, smokescreen, ember, rage | scary-face, flamethrower, dragon-rage, fire-spin |
+| pokemon-007 | tackle, tail-whip, rapid-spin, withdraw, water-gun, bite, bubble | protect, rain-dance, skull-bash, hydro-pump |
 | pokemon-025 | growl, tail-whip, slam, thunder-wave, thunder-shock, quick-attack | double-team, thunderbolt, agility, thunder, light-screen |
-| pokemon-052 | growl, scratch, feint-attack, slash | bite, pay-day, screech, fury-swipes, fake-out, swagger |
+| pokemon-052 | growl, scratch, feint-attack, slash, bite | pay-day, screech, fury-swipes, fake-out, swagger |
 | pokemon-054 | scratch, tail-whip, confusion, disable | water-sport, screech, psych-up, fury-swipes, hydro-pump |
 | pokemon-066 | leer, focus-energy, karate-chop, cross-chop, low-kick | seismic-toss, foresight, revenge, vital-throw, submission, scary-face, dynamic-punch |
-| pokemon-104 | growl, tail-whip, leer, focus-energy | bone-club, headbutt, bonemerang, rage, false-swipe, thrash, bone-rush, double-edge |
-| pokemon-133 | tail-whip, tackle, sand-attack, growl, take-down, helping-hand, quick-attack | bite, baton-pass |
-| pokemon-152 | tackle, growl, reflect | razor-leaf, poison-powder, synthesis, body-slam, light-screen, safeguard, solar-beam |
-| pokemon-155 | tackle, leer, smokescreen, quick-attack | ember, flame-wheel, swift, flamethrower |
-| pokemon-158 | leer, scratch, slash, water-gun | rage, bite, scary-face, screech, hydro-pump |
+| pokemon-104 | growl, tail-whip, leer, focus-energy, bone-club, headbutt, rage | bonemerang, false-swipe, thrash, bone-rush, double-edge |
+| pokemon-133 | tail-whip, tackle, sand-attack, growl, take-down, helping-hand, quick-attack, bite | baton-pass |
+| pokemon-152 | tackle, growl, reflect, razor-leaf | poison-powder, synthesis, body-slam, light-screen, safeguard, solar-beam |
+| pokemon-155 | tackle, leer, smokescreen, quick-attack, ember | flame-wheel, swift, flamethrower |
+| pokemon-158 | leer, scratch, slash, water-gun, rage, bite | scary-face, screech, hydro-pump |
 | pokemon-252 | leer, pound, slam, absorb, quick-attack | pursuit, screech, mega-drain, agility, detect, giga-drain |
-| pokemon-255 | growl, scratch, focus-energy, peck, sand-attack, slash, quick-attack | ember, fire-spin, mirror-move, flamethrower |
+| pokemon-255 | growl, scratch, focus-energy, peck, sand-attack, slash, quick-attack, ember | fire-spin, mirror-move, flamethrower |
 | pokemon-258 | tackle, growl, bide, take-down, mud-slap, water-gun | foresight, mud-sport, whirlpool, protect, hydro-pump, endeavor |
 | pokemon-300 | tackle, growl, tail-whip, feint-attack, attract | sing, double-slap, assist, charm, covet, heal-bell, double-edge |
 

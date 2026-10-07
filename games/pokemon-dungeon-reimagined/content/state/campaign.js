@@ -1,16 +1,16 @@
-import { createCampaignContent as createWildCampaignContent } from './wild-ai-campaign.js';
+import { createCampaignContent as createPartyCampaignContent } from './party-status-campaign.js';
 import { createFriendsContent } from '../authored/friends.js';
-import { partyMovePolicies } from './party-moves.js';
+import { damageStatusPolicies } from './damage-status.js';
 /** @typedef {import('./opening-campaign.js').CampaignCatalogs} CampaignCatalogs */
-/** Party move sources extend condition admission outside the exact v13 owner.
+/** Damage move sources extend condition admission outside the exact v14 owner.
  * @param {CampaignCatalogs} catalogs
  * @param {import('../authored/opening.js').AuthoredOpening} [authoredContent]
  * @returns {Readonly<import('../../src/contracts/campaign.js').CampaignContent>} */
 export function createCampaignContent(catalogs, authoredContent = createFriendsContent()) {
-  const prior = createWildCampaignContent(catalogs, authoredContent);
+  const prior = createPartyCampaignContent(catalogs, authoredContent);
   return Object.freeze({ ...prior,
-    contentRevision: prior.contentRevision.replace('v13-wild-ai-opening:', 'v14-party-moves-opening:'),
-    identities: Object.freeze({ ...prior.identities, has(/** @type {import('../../src/contracts.js').CatalogKind} */ kind, /** @type {string} */ id) { return kind === 'policy' && id === 'native-party-status-v14' || prior.identities.has(kind, id); } }),
-    policies: Object.freeze({ ...prior.policies, ...partyMovePolicies(prior.policies, catalogs) }),
+    contentRevision: prior.contentRevision.replace('v14-party-moves-opening:', 'v15-damage-status-opening:'),
+    identities: Object.freeze({ ...prior.identities, has(/** @type {import('../../src/contracts.js').CatalogKind} */ kind, /** @type {string} */ id) { return kind === 'policy' && id === 'native-damage-status-v15' || prior.identities.has(kind, id); } }),
+    policies: Object.freeze({ ...prior.policies, ...damageStatusPolicies(prior.policies, catalogs) }),
   });
 }

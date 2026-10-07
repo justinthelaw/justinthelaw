@@ -1,3 +1,4 @@
+import { damageStatusSecondary } from './damage-status.js';
 import { PARTY_DAMAGE_MOVES, lowKickMultiplier, damageStatSecondary } from './damage-moves.js';
 import { PARTY_STATUS_MOVES, applyPartyStatus } from './party-status.js';
 import { lightningRodTarget } from './field-abilities.js';
@@ -48,6 +49,7 @@ function wakeSpawnSleeper(context, target) {
 export function attack(context, attacker, action, catalogs) {
   const session = context.state.session;
   if (!session || attacker.placement.kind !== 'map') return blocked('combat-session');
+  if (attacker.conditions.cringe?.statusId === 'cringe') { context.emit({ type: 'message', messageId: 'cringe-prevents-attack' }); return; }
   if (attacker.conditions.burn?.statusId === 'paralysis') { context.emit({ type: 'message', messageId: 'paralysis-prevents-attack' }); return; }
   const regular = action.kind === 'attack', learned = action.kind === 'move-use';
   const move = learned ? catalogs.effects.getMove(action.moveId) : catalogs.effects.getAction(regular ? 355 : 352);
@@ -125,6 +127,7 @@ export function attack(context, attacker, action, catalogs) {
     hypnosis(context, attacker, target, catalogs);
     context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'hit' }); return;
   }
+  if (learned && action.moveId === 'move-ember' && target.conditions.frozen?.statusId === 'frozen') { target.conditions.frozen = null; context.emit({ type: 'conditionChanged', actorId: target.actorId }); context.emit({ type: 'message', messageId: 'thawed-status' }); }
   const provisionalCredit = !regular && target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId);
   if (provisionalCredit) target.memory.experienceContributors.push(attacker.actorId);
   const restoreFailedCredit = () => { if (provisionalCredit) target.memory.experienceContributors.splice(target.memory.experienceContributors.indexOf(attacker.actorId), 1); };
@@ -157,6 +160,7 @@ export function attack(context, attacker, action, catalogs) {
   const reactions = hit.reactions;
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
   const resolution = hit.resolution;
+  if (learned && result.damage > 0 && resolution !== 'revived') damageStatusSecondary(context, attacker, target, action.moveId, catalogs);
   if (learned && result.damage > 0) damageStatSecondary(context, attacker, target, action.moveId, resolution === 'revived', catalogs);
   if (!(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle') && learned && action.moveId === 'move-confusion' && result.damage > 0 && resolution !== 'revived') confusionSecondary(context, attacker, target, catalogs);
   if (learned && action.moveId === 'move-thunder-shock' && result.damage > 0 && resolution !== 'revived' && secondaryAllowed(context, attacker, target, 10, catalogs)) inflictParalysis(context, target, moveConditionSource(context, attacker, action.moveId), catalogs);

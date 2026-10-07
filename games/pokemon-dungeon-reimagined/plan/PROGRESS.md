@@ -1107,3 +1107,23 @@ and immutable species parameters; no new status or admission. Source chance0
 for Mud-Slap consumes no random draw. Metal Claw's self guard is independent of
 the victim's revival/removal. Broad partner AI and Friend Area integration remain
 in progress; this prerequisite is not full campaign or human-play acceptance.
+
+### V15 damage-status prerequisite
+
+After freezing exact v14, added Ember burn, Bite/Bone Club/Headbutt flinching and
+Rage application, upkeep, immunity and damage reaction consumers. New source and
+payload admission is isolated; exact v2-v14 imports remain unchanged before
+conversion. Shared immediate damage distinguishes real recoil/items from dummy
+residual sources, with revival preceding Rage. Burn has native5 HP/count20 and
+no main-series attack halving. Flinching blocks attacks only. Current full Friend
+Area task continues; remaining party mechanics and MAIN5,9 integration are not
+claimed complete. Static evidence is separate from human play/visual acceptance.
+
+### Line/Razor Leaf/Bubble prerequisite
+
+Added native first-actor ten-tile execution and distinct AI line eligibility,
+including ally/client blocking and Course Checker. Razor Leaf consumes existing
+critical metadata; Bubble has the native chance/protection/timer order through
+shared speed arithmetic. Existing v2-v15 speed-array admission is unchanged.
+Remaining Pay Day, Water Sport, Leech Seed, native party item/movement and full
+Friend Area/work/recruitment integration continue. No gameplay execution claim.

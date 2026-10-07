@@ -1,6 +1,5 @@
 import { DIRECTIONS } from '../navigation/geometry.js';
 import { activeActors } from './move-targets.js';
-import { damageHp } from './hp-damage.js';
 import { hasHeldItem } from './held-effects.js';
 import { ability, profile, draw, blocked, quantity } from './support.js';
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
@@ -98,12 +97,17 @@ export function tickConditions(context, actor, catalogs) {
   }
   refreshSpeed(actor, catalogs);
 }
-/** @param {Context} context @param {Actor} actor */
-export function poisonDamage(context, actor) {
+/** Native periodic poison/burn countdowns; the caller applies returned damage
+ * through the dummy-source immediate damage owner before further upkeep.
+ * @param {Context} context @param {Actor} actor */
+export function periodicStatusDamage(context, actor) {
   const c = actor.conditions.burn;
-  if (c?.statusId !== 'poisoned' || c.periodicCountdown === null) return;
+  if (!c || !['poisoned', 'burn'].includes(c.statusId) || c.periodicCountdown === null) return 0;
   if (c.periodicCountdown > 0) c.periodicCountdown--;
-  if (c.periodicCountdown === 0) { c.periodicCountdown = 10; damageHp(actor, 4); context.emit({ type: 'message', messageId: 'poison-damage' }); }
+  if (c.periodicCountdown !== 0) return 0;
+  const burned = c.statusId === 'burn'; c.periodicCountdown = burned ? 20 : 10;
+  context.emit({ type: 'message', messageId: burned ? 'burn-damage' : 'poison-damage' });
+  return burned ? 5 : 4;
 }
 
 /** Reused by visible Wonder Tiles and new-floor cleanup. Speed is independent.

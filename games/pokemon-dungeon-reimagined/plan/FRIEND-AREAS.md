@@ -272,3 +272,60 @@ actions_4:116–131 and dungeon_move378/478/926/1075. Existing species-parameter
 facts own Low Kick's numeric crosswalk. No new condition/root/save admission;
 partner AI remains gated on its complete move, item and movement dependencies.
 The complete starter coverage table also reconciles previously closed v11 moves.
+
+## V15 burn, flinching and Rage
+
+A separate v15 condition policy follows the frozen v14 factory. It validates
+Ember burn, Bite/Bone Club/Headbutt flinching and self-owned Rage with actual
+learned source identity, exact timer/counter/payload bounds and immunity checks.
+Exact v14 envelopes validate before conversion; all earlier pins stay unchanged.
+
+Ember thaws before damage calculation and Accuracy2, then samples the 10% burn
+secondary. Burn rejects Safeguard/Water Veil/Fire/water terrain, replaces its class
+without refreshing, spreads through native Synchronize directions, and deals
+5 HP every20 upkeep counts (immediate at zero). Its 128-to127 sentinel persists;
+there is no fabricated physical-attack penalty. Flinching chances are20% Bite,
+10% Bone Club and25% Headbutt; the common secondary gate precedes Safeguard and
+Inner Focus, with a two-count class and no refresh. Flinching blocks attacks,
+while movement and items retain their independent rules.
+
+Rage lasts5–10 counts, ignores curer duration modifiers and never refreshes. It
+retains the learned self slot, expires after Bide upkeep and does not force a
+pass/release. Surviving real-monster damage raises its target's Attack after
+faint/revival, including self recoil and fixed thrown damage. Dummy environmental
+burn/poison/hunger/Liquid Ooze never triggers it; revival clears Rage first.
+Periodic damage now uses that same immediate dummy-source owner, including its
+indefinite-sleep wake and revival boundary. Duplicate statuses and Rage expiry
+have explicit original feedback. Contact rolls still precede move secondary,
+with status application afterward.
+
+Source: pinned comparative Red actions_1:188/573–588/689–703,
+actions_2:364–376/487–501, effects_1:339–425/1258–1287,
+effects_3:31–81, damage70–105/271–284/1398–1450 and turn_effects205–216/382–390.
+Full party AI, line moves/Bubble, Water Sport/Leech Seed/Pay Day, extra-party
+entry/faint, escort/work and recruitment/capacity remain active dependencies.
+
+## Line moves and Bubble speed prerequisite
+
+Razor Leaf and Bubble now follow a ten-tile straight line, cutting corners and
+stopping at walls or the first actor. Their execution category can hit allies;
+a protected client blocks without becoming a target. The native AI flags instead
+seek opposing actors in active order, deduplicate directions and honor Course
+Checker's wall/intervening-actor checks. Without Course Checker, native line
+eligibility can choose a target behind an obstruction; execution still stops.
+The ordinary damage owner supplies Razor Leaf's catalogued critical chance.
+
+Bubble samples its10% common secondary before speed protection; Safeguard,
+zero speed and a full negative-counter array prevent duration draws. The first
+free negative counter receives the native curer-aware6..7 sample plus1 via the
+shared pure speed owner. All five counters, expiry and cached-stage admission
+already existed in exact predecessor policies; this adds no schema or condition
+source widening. Source: dungeon_move_util580–737, dungeon_ai_attack443–473/
+535–606/830–875, actions_1:168–180 and effects_1:1392–1437. Qualified Red comparison
+for Blue; party dispatch and remaining task integration are still pending.
+
+Rage follow-up: leader Give/Take now uses the native class distinction. Bide and
+actual two-turn charging statuses block transfer; Rage and Charge do not. Native
+CheckVariousConditions/CheckVariousStatuses and IsChargingAnyTwoTurnMove own that
+boundary, including the source's unreachable extra Charge check. Ordinary item
+use and movement already remain independent of Rage.

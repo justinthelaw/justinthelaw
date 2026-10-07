@@ -1,3 +1,4 @@
+import { changeStatStage } from './stat-effects.js';
 import { damageHp } from './hp-damage.js';
 import { rollContactReactions } from './conditions.js';
 import { tryRevive } from './revival.js';
@@ -14,8 +15,10 @@ import { blocked, profile, quantity, value } from './support.js';
  * @param {Context} context @param {Actor} target @param {Catalogs} catalogs
  * @param {{attacker:Actor|null, amount:number, contact:boolean, physical:boolean, giveExperience?:boolean}} damage */
 export function dealDamage(context, target, catalogs, damage) {
+  if (target.conditions.sleep?.duration.kind === 'indefinite' && ['sleep', 'nightmare', 'napping'].includes(target.conditions.sleep.statusId)) { target.conditions.sleep = null; context.emit({ type: 'conditionChanged', actorId: target.actorId }); }
   damageHp(target, damage.amount);
   const resolution = finishDamage(context, target, catalogs, damage.attacker, damage.giveExperience ?? true);
+  if (damage.amount > 0 && damage.attacker?.placement.kind === 'map' && damage.attacker.resources.hp > 0 && target.placement.kind === 'map' && target.resources.hp > 0 && target.conditions.bide?.statusId === 'enraged') changeStatStage(context, target, 'attack', 1, catalogs);
   const reactions = damage.amount > 0 && damage.contact && damage.attacker ? rollContactReactions(context, damage.attacker, target, damage.physical, catalogs) : [];
   return { resolution, reactions };
 }

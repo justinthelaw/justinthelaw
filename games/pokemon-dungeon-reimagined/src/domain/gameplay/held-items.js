@@ -1,10 +1,10 @@
 import { blocked } from './support.js';
 /** Leader Give/Take target gate from CheckVariousConditions. Confusion and
- * paralysis do not change direction or prevent this item operation. Native
+ * paralysis, Rage and Charge do not prevent this item operation. Native
  * projectile SET is not represented by any currently exposed item command.
  * @param {import('../../../content/navigation-types.js').ReadonlyData<import('../../contracts/campaign.js').SessionActor>} actor */
 export function canTransferHeldItem(actor) {
-  return (!actor.conditions.sleep || actor.conditions.sleep.statusId === 'sleepless') && !['frozen', 'petrified'].includes(actor.conditions.frozen?.statusId ?? '') && !['paused', 'infatuated'].includes(actor.conditions.cringe?.statusId ?? '') && !actor.conditions.bide;
+  return (!actor.conditions.sleep || actor.conditions.sleep.statusId === 'sleepless') && !['frozen', 'petrified'].includes(actor.conditions.frozen?.statusId ?? '') && !['paused', 'infatuated'].includes(actor.conditions.cringe?.statusId ?? '') && (!actor.conditions.bide || ['charging', 'enraged'].includes(actor.conditions.bide.statusId));
 }
 /** @param {import('./support.js').Catalogs} catalogs @param {string} itemId */
 export function supportedHeldItem(catalogs, itemId) {
