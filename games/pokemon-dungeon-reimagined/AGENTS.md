@@ -10,7 +10,10 @@ pinned vendor bundle and a startup-only shell. The development branch now
 contains the canonical opening adventure through
 Tiny Woods, Caterpie reunion, confirmed team formation and the first morning
 through Thunderwave Cave and the first town day at MAIN(4,4), including functioning bank, storage and Kecleon transactions. Static checks do not establish human play/visual acceptance or a
-complete campaign; ordinary jobs, later town services and routes remain gated. The latest 2026-10-05 direction rejects the P06 rigid-mesh character candidates
+complete campaign; ordinary jobs, later town services and routes remain gated.
+Current v7 seen-history saves preserve exact v2-v6 import admission. Imported
+legacy history stays explicitly incomplete; never infer native seen flags from
+visibility/spawn or fabricate discarded defeat history. The latest 2026-10-05 direction rejects the P06 rigid-mesh character candidates
 and requires faithful directional pixel characters in textured real 3D spaces.
 Earlier inferred acceptance is superseded; all visual acceptance stays open.
 Preserve package evidence, visual review and full-release gates.

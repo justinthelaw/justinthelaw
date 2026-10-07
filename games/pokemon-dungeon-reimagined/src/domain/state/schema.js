@@ -577,6 +577,45 @@ export const SHAPES = {
       "partner": {"kind":"ref","name":"SpeciesForm"}
     }
   },
+  "SpeciesSeenHistory": {"kind":"object","fields": {
+    "history":{"kind":"union","members":[{"kind":"literal","value":"from-creation"},{"kind":"literal","value":"legacy-incomplete"}]},
+    "startedRevision":{"kind":"ref","name":"Int"},
+    "identities":{"kind":"array","value":{"kind":"ref","name":"SpeciesForm"}}
+  }},
+  "CampaignStateWithSeen": {
+    "kind": "object",
+    "fields": {
+      "speciesSeen": {"kind":"ref","name":"SpeciesSeenHistory"},
+      "schemaVersion": {"kind":"literal","value":1},
+      "contentRevision": {"kind":"ref","name":"ContentRevision"},
+      "revision": {"kind":"ref","name":"Int"},
+      "idSequence": {"kind":"ref","name":"IdSequence"},
+      "random": {"kind":"ref","name":"CampaignRandomStreams"},
+      "profile": {"kind":"ref","name":"CampaignProfile"},
+      "roster": {"kind":"record","value":{"kind":"ref","name":"PokemonRecord"}},
+      "selectedPartyIds": {"kind":"array","value":{"kind":"ref","name":"PokemonId"}},
+      "items": {"kind":"record","value":{"kind":"ref","name":"ItemInstance"}},
+      "containers": {"kind":"record","value":{"kind":"ref","name":"ItemContainer"}},
+      "economy": {"kind":"ref","name":"EconomyState"},
+      "progress": {"kind":"ref","name":"ProgressState"},
+      "town": {"kind":"ref","name":"TownState"},
+      "mode": {
+        "kind": "union",
+        "members": [
+          {"kind":"literal","value":"town"},
+          {"kind":"literal","value":"scene"},
+          {"kind":"literal","value":"dungeon"},
+          {"kind":"literal","value":"awaitingRescue"},
+          {"kind":"literal","value":"defeat"}
+        ]
+      },
+      "session": {"kind":"union","members":[{"kind":"ref","name":"ExpeditionState"},{"kind":"literal","value":null}]},
+      "pendingScene": {"kind":"union","members":[{"kind":"ref","name":"PendingScene"},{"kind":"literal","value":null}]},
+      "pendingResult": {"kind":"union","members":[{"kind":"ref","name":"PendingResult"},{"kind":"literal","value":null}]},
+      "rescue": {"kind":"ref","name":"RescueState"},
+      "options": {"kind":"ref","name":"CampaignOptions"}
+    }
+  },
   "CampaignState": {
     "kind": "object",
     "fields": {

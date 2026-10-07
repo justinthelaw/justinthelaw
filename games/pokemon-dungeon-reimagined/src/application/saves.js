@@ -63,12 +63,12 @@ export function createSaves(options) {
         const token = preparation[slot]; const status = preparation.view[slot];
         actions.unshift({ label: `${slot === 'primary' ? 'Primary' : 'Backup'}: ${status.status === 'ready' ? description(status.preview) : status.status === 'empty' ? 'empty' : status.message}`, run: () => { if (token) confirmation(token); } });
       }
-      view.show('Continue a campaign', 'Choose primary or backup explicitly. Loading backup requires a recovery confirmation.', actions.map((action, index) => ({ ...action, disabled: index < 2 && !(index === 0 ? preparation.backup : preparation.primary) })));
+      view.show('Continue a campaign', 'Choose primary or backup explicitly. Loading backup requires a recovery confirmation. Older saves lack past seen-species flags; Defeat foes with your leader to fill the recorded job pool.', actions.map((action, index) => ({ ...action, disabled: index < 2 && !(index === 0 ? preparation.backup : preparation.primary) })));
     });
   }
   function importMenu() {
     cancelPreviews(); const input = document.createElement('input'); input.type = 'file'; input.accept = '.json,application/json'; input.setAttribute('aria-label', 'Save file');
-    view.show('Import save file', 'Select a canonical save file (maximum 64 MiB). Preview is validated before replacement.', [
+    view.show('Import save file', 'Select a canonical save file (maximum 64 MiB). Preview is validated before replacement. Older saves retain incomplete seen-species history; Defeat foes with your leader to fill the recorded job pool.', [
       { label: 'Preview browser import', run: () => { const file = input.files?.[0]; if (file) run(async () => prepared(await service.prepareImportFile(file, 'durable'))); else view.notify('Choose a save file first.'); } },
       { label: 'Preview memory import', run: () => { const file = input.files?.[0]; if (file) run(async () => prepared(await service.prepareImportFile(file, 'memory'))); else view.notify('Choose a save file first.'); } },
       { label: 'Back', run: menu },

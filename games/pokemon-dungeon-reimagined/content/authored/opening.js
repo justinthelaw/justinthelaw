@@ -70,7 +70,12 @@ export function createThunderwaveOpeningContent() {
 }
 
 /** Current town successor, preserving the exact v5 authoring body above. @returns {AuthoredOpening} */
-export function createOpeningContent() {
+export function createTownOpeningContent() {
   const prior = createThunderwaveOpeningContent();
   return { ...prior, revision: 'browser-opening-v6-town', scenes: [...prior.scenes, ...createTownScenes()] };
+}
+
+/** Current content includes native seen-history persistence. @returns {AuthoredOpening} */
+export function createOpeningContent() {
+  return { ...createTownOpeningContent(), revision: 'browser-opening-v7-seen' };
 }

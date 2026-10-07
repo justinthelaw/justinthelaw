@@ -131,22 +131,34 @@ the native helper does. No old admission body/hash is changed.
 
 ## Save boundary
 
-Current content revision is v6-town. Exact held-v2/v3-team/v4-morning/v5-
-Thunderwave envelopes, timestamps and SHA-256 authenticate before their original
-admission policies. A guarded conversion only advances revision/contentRevision,
-then validates the entire current snapshot; invalid/unknown input stays rejected
-without storage mutation. `opening-campaign.js` retains the exact accepted v5
-factory body, with its authored import bound to the unchanged v5 body. Current
-town policy is a separate wrapper. All old policy bodies/old hashes remain
-unchanged;29 module,9 function-body and2 manifest pins now include the accepted
-`1b71c26fcc1d5c51decf243eb98f5be89052d7e9` v5 boundary. The additive lot shape
-cannot broaden old admission because every old town policy requires empty stock.
+Current content revision is v7-seen. Exact held-v2/v3-team/v4-morning/v5-
+Thunderwave/v6-town envelopes, timestamps and SHA-256 authenticate before their
+original admission policies. A guarded conversion advances revision and
+contentRevision, adds qualified seen history, then validates the entire current
+snapshot; invalid/unknown input stays rejected without storage mutation.
+`opening-campaign.js` retains the accepted v5 factory; `town-campaign.js` retains
+the exact v6 factory, binding its authoring import to `createTownOpeningContent`.
+All old policy bodies/hashes remain unchanged;33 module,11 function-body and2
+manifest pins include the accepted v5 and published1991d70 v6 boundaries.
+The old exact CampaignState root remains separate: only the new v7 revision
+selects CampaignStateWithSeen, which requires speciesSeen. No optional field or
+union admits new fields into v2-v6 snapshots.
 
-Seen-species state is not yet present in v6. Source job eligibility requires
-native seen flags. Historical defeated species cannot be recovered from old
-completed saves. The planned next conversion must preserve that uncertainty,
-initialize only evidence-backed facts and record future leader-attributed faint
-triggers (`dungeon_damage.c:679`), plus roster creation/recruitment triggers
-(`pokemon.c:124,248`). `ReadExclusivePokemon` merely restores saved bits; it
-is not a visibility/spawn trigger. Do not treat every visible/generated enemy
-as natively seen or fabricate old encounter history.
+### Recorded species history
+
+Native `pokemon.c:124,248` records roster creation/recruit placement;
+`dungeon_damage.c:679` records the defeated identity only when the actual
+attacker is the team leader, after revival fails. The shared combat/fixed-item
+boundary now receives that attacker explicitly. Spawn and visibility do not
+set this flag. `ReadExclusivePokemon` restores saved bits, not gameplay sightings.
+New games initialize complete history from recruitedHistory (the two starters).
+Older saves initialize the same evidence-backed roster facts after authenticating
+old admission, mark history `legacy-incomplete`, and keep its conversion revision.
+Discarded wild actors cannot reveal who defeated them and are never guessed.
+Import/continue explain the limitation: future leader defeats populate the job
+pool. The marker is retained; later encounters do not prove old history complete.
+
+Identity records retain exact species/form flags. Admission requires unique
+catalog forms, every historical recruit, and only reachable early encounter
+sources with Blue eligibility. Job eligibility will separately apply native
+base-species normalization and bans; this is not global generator eligibility.

@@ -10,6 +10,20 @@
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
 
+## Persisted seen-history prerequisite (2026-10-07)
+
+- Current v7 requires explicit species/form seen flags, creation versus incomplete
+  legacy history, and a start revision. New games use the native roster trigger;
+  actual leader-attributed fainting records future flags after revival fails.
+- Exact v2-v6 root shapes, factories and source policies authenticate before
+  conversion. Imported history contains only preserved recruitment facts; old
+  discarded defeats are unknown. Import/continue describe future pool recovery.
+- Focused static lint238/types160 and additive source pins pass. Pins retain
+  33 modules/11 bodies/2 manifests plus the exact old root shape. The v6 factory
+  and authored body are byte-identical to the independently reviewed town tree.
+- This supplies a native ordinary-job eligibility dependency. No generated offer,
+  objective/reward or Diglett completion is claimed; those consumers remain next.
+
 ## Shared restorative-item prerequisite (2026-10-07)
 
 - Implemented Big Apple, Max Elixir, Plain Seed and automatic Reviver Seed

@@ -1,4 +1,5 @@
 import { allocateId } from '../ids.js';
+import { recordsSpeciesSeen, initializeSpeciesSeen } from './species-seen.js';
 import { createCampaignStreams } from '../rng.js';
 import { copyPlainData } from './plain.js';
 import { inspectShape, issue } from './structure.js';
@@ -114,6 +115,7 @@ export function createCampaign(input, content) {
     if (new Set(definition.milestones).size !== definition.milestones.length || new Set(definition.initialBranches.map(branch => branch.branchId)).size !== definition.initialBranches.length) {
       issue(issues, 'relationship', '', 'Initial profile contains duplicate milestone or branch identities.'); return failure(issues, requirements);
     }
+    if (recordsSpeciesSeen(content.contentRevision)) initializeSpeciesSeen(state, false);
     return validateCampaign(state, content);
   } catch { issue(issues, 'shape', '', 'Initial profile contains an invalid allocation, move projection or random seed.'); return failure(issues, requirements); }
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baselineCommit": "98a37cf",
-  "scope": "Exact held-v2, v3-team, v4-morning and v5-Thunderwave predecessor admission dependencies; static source pins only, no game execution or acceptance.",
+  "scope": "Exact held-v2, v3-team, v4-morning v5-Thunderwave and v6-town predecessor admission dependencies; static source pins only, no game execution or acceptance.",
   "modules": [
     {
       "path": "games/pokemon-dungeon-reimagined/content/state/identities.js",
@@ -118,6 +118,22 @@
     {
       "path": "games/pokemon-dungeon-reimagined/content/authored/thunderwave.js",
       "sha256": "a5d9b9c7620443ca68a06fffc2d253b21efb9e461c26d340186064781e24be62"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/town.js",
+      "sha256": "596c465dfb26f1e4d50dc230476f38911aea5b50aaf20439e0a1b091f69fd1a3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/item-template.js",
+      "sha256": "023e622e48e6797b4b4ff4aa2a7fe388dc39e1954a83c9f02b0f36d720fb3e8a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/town.js",
+      "sha256": "50765d7f5732d3eca5c9de2bc9f9e66f6d7b15dc8a6c85555a5a08ae3ebafa48"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/town-shop-facts.js",
+      "sha256": "c1d7f9af1c120484193b96f11531eccbf14dcb4e48adc61186f033935c24cee2"
     }
   ],
   "functionBodies": [
@@ -165,6 +181,16 @@
       "path": "games/pokemon-dungeon-reimagined/content/state/opening-campaign.js",
       "functionName": "createCampaignContent",
       "sha256": "2b5a07468e341d81568dab010e95373f02d53b0418fb2e9c57f7bbd147e7c2f6"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/town-campaign.js",
+      "functionName": "createCampaignContent",
+      "sha256": "dfbc293c06775408f64ea0746426811147a1fbcfca94726a64b750f4699a4374"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createTownOpeningContent",
+      "sha256": "467b3300eba9624f277b571c09e67fac560a95e4d97943b43a6569c32d3a1ca4"
     }
   ],
   "catalogManifests": [
@@ -178,5 +204,10 @@
     }
   ],
   "successorBaselineCommit": "be2fe0926eabd5a7706f12939e9b49f5b0640b73",
-  "townPredecessorBaselineCommit": "1b71c26fcc1d5c51decf243eb98f5be89052d7e9"
+  "townPredecessorBaselineCommit": "1b71c26fcc1d5c51decf243eb98f5be89052d7e9",
+  "seenPredecessorBaselineCommit": "1991d70ecf1b9b004d4366b3b4ea8da7cdc40b76",
+  "legacyRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "af8a3206a7a60dcd05dda8ae5c7138b61aab07010a22c8d8d0e55d2a3548a20f"
+  }
 }

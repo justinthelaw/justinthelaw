@@ -1,6 +1,7 @@
 import { copyPlainData, snapshotPlainData } from './plain.js';
 import { inspectShape, issue } from './structure.js';
 import { SHAPES } from './schema.js';
+import { recordsSpeciesSeen } from './species-seen.js';
 import { checkGraph } from './graph.js';
 import { contentInterface, checkPolicies, runPolicy } from './policies.js';
 import { checkNativeProgress } from '../progression/validation.js';
@@ -45,7 +46,8 @@ export function validateCampaign(input, content) {
   if (!data || typeof data !== 'object' || Array.isArray(data) || data.schemaVersion !== 1) {
     issue(issues, 'unsupported-version', '/schemaVersion', 'Unsupported campaign schema.'); return failure(issues, requirements);
   }
-  if (!inspectShape(data, 'CampaignState', issues)) return failure(issues, requirements);
+  const campaignShape = typeof data.contentRevision === 'string' && recordsSpeciesSeen(data.contentRevision) ? 'CampaignStateWithSeen' : 'CampaignState';
+  if (!inspectShape(data, campaignShape, issues)) return failure(issues, requirements);
   const state = /** @type {CampaignState} */ (/** @type {unknown} */ (data));
   checkNativeProgress(state.progress.native, issues, '/progress/native');
   if (issues.length) return failure(issues, requirements);
@@ -57,7 +59,7 @@ export function validateCampaign(input, content) {
   const declarations = new Map();
   const moveOwners = new Map();
   // All references, including immutable history, count toward the global mark.
-  inspectShape(data, 'CampaignState', issues, (name, value, path) => {
+  inspectShape(data, campaignShape, issues, (name, value, path) => {
     const shape = SHAPES[name];
     if (shape?.kind === 'instance' && typeof value === 'string') {
       const number = Number(value.slice(value.lastIndexOf(':') + 1));
@@ -109,7 +111,7 @@ export function validateCampaign(input, content) {
   if (issues.length) return failure(issues, requirements);
   // Policies receive frozen inputs; they cannot repair or mutate a rejected save.
   freezeData(state);
-  inspectShape(data, 'CampaignState', issues, (name, value, path) => {
+  inspectShape(data, campaignShape, issues, (name, value, path) => {
     const shape = SHAPES[name];
     if (shape?.kind === 'catalog' && typeof value === 'string') {
       try { if (content.identities.has(shape.name, value) !== true) issue(issues, 'unknown-id', path, 'Identity is absent from the accepted catalog.'); }

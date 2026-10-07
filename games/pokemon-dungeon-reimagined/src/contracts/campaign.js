@@ -210,6 +210,7 @@
 /**
  * @typedef {{
  *     schemaVersion: 1;
+ *     speciesSeen?: SpeciesSeenHistory;
  *     contentRevision: ContentRevision;
  *     revision: Int;
  *     idSequence: IdSequence;
@@ -1516,3 +1517,8 @@
 /** @typedef {| {status:'ready'; value:InitialCampaignDefinition;} | {status:'blocked'; requirementIds:string[];}} InitialCampaignLookup */
 
 export {};
+
+/** Native monSeenFlags identity set, separate from recruitment and visibility.
+ * Legacy absence is structural, never equivalent to an empty known history.
+ * @typedef {{history:'from-creation'|'legacy-incomplete',startedRevision:Int,identities:SpeciesForm[]}} SpeciesSeenHistory
+ */

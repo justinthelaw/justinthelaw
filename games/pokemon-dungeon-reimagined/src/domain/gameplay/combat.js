@@ -1,5 +1,6 @@
 import { contactReactions } from './conditions.js';
 import { tryRevive } from './revival.js';
+import { recordSpeciesSeen } from '../state/species-seen.js';
 import { calculateNormalDamage } from '../rules/damage.js';
 import { ELEMENT_TYPES, isPhysicalType } from '../rules/type-context.js';
 import { canMeleeAttack } from '../navigation/geometry.js';
@@ -75,14 +76,15 @@ export function attack(context, attacker, action, catalogs) {
   if (result.damage > 0) contactReactions(context, attacker, target, physical, catalogs);
   if (!regular && result.damage > 0 && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
-  finishDamage(context, target, catalogs);
+  finishDamage(context, target, catalogs, attacker);
 }
 
 /** Shared faint/experience ownership for damage moves and fixed item damage.
- * @param {Context} context @param {Actor} target @param {Catalogs} catalogs */
-export function finishDamage(context, target, catalogs) {
+ * @param {Context} context @param {Actor} target @param {Catalogs} catalogs @param {Actor} attacker */
+export function finishDamage(context, target, catalogs, attacker) {
   const session = context.state.session; if (!session) return blocked('damage-session');
   if (tryRevive(context, target, catalogs)) return;
+  if (target.resources.hp === 0 && attacker.actorId === session.leaderActorId) recordSpeciesSeen(context.state, target.identity);
   if (target.resources.hp === 0 && target.affiliation !== 'team') {
     // R CalculateEXPGain and dungeon_damage.c: half credit until a move hits.
     const p = profile(target.identity, catalogs); const base = p.experienceYield + Math.trunc(p.experienceYield * (target.growth.level - 1) / 10);

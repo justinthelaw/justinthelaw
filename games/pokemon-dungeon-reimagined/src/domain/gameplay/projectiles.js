@@ -35,7 +35,7 @@ export function throwRock(context, actor, rock, catalogs) {
     if (target.conditions.sleep?.duration.kind === 'indefinite') target.conditions.sleep = null;
     target.resources.hp = Math.max(0, target.resources.hp - 20);
     context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'hit' });
-    finishDamage(context, target, catalogs); return;
+    finishDamage(context, target, catalogs, actor); return;
   }
   // Native dropped-projectile search starts at offset1 (not its impact tile).
   // Wonder Tiles remain reusable; landing beside them neither deletes nor fires them.
