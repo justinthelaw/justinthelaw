@@ -1136,3 +1136,20 @@ capacity; traps remain revealed, water/lava holds items, void loses them. Money
 lands on the floor after held drops. Shared party XP now requires a team attacker,
 matching native attribution. No admission widening. Recruitment decisions must
 precede Pay Day's future target-removal branch; full Friend Area work continues.
+
+### V16 linked Leech Seed and floor Water Sport prerequisite
+
+Implemented sourced Leech Seed guards, curer-aware duration, fixed10 HP/count2
+pulse, original-user links, Liquid Ooze and faint/revival invalidation through
+shared action/damage/upkeep owners. Water Sport now refreshes a floor-wide10..11
+counter, halves Fire damage and expires at the base-speed phase boundary.
+Successor factory/policy/root independently admit the new state; exact v2-v15
+imports validate first, then initialize only prospective Water Sport0. Fresh
+v16 creation initializes moveState explicitly; the v15 baseline already did so.
+Source locators and remaining Weak Type Picker/full party-AI dependency are in
+FRIEND-AREAS.md; starter effect coverage closes only Leech Seed and Water Sport.
+All old save source/root/body/factual pins remain unchanged. No automated tests,
+game execution, browser playthrough, merge, push or deployment were performed.
+Validation commands/results and scoped commit are in the v16 recovery report.
+Full party/extra-party/recruitment/escort/MAIN5 work and visual acceptance remain
+open before broader task integration.

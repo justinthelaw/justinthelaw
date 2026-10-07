@@ -24,6 +24,7 @@
  * refreshSides(context:MutationContext):HookResult;
  * forcedLoss(context:MutationContext):HookResult;
  * begin(context:MutationContext,actor:ActorRef):BeginResult;
+ * fieldUpkeep(context:MutationContext):HookResult;
  * experience(context:MutationContext,actor:ActorRef|null):HookResult;
  * ai(context:MutationContext,actor:ActorRef,replan:boolean):DecisionResult;
  * startAction(context:MutationContext,actor:ActorRef,action:Action):EffectResult;

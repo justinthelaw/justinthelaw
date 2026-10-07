@@ -1,3 +1,4 @@
+import { recordsFieldMoves } from '../state/field-moves.js';
 import { activeActors } from './move-targets.js';
 import { ability } from './support.js';
 /** @typedef {import('./support.js').Catalogs} Catalogs */
@@ -7,7 +8,8 @@ import { ability } from './support.js';
  * @param {import('../../contracts/campaign.js').CampaignState} state @param {Catalogs} catalogs */
 export function refreshFieldAbilities(state, catalogs) {
   const session = state.session;
-  state.moveState = session ? { sessionId: session.sessionId, mapId: session.floor.mapId, lightningRodActorId: activeActors(session).filter(actor => ability(actor, catalogs, 'Lightningrod')).at(-1)?.actorId ?? null } : null;
+  const waterSportTurns = state.moveState && 'waterSportTurns' in state.moveState && state.moveState.sessionId === session?.sessionId && state.moveState.mapId === session?.floor.mapId ? state.moveState.waterSportTurns : 0;
+  state.moveState = session ? { sessionId: session.sessionId, mapId: session.floor.mapId, lightningRodActorId: activeActors(session).filter(actor => ability(actor, catalogs, 'Lightningrod')).at(-1)?.actorId ?? null, ...(recordsFieldMoves(state.contentRevision) ? { waterSportTurns } : {}) } : null;
 }
 /** @param {import('../../contracts/campaign.js').CampaignState} state
  * @param {import('../../contracts/campaign.js').SessionActor} user

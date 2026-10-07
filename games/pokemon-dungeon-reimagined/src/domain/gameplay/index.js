@@ -10,7 +10,7 @@ import { sceneText, scenePrompt } from './scenes.js';
 import { admission } from './expedition.js';
 import { supportedMove } from './combat.js';
 
-/** Compose actual canonical content, commands and fifteen turn hooks. The caller
+/** Compose actual canonical content, commands and sixteen turn hooks. The caller
  * retains catalog lifetime and creates Adventure; no secondary state store exists.
  * @param {import('./support.js').Catalogs} catalogs
  * @param {{tutorialSaved?:(snapshot:import('../../contracts/campaign.js').CampaignSnapshot)=>boolean}} [options] */

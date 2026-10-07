@@ -1,3 +1,4 @@
+import { FIELD_MOVE_IDS, applyFieldMove, waterSportActive } from './field-moves.js';
 import { payDayDrop } from './item-drops.js';
 import { damageStatusSecondary } from './damage-status.js';
 import { PARTY_DAMAGE_MOVES, lowKickMultiplier, damageStatSecondary } from './damage-moves.js';
@@ -25,7 +26,7 @@ function types(actor, catalogs) { const ids = profile(actor.identity, catalogs).
 /** @param {Catalogs} catalogs @param {string} id */
 export function supportedMove(catalogs, id) {
   const move = catalogs.effects.getMove(id);
-  return PARTY_DAMAGE_MOVES.includes(id) || PARTY_STATUS_MOVES.includes(id) || SELF_STATUS_MOVES.includes(id) || ['move-rapid-spin', 'move-take-down', 'move-confusion', 'move-thunder-shock', 'move-hypnosis', 'move-absorb', 'move-quick-attack'].includes(id) || STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
+  return FIELD_MOVE_IDS.includes(id) || PARTY_DAMAGE_MOVES.includes(id) || PARTY_STATUS_MOVES.includes(id) || SELF_STATUS_MOVES.includes(id) || ['move-rapid-spin', 'move-take-down', 'move-confusion', 'move-thunder-shock', 'move-hypnosis', 'move-absorb', 'move-quick-attack'].includes(id) || STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
 }
 /** @param {Context} context @param {Actor} attacker @param {Actor} target @param {number} base @param {boolean} physical @param {Catalogs} catalogs */
 function accuracy(context, attacker, target, base, physical, catalogs) {
@@ -118,6 +119,12 @@ export function attack(context, attacker, action, catalogs) {
     context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'miss' }); return;
   }
   if (redirect?.redirected) { context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'immune' }); return; }
+  if (learned && FIELD_MOVE_IDS.includes(action.moveId)) {
+    if (target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
+    if (action.moveId === 'move-leech-seed' && attacker.affiliation !== 'team' && !attacker.memory.experienceContributors.includes(attacker.actorId)) attacker.memory.experienceContributors.push(attacker.actorId);
+    const applied = applyFieldMove(context, attacker, target, action.moveId, catalogs);
+    context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: applied ? 'hit' : 'immune' }); return;
+  }
   if (learned && PARTY_STATUS_MOVES.includes(action.moveId) && slot) {
     if (target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
     const applied = applyPartyStatus(context, attacker, target, slot, catalogs);
@@ -142,7 +149,7 @@ export function attack(context, attacker, action, catalogs) {
   const result = calculateNormalDamage({
     type: { moveType, attackerTypes: types(attacker, catalogs), defenderTypes: types(target, catalogs), defenderExposed: false,
       abilities: { wonderGuard: d('Wonder Guard'), thickFat: d('Thick Fat'), flashFire: d('Flash Fire'), levitate: d('Levitate'), torrent: a('Torrent'), overgrow: a('Overgrow'), swarm: a('Swarm'), blaze: a('Blaze') },
-      attackerHp: attacker.resources.hp, attackerMaxHp: maxHp(attacker), weather: 'clear', mudSport: false, waterSport: false, charging: attacker.conditions.bide?.statusId === 'charging' },
+      attackerHp: attacker.resources.hp, attackerMaxHp: maxHp(attacker), weather: 'clear', mudSport: false, waterSport: waterSportActive(context.state), charging: attacker.conditions.bide?.statusId === 'charging' },
     stats: { rawOffense: attacker.growth.naturalStats[offense] + attacker.growth.permanentStatBonuses[offense], rawDefense: target.growth.naturalStats[defense] + target.growth.permanentStatBonuses[defense], movePower: move.numeric.power + (slot?.powerBoost ?? 0), offenseStage: attacker.stages[offense], defenseStage: target.stages[defense], offensiveMultiplierQ8: value(attacker.multipliers[offense]) * 256, defensiveMultiplierQ8: value(target.multipliers[defense]) * 256,
       flashFireBoost: 0, attackerForm: 'none', defenderForm: 'none', skullBash: false, attackerItem: 'none', defenderItem: 'none',
       abilities: { guts: a('Guts'), attackerNegativeStatus: hasNegativeStatus(attacker), hugePower: a('Huge Power'), purePower: a('Pure Power'), hustle: a('Hustle'), plus: a('Plus'), minus: a('Minus'), sameSidePlus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Plus')), sameSideMinus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Minus')), intimidate: d('Intimidate'), marvelScale: d('Marvel Scale'), defenderNegativeStatus: hasNegativeStatus(target) } },

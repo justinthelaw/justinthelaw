@@ -71,7 +71,7 @@ export function refreshSpeed(context, hooks, ref, tick) {
 }
 /** @param {Hooks} hooks */
 export function requireTurnHooks(hooks) {
-  for (const name of ['speed', 'spawn', 'refreshSides', 'forcedLoss', 'begin', 'experience', 'ai', 'startAction', 'effect', 'effectAllowed', 'invalidReference', 'end', 'tile', 'room', 'wind']) {
+  for (const name of ['speed', 'spawn', 'refreshSides', 'forcedLoss', 'begin', 'fieldUpkeep', 'experience', 'ai', 'startAction', 'effect', 'effectAllowed', 'invalidReference', 'end', 'tile', 'room', 'wind']) {
     if (typeof Object.getOwnPropertyDescriptor(hooks, name)?.value !== 'function') throw new TurnFault('content-blocked', `turn-${name}`);
   }
 }

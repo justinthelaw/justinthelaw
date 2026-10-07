@@ -1,3 +1,4 @@
+import { clearLeechSeedLinks } from './leech-links.js';
 import { dropFaintedHeldItem } from './item-drops.js';
 import { changeStatStage } from './stat-effects.js';
 import { damageHp } from './hp-damage.js';
@@ -29,6 +30,7 @@ export function dealDamage(context, target, catalogs, damage) {
 export function finishDamage(context, target, catalogs, attacker, giveExperience = true) {
   const session = context.state.session; if (!session) return blocked('damage-session');
   if (tryRevive(context, target, catalogs)) return 'revived';
+  if (target.resources.hp === 0) clearLeechSeedLinks(context, target);
   dropFaintedHeldItem(context, target, catalogs);
   if (target.resources.hp === 0 && attacker?.actorId === session.leaderActorId) recordSpeciesSeen(context.state, target.identity);
   if (target.resources.hp === 0 && target.affiliation !== 'team') {

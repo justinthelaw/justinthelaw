@@ -1,3 +1,4 @@
+import { createCampaignContent as createDamageCampaignContent } from '../../content/state/damage-status-campaign.js';
 import { createCampaignContent as createPartyCampaignContent } from '../../content/state/party-status-campaign.js';
 import { createCampaignContent as createWildCampaignContent } from '../../content/state/wild-ai-campaign.js';
 import { createCampaignContent as createFriendsCampaignContent } from '../../content/state/friends-campaign.js';
@@ -74,7 +75,9 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   if (wild.contentRevision !== wildRevision) throw new TypeError('Wild-v13 factual catalog boundary differs.');
   const party = createPartyCampaignContent(catalogs);
   if (party.contentRevision !== wildRevision.replace('v13-wild-ai-opening:', 'v14-party-moves-opening:')) throw new TypeError('Party-v14 factual catalog boundary differs.');
-  return Object.freeze([...([party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
+  const damage = createDamageCampaignContent(catalogs);
+  if (damage.contentRevision !== party.contentRevision.replace('v14-party-moves-opening:', 'v15-damage-status-opening:')) throw new TypeError('Damage-v15 factual catalog boundary differs.');
+  return Object.freeze([...([damage, party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);
@@ -87,6 +90,7 @@ export function createOpeningCompatibility(catalogs, content, authored) {
         if (!draft.speciesSeen) initializeSpeciesSeen(draft, true);
         if (!Object.hasOwn(draft, 'earlyWork')) initializeEarlyWork(draft, commitRevision, true);
         if (!Object.hasOwn(draft, 'moveState')) refreshFieldAbilities(draft, /** @type {import('../domain/gameplay/support.js').Catalogs} */ (catalogs));
+        if (draft.moveState) draft.moveState = { ...draft.moveState, waterSportTurns: 0 };
         initializeEarlierWildAi(draft);
         const checked = validateCampaign(draft, content);
         return checked.ok ? succeed(checked.snapshot) : fail(checked.kind === 'blocked' ? 'content-blocked' : 'invalid');
@@ -114,6 +118,7 @@ export function createOpeningCompatibility(catalogs, content, authored) {
         }
         draft.revision = commitRevision; initializeSpeciesSeen(draft, true); initializeEarlyWork(draft, commitRevision, true);
         if (!Object.hasOwn(draft, 'moveState')) refreshFieldAbilities(draft, /** @type {import('../domain/gameplay/support.js').Catalogs} */ (catalogs));
+        if (draft.moveState) draft.moveState = { ...draft.moveState, waterSportTurns: 0 };
         initializeEarlierWildAi(draft);
         const checked = validateCampaign(draft, content);
         return checked.ok ? succeed(checked.snapshot) : fail(checked.kind === 'blocked' ? 'content-blocked' : 'invalid');

@@ -1,3 +1,4 @@
+import { tickLeechSeed, pulseLeechSeed, tickWaterSport } from './field-moves.js';
 import { refreshFieldAbilities } from './field-abilities.js';
 import { transferHeldItem } from './held-items.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
@@ -31,7 +32,7 @@ const done = (movement = false) => ({ kind: 'done', movement, leaderChanged: fal
 /** @param {import('../turns/types.js').MutationContext} context @param {import('../turns/types.js').ActorRef} ref */
 function actor(context, ref) { const result = actorAt(sessionOf(context), ref); if (!result) return blocked('actor-reference'); return result; }
 
-/** All fifteen hooks are synchronous, using the single canonical draft. AI is
+/** All sixteen hooks are synchronous, using the single canonical draft. AI is
  * earlier/Steel wild move selection uses the source kernel. Partner move/item
  * selection and native movement remain explicit implementation obligations.
  * @param {Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} authored
@@ -96,10 +97,12 @@ export function createTurnHooks(catalogs, authored) {
         a.resources.hp = Math.min(maxHp(a), a.resources.hp + Math.trunc(total / rate)); a.resources.hpRegenerationAccumulator = quantity(total % rate);
       }
       tickConditions(context, a, catalogs);
+      tickLeechSeed(context, a);
       tickBattleStatus(context, a);
       if (a.conditions.bide?.statusId === 'charging' && (a.conditions.sleep || a.conditions.cringe?.statusId === 'infatuated')) { a.conditions.bide = null; context.emit({ type: 'conditionChanged', actorId: a.actorId }); }
       return { kind: 'continue', canAct: a.conditions.sleep === null && a.conditions.cringe?.statusId !== 'infatuated' && a.conditions.bide?.statusId !== 'bide' };
     },
+    fieldUpkeep(context) { tickWaterSport(context); return CONTINUE; },
     experience(context, ref) { if (ref) applyExperience(context, actor(context, ref), catalogs); return CONTINUE; },
     ai(context, ref) {
       const s = sessionOf(context); const a = actor(context, ref); if (a.placement.kind !== 'map') return blocked('ai-placement');
@@ -197,7 +200,8 @@ export function createTurnHooks(catalogs, authored) {
       draw(context.state, 100); // Native Shed Skin sample precedes periodic poison.
       const periodicDamage = periodicStatusDamage(context, a);
       if (periodicDamage) dealDamage(context, a, catalogs, { attacker: null, amount: periodicDamage, contact: false, physical: false, giveExperience: false });
-      if (a.resources.hp > 0) { const stored = endBide(context, a, catalogs); if (stored !== null) releaseBide(context, a, stored, catalogs); }
+      if (a.resources.hp > 0 && !s.teamOrder.some(id => s.actors[id]?.resources.hp === 0) && !(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle')) pulseLeechSeed(context, a, catalogs);
+      if (a.resources.hp > 0 && !s.teamOrder.some(id => s.actors[id]?.resources.hp === 0) && !(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle')) { const stored = endBide(context, a, catalogs); if (stored !== null) releaseBide(context, a, stored, catalogs); }
       if (a.resources.hp > 0 && !s.teamOrder.some(id => s.actors[id]?.resources.hp === 0) && !(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle')) endRage(context, a);
       return hooks.forcedLoss(context);
     },

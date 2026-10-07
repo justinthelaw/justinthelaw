@@ -1,3 +1,4 @@
+import { clearLeechSeedLinks } from './leech-links.js';
 import { resetFloorConditions } from './conditions.js';
 import { maxHp, quantity } from './support.js';
 
@@ -19,6 +20,7 @@ export function tryRevive(context, actor, catalogs) {
   seed.quantity = 1;
   actor.resources.hp = maxHp(actor);
   actor.resources.belly = quantity(actor.resources.maxBelly.numerator, actor.resources.maxBelly.denominator);
+  clearLeechSeedLinks(context, actor);
   resetFloorConditions(actor, catalogs);
   for (const pp of actor.battleMoves.slots) {
     const slot = actor.moves.slots.find(row => row?.moveSlotId === pp.moveSlotId);

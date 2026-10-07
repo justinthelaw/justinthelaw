@@ -121,7 +121,9 @@ No automated game-source tests, imports or playthroughs are permitted.
 ## Concrete opening consumer
 
 `src/domain/gameplay/index.js:createGameplay` now supplies the actual command and
-fifteen-hook consumer for the scoped Tiny Woods opening. See
+sixteen-hook consumer for the scoped opening and early routes. The fieldUpkeep
+hook ticks floor-wide Water Sport at the native base-speed phase boundary before
+experience; its counter is independent of actor action and wind opportunities. See
 [GAMEPLAY-OPENING.md](GAMEPLAY-OPENING.md) for exact APIs, accepted saved boundaries,
 source decisions, browser AI/learning policies and unsupported requirements.
 The engine detects terminal session/floor replacement before applying the prior

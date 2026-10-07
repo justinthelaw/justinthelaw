@@ -299,7 +299,7 @@ export function advanceTurns(context, hooks, action = null) {
         if (!hasSpeedOpportunity(1, (frame.phase + 1) % 24)) { nextPass(frame, 'phase-end'); break; }
         const boundaryStep = frame.step++;
         if (boundaryStep === 0) startFlush(session);
-        else if (boundaryStep === 1) hookResult(hooks.experience(context, null), context);
+        else if (boundaryStep === 1) { hookResult(hooks.fieldUpkeep(context), context); hookResult(hooks.experience(context, null), context); }
         else if (boundaryStep === 2) hookResult(hooks.forcedLoss(context), context);
         else nextPass(frame, 'phase-end');
         break;

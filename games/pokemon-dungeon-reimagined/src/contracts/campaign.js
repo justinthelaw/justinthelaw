@@ -1,3 +1,6 @@
+/** @typedef {{sessionId:SessionId; mapId:MapId; lightningRodActorId:ActorId|null;}} CachedFieldAbilities */
+/** @typedef {CachedFieldAbilities & {waterSportTurns:Int;}} FieldMoveState */
+
 /** Complete canonical campaign records. See plan/CAMPAIGN-STATE.md. */
 /** @typedef {import('../contracts.js').SpeciesId} SpeciesId */
 /** @typedef {import('../contracts.js').FormId} FormId */
@@ -214,7 +217,7 @@
  *     earlyWork?: import('./early-work.js').EarlyWorkState|null;
  *     steel?: import('./steel.js').SteelState|null;
  *     friends?: import('./friends.js').FriendsState|null;
- *     moveState?: {sessionId:SessionId; mapId:MapId; lightningRodActorId:ActorId|null;}|null;
+ *     moveState?: CachedFieldAbilities | FieldMoveState | null;
  *     contentRevision: ContentRevision;
  *     revision: Int;
  *     idSequence: IdSequence;

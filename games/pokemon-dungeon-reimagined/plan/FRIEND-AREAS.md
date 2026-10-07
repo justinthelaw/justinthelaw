@@ -359,3 +359,52 @@ The accepted v15 factory and damage-status policy are independently frozen befor
 Leech Seed or Water Sport admission broadens. The source manifest now pins68
 modules, retaining all earlier hashes,14 exact bodies and2 factual manifests.
 This checkpoint changes no runtime revision, migration or gameplay behavior.
+
+## V16 Leech Seed and Water Sport prerequisite
+
+A separate v16 field-move factory and strict root follow the frozen v15 factory.
+Fresh adventure creation initializes an explicit null moveState; the first native
+refresh creates its floor-bound Water Sport counter. Incoming v2-v15 envelopes
+pass their exact original admission before conversion. Conversion preserves the
+old Lightningrod cache and all effects/RNG/history while prospectively setting
+Water Sport to zero. All68 module pins,14 exact bodies, predecessor root shapes
+and both factual manifests remain unchanged. New-game v15 initialization was
+already present in the published baseline; this change extends it to v16 rather
+than claiming a recovered v15 fix or unavailable historical commits.
+
+Leech Seed uses existing corner-cutting front targeting and first accuracy only.
+Self, Safeguard and Grass guards precede the curer-aware10..11 sample plus1;
+already seeded targets do not refresh or draw. The linked actor is the original
+learned-move user on this session/floor. Admission requires both the seeded
+recipient and linked user to be live in active slots with exact identity and
+payload agreement. Beginning-of-opportunity expiry precedes sureShot; the pulse
+runs after poison/burn and before Bide/Rage. Countdown starts0, resets2, and
+transfers fixed10 HP independent of actual HP loss, including same-pulse faint
+or revival. Freeze skips both sides after countdown reset. Liquid Ooze is
+captured before victim damage and damages the linked user by10 instead of healing.
+Dummy-source damage shares wake, faint/revival/drop settlement without contact,
+Rage or experience. Residual damage releases Petrified/indefinite Sleep first;
+healing alone does not. Revival and faint/removal clear every link to the old
+actor; floor cleanup and Rapid Spin already clear the recipient class.
+
+Water Sport's self/floor action always samples10..11, including repeat use,
+without curer modifiers or plus1. The floor-wide counter survives Lightningrod
+refresh and expires at the native base-speed phase boundary before experience,
+with an explicit fieldUpkeep hook; actor actions and wind do not tick it.
+The existing fixed-point damage pipeline now receives its active flag, halving
+Fire damage for both sides. New floors and town clear the owner. Native Weak
+Type Picker returns weight2 for Fire under Water Sport; that weighting remains
+an explicit full party-AI dependency, and no complete party selection is claimed.
+
+Source locators at comparative Red pin
+`6bcbec4f906938c0243aa2026bcbd41b577bab85`: `move_orb_actions_4.c:195–200`,
+`move_orb_effects_2.c:239–316`, `dungeon_config.c:125–126,168,216`,
+`dungeon_turn_effects.c:302–340,495–502`, `move_orb_effects_5.c:541–555`,
+`move_orb_actions_3.c:241–252`, `weather.c:239–249,302–307`,
+`dungeon_engine.c:435–450`, `dungeon_damage.c:641–644,902–905,1006–1007` and
+source-removal `dungeon_misc.c:RemoveEntity`/`sub_8078084`. Existing catalogs supply
+Blue-qualified move metadata; exact Blue binary parity remains unclaimed.
+Static review does not establish game execution, human play or visual acceptance.
+Remaining native party item/movement/selection, move learning/replacement,
+extra-party entry/faint, escort/work and recruitment/capacity block broader
+Friend Area continuation.

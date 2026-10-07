@@ -16,7 +16,9 @@ Square wind request and rest at MAIN5,5, with navigable owned areas and resident
 management. Later chapter-five work, escort, wild recruitment and Sinister remain
 in implementation. Static checks do not establish human play/visual acceptance or a complete
 campaign; later services, escort admission and routes remain incomplete.
-Current v15 damage-status saves preserve exact v2-v14 import admission. Bide, Focus
+Current v16 field-move saves preserve exact v2-v15 import admission. Leech Seed
+and Water Sport now have shared action, upkeep, damage and persistence consumers;
+Water Sport Weak Type Picker weighting remains a full party-AI dependency. Bide, Focus
 Energy and Confusion now have sourced lifecycle consumers; Mt. Steel uses exact scoped wild move selection, boss/neutral roles, retry/loss
 return history and shared reward delivery. Metal Sound, Thundershock/paralysis, Hypnosis, Charge, Absorb and Quick Attack
 retain shared source consumers. Withdraw, Helping Hand, Thunder Wave, Disable,
