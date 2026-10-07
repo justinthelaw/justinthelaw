@@ -1,7 +1,6 @@
 import { useGinseng } from './move-menu.js';
-import { damageHp } from './hp-damage.js';
 import { sleepSeed, refreshSpeed } from './conditions.js';
-import { finishDamage } from './combat.js';
+import { dealDamage } from './damage-resolution.js';
 import { throwRock } from './projectiles.js';
 import { canMeleeAttack } from '../navigation/geometry.js';
 import { navActor, navigationContext } from './support.js';
@@ -39,7 +38,7 @@ export function useDungeonItem(context, action, catalogs) {
     const target = Object.values(session.actors).find(other => other.placement.kind === 'map' && other.placement.position.x === pos.x + Math.round(Math.sin(angle)) && other.placement.position.z === pos.z - Math.round(Math.cos(angle)));
     if (target?.placement.kind === 'map' && canMeleeAttack(navActor(actor), session.floor, target.placement.position, navigationContext(session, catalogs))) {
       if (target.conditions.sleep?.duration.kind === 'indefinite') target.conditions.sleep = null;
-      damageHp(target, session.dungeonId === 'mt-steel' && session.floor.location.kind === 'boss' ? 30 : 45); finishDamage(context, target, catalogs, actor);
+      dealDamage(context, target, catalogs, { attacker: actor, amount: session.dungeonId === 'mt-steel' && session.floor.location.kind === 'boss' ? 30 : 45, contact: false, physical: false });
       context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'hit' });
     }
   }

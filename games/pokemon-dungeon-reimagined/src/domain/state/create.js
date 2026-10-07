@@ -120,8 +120,8 @@ export function createCampaign(input, content) {
     if (recordsSpeciesSeen(content.contentRevision)) initializeSpeciesSeen(state, false);
     if (recordsEarlyWork(content.contentRevision)) state.earlyWork = null;
     if (recordsSteel(content.contentRevision)) state.steel = null;
-    if (/^blue-campaign-state-v(?:11-moves|12-friends|13-wild-ai)-opening:/.test(content.contentRevision)) state.moveState = null;
-    if (['blue-campaign-state-v12-friends-opening:', 'blue-campaign-state-v13-wild-ai-opening:'].some(prefix => content.contentRevision.startsWith(prefix))) state.friends = null;
+    if (/^blue-campaign-state-v(?:11-moves|12-friends|13-wild-ai|14-party-moves)-opening:/.test(content.contentRevision)) state.moveState = null;
+    if (['blue-campaign-state-v12-friends-opening:', 'blue-campaign-state-v13-wild-ai-opening:', 'blue-campaign-state-v14-party-moves-opening:'].some(prefix => content.contentRevision.startsWith(prefix))) state.friends = null;
     return validateCampaign(state, content);
   } catch { issue(issues, 'shape', '', 'Initial profile contains an invalid allocation, move projection or random seed.'); return failure(issues, requirements); }
 }

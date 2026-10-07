@@ -1,5 +1,4 @@
 import { ability, maxHp, blocked } from './support.js';
-import { damageHp } from './hp-damage.js';
 
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
 /** @typedef {import('../turns/types.js').MutationContext} Context */
@@ -28,15 +27,13 @@ export function rapidSpinCleanup(context, actor) {
  * Caller owns immediate shared faint/revival with no recoil experience grant.
  * @param {Actor} actor @param {import('./support.js').Catalogs} catalogs */
 export function takeDownRecoil(actor, catalogs) {
-  if (actor.placement.kind !== 'map' || actor.resources.hp === 0 || ability(actor, catalogs, 'Rock Head')) return false;
-  damageHp(actor, Math.max(1, Math.trunc(maxHp(actor) / 8)));
-  return true;
+  if (actor.placement.kind !== 'map' || actor.resources.hp === 0 || ability(actor, catalogs, 'Rock Head')) return 0;
+  return Math.max(1, Math.trunc(maxHp(actor) / 8));
 }
 
 /** Native Struggle uses its own quarter-maxHP recoil with no Rock Head check.
  * @param {Actor} actor */
 export function struggleRecoil(actor) {
-  if (actor.placement.kind !== 'map' || actor.resources.hp === 0) return false;
-  damageHp(actor, Math.max(1, Math.trunc(maxHp(actor) / 4)));
-  return true;
+  if (actor.placement.kind !== 'map' || actor.resources.hp === 0) return 0;
+  return Math.max(1, Math.trunc(maxHp(actor) / 4));
 }

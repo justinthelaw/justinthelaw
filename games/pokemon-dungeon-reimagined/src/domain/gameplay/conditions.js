@@ -24,17 +24,37 @@ export function statusTurns(context, actor, low, high, catalogs) {
 export function refreshSpeed(actor, catalogs) {
   actor.speed.cachedStage = Math.max(0, Math.min(4, profile(actor.identity, catalogs).baseMovementSpeed + actor.speed.positiveTimers.filter(Boolean).length - actor.speed.negativeTimers.filter(Boolean).length - Number(actor.conditions.burn?.statusId === 'paralysis')));
 }
-/** Actual ability owner is retained as provenance; source applies these flags to
- * the attacker after the hit. Poison Point has no physical-type restriction.
- * @param {Context} context @param {Actor} attacker @param {Actor} defender @param {boolean} physical @param {Catalogs} catalogs */
-export function contactReactions(context, attacker, defender, physical, catalogs) {
-  const session = context.state.session; if (!session) return blocked('reaction-session');
-  if (defender.resources.hp <= 0 || defender.conditions.sleep && defender.conditions.sleep.statusId !== 'sleepless' || defender.conditions.frozen || defender.conditions.bide) return;
-  for (const [name, status, group] of /** @type {const} */ ([['Static', 'paralysis', 'burn'], ['Poison Point', 'poisoned', 'burn'], ['Cute Charm', 'infatuated', 'cringe']])) {
+/** Only the admitted early-route contact abilities are consumed here. Native
+ * rolls flags after damage/faint/revival; move-specific effects run before the
+ * separate application phase. No status duration is sampled while rolling.
+ * @typedef {'Static'|'Poison Point'|'Cute Charm'} ContactAbility
+ * @typedef {{ability:ContactAbility, defender:Actor}} ContactReaction
+ * @param {Context} context @param {Actor} attacker @param {Actor} defender
+ * @param {boolean} physical @param {Catalogs} catalogs
+ * @returns {ContactReaction[]} */
+export function rollContactReactions(context, attacker, defender, physical, catalogs) {
+  if (attacker.placement.kind !== 'map' || defender.placement.kind !== 'map' || attacker.resources.hp <= 0 || defender.resources.hp <= 0 || attacker.actorId === defender.actorId || Math.max(Math.abs(attacker.placement.position.x - defender.placement.position.x), Math.abs(attacker.placement.position.z - defender.placement.position.z)) > 1 || defender.conditions.sleep && defender.conditions.sleep.statusId !== 'sleepless' || ['frozen', 'petrified'].includes(defender.conditions.frozen?.statusId ?? '') || defender.conditions.bide) return [];
+  const reactions = [];
+  for (const name of /** @type {const} */ (['Static', 'Poison Point', 'Cute Charm'])) {
     if (name !== 'Poison Point' && !physical || !ability(defender, catalogs, name) || draw(context.state, 100) >= 12) continue;
-    if (attacker.conditions[group]?.statusId === status) continue;
+    reactions.push({ ability: name, defender });
+  }
+  return reactions;
+}
+/** Native flag application uses the attacker as both effect user and recipient;
+ * causal defender identity remains recorded for save provenance. Flags are local
+ * to the atomic action; revival preserves flags, while removal prevents application.
+ * @param {Context} context @param {Actor} attacker
+ * @param {ContactReaction[]} reactions @param {Catalogs} catalogs */
+export function applyContactReactions(context, attacker, reactions, catalogs) {
+  const session = context.state.session; if (!session) return blocked('reaction-session');
+  if (attacker.placement.kind !== 'map' || attacker.resources.hp <= 0) return;
+  for (const { ability: name, defender } of reactions) {
+    const status = name === 'Static' ? 'paralysis' : name === 'Poison Point' ? 'poisoned' : 'infatuated';
+    const group = name === 'Cute Charm' ? 'cringe' : 'burn';
+    if (attacker.conditions[group]?.statusId === status || attacker.conditions.reflect?.statusId === 'safeguard') continue;
     if (status === 'paralysis' && ability(attacker, catalogs, 'Limber') || status === 'infatuated' && ability(attacker, catalogs, 'Oblivious')) continue;
-    if (status === 'poisoned' && (attacker.conditions.reflect?.statusId === 'safeguard' || hasHeldItem(context.state, attacker, 'item-pecha-scarf') || ability(attacker, catalogs, 'Immunity') || profile(attacker.identity, catalogs).typeIds.some(id => id === 8 || id === 17) || attacker.conditions.burn?.statusId === 'badly-poisoned')) continue;
+    if (status === 'poisoned' && (hasHeldItem(context.state, attacker, 'item-pecha-scarf') || ability(attacker, catalogs, 'Immunity') || profile(attacker.identity, catalogs).typeIds.some(id => id === 8 || id === 17) || attacker.conditions.burn?.statusId === 'badly-poisoned')) continue;
     const source = catalogs.species.identities.abilities.find(row => row.name === name); if (!source) return blocked('reaction-ability');
     if (status === 'paralysis') {
       inflictParalysis(context, attacker, { kind: 'ability', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: defender.actorId, identity: { ...defender.identity } }, abilityId: /** @type {import('../../contracts/campaign.js').AbilityId} */ (source.id) }, catalogs);
@@ -71,7 +91,7 @@ export function sleepSeed(context, actor, catalogs) {
 /** Native counter 127 persists, including poison's 128→127 first tick.
  * @param {Context} context @param {Actor} actor @param {Catalogs} catalogs */
 export function tickConditions(context, actor, catalogs) {
-  for (const group of /** @type {const} */ (['sleep', 'burn', 'cringe'])) {
+  for (const group of /** @type {const} */ (['sleep', 'burn', 'cringe', 'reflect'])) {
     const c = actor.conditions[group];
     if (c?.duration.kind !== 'counter' || c.duration.remaining === 127) continue;
     if (--c.duration.remaining === 0) { actor.conditions[group] = null; context.emit({ type: 'conditionChanged', actorId: actor.actorId }); }
@@ -105,17 +125,19 @@ export function resetFloorConditions(actor, catalogs) {
  * in native direction order. A repeated paralysis stops before duration RNG;
  * this also terminates cycles. Propagation retains the original effect source.
  * @param {Context} context @param {Actor} target
- * @param {import('../../contracts/campaign.js').EffectSource} source @param {Catalogs} catalogs */
-export function inflictParalysis(context, target, source, catalogs) {
+ * @param {import('../../contracts/campaign.js').EffectSource} source @param {Catalogs} catalogs
+ * @param {import('../../contracts/campaign.js').PolicyId} [policyId] */
+export function inflictParalysis(context, target, source, catalogs, policyId = /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-move-status-v11')) {
   const session = context.state.session;
-  if (!session || target.placement.kind !== 'map' || target.resources.hp === 0 || target.conditions.reflect?.statusId === 'safeguard' || ability(target, catalogs, 'Limber') || target.conditions.burn?.statusId === 'paralysis') return;
-  target.conditions.burn = { statusId: 'paralysis', source, duration: { kind: 'counter', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-move-status-v11'), remaining: statusTurns(context, target, 1, 2, catalogs) + 1 }, periodicCountdown: null, payload: { kind: 'none' } };
+  if (!session || target.placement.kind !== 'map' || target.resources.hp === 0 || target.conditions.reflect?.statusId === 'safeguard' || ability(target, catalogs, 'Limber') || target.conditions.burn?.statusId === 'paralysis') return false;
+  target.conditions.burn = { statusId: 'paralysis', source, duration: { kind: 'counter', policyId, remaining: statusTurns(context, target, 1, 2, catalogs) + 1 }, periodicCountdown: null, payload: { kind: 'none' } };
   refreshSpeed(target, catalogs); context.emit({ type: 'conditionChanged', actorId: target.actorId });
   context.emit({ type: 'message', messageId: 'paralysis-status' });
-  if (!ability(target, catalogs, 'Synchronize')) return;
+  if (!ability(target, catalogs, 'Synchronize')) return true;
   const position = target.placement.position;
   for (const d of DIRECTIONS) {
     const neighbor = activeActors(session).find(a => a.placement.kind === 'map' && a.placement.position.x === position.x + d.x && a.placement.position.z === position.z + d.z);
-    if (neighbor && target.affiliation !== 'neutral' && neighbor.affiliation !== 'neutral' && neighbor.affiliation !== target.affiliation) inflictParalysis(context, neighbor, source, catalogs);
+    if (neighbor && target.affiliation !== 'neutral' && neighbor.affiliation !== 'neutral' && neighbor.affiliation !== target.affiliation) inflictParalysis(context, neighbor, source, catalogs, policyId);
   }
+  return true;
 }

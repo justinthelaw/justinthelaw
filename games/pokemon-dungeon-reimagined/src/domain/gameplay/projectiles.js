@@ -1,6 +1,5 @@
-import { damageHp } from './hp-damage.js';
 import { allocate, draw, FACINGS, blocked } from './support.js';
-import { finishDamage } from './combat.js';
+import { dealDamage } from './damage-resolution.js';
 /** @typedef {import('../turns/types.js').MutationContext} Context */
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
 /** Source R dungeon_pos_data.c directional arc search, including N/S's radius8
@@ -34,9 +33,9 @@ export function throwRock(context, actor, rock, catalogs) {
   const target = Object.values(session.actors).find(other => other.resources.hp > 0 && other.placement.kind === 'map' && other.placement.mapId === session.floor.mapId && other.placement.position.x === landing.x && other.placement.position.z === landing.z);
   if (target && target.binding.kind !== 'job-client' && draw(context.state, 100) < 90) {
     if (target.conditions.sleep?.duration.kind === 'indefinite') target.conditions.sleep = null;
-    damageHp(target, 20);
+    dealDamage(context, target, catalogs, { attacker: actor, amount: 20, contact: false, physical: false });
     context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'hit' });
-    finishDamage(context, target, catalogs, actor); return;
+    return;
   }
   // Native dropped-projectile search starts at offset1 (not its impact tile).
   // Wonder Tiles remain reusable; landing beside them neither deletes nor fires them.

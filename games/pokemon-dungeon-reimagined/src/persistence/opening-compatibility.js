@@ -1,3 +1,4 @@
+import { createCampaignContent as createWildCampaignContent } from '../../content/state/wild-ai-campaign.js';
 import { createCampaignContent as createFriendsCampaignContent } from '../../content/state/friends-campaign.js';
 import { initializeEarlierWildAi } from '../domain/gameplay/actors.js';
 import { createCampaignContent as createMovesCampaignContent } from '../../content/state/moves-campaign.js';
@@ -67,7 +68,10 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   const friends = createFriendsCampaignContent(catalogs);
   const friendsRevision = movesRevision.replace('v11-moves-opening:browser-opening-v11-moves:', 'v12-friends-opening:browser-opening-v12-friends:');
   if (friends.contentRevision !== friendsRevision) throw new TypeError('Friends-v12 factual catalog boundary differs.');
-  return Object.freeze([...([friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
+  const wild = createWildCampaignContent(catalogs);
+  const wildRevision = friendsRevision.replace('v12-friends-opening:', 'v13-wild-ai-opening:');
+  if (wild.contentRevision !== wildRevision) throw new TypeError('Wild-v13 factual catalog boundary differs.');
+  return Object.freeze([...([wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);

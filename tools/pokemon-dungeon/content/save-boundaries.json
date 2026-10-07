@@ -246,6 +246,26 @@
     {
       "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/friend-job-records.js",
       "sha256": "89be18a79c859be756fe90518d940a18d57fcfe0cd1e56272598018b80edd79b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/wild-ai-campaign.js",
+      "sha256": "a51dcb80b065b56b4179a88aedcd1876a0c7488c9e3bb0ba993f2281fb96e3db"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/native-wild-ai.js",
+      "sha256": "2076c314d0f29d7525d551aa91c9aa809e625a76d68ad20445b67bdd3d22ee8c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/ai-facts.js",
+      "sha256": "4b952bfcca78b2ebd4ac7efb085d4ff3f93ef6aefd1b0b0f543c0d3cd8f77a76"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/party-status-campaign.js",
+      "sha256": "19cd526662ae97fd4d702ffe428548003242bd303e7a62f29c7be62aac8c040a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/party-moves.js",
+      "sha256": "a69807214720ab11a154c028e5afb8c9505feb4edf962e6e2b439f4827e93ae2"
     }
   ],
   "functionBodies": [
@@ -366,5 +386,7 @@
   "friendsOwnerShape": {
     "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
     "sha256": "eb07bef2971f397ab30463f65c8e3140872547a1b437be8b1f6f23b6ea432ad2"
-  }
+  },
+  "partyStatusPredecessorBaselineCommit": "b38fdfa44cd98f9aefc427cda2473d7ec67a2075",
+  "damageStatusPredecessorBaselineCommit": "ac3c02cab4779be597a0496bdb89cc70869e577c"
 }

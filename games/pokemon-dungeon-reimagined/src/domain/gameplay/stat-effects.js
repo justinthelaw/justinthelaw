@@ -11,14 +11,15 @@ export const STAT_MOVES = Object.freeze(['move-harden', 'move-defense-curl', 'mo
  * and physical Hyper Cutter. Accuracy alone checks Keen Eye after shared guard.
  * @param {Context} context @param {Actor} target
  * @param {'attack'|'defense'|'specialAttack'|'specialDefense'|'accuracy'|'evasion'} stat
- * @param {number} delta @param {Catalogs} catalogs */
-export function changeStatStage(context, target, stat, delta, catalogs) {
+ * @param {number} delta @param {Catalogs} catalogs @param {boolean} [displayProtection] */
+export function changeStatStage(context, target, stat, delta, catalogs, displayProtection = true) {
   if (target.placement.kind !== 'map' || target.resources.hp === 0) return false;
   if (delta < 0) {
     const protectedStat = target.conditions.reflect?.statusId === 'mist' || ability(target, catalogs, 'Clear Body') || ability(target, catalogs, 'White Smoke');
     const offensive = stat === 'attack' || stat === 'specialAttack';
     if (protectedStat || offensive && hasHeldItem(context.state, target, 'item-twist-band') || stat === 'attack' && ability(target, catalogs, 'Hyper Cutter') || stat === 'accuracy' && ability(target, catalogs, 'Keen Eye')) {
-      context.emit({ type: 'message', messageId: 'stat-drop-protected' }); return false;
+      if (displayProtection) context.emit({ type: 'message', messageId: 'stat-drop-protected' });
+      return false;
     }
   }
   const prior = target.stages[stat];

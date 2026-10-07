@@ -26,7 +26,7 @@ export function selfBattleStatus(context, actor, slot) {
  * @param {Context} context @param {Actor} actor */
 export function tickBattleStatus(context, actor) {
   const c = actor.conditions.sureShot;
-  if (c?.statusId !== 'focus-energy' || c.duration.kind !== 'counter' || c.duration.remaining === 127 || c.duration.remaining === 0) return;
+  if (!c || !['focus-energy', 'whiffer'].includes(c.statusId) || c.duration.kind !== 'counter' || c.duration.remaining === 127 || c.duration.remaining === 0) return;
   if (--c.duration.remaining === 0) { actor.conditions.sureShot = null; context.emit({ type: 'conditionChanged', actorId: actor.actorId }); }
 }
 /** Bide expiry clears its class before checking the three native release

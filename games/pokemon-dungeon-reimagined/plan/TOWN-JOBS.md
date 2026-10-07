@@ -126,8 +126,9 @@ eating the latter consumes its passive revival opportunity.
 `dungeon_damage.c:604–650` requires Item Master and a clean Reviver Seed, checks
 the held slot first, then team bag order, changes that same instance to Plain
 Seed, fills HP/Belly and clears temporary conditions/stat stages/speed counters
-before any faint/EXP/loss settlement. `ResetMonEntityData` and `sub_8078084` do
-not restore PP. The shared faint and forced-loss consumers cover combat, fixed
+before any faint/EXP/loss settlement. The following `sub_806A390` call restores
+every learned move to base PP while preserving sealed flags (corrected in v14).
+The shared faint and forced-loss consumers cover combat, fixed
 item damage, poison and hunger; revival does not use failure retention rolls.
 Unsupported auxiliary/tether conditions remain blocked by current admission;
 future support must also clear cross-actor Leech Seed/Destiny Bond tethers as

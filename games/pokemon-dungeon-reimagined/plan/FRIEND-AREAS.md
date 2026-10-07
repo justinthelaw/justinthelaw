@@ -196,3 +196,79 @@ AI action185 flags48 versus execution flags54 are retained separately.
 No admission widening is needed: these effects use existing validated stat
 stages. Other actual party move effects, native movement and recruitment remain
 active dependencies.
+
+## V14 direct status and revival consumers
+
+Thunder Wave and Disable apply the original paralysis handler; Disable does not
+seal a move. Both retain Safeguard/Limber/existing-paralysis guards, sourced
+duration, speed change and adjacent Synchronize provenance. Thunder Wave still
+uses its actual50% first accuracy and cached Lightningrod redirection. These
+status handlers do not apply a damage type-matchup immunity.
+
+Attract ignores gender and guards Safeguard/Oblivious/existing infatuation before
+sampling4..5 plus1. Smokescreen samples1..5 before guards, stores plus1 only on
+a new Whiffer application, and forces accuracy failure after the earlier self
+hit branch while still consuming the normal accuracy draw. Reflect samples
+10..11 plus1 without curer skills only when newly applied; it halves physical
+damage before critical multiplication. All use native before-action class
+expiry and clear on floor transition/revival. Current source actors and learned
+move identities are checked before neutral projection to frozen predecessors.
+
+Locators: `move_orb_actions_1.c:410–414,624–628`,
+`move_orb_actions_2.c:886–890`, `move_orb_effects_1.c:307–337,1289–1351`,
+`move_orb_effects_2.c:377–398`, `move_orb_effects_4.c:153–173`,
+`dungeon_random.c:85–104`, `dungeon_move_util.c:735–757`,
+`dungeon_damage.c:1296–1306`, `dungeon_turn_effects.c:448–553`.
+
+Reviver Seeds now restore base PP for every existing slot while preserving
+sealed flags. Native `dungeon_damage.c:642–644` follows ResetMonEntityData with
+`sub_806A390` (`dungeon_misc.c:1288–1302`); the former browser claim of unchanged
+PP omitted that second call. Player text and the older ledger note are corrected.
+This does not change the source recruitment rule: accepting a defeated wild
+heals HP but preserves its snapshot PP.
+
+Rage, Water Sport, Leech Seed, the remaining actual party damaging families,
+move learning/replacement and native party item/movement consumers remain active
+before broader party dispatch and recruitment open. Rage specifically requires
+the shared post-revival/faint damage-reaction owner, not a normal-hit-only hook.
+
+## Shared damage and contact ordering prerequisite
+
+The immediate damage owner now resolves fainting, revival and experience before
+rolling admitted Static/Poison Point/Cute Charm reactions. Flags apply after
+move-specific effects, with native distinct-actor/adjacency/status guards.
+A revived defender can roll its ability after conditions reset; an attacker
+revived by recoil or Liquid Ooze retains already rolled flags. Safeguard is
+checked when applying all three effects. Causal ability ownership remains in
+condition provenance, while the recipient is the native effect user/target.
+
+Normal hits, Bide release, fixed items and self recoil share this boundary;
+environmental damage uses explicit dummy provenance. Raw HP subtraction remains
+narrow and never decides reactions. Rage, counter/retaliation and later contact
+abilities are still separate incomplete consumers, with no broadened admission.
+Qualified pinned Red source: dungeon_damage70–237/619–649/1398–1450,
+dungeon_move1306, dungeon_move_util221–275, dungeon_logic608–620 and
+ResetMonEntityData in dungeon_mon_spawn819–908. This is comparative evidence for
+the Blue target, not executed gameplay proof.
+
+V14 review correction: direct status handlers return their actual application
+result. Protection and an already-active status now produce the existing visible
+no-effect outcome; successful paralysis/infatuation/Whiffer/Reflect have explicit
+status messages. Accuracy, experience credit, duration draws and no-refresh guards
+keep their prior order. Review correction is presentation feedback only.
+
+## Four further party damage consumers
+
+Low Kick uses the apparent species/form's existing qualified weight/256 fact as
+its final damage multiplier. Water Gun uses the existing corner-cutting front
+geometry and ordinary damage pipeline. Metal Claw samples its 10% secondary
+against the user, then raises physical Attack and records move experience credit;
+the damaged target's death or revival does not replace the self guard. Mud-Slap
+uses the native chance0 secondary helper (no draw), then Shield Dust and accuracy
+drop protections; protection messages are suppressed as in its handler.
+
+Qualified pinned Red: move_orb_actions_1:917–926, actions_3:254–269,
+actions_4:116–131 and dungeon_move378/478/926/1075. Existing species-parameters
+facts own Low Kick's numeric crosswalk. No new condition/root/save admission;
+partner AI remains gated on its complete move, item and movement dependencies.
+The complete starter coverage table also reconciles previously closed v11 moves.

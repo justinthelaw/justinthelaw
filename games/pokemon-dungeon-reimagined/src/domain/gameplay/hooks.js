@@ -17,7 +17,8 @@ import { canStep, canMeleeAttack } from '../navigation/geometry.js';
 import { findPath } from '../navigation/path.js';
 import { isActuallyInSight, visibleTiles } from '../navigation/sight.js';
 import { actorAt, sessionOf } from '../turns/support.js';
-import { attack, releaseBide, finishDamage } from './combat.js';
+import { attack, releaseBide } from './combat.js';
+import { finishDamage } from './damage-resolution.js';
 import { tryRevive } from './revival.js';
 import { createActor } from './actors.js';
 import { takeStairs, settleExpedition } from './expedition.js';
@@ -195,7 +196,7 @@ export function createTurnHooks(catalogs, authored) {
       if (a.resources.hp === 0) return hooks.forcedLoss(context);
       draw(context.state, 100); // Native Shed Skin sample precedes periodic poison.
       poisonDamage(context, a);
-      if (a.resources.hp === 0) finishDamage(context, a, catalogs, a, false);
+      if (a.resources.hp === 0) finishDamage(context, a, catalogs, null, false);
       if (a.resources.hp > 0) { const stored = endBide(context, a, catalogs); if (stored !== null) releaseBide(context, a, stored, catalogs); }
       return hooks.forcedLoss(context);
     },

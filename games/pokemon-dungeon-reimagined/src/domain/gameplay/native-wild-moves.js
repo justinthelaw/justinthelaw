@@ -12,10 +12,11 @@ import { draw, facing, navActor, navigationContext, blocked } from './support.js
 /** @typedef {typeof AI_ACTION_FACTS[number]} Fact */
 /** Explicit admission, not a move-weight filter. Broader wild/partner selection
  * remains a recorded consumer obligation until its effects/AI branches close. */
-const MOVES = Object.freeze(['move-peck', 'move-growl', 'move-tackle', 'move-tail-whip', 'move-harden', 'move-confusion', 'move-rapid-spin', 'move-defense-curl', 'move-bide', 'move-meditate', 'move-take-down', 'move-focus-energy', 'move-vice-grip', 'move-leer', 'move-sand-attack', 'move-scratch', 'move-pound', 'move-thunder-shock', 'move-hypnosis', 'move-absorb', 'move-quick-attack', 'move-charge', 'move-metal-sound', 'move-withdraw', 'move-helping-hand']);
+const MOVES = Object.freeze(['move-peck', 'move-growl', 'move-tackle', 'move-tail-whip', 'move-harden', 'move-confusion', 'move-rapid-spin', 'move-defense-curl', 'move-bide', 'move-meditate', 'move-take-down', 'move-focus-energy', 'move-vice-grip', 'move-leer', 'move-sand-attack', 'move-scratch', 'move-pound', 'move-thunder-shock', 'move-hypnosis', 'move-absorb', 'move-quick-attack', 'move-charge', 'move-metal-sound', 'move-withdraw', 'move-helping-hand', 'move-thunder-wave', 'move-disable', 'move-attract', 'move-smokescreen', 'move-reflect', 'move-low-kick', 'move-metal-claw', 'move-mud-slap', 'move-water-gun']);
 /** @param {Actor} actor @param {string} moveId */
 function selfEligible(actor, moveId) {
   if (!actor.enabledIqSkillIds.some(id => id === 'iq-status-checker')) return true;
+  if (moveId === 'move-reflect') return actor.conditions.reflect?.statusId !== 'reflect';
   if (moveId === 'move-charge') return actor.conditions.bide?.statusId !== 'charging';
   if (moveId === 'move-meditate') return actor.stages.attack < 20;
   if (['move-harden', 'move-defense-curl', 'move-withdraw'].includes(moveId)) return actor.stages.defense < 20;
@@ -28,6 +29,9 @@ function targetEligible(actor, target, moveId, fact) {
   if (target.affiliation === 'neutral' || target.affiliation === actor.affiliation || target.resources.hp === 0 || target.placement.kind !== 'map') return false;
   if (actor.affiliation === 'team' && target.conditions.frozen?.statusId === 'petrified') return false;
   if (!actor.enabledIqSkillIds.some(id => id === 'iq-status-checker')) return true;
+  if (['move-thunder-wave', 'move-disable'].includes(moveId) && target.conditions.burn?.statusId === 'paralysis') return false;
+  if (moveId === 'move-attract' && target.conditions.cringe?.statusId === 'infatuated') return false;
+  if (moveId === 'move-smokescreen' && target.conditions.sureShot?.statusId === 'whiffer') return false;
   if (moveId === 'move-hypnosis' && ['sleep', 'nightmare', 'napping'].includes(target.conditions.sleep?.statusId ?? '')) return false;
   if (target.conditions.frozen?.statusId === 'frozen' && fact.cannotHitFrozen) return false;
   if (moveId === 'move-metal-sound') return target.stages.specialDefense > 0;

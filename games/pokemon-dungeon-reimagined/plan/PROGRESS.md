@@ -116,7 +116,8 @@ claimed. Focused static verification is recorded with this checkpoint.
 - Implemented Big Apple, Max Elixir, Plain Seed and automatic Reviver Seed
   consumption through shared damage/loss consumers. The same item instance
   becomes Plain Seed; held priority, Item Master, stickiness, full HP/Belly,
-  condition reset and unchanged PP follow the pinned comparative source.
+  condition reset followed the initial comparative projection. The v14 correction
+  below restores base PP after ResetMonEntityData, matching the complete source call chain.
 - UI describes eating versus keeping Reviver Seed; full TM/orb/Warp/Stun
   consumers and ordinary-job entry remain explicit later dependencies.
 - Existing save shapes, revisions and predecessor policy pins stay unchanged.
@@ -1072,3 +1073,37 @@ Withdraw and Helping Hand now consume existing stat-stage owners, with ally-room
 execution targeting and distinct enemy-room AI eligibility for Helping Hand.
 No learned slot was filtered and no save admission changed. Party dispatch and
 remaining status/damage families continue as the next dependency.
+
+### Party status and revival prerequisite - 2026-10-07
+
+V14 closes Thunder Wave/Disable paralysis, Attract, Smokescreen and Reflect with
+source-specific guards, RNG/timers, before-action expiry, accuracy suppression
+and physical damage reduction. Exact v13 admission is frozen before adding
+new source-policy checks; no old condition owner or root shape is widened.
+Reviver Seeds now restore each learned move to base PP while preserving sealed
+flags, correcting the earlier incomplete call-chain reading and player text.
+
+Rage stays pending until the shared post-damage owner distinguishes real-monster
+hits/recoil from environmental dummy-attacker damage and revival/faint ordering.
+Party dispatch, the remaining move/item effects, native movement, recruitment,
+escort/work and MAIN5,9 remain active; full-game and human acceptance stay open.
+
+### Shared damage/contact prerequisite after v14
+
+Separated immediate HP/faint/revival resolution from deferred contact status
+application. Fixed item damage, Bide and real self recoil use the same owner;
+Liquid Ooze/residual attribution is explicit dummy provenance. Contact rolls now
+follow revival and precede move secondary effects, then apply with adjacency,
+status and Safeguard guards. Revival preserves pending ability flags. Static,
+Poison Point and Cute Charm remain the bounded admitted contact inventory;
+Rage and other reactions/move families remain under implementation. No save
+admission widening. Static review only; no game execution or human acceptance.
+
+### Party damage consumers: Low Kick, Water Gun, Metal Claw and Mud-Slap
+
+Added the sourced weight multiplier, corner-cutting ordinary damage, self Attack
+secondary and guaranteed accuracy secondary. Reuses existing damage/stat owners
+and immutable species parameters; no new status or admission. Source chance0
+for Mud-Slap consumes no random draw. Metal Claw's self guard is independent of
+the victim's revival/removal. Broad partner AI and Friend Area integration remain
+in progress; this prerequisite is not full campaign or human-play acceptance.

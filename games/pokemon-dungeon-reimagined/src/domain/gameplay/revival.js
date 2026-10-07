@@ -3,7 +3,8 @@ import { maxHp, quantity } from './support.js';
 
 /** Native dungeon_damage.c Reviver Seed branch precedes fainting and EXP.
  * The holder has priority over the bag; only team members may use bag stock.
- * ResetMonEntityData clears temporary effects, but does not restore move PP.
+ * ResetMonEntityData clears temporary effects; the following native PP reset
+ * restores each existing move to base PP while preserving sealed flags.
  * @param {import('../turns/types.js').MutationContext} context
  * @param {import('../../contracts/campaign.js').SessionActor} actor
  * @param {import('./support.js').Catalogs} catalogs */
@@ -19,6 +20,10 @@ export function tryRevive(context, actor, catalogs) {
   actor.resources.hp = maxHp(actor);
   actor.resources.belly = quantity(actor.resources.maxBelly.numerator, actor.resources.maxBelly.denominator);
   resetFloorConditions(actor, catalogs);
+  for (const pp of actor.battleMoves.slots) {
+    const slot = actor.moves.slots.find(row => row?.moveSlotId === pp.moveSlotId);
+    if (slot) pp.currentPp = catalogs.effects.getMove(slot.moveId).numeric.pp;
+  }
   for (const key of /** @type {const} */ (['perishSong', 'muzzled', 'grudge', 'exposed'])) actor.auxiliaryConditions[key] = null;
   actor.overrides.types = null; actor.overrides.abilities = null;
   actor.memory.stockpileCount = 0; actor.memory.experienceContributors = [];

@@ -1,17 +1,16 @@
+import { PARTY_DAMAGE_MOVES, lowKickMultiplier, damageStatSecondary } from './damage-moves.js';
+import { PARTY_STATUS_MOVES, applyPartyStatus } from './party-status.js';
 import { lightningRodTarget } from './field-abilities.js';
 import { secondaryAllowed, inflictParalysis, moveConditionSource, hypnosis } from './move-conditions.js';
-import { noteSteelBossFaint } from './steel.js';
 import { SELF_STATUS_MOVES, selfBattleStatus } from './battle-status.js';
-import { damageHp } from './hp-damage.js';
+import { dealDamage } from './damage-resolution.js';
 import { rapidSpinCleanup, takeDownRecoil, struggleRecoil } from './post-hit-effects.js';
-import { contactReactions, confusionSecondary, hasNegativeStatus } from './conditions.js';
-import { tryRevive } from './revival.js';
-import { recordSpeciesSeen } from '../state/species-seen.js';
+import { applyContactReactions, confusionSecondary, hasNegativeStatus } from './conditions.js';
 import { calculateNormalDamage } from '../rules/damage.js';
 import { ELEMENT_TYPES, isPhysicalType, lookupTypeMatchup, combineTypeMatchups } from '../rules/type-context.js';
 import { moveTargets } from './move-targets.js';
 import { STAT_MOVES, changeStatStage } from './stat-effects.js';
-import { draw, value, maxHp, ability, profile, blocked, quantity } from './support.js';
+import { draw, value, maxHp, ability, profile, blocked } from './support.js';
 
 /** @typedef {import('./support.js').Catalogs} Catalogs */
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
@@ -24,12 +23,14 @@ function types(actor, catalogs) { const ids = profile(actor.identity, catalogs).
 /** @param {Catalogs} catalogs @param {string} id */
 export function supportedMove(catalogs, id) {
   const move = catalogs.effects.getMove(id);
-  return SELF_STATUS_MOVES.includes(id) || ['move-rapid-spin', 'move-take-down', 'move-confusion', 'move-thunder-shock', 'move-hypnosis', 'move-absorb', 'move-quick-attack'].includes(id) || STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
+  return PARTY_DAMAGE_MOVES.includes(id) || PARTY_STATUS_MOVES.includes(id) || SELF_STATUS_MOVES.includes(id) || ['move-rapid-spin', 'move-take-down', 'move-confusion', 'move-thunder-shock', 'move-hypnosis', 'move-absorb', 'move-quick-attack'].includes(id) || STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
 }
 /** @param {Context} context @param {Actor} attacker @param {Actor} target @param {number} base @param {boolean} physical @param {Catalogs} catalogs */
 function accuracy(context, attacker, target, base, physical, catalogs) {
   const roll = draw(context.state, 100);
-  if (attacker.actorId === target.actorId || base > 100) return true;
+  if (attacker.actorId === target.actorId || attacker.conditions.sureShot?.statusId === 'sure-shot') return true;
+  if (attacker.conditions.sureShot?.statusId === 'whiffer') return false;
+  if (base > 100) return true;
   const a = Math.max(0, Math.min(20, attacker.stages.accuracy + (ability(attacker, catalogs, 'Compoundeyes') ? 2 : 0)));
   const e = Math.max(0, Math.min(20, target.stages.evasion + (physical && ability(attacker, catalogs, 'Hustle') ? 2 : 0)));
   return roll < Math.trunc(Math.trunc(base * (ACCURACY[a] ?? 256) / 256) * (EVASION[e] ?? 256) / 256);
@@ -114,6 +115,11 @@ export function attack(context, attacker, action, catalogs) {
     context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'miss' }); return;
   }
   if (redirect?.redirected) { context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'immune' }); return; }
+  if (learned && PARTY_STATUS_MOVES.includes(action.moveId) && slot) {
+    if (target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
+    const applied = applyPartyStatus(context, attacker, target, slot, catalogs);
+    context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: applied ? 'hit' : 'immune' }); return;
+  }
   if (learned && action.moveId === 'move-hypnosis') {
     if (target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
     hypnosis(context, attacker, target, catalogs);
@@ -128,7 +134,7 @@ export function attack(context, attacker, action, catalogs) {
   const armor = d('Battle Armor') || d('Shell Armor');
   const early = attacker.actorId !== session.leaderActorId && Math.floor(value(attacker.resources.belly)) === 0 || regular && d('Wonder Guard');
   const effect = move.effects.find(effect => effect.op === 'normal-damage');
-  const multiplier = effect && typeof effect.finalMultiplier === 'number' ? effect.finalMultiplier : 1;
+  const multiplier = learned && action.moveId === 'move-low-kick' ? lowKickMultiplier(target, catalogs) : effect && typeof effect.finalMultiplier === 'number' ? effect.finalMultiplier : 1;
   const result = calculateNormalDamage({
     type: { moveType, attackerTypes: types(attacker, catalogs), defenderTypes: types(target, catalogs), defenderExposed: false,
       abilities: { wonderGuard: d('Wonder Guard'), thickFat: d('Thick Fat'), flashFire: d('Flash Fire'), levitate: d('Levitate'), torrent: a('Torrent'), overgrow: a('Overgrow'), swarm: a('Swarm'), blaze: a('Blaze') },
@@ -138,7 +144,7 @@ export function attack(context, attacker, action, catalogs) {
       abilities: { guts: a('Guts'), attackerNegativeStatus: hasNegativeStatus(attacker), hugePower: a('Huge Power'), purePower: a('Pure Power'), hustle: a('Hustle'), plus: a('Plus'), minus: a('Minus'), sameSidePlus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Plus')), sameSideMinus: Object.values(session.actors).some(actor => actor.affiliation === attacker.affiliation && actor.placement.kind === 'map' && ability(actor, catalogs, 'Minus')), intimidate: d('Intimidate'), marvelScale: d('Marvel Scale'), defenderNegativeStatus: hasNegativeStatus(target) } },
     critical: { moveChance: move.numeric.criticalPercent, focusEnergy: attacker.conditions.sureShot?.statusId === 'focus-energy', typeAdvantageMaster: false, battleArmor: d('Battle Armor'), shellArmor: d('Shell Armor') },
     teamMember: attacker.affiliation === 'team', leader: attacker.actorId === session.leaderActorId, integerBelly: Math.floor(value(attacker.resources.belly)), level: attacker.growth.level, regularAttack: regular,
-    targetEffectsApply: true, reflect: false, lightScreen: false, moveEffectMultiplierQ8: Math.trunc(multiplier * 256), rolls: early ? null : { sharedPowerRoll: draw(context.state, 100), criticalRoll: armor ? null : draw(context.state, 100), varianceRoll: draw(context.state, 16384) } });
+    targetEffectsApply: true, reflect: target.conditions.reflect?.statusId === 'reflect', lightScreen: false, moveEffectMultiplierQ8: Math.trunc(multiplier * 256), rolls: early ? null : { sharedPowerRoll: draw(context.state, 100), criticalRoll: armor ? null : draw(context.state, 100), varianceRoll: draw(context.state, 16384) } });
   // Native CalcDamage draws precede the second accuracy check. Stat effects
   // never run that damage-only check.
   if (!accuracy(context, attacker, target, move.numeric.accuracyAfterDamage, physical, catalogs)) {
@@ -147,50 +153,29 @@ export function attack(context, attacker, action, catalogs) {
   }
   if (result.damage === 0) restoreFailedCredit();
   const liquidOoze = ability(target, catalogs, 'Liquid Ooze');
-  damageHp(target, result.damage);
-  if (result.damage > 0) contactReactions(context, attacker, target, physical, catalogs);
+  const hit = dealDamage(context, target, catalogs, { attacker, amount: result.damage, contact: true, physical });
+  const reactions = hit.reactions;
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
-  const resolution = finishDamage(context, target, catalogs, attacker);
+  const resolution = hit.resolution;
+  if (learned && result.damage > 0) damageStatSecondary(context, attacker, target, action.moveId, resolution === 'revived', catalogs);
   if (!(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle') && learned && action.moveId === 'move-confusion' && result.damage > 0 && resolution !== 'revived') confusionSecondary(context, attacker, target, catalogs);
   if (learned && action.moveId === 'move-thunder-shock' && result.damage > 0 && resolution !== 'revived' && secondaryAllowed(context, attacker, target, 10, catalogs)) inflictParalysis(context, target, moveConditionSource(context, attacker, action.moveId), catalogs);
   if (learned && action.moveId === 'move-absorb' && result.damage > 0 && attacker.placement.kind === 'map' && attacker.resources.hp > 0) {
     if (attacker.affiliation !== 'team' && !attacker.memory.experienceContributors.includes(attacker.actorId)) attacker.memory.experienceContributors.push(attacker.actorId);
     const amount = Math.max(1, Math.trunc(result.damage / 2));
-    if (liquidOoze) { damageHp(attacker, amount); finishDamage(context, attacker, catalogs, attacker, false); }
+    if (liquidOoze) dealDamage(context, attacker, catalogs, { attacker: null, amount, contact: false, physical: false, giveExperience: false });
     else attacker.resources.hp = Math.min(maxHp(attacker), attacker.resources.hp + amount);
     context.emit({ type: 'message', messageId: liquidOoze ? 'liquid-ooze-damage' : 'absorb-healed' });
   }
   if (!regular && result.damage > 0) {
-    if (action.kind === 'struggle' ? struggleRecoil(attacker) : learned && action.moveId === 'move-take-down' && takeDownRecoil(attacker, catalogs)) {
-      finishDamage(context, attacker, catalogs, attacker, false);
+    const recoil = action.kind === 'struggle' ? struggleRecoil(attacker) : learned && action.moveId === 'move-take-down' ? takeDownRecoil(attacker, catalogs) : 0;
+    if (recoil) {
+      dealDamage(context, attacker, catalogs, { attacker, amount: recoil, contact: false, physical: false, giveExperience: false });
       context.emit({ type: 'message', messageId: 'move-recoil' });
     }
     if (learned && action.moveId === 'move-rapid-spin') rapidSpinCleanup(context, attacker);
   }
-}
-
-/** Shared faint/experience ownership for damage moves and fixed item damage.
- * @param {Context} context @param {Actor} target @param {Catalogs} catalogs @param {Actor} attacker @param {boolean} [giveExperience] */
-export function finishDamage(context, target, catalogs, attacker, giveExperience = true) {
-  const session = context.state.session; if (!session) return blocked('damage-session');
-  if (tryRevive(context, target, catalogs)) return 'revived';
-  if (target.resources.hp === 0 && attacker.actorId === session.leaderActorId) recordSpeciesSeen(context.state, target.identity);
-  if (target.resources.hp === 0 && target.affiliation !== 'team') {
-    noteSteelBossFaint(context, target);
-    // R CalculateEXPGain and dungeon_damage.c: half credit until a move hits.
-    const p = profile(target.identity, catalogs); const base = p.experienceYield + Math.trunc(p.experienceYield * (target.growth.level - 1) / 10);
-    const xp = Math.max(1, target.memory.experienceContributors.length ? base : Math.trunc(base / 2));
-    for (const id of giveExperience ? session.teamOrder : []) {
-      const actor = session.actors[id]; if (!actor) continue;
-      actor.growth.totalExperience = quantity(Math.min(9999999, value(actor.growth.totalExperience) + xp));
-      actor.gains.experience = quantity(value(actor.gains.experience) + xp);
-    }
-    target.placement = { kind: 'off-map', reason: 'fainted' };
-    target.speed.movementPending = false; target.speed.endEffectsPending = false; target.speed.deferred = false;
-    const index = session.scheduler.wildSlots.indexOf(target.actorId); if (index >= 0) session.scheduler.wildSlots[index] = null;
-    context.emit({ type: 'message', messageId: 'enemy-fainted' });
-  }
-  return target.resources.hp === 0 ? 'fainted' : 'alive';
+  if (!session.teamOrder.some(id => session.actors[id]?.resources.hp === 0) && !(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle')) applyContactReactions(context, attacker, reactions, catalogs);
 }
 
 /** Source internal Bide2 release is typed fixed damage and consumes no learned
@@ -208,8 +193,7 @@ export function releaseBide(context, actor, amount, catalogs) {
   const matchup = combineTypeMatchups(lookupTypeMatchup('Fighting', targetTypes[0], false), lookupTypeMatchup('Fighting', targetTypes[1], false));
   const damage = ability(target, catalogs, 'Wonder Guard') && matchup !== 'super' ? 0 : amount;
   if (damage > 0 && target.affiliation !== 'team' && !target.memory.experienceContributors.includes(actor.actorId)) target.memory.experienceContributors.push(actor.actorId);
-  damageHp(target, damage);
-  if (damage > 0) contactReactions(context, actor, target, true, catalogs);
+  const hit = dealDamage(context, target, catalogs, { attacker: actor, amount: damage, contact: true, physical: true });
   context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: damage ? 'hit' : 'immune' });
-  finishDamage(context, target, catalogs, actor);
+  if (!session.teamOrder.some(id => session.actors[id]?.resources.hp === 0) && !(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle')) applyContactReactions(context, actor, hit.reactions, catalogs);
 }
