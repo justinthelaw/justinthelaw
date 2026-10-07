@@ -1,3 +1,5 @@
+import { damageHp } from './hp-damage.js';
+import { rapidSpinCleanup, takeDownRecoil } from './post-hit-effects.js';
 import { contactReactions } from './conditions.js';
 import { tryRevive } from './revival.js';
 import { recordSpeciesSeen } from '../state/species-seen.js';
@@ -18,7 +20,7 @@ function types(actor, catalogs) { const ids = profile(actor.identity, catalogs).
 /** @param {Catalogs} catalogs @param {string} id */
 export function supportedMove(catalogs, id) {
   const move = catalogs.effects.getMove(id);
-  return STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
+  return ['move-rapid-spin', 'move-take-down'].includes(id) || STAT_MOVES.includes(id) || move.hitCountContract.count === 1 && move.target.rangeCode === 0 && move.effects.length === 1 && move.effects.every(effect => effect.op === 'normal-damage' && Object.keys(effect).every(key => ['op', 'finalMultiplier'].includes(key))) && move.effects.some(effect => effect.op === 'normal-damage' && (effect.finalMultiplier === undefined || typeof effect.finalMultiplier === 'number'));
 }
 /** @param {Context} context @param {Actor} attacker @param {Actor} target @param {number} base @param {boolean} physical @param {Catalogs} catalogs */
 function accuracy(context, attacker, target, base, physical, catalogs) {
@@ -110,15 +112,22 @@ export function attack(context, attacker, action, catalogs) {
     context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'miss' }); return;
   }
   if (result.damage === 0) restoreFailedCredit();
-  target.resources.hp = Math.max(0, target.resources.hp - result.damage);
+  damageHp(target, result.damage);
   if (result.damage > 0) contactReactions(context, attacker, target, physical, catalogs);
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
   finishDamage(context, target, catalogs, attacker);
+  if (!regular && result.damage > 0) {
+    if (action.moveId === 'move-take-down' && takeDownRecoil(attacker, catalogs)) {
+      finishDamage(context, attacker, catalogs, attacker, false);
+      context.emit({ type: 'message', messageId: 'move-recoil' });
+    }
+    if (action.moveId === 'move-rapid-spin') rapidSpinCleanup(context, attacker);
+  }
 }
 
 /** Shared faint/experience ownership for damage moves and fixed item damage.
- * @param {Context} context @param {Actor} target @param {Catalogs} catalogs @param {Actor} attacker */
-export function finishDamage(context, target, catalogs, attacker) {
+ * @param {Context} context @param {Actor} target @param {Catalogs} catalogs @param {Actor} attacker @param {boolean} [giveExperience] */
+export function finishDamage(context, target, catalogs, attacker, giveExperience = true) {
   const session = context.state.session; if (!session) return blocked('damage-session');
   if (tryRevive(context, target, catalogs)) return;
   if (target.resources.hp === 0 && attacker.actorId === session.leaderActorId) recordSpeciesSeen(context.state, target.identity);
@@ -126,7 +135,7 @@ export function finishDamage(context, target, catalogs, attacker) {
     // R CalculateEXPGain and dungeon_damage.c: half credit until a move hits.
     const p = profile(target.identity, catalogs); const base = p.experienceYield + Math.trunc(p.experienceYield * (target.growth.level - 1) / 10);
     const xp = Math.max(1, target.memory.experienceContributors.length ? base : Math.trunc(base / 2));
-    for (const id of session.teamOrder) {
+    for (const id of giveExperience ? session.teamOrder : []) {
       const actor = session.actors[id]; if (!actor) continue;
       actor.growth.totalExperience = quantity(Math.min(9999999, value(actor.growth.totalExperience) + xp));
       actor.gains.experience = quantity(value(actor.gains.experience) + xp);

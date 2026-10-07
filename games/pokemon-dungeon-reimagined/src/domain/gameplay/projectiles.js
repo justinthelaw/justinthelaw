@@ -1,3 +1,4 @@
+import { damageHp } from './hp-damage.js';
 import { allocate, draw, FACINGS, blocked } from './support.js';
 import { finishDamage } from './combat.js';
 /** @typedef {import('../turns/types.js').MutationContext} Context */
@@ -33,7 +34,7 @@ export function throwRock(context, actor, rock, catalogs) {
   const target = Object.values(session.actors).find(other => other.resources.hp > 0 && other.placement.kind === 'map' && other.placement.mapId === session.floor.mapId && other.placement.position.x === landing.x && other.placement.position.z === landing.z);
   if (target && target.binding.kind !== 'job-client' && draw(context.state, 100) < 90) {
     if (target.conditions.sleep?.duration.kind === 'indefinite') target.conditions.sleep = null;
-    target.resources.hp = Math.max(0, target.resources.hp - 20);
+    damageHp(target, 20);
     context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'hit' });
     finishDamage(context, target, catalogs, actor); return;
   }

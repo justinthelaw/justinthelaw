@@ -100,3 +100,22 @@ Only the seven named stat moves are newly admitted. Complete status, copied,
 linked and multihit consumers remain open; learnsets are retained without
 level caps, dropped slots or generic-damage substitutions. Human play and
 visual acceptance of the additional effects remain open.
+
+## Rapid Spin and Take Down consumers
+
+The current consumer now explicitly overrides Rapid Spin's frozen candidate
+projection: successful positive damage runs complete frozen/leech-seed class
+cleanup after its admitted single-hit chain, with no extra chance draw or trap
+removal. Reciprocal wrap links must resolve before both endpoints are cleared;
+wrap application and admission remain gated. This does not claim that the
+predecessor trap-removal projection has become supported or that a Blue-only
+difference has been proved. Wonder Tiles are unaffected.
+
+Take Down applies source `DoubleEdgeMoveAction` (`move_orb_actions_2.c:502-522`):
+successful positive damage, valid user, Rock Head check, then maxHP/8 rounded
+down with minimum1. Recoil uses shared faint/revival and does not grant team
+experience for a wild user's recoil faint. The source chance-zero helper uses
+no random draw. All existing HP damage paths now share a narrow subtraction
+owner; its Bide accumulation hook counts nominal damage up to999 before HP
+subtraction. Bide itself remains unavailable until its lifecycle/save admission
+is integrated. Existing save resources and policies remain unchanged.

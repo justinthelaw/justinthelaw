@@ -1,3 +1,4 @@
+import { damageHp } from './hp-damage.js';
 import { ability, profile, draw, blocked, quantity } from './support.js';
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
 /** @typedef {import('../turns/types.js').MutationContext} Context */
@@ -54,7 +55,7 @@ export function poisonDamage(context, actor) {
   const c = actor.conditions.burn;
   if (c?.statusId !== 'poisoned' || c.periodicCountdown === null) return;
   if (c.periodicCountdown > 0) c.periodicCountdown--;
-  if (c.periodicCountdown === 0) { c.periodicCountdown = 10; actor.resources.hp = Math.max(0, actor.resources.hp - 4); context.emit({ type: 'message', messageId: 'poison-damage' }); }
+  if (c.periodicCountdown === 0) { c.periodicCountdown = 10; damageHp(actor, 4); context.emit({ type: 'message', messageId: 'poison-damage' }); }
 }
 
 /** Reused by visible Wonder Tiles and new-floor cleanup. Speed is independent.

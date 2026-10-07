@@ -945,3 +945,12 @@ experience credit on damage-only misses or zero damage; true-return stat
 handlers retain their source credit at caps/protection. Existing credit is
 preserved. Scoped lint258/types179 and whitespace checks passed; independent
 re-review and human gameplay acceptance remain separate gates.
+
+### Mt. Steel positive-damage follow-up consumers - 2026-10-07
+
+Rapid Spin now runs the audited full-class cleanup without trap removal, and
+Take Down applies source Rock Head-aware maxHP recoil through shared faint/
+revival without recoil experience. Shared HP subtraction prepares consistent
+Bide damage accumulation across moves, items and residual sources; Bide remains
+gated pending its timing/state owner. No old save boundary is changed. Source
+qualification and wrap admission limits remain explicit in MT-STEEL.md.

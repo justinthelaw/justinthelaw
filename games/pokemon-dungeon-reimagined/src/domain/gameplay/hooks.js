@@ -1,3 +1,4 @@
+import { damageHp } from './hp-damage.js';
 import { SPAWN_SLEEP_CHANCES, eligibleEncounter } from '../../../content/state/expedition-facts.js';
 import { selectEncounter } from '../generation/encounters.js';
 import { tickConditions, poisonDamage, resetStatChanges } from './conditions.js';
@@ -149,7 +150,7 @@ export function createTurnHooks(catalogs, authored) {
       if (a.actorId === s.leaderActorId) {
         const belly = Math.trunc(value(a.resources.belly) * 65536) - 6554;
         a.resources.belly = belly < 65536 ? quantity(0) : quantity(belly, 65536);
-        if (!a.resources.belly.numerator) { a.resources.hp = Math.max(0, a.resources.hp - 1); context.emit({ type: 'message', messageId: 'hunger-damage' }); }
+        if (!a.resources.belly.numerator) { damageHp(a, 1); context.emit({ type: 'message', messageId: 'hunger-damage' }); }
       }
       if (a.resources.hp === 0) return hooks.forcedLoss(context);
       draw(context.state, 100); // Native Shed Skin sample precedes periodic poison.
