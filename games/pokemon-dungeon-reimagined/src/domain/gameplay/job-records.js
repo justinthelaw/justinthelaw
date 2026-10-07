@@ -1,3 +1,4 @@
+import { TOWN } from '../../../content/authored/town.js';
 import { EARLY_JOB_FACTS as FACTS } from '../../../content/authored/early-job-facts.js';
 import { allocate, blocked, clone, draw } from './support.js';
 import { generateEarlyBoard, generateEarlyJob, earlyRewardItem } from './job-generation.js';
@@ -167,4 +168,14 @@ export function changeJobSelection(state, work, jobId, operation) {
 export function earlyJob(job) {
   if (job.source.kind !== 'generated' || !('posting' in job.source)) return blocked('early-job-source');
   return /** @type {EarlyJob} */ (clone(job));
+}
+
+/** No history is reconstructed. A pre-work import gains a fresh prospective
+ * board only after its original envelope and exact policy have authenticated.
+ * @param {import('../../contracts/campaign.js').CampaignState} state
+ * @param {number} revision @param {boolean} [legacy] */
+export function initializeEarlyWork(state, revision, legacy = false) {
+  if (state.progress.storyNodeId !== TOWN.story) { state.earlyWork = null; return; }
+  state.earlyWork = { startedRevision: revision, history: legacy ? 'legacy-postings-unavailable' : 'from-town-start', storyExpeditions: state.progress.statistics.expeditions, clientPrompt: null, boardJobIds: [], mailbox: [], newsRead: [0], mailPending: false, returned: null, reward: null };
+  refreshGroundJobs(state, state.earlyWork);
 }

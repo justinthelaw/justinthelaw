@@ -1,5 +1,33 @@
 # Pokémon Dungeon Reimagined progress and decisions
 
+## Ordinary-work admission review corrections — 2026-10-07
+
+Current-only save admission now shares the live interaction predicate for rescue
+prompts: actual leader input boundary, facing tile, terrain/corner geometry and
+supported talk eligibility must still hold on reload and confirmation. Rescued
+leave/confirmation stages keep their separate off-map ownership. Persisted reward
+cursors must route the pending grant to a real overflow choice; contradictory
+bag/storage-space pauses are rejected without replay or repair. Focused static
+lint253/types175 and unchanged34/13/2 predecessor pins pass. No game execution.
+
+## Ordinary work through Diglett's request — 2026-10-07
+
+Current v8 integrates the reviewed town/generator/objective/reward prerequisites:
+board and mailbox selection, separate Take/Suspend, real Tiny Woods/Thunderwave
+objectives, no-turn client confirmation and exit loop, ordered successful-return
+rewards, recoverable inventory overflow and the two-receipt Diglett request.
+Find-item ownership is checked at each station cursor, including items supplied
+by earlier rewards. Failed returns grant no rewards; unfinished jobs retry.
+MAIN reaches4,6, while Mt. Steel remains unavailable.
+
+Save admission preserves exact v2-v7 predecessors, including the old seen root
+and v7 factory/body/policy. Legacy town imports keep their scene/cursor/day and
+receive only a prospective board, with missing posting/history feedback. Current
+owners persist dialogue, prepared reward extras/item cursor and exact-once
+receipts. Source ordering, qualifications and remaining mechanics are recorded
+in TOWN-JOBS. Static lint/types and additive pins pass; no game execution,
+playthrough, visual acceptance or full campaign completion is claimed.
+
 ## Ordinary job lifecycle prerequisites — 2026-10-07
 
 Source-qualified generated records, Take/Suspend, board/mail occupancy and early
@@ -29,8 +57,8 @@ claimed. Focused static verification is recorded with this checkpoint.
 - **State:** implementation authorized on 2026-10-04 and continued on 2026-10-05; P01 source audit and full P02 content coverage remain incomplete.
 - **Planning baseline:** [PR #387](https://github.com/justinthelaw/justinthelaw/pull/387) merged as `0d34db51c258368ade8f081557200905214cebcd`.
 - **Delivery:** foundations [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388), README [PR #390](https://github.com/justinthelaw/justinthelaw/pull/390) and launcher [PR #391](https://github.com/justinthelaw/justinthelaw/pull/391) are merged. Full-game work is isolated on `feat/pokemon-full-campaign`, based on main `c7270c8b4ed73c28144abd09dc6811b6ca9d3b50`; it is not deployed.
-- **Current work:** the canonical opening, Tiny Woods rescue/reunion, team formation/name confirmation, first morning/save tutorial and Thunderwave Cave through its first-request return checkpoint plus the first town day and bank/storage/shop services are implemented on PR #392. The recovered checkpoint also contains validated held-v2 save conversion, quiz RNG isolation and touch submission for opted-in name forms. Human gameplay/visual/device acceptance and the rest of the campaign remain open.
-- **Next safe action:** continue [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md) with sourced ordinary-job generation, objectives and reward receipts from MAIN(4,4), preserving the first town/service review boundary. Preserve the existing save boundary and once-only grants. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
+- **Current work:** the canonical opening, Tiny Woods rescue/reunion, team formation/name confirmation, first morning/save tutorial and Thunderwave Cave through its first-request return checkpoint plus town services, real ordinary work and the Diglett request are implemented on PR #392. The recovered checkpoint also contains validated held-v2 save conversion, quiz RNG isolation and touch submission for opted-in name forms. Human gameplay/visual/device acceptance and the rest of the campaign remain open.
+- **Next safe action:** continue [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md) with the sourced Mt. Steel story expedition after review of the integrated v8 job checkpoint, preserving ordinary work and the Diglett boundary. Preserve the existing save boundary and once-only grants. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
 

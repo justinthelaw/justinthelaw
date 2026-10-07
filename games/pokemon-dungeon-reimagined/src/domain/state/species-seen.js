@@ -1,6 +1,7 @@
+import { recordsEarlyWork } from './early-work.js';
 /** Exact root-shape selection. Older content never admits the new field.
  * @param {string} revision */
-export const recordsSpeciesSeen = revision => revision.startsWith('blue-campaign-state-v7-seen-opening:browser-opening-v7-seen:');
+export const recordsSpeciesSeen = revision => revision.startsWith('blue-campaign-state-v7-seen-opening:browser-opening-v7-seen:') || recordsEarlyWork(revision);
 
 /** Source pokemon.c sets seen flags on roster creation/recruit placement.
  * Migrating saves cannot recover discarded wild defeats or their attacker.

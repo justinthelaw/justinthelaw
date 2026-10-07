@@ -211,7 +211,7 @@
  * @typedef {{
  *     schemaVersion: 1;
  *     speciesSeen?: SpeciesSeenHistory;
- *     earlyWork?: import('./early-work.js').EarlyWorkState;
+ *     earlyWork?: import('./early-work.js').EarlyWorkState|null;
  *     contentRevision: ContentRevision;
  *     revision: Int;
  *     idSequence: IdSequence;

@@ -582,6 +582,345 @@ export const SHAPES = {
     "startedRevision":{"kind":"ref","name":"Int"},
     "identities":{"kind":"array","value":{"kind":"ref","name":"SpeciesForm"}}
   }},
+  "EarlyWorkState": {
+    "kind": "object",
+    "fields": {
+      "history":{"kind":"union","members":[{"kind":"literal","value":"from-town-start"},{"kind":"literal","value":"legacy-postings-unavailable"}]},
+      "startedRevision": {
+        "kind": "ref",
+        "name": "Int"
+      },
+      "storyExpeditions": {
+        "kind": "ref",
+        "name": "Int"
+      },
+      "clientPrompt": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "object",
+            "fields": {
+              "actorId": {
+                "kind": "ref",
+                "name": "ActorId"
+              },
+              "stage": {
+                "kind": "union",
+                "members": [
+                  {
+                    "kind": "literal",
+                    "value": "rescue"
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "leave"
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "confirm-leave"
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "confirm-stay"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "boardJobIds": {
+        "kind": "array",
+        "value": {
+          "kind": "ref",
+          "name": "JobId"
+        }
+      },
+      "mailbox": {
+        "kind": "array",
+        "value": {
+          "kind": "union",
+          "members": [
+            {
+              "kind": "object",
+              "fields": {
+                "kind": {
+                  "kind": "literal",
+                  "value": "news"
+                },
+                "newsId": {
+                  "kind": "ref",
+                  "name": "Int"
+                }
+              }
+            },
+            {
+              "kind": "object",
+              "fields": {
+                "kind": {
+                  "kind": "literal",
+                  "value": "job"
+                },
+                "jobId": {
+                  "kind": "ref",
+                  "name": "JobId"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "newsRead": {
+        "kind": "array",
+        "value": {
+          "kind": "ref",
+          "name": "Int"
+        }
+      },
+      "mailPending": {
+        "kind": "boolean"
+      },
+      "returned": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "object",
+            "fields": {
+              "sessionId": {
+                "kind": "ref",
+                "name": "SessionId"
+              },
+              "dungeonId": {"kind":"ref","name":"DungeonId"},
+              "outcome": {
+                "kind": "union",
+                "members": [
+                  {
+                    "kind": "literal",
+                    "value": "success"
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "fainting"
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "wind-expulsion"
+                  },
+                  {
+                    "kind": "literal",
+                    "value": "give-up"
+                  }
+                ]
+              },
+              "jobIds": {
+                "kind": "array",
+                "value": {
+                  "kind": "ref",
+                  "name": "JobId"
+                }
+              },
+              "cursor": {
+                "kind": "ref",
+                "name": "Int"
+              }
+            }
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "reward": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "object",
+            "fields": {
+              "jobId": {
+                "kind": "ref",
+                "name": "JobId"
+              },
+              "preparedRevision": {
+                "kind": "ref",
+                "name": "Int"
+              },
+              "nextItem": {
+                "kind": "ref",
+                "name": "Int"
+              }
+            }
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      }
+    }
+  },
+  "CampaignStateWithWork": {
+    "kind": "object",
+    "fields": {
+      "earlyWork": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "EarlyWorkState"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "speciesSeen": {
+        "kind": "ref",
+        "name": "SpeciesSeenHistory"
+      },
+      "schemaVersion": {
+        "kind": "literal",
+        "value": 1
+      },
+      "contentRevision": {
+        "kind": "ref",
+        "name": "ContentRevision"
+      },
+      "revision": {
+        "kind": "ref",
+        "name": "Int"
+      },
+      "idSequence": {
+        "kind": "ref",
+        "name": "IdSequence"
+      },
+      "random": {
+        "kind": "ref",
+        "name": "CampaignRandomStreams"
+      },
+      "profile": {
+        "kind": "ref",
+        "name": "CampaignProfile"
+      },
+      "roster": {
+        "kind": "record",
+        "value": {
+          "kind": "ref",
+          "name": "PokemonRecord"
+        }
+      },
+      "selectedPartyIds": {
+        "kind": "array",
+        "value": {
+          "kind": "ref",
+          "name": "PokemonId"
+        }
+      },
+      "items": {
+        "kind": "record",
+        "value": {
+          "kind": "ref",
+          "name": "ItemInstance"
+        }
+      },
+      "containers": {
+        "kind": "record",
+        "value": {
+          "kind": "ref",
+          "name": "ItemContainer"
+        }
+      },
+      "economy": {
+        "kind": "ref",
+        "name": "EconomyState"
+      },
+      "progress": {
+        "kind": "ref",
+        "name": "ProgressState"
+      },
+      "town": {
+        "kind": "ref",
+        "name": "TownState"
+      },
+      "mode": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "literal",
+            "value": "town"
+          },
+          {
+            "kind": "literal",
+            "value": "scene"
+          },
+          {
+            "kind": "literal",
+            "value": "dungeon"
+          },
+          {
+            "kind": "literal",
+            "value": "awaitingRescue"
+          },
+          {
+            "kind": "literal",
+            "value": "defeat"
+          }
+        ]
+      },
+      "session": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "ExpeditionState"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "pendingScene": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "PendingScene"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "pendingResult": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "PendingResult"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "rescue": {
+        "kind": "ref",
+        "name": "RescueState"
+      },
+      "options": {
+        "kind": "ref",
+        "name": "CampaignOptions"
+      }
+    }
+  },
   "CampaignStateWithSeen": {
     "kind": "object",
     "fields": {

@@ -134,6 +134,10 @@
     {
       "path": "games/pokemon-dungeon-reimagined/content/authored/town-shop-facts.js",
       "sha256": "c1d7f9af1c120484193b96f11531eccbf14dcb4e48adc61186f033935c24cee2"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/species-seen.js",
+      "sha256": "21bac0816359fb93f72e19334965d2c828e373c46e81822fce02f52879c8ff86"
     }
   ],
   "functionBodies": [
@@ -191,6 +195,16 @@
       "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
       "functionName": "createTownOpeningContent",
       "sha256": "467b3300eba9624f277b571c09e67fac560a95e4d97943b43a6569c32d3a1ca4"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/seen-campaign.js",
+      "functionName": "createCampaignContent",
+      "sha256": "71505bd36d24fb123d76d2b21efb204b07a78cbaed04b8c23081228cfa1cff35"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createSeenOpeningContent",
+      "sha256": "efa8ea2bcf98c28a4b3695160850d843e39649cececc80796cf91ade470502f9"
     }
   ],
   "catalogManifests": [
@@ -209,5 +223,10 @@
   "legacyRootShape": {
     "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
     "sha256": "af8a3206a7a60dcd05dda8ae5c7138b61aab07010a22c8d8d0e55d2a3548a20f"
+  },
+  "workPredecessorBaselineCommit": "e1b97cc1c4dda6e216aa896bcf815a8008cb8440",
+  "seenRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "90cf67ccc6c0c27fdfa6ed237cdd682169a39fddee06e8f5bfbcb09291a5297a"
   }
 }

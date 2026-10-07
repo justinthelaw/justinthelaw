@@ -48,11 +48,11 @@ export function leaveJobFloor(session) {
 /** Native scans toolbox slots, excluding in-shop and sticky+SET. The browser
  * represents equipped items in separate held containers, so toolbox sticky
  * items remain eligible; held items never count for either item objective.
- * @param {Snapshot} state @param {Job} job @param {import('../../contracts.js').ContainerId} containerId */
+ * @param {Snapshot} state @param {Snapshot['progress']['jobs'][string]} job @param {import('../../contracts.js').ContainerId} containerId */
 export function jobTargetItem(state, job, containerId) {
   if (job.goal.kind !== 'retrieve-item' && job.goal.kind !== 'deliver-item') return null;
   const target = job.goal.itemId;
-  return state.containers[containerId]?.itemIds.map(id => state.items[id]).find(item => item?.template.itemId === target && item.shopLotId === null) ?? null;
+  return state.containers[containerId]?.itemIds.map(id => state.items[id]).find(item => item?.template.itemId === target && (job.goal.kind !== 'deliver-item' || item.shopLotId === null)) ?? null;
 }
 
 /** Caller has confirmed the adjacent client interaction. Delivery consumes a
@@ -83,8 +83,8 @@ export function completeJobClient(context, actorId) {
 /** Runs after carried item loss/retention. Success promotes native8→9; loss
  * removes completed8 without a receipt, while unfinished taken6 remains.
  * Failed ordinary81 returns never enter the station, including retained finds.
- * The successful find-item candidates are rechecked individually at the station
- * so one returned item cannot satisfy two requests.
+ * All successful taken-find candidates are checked at their station cursor: an
+ * earlier reward may supply a later target, while one slot cannot satisfy two.
  * @param {State} state @param {Session} session @param {boolean} success
  * @returns {import('../../contracts.js').JobId[]} */
 export function settleJobObjectives(state, session, success) {
@@ -99,7 +99,7 @@ export function settleJobObjectives(state, session, success) {
       }
     } else if (job.phase.kind === 'active' && job.phase.sessionId === session.sessionId) {
       job.phase = { kind: 'accepted', acceptedRevision: state.revision + 1 };
-      if (success && job.goal.kind === 'retrieve-item' && jobTargetItem(state, job, state.economy.toolbox)) ready.push(id);
+      if (success && job.goal.kind === 'retrieve-item') ready.push(id);
     }
   }
   return ready;

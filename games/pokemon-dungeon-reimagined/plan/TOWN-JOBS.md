@@ -1,7 +1,10 @@
 # Town and ordinary rescue work
 
-Continuation of the reviewed Thunderwave route at MAIN(4,0). The first town day and bank/storage/shop transactions are implemented. Ordinary
-jobs and Diglett-request progression remain the next dependency boundary.
+Continuation of the reviewed Thunderwave route at MAIN(4,0). The first town day,
+bank/storage/shop transactions and real ordinary jobs now reach Diglett's
+request at MAIN(4,6). Mt. Steel remains gated. Earlier prerequisite sections
+below record their original bounded checkpoints; the current integration and
+remaining limitations are described at the end.
 
 ## Source boundary
 
@@ -31,7 +34,7 @@ projectiles have a1-99 quantity selector bounded by the stored quantity. Both
 ownership and capacity are rechecked on confirmation. Cancellation does not
 invoke a transaction. Existing item/economy admission policies remain unchanged.
 
-## Ordinary-job research in progress
+## Ordinary-job source boundary
 
 `include/constants/wonder_mail.h` has two different enums. Numeric mission
 semantics come from **WonderMailMissionTypes**:0 client rescue,1 target rescue,
@@ -45,7 +48,8 @@ pre-postgame exclusions including hero/partner (`pokemon_mail.c:sub_803C110`).
 No arbitrary all-species pool or category pruning is authorized. The native
 CLEAR_COUNT increments only after successful job-reward processing and resets
 on MAIN chapter/substage changes; it is not a count of dungeon clears or days.
-Generator, objective, reward and seen-history consumers remain under research.
+The integrated owners below use this bounded source trace; later rank and
+mission families remain unresolved.
 
 Focused lint/types and source-boundary checks are the permitted verification.
 No game module is imported/executed and no game browser is booted. Full campaign,
@@ -101,7 +105,7 @@ recheck source affordability, twenty-slot capacity and99,999 carried-money cap.
 `IsShoppableItem`, and `AddHeldItemToInventory` own those facts. Prices multiply
 projectile units and do not add a stickiness discount.
 
-The checkpoint deliberately has no generated offers or ordinary expedition
+The earlier town-only checkpoint deliberately had no generated offers or ordinary expedition
 entry yet. CLEAR_COUNT stays0, so Diglett/Mt. Steel cannot unlock. Gulpin and
 Dojo transactions remain explicitly unavailable; Friend Areas retain their
 later native gate. Purchased TMs, orbs and Warp/Stun Seeds are owned and storable but their use
@@ -131,7 +135,7 @@ the native helper does. No old admission body/hash is changed.
 
 ## Save boundary
 
-Current content revision is v7-seen. Exact held-v2/v3-team/v4-morning/v5-
+The seen-history prerequisite content revision was v7-seen. Exact held-v2/v3-team/v4-morning/v5-
 Thunderwave/v6-town envelopes, timestamps and SHA-256 authenticate before their
 original admission policies. A guarded conversion advances revision and
 contentRevision, adds qualified seen history, then validates the entire current
@@ -248,7 +252,7 @@ Generated records now retain posting origin, native24-bit seed, numeric mission,
 target item, promised item and reward kind. The additive generated-source shape
 keeps the existing generation-policy discriminator. `suspended` represents
 accepted native5; `accepted` represents taken6. All predecessor content policies
-still require no jobs. The current v7 root still rejects `earlyWork`; no command
+still require no jobs. The exact predecessor v7 root still rejects `earlyWork`; no predecessor command
 or current policy enables ordinary expeditions at this prerequisite checkpoint.
 
 `job-records.js` owns board refresh, eight-slot acceptance, separate Take/Suspend,
@@ -288,16 +292,15 @@ rescuing a client removes that completed request without a reward. An unfinished
 or fainted ordinary client leaves its taken request retryable.
 
 The shared expedition kernel now has an explicitly selected ordinary purpose,
-ordinary final stairs and client placement/objective hooks; current commands
-still select only story purpose. A client replaces the first monster placement
+ordinary final stairs and client placement/objective hooks; the predecessor checkpoint selected only story purpose. A client replaces the first monster placement
 without a wild-species or spawn-sleep sample and adds the source mission enemy
 count/Monster House suppression. The actor uses source level1 growth/moves,
 neutral affiliation, random-direction AI and client presentation. Generic moves
 and arc projectiles exclude it before hit RNG; eaten Blast remains unchanged.
 Floor exit clears transient actor references while preserving completed state.
 No story rescue, clear receipt or story item is replayed by the ordinary branch.
-Current save admission, no-turn dialogue, reward queue UI and Diglett scenes are
-still integration work, so these paths are not yet user-playable.
+The current v8 integration below supplies save admission, no-turn dialogue,
+reward queue UI and Diglett scenes.
 
 Review correction: acceptance callers in `pelipper_board.c:378–381` and
 `mailbox.c:416–418` invoke `SortJobSlots` after copying the request. Its native
@@ -305,3 +308,114 @@ dungeon/floor order now shares a comparator with mailbox sorting. Take/Suspend
 and deletion preserve that order, which flows through settlement into station
 eligibility. With only one returned item for two find-item requests, the earlier
 native floor is therefore processed first rather than the first accepted job.
+
+## Current v8 ordinary work and Diglett boundary
+
+The source owners are now admitted and presented. At the Post Office the board
+shows real generated offers; the base mailbox receives news and native mailbox
+requests on eligible later mornings. Accept copies a request into the eight-slot
+Job List as suspended. Take/Suspend/deletion preserve native dungeon/floor order.
+The base departure selector enters a shared ordinary Tiny Woods or Thunderwave
+run, with taken requests bound to their real dungeon/floor. Returning never
+replays Caterpie/Magnemite scenes or duplicates story clear/reward receipts.
+Bank/storage/shop service confirmations remain available between runs.
+
+A leader talks to the client on the facing tile with the shared native melee
+terrain/corner geometry. `dungeon_main.c:491–497` handles TALK_FIELD inside its
+input loop, so opening/confirming rescue or delivery, the leave question and its
+second confirmation do not advance a turn, timers or AI. `dungeon_jobs.c:83–143`
+consumes a delivery's first eligible whole toolbox slot, marks native8 and removes
+the client before offering immediate exit. Leave defaults yes; really-leave and
+continue-adventure default no. Denying either second question returns to leave.
+The domain blocks movement/items/facing/advance while this persisted prompt owns
+input. Cancelling the initial rescue spends no turn. A missing delivery item
+retains the request/client. The native talk predicates block supported sleep and
+confusion/infatuation, but not paralysis or poison alone. Native target wake
+clears indefinite sleep/petrification before eligibility; current neutral clients
+have no reachable source for those conditions, so no substitute cure is invented.
+
+Every successful ordinary return retains an ordered candidate cursor. All taken
+find requests in that dungeon are candidates regardless of listed-floor visit
+or initial returned ownership. `textbox.c:SPECIAL_TEXT_UNK_22/23` and
+`code_80958E8.c:sub_8096AF8` recheck ownership as each native slot is reached: an
+earlier reward item may satisfy a later find, while one slot cannot satisfy two.
+`thank_you_messages.c:201–206` consumes the first matching complete toolbox slot.
+Delivery has already consumed its item in the dungeon. Missing finds remain
+taken for retry. Failed ordinary81 returns never enter this station; completed
+client requests are removed, unfinished requests remain, and no count is earned.
+
+Prepared extra rewards and the next item cursor persist before an overflow
+choice is exposed. Every transfer and cursor change share one draft, including
+discarding the received item or storing/discarding a selected whole old slot.
+Reload cannot reroll extras or grant an earlier slot again. Money, rank points,
+claimed history, accepted-list removal and the displayed receipt commit after
+all item choices. This browser atomic final receipt adapts native TYM_Create's
+earlier count increment: no menu click or interrupted inventory prompt earns a
+receipt. Money caps at99,999 and each early difficulty1 receipt grants5 points.
+The result distinguishes promised items from items kept, stored or discarded.
+Native successful client rewards unlock exclusive variants, not seen flags;
+no new exclusive flag is needed for the finite early Blue-enabled pool.
+
+Return cleanup preserves source ownership: `pokemon.c:1004/1016` converts retained
+held items with `ItemToBulkItem`, dropping flags; `ground_main.c:sub_8098CC8` ends
+with `items.c:ClearAllItems_8091FB4`, clearing retained toolbox stickiness after
+shop/board/mail-pending refresh. Ordinary held/toolbox instances retain their
+identity and quantity while their sticky bit clears. Existing pickup already
+converts Poké to money, so no invented bag-money case is admitted.
+
+Each ordinary return advances the browser day exactly once after all receipts.
+At MAIN(4,4), at least two actual job receipts select the next morning's Diglett
+request before normal mail delivery. Independently authored Dugtrio/partner
+scenes then set MAIN(4,5) and(4,6), resetting CLEAR_COUNT on each native scenario
+assignment. Mt. Steel is visibly unavailable. Normal rank's native type2→0
+conversion makes escort unreachable here: the rank threshold is50, each receipt
+is5, and at most one preceding receipt plus three same-dungeon objectives can
+reach the mandatory gate. No point cap, generator filter or invented objective
+is used to enforce that bound. Escort consumers are required before later
+rank/route admission can expose them.
+
+### Save and validation boundary
+
+Current revision is v8-work. Its exact root adds nullable `earlyWork`; pre-town
+states have no owner, while town work records the initial story-expedition
+baseline, board IDs, four mailbox slots/read news/pending flag, no-turn prompt,
+returned dungeon/session/candidate cursor and prepared reward/item cursor.
+Current-only policies validate explicit source job metadata/people/items,
+posting ownership/conflicts, accepted and station order, objective/client joins,
+rank/count/day receipts and exact Diglett scene progress. They reuse predecessor
+numerical/floor/town prerequisites only after checking the changed facts.
+Rescue-stage admission and confirmation share the live client-interaction
+predicate, including the actual leader input boundary, facing tile, terrain
+geometry and supported talk eligibility. Already-rescued exit stages retain
+separate off-map checks. A persisted reward item cursor must route to a real
+full-toolbox/full-storage choice; available-space contradictions are rejected,
+never repaired by replaying transfers or rerolling extras.
+The separate v7 root, factory, authored body and seen policy are frozen; all
+older module/body/manifest hashes remain unchanged. Additive pins now cover34
+modules,13 exact bodies, two manifests and both predecessor root shapes.
+
+Each v2-v7 import authenticates its original envelope/hash and exact original
+admission before conversion. Existing seen history is retained; older missing
+history remains explicitly incomplete. A legacy town save preserves its old
+scene, cursor, day and receipts, then gets a newly generated prospective board
+because prior postings/mail history were never stored. The UI explains this
+limitation at import/continue and at town. It does not reconstruct past mail,
+invent defeated species or claim an exact historical generator pool.
+
+### Remaining scope and acceptance
+
+This interval implements numeric mission0/1/3/4 and board/mail reward0–7. Later
+escort, Friend Area/recruitment access, Gulpin, Dojo, higher ranks and every later
+route remain separate full-campaign work. TMs, orbs, Warp Seeds and Stun Seeds
+retain honest carrying/storage/purchase and explicit unavailable-use feedback.
+The shared basic food/berries, Sleep/Blast Seed, rocks, Max Elixir and Reviver
+consumers are live; the complete move/status/AI catalogs remain partial. New
+neutral clients do not imply all target/effect families are implemented.
+
+Verification is static source parsing/lint, strict types, source/data exporter
+checks and immutable predecessor pins only. No game source was imported or
+executed, no game browser was booted and no automated playthrough ran. Human
+acceptance still needs actual board/mail selection, multiple objective types,
+no-turn dialogue/geometry, failure/retry, same-item reward ordering, overflow
+choice/cancel/reload, old-save continuation, Diglett staging, controls and visuals.
+Full campaign, Blue binary verification and P36/P37 release gates remain open.

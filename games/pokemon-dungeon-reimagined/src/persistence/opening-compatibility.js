@@ -1,7 +1,9 @@
+import { createCampaignContent as createSeenCampaignContent } from '../../content/state/seen-campaign.js';
+import { initializeEarlyWork } from '../domain/gameplay/job-records.js';
 import { createCampaignContent as createTownCampaignContent } from '../../content/state/town-campaign.js';
 import { initializeSpeciesSeen } from '../domain/state/species-seen.js';
 import { createCampaignContent } from '../../content/state/opening-campaign.js';
-import { createTeamOpeningContent, createMorningOpeningContent, createThunderwaveOpeningContent, createTownOpeningContent } from '../../content/authored/opening.js';
+import { createTeamOpeningContent, createMorningOpeningContent, createThunderwaveOpeningContent, createTownOpeningContent, createSeenOpeningContent } from '../../content/authored/opening.js';
 import { createCampaignContent as createHeldV2Content, HELD_V2_REVISION } from '../../content/state/held-v2-campaign.js';
 import { OPENING_EXPEDITION as O } from '../../content/authored/expedition.js';
 import { commandContext, prepareTransaction } from '../domain/state/transaction.js';
@@ -9,13 +11,14 @@ import { validateCampaign } from '../domain/state/validate.js';
 import { beginFormation } from '../domain/gameplay/scenes.js';
 import { fail, succeed } from './results.js';
 
-/** Exactly the navigation-backed held-v2, v3-team, v4-morning, v5-Thunderwave and v6-town predecessors. held-v1, partial catalog variants
+/** Exactly the navigation-backed held-v2, v3-team, v4-morning, v5-Thunderwave v6-town and v7-seen predecessors. held-v1, partial catalog variants
  * and unknown revisions are not repair candidates. The four frozen held-v2 authoring/
  * policy modules preserve held-v2 scene, item and session admission; shared
  * factual catalog/held ownership policies have not changed in this slice. V3
  * uses its exact six-scene body/shared policy pins; v4 retains its exact thirteen-scene body and morning wrappers. V5 retains its
  * sixteen-scene body, factory and expedition wrappers. V6 retains its twenty-scene
- * body, factory and town/stock policies. */
+ * body, factory and town/stock policies. V7 retains its exact seen root, factory,
+ * authored body and seen-history policy. */
 
 /** Conversion runs only after codec checks original envelope agreement, time,
  * SHA-256 and exact selected predecessor policy admission. It neither dispatches turns nor
@@ -39,14 +42,19 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   const town = createTownCampaignContent(catalogs, createTownOpeningContent());
   const townRevision = HELD_V2_REVISION.replace('blue-campaign-state-v2-held-opening:browser-opening-v2:', 'blue-campaign-state-v6-town-opening:browser-opening-v6-town:');
   if (town.contentRevision !== townRevision) throw new TypeError('Town-v6 factual catalog boundary differs.');
-  return Object.freeze([...([town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
+  const seen = createSeenCampaignContent(catalogs, createSeenOpeningContent());
+  const seenRevision = HELD_V2_REVISION.replace('blue-campaign-state-v2-held-opening:browser-opening-v2:', 'blue-campaign-state-v7-seen-opening:browser-opening-v7-seen:');
+  if (seen.contentRevision !== seenRevision) throw new TypeError('Seen-v7 factual catalog boundary differs.');
+  return Object.freeze([...([seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);
       if (!admitted.ok || snapshot.contentRevision !== predecessor.contentRevision) return fail('invalid');
       try {
         const { draft, commitRevision } = prepareTransaction(admitted.snapshot, commandContext(admitted.snapshot));
-        draft.contentRevision = content.contentRevision; draft.revision = commitRevision; initializeSpeciesSeen(draft, true);
+        draft.contentRevision = content.contentRevision; draft.revision = commitRevision;
+        if (!draft.speciesSeen) initializeSpeciesSeen(draft, true);
+        initializeEarlyWork(draft, commitRevision, true);
         const checked = validateCampaign(draft, content);
         return checked.ok ? succeed(checked.snapshot) : fail(checked.kind === 'blocked' ? 'content-blocked' : 'invalid');
       } catch { return fail('invalid'); }
@@ -71,7 +79,7 @@ export function createOpeningCompatibility(catalogs, content, authored) {
           if (draft.pendingScene || draft.session || draft.pendingResult || draft.mode !== 'town' || draft.progress.storyNodeId !== O.returnNode || !visit || visit.count !== 1 || draft.progress.appliedGrants.length !== 1 || grant?.grantId !== 'browser-reunion-reward' || grant.revision !== visit.lastRevision || grant.day !== 0 || !draft.progress.clears['tiny-woods']) return fail('invalid');
           beginFormation({ state: draft, emit() {} }, authored);
         }
-        draft.revision = commitRevision; initializeSpeciesSeen(draft, true);
+        draft.revision = commitRevision; initializeSpeciesSeen(draft, true); initializeEarlyWork(draft, commitRevision, true);
         const checked = validateCampaign(draft, content);
         return checked.ok ? succeed(checked.snapshot) : fail(checked.kind === 'blocked' ? 'content-blocked' : 'invalid');
       } catch { return fail('invalid'); }

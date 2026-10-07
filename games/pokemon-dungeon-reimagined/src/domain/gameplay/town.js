@@ -1,3 +1,4 @@
+import { initializeEarlyWork } from './job-records.js';
 import { TOWN, placeInTown } from '../../../content/authored/town.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { MORNING } from '../../../content/authored/first-morning.js';
@@ -7,7 +8,7 @@ import { blocked } from './support.js';
 import { refreshTownShops, shopOrderProblem, applyShopOrder } from './town-shop.js';
 import { economyOrderProblem, applyEconomyOrder } from './town-economy.js';
 /** @param {import('../../contracts/campaign.js').CampaignSnapshot} state */
-export function townReady(state) { return state.progress.storyNodeId === TOWN.story && state.mode === 'town' && !state.session && !state.pendingScene && state.progress.seenScenes[TOWN.scenes[3] ?? '']?.count === 1; }
+export function townReady(state) { return state.progress.storyNodeId === TOWN.story && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt && state.progress.seenScenes[TOWN.scenes[3] ?? '']?.count === 1; }
 /** @param {import('./support.js').Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} authored
  * @returns {import('../turns/types.js').CommandHandlers} */
 export function townHandlers(catalogs, authored) { return {
@@ -17,7 +18,7 @@ export function townHandlers(catalogs, authored) { return {
       const state = context.state, script = authored.scenes.find(row => row.id === TOWN.scenes[0]); if (!script) return blocked('town-dream-script');
       state.progress.storyNodeId = TOWN.story; state.progress.native.scenarios.MAIN = { chapter: 4, step: 1 }; state.progress.native.clearCount = 0;
       state.progress.native.scalars.warpLock = 0; state.town.day = 2; placeInTown(state, MORNING.interior);
-      refreshTownShops(state, catalogs); requestScene(context, authored, script);
+      refreshTownShops(state, catalogs); initializeEarlyWork(state, state.revision + 1); requestScene(context, authored, script);
       return { kind: 'changed', resumeDungeon: false };
     },
   },

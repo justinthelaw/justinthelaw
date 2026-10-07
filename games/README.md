@@ -9,13 +9,13 @@
 
 - No complete accepted game is released.
 - The first card opens the development checkpoint. PR #392 implements the
-  opening through Thunderwave Cave return; full campaign and human acceptance
+  opening through town services, ordinary jobs and Diglett's request; full campaign and human acceptance
   remain open. See its progress ledger for the published checkpoint.
 - The other two cards retain animated pixel previews and disabled Play buttons.
 
 | Slot | Current card | Planned work |
 | --- | --- | --- |
-| First | Pokemon Mystery Dungeon Blue Rescue Team - Reimagined; P06 art-study picture | [Development plan](pokemon-dungeon-reimagined/plan/PLAN.md): bounded opening, Thunderwave route and first town services on PR #392; [progress and verification](pokemon-dungeon-reimagined/plan/PROGRESS.md); full campaign and gameplay/visual acceptance pending |
+| First | Pokemon Mystery Dungeon Blue Rescue Team - Reimagined; P06 art-study picture | [Development plan](pokemon-dungeon-reimagined/plan/PLAN.md): bounded opening, town services and ordinary jobs through Diglett's request on PR #392; [progress and verification](pokemon-dungeon-reimagined/plan/PROGRESS.md); full campaign and gameplay/visual acceptance pending |
 | Second | Coming soon, lavender preview | Unnamed; no game announced |
 | Third | Coming soon, apricot preview | Unnamed; no game announced |
 
@@ -71,7 +71,8 @@
   repository-relative `tools/pokemon-dungeon/`, outside the copied game tree.
   Git-ignored files inside `games/` would still be copied.
 - The development entry point is `games/pokemon-dungeon-reimagined/index.html`;
-  it currently starts the application shell and has no playable campaign.
+  the development branch implements the bounded route described above; the full
+  campaign is incomplete and has no human acceptance evidence.
 - Keep intermediate runtime-package PRs unmerged until P37 full-scope acceptance
   and explicit release approval: main deploys `games/**` at direct URLs even
   when the arcade card is disabled.

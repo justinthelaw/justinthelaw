@@ -1,3 +1,4 @@
+import { recordsEarlyWork } from './early-work.js';
 import { allocateId } from '../ids.js';
 import { recordsSpeciesSeen, initializeSpeciesSeen } from './species-seen.js';
 import { createCampaignStreams } from '../rng.js';
@@ -116,6 +117,7 @@ export function createCampaign(input, content) {
       issue(issues, 'relationship', '', 'Initial profile contains duplicate milestone or branch identities.'); return failure(issues, requirements);
     }
     if (recordsSpeciesSeen(content.contentRevision)) initializeSpeciesSeen(state, false);
+    if (recordsEarlyWork(content.contentRevision)) state.earlyWork = null;
     return validateCampaign(state, content);
   } catch { issue(issues, 'shape', '', 'Initial profile contains an invalid allocation, move projection or random seed.'); return failure(issues, requirements); }
 }

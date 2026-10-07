@@ -1,3 +1,4 @@
+import { WORK } from '../../content/authored/early-work.js';
 import { TOWN } from '../../content/authored/town.js';
 import { THUNDERWAVE as T } from '../../content/authored/thunderwave.js';
 import { MORNING } from '../../content/authored/first-morning.js';
@@ -38,6 +39,7 @@ function teamBase(snapshot, epoch, species) {
     const clip = scene?.sceneId === TEAM.celebration && scene.cursor === 0 ? /** @type {const} */ ('celebrate') : scene?.sceneId === TEAM.celebration && scene.cursor === 2 ? /** @type {const} */ ('rest-sleep') : actor.clip;
     return { ...actor, heading, clip, clipToken: `${epoch}:${actor.actorId}:${scene?.sceneInstanceId ?? 'base'}:${scene?.cursor ?? 0}:${clip}` };
   });
+  if (scene && scene.sceneId === WORK.scenes[0]) actors.push({ actorId: 'story-dugtrio-request', speciesId: 'pokemon-051', formId: null, name: 'Dugtrio', x: 7, z: 5, heading: 0, role: 'npc', hp: 1, maxHp: 1, statuses: [], clip: 'idle', clipToken: `${epoch}:${scene.sceneInstanceId}:dugtrio`, tint: '#ffffff', bounds: { width: 1, height: 1 } });
   if (scene && scene.sceneId === MORNING.scenes[5] && scene.cursor === 0) actors.push({ actorId: 'story-pelipper-delivery', speciesId: 'pokemon-279', formId: null, name: 'Pelipper', x: 9, z: 5, heading: -Math.PI / 2, role: 'npc', hp: 1, maxHp: 1, statuses: [], clip: 'idle', clipToken: `${epoch}:${scene.sceneInstanceId}:delivery`, tint: '#ffffff', bounds: { width: 1, height: 1 } });
   return immutableRenderSnapshot({ epoch, revision: snapshot.revision,
     world: { worldId: `${epoch}:${TEAM.map}`, revision: snapshot.revision, width: TEAM.width, height: TEAM.height, biomeId: TEAM.kitId, tiles, visible: mask, explored: mask, exits: [], props: TEAM.props },
@@ -110,7 +112,7 @@ export function eventMessages(previous, view, events) {
   for (const event of events) {
     if (event.type === 'attackResolved' && names.has(event.actorId) && event.outcome !== 'hit') lines.push(`${names.get(event.actorId)}: ${event.outcome === 'miss' ? 'miss' : 'no effect'}`);
     if (event.type === 'message') lines.push(Object.hasOwn(messages, event.messageId) ? /** @type {Record<string,string>} */ (messages)[event.messageId] ?? event.messageId : event.messageId.startsWith('wind-') ? 'A mysterious wind is approaching. Find the stairs.' : event.messageId.replaceAll('-', ' '));
-    if (event.type === 'expeditionEnded') lines.push(event.outcome === 'success' ? previous?.session?.dungeonId === T.dungeonId ? 'The Magnemite are safe.' : 'Caterpie is safe.' : 'The expedition ended. Growth is retained; carried items and money follow the defeat rules. You can retry.');
+    if (event.type === 'expeditionEnded') lines.push(event.outcome === 'success' ? previous?.session?.purpose.kind === 'ordinary' ? 'The ordinary expedition ended. Eligible clients will thank you in town.' : previous?.session?.dungeonId === T.dungeonId ? 'The Magnemite are safe.' : 'Caterpie is safe.' : 'The expedition ended. Growth is retained; carried items and money follow the defeat rules. You can retry.');
     if (event.type === 'itemChanged' && view.pickups.every(item => item.pickupId !== event.itemInstanceId)) lines.push('An item changed. Check your held item or toolbox.');
   }
   return lines;

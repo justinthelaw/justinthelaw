@@ -1,3 +1,6 @@
+import { WORK } from '../../content/authored/early-work.js';
+import { showWork } from '../application/work.js';
+import { facingJobClient } from '../domain/gameplay/work.js';
 import { TOWN } from '../../content/authored/town.js';
 import { showTown } from '../application/town.js';
 import { THUNDERWAVE as T } from '../../content/authored/thunderwave.js';
@@ -71,12 +74,12 @@ export async function createApplication(canvas, signal, startup) {
   function title() {
     close(); followsGame = false;
     view.hud('', [], []); view.minimap(null);
-    view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods, Caterpie's rescue, team formation, the first morning, and the Thunderwave Cave rescue and return. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
+    view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods, Caterpie's rescue, team formation, the first morning, the Thunderwave Cave rescue, town services, ordinary requests, and Dugtrio's Diglett request. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
       { label: 'New game', run: newGame }, { label: 'Continue / backup', run: () => { saves?.load(); context(); } }, { label: 'Saves & import', run: () => { saves?.menu(); context(); } },
       { label: 'Controls', run: help },
     ]); context();
   }
-  function help() { panel('Move: arrows/WASD (camera relative). Hold left Shift to face without stepping. Z/A attacks; Space waits; 1–4 use the exact move slots. Enter/Start opens menus, Escape/Menu opens expedition actions, X/B cancels. Right Shift/Select opens the explored map. Q/E and drag orbit the camera; R recenters. Menus use arrows and Z/Enter. The website owns the touch emulator overlay.', [], 'Controls'); }
+  function help() { panel('Move: arrows/WASD (camera relative). Hold left Shift to face without stepping. Z/A attacks or talks to a client directly ahead; Space waits; 1–4 use the exact move slots. Enter/Start opens menus, Escape/Menu opens expedition actions, X/B cancels. Right Shift/Select opens the explored map. Q/E and drag orbit the camera; R recenters. Menus use arrows and Z/Enter. The website owns the touch emulator overlay.', [], 'Controls'); }
   function newGame() {
     if (!gameplay || !loaded || busy) return;
     close(); followsGame = false; context();
@@ -150,7 +153,7 @@ export async function createApplication(canvas, signal, startup) {
     if (!snapshot) return;
     const ids = session ? [...(snapshot.containers[session.inventory]?.itemIds ?? []), ...(leader ? snapshot.containers[leader.heldContainerId]?.itemIds ?? [] : [])] : [...(snapshot.containers[snapshot.economy.toolbox]?.itemIds ?? []), ...snapshot.selectedPartyIds.flatMap(id => snapshot.containers[snapshot.roster[id]?.heldContainerId ?? '']?.itemIds ?? [])];
     panel(snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[2]) ? 'Use berries, seeds or food yourself. Keep a clean Reviver Seed for automatic revival; eating it only restores 5 Belly. Max Elixir restores all move PP. Blast Seed hits directly ahead; Gravelerock is thrown toward enemies in the direction you face. Pickups enter your toolbox.' : 'Before the starter toolbox, floor pickups use your held slot. Use a held berry here.', ids.map(id => {
-      const item = snapshot.items[id]; return { label: item ? `${item.template.itemId === 'item-gravelerock' ? 'Throw ' : item.template.itemId === 'item-reviver-seed' ? 'Eat ' : ''}${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Unavailable item', disabled: !leader || !item || !USABLE_ITEMS.includes(item.template.itemId),
+      const item = snapshot.items[id]; return { label: item ? `${item.template.itemId === 'item-gravelerock' ? 'Throw ' : item.template.itemId === 'item-reviver-seed' ? 'Eat ' : ''}${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Unavailable item', disabled: !leader || !item || !USABLE_ITEMS.includes(item.template.itemId), detail: item && !USABLE_ITEMS.includes(item.template.itemId) ? 'This item use is still in development; carrying and storage work.' : 'Use this item yourself',
         run: () => { if (leader) act({ type: 'useItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel'); } };
     }), 'Items & held slot');
   }
@@ -164,10 +167,10 @@ export async function createApplication(canvas, signal, startup) {
     if (session) team.push(`Moves · ${gameplay.getMoveChoices(snapshot).map(move => `${move.name} ${move.currentPp} PP`).join(' · ')}`);
     const location = session?.floor.location;
     const floor = location?.kind === 'exploration' && loaded ? loaded.catalogs.dungeons.getFloorById(location.address.floorId).display : null;
-    const goal = snapshot.progress.storyNodeId === TOWN.story ? `Team ${snapshot.profile.teamName} · town services · Poké ${snapshot.economy.carriedMoney}` : session ? `${session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
+    const goal = session?.purpose.kind === 'ordinary' ? `${session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ordinary rescue work · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === TOWN.story ? `Team ${snapshot.profile.teamName} · town services · Poké ${snapshot.economy.carriedMoney}` : session ? `${session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
     const onStairs = leader?.placement.kind === 'map' && Object.values(session?.floor.exits ?? {}).some(exit => leader.placement.kind === 'map' && exit.position.x === leader.placement.position.x && exit.position.z === leader.placement.position.z);
     view.hud(goal, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
-      { label: 'Attack', run: () => act({ type: 'attack' }), disabled: snapshot.mode !== 'dungeon' || !ready },
+      { label: loaded && facingJobClient(snapshot, loaded.catalogs) ? 'Talk to client' : 'Attack', run: () => act({ type: 'attack' }), disabled: snapshot.mode !== 'dungeon' || !ready },
       { label: 'Wait', run: () => act({ type: 'wait' }), disabled: snapshot.mode !== 'dungeon' || !ready },
       { label: 'Use stairs', run: () => { if (session) act({ type: 'useStairs', sessionId: session.sessionId }); }, disabled: snapshot.mode !== 'dungeon' || !onStairs || !ready },
     ]);
@@ -183,6 +186,13 @@ export async function createApplication(canvas, signal, startup) {
       showScene({ snapshot, epoch, prompt: gameplay.getScenePrompt(snapshot), ready, saves: menu, news: readNews, memoryOnly: saves?.isMemoryOnly() ?? false,
         saveTutorial(complete) { saves?.saveTutorial(snapshot, complete); },
         send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This scene prompt is stale.'); return; } act(intent, 'panel'); } });
+    } else if (loaded && snapshot.earlyWork && (snapshot.earlyWork.clientPrompt || snapshot.earlyWork.returned || snapshot.earlyWork.reward || snapshot.pendingResult || snapshot.progress.storyNodeId === WORK.story)) {
+      dialogue = false;
+      const shownEpoch = saves?.service.getBinding().adventureEpoch;
+      showWork({ snapshot, catalogs: loaded.catalogs, view, back: resume, menu,
+        open() { followsGame = false; input?.cancel(); context(); },
+        send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This work selection is stale.'); return; } act(intent, 'panel'); },
+      }, 'flow');
     } else if (!session && snapshot.progress.storyNodeId === TOWN.story && loaded) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;

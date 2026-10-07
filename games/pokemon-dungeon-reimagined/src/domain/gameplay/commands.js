@@ -1,3 +1,5 @@
+import { workHandlers, workReady, facingJobClient } from './work.js';
+import { refreshJobBoard } from './job-records.js';
 import { townHandlers } from './town.js';
 import { USABLE_ITEMS } from './items.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
@@ -12,9 +14,10 @@ import { facing, navActor, navigationContext, FACINGS } from './support.js';
  * @param {(snapshot:import('../../contracts/campaign.js').CampaignSnapshot)=>boolean} tutorialSaved
  * @returns {import('../turns/types.js').CommandHandlers} */
 export function createCommandHandlers(catalogs, authored, tutorialSaved) {
+  const work = workHandlers(catalogs, authored);
   /** @type {import('../turns/types.js').CommandHandler} */ const dungeonAction = { plan(state, intent) {
     const session = state.session; const leader = session?.actors[session.leaderActorId];
-    if (!session || state.mode !== 'dungeon' || session.scheduler.kind !== 'ready' || leader?.placement.kind !== 'map') return { kind: 'rejected', reason: 'unavailable' };
+    if (!session || state.earlyWork?.clientPrompt || state.mode !== 'dungeon' || session.scheduler.kind !== 'ready' || leader?.placement.kind !== 'map') return { kind: 'rejected', reason: 'unavailable' };
     const nav = navigationContext(session, catalogs);
     if (intent.type === 'move') {
       if (![-1, 0, 1].includes(intent.dx) || ![-1, 0, 1].includes(intent.dz) || !intent.dx && !intent.dz) return { kind: 'rejected', reason: 'invalid-command' };
@@ -48,10 +51,10 @@ export function createCommandHandlers(catalogs, authored, tutorialSaved) {
     }
     return { kind: 'rejected', reason: 'invalid-command' };
   } };
-  return { ...townHandlers(catalogs, authored), beginMorning: morningHandler(authored), submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs, tutorialSaved), move: dungeonAction, wait: dungeonAction, attack: dungeonAction, useMove: dungeonAction, useItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
+  return { ...work, ...townHandlers(catalogs, authored), beginMorning: morningHandler(authored), submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs, tutorialSaved), move: dungeonAction, wait: dungeonAction, attack: { plan(state, intent) { return intent.type === 'attack' && facingJobClient(state, catalogs) ? { kind: 'mutation' } : dungeonAction.plan(state, intent); }, apply(context) { return work.workAction?.apply?.(context, { type: 'workAction', order: { kind: 'client-talk' } }) ?? { kind: 'rejected', reason: 'unavailable' }; } }, useMove: dungeonAction, useItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
     presentation: { plan: () => ({ kind: 'presentation' }) },
-    advance: { plan: state => state.mode === 'dungeon' && state.session?.scheduler.kind === 'ready' ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }, apply: () => ({ kind: 'changed', resumeDungeon: true }) },
-    enterDungeon: { plan(state, intent) { if (intent.type !== 'enterDungeon' || !['tiny-woods', T.dungeonId].includes(intent.dungeonId)) return { kind: 'content-blocked', requirement: 'dungeon-entry-not-supported' }; const reason = admission(catalogs, state, intent.dungeonId); return reason ? { kind: 'content-blocked', requirement: reason } : { kind: 'mutation' }; }, apply(context, intent) { if (intent.type !== 'enterDungeon') return { kind: 'rejected', reason: 'invalid-command' }; enterOpening(context, catalogs, authored, intent.dungeonId); return { kind: 'changed', resumeDungeon: true }; } },
-    face: { plan(state, intent) { if (intent.type !== 'face' || !state.session || state.mode !== 'dungeon' || ![-1, 0, 1].includes(intent.dx) || ![-1, 0, 1].includes(intent.dz) || !intent.dx && !intent.dz) return { kind: 'rejected', reason: 'unavailable' }; return { kind: 'mutation' }; }, apply(context, intent) { const session = context.state.session; const actor = session?.actors[session.leaderActorId]; if (!actor || intent.type !== 'face') return { kind: 'rejected', reason: 'unavailable' }; const next = facing(intent.dx, intent.dz); if (actor.facing === next) return { kind: 'unchanged' }; actor.facing = next; return { kind: 'changed', resumeDungeon: false }; } },
+    advance: { plan: state => state.mode === 'dungeon' && !state.earlyWork?.clientPrompt && state.session?.scheduler.kind === 'ready' ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }, apply: () => ({ kind: 'changed', resumeDungeon: true }) },
+    enterDungeon: { plan(state, intent) { if (intent.type !== 'enterDungeon' || !['tiny-woods', T.dungeonId].includes(intent.dungeonId)) return { kind: 'content-blocked', requirement: 'dungeon-entry-not-supported' }; const reason = admission(catalogs, state, intent.dungeonId); return reason ? { kind: 'content-blocked', requirement: reason } : { kind: 'mutation' }; }, apply(context, intent) { if (intent.type !== 'enterDungeon') return { kind: 'rejected', reason: 'invalid-command' }; const ordinary = workReady(context.state); if (ordinary && context.state.earlyWork) refreshJobBoard(context.state, context.state.earlyWork); enterOpening(context, catalogs, authored, intent.dungeonId, ordinary); return { kind: 'changed', resumeDungeon: true }; } },
+    face: { plan(state, intent) { if (intent.type !== 'face' || state.earlyWork?.clientPrompt || !state.session || state.mode !== 'dungeon' || ![-1, 0, 1].includes(intent.dx) || ![-1, 0, 1].includes(intent.dz) || !intent.dx && !intent.dz) return { kind: 'rejected', reason: 'unavailable' }; return { kind: 'mutation' }; }, apply(context, intent) { const session = context.state.session; const actor = session?.actors[session.leaderActorId]; if (!actor || intent.type !== 'face') return { kind: 'rejected', reason: 'unavailable' }; const next = facing(intent.dx, intent.dz); if (actor.facing === next) return { kind: 'unchanged' }; actor.facing = next; return { kind: 'changed', resumeDungeon: false }; } },
   };
 }

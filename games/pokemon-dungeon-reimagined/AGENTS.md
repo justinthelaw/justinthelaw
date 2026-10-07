@@ -9,9 +9,13 @@ open source questions; merged PR #388 adds static tooling, a
 pinned vendor bundle and a startup-only shell. The development branch now
 contains the canonical opening adventure through
 Tiny Woods, Caterpie reunion, confirmed team formation and the first morning
-through Thunderwave Cave and the first town day at MAIN(4,4), including functioning bank, storage and Kecleon transactions. Static checks do not establish human play/visual acceptance or a
-complete campaign; ordinary jobs, later town services and routes remain gated.
-Current v7 seen-history saves preserve exact v2-v6 import admission. Imported
+through Thunderwave Cave, functioning bank/storage/Kecleon services, and real
+ordinary rescue work through Diglett's request at MAIN(4,6). Mt. Steel remains
+gated. Static checks do not establish human play/visual acceptance or a complete
+campaign; later services, escort admission and routes remain incomplete.
+Current v8 work saves preserve exact v2-v7 import admission. Accepted requests,
+no-turn client dialogue, return/reward cursors and mail are persisted. Older town
+saves receive a prospective board and an explicit missing-posting-history notice. Imported
 legacy history stays explicitly incomplete; never infer native seen flags from
 visibility/spawn or fabricate discarded defeat history. The latest 2026-10-05 direction rejects the P06 rigid-mesh character candidates
 and requires faithful directional pixel characters in textured real 3D spaces.

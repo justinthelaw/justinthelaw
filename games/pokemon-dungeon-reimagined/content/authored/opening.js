@@ -1,3 +1,4 @@
+import { createDiglettScenes } from './early-work.js';
 import { createTownScenes } from './town.js';
 import { createThunderwaveScenes } from './thunderwave.js';
 import { createMorningScenes } from './first-morning.js';
@@ -76,6 +77,12 @@ export function createTownOpeningContent() {
 }
 
 /** Current content includes native seen-history persistence. @returns {AuthoredOpening} */
-export function createOpeningContent() {
+export function createSeenOpeningContent() {
   return { ...createTownOpeningContent(), revision: 'browser-opening-v7-seen' };
+}
+
+/** Current ordinary jobs through the Diglett request. @returns {AuthoredOpening} */
+export function createOpeningContent() {
+  const prior = createSeenOpeningContent();
+  return { ...prior, revision: 'browser-opening-v8-work', scenes: [...prior.scenes, ...createDiglettScenes()] };
 }

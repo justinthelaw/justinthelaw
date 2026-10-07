@@ -1,3 +1,4 @@
+import { WORK } from '../../../content/authored/early-work.js';
 import { TOWN, placeInTown } from '../../../content/authored/town.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { grantItem } from './items.js';
@@ -70,6 +71,15 @@ export function sceneHandler(authored, catalogs, tutorialSaved) { return {
     else {
       const revision = state.revision + 1; const day = state.town.day;
       state.progress.seenScenes[scene.sceneId] = { sceneId: scene.sceneId, count: 1, firstRevision: revision, lastRevision: revision, firstDay: day, lastDay: day };
+      const workIndex = WORK.scenes.indexOf(scene.sceneId);
+      if (workIndex >= 0) {
+        state.progress.native.scenarios.MAIN = { chapter: 4, step: workIndex === 0 ? 5 : 6 }; state.progress.native.clearCount = 0;
+        placeInTown(state, TEAM.map);
+        const nextId = WORK.scenes[workIndex + 1];
+        if (nextId) { const next = authored.scenes.find(row => row.id === nextId); if (!next) return blocked('diglett-request-script'); requestScene(context, authored, next); }
+        else { state.pendingScene = null; state.mode = 'town'; }
+        return { kind: 'changed', resumeDungeon: false };
+      }
       const townIndex = TOWN.scenes.indexOf(scene.sceneId);
       if (townIndex >= 0) {
         const step = townIndex < 2 ? 2 : townIndex === 2 ? 3 : 4;

@@ -1,3 +1,4 @@
+import { workReady } from './work.js';
 import { enterJobObjectives, floorJobClient, leaveJobFloor, settleJobObjectives } from './job-objectives.js';
 import { refreshGroundJobs } from './job-records.js';
 import { refreshTownShops } from './town-shop.js';
@@ -5,7 +6,7 @@ import { TOWN, placeInTown } from '../../../content/authored/town.js';
 import { SPAWN_SLEEP_CHANCES, eligibleEncounter } from '../../../content/state/expedition-facts.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { MORNING, placeInside } from '../../../content/authored/first-morning.js';
-import { placeAtBase } from '../../../content/authored/team-formation.js';
+import { TEAM, placeAtBase } from '../../../content/authored/team-formation.js';
 import { resetFloorConditions } from './conditions.js';
 import { USABLE_ITEMS } from './items.js';
 import { applyExperience } from './growth.js';
@@ -22,10 +23,12 @@ import { requestScene } from './scenes.js';
 /** @typedef {import('../turns/types.js').MutationContext} Context */
 /** @param {Catalogs} catalogs @param {import('../../contracts/campaign.js').CampaignSnapshot} state @param {string} [dungeonId] */
 export function admission(catalogs, state, dungeonId = 'tiny-woods') {
-  if (state.session || state.mode !== 'town' || state.progress.clears[dungeonId]) return 'expedition-unavailable';
+  const ordinary = workReady(state);
+  if (ordinary && state.town.mapDefinitionId !== TEAM.map) return 'departure-at-base';
+  if (state.session || state.mode !== 'town' || !ordinary && state.progress.clears[dungeonId]) return 'expedition-unavailable';
   const cave = dungeonId === T.dungeonId;
-  if (cave ? ![MORNING.story, T.story].includes(state.progress.storyNodeId) || !state.progress.appliedGrants.some(row => row.grantId === MORNING.grants[6]) : !['browser-story-awakening', OPENING.storyNode].includes(state.progress.storyNodeId)) return 'expedition-prerequisite';
-  if (state.selectedPartyIds.length !== 2 || Object.values(state.items).some(item => !(cave ? USABLE_ITEMS : ['item-oran-berry', 'item-pecha-berry']).includes(item.template.itemId))) return 'opening-party-inventory';
+  if (!ordinary && (cave ? ![MORNING.story, T.story].includes(state.progress.storyNodeId) || !state.progress.appliedGrants.some(row => row.grantId === MORNING.grants[6]) : !['browser-story-awakening', OPENING.storyNode].includes(state.progress.storyNodeId))) return 'expedition-prerequisite';
+  if (state.selectedPartyIds.length !== 2 || !ordinary && Object.values(state.items).some(item => !(cave ? USABLE_ITEMS : ['item-oran-berry', 'item-pecha-berry']).includes(item.template.itemId))) return 'opening-party-inventory';
   // Abilities needing post-hit reactions cannot be silently ignored.
   const reactive = ['Poison Point', 'Effect Spore', 'Synchronize', 'Color Change'];
   for (const id of state.selectedPartyIds) {
@@ -166,7 +169,14 @@ export function settleExpedition(context, outcome, catalogs) {
     const pokemon = state.roster[actor.binding.pokemonId]; if (!pokemon) return blocked('settlement-participant');
     const held = state.containers[actor.heldContainerId]; const homeHeld = state.containers[pokemon.heldContainerId];
     if (!held || !homeHeld || homeHeld.itemIds.length) return blocked('settlement-held-container');
-    if (outcome === 'success') homeHeld.itemIds = [...held.itemIds];
+    if (outcome === 'success') {
+      homeHeld.itemIds = [...held.itemIds];
+      // Native retained held items become BulkItem (identity/quantity only).
+      if (session.purpose.kind === 'ordinary') for (const id of homeHeld.itemIds) {
+        const item = state.items[id]; if (!item) return blocked('settlement-held-item');
+        item.template.sticky = false;
+      }
+    }
     else for (const id of held.itemIds) delete state.items[id];
     held.itemIds = [];
     pokemon.growth = clone(actor.growth); pokemon.moves = clone(actor.moves); pokemon.enabledIqSkillIds = [...actor.enabledIqSkillIds]; pokemon.tacticId = actor.tacticId;
@@ -185,8 +195,14 @@ export function settleExpedition(context, outcome, catalogs) {
     // Failure cleanup happens earlier in main_loops, before ground refresh.
     const failedJobs = outcome === 'success' ? [] : settleJobObjectives(state, session, false);
     refreshTownShops(state, catalogs); refreshGroundJobs(state, work);
+    // Ground refresh ends with ClearAllItems_8091FB4. Money pickups already
+    // converted at their pickup owner; every surviving toolbox slot unsticks.
+    for (const id of home.itemIds) {
+      const item = state.items[id]; if (!item) return blocked('settlement-toolbox-item');
+      item.template.sticky = false;
+    }
     const jobIds = outcome === 'success' ? settleJobObjectives(state, session, true) : failedJobs;
-    work.returned = { sessionId: session.sessionId, outcome, jobIds, cursor: 0 };
+    work.returned = { sessionId: session.sessionId, dungeonId: session.dungeonId, outcome, jobIds, cursor: 0 };
     placeInTown(state, outcome === 'success' ? TOWN.post : MORNING.interior);
   } else if (outcome === 'success') {
     state.progress.clears[session.dungeonId] = { dungeonId: session.dungeonId, firstClearRevision: state.revision + 1, lastClearRevision: state.revision + 1, firstClearDay: state.town.day, lastClearDay: state.town.day, clearCount: 1, reachedFloorIds: [...session.visitedFloorIds] };
