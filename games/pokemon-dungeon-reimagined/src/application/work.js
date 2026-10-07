@@ -1,7 +1,9 @@
+import { TOWN } from '../../content/authored/town.js';
+import { STEEL } from '../../content/authored/mt-steel.js';
 import { WORK } from '../../content/authored/early-work.js';
 import { admission } from '../domain/gameplay/expedition.js';
 import { jobTargetItem } from '../domain/gameplay/job-objectives.js';
-import { rewardItemChoiceProblem } from '../domain/gameplay/reward-items.js';
+import { showRewardChoices } from './reward-panel.js';
 /** @typedef {import('../contracts/campaign.js').CampaignSnapshot} Snapshot */
 /** Read-only selection/confirmation views. All callbacks keep the shown snapshot
  * and panel token; the shell separately binds the save/adventure epoch.
@@ -82,29 +84,14 @@ export function showWork({ snapshot, catalogs, view, send, back, menu, open }, p
       ]); return;
     }
     const reward = work.reward, grant = reward ? snapshot.progress.jobs[reward.jobId]?.reward.items[reward.nextItem] : null;
-    if (grant) {
-      const label = `${itemName(grant.template.itemId)} ×${grant.quantity}`;
-      /** @param {import('../domain/gameplay/reward-items.js').RewardItemChoice} choice @param {string} text */
-      const choose = (choice, text) => confirm(text, () => dispatch({ kind: 'reward-choice', choice }), flow);
-      show('Make room for reward', `The toolbox and storage cannot hold ${label}. Discard this reward, or select one toolbox slot to store or discard.`, [
-        { label: 'Discard received item', run: () => choose({ kind: 'discard-reward' }, `Discard the promised ${label}?`) },
-        ...(snapshot.containers[snapshot.economy.toolbox]?.itemIds.flatMap(id => {
-          const item = snapshot.items[id]; if (!item) return [];
-          const name = `${itemName(item.template.itemId)} ×${item.quantity}`;
-          return [{ label: `Replace ${name}`, run: () => show('Choose replacement', `Make room for ${label} by removing the complete ${name} slot.`, [
-            { label: 'Send to storage', disabled: !!rewardItemChoiceProblem(snapshot, grant, { kind: 'replace', itemInstanceId: id, operation: 'store' }), run: () => choose({ kind: 'replace', itemInstanceId: id, operation: 'store' }, `Store ${name} and receive ${label}?`) },
-            { label: 'Discard toolbox item', run: () => choose({ kind: 'replace', itemInstanceId: id, operation: 'discard' }, `Discard ${name} and receive ${label}?`) }, { label: 'Cancel', run: flow },
-          ]) }];
-        }) ?? []), { label: 'Campaign & saves', run: menu },
-      ]); return;
-    }
+    if (grant) { showRewardChoices({ snapshot, grant, itemName, show, menu, send: choice => dispatch({ kind: 'reward-choice', choice }) }); return; }
     if (work.returned) {
       const pending = work.returned.cursor < work.returned.jobIds.length;
       show(work.returned.outcome === 'success' ? 'Back from the dungeon' : 'Recovered at home', pending ? 'Clients are waiting to thank you. Find-item requests will check what remains in your toolbox as each reward is processed.' : work.returned.outcome === 'success' ? 'This expedition is settled. Rest and begin the next morning.' : 'There are no job rewards after this failed return. Unfinished taken requests remain in your Job List; clients rescued before this loss no longer offer a reward. Growth is retained, while carried items and money follow the loss rules.', [
         { label: pending ? 'Receive thanks' : 'Begin next morning', run: () => dispatch({ kind: 'station-next' }) }, { label: 'Campaign & saves', run: menu },
       ]); return;
     }
-    if (snapshot.progress.storyNodeId === WORK.story) show("Dugtrio's request", 'Diglett is waiting at Mt. Steel. Keep a checkpoint here; the next story expedition is still in development.', [{ label: 'Campaign & saves', run: menu }]);
+    if (snapshot.progress.storyNodeId === WORK.story) show("Dugtrio's request", 'Diglett is waiting at the summit. Climb Mt. Steel with your partner and bring him home.', [{ label: 'Enter Mt. Steel', disabled: !!admission(catalogs, snapshot, STEEL.dungeonId), run: () => send({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (STEEL.dungeonId) }) }, { label: 'Prepare in town', run: () => send({ type: 'townTravel', mapId: TOWN.square }) }, { label: 'Campaign & saves', run: menu }]);
   }
   if (page === 'board' || page === 'jobs') list(); else if (page === 'mailbox') mailbox(); else if (page === 'depart') depart(); else flow();
 }

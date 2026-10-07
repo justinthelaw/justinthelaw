@@ -1,3 +1,4 @@
+import { STEEL } from '../../content/authored/mt-steel.js';
 import { THUNDERWAVE as T } from '../../content/authored/thunderwave.js';
 import { MORNING } from '../../content/authored/first-morning.js';
 import { node } from '../ui/view.js';
@@ -49,6 +50,6 @@ export function createScenePresenter(view) {
     }
     if (snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[3])) actions.push({ label: 'Read Pokémon News', run: () => { if (view.ownsPanel(panelToken)) news(); } });
     actions.push({ label: 'Campaign & saves', run: () => { if (view.ownsPanel(panelToken)) saves(); } });
-    panelToken = view.show([T.story, T.returned].includes(snapshot.progress.storyNodeId) ? 'The Magnemite request' : snapshot.progress.storyNodeId === MORNING.story ? 'The first morning' : 'A rescue team begins', prompt.text, actions, extra);
+    panelToken = view.show(snapshot.progress.storyNodeId === STEEL.story ? 'The Diglett rescue' : [T.story, T.returned].includes(snapshot.progress.storyNodeId) ? 'The Magnemite request' : snapshot.progress.storyNodeId === MORNING.story ? 'The first morning' : 'A rescue team begins', prompt.text, actions, extra);
   };
 }

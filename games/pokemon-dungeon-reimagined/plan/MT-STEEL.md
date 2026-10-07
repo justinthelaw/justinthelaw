@@ -3,8 +3,8 @@
 The target is original Blue Rescue Team. Native instruction traces in this
 document use original Red comparative source at
 `6bcbec4f906938c0243aa2026bcbd41b577bab85`; they do not establish Blue binary
-parity. Mt. Steel remains gated until its shared consumers, route and save
-admission are integrated. Original dialogue and tactical geometry are authored
+parity. The current v10 checkpoint integrates the nine-floor Mt. Steel rescue
+through MAIN(5,0); full-campaign and human acceptance remain open. Original dialogue and tactical geometry are authored
 independently; native dialogue and art are not imported.
 
 ## AI factual prerequisite
@@ -201,8 +201,8 @@ move weights and the regular weight are drawn before target range is checked.
 The cumulative comparison intentionally retains source `>=` against a zero-based
 sample. An untargetable selected move falls back to the already considered
 regular attack, without rerolling another move. Exact Steel actor/IQ admission
-will be supplied by the route policy; the selector is wired only for Steel
-hostiles, not yet-accessible campaign floors.
+is supplied by the v10 route policy; the selector is wired only for Steel
+hostiles.
 
 AI targeting uses the factual AI flags, separately from execution geometry:
 front0, around32, two-ahead64 and corner128. Self buffs still seek enemies under
@@ -229,8 +229,8 @@ its exact paused exit scene, so no old save gains a new in-flight action. No
 predecessor source pin or factual resource was changed.
 
 Earlier wild/partner native move selection and the broader move inventory remain
-required full-game work. This checkpoint does not admit Steel floors or claim
-human gameplay/visual acceptance.
+required full-game work. The prerequisite alone did not admit Steel floors. The integrated route below
+still makes no human gameplay/visual acceptance claim.
 
 ## SET and Ginseng
 
@@ -259,7 +259,7 @@ previously admitted boosts. Source: `dungeon_menu_moves.c:130-143,715-740`,
 
 The nine-floor route's original dialogue now distinguishes first/retry travel,
 first/retry battle, loss recovery, departure, non-running return bridge, gap
-rescue, thanks and home. This authoring is not yet active admission. The fixed
+rescue, thanks and home. The v10 route now consumes this authoring. The fixed
 arena has independent9x17 composition inside the shared56x32 grid, a broad lower
 fighting platform and Diglett's isolated ledge across a sky gap. Its isolated
 fixed-role placement is explicit in the generator request; ordinary required
@@ -275,3 +275,107 @@ use consumers will remain visibly unavailable, never rerolled into another item;
 carrying/storage and reward Ginseng/Pecha consumers are separate responsibilities.
 Complete item consumers remain a full-game obligation. Source pooled facts come
 from the existing qualified dungeon catalog, not guessed drops.
+
+## Integrated nine-floor route and return
+
+The existing expedition kernel now owns all eight procedural source floors and
+fixed9. Source encounters, full item pools and Wonder Tiles use the same
+catalog/generator/materializer. Steel wild actors receive exact native active
+IQ, source sleep probabilities and the reviewed move selector. Fixed Skarmory
+uses level10 ordinary growth (65HP), without the generic boss multiplier;
+Diglett uses level5 wild allocation with a neutral guest binding. Both fixed
+roles skip spawn-sleep draws. Native density0 suppresses periodic arrivals
+before timer advancement or RNG (`dungeon_wild_mon_spawn.c:33-35`).
+
+Skarmory's actual faint callback sets a durable completion flag during damage.
+Same-hit Take Down/Struggle recoil still resolves, then leader/partner loss has
+priority. No subsequent actor/end-turn phase runs after successful floor clear.
+A simultaneous recoil loss preserves boss completion but grants no rescue or
+reward. A later fixed9 visit removes both fixed actors, presents the original
+quiet-summit observation, and clears automatically. First/retry battle dialogue
+uses reached history, separately from travel attempts. Source:
+`dungeon_damage.c:709-731`, `dungeon_misc.c:583-591`,
+`dungeon_cutscene_skarmory.c:57-79,167-174`, `dungeon_cutscene.c:138-157,349-350`,
+`exclusive_pokemon.c:43-54`, `run_dungeon.c:468-475,609-618,767-812`.
+
+Diglett does not choose actions or walk randomly. Moves and projectiles retain
+neutral exclusion. Eaten Blast Seed can damage him for the fixed-room30HP;
+actual lethal damage uses ordinary wild faint/experience/seen rules, with no
+invented immunity, HP clamp, boss completion or client forced loss. Its native
+wild allocation never receives client/base joinedAt. Later ground rescue actors
+are separate scene roles. Source: `dungeon_ai.c:47`,
+`dungeon_cutscene.c:1091-1138`, `dungeon_item_action.c:565-610`,
+`dungeon_mon_spawn.c:498-525`, `dungeon_util.c:273-333`,
+`dungeon_misc.c:488,571-591` and `dungeon_damage.c:659-708`.
+
+Successful settlement owns MAIN(4,7), followed by the non-running script3 bridge
+and MAIN(4,8). It never starts a second nine-floor expedition. The original
+visible scene composition shows Skarmory depart, two Magnemite reach the gap,
+lift Diglett together above it, and carry him to the team; thanks reunite him
+with Dugtrio at the base. This read-only staging uses local directional pixel
+actors and the textured mountain-grotto3D kit. Scene acknowledgment, not animation
+elapsed time, advances canonical state. Home acknowledgment records the rescue
+once, MAIN(5,0), interior placement and the durable save boundary. Friend Area
+onboarding remains the next unopened story stage.
+
+Rewards use exact ordered receipts:500Poké (whole grant refused above99499),
+Pecha Scarf, Ginseng. Shared inventory delivery and shared choice presentation
+handle full bag/storage, discard, whole-slot replacement and confirmation.
+Every partial reward cursor reloads without replay. The source-qualified
+non-reset settlement retains exact current move slots, SET and Ginseng boosts
+on success or loss. Town bank/storage/Kecleon preparation remains available
+between the completed request and departures/retries.
+
+Ground returns refresh shops, board/mail scheduling and surviving toolbox
+stickiness in source order, once before actual success/loss return scenes and
+once more at the non-running script3 bridge acknowledgment. They do not advance
+the browser day. Retained held items lose flags through native BulkItem
+conversion. The later MAIN(5,0) to(5,1) INIT refresh belongs to the next task,
+not an extra current call. Source: `ground_main.c:216-225,510,531-535`,
+`main_loops.c:650-691,779`, `pokemon.c:977-1008`, and
+`items.c:228-237,1377-1405`.
+
+## Held reward equipment
+
+Leader Give/Take now uses ordinary turn actions and whole-slot ownership.
+Giving swaps through the freed toolbox slot even when full; taking needs a free
+slot. Sticky outgoing held items reject inside the action and still consume its
+turn. Incoming sticky items can be held; the current item UI exposes no native
+projectile-SET flag. Confusion performs no equip direction draw. The actual
+CheckVariousConditions target guard is distinct from CannotAttack. Pecha Scarf
+protection reads the real clean held slot. Source:
+`dungeon_action_handler.c:125-240,252-288`,
+`dungeon_action_execution.c:192-200,266-315`,
+`dungeon_logic.c:535-550,591-619`, and `dungeon_menu_items.c:632-665`.
+Only items with implemented held behavior (Pecha Scarf, Twist Band or no held
+effect) can newly be equipped; other equipment remains visibly gated.
+Partner transfer/use-held-item commands and their native skip-action flag remain
+explicit full-game work; this UI admits only the leader recipient.
+
+## Exact v10 save boundary and remaining scope
+
+The additive Steel root owns only route phase/history, durable reached/defeated
+facts, last session, successful settlement revision and reward cursor. Real HP,
+items, moves, map, actors, RNG and scheduling remain in the shared canonical
+owners. Current policies check the exact prerequisite request, source floor
+order, fixed geometry/roles, phase-scene counts, native flags/MAIN, loss versus
+success, and receipt ordering. Pending summit scenes are specific stable pause
+boundaries. New encounter seen flags require reachable entry/summit history;
+spawning or visibility does not fabricate them.
+
+Exact v9 factory and battle-status policy are frozen from accepted2348abc;
+v2-v9 retain original envelope authentication and their original policy admission
+before conversion adds only `steel:null` and the new content/revision. All43
+previous source pins,14 authored bodies,2 factual manifests and three old root
+shapes remain unchanged; two new pins make45. No old gains/history are invented.
+
+White/Orange Gummi and all six pooled Orb use consumers remain visibly gated;
+carrying/storage still preserve every source item. Full native partner and early
+route move AI, Charge/Hypnosis/Absorb/Quick Attack and the complete starter
+level1-100 inventory in MT-STEEL-MOVE-COVERAGE remain binding follow-up work.
+No artificial level cap, move deletion or weighted substitute is introduced.
+Native broader thrown-item/teammate catching remains open; wild Gravelerock
+catching is not required because the source wild branch excludes thrown-arc
+items (`dungeon_item_action.c:84-120`, `dungeon_projectile_throw.c:364`).
+Static checks and source review do not establish human play, visual/device
+acceptance, Blue binary parity or full-campaign completion.

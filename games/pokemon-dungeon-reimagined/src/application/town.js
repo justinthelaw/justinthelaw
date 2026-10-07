@@ -79,12 +79,12 @@ export function showTown({ snapshot, catalogs, view, send, menu, open }) {
   /** @param {'board'|'jobs'|'mailbox'|'depart'} page */
   function jobs(page) { showWork({ snapshot, catalogs, view, send, back: home, menu, open }, page); }
   function home() {
-    show(name, `Team ${snapshot.profile.teamName} · ${snapshot.economy.carriedMoney} carried Poké · ${snapshot.economy.bankedMoney} saved Poké. Accept requests, mark them Take Job, and complete their objectives in a real expedition.${snapshot.earlyWork?.history === 'legacy-postings-unavailable' ? ' Imported town: this board begins new work; earlier postings were not recorded.' : ''}`, [
+    show(name, `Team ${snapshot.profile.teamName} · ${snapshot.economy.carriedMoney} carried Poké · ${snapshot.economy.bankedMoney} saved Poké. ${snapshot.progress.storyNodeId === TOWN.story ? 'Accept requests, mark them Take Job, and complete their objectives in a real expedition.' : 'Prepare supplies for the Diglett rescue, then return to the base.'}${snapshot.earlyWork?.history === 'legacy-postings-unavailable' ? ' Imported town: this board begins new work; earlier postings were not recorded.' : ''}`, [
       ...(atSquare ? [{ label: 'Kecleon Shop', run: () => shop('kecleon-items') }, { label: 'Kecleon Wares', run: () => shop('kecleon-wares') }, { label: 'Felicity Bank', run: bank }, { label: 'Kangaskhan Storage', run: storage },
         { label: 'Other services', run: () => show('Other services', 'Gulpin linking and the Dojo are still in development. Friend Area access follows the Diglett rescue and is not open yet.', [{ label: 'Back', run: home }]) }] : []),
-      ...(snapshot.town.mapDefinitionId === TOWN.post ? [{ label: 'Bulletin board', run: () => jobs('board') }] : []),
-      { label: 'Job List', run: () => jobs('jobs') },
-      ...(snapshot.town.mapDefinitionId === TEAM.map ? [{ label: 'Check mailbox', run: () => jobs('mailbox') }, { label: 'Choose dungeon', run: () => jobs('depart') }] : []),
+      ...(snapshot.progress.storyNodeId === TOWN.story && snapshot.town.mapDefinitionId === TOWN.post ? [{ label: 'Bulletin board', run: () => jobs('board') }] : []),
+      ...(snapshot.progress.storyNodeId === TOWN.story ? [{ label: 'Job List', run: () => jobs('jobs') }] : []),
+      ...(snapshot.progress.storyNodeId === TOWN.story && snapshot.town.mapDefinitionId === TEAM.map ? [{ label: 'Check mailbox', run: () => jobs('mailbox') }, { label: 'Choose dungeon', run: () => jobs('depart') }] : []),
       ...[{ mapId: TOWN.square, label: 'Visit Pokémon Square' }, { mapId: TOWN.post, label: 'Visit Post Office' }, { mapId: TEAM.map, label: 'Return to base' }, { mapId: MORNING.interior, label: 'Enter home' }].filter(row => row.mapId !== snapshot.town.mapDefinitionId).map(row => ({ label: row.label, run: () => send({ type: 'townTravel', mapId: row.mapId }) })),
       { label: 'Campaign & saves', run: menu },
     ]);

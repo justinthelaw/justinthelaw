@@ -1,3 +1,5 @@
+import { STEEL } from '../../../content/authored/mt-steel.js';
+import { advanceSteelScene } from './steel.js';
 import { WORK } from '../../../content/authored/early-work.js';
 import { TOWN, placeInTown } from '../../../content/authored/town.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
@@ -25,7 +27,7 @@ export function requestScene(context, authored, script) {
 export function sceneHandler(authored, catalogs, tutorialSaved) { return {
   plan(state, intent) {
     const scene = state.pendingScene;
-    if (state.mode !== 'scene' || !scene || intent.type !== 'ackScene') return { kind: 'rejected', reason: 'unavailable' };
+    if (state.steel?.rewardChoice || state.mode !== 'scene' || !scene || intent.type !== 'ackScene') return { kind: 'rejected', reason: 'unavailable' };
     if (scene.sceneId === MORNING.scenes[1] && !tutorialSaved(state)) return { kind: 'rejected', reason: 'unavailable' };
     const script = authored.scenes.find(row => row.id === scene.sceneId);
     if (!script) return { kind: 'content-blocked', requirement: 'scene-script' };
@@ -38,6 +40,7 @@ export function sceneHandler(authored, catalogs, tutorialSaved) { return {
   },
   apply(context, intent) {
     const state = context.state; const scene = state.pendingScene;
+    if (scene && STEEL.scenes.includes(scene.sceneId)) return advanceSteelScene(context, authored, catalogs);
     if (!scene || intent.type !== 'ackScene') return { kind: 'rejected', reason: 'unavailable' };
     const script = authored.scenes.find(row => row.id === scene.sceneId);
     if (!script) return blocked('scene-script');

@@ -1,5 +1,28 @@
 # Pokémon Dungeon Reimagined progress and decisions
 
+## Mt. Steel integrated rescue checkpoint — 2026-10-07
+
+Current v10 continues the completed Diglett request through eight source
+procedural floors, fixed9 Skarmory battle, visible Magnemite crossing, exact
+rewards and home at MAIN(5,0). Shared actors/AI/moves/items/generation/turns and
+non-reset settlement remain the runtime owners. First/retry/loss and durable
+boss-defeat versus successful-return facts survive save boundaries, including
+same-hit recoil loss and automatic quiet-summit poststory clear. The success
+bridge does not run another dungeon. Town preparation and existing jobs remain
+available in their respective source intervals.
+
+Exact v2-v9 factories, authentication, old shapes and old pins remain unchanged;
+two additional v9 dependency pins accompany the explicit v10 Steel root. Shared
+reward choice UI and actual leader held-item transfer expose the received scarf
+and preserve overflow decisions. MT-STEEL and MT-STEEL-MOVE-COVERAGE record exact
+source ordering and remaining Gummi/Orb, earlier AI, starter moves, partner item
+commands and reset-gain obligations. Friend Area onboarding is next. Independent
+review identified and corrected fractional rescue grid coordinates and placeholder
+team HP in scene projections. Rescue staging now uses integral cells with separate
+elevation, and real team HP/max HP, identity and nicknames survive summit scenes.
+Scoped re-review and controller publication are pending; no automated game
+execution or human play/visual acceptance is claimed.
+
 ## Ordinary-work admission review corrections — 2026-10-07
 
 Current-only save admission now shares the live interaction predicate for rescue

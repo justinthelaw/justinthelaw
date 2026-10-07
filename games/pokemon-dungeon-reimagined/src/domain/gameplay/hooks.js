@@ -1,3 +1,7 @@
+import { transferHeldItem } from './held-items.js';
+import { STEEL } from '../../../content/authored/mt-steel.js';
+import { STEEL_SLEEP_CHANCES } from '../../../content/state/steel-facts.js';
+import { finishSteelBattle } from './steel.js';
 import { chooseNativeWildMove } from './native-wild-moves.js';
 import { confusedAction } from './confused-action.js';
 import { tickBattleStatus, endBide } from './battle-status.js';
@@ -37,7 +41,11 @@ export function createTurnHooks(catalogs, authored) {
       return { baseMovementSpeed: p.baseMovementSpeed, positiveTimers: a.speed.positiveTimers, negativeTimers: a.speed.negativeTimers, paralyzed: a.conditions.burn?.statusId === 'paralysis', iceType: p.typeIds.includes(6), snow: false, deoxysSpeedForm: false, wildKecleonInTheftMode: false };
     },
     spawn(context) {
-      const s = sessionOf(context); s.floor.arrivalCounter++;
+      const s = sessionOf(context);
+      if (!('address' in s.floor.location)) return CONTINUE;
+      const sourceFloor = catalogs.dungeons.getFloorById(s.floor.location.address.floorId);
+      if (catalogs.dungeons.getGeneration(sourceFloor.generationId).parameters.enemyDensity === 0) return CONTINUE;
+      s.floor.arrivalCounter++;
       if (s.floor.arrivalCounter < 36) return CONTINUE;
       s.floor.arrivalCounter = 0;
       if (s.scheduler.wildSlots.filter(Boolean).length >= 10 || !('address' in s.floor.location)) return CONTINUE;
@@ -61,7 +69,7 @@ export function createTurnHooks(catalogs, authored) {
       draw(context.state, 100, 'encountersItems'); // both admitted routes have zero random movement
       const identity = /** @type {import('../../contracts/campaign.js').SpeciesForm} */ ({ speciesId: choice.speciesId, formId: choice.formId });
       const a = createActor(context.state, catalogs, { kind: 'wild', encounterId: /** @type {import('../../contracts/campaign.js').EncounterId} */ (`${s.dungeonId}-${identity.speciesId}`), spawnedAt: { ...s.floor.location.address } }, identity, choice.level, s.floor.mapId, position, s.sessionId);
-      const chance = SPAWN_SLEEP_CHANCES[identity.speciesId]; if (chance === undefined) return blocked('spawn-sleep-chance');
+      const chance = SPAWN_SLEEP_CHANCES[identity.speciesId] ?? STEEL_SLEEP_CHANCES[identity.speciesId]; if (chance === undefined) return blocked('spawn-sleep-chance');
       if (draw(context.state, 100, 'encountersItems') < chance) a.conditions.sleep = { statusId: 'sleep', source: { kind: 'actor', actor: { sessionId: s.sessionId, mapId: s.floor.mapId, actorId: a.actorId, identity: a.identity }, moveId: null }, duration: { kind: 'indefinite', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-spawn-sleep') }, periodicCountdown: null, payload: { kind: 'none' } };
       s.actors[a.actorId] = a; s.scheduler.wildSlots[s.scheduler.wildSlots.indexOf(null)] = a.actorId;
       return CONTINUE;
@@ -74,7 +82,8 @@ export function createTurnHooks(catalogs, authored) {
     forcedLoss(context) {
       const s = context.state.session;
       if (s) for (const id of s.teamOrder) { const member = s.actors[id]; if (member) tryRevive(context, member, catalogs); }
-      if (s && s.teamOrder.some(id => s.actors[id]?.resources.hp === 0)) settleExpedition(context, 'fainting', catalogs);
+      if (s && s.teamOrder.some(id => s.actors[id]?.resources.hp === 0)) settleExpedition(context, 'fainting', catalogs, authored);
+      else if (s) finishSteelBattle(context, authored);
       return CONTINUE;
     },
     begin(context, ref) {
@@ -90,6 +99,7 @@ export function createTurnHooks(catalogs, authored) {
     experience(context, ref) { if (ref) applyExperience(context, actor(context, ref), catalogs); return CONTINUE; },
     ai(context, ref) {
       const s = sessionOf(context); const a = actor(context, ref); if (a.placement.kind !== 'map') return blocked('ai-placement');
+      if (a.binding.kind === 'guest' && a.binding.storyActorId === STEEL.clientRole) return { kind: 'action', action: { kind: 'wait', actorId: a.actorId } };
       if (a.binding.kind === 'job-client') {
         // Rescue-target AI passes/walks with a random facing. Native role
         // treatment suppresses pursuit/attacks, not eaten Blast Seed damage.
@@ -140,7 +150,7 @@ export function createTurnHooks(catalogs, authored) {
       const s = sessionOf(context); const a = actor(context, ref);
       action = confusedAction(context, a, action, catalogs);
       if (action.kind === 'wait') return done();
-      if (action.kind === 'item') { useDungeonItem(context, action, catalogs); return done(); }
+      if (action.kind === 'item') { if (action.operation === 'equip') transferHeldItem(context, action); else useDungeonItem(context, action, catalogs); return done(); }
       if (action.kind === 'move') {
         const plan = movementPlan(s, a, action.destination, catalogs);
         if (a.placement.kind !== 'map' || plan.kind === 'blocked') return { kind: 'rejected', reason: 'unavailable' };
@@ -159,7 +169,7 @@ export function createTurnHooks(catalogs, authored) {
       }
       if (action.kind === 'attack' || action.kind === 'struggle' || action.kind === 'move-use') { attack(context, a, action, catalogs); return done(); }
       if (action.kind === 'exit') { takeStairs(context, catalogs, authored, action.exitId); return done(); }
-      if (action.kind === 'give-up') { settleExpedition(context, 'give-up', catalogs); return done(); }
+      if (action.kind === 'give-up') { settleExpedition(context, 'give-up', catalogs, authored); return done(); }
       return blocked('action-effect');
     },
     effect() { return blocked('unsupported-effect-cursor'); },
@@ -201,7 +211,7 @@ export function createTurnHooks(catalogs, authored) {
     wind(context) {
       const s = sessionOf(context); s.floor.turnCounter++; s.floor.windCounter = Math.max(0, s.floor.windCounter - 1);
       if ([249, 149, 49].includes(s.floor.windCounter)) context.emit({ type: 'message', messageId: `wind-${s.floor.windCounter}` });
-      if (s.floor.windCounter === 0) settleExpedition(context, 'wind-expulsion', catalogs);
+      if (s.floor.windCounter === 0) settleExpedition(context, 'wind-expulsion', catalogs, authored);
       return CONTINUE;
     },
   };

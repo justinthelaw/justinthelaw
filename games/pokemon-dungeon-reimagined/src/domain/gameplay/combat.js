@@ -1,3 +1,4 @@
+import { noteSteelBossFaint } from './steel.js';
 import { SELF_STATUS_MOVES, selfBattleStatus } from './battle-status.js';
 import { damageHp } from './hp-damage.js';
 import { rapidSpinCleanup, takeDownRecoil, struggleRecoil } from './post-hit-effects.js';
@@ -125,7 +126,7 @@ export function attack(context, attacker, action, catalogs) {
   if (result.damage > 0) contactReactions(context, attacker, target, physical, catalogs);
   context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: result.damage ? 'hit' : 'immune' });
   const resolution = finishDamage(context, target, catalogs, attacker);
-  if (learned && action.moveId === 'move-confusion' && result.damage > 0 && resolution !== 'revived') confusionSecondary(context, attacker, target, catalogs);
+  if (!(context.state.steel?.bossDefeated && context.state.steel.phase === 'battle') && learned && action.moveId === 'move-confusion' && result.damage > 0 && resolution !== 'revived') confusionSecondary(context, attacker, target, catalogs);
   if (!regular && result.damage > 0) {
     if (action.kind === 'struggle' ? struggleRecoil(attacker) : learned && action.moveId === 'move-take-down' && takeDownRecoil(attacker, catalogs)) {
       finishDamage(context, attacker, catalogs, attacker, false);
@@ -142,6 +143,7 @@ export function finishDamage(context, target, catalogs, attacker, giveExperience
   if (tryRevive(context, target, catalogs)) return 'revived';
   if (target.resources.hp === 0 && attacker.actorId === session.leaderActorId) recordSpeciesSeen(context.state, target.identity);
   if (target.resources.hp === 0 && target.affiliation !== 'team') {
+    noteSteelBossFaint(context, target);
     // R CalculateEXPGain and dungeon_damage.c: half credit until a move hits.
     const p = profile(target.identity, catalogs); const base = p.experienceYield + Math.trunc(p.experienceYield * (target.growth.level - 1) / 10);
     const xp = Math.max(1, target.memory.experienceContributors.length ? base : Math.trunc(base / 2));

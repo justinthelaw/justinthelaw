@@ -1,3 +1,5 @@
+import { STEEL } from '../../../content/authored/mt-steel.js';
+import { WORK } from '../../../content/authored/early-work.js';
 import { initializeEarlyWork } from './job-records.js';
 import { TOWN, placeInTown } from '../../../content/authored/town.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
@@ -8,7 +10,7 @@ import { blocked } from './support.js';
 import { refreshTownShops, shopOrderProblem, applyShopOrder } from './town-shop.js';
 import { economyOrderProblem, applyEconomyOrder } from './town-economy.js';
 /** @param {import('../../contracts/campaign.js').CampaignSnapshot} state */
-export function townReady(state) { return state.progress.storyNodeId === TOWN.story && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt && state.progress.seenScenes[TOWN.scenes[3] ?? '']?.count === 1; }
+export function townReady(state) { return (state.progress.storyNodeId === TOWN.story || state.progress.storyNodeId === WORK.story && WORK.scenes.every(id => state.progress.seenScenes[id]?.count === 1) || state.progress.storyNodeId === STEEL.story && state.steel?.phase === 'ready') && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt && state.progress.seenScenes[TOWN.scenes[3] ?? '']?.count === 1; }
 /** @param {import('./support.js').Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} authored
  * @returns {import('../turns/types.js').CommandHandlers} */
 export function townHandlers(catalogs, authored) { return {

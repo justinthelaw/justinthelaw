@@ -212,6 +212,7 @@
  *     schemaVersion: 1;
  *     speciesSeen?: SpeciesSeenHistory;
  *     earlyWork?: import('./early-work.js').EarlyWorkState|null;
+ *     steel?: import('./steel.js').SteelState|null;
  *     contentRevision: ContentRevision;
  *     revision: Int;
  *     idSequence: IdSequence;

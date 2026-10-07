@@ -1,3 +1,6 @@
+import { supportedHeldItem } from '../domain/gameplay/held-items.js';
+import { STEEL } from '../../content/authored/mt-steel.js';
+import { showSteelReward, steelGroundBoundary } from '../application/steel.js';
 import { WORK } from '../../content/authored/early-work.js';
 import { showWork } from '../application/work.js';
 import { facingJobClient } from '../domain/gameplay/work.js';
@@ -152,9 +155,9 @@ export async function createApplication(canvas, signal, startup) {
     const snapshot = current(); const session = snapshot?.session; const leader = session?.actors[session.leaderActorId];
     if (!snapshot) return;
     const ids = session ? [...(snapshot.containers[session.inventory]?.itemIds ?? []), ...(leader ? snapshot.containers[leader.heldContainerId]?.itemIds ?? [] : [])] : [...(snapshot.containers[snapshot.economy.toolbox]?.itemIds ?? []), ...snapshot.selectedPartyIds.flatMap(id => snapshot.containers[snapshot.roster[id]?.heldContainerId ?? '']?.itemIds ?? [])];
-    panel(snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[2]) ? 'Use berries, seeds or food yourself. Keep a clean Reviver Seed for automatic revival; eating it only restores 5 Belly. Max Elixir restores all move PP. Blast Seed hits directly ahead; Gravelerock is thrown toward enemies in the direction you face. Pickups enter your toolbox.' : 'Before the starter toolbox, floor pickups use your held slot. Use a held berry here.', ids.map(id => {
-      const item = snapshot.items[id]; return { label: item ? `${item.template.itemId === 'item-gravelerock' ? 'Throw ' : item.template.itemId === 'item-reviver-seed' ? 'Eat ' : ''}${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Unavailable item', disabled: !leader || !item || !USABLE_ITEMS.includes(item.template.itemId), detail: item && !USABLE_ITEMS.includes(item.template.itemId) ? 'This item use is still in development; carrying and storage work.' : 'Use this item yourself',
-        run: () => { if (leader) act({ type: 'useItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel'); } };
+    panel(snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[2]) ? 'Use berries, seeds or food yourself. Keep a clean Reviver Seed for automatic revival; eating it only restores 5 Belly. Max Elixir restores all move PP. Blast Seed hits directly ahead; Gravelerock is thrown toward enemies in the direction you face. Pickups enter your toolbox.' : 'Before the starter toolbox, floor pickups use your held slot. Use a held berry here.', ids.flatMap(id => {
+      const item = snapshot.items[id]; return [{ label: item ? `${item.template.itemId === 'item-gravelerock' ? 'Throw ' : item.template.itemId === 'item-reviver-seed' ? 'Eat ' : ''}${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Unavailable item', disabled: !leader || !item || !USABLE_ITEMS.includes(item.template.itemId), detail: item && !USABLE_ITEMS.includes(item.template.itemId) ? 'This item use is still in development; carrying and storage work.' : 'Use this item yourself',
+        run: () => { if (leader) act({ type: 'useItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel'); } }, ...(leader && item && snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[2]) ? [{ label: `${snapshot.containers[leader.heldContainerId]?.itemIds.includes(id) ? 'Take' : 'Hold'} ${item.template.itemId.replace('item-', '').replaceAll('-', ' ')}`, disabled: !snapshot.containers[leader.heldContainerId]?.itemIds.includes(id) && (!loaded || !supportedHeldItem(loaded.catalogs, item.template.itemId)), detail: 'Transfer this whole item slot; takes a turn. Unsupported held effects remain unavailable.', run: () => act({ type: 'equipItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel') }] : [])];
     }), 'Items & held slot');
   }
   function readNews() { panel('First rescue-team news: the badge marks your team, the toolbox carries dungeon supplies, and letters in your mailbox bring requests. Resting at home is a good time to keep a checkpoint. Check your mailbox before heading out to help.', [], 'Pokémon News'); }
@@ -167,7 +170,7 @@ export async function createApplication(canvas, signal, startup) {
     if (session) team.push(`Moves · ${gameplay.getMoveChoices(snapshot).map(move => `${move.name} ${move.currentPp} PP`).join(' · ')}`);
     const location = session?.floor.location;
     const floor = location?.kind === 'exploration' && loaded ? loaded.catalogs.dungeons.getFloorById(location.address.floorId).display : null;
-    const goal = session?.purpose.kind === 'ordinary' ? `${session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ordinary rescue work · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === TOWN.story ? `Team ${snapshot.profile.teamName} · town services · Poké ${snapshot.economy.carriedMoney}` : session ? `${session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
+    const goal = session?.purpose.kind === 'ordinary' ? `${session.dungeonId === STEEL.dungeonId ? 'Mt. Steel' : session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ordinary rescue work · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === TOWN.story ? `Team ${snapshot.profile.teamName} · town services · Poké ${snapshot.economy.carriedMoney}` : session ? `${session.dungeonId === STEEL.dungeonId ? 'Mt. Steel' : session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === STEEL.dungeonId ? 'Rescue Diglett' : session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
     const onStairs = leader?.placement.kind === 'map' && Object.values(session?.floor.exits ?? {}).some(exit => leader.placement.kind === 'map' && exit.position.x === leader.placement.position.x && exit.position.z === leader.placement.position.z);
     view.hud(goal, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
       { label: loaded && facingJobClient(snapshot, loaded.catalogs) ? 'Talk to client' : 'Attack', run: () => act({ type: 'attack' }), disabled: snapshot.mode !== 'dungeon' || !ready },
@@ -175,7 +178,11 @@ export async function createApplication(canvas, signal, startup) {
       { label: 'Use stairs', run: () => { if (session) act({ type: 'useStairs', sessionId: session.sessionId }); }, disabled: snapshot.mode !== 'dungeon' || !onStairs || !ready },
     ]);
     view.minimap(session ? projected : null);
-    if (snapshot.pendingScene) {
+    if (snapshot.steel?.rewardChoice) {
+      dialogue = false;
+      const shownEpoch = saves?.service.getBinding().adventureEpoch;
+      showSteelReward({ snapshot, view, saves: menu, send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This reward choice is stale.'); return; } act(intent, 'panel'); } });
+    } else if (snapshot.pendingScene) {
       dialogue = true;
       // A readiness repaint can change the focused control without changing
       // revision/mode. Drop queued confirms before replacing that owner.
@@ -186,6 +193,20 @@ export async function createApplication(canvas, signal, startup) {
       showScene({ snapshot, epoch, prompt: gameplay.getScenePrompt(snapshot), ready, saves: menu, news: readNews, memoryOnly: saves?.isMemoryOnly() ?? false,
         saveTutorial(complete) { saves?.saveTutorial(snapshot, complete); },
         send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This scene prompt is stale.'); return; } act(intent, 'panel'); } });
+    } else if (loaded && !session && (snapshot.progress.storyNodeId === WORK.story || snapshot.steel?.phase === 'ready') && [TOWN.square, TOWN.post].includes(snapshot.town.mapDefinitionId)) {
+      dialogue = false;
+      const shownEpoch = saves?.service.getBinding().adventureEpoch;
+      showTown({ snapshot, catalogs: loaded.catalogs, view, menu, open() { followsGame = false; input?.cancel(); context(); }, send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) return; act(intent, 'panel'); } });
+    } else if (steelGroundBoundary(snapshot)) {
+      dialogue = false;
+      const complete = snapshot.steel?.phase === 'complete', choice = gameplay.getDungeonChoices(snapshot).find(row => row.dungeonId === STEEL.dungeonId);
+      const shownEpoch = saves?.service.getBinding().adventureEpoch;
+      let token = Symbol('pending');
+      token = view.show(complete ? 'Diglett is home' : 'Return to Mt. Steel', complete ? 'Diglett is safe. Your rewards and return home are saved with the campaign. Friend Area onboarding is the next story step and remains in development.' : 'Your team has recovered. Return to the mountain to finish the rescue.', [
+        ...(complete ? [] : [{ label: 'Retry Mt. Steel', disabled: !ready || !!choice?.requirement, run() { if (view.ownsPanel(token) && current() === snapshot && saves?.service.getBinding().adventureEpoch === shownEpoch) act({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (STEEL.dungeonId) }, 'panel'); } }]),
+        ...(!complete ? [{ label: 'Prepare in town', run: () => act({ type: 'townTravel', mapId: TOWN.square }, 'panel') }] : []),
+        { label: 'Campaign & saves', run: menu }, { label: 'View rewards', run: inventory },
+      ]);
     } else if (loaded && snapshot.earlyWork && (snapshot.earlyWork.clientPrompt || snapshot.earlyWork.returned || snapshot.earlyWork.reward || snapshot.pendingResult || snapshot.progress.storyNodeId === WORK.story)) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;

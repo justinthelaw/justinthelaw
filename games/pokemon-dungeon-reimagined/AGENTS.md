@@ -10,12 +10,13 @@ pinned vendor bundle and a startup-only shell. The development branch now
 contains the canonical opening adventure through
 Tiny Woods, Caterpie reunion, confirmed team formation and the first morning
 through Thunderwave Cave, functioning bank/storage/Kecleon services, and real
-ordinary rescue work through Diglett's request at MAIN(4,6). Mt. Steel remains
-gated. Static checks do not establish human play/visual acceptance or a complete
+ordinary rescue work through Diglett's request and the nine-floor Mt. Steel rescue at MAIN(5,0).
+Friend Area onboarding remains the next gated story step. Static checks do not establish human play/visual acceptance or a complete
 campaign; later services, escort admission and routes remain incomplete.
-Current v9 battle saves preserve exact v2-v8 import admission. Bide, Focus
-Energy and Confusion now have sourced lifecycle consumers; Mt. Steel admission
-and its wild move-selection integration remain separate work. Accepted requests,
+Current v10 Steel saves preserve exact v2-v9 import admission. Bide, Focus
+Energy and Confusion now have sourced lifecycle consumers; Mt. Steel uses exact scoped wild move selection, boss/neutral roles, retry/loss
+return history and shared reward delivery. Earlier partner/wild AI and the
+explicit broader move/item inventory remain incomplete. Accepted requests,
 no-turn client dialogue, return/reward cursors and mail are persisted. Older town
 saves receive a prospective board and an explicit missing-posting-history notice. Imported
 legacy history stays explicitly incomplete; never infer native seen flags from

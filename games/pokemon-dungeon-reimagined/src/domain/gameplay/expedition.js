@@ -1,7 +1,9 @@
+import { STEEL } from '../../../content/authored/mt-steel.js';
+import { STEEL_SLEEP_CHANCES, STEEL_FLOOR_ITEMS } from '../../../content/state/steel-facts.js';
+import { steelReady, enterSteelSummit, afterSteelSettlement } from './steel.js';
 import { workReady } from './work.js';
 import { enterJobObjectives, floorJobClient, leaveJobFloor, settleJobObjectives } from './job-objectives.js';
-import { refreshGroundJobs } from './job-records.js';
-import { refreshTownShops } from './town-shop.js';
+import { refreshGround } from './ground-refresh.js';
 import { TOWN, placeInTown } from '../../../content/authored/town.js';
 import { SPAWN_SLEEP_CHANCES, eligibleEncounter } from '../../../content/state/expedition-facts.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
@@ -23,12 +25,14 @@ import { requestScene } from './scenes.js';
 /** @typedef {import('../turns/types.js').MutationContext} Context */
 /** @param {Catalogs} catalogs @param {import('../../contracts/campaign.js').CampaignSnapshot} state @param {string} [dungeonId] */
 export function admission(catalogs, state, dungeonId = 'tiny-woods') {
-  const ordinary = workReady(state);
+  const steel = dungeonId === STEEL.dungeonId;
+  const ordinary = !steel && workReady(state);
+  if (steel && !steelReady(state)) return 'steel-prerequisite';
   if (ordinary && state.town.mapDefinitionId !== TEAM.map) return 'departure-at-base';
   if (state.session || state.mode !== 'town' || !ordinary && state.progress.clears[dungeonId]) return 'expedition-unavailable';
   const cave = dungeonId === T.dungeonId;
-  if (!ordinary && (cave ? ![MORNING.story, T.story].includes(state.progress.storyNodeId) || !state.progress.appliedGrants.some(row => row.grantId === MORNING.grants[6]) : !['browser-story-awakening', OPENING.storyNode].includes(state.progress.storyNodeId))) return 'expedition-prerequisite';
-  if (state.selectedPartyIds.length !== 2 || !ordinary && Object.values(state.items).some(item => !(cave ? USABLE_ITEMS : ['item-oran-berry', 'item-pecha-berry']).includes(item.template.itemId))) return 'opening-party-inventory';
+  if (!ordinary && !steel && (cave ? ![MORNING.story, T.story].includes(state.progress.storyNodeId) || !state.progress.appliedGrants.some(row => row.grantId === MORNING.grants[6]) : !['browser-story-awakening', OPENING.storyNode].includes(state.progress.storyNodeId))) return 'expedition-prerequisite';
+  if (state.selectedPartyIds.length !== 2 || !ordinary && !steel && Object.values(state.items).some(item => !(cave ? USABLE_ITEMS : ['item-oran-berry', 'item-pecha-berry']).includes(item.template.itemId))) return 'opening-party-inventory';
   // Abilities needing post-hit reactions cannot be silently ignored.
   const reactive = ['Poison Point', 'Effect Spore', 'Synchronize', 'Color Change'];
   for (const id of state.selectedPartyIds) {
@@ -40,10 +44,10 @@ export function admission(catalogs, state, dungeonId = 'tiny-woods') {
 }
 /** @param {Context} context @param {Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} authored @param {string} [dungeonId] @param {boolean} [ordinary] */
 export function enterOpening(context, catalogs, authored, dungeonId = 'tiny-woods', ordinary = false) {
-  const state = context.state, cave = dungeonId === T.dungeonId;
-  if (cave) placeAtBase(state);
-  const route = cave ? { ...T, storyNode: T.story, rescueScene: T.rescue, returnNode: T.returned } : OPENING;
-  if (!ordinary && !cave && !state.progress.milestones[OPENING.boostGuard]) {
+  const state = context.state, cave = dungeonId === T.dungeonId, steel = dungeonId === STEEL.dungeonId;
+  if (cave || steel) placeAtBase(state);
+  const route = steel ? { ...STEEL, storyNode: STEEL.story } : cave ? { ...T, storyNode: T.story, rescueScene: T.rescue, returnNode: T.returned } : OPENING;
+  if (!ordinary && !cave && !steel && !state.progress.milestones[OPENING.boostGuard]) {
     for (const id of state.selectedPartyIds) {
       const pokemon = state.roster[id]; if (!pokemon) return blocked('opening-party');
       const start = catalogs.onboarding.getStartingProfile(pokemon.identity.speciesId).firstPlayable;
@@ -87,14 +91,17 @@ export function enterOpening(context, catalogs, authored, dungeonId = 'tiny-wood
 function buildFloor(state, catalogs, floorId, authored, ordinary = state.session?.purpose.kind === 'ordinary') {
   const factual = catalogs.dungeons.getFloorById(floorId); const generation = catalogs.dungeons.getGeneration(factual.generationId);
   const client = ordinary ? floorJobClient(state, floorId) : null;
+  const summit = factual.dungeonId === STEEL.dungeonId && generation.parameters.fixedRoomNumber === 1;
+  const fixedActors = state.steel?.bossDefeated ? [] : [{ roleId: STEEL.bossRole, speciesId: 'pokemon-227', formId: null, level: 10 }, { roleId: STEEL.clientRole, speciesId: 'pokemon-050', formId: null, level: 5 }];
   const result = generateFloor({ profile: factual, generation, streams: { layout: state.random.layout, encountersItems: state.random.encountersItems }, context: {
-    floorType: 'normal', missionSuppressesHouse: !!client, missionAddsEnemy: !!client, ...(client ? { missionClient: { roleId: client.jobId, speciesId: client.identity.speciesId, formId: client.identity.formId, level: 1 } } : {}), canChangeLeader: false, teamSize: 2, enemyLimit: 16, required: [], fixedEncounter: null, receivedTeam: null, specialPopulation: null, ownedRewardItemIds: [],
+    floorType: summit ? 'fixed' : 'normal', missionSuppressesHouse: !!client, missionAddsEnemy: !!client, ...(client ? { missionClient: { roleId: client.jobId, speciesId: client.identity.speciesId, formId: client.identity.formId, level: 1 } } : {}), canChangeLeader: false, teamSize: 2, enemyLimit: 16, required: [], fixedEncounter: summit ? { callbackId: 'steel-skarmory-faint', actors: fixedActors, isolatedRoleIds: [STEEL.clientRole], exit: 'none' } : null, receivedTeam: null, specialPopulation: null, ownedRewardItemIds: [],
   } }, { navigation: catalogs.navigation, dungeons: catalogs.dungeons, isEncounterEligible: eligibleEncounter });
   if (result.kind !== 'ready') return blocked('floor-generation');
   const section = catalogs.dungeons.getSection(factual.sectionId); const floors = section.variants[0]?.floorIds ?? []; const next = floors[floors.indexOf(floorId) + 1];
-  const materialized = materializeFloor(result.blueprint, { sequence: state.idSequence, existingIds: new Set(), location: { kind: 'exploration', address: /** @type {import('../../contracts/campaign.js').FloorAddress} */ ({ dungeonId: factual.dungeonId, sectionId: factual.sectionId, floorId }) }, definitionId: /** @type {import('../../contracts/campaign.js').MapDefinitionId} */ ('navigation-procedural'),
+  const address = /** @type {import('../../contracts/campaign.js').FloorAddress} */ ({ dungeonId: factual.dungeonId, sectionId: factual.sectionId, floorId });
+  const materialized = materializeFloor(result.blueprint, { sequence: state.idSequence, existingIds: new Set(), location: summit ? { kind: 'boss', encounterId: STEEL.bossRole, address } : { kind: 'exploration', address }, definitionId: /** @type {import('../../contracts/campaign.js').MapDefinitionId} */ (summit ? 'navigation-fixed-1' : 'navigation-procedural'),
     weather: { natural: [], contributions: [], damageCounter: 0 }, windCounter: catalogs.dungeons.getRestrictions(factual.restrictionId).fields.turnLimit,
-    exit: { kind: 'stairs-down', lock: { kind: 'open' }, destination: next ? { kind: 'floor', address: /** @type {import('../../contracts/campaign.js').FloorAddress} */ ({ dungeonId: factual.dungeonId, sectionId: factual.sectionId, floorId: next }), entryId: 'stairs' } : ordinary ? { kind: 'town', mapDefinitionId: TOWN.post, entryId: 'ordinary-return' } : { kind: 'town', mapDefinitionId: factual.dungeonId === T.dungeonId ? T.clearing : authored.town.mapDefinitionId, entryId: factual.dungeonId === T.dungeonId ? 'magnemite-rescue' : 'caterpie-clearing' } }, trapKindIds: new Set(['trap-wonder-tile']) }, catalogs.navigation);
+    exit: summit ? null : { kind: factual.dungeonId === STEEL.dungeonId ? 'stairs-up' : 'stairs-down', lock: { kind: 'open' }, destination: next ? { kind: 'floor', address: /** @type {import('../../contracts/campaign.js').FloorAddress} */ ({ dungeonId: factual.dungeonId, sectionId: factual.sectionId, floorId: next }), entryId: 'stairs' } : ordinary ? { kind: 'town', mapDefinitionId: TOWN.post, entryId: 'ordinary-return' } : { kind: 'town', mapDefinitionId: factual.dungeonId === T.dungeonId ? T.clearing : authored.town.mapDefinitionId, entryId: factual.dungeonId === T.dungeonId ? 'magnemite-rescue' : 'caterpie-clearing' } }, trapKindIds: new Set(['trap-wonder-tile']) }, catalogs.navigation);
   // Native Wonder Tiles start visible; they are not hidden ordinary traps.
   const floor = /** @type {import('../../contracts/campaign.js').FloorState} */ (clone(materialized.floor));
   for (const trap of Object.values(floor.traps)) if (trap.trapKindId === 'trap-wonder-tile') trap.revealed = true;
@@ -109,7 +116,8 @@ function populate(context, catalogs, placements) {
       const identity = /** @type {import('../../contracts/campaign.js').SpeciesForm} */ ({ speciesId: placement.encounter.speciesId, formId: placement.encounter.formId });
       const client = placement.route === 'mission-client' ? floorJobClient(state, session.floor.location.address.floorId) : null;
       if (placement.route === 'mission-client' && (!client || placement.encounter.roleId !== client.jobId)) return blocked('job-client-placement');
-      const binding = client ? /** @type {const} */ ({ kind: 'job-client', jobId: client.jobId }) : /** @type {const} */ ({ kind: 'wild', encounterId: /** @type {import('../../contracts/campaign.js').EncounterId} */ (`${session.dungeonId}-${identity.speciesId}`), spawnedAt: { ...session.floor.location.address } });
+      /** @type {import('../../contracts/campaign.js').ActorBinding} */
+      const binding = placement.route === 'fixed' ? placement.encounter.roleId === STEEL.bossRole ? { kind: 'boss', encounterId: STEEL.bossRole } : { kind: 'guest', storyActorId: STEEL.clientRole } : client ? /** @type {const} */ ({ kind: 'job-client', jobId: client.jobId }) : /** @type {const} */ ({ kind: 'wild', encounterId: /** @type {import('../../contracts/campaign.js').EncounterId} */ (`${session.dungeonId}-${identity.speciesId}`), spawnedAt: { ...session.floor.location.address } });
       const actor = createActor(state, catalogs, binding, identity, placement.encounter.level, session.floor.mapId, placement.position, session.sessionId);
       const index = session.scheduler.wildSlots.indexOf(null); if (index < 0) return blocked('wild-capacity');
       session.actors[actor.actorId] = actor; session.scheduler.wildSlots[index] = actor.actorId;
@@ -117,11 +125,12 @@ function populate(context, catalogs, placements) {
         const objective = session.objectives.find(row => row.jobId === client.jobId); if (!objective) return blocked('job-client-objective');
         objective.state = { kind: 'actor-target', actorId: actor.actorId, complete: false }; continue;
       }
-      const chance = SPAWN_SLEEP_CHANCES[identity.speciesId];
+      if (placement.route === 'fixed') continue;
+      const chance = SPAWN_SLEEP_CHANCES[identity.speciesId] ?? STEEL_SLEEP_CHANCES[identity.speciesId];
       if (chance === undefined) return blocked('spawn-sleep-chance');
       if (draw(state, 100, 'encountersItems') < chance) actor.conditions.sleep = { statusId: 'sleep', source: { kind: 'actor', actor: { sessionId: session.sessionId, mapId: session.floor.mapId, actorId: actor.actorId, identity: actor.identity }, moveId: null }, duration: { kind: 'indefinite', policyId: /** @type {import('../../contracts/campaign.js').PolicyId} */ ('native-spawn-sleep') }, periodicCountdown: null, payload: { kind: 'none' } };
     } else if (placement.kind === 'item') {
-      if (!['item-poke', ...USABLE_ITEMS].includes(placement.itemId)) return blocked('floor-item-construction');
+      if (!(session.dungeonId === STEEL.dungeonId ? STEEL_FLOOR_ITEMS : ['item-poke', ...USABLE_ITEMS]).includes(placement.itemId)) return blocked('floor-item-construction');
       let amount = placement.itemId === 'item-gravelerock' ? 3 + draw(state, 2, 'encountersItems') : 1;
       if (placement.itemId === 'item-poke') { let index = draw(state, 100, 'encountersItems'); for (let i = 0; i < 200 && decodePokeQuantity(index) > placement.quantityContext.moneyUpperBound * 40; i++) index = Math.trunc(index / 2); amount = decodePokeQuantity(index); }
       const itemInstanceId = allocate(state, 'item-instance'); const containerId = allocate(state, 'container');
@@ -156,13 +165,15 @@ export function takeStairs(context, catalogs, authored, exitId) {
     resetFloorConditions(actor, catalogs);
   });
   session.scheduler = createScheduler(INITIAL_SCHEDULE_POLICY_ID, [session.teamOrder[0] ?? null, session.teamOrder[1] ?? null, null, null], Array(16).fill(null));
-  populate(context, catalogs, next.placements); context.emit({ type: 'floorChanged', mapId: session.floor.mapId });
+  populate(context, catalogs, next.placements);
+  if (session.dungeonId === STEEL.dungeonId && session.floor.location.kind === 'boss') enterSteelSummit(context, authored);
+  context.emit({ type: 'floorChanged', mapId: session.floor.mapId });
 }
 
 /** Source-qualified non-reset retention; all participant, floor and inventory
  * ownership changes commit together in the dispatch transaction.
- * @param {Context} context @param {'success'|'fainting'|'wind-expulsion'|'give-up'} outcome @param {Catalogs} catalogs */
-export function settleExpedition(context, outcome, catalogs) {
+ * @param {Context} context @param {'success'|'fainting'|'wind-expulsion'|'give-up'} outcome @param {Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} [authored] */
+export function settleExpedition(context, outcome, catalogs, authored) {
   const state = context.state; const session = state.session; if (!session) return blocked('settlement-session');
   for (const actor of Object.values(session.actors)) if (actor.binding.kind === 'roster') {
     applyExperience(context, actor, catalogs);
@@ -172,7 +183,7 @@ export function settleExpedition(context, outcome, catalogs) {
     if (outcome === 'success') {
       homeHeld.itemIds = [...held.itemIds];
       // Native retained held items become BulkItem (identity/quantity only).
-      if (session.purpose.kind === 'ordinary') for (const id of homeHeld.itemIds) {
+      if (session.purpose.kind === 'ordinary' || session.dungeonId === STEEL.dungeonId) for (const id of homeHeld.itemIds) {
         const item = state.items[id]; if (!item) return blocked('settlement-held-item');
         item.template.sticky = false;
       }
@@ -194,20 +205,15 @@ export function settleExpedition(context, outcome, catalogs) {
     // their floors; station cleanup later frees them for morning mail.
     // Failure cleanup happens earlier in main_loops, before ground refresh.
     const failedJobs = outcome === 'success' ? [] : settleJobObjectives(state, session, false);
-    refreshTownShops(state, catalogs); refreshGroundJobs(state, work);
-    // Ground refresh ends with ClearAllItems_8091FB4. Money pickups already
-    // converted at their pickup owner; every surviving toolbox slot unsticks.
-    for (const id of home.itemIds) {
-      const item = state.items[id]; if (!item) return blocked('settlement-toolbox-item');
-      item.template.sticky = false;
-    }
+    refreshGround(state, catalogs);
     const jobIds = outcome === 'success' ? settleJobObjectives(state, session, true) : failedJobs;
     work.returned = { sessionId: session.sessionId, dungeonId: session.dungeonId, outcome, jobIds, cursor: 0 };
     placeInTown(state, outcome === 'success' ? TOWN.post : MORNING.interior);
-  } else if (outcome === 'success') {
+  } else if (outcome === 'success' && session.dungeonId !== STEEL.dungeonId) {
     state.progress.clears[session.dungeonId] = { dungeonId: session.dungeonId, firstClearRevision: state.revision + 1, lastClearRevision: state.revision + 1, firstClearDay: state.town.day, lastClearDay: state.town.day, clearCount: 1, reachedFloorIds: [...session.visitedFloorIds] };
     state.progress.statistics.rescuesCompleted++; state.progress.storyNodeId = session.dungeonId === T.dungeonId ? T.returned : OPENING.returnNode;
   }
   if (session.purpose.kind !== 'ordinary' && session.dungeonId === T.dungeonId) { if (outcome === 'success') placeAtBase(state); else placeInside(state); }
   state.session = null; state.pendingScene = null; state.mode = 'town'; context.emit({ type: 'expeditionEnded', outcome });
+  if (session.dungeonId === STEEL.dungeonId) { refreshGround(state, catalogs); if (!authored) return blocked('steel-return-script'); afterSteelSettlement(context, outcome === 'success', authored); }
 }

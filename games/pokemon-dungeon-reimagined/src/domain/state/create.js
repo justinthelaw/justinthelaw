@@ -1,3 +1,4 @@
+import { recordsSteel } from './steel.js';
 import { recordsEarlyWork } from './early-work.js';
 import { allocateId } from '../ids.js';
 import { recordsSpeciesSeen, initializeSpeciesSeen } from './species-seen.js';
@@ -118,6 +119,7 @@ export function createCampaign(input, content) {
     }
     if (recordsSpeciesSeen(content.contentRevision)) initializeSpeciesSeen(state, false);
     if (recordsEarlyWork(content.contentRevision)) state.earlyWork = null;
+    if (recordsSteel(content.contentRevision)) state.steel = null;
     return validateCampaign(state, content);
   } catch { issue(issues, 'shape', '', 'Initial profile contains an invalid allocation, move projection or random seed.'); return failure(issues, requirements); }
 }

@@ -1,5 +1,5 @@
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
-import { createOpeningContent } from '../../../content/authored/opening.js';
+import { createSteelOpeningContent, STEEL } from '../../../content/authored/mt-steel.js';
 import { createCampaignContent } from '../../../content/state/campaign.js';
 import { freezeData } from '../state/validate.js';
 import { createCommandHandlers } from './commands.js';
@@ -14,13 +14,13 @@ import { supportedMove } from './combat.js';
  * @param {import('./support.js').Catalogs} catalogs
  * @param {{tutorialSaved?:(snapshot:import('../../contracts/campaign.js').CampaignSnapshot)=>boolean}} [options] */
 export function createGameplay(catalogs, options = {}) {
-  const authored = freezeData(createOpeningContent());
+  const authored = freezeData(createSteelOpeningContent());
   const content = createCampaignContent(catalogs, authored);
   return Object.freeze({ content, authored,
     handlers: createCommandHandlers(catalogs, authored, options.tutorialSaved ?? (() => false)), turns: createTurnHooks(catalogs, authored),
     getScenePrompt: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => scenePrompt(snapshot, authored),
     getSceneText: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => sceneText(snapshot, authored),
-    getDungeonChoices: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => Object.freeze([{ dungeonId: 'tiny-woods', name: 'Tiny Woods' }, { dungeonId: T.dungeonId, name: 'Thunderwave Cave' }].map(route => ({ ...route, requirement: admission(catalogs, snapshot, route.dungeonId) }))),
+    getDungeonChoices: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => Object.freeze([{ dungeonId: 'tiny-woods', name: 'Tiny Woods' }, { dungeonId: T.dungeonId, name: 'Thunderwave Cave' }, { dungeonId: STEEL.dungeonId, name: 'Mt. Steel' }].map(route => ({ ...route, requirement: admission(catalogs, snapshot, route.dungeonId) }))),
     getMoveChoices: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => {
       const actor = snapshot.session?.actors[snapshot.session.leaderActorId];
       return freezeData(actor?.moves.slots.flatMap(slot => {

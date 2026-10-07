@@ -16,7 +16,7 @@ export const STEEL = freezeData({
   summit: /** @type {import('../../src/contracts/campaign.js').MapDefinitionId} */ ('browser-steel-rescue-summit'),
   bossRole: /** @type {import('../../src/contracts/campaign.js').EncounterId} */ ('browser-steel-skarmory'),
   clientRole: /** @type {import('../../src/contracts/campaign.js').StoryActorId} */ ('browser-steel-diglett'),
-  scenes: /** @type {import('../../src/contracts.js').SceneId[]} */ (['browser-steel-first-travel', 'browser-steel-retry-travel', 'browser-steel-first-battle', 'browser-steel-retry-battle', 'browser-steel-loss', 'browser-steel-departure', 'browser-steel-crossing', 'browser-steel-thanks', 'browser-steel-home', 'browser-steel-return-bridge']),
+  scenes: /** @type {import('../../src/contracts.js').SceneId[]} */ (['browser-steel-first-travel', 'browser-steel-retry-travel', 'browser-steel-first-battle', 'browser-steel-retry-battle', 'browser-steel-loss', 'browser-steel-departure', 'browser-steel-crossing', 'browser-steel-thanks', 'browser-steel-home', 'browser-steel-return-bridge', 'browser-steel-quiet-summit']),
   grants: /** @type {import('../../src/contracts/campaign.js').GrantId[]} */ (['browser-steel-money', 'browser-steel-pecha-scarf', 'browser-steel-ginseng']),
   floors: Array.from({ length: 9 }, (_, i) => `mt-steel-floor-0${i + 1}`),
   bossPosition: { x: 9, z: 13 }, clientPosition: { x: 9, z: 7 }, entryPosition: { x: 9, z: 19 },
@@ -35,7 +35,8 @@ export function createSteelOpeningContent() {
     ['At the rescue base, Dugtrio rushes to Diglett. Father and son are together again.', 'Dugtrio offers 500 Poké, a Pecha Scarf, and Ginseng in thanks. The Magnemite hope to help your team again.'],
     ['Your partner watches the family leave. "We could not have crossed that gap alone. I am glad the Magnemite found us."', 'You return inside the base. Diglett is safe, and this adventure is ready to be saved.'],
     ['The fighting is over. Your partner turns toward the far ledge, where Diglett is waiting.'],
+    ['Your partner looks across the quiet summit. Skarmory has already gone. You can finish the rescue now.'],
   ];
-  const scenes = STEEL.scenes.map((id, i) => ({ id, lines: lines[i] ?? [], continuation: { kind: /** @type {const} */ ('town'), destination: { kind: /** @type {const} */ ('town'), mapDefinitionId: i < 2 ? STEEL.entrance : i === 4 || i === 8 ? MORNING.interior : i < 7 || i === 9 ? STEEL.summit : TEAM.map, entryId: 'steel-story' } } }));
+  const scenes = STEEL.scenes.map((id, i) => ({ id, lines: lines[i] ?? [], continuation: { kind: /** @type {const} */ ('town'), destination: { kind: /** @type {const} */ ('town'), mapDefinitionId: i < 2 ? STEEL.entrance : i === 4 || i === 8 ? MORNING.interior : i < 7 || i >= 9 ? STEEL.summit : TEAM.map, entryId: 'steel-story' } } }));
   return { ...prior, revision: 'browser-opening-v10-steel', scenes: [...prior.scenes.map(scene => scene.id === WORK.scenes[1] ? { ...scene, lines: [scene.lines[0] ?? '', 'The path to Mt. Steel is open. Your partner waits for you to finish preparing.'] } : scene), ...scenes] };
 }

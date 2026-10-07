@@ -4,6 +4,295 @@
 
 /** @type {Readonly<Record<string,Shape>>} */
 export const SHAPES = {
+  "SteelState": {
+    "kind": "object",
+    "fields": {
+      "startedRevision": {
+        "kind": "ref",
+        "name": "Int"
+      },
+      "requestDay": {
+        "kind": "ref",
+        "name": "Int"
+      },
+      "priorExpeditions": {
+        "kind": "ref",
+        "name": "Int"
+      },
+      "attempts": {
+        "kind": "ref",
+        "name": "Int"
+      },
+      "bossVisits": {
+        "kind": "ref",
+        "name": "Int"
+      },
+      "rewardCursor": {
+        "kind": "ref",
+        "name": "Int"
+      },
+      "bossDefeated": {
+        "kind": "boolean"
+      },
+      "rewardChoice": {
+        "kind": "boolean"
+      },
+      "phase": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "literal",
+            "value": "travel"
+          },
+          {
+            "kind": "literal",
+            "value": "exploration"
+          },
+          {
+            "kind": "literal",
+            "value": "battle-intro"
+          },
+          {
+            "kind": "literal",
+            "value": "battle"
+          },
+          {
+            "kind": "literal",
+            "value": "departure"
+          },
+          {
+            "kind": "literal",
+            "value": "bridge"
+          },
+          {
+            "kind": "literal",
+            "value": "crossing"
+          },
+          {
+            "kind": "literal",
+            "value": "thanks"
+          },
+          {
+            "kind": "literal",
+            "value": "home"
+          },
+          {
+            "kind": "literal",
+            "value": "complete"
+          },
+          {
+            "kind": "literal",
+            "value": "loss"
+          },
+          {
+            "kind": "literal",
+            "value": "ready"
+          },
+          {
+            "kind": "literal",
+            "value": "poststory"
+          }
+        ]
+      },
+      "lastSessionId": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "SessionId"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "winRevision": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "Int"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      }
+    }
+  },
+  "CampaignStateWithSteel": {
+    "kind": "object",
+    "fields": {
+      "steel": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "SteelState"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "earlyWork": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "EarlyWorkState"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "speciesSeen": {
+        "kind": "ref",
+        "name": "SpeciesSeenHistory"
+      },
+      "schemaVersion": {
+        "kind": "literal",
+        "value": 1
+      },
+      "contentRevision": {
+        "kind": "ref",
+        "name": "ContentRevision"
+      },
+      "revision": {
+        "kind": "ref",
+        "name": "Int"
+      },
+      "idSequence": {
+        "kind": "ref",
+        "name": "IdSequence"
+      },
+      "random": {
+        "kind": "ref",
+        "name": "CampaignRandomStreams"
+      },
+      "profile": {
+        "kind": "ref",
+        "name": "CampaignProfile"
+      },
+      "roster": {
+        "kind": "record",
+        "value": {
+          "kind": "ref",
+          "name": "PokemonRecord"
+        }
+      },
+      "selectedPartyIds": {
+        "kind": "array",
+        "value": {
+          "kind": "ref",
+          "name": "PokemonId"
+        }
+      },
+      "items": {
+        "kind": "record",
+        "value": {
+          "kind": "ref",
+          "name": "ItemInstance"
+        }
+      },
+      "containers": {
+        "kind": "record",
+        "value": {
+          "kind": "ref",
+          "name": "ItemContainer"
+        }
+      },
+      "economy": {
+        "kind": "ref",
+        "name": "EconomyState"
+      },
+      "progress": {
+        "kind": "ref",
+        "name": "ProgressState"
+      },
+      "town": {
+        "kind": "ref",
+        "name": "TownState"
+      },
+      "mode": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "literal",
+            "value": "town"
+          },
+          {
+            "kind": "literal",
+            "value": "scene"
+          },
+          {
+            "kind": "literal",
+            "value": "dungeon"
+          },
+          {
+            "kind": "literal",
+            "value": "awaitingRescue"
+          },
+          {
+            "kind": "literal",
+            "value": "defeat"
+          }
+        ]
+      },
+      "session": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "ExpeditionState"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "pendingScene": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "PendingScene"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "pendingResult": {
+        "kind": "union",
+        "members": [
+          {
+            "kind": "ref",
+            "name": "PendingResult"
+          },
+          {
+            "kind": "literal",
+            "value": null
+          }
+        ]
+      },
+      "rescue": {
+        "kind": "ref",
+        "name": "RescueState"
+      },
+      "options": {
+        "kind": "ref",
+        "name": "CampaignOptions"
+      }
+    }
+  },
   "NativeScenarioPair": {
     "kind": "object",
     "fields": {

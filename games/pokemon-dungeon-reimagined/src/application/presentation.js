@@ -1,3 +1,5 @@
+import { STEEL } from '../../content/authored/mt-steel.js';
+import { steelScene } from './steel-presentation.js';
 import { WORK } from '../../content/authored/early-work.js';
 import { TOWN } from '../../content/authored/town.js';
 import { THUNDERWAVE as T } from '../../content/authored/thunderwave.js';
@@ -39,6 +41,9 @@ function teamBase(snapshot, epoch, species) {
     const clip = scene?.sceneId === TEAM.celebration && scene.cursor === 0 ? /** @type {const} */ ('celebrate') : scene?.sceneId === TEAM.celebration && scene.cursor === 2 ? /** @type {const} */ ('rest-sleep') : actor.clip;
     return { ...actor, heading, clip, clipToken: `${epoch}:${actor.actorId}:${scene?.sceneInstanceId ?? 'base'}:${scene?.cursor ?? 0}:${clip}` };
   });
+  if (scene && scene.sceneId === STEEL.scenes[7]) {
+    for (const [i, speciesId] of ['pokemon-051', 'pokemon-050', 'pokemon-081', 'pokemon-081'].entries()) actors.push({ actorId: `steel-thanks-${i}`, speciesId, formId: null, name: species.getSpecies(speciesId).name, x: 5 + i, z: 5, heading: 0, role: 'npc', hp: 1, maxHp: 1, statuses: [], clip: 'celebrate', clipToken: `${epoch}:${scene.sceneInstanceId}:${i}`, tint: '#ffffff', bounds: { width: 1, height: 1 } });
+  }
   if (scene && scene.sceneId === WORK.scenes[0]) actors.push({ actorId: 'story-dugtrio-request', speciesId: 'pokemon-051', formId: null, name: 'Dugtrio', x: 7, z: 5, heading: 0, role: 'npc', hp: 1, maxHp: 1, statuses: [], clip: 'idle', clipToken: `${epoch}:${scene.sceneInstanceId}:dugtrio`, tint: '#ffffff', bounds: { width: 1, height: 1 } });
   if (scene && scene.sceneId === MORNING.scenes[5] && scene.cursor === 0) actors.push({ actorId: 'story-pelipper-delivery', speciesId: 'pokemon-279', formId: null, name: 'Pelipper', x: 9, z: 5, heading: -Math.PI / 2, role: 'npc', hp: 1, maxHp: 1, statuses: [], clip: 'idle', clipToken: `${epoch}:${scene.sceneInstanceId}:delivery`, tint: '#ffffff', bounds: { width: 1, height: 1 } });
   return immutableRenderSnapshot({ epoch, revision: snapshot.revision,
@@ -72,6 +77,7 @@ function meadow(snapshot, gameplay, epoch, species) {
  * @param {import('../../content/species.js').SpeciesCatalog} species
  * @param {readonly import('../domain/turns/types.js').Event[]} [events] */
 export function renderSnapshot(snapshot, gameplay, epoch, species, events = []) {
+  if (snapshot.pendingScene && STEEL.scenes.some((id, index) => ![4, 7, 8].includes(index) && id === snapshot.pendingScene?.sceneId)) return steelScene(snapshot, epoch, species);
   if (snapshot.pendingScene?.sceneId === T.rescue || snapshot.pendingScene?.sceneId === T.reward) return caveScene(snapshot, epoch, species);
   if (!snapshot.session) {
     switch (snapshot.town.mapDefinitionId) {
@@ -82,7 +88,7 @@ export function renderSnapshot(snapshot, gameplay, epoch, species, events = []) 
       default: throw new Error(`Unavailable ground map: ${snapshot.town.mapDefinitionId}`);
     }
   }
-  if (!['tiny-woods', T.dungeonId].includes(snapshot.session.dungeonId)) throw new Error('Unavailable dungeon environment binding.');
+  if (!['tiny-woods', T.dungeonId, STEEL.dungeonId].includes(snapshot.session.dungeonId)) throw new Error('Unavailable dungeon environment binding.');
   const visibility = gameplay.getVisibility(snapshot);
   if (!visibility) throw new Error('Current dungeon visibility is unavailable.');
   const source = gameplay.getPresentation(snapshot, epoch);
@@ -95,7 +101,7 @@ export function renderSnapshot(snapshot, gameplay, epoch, species, events = []) 
     if (event.type === 'attackResolved') presentation.actors[event.actorId] = { ...actor, clip: 'attack-physical', clipToken: `${epoch}:${event.eventId}:attack` };
   }
   const projected = projectDungeon(snapshot, visibility, presentation);
-  return immutableRenderSnapshot({ ...projected, world: { ...projected.world, biomeId: snapshot.session.dungeonId === T.dungeonId ? 'cave' : 'forest' } });
+  return immutableRenderSnapshot({ ...projected, world: { ...projected.world, biomeId: snapshot.session.dungeonId === 'tiny-woods' ? 'forest' : 'cave' } });
 }
 
 /** Only player-visible facts may enter the log; concealed enemies stay concealed.
@@ -108,11 +114,11 @@ export function eventMessages(previous, view, events) {
     const before = previous?.session?.actors[actor.actorId];
     if (before && before.resources.hp !== actor.hp) lines.push(`${actor.name}: ${actor.hp < before.resources.hp ? '−' : '+'}${Math.abs(actor.hp - before.resources.hp)} HP`);
   }
-  const messages = { 'ginseng-no-effect': 'Ginseng had no effect. SET a move that can gain power.', 'ginseng-boost': 'Ginseng strengthened the SET move.', 'ginseng-great-boost': 'Ginseng gave the SET move a greater power boost!', 'confused-status': 'A Pokémon became confused.', 'move-recoil': 'The user took recoil damage.', 'stat-drop-protected': 'The stat drop was blocked.', 'stat-stage-limit': 'The stat cannot change further.', 'stat-stage-raised': 'A stat rose.', 'stat-stage-lowered': 'A stat fell.', 'reviver-seed-restored': 'A Reviver Seed restored HP and Belly, leaving a Plain Seed. Move PP is unchanged.', 'berry-used': 'The item was used.', 'poison-damage': 'Poison costs 4 HP.', 'wonder-tile': 'The Wonder Tile reset stat changes.', 'paralysis-prevents-attack': 'Paralysis prevented the attack.', 'item-sticky': 'The item is sticky.', 'enemy-fainted': 'An enemy fainted.', 'level-up': 'A team member gained a level.', 'hunger-damage': 'Your Belly is empty. Hunger costs HP.', 'move-learning-declined-full-slots': 'Four move slots are full; the new move was declined.', 'reward-sent-to-storage': 'A reward item was sent to storage.' };
+  const messages = { 'held-bag-full': 'Your toolbox is full. Make room before taking the held item.', 'ginseng-no-effect': 'Ginseng had no effect. SET a move that can gain power.', 'ginseng-boost': 'Ginseng strengthened the SET move.', 'ginseng-great-boost': 'Ginseng gave the SET move a greater power boost!', 'confused-status': 'A Pokémon became confused.', 'move-recoil': 'The user took recoil damage.', 'stat-drop-protected': 'The stat drop was blocked.', 'stat-stage-limit': 'The stat cannot change further.', 'stat-stage-raised': 'A stat rose.', 'stat-stage-lowered': 'A stat fell.', 'reviver-seed-restored': 'A Reviver Seed restored HP and Belly, leaving a Plain Seed. Move PP is unchanged.', 'berry-used': 'The item was used.', 'poison-damage': 'Poison costs 4 HP.', 'wonder-tile': 'The Wonder Tile reset stat changes.', 'paralysis-prevents-attack': 'Paralysis prevented the attack.', 'item-sticky': 'The item is sticky.', 'enemy-fainted': 'An enemy fainted.', 'level-up': 'A team member gained a level.', 'hunger-damage': 'Your Belly is empty. Hunger costs HP.', 'move-learning-declined-full-slots': 'Four move slots are full; the new move was declined.', 'reward-sent-to-storage': 'A reward item was sent to storage.' };
   for (const event of events) {
     if (event.type === 'attackResolved' && names.has(event.actorId) && event.outcome !== 'hit') lines.push(`${names.get(event.actorId)}: ${event.outcome === 'miss' ? 'miss' : 'no effect'}`);
     if (event.type === 'message') lines.push(Object.hasOwn(messages, event.messageId) ? /** @type {Record<string,string>} */ (messages)[event.messageId] ?? event.messageId : event.messageId.startsWith('wind-') ? 'A mysterious wind is approaching. Find the stairs.' : event.messageId.replaceAll('-', ' '));
-    if (event.type === 'expeditionEnded') lines.push(event.outcome === 'success' ? previous?.session?.purpose.kind === 'ordinary' ? 'The ordinary expedition ended. Eligible clients will thank you in town.' : previous?.session?.dungeonId === T.dungeonId ? 'The Magnemite are safe.' : 'Caterpie is safe.' : 'The expedition ended. Growth is retained; carried items and money follow the defeat rules. You can retry.');
+    if (event.type === 'expeditionEnded') lines.push(event.outcome === 'success' ? previous?.session?.purpose.kind === 'ordinary' ? 'The ordinary expedition ended. Eligible clients will thank you in town.' : previous?.session?.dungeonId === STEEL.dungeonId ? 'The summit is clear. Help Diglett cross the gap.' : previous?.session?.dungeonId === T.dungeonId ? 'The Magnemite are safe.' : 'Caterpie is safe.' : 'The expedition ended. Growth is retained; carried items and money follow the defeat rules. You can retry.');
     if (event.type === 'itemChanged' && view.pickups.every(item => item.pickupId !== event.itemInstanceId)) lines.push('An item changed. Check your held item or toolbox.');
   }
   return lines;

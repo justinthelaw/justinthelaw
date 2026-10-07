@@ -9,13 +9,13 @@
 
 - No complete accepted game is released.
 - The first card opens the development checkpoint. PR #392 implements the
-  opening through town services, ordinary jobs and Diglett's request; full campaign and human acceptance
+  opening through town services, ordinary jobs and the Mt. Steel rescue; full campaign and human acceptance
   remain open. See its progress ledger for the published checkpoint.
 - The other two cards retain animated pixel previews and disabled Play buttons.
 
 | Slot | Current card | Planned work |
 | --- | --- | --- |
-| First | Pokemon Mystery Dungeon Blue Rescue Team - Reimagined; P06 art-study picture | [Development plan](pokemon-dungeon-reimagined/plan/PLAN.md): bounded opening, town services and ordinary jobs through Diglett's request on PR #392; [progress and verification](pokemon-dungeon-reimagined/plan/PROGRESS.md); full campaign and gameplay/visual acceptance pending |
+| First | Pokemon Mystery Dungeon Blue Rescue Team - Reimagined; P06 art-study picture | [Development plan](pokemon-dungeon-reimagined/plan/PLAN.md): bounded opening, town services and ordinary jobs and Mt. Steel through MAIN(5,0) on PR #392; [progress and verification](pokemon-dungeon-reimagined/plan/PROGRESS.md); full campaign and gameplay/visual acceptance pending |
 | Second | Coming soon, lavender preview | Unnamed; no game announced |
 | Third | Coming soon, apricot preview | Unnamed; no game announced |
 

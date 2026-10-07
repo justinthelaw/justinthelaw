@@ -39,7 +39,7 @@ export function useDungeonItem(context, action, catalogs) {
     const target = Object.values(session.actors).find(other => other.placement.kind === 'map' && other.placement.position.x === pos.x + Math.round(Math.sin(angle)) && other.placement.position.z === pos.z - Math.round(Math.cos(angle)));
     if (target?.placement.kind === 'map' && canMeleeAttack(navActor(actor), session.floor, target.placement.position, navigationContext(session, catalogs))) {
       if (target.conditions.sleep?.duration.kind === 'indefinite') target.conditions.sleep = null;
-      damageHp(target, 45); finishDamage(context, target, catalogs, actor);
+      damageHp(target, session.dungeonId === 'mt-steel' && session.floor.location.kind === 'boss' ? 30 : 45); finishDamage(context, target, catalogs, actor);
       context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'hit' });
     }
   }

@@ -174,6 +174,14 @@
     {
       "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/reward-items.js",
       "sha256": "0004340b7c2e5215be654914fe8954e970f659e1a90b16cefb02cd0c58ad8b28"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/battle-campaign.js",
+      "sha256": "9ae78394bc3efe449a84e66d711f0b047e415df22a73efd9ffbffa29e48d87bc"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/battle-mechanics.js",
+      "sha256": "474a5368651958a1ebc910f974c6b6455b6880cdca3ba56484d3270eae4b5878"
     }
   ],
   "functionBodies": [
@@ -274,5 +282,6 @@
     "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
     "sha256": "7ae54b1204078f8e9161d3bd5e4d0f51581a3ee4312abf10438d56e590f57a18"
   },
-  "battlePredecessorBaselineCommit": "e59a35dba62b144294d0eb730438060797862831"
+  "battlePredecessorBaselineCommit": "e59a35dba62b144294d0eb730438060797862831",
+  "steelPredecessorBaselineCommit": "2348abcc555e5a53f6f63d11c0a8ba47d8d1dff3"
 }

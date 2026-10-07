@@ -1,3 +1,5 @@
+import { STEEL } from '../../../content/authored/mt-steel.js';
+import { WILD_ACTIVE_IQ } from '../../../content/ai-facts.js';
 import { DEFAULT_IQ } from '../../../content/state/opening-facts.js';
 import { allocate, clone, quantity, draw, profile, blocked } from './support.js';
 
@@ -24,9 +26,9 @@ export function createActor(state, catalogs, binding, identity, level, mapId, po
   if (permanent && !homeHeld) return blocked('entry-held-container');
   state.containers[heldContainerId] = { containerId: heldContainerId, owner: { kind: 'actor-held', sessionId, actorId }, itemIds: [...(homeHeld?.itemIds ?? [])] };
   if (homeHeld) homeHeld.itemIds = [];
-  return { actorId, binding, affiliation: permanent ? 'team' : binding.kind === 'job-client' ? 'neutral' : 'hostile', identity: clone(identity),
+  return { actorId, binding, affiliation: permanent ? 'team' : binding.kind === 'job-client' || binding.kind === 'guest' && binding.storyActorId === STEEL.clientRole ? 'neutral' : 'hostile', identity: clone(identity),
     growth: permanent ? clone(permanent.growth) : { level, totalExperience: quantity(growth.cumulativeExperience), naturalStats: { ...growth.stats }, permanentStatBonuses: { hp: 0, attack: 0, defense: 0, specialAttack: 0, specialDefense: 0 }, iqPoints: 1 },
-    moves, enabledIqSkillIds: permanent ? [...permanent.enabledIqSkillIds] : [...DEFAULT_IQ], tacticId: permanent?.tacticId ?? /** @type {import('../../contracts/campaign.js').TacticId} */ ('tactic-lets-go-together'),
+    moves, enabledIqSkillIds: permanent ? [...permanent.enabledIqSkillIds] : /** @type {import('../../contracts/campaign.js').IqSkillId[]} */ ([...(state.session?.dungeonId === STEEL.dungeonId ? WILD_ACTIVE_IQ : DEFAULT_IQ)]), tacticId: permanent?.tacticId ?? /** @type {import('../../contracts/campaign.js').TacticId} */ ('tactic-lets-go-together'),
     battleMoves: { slots: moves.slots.flatMap(slot => slot ? [{ moveSlotId: slot.moveSlotId, currentPp: catalogs.effects.getMove(slot.moveId).numeric.pp, sealed: false, usedForExperience: false }] : []) },
     resources: { hp: permanent ? permanent.growth.naturalStats.hp + permanent.growth.permanentStatBonuses.hp : growth.stats.hp, belly: quantity(100), maxBelly: quantity(100), hpRegenerationAccumulator: quantity(0) },
     placement: { kind: 'map', mapId, position: { ...position } }, facing: 's',
