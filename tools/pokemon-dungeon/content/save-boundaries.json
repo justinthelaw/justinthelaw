@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baselineCommit": "98a37cf",
-  "scope": "Exact held-v2, v3-team and v4-morning predecessor admission dependencies; static source pins only, no game execution or acceptance.",
+  "scope": "Exact held-v2, v3-team, v4-morning and v5-Thunderwave predecessor admission dependencies; static source pins only, no game execution or acceptance.",
   "modules": [
     {
       "path": "games/pokemon-dungeon-reimagined/content/state/identities.js",
@@ -102,6 +102,22 @@
     {
       "path": "games/pokemon-dungeon-reimagined/content/authored/first-morning.js",
       "sha256": "c7ed5d0bde75bf122066c02bbbf67d9b07a29304e9013b7f249f75e171c0a08c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/expedition-current.js",
+      "sha256": "3126e47b488d9f43f02ed3d270bf9e7768237bac599647cf3f109d5f92fc4add"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/expedition-facts.js",
+      "sha256": "65e7085e2ebf6859ed652b194b594591f434c04e925fad5337cbbd3c6510fee8"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/thunderwave.js",
+      "sha256": "c99ed0fe61d0f0838dcbb1087480008a528547d7ae8377338fb2cf54134cf9ba"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/thunderwave.js",
+      "sha256": "a5d9b9c7620443ca68a06fffc2d253b21efb9e461c26d340186064781e24be62"
     }
   ],
   "functionBodies": [
@@ -139,6 +155,16 @@
       "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
       "functionName": "createMorningOpeningContent",
       "sha256": "b3f4a93f94dad6b35c157ef7a729a66ec3ec18b8f1e7cf967376b273b2014cc4"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createThunderwaveOpeningContent",
+      "sha256": "201eb53e1e56eb914368b1f637cc4b21e9ca1e7503e481200e290cfc8a8fa727"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/opening-campaign.js",
+      "functionName": "createCampaignContent",
+      "sha256": "2b5a07468e341d81568dab010e95373f02d53b0418fb2e9c57f7bbd147e7c2f6"
     }
   ],
   "catalogManifests": [
@@ -151,5 +177,6 @@
       "sha256": "923f411ea7427579335db655885ec792ea30bbb7528c04242d980c99d34afa68"
     }
   ],
-  "successorBaselineCommit": "be2fe0926eabd5a7706f12939e9b49f5b0640b73"
+  "successorBaselineCommit": "be2fe0926eabd5a7706f12939e9b49f5b0640b73",
+  "townPredecessorBaselineCommit": "1b71c26fcc1d5c51decf243eb98f5be89052d7e9"
 }

@@ -1,5 +1,5 @@
-import { createCampaignContent } from '../../content/state/campaign.js';
-import { createTeamOpeningContent, createMorningOpeningContent } from '../../content/authored/opening.js';
+import { createCampaignContent } from '../../content/state/opening-campaign.js';
+import { createTeamOpeningContent, createMorningOpeningContent, createThunderwaveOpeningContent } from '../../content/authored/opening.js';
 import { createCampaignContent as createHeldV2Content, HELD_V2_REVISION } from '../../content/state/held-v2-campaign.js';
 import { OPENING_EXPEDITION as O } from '../../content/authored/expedition.js';
 import { commandContext, prepareTransaction } from '../domain/state/transaction.js';
@@ -7,11 +7,12 @@ import { validateCampaign } from '../domain/state/validate.js';
 import { beginFormation } from '../domain/gameplay/scenes.js';
 import { fail, succeed } from './results.js';
 
-/** Exactly the navigation-backed held-v2, v3-team and v4-morning predecessors. held-v1, partial catalog variants
+/** Exactly the navigation-backed held-v2, v3-team, v4-morning and v5-Thunderwave predecessors. held-v1, partial catalog variants
  * and unknown revisions are not repair candidates. The four frozen held-v2 authoring/
  * policy modules preserve held-v2 scene, item and session admission; shared
  * factual catalog/held ownership policies have not changed in this slice. V3
- * uses its exact six-scene body/shared policy pins; v4 retains its exact thirteen-scene body and morning wrappers. */
+ * uses its exact six-scene body/shared policy pins; v4 retains its exact thirteen-scene body and morning wrappers. V5 retains its
+ * sixteen-scene body, factory and expedition wrappers. */
 
 /** Conversion runs only after codec checks original envelope agreement, time,
  * SHA-256 and exact selected predecessor policy admission. It neither dispatches turns nor
@@ -29,7 +30,10 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   const morning = createCampaignContent(catalogs, createMorningOpeningContent(), 'morning');
   const morningRevision = HELD_V2_REVISION.replace('blue-campaign-state-v2-held-opening:browser-opening-v2:', 'blue-campaign-state-v4-morning-opening:browser-opening-v4-morning:');
   if (morning.contentRevision !== morningRevision) throw new TypeError('Morning-v4 factual catalog boundary differs.');
-  return Object.freeze([...([morning, team].map(predecessor => ({ content: predecessor,
+  const thunderwave = createCampaignContent(catalogs, createThunderwaveOpeningContent(), 'thunderwave');
+  const thunderwaveRevision = HELD_V2_REVISION.replace('blue-campaign-state-v2-held-opening:browser-opening-v2:', 'blue-campaign-state-v5-thunderwave-opening:browser-opening-v5-thunderwave:');
+  if (thunderwave.contentRevision !== thunderwaveRevision) throw new TypeError('Thunderwave-v5 factual catalog boundary differs.');
+  return Object.freeze([...([thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);

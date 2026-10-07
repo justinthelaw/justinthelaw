@@ -137,3 +137,9 @@ random state. See `plan/STATE-FOUNDATION.md` for accepted scope and the retained
 PRNG notice. These modules are statically checked only and are not wired into
 the startup shell. Complete state validation, campaign creation, gameplay and
 save persistence still require their source-backed package contracts.
+
+The first town shop tables can be compared to the pinned original-Red research
+checkout with `python scripts/export-town-shop-facts.py --source-root PATH --check`.
+The script reads C/JSON as source data without importing or executing game code.
+Omit `--check` only for an intentional researched re-export. Numerical provenance
+and current service boundaries are in the game's `plan/TOWN-JOBS.md`.

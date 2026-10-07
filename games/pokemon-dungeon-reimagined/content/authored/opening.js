@@ -1,3 +1,4 @@
+import { createTownScenes } from './town.js';
 import { createThunderwaveScenes } from './thunderwave.js';
 import { createMorningScenes } from './first-morning.js';
 import { createTeamScenes, baseContinuation } from './team-formation.js';
@@ -63,7 +64,13 @@ export function createInitialNativeProgress() {
 export const INITIAL_NATIVE_PROGRESS = freezeData(createInitialNativeProgress());
 
 /** Current append-only expedition continuation. @returns {AuthoredOpening} */
-export function createOpeningContent() {
+export function createThunderwaveOpeningContent() {
   const prior = createMorningOpeningContent();
   return { ...prior, revision: 'browser-opening-v5-thunderwave', scenes: [...prior.scenes, ...createThunderwaveScenes()] };
+}
+
+/** Current town successor, preserving the exact v5 authoring body above. @returns {AuthoredOpening} */
+export function createOpeningContent() {
+  const prior = createThunderwaveOpeningContent();
+  return { ...prior, revision: 'browser-opening-v6-town', scenes: [...prior.scenes, ...createTownScenes()] };
 }

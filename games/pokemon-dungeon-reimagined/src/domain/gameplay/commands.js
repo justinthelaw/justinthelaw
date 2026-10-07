@@ -1,3 +1,4 @@
+import { townHandlers } from './town.js';
 import { USABLE_ITEMS } from './items.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { canMeleeAttack } from '../navigation/geometry.js';
@@ -47,7 +48,7 @@ export function createCommandHandlers(catalogs, authored, tutorialSaved) {
     }
     return { kind: 'rejected', reason: 'invalid-command' };
   } };
-  return { beginMorning: morningHandler(authored), submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs, tutorialSaved), move: dungeonAction, wait: dungeonAction, attack: dungeonAction, useMove: dungeonAction, useItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
+  return { ...townHandlers(catalogs, authored), beginMorning: morningHandler(authored), submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs, tutorialSaved), move: dungeonAction, wait: dungeonAction, attack: dungeonAction, useMove: dungeonAction, useItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
     presentation: { plan: () => ({ kind: 'presentation' }) },
     advance: { plan: state => state.mode === 'dungeon' && state.session?.scheduler.kind === 'ready' ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }, apply: () => ({ kind: 'changed', resumeDungeon: true }) },
     enterDungeon: { plan(state, intent) { if (intent.type !== 'enterDungeon' || !['tiny-woods', T.dungeonId].includes(intent.dungeonId)) return { kind: 'content-blocked', requirement: 'dungeon-entry-not-supported' }; const reason = admission(catalogs, state, intent.dungeonId); return reason ? { kind: 'content-blocked', requirement: reason } : { kind: 'mutation' }; }, apply(context, intent) { if (intent.type !== 'enterDungeon') return { kind: 'rejected', reason: 'invalid-command' }; enterOpening(context, catalogs, authored, intent.dungeonId); return { kind: 'changed', resumeDungeon: true }; } },

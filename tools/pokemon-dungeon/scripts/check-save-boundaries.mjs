@@ -6,7 +6,7 @@ const root = new URL('../../../', import.meta.url);
 const manifest = JSON.parse(await readFile(new URL('../content/save-boundaries.json', import.meta.url), 'utf8'));
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
-assert(manifest.schemaVersion === 1 && manifest.baselineCommit === '98a37cf' && manifest.successorBaselineCommit === 'be2fe0926eabd5a7706f12939e9b49f5b0640b73' && manifest.modules.length === 25 && manifest.catalogManifests.length === 2 && manifest.functionBodies.length === 7, 'Exact save source pin inventory.');
+assert(manifest.schemaVersion === 1 && manifest.baselineCommit === '98a37cf' && manifest.successorBaselineCommit === 'be2fe0926eabd5a7706f12939e9b49f5b0640b73' && manifest.townPredecessorBaselineCommit === '1b71c26fcc1d5c51decf243eb98f5be89052d7e9' && manifest.modules.length === 29 && manifest.catalogManifests.length === 2 && manifest.functionBodies.length === 9, 'Exact save source pin inventory.');
 for (const row of manifest.modules) {
   assert(/^games\/pokemon-dungeon-reimagined\/content\/[a-z0-9/-]+\.js$/.test(row.path), 'Local source pin path.');
   assert(hash(await readFile(new URL(row.path, root))) === row.sha256, `Reviewed predecessor dependency changed: ${row.path}`);

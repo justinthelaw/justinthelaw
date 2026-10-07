@@ -5,10 +5,29 @@
 - **State:** implementation authorized on 2026-10-04 and continued on 2026-10-05; P01 source audit and full P02 content coverage remain incomplete.
 - **Planning baseline:** [PR #387](https://github.com/justinthelaw/justinthelaw/pull/387) merged as `0d34db51c258368ade8f081557200905214cebcd`.
 - **Delivery:** foundations [PR #388](https://github.com/justinthelaw/justinthelaw/pull/388), README [PR #390](https://github.com/justinthelaw/justinthelaw/pull/390) and launcher [PR #391](https://github.com/justinthelaw/justinthelaw/pull/391) are merged. Full-game work is isolated on `feat/pokemon-full-campaign`, based on main `c7270c8b4ed73c28144abd09dc6811b6ca9d3b50`; it is not deployed.
-- **Current work:** the canonical opening, Tiny Woods rescue/reunion, team formation/name confirmation, first morning/save tutorial and Thunderwave Cave through its first-request return checkpoint are implemented on PR #392. The recovered checkpoint also contains validated held-v2 save conversion, quiz RNG isolation and touch submission for opted-in name forms. Human gameplay/visual/device acceptance and the rest of the campaign remain open.
-- **Next safe action:** continue [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md) with the next sourced town/story consumers from the MAIN(4,0) interior checkpoint, after independent Thunderwave review. Preserve the existing save boundary and once-only grants. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
+- **Current work:** the canonical opening, Tiny Woods rescue/reunion, team formation/name confirmation, first morning/save tutorial and Thunderwave Cave through its first-request return checkpoint plus the first town day and bank/storage/shop services are implemented on PR #392. The recovered checkpoint also contains validated held-v2 save conversion, quiz RNG isolation and touch submission for opted-in name forms. Human gameplay/visual/device acceptance and the rest of the campaign remain open.
+- **Next safe action:** continue [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md) with sourced ordinary-job generation, objectives and reward receipts from MAIN(4,4), preserving the first town/service review boundary. Preserve the existing save boundary and once-only grants. Pixel art, full clips, devices and all whole-game gates remain open; no merge/release is authorized.
 - **Start here:** [PLAN.md](PLAN.md), then the next package's appendix. The plan is intentionally decomposed for a smaller implementing model.
 - **Coverage:** [COVERAGE.csv](COVERAGE.csv) indexes parent packages and families; [CONTENT-COVERAGE.csv](CONTENT-COVERAGE.csv) enumerates 1,279 authoring identities with source, implementation, art, blocker and acceptance references. Full item, scene/flag, numerical/effect and asset records remain incomplete. These are inventories, not playable content or accepted gameplay.
+
+## First town day and service checkpoint (2026-10-07)
+
+- Added dream/awakening, empty-mailbox partner meeting, Square introduction and
+  Post Office/board introduction from MAIN(4,0) through MAIN(4,4), then town travel.
+  Working Kecleon buying/selling, bank and item storage use complete selection,
+  confirmation/cancel and feedback with canonical persistent transactions.
+- Source first-tier shop pools retain all identities,8/4 separate sale lots,
+  projectile quantities, prices and display order. Saved shop RNG and lot
+  revisions prevent reopening/confirmation from replenishing or double-buying.
+- Current v6-town content imports exact v5 Thunderwave plus the earlier v2-v4
+  boundaries.29/9/2 source pins preserve predecessor bodies and factual catalogs.
+- Ordinary jobs, rewards/ranks, Diglett request and Mt. Steel entry remain gated.
+  Gulpin/Dojo and unimplemented item effects are explicitly labeled. Next work:
+  persisted known/unknown seen-species evidence, ordinary job generation and
+  shared expedition/objective/reward consumers; see [TOWN-JOBS.md](TOWN-JOBS.md).
+- Focused static lint/types, stock-source comparison, source pins and hygiene
+  pass. Controller review/full checks/export remain separate. No game-source
+  import/execution, game tests, game browser boot or playthrough occurred.
 
 ## Town transaction prerequisites (2026-10-07)
 

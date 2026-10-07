@@ -966,6 +966,11 @@
  *         serviceId: string;
  *         stockRevision: Int;
  *         items: StoredStack[];
+ *     }[] | {
+ *         kind: 'lots';
+ *         serviceId: string;
+ *         stockRevision: Int;
+ *         lots: ItemGrant[];
  *     }[];
  * }} TownState
  */

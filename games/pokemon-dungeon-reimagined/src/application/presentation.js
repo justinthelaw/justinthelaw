@@ -1,3 +1,4 @@
+import { TOWN } from '../../content/authored/town.js';
 import { THUNDERWAVE as T } from '../../content/authored/thunderwave.js';
 import { MORNING } from '../../content/authored/first-morning.js';
 import { TEAM } from '../../content/authored/team-formation.js';
@@ -73,6 +74,7 @@ export function renderSnapshot(snapshot, gameplay, epoch, species, events = []) 
   if (!snapshot.session) {
     switch (snapshot.town.mapDefinitionId) {
       case gameplay.authored.town.mapDefinitionId: return meadow(snapshot, gameplay, epoch, species);
+      case TOWN.square: case TOWN.post: return townSquare(snapshot, epoch, species);
       case TEAM.map: return teamBase(snapshot, epoch, species);
       case MORNING.interior: return baseInterior(snapshot, epoch, species);
       default: throw new Error(`Unavailable ground map: ${snapshot.town.mapDefinitionId}`);
@@ -140,4 +142,23 @@ function caveScene(snapshot, epoch, species) {
   const actors = groundActors(snapshot, epoch, species).map((actor, index) => ({ ...actor, actorId: snapshot.session?.teamOrder[index] ?? actor.actorId, x: 4 + index * 2, z: 6, heading: Math.PI }));
   for (let index = 0; index < (rescue ? 2 : 3); index++) actors.push({ actorId: `story-magnemite-${index}`, speciesId: 'pokemon-081', formId: null, name: index === 2 ? 'Magnemite friend' : 'Magnemite', x: rescue ? 5 + index : 4 + index * 2, z: 4, heading: 0, role: 'client', hp: 1, maxHp: 1, statuses: [], clip: rescue ? 'idle' : 'celebrate', clipToken: `${epoch}:magnemite:${index}:${snapshot.pendingScene?.sceneInstanceId}`, tint: '#ffffff', bounds: { width: 1, height: 1 } });
   return immutableRenderSnapshot({ epoch, revision: snapshot.revision, world: { worldId: `${epoch}:${rescue ? T.clearing : T.entrance}`, revision: snapshot.revision, width, height, biomeId: 'cave', tiles, visible: mask, explored: mask, exits: [], props: [] }, actors, pickups: [], events: [] });
+}
+
+/** Original spacious market/post-office staging, using existing local 3D props.
+ * NPCs are presentation actors; services mutate only canonical domain state.
+ * @param {Snapshot} snapshot @param {string} epoch
+ * @param {import('../../content/species.js').SpeciesCatalog} species */
+function townSquare(snapshot, epoch, species) {
+  const post = snapshot.town.mapDefinitionId === TOWN.post;
+  const width = TOWN.width, height = TOWN.height;
+  const tiles = Array.from({ length: height }, (_, z) => Array.from({ length: width }, (_, x) => x === 0 || z === 0 || x === width - 1 || z === height - 1 ? /** @type {const} */ ('wall') : /** @type {const} */ ('floor')));
+  const mask = tiles.map(row => row.map(() => true));
+  const actors = groundActors(snapshot, epoch, species);
+  const residents = post ? [{ id: 'pelipper', speciesId: 'pokemon-279', x: 9, z: 5 }]
+    : [{ id: 'kecleon-shop', speciesId: 'pokemon-352', x: 3, z: 5 }, { id: 'kecleon-wares', speciesId: 'pokemon-352', x: 5, z: 5 }, { id: 'persian', speciesId: 'pokemon-053', x: 14, z: 5 }, { id: 'kangaskhan', speciesId: 'pokemon-115', x: 4, z: 10 }, { id: 'gulpin', speciesId: 'pokemon-316', x: 14, z: 10 }];
+  for (const row of residents) actors.push({ actorId: `town-${row.id}`, speciesId: row.speciesId, formId: null, name: species.getSpecies(row.speciesId).name, x: row.x, z: row.z, heading: 0, role: 'npc', hp: 1, maxHp: 1, statuses: [], clip: 'idle', clipToken: `${epoch}:town-${row.id}:idle`, tint: '#ffffff', bounds: { width: 1, height: 1 } });
+  const props = post ? [{ id: 'post-building', kind: 'cottage', x: 9, z: 3, yaw: 0 }, { id: 'post-board', kind: 'notice-board', x: 12, z: 7, yaw: 0 }, { id: 'post-mailbox', kind: 'mailbox', x: 6, z: 6, yaw: 0 }]
+    : [{ id: 'shop-building', kind: 'cottage', x: 4, z: 3, yaw: 0 }, { id: 'bank-building', kind: 'cottage', x: 14, z: 3, yaw: 0 }, { id: 'storage-building', kind: 'cottage', x: 3, z: 11, yaw: Math.PI }, { id: 'square-well', kind: 'pond-well', x: 9, z: 5, yaw: 0 }];
+  props.push({ id: 'town-tree', kind: 'broadleaf-tree', x: 17, z: 2, yaw: 0 }, { id: 'town-flowers', kind: 'flower-patch', x: 1, z: 10, yaw: 0 });
+  return immutableRenderSnapshot({ epoch, revision: snapshot.revision, world: { worldId: `${epoch}:${snapshot.town.mapDefinitionId}`, revision: snapshot.revision, width, height, biomeId: TEAM.kitId, tiles, visible: mask, explored: mask, exits: [], props }, actors, pickups: [], events: [] });
 }

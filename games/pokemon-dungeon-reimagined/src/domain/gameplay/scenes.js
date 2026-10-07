@@ -1,3 +1,4 @@
+import { TOWN, placeInTown } from '../../../content/authored/town.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { grantItem } from './items.js';
 import { MORNING, morningIndex, placeInside, recordMorningGrant } from '../../../content/authored/first-morning.js';
@@ -69,6 +70,18 @@ export function sceneHandler(authored, catalogs, tutorialSaved) { return {
     else {
       const revision = state.revision + 1; const day = state.town.day;
       state.progress.seenScenes[scene.sceneId] = { sceneId: scene.sceneId, count: 1, firstRevision: revision, lastRevision: revision, firstDay: day, lastDay: day };
+      const townIndex = TOWN.scenes.indexOf(scene.sceneId);
+      if (townIndex >= 0) {
+        const step = townIndex < 2 ? 2 : townIndex === 2 ? 3 : 4;
+        state.progress.native.scenarios.MAIN = { chapter: 4, step }; state.progress.native.clearCount = 0;
+        state.progress.native.scalars.warpLock = step === 3 ? 3 : 0;
+        if (script.continuation.kind !== 'town' || script.continuation.destination.kind !== 'town') return blocked('town-continuation');
+        placeInTown(state, script.continuation.destination.mapDefinitionId);
+        const nextId = TOWN.scenes[townIndex + 1];
+        if (nextId) { const next = authored.scenes.find(row => row.id === nextId); if (!next) return blocked('town-scene'); requestScene(context, authored, next); }
+        else { state.pendingScene = null; state.mode = 'town'; }
+        return { kind: 'changed', resumeDungeon: false };
+      }
       const morning = morningIndex(scene.sceneId);
       if (morning >= 0) {
         const positions = morning < 2 ? [morning] : morning === 4 ? [2, 3] : morning === 5 ? [4] : morning === 6 ? [6] : [];

@@ -15,7 +15,7 @@
 
 | Slot | Current card | Planned work |
 | --- | --- | --- |
-| First | Pokemon Mystery Dungeon Blue Rescue Team - Reimagined; P06 art-study picture | [Development plan](pokemon-dungeon-reimagined/plan/PLAN.md): bounded opening and Thunderwave route on PR #392; [progress and verification](pokemon-dungeon-reimagined/plan/PROGRESS.md); full campaign and gameplay/visual acceptance pending |
+| First | Pokemon Mystery Dungeon Blue Rescue Team - Reimagined; P06 art-study picture | [Development plan](pokemon-dungeon-reimagined/plan/PLAN.md): bounded opening, Thunderwave route and first town services on PR #392; [progress and verification](pokemon-dungeon-reimagined/plan/PROGRESS.md); full campaign and gameplay/visual acceptance pending |
 | Second | Coming soon, lavender preview | Unnamed; no game announced |
 | Third | Coming soon, apricot preview | Unnamed; no game announced |
 

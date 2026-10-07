@@ -2602,14 +2602,19 @@ export const SHAPES = {
       "day": {"kind":"ref","name":"Int"},
       "serviceStock": {
         "kind": "array",
-        "value": {
+        "value": {"kind":"union","members":[{
           "kind": "object",
           "fields": {
             "serviceId": {"kind":"string"},
             "stockRevision": {"kind":"ref","name":"Int"},
             "items": {"kind":"array","value":{"kind":"ref","name":"StoredStack"}}
           }
-        }
+        },{"kind":"object","fields":{
+          "kind":{"kind":"literal","value":"lots"},
+          "serviceId":{"kind":"string"},
+          "stockRevision":{"kind":"ref","name":"Int"},
+          "lots":{"kind":"array","value":{"kind":"ref","name":"ItemGrant"}}
+        }}]}
       }
     }
   },

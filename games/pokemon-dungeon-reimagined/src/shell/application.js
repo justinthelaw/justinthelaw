@@ -1,3 +1,5 @@
+import { TOWN } from '../../content/authored/town.js';
+import { showTown } from '../application/town.js';
 import { THUNDERWAVE as T } from '../../content/authored/thunderwave.js';
 import { USABLE_ITEMS } from '../domain/gameplay/items.js';
 import { createOpeningCompatibility } from '../persistence/opening-compatibility.js';
@@ -162,7 +164,7 @@ export async function createApplication(canvas, signal, startup) {
     if (session) team.push(`Moves · ${gameplay.getMoveChoices(snapshot).map(move => `${move.name} ${move.currentPp} PP`).join(' · ')}`);
     const location = session?.floor.location;
     const floor = location?.kind === 'exploration' && loaded ? loaded.catalogs.dungeons.getFloorById(location.address.floorId).display : null;
-    const goal = session ? `${session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
+    const goal = snapshot.progress.storyNodeId === TOWN.story ? `Team ${snapshot.profile.teamName} · town services · Poké ${snapshot.economy.carriedMoney}` : session ? `${session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
     const onStairs = leader?.placement.kind === 'map' && Object.values(session?.floor.exits ?? {}).some(exit => leader.placement.kind === 'map' && exit.position.x === leader.placement.position.x && exit.position.z === leader.placement.position.z);
     view.hud(goal, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
       { label: 'Attack', run: () => act({ type: 'attack' }), disabled: snapshot.mode !== 'dungeon' || !ready },
@@ -181,12 +183,21 @@ export async function createApplication(canvas, signal, startup) {
       showScene({ snapshot, epoch, prompt: gameplay.getScenePrompt(snapshot), ready, saves: menu, news: readNews, memoryOnly: saves?.isMemoryOnly() ?? false,
         saveTutorial(complete) { saves?.saveTutorial(snapshot, complete); },
         send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This scene prompt is stale.'); return; } act(intent, 'panel'); } });
+    } else if (!session && snapshot.progress.storyNodeId === TOWN.story && loaded) {
+      dialogue = false;
+      const shownEpoch = saves?.service.getBinding().adventureEpoch;
+      showTown({ snapshot, catalogs: loaded.catalogs, view, menu,
+        open() { followsGame = false; input?.cancel(); context(); },
+        send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This town selection is stale.'); return; } act(intent, 'panel'); },
+      });
     } else if (!session && [T.story, T.complete].includes(snapshot.progress.storyNodeId)) {
       dialogue = false;
       const complete = snapshot.progress.storyNodeId === T.complete;
       const choice = gameplay.getDungeonChoices(snapshot).find(row => row.dungeonId === T.dungeonId);
-      view.show(complete ? 'First request complete' : 'Back at the base', complete ? 'The Magnemite are safe, your reward is settled, and your partner has gone home. Keep a checkpoint here. The next story continues in a later development update.' : 'The rescue is unfinished. Your team has recovered at home. Growth is retained; carried money and items follow the defeat rules. You can try Thunderwave Cave again.', [
-        ...(!complete ? [{ label: 'Retry Thunderwave Cave', disabled: !ready || !choice || !!choice.requirement, detail: choice?.requirement ?? 'Return to the rescue', run: () => act({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (T.dungeonId) }, 'panel') }] : []),
+      const shownBinding = saves?.service.getBinding().adventureEpoch;
+      let requestPanel = Symbol('pending');
+      requestPanel = view.show(complete ? 'First request complete' : 'Back at the base', complete ? 'The Magnemite are safe, your reward is settled, and your partner has gone home. Keep a checkpoint here. Rest, then begin the next morning and visit Pokémon Square.' : 'The rescue is unfinished. Your team has recovered at home. Growth is retained; carried money and items follow the defeat rules. You can try Thunderwave Cave again.', [
+        ...(complete ? [{ label: 'Begin next morning', disabled: !ready, run: () => { if (view.ownsPanel(requestPanel) && current() === snapshot && saves?.service.getBinding().adventureEpoch === shownBinding) act({ type: 'beginTown' }, 'panel'); } }] : [{ label: 'Retry Thunderwave Cave', disabled: !ready || !choice || !!choice.requirement, detail: choice?.requirement ?? 'Return to the rescue', run: () => act({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (T.dungeonId) }, 'panel') }]),
         { label: 'Campaign & saves', run: menu }, { label: 'View rewards', run: inventory },
       ]);
     } else if (!session && snapshot.town.mapDefinitionId === TEAM.map) {

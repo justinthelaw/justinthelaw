@@ -131,7 +131,7 @@ export function checkGraph(state, issues) {
   unique(context, state.town.placements.map(placement => fingerprint(placement.reference)), '/town/placements');
   for (const placement of state.town.placements) if (placement.reference.kind === 'pokemon') check(context, !!state.roster[placement.reference.pokemonId], '/town/placements', 'Town individual is absent.');
   unique(context, state.town.serviceStock.map(stock => stock.serviceId), '/town/serviceStock');
-  for (const stock of state.town.serviceStock) unique(context, stock.items.map(stack => fingerprint(stack.template)), '/town/serviceStock');
+  for (const stock of state.town.serviceStock) if ('items' in stock) unique(context, stock.items.map(stack => fingerprint(stack.template)), '/town/serviceStock');
   keyed(context, state.rescue.records, record => record.requestId, '/rescue/records');
   keyed(context, state.rescue.importedTeams, team => team.teamId, '/rescue/importedTeams');
   for (const record of Object.values(state.rescue.records)) if (record.linkedJobId) check(context, !!state.progress.jobs[record.linkedJobId], '/rescue/records', 'Rescue linked job is absent.');
