@@ -1,5 +1,15 @@
 # Pokémon Dungeon Reimagined progress and decisions
 
+## Reward inventory owner prerequisite — 2026-10-07
+
+Shared `reward-items.js` now provides native fresh-slot delivery, whole-quantity
+storage fallback and recoverable full-bag/full-storage choices: discard the
+received item, or store/discard one selected toolbox slot and receive it.
+Scripted one-item grants delegate without broadening their current admission;
+ordinary reward queue/UI remains in progress. Source and exact transaction
+ownership are recorded in TOWN-JOBS. No game execution or human acceptance is
+claimed. Focused static verification is recorded with this checkpoint.
+
 ## Current handoff
 
 - **State:** implementation authorized on 2026-10-04 and continued on 2026-10-05; P01 source audit and full P02 content coverage remain incomplete.

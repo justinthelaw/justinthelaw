@@ -210,3 +210,34 @@ STARTMODE_DUNGEON_WON/10 to SELECT56; other results go to EVENT_S00E01A_L001
 (2926–2932), NEXT_DAY and home without rewards. `main_loops.c:834` clears native
 7/8/9 objective records on loss, preserving taken6 for retry. The later eligible
 return must recheck ownership after its own settlement; no failed reward/count.
+
+## Shared reward inventory prerequisite
+
+`reward-items.js` owns one promised item slot; existing scripted single-item
+rewards now delegate to it without changing their admission. Ordinary reward
+queues will retain a persisted cursor and invoke it only inside the same draft
+that advances that cursor. It is not yet an ordinary-job reward UI.
+
+Pinned comparative `code_801B60C.c:176–202,279–316,404–462` first allocates a
+fresh toolbox slot (never projectile stacking), then sends the whole quantity
+to storage when the bag is full and the per-item total fits999. When neither
+fits, the source offers discarding the received item, or replacing a selected
+whole toolbox slot. That old slot can be stored if it fits or discarded after
+confirmation. `kecleon_bros4.c:sub_801ADA0` excludes money/Used TMs and checks
+whole-quantity storage; `items.c:MoveToStorage` normalizes per-item ownership.
+The shared owner preserves clean stored templates, slot order, item identity
+removal, and all-or-nothing quantities; ten reward rocks require ten storage
+units. A missing choice writes nothing. Stale/invalid confirmations fail before
+writes; caller transaction rollback protects item allocation and events.
+Selection/cancel and confirmation presentation remain in the future reward UI.
+
+Ordinary rescue actors have separate targeting rules: native rescue-target
+behavior is ignored by generic move targets and Gravelerock target/hit checks,
+and its AI walks in a random direction instead of chasing/attacking. Eaten
+Blast Seed uses the front-tile entity path without that role exclusion
+(`dungeon_item_action.c:565–610`, `dungeon_misc.c:746–763`). Its fixed damage
+can faint a client and set the leader-attributed seen flag/award experience.
+Generic faint only forces the special joined-at-client escort loss;
+`HandleBossFaint_Async` does nothing for CUTSCENE_NONE, so an ordinary rescue
+client faint is not a whole-expedition loss. These consumers are integration
+requirements, not blanket damage immunity.

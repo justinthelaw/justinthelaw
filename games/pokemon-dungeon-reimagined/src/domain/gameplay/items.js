@@ -3,7 +3,8 @@ import { finishDamage } from './combat.js';
 import { throwRock } from './projectiles.js';
 import { canMeleeAttack } from '../navigation/geometry.js';
 import { navActor, navigationContext } from './support.js';
-import { value, quantity, maxHp, blocked, FACINGS, allocate } from './support.js';
+import { receiveRewardItem } from './reward-items.js';
+import { value, quantity, maxHp, blocked, FACINGS } from './support.js';
 
 /** Source item facts: Oran heals100; Oran/Pecha/Rawst each restore5 Belly.
  * Deletion precedes the effect, including a full-resource ineffective use.
@@ -73,13 +74,6 @@ export function pickup(context, actor) {
 /** Source scripted item rewards overflow into per-item storage. One caller-owned
  * receipt commits all item/money changes atomically. @param {import('../turns/types.js').MutationContext} context @param {string} id */
 export function grantItem(context, id) {
-  const state = context.state, bag = state.containers[state.economy.toolbox]; if (!bag) return blocked('reward-toolbox');
-  const template = { itemId: /** @type {import('../../contracts.js').ItemId} */ (id), sticky: false, payload: /** @type {const} */ ({ kind: 'none' }) };
-  if (bag.itemIds.length >= 20) {
-    const stored = state.economy.storedItems.find(row => row.template.itemId === id);
-    if (stored && stored.count >= 999) return blocked('reward-storage-choice');
-    if (stored) stored.count++; else state.economy.storedItems.push({ template, count: 1 });
-    context.emit({ type: 'message', messageId: 'reward-sent-to-storage' }); return;
-  }
-  const itemInstanceId = allocate(state, 'item-instance'); state.items[itemInstanceId] = { itemInstanceId, template, quantity: 1, shopLotId: null }; bag.itemIds.push(itemInstanceId);
+  const grant = { template: { itemId: /** @type {import('../../contracts.js').ItemId} */ (id), sticky: false, payload: /** @type {const} */ ({ kind: 'none' }) }, quantity: 1 };
+  if (receiveRewardItem(context, grant) === 'choice') return blocked('reward-storage-choice');
 }
