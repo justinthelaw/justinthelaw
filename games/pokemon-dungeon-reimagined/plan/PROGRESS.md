@@ -996,3 +996,21 @@ explicit work; no slot filtering, substitute skill or arbitrary level cap was
 introduced. Steel wild move selection and the nine-floor route remain next.
 Verification is static only; human status timing/save/confusion/visual acceptance
 and full-campaign release gates remain open.
+
+### Friend Area predecessor freeze - 2026-10-07
+
+Preserved the accepted v10 Steel factory as an immutable predecessor before
+Friend Area admission expands. The current factory transparently delegates to
+it; the save revision and gameplay remain unchanged. Added five source pins
+without altering any earlier hash. Static save-boundary audit passed with50
+modules/14 bodies/two factual manifests. Onboarding, recruitment, shared move
+consumers and chapter-five continuation remain the active implementation task.
+
+### Friend Area Metal Sound prerequisite - 2026-10-07
+
+Metal Sound now uses the shared corner-aware front target, Soundproof guard,
+three-stage special-defense reduction and existing protection/clamp owner.
+The factual kebab-case stat maps explicitly to canonical actor state. Stat
+experience-credit and accuracy ordering remain shared. No save admission has
+changed. FRIEND-AREAS.md records exact qualified source locators and remaining
+status/onboarding/roster/recruitment work.

@@ -67,10 +67,10 @@ export function attack(context, attacker, action, catalogs) {
   }
   if (learned && STAT_MOVES.includes(action.moveId)) {
     const effect = move.effects[0];
-    if (effect?.op !== 'stat-stage' || !['attack', 'defense', 'accuracy'].includes(effect.stat)) return blocked('stat-move-projection');
+    if (effect?.op !== 'stat-stage' || !['attack', 'defense', 'accuracy', 'special-defense'].includes(effect.stat)) return blocked('stat-move-projection');
     for (const target of targets) {
       wakeSpawnSleeper(context, target);
-      if (action.moveId === 'move-growl' && ability(target, catalogs, 'Soundproof')) {
+      if (['move-growl', 'move-metal-sound'].includes(action.moveId) && ability(target, catalogs, 'Soundproof')) {
         context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'immune' }); continue;
       }
       if (!accuracy(context, attacker, target, move.numeric.accuracyBeforeEffect, move.numeric.type !== 'psychic', catalogs)) {
@@ -79,7 +79,7 @@ export function attack(context, attacker, action, catalogs) {
       // Native UseMoveAgainstTargets raises the experience multiplier before
       // dispatch, even when a stat cap or protection makes the effect fail.
       if (target.affiliation !== 'team' && !target.memory.experienceContributors.includes(attacker.actorId)) target.memory.experienceContributors.push(attacker.actorId);
-      changeStatStage(context, target, /** @type {'attack'|'defense'|'accuracy'} */ (effect.stat), effect.delta, catalogs);
+      changeStatStage(context, target, effect.stat === 'special-defense' ? 'specialDefense' : /** @type {'attack'|'defense'|'accuracy'} */ (effect.stat), effect.delta, catalogs);
       context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'hit' });
     }
     if (!targets.length) context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: null, outcome: 'miss' });

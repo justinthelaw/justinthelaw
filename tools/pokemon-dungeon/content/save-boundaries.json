@@ -182,6 +182,26 @@
     {
       "path": "games/pokemon-dungeon-reimagined/content/state/battle-mechanics.js",
       "sha256": "474a5368651958a1ebc910f974c6b6455b6880cdca3ba56484d3270eae4b5878"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-campaign.js",
+      "sha256": "c1c22d22dff66a807ae148ab509b32adcdb74fa47c036a9fd489ccc59b665328"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-facts.js",
+      "sha256": "4519b1c1c7fad08b961d5db45e6fdf6aa0615b4f58dc8460fc9c7044c3520d55"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-progress.js",
+      "sha256": "c1e0448187c5ba2cf92f28a80e5451cb3a914f8c34b8393aedd611e1a17344ea"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-expedition.js",
+      "sha256": "a1f6ba9012b6ec57ebae381137e91065311b131c6ab17271a9575541401bd720"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/mt-steel.js",
+      "sha256": "207919e0c9c2fa7f780bdff6634da774f37dc31a294210071eba2d4b44f7d140"
     }
   ],
   "functionBodies": [
@@ -283,5 +303,6 @@
     "sha256": "7ae54b1204078f8e9161d3bd5e4d0f51581a3ee4312abf10438d56e590f57a18"
   },
   "battlePredecessorBaselineCommit": "e59a35dba62b144294d0eb730438060797862831",
-  "steelPredecessorBaselineCommit": "2348abcc555e5a53f6f63d11c0a8ba47d8d1dff3"
+  "steelPredecessorBaselineCommit": "2348abcc555e5a53f6f63d11c0a8ba47d8d1dff3",
+  "friendAreaPredecessorBaselineCommit": "2b828c0a6b984cb60a161014884a6693c86ae287"
 }
