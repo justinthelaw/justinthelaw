@@ -1,0 +1,736 @@
+{
+  "schemaVersion": 1,
+  "browser": "153.0.8010.12",
+  "renderer": "headless Chromium / SwiftShader",
+  "scope": "Independent art viewer; tools code and whitelisted runtime JSON/PNG only. No game modules, gameplay or performance measurement.",
+  "sourceFiles": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/assets/environment/production/manifest.json",
+      "sha256": "9da1ab8f1098db484fcc60449d1211cc24db67aacc00722f94278062c6de7c6c"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art-preview/environment/viewer.js",
+      "sha256": "086d43c526b4280e7f51099122236ee51c62c2c9f03b993578191f8bb9c67852"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art-preview/environment/staging.js",
+      "sha256": "c6feb4467ad37528ff125b8d0971485641456871374d10ebf9badb4fd4c66961"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art-preview/environment/index.html",
+      "sha256": "a32c5e4ec9b5d624c3532543a2128720d49a0b55e84101897715359bf0e273a9"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art-preview/environment/style.css",
+      "sha256": "21fbab84301b80cd373269e213fdebb4aaffc33cc4ad102e28d8fc9b28ad72d6"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/production/output/pikachu-idle.png",
+      "sha256": "e33878b4aaa516fbf5a3f2ed0fba9b25c7293fb554d5aab4c031e772006091d0"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/production/output/charmander-idle.png",
+      "sha256": "02faa9bb38f64d55142261cdf36ef5cb941009917e47932a6672e3fb622773a9"
+    }
+  ],
+  "lifecycle": {
+    "textureBytes": 699056,
+    "disposedTextures": 96,
+    "instanceDisposal": {
+      "scope": "actual InstancedMesh dispose events and WebGL2 createBuffer/deleteBuffer observations; all buffer types counted",
+      "switches": 12,
+      "samples": [
+        {
+          "label": "forest-baseline",
+          "textureBytes": 699056,
+          "disposedTextures": 0,
+          "createdMeshes": 12,
+          "disposedMeshes": 0,
+          "liveMeshes": 12,
+          "createdBuffers": 80,
+          "deletedBuffers": 0,
+          "liveBuffers": 80
+        },
+        {
+          "label": "1-crystal",
+          "textureBytes": 699056,
+          "disposedTextures": 8,
+          "createdMeshes": 18,
+          "disposedMeshes": 12,
+          "liveMeshes": 6,
+          "createdBuffers": 114,
+          "deletedBuffers": 64,
+          "liveBuffers": 50
+        },
+        {
+          "label": "1-town",
+          "textureBytes": 699056,
+          "disposedTextures": 16,
+          "createdMeshes": 36,
+          "disposedMeshes": 18,
+          "liveMeshes": 18,
+          "createdBuffers": 208,
+          "deletedBuffers": 98,
+          "liveBuffers": 110
+        },
+        {
+          "label": "1-volcano",
+          "textureBytes": 699056,
+          "disposedTextures": 24,
+          "createdMeshes": 44,
+          "disposedMeshes": 36,
+          "liveMeshes": 8,
+          "createdBuffers": 256,
+          "deletedBuffers": 192,
+          "liveBuffers": 64
+        },
+        {
+          "label": "1-forest",
+          "textureBytes": 699056,
+          "disposedTextures": 32,
+          "createdMeshes": 56,
+          "disposedMeshes": 44,
+          "liveMeshes": 12,
+          "createdBuffers": 320,
+          "deletedBuffers": 240,
+          "liveBuffers": 80
+        },
+        {
+          "label": "1-habitat-friend-area-safari",
+          "textureBytes": 699056,
+          "disposedTextures": 40,
+          "createdMeshes": 68,
+          "disposedMeshes": 56,
+          "liveMeshes": 12,
+          "createdBuffers": 384,
+          "deletedBuffers": 304,
+          "liveBuffers": 80
+        },
+        {
+          "label": "1-forest-reset",
+          "textureBytes": 699056,
+          "disposedTextures": 48,
+          "createdMeshes": 80,
+          "disposedMeshes": 68,
+          "liveMeshes": 12,
+          "createdBuffers": 448,
+          "deletedBuffers": 368,
+          "liveBuffers": 80
+        },
+        {
+          "label": "2-crystal",
+          "textureBytes": 699056,
+          "disposedTextures": 56,
+          "createdMeshes": 86,
+          "disposedMeshes": 80,
+          "liveMeshes": 6,
+          "createdBuffers": 482,
+          "deletedBuffers": 432,
+          "liveBuffers": 50
+        },
+        {
+          "label": "2-town",
+          "textureBytes": 699056,
+          "disposedTextures": 64,
+          "createdMeshes": 104,
+          "disposedMeshes": 86,
+          "liveMeshes": 18,
+          "createdBuffers": 576,
+          "deletedBuffers": 466,
+          "liveBuffers": 110
+        },
+        {
+          "label": "2-volcano",
+          "textureBytes": 699056,
+          "disposedTextures": 72,
+          "createdMeshes": 112,
+          "disposedMeshes": 104,
+          "liveMeshes": 8,
+          "createdBuffers": 624,
+          "deletedBuffers": 560,
+          "liveBuffers": 64
+        },
+        {
+          "label": "2-forest",
+          "textureBytes": 699056,
+          "disposedTextures": 80,
+          "createdMeshes": 124,
+          "disposedMeshes": 112,
+          "liveMeshes": 12,
+          "createdBuffers": 688,
+          "deletedBuffers": 608,
+          "liveBuffers": 80
+        },
+        {
+          "label": "2-habitat-friend-area-safari",
+          "textureBytes": 699056,
+          "disposedTextures": 88,
+          "createdMeshes": 136,
+          "disposedMeshes": 124,
+          "liveMeshes": 12,
+          "createdBuffers": 752,
+          "deletedBuffers": 672,
+          "liveBuffers": 80
+        },
+        {
+          "label": "2-forest-reset",
+          "textureBytes": 699056,
+          "disposedTextures": 96,
+          "createdMeshes": 148,
+          "disposedMeshes": 136,
+          "liveMeshes": 12,
+          "createdBuffers": 816,
+          "deletedBuffers": 736,
+          "liveBuffers": 80
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "captures": [
+    {
+      "file": "forest-1440.jpg",
+      "query": "kit=forest",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "forest",
+      "textureBytes": 699056,
+      "instances": 36,
+      "drawCalls": 29,
+      "triangles": 32420,
+      "cameraYaw": 0,
+      "encodedBytes": 235070,
+      "sha256": "3ffecde06d20e29614369ed4da519b77549e223b9e36d5317accf3c825d6d309"
+    },
+    {
+      "file": "cave-1440.jpg",
+      "query": "kit=cave",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "cave",
+      "textureBytes": 699056,
+      "instances": 30,
+      "drawCalls": 19,
+      "triangles": 12832,
+      "cameraYaw": 0,
+      "encodedBytes": 205348,
+      "sha256": "8dbcc6c798afe1b5812f3417fdc167a041ced87ad425a2295eb8c2525968b825"
+    },
+    {
+      "file": "volcano-1440.jpg",
+      "query": "kit=volcano",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "volcano",
+      "textureBytes": 699056,
+      "instances": 31,
+      "drawCalls": 22,
+      "triangles": 6894,
+      "cameraYaw": 0,
+      "encodedBytes": 213962,
+      "sha256": "46f359c95ebbad9b3318d42e192f9bb26d2cc13c1a5c1a7dbba5be1beecc85b6"
+    },
+    {
+      "file": "snow-1440.jpg",
+      "query": "kit=snow",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "snow",
+      "textureBytes": 699056,
+      "instances": 31,
+      "drawCalls": 21,
+      "triangles": 15404,
+      "cameraYaw": 0,
+      "encodedBytes": 223134,
+      "sha256": "219884263d63c46535c2e330be61b16d4d10f7c0add2677252884975a80c0803"
+    },
+    {
+      "file": "sky-1440.jpg",
+      "query": "kit=sky",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "sky",
+      "textureBytes": 699056,
+      "instances": 25,
+      "drawCalls": 19,
+      "triangles": 7668,
+      "cameraYaw": 0,
+      "encodedBytes": 211738,
+      "sha256": "473211e32a5a83f4bee2643ee28653772ccc0af2de87b3eaf886e01ccc5df250"
+    },
+    {
+      "file": "coast-1440.jpg",
+      "query": "kit=coast",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "coast",
+      "textureBytes": 699056,
+      "instances": 34,
+      "drawCalls": 30,
+      "triangles": 8742,
+      "cameraYaw": 0,
+      "encodedBytes": 197145,
+      "sha256": "65026352451ce382c86f170f8a0e1b7cc0acaa163f7e6dc3c3f8ffff22b08717"
+    },
+    {
+      "file": "ruins-1440.jpg",
+      "query": "kit=ruins",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "ruins",
+      "textureBytes": 699056,
+      "instances": 24,
+      "drawCalls": 19,
+      "triangles": 12060,
+      "cameraYaw": 0,
+      "encodedBytes": 218620,
+      "sha256": "2394d8a50d9c41904d38193fd3c1f05675293afed66fb3104fe49ccf5a41215b"
+    },
+    {
+      "file": "crystal-1440.jpg",
+      "query": "kit=crystal",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "crystal",
+      "textureBytes": 699056,
+      "instances": 31,
+      "drawCalls": 17,
+      "triangles": 13976,
+      "cameraYaw": 0,
+      "encodedBytes": 203296,
+      "sha256": "b5863bc21fd5de444e769ba958c7d82b58ac13dc55bee67c512011fd521c4bb4"
+    },
+    {
+      "file": "town-1440.jpg",
+      "query": "kit=town",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "town",
+      "textureBytes": 699056,
+      "instances": 34,
+      "drawCalls": 41,
+      "triangles": 26836,
+      "cameraYaw": 0,
+      "encodedBytes": 268829,
+      "sha256": "09eedbf90711c7bd829bc3ce7547c0c107c6c764569a84bcbdfc41d6e56eef0e"
+    },
+    {
+      "file": "dojo-1440.jpg",
+      "query": "kit=dojo",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "dojo",
+      "textureBytes": 699056,
+      "instances": 25,
+      "drawCalls": 19,
+      "triangles": 5164,
+      "cameraYaw": 0,
+      "encodedBytes": 184249,
+      "sha256": "a8f972fd70876ae110556f50a92db0c32c6bac706e990ab6cae95e54594e8a62"
+    },
+    {
+      "file": "desert-1440.jpg",
+      "query": "kit=desert",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "desert",
+      "textureBytes": 699056,
+      "instances": 30,
+      "drawCalls": 21,
+      "triangles": 13484,
+      "cameraYaw": 0,
+      "encodedBytes": 233878,
+      "sha256": "c63556a974b5e10274ddf5c44e1c5930000528da7de6adbe09e51eae287852ea"
+    },
+    {
+      "file": "storm-1440.jpg",
+      "query": "kit=storm",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "storm",
+      "textureBytes": 699056,
+      "instances": 24,
+      "drawCalls": 21,
+      "triangles": 13668,
+      "cameraYaw": 0,
+      "encodedBytes": 233377,
+      "sha256": "5ad87e6e2dc6498c6300de02778d96c3a1a0dc549a331b753a096bce0b8a6d1b"
+    },
+    {
+      "file": "forest-390.jpg",
+      "query": "kit=forest",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "forest",
+      "textureBytes": 699056,
+      "instances": 36,
+      "drawCalls": 29,
+      "triangles": 32420,
+      "cameraYaw": 0,
+      "encodedBytes": 81176,
+      "sha256": "ac15aa9084026122e5936f42b41a7da8753fe5c00dfc9093a275422526f0daf2"
+    },
+    {
+      "file": "cave-390.jpg",
+      "query": "kit=cave",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "cave",
+      "textureBytes": 699056,
+      "instances": 30,
+      "drawCalls": 19,
+      "triangles": 12832,
+      "cameraYaw": 0,
+      "encodedBytes": 72207,
+      "sha256": "5f167419a2d4f1825325a44681477c74b352f1614a4609593066e20900d42e60"
+    },
+    {
+      "file": "volcano-390.jpg",
+      "query": "kit=volcano",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "volcano",
+      "textureBytes": 699056,
+      "instances": 31,
+      "drawCalls": 22,
+      "triangles": 6894,
+      "cameraYaw": 0,
+      "encodedBytes": 68519,
+      "sha256": "f331560d25e4e49d1dc05a0bd9c7822ea068a7b731fb8f02b78fe04a7f79e570"
+    },
+    {
+      "file": "snow-390.jpg",
+      "query": "kit=snow",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "snow",
+      "textureBytes": 699056,
+      "instances": 31,
+      "drawCalls": 21,
+      "triangles": 15404,
+      "cameraYaw": 0,
+      "encodedBytes": 77921,
+      "sha256": "63067065729a50ebb7245b44787a49af55033ccd1d0453d2f9c3de365ba82d88"
+    },
+    {
+      "file": "sky-390.jpg",
+      "query": "kit=sky",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "sky",
+      "textureBytes": 699056,
+      "instances": 25,
+      "drawCalls": 19,
+      "triangles": 7668,
+      "cameraYaw": 0,
+      "encodedBytes": 74055,
+      "sha256": "a79a6d8342210c7133a129114a54e001ade48bf97c8480ae48f5ba64d70f54d3"
+    },
+    {
+      "file": "coast-390.jpg",
+      "query": "kit=coast",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "coast",
+      "textureBytes": 699056,
+      "instances": 34,
+      "drawCalls": 30,
+      "triangles": 8742,
+      "cameraYaw": 0,
+      "encodedBytes": 71400,
+      "sha256": "245ed0a78c9fa73c5747258c40bc4a0a7b418bb66482aa0a10e35cd3cf6a11a2"
+    },
+    {
+      "file": "ruins-390.jpg",
+      "query": "kit=ruins",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "ruins",
+      "textureBytes": 699056,
+      "instances": 24,
+      "drawCalls": 19,
+      "triangles": 12060,
+      "cameraYaw": 0,
+      "encodedBytes": 74553,
+      "sha256": "01bdbb5eef8d55974c6250f83c6b03646bcd1aa1f627b6e93a4264d7cf47f38b"
+    },
+    {
+      "file": "crystal-390.jpg",
+      "query": "kit=crystal",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "crystal",
+      "textureBytes": 699056,
+      "instances": 31,
+      "drawCalls": 17,
+      "triangles": 13976,
+      "cameraYaw": 0,
+      "encodedBytes": 72442,
+      "sha256": "17fa71b2ac7e7983fbf12f3f003bb4a70ad70ae3f56400de9f481d7fe50623e7"
+    },
+    {
+      "file": "town-390.jpg",
+      "query": "kit=town",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "town",
+      "textureBytes": 699056,
+      "instances": 34,
+      "drawCalls": 41,
+      "triangles": 26836,
+      "cameraYaw": 0,
+      "encodedBytes": 86627,
+      "sha256": "aa8bc7f4a979f2a0e2226c785cec6489c49fd90f63fb31e7114f6b3c3601c147"
+    },
+    {
+      "file": "dojo-390.jpg",
+      "query": "kit=dojo",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "dojo",
+      "textureBytes": 699056,
+      "instances": 25,
+      "drawCalls": 19,
+      "triangles": 5164,
+      "cameraYaw": 0,
+      "encodedBytes": 70584,
+      "sha256": "3acd499dfd0f1e151d56cf721a3ae4821f6e5ba5e606020a2e5710deb87ea6ca"
+    },
+    {
+      "file": "desert-390.jpg",
+      "query": "kit=desert",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "desert",
+      "textureBytes": 699056,
+      "instances": 30,
+      "drawCalls": 21,
+      "triangles": 13484,
+      "cameraYaw": 0,
+      "encodedBytes": 74537,
+      "sha256": "bda0a32a5d08fec4203d9162b68f25f6b9ea62c438a11bd897d47ebfbcb6f003"
+    },
+    {
+      "file": "storm-390.jpg",
+      "query": "kit=storm",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kit": "storm",
+      "textureBytes": 699056,
+      "instances": 24,
+      "drawCalls": 21,
+      "triangles": 13668,
+      "cameraYaw": 0,
+      "encodedBytes": 74297,
+      "sha256": "8f99c4f0b7c22070cfa4dcdc4145d609277668c26b6c846d1d632794414b2e9e"
+    },
+    {
+      "file": "forest-orbit.jpg",
+      "query": "kit=forest&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "forest",
+      "textureBytes": 699056,
+      "instances": 36,
+      "drawCalls": 29,
+      "triangles": 32420,
+      "cameraYaw": 0.7853981633974483,
+      "encodedBytes": 236204,
+      "sha256": "c45b0483fe3a4e5cb6e3776f5d3f84407b65eb3b5ba133c974c544d223ac0d23"
+    },
+    {
+      "file": "town-orbit.jpg",
+      "query": "kit=town&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "town",
+      "textureBytes": 699056,
+      "instances": 34,
+      "drawCalls": 41,
+      "triangles": 26836,
+      "cameraYaw": 0.7853981633974483,
+      "encodedBytes": 290736,
+      "sha256": "d2eded857775294e2d3f4a5fb4e2b6f58eedac6fef3378b4dda9006a00834955"
+    },
+    {
+      "file": "crystal-orbit.jpg",
+      "query": "kit=crystal&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "crystal",
+      "textureBytes": 699056,
+      "instances": 31,
+      "drawCalls": 17,
+      "triangles": 13976,
+      "cameraYaw": 0.7853981633974483,
+      "encodedBytes": 214505,
+      "sha256": "fabd81ed6bbe7e358305d3f04ecf13e151d0f081a5cad683fc5f6e72b1e9e467"
+    },
+    {
+      "file": "sky-orbit.jpg",
+      "query": "kit=sky&angle=1",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "sky",
+      "textureBytes": 699056,
+      "instances": 25,
+      "drawCalls": 19,
+      "triangles": 7668,
+      "cameraYaw": 0.7853981633974483,
+      "encodedBytes": 203040,
+      "sha256": "58994acc5755cb24e64174aff2953ac7ba3f7cc1ed849903424f922227273a43"
+    },
+    {
+      "file": "habitat-power-plant.jpg",
+      "query": "kit=storm&variant=habitat-friend-area-power-plant",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "storm",
+      "textureBytes": 699056,
+      "instances": 26,
+      "drawCalls": 25,
+      "triangles": 14164,
+      "cameraYaw": 0,
+      "encodedBytes": 225021,
+      "sha256": "835307d205f4387fbded67a703cc1950c586974ab997b123d7074b7497489071"
+    },
+    {
+      "file": "habitat-decrepit-lab.jpg",
+      "query": "kit=ruins&variant=habitat-friend-area-decrepit-lab",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "ruins",
+      "textureBytes": 699056,
+      "instances": 26,
+      "drawCalls": 29,
+      "triangles": 12556,
+      "cameraYaw": 0,
+      "encodedBytes": 205445,
+      "sha256": "aa522fc910869e578302ba0649814bcaaab40230eea354ec343c82b36808c013"
+    },
+    {
+      "file": "habitat-aged-chamber-an.jpg",
+      "query": "kit=ruins&variant=habitat-friend-area-aged-chamber-an",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "ruins",
+      "textureBytes": 699056,
+      "instances": 26,
+      "drawCalls": 19,
+      "triangles": 12284,
+      "cameraYaw": 0,
+      "encodedBytes": 207057,
+      "sha256": "d64facb43e2d41ef720f8df185c35513fd12bbebbc53814fd9ca35ff18197e71"
+    },
+    {
+      "file": "habitat-mystic-lake.jpg",
+      "query": "kit=coast&variant=habitat-friend-area-mystic-lake",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "coast",
+      "textureBytes": 699056,
+      "instances": 36,
+      "drawCalls": 30,
+      "triangles": 9246,
+      "cameraYaw": 0,
+      "encodedBytes": 188798,
+      "sha256": "e2f33457faeeef3d9330604d21d241b2deff4b80433abedfae7917b066917717"
+    },
+    {
+      "file": "habitat-scorched-plains.jpg",
+      "query": "kit=volcano&variant=habitat-friend-area-scorched-plains",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "volcano",
+      "textureBytes": 699056,
+      "instances": 33,
+      "drawCalls": 22,
+      "triangles": 7294,
+      "cameraYaw": 0,
+      "encodedBytes": 207450,
+      "sha256": "dabbcef11ea26b0b642de1a0d298c7f4b9216bf2b40cd5f3bc1a57e7e003d6e4"
+    },
+    {
+      "file": "habitat-safari.jpg",
+      "query": "kit=forest&variant=habitat-friend-area-safari",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "kit": "forest",
+      "textureBytes": 699056,
+      "instances": 38,
+      "drawCalls": 29,
+      "triangles": 33524,
+      "cameraYaw": 0,
+      "encodedBytes": 223149,
+      "sha256": "7dd0f9a480c986f2f35495e12b62c6a351661c2e249302b9a5793e9876612810"
+    }
+  ]
+}

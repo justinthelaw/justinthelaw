@@ -1,0 +1,237 @@
+{
+  "fieldIdentityCount": 45,
+  "dojoIdentityCount": 22,
+  "fieldFloorSourceRowsIncludingFreezeScene": 1428,
+  "fieldExplorationOrBossFloorRows": 1427,
+  "dojoFloorRows": 66,
+  "restMapIds": [
+    "mt-thunder-rest-stop",
+    "mt-blaze-rest-stop",
+    "frosty-forest-rest-stop",
+    "mt-freeze-rest-stop",
+    "magma-cavern-rest-stop",
+    "sky-tower-rest-stop"
+  ],
+  "fixedFloorMapCrosswalk": {
+    "1": "mt-steel-skarmory-floor",
+    "2": "sinister-woods-team-meanies-floor",
+    "3": "mt-thunder-peak-zapdos-floor",
+    "4": "mt-blaze-peak-moltres-floor",
+    "5": "frosty-grotto-articuno-floor",
+    "6": "mt-freeze-ninetales-summit",
+    "7": "magma-cavern-pit-groudon-floor",
+    "8": "sky-tower-summit-rayquaza-floor",
+    "9": "western-cave-mewtwo-floor",
+    "10": "wish-cave-jirachi-floor",
+    "11": "uproar-forest-mankey-floor",
+    "12": "fiery-field-entei-floor",
+    "13": "lightning-field-raikou-floor",
+    "14": "northwind-field-suicune-floor",
+    "15": "mt-faraway-ho-oh-floor",
+    "16": "northern-range-latios-floor",
+    "17": "buried-relic-regirock-floor",
+    "18": "buried-relic-regice-floor",
+    "19": "buried-relic-registeel-floor",
+    "20": "magma-cavern-pit-fallen-allies-floor",
+    "21": "silver-trench-lugia-floor",
+    "22": "stormy-sea-kyogre-floor",
+    "23": "meteor-cave-deoxys-floor",
+    "24": "howling-forest-smeargle-rescue",
+    "25": "purity-forest-celebi-floor",
+    "26": "wish-cave-medicham-floor",
+    "0": null,
+    "27": "dojo-normal-maze-boss-floor",
+    "28": "dojo-fire-maze-boss-floor",
+    "29": "dojo-water-maze-boss-floor",
+    "30": "dojo-grass-maze-boss-floor",
+    "31": "dojo-electric-maze-boss-floor",
+    "32": "dojo-ice-maze-boss-floor",
+    "33": "dojo-fighting-maze-boss-floor",
+    "34": "dojo-ground-maze-boss-floor",
+    "35": "dojo-flying-maze-boss-floor",
+    "36": "dojo-psychic-maze-boss-floor",
+    "37": "dojo-poison-maze-boss-floor",
+    "38": "dojo-bug-maze-boss-floor",
+    "39": "dojo-rock-maze-boss-floor",
+    "40": "dojo-ghost-maze-boss-floor",
+    "41": "dojo-dragon-maze-boss-floor",
+    "42": "dojo-dark-maze-boss-floor",
+    "43": "dojo-steel-maze-boss-floor",
+    "44": "dojo-team-shifty-maze-boss-floor",
+    "45": "dojo-team-constrictor-maze-boss-floor",
+    "46": "dojo-team-hydro-maze-boss-floor",
+    "47": "dojo-team-rumblerock-maze-boss-floor",
+    "49": "dojo-rescue-team-maze-boss-floor"
+  },
+  "newEmbeddedRoomIdentitiesToAuthor": [
+    {
+      "proposedId": "wyvern-hill-hm-fly",
+      "sourceFixedRoomId": 50,
+      "sourceFloorKeys": [
+        "WyvernHill:30"
+      ]
+    },
+    {
+      "proposedId": "solar-cave-hm-dive",
+      "sourceFixedRoomId": 51,
+      "sourceFloorKeys": [
+        "SolarCave:10"
+      ]
+    },
+    {
+      "proposedId": "solar-cave-hm-waterfall",
+      "sourceFixedRoomId": 52,
+      "sourceFloorKeys": [
+        "SolarCave:15"
+      ]
+    },
+    {
+      "proposedId": "solar-cave-hm-surf",
+      "sourceFixedRoomId": 53,
+      "sourceFloorKeys": [
+        "SolarCave:20"
+      ]
+    },
+    {
+      "proposedId": "far-off-sea-tm-wide-slash",
+      "sourceFixedRoomId": 54,
+      "sourceFloorKeys": [
+        "FaroffSea:50"
+      ]
+    },
+    {
+      "proposedId": "far-off-sea-tm-vacuum-cut",
+      "sourceFixedRoomId": 55,
+      "sourceFloorKeys": [
+        "FaroffSea:72"
+      ]
+    },
+    {
+      "proposedId": "mt-faraway-friend-bow",
+      "sourceFixedRoomId": 56,
+      "sourceFloorKeys": [
+        "MtFaraway:30"
+      ]
+    },
+    {
+      "proposedId": "wyvern-hill-sun-ribbon",
+      "sourceFixedRoomId": 57,
+      "sourceFloorKeys": [
+        "WyvernHill:20"
+      ]
+    },
+    {
+      "proposedId": "northwind-field-lunar-ribbon",
+      "sourceFixedRoomId": 58,
+      "sourceFloorKeys": [
+        "NorthwindField:20"
+      ]
+    },
+    {
+      "proposedId": "western-cave-beauty-scarf",
+      "sourceFixedRoomId": 59,
+      "sourceFloorKeys": [
+        "WesternCave:59"
+      ]
+    },
+    {
+      "proposedId": "buried-relic-hm-cut",
+      "sourceFixedRoomId": 60,
+      "sourceFloorKeys": [
+        "BuriedRelic:80"
+      ]
+    },
+    {
+      "proposedId": "buried-relic-hm-strength",
+      "sourceFixedRoomId": 61,
+      "sourceFloorKeys": [
+        "BuriedRelic:60"
+      ]
+    },
+    {
+      "proposedId": "buried-relic-hm-flash",
+      "sourceFixedRoomId": 62,
+      "sourceFloorKeys": [
+        "BuriedRelic:70"
+      ]
+    },
+    {
+      "proposedId": "buried-relic-hm-rock-smash",
+      "sourceFixedRoomId": 63,
+      "sourceFloorKeys": [
+        "BuriedRelic:45"
+      ]
+    },
+    {
+      "proposedId": "grand-sea-deepseascale",
+      "sourceFixedRoomId": 64,
+      "sourceFloorKeys": [
+        "GrandSea:15"
+      ]
+    },
+    {
+      "proposedId": "wish-cave-wish-stone",
+      "sourceFixedRoomId": 65,
+      "sourceFloorKeys": [
+        "WishCave:50"
+      ]
+    },
+    {
+      "proposedId": "grand-sea-deepseatooth",
+      "sourceFixedRoomId": 66,
+      "sourceFloorKeys": [
+        "GrandSea:25"
+      ]
+    }
+  ],
+  "nonzeroEncounterRowsCorroborated": 3814,
+  "rawZeroWeightLookupRows": 1818,
+  "allPoolForeignKeysResolve": true,
+  "itemPoolCorroborationByContext": {
+    "floor": {
+      "distinctPools": 136,
+      "uncorroboratedPoolIds": []
+    },
+    "shop": {
+      "distinctPools": 15,
+      "uncorroboratedPoolIds": [
+        1,
+        19,
+        28,
+        37,
+        61,
+        75,
+        77,
+        78,
+        83,
+        90,
+        94,
+        108,
+        158,
+        169,
+        175
+      ]
+    },
+    "monsterHouse": {
+      "distinctPools": 3,
+      "uncorroboratedPoolIds": [
+        2,
+        46,
+        170
+      ]
+    },
+    "buried": {
+      "distinctPools": 8,
+      "uncorroboratedPoolIds": [
+        3,
+        57,
+        62,
+        66,
+        81,
+        91,
+        109,
+        155
+      ]
+    }
+  }
+}

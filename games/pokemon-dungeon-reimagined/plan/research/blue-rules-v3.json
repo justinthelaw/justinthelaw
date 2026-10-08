@@ -1,0 +1,2354 @@
+{
+  "schemaVersion": 1,
+  "rulesRevision": "blue-rules-v3",
+  "profileKind": "scoped-browser-behavior-overlay",
+  "edition": "Original Blue Rescue Team browser reimagining",
+  "recordedAt": "2026-10-05",
+  "status": "browser-core-behavior-contract",
+  "runtimeReady": false,
+  "packageComplete": false,
+  "contractId": "rescue-team-browser-rules/1",
+  "contractFile": "../RULES-BROWSER-CONTRACT.md",
+  "runtimeCapabilities": {
+    "schedulerCore": {
+      "runtimeReady": true,
+      "contract": "rescue-team-browser-rules/1#scheduler",
+      "implementation": "pure opportunity/stage/timer helpers only; complete scheduler loop not implemented"
+    },
+    "boundedDamageCore": {
+      "runtimeReady": true,
+      "contract": "rescue-team-browser-rules/1#damage",
+      "implementation": "pure normal/fixed calculators; integration awaits review"
+    },
+    "completeCampaignRules": {
+      "runtimeReady": false
+    }
+  },
+  "capabilityReadinessMeaning": "Specification availability and bounded consumability, not integrated/tested gameplay or package completion.",
+  "baseFiles": [
+    {
+      "file": "blue-rules-v1.json",
+      "revision": "blue-rules-v1",
+      "sha256": "42fe77c8137ae020fd41bb6eb5d2e2bcec67389fe1bb60c0e8503fd5fab1a8de"
+    },
+    {
+      "file": "blue-rules-v2.json",
+      "revision": "blue-rules-v2",
+      "sha256": "66a45c581aceeb14a3987efca70aff958bfd916e6467e9430348727ed901f565"
+    }
+  ],
+  "compositionContract": {
+    "loadOrder": [
+      "Verify both historical revisions and hashes.",
+      "Compose v1 plus v2 according to their unchanged historical composition.",
+      "Retain historical effective records, source limitations, families and unrelated policies.",
+      "Append v3 sources; replace only explicit ruleUpdates.set fields for allowlisted target IDs.",
+      "Replace P12/P13 blockedConsumerClarifications with the v3 values; preserve other consumer qualifications."
+    ],
+    "allowedRuleReplacementIds": [
+      "P01-MECH-SPEED-01",
+      "P01-MECH-SPEED-02",
+      "P01-MECH-SPEED-04",
+      "P01-MECH-SPEED-05",
+      "P01-MECH-TURN-01",
+      "P01-MECH-TURN-02",
+      "P01-MECH-TURN-08",
+      "P01-MECH-TURN-03",
+      "P01-MECH-TURN-04",
+      "P01-MECH-TURN-05",
+      "P01-MECH-TURN-06",
+      "P01-MECH-TURN-07",
+      "P01-MECH-TYPE-01",
+      "P01-MECH-TYPE-02",
+      "P01-MECH-TYPE-03",
+      "P01-MECH-TYPE-07",
+      "P01-MECH-TYPE-04",
+      "P01-MECH-TYPE-05",
+      "P01-MECH-TYPE-06",
+      "P01-MECH-ABILITY-02",
+      "P01B-RED-BLUE-EQUIVALENCE"
+    ],
+    "statusRule": "This v3 view replaces v2 statusRule only for explicitly allowlisted records. Other blockers stay blocked; historical facts/claims remain evidence history, not active contradictory runtime choices.",
+    "familyRule": "All26 system families remain incomplete. No system/package completion changes.",
+    "runtimeImportAllowed": false
+  },
+  "evidenceClasses": [
+    "original-red-engine-comparative",
+    "edition-scoped-researcher-documentation",
+    "browser-engineering-contract"
+  ],
+  "addedSources": [
+    {
+      "id": "P01C-R",
+      "evidenceClass": "original-red-engine-comparative",
+      "url": "https://github.com/pret/pmd-red/tree/6bcbec4f906938c0243aa2026bcbd41b577bab85",
+      "revision": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+      "scope": "Matching original Red/GBA research chosen for browser mechanics; no Blue revision or universal equivalence claim."
+    },
+    {
+      "id": "P01C-U-TIMING",
+      "evidenceClass": "edition-scoped-researcher-documentation",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-timing-notes.html",
+      "scope": "Peter O. original Red+Blue documentation; no identified cartridge revision."
+    },
+    {
+      "id": "P01C-U-DAMAGE",
+      "evidenceClass": "edition-scoped-researcher-documentation",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-damage-calculation.html",
+      "scope": "Peter O. original Red+Blue documentation; no identified cartridge revision."
+    },
+    {
+      "id": "P01C-U-MOVES",
+      "evidenceClass": "edition-scoped-researcher-documentation",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-moves.html",
+      "scope": "Peter O. original Red+Blue documentation; no identified cartridge revision."
+    },
+    {
+      "id": "P01C-U-VARIOUS",
+      "evidenceClass": "edition-scoped-researcher-documentation",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-various-notes.html",
+      "scope": "Peter O. original Red+Blue documentation; no identified cartridge revision."
+    },
+    {
+      "id": "P01C-A",
+      "evidenceClass": "edition-scoped-researcher-documentation",
+      "url": "https://gist.github.com/AnonymousRandomPerson/2750861734184be79561ee88d065abb8",
+      "scope": "Original Red+Blue AI research transcript; deferred movement and team ordering."
+    },
+    {
+      "id": "P01C-B",
+      "evidenceClass": "browser-engineering-contract",
+      "document": "../RULES-BROWSER-CONTRACT.md",
+      "scope": "Browser references, continuations, validation and independent calculator boundaries; not historical-edition evidence."
+    }
+  ],
+  "ruleUpdates": [
+    {
+      "targetId": "P01-MECH-SPEED-01",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "kind": "movement-opportunities",
+          "phaseTable": [
+            [
+              7,
+              15,
+              23
+            ],
+            [
+              3,
+              7,
+              11,
+              15,
+              19,
+              23
+            ],
+            [
+              1,
+              3,
+              5,
+              7,
+              9,
+              11,
+              13,
+              15,
+              17,
+              19,
+              21,
+              23
+            ],
+            [
+              1,
+              2,
+              3,
+              5,
+              6,
+              7,
+              9,
+              10,
+              11,
+              13,
+              14,
+              15,
+              17,
+              18,
+              19,
+              21,
+              22,
+              23
+            ],
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23
+            ]
+          ],
+          "normalStage": 1,
+          "attackLock": "clear at stage1 phases; effective speed raise also clears",
+          "unrestrictedExtraAttacks": false
+        },
+        "rule": "Speed stages define opportunity eligibility, constrained by attack locks and leader refresh.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          3,
+          4
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:36-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_action_execution.c:108"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 3,4; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": {
+          "kind": "status",
+          "maximumBoostStacks": 3,
+          "appliesTo": "action opportunities"
+        },
+        "rule": "Original Movement Speed governs action opportunities, including attacks/items; boosting it can permit multiple actions. The original Double Speed page allows up to three stacked boosts.",
+        "evidenceLimitations": "This is only the foundation. It does not certify a 2/3/4-action schedule, duration counters, leader refreshes or the exact eligible action sequence."
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-SPEED-02",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "phaseTable": [
+            [
+              7,
+              15,
+              23
+            ],
+            [
+              3,
+              7,
+              11,
+              15,
+              19,
+              23
+            ],
+            [
+              1,
+              3,
+              5,
+              7,
+              9,
+              11,
+              13,
+              15,
+              17,
+              19,
+              21,
+              23
+            ],
+            [
+              1,
+              2,
+              3,
+              5,
+              6,
+              7,
+              9,
+              10,
+              11,
+              13,
+              14,
+              15,
+              17,
+              18,
+              19,
+              21,
+              22,
+              23
+            ],
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23
+            ]
+          ],
+          "timerSlotsPerSign": 5,
+          "indefiniteTimer": 127,
+          "raiseRandomHalfOpen": [
+            8,
+            10
+          ],
+          "raiseStored": [
+            9,
+            10
+          ],
+          "lowerRandomHalfOpen": [
+            6,
+            8
+          ],
+          "lowerConstruction": [
+            "Self-Curer truncate half",
+            "Natural Cure cap5",
+            "minimum1",
+            "add1"
+          ],
+          "decrement": "beginning of admitted actor opportunity; 127 unchanged",
+          "formula": "clamp(base + occupiedPositive - occupiedNegative - paralysis + IceInSnow + apparentDeoxysSpeed + wildOriginalKecleonInTheft,0,4)",
+          "expiryCancelsAdmittedOpportunity": false,
+          "effectiveRaise": {
+            "clearAttackLock": true,
+            "refreshLeaderAfterAction": true,
+            "resetPhase": 0
+          }
+        },
+        "rule": "Adopted browser speed stage, exact timers and mid-action refresh contract.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          3,
+          4,
+          11
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_logic.c:CalcSpeedStage"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:36-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/move_orb_effects_1.c:1348-1437"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_random.c:CalculateStatusTurns"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_turn_effects.c:546-573"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_range.c:sub_80838EC"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 3,4,11; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "blocked",
+        "value": null,
+        "rule": "Speed Boost has a documented after-action counter; exact speed opportunity and duration scheduling remain unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: Travel Speed reports pre-Gates boosts of 4\u20135 full turns and drops of 3\u20134; the original Half Speed page reports 6\u20138 turns without defining the counter unit. Its source is another Bulbapedia page, so this is not independent corroboration. Shared prose also reports leader-specific refreshes and order quirks.",
+          "The counter and indexed rate table do not resolve the inherited 6\u20138 versus 3\u20134 slowdown-unit question, leader refreshes, mid-turn updates or accelerated actor-turn boundaries."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-SPEED-04",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "phaseTable": [
+            [
+              7,
+              15,
+              23
+            ],
+            [
+              3,
+              7,
+              11,
+              15,
+              19,
+              23
+            ],
+            [
+              1,
+              3,
+              5,
+              7,
+              9,
+              11,
+              13,
+              15,
+              17,
+              19,
+              21,
+              23
+            ],
+            [
+              1,
+              2,
+              3,
+              5,
+              6,
+              7,
+              9,
+              10,
+              11,
+              13,
+              14,
+              15,
+              17,
+              18,
+              19,
+              21,
+              22,
+              23
+            ],
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23
+            ]
+          ],
+          "timerSlotsPerSign": 5,
+          "indefiniteTimer": 127,
+          "raiseRandomHalfOpen": [
+            8,
+            10
+          ],
+          "raiseStored": [
+            9,
+            10
+          ],
+          "lowerRandomHalfOpen": [
+            6,
+            8
+          ],
+          "lowerConstruction": [
+            "Self-Curer truncate half",
+            "Natural Cure cap5",
+            "minimum1",
+            "add1"
+          ],
+          "decrement": "beginning of admitted actor opportunity; 127 unchanged",
+          "formula": "clamp(base + occupiedPositive - occupiedNegative - paralysis + IceInSnow + apparentDeoxysSpeed + wildOriginalKecleonInTheft,0,4)",
+          "expiryCancelsAdmittedOpportunity": false,
+          "effectiveRaise": {
+            "clearAttackLock": true,
+            "refreshLeaderAfterAction": true,
+            "resetPhase": 0
+          }
+        },
+        "rule": "Adopted browser speed stage, exact timers and mid-action refresh contract.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          3,
+          4,
+          11
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_logic.c:CalcSpeedStage"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:36-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/move_orb_effects_1.c:1348-1437"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_random.c:CalculateStatusTurns"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_turn_effects.c:546-573"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_range.c:sub_80838EC"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 3,4,11; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "blocked",
+        "value": null,
+        "rule": "Full source/provenance and interleaving were not retrievable.",
+        "evidenceLimitations": [
+          "Search index reports stages 0/1/2/3/4 as rates 1/2,1,2,3,4 per turn. This is a research lead, not an accepted schedule."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-SPEED-05",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "phaseTable": [
+            [
+              7,
+              15,
+              23
+            ],
+            [
+              3,
+              7,
+              11,
+              15,
+              19,
+              23
+            ],
+            [
+              1,
+              3,
+              5,
+              7,
+              9,
+              11,
+              13,
+              15,
+              17,
+              19,
+              21,
+              23
+            ],
+            [
+              1,
+              2,
+              3,
+              5,
+              6,
+              7,
+              9,
+              10,
+              11,
+              13,
+              14,
+              15,
+              17,
+              18,
+              19,
+              21,
+              22,
+              23
+            ],
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23
+            ]
+          ],
+          "timerSlotsPerSign": 5,
+          "indefiniteTimer": 127,
+          "raiseRandomHalfOpen": [
+            8,
+            10
+          ],
+          "raiseStored": [
+            9,
+            10
+          ],
+          "lowerRandomHalfOpen": [
+            6,
+            8
+          ],
+          "lowerConstruction": [
+            "Self-Curer truncate half",
+            "Natural Cure cap5",
+            "minimum1",
+            "add1"
+          ],
+          "decrement": "beginning of admitted actor opportunity; 127 unchanged",
+          "formula": "clamp(base + occupiedPositive - occupiedNegative - paralysis + IceInSnow + apparentDeoxysSpeed + wildOriginalKecleonInTheft,0,4)",
+          "expiryCancelsAdmittedOpportunity": false,
+          "effectiveRaise": {
+            "clearAttackLock": true,
+            "refreshLeaderAfterAction": true,
+            "resetPhase": 0
+          }
+        },
+        "rule": "Adopted browser speed stage, exact timers and mid-action refresh contract.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          3,
+          4,
+          11
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_logic.c:CalcSpeedStage"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:36-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/move_orb_effects_1.c:1348-1437"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_random.c:CalculateStatusTurns"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_turn_effects.c:546-573"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_range.c:sub_80838EC"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 3,4,11; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "blocked",
+        "value": null,
+        "rule": "Exact speed eligibility, lifetime units and mid-turn updates remain unavailable.",
+        "evidenceLimitations": [
+          "Per-actor status countdown evidence cannot by itself identify a global/subturn clock or turn skips. Do not import the Explorers Agility sequence."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TURN-01",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "timeModel": "action-driven",
+          "schedulerContract": "rescue-team-browser-rules/1#scheduler",
+          "freeOperationsConsumeTurns": false
+        },
+        "rule": "Preserve manual baseline; use the adopted core for speed/lock and interruption exceptions.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          2,
+          3,
+          4
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:RunFractionalTurn_Async"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 2,3,4; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": {
+          "timeModel": "action-driven"
+        },
+        "rule": "Dungeon progression responds to the player's actions; an ordinary step or attack lets enemies act, and idle decision time does not advance them.",
+        "evidenceLimitations": "The manual gives a normal-case explanation, not exact ally/enemy order, speed exceptions or end-of-turn phases."
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TURN-02",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "phaseCount": 24,
+          "newFloorPhase": 0,
+          "restoredFloor": "preserve phase",
+          "passOrder": [
+            "normal-phase spawn/side flags/unlock/forced loss",
+            "leader and wind",
+            "live team slots",
+            "three deferred follower rounds",
+            "live wild slots",
+            "pre-normal-phase movement/end/evolution/loss",
+            "increment phase modulo24"
+          ],
+          "entityReference": [
+            "slot",
+            "generation"
+          ],
+          "newActorEligibility": "can act in a slot not yet visited; no blanket delay",
+          "movementEndEffects": "leader first then moved active slots; exactly once",
+          "leaderRefresh": "after completed action links/reactions; reset phase0 and repeat without admission test",
+          "terminalLatchPreemptsOldFloor": true,
+          "followerBuckets": "Chebyshev min(distance,2), near first, reverse slots within bucket"
+        },
+        "rule": "Adopted original Rescue Team browser scheduler/interruption core; complete action and outcome consumers are separate.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:44-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_mon_recruit.c:joining initialization"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_mon_spawn.c:spawn initialization"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_move_util.c:88-179,388-450"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:HandleDealingDamageInternal"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_misc.c:HandleFaint"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 2,3,4,5; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "blocked",
+        "value": null,
+        "rule": "Local actor phases and conditional AI ordering are documented; the complete Blue scheduler remains unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: Primary manual cadence and secondary speed descriptions do not establish total ordering. A simple leader\u2192allies\u2192enemies\u2192ticks queue is an unverified candidate, not an accepted original rule.",
+          "The v2 local sequences narrow the previous evidence gap. Speed interleaving, mid-chain aborts, spawn/recruit eligibility and transition preemption are not established; no total queue is authorized."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TURN-08",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "phaseCount": 24,
+          "newFloorPhase": 0,
+          "restoredFloor": "preserve phase",
+          "passOrder": [
+            "normal-phase spawn/side flags/unlock/forced loss",
+            "leader and wind",
+            "live team slots",
+            "three deferred follower rounds",
+            "live wild slots",
+            "pre-normal-phase movement/end/evolution/loss",
+            "increment phase modulo24"
+          ],
+          "entityReference": [
+            "slot",
+            "generation"
+          ],
+          "newActorEligibility": "can act in a slot not yet visited; no blanket delay",
+          "movementEndEffects": "leader first then moved active slots; exactly once",
+          "leaderRefresh": "after completed action links/reactions; reset phase0 and repeat without admission test",
+          "terminalLatchPreemptsOldFloor": true,
+          "followerBuckets": "Chebyshev min(distance,2), near first, reverse slots within bucket"
+        },
+        "rule": "Adopted original Rescue Team browser scheduler/interruption core; complete action and outcome consumers are separate.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:44-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_mon_recruit.c:joining initialization"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_mon_spawn.c:spawn initialization"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_move_util.c:88-179,388-450"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:HandleDealingDamageInternal"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_misc.c:HandleFaint"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 2,3,4,5; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "blocked",
+        "value": null,
+        "rule": "Local phase ordering is now documented; complete Blue scheduler remains incomplete.",
+        "evidenceLimitations": [
+          "No Blue-addressed scheduler map or complete public specification found in this pass. Red decompilation is comparative evidence only."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TURN-03",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "retainedSourceLocalValue": [
+            "leader:weather",
+            "leader:Illuminate",
+            "actor:regeneration",
+            "actor:status-countdowns",
+            "actor:Run-Away-animation"
+          ],
+          "browserPlacement": {
+            "placement": "actor beginning after admission, once; skip immediate leader-change continuation",
+            "speedTimerExpiry": "does not revoke admission"
+          }
+        },
+        "rule": "Preserve source-local hook/free-operation record and append precise browser transaction placement.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          3,
+          4,
+          5
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:44-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_action_execution.c:action commit"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:HandleDealingDamageInternal"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 3,4,5; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": [
+          "leader:weather",
+          "leader:Illuminate",
+          "actor:regeneration",
+          "actor:status-countdowns",
+          "actor:Run-Away-animation"
+        ],
+        "rule": "Documented beginning sequence; skipped while changing leader.",
+        "evidenceLimitations": [
+          "This is local ordering. Its invocation relative to speed eligibility is unspecified."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TURN-04",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "retainedSourceLocalValue": [
+            "experience",
+            "orb/magma-burn",
+            "Truant-pause",
+            "Hyper-Beam-pause",
+            "Trapper",
+            "Snore/Sleep-Talk",
+            "Grudge",
+            "invalid-terrain-warp",
+            "Escape-Orb",
+            "Forecast/type-reset",
+            "Warp-Scarf",
+            "leader:Belly",
+            "weather-damage",
+            "Shed-Skin",
+            "Speed-Boost",
+            "Yawn",
+            "burn/poison",
+            "Wrap",
+            "constriction",
+            "curse",
+            "Leech-Seed",
+            "Perish-Song",
+            "Bide",
+            "Enraged",
+            "Joy-Ribbon",
+            "time-warning"
+          ],
+          "browserPlacement": {
+            "movementPlacement": "deferred commit leader first then active slots",
+            "endEffectsExactlyOnce": true
+          }
+        },
+        "rule": "Preserve source-local hook/free-operation record and append precise browser transaction placement.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          3,
+          4,
+          5
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:44-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_action_execution.c:action commit"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:HandleDealingDamageInternal"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 3,4,5; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": [
+          "experience",
+          "orb/magma-burn",
+          "Truant-pause",
+          "Hyper-Beam-pause",
+          "Trapper",
+          "Snore/Sleep-Talk",
+          "Grudge",
+          "invalid-terrain-warp",
+          "Escape-Orb",
+          "Forecast/type-reset",
+          "Warp-Scarf",
+          "leader:Belly",
+          "weather-damage",
+          "Shed-Skin",
+          "Speed-Boost",
+          "Yawn",
+          "burn/poison",
+          "Wrap",
+          "constriction",
+          "curse",
+          "Leech-Seed",
+          "Perish-Song",
+          "Bide",
+          "Enraged",
+          "Joy-Ribbon",
+          "time-warning"
+        ],
+        "rule": "Documented after-action sequence.",
+        "evidenceLimitations": [
+          "Preserves source order without inventing missing handler details. Several labels require their own sourced behavior. Does not specify scheduling once an actor faints mid-chain."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TURN-05",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "retainedSourceLocalValue": [
+            "revival",
+            "hidden-tile-reveal",
+            "held-item-drop",
+            "recruitment-check"
+          ],
+          "browserPlacement": {
+            "revivalBeforeFailure": true,
+            "recruitmentStopsActionHitsAndLinks": true,
+            "allNestedHpEvents": "synchronous zero-HP resolver before another actor"
+          }
+        },
+        "rule": "Preserve source-local hook/free-operation record and append precise browser transaction placement.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          3,
+          4,
+          5
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:44-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_action_execution.c:action commit"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:HandleDealingDamageInternal"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 3,4,5; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": [
+          "revival",
+          "hidden-tile-reveal",
+          "held-item-drop",
+          "recruitment-check"
+        ],
+        "rule": "Zero-HP sequence stops if revival succeeds.",
+        "evidenceLimitations": [
+          "Immediate zero-HP handling is documented; leader failure precedence and revived/recruited action eligibility remain unresolved."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TURN-06",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "retainedSourceLocalValue": {
+            "allyOrder": "leader then team-list order",
+            "blockedAlly": "may defer movement until allies move; choosing attack prevents retry",
+            "wildOrder": "spawn-established order",
+            "blockedWild": "no equivalent movement retry"
+          },
+          "browserPlacement": {
+            "liveSlots": true,
+            "deferredRounds": 3,
+            "distanceBuckets": [
+              0,
+              1,
+              2
+            ],
+            "withinBucket": "reverse slot order",
+            "wildRetries": false
+          }
+        },
+        "rule": "Preserve source-local hook/free-operation record and append precise browser transaction placement.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          3,
+          4,
+          5
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:44-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_action_execution.c:action commit"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:HandleDealingDamageInternal"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 3,4,5; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": {
+          "allyOrder": "leader then team-list order",
+          "blockedAlly": "may defer movement until allies move; choosing attack prevents retry",
+          "wildOrder": "spawn-established order",
+          "blockedWild": "no equivalent movement retry"
+        },
+        "rule": "Team order controls ally decisions; team acts before wild actors.",
+        "evidenceLimitations": [
+          "Researcher explicitly scopes both originals, but does not identify binary/region. Movement retry is conditional, so a single immutable queue does not capture all ally decisions."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TURN-07",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "retainedSourceLocalValue": [
+            "set/deselect move-or-item",
+            "set ally moves",
+            "change tactics/IQ",
+            "dismiss partner",
+            "talk-to-partner",
+            "change-facing"
+          ],
+          "browserPlacement": {
+            "browserNonCommitting": [
+              "menu navigation/cancel",
+              "invalid UI selection"
+            ],
+            "failedInWorldAttempt": "effect-specific sourced turn cost, not universally free"
+          }
+        },
+        "rule": "Preserve source-local hook/free-operation record and append precise browser transaction placement.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          3,
+          4,
+          5
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_engine.c:44-478"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_action_execution.c:action commit"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:HandleDealingDamageInternal"
+        },
+        {
+          "sourceId": "P01C-U-TIMING",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 3,4,5; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": [
+          "set/deselect move-or-item",
+          "set ally moves",
+          "change tactics/IQ",
+          "dismiss partner",
+          "talk-to-partner",
+          "change-facing"
+        ],
+        "rule": "Listed non-actions consume no turn.",
+        "evidenceLimitations": [
+          "Only listed commands are covered; menu cancel, invalid commands and every UI mapping are not inferred."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TYPE-01",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "nominal": {
+            "superEffective": 1.5,
+            "notVeryEffective": 0.9,
+            "neutral": 1,
+            "littleEffect": 0.5
+          },
+          "authoritativeQ16": {
+            "little": 32768,
+            "resist": 58982,
+            "neutral": 65536,
+            "super": 98304
+          }
+        },
+        "rule": "Exact integer factors replace decimal shorthand in consumers.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          6,
+          9
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:sub_806E100"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_config.c:gTypeEffectivenessChart"
+        },
+        {
+          "sourceId": "P01C-U-DAMAGE",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 6,9; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": {
+          "superEffective": 1.5,
+          "notVeryEffective": 0.9,
+          "neutral": 1,
+          "littleEffect": 0.5
+        },
+        "rule": "Original Rescue Team nominal damage factors are super-effective 1.5, resisted 0.9, ordinary 1.0 and type-based little-effect 0.5.",
+        "evidenceLimitations": "These are nominal factors, not a complete integer damage specification. The RB tags distinguish them from Explorers. Ability-created immunity is separately handled."
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TYPE-02",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "numeric": "multiply ordered slots with Q16 magnitude rounding",
+          "symbolicOrder": [
+            "little",
+            "resist",
+            "neutral",
+            "super"
+          ],
+          "symbolicTable": [
+            [
+              "little",
+              "little",
+              "little",
+              "resist"
+            ],
+            [
+              "little",
+              "resist",
+              "resist",
+              "neutral"
+            ],
+            [
+              "little",
+              "resist",
+              "neutral",
+              "super"
+            ],
+            [
+              "resist",
+              "neutral",
+              "super",
+              "super"
+            ]
+          ],
+          "resistPlusSuper": "numeric approximately1.35; symbolic neutral"
+        },
+        "rule": "Numeric product and symbolic effectiveness classification are distinct.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          6,
+          9
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_config.c:gEffectivenessChart"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:sub_806E100"
+        },
+        {
+          "sourceId": "P01C-U-DAMAGE",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 6,9; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": {
+          "composition": "multiply both type factors"
+        },
+        "rule": "The two defender-type factors multiply; neither type is discarded merely because the other has little effect.",
+        "evidenceLimitations": "Supported by both reference pages; exact intermediate rounding and ability overrides remain outside this record. Independence of the wikis is not established."
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TYPE-03",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "mul": "sign(a*b)*floor((abs(a)*abs(b)+2^(fractionBits-1))/2^fractionBits)",
+          "divQ16": "if a=0 return0; otherwise sign(a*b)*floor((abs(a)*65536+32768)/abs(b)); b!=0",
+          "final": "floor((rawQ16+32768)/65536)",
+          "Q8integer": "truncate toward zero",
+          "integerToQ16Input": [
+            -32768,
+            32767
+          ],
+          "finalSigned32": true,
+          "final32767Cap": false,
+          "baseClamp": [
+            1,
+            999
+          ],
+          "defScarf": 8,
+          "wildLevelContribution": "ability-adjusted raw offense/3 using shared power roll",
+          "wildBaseCriticalChance": 0,
+          "genericWild340Over256": false,
+          "preAbilityClamp": "offense0..999 only",
+          "gutsPhysicalGuard": false
+        },
+        "rule": "Exact bounded browser arithmetic; R comparative stat, wild and critical decisions; machine-overflow/region identity excluded.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/math.c:u24_8_mul,F48_16_UMul,F48_16_SDiv,FP48_16_ToS32"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:1018-1395"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_data.c:465"
+        },
+        {
+          "sourceId": "P01C-U-DAMAGE",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 6,7,8,9,10,11; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "blocked",
+        "value": null,
+        "rule": "The detailed original-edition guide documents formula and ordered stages; bit-exact Blue arithmetic remains unresolved.",
+        "evidenceLimitations": [
+          "Inherited v1 context, refined by the v2 clarification below: The original-edition type page reports numerators 32768, 58982, 65536 and 98304 over 65536; 0.9 is shorthand. Treat these as research candidates until arithmetic/order evidence is accepted. Do not import the nearby Explorers formula.",
+          "Nominal factors are now supplemented by documented fixed-point constants and explicit floors/clamps. Intermediate quantization, signed behavior, nearest ties, output bounds and conflicting modifier details still prevent exact arithmetic closure."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TYPE-07",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "mul": "sign(a*b)*floor((abs(a)*abs(b)+2^(fractionBits-1))/2^fractionBits)",
+          "divQ16": "if a=0 return0; otherwise sign(a*b)*floor((abs(a)*65536+32768)/abs(b)); b!=0",
+          "final": "floor((rawQ16+32768)/65536)",
+          "Q8integer": "truncate toward zero",
+          "integerToQ16Input": [
+            -32768,
+            32767
+          ],
+          "finalSigned32": true,
+          "final32767Cap": false,
+          "baseClamp": [
+            1,
+            999
+          ],
+          "defScarf": 8,
+          "wildLevelContribution": "ability-adjusted raw offense/3 using shared power roll",
+          "wildBaseCriticalChance": 0,
+          "genericWild340Over256": false,
+          "preAbilityClamp": "offense0..999 only",
+          "gutsPhysicalGuard": false
+        },
+        "rule": "Exact bounded browser arithmetic; R comparative stat, wild and critical decisions; machine-overflow/region identity excluded.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/math.c:u24_8_mul,F48_16_UMul,F48_16_SDiv,FP48_16_ToS32"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:1018-1395"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_data.c:465"
+        },
+        {
+          "sourceId": "P01C-U-DAMAGE",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 6,7,8,9,10,11; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "blocked",
+        "value": null,
+        "rule": "Full bit-exact damage reproduction remains unproven despite documented formula/order.",
+        "evidenceLimitations": [
+          "64-bit/16-fraction format does not define intermediate multiply/divide quantization, signed shifts/overflow or nearest-integer ties. Experimental cap/enemy-factor reports need Blue confirmation; regional audit is separate from those concrete gaps."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TYPE-04",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "teamLQ16": "mulQ(level*65536,43690,16)",
+          "wildLQ16": "divQ16(abilityAdjusted(rawOffense)*65536,3*65536)",
+          "D": "divQ16((A-C)*65536,8*65536)+LQ16",
+          "base": "clamp(mulQ(mulQ(D,D,16),3276,16)+2*D-C*65536+10*65536,65536,999*65536)"
+        },
+        "rule": "Adopt literal coefficients with distinct team/wild branch and exact intermediate rounding.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          6,
+          7,
+          8
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:1240-1279"
+        },
+        {
+          "sourceId": "P01C-U-DAMAGE",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 6,7,8; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": {
+          "fixedPoint": {
+            "bits": 64,
+            "fractionBits": 16
+          },
+          "variables": {
+            "A": "effective attack",
+            "C": "effective defense",
+            "L": "level"
+          },
+          "D": "(A-C)/8 + L*43690/65536",
+          "base": "2*D-C+10 + D*D*3276/65536"
+        },
+        "rule": "Detailed guide supplies the original damage equation and representation.",
+        "evidenceLimitations": [
+          "Arithmetic expression is documented; exact machine arithmetic and edge outcomes require the separate unresolved record."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TYPE-05",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "sequence": [
+            "power addition",
+            "Q8 stage multiplication",
+            "Q8 stat multiplication",
+            "truncate Q8",
+            "selected held bonuses",
+            "offense only clamp0..999",
+            "ability numerator/denominator",
+            "truncate once each stat"
+          ],
+          "defScarf": 8,
+          "gutsPhysicalGuard": false,
+          "targetEffectsApplyGates": [
+            "offensive Flash Fire boost",
+            "defender DefScarf/Zinc",
+            "matching screen"
+          ]
+        },
+        "rule": "Replace historical UPC symmetric clamp and Scarf assertions with explicit selected R behavior.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          7,
+          11
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:1018-1240"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_data.c:465"
+        },
+        {
+          "sourceId": "P01C-U-DAMAGE",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 7,11; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": {
+          "sequence": [
+            "power addition",
+            "stage multiplier",
+            "separate stat multiplier",
+            "floor",
+            "equipment",
+            "clamp 1..999",
+            "ability numerator/denominator",
+            "floor"
+          ]
+        },
+        "rule": "Detailed stat transformation orders power before multipliers.",
+        "evidenceLimitations": [
+          "This freezes order only, not every item/ability constant. Simplified page reverses power order and is explicitly explanatory."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-TYPE-06",
+      "operation": "adopt-scoped-browser-contract",
+      "set": {
+        "status": "verified",
+        "value": {
+          "typeFactorsQ16": {
+            "little": 32768,
+            "resist": 58982,
+            "neutral": 65536,
+            "super": 98304
+          },
+          "order": [
+            "ordered type slots",
+            "Wonder Guard",
+            "Thick Fat",
+            "Flash Fire/Levitate",
+            "low-HP ability",
+            "non-None STAB",
+            "apparent weather",
+            "MudSport OR fog once",
+            "WaterSport",
+            "Charging",
+            "matching screen",
+            "critical",
+            "base multiply",
+            "Q8 effect multiply",
+            "random factor",
+            "final rounding"
+          ],
+          "randomFactorQ16HalfOpen": [
+            57344,
+            73728
+          ],
+          "fixedDamage": "base clamp1..999, type/context, final round only",
+          "directHpReduction": "separate effect route"
+        },
+        "rule": "Preserve modifier ordering with exact factors; no generic enemy multiplier or modern type/category rules.",
+        "evidenceLevel": "adopted-browser-contract",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation",
+          "browser-engineering-contract"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          8,
+          9,
+          10
+        ],
+        "evidenceLimitations": [
+          "Qualified shared-original documentation plus the pinned Red comparative decisions supports this browser behavior, not universal Blue equivalence."
+        ]
+      },
+      "evidence": [
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_damage.c:735-910,1279-1395"
+        },
+        {
+          "sourceId": "P01C-R",
+          "locator": "src/dungeon_logic.c:MonsterIsType"
+        },
+        {
+          "sourceId": "P01C-U-DAMAGE",
+          "locator": "Original joint Red/Blue guide; qualified behavior and conflicts retained in RULES-BROWSER-CONTRACT.md."
+        },
+        {
+          "sourceId": "P01C-B",
+          "locator": "Sections 8,9,10; browser validation/continuation boundary."
+        }
+      ],
+      "historicalPreviousEffective": {
+        "status": "verified",
+        "value": {
+          "baseClamp": [
+            1,
+            999
+          ],
+          "typeNumerators": {
+            "littleEffect": 32768,
+            "notVeryEffective": 58982,
+            "superEffective": 98304
+          },
+          "typeDenominator": 65536,
+          "application": [
+            "screen",
+            "critical",
+            "accumulated matchup",
+            "move-specific",
+            "random",
+            "nearest-integer"
+          ],
+          "random": "(57344+X)/65536; integer X in [0,16383]",
+          "fixedDamage": [
+            "clamp 1..999",
+            "matchup",
+            "nearest-integer"
+          ]
+        },
+        "rule": "Detailed guide fixes these factors and application order.",
+        "evidenceLimitations": [
+          "Matchup includes further abilities/weather/statuses not exhaustively transcribed here. Counterexamples and arithmetic edges remain open."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01-MECH-ABILITY-02",
+      "operation": "retain-explicit-blocker",
+      "set": {
+        "status": "blocked",
+        "value": null,
+        "rule": "Complete ability-effect order remains blocked; only explicitly listed numerical subset is consumable.",
+        "evidenceLevel": "unresolved",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          7,
+          9,
+          12
+        ],
+        "evidenceLimitations": "Two simultaneous slots do not specify activation order, duration, immunity priority or temporary ability changes."
+      },
+      "evidence": [],
+      "historicalPreviousEffective": {
+        "status": "blocked",
+        "value": null,
+        "rule": "No complete original ability trigger and interaction table was established.",
+        "evidenceLimitations": "Two simultaneous slots do not specify activation order, duration, immunity priority or temporary ability changes."
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    },
+    {
+      "targetId": "P01B-RED-BLUE-EQUIVALENCE",
+      "operation": "retain-explicit-blocker",
+      "set": {
+        "status": "blocked",
+        "value": null,
+        "rule": "Universal Red/Blue equivalence remains blocked; it is not a prerequisite for explicitly qualified comparative browser fields.",
+        "evidenceLevel": "unresolved",
+        "evidenceClasses": [
+          "original-red-engine-comparative",
+          "edition-scoped-researcher-documentation"
+        ],
+        "editionRegionScope": "Original Blue browser reimagining; explicit Red comparative decisions; exact Blue regional machine identity unclaimed.",
+        "contract": "rescue-team-browser-rules/1",
+        "contractSections": [
+          1,
+          12
+        ],
+        "evidenceLimitations": [
+          "Public comparison statement concerns ROM structure, not exact script conditions.",
+          "Successor editor explicitly scopes support to Red US/Aus.",
+          "No commercial scripts were copied or compared in this task."
+        ]
+      },
+      "evidence": [],
+      "historicalPreviousEffective": {
+        "status": "blocked",
+        "value": null,
+        "rule": "Red technical documentation does not establish matching Blue event predicates.",
+        "evidenceLimitations": [
+          "Public comparison statement concerns ROM structure, not exact script conditions.",
+          "Successor editor explicitly scopes support to Red US/Aus.",
+          "No commercial scripts were copied or compared in this task."
+        ]
+      },
+      "preserve": "All unlisted fields and historical source/edition limitations remain; replacement only describes scoped browser adoption."
+    }
+  ],
+  "numericalTables": {
+    "phaseOpportunities": [
+      [
+        7,
+        15,
+        23
+      ],
+      [
+        3,
+        7,
+        11,
+        15,
+        19,
+        23
+      ],
+      [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21,
+        23
+      ],
+      [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        21,
+        22,
+        23
+      ],
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ]
+    ],
+    "attackStageQ8": [
+      64,
+      69,
+      74,
+      79,
+      84,
+      89,
+      102,
+      115,
+      128,
+      179,
+      256,
+      332,
+      384,
+      409,
+      422,
+      435,
+      448,
+      460,
+      473,
+      486,
+      512
+    ],
+    "defenseStageQ8": [
+      64,
+      69,
+      74,
+      79,
+      84,
+      89,
+      102,
+      140,
+      179,
+      222,
+      256,
+      332,
+      384,
+      409,
+      422,
+      435,
+      448,
+      460,
+      473,
+      486,
+      512
+    ],
+    "typeFactorsQ16": {
+      "little": 32768,
+      "resist": 58982,
+      "neutral": 65536,
+      "super": 98304
+    },
+    "symbolicOrder": [
+      "little",
+      "resist",
+      "neutral",
+      "super"
+    ],
+    "symbolicComposition": [
+      [
+        "little",
+        "little",
+        "little",
+        "resist"
+      ],
+      [
+        "little",
+        "resist",
+        "resist",
+        "neutral"
+      ],
+      [
+        "little",
+        "resist",
+        "neutral",
+        "super"
+      ],
+      [
+        "resist",
+        "neutral",
+        "super",
+        "super"
+      ]
+    ]
+  },
+  "supportedNumericalDomain": {
+    "api": "safe-integer Number in/out; BigInt intermediates only",
+    "Q8Raw": [
+      -2147483648,
+      2147483647
+    ],
+    "Q16Raw": "safe integers; magnitude product/biased shifted dividend <=2^64-1",
+    "integerToQ16": [
+      -32768,
+      32767
+    ],
+    "finalDamage": [
+      -2147483648,
+      2147483647
+    ],
+    "normalCatalogBounds": "RULES-BROWSER-CONTRACT.md section11; intermediate guards also apply",
+    "excludedClaims": [
+      "overflow wrap identity",
+      "integer conversion defect reproduction outside signed16",
+      "universal Blue region/revision parity"
+    ]
+  },
+  "sourceConflictDecisions": {
+    "defScarf": "R+8; historical UPC+12 rejected for active contract",
+    "offenseBounds": "R pre-ability0..999 offense only; no symmetric1..999 defense clamp",
+    "guts": "R no physical guard; UPC physical-only prose retained as conflict",
+    "wild": "R adjusted raw offense/3 and initial critical0; do not blend generic340/256 assertion",
+    "zeroDividend": "R explicit zero fast path refines draft quotient formula",
+    "targetEffectsApply": "R arg_10 gates FlashFire stage, defense item, screens",
+    "typelessStab": "R MonsterIsType(None) false"
+  },
+  "supportingMoveCorrections": [
+    {
+      "move": "Dragon Rage",
+      "field": "power",
+      "value": 2,
+      "evidence": [
+        "P01C-U-MOVES",
+        "P01C-R"
+      ],
+      "scope": "corroborated joint-original documentation and pinned Red numerical data; no unrelated inventory rewrite"
+    },
+    {
+      "move": "Sonicboom",
+      "field": "power",
+      "value": 2,
+      "evidence": [
+        "P01C-U-MOVES",
+        "P01C-R"
+      ],
+      "scope": "corroborated joint-original documentation and pinned Red numerical data; no unrelated inventory rewrite"
+    },
+    {
+      "move": "Refresh",
+      "field": "pp",
+      "value": 17,
+      "evidence": [
+        "P01C-U-MOVES",
+        "P01C-R"
+      ],
+      "scope": "corroborated joint-original documentation and pinned Red numerical data; no unrelated inventory rewrite"
+    },
+    {
+      "move": "Refresh",
+      "field": "accuracy1",
+      "value": 100,
+      "evidence": [
+        "P01C-U-MOVES",
+        "P01C-R"
+      ],
+      "scope": "corroborated joint-original documentation and pinned Red numerical data; no unrelated inventory rewrite"
+    },
+    {
+      "move": "String Shot",
+      "field": "criticalChance",
+      "value": 12,
+      "evidence": [
+        "P01C-U-MOVES",
+        "P01C-R"
+      ],
+      "scope": "corroborated joint-original documentation and pinned Red numerical data; no unrelated inventory rewrite"
+    },
+    {
+      "move": "Thrash",
+      "field": "power",
+      "value": 18,
+      "evidence": [
+        "P01C-U-MOVES",
+        "P01C-R"
+      ],
+      "scope": "corroborated joint-original documentation and pinned Red numerical data; no unrelated inventory rewrite"
+    }
+  ],
+  "crosswalkPitfalls": [
+    "Blue dataset game_id repeats across Unown forms; keep canonical species/form, internal monster ID and growth/learnset resource key separate.",
+    "2065 base-stat comparisons establish resource mappings, not unique complete form identity.",
+    "Two accuracy columns represent distinct checks; do not swap.",
+    "Dragon Rage/Sonicboom power2 does not encode direct HP reductions65/55.",
+    "Slaking Friend Area annotation discrepancy belongs to the separately audited catalog."
+  ],
+  "licensingScope": {
+    "runtimeCode": "independently authored from behavioral specification",
+    "upstream": "research locators only; no upstream runtime imports/source/assets copied",
+    "commercialRights": "Public decompilation/repository licensing does not grant rights to commercial characters, scripts, implementation or extracted assets/data wholesale. Separate product/asset permission provenance remains required."
+  },
+  "blockedConsumerClarifications": {
+    "P12": "May implement adopted scheduler core; each action/effect and campaign exit needs its own complete contract. Exact Blue machine equivalence unclaimed.",
+    "P13": "May implement bounded damage core with listed R comparative decisions; complete move targets/accuracy/effects/statuses/abilities remain required."
+  },
+  "unresolvedFullGameRules": [
+    "356 complete move effects, targets, both accuracy checks, PP/link break/repeated hits",
+    "complete ability/status/item event predicates and precedence",
+    "AI/tactics/pathfinding",
+    "floor generation/encounters/spawn placement/traps/shops/boss restrictions",
+    "reset/restoration matrices, rescue outcome policy and terminal scenes",
+    "Gengar/Wish exact day/event predicates",
+    "browser save validation/versioning and connectivity equivalents",
+    "complete numerical catalogs and form crosswalks"
+  ],
+  "auditScope": {
+    "gameSourceExecuted": false,
+    "automatedGameTestsRun": false,
+    "cartridgeOrEmulatorRun": false,
+    "commercialImplementationOrAssetsCopied": false,
+    "sourceQualification": "controller-adopted bounded behavior core; no new universal equivalence proof"
+  }
+}

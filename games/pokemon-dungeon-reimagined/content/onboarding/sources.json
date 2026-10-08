@@ -1,0 +1,441 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-onboarding",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "sources",
+  "createdAt": "2026-10-05",
+  "sourceCommit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "sources": [
+    {
+      "id": "red:src/personality_test1.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/personality_test1.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/personality_test1.c",
+      "gitBlob": "4e0ae2fd4453c640adabe4175bb5c9cff5dd9222"
+    },
+    {
+      "id": "red:src/personality_test2.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/personality_test2.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/personality_test2.c",
+      "gitBlob": "2da8adab1ec711f550cf7f55414c9bfe53d83820"
+    },
+    {
+      "id": "red:src/data/personality_test1.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/personality_test1.h",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/data/personality_test1.h",
+      "gitBlob": "83c818aaab3e9555074065eb1a08b5b650676391"
+    },
+    {
+      "id": "red:src/data/personality_test2.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/personality_test2.h",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/data/personality_test2.h",
+      "gitBlob": "c6a519cc518c75857b1bd93adc0bb88495d44347"
+    },
+    {
+      "id": "red:src/data/locale/personality_test1_usa.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/locale/personality_test1_usa.h",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/data/locale/personality_test1_usa.h",
+      "gitBlob": "d548b2897fa7a3af2ccd665dc84aebf61c8d0f76"
+    },
+    {
+      "id": "red:include/constants/personality_test.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/personality_test.h",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "include/constants/personality_test.h",
+      "gitBlob": "56129599a6aa40f35da21756f9bf342c59074fd2"
+    },
+    {
+      "id": "red:src/main_loops.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/main_loops.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/main_loops.c",
+      "gitBlob": "372641a7e7150af60604b71a273b3c73d5f2ef4d"
+    },
+    {
+      "id": "red:src/items.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/items.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/items.c",
+      "gitBlob": "a2ebfc31640459f242aaee92aaf1f80a8b9868a2"
+    },
+    {
+      "id": "red:src/moves.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/moves.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/moves.c",
+      "gitBlob": "19803cc678b9814e5686a569a08efeefdf4c83d7"
+    },
+    {
+      "id": "red:src/random.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/random.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/random.c",
+      "gitBlob": "fd2bf240e553589e2902345d5e469c5781279ece"
+    },
+    {
+      "id": "red:src/run_dungeon.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/run_dungeon.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/run_dungeon.c",
+      "gitBlob": "f6108c7247373254a80d8cb8acf9ff9ff92c88db"
+    },
+    {
+      "id": "red:src/exclusive_pokemon.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/exclusive_pokemon.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/exclusive_pokemon.c",
+      "gitBlob": "f0d5144c596e7a1e5bd9fef7ec05c7705880ac9a"
+    },
+    {
+      "id": "red:src/pokemon_3.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/pokemon_3.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/pokemon_3.c",
+      "gitBlob": "9687479351c4ffd43bdd1b05d4b5a80913c38631"
+    },
+    {
+      "id": "red:src/dungeon_mon_spawn.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_mon_spawn.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/dungeon_mon_spawn.c",
+      "gitBlob": "2be58a4af326352e7480720e67015568d6c17a18"
+    },
+    {
+      "id": "red:src/data/ground/ground_data_d01p01_station.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_d01p01_station.h",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/data/ground/ground_data_d01p01_station.h",
+      "gitBlob": "0008209a9c708e97ddc9ad55d359540257b3f106"
+    },
+    {
+      "id": "red:src/data/ground/ground_data_d01p02_station.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_d01p02_station.h",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/data/ground/ground_data_d01p02_station.h",
+      "gitBlob": "1e0e55e019e8855f9a5d3780391ce7fdd3c736b9"
+    },
+    {
+      "id": "red:src/dungeon_misc.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_misc.c",
+      "scope": "pinned original Red comparative; some NDS comments do not prove full Blue equality",
+      "path": "src/dungeon_misc.c",
+      "gitBlob": "f2a3889ad86ba2cc5c6dd47f6cd0f8cf2fe045b9"
+    },
+    {
+      "id": "red:src/pokemon.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/pokemon.c",
+      "scope": "original Red comparative",
+      "path": "src/pokemon.c",
+      "gitBlob": "3c5ab6eec362d6fccea49d1254cbb07682f1b172"
+    },
+    {
+      "id": "red:src/friend_area.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/friend_area.c",
+      "scope": "original Red comparative; locally cached",
+      "path": "src/friend_area.c",
+      "gitBlob": null
+    },
+    {
+      "id": "upc:quiz",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-quiz-questions.html",
+      "scope": "Peter O. explicitly shared original Red and Blue; full56 question/140 option score maps checked",
+      "path": null,
+      "gitBlob": null
+    },
+    {
+      "id": "upc:quiz-aid",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-quiz-taking-aid.html",
+      "scope": "shared original gender result map, partner pool and same-type/species exclusion",
+      "path": null,
+      "gitBlob": null
+    },
+    {
+      "id": "upc:areas",
+      "url": "https://upcarchive.playker.info/0/upokecenter/content/pokemon-mystery-dungeon-friend-areas.html",
+      "scope": "shared original memberships; acquisition-at-initialization specifically from Red",
+      "path": null,
+      "gitBlob": null
+    },
+    {
+      "id": "terence:personality",
+      "url": "https://gamefaqs.gamespot.com/gba/929408-pokemon-mystery-dungeon-red-rescue-team/faqs/40329",
+      "scope": "Original2006 researcher guide corroborates high-level structure and mapping; does not specify tied-result weighting",
+      "path": null,
+      "gitBlob": null
+    },
+    {
+      "id": "blue:data",
+      "url": "https://github.com/diegogliarte/tools.diegogliarte.com/tree/f8890eb4ae9867c380381b3b95349092076fa4a6/src/lib/data/pmd-blue",
+      "scope": "Blue-reported base/growth/learnset/move dataset, no binary build identified",
+      "path": null,
+      "gitBlob": null
+    },
+    {
+      "id": "terence:dungeons",
+      "url": "https://gamefaqs.gamespot.com/ds/929407-pokemon-mystery-dungeon-blue-rescue-team/faqs/40256",
+      "scope": "Original Rescue Team researcher dungeon facts; content edition checked, URL alone not used as Blue proof",
+      "path": null,
+      "gitBlob": null
+    },
+    {
+      "id": "species:red-levels",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/data/system_sbin.s",
+      "scope": "Red comparative numerical level maps; independently decoded",
+      "path": null,
+      "gitBlob": null
+    },
+    {
+      "id": "species:upc-levels",
+      "url": "https://upcarchive.playker.info/0/upokecenter/games/dungeon/guides/stats.php.html",
+      "scope": "256 shared-original researcher numerical tables; hashes are normalized data, not raw HTML",
+      "path": null,
+      "gitBlob": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "shared-quiz",
+      "qualification": "All 56 question identities and 140 score maps agree with shared-original UPC and pinned Red. Wording is independently authored.",
+      "sourceIds": [
+        "upc:quiz",
+        "red:src/data/personality_test1.h"
+      ]
+    },
+    {
+      "id": "shared-results",
+      "qualification": "Shared-original nature/gender and same-type partner facts; no post-result species override is authored.",
+      "sourceIds": [
+        "upc:quiz-aid",
+        "red:src/data/personality_test1.h",
+        "red:src/personality_test2.c"
+      ]
+    },
+    {
+      "id": "red-algorithm",
+      "qualification": "Pinned Red comparative exact sampling, integer mapping, circular tie and partner order; no identified Blue binary or native correlated RNG parity.",
+      "sourceIds": [
+        "red:src/personality_test1.c",
+        "red:src/random.c",
+        "red:src/data/personality_test2.h"
+      ]
+    },
+    {
+      "id": "red-initialization",
+      "qualification": "Pinned Red comparative new-game creation, one-time boost, resource conversion, economy, naming and opening order; plan scene names are references, not accepted runtime IDs.",
+      "sourceIds": [
+        "red:src/pokemon.c",
+        "red:src/run_dungeon.c",
+        "red:src/exclusive_pokemon.c",
+        "red:src/main_loops.c",
+        "red:src/items.c",
+        "red:src/moves.c",
+        "red:src/pokemon_3.c",
+        "red:src/dungeon_misc.c"
+      ]
+    },
+    {
+      "id": "blue-profile",
+      "qualification": "Established species catalog base/growth/learnsets agree between Blue-reported research and pinned Red; starting PP also agrees.",
+      "sourceIds": [
+        "blue:data",
+        "red:src/pokemon.c",
+        "red:src/moves.c"
+      ]
+    },
+    {
+      "id": "shared-areas",
+      "qualification": "Shared-original Friend Area memberships; ownership timing is separately Red comparative.",
+      "sourceIds": [
+        "upc:areas",
+        "red:src/friend_area.c"
+      ]
+    },
+    {
+      "id": "upc-shared-original-corroborated-red",
+      "qualification": "EXP source qualification inherited from the established species catalog.",
+      "sourceIds": [
+        "species:upc-levels",
+        "species:red-levels"
+      ]
+    },
+    {
+      "id": "red-comparative-only",
+      "qualification": "Comparative EXP source qualification inherited from the established species catalog; no Blue binary proof.",
+      "sourceIds": [
+        "species:red-levels"
+      ]
+    }
+  ],
+  "textProvenance": {
+    "id": "project-original-en-v1",
+    "language": "en",
+    "basis": "Independent semantic summaries and original project prose; no commercial wording or personality paragraphs copied.",
+    "humanNarrativeAcceptance": "pending"
+  },
+  "researchInput": {
+    "filename": "pokemon-onboarding-corpus.json",
+    "sha256": "773d4ddbbef81e50c8fde8d3499d3b96505c7ec32dc51978c7041896879fe081"
+  },
+  "catalogInputHashes": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/identities.json",
+      "sha256": "278d7717c1e2dcf0db63cbdaff74dd8bdafe08c350450ed28c76ed2151cda224"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/learnsets.json",
+      "sha256": "dae2136c4459b65cc88f238f82df34ccf2b93443cb02e5288d98ff679bcc0c02"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/levels-1.json",
+      "sha256": "5c97ac5f806180bb8cdb91770315c37a3b01e423dcf4675bb3f13c7cf79e0309"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/levels-2.json",
+      "sha256": "a956061b6c2fee2509215cc76fad04a84ca8dc5f96dcf53128bc39cd92e71a97"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/levels-3.json",
+      "sha256": "83c9827e290fce8ae88a33392e98ebf42c069e1e29c4472f4cb22a0a710caa6a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/levels-4.json",
+      "sha256": "58d38066f53debe603ccb8b6e53adea93bc09735125b6ed510af3f2b78f5c3b8"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/profiles-1.json",
+      "sha256": "2e0e84f4fd2885171e5ae0583c531020d1dbffb4ded9d74757ccc1589810398f"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/profiles-2.json",
+      "sha256": "a0b6e1adbaf2b2533cfe1ccca1e33d49e14927af14f5093245dcc19b58ce4786"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/profiles-3.json",
+      "sha256": "3413404543b449d1d832c516e4e7a4c1f7af3e0902cfe8ba9f239226b838c767"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/profiles-4.json",
+      "sha256": "76b98dacda234ada56ae6351bbb9bbf8660297ae17fb5ccb675d3e41809f94d7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/profiles-5.json",
+      "sha256": "dd2795b0070a7164a2072bd9193ca5a935c1d87c308f8e5e85e17bf21082bb36"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/species.json",
+      "sha256": "8dc94d00996bf7dc25197a905a6e601d66605bc4cfd2dc266adde90a52b6c56a"
+    }
+  ],
+  "factualHashes": {
+    "questions": "2dbe2d940f40e2bde3005a7c63910e46b04c629884480036d20f0f1de64ab0b1",
+    "genderResults": "b0ae954c19fb9e922cee0b97f4da4e1c935f5ef092576b88418f4e34cd20335f",
+    "partnerPool": "66c420378f6bc074999cee9eb1381a6ace583b8456255d3f45efdd2ee3765bd6",
+    "startingProfiles": "548387800d44e7b0a4e339cb351420bd6cebcb0bc1e33a3b040c2f17ffcecdb8"
+  },
+  "blueprintHashes": {
+    "algorithm": "77b6063b7613d4aacd577b4cee16d9ca36722ec5c362e14940b00d8de9186bf8",
+    "initialization": "16001829792f5d57a4c06fb827ca7e9449899d74345f0d6ea07cb23bc093a318"
+  },
+  "sourceArtifactHashes": {
+    "quizNumericSha256": "548a0b5c14e80efea1a7aedd5d9196fd8f7f0ae19210cc3cb90721f48a351d6e",
+    "semanticSummariesSha256": "e4812cc9870f2f515ddd72e15c3749cf17dcbb650350d9bebe8a25d9e3b87282"
+  },
+  "validationCounts": {
+    "questions": 56,
+    "selectable": 55,
+    "options": 140,
+    "categories": 14,
+    "natures": 13,
+    "genderOutcomes": 26,
+    "partners": 10,
+    "orderedPairs": 129,
+    "startingProfiles": 16
+  },
+  "blueBinaryBuildVerified": false,
+  "capabilities": {
+    "questionLookup": true,
+    "scoringFacts": true,
+    "resultLookup": true,
+    "partnerPairLookup": true,
+    "startingLoadoutLookup": true,
+    "quizExecution": false,
+    "campaignCreation": false
+  },
+  "sourceLocators": [
+    {
+      "sourceId": "red:src/personality_test1.c",
+      "functionName": "GenerateNewQuestionOrGender",
+      "line": 175
+    },
+    {
+      "sourceId": "red:src/personality_test1.c",
+      "functionName": "UpdateNatureTotals",
+      "line": 212
+    },
+    {
+      "sourceId": "red:src/personality_test1.c",
+      "functionName": "RevealPersonality",
+      "line": 257
+    },
+    {
+      "sourceId": "red:src/personality_test2.c",
+      "functionName": "GetValidPartners",
+      "line": 174
+    },
+    {
+      "sourceId": "red:src/main_loops.c",
+      "functionName": "sub_8001064",
+      "line": 952
+    },
+    {
+      "sourceId": "red:src/main_loops.c",
+      "functionName": "sub_80011E8",
+      "line": 1026
+    },
+    {
+      "sourceId": "red:src/moves.c",
+      "functionName": "InitZeroedPPPokemonMove",
+      "line": 136
+    },
+    {
+      "sourceId": "red:src/moves.c",
+      "functionName": "CopyAndResetMoves",
+      "line": 1389
+    },
+    {
+      "sourceId": "red:src/items.c",
+      "functionName": "InitializeMoneyItems",
+      "line": 114
+    },
+    {
+      "sourceId": "red:src/pokemon_3.c",
+      "functionName": "SetDefaultIQSkills",
+      "line": 465
+    },
+    {
+      "sourceId": "red:src/run_dungeon.c",
+      "functionName": "sub_8043FD0",
+      "line": 813
+    },
+    {
+      "sourceId": "red:src/exclusive_pokemon.c",
+      "functionName": "InitializeExclusivePokemon",
+      "line": 22
+    },
+    {
+      "sourceId": "red:src/exclusive_pokemon.c",
+      "functionName": "sub_80980A4",
+      "line": 70
+    },
+    {
+      "sourceId": "red:src/dungeon_misc.c",
+      "functionName": "SetDungeonMonsFromTeam",
+      "line": 185
+    }
+  ],
+  "reusePolicy": "Independently structured facts and newly authored English only; public sources grant no blanket commercial content license."
+}

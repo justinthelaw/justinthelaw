@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-species-profiles",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "manifest",
+  "counts": {
+    "species": 386,
+    "profiles": 419,
+    "persistent": 413,
+    "temporary": 6,
+    "levels": 384,
+    "learnsets": 386
+  },
+  "resources": [
+    {
+      "file": "species.json",
+      "bytes": 69541,
+      "sha256": "8dc94d00996bf7dc25197a905a6e601d66605bc4cfd2dc266adde90a52b6c56a"
+    },
+    {
+      "file": "profiles-1.json",
+      "bytes": 182316,
+      "sha256": "2e0e84f4fd2885171e5ae0583c531020d1dbffb4ded9d74757ccc1589810398f"
+    },
+    {
+      "file": "profiles-2.json",
+      "bytes": 182869,
+      "sha256": "a0b6e1adbaf2b2533cfe1ccca1e33d49e14927af14f5093245dcc19b58ce4786"
+    },
+    {
+      "file": "profiles-3.json",
+      "bytes": 176165,
+      "sha256": "3413404543b449d1d832c516e4e7a4c1f7af3e0902cfe8ba9f239226b838c767"
+    },
+    {
+      "file": "profiles-4.json",
+      "bytes": 166777,
+      "sha256": "76b98dacda234ada56ae6351bbb9bbf8660297ae17fb5ccb675d3e41809f94d7"
+    },
+    {
+      "file": "profiles-5.json",
+      "bytes": 32114,
+      "sha256": "dd2795b0070a7164a2072bd9193ca5a935c1d87c308f8e5e85e17bf21082bb36"
+    },
+    {
+      "file": "levels-1.json",
+      "bytes": 346258,
+      "sha256": "5c97ac5f806180bb8cdb91770315c37a3b01e423dcf4675bb3f13c7cf79e0309"
+    },
+    {
+      "file": "levels-2.json",
+      "bytes": 346404,
+      "sha256": "a956061b6c2fee2509215cc76fad04a84ca8dc5f96dcf53128bc39cd92e71a97"
+    },
+    {
+      "file": "levels-3.json",
+      "bytes": 346547,
+      "sha256": "83c9827e290fce8ae88a33392e98ebf42c069e1e29c4472f4cb22a0a710caa6a"
+    },
+    {
+      "file": "levels-4.json",
+      "bytes": 291315,
+      "sha256": "58d38066f53debe603ccb8b6e53adea93bc09735125b6ed510af3f2b78f5c3b8"
+    },
+    {
+      "file": "learnsets.json",
+      "bytes": 176391,
+      "sha256": "dae2136c4459b65cc88f238f82df34ccf2b93443cb02e5288d98ff679bcc0c02"
+    },
+    {
+      "file": "identities.json",
+      "bytes": 50750,
+      "sha256": "278d7717c1e2dcf0db63cbdaff74dd8bdafe08c350450ed28c76ed2151cda224"
+    },
+    {
+      "file": "sources.json",
+      "bytes": 12673,
+      "sha256": "b1f1e5a7eeec1f657cb9fe1f73d5610874db2cef78cb83066af867df8cbbc42f"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+// Art-only WebGL captures: permitted runtime JSON/PNG data, never game JS or game routes.
+import { createServer } from 'node:http';
+import { createHash } from 'node:crypto';
+import { readFile, mkdir, writeFile, stat } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const repository=fileURLToPath(new URL('../../../',import.meta.url)), require=createRequire(path.join(repository,'package.json'));
+const {chromium}=require('playwright');
+const art='tools/pokemon-dungeon/art/environment/production/', runtime='games/pokemon-dungeon-reimagined/assets/environment/production/';
+const target=path.join(repository,art,'evidence/captures');await mkdir(target,{recursive:true});
+const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png'};
+const allowed=relative=>!relative.split('/').includes('..')&&(relative.startsWith('tools/pokemon-dungeon/')||(relative.startsWith(runtime)&&['.json','.png'].includes(path.extname(relative))));
+const server=createServer(async(request,response)=>{try{const relative=decodeURIComponent(new URL(request.url,'http://localhost').pathname).slice(1);if(!allowed(relative)){response.writeHead(403);response.end();return;}let filename=path.join(repository,relative);if((await stat(filename)).isDirectory())filename=path.join(filename,'index.html');response.writeHead(200,{'Content-Type':mime[path.extname(filename)]??'application/octet-stream'});response.end(await readFile(filename));}catch{response.writeHead(404);response.end();}});
+await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));let browser;
+try{
+ browser=await chromium.launch({...process.env.ENVIRONMENT_CAPTURE_BROWSER?{executablePath:process.env.ENVIRONMENT_CAPTURE_BROWSER}:{},headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+ const address=server.address(),origin=`http://127.0.0.1:${address.port}`,base=`${origin}/tools/pokemon-dungeon/art-preview/environment/`;
+ const files=[`${runtime}manifest.json`,...['viewer.js','staging.js','index.html','style.css'].map(f=>`tools/pokemon-dungeon/art-preview/environment/${f}`),...['pikachu','charmander'].map(f=>`tools/pokemon-dungeon/art/production/output/${f}-idle.png`)];
+ const sourceFiles=await Promise.all(files.map(async file=>({path:file,sha256:createHash('sha256').update(await readFile(path.join(repository,file))).digest('hex')})));
+ const errors=[],captures=[],manifest=JSON.parse(await readFile(path.join(repository,runtime,'manifest.json'),'utf8'));
+ const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1,reducedMotion:'reduce'});
+ // Tools-only instrumentation observes actual WebGL buffer allocation/deletion,
+ // independently of the viewer's dispose-event counters.
+ await page.addInitScript(()=>{const probe={created:0,deleted:0,live:new Set()},proto=globalThis.WebGL2RenderingContext.prototype,create=proto.createBuffer,remove=proto.deleteBuffer;proto.createBuffer=function(){const buffer=create.call(this);if(buffer){probe.created++;probe.live.add(buffer);}return buffer;};proto.deleteBuffer=function(buffer){if(buffer&&probe.live.delete(buffer))probe.deleted++;return remove.call(this,buffer);};globalThis.__environmentBufferProbe=probe;});
+ page.on('pageerror',error=>errors.push(error.message));page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});page.on('request',request=>{const url=new URL(request.url());if(url.origin!==origin||!allowed(url.pathname.slice(1)))errors.push(`Forbidden art resource: ${url.href}`);});
+ async function capture(name,query){await page.goto(`${base}?${query}`);await page.waitForSelector('body[data-ready="true"][data-rendered-revision]',{timeout:20000});await page.waitForSelector('body[data-draw-calls]:not([data-draw-calls="0"])');const measured=await page.locator('body').evaluate(body=>({kit:body.dataset.kit,textureBytes:Number(body.dataset.textureBytes),instances:Number(body.dataset.instances),drawCalls:Number(body.dataset.drawCalls),triangles:Number(body.dataset.triangles),cameraYaw:Number(body.dataset.cameraYaw)}));if(measured.textureBytes>1048576||measured.drawCalls>160||measured.triangles>80000)throw new Error(`Art budget exceeded ${JSON.stringify(measured)}`);const file=`${name}.jpg`;await page.screenshot({path:path.join(target,file),type:'jpeg',quality:90});const bytes=await readFile(path.join(target,file));if(bytes.length>=1048576)throw new Error('Capture exceeds repository file budget');captures.push({file,query,viewport:page.viewportSize(),...measured,encodedBytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});}
+ for(const width of [1440,390]){await page.setViewportSize({width,height:width===390?844:1000});for(const kit of manifest.kits)await capture(`${kit.id}-${width}`,`kit=${kit.id}`);}
+ await page.setViewportSize({width:1440,height:1000});for(const kit of ['forest','town','crystal','sky'])await capture(`${kit}-orbit`,`kit=${kit}&angle=1`);
+ for(const slug of ['power-plant','decrepit-lab','aged-chamber-an','mystic-lake','scorched-plains','safari']){const v=manifest.variants.find(v=>v.id===`habitat-friend-area-${slug}`);if(!v)throw new Error(`Missing variant ${slug}`);await capture(`habitat-${slug}`,`kit=${v.kitId}&variant=${v.id}`);}
+ await page.goto(`${base}?kit=forest`);await page.waitForSelector('body[data-ready="true"][data-rendered-revision]');
+ async function sample(label){return page.locator('body').evaluate((body,label)=>{const probe=globalThis.__environmentBufferProbe;return{label,textureBytes:Number(body.dataset.textureBytes),disposedTextures:Number(body.dataset.disposedTextures),createdMeshes:Number(body.dataset.instanceMeshesCreated),disposedMeshes:Number(body.dataset.instanceMeshesDisposed),liveMeshes:Number(body.dataset.instanceMeshesLive),createdBuffers:probe.created,deletedBuffers:probe.deleted,liveBuffers:probe.live.size};},label);}
+ const samples=[await sample('forest-baseline')];
+ for(let cycle=1;cycle<=2;cycle++){
+  for(const kit of ['crystal','town','volcano','forest']){await page.selectOption('#kit',kit);await page.waitForSelector(`body[data-ready="true"][data-rendered-revision][data-kit="${kit}"]`);samples.push(await sample(`${cycle}-${kit}`));}
+  for(const variant of ['habitat-friend-area-safari','']){await page.selectOption('#variant',variant);await page.waitForSelector('body[data-ready="true"][data-rendered-revision]');samples.push(await sample(`${cycle}-${variant||'forest-reset'}`));}
+ }
+ for(let i=1;i<samples.length;i++){const previous=samples[i-1],current=samples[i];if(current.disposedMeshes-previous.disposedMeshes!==previous.liveMeshes||current.createdMeshes-current.disposedMeshes!==current.liveMeshes||current.deletedBuffers-previous.deletedBuffers<previous.liveMeshes)throw new Error(`Instance disposal missing: ${JSON.stringify({previous,current})}`);if(current.label.endsWith('forest-reset')&&(current.liveMeshes!==samples[0].liveMeshes||current.liveBuffers!==samples[0].liveBuffers))throw new Error(`Buffer residency grew: ${JSON.stringify(current)}`);}
+ const final=samples.at(-1),lifecycle={textureBytes:final.textureBytes,disposedTextures:final.disposedTextures,instanceDisposal:{scope:'actual InstancedMesh dispose events and WebGL2 createBuffer/deleteBuffer observations; all buffer types counted',switches:12,samples}};
+ if(lifecycle.textureBytes!==699056||lifecycle.disposedTextures!==96)throw new Error(`Texture lifecycle mismatch ${JSON.stringify(lifecycle)}`);await page.locator('#preview').focus();await page.keyboard.press('ArrowRight');const yaw=Number(await page.locator('body').getAttribute('data-camera-yaw'));if(Math.abs(yaw-Math.PI/4)>.0001)throw new Error('Keyboard orbit failed');
+ await writeFile(path.join(target,'capture-record.json'),`${JSON.stringify({schemaVersion:1,browser:browser.version(),renderer:'headless Chromium / SwiftShader',scope:'Independent art viewer; tools code and whitelisted runtime JSON/PNG only. No game modules, gameplay or performance measurement.',sourceFiles,lifecycle,errors,captures},null,2)}\n`);if(errors.length)throw new Error(errors.join('\n'));console.log(`Captured ${captures.length} environment art frames; zero console/page/resource errors; 12 kit/variant switches; ${final.disposedMeshes} mesh dispose events; WebGL buffers returned to ${final.liveBuffers} baseline.`);
+}finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}

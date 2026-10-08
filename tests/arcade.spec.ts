@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { DERIVED_CONFIG } from "../src/config/site";
 
 const arcadeTitle = `${DERIVED_CONFIG.possessiveName} Arcade`;
@@ -10,12 +10,6 @@ test.beforeEach(async ({ page }) => {
   // Website integration only: never load or execute the real game source.
   await page.route("**/games/pokemon-dungeon-reimagined/**", (route) =>
     route.fulfill({ contentType: "text/html", body: gameFixture }),
-  );
-  await page.route("https://api.github.com/users/**", (route) =>
-    route.fulfill({ status: 503, body: "Unavailable" }),
-  );
-  await page.route("https://drive.google.com/**", (route) =>
-    route.fulfill({ contentType: "text/html", body: "<p>Resume preview</p>" }),
   );
 });
 

@@ -1,7 +1,7 @@
 # Recorded decisions
 
 Justin approved all recommendations except the design recommendation on
-**2026-10-04**, selecting **B: bold cel-shaded 3D**. All current product choices
+**2026-10-04**, selecting **B: bold cel-shaded 3D**. D03 was superseded on 2026-10-05 by the directional pixel/real-3D reference. Other product choices
 are resolved. Justin later authorized implementation on the same date;
 merge, deployment and arcade activation remain subject to release approval.
 
@@ -11,7 +11,7 @@ merge, deployment and arcade activation remain subject to release approval.
 | --- | --- | --- |
 | D01 | Reference edition | Original Nintendo DS **Blue Rescue Team**; Red is comparative research only, with no edition selector |
 | D02 | Fidelity research | Research obligation: preserve full scope, resolve source-backed numerical data, and never label guessed values or generic proxies complete |
-| D03 | Visual direction | **B: bold cel-shaded 3D**, locked `style-b-v1`. Candidate B is the selected future cavern loading background; A remains an archived comparison. The 2026-10-05 continuation accepts the shown P06 scene/motion-study direction; full clip/rig/device and P10 quality review remain |
+| D03 | Visual direction | **Directional pixel characters in textured, illuminated real 3D**, per the latest EthrA reference. This supersedes `style-b-v1`, no-pixel guidance and inferred P06 approval. Correct species anatomy is mandatory. New candidates remain unaccepted; P06/P10 review and whole-game art coverage remain open |
 | D04 | Blue hardware/network and historic events | **Browser equivalents:** static rescue codes/file exchange, equivalents for Blue's extra modes, and labeled archived event expeditions preserving their content/progression. Original cartridge interoperability is not a completion gate; claim it only where sourced and demonstrably verified |
 | D05 | Manual game acceptance | **Allow human play and visual review.** All automated tests that import/execute game source remain prohibited; website tests use inert fixtures. The separate implementation-start instruction was received on 2026-10-04 |
 | D06 | Standalone Groudon practice | **Omit it.** Keep the original campaign route and take the final arcade screenshot from actual campaign play |
@@ -22,19 +22,19 @@ merge, deployment and arcade activation remain subject to release approval.
 
 | Asset | Status and intended use | File |
 | --- | --- | --- |
-| B — bold cel-shaded 3D | Selected future cavern chapter/loading background and reference for broad shapes, graphic shading and strong silhouettes | [b-cel-shaded-cavern.webp](art-candidates/b-cel-shaded-cavern.webp) |
+| B — bold cel-shaded 3D | Formerly selected loading illustration; historical comparison, pending review against the new pixel/3D direction | [b-cel-shaded-cavern.webp](art-candidates/b-cel-shaded-cavern.webp) |
 | A — cinematic stylized 3D | Archived comparison; excluded from the selected style and future runtime asset manifest | [a-cinematic-cavern.webp](art-candidates/a-cinematic-cavern.webp) |
 
-### B — selected
+### B — historically selected, now superseded
 
-![Selected B: graphic volcanic cavern with broad shading and saturated depth](art-candidates/b-cel-shaded-cavern.webp)
+![Historical B: graphic volcanic cavern with broad shading and saturated depth](art-candidates/b-cel-shaded-cavern.webp)
 
 ### A — archived comparison
 
 ![Archived A: cinematic basalt cavern with warm lava bounce light](art-candidates/a-cinematic-cavern.webp)
 
 - Both images are actual **1536 × 1024 raster loading illustrations**, generated and encoded as WebP; neither is a 3D model or gameplay screenshot.
-- After implementation is separately authorized, copy B unchanged into the future local asset manifest. Selecting B does not begin that work.
+- The former instruction to promote B unchanged is superseded. Retain both illustrations as historical evidence; any future loading artwork requires review against the current visual direction.
 - Earlier character-art requests were rejected by the image service; these successful images depict original empty environments. Character appearance, rigs, animation and browser rendering remain future authored work.
 - Exact [prompts](art-candidates/PROMPTS.md) and [provenance/hashes](art-candidates/provenance.json) remain with the files.
 - The final arcade preview must show actual Groudon campaign gameplay, not either loading illustration.
@@ -63,7 +63,7 @@ merge, deployment and arcade activation remain subject to release approval.
 ## Later review checkpoints
 
 1. Completed: Justin authorized moving past planning on 2026-10-04; record accepted package evidence in PROGRESS.md.
-2. Review actual authored characters, animation and a rendered 3D quality slice at P06/P10 before mass asset production; the selected loading image does not satisfy that gate.
+2. Review actual authored characters, animation and a rendered 3D quality slice at P06/P10 before mass asset production; historical loading images do not satisfy that gate.
 3. Review the complete P37 release and obtain explicit merge/deployment authorization.
 
 See [PLAN.md](PLAN.md) for package order and [PROGRESS.md](PROGRESS.md) for the

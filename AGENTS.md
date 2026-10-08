@@ -139,6 +139,7 @@ try { ... } catch (err) {
 | Known issues | GitHub API and HuggingFace model loading may fail in sandboxed environments; PDF viewer may have CORS issues in dev |
 | After changes | Always run `npm run flight-check` |
 | Website coverage | Test website navigation, responsive layout, accessibility, animations, reduced motion, static export, and game-loading integration |
+| External UI fixtures | Browser UI specs import `test` from `tests/fixtures.ts` so resume, avatar and default profile requests are deterministic. Explicit profile-response tests override those routes. This does not replace the fresh live profile required for review screenshots |
 | Game source exclusion | Do not test source code inside `games/`. Website export tests may use temporary fixture files to verify copying and asset paths without testing game behavior |
 | Game tooling boundary | Independent games use their own framework/language lint and type checks. Website ESLint and TypeScript exclude `games/` builds; this does not relax the DRY, SOLID, or source-quality requirements for game code |
 | Pokémon static checks | `tools/pokemon-dungeon/` has its own pinned package and `npm run check`; root lint/types exclude it. `game-static.yml` parses/types source, validates authoring inventories/coverage and asset files without executing game modules. Content/art authoring and the disposable art preview stay outside `games/` |
@@ -188,7 +189,8 @@ may pause animation and stub the external resume iframe; disclose that in the PR
 `/arcade/` is a separate page with a Home link and a single scrolling column of
 cards. Each card centers its preview with padding, places a short description
 below it, and puts Play at the bottom right. The first card launches the
-Pokémon development shell and clearly states that its campaign is unavailable.
+Pokémon development checkpoint and describes its implemented opening through
+Mt. Steel and escort jobs, with later chapters explicitly unfinished.
 Its picture is the existing P06 3D art study, not a gameplay capture. The other
 two cards say "Coming soon" with lavender and apricot pixel characters.
 Placeholders animate; reduced-motion preferences keep them still.
@@ -227,6 +229,13 @@ Desktop input uses native iframe focus. Controls default to visible for touch
 devices, remain manually toggleable, use targets of at least 44px, and release
 held keys on interruption, hiding, navigation and disposal. The bridge does
 not implement missing game simulation; tests use inert key-recording fixtures.
+Typing surfaces normally suppress every overlay key. A focused editable text
+input can explicitly opt into overlay A/Start only with
+`data-game-controls-confirm="submit"`; movement, B, Select/Menu, readonly fields,
+other typing surfaces and host-page typing retain protection. The game owns
+submission, validation and scene guards; the bridge only emits the bounded key
+pair to the captured input recipient. Website fixture tests cover this contract
+without importing or executing game source.
 
 For a screenshot or GIF, set
 `preview: { src: "/arcade/my-game.gif", alt: "Description of the game" }` and put
@@ -273,7 +282,7 @@ paths so both humans and agents can act on the instructions.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
-# This is NOT the Next.js you know
+## This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
 
@@ -282,6 +291,14 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 <!-- END:nextjs-agent-rules -->
 
 ## Pokémon Dungeon Reimagined execution and release gates
+
+On 2026-10-08, Justin requested autonomous continuation of PR #392, parallel
+work, frequent verified pushes, and preparation of a playable Pages MVP.
+Prioritize the existing opening through MAIN(5,9), its controls, recovery and
+production export. Preserve the complete campaign goal and unpublished work.
+The scoped MVP is a development checkpoint with separate human play/device
+review; it does not complete P36/P37. Prepare a downloadable Pages artifact
+without merging or changing the live deployment until explicitly authorized.
 
 The first game lives under `games/pokemon-dungeon-reimagined/`; the user
 permitted a game folder instead of the original single-HTML limit. Planning
@@ -298,8 +315,10 @@ and implementation and waived external Codex review. This overrides the older
 placeholder hold for that scoped launcher; it does not certify a playable
 campaign or authorize merging the new PR.
 
-The 2026-10-05 continuation after the actual P06 scene/motion study accepts
-the shown direction. Full clip/rig/device acceptance remains open. P02-A
+The latest 2026-10-05 visual instruction rejects the primitive rigid-mesh
+character candidates and supersedes the earlier inferred P06 acceptance. Use
+faithful directional pixel characters in a textured, illuminated real 3D world,
+following the user-supplied EthrA reference. All character/device acceptance remains open. P02-A
 authoring inventories are not runtime catalogs, and P07-A ID/snapshot/RNG
 primitives do not complete the campaign state, save system or playable game.
 See `games/pokemon-dungeon-reimagined/plan/STATE-FOUNDATION.md` for the reviewed
@@ -307,13 +326,13 @@ bounded interface; do not
 consume unresolved original mechanics through an invented default.
 
 On **2026-10-04**, the user approved all recommended decisions except D03,
-selecting **B: bold cel-shaded 3D**. These choices are binding; do not ask the
-same decision questions again. The later start instruction authorizes
+selecting **B: bold cel-shaded 3D**. D03 below reflects the newer 2026-10-05 pixel direction; the other choices
+remain binding. Do not repeat resolved decision questions. The later start instruction authorizes
 implementation; it does not authorize merge, deployment or arcade activation.
 
 | Decision | Binding selection |
 | --- | --- |
-| D03 | B: bold cel-shaded 3D; `games/pokemon-dungeon-reimagined/plan/art-candidates/b-cel-shaded-cavern.webp` is the selected future loading background. Actual 3D models/animation/quality slices still require review. |
+| D03 | Directional pixel characters in textured real 3D environments, per the latest EthrA reference. Faithful silhouettes/proportions/markings are mandatory. Historical B illustration and rejected rigid models are evidence only; new pixel candidates need review. |
 | D04 | Browser rescue codes/file exchange and equivalents for Blue's extra modes/events; preserve content/progression. Original cartridge interoperability is not a completion gate; claim compatibility only where sourced and demonstrably verified. |
 | D05 | Human play and visual review are allowed after implementation; automated tests importing/executing game source remain prohibited. |
 | D06 | No separate Groudon practice mode; use the original campaign route and campaign gameplay capture. |
@@ -321,7 +340,7 @@ implementation; it does not authorize merge, deployment or arcade activation.
 
 Keep both generated raster illustrations under
 `games/pokemon-dungeon-reimagined/plan/art-candidates/` with their provenance.
-B is selected for future loading use; A is an archived comparison. Neither
+B was formerly selected; both are retained historical references pending a new loading-art review. Neither
 is a 3D runtime model or a gameplay screenshot, and neither may replace the
 arcade's eventual real campaign capture.
 
@@ -365,4 +384,70 @@ For the Blue game, require emulator-style semi-transparent controls across the
 lower half of the viewport, with accessible touch/keyboard handling. Follow the
 [asset pipeline](games/pokemon-dungeon-reimagined/plan/ASSET-PIPELINE.md) for consistent
 master prompts, reference assets, uniform sheets, verified cropping and provenance.
-Raster sheets support 2D assets; they do not replace the separate 3D rig/model work.
+Directional RGBA atlases now supply character animation on depth-tested billboards
+in actual 3D environments. Follow `tools/pokemon-dungeon/art/pixel/CONTRACT.md`;
+retain historical GLB validation separately. Do not pixelate unchanged rejected
+models, retry blocked ImageGen requests, or substitute paid API generation.
+
+Shared early recipient item effects and catching now route self ingestion and
+player Gravelerock impact through one owner. V17 admits only actual nonself
+Sleep Seed provenance over frozen v16. Broader trajectory modifiers and Item
+Master remain separate gates; all admitted inventories/learned slots remain intact.
+
+Finite Pokémon item throws use the existing command/turn transaction and inventory
+panel. All424 native capability positions have a separate parser-only source
+projection with419 exact profile joins; do not add guessed defaults or modify
+frozen species/effects resources. See the game plan/THROWING.md for T02 scope,
+legacy Gravelerock compatibility and remaining Item Master gates. Stun Seed now
+has development use/throw activation over its reviewed v18
+Petrified lifecycle and accepted v19 bounded continuation. Heal/Quick Seeds
+share real recipient ingestion/impact without a new save revision: Heal clears
+owned admitted classes/slow/seals with cache-only speed refresh; Quick samples
+before cap/full-array checks and uses the turn raise/attack-unlock owner. See
+game plan/HEAL-QUICK-SEEDS.md, STUN-SEED.md and TURN-CONTINUATION.md. Preserve
+the frozen v20 chapter-work bridge in game plan/CHAPTER-FIVE-WORK.md. Its v21
+successor in plan/STEEL-MEANIES.md independently owns original-pair ordinary
+Steel1–8/fixed9, the complete station batch/50-point endpoint and actual outside
+Meanies/Pelipper op6 through MAIN5,7. Preserve Steel postings and Magnemite
+selection; unrestricted later work stays held for real Bronze escorts/rewards. Preserve
+every earlier
+envelope boundary, live Leech link and Water Sport counter. Continuation checkpoints
+commit only the first completed opportunity, flush recipient or empty-completion
+phase; special leader after-work must yield before selecting its counterpart.
+Keep schema.js and historical pins frozen, exact original-envelope validation,
+all128 wild slots and co-located trap/money admission. New effects, propagation,
+entry policies or tile event patterns must revise the documented4096-event burst
+proof. Scoped counted tile notices deliberately change transient notification
+multiplicity; canonical pickups remain intact. One owned browser-frame pump
+resumes the exact saved PC; no player mutation may interleave. The accepted
+continuation review covers saved cursors and stale load, replacement and menu
+callbacks; future changes require scoped review. Human latency/device/save-
+interruption and broader acceptance remain
+separate full-release gates.
+
+The bounded Bronze generation/reward prerequisite is recorded in
+`games/pokemon-dungeon-reimagined/plan/BRONZE-JOBS.md`. Its exact v22 schema/policy
+adds prospective source metadata and station prefix/mission-area ownership while
+preserving original v2–v21 envelopes and every historical source pin. MAIN5,7
+outing/refresh remains held for genuine escort guest/second-work lifecycle;
+static source/type/admission checks do not establish gameplay or full-game gates.
+
+The escort [general RNG prerequisite](games/pokemon-dungeon-reimagined/plan/ESCORT-GUEST.md)
+keeps the native signed-halfword LCG separate from all four browser streams and
+dungeon RNG. Its explicit seed/state interfaces grant no old-save seed history
+or guest admission. Live v23/MAIN5,7 remains held until the exact saved guest,
+native movement/AI/loss/cleanup and second-work owner compose; future activation
+must reprove events under4096 and retain every v23 learning and v22 prefix/debt PC.
+
+Source-qualified escort preparation consumes this general stream for every actual
+supplied roster slot before guest admission. Its finite19 stats/moves/PP and
+fixed prospective boot seed are independently pinned; first-free-four/body6
+results do not authorize live actor/save/AI/lifecycle activation. Preserve the
+entire selected roster and conditional native draw schedule before the successor.
+
+Current v24 escort activation composes actual source guest/second-work through
+MAIN5,9 with direct raw heritage, original v2–v23 envelope admission, true saved
+native EXP return cursors and full station queues. See game plan/ESCORT-ACTIVATION.md.
+Earlier unselected prerequisite notes remain checkpoint history. Preserve the
+4096 cap, source qualification and independent scoped review; full campaign,
+human/device/visual/Blue parity and release acceptance remain open.

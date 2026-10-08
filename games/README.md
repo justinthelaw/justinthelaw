@@ -7,13 +7,18 @@
 
 ## Current games
 
-- No playable games are live.
-- The first card opens the development shell; its campaign is not available.
+- No complete accepted game is released.
+- The first card opens the development checkpoint. PR #392 implements the
+  opening through town services, Mt. Steel, Friend Areas and Meanies at MAIN(5,7),
+  with v24 escort/second-work and Caterpie request through MAIN(5,9); full campaign and human acceptance
+  remain open. See its progress ledger for the published checkpoint.
 - The other two cards retain animated pixel previews and disabled Play buttons.
+- PR #392 prepares a revision-specific [Pages preview artifact](pokemon-dungeon-reimagined/plan/PAGES-PREVIEW.md)
+  after website CI passes; human opening-route/device review remains pending.
 
 | Slot | Current card | Planned work |
 | --- | --- | --- |
-| First | Pokemon Mystery Dungeon Blue Rescue Team - Reimagined; P06 art-study picture | [Development plan](pokemon-dungeon-reimagined/plan/PLAN.md): merged startup/state primitives, authoring inventories and [candidate 3D art](../tools/pokemon-dungeon/art/REVIEW.md); no playable adventure or gameplay screenshot |
+| First | Pokemon Mystery Dungeon Blue Rescue Team - Reimagined; P06 art-study picture | [Development plan](pokemon-dungeon-reimagined/plan/PLAN.md): opening through Meanies MAIN(5,7), with v24 escorts and second work through the Caterpie request MAIN(5,9) on PR #392; [progress and verification](pokemon-dungeon-reimagined/plan/PROGRESS.md); full campaign and gameplay/visual acceptance pending |
 | Second | Coming soon, lavender preview | Unnamed; no game announced |
 | Third | Coming soon, apricot preview | Unnamed; no game announced |
 
@@ -26,11 +31,11 @@
 - On **2026-10-05**, the user authorized this development launcher in a new PR,
   autonomous implementation and skipping external Codex review.
 - Package evidence, visual reviews and full-game release acceptance remain open;
-  the new launcher PR is not authorized for merge.
+  the launcher PR #391 is merged; full-game PR #392 remains unmerged.
 
 | Decision | Approved choice |
 | --- | --- |
-| D03 | Bold cel-shaded 3D; [candidate B](pokemon-dungeon-reimagined/plan/art-candidates/b-cel-shaded-cavern.webp) is the selected future loading background |
+| D03 | Directional pixel characters in textured real 3D spaces; supersedes the historical cel-shaded candidate selection |
 | D04 | Browser rescue codes/files and Blue extra-mode/event equivalents; original cartridge interoperability is not a completion gate; claim it only where sourced and verified |
 | D05 | Human play and visual review allowed; no automated game-source tests |
 | D06 | No separate Groudon practice; retain the campaign encounter and campaign capture |
@@ -47,7 +52,7 @@
 - Mobile devices show semitransparent controls with targets of at least 44px;
   Show/Hide controls switches the overlay manually.
 - The website sends keyboard events; the game must implement their behavior.
-  The current shell has no gameplay input consumers.
+  The development game consumes these controls for its bounded opening route.
 
 | Emulator control | Keyboard key |
 | --- | --- |
@@ -69,7 +74,8 @@
   repository-relative `tools/pokemon-dungeon/`, outside the copied game tree.
   Git-ignored files inside `games/` would still be copied.
 - The development entry point is `games/pokemon-dungeon-reimagined/index.html`;
-  it currently starts the application shell and has no playable campaign.
+  the development branch implements the bounded route described above; the full
+  campaign is incomplete and has no human acceptance evidence.
 - Keep intermediate runtime-package PRs unmerged until P37 full-scope acceptance
   and explicit release approval: main deploys `games/**` at direct URLs even
   when the arcade card is disabled.

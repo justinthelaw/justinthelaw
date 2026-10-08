@@ -1,5 +1,12 @@
 # Pokémon Dungeon Reimagined: implementation handoff
 
+**Current authority (2026-10-05):** deliver the complete Blue campaign and
+postgame described in [FULL-GAME-GOAL.md](FULL-GAME-GOAL.md). Latest visual
+direction is faithful directional pixel characters in textured, illuminated
+real 3D, superseding D03 B and earlier inferred P06 acceptance. The three new
+pixel studies and tools-only viewer are Task 1 foundations, never full gameplay.
+The [execution plan](FULL-GAME-EXECUTION.md) preserves all completion gates.
+
 **Status: implementation authorized on 2026-10-04 after planning PR #387 merged. The unmerged foundation work includes reviewed P03-A/P04-A interfaces, a P05 startup shell and P06 art candidates. P01 remains incomplete; see PROGRESS.md and COVERAGE.csv for evidence and remaining gates.**
 
 **Goal:** recreate the scope of the original Nintendo DS Blue Rescue Team adventure as a polished third-person 3D game served from Justin's arcade on GitHub Pages, with the entire main campaign, postgame, optional content, original rule systems, and a documented account of deliberate adaptations.
@@ -40,15 +47,15 @@ Recommended review order for Justin: read sections 2-6, the milestone table in s
 - This plan, source research, domain appendices, coverage and progress ledgers, including the source-qualified P01 profiles and their unresolved fields.
 - Reviewed P03-A asset/export contracts and P04-A tooling under `tools/pokemon-dungeon/`, with pinned dependencies, independent static checks and a locally vendored Three.js 0.186.1 runtime.
 - The P05 startup-only entry point, loading/error/retry UI and lifecycle handling. Direct-page, iframe and device acceptance remain open; no playable adventure or save implementation exists.
-- P06 Pikachu, Charmander and Groudon candidates, animation/LOD exports, a Magma Cavern composition and an independent art-preview harness with measured manifests and actual captures. The latest continuation accepts the shown direction; full device/clip/rig acceptance remains open.
+- P06 Pikachu, Charmander and Groudon candidates, animation/LOD exports, a Magma Cavern composition and an independent art-preview harness with measured manifests and actual captures. The latest pixel direction rejects these primitive rigid characters; new art/clip/device acceptance remains open.
 - P02 normalized authoring inventories and P07-A identity, immutable snapshot and seeded random-stream primitives. These are not runtime-ready content, campaign creation or completed save validation.
-- The approved Blue baseline and B cel-shaded visual direction, with two generated loading illustrations and their prompts/provenance; B is selected and A retained as an archived comparison.
+- The approved Blue baseline, with two historical loading illustrations and their prompts/provenance. The latest directional-pixel/real-3D visual direction supersedes B; both illustrations are retained evidence.
 - Recorded static checks and independent reviews, with their exact scope and limitations in PROGRESS.md. These do not complete P01, M1 or gameplay acceptance.
 
 ### Remaining work and gates
 
 - Resolve source blockers before implementing dependent rules/content; complete the full campaign, systems, roster and production assets through the packages below.
-- Obtain P05 manual acceptance and finish P06 clip/rig/device acceptance; retain P10 and all later visual and whole-game gates. The shown P06 direction was accepted through the latest continuation.
+- Obtain P05 manual acceptance and finish P06 clip/rig/device acceptance; retain P10 and all later visual and whole-game gates. The later explicit pixel direction supersedes the old inferred P06 acceptance.
 - Keep the arcade card and public screenshot unchanged until P36/P37. Intermediate runtime work remains unmerged; merge and deployment require full-scope acceptance and explicit authorization.
 - Keep root website package files and root README unchanged. Game authoring dependencies and the independent static-check workflow remain scoped to the documented tooling boundary.
 
@@ -311,7 +318,7 @@ Suggested executor prompt:
 
 ## 12. Recorded decisions
 
-Justin approved all recommendations except the design recommendation on 2026-10-04, selecting **B: bold cel-shaded 3D**. See [DECISIONS.md](DECISIONS.md) for the binding choices and generated loading assets.
+Justin selected B cel-shaded 3D on 2026-10-04, then superseded D03 on 2026-10-05 with directional pixel characters in textured real 3D and rejected primitive character anatomy. See [FULL-GAME-GOAL.md](FULL-GAME-GOAL.md) and [DECISIONS.md](DECISIONS.md) for current authority; the full campaign remains the target.
 
 All product choices in this register are resolved. Justin subsequently authorized implementation. Research obligations and later quality/release reviews remain separate; merging and deploying still require explicit authorization.
 
@@ -319,7 +326,7 @@ All product choices in this register are resolved. Justin subsequently authorize
 | --- | --- | --- | --- |
 | D01 | **Resolved by user: Blue Rescue Team baseline** | Original Nintendo DS Blue only; no edition selector; Red remains comparative research | P01, P19, P21, P31 |
 | D02 | **Engineering research obligation, not a user choice** | Preserve scope; do not guess numeric tables or claim exactness; resolve research gaps first | P01-P02, P14-P17, P33 |
-| D03 | **Resolved: design B** | Bold cel-shaded 3D, locked `style-b-v1`; B is the selected future loading background and A an archived comparison; review actual creatures and the 3D quality slice before roster production | P06, P32, P34 |
+| D03 | **Resolved: directional pixel / real 3D** | Latest EthrA reference supersedes B/no-pixel guidance and inferred rigid-mesh approval; preserve Blue character silhouettes, proportions and markings; review actual pixel creatures and textured 3D scene before roster production | P06, P32, P34 |
 | D04 | **Resolved: browser equivalents** | Browser rescue codes/files, Blue extra-mode equivalents and archived event expeditions; preserve content/progression. Cartridge interoperability is not a required gate and may only be claimed where verified | P21, P31 |
 | D05 | **Resolved: manual acceptance allowed** | Human play/visual review is allowed after implementation starts; all automated game-source tests remain excluded | Every gameplay/visual gate |
 | D06 | **Resolved: omit standalone practice** | No separate Groudon practice mode; preserve the campaign battle and capture actual campaign gameplay for the arcade | P18, P35-P36 |
@@ -343,7 +350,7 @@ The approving decisions and subsequent implementation-start instruction are reco
 - [x] Finish independent plan review and documentation checks.
 - [x] Publish draft PR #387 for Justin with the then-active planning stop; later merge and implementation authorization are recorded above.
 
-**Historical P00 acceptance:** the planning-only PR #387 diff contained no game runtime, vendor bundle, dependency change, live card update or test that executes game source. The user explicitly authorized two generated visual-planning assets; B is the selected future loading background and A an archived comparison under `plan/art-candidates/`, not approved 3D/gameplay art. Root README was unchanged; games/README used headings, tables and lists. The subsequent foundation implementation does not waive the recorded quality/release gates.
+**Historical P00 acceptance:** the planning-only PR #387 diff contained no game runtime, vendor bundle, dependency change, live card update or test that executes game source. The user explicitly authorized two generated visual-planning assets; B was then selected as the future loading background and A an archived comparison under `plan/art-candidates/`, not approved 3D/gameplay art. Root README was unchanged; games/README used headings, tables and lists. The subsequent foundation implementation does not waive the recorded quality/release gates.
 
 ### P01 - Source audit and original-edition rules freeze
 
@@ -375,10 +382,10 @@ The approving decisions and subsequent implementation-start instruction are reco
 
 **Read:** DATA and RENDERING. **Produce:** asset schema, authoring/export conventions, dependency/license inventory and first approved asset brief. **Own:** authoring setup/config and manifests, not runtime gameplay.
 
-- [ ] Define model scale, forward/up axes, names, pivots, rig conventions, material channels and clip names.
+- [ ] Define pixel cell/atlas dimensions, directions, foot anchors, frame timing, alpha/sampling, identities and clip coverage; retain scale/axis/material conventions for 3D environments.
 - [ ] Define per-species/form asset IDs, LODs, facial/expressive coverage, shared rig families and per-asset identity requirements.
 - [ ] Define texture/audio formats, compression, source ownership and license attribution fields.
-- [ ] Follow ASSET-PIPELINE.md: lock one master prompt/reference strategy per asset family, generate small uniform sheets, verify grid alignment, crop from a manifest, and record prompts/hashes; raster sheets do not replace rigged 3D characters.
+- [ ] Follow ASSET-PIPELINE.md: lock one master prompt/reference strategy per asset family, generate small uniform sheets, verify grid alignment, crop from a manifest, and record prompts/hashes; directional pixel atlases supply current character animation; geometry supplies the real 3D environments.
 - [ ] Keep authoring dependencies, caches and source exports under repository-relative `tools/pokemon-dungeon/` or the approved external art store; establish its ignore rules and the under-1,024-KiB runtime-file strategy.
 - [ ] Agree where large original authoring files are retained without committing unsuitable binaries to the website repository.
 
@@ -431,7 +438,7 @@ non-gameplay inputs. No unresolved P01 rule becomes an executable default.
 
 **Acceptance:** the asset/scene captures meet the approved look and remain labeled art previews. True game snapshot/event/renderer contracts freeze at P07/P10; P06 cannot claim campaign, battle, full renderer, or playable-slice completion. D06 omits a standalone practice mode; this harness must not introduce one. No P06 image becomes the public gameplay card preview.
 
-**Current bounded result:** Pikachu, Charmander and Groudon candidates have eleven clips each and three LODs; the Magma Cavern composition, measured manifests and actual captures are available in the [art review record](../../../tools/pokemon-dungeon/art/REVIEW.md). The latest continuation accepts the shown scene/motion-study direction; full device/clip/rig acceptance remains pending. Candidate validation and captures do not approve unseen production assets or complete P06.
+**Historical bounded result:** rejected Pikachu, Charmander and Groudon rigid-mesh candidates have eleven clips each and three LODs; the Magma Cavern composition, measured manifests and actual captures are available in the [art review record](../../../tools/pokemon-dungeon/art/REVIEW.md). The latest pixel-art direction rejects these rigid-mesh character candidates; full device/clip/rig acceptance remains pending. Candidate validation and captures do not approve unseen production assets or complete P06.
 
 ### P07 - Canonical state, IDs and random streams
 
@@ -746,7 +753,7 @@ For each sub-batch: specify triggers and intervening town/mail/dream scenes; pop
 
 **Dependencies:** P03, P06, P18 and content specs. **Own:** assets, manifests, animation mappings and art coverage.
 
-- [ ] Split roster production into reviewed batches of 8-12 species/forms with shared rig/texture opportunities but distinct silhouettes and details.
+- [ ] Split roster production into reviewed batches of 8-12 species/forms with shared palette/timing tooling but distinct directional silhouettes and details.
 - [ ] Produce idle/walk/turn/attack/hit/faint/interaction and role-specific clips; link move effects without pretending one motion covers every attack.
 - [ ] Produce NPC-only characters, expressions, story costumes/props and all required scene animations.
 - [ ] Complete every dungeon theme, town/service building, Friend Area, fixed boss arena and story location, including environmental variations.
@@ -843,4 +850,4 @@ Do not mark a package complete while its dependent contract is ambiguous, a name
 
 ## 15. Current execution handoff
 
-P00 was merged in PR #387, and Justin authorized implementation on 2026-10-04. The 2026-10-05 continuation accepts the shown [art direction](../../../tools/pokemon-dungeon/art/REVIEW.md); P05/P06 full clip/rig/device acceptance remains open. P02 normalized authoring inventories and the bounded [P07-A primitives](STATE-FOUNDATION.md) now advance implementation without consuming unresolved original mechanics. Continue P01 through [the rules profile](RULES-BLUE.md) and [its addendum](RULES-BLUE-ADDENDUM.md), resolving blocking fields before dependent rule/content implementation. Follow [PROGRESS.md](PROGRESS.md), [COVERAGE.csv](COVERAGE.csv) and section 10's bounded ordering. Full P01-P06 acceptance, the P06/P10 visual checkpoints, whole-game completion and P37 release authorization remain required.
+P00 was merged in PR #387, and Justin authorized implementation on 2026-10-04. The latest 2026-10-05 direction rejects the rigid-mesh character art and requires directional pixel characters in actual textured 3D; see [the art record](../../../tools/pokemon-dungeon/art/REVIEW.md). P05/P06 full clip/rig/device acceptance remains open. P02 normalized authoring inventories and the bounded [P07-A primitives](STATE-FOUNDATION.md) now advance implementation without consuming unresolved original mechanics. Continue P01 through [the rules profile](RULES-BLUE.md) and [its addendum](RULES-BLUE-ADDENDUM.md), resolving blocking fields before dependent rule/content implementation. Follow [PROGRESS.md](PROGRESS.md), [COVERAGE.csv](COVERAGE.csv) and section 10's bounded ordering. Full P01-P06 acceptance, the P06/P10 visual checkpoints, whole-game completion and P37 release authorization remain required.

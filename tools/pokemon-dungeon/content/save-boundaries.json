@@ -1,0 +1,605 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "98a37cf",
+  "scope": "Exact held-v2, v3-team, v4-morning v5-Thunderwave and v6-town predecessor admission dependencies; static source pins only, no game execution or acceptance.",
+  "modules": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/identities.js",
+      "sha256": "cd529e869f7d151697edf1ff3813e7cd9ca5bb68d500e406cf3f0177f5606d71"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/profile.js",
+      "sha256": "3eea881ddf45a70f04fa2dd0064520984b4dbacf0c1e73eb40b7ecbe4ff6c29e"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/pokemon.js",
+      "sha256": "4097360ed79843d8b6ca2ef1320c38606430999724f81a05f0d4d97c3c492c6d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/pokemon-rules.js",
+      "sha256": "4b17cd3eef64cf87a8c3d6e212c33effe456b691885c278cde0311d2f74c66e3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/starters.js",
+      "sha256": "57d2180d02bab588c6b30da52ec160e9f73a77902f0632e9b5bd7dd9fe76b6d2"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/initial.js",
+      "sha256": "363ac8722cb238bdc78b670656f42efab4057ae038ebfba8bc1dfec29bcf60ec"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/items.js",
+      "sha256": "667e75249b4446477ece36f4d21633f1d1b781ba242f922323d7469cb3f5c28a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/economy.js",
+      "sha256": "03ec43a6eb901ac7ade36a73c505d52e72243d8e19f2df590d128687dc4c76e7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/options.js",
+      "sha256": "8f85c1bb720b4656ebc25f45b6372e12da6ba8d38411fa59df51b77effd3bd4c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/expedition.js",
+      "sha256": "b44eb7cfa2b94cee9a789ea91304d89ebc1700c5e5b01f0210d9039b6528e73f"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/held-v2-campaign.js",
+      "sha256": "d0d13504767feb2b31376419ac7ad3290187817312692d30ecdd858bcfbabdcd"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/held-v2-opening-policies.js",
+      "sha256": "9fbfc8e0b8185770a31f3d128753bf6af4cc97f12a9cdeb0290b5c64cc0ba278"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/held-v2-gameplay.js",
+      "sha256": "d8c2c8b236442b18af7953e2b6cf025b5cfae9d5d8fb6cdd2f5b507117e4335d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/team-formation.js",
+      "sha256": "5b192ec8bee5825796fb22d3a533c4b5325fdcd38d363b01ef5e6a16681a90a4"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/held-v2-opening.js",
+      "sha256": "09a5381603d87705e38a2909063d462294abfd95854e4b94d00bbc6b0ee7b084"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/expedition.js",
+      "sha256": "ac88110f283ed4f3d219de7f9605c469dc80cefa6938e31162c8b797c9e003d0"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/campaign-integrity.js",
+      "sha256": "bc99edacc9be5d5b378606f3af8f087d159a3c3ae9233a5dd6751455dd5530dc"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/dungeons-integrity.js",
+      "sha256": "2a3201cf89910f69ece41a433e149d8d7aa8f9fe04aeef607f439b6ac224387b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/effects-integrity.js",
+      "sha256": "02cf98cb2e73169ecdd016d7f6a794232adcce0d190db1399f45dda84b58a447"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/navigation-integrity.js",
+      "sha256": "f1cc18f8c1889f81efb435278cc6eb8bd537bbec6d4391b1fca38b1d000e3e64"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species.js",
+      "sha256": "e9a60a773248fcee136d6e1289677f8a0962403d199ff2dc05dc4c53885ec462"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/onboarding.js",
+      "sha256": "eb46560906a8e6f37919b4ce8494e2899cfe5778c4a45eb463f6ab9d144753cd"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/opening-facts.js",
+      "sha256": "a8049b3959946f693a4a35a085c14c997cc2ce9950e8a46085f2eeb98b095b75"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/first-morning.js",
+      "sha256": "a73df8d4b956ccaa70647b8888b571e0b740a7a84802bbdf6664238926e9bed7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/first-morning.js",
+      "sha256": "c7ed5d0bde75bf122066c02bbbf67d9b07a29304e9013b7f249f75e171c0a08c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/expedition-current.js",
+      "sha256": "3126e47b488d9f43f02ed3d270bf9e7768237bac599647cf3f109d5f92fc4add"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/expedition-facts.js",
+      "sha256": "65e7085e2ebf6859ed652b194b594591f434c04e925fad5337cbbd3c6510fee8"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/thunderwave.js",
+      "sha256": "c99ed0fe61d0f0838dcbb1087480008a528547d7ae8377338fb2cf54134cf9ba"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/thunderwave.js",
+      "sha256": "a5d9b9c7620443ca68a06fffc2d253b21efb9e461c26d340186064781e24be62"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/town.js",
+      "sha256": "596c465dfb26f1e4d50dc230476f38911aea5b50aaf20439e0a1b091f69fd1a3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/item-template.js",
+      "sha256": "023e622e48e6797b4b4ff4aa2a7fe388dc39e1954a83c9f02b0f36d720fb3e8a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/town.js",
+      "sha256": "50765d7f5732d3eca5c9de2bc9f9e66f6d7b15dc8a6c85555a5a08ae3ebafa48"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/town-shop-facts.js",
+      "sha256": "c1d7f9af1c120484193b96f11531eccbf14dcb4e48adc61186f033935c24cee2"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/species-seen.js",
+      "sha256": "21bac0816359fb93f72e19334965d2c828e373c46e81822fce02f52879c8ff86"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/work-campaign.js",
+      "sha256": "092d7da1ef2a271f9e31bbfae5898128562c8a58805d84bfcdda0043af2928bd"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/early-work.js",
+      "sha256": "572e98d73afec085ba4ac090cb42a27a8737327b62e04ad7836935098f678050"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/work-expedition.js",
+      "sha256": "c916bb82ffbb24970c3390738a41b1d274162c28b870197d50abb07a45f7a370"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/work-jobs.js",
+      "sha256": "961a9452cf596ce1245a5eff3e84c49cbff1197cb8e3a1f55f54e4ad8fac8ab3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/early-work.js",
+      "sha256": "98ea8f886c1c39d4a13ec1f531fbe75a34c3681e35a0186767dd7a603db57904"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/early-job-facts.js",
+      "sha256": "80b4ea818c79054d1f5f56af226a0d576b5c04dfc99b59bc029aa64ad4c1ce46"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/job-interaction.js",
+      "sha256": "7677e77c3e8a6ef141378472771789381bea84d4699fd17ebb6a79f19cdaa732"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/job-records.js",
+      "sha256": "b882210b1987f0e65b1dc6c7db8aa8893cea0b6eb8c2b72afe0b4c9f4573c96a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/reward-items.js",
+      "sha256": "0004340b7c2e5215be654914fe8954e970f659e1a90b16cefb02cd0c58ad8b28"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/battle-campaign.js",
+      "sha256": "9ae78394bc3efe449a84e66d711f0b047e415df22a73efd9ffbffa29e48d87bc"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/battle-mechanics.js",
+      "sha256": "474a5368651958a1ebc910f974c6b6455b6880cdca3ba56484d3270eae4b5878"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-campaign.js",
+      "sha256": "c1c22d22dff66a807ae148ab509b32adcdb74fa47c036a9fd489ccc59b665328"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-facts.js",
+      "sha256": "4519b1c1c7fad08b961d5db45e6fdf6aa0615b4f58dc8460fc9c7044c3520d55"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-progress.js",
+      "sha256": "c1e0448187c5ba2cf92f28a80e5451cb3a914f8c34b8393aedd611e1a17344ea"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-expedition.js",
+      "sha256": "a1f6ba9012b6ec57ebae381137e91065311b131c6ab17271a9575541401bd720"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/mt-steel.js",
+      "sha256": "207919e0c9c2fa7f780bdff6634da774f37dc31a294210071eba2d4b44f7d140"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/moves-campaign.js",
+      "sha256": "2d7f582c29e57124e2e40e9b5d1621102261b4d54d16db516531e258527c107a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/move-mechanics.js",
+      "sha256": "c151804a191b6420976b9e92fc064ef1c71e12114fb320bb30dfa65a2a9ac910"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/job-generation.js",
+      "sha256": "90a3da8e4162be42ea29f5d43576eb823654d8c8c0a40c30a2ac4066563a38ed"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/friends-campaign.js",
+      "sha256": "24bd570de557c9d7c27a16c450be7e9986ec6db50f3d8b69c3cfe5fd23c8768a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/friend-progress.js",
+      "sha256": "ecff3e9f68e39d85025e5aa84a004b8a1ee339e1e24f47c774b63f66061854ff"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/friend-jobs.js",
+      "sha256": "a6839f801d255fd1717aabba5d6b992400b24f793a54a133b08cccff70b77835"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/friends.js",
+      "sha256": "1e4c68deb2477145be83d037b14d3eee4738cf6d8cf753fa8fbfb20e84d472fd"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/friend-area-facts.js",
+      "sha256": "3bfd238d21fe76a8f585f110103536454f02428207d3d2c044b190a479ed6b92"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/friend-job-facts.js",
+      "sha256": "856385e179fbf1295a264fa3f9481c18c34e1a21fb46d3ab7ff1a5b87103e467"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/friend-job-generation.js",
+      "sha256": "4cfe78b98b3e0e78b90cd41fd2e5f4be14607f9dffb98b84d202992c6e0af06e"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/friend-job-records.js",
+      "sha256": "89be18a79c859be756fe90518d940a18d57fcfe0cd1e56272598018b80edd79b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/wild-ai-campaign.js",
+      "sha256": "a51dcb80b065b56b4179a88aedcd1876a0c7488c9e3bb0ba993f2281fb96e3db"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/native-wild-ai.js",
+      "sha256": "2076c314d0f29d7525d551aa91c9aa809e625a76d68ad20445b67bdd3d22ee8c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/ai-facts.js",
+      "sha256": "4b952bfcca78b2ebd4ac7efb085d4ff3f93ef6aefd1b0b0f543c0d3cd8f77a76"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/party-status-campaign.js",
+      "sha256": "19cd526662ae97fd4d702ffe428548003242bd303e7a62f29c7be62aac8c040a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/party-moves.js",
+      "sha256": "a69807214720ab11a154c028e5afb8c9505feb4edf962e6e2b439f4827e93ae2"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/damage-status-campaign.js",
+      "sha256": "117295fb7d53822772d4e2691f6ed8832075addac08c995f88ee0a1ff6e1f65c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/damage-status.js",
+      "sha256": "db1adaf7036b9bd682e70775e73697e6b9b4d4a0013f9e3c2cc21e0a9855f37e"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/field-moves-campaign.js",
+      "sha256": "9215bad830a23b224dd791d364914b67d17d356d7456b6872af2d16871fd9337"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/field-moves.js",
+      "sha256": "e214eea4b99d5743b0615e454e52ab73cf5c0a84ba0c70433e598d5045e9b3d7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v16.js",
+      "sha256": "644880630bbfd4953f0f579af5c865b230d226c38c11c7442b529a1b9a30967c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/item-impact-campaign.js",
+      "sha256": "6d0141fcec9670434bbd0f47b4145464ebcbfafeecccac98e10eef74df9df050"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/item-impact.js",
+      "sha256": "45dbd249a0d6cd4ac8bfe687353c17e9688dcf4e83ab8e1820af4a88f217e3b0"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v17.js",
+      "sha256": "24359717818a2064bb3c736fee946d6df3e4ac87b3f604af84c462d2dc6db2a0"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/stun-seed-campaign.js",
+      "sha256": "ae6d8e703ee0d0ef7276d6c72dfc069bee43d7a5ea1f33d02972e836baada17a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/stun-seed.js",
+      "sha256": "63e523f46089f44b4439a9e6dfe160941c866db130d878d6453acdddea3ef83c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v18.js",
+      "sha256": "0c09e6e405bb797121e4eb0e1e8bd04ca871d68453ead0a632af31ac055bec6d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/continuation-campaign.js",
+      "sha256": "8e75c52223e1e391813633479eca817927b85a50211ab64683ebef29ec054698"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/continuation-policy.js",
+      "sha256": "c7a0000af543883cf5fc66c3d340e2cd09e27c80056e2d39d7974d97438957a0"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-revision.js",
+      "sha256": "1f8562102ffe46c4536a5707f4002299c546ce0c30433e14fc1a39274fd3211a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-schema.js",
+      "sha256": "c156984e8ebbe7850344c21e3d7e6a1d09b343b529b0e98ffcb8203ba936383f"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v19.js",
+      "sha256": "9c65feb7753fd161d2e6bbab5cd1f9cba45d941e2373eaa4a29e22d140a15597"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/chapter-work-campaign.js",
+      "sha256": "9ef0261c048a110beb05236fb22bc7ea253705769668227901d6b29bdb43b6c8"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/chapter-work.js",
+      "sha256": "1ece1baa64a369604fb0c0825f769d94593a1b2e1f67d6b4fb59ca2c053faf61"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/chapter-work.js",
+      "sha256": "c638a694bb80fc8c2d666896b4adc3a42b8366bab4c31955250a8602e809a350"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/chapter-work-revision.js",
+      "sha256": "589c8f5b56e64f0602eff66ac6b348d1beab7ef82428994fc136cf7016a7af55"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v20.js",
+      "sha256": "4f7a186d923f54ebc955b6e9551bbd1f5bb7e653b138e1602905b12b4498d063"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-registry-v20.js",
+      "sha256": "05e78d4b8e885b4b3cf893a4c02532ac70f32baeb650b8a2df214ded528925f6"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v21.js",
+      "sha256": "32cb6516ae6aa077dc9b53a46883b3b8754de56ae4c35844ce4e1057f905f51d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-registry-v21.js",
+      "sha256": "ffa84fe1e6259ff15eb925ea50ff9d66c8986c0fd5bc6d40973fb0dcd85d395f"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/steel-meanies-revision.js",
+      "sha256": "d0b0ddd3d4bb40613e0f09988be3b5a0fa3f7a5bcadae9d6961405db7454ba1c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-meanies-campaign.js",
+      "sha256": "b17c5169657b636de82334b1136970ca01b0a7c96f1c6f479cfef598705bdc18"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-meanies-work.js",
+      "sha256": "0aa0daa58347ddab3df8202ee482b4de95bd728c04a6a99625fefd84602df872"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-meanies-owners.js",
+      "sha256": "7644bdc5f5325fa93b470ce540f939763693034ea8f62621d114db8ba1f2136b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/steel-meanies.js",
+      "sha256": "0a15a77a5625b14fc22ca7330ffcecfb6e3c607e5769c57b1fc7bcb90f558eba"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/bronze-jobs-campaign.js",
+      "sha256": "101963a07d71bf8b3a92a9465551176f8e0e13dee72c16be083512904295aaaa"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/bronze-jobs.js",
+      "sha256": "f2cf1680e3e3fcf37d76d8bb332ac61d5f8355236ff21db3301c65a32f8e43e7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/bronze-jobs-revision.js",
+      "sha256": "9d910ed577c529f3fb699e058b803735cd367ed54485779abda0386f12633905"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/bronze-jobs-schema.js",
+      "sha256": "049c3c41542cf7c1a6286672bd7e0873f6b3c5dc40e09d99c39d835f6b71de41"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/bronze-reward-prefix.js",
+      "sha256": "ae21c67a7b09648e922a0706e3814e18fcbac29a1eee5526b58d3ddfef182381"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/bronze-job-facts.js",
+      "sha256": "d9da994d9a03c749ee7faf805f96c74862ee1345bd3c8477ed60ed2e1a1afee2"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/bronze-job-generation.js",
+      "sha256": "014a2f7a554379570f81fa318c4a38e4c0a1f33b69f37eac0966dd98d9c7887d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/bronze-job-records.js",
+      "sha256": "414858d89a5f699c0e0e39bdcd240b1aa5f5e2001b979a8efff0dbb7ad5ca6b6"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v22.js",
+      "sha256": "9336ba04da0feefac04823a9eb481b1009f1f614e25086651751935a8c99e783"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-registry-v22.js",
+      "sha256": "c9a8c87e8852791ec97d5fd072294b93903e2382fefc225cd356155709378bd3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/move-learning-campaign.js",
+      "sha256": "674165e244f110005dc7b68876379ebe9be9a27946d9d22515d1758168825ae3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/move-learning.js",
+      "sha256": "94d5796d6f522eb3eb14bb17c13a6cdcd4d4c5a7ac769f0a899371c83099d38b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/move-learning-facts.js",
+      "sha256": "3571043e95909c127b23f76cc9ac6ed131794f8a9e0fea0de8eaa4f820c81bac"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/move-learning-proof.js",
+      "sha256": "75f19d25500f3f8791daa1b26d08a0b2d12398d15addb23a1d5ca8552e3f7651"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/move-learning-prefix.js",
+      "sha256": "95e86c4b3a63cdc53a69bbaafda6153b572521ac3bc552f338dba5efcbd07809"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/move-learning-schema.js",
+      "sha256": "648127bcaae71927c6c8354d00f2573e4be1b9aee4b0502196d7bb89ae4e55f5"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/move-learning-revision.js",
+      "sha256": "f13dd2386f3b048da136691b7e6aedff0bc2bde1c7651fdfd38474d3172e592b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/native-learning.js",
+      "sha256": "9728d608080c0d51d7878ecd402e0256f357c4c67e51f5063bb76d354aa20f04"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v23.js",
+      "sha256": "44d238517b1aa97fcc95aff9e8ad458c3e2069c3926789b211553d50b6809701"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-registry-v23.js",
+      "sha256": "ddf8f44892882203d77e88025d77c7d524a331deeee9ba5d3a4e3449d7437108"
+    }
+  ],
+  "functionBodies": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createTeamOpeningContent",
+      "sha256": "fc198f90c00cee4830d24cfa08bef4113c6f3a30fb02384f63e4b9be8299b1f5"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createInitialNativeProgress",
+      "sha256": "f99c27b6578b24798b7475c34e2c245374e4750de2badc246bb0d07b8700ba6e"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/gameplay.js",
+      "functionName": "withGameplayPolicies",
+      "sha256": "f264a67f060bd48b7e9bcea271e22448df9a05bdd893ef6968cc226a1da01538"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/gameplay.js",
+      "functionName": "formationProgress",
+      "sha256": "2d3e7487aece78c163731fbde9221da1ab8692425c8dfcfb9ef6a005a1777010"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/gameplay.js",
+      "functionName": "formationScene",
+      "sha256": "2ba0edf8ada80a72077afd0589a3a97dfff93a709c4bce9740878f33e54effaa"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/opening-policies.js",
+      "functionName": "createOpeningPolicies",
+      "sha256": "23d83df0cc8e66256e4cfa23e1256379867c65c360b7df7a12717c9dab3d503a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createMorningOpeningContent",
+      "sha256": "b3f4a93f94dad6b35c157ef7a729a66ec3ec18b8f1e7cf967376b273b2014cc4"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createThunderwaveOpeningContent",
+      "sha256": "201eb53e1e56eb914368b1f637cc4b21e9ca1e7503e481200e290cfc8a8fa727"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/opening-campaign.js",
+      "functionName": "createCampaignContent",
+      "sha256": "2b5a07468e341d81568dab010e95373f02d53b0418fb2e9c57f7bbd147e7c2f6"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/town-campaign.js",
+      "functionName": "createCampaignContent",
+      "sha256": "dfbc293c06775408f64ea0746426811147a1fbcfca94726a64b750f4699a4374"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createTownOpeningContent",
+      "sha256": "467b3300eba9624f277b571c09e67fac560a95e4d97943b43a6569c32d3a1ca4"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/seen-campaign.js",
+      "functionName": "createCampaignContent",
+      "sha256": "71505bd36d24fb123d76d2b21efb204b07a78cbaed04b8c23081228cfa1cff35"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createSeenOpeningContent",
+      "sha256": "efa8ea2bcf98c28a4b3695160850d843e39649cececc80796cf91ade470502f9"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/opening.js",
+      "functionName": "createOpeningContent",
+      "sha256": "ceac89d5e7daa1db7a2ec024f4026c71c86e6210ed76eceed16ae68ab1c39502"
+    }
+  ],
+  "catalogManifests": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/manifest.json",
+      "sha256": "947d052df0e8b6a6715b1d1039dd8b1cb425f974fa934b45363cecefaf0997dd"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/onboarding/manifest.json",
+      "sha256": "923f411ea7427579335db655885ec792ea30bbb7528c04242d980c99d34afa68"
+    }
+  ],
+  "successorBaselineCommit": "be2fe0926eabd5a7706f12939e9b49f5b0640b73",
+  "townPredecessorBaselineCommit": "1b71c26fcc1d5c51decf243eb98f5be89052d7e9",
+  "seenPredecessorBaselineCommit": "1991d70ecf1b9b004d4366b3b4ea8da7cdc40b76",
+  "legacyRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "af8a3206a7a60dcd05dda8ae5c7138b61aab07010a22c8d8d0e55d2a3548a20f"
+  },
+  "workPredecessorBaselineCommit": "e1b97cc1c4dda6e216aa896bcf815a8008cb8440",
+  "seenRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "90cf67ccc6c0c27fdfa6ed237cdd682169a39fddee06e8f5bfbcb09291a5297a"
+  },
+  "workRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "7ae54b1204078f8e9161d3bd5e4d0f51581a3ee4312abf10438d56e590f57a18"
+  },
+  "battlePredecessorBaselineCommit": "e59a35dba62b144294d0eb730438060797862831",
+  "steelPredecessorBaselineCommit": "2348abcc555e5a53f6f63d11c0a8ba47d8d1dff3",
+  "friendAreaPredecessorBaselineCommit": "2b828c0a6b984cb60a161014884a6693c86ae287",
+  "steelRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "0e42d7034857ee1768fdb963847e10af41f2b1415475394017bf623bfcc3bf5c"
+  },
+  "areaPredecessorBaselineCommit": "ca714483d402cbb7e6e94cdd6e5c21fecd3a51b7",
+  "movesRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "49008d65cd79547a85503c0494a68f629970a635012476bb01f0d275dec7ab8d"
+  },
+  "nativeAiPredecessorBaselineCommit": "91733e1b6ffa4794437b1b270eb760a3507040c0",
+  "friendsRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "0a8386936a7538f8eb52607482922e92afb8f7f4c693012c1a9ac8ad5bbbaee7"
+  },
+  "friendsOwnerShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "eb07bef2971f397ab30463f65c8e3140872547a1b437be8b1f6f23b6ea432ad2"
+  },
+  "partyStatusPredecessorBaselineCommit": "b38fdfa44cd98f9aefc427cda2473d7ec67a2075",
+  "damageStatusPredecessorBaselineCommit": "ac3c02cab4779be597a0496bdb89cc70869e577c",
+  "linkedStatusPredecessorBaselineCommit": "97d7d90023ebb7fa2f01d84ef4f5fff90e31d490",
+  "itemImpactPredecessorBaselineCommit": "20b0a7f7382e2fb5edb9afd0797b55f122a7ac0e",
+  "fieldMovesRootShape": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "19c50f1dbe7c141aebe90ec14f2e161ac94599a49326642d9c2051bef68f6c4d"
+  },
+  "stunSeedPredecessorBaselineCommit": "500a705d38fea989c81b8c1f66d4f7343d32c33e",
+  "continuationPredecessorBaselineCommit": "1b9eb5fc1d03a8f20dcf53ea182121a5b5112ef2",
+  "continuationPredecessorSchema": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "39f6613b5fb55f26dece5bd4f899c0be53e5a14e120c181e6d71ae7924a34f8d"
+  },
+  "chapterWorkPredecessorBaselineCommit": "659bfe78ecb9708b775573af3501d4f68f6c0c51",
+  "steelMeaniesPredecessorBaselineCommit": "c98a8152088875ab7d412ba75c493295ab66e103",
+  "bronzeJobsPredecessorBaselineCommit": "77ee7640810d20974e707c67f477206e1edae1b6",
+  "moveLearningPredecessorBaselineCommit": "961cb987ef18bb6715f4f54a4711fbf8a04cf282",
+  "escortWorkPredecessorBaselineCommit": "5851d00a15694c7417e2139c856401594c982d0e"
+}

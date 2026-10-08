@@ -1,0 +1,2619 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-onboarding",
+  "kind": "schema",
+  "vocabulary": [
+    "type",
+    "properties",
+    "required",
+    "additionalProperties",
+    "items",
+    "minItems",
+    "maxItems",
+    "minimum",
+    "maximum",
+    "minLength",
+    "maxLength",
+    "const"
+  ],
+  "documents": {
+    "questions": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647,
+          "const": 1
+        },
+        "catalogId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "original-blue-onboarding"
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "blue-rescue-team-qualified-facts"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "questions"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "originalIndex": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "sourceSymbol": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "originalQuestionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "categoryId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "selectable": {
+                "type": "boolean"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 2147483647
+                    },
+                    "originalAnswerId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "originalMenuValue": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 2147483647
+                    },
+                    "scores": {
+                      "type": "object",
+                      "properties": {
+                        "hardy": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "docile": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "brave": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "jolly": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "impish": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "naive": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "timid": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "hasty": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "sassy": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "calm": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "relaxed": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "lonely": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "quirky": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        }
+                      },
+                      "required": [],
+                      "additionalProperties": false
+                    },
+                    "followUp": {
+                      "type": [
+                        "null",
+                        "string"
+                      ],
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "optionId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    }
+                  },
+                  "required": [
+                    "index",
+                    "originalAnswerId",
+                    "originalMenuValue",
+                    "scores",
+                    "followUp",
+                    "optionId",
+                    "text"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 2,
+                "maxItems": 5
+              },
+              "prompt": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "redLocator": {
+                "type": "object",
+                "properties": {
+                  "sourceId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  },
+                  "line": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  }
+                },
+                "required": [
+                  "sourceId",
+                  "line"
+                ],
+                "additionalProperties": false
+              },
+              "sharedLocator": {
+                "type": "object",
+                "properties": {
+                  "sourceId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  },
+                  "renderedLine": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  }
+                },
+                "required": [
+                  "sourceId",
+                  "renderedLine"
+                ],
+                "additionalProperties": false
+              },
+              "factsSha256": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "evidenceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "textProvenanceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              }
+            },
+            "required": [
+              "id",
+              "originalIndex",
+              "sourceSymbol",
+              "originalQuestionId",
+              "categoryId",
+              "selectable",
+              "options",
+              "prompt",
+              "redLocator",
+              "sharedLocator",
+              "factsSha256",
+              "evidenceId",
+              "textProvenanceId"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 56,
+          "maxItems": 56
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "catalogId",
+        "edition",
+        "kind",
+        "records"
+      ],
+      "additionalProperties": false
+    },
+    "algorithm": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647,
+          "const": 1
+        },
+        "catalogId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "original-blue-onboarding"
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "blue-rescue-team-qualified-facts"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "algorithm"
+        },
+        "natureOrder": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "minItems": 13,
+          "maxItems": 13
+        },
+        "initialScores": {
+          "type": "object",
+          "properties": {
+            "hardy": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "docile": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "brave": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "jolly": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "impish": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "naive": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "timid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "hasty": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "sassy": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "calm": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "relaxed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "lonely": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "quirky": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            }
+          },
+          "required": [
+            "hardy",
+            "docile",
+            "brave",
+            "jolly",
+            "impish",
+            "naive",
+            "timid",
+            "hasty",
+            "sassy",
+            "calm",
+            "relaxed",
+            "lonely",
+            "quirky"
+          ],
+          "additionalProperties": false
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "originalCategoryIndex": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "selectableQuestionIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                },
+                "minItems": 0,
+                "maxItems": 4096
+              },
+              "questionCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "firstDrawIdealWeightNumerator": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "firstDrawIdealWeightDenominator": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "firstDrawUint16Weight": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "uint16Denominator": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              }
+            },
+            "required": [
+              "id",
+              "originalCategoryIndex",
+              "selectableQuestionIds",
+              "questionCount",
+              "firstDrawIdealWeightNumerator",
+              "firstDrawIdealWeightDenominator",
+              "firstDrawUint16Weight",
+              "uint16Denominator"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 14,
+          "maxItems": 14
+        },
+        "sampling": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "selectableIndices": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "mainQuestionCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "maximumFollowUps": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "rejectUsedCategory": {
+              "type": "boolean"
+            },
+            "markEntireCategoryBeforePresentation": {
+              "type": "boolean"
+            },
+            "uniformCategoryDraw": {
+              "type": "boolean"
+            },
+            "rejectionConsumesMainSlot": {
+              "type": "boolean"
+            },
+            "followUpConsumesMainSlot": {
+              "type": "boolean"
+            },
+            "followUpConsumesCategory": {
+              "type": "boolean"
+            },
+            "followUpQuestionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "followUpTriggerOptionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "followUpSourceMenuValue": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "applyTriggerScores": {
+              "type": "boolean"
+            },
+            "genderAfterMainQuestions": {
+              "type": "boolean"
+            },
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "kind",
+            "selectableIndices",
+            "mainQuestionCount",
+            "maximumFollowUps",
+            "rejectUsedCategory",
+            "markEntireCategoryBeforePresentation",
+            "uniformCategoryDraw",
+            "rejectionConsumesMainSlot",
+            "followUpConsumesMainSlot",
+            "followUpConsumesCategory",
+            "followUpQuestionId",
+            "followUpTriggerOptionId",
+            "followUpSourceMenuValue",
+            "applyTriggerScores",
+            "genderAfterMainQuestions",
+            "evidenceId"
+          ],
+          "additionalProperties": false
+        },
+        "integerMapper": {
+          "type": "object",
+          "properties": {
+            "nativeDrawSourceSymbol": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "nativeInputMask": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "useLowBits": {
+              "type": "boolean"
+            },
+            "inputBits": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "inputMinimum": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "inputMaximum": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "denominator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "operation": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "questionMaximumExclusive": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "tieMaximumExclusive": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "questionBucketSizes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "tieBucketSizes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "browserStreamCanonicalId": {
+              "type": "null"
+            },
+            "nativeSequenceParityClaimed": {
+              "type": "boolean"
+            },
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "nativeDrawSourceSymbol",
+            "nativeInputMask",
+            "useLowBits",
+            "inputBits",
+            "inputMinimum",
+            "inputMaximum",
+            "denominator",
+            "operation",
+            "questionMaximumExclusive",
+            "tieMaximumExclusive",
+            "questionBucketSizes",
+            "tieBucketSizes",
+            "browserStreamCanonicalId",
+            "nativeSequenceParityClaimed",
+            "evidenceId"
+          ],
+          "additionalProperties": false
+        },
+        "tieBreak": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "randomStart": {
+              "type": "boolean"
+            },
+            "visitCountAfterStart": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "ascendingOrder": {
+              "type": "boolean"
+            },
+            "wrapModulus": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "replaceOnlyIfStrictlyGreater": {
+              "type": "boolean"
+            },
+            "uniformAmongMaxima": {
+              "type": "boolean"
+            },
+            "exampleTiedIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "exampleIdealWeights": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "exampleIdealDenominator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "exampleUint16Weights": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "exampleUint16Denominator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "kind",
+            "randomStart",
+            "visitCountAfterStart",
+            "ascendingOrder",
+            "wrapModulus",
+            "replaceOnlyIfStrictlyGreater",
+            "uniformAmongMaxima",
+            "exampleTiedIds",
+            "exampleIdealWeights",
+            "exampleIdealDenominator",
+            "exampleUint16Weights",
+            "exampleUint16Denominator",
+            "evidenceId"
+          ],
+          "additionalProperties": false
+        },
+        "sourceLocators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "functionName": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "line": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              }
+            },
+            "required": [
+              "sourceId",
+              "functionName",
+              "line"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "catalogId",
+        "edition",
+        "kind",
+        "natureOrder",
+        "initialScores",
+        "categories",
+        "sampling",
+        "integerMapper",
+        "tieBreak",
+        "sourceLocators"
+      ],
+      "additionalProperties": false
+    },
+    "results": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647,
+          "const": 1
+        },
+        "catalogId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "original-blue-onboarding"
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "blue-rescue-team-qualified-facts"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "results"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "natureId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "maleSpeciesId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "femaleSpeciesId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "formId": {
+                "type": "null"
+              },
+              "evidenceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "textProvenanceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              }
+            },
+            "required": [
+              "natureId",
+              "description",
+              "maleSpeciesId",
+              "femaleSpeciesId",
+              "formId",
+              "evidenceId",
+              "textProvenanceId"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 13,
+          "maxItems": 13
+        },
+        "gender": {
+          "type": "object",
+          "properties": {
+            "prompt": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "labels": {
+              "type": "object",
+              "properties": {
+                "male": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                },
+                "female": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                }
+              },
+              "required": [
+                "male",
+                "female"
+              ],
+              "additionalProperties": false
+            },
+            "sourceValues": {
+              "type": "object",
+              "properties": {
+                "male": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2147483647,
+                  "const": 0
+                },
+                "female": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2147483647,
+                  "const": 1
+                }
+              },
+              "required": [
+                "male",
+                "female"
+              ],
+              "additionalProperties": false
+            },
+            "changesScores": {
+              "type": "boolean",
+              "const": false
+            },
+            "changesResultColumn": {
+              "type": "boolean",
+              "const": true
+            },
+            "directSpeciesOverride": {
+              "type": "boolean",
+              "const": false
+            },
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048,
+              "const": "shared-results"
+            }
+          },
+          "required": [
+            "prompt",
+            "labels",
+            "sourceValues",
+            "changesScores",
+            "changesResultColumn",
+            "directSpeciesOverride",
+            "evidenceId"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "catalogId",
+        "edition",
+        "kind",
+        "records",
+        "gender"
+      ],
+      "additionalProperties": false
+    },
+    "partners": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647,
+          "const": 1
+        },
+        "catalogId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "original-blue-onboarding"
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "blue-rescue-team-qualified-facts"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "partners"
+        },
+        "orderedPool": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "minItems": 10,
+          "maxItems": 10
+        },
+        "pairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "heroSpeciesId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "partnerSpeciesId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "heroFormId": {
+                "type": "null"
+              },
+              "partnerFormId": {
+                "type": "null"
+              },
+              "ownedFriendAreaIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                },
+                "minItems": 0,
+                "maxItems": 4096
+              }
+            },
+            "required": [
+              "heroSpeciesId",
+              "partnerSpeciesId",
+              "heroFormId",
+              "partnerFormId",
+              "ownedFriendAreaIds"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 129,
+          "maxItems": 129
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "excludeAnySharedNonNoneType": {
+              "type": "boolean"
+            },
+            "preservePoolOrder": {
+              "type": "boolean"
+            },
+            "genderConditioned": {
+              "type": "boolean"
+            },
+            "eligibilityEvidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "orderEvidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "excludeAnySharedNonNoneType",
+            "preservePoolOrder",
+            "genderConditioned",
+            "eligibilityEvidenceId",
+            "orderEvidenceId"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "catalogId",
+        "edition",
+        "kind",
+        "orderedPool",
+        "pairs",
+        "policy"
+      ],
+      "additionalProperties": false
+    },
+    "profiles": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647,
+          "const": 1
+        },
+        "catalogId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "original-blue-onboarding"
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "blue-rescue-team-qualified-facts"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "profiles"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "speciesId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "profileId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "formId": {
+                "type": "null"
+              },
+              "originalInternalId": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "friendAreaId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "typeIds": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2147483647
+                },
+                "minItems": 0,
+                "maxItems": 4096
+              },
+              "catalogResources": {
+                "type": "object",
+                "properties": {
+                  "levelResourceId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  },
+                  "learnsetResourceId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  }
+                },
+                "required": [
+                  "levelResourceId",
+                  "learnsetResourceId"
+                ],
+                "additionalProperties": false
+              },
+              "rosterCreation": {
+                "type": "object",
+                "properties": {
+                  "level": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "cumulativeExp": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "stats": {
+                    "type": "object",
+                    "properties": {
+                      "hp": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      "attack": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      "specialAttack": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      "defense": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      "specialDefense": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      }
+                    },
+                    "required": [
+                      "hp",
+                      "attack",
+                      "specialAttack",
+                      "defense",
+                      "specialDefense"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "moves": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "slot": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 2147483647
+                        },
+                        "moveId": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2048
+                        },
+                        "originalMoveId": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 2147483647
+                        },
+                        "learnedAtLevel": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 2147483647
+                        },
+                        "storedPP": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 2147483647
+                        }
+                      },
+                      "required": [
+                        "slot",
+                        "moveId",
+                        "originalMoveId",
+                        "learnedAtLevel",
+                        "storedPP"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 4096
+                  }
+                },
+                "required": [
+                  "level",
+                  "cumulativeExp",
+                  "stats",
+                  "moves"
+                ],
+                "additionalProperties": false
+              },
+              "firstPlayable": {
+                "type": "object",
+                "properties": {
+                  "level": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "cumulativeExp": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "stats": {
+                    "type": "object",
+                    "properties": {
+                      "hp": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      "attack": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      "specialAttack": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      "defense": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      "specialDefense": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      }
+                    },
+                    "required": [
+                      "hp",
+                      "attack",
+                      "specialAttack",
+                      "defense",
+                      "specialDefense"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "currentHP": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "emptyMoveSlots": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "moves": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "slot": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 2147483647
+                        },
+                        "moveId": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 2048
+                        },
+                        "originalMoveId": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 2147483647
+                        },
+                        "learnedAtLevel": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 2147483647
+                        },
+                        "currentPP": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 2147483647
+                        },
+                        "maximumPP": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 2147483647
+                        },
+                        "enabledForAI": {
+                          "type": "boolean"
+                        },
+                        "linkedToPrevious": {
+                          "type": "boolean"
+                        },
+                        "setForShortcut": {
+                          "type": "boolean"
+                        },
+                        "ginsengBoost": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 2147483647
+                        }
+                      },
+                      "required": [
+                        "slot",
+                        "moveId",
+                        "originalMoveId",
+                        "learnedAtLevel",
+                        "currentPP",
+                        "maximumPP",
+                        "enabledForAI",
+                        "linkedToPrevious",
+                        "setForShortcut",
+                        "ginsengBoost"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 0,
+                    "maxItems": 4096
+                  }
+                },
+                "required": [
+                  "level",
+                  "cumulativeExp",
+                  "stats",
+                  "currentHP",
+                  "emptyMoveSlots",
+                  "moves"
+                ],
+                "additionalProperties": false
+              },
+              "evidence": {
+                "type": "object",
+                "properties": {
+                  "creation": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  },
+                  "stats": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  },
+                  "experience": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  },
+                  "moves": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  },
+                  "moveFlags": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  },
+                  "friendAreaMembership": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  }
+                },
+                "required": [
+                  "creation",
+                  "stats",
+                  "experience",
+                  "moves",
+                  "moveFlags",
+                  "friendAreaMembership"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "speciesId",
+              "profileId",
+              "formId",
+              "originalInternalId",
+              "friendAreaId",
+              "typeIds",
+              "catalogResources",
+              "rosterCreation",
+              "firstPlayable",
+              "evidence"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 16,
+          "maxItems": 16
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "catalogId",
+        "edition",
+        "kind",
+        "records"
+      ],
+      "additionalProperties": false
+    },
+    "initialization": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647,
+          "const": 1
+        },
+        "catalogId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "original-blue-onboarding"
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "blue-rescue-team-qualified-facts"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "initialization"
+        },
+        "selectionOrder": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "stageOrder": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "boost": {
+          "type": "object",
+          "properties": {
+            "freshEntryOnly": {
+              "type": "boolean"
+            },
+            "initialConsumedFlag": {
+              "type": "boolean"
+            },
+            "setConsumedBeforeDungeonCheck": {
+              "type": "boolean"
+            },
+            "dungeonId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "levelsApplied": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "repeatOnRetry": {
+              "type": "boolean"
+            },
+            "repeatOnResume": {
+              "type": "boolean"
+            },
+            "applyToAllExistingOnTeamMembers": {
+              "type": "boolean"
+            },
+            "hpCap": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "otherStatCap": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "sourcePredicate": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "canonicalGuardId": {
+              "type": "null"
+            },
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "freshEntryOnly",
+            "initialConsumedFlag",
+            "setConsumedBeforeDungeonCheck",
+            "dungeonId",
+            "levelsApplied",
+            "repeatOnRetry",
+            "repeatOnResume",
+            "applyToAllExistingOnTeamMembers",
+            "hpCap",
+            "otherStatCap",
+            "sourcePredicate",
+            "canonicalGuardId",
+            "evidenceId"
+          ],
+          "additionalProperties": false
+        },
+        "members": {
+          "type": "object",
+          "properties": {
+            "iq": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "tacticSourceSymbol": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "canonicalTacticId": {
+              "type": "null"
+            },
+            "enabledIqSourceSymbols": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "canonicalEnabledIqIds": {
+              "type": "null"
+            },
+            "selfCurerEnabled": {
+              "type": "boolean"
+            },
+            "exists": {
+              "type": "boolean"
+            },
+            "onTeam": {
+              "type": "boolean"
+            },
+            "speciesSeen": {
+              "type": "boolean"
+            },
+            "heroIsLeader": {
+              "type": "boolean"
+            },
+            "partnerIsLeader": {
+              "type": "boolean"
+            },
+            "heldItemId": {
+              "type": "null"
+            },
+            "belly": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "maximumBelly": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "heroOriginSourceSymbol": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "partnerOriginSourceSymbol": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "canonicalHeroOriginId": {
+              "type": "null"
+            },
+            "canonicalPartnerOriginId": {
+              "type": "null"
+            },
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "iq",
+            "tacticSourceSymbol",
+            "canonicalTacticId",
+            "enabledIqSourceSymbols",
+            "canonicalEnabledIqIds",
+            "selfCurerEnabled",
+            "exists",
+            "onTeam",
+            "speciesSeen",
+            "heroIsLeader",
+            "partnerIsLeader",
+            "heldItemId",
+            "belly",
+            "maximumBelly",
+            "heroOriginSourceSymbol",
+            "partnerOriginSourceSymbol",
+            "canonicalHeroOriginId",
+            "canonicalPartnerOriginId",
+            "evidenceId"
+          ],
+          "additionalProperties": false
+        },
+        "moves": {
+          "type": "object",
+          "properties": {
+            "maximumSlots": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "initialEntriesAtLevel": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "appendLevels": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "preserveSourceOrder": {
+              "type": "boolean"
+            },
+            "appendToFirstFreeSlot": {
+              "type": "boolean"
+            },
+            "replaceWhenFull": {
+              "type": "boolean"
+            },
+            "rosterStoredPP": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "dungeonFullPP": {
+              "type": "boolean"
+            },
+            "dungeonFullHP": {
+              "type": "boolean"
+            },
+            "ginsengBoost": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "linkedToPrevious": {
+              "type": "boolean"
+            },
+            "setForShortcut": {
+              "type": "boolean"
+            },
+            "enabledForAI": {
+              "type": "boolean"
+            },
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "maximumSlots",
+            "initialEntriesAtLevel",
+            "appendLevels",
+            "preserveSourceOrder",
+            "appendToFirstFreeSlot",
+            "replaceWhenFull",
+            "rosterStoredPP",
+            "dungeonFullPP",
+            "dungeonFullHP",
+            "ginsengBoost",
+            "linkedToPrevious",
+            "setForShortcut",
+            "enabledForAI",
+            "evidenceId"
+          ],
+          "additionalProperties": false
+        },
+        "economy": {
+          "type": "object",
+          "properties": {
+            "carriedItems": {
+              "type": "array",
+              "items": {
+                "type": "null"
+              },
+              "minItems": 0,
+              "maxItems": 0
+            },
+            "storedItems": {
+              "type": "array",
+              "items": {
+                "type": "null"
+              },
+              "minItems": 0,
+              "maxItems": 0
+            },
+            "carriedMoney": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "bankSavings": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "friendAreaOwnershipCost": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "friendAreasFromSelectedPairOnly": {
+              "type": "boolean"
+            },
+            "friendAreaServiceAvailable": {
+              "type": "boolean"
+            },
+            "inventoryMenuAvailable": {
+              "type": "boolean"
+            },
+            "inventoryUnlockSourcePredicate": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "canonicalInventoryUnlockId": {
+              "type": "null"
+            },
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "carriedItems",
+            "storedItems",
+            "carriedMoney",
+            "bankSavings",
+            "friendAreaOwnershipCost",
+            "friendAreasFromSelectedPairOnly",
+            "friendAreaServiceAvailable",
+            "inventoryMenuAvailable",
+            "inventoryUnlockSourcePredicate",
+            "canonicalInventoryUnlockId",
+            "evidenceId"
+          ],
+          "additionalProperties": false
+        },
+        "party": {
+          "type": "object",
+          "properties": {
+            "memberCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "escortCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "roles": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "leaderRole": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "inferLeaderFromArrayIndex": {
+              "type": "boolean"
+            },
+            "recruitmentEnabled": {
+              "type": "boolean"
+            },
+            "leaderChangeEnabled": {
+              "type": "boolean"
+            },
+            "evolutionEnabled": {
+              "type": "boolean"
+            },
+            "clientJoinsParty": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "memberCount",
+            "escortCount",
+            "roles",
+            "leaderRole",
+            "inferLeaderFromArrayIndex",
+            "recruitmentEnabled",
+            "leaderChangeEnabled",
+            "evolutionEnabled",
+            "clientJoinsParty"
+          ],
+          "additionalProperties": false
+        },
+        "naming": {
+          "type": "object",
+          "properties": {
+            "heroNamePlanSceneId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "heroCustomNameRequired": {
+              "type": "boolean"
+            },
+            "partnerCustomNicknameRequired": {
+              "type": "boolean"
+            },
+            "partnerDefaultName": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "nicknameChangesScores": {
+              "type": "boolean"
+            },
+            "teamNamedBeforeRescue": {
+              "type": "boolean"
+            },
+            "teamNamePlanSceneId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "inputRulesCanonicalId": {
+              "type": "null"
+            },
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "heroNamePlanSceneId",
+            "heroCustomNameRequired",
+            "partnerCustomNicknameRequired",
+            "partnerDefaultName",
+            "nicknameChangesScores",
+            "teamNamedBeforeRescue",
+            "teamNamePlanSceneId",
+            "inputRulesCanonicalId",
+            "evidenceId"
+          ],
+          "additionalProperties": false
+        },
+        "opening": {
+          "type": "object",
+          "properties": {
+            "planSceneOrder": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "runtimeSceneIds": {
+              "type": "null"
+            },
+            "dungeonId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "floorIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "minItems": 0,
+              "maxItems": 4096
+            },
+            "initialFloorId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "targetSpeciesId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "requesterSpeciesId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "bossSpeciesId": {
+              "type": "null"
+            },
+            "terminalMapSourceSymbol": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "terminalMapSourceIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "terminalMapCanonicalId": {
+              "type": "null"
+            },
+            "terminalIsExplorationFloor": {
+              "type": "boolean"
+            },
+            "terminalDisplayedFloorLabel": {
+              "type": "null"
+            },
+            "completionOnFloorThreeEntry": {
+              "type": "boolean"
+            },
+            "completionRequiresRescueAcknowledgement": {
+              "type": "boolean"
+            },
+            "failureCompletesObjective": {
+              "type": "boolean"
+            },
+            "reunionRewardBeforeTeamNaming": {
+              "type": "boolean"
+            },
+            "firstMailKitAfterTeamNaming": {
+              "type": "boolean"
+            },
+            "rewardGrantCanonicalId": {
+              "type": "null"
+            },
+            "firstMailKitGrantCanonicalId": {
+              "type": "null"
+            },
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "planSceneOrder",
+            "runtimeSceneIds",
+            "dungeonId",
+            "floorIds",
+            "initialFloorId",
+            "targetSpeciesId",
+            "requesterSpeciesId",
+            "bossSpeciesId",
+            "terminalMapSourceSymbol",
+            "terminalMapSourceIndex",
+            "terminalMapCanonicalId",
+            "terminalIsExplorationFloor",
+            "terminalDisplayedFloorLabel",
+            "completionOnFloorThreeEntry",
+            "completionRequiresRescueAcknowledgement",
+            "failureCompletesObjective",
+            "reunionRewardBeforeTeamNaming",
+            "firstMailKitAfterTeamNaming",
+            "rewardGrantCanonicalId",
+            "firstMailKitGrantCanonicalId",
+            "evidenceId"
+          ],
+          "additionalProperties": false
+        },
+        "integrationJoins": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "canonicalId": {
+                "type": "null"
+              },
+              "owner": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "requirement": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              }
+            },
+            "required": [
+              "field",
+              "canonicalId",
+              "owner",
+              "requirement"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "evidenceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "catalogId",
+        "edition",
+        "kind",
+        "selectionOrder",
+        "stageOrder",
+        "boost",
+        "members",
+        "moves",
+        "economy",
+        "party",
+        "naming",
+        "opening",
+        "integrationJoins",
+        "evidenceId"
+      ],
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647,
+          "const": 1
+        },
+        "catalogId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "original-blue-onboarding"
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "blue-rescue-team-qualified-facts"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "const": "sources"
+        },
+        "createdAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "sourceCommit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "scope": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "path": {
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "gitBlob": {
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "minLength": 1,
+                "maxLength": 2048
+              }
+            },
+            "required": [
+              "id",
+              "url",
+              "scope",
+              "path",
+              "gitBlob"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "qualification": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "sourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                },
+                "minItems": 0,
+                "maxItems": 4096
+              }
+            },
+            "required": [
+              "id",
+              "qualification",
+              "sourceIds"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "textProvenance": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "language": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "basis": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "humanNarrativeAcceptance": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "id",
+            "language",
+            "basis",
+            "humanNarrativeAcceptance"
+          ],
+          "additionalProperties": false
+        },
+        "researchInput": {
+          "type": "object",
+          "properties": {
+            "filename": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "sha256": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "filename",
+            "sha256"
+          ],
+          "additionalProperties": false
+        },
+        "catalogInputHashes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "sha256": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "factualHashes": {
+          "type": "object",
+          "properties": {
+            "questions": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "genderResults": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "partnerPool": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "startingProfiles": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "questions",
+            "genderResults",
+            "partnerPool",
+            "startingProfiles"
+          ],
+          "additionalProperties": false
+        },
+        "blueprintHashes": {
+          "type": "object",
+          "properties": {
+            "algorithm": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "initialization": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "algorithm",
+            "initialization"
+          ],
+          "additionalProperties": false
+        },
+        "sourceArtifactHashes": {
+          "type": "object",
+          "properties": {
+            "quizNumericSha256": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "semanticSummariesSha256": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "quizNumericSha256",
+            "semanticSummariesSha256"
+          ],
+          "additionalProperties": false
+        },
+        "validationCounts": {
+          "type": "object",
+          "properties": {
+            "questions": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "selectable": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "options": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "categories": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "natures": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "genderOutcomes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "partners": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "orderedPairs": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "startingProfiles": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            }
+          },
+          "required": [
+            "questions",
+            "selectable",
+            "options",
+            "categories",
+            "natures",
+            "genderOutcomes",
+            "partners",
+            "orderedPairs",
+            "startingProfiles"
+          ],
+          "additionalProperties": false
+        },
+        "blueBinaryBuildVerified": {
+          "type": "boolean"
+        },
+        "capabilities": {
+          "type": "object",
+          "properties": {
+            "questionLookup": {
+              "type": "boolean"
+            },
+            "scoringFacts": {
+              "type": "boolean"
+            },
+            "resultLookup": {
+              "type": "boolean"
+            },
+            "partnerPairLookup": {
+              "type": "boolean"
+            },
+            "startingLoadoutLookup": {
+              "type": "boolean"
+            },
+            "quizExecution": {
+              "type": "boolean"
+            },
+            "campaignCreation": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "questionLookup",
+            "scoringFacts",
+            "resultLookup",
+            "partnerPairLookup",
+            "startingLoadoutLookup",
+            "quizExecution",
+            "campaignCreation"
+          ],
+          "additionalProperties": false
+        },
+        "sourceLocators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "functionName": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "line": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              }
+            },
+            "required": [
+              "sourceId",
+              "functionName",
+              "line"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "reusePolicy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "catalogId",
+        "edition",
+        "kind",
+        "createdAt",
+        "sourceCommit",
+        "sources",
+        "evidence",
+        "textProvenance",
+        "researchInput",
+        "catalogInputHashes",
+        "factualHashes",
+        "blueprintHashes",
+        "sourceArtifactHashes",
+        "validationCounts",
+        "blueBinaryBuildVerified",
+        "capabilities",
+        "sourceLocators",
+        "reusePolicy"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

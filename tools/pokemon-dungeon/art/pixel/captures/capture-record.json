@@ -1,0 +1,407 @@
+{
+  "browser": "153.0.8010.12",
+  "renderer": "headless Chromium / SwiftShader",
+  "scope": "art-only; no game modules or game routes",
+  "sourceFiles": [
+    {
+      "path": "art/pixel/manifest.json",
+      "sha256": "d7fdbb9959c914129dd17f6420aa2b9a19fdef92b91eb84593b2a4daf29b46b4"
+    },
+    {
+      "path": "art-preview/pixel/viewer.js",
+      "sha256": "46d565b171aa2fa1789c7c97f1306d480d066bd0ab7688d88e0d018279e6a061"
+    },
+    {
+      "path": "art-preview/pixel/environment.js",
+      "sha256": "13e056c0c52afb2289f1354d2dea3e72cee1881152a7af07625b78a98d918159"
+    },
+    {
+      "path": "art-preview/pixel/index.html",
+      "sha256": "71ea2a9eff7e5385c8e53d57b9a54a3d09ab69ae98d6f55e738001372c85c4d9"
+    },
+    {
+      "path": "art-preview/pixel/style.css",
+      "sha256": "800c9466998070ef4ab33c8673b2e72f0c3da37b5f13d40141814d75f6baaef9"
+    }
+  ],
+  "motion": "held atlas frames; not measured performance",
+  "errors": [],
+  "captures": [
+    {
+      "file": "composition-desktop.jpg",
+      "query": "still=1&subject=composition",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "file": "composition-mobile.jpg",
+      "query": "still=1&subject=composition",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "pikachu-front.jpg",
+      "query": "still=1&subject=pikachu&angle=0",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "pikachu-front-right.jpg",
+      "query": "still=1&subject=pikachu&angle=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "pikachu-right.jpg",
+      "query": "still=1&subject=pikachu&angle=2",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "pikachu-back-right.jpg",
+      "query": "still=1&subject=pikachu&angle=3",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "pikachu-back.jpg",
+      "query": "still=1&subject=pikachu&angle=4",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "pikachu-back-left.jpg",
+      "query": "still=1&subject=pikachu&angle=5",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "pikachu-left.jpg",
+      "query": "still=1&subject=pikachu&angle=6",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "pikachu-front-left.jpg",
+      "query": "still=1&subject=pikachu&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "charmander-front.jpg",
+      "query": "still=1&subject=charmander&angle=0",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "charmander-front-right.jpg",
+      "query": "still=1&subject=charmander&angle=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "charmander-right.jpg",
+      "query": "still=1&subject=charmander&angle=2",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "charmander-back-right.jpg",
+      "query": "still=1&subject=charmander&angle=3",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "charmander-back.jpg",
+      "query": "still=1&subject=charmander&angle=4",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "charmander-back-left.jpg",
+      "query": "still=1&subject=charmander&angle=5",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "charmander-left.jpg",
+      "query": "still=1&subject=charmander&angle=6",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "charmander-front-left.jpg",
+      "query": "still=1&subject=charmander&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "groudon-front.jpg",
+      "query": "still=1&subject=groudon&angle=0",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "groudon-front-right.jpg",
+      "query": "still=1&subject=groudon&angle=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "groudon-right.jpg",
+      "query": "still=1&subject=groudon&angle=2",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "groudon-back-right.jpg",
+      "query": "still=1&subject=groudon&angle=3",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "groudon-back.jpg",
+      "query": "still=1&subject=groudon&angle=4",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "groudon-back-left.jpg",
+      "query": "still=1&subject=groudon&angle=5",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "groudon-left.jpg",
+      "query": "still=1&subject=groudon&angle=6",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "groudon-front-left.jpg",
+      "query": "still=1&subject=groudon&angle=7",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "facingRow": 0,
+      "file": "facing-pikachu-camera-0.jpg",
+      "query": "still=1&subject=pikachu&angle=0&direction-proof=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "facingRow": 7,
+      "file": "facing-pikachu-camera-1.jpg",
+      "query": "still=1&subject=pikachu&angle=1&direction-proof=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "facingRow": 6,
+      "file": "facing-pikachu-camera-2.jpg",
+      "query": "still=1&subject=pikachu&angle=2&direction-proof=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "facingRow": 5,
+      "file": "facing-pikachu-camera-3.jpg",
+      "query": "still=1&subject=pikachu&angle=3&direction-proof=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "facingRow": 4,
+      "file": "facing-pikachu-camera-4.jpg",
+      "query": "still=1&subject=pikachu&angle=4&direction-proof=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "facingRow": 3,
+      "file": "facing-pikachu-camera-5.jpg",
+      "query": "still=1&subject=pikachu&angle=5&direction-proof=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "facingRow": 2,
+      "file": "facing-pikachu-camera-6.jpg",
+      "query": "still=1&subject=pikachu&angle=6&direction-proof=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "facingRow": 1,
+      "file": "facing-pikachu-camera-7.jpg",
+      "query": "still=1&subject=pikachu&angle=7&direction-proof=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-idle-0.jpg",
+      "query": "still=1&subject=composition&clip=idle&frame=0",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-idle-1.jpg",
+      "query": "still=1&subject=composition&clip=idle&frame=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-idle-2.jpg",
+      "query": "still=1&subject=composition&clip=idle&frame=2",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-idle-3.jpg",
+      "query": "still=1&subject=composition&clip=idle&frame=3",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-walk-0.jpg",
+      "query": "still=1&subject=composition&clip=walk&frame=0",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-walk-1.jpg",
+      "query": "still=1&subject=composition&clip=walk&frame=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-walk-2.jpg",
+      "query": "still=1&subject=composition&clip=walk&frame=2",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-walk-3.jpg",
+      "query": "still=1&subject=composition&clip=walk&frame=3",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-attack-physical-0.jpg",
+      "query": "still=1&subject=composition&clip=attack-physical&frame=0",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-attack-physical-1.jpg",
+      "query": "still=1&subject=composition&clip=attack-physical&frame=1",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-attack-physical-2.jpg",
+      "query": "still=1&subject=composition&clip=attack-physical&frame=2",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    },
+    {
+      "file": "motion-attack-physical-3.jpg",
+      "query": "still=1&subject=composition&clip=attack-physical&frame=3",
+      "viewport": {
+        "width": 900,
+        "height": 900
+      }
+    }
+  ]
+}

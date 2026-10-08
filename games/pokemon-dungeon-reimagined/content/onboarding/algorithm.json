@@ -1,0 +1,449 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-onboarding",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "algorithm",
+  "natureOrder": [
+    "hardy",
+    "docile",
+    "brave",
+    "jolly",
+    "impish",
+    "naive",
+    "timid",
+    "hasty",
+    "sassy",
+    "calm",
+    "relaxed",
+    "lonely",
+    "quirky"
+  ],
+  "initialScores": {
+    "hardy": 0,
+    "docile": 0,
+    "brave": 0,
+    "jolly": 0,
+    "impish": 0,
+    "naive": 0,
+    "timid": 0,
+    "hasty": 0,
+    "sassy": 0,
+    "calm": 0,
+    "relaxed": 0,
+    "lonely": 0,
+    "quirky": 0
+  },
+  "categories": [
+    {
+      "id": "hardy",
+      "originalCategoryIndex": 0,
+      "selectableQuestionIds": [
+        "hardy-q1",
+        "hardy-q2",
+        "hardy-q3",
+        "hardy-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4767,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "docile",
+      "originalCategoryIndex": 1,
+      "selectableQuestionIds": [
+        "docile-q1",
+        "docile-q2",
+        "docile-q3",
+        "docile-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4766,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "brave",
+      "originalCategoryIndex": 2,
+      "selectableQuestionIds": [
+        "brave-q1",
+        "brave-q2a",
+        "brave-q3",
+        "brave-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4766,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "jolly",
+      "originalCategoryIndex": 3,
+      "selectableQuestionIds": [
+        "jolly-q1",
+        "jolly-q2",
+        "jolly-q3",
+        "jolly-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4767,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "impish",
+      "originalCategoryIndex": 4,
+      "selectableQuestionIds": [
+        "impish-q1",
+        "impish-q2",
+        "impish-q3",
+        "impish-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4766,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "naive",
+      "originalCategoryIndex": 5,
+      "selectableQuestionIds": [
+        "naive-q1",
+        "naive-q2",
+        "naive-q3",
+        "naive-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4766,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "timid",
+      "originalCategoryIndex": 6,
+      "selectableQuestionIds": [
+        "timid-q1",
+        "timid-q2",
+        "timid-q3",
+        "timid-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4766,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "hasty",
+      "originalCategoryIndex": 7,
+      "selectableQuestionIds": [
+        "hasty-q1",
+        "hasty-q2",
+        "hasty-q3",
+        "hasty-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4767,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "sassy",
+      "originalCategoryIndex": 8,
+      "selectableQuestionIds": [
+        "sassy-q1",
+        "sassy-q2",
+        "sassy-q3",
+        "sassy-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4766,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "calm",
+      "originalCategoryIndex": 9,
+      "selectableQuestionIds": [
+        "calm-q1",
+        "calm-q2",
+        "calm-q3",
+        "calm-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4766,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "relaxed",
+      "originalCategoryIndex": 10,
+      "selectableQuestionIds": [
+        "relaxed-q1",
+        "relaxed-q2",
+        "relaxed-q3",
+        "relaxed-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4766,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "lonely",
+      "originalCategoryIndex": 11,
+      "selectableQuestionIds": [
+        "lonely-q1",
+        "lonely-q2",
+        "lonely-q3",
+        "lonely-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4767,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "quirky",
+      "originalCategoryIndex": 12,
+      "selectableQuestionIds": [
+        "quirky-q1",
+        "quirky-q2",
+        "quirky-q3",
+        "quirky-q4"
+      ],
+      "questionCount": 4,
+      "firstDrawIdealWeightNumerator": 4,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 4766,
+      "uint16Denominator": 65536
+    },
+    {
+      "id": "misc",
+      "originalCategoryIndex": 13,
+      "selectableQuestionIds": [
+        "misc-q1",
+        "misc-q2",
+        "misc-q3"
+      ],
+      "questionCount": 3,
+      "firstDrawIdealWeightNumerator": 3,
+      "firstDrawIdealWeightDenominator": 55,
+      "firstDrawUint16Weight": 3574,
+      "uint16Denominator": 65536
+    }
+  ],
+  "sampling": {
+    "kind": "question-index-rejection",
+    "selectableIndices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54
+    ],
+    "mainQuestionCount": 8,
+    "maximumFollowUps": 1,
+    "rejectUsedCategory": true,
+    "markEntireCategoryBeforePresentation": true,
+    "uniformCategoryDraw": false,
+    "rejectionConsumesMainSlot": false,
+    "followUpConsumesMainSlot": false,
+    "followUpConsumesCategory": false,
+    "followUpQuestionId": "brave-q2b",
+    "followUpTriggerOptionId": "brave-q2a-a0",
+    "followUpSourceMenuValue": 99,
+    "applyTriggerScores": false,
+    "genderAfterMainQuestions": true,
+    "evidenceId": "red-algorithm"
+  },
+  "integerMapper": {
+    "nativeDrawSourceSymbol": "Rand32Bit",
+    "nativeInputMask": 65535,
+    "useLowBits": true,
+    "inputBits": 16,
+    "inputMinimum": 0,
+    "inputMaximum": 65535,
+    "denominator": 65536,
+    "operation": "floor-product-divided-by-denominator",
+    "questionMaximumExclusive": 55,
+    "tieMaximumExclusive": 13,
+    "questionBucketSizes": [
+      1192,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1191,
+      1192,
+      1191
+    ],
+    "tieBucketSizes": [
+      5042,
+      5041,
+      5041,
+      5041,
+      5042,
+      5041,
+      5041,
+      5041,
+      5042,
+      5041,
+      5041,
+      5041,
+      5041
+    ],
+    "browserStreamCanonicalId": null,
+    "nativeSequenceParityClaimed": false,
+    "evidenceId": "red-algorithm"
+  },
+  "tieBreak": {
+    "kind": "circular-first-maximum",
+    "randomStart": true,
+    "visitCountAfterStart": 12,
+    "ascendingOrder": true,
+    "wrapModulus": 13,
+    "replaceOnlyIfStrictlyGreater": true,
+    "uniformAmongMaxima": false,
+    "exampleTiedIds": [
+      "hardy",
+      "docile"
+    ],
+    "exampleIdealWeights": [
+      12,
+      1
+    ],
+    "exampleIdealDenominator": 13,
+    "exampleUint16Weights": [
+      60495,
+      5041
+    ],
+    "exampleUint16Denominator": 65536,
+    "evidenceId": "red-algorithm"
+  },
+  "sourceLocators": [
+    {
+      "sourceId": "red:src/personality_test1.c",
+      "functionName": "GenerateNewQuestionOrGender",
+      "line": 175
+    },
+    {
+      "sourceId": "red:src/personality_test1.c",
+      "functionName": "UpdateNatureTotals",
+      "line": 212
+    },
+    {
+      "sourceId": "red:src/personality_test1.c",
+      "functionName": "RevealPersonality",
+      "line": 257
+    }
+  ]
+}

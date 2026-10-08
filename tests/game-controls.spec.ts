@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page } from "./fixtures";
 import { DERIVED_CONFIG } from "../src/config/site";
 
 const gameTitle = "Pokemon Mystery Dungeon Blue Rescue Team - Reimagined";
@@ -13,12 +13,25 @@ interface RecordedKey {
 // This fixture records the website's input bridge; it contains no game source.
 const inputFixture = `<!doctype html><html><body>
   <output id="key-events">[]</output>
+  <output id="focused-key-events">[]</output>
+  <input id="ordinary-input" type="text" value="ordinary text">
+  <input id="confirm-input" type="text" data-game-controls-confirm="submit" value="  exact  ">
+  <input id="readonly-input" type="text" data-game-controls-confirm="submit" readonly value="read only">
+  <textarea id="ordinary-textarea" data-game-controls-confirm="submit">text</textarea>
+  <select id="ordinary-select"><option>choice</option></select>
+  <div id="ordinary-editable" contenteditable="true" data-game-controls-confirm="submit">editable</div>
   <script>
     const events = [];
+    const focusedEvents = [];
     for (const type of ["keydown", "keyup"]) {
       window.addEventListener(type, event => {
-        events.push({ type: event.type, code: event.code, key: event.key });
+        const recorded = { type: event.type, code: event.code, key: event.key };
+        events.push(recorded);
         document.getElementById("key-events").textContent = JSON.stringify(events);
+        if (document.hasFocus()) {
+          focusedEvents.push(recorded);
+          document.getElementById("focused-key-events").textContent = JSON.stringify(focusedEvents);
+        }
       });
     }
   </script>
@@ -28,12 +41,6 @@ test.beforeEach(async ({ page }) => {
   // Register before navigation so no real game module can execute.
   await page.route("**/games/pokemon-dungeon-reimagined/**", (route) =>
     route.fulfill({ contentType: "text/html", body: inputFixture }),
-  );
-  await page.route("https://api.github.com/users/**", (route) =>
-    route.fulfill({ status: 503, body: "Unavailable" }),
-  );
-  await page.route("https://drive.google.com/**", (route) =>
-    route.fulfill({ contentType: "text/html", body: "Resume preview" }),
   );
 });
 
@@ -82,6 +89,54 @@ test("should restore native desktop keyboard input after hiding touch controls",
     { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
     { type: "keydown", code: "KeyZ", key: "z" },
     { type: "keyup", code: "KeyZ", key: "z" },
+  ]);
+});
+
+test("should focus the game when showing controls and deliver focused bridge input", async ({ page }) => {
+  await openPlayer(page);
+  const controls = page.getByRole("region", { name: "Game controls", exact: true });
+  if (await controls.isVisible()) await page.getByRole("button", { name: "Hide controls", exact: true }).click();
+  const show = page.getByRole("button", { name: "Show controls", exact: true });
+  await show.focus();
+  await expect(show).toBeFocused();
+  const iframe = page.locator(`iframe[title="${gameTitle} game"]`);
+  await expect(iframe).not.toBeFocused();
+  await show.click();
+  await expect(controls).toBeVisible();
+  await expect(iframe).toBeFocused();
+  await controls.getByRole("button", { name: "Move right", exact: true }).click();
+  await expect(page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("#focused-key-events")).toHaveText(JSON.stringify([
+    { type: "keydown", code: "ArrowRight", key: "ArrowRight" },
+    { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
+  ]));
+});
+
+test("should defer game focus until the keyboard toggle key is released", async ({ page }) => {
+  await openPlayer(page);
+  const controls = page.getByRole("region", { name: "Game controls", exact: true });
+  if (await controls.isVisible()) await page.getByRole("button", { name: "Hide controls", exact: true }).click();
+  const iframe = page.locator(`iframe[title="${gameTitle} game"]`);
+  const show = page.getByRole("button", { name: "Show controls", exact: true });
+  await show.focus();
+  await page.keyboard.down("Enter");
+  await expect(controls).toBeVisible();
+  await expect(page.getByRole("button", { name: "Hide controls", exact: true })).toBeFocused();
+  await expect(iframe).not.toBeFocused();
+  await page.keyboard.up("Enter");
+  await expect(iframe).toBeFocused();
+  expect(await recordedKeys(page)).toEqual([]);
+  const hide = page.getByRole("button", { name: "Hide controls", exact: true });
+  await hide.focus();
+  await page.keyboard.down("Enter");
+  await expect(controls).toBeHidden();
+  await expect(page.getByRole("button", { name: "Show controls", exact: true })).toBeFocused();
+  await page.keyboard.up("Enter");
+  await expect(iframe).toBeFocused();
+  expect(await recordedKeys(page)).toEqual([]);
+  await page.keyboard.press("ArrowRight");
+  await expect.poll(() => recordedKeys(page)).toEqual([
+    { type: "keydown", code: "ArrowRight", key: "ArrowRight" },
+    { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
   ]);
 });
 
@@ -221,5 +276,57 @@ test("should release held input when a pointer is cancelled or controls are hidd
     { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
     { type: "keydown", code: "ArrowRight", key: "ArrowRight" },
     { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
+  ]);
+});
+
+
+test("should bridge only A and Start to an explicitly opted-in editable text input", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  const controls = page.getByRole("region", { name: "Game controls", exact: true });
+  const field = page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("#confirm-input");
+  await field.focus();
+  for (const name of ["Move up-right", "B (X key)", "Select (Shift key)", "Menu (Escape key)"]) {
+    await controls.getByRole("button", { name, exact: true }).click();
+  }
+  expect(await recordedKeys(page)).toEqual([]);
+  await expect(field).toBeFocused();
+  for (const action of [{ name: "A (Z key)", code: "KeyZ", key: "z" }, { name: "Start (Enter key)", code: "Enter", key: "Enter" }]) {
+    const before = (await recordedKeys(page)).length;
+    await controls.getByRole("button", { name: action.name, exact: true }).click();
+    await expect.poll(() => recordedKeys(page)).toHaveLength(before + 2);
+    expect((await recordedKeys(page)).slice(before)).toEqual([
+      { type: "keydown", code: action.code, key: action.key },
+      { type: "keyup", code: action.code, key: action.key },
+    ]);
+    await expect(field).toBeFocused();
+    await expect(field).toHaveValue("  exact  ");
+  }
+});
+
+test("should retain ordinary typing protection and require the exact confirm opt-in", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  const controls = page.getByRole("region", { name: "Game controls", exact: true });
+  const frame = page.frameLocator(`iframe[title="${gameTitle} game"]`);
+  for (const id of ["ordinary-input", "readonly-input", "ordinary-textarea", "ordinary-select", "ordinary-editable"]) {
+    const field = frame.locator(`#${id}`);
+    await field.focus();
+    for (const name of ["A (Z key)", "Start (Enter key)", "Move left"]) {
+      await controls.getByRole("button", { name, exact: true }).click();
+    }
+    await expect(field).toBeFocused();
+    expect(await recordedKeys(page)).toEqual([]);
+  }
+  const optedIn = frame.locator("#confirm-input");
+  await optedIn.evaluate((field) => field.setAttribute("data-game-controls-confirm", "other"));
+  await optedIn.focus();
+  await controls.getByRole("button", { name: "A (Z key)", exact: true }).click();
+  await controls.getByRole("button", { name: "Start (Enter key)", exact: true }).click();
+  expect(await recordedKeys(page)).toEqual([]);
+  await optedIn.press("Enter");
+  await expect.poll(() => recordedKeys(page)).toEqual([
+    { type: "keydown", code: "Enter", key: "Enter" },
+    { type: "keyup", code: "Enter", key: "Enter" },
   ]);
 });

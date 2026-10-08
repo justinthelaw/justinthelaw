@@ -1,0 +1,3363 @@
+{
+  "schemaVersion": 1,
+  "id": "original-blue-qualified-ai-facts-v1",
+  "qualification": "Original Red comparative at 6bcbec4f906938c0243aa2026bcbd41b577bab85; not Blue binary parity. Factual projection only; handler coverage remains separate.",
+  "sources": [
+    {
+      "path": "data/move/move_data.json",
+      "gitBlob": "19f186845d6c41afe1584feddbf4e278c57885f9",
+      "sha256": "fd5777d6514ed6fc5b2fb28c24e6e04654b4b1a17e157775e4d05c48b46131d8"
+    },
+    {
+      "path": "src/moves.c",
+      "gitBlob": "19803cc678b9814e5686a569a08efeefdf4c83d7",
+      "sha256": "bc1ed7fe1cbdeb2fd294c1329913b158b9c1365538f547f177877968dd345916"
+    },
+    {
+      "path": "src/dungeon_ai_attack.c",
+      "gitBlob": "a2ab79a775956900d8b468f7e6230b9d7448b70d",
+      "sha256": "ceb6873aeff5ae73872b654fa6e64c971c89027d391294a7baa8a5c03745c6e0"
+    },
+    {
+      "path": "src/dungeon_move_util.c",
+      "gitBlob": "b6a572284064ef22845238398904febe97b8d8ba",
+      "sha256": "0b69f36c9e8c497acdfef2c06566fe84ccb4549390d53293dc24347e57af9d53"
+    },
+    {
+      "path": "src/dungeon_logic.c",
+      "gitBlob": "4f7fb462ccc2ad2aae25cc693b2e2ea146e5ba6d",
+      "sha256": "662b79a226f4e76a5b7c4e84553477e1e310c28e2483c80b702f4bbe35d9ced9"
+    },
+    {
+      "path": "src/dungeon_config.c",
+      "gitBlob": "89a9e4afbc500742906741f26e2282da21a0d38a",
+      "sha256": "e1d24abb5eab54a2223449c9e5b7e98aba55244e87fadb13c1dd1811b496c21b"
+    }
+  ],
+  "regularAttackWeights": [
+    100,
+    20,
+    30,
+    40,
+    50
+  ],
+  "confusedAttackSkipPercent": 70,
+  "wildIq": {
+    "always": [
+      "iq-status-checker",
+      "iq-pp-checker",
+      "iq-item-catcher"
+    ],
+    "bossFlag": [
+      "iq-self-curer"
+    ],
+    "minimumItemMasterLevel": 16,
+    "tacticId": "tactic-go-after-foes"
+  },
+  "actions": [
+    {
+      "actionId": 0,
+      "weight": 0,
+      "targetFlags": 255,
+      "conditionChance": 0,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 1,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 2,
+      "weight": 10,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 3,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 4,
+      "weight": 15,
+      "targetFlags": 32,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 5,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 6,
+      "weight": 15,
+      "targetFlags": 609,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 7,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 8,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 9,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 10,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 11,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 12,
+      "weight": 15,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 13,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 14,
+      "weight": 15,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 15,
+      "weight": 15,
+      "targetFlags": 817,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 16,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 17,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 18,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 19,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 20,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 21,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 22,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 23,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 24,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 25,
+      "weight": 15,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 26,
+      "weight": 15,
+      "targetFlags": 817,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 27,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 28,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 29,
+      "weight": 20,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 30,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 31,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 32,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 33,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 34,
+      "weight": 10,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 35,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 36,
+      "weight": 10,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 37,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 38,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 39,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 40,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 41,
+      "weight": 15,
+      "targetFlags": 32,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 42,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 43,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 44,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 45,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 46,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 47,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 48,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 49,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 50,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 51,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 52,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 53,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 54,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 55,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 56,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 57,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 58,
+      "weight": 15,
+      "targetFlags": 32,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 59,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 60,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 61,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 62,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 63,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 64,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 65,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 66,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 67,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 68,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 69,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 70,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 71,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 72,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 73,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 74,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 75,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 76,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 77,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 78,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 79,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 80,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 81,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 82,
+      "weight": 30,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 83,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 84,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 85,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 86,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 87,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 88,
+      "weight": 15,
+      "targetFlags": 49,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 89,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 90,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 91,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 92,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 93,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 94,
+      "weight": 15,
+      "targetFlags": 627,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 95,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 96,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 97,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 98,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 99,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 100,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 101,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 102,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 103,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 104,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 105,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 106,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 107,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 108,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 109,
+      "weight": 10,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 110,
+      "weight": 10,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 111,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 112,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 113,
+      "weight": 10,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 114,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 115,
+      "weight": 15,
+      "targetFlags": 2,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 116,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 117,
+      "weight": 15,
+      "targetFlags": 627,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 118,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 119,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 120,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 121,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 122,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 123,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 124,
+      "weight": 15,
+      "targetFlags": 32,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 125,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 126,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 127,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 128,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 129,
+      "weight": 30,
+      "targetFlags": 32,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 130,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 131,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 132,
+      "weight": 25,
+      "targetFlags": 64,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 133,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 134,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 135,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 136,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 137,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 138,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 139,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 140,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 141,
+      "weight": 15,
+      "targetFlags": 48,
+      "conditionChance": 20,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 142,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 143,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 144,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 145,
+      "weight": 30,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 146,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 147,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 148,
+      "weight": 15,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 149,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 150,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 151,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 152,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 153,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 154,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 155,
+      "weight": 15,
+      "targetFlags": 64,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 156,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 157,
+      "weight": 30,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 158,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 159,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 160,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 161,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 162,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 163,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 164,
+      "weight": 30,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 165,
+      "weight": 15,
+      "targetFlags": 561,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 166,
+      "weight": 30,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 167,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 168,
+      "weight": 10,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 169,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 170,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 171,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 172,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 173,
+      "weight": 10,
+      "targetFlags": 561,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 174,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 175,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 176,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 177,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 178,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 179,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 180,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 181,
+      "weight": 15,
+      "targetFlags": 48,
+      "conditionChance": 20,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 182,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 183,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 184,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 185,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 186,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 187,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 188,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 189,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 190,
+      "weight": 25,
+      "targetFlags": 64,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 191,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 192,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 193,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 194,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 195,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 196,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 197,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 198,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 199,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 200,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 201,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 202,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 203,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 204,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 205,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 206,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 207,
+      "weight": 25,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 208,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 209,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 210,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 211,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 212,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 213,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 214,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 215,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 216,
+      "weight": 25,
+      "targetFlags": 32,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 217,
+      "weight": 10,
+      "targetFlags": 64,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 218,
+      "weight": 15,
+      "targetFlags": 627,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 219,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 220,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 221,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 222,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 223,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 224,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 225,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 226,
+      "weight": 20,
+      "targetFlags": 64,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 227,
+      "weight": 15,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 228,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 229,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 230,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 231,
+      "weight": 15,
+      "targetFlags": 32,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 232,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 233,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 234,
+      "weight": 10,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 235,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 236,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 237,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 238,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 239,
+      "weight": 20,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 240,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 241,
+      "weight": 30,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 242,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 243,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 244,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 245,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 246,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 247,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 248,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 249,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 250,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 251,
+      "weight": 15,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 252,
+      "weight": 10,
+      "targetFlags": 50,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 253,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 254,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 255,
+      "weight": 20,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 256,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 257,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 258,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 259,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 260,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 261,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 262,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 263,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 264,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 265,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 266,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 267,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 268,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 269,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 270,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 271,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 272,
+      "weight": 25,
+      "targetFlags": 32,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 273,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 274,
+      "weight": 15,
+      "targetFlags": 98,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 275,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 276,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 277,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 278,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 279,
+      "weight": 25,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 280,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 281,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 282,
+      "weight": 15,
+      "targetFlags": 96,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 283,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 284,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 285,
+      "weight": 25,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 286,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 287,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 288,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 289,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 290,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 291,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 292,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 293,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 294,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 295,
+      "weight": 10,
+      "targetFlags": 304,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 296,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 297,
+      "weight": 30,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 298,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 299,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 300,
+      "weight": 20,
+      "targetFlags": 64,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 301,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 302,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 303,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 304,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 305,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 306,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 307,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 308,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 309,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 310,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 311,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 312,
+      "weight": 25,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 313,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 314,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 315,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 316,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 317,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 318,
+      "weight": 15,
+      "targetFlags": 609,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 319,
+      "weight": 15,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 320,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 321,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 322,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 323,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 324,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 325,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 326,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 327,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 328,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 329,
+      "weight": 15,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 330,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 331,
+      "weight": 30,
+      "targetFlags": 1024,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 332,
+      "weight": 30,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 333,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 334,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 335,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 336,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 337,
+      "weight": 15,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 338,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 339,
+      "weight": 15,
+      "targetFlags": 817,
+      "conditionChance": 75,
+      "cannotHitFrozen": false,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 340,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 341,
+      "weight": 20,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 342,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 343,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 344,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 345,
+      "weight": 20,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 346,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 347,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 348,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 349,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 350,
+      "weight": 30,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 351,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 352,
+      "weight": 30,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 353,
+      "weight": 20,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 354,
+      "weight": 10,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 355,
+      "weight": 70,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 356,
+      "weight": 10,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 357,
+      "weight": 10,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 358,
+      "weight": 10,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 359,
+      "weight": 10,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 360,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 361,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 362,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 363,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 364,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 365,
+      "weight": 8,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 366,
+      "weight": 20,
+      "targetFlags": 64,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 367,
+      "weight": 20,
+      "targetFlags": 82,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 368,
+      "weight": 20,
+      "targetFlags": 80,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 369,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 370,
+      "weight": 8,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 371,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 372,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 373,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 374,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 375,
+      "weight": 8,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 376,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 377,
+      "weight": 20,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 378,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 20,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 379,
+      "weight": 8,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 380,
+      "weight": 8,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 381,
+      "weight": 15,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 382,
+      "weight": 15,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 383,
+      "weight": 20,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 384,
+      "weight": 8,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 385,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 386,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 387,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 388,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 389,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 390,
+      "weight": 8,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 391,
+      "weight": 8,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 392,
+      "weight": 8,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 393,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 394,
+      "weight": 20,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 395,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 396,
+      "weight": 8,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 397,
+      "weight": 20,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 398,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 399,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 400,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 401,
+      "weight": 10,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 402,
+      "weight": 8,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 403,
+      "weight": 8,
+      "targetFlags": 128,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 404,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 405,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 406,
+      "weight": 15,
+      "targetFlags": 0,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": true
+    },
+    {
+      "actionId": 407,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 408,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 409,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 410,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 411,
+      "weight": 8,
+      "targetFlags": 255,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    },
+    {
+      "actionId": 412,
+      "weight": 8,
+      "targetFlags": 48,
+      "conditionChance": 75,
+      "cannotHitFrozen": true,
+      "ignoresTaunted": false
+    }
+  ]
+}

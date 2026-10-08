@@ -135,7 +135,7 @@ Use exactly one authoritative Pokémon record per persistent individual.
 | `economy` | Carried Poké, banked Poké, Toolbox item instances, stored item counts, owned Friend Areas |
 | `progress` | Story node, completed-dungeon records, acquired milestones, recruited-species history, seen scenes, rank points, job records and accepted-job order |
 | `mode` | `town`, `scene`, `dungeon`, `awaitingRescue`, or `defeat` |
-| `session` | `null` or one active expedition with dungeon/floor, actors, map, pickups, traps, shop debt, local objective state, session inventory and deterministic RNG |
+| `session` | `null` or one active expedition with dungeon/floor, actors, map, traps, shop debt, local objective state and container references; deterministic RNG is root-owned |
 | `pendingScene` | `null` or `{sceneId, cursor, continuation}`; acknowledgment references the exact scene and cursor |
 | `pendingResult` | `null` or completion/defeat/rescue transaction awaiting acknowledgment |
 | `options` | Audio, reduced motion, camera, controls, map and accessibility settings; no combat state |
@@ -145,6 +145,32 @@ Use exactly one authoritative Pokémon record per persistent individual.
 `SessionActor` contains `actorId`, optional `pokemonId`, team role, species/form, current effective level/stats, HP, move PP, position, facing, status groups, temporary stages, held item, speed state, regeneration accumulator and recruitment provenance. A temporary recruit exists here until committed on safe exit. An escort is its own role, not a reserve-roster member.
 
 At departure, derive session actors from roster records. At safe exit, merge only explicitly persistent gains and newly retained recruits. At failed exit, apply original loss/retention rules. In level-reset dungeons, temporary level and stats never replace permanent values; preserve only the persistent changes the original game permits after verification.
+
+### Complete P07 state interface
+
+[CAMPAIGN-STATE.md](CAMPAIGN-STATE.md) and `src/contracts/campaign.js` expand the
+shorthand above into the authoritative full structural interface. In particular,
+`items`/`containers` centralize live ownership, `idSequence` allocates every
+instance kind globally, `random` owns all four campaign streams including
+`jobsRewards`, `town` owns the day, and `rescue` owns isolated suspended escrow.
+Session inventory and floor references contain no duplicated item records or RNG.
+Floor addresses use the existing catalog's `dungeonId,sectionId,floorId` identities.
+
+`validateCampaign` requires every typed policy function and the exact content
+revision, performs all structural/graph checks before policy calls, and checks
+active, historical entry and suspended namespaces explicitly. Unresolved policies
+block admission. `createCampaign` accepts only an explicit sourced initial profile
+and never supplies fallback gameplay values. The detailed document records exact
+mode/result/gate relationships and source obligations.
+
+Every domain intent additionally carries `{transactionId,expectedRevision}`.
+The transaction must equal the allocator's exact next identity, allocate itself
+first in its private draft and commit the single canonical revision once. A
+rejected/no-change draft consumes nothing. Event IDs are nonpersisted per-Adventure
+counters allocated only when committed events publish; the application attaches
+its epoch and clears presentation queues when replacing the binding. Existing
+save/replacement capture, drain, validation, guard and synchronous epoch-rotation
+requirements below remain unchanged.
 
 ### Commands and events
 

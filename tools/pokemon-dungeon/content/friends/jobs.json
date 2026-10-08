@@ -1,0 +1,177 @@
+{
+  "qualification": "pinned-red-comparative-not-blue-binary-proof",
+  "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "sourceFiles": [
+    {
+      "path": "src/items.c",
+      "sha256": "b7fb55af3420e0afd9df767d0abda097e91c171882f3374672867afe17d16d5c"
+    },
+    {
+      "path": "src/pokemon_mail.c",
+      "sha256": "24bf881fd436062870a1e733acf9b6ae03130cd3c615347189d15ef5d25a7bab"
+    },
+    {
+      "path": "src/code_803C1B4.c",
+      "sha256": "03f622b11bb45539b0713ef3b2a9756d69f61721cfc47a129a1b86006704805f"
+    },
+    {
+      "path": "src/code_80958E8.c",
+      "sha256": "00669bfa30bdd675360b2134063ed1528f63f62e06291a4d331c3a12f46a8c9a"
+    },
+    {
+      "path": "src/dungeon_info.c",
+      "sha256": "6ccf672c31673187bb796aa3efba549b4c7fcfedef4c306702340d111597a871"
+    },
+    {
+      "path": "src/code_80A26CC.c",
+      "sha256": "a343ee8d3f00b6b0e5025547176c3b8e2d03943a694e764b0fdc0e3fe7d1d22d"
+    },
+    {
+      "path": "src/data/pokemon_mail_pre.h",
+      "sha256": "2858a138d0ece2012ebe0d2366c0afc0495dfdf44b72c7134912a3ebff483458"
+    }
+  ],
+  "steelTargetItems": [
+    "item-oran-berry",
+    "item-pecha-berry",
+    "item-cheri-berry",
+    "item-blast-seed",
+    "item-max-elixir",
+    "item-white-gummi",
+    "item-orange-gummi",
+    "item-switcher-orb",
+    "item-blowback-orb",
+    "item-warp-orb",
+    "item-petrify-orb",
+    "item-escape-orb",
+    "item-hurl-orb"
+  ],
+  "eligibleSeenCandidates": [
+    {
+      "native": 16,
+      "symbol": "MONSTER_PIDGEY",
+      "speciesId": "pokemon-016"
+    },
+    {
+      "native": 19,
+      "symbol": "MONSTER_RATTATA",
+      "speciesId": "pokemon-019"
+    },
+    {
+      "native": 21,
+      "symbol": "MONSTER_SPEAROW",
+      "speciesId": "pokemon-021"
+    },
+    {
+      "native": 29,
+      "symbol": "MONSTER_NIDORAN_F",
+      "speciesId": "pokemon-029"
+    },
+    {
+      "native": 74,
+      "symbol": "MONSTER_GEODUDE",
+      "speciesId": "pokemon-074"
+    },
+    {
+      "native": 100,
+      "symbol": "MONSTER_VOLTORB",
+      "speciesId": "pokemon-100"
+    },
+    {
+      "native": 102,
+      "symbol": "MONSTER_EXEGGCUTE",
+      "speciesId": "pokemon-102"
+    },
+    {
+      "native": 127,
+      "symbol": "MONSTER_PINSIR",
+      "speciesId": "pokemon-127"
+    },
+    {
+      "native": 191,
+      "symbol": "MONSTER_SUNKERN",
+      "speciesId": "pokemon-191"
+    },
+    {
+      "native": 261,
+      "symbol": "MONSTER_TYROGUE",
+      "speciesId": "pokemon-236"
+    },
+    {
+      "native": 264,
+      "symbol": "MONSTER_ELEKID",
+      "speciesId": "pokemon-239"
+    },
+    {
+      "native": 286,
+      "symbol": "MONSTER_POOCHYENA",
+      "speciesId": "pokemon-261"
+    },
+    {
+      "native": 288,
+      "symbol": "MONSTER_ZIGZAGOON",
+      "speciesId": "pokemon-263"
+    },
+    {
+      "native": 290,
+      "symbol": "MONSTER_WURMPLE",
+      "speciesId": "pokemon-265"
+    },
+    {
+      "native": 329,
+      "symbol": "MONSTER_ARON",
+      "speciesId": "pokemon-304"
+    },
+    {
+      "native": 332,
+      "symbol": "MONSTER_MEDITITE",
+      "speciesId": "pokemon-307"
+    },
+    {
+      "native": 337,
+      "symbol": "MONSTER_MINUN",
+      "speciesId": "pokemon-312"
+    },
+    {
+      "native": 368,
+      "symbol": "MONSTER_BALTOY",
+      "speciesId": "pokemon-343"
+    },
+    {
+      "native": 402,
+      "symbol": "MONSTER_BELDUM",
+      "speciesId": "pokemon-374"
+    }
+  ],
+  "pairCandidates": {
+    "gUnknown_80E9920": [],
+    "gUnknown_80E9F8C": [],
+    "gUnknown_80E8168": []
+  },
+  "favoriteItemCandidates": [
+    [
+      "MONSTER_MEDITITE",
+      "ITEM_ORANGE_GUMMI"
+    ],
+    [
+      "MONSTER_SPEAROW",
+      "ITEM_WHITE_GUMMI"
+    ],
+    [
+      "MONSTER_RATTATA",
+      "ITEM_WHITE_GUMMI"
+    ],
+    [
+      "MONSTER_ZIGZAGOON",
+      "ITEM_WHITE_GUMMI"
+    ],
+    [
+      "MONSTER_TYROGUE",
+      "ITEM_ORANGE_GUMMI"
+    ],
+    [
+      "MONSTER_PIDGEY",
+      "ITEM_WHITE_GUMMI"
+    ]
+  ]
+}

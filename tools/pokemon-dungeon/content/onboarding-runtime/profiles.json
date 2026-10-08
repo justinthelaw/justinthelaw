@@ -1,0 +1,1439 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-onboarding",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "profiles",
+  "records": [
+    {
+      "speciesId": "pokemon-001",
+      "profileId": "pokemon-001",
+      "formId": null,
+      "originalInternalId": 1,
+      "friendAreaId": "friend-area-beau-plains",
+      "typeIds": [
+        4,
+        8
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-1289ef98f533f9f04c1f9e3585cf34b6e1d7bb3cadb2da7bcc43c5724c67cbb4",
+        "learnsetResourceId": "learn-6ddb348507e2e876f66b3cbf6d40c1de09d09c26e400887fcbd411d1792133f5"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 20,
+          "attack": 2,
+          "specialAttack": 2,
+          "defense": 1,
+          "specialDefense": 0
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 60,
+        "stats": {
+          "hp": 30,
+          "attack": 10,
+          "specialAttack": 10,
+          "defense": 9,
+          "specialDefense": 8
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 4,
+            "currentPP": 20,
+            "maximumPP": 20,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-004",
+      "profileId": "pokemon-004",
+      "formId": null,
+      "originalInternalId": 4,
+      "friendAreaId": "friend-area-mt-cleft",
+      "typeIds": [
+        2
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-9314857cc023050eda72dad9570e2d13f9f443effa1d7a3d5fccb0934d9f7e38",
+        "learnsetResourceId": "learn-6a3fb04ad54d0d9589a585f13f34a79ffc31261ee726c12e02f9c27d6af1cb9e"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 18,
+          "attack": 3,
+          "specialAttack": 3,
+          "defense": 0,
+          "specialDefense": 0
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-scratch",
+            "originalMoveId": 260,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 60,
+        "stats": {
+          "hp": 30,
+          "attack": 11,
+          "specialAttack": 11,
+          "defense": 8,
+          "specialDefense": 8
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "currentPP": 20,
+            "maximumPP": 20,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-scratch",
+            "originalMoveId": 260,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-007",
+      "profileId": "pokemon-007",
+      "formId": null,
+      "originalInternalId": 7,
+      "friendAreaId": "friend-area-turtleshell-pond",
+      "typeIds": [
+        3
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-f969a989737b2cc6b66455d8a0132745ffc9d0294ddbe3ae1d0e56b894c18d57",
+        "learnsetResourceId": "learn-49a3c4c33f2278a8cb83dc72e5620d47c75674d90c54ef23d7da846b1efed87a"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 20,
+          "attack": 3,
+          "specialAttack": 2,
+          "defense": 3,
+          "specialDefense": 3
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 60,
+        "stats": {
+          "hp": 30,
+          "attack": 9,
+          "specialAttack": 8,
+          "defense": 11,
+          "specialDefense": 11
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-tail-whip",
+            "originalMoveId": 122,
+            "learnedAtLevel": 4,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-025",
+      "profileId": "pokemon-025",
+      "formId": null,
+      "originalInternalId": 25,
+      "friendAreaId": "friend-area-energetic-forest",
+      "typeIds": [
+        5
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-c3d81ea6e0a41952f364f65a74cd8d54a6677d8dc1bcc108bad8d960b8cc5b97",
+        "learnsetResourceId": "learn-960d27a26c841b53aae5b8c513f410135c55260351a97d6a8c935c9444336789"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 13,
+          "attack": 1,
+          "specialAttack": 1,
+          "defense": 1,
+          "specialDefense": 1
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-thunder-shock",
+            "originalMoveId": 188,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 55,
+        "stats": {
+          "hp": 25,
+          "attack": 9,
+          "specialAttack": 9,
+          "defense": 9,
+          "specialDefense": 9
+        },
+        "currentHP": 25,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-thunder-shock",
+            "originalMoveId": 188,
+            "learnedAtLevel": 1,
+            "currentPP": 17,
+            "maximumPP": 17,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "currentPP": 20,
+            "maximumPP": 20,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-052",
+      "profileId": "pokemon-052",
+      "formId": null,
+      "originalInternalId": 52,
+      "friendAreaId": "friend-area-energetic-forest",
+      "typeIds": [
+        1
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-7a8c67c7faa61d24b7bdc7bd1f42b12aa476ea64bf16d6c64a5225ce04cf72d9",
+        "learnsetResourceId": "learn-fad207596f3aa9cbb4829c07c4f1c9fbd6207361150ff35d74e05eccc404bff9"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 18,
+          "attack": 2,
+          "specialAttack": 4,
+          "defense": 4,
+          "specialDefense": 4
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-scratch",
+            "originalMoveId": 260,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 60,
+        "stats": {
+          "hp": 30,
+          "attack": 10,
+          "specialAttack": 10,
+          "defense": 11,
+          "specialDefense": 10
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "currentPP": 20,
+            "maximumPP": 20,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-scratch",
+            "originalMoveId": 260,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-054",
+      "profileId": "pokemon-054",
+      "formId": null,
+      "originalInternalId": 54,
+      "friendAreaId": "friend-area-turtleshell-pond",
+      "typeIds": [
+        3
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-f5a7fe24741fda7ea157f77234cc74e1aecb4236e2478ca7f2a1054fa22d4ded",
+        "learnsetResourceId": "learn-cb683e7c0f7cd3d3ea295f3043df0738f8913ce029562ca0630e9fbdbd2bdc69"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 12,
+          "attack": 4,
+          "specialAttack": 4,
+          "defense": 3,
+          "specialDefense": 3
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-scratch",
+            "originalMoveId": 260,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-water-sport",
+            "originalMoveId": 307,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 60,
+        "stats": {
+          "hp": 24,
+          "attack": 10,
+          "specialAttack": 10,
+          "defense": 9,
+          "specialDefense": 9
+        },
+        "currentHP": 24,
+        "emptyMoveSlots": 1,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-scratch",
+            "originalMoveId": 260,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-water-sport",
+            "originalMoveId": 307,
+            "learnedAtLevel": 1,
+            "currentPP": 19,
+            "maximumPP": 19,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 2,
+            "moveId": "move-tail-whip",
+            "originalMoveId": 122,
+            "learnedAtLevel": 5,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-066",
+      "profileId": "pokemon-066",
+      "formId": null,
+      "originalInternalId": 66,
+      "friendAreaId": "friend-area-mt-discipline",
+      "typeIds": [
+        7
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-03c7f1adad2305144d20b77f3c5d2b6476779dae46d325d904b9efb5ab10966b",
+        "learnsetResourceId": "learn-525985bd136fca5350acf1e0dd02b5512494c41a8170752618fc42568b4e85f7"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 18,
+          "attack": 2,
+          "specialAttack": 2,
+          "defense": 4,
+          "specialDefense": 4
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-low-kick",
+            "originalMoveId": 92,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-leer",
+            "originalMoveId": 224,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 60,
+        "stats": {
+          "hp": 30,
+          "attack": 10,
+          "specialAttack": 10,
+          "defense": 8,
+          "specialDefense": 8
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-low-kick",
+            "originalMoveId": 92,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-leer",
+            "originalMoveId": 224,
+            "learnedAtLevel": 1,
+            "currentPP": 27,
+            "maximumPP": 27,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-104",
+      "profileId": "pokemon-104",
+      "formId": null,
+      "originalInternalId": 104,
+      "friendAreaId": "friend-area-mt-deepgreen",
+      "typeIds": [
+        9
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-4bdb041962e3a1fc78320710e46b18035d9fca2f370c34af4a3a2a3c60609afb",
+        "learnsetResourceId": "learn-845675944acfc5f7c0380e12b57a3860fb3ac15267003815b0da23b44f343e30"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 13,
+          "attack": 4,
+          "specialAttack": 2,
+          "defense": 6,
+          "specialDefense": 2
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 60,
+        "stats": {
+          "hp": 25,
+          "attack": 10,
+          "specialAttack": 8,
+          "defense": 12,
+          "specialDefense": 8
+        },
+        "currentHP": 25,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "currentPP": 20,
+            "maximumPP": 20,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-tail-whip",
+            "originalMoveId": 122,
+            "learnedAtLevel": 5,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-133",
+      "profileId": "pokemon-133",
+      "formId": null,
+      "originalInternalId": 133,
+      "friendAreaId": "friend-area-transform-forest",
+      "typeIds": [
+        1
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-fb2bc08c3571d3c75868460b587a94ba1a3c8df1b45e478eb895d8e5a0d16fa4",
+        "learnsetResourceId": "learn-b26159ba414185e2ca03a424469d3ccaacac27732c66b6c52cea8c7f60ae88bf"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 18,
+          "attack": 1,
+          "specialAttack": 1,
+          "defense": 3,
+          "specialDefense": 3
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tail-whip",
+            "originalMoveId": 122,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 2,
+            "moveId": "move-helping-hand",
+            "originalMoveId": 185,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 60,
+        "stats": {
+          "hp": 30,
+          "attack": 9,
+          "specialAttack": 9,
+          "defense": 9,
+          "specialDefense": 9
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 1,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tail-whip",
+            "originalMoveId": 122,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 2,
+            "moveId": "move-helping-hand",
+            "originalMoveId": 185,
+            "learnedAtLevel": 1,
+            "currentPP": 17,
+            "maximumPP": 17,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-152",
+      "profileId": "pokemon-152",
+      "formId": null,
+      "originalInternalId": 152,
+      "friendAreaId": "friend-area-beau-plains",
+      "typeIds": [
+        4
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-3bbddf7b38ae049240d4afcc6d632261526902b72fc865d4df98593ce5fb6e4c",
+        "learnsetResourceId": "learn-bd0bb2640b9be00e755a2babbf34c428688aba9d76dbbbcbca5af9ab2d3d4e8d"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 23,
+          "attack": 3,
+          "specialAttack": 4,
+          "defense": 1,
+          "specialDefense": 0
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 50,
+        "stats": {
+          "hp": 30,
+          "attack": 9,
+          "specialAttack": 10,
+          "defense": 9,
+          "specialDefense": 8
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "currentPP": 20,
+            "maximumPP": 20,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-155",
+      "profileId": "pokemon-155",
+      "formId": null,
+      "originalInternalId": 155,
+      "friendAreaId": "friend-area-scorched-plains",
+      "typeIds": [
+        2
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-1f5234623e7e9ec7222cba8ff67fd3146f98221e0707bb36d5c450a47f7611c1",
+        "learnsetResourceId": "learn-cb1e835b0c86a34bf00dc30671d029a34f471c0b277d8ece1d703238816199b6"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 22,
+          "attack": 2,
+          "specialAttack": 2,
+          "defense": 1,
+          "specialDefense": 1
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-leer",
+            "originalMoveId": 224,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 60,
+        "stats": {
+          "hp": 30,
+          "attack": 10,
+          "specialAttack": 10,
+          "defense": 9,
+          "specialDefense": 9
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-leer",
+            "originalMoveId": 224,
+            "learnedAtLevel": 1,
+            "currentPP": 27,
+            "maximumPP": 27,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-158",
+      "profileId": "pokemon-158",
+      "formId": null,
+      "originalInternalId": 158,
+      "friendAreaId": "friend-area-rub-a-dub-river",
+      "typeIds": [
+        3
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-2e1763a68b888506e9655dfab2e6bb13b227a3f0631db2921434a3546d9d8ce9",
+        "learnsetResourceId": "learn-d5d5f7cf43f72f67da97292c32e541de2553b43a76908fa3e0ef2d924fee5e25"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 18,
+          "attack": 2,
+          "specialAttack": 2,
+          "defense": 5,
+          "specialDefense": 5
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-leer",
+            "originalMoveId": 224,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-scratch",
+            "originalMoveId": 260,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 60,
+        "stats": {
+          "hp": 30,
+          "attack": 10,
+          "specialAttack": 10,
+          "defense": 9,
+          "specialDefense": 9
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-leer",
+            "originalMoveId": 224,
+            "learnedAtLevel": 1,
+            "currentPP": 27,
+            "maximumPP": 27,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-scratch",
+            "originalMoveId": 260,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "upc-shared-original-corroborated-red",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-252",
+      "profileId": "pokemon-252",
+      "formId": null,
+      "originalInternalId": 277,
+      "friendAreaId": "friend-area-overgrown-forest",
+      "typeIds": [
+        4
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-30a8c5f0981117212e8a4ef0003a831ef16041e1b893d6c3cdebe02453e9aa32",
+        "learnsetResourceId": "learn-faa99dd21833f73a402d9f830ca2d811cdba6151339b145a59bf8c31661ddf17"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 18,
+          "attack": 1,
+          "specialAttack": 1,
+          "defense": 3,
+          "specialDefense": 3
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-leer",
+            "originalMoveId": 224,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-pound",
+            "originalMoveId": 250,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 50,
+        "stats": {
+          "hp": 30,
+          "attack": 9,
+          "specialAttack": 9,
+          "defense": 9,
+          "specialDefense": 9
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-leer",
+            "originalMoveId": 224,
+            "learnedAtLevel": 1,
+            "currentPP": 27,
+            "maximumPP": 27,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-pound",
+            "originalMoveId": 250,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "red-comparative-only",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-255",
+      "profileId": "pokemon-255",
+      "formId": null,
+      "originalInternalId": 280,
+      "friendAreaId": "friend-area-scorched-plains",
+      "typeIds": [
+        2
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-740b728e85341839e13298c740b826b87f98ab9e79454740d5a225b678dc41fa",
+        "learnsetResourceId": "learn-d228ce792ca411a269072347ee39e90f9cf18b245f5d923a9edfb2c55f963f5e"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 18,
+          "attack": 1,
+          "specialAttack": 1,
+          "defense": 3,
+          "specialDefense": 3
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-scratch",
+            "originalMoveId": 260,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 50,
+        "stats": {
+          "hp": 30,
+          "attack": 9,
+          "specialAttack": 9,
+          "defense": 9,
+          "specialDefense": 9
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "currentPP": 20,
+            "maximumPP": 20,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-scratch",
+            "originalMoveId": 260,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "red-comparative-only",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-258",
+      "profileId": "pokemon-258",
+      "formId": null,
+      "originalInternalId": 283,
+      "friendAreaId": "friend-area-peanut-swamp",
+      "typeIds": [
+        3
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-5e2ef572b0114c7fa461efa95ed34c96866dd4ec3e70fb49d8de3a0be909e018",
+        "learnsetResourceId": "learn-36cf51a5bea006cf4ae9e87e3313e89abd66c3d5b9fc5317d8a1fb430afa2f57"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 18,
+          "attack": 4,
+          "specialAttack": 4,
+          "defense": 4,
+          "specialDefense": 4
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 40,
+        "stats": {
+          "hp": 30,
+          "attack": 10,
+          "specialAttack": 10,
+          "defense": 10,
+          "specialDefense": 10
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 2,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "currentPP": 20,
+            "maximumPP": 20,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "red-comparative-only",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    },
+    {
+      "speciesId": "pokemon-300",
+      "profileId": "pokemon-300",
+      "formId": null,
+      "originalInternalId": 325,
+      "friendAreaId": "friend-area-energetic-forest",
+      "typeIds": [
+        1
+      ],
+      "catalogResources": {
+        "levelResourceId": "level-11c61abd9ec8fe634401918bcc3b96d4cf7b19c0ec02d61fdae8acb89f3954a7",
+        "learnsetResourceId": "learn-da1902027eab80d242243f64a24fe13ff104968a3ab23cfe134af92550c6be46"
+      },
+      "rosterCreation": {
+        "level": 1,
+        "cumulativeExp": 0,
+        "stats": {
+          "hp": 19,
+          "attack": 2,
+          "specialAttack": 2,
+          "defense": 2,
+          "specialDefense": 2
+        },
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "storedPP": 0
+          }
+        ]
+      },
+      "firstPlayable": {
+        "level": 5,
+        "cumulativeExp": 50,
+        "stats": {
+          "hp": 30,
+          "attack": 10,
+          "specialAttack": 10,
+          "defense": 8,
+          "specialDefense": 8
+        },
+        "currentHP": 30,
+        "emptyMoveSlots": 1,
+        "moves": [
+          {
+            "slot": 0,
+            "moveId": "move-tackle",
+            "originalMoveId": 154,
+            "learnedAtLevel": 1,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 1,
+            "moveId": "move-growl",
+            "originalMoveId": 217,
+            "learnedAtLevel": 1,
+            "currentPP": 20,
+            "maximumPP": 20,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          },
+          {
+            "slot": 2,
+            "moveId": "move-tail-whip",
+            "originalMoveId": 122,
+            "learnedAtLevel": 3,
+            "currentPP": 22,
+            "maximumPP": 22,
+            "enabledForAI": true,
+            "linkedToPrevious": false,
+            "setForShortcut": false,
+            "ginsengBoost": 0
+          }
+        ]
+      },
+      "evidence": {
+        "creation": "red-initialization",
+        "stats": "blue-profile",
+        "experience": "red-comparative-only",
+        "moves": "blue-profile",
+        "moveFlags": "red-initialization",
+        "friendAreaMembership": "shared-areas"
+      }
+    }
+  ]
+}

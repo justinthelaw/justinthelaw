@@ -1,0 +1,3123 @@
+{
+  "mainStoryJobIntervals": [
+    {
+      "id": "diglett-request",
+      "state": [
+        4,
+        4
+      ],
+      "counterAtLeast": 2,
+      "dispatch": "EVENT_M01E02B_L004",
+      "resultState": [
+        4,
+        5
+      ],
+      "nextEffect": "Mt Steel access enabled",
+      "evidence": [
+        {
+          "path": "src/data/ground/ground_event_data.h",
+          "symbol": "EVENT_DIVIDE_FIRST",
+          "line": 1340,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_event_data.h#L1340",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "meanies-arrival",
+      "state": [
+        5,
+        5
+      ],
+      "counterAtLeast": 3,
+      "dispatch": "EVENT_M01E03A_L004",
+      "resultState": [
+        5,
+        6
+      ],
+      "nextEffect": "Team Meanies base scene then MAIN=(5,7)",
+      "earlyBranch": "EVENT_M01E03A_L003 also immediately dispatches when counter>=3 before assigning5,5, or SCRIPT_MODE==1",
+      "evidence": [
+        {
+          "path": "src/data/ground/ground_event_data.h",
+          "symbol": "EVENT_DIVIDE_FIRST",
+          "line": 1372,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_event_data.h#L1372",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        },
+        {
+          "path": "src/data/ground/ground_event_data.h",
+          "symbol": "EVENT_M01E03A_L003",
+          "line": 2057,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_event_data.h#L2057",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "metapod-request",
+      "state": {
+        "chapter": 5,
+        "stepRange": [
+          6,
+          7
+        ]
+      },
+      "counterAtLeast": 2,
+      "dispatch": "EVENT_M01E03A_L006",
+      "resultState": [
+        5,
+        8
+      ],
+      "nextEffect": "Base scene EVENT_M01E03A_L007 opens Sinister Woods and sets5,9",
+      "evidence": [
+        {
+          "path": "src/data/ground/ground_event_data.h",
+          "symbol": "EVENT_DIVIDE_FIRST",
+          "line": 1377,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_event_data.h#L1377",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "post-vindication-dream",
+      "state": [
+        15,
+        3
+      ],
+      "counterAtLeast": 3,
+      "dispatch": "EVENT_M01E09A_L003",
+      "resultState": [
+        15,
+        4
+      ],
+      "nextEffect": "Base continuation sets15,5; unlock refresh can activate SUB1 Uproar request",
+      "evidence": [
+        {
+          "path": "src/data/ground/ground_event_data.h",
+          "symbol": "EVENT_DIVIDE_SECOND",
+          "line": 1553,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_event_data.h#L1553",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "rescue-team-rally",
+      "state": [
+        15,
+        5
+      ],
+      "counterAtLeast": 4,
+      "dispatch": "EVENT_M01E09A_L005",
+      "resultState": [
+        15,
+        6
+      ],
+      "nextEffect": "Following base/square scene sets15,7",
+      "evidence": [
+        {
+          "path": "src/data/ground/ground_event_data.h",
+          "symbol": "EVENT_DIVIDE_SECOND",
+          "line": 1558,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_event_data.h#L1558",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "failed-groudon-rescue",
+      "state": [
+        15,
+        7
+      ],
+      "counterAtLeast": 2,
+      "additionalPredicate": "SUB1>=(31,0) base construction complete",
+      "dispatch": "EVENT_M01E09A_L007",
+      "resultState": [
+        15,
+        8
+      ],
+      "nextEffect": "Scene chain sets15,9; subsequent dream opens Magma Cavern15,10; base departure15,11",
+      "evidence": [
+        {
+          "path": "src/data/ground/ground_event_data.h",
+          "symbol": "EVENT_DIVIDE_SECOND",
+          "line": 1562,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_event_data.h#L1562",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    }
+  ],
+  "postgameUnlockRules": [
+    {
+      "id": "base-construction-start",
+      "when": {
+        "all": [
+          "MAIN chapter in1..27",
+          "SUB1=(0,0)",
+          "MAIN>(15,3)",
+          "MAIN<=(15,7)"
+        ]
+      },
+      "effects": [
+        "SUB1=(29,1)"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "base-completion-safety-state",
+      "when": {
+        "all": [
+          "MAIN chapter in1..27",
+          "SUB1<(31,0)",
+          "MAIN>(15,7)"
+        ]
+      },
+      "effects": [
+        "SUB1=(31,0)",
+        "Uproar Forest conquest=true",
+        "BASE_LEVEL=2"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "howling-invitation",
+      "when": {
+        "all": [
+          "MAIN chapter in1..27",
+          "SUB1=(31,0)",
+          "owns Sky Blue Plains"
+        ]
+      },
+      "effects": [
+        "SUB1=(31,1)",
+        "Howling Forest order-list=true (generates special posting)"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "postgame-entry",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "SUB2=(0,0)"
+        ]
+      },
+      "effects": [
+        "SUB2=(33,1)"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "waterfall-pond",
+      "when": {
+        "all": [
+          "MAIN chapter18..27"
+        ]
+      },
+      "effects": [
+        "Waterfall Pond job/access flag=true"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "solar-cave",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          {
+            "any": [
+              "Dive HM in toolbox",
+              "Dive HM in storage",
+              "SUB2>(33,3)"
+            ]
+          }
+        ]
+      },
+      "effects": [
+        "Solar Cave job/access flag=true"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "spinda-beasts",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "SUB4=(0,0)",
+          {
+            "any": [
+              "Surf HM in toolbox",
+              "Surf HM in storage"
+            ]
+          }
+        ]
+      },
+      "effects": [
+        "SUB4=(38,1)"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "latios-theft",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "SUB6=(0,0)",
+          "owns Southern Island",
+          {
+            "any": [
+              "Surf HM in toolbox",
+              "Surf HM in storage"
+            ]
+          }
+        ]
+      },
+      "effects": [
+        "SUB6=(46,1)"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "silver-trench-birds",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "SUB6>=(48,0)",
+          "SUB2=(34,0)",
+          "recruited Articuno",
+          "recruited Zapdos",
+          "recruited Moltres"
+        ]
+      },
+      "effects": [
+        "SUB2=(34,1)"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "wish-rumor",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "SUB6>=(48,0)",
+          "SUB8=(0,0)",
+          "SUB2>(33,3)",
+          "owns Sky Blue Plains"
+        ]
+      },
+      "effects": [
+        "SUB8=(51,1)"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "joyous-purity",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "SUB6>=(48,0)",
+          "owns Sky Blue Plains"
+        ]
+      },
+      "effects": [
+        "Joyous Tower job/access flag=true",
+        "Purity Forest job/access flag=true"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "buried-relic-mail",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "SUB2>=(34,0)",
+          "SUB7=(0,0)"
+        ]
+      },
+      "effects": [
+        "SUB7=(49,1)",
+        "Buried Relic order-list=true"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "gengar-redemption",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "SUB2>=(34,0)",
+          "SUB8>=(52,0)",
+          "SUB9=(0,0)"
+        ]
+      },
+      "effects": [
+        "SUB9=(53,1)"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ],
+      "interpretation": "Stormy Sea completed plus Medicham rescue completed; two direct scenario predicates"
+    },
+    {
+      "id": "meteor-cave",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "SUB3=(0,0)",
+          "recruited Lugia"
+        ]
+      },
+      "effects": [
+        "SUB3=(36,1)"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "western-cave",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "SUB5=(0,0)",
+          "recruited Ho-Oh"
+        ]
+      },
+      "effects": [
+        "SUB5=(44,1)"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "habitat-furnace-desert",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "owns Furnace Desert"
+        ]
+      },
+      "effects": [
+        "Desert Region job/access flag=true"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "habitat-boulder-cave",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "owns Boulder Cave"
+        ]
+      },
+      "effects": [
+        "Southern Cavern job/access flag=true"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "habitat-dragon-cave",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "owns Dragon Cave"
+        ]
+      },
+      "effects": [
+        "Wyvern Hill job/access flag=true"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "habitat-secretive-forest",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "owns Secretive Forest"
+        ]
+      },
+      "effects": [
+        "Darknight Relic job/access flag=true"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "habitat-serene-sea",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "owns Serene Sea"
+        ]
+      },
+      "effects": [
+        "Grand Sea job/access flag=true",
+        "Far-off Sea job/access flag=true"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    },
+    {
+      "id": "unown-relic",
+      "when": {
+        "all": [
+          "MAIN chapter18..27",
+          "owns Aged Chamber AN",
+          "owns Aged Chamber O?"
+        ]
+      },
+      "effects": [
+        "Unown Relic job/access flag=true"
+      ],
+      "evidence": [
+        {
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+          "path": "src/event_flag.c",
+          "symbol": "sub_8001D88",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c#L550"
+        }
+      ]
+    }
+  ],
+  "bossSceneDispatch": [
+    {
+      "fixedRoom": "FIXED_ROOM_MT_STEEL_SKARMORY",
+      "first": "CUTSCENE_MT_STEEL_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_MT_STEEL_REACHED",
+      "retry": "CUTSCENE_MT_STEEL_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_MT_STEEL_COMPLETE",
+      "revisit": "CUTSCENE_MT_STEEL_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 74,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L74",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_SINISTER_WOODS_TEAM_MEANIES",
+      "first": "CUTSCENE_SINISTER_WOODS_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_SINISTER_WOODS_REACHED",
+      "retry": "CUTSCENE_SINISTER_WOODS_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_SINISTER_WOODS_COMPLETE",
+      "revisit": "CUTSCENE_SINISTER_WOODS_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 75,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L75",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_MT_THUNDER_PEAK_ZAPDOS",
+      "first": "CUTSCENE_MT_THUNDER_PEAK_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_MT_THUNDER_PEAK_REACHED",
+      "retry": "CUTSCENE_MT_THUNDER_PEAK_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_MT_THUNDER_PEAK_COMPLETE",
+      "revisit": "CUTSCENE_MT_THUNDER_PEAK_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 76,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L76",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_MT_BLAZE_PEAK_MOLTRES",
+      "first": "CUTSCENE_MT_BLAZE_PEAK_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_MT_BLAZE_PEAK_REACHED",
+      "retry": "CUTSCENE_MT_BLAZE_PEAK_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_MT_BLAZE_PEAK_COMPLETE",
+      "revisit": "CUTSCENE_MT_BLAZE_PEAK_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 77,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L77",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_FROSTY_GROTTO_ARTICUNO",
+      "first": "CUTSCENE_FROSTY_GROTTO_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_FROSTY_GROTTO_REACHED",
+      "retry": "CUTSCENE_FROSTY_GROTTO_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_FROSTY_GROTTO_COMPLETE",
+      "revisit": "CUTSCENE_FROSTY_GROTTO_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 78,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L78",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_MT_FREEZE_PEAK_NINETALES",
+      "first": "CUTSCENE_MT_FREEZE_PEAK",
+      "reachedFlag": "CUTSCENE_FLAG_MT_FREEZE_PEAK_COMPLETE",
+      "retry": "CUTSCENE_MT_FREEZE_PEAK_POSTSTORY",
+      "completeFlag": "CUTSCENE_FLAG_MT_FREEZE_PEAK_COMPLETE",
+      "revisit": "CUTSCENE_MT_FREEZE_PEAK_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 79,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L79",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_MAGMA_CAVERN_PIT_GROUDON",
+      "first": "CUTSCENE_MAGMA_CAVERN_PIT_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_MAGMA_CAVERN_PIT_REACHED",
+      "retry": "CUTSCENE_MAGMA_CAVERN_PIT_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_MAGMA_CAVERN_PIT_COMPLETE",
+      "revisit": "CUTSCENE_MAGMA_CAVERN_PIT_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 80,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L80",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_MAGMA_CAVERN_PIT_TYRANITAR_ALAKAZAM",
+      "first": "CUTSCENE_MAGMA_CAVERN_MID",
+      "reachedFlag": "CUTSCENE_FLAG_MAGMA_CAVERN_MID_REACHED",
+      "retry": "CUTSCENE_MAGMA_CAVERN_MID_POSTSTORY",
+      "completeFlag": "CUTSCENE_FLAG_MAGMA_CAVERN_MID_REACHED",
+      "revisit": "CUTSCENE_MAGMA_CAVERN_MID_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 81,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L81",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_SKY_TOWER_SUMMIT_RAYQUAZA",
+      "first": "CUTSCENE_SKY_TOWER_SUMMIT_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_SKY_TOWER_SUMMIT_REACHED",
+      "retry": "CUTSCENE_SKY_TOWER_SUMMIT_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_SKY_TOWER_SUMMIT_COMPLETE",
+      "revisit": "CUTSCENE_SKY_TOWER_SUMMIT_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 82,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L82",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_UPROAR_FOREST_MANKEY",
+      "first": "CUTSCENE_UPROAR_FOREST_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_UPROAR_FOREST_REACHED",
+      "retry": "CUTSCENE_UPROAR_FOREST_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_UPROAR_FOREST_COMPLETE",
+      "revisit": "CUTSCENE_UPROAR_FOREST_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 83,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L83",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_WESTERN_CAVE_MEWTWO",
+      "first": "CUTSCENE_WESTERN_CAVE_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_WESTERN_CAVE_REACHED",
+      "retry": "CUTSCENE_WESTERN_CAVE_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_WESTERN_CAVE_COMPLETE",
+      "revisit": "CUTSCENE_WESTERN_CAVE_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 84,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L84",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_FIERY_FIELD_ENTEI",
+      "first": "CUTSCENE_FIERY_FIELD_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_FIERY_FIELD_REACHED",
+      "retry": "CUTSCENE_FIERY_FIELD_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_FIERY_FIELD_COMPLETE",
+      "revisit": "CUTSCENE_FIERY_FIELD_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 85,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L85",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_LIGHTNING_FIELD_RAIKOU",
+      "first": "CUTSCENE_LIGHTNING_FIELD_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_LIGHTNING_FIELD_REACHED",
+      "retry": "CUTSCENE_LIGHTNING_FIELD_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_LIGHTNING_FIELD_COMPLETE",
+      "revisit": "CUTSCENE_LIGHTNING_FIELD_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 86,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L86",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_NORTHWIND_FIELD_SUICUNE",
+      "first": "CUTSCENE_NORTHWIND_FIELD_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_NORTHWIND_FIELD_REACHED",
+      "retry": "CUTSCENE_NORTHWIND_FIELD_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_NORTHWIND_FIELD_COMPLETE",
+      "revisit": "CUTSCENE_NORTHWIND_FIELD_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 87,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L87",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_MT_FARAWAY_HO_OH",
+      "first": "CUTSCENE_MT_FARAWAY",
+      "reachedFlag": "NUM_CUTSCENE_FLAGS",
+      "retry": "CUTSCENE_MT_FARAWAY",
+      "completeFlag": "CUTSCENE_FLAG_MT_FARAWAY_COMPLETE",
+      "revisit": "CUTSCENE_MT_FARAWAY_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 88,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L88",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_NORTHERN_RANGE_LATIOS",
+      "first": "CUTSCENE_NORTHERN_RANGE_ATTEMPT1",
+      "reachedFlag": "CUTSCENE_FLAG_NORTHERN_RANGE_REACHED",
+      "retry": "CUTSCENE_NORTHERN_RANGE_ATTEMPT2",
+      "completeFlag": "CUTSCENE_FLAG_NORTHERN_RANGE_COMPLETE",
+      "revisit": "CUTSCENE_NORTHERN_RANGE_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 89,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L89",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_BURIED_RELIC_REGIROCK",
+      "first": "CUTSCENE_REGIROCK",
+      "reachedFlag": "NUM_CUTSCENE_FLAGS",
+      "retry": "CUTSCENE_REGIROCK",
+      "completeFlag": "NUM_CUTSCENE_FLAGS",
+      "revisit": "CUTSCENE_REGIROCK",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 90,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L90",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_BURIED_RELIC_REGICE",
+      "first": "CUTSCENE_REGICE",
+      "reachedFlag": "NUM_CUTSCENE_FLAGS",
+      "retry": "CUTSCENE_REGICE",
+      "completeFlag": "NUM_CUTSCENE_FLAGS",
+      "revisit": "CUTSCENE_REGICE",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 91,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L91",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_BURIED_RELIC_REGISTEEL",
+      "first": "CUTSCENE_REGISTEEL",
+      "reachedFlag": "NUM_CUTSCENE_FLAGS",
+      "retry": "CUTSCENE_REGISTEEL",
+      "completeFlag": "NUM_CUTSCENE_FLAGS",
+      "revisit": "CUTSCENE_REGISTEEL",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 92,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L92",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_WISH_CAVE_JIRACHI",
+      "first": "CUTSCENE_JIRACHI",
+      "reachedFlag": "NUM_CUTSCENE_FLAGS",
+      "retry": "CUTSCENE_JIRACHI",
+      "completeFlag": "CUTSCENE_FLAG_JIRACHI_COMPLETE",
+      "revisit": "CUTSCENE_JIRACHI_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 93,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L93",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_SILVER_TRENCH_LUGIA",
+      "first": "CUTSCENE_SILVER_TRENCH",
+      "reachedFlag": "NUM_CUTSCENE_FLAGS",
+      "retry": "CUTSCENE_SILVER_TRENCH",
+      "completeFlag": "NUM_CUTSCENE_FLAGS",
+      "revisit": "CUTSCENE_SILVER_TRENCH",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 94,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L94",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_STORMY_SEA_KYOGRE",
+      "first": "CUTSCENE_STORMY_SEA",
+      "reachedFlag": "NUM_CUTSCENE_FLAGS",
+      "retry": "CUTSCENE_STORMY_SEA",
+      "completeFlag": "NUM_CUTSCENE_FLAGS",
+      "revisit": "CUTSCENE_STORMY_SEA",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 95,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L95",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_METEOR_CAVE_DEOXYS",
+      "first": "CUTSCENE_METEOR_CAVE",
+      "reachedFlag": "NUM_CUTSCENE_FLAGS",
+      "retry": "CUTSCENE_METEOR_CAVE",
+      "completeFlag": "NUM_CUTSCENE_FLAGS",
+      "revisit": "CUTSCENE_METEOR_CAVE",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 96,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L96",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_PURITY_FOREST_CELEBI",
+      "first": "CUTSCENE_PURITY_FOREST",
+      "reachedFlag": "NUM_CUTSCENE_FLAGS",
+      "retry": "CUTSCENE_PURITY_FOREST",
+      "completeFlag": "NUM_CUTSCENE_FLAGS",
+      "revisit": "CUTSCENE_PURITY_FOREST",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 97,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L97",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_WISH_CAVE_MEDICHAM",
+      "first": "CUTSCENE_MEDICHAM",
+      "reachedFlag": "CUTSCENE_FLAG_MEDICHAM_COMPLETE",
+      "retry": "CUTSCENE_MEDICHAM_POSTSTORY",
+      "completeFlag": "CUTSCENE_FLAG_MEDICHAM_COMPLETE",
+      "revisit": "CUTSCENE_MEDICHAM_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 99,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L99",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "fixedRoom": "FIXED_ROOM_HOWLING_FOREST_SMEARGLE",
+      "first": "CUTSCENE_HOWLING_FOREST",
+      "reachedFlag": "CUTSCENE_FLAG_HOWLING_FOREST_COMPLETE",
+      "retry": "CUTSCENE_HOWLING_FOREST_POSTSTORY",
+      "completeFlag": "CUTSCENE_FLAG_HOWLING_FOREST_COMPLETE",
+      "revisit": "CUTSCENE_HOWLING_FOREST_POSTSTORY",
+      "evidence": [
+        {
+          "path": "src/dungeon_cutscene.c",
+          "symbol": "sFixedRoomCutsceneLookup",
+          "line": 100,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c#L100",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    }
+  ],
+  "recruitmentStoryFlags": [
+    {
+      "species": "MONSTER_SKARMORY",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_MT_STEEL_COMPLETE"
+    },
+    {
+      "species": "MONSTER_EKANS",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_SINISTER_WOODS_COMPLETE"
+    },
+    {
+      "species": "MONSTER_GENGAR",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_SINISTER_WOODS_COMPLETE"
+    },
+    {
+      "species": "MONSTER_MEDICHAM",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_SINISTER_WOODS_COMPLETE"
+    },
+    {
+      "species": "MONSTER_ZAPDOS",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_MT_THUNDER_PEAK_COMPLETE"
+    },
+    {
+      "species": "MONSTER_MOLTRES",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_MT_BLAZE_PEAK_COMPLETE"
+    },
+    {
+      "species": "MONSTER_ARTICUNO",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_FROSTY_GROTTO_COMPLETE"
+    },
+    {
+      "species": "MONSTER_GROUDON",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_MAGMA_CAVERN_PIT_COMPLETE"
+    },
+    {
+      "species": "MONSTER_RAYQUAZA",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_SKY_TOWER_SUMMIT_COMPLETE"
+    },
+    {
+      "species": "MONSTER_MEWTWO",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_WESTERN_CAVE_COMPLETE"
+    },
+    {
+      "species": "MONSTER_ENTEI",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_FIERY_FIELD_COMPLETE"
+    },
+    {
+      "species": "MONSTER_RAIKOU",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_LIGHTNING_FIELD_COMPLETE"
+    },
+    {
+      "species": "MONSTER_SUICUNE",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_NORTHWIND_FIELD_COMPLETE"
+    },
+    {
+      "species": "MONSTER_HO_OH",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_MT_FARAWAY_COMPLETE"
+    },
+    {
+      "species": "MONSTER_MANKEY",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_UPROAR_FOREST_COMPLETE"
+    },
+    {
+      "species": "MONSTER_REGIROCK",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_REGI_ITEM_OBTAINED"
+    },
+    {
+      "species": "MONSTER_REGICE",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_REGI_ITEM_OBTAINED"
+    },
+    {
+      "species": "MONSTER_REGISTEEL",
+      "requiredPersistentFlag": "CUTSCENE_FLAG_REGI_ITEM_OBTAINED"
+    }
+  ],
+  "scriptDungeonRoutes": [
+    {
+      "id": "SCRIPT_DUNGEON_TINY_WOODS",
+      "mapID1": "MAP_TINY_WOODS_ENTRY",
+      "mapID2": "MAP_TINY_WOODS_ENTRY",
+      "mapID3": "MAP_TINY_WOODS_ENTRY",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E01A",
+      "dungeonID": "DUNGEON_TINY_WOODS",
+      "rescueDungeonID": "RESCUE_DUNGEON_TINY_WOODS",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 9,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L9",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_THUNDERWAVE_CAVE",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": "EVENT_M01E02A_L003",
+      "scriptID2": "EVENT_M01E02A_L005",
+      "scriptID3": "GETOUT_M01E02A",
+      "dungeonID": "DUNGEON_THUNDERWAVE_CAVE",
+      "rescueDungeonID": "RESCUE_DUNGEON_THUNDERWAVE_CAVE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 22,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L22",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MT_STEEL",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": "EVENT_M01E02B_L005",
+      "scriptID2": "EVENT_M01E02B_L007",
+      "scriptID3": "GETOUT_M01E02B",
+      "dungeonID": "DUNGEON_MT_STEEL",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_STEEL",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 34,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L34",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_3",
+      "mapID1": -1,
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E02B",
+      "dungeonID": "DUNGEON_MT_STEEL",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_STEEL",
+      "unk10": 1,
+      "unk11": "FALSE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 46,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L46",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_SINISTER_WOODS",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": "EVENT_M01E03A_L008",
+      "scriptID2": "EVENT_M01E03A_L010",
+      "scriptID3": "GETOUT_M01E03A",
+      "dungeonID": "DUNGEON_SINISTER_WOODS",
+      "rescueDungeonID": "RESCUE_DUNGEON_SINISTER_WOODS",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 58,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L58",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_5",
+      "mapID1": -1,
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E03A",
+      "dungeonID": "DUNGEON_SINISTER_WOODS",
+      "rescueDungeonID": "RESCUE_DUNGEON_SINISTER_WOODS",
+      "unk10": 1,
+      "unk11": "FALSE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 70,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L70",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_SILENT_CHASM",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": "EVENT_M01E04A_L003",
+      "scriptID2": "EVENT_M01E04A_L005",
+      "scriptID3": "GETOUT_M01E04A",
+      "dungeonID": "DUNGEON_SILENT_CHASM",
+      "rescueDungeonID": "RESCUE_DUNGEON_SILENT_CHASM",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 82,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L82",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MT_THUNDER",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_MT_THUNDER_MID",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": "EVENT_M01E04B_L003",
+      "scriptID2": "EVENT_M01E04B_L005",
+      "scriptID3": "GETOUT_M01E04B",
+      "dungeonID": "DUNGEON_MT_THUNDER",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_THUNDER",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 94,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L94",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MT_THUNDER_PEAK",
+      "mapID1": -1,
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_MT_THUNDER_MID",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E04B",
+      "dungeonID": "DUNGEON_MT_THUNDER_PEAK",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_THUNDER",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 106,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L106",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_GREAT_CANYON",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": "EVENT_M01E05A_L003",
+      "scriptID2": "EVENT_M01E05A_L005",
+      "scriptID3": "GETOUT_M01E05A",
+      "dungeonID": "DUNGEON_GREAT_CANYON",
+      "rescueDungeonID": "RESCUE_DUNGEON_GREAT_CANYON",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 118,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L118",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_LAPIS_CAVE",
+      "mapID1": "MAP_LAPIS_CAVE_ENTRY",
+      "mapID2": "MAP_LAPIS_CAVE_END",
+      "mapID3": "MAP_LAPIS_CAVE_ENTRY",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E07A",
+      "dungeonID": "DUNGEON_LAPIS_CAVE",
+      "rescueDungeonID": "RESCUE_DUNGEON_LAPIS_CAVE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 130,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L130",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MT_BLAZE",
+      "mapID1": "MAP_MT_BLAZE_ENTRY",
+      "mapID2": "MAP_MT_BLAZE_MID",
+      "mapID3": "MAP_MT_BLAZE_ENTRY",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E07B",
+      "dungeonID": "DUNGEON_MT_BLAZE",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_BLAZE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 142,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L142",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MT_BLAZE_PEAK",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": "MAP_MT_BLAZE_MID",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E07B",
+      "dungeonID": "DUNGEON_MT_BLAZE_PEAK",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_BLAZE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 154,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L154",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_FROSTY_FOREST",
+      "mapID1": "MAP_FROSTY_FOREST_ENTRY",
+      "mapID2": "MAP_FROSTY_FOREST_MID",
+      "mapID3": "MAP_FROSTY_FOREST_ENTRY",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E08A",
+      "dungeonID": "DUNGEON_FROSTY_FOREST",
+      "rescueDungeonID": "RESCUE_DUNGEON_FROSTY_FOREST",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 166,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L166",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_FROSTY_GROTTO",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": "MAP_FROSTY_FOREST_MID",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E08A",
+      "dungeonID": "DUNGEON_FROSTY_GROTTO",
+      "rescueDungeonID": "RESCUE_DUNGEON_FROSTY_FOREST",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 178,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L178",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MT_FREEZE",
+      "mapID1": "MAP_MT_FREEZE_ENTRY",
+      "mapID2": "MAP_MT_FREEZE_MID",
+      "mapID3": "MAP_MT_FREEZE_ENTRY",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E08B",
+      "dungeonID": "DUNGEON_MT_FREEZE",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_FREEZE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 190,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L190",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MT_FREEZE_PEAK",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": "MAP_MT_FREEZE_MID",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E08B",
+      "dungeonID": "DUNGEON_MT_FREEZE_PEAK",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_FREEZE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 202,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L202",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MAGMA_CAVERN",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_MAGMA_CAVERN_MID",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": "EVENT_M01E09A_L011",
+      "scriptID2": "EVENT_M01E09A_L013",
+      "scriptID3": "GETOUT_M01E09A",
+      "dungeonID": "DUNGEON_MAGMA_CAVERN",
+      "rescueDungeonID": "RESCUE_DUNGEON_MAGMA_CAVERN",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 214,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L214",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MAGMA_CAVERN_PIT",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": "MAP_MAGMA_CAVERN_MID",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E09A",
+      "dungeonID": "DUNGEON_MAGMA_CAVERN_PIT",
+      "rescueDungeonID": "RESCUE_DUNGEON_MAGMA_CAVERN",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 226,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L226",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_SKY_TOWER",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_SKY_TOWER_MID",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": "EVENT_M01E10A_L004",
+      "scriptID2": "EVENT_M01E10A_L006",
+      "scriptID3": "GETOUT_M01E10A",
+      "dungeonID": "DUNGEON_SKY_TOWER",
+      "rescueDungeonID": "RESCUE_DUNGEON_SKY_TOWER",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 238,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L238",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_SKY_TOWER_SUMMIT",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": "MAP_SKY_TOWER_MID",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E10A",
+      "dungeonID": "DUNGEON_SKY_TOWER_SUMMIT",
+      "rescueDungeonID": "RESCUE_DUNGEON_SKY_TOWER",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 250,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L250",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_DUMMY",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S00E01A",
+      "dungeonID": "DUNGEON_TINY_WOODS",
+      "rescueDungeonID": "RESCUE_DUNGEON_DUMMY",
+      "unk10": 1,
+      "unk11": "FALSE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 262,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L262",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_UPROAR_FOREST",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S01E01A",
+      "dungeonID": "DUNGEON_UPROAR_FOREST",
+      "rescueDungeonID": "RESCUE_DUNGEON_UPROAR_FOREST",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 274,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L274",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_HOWLING_FOREST",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S01E02A",
+      "dungeonID": "DUNGEON_HOWLING_FOREST",
+      "rescueDungeonID": "RESCUE_DUNGEON_HOWLING_FOREST",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 286,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L286",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_STORMY_SEA",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S02E01A",
+      "dungeonID": "DUNGEON_STORMY_SEA",
+      "rescueDungeonID": "RESCUE_DUNGEON_STORMY_SEA",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 298,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L298",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_SILVER_TRENCH",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S02E02A",
+      "dungeonID": "DUNGEON_SILVER_TRENCH",
+      "rescueDungeonID": "RESCUE_DUNGEON_SILVER_TRENCH",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 310,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L310",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_METEOR_CAVE",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S03E01A",
+      "dungeonID": "DUNGEON_METEOR_CAVE",
+      "rescueDungeonID": "RESCUE_DUNGEON_METEOR_CAVE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 322,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L322",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_GREAT_CANYON_2",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S04E01A",
+      "dungeonID": "DUNGEON_GREAT_CANYON",
+      "rescueDungeonID": "RESCUE_DUNGEON_GREAT_CANYON_2",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 334,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L334",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_FIERY_FIELD",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S04E01B",
+      "dungeonID": "DUNGEON_FIERY_FIELD",
+      "rescueDungeonID": "RESCUE_DUNGEON_FIERY_FIELD",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 346,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L346",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_LIGHTNING_FIELD",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S04E01C",
+      "dungeonID": "DUNGEON_LIGHTNING_FIELD",
+      "rescueDungeonID": "RESCUE_DUNGEON_LIGHTNING_FIELD",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 358,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L358",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_NORTHWIND_FIELD",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S04E01D",
+      "dungeonID": "DUNGEON_NORTHWIND_FIELD",
+      "rescueDungeonID": "RESCUE_DUNGEON_NORTHWIND_FIELD",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 370,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L370",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MT_FARAWAY",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S04E01E",
+      "dungeonID": "DUNGEON_MT_FARAWAY",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_FARAWAY",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 382,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L382",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_WESTERN_CAVE",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S05E01A",
+      "dungeonID": "DUNGEON_WESTERN_CAVE",
+      "rescueDungeonID": "RESCUE_DUNGEON_WESTERN_CAVE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 394,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L394",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_NORTHERN_RANGE",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S06E01A",
+      "dungeonID": "DUNGEON_NORTHERN_RANGE",
+      "rescueDungeonID": "RESCUE_DUNGEON_NORTHERN_RANGE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 406,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L406",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_PITFALL_VALLEY",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S06E01B",
+      "dungeonID": "DUNGEON_PITFALL_VALLEY",
+      "rescueDungeonID": "RESCUE_DUNGEON_PITFALL_VALLEY",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 418,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L418",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_BURIED_RELIC",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S07E01A",
+      "dungeonID": "DUNGEON_BURIED_RELIC",
+      "rescueDungeonID": "RESCUE_DUNGEON_BURIED_RELIC",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 430,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L430",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_WISH_CAVE",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S08E01A",
+      "dungeonID": "DUNGEON_WISH_CAVE",
+      "rescueDungeonID": "RESCUE_DUNGEON_WISH_CAVE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 442,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L442",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MT_FREEZE_2",
+      "mapID1": "MAP_MT_FREEZE_ENTRY",
+      "mapID2": "MAP_MT_FREEZE_MID",
+      "mapID3": "MAP_MT_FREEZE_ENTRY",
+      "scriptID1": "EVENT_S09E01A_L004B",
+      "scriptID2": "EVENT_S09E01A_L004B",
+      "scriptID3": "GETOUT_S09E01A",
+      "dungeonID": "DUNGEON_MT_FREEZE",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_FREEZE_2",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 454,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L454",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MT_FREEZE_PEAK_2",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": "MAP_MT_FREEZE_MID",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_S09E01A",
+      "dungeonID": "DUNGEON_MT_FREEZE_PEAK_2",
+      "rescueDungeonID": "RESCUE_DUNGEON_MT_FREEZE_2",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 466,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L466",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MURKY_CAVE",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": "EVENT_S09E01B_L001B",
+      "scriptID2": "EVENT_S09E01B_L001B",
+      "scriptID3": "GETOUT_S09E01B",
+      "dungeonID": "DUNGEON_MURKY_CAVE",
+      "rescueDungeonID": "RESCUE_DUNGEON_MURKY_CAVE",
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 478,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L478",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_DESERT_REGION",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_DESERT_REGION",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 490,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L490",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_SOUTHERN_CAVERN",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_SOUTHERN_CAVERN",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 502,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L502",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_WYVERN_HILL",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_WYVERN_HILL",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 514,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L514",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_SOLAR_CAVE",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_SOLAR_CAVE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 526,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L526",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_DARKNIGHT_RELIC",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_DARKNIGHT_RELIC",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 538,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L538",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_GRAND_SEA",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_GRAND_SEA",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 550,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L550",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_WATERFALL_POND",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_WATERFALL_POND",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 562,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L562",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_UNOWN_RELIC",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_UNOWN_RELIC",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 574,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L574",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_JOYOUS_TOWER",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_JOYOUS_TOWER",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 586,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L586",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_FAR_OFF_SEA",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_FAR_OFF_SEA",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 598,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L598",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_PURITY_FOREST",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_D62E01A",
+      "dungeonID": "DUNGEON_PURITY_FOREST",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 610,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L610",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_ODDITY_CAVE",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_D43E01A",
+      "dungeonID": "DUNGEON_ODDITY_CAVE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 622,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L622",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_REMAINS_ISLAND",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_D44E01A",
+      "dungeonID": "DUNGEON_REMAINS_ISLAND",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 634,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L634",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_MARVELOUS_SEA",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_D45E01A",
+      "dungeonID": "DUNGEON_MARVELOUS_SEA",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 646,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L646",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_FANTASY_STRAIT",
+      "mapID1": "MAP_TEAM_BASE",
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_D46E01A",
+      "dungeonID": "DUNGEON_FANTASY_STRAIT",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 658,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L658",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_NORMAL_MAZE_2",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_NORMAL_MAZE_2",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 670,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L670",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_FIRE_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_FIRE_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 682,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L682",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_WATER_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_WATER_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 694,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L694",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_GRASS_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_GRASS_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 706,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L706",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_ELECTRIC_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_ELECTRIC_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 718,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L718",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_ICE_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_ICE_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 730,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L730",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_FIGHTING_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_FIGHTING_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 742,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L742",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_GROUND_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_GROUND_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 754,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L754",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_FLYING_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_FLYING_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 766,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L766",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_PSYCHIC_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_PSYCHIC_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 778,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L778",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_POISON_MAZE_2",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_POISON_MAZE_2",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 790,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L790",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_BUG_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_BUG_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 802,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L802",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_ROCK_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_ROCK_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 814,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L814",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_GHOST_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_GHOST_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 826,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L826",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_DRAGON_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_DRAGON_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 838,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L838",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_DARK_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_DARK_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 850,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L850",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_STEEL_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_STEEL_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 862,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L862",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_TEAM_SHIFTY",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_TEAM_SHIFTY",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 874,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L874",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_TEAM_CONSTRICTOR",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_TEAM_CONSTRICTOR",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 886,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L886",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_TEAM_HYDRO",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_TEAM_HYDRO",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 898,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L898",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_TEAM_RUMBLEROCK",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_TEAM_RUMBLEROCK",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 910,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L910",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_RESCUE_TEAM_2",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_RESCUE_TEAM_2",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 922,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L922",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_RESCUE_TEAM_MAZE",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_RESCUE_TEAM_MAZE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 934,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L934",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_ROCK_PATH",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E07T",
+      "dungeonID": "DUNGEON_ROCK_PATH",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 946,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L946",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_SNOW_PATH",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_M01E08T",
+      "dungeonID": "DUNGEON_SNOW_PATH",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "TRUE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 958,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L958",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_80",
+      "mapID1": -1,
+      "mapID2": "MAP_PELIPPER_POST_OFFICE_INSIDE",
+      "mapID3": "MAP_PELIPPER_POST_OFFICE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_U00E01A",
+      "dungeonID": "DUNGEON_OUT_ON_RESCUE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "FALSE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 970,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L970",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_81",
+      "mapID1": -1,
+      "mapID2": "MAP_TEAM_BASE_INSIDE",
+      "mapID3": "MAP_TEAM_BASE_INSIDE",
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_R00E01A",
+      "dungeonID": "DUNGEON_OUT_ON_RESCUE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "FALSE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 982,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L982",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    },
+    {
+      "id": "SCRIPT_DUNGEON_82",
+      "mapID1": -1,
+      "mapID2": -1,
+      "mapID3": -1,
+      "scriptID1": -1,
+      "scriptID2": -1,
+      "scriptID3": "GETOUT_T00E01A",
+      "dungeonID": "DUNGEON_OUT_ON_RESCUE",
+      "rescueDungeonID": -1,
+      "unk10": 1,
+      "unk11": "FALSE",
+      "evidence": [
+        {
+          "path": "src/code_80A26CC.c",
+          "symbol": "sScriptDungeonData",
+          "line": 994,
+          "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c#L994",
+          "edition": "original-red-comparative",
+          "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+        }
+      ]
+    }
+  ]
+}

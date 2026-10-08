@@ -22,6 +22,8 @@ npm run check
 | `npm run vendor -- --check` | Recompute in memory and compare every output byte; never writes files. |
 | `npm run lint` | Parse/lint authored source and check local module boundaries. |
 | `npm run typecheck` | Independent strict JSDoc checks; the compiler host maps exact local vendor paths to pinned Three.js declarations. |
+| `npm run item-ai:export` | Export all240 qualified native item AI/category facts independently of frozen effects/save dependencies. |
+| `npm run item-ai:check` | Compare every identity/category/action/stack/ordered AI triple with the pinned native snapshot and existing complete item corpus, then compare export bytes. |
 | `npm run assets` | Validate asset metadata and local files without importing game modules. |
 | `npm run art:export` | Run original authoring generators and export candidate GLBs/manifests outside the game tree. |
 | `npm run content` | Validate the four authoring catalogs, exact identities, source locators, blockers and relationships; no game execution. |
@@ -137,3 +139,18 @@ random state. See `plan/STATE-FOUNDATION.md` for accepted scope and the retained
 PRNG notice. These modules are statically checked only and are not wired into
 the startup shell. Complete state validation, campaign creation, gameplay and
 save persistence still require their source-backed package contracts.
+
+The first town shop tables can be compared to the pinned original-Red research
+checkout with `python scripts/export-town-shop-facts.py --source-root PATH --check`.
+The script reads C/JSON as source data without importing or executing game code.
+Omit `--check` only for an intentional researched re-export. Numerical provenance
+and current service boundaries are in the game's `plan/TOWN-JOBS.md`.
+
+### Early ordinary-job facts
+
+`python scripts/export-early-job-facts.py --source-root /path/to/pinned/pmd-red --check`
+compares two early route item masks, ten finite source-qualified species,
+floor/rank facts and four reward items. It also proves that native pair and
+favorite-item transformations have no eligible rows in this slice. It reads
+source/data only; it neither imports nor executes the game. The pinned reference
+is original Red comparative6bcbec4f, not Blue binary proof.

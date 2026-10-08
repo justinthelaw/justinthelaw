@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-campaign-facts",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "model",
+  "model": {
+    "scenarioIds": [
+      "MAIN",
+      "SUB1",
+      "SUB2",
+      "SUB3",
+      "SUB4",
+      "SUB5",
+      "SUB6",
+      "SUB7",
+      "SUB8",
+      "SUB9",
+      "SELECT"
+    ],
+    "scenarioComponentMinimum": 0,
+    "scenarioComponentMaximum": 255,
+    "comparison": {
+      "ordering": "lexicographic-chapter-step",
+      "negativeStepEquality": "chapter-only",
+      "negativeStepOrdering": "chapter-only",
+      "debugBeforeAfterResult": false,
+      "geComposition": "not-before",
+      "leComposition": "not-after",
+      "chapterOnlyComparison": "integer-comparison-without-debug-exception",
+      "debugScenarioChapter": 58
+    },
+    "mainPairAssignment": {
+      "resetCounterId": "campaign-variable-clear-count",
+      "resetValue": 0,
+      "when": "either-component-changes",
+      "samePairPreservesCounter": true
+    },
+    "rewardCounter": {
+      "id": "campaign-variable-clear-count",
+      "increment": 1,
+      "maximum": 100,
+      "unit": "eligible-completed-job-reward",
+      "requiresCallbackId": "job-reward",
+      "incrementAfterCallbackSuccess": true,
+      "multipleRewardsCountSeparately": true,
+      "failedOrEmptyOutingIncrement": 0,
+      "explicitResetHookId": "event-divide-init"
+    },
+    "entryFrequency": {
+      "id": "campaign-variable-dungeon-enter-frequency",
+      "increment": 1,
+      "outcomes": [
+        "won",
+        "mode-10",
+        "mode-11",
+        "lost"
+      ],
+      "narrativeDay": false
+    },
+    "cutsceneFlags": {
+      "readScope": "persistent",
+      "temporaryWriteScope": "pending",
+      "flush": "or-pending-into-persistent-then-clear-pending",
+      "unset": "clear-persistent-and-pending",
+      "sentinelReads": false
+    },
+    "dispatchOrder": [
+      "nonstory-mission-revisit",
+      "persistent-complete-revisit",
+      "persistent-reached-retry",
+      "first-and-set-pending-reached"
+    ],
+    "dispatchAfter": [
+      "mark-cutscene-mode",
+      "clear-weather",
+      "flush-pending-flags"
+    ],
+    "rosterOwnership": "current-existing-roster-species",
+    "basePopulationOrder": [
+      "main-continuation",
+      "postgame-request",
+      "ordinary-population"
+    ],
+    "callbackActionSemantics": "require-acknowledged-success-before-later-actions",
+    "ruleOrdering": "ascending-order-per-hook",
+    "unmatchedQuestState": "preserve-for-next-applicable-hook",
+    "executionProvided": false,
+    "dialogueProvided": false,
+    "blueBinaryParityClaimed": false
+  }
+}

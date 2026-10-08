@@ -1,0 +1,3032 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-campaign-facts",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "sources",
+  "sources": [
+    {
+      "id": "red:include/code_80A26CC.h",
+      "path": "include/code_80A26CC.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/code_80A26CC.h",
+      "sha256": "09cd4e75dad04ab8d810d19368adb4f1b2d998becbeb257b9798f3a9d7bcca34",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:include/constants/event_flag.h",
+      "path": "include/constants/event_flag.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/event_flag.h",
+      "sha256": "bf661686c214a47db1680087b3daba1ba35d1e51e223c9698a6b499902ba9618",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:include/constants/ground_map.h",
+      "path": "include/constants/ground_map.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/ground_map.h",
+      "sha256": "f9098dd01205230990efd3db96146e7cccea509feedc78d89f9ed651b5bd73c5",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:include/constants/script_cmd.h",
+      "path": "include/constants/script_cmd.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/script_cmd.h",
+      "sha256": "302e707a355ddfc1be8d8ddcfdc0a8dc84168884a638816f37ca12da1d7c218c",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:include/constants/script_dungeon_id.h",
+      "path": "include/constants/script_dungeon_id.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/script_dungeon_id.h",
+      "sha256": "d86409fc101d8c41bac8bef67994c6d6918345f63249afdfbf41a238aa881b42",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:include/data_script.h",
+      "path": "include/data_script.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/data_script.h",
+      "sha256": "a4b87be3e06e8fa04809fcafba91a62931631f0e87d5f060d40872e14cf07719",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:include/event_flag.h",
+      "path": "include/event_flag.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/event_flag.h",
+      "sha256": "06eac830ddef83de3f07bc019356fb28e1b6492df05dd073b9bb601cb85fb778",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:include/ground_script.h",
+      "path": "include/ground_script.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/ground_script.h",
+      "sha256": "8376fb80162ecb84896ed720716948d944e9d48ed69604c5c426c4bde53e2e50",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:include/script_vars_info.h",
+      "path": "include/script_vars_info.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/script_vars_info.h",
+      "sha256": "a0367253627a5c047dd058b9b2eaab7f3a462a887cb3a154b1358c8b9cfdf6f7",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/code_80A26CC.c",
+      "path": "src/code_80A26CC.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/code_80A26CC.c",
+      "sha256": "2b3a5099058a2c9c9a9b8974f2dbf04dd5bd10833a875a09f91ff6451bcfb49b",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/data/event_flag.h",
+      "path": "src/data/event_flag.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/event_flag.h",
+      "sha256": "9d7e3a99249322419b229e22a2a66fc6e891e86b0def0ef01a7d85e0bc813e08",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/data/ground/ground_data_b01p01a_station.h",
+      "path": "src/data/ground/ground_data_b01p01a_station.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_b01p01a_station.h",
+      "sha256": "7666e8a04e6f98e92aedd9677e094ef1561c5bc6122ad2855a2d44c5fb7d9c2c",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/data/ground/ground_data_b01p02a_station.h",
+      "path": "src/data/ground/ground_data_b01p02a_station.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_b01p02a_station.h",
+      "sha256": "ddfc7655d53c18ebee4027326ef56b66ba3f803442bc1bf48a575b34fa9a1fca",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/data/ground/ground_data_t01p01_station.h",
+      "path": "src/data/ground/ground_data_t01p01_station.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_t01p01_station.h",
+      "sha256": "6676ed07587d5cb4cc0ba7badf178020433be8bafb3d6f0f00debc981061eb52",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/data/ground/ground_data_t01p02a_station.h",
+      "path": "src/data/ground/ground_data_t01p02a_station.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_t01p02a_station.h",
+      "sha256": "2a3ac9f5a3e7ede6f9c75820bcad2581967138dd4903ffacbcafedc9b9591cf1",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/data/ground/ground_data_t01p03_station.h",
+      "path": "src/data/ground/ground_data_t01p03_station.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_t01p03_station.h",
+      "sha256": "776c73736f848899c46d514374ad3069ffbe4fb6fc6aa5a957d79f37c65144fe",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/data/ground/ground_data_t01p04_station.h",
+      "path": "src/data/ground/ground_data_t01p04_station.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_t01p04_station.h",
+      "sha256": "87484c686d6d38d99fb7204b2565893c503945520bea72d6de789b433353b009",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/data/ground/ground_data_t01p05_station.h",
+      "path": "src/data/ground/ground_data_t01p05_station.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_t01p05_station.h",
+      "sha256": "02dc1928648504ba1505786bc5e6c6b99230793aa3f263dd01349866fcef41ac",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/data/ground/ground_data_t01p06_station.h",
+      "path": "src/data/ground/ground_data_t01p06_station.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_data_t01p06_station.h",
+      "sha256": "20f4ea4e67eec4b6b428b15013053804ce73d3754b26c8b6f5d781f1fe3dd1e3",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/data/ground/ground_event_data.h",
+      "path": "src/data/ground/ground_event_data.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/data/ground/ground_event_data.h",
+      "sha256": "480658e5ce91474636b491f66bd497d56aff59dd1c4f0d857688b40ce37868b1",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene.c",
+      "path": "src/dungeon_cutscene.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene.c",
+      "sha256": "97102d8b8383a9dcc7f7b7f48186f4dcdfdeb2219f72cc632f33406701fbd693",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_articuno.c",
+      "path": "src/dungeon_cutscene_articuno.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_articuno.c",
+      "sha256": "7742409610f9279d48e0fa1d7068154ee88f4ad0b1e636b0a14a2571c4960cf8",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_celebi.c",
+      "path": "src/dungeon_cutscene_celebi.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_celebi.c",
+      "sha256": "f2428ed77dff9dcb4b89429b282643a1b5d7c296db649e8df2adcb9a1e87e5fc",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_deoxys.c",
+      "path": "src/dungeon_cutscene_deoxys.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_deoxys.c",
+      "sha256": "506b063ecf845875db1879a3377d3f83091b47b2fec72cf5047f21f0406e1a8c",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_empty_summit.c",
+      "path": "src/dungeon_cutscene_empty_summit.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_empty_summit.c",
+      "sha256": "8373d400a4b7b0c068d377988defb491ffd45d646b74965ea0f6c1138bb881bb",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_entei.c",
+      "path": "src/dungeon_cutscene_entei.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_entei.c",
+      "sha256": "d2c671fcbd6d212e38a7bb0fd6e7b272e38f0339f5b9550da4e34c54a3c40792",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_groudon.c",
+      "path": "src/dungeon_cutscene_groudon.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_groudon.c",
+      "sha256": "77808120075e1c1b00efa482ca3ad98d322c500fb1f153680c05c329d164c187",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_hooh.c",
+      "path": "src/dungeon_cutscene_hooh.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_hooh.c",
+      "sha256": "c8398278315958c90f5ec1afcbfc766817ba0341fd689b7653f856062640490d",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_jirachi.c",
+      "path": "src/dungeon_cutscene_jirachi.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_jirachi.c",
+      "sha256": "6a11cb8c195f956dd9d726f365a518a462a2f26c7d44e0ecdcae5a708469b71e",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_kyogre.c",
+      "path": "src/dungeon_cutscene_kyogre.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_kyogre.c",
+      "sha256": "98d5456722e3b6fb4f579a10ed7227ebe97bb1f80633ffece73bc9f4766d3657",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_latios.c",
+      "path": "src/dungeon_cutscene_latios.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_latios.c",
+      "sha256": "2693931079cc81610a6739c81a705b3daf2de14a53f0b62eba746e57f5c4eb09",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_lugia.c",
+      "path": "src/dungeon_cutscene_lugia.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_lugia.c",
+      "sha256": "9af4983b7e782f26cefb1fc0572a35f7797604081363bf6ee73a8d7933cec3a1",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_magma_cavern.c",
+      "path": "src/dungeon_cutscene_magma_cavern.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_magma_cavern.c",
+      "sha256": "1079e739a74fef8f38d3307b54e3dd33c0fcd1882eaca2d41d4c27f1dac51935",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_mankey.c",
+      "path": "src/dungeon_cutscene_mankey.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_mankey.c",
+      "sha256": "d96761147f86133f564cac414ec61d99b94a8ba14953942b53f637b07067cf8f",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_meanies.c",
+      "path": "src/dungeon_cutscene_meanies.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_meanies.c",
+      "sha256": "3b3aaf5ba19ebd846803c6e9ef9398f35be9e7942708ccbc4d786adcb3e73b6d",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_medicham.c",
+      "path": "src/dungeon_cutscene_medicham.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_medicham.c",
+      "sha256": "136ea61cdbdcd537c745321a592e1acb300563472c82dcacad1da560615071ea",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_mewtwo.c",
+      "path": "src/dungeon_cutscene_mewtwo.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_mewtwo.c",
+      "sha256": "e5afe875d028abc43b2a5726be34934e39f6fb317a721be993efb0da99f5b116",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_moltres.c",
+      "path": "src/dungeon_cutscene_moltres.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_moltres.c",
+      "sha256": "cc6e32b6777684478ef8f00ae8bbe5217578659594a09f65f4f3fa8f3a874de7",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_raikou.c",
+      "path": "src/dungeon_cutscene_raikou.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_raikou.c",
+      "sha256": "dba906138a35f3cf754c06c4d0b6a979d2f870a1a523b2f063d58b83192d5f36",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_rayquaza.c",
+      "path": "src/dungeon_cutscene_rayquaza.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_rayquaza.c",
+      "sha256": "3942713edc6fdd7a4dff07a4d80b03ef6d7bec78434eb1be32107c0576586c14",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_regis.c",
+      "path": "src/dungeon_cutscene_regis.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_regis.c",
+      "sha256": "aebf40d15e6542e7de150b6b98e3419307bb7987057a652714acf8630ce04c65",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_skarmory.c",
+      "path": "src/dungeon_cutscene_skarmory.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_skarmory.c",
+      "sha256": "257eb9b1348c919cc00bdd5352624693110deffcb8975101e41019c9d1497df3",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_smeargle.c",
+      "path": "src/dungeon_cutscene_smeargle.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_smeargle.c",
+      "sha256": "7333799f1d813c672dbb4c4ca70d0337368b505e03d7b3c068c6e1a8b2d050b9",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_suicune.c",
+      "path": "src/dungeon_cutscene_suicune.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_suicune.c",
+      "sha256": "24f0c1acf746b6ed7a725b69080d32a1cee586f384f723d93e7ba6055c250248",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_cutscene_zapdos.c",
+      "path": "src/dungeon_cutscene_zapdos.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_cutscene_zapdos.c",
+      "sha256": "55acc2a8d0900a7cc6eae30ed8380e2693da906f60fe79e1ef8ba835268b3870",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_mon_recruit.c",
+      "path": "src/dungeon_mon_recruit.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_mon_recruit.c",
+      "sha256": "e07dc6570714297b5d7008d929f1c23086434f307b3794133e4cc0a3031168f0",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/event_flag.c",
+      "path": "src/event_flag.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/event_flag.c",
+      "sha256": "105f58d345bf5ba1c97ae6e6517fa23d9589af1887009334cd6aee41eb61487a",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/exclusive_pokemon.c",
+      "path": "src/exclusive_pokemon.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/exclusive_pokemon.c",
+      "sha256": "0afec35a0b38bf4ebdfd78895ae4ec002241acbefaa3c236fb52e6696b4e789d",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/ground_data_t01p01_station.c",
+      "path": "src/ground_data_t01p01_station.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/ground_data_t01p01_station.c",
+      "sha256": "065cd9307eeb0f1d530713b827542e9351b4bedbaab0cf0ce614000841103b94",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/ground_data_t01p02a_station.c",
+      "path": "src/ground_data_t01p02a_station.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/ground_data_t01p02a_station.c",
+      "sha256": "d77f6d758e470b878f95de904a5d8d8a08cca056da83074e0ad615ecdf04bf07",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/ground_data_t01p03_station.c",
+      "path": "src/ground_data_t01p03_station.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/ground_data_t01p03_station.c",
+      "sha256": "317a48af5cf8839299fd594737cdcf579ded929f9821e4f755c7025eb450f920",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/ground_data_t01p04_station.c",
+      "path": "src/ground_data_t01p04_station.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/ground_data_t01p04_station.c",
+      "sha256": "26679d1985f44322acc1c1d102895abd209d222e134569d2e5fc9e07acbaf839",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/ground_data_t01p05_station.c",
+      "path": "src/ground_data_t01p05_station.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/ground_data_t01p05_station.c",
+      "sha256": "1be625c88fa3220f2faa06eecbbd5c76c7db66f91e2dd10e3057d45453a03d60",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/ground_event.c",
+      "path": "src/ground_event.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/ground_event.c",
+      "sha256": "74aee37a2f988bad0ba3b64e2a40abd7b18fba86d6e8e60c98c9b8069df9234d",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/ground_script.c",
+      "path": "src/ground_script.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/ground_script.c",
+      "sha256": "4976d9ad09799503091df28a9b81610b9073e1e590bbfd4eb578ffb1e26a5eac",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/mission_reward.c",
+      "path": "src/mission_reward.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/mission_reward.c",
+      "sha256": "a7ecb251b283ae20487d75a1530aa3fc1cd0f8c8c666be7fb312b448ea3ef9ea",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/rescue_scenario.c",
+      "path": "src/rescue_scenario.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/rescue_scenario.c",
+      "sha256": "337745a58bf28f51f1cb5102037c3881e9cd0a75cecb9aafafd99b05e6cc440d",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/script_vars_info.c",
+      "path": "src/script_vars_info.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/script_vars_info.c",
+      "sha256": "3cf0902c4b0b6932c92287d5fae6f407031f3e051e2b0a9b6c3ad99d8064d5ee",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/textbox.c",
+      "path": "src/textbox.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/textbox.c",
+      "sha256": "e8726b2760170deaf5dcaf786e3f06ce22a4fadf37025f0e03179df7c4b7dd66",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/ground_main.c",
+      "path": "src/ground_main.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/ground_main.c",
+      "sha256": "7512b2005d633a1d1d669fb265453e8d91c0d26e0ac2abd911b5bd7c7ed66506",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/pokemon_3.c",
+      "path": "src/pokemon_3.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/pokemon_3.c",
+      "sha256": "92e9072dd21b73a10406d44f9f39f77174f0d727810edc98daec55a503f76676",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_leveling.c",
+      "path": "src/dungeon_leveling.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_leveling.c",
+      "sha256": "6bbe5e0ee8f3e137b7cb0518f5dc21e0b45ae2970b1376ece39abb4b800f4ebb",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:src/dungeon_config.c",
+      "path": "src/dungeon_config.c",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/src/dungeon_config.c",
+      "sha256": "f4ef6e42a0df5182c4b8eba90ea53481550d90e44cc089bdeddc0e60c8cf44d5",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    },
+    {
+      "id": "red:include/constants/dungeon.h",
+      "path": "include/constants/dungeon.h",
+      "url": "https://github.com/pret/pmd-red/blob/6bcbec4f906938c0243aa2026bcbd41b577bab85/include/constants/dungeon.h",
+      "sha256": "6f059062d43b0d7553bdc10d7fcf3d6ca9c387c4447f5064247d53921aecca1b",
+      "edition": "original-red-comparative",
+      "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence-b818ff24f43ff1fe",
+      "sourceId": "red:src/event_flag.c",
+      "symbol": "sub_8001D88",
+      "line": 550,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7a8658ea339fcbbe",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_DIVIDE_FIRST",
+      "line": 1340,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-8ae241b3084e6cf9",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_DIVIDE_FIRST",
+      "line": 1372,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f44386a3280c7a67",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_M01E03A_L003",
+      "line": 2057,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0620f8a0aaf08d68",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_DIVIDE_FIRST",
+      "line": 1377,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c75af6dc90059873",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_DIVIDE_SECOND",
+      "line": 1553,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-29408d9e1381b0bb",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_DIVIDE_SECOND",
+      "line": 1558,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-73ad9d1c442f9a2b",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_DIVIDE_SECOND",
+      "line": 1562,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-811ac45389e300ae",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_DIVIDE_NEXT_DAY_FUNC",
+      "line": 1171,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9d2df770d44cd7eb",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_DIVIDE_NEXT_DAY2_FUNC",
+      "line": 1234,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ffe53a54641b6b95",
+      "sourceId": "red:src/data/ground/ground_data_t01p02a_station.h",
+      "symbol": "pond station transition scripts",
+      "line": 528,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5cb7188efc3ee675",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_S08E01A_L002..L006",
+      "line": 3652,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b3c4d07245589166",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_DIVIDE_NEXT_DAY_FUNC",
+      "line": 1188,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b4ff90a0ca5400af",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "EVENT_S09E01A_L002..EVENT_S09E01C_L001",
+      "line": 3822,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-af87ffc121e54b6e",
+      "sourceId": "red:src/data/ground/ground_data_t01p03_station.h",
+      "symbol": "s_gs4_g2_s0_station_sref_script",
+      "line": 735,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9c71e9fe7d5965a0",
+      "sourceId": "red:src/data/ground/ground_data_t01p01_station.h",
+      "symbol": "s_gs1_g51_s0_lives0_dlg2; s_gs1_g51_s0_lives1_dlg2",
+      "line": 15450,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-685b7bbda831089d",
+      "sourceId": "red:src/data/ground/ground_data_t01p01_station.h",
+      "symbol": "s_gs1_g52_s0_lives0_dlg2",
+      "line": 15479,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1e77599f081fc27c",
+      "sourceId": "red:src/data/ground/ground_data_t01p02a_station.h",
+      "symbol": "s_gs2_g2_s0_station_sref_script",
+      "line": 309,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-bc59324f49cc1b4a",
+      "sourceId": "red:src/data/ground/ground_data_t01p01_station.h",
+      "symbol": "s_gs1_g2_s0_station_sref_script",
+      "line": 654,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-88d21ad22964c812",
+      "sourceId": "red:src/ground_script.c",
+      "symbol": "sub_80A14E8 case0x33",
+      "line": 3893,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-31fcb40e868738f5",
+      "sourceId": "red:src/data/ground/ground_data_b01p02a_station.h",
+      "symbol": "s_gs12_g0_s0_station_sref_script",
+      "line": 13,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ee9d6110379863e5",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "GETOUT_R00E01A;EVENT_R00E01A_L001;GETOUT_T00E01A",
+      "line": null,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5890fc8d5517dfe3",
+      "sourceId": "red:src/ground_main.c",
+      "symbol": "GetReturnMap",
+      "line": 687,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3e5232bb9e7ec2f9",
+      "sourceId": "red:src/ground_script.c",
+      "symbol": "script entry callback selection",
+      "line": 1838,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d1416bc59c446495",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 9,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-58490929c2a3158e",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 22,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a20a85a275c9b4bf",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 34,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9cb4ac17d0717314",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 46,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-001d0ab10d55153f",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 58,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-50c3025661efa333",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 70,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-aa291c25d1c17611",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 82,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-e27b4c52cf81b842",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 94,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ebbb5c41eeb00713",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 106,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-105cbc0e6b519f2e",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 118,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-70839fe1e5785df2",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 130,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-fa2ea7d3a08ddcb4",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 142,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4e4563d2035bf045",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 154,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-76562ee4227cdc5e",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 166,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b8467f6618b3f064",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 178,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-de86540fd8f382d8",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 190,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c30f626c5a3b9ae4",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 202,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1610abe181b7e9c4",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 214,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-14a5d912a6faaf59",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 226,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-529666c8c19b5649",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 238,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c4e3a4554e2d5719",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 250,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d65b826477e21519",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 262,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3ec705f0f4fcf888",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 274,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-312ddf2a941ab9fb",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 286,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9c4e8f62d6c6ebb9",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 298,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1fd1b9e7750948f0",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 310,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-96d56d56d49f8a1e",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 322,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1ddea849b325d320",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 334,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ed1f56534699b479",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 346,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a5303726f0983381",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 358,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-729f45e54b6dade2",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 370,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0e4a7540e37ee707",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 382,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-80d85cefd25c275e",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 394,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c189c755f8c8179b",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 406,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a1f6828b45a89ba4",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 418,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0e0aa15e3aadd750",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 430,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9ee2a315aea1c0fe",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 442,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a10a647ec923e1d3",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 454,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-bf64344849c2e312",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 466,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4bfe2f7862783c12",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 478,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-02b2df8c7329dc0a",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 490,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-6492170f0dc1ef9c",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 502,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-36a177b3d1268470",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 514,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ff2aeeab09e052ac",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 526,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b827d2af9fb1298e",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 538,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-702f18df4f50a781",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 550,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-110f69377ece4db3",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 562,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4eebb73ac7484281",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 574,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3dada990c3f0d5e7",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 586,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0ba013b44b9f5ed2",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 598,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-6f1135d114e06467",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 610,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ce10edf830000753",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 622,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-893f9eee689e2ca3",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 634,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-fca221ab6c789b88",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 646,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9be14f44fc9ffca7",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 658,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b377501c5599bf07",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 670,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-6a9d36c12e9e413d",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 682,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-8db7f52ede85544f",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 694,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f0c1ef823d5402ee",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 706,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ae2e5716c64cac20",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 718,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a8bde8071c728304",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 730,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c3442f8049e80848",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 742,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d52cc366b6221b0f",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 754,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4e210412596aa6d8",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 766,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c139da30ba0b09e2",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 778,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-2f87af49e2a5c426",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 790,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-96ac88712cbd70d3",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 802,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-922e36a8ca087cf6",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 814,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-919e26da0cc529b8",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 826,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-887ba4d618eea4de",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 838,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0aa287df87399ea7",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 850,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9cde4ed4203f24c2",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 862,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-e2ebde091dd7a82e",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 874,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-fd331c40e3f5f543",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 886,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c67a6ecbe0ebfda9",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 898,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4d669ff38768d7d8",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 910,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-bd8f31eb4300eda4",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 922,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-55d75af286248c06",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 934,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-edc87829ad0a54f1",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 946,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f9e81d4568889105",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 958,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-2e48a56dd0579242",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 970,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-287bb8569f9d0b07",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 982,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-eebdad254d444d9b",
+      "sourceId": "red:src/code_80A26CC.c",
+      "symbol": "sScriptDungeonData",
+      "line": 994,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-045c398a44f57ca8",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 74,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c47404f7b41dac16",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 75,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-44b46d109d478ef2",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 76,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-28740d35070c1476",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 77,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-eac2c59b6882bed3",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 78,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-89a2398adc62e2d4",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 79,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-bac8541174318b44",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 80,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d8b5156cc0df474b",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 81,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7da01863cd081cb4",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 82,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3da4100749216922",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 83,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7ec1471a0bec8588",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 84,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-102e67b789d89efc",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 85,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-dec44be808f942cd",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 86,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-52cc31a5e18d0e96",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 87,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ba4999a9e947d6d9",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 88,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-8c5187ac6ec7f2ec",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 89,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3cfd684fbec6f932",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 90,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-265057ac78d92d52",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 91,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5f5dd2b53656bbeb",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 92,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7b2fb6f13bebe062",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 93,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3b4d83b0d7680210",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 94,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-553c33ca2eda956f",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 95,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-39f1a4fd8f7a69c2",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 96,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7b49635aaf6590ec",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 97,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4df8cee0e7a2c77c",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 99,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-e17dddf176b2f75f",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sFixedRoomCutsceneLookup",
+      "line": 100,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-39732ee6468e32ad",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "MonCutsceneCompleted",
+      "line": 662,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1cc14ca6afe77129",
+      "sourceId": "red:src/dungeon_cutscene.c",
+      "symbol": "sub_8086AE4",
+      "line": 1980,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-31c0f4d1afb0dc05",
+      "sourceId": "red:src/dungeon_config.c",
+      "symbol": "gZapdosConfigLevel..gGroudonConfigLevel",
+      "line": 605,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-44f88f4b48958b17",
+      "sourceId": "red:src/dungeon_leveling.c",
+      "symbol": "LevelUpTarget",
+      "line": null,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-083b43d6ad149b7d",
+      "sourceId": "red:src/dungeon_cutscene_regis.c",
+      "symbol": "sub_808ACC0;sub_808AD48;sub_808ADD0;HandleRegirockBossFaint_Async",
+      "line": 41,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c31c4ecce0d75dd2",
+      "sourceId": "red:src/dungeon_cutscene_jirachi.c",
+      "symbol": "HandleJirachiBossFaint_Async",
+      "line": 93,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-21eee82f2c0cb1db",
+      "sourceId": "red:src/dungeon_cutscene_celebi.c",
+      "symbol": "Celebi join handler",
+      "line": 66,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-fb65551e00f339ce",
+      "sourceId": "red:src/dungeon_cutscene_magma_cavern.c",
+      "symbol": "sub_8089168",
+      "line": 210,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-2f362575f48375c2",
+      "sourceId": "red:src/dungeon_cutscene_magma_cavern.c",
+      "symbol": "sub_8088E5C",
+      "line": 62,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b0b0e6d05b8664b4",
+      "sourceId": "red:src/exclusive_pokemon.c",
+      "symbol": "GetCutsceneFlag;FlushTempCutsceneFlags;UnsetCutsceneFlag",
+      "line": 43,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f2706fbf134161f1",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "HABITAT_TALK_S01E02A",
+      "line": 151,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-608efa24de571307",
+      "sourceId": "red:src/ground_main.c",
+      "symbol": "sub_8098C58",
+      "line": 486,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1f26be83c56c5266",
+      "sourceId": "red:src/ground_script.c",
+      "symbol": "sub_80A14E8 case0x35",
+      "line": 3931,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-2f3d9d492d4da5e0",
+      "sourceId": "red:src/event_flag.c",
+      "symbol": "ScenarioCalc;ScriptVarScenarioBefore;ScriptVarScenarioEqual;ScriptVarScenarioAfter",
+      "line": 450,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-2b644b97d8c405cb",
+      "sourceId": "red:src/textbox.c",
+      "symbol": "SPECIAL_TEXT_UNK_23",
+      "line": 1672,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-569ae39fbdf3e998",
+      "sourceId": "red:src/event_flag.c",
+      "symbol": "ScenarioCalc",
+      "line": 450,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b85f319bb5463d40",
+      "sourceId": "red:src/ground_main.c",
+      "symbol": "return start-mode dispatch",
+      "line": 216,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b7cb0c1b6bd354e7",
+      "sourceId": "red:src/ground_script.c",
+      "symbol": "sub_80A14E8 callback 40",
+      "line": null,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-638dbf4bec8b590f",
+      "sourceId": "red:src/ground_script.c",
+      "symbol": "GroundScript_Execute opcode 7",
+      "line": null,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a4b104ac325e79e9",
+      "sourceId": "red:src/ground_script.c",
+      "symbol": "GroundScript_Execute opcode 3",
+      "line": null,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-6081e8a4afb8ffc7",
+      "sourceId": "red:src/ground_script.c",
+      "symbol": "GroundScript_Execute opcode 4",
+      "line": null,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-dd4e28033c201fba",
+      "sourceId": "red:src/ground_script.c",
+      "symbol": "GroundScript_Execute opcode 6",
+      "line": null,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-fa9039af7558d17e",
+      "sourceId": "red:src/ground_script.c",
+      "symbol": "sub_80A14E8 callback 51",
+      "line": null,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-64bc5d75d89d1470",
+      "sourceId": "red:src/ground_script.c",
+      "symbol": "sub_80A14E8 case0xB",
+      "line": 3378,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d198a82b130f26fe",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E01A",
+      "line": 3983,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-15bca37e419d77a8",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E01A",
+      "line": 3981,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a76a6e9c54796b5c",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E01A",
+      "line": 3987,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b1b8e0ffebadb8d1",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E01A",
+      "line": 3985,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5b555ff0b603fe63",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02A",
+      "line": 4004,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1c3eaee747270a53",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02A",
+      "line": 4008,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-38cdd223f85f2145",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02A",
+      "line": 4002,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-43b4e96edc7b9a54",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02A",
+      "line": 4006,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-787b8788e94c84dc",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02B",
+      "line": 4030,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-909090c1e8cd7754",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02B",
+      "line": 4056,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ba1725c8f31364ec",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02B",
+      "line": 4027,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-aa135449576536bb",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02B",
+      "line": 4042,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-23e6cc65cfd3a1b5",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02B",
+      "line": 4040,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-aebabc3753c3d370",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02B",
+      "line": 4054,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-69b14feb1e824334",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E02B",
+      "line": 4051,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4595b346a3d566fd",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E03A",
+      "line": 4078,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b74a93c0ac53a2ca",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E03A",
+      "line": 4104,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a8cea25ce2dcb3a0",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E03A",
+      "line": 4075,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-345685edddba1fa9",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E03A",
+      "line": 4090,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-e31b8794f06f0209",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E03A",
+      "line": 4088,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-196d7521a61e10c3",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E03A",
+      "line": 4102,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d9f00204d9220cf9",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E03A",
+      "line": 4099,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5a4ece9961438a42",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04A",
+      "line": 4124,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-41b5d880a8ccc3fa",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04A",
+      "line": 4128,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-09c20d303cbc9b93",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04A",
+      "line": 4122,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0d6ff93823bd7d2c",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04A",
+      "line": 4126,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1d15aa6a9b11f271",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04B",
+      "line": 4150,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4e7a6ee2bf5758ee",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04B",
+      "line": 4182,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-fd562f83d09a3fcb",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04B",
+      "line": 4147,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f01683987a803d3d",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04B",
+      "line": 4162,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f72bd3d58a364c13",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04B",
+      "line": 4160,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-715ce252fbedbf3e",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04B",
+      "line": 4175,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-bda50454c206b28d",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04B",
+      "line": 4173,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b3160275bc48bdfd",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04B",
+      "line": 4180,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-fa47436cdbfa51bc",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E04B",
+      "line": 4170,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d9b67135a3851023",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E05A",
+      "line": 4202,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1abb8f660440825e",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E05A",
+      "line": 4206,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3c60c71abf5a8d7a",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E05A",
+      "line": 4200,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-17f8044758129d99",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E05A",
+      "line": 4204,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7f1a0e44315c5689",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07A",
+      "line": 4226,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-869b8aaa721465a6",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07A",
+      "line": 4230,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4492fb8d47226f71",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07A",
+      "line": 4224,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-677cd3daa27ba877",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07A",
+      "line": 4228,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-81e00c2f66f10173",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07B",
+      "line": 4252,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-8341da588c7ff5fe",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07B",
+      "line": 4284,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4b9c7020b3803a6f",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07B",
+      "line": 4249,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9a7ec32e866c2eba",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07B",
+      "line": 4264,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-8703a6c127c04708",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07B",
+      "line": 4262,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-50ec2e24a0d0df82",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07B",
+      "line": 4277,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a58e72c3514e5d2a",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07B",
+      "line": 4275,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3d17a8e13dfe4edf",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07B",
+      "line": 4282,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-db78f01e7127d595",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07B",
+      "line": 4272,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c1be519d8ad70af3",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08A",
+      "line": 4306,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-518a5a349ebcedf4",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08A",
+      "line": 4338,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0717987e27553d46",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08A",
+      "line": 4303,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1827c78e33c93026",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08A",
+      "line": 4318,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-aeae0798550d8e15",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08A",
+      "line": 4316,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-dcd3329b1c084ae0",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08A",
+      "line": 4331,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-29cac228eb85be80",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08A",
+      "line": 4329,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-570e477bb285c47b",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08A",
+      "line": 4336,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-22e573eb06fdc84d",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08A",
+      "line": 4326,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a68e6c3c2b9cd150",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08B",
+      "line": 4360,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-74bf685a41040a24",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08B",
+      "line": 4389,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-15b6fcbc1bdf58e3",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08B",
+      "line": 4357,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-134b2ffd121c0e25",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08B",
+      "line": 4369,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c8b9dc151b395136",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08B",
+      "line": 4367,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3c2f0d9a3ccaea5b",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08B",
+      "line": 4382,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4318ed0b0c06a559",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08B",
+      "line": 4380,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ae2e17d3cd530777",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08B",
+      "line": 4387,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3e246ac3276bb3de",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08B",
+      "line": 4377,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f733422f9962d93e",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E09A",
+      "line": 4411,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f22524a6540ba7f7",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E09A",
+      "line": 4443,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f7f25c562b6b58f5",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E09A",
+      "line": 4408,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-55b3e7e79766dbad",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E09A",
+      "line": 4423,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0df6068d44e75fd8",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E09A",
+      "line": 4421,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-e3339e8d0be8cef8",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E09A",
+      "line": 4436,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-418f76839ebfe2e8",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E09A",
+      "line": 4434,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7276070213747dd8",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E09A",
+      "line": 4441,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-184039523b72f9ad",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E09A",
+      "line": 4431,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f6424d8a08bcf5a6",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E10A",
+      "line": 4465,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-edb51304a903cd60",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E10A",
+      "line": 4497,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-2acef761fb07b091",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E10A",
+      "line": 4462,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d9d31534b34f3a9d",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E10A",
+      "line": 4477,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1dc8336dd5000e0b",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E10A",
+      "line": 4475,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-03d79e4b4d7f56f3",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E10A",
+      "line": 4490,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-dc4626f16555c2c1",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E10A",
+      "line": 4488,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-145bb64e1fe40bc2",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E10A",
+      "line": 4495,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-af5d8cb058c8fabc",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E10A",
+      "line": 4485,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-52914a4d6e582c2c",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S00E01A",
+      "line": 4512,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-27c9d25b3aa491c2",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S00E01A",
+      "line": 4514,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1e1e7217adcf4730",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S00E01A",
+      "line": 4509,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9496ef8fbecd5dbd",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S01E01A",
+      "line": 4534,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ee37bf0c564d7ba4",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S01E01A",
+      "line": 4538,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5a13775cc84b75ba",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S01E01A",
+      "line": 4532,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-e8e1335e2b650d38",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S01E01A",
+      "line": 4536,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-046484def9603d1f",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S01E02A",
+      "line": 4558,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b7dd6cf504245875",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S01E02A",
+      "line": 4562,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-bf864a96ffc2f1fd",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S01E02A",
+      "line": 4556,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9806d60a4891af6d",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S01E02A",
+      "line": 4560,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-bcf57142544b13cd",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S02E01A",
+      "line": 4582,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-aa153b7d2f853745",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S02E01A",
+      "line": 4586,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-62bccce64c4cb069",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S02E01A",
+      "line": 4580,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-67b0de708533f50e",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S02E01A",
+      "line": 4584,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-fa4e866e0f427b31",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S02E02A",
+      "line": 4606,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d0262287919dc5a1",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S02E02A",
+      "line": 4610,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3f3a8b0ca3ca7dbb",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S02E02A",
+      "line": 4604,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7defef85096c966b",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S02E02A",
+      "line": 4608,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-8ab49765759c53fa",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S03E01A",
+      "line": 4630,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-2ac4388fcccb6b9b",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S03E01A",
+      "line": 4634,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-002ab4179b39c599",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S03E01A",
+      "line": 4628,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f33ccedf40bbe554",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S03E01A",
+      "line": 4632,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-08e2c018a6cd3d84",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01A",
+      "line": 4651,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-8c1c2a08c431fb2c",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01A",
+      "line": 4655,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1c6637869a22a356",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01A",
+      "line": 4649,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5ccdcecfb5f62e44",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01A",
+      "line": 4653,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b4718f659572ecac",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01B",
+      "line": 4676,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4ea48a8d27802317",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01B",
+      "line": 4680,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-6ef5123dd5baa212",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01B",
+      "line": 4674,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7a19852d1138502a",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01B",
+      "line": 4678,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-cdc56beb7bcdb430",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01C",
+      "line": 4700,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0fd7924a6bf618b7",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01C",
+      "line": 4704,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-92376e161acd8feb",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01C",
+      "line": 4698,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9b9b81888b03c2e5",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01C",
+      "line": 4702,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7fc82f645cfaa37f",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01D",
+      "line": 4724,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3d93326df1a86ec0",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01D",
+      "line": 4728,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0afcd3f3a96f84ee",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01D",
+      "line": 4722,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b928c01765d35076",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01D",
+      "line": 4726,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b84e7da8b676ed2d",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01E",
+      "line": 4748,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-803a6c12ec9c37ba",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01E",
+      "line": 4752,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-948538eab033f964",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01E",
+      "line": 4746,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-138bad0cfdb041e9",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S04E01E",
+      "line": 4750,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-acba69956b11a0b7",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S05E01A",
+      "line": 4772,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-55cd9219cc9619fb",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S05E01A",
+      "line": 4776,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-08d40287b0467ac7",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S05E01A",
+      "line": 4770,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-43b5020e7d3f4028",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S05E01A",
+      "line": 4774,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-df0852e75fe00a89",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S06E01A",
+      "line": 4796,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4b22b4d2f0224b37",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S06E01A",
+      "line": 4800,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-70ff1f880131a726",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S06E01A",
+      "line": 4794,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5865a11f34bf53c8",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S06E01A",
+      "line": 4798,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f4689aede2bf43c6",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S06E01B",
+      "line": 4820,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-747260fbcaec87ba",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S06E01B",
+      "line": 4824,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-6380dc3bc5060260",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S06E01B",
+      "line": 4818,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d81ce223677fd0af",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S06E01B",
+      "line": 4822,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3ba6d67492fefc35",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S07E01A",
+      "line": 4844,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-b421db75b5f85ae5",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S07E01A",
+      "line": 4848,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0bc756a5e83c66c1",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S07E01A",
+      "line": 4842,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5de6a8556cd3926c",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S07E01A",
+      "line": 4846,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-785642afd5700970",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S08E01A",
+      "line": 4868,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-48edb4b6da583a72",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S08E01A",
+      "line": 4872,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3f089ebe688f35e1",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S08E01A",
+      "line": 4866,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9b1908cc44bfcf51",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S08E01A",
+      "line": 4870,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-384fba58a9f70e32",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01A",
+      "line": 4891,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-ce0be92420ac2cb3",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01A",
+      "line": 4916,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a88d7139b31bd776",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01A",
+      "line": 4888,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-dfb0edeba6eacd8e",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01A",
+      "line": 4900,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-8eb4fca884c0e511",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01A",
+      "line": 4898,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d2c6b5f5e5254b68",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01A",
+      "line": 4914,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-554e98a3c20a7496",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01A",
+      "line": 4909,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5f960cb3fd1be1fd",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01A",
+      "line": 4911,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-10efd1225f0bf2ab",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01B",
+      "line": 4937,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-399996e736e05ba9",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01B",
+      "line": 4941,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-80d8feca58670b17",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01B",
+      "line": 4935,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-8129c474c7b85fac",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_S09E01B",
+      "line": 4939,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-31800955a6d8717d",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D62E01A",
+      "line": 4957,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-09f3eb3176e1880c",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D62E01A",
+      "line": 4953,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-4f4a08267bec5929",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D62E01A",
+      "line": 4959,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3a781527d9501fc4",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D43E01A",
+      "line": 4975,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-55ca5a32052871e5",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D43E01A",
+      "line": 4971,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-5ee98d26d5aed261",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D43E01A",
+      "line": 4977,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-eae7044dfbd5d1bd",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D44E01A",
+      "line": 4993,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1f1585304a92f7f9",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D44E01A",
+      "line": 4989,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-377b6533e46adf45",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D44E01A",
+      "line": 4995,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-87d456a6dc5fcc1b",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D45E01A",
+      "line": 5011,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-8d3317738087b430",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D45E01A",
+      "line": 5007,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-07cd695f8fa2aa29",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D45E01A",
+      "line": 5013,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c5310dd0ffcad47b",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D46E01A",
+      "line": 5029,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f821e0e6ef75fbc5",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D46E01A",
+      "line": 5025,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-801b90ed4e56a69b",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_D46E01A",
+      "line": 5031,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c182ff8d6a19f81a",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_U00E01A",
+      "line": 5051,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-eeeb59673bbb4992",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_U00E01A",
+      "line": 5046,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-03f3a1f0d1af3cca",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_R00E01A",
+      "line": 5066,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-1cabe6db40cd8eab",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_R00E01A",
+      "line": 5063,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-f966368381932475",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_R00E01A",
+      "line": 5068,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-9a0b799b0e1b4146",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_T00E01A",
+      "line": 5195,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-d1383fca266cb7dd",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_T00E01A",
+      "line": 5197,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-20dea5462b856ffd",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_T00E01A",
+      "line": 5191,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-10f90378cee7142b",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_T00E01A",
+      "line": 5193,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7561a073052a5746",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_T00E01A",
+      "line": 5187,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-aacee94445d43627",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_T00E01A",
+      "line": 5189,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-c9522298a8f33aad",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07T",
+      "line": 5211,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-a9f45e7794d19975",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07T",
+      "line": 5219,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-cd7ce593844d11a0",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07T",
+      "line": 5209,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-adb5c672a69c2e0d",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07T",
+      "line": 5217,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-248dbbbbb3a53bf9",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E07T",
+      "line": 5215,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-3a88411859280088",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08T",
+      "line": 5234,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-0b6c218835236efa",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08T",
+      "line": 5242,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-21396ccffb59cac6",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08T",
+      "line": 5232,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-7650ba380602f793",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08T",
+      "line": 5240,
+      "qualification": "original-red-comparative"
+    },
+    {
+      "id": "evidence-85e56c3f0c720733",
+      "sourceId": "red:src/data/ground/ground_event_data.h",
+      "symbol": "s_script_GETOUT_M01E08T",
+      "line": 5238,
+      "qualification": "original-red-comparative"
+    }
+  ],
+  "researchInputSha256": "22f0a5f0305191fd8727db43a87f8ced4666ed2f48cc52ed963052d01544a67b",
+  "remainingCapabilities": [
+    {
+      "id": "blue-display-labels",
+      "owner": "presentation",
+      "blocks": "display-label-fidelity"
+    },
+    {
+      "id": "blue-exchange-adapters",
+      "owner": "rescue-exchange",
+      "blocks": "dual-slot-and-version-transport"
+    },
+    {
+      "id": "authored-scene-staging",
+      "owner": "scenes",
+      "blocks": "playable-scenes-and-dialogue"
+    }
+  ]
+}

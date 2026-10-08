@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "qualification": "pinned-red-comparative-not-blue-binary-proof",
+  "scope": "prospective-sinister-effects-not-route-admission",
+  "sourceFiles": [
+    {
+      "path": "src/dungeon_config.c",
+      "sha256": "e1d24abb5eab54a2223449c9e5b7e98aba55244e87fadb13c1dd1811b496c21b",
+      "locators": "35\u201357 secondary chances;93\u2013156 durations; Wrap/Curse countdown/value constants"
+    },
+    {
+      "path": "src/dungeon_move.c",
+      "sha256": "ca23d7410da08a3e617c787d7ddc970448f54ac2af2b3327f838ead94f4ab695",
+      "locators": "223\u2013258 Protect-before-accuracy;315+ handlers;1265+ restore failed EXP"
+    },
+    {
+      "path": "src/dungeon_move_util.c",
+      "sha256": "0b69f36c9e8c497acdfef2c06566fe84ccb4549390d53293dc24347e57af9d53",
+      "locators": "353\u2013441 last-used/hit-count/reenumeration;738\u2013816 accuracy;1028\u20131035 uniform hits;1180\u20131214 secondary guards;1245\u20131307 Encore"
+    },
+    {
+      "path": "src/dungeon_misc.c",
+      "sha256": "9f5de68c48737bb3b9aadd0b92a9ae2069a53349383d125174e7b2aeca04d90d",
+      "locators": "1739\u20131759 clear all LAST_USED then mark actual slot/Struggle"
+    },
+    {
+      "path": "src/dungeon_damage.c",
+      "sha256": "27d89918523feda4cd0edbb362248a3ef6064bc51099311eb6b02ffc2287bc90",
+      "locators": "271\u2013278 Frozen rejects damage after caller calculation/accuracy"
+    },
+    {
+      "path": "src/move_orb_actions_1.c",
+      "sha256": "c06151ffdf0febb81695621993a0dd5b788c697d4d9468ff31a289e77462948f",
+      "locators": "76 Yawn;130 Sweet Scent;182 Encore;379\u2013401 Spite;573\u2013595 fire thaw/expose"
+    },
+    {
+      "path": "src/move_orb_actions_2.c",
+      "sha256": "12795bdcef12a4e1bcafe95727308a63f920c364d4cc80cd1ffb7be22d8af596",
+      "locators": "63\u201374 ice;286\u2013310 Lick/Stun Spore;electric handler"
+    },
+    {
+      "path": "src/move_orb_actions_3.c",
+      "sha256": "7c55ee066eb1d3c3eb30e0d5498841c8bf11143a3904b8417f193d5f33e1dbc0",
+      "locators": "54\u201367 Poison Sting;424\u2013429 Curse;999\u20131004 Wrap"
+    },
+    {
+      "path": "src/move_orb_actions_4.c",
+      "sha256": "69a53586f3697812650d5ff25c95cfc654f3b3ffad74a85e59d1943d25bda52d",
+      "locators": "54\u201360 Protect/Detect shared handler"
+    },
+    {
+      "path": "src/move_orb_effects_1.c",
+      "sha256": "ecf90f999159169a903422a173035958ba448d0a9b9a908ab78e227fa5ddbeb3",
+      "locators": "207\u2013236 Yawn;428\u2013508 poison/Synchronize;598\u2013647 Frozen;731\u2013804 Wrap;1289\u20131346 paralysis"
+    },
+    {
+      "path": "src/move_orb_effects_2.c",
+      "sha256": "487b31d259a9adf18483503bfa47042ff0434aad3fff60dabaeb6d9811220434",
+      "locators": "496\u2013538 Ghost Curse;650\u2013682 Encore;922\u2013959 expose"
+    },
+    {
+      "path": "src/move_orb_effects_4.c",
+      "sha256": "0d74b0b922d8f6249c5ce5858a7b1cd4e031c4580ec009e8e3ccfeb151e2321d",
+      "locators": "173\u2013194 Protect"
+    },
+    {
+      "path": "src/move_orb_effects_5.c",
+      "sha256": "ec500ddc8a2ebcdf85451fb313781d3e8ae578686b9789cd0a900cd444e9b677",
+      "locators": "135\u2013181 Yawn expiry self-sleep;216\u2013261 reciprocal release;568\u2013583 thaw"
+    },
+    {
+      "path": "src/dungeon_turn_effects.c",
+      "sha256": "537b485db77e3b52dd2115fffd6e92f75c5e0adbe3694102ecbd33edc7f4e461",
+      "locators": "263\u2013307 Wrap/Curse pulses;438\u2013495 class expiry order"
+    },
+    {
+      "path": "src/move_checks.c",
+      "sha256": "2bb1efef0cee9ddfc163d20740f814b6dc3b8a23dee1b405e3f95b9e54ee0eca",
+      "locators": "212\u2013219 Detect;453\u2013808 target predicates;833\u2013861 LAST_USED checks"
+    },
+    {
+      "path": "src/status_checks.c",
+      "sha256": "b5f9c2081cdce9fb50500d2ef918a504c7a0039b1c66b9f0c5e897a1cc955b1b",
+      "locators": "17\u201357 action immobilization;111\u2013126 player guards"
+    },
+    {
+      "path": "data/move/move_data.json",
+      "sha256": "fd5777d6514ed6fc5b2fb28c24e6e04654b4b1a17e157775e4d05c48b46131d8",
+      "locators": "original native ID/PP/power/accuracy/target/hit facts"
+    }
+  ],
+  "moves": [
+    {
+      "moveId": "move-wrap",
+      "nativeId": 294,
+      "consumer": "primary",
+      "effect": "wrap",
+      "secondaryPercent": null,
+      "nativeBounds": [
+        2,
+        5
+      ]
+    },
+    {
+      "moveId": "move-spite",
+      "nativeId": 35,
+      "consumer": "primary",
+      "effect": "last-used-pp",
+      "secondaryPercent": null,
+      "nativeBounds": null
+    },
+    {
+      "moveId": "move-curse",
+      "nativeId": 237,
+      "consumer": "primary",
+      "effect": "ghost-curse",
+      "secondaryPercent": null,
+      "nativeBounds": [
+        3,
+        5
+      ]
+    },
+    {
+      "moveId": "move-detect",
+      "nativeId": 305,
+      "consumer": "primary",
+      "effect": "protect",
+      "secondaryPercent": null,
+      "nativeBounds": [
+        2,
+        6
+      ]
+    },
+    {
+      "moveId": "move-poison-sting",
+      "nativeId": 200,
+      "consumer": "damage-secondary",
+      "effect": "poisoned",
+      "secondaryPercent": 18,
+      "nativeBounds": [
+        127,
+        127
+      ]
+    },
+    {
+      "moveId": "move-lick",
+      "nativeId": 120,
+      "consumer": "damage-secondary",
+      "effect": "paralysis",
+      "secondaryPercent": 15,
+      "nativeBounds": [
+        1,
+        2
+      ]
+    },
+    {
+      "moveId": "move-thunder-punch",
+      "nativeId": 65,
+      "consumer": "damage-secondary",
+      "effect": "paralysis",
+      "secondaryPercent": 20,
+      "nativeBounds": [
+        1,
+        2
+      ]
+    },
+    {
+      "moveId": "move-fire-punch",
+      "nativeId": 292,
+      "consumer": "damage-secondary",
+      "effect": "burn",
+      "secondaryPercent": 10,
+      "nativeBounds": [
+        127,
+        127
+      ]
+    },
+    {
+      "moveId": "move-ice-punch",
+      "nativeId": 344,
+      "consumer": "damage-secondary",
+      "effect": "frozen",
+      "secondaryPercent": 10,
+      "nativeBounds": [
+        3,
+        5
+      ]
+    },
+    {
+      "moveId": "move-barrage",
+      "nativeId": 168,
+      "consumer": "multi-hit",
+      "effect": "normal-damage",
+      "secondaryPercent": null,
+      "nativeBounds": [
+        2,
+        6
+      ]
+    },
+    {
+      "moveId": "move-sweet-scent",
+      "nativeId": 10,
+      "consumer": "primary",
+      "effect": "evasion-minus-one",
+      "secondaryPercent": null,
+      "nativeBounds": null
+    },
+    {
+      "moveId": "move-foresight",
+      "nativeId": 315,
+      "consumer": "primary",
+      "effect": "exposed",
+      "secondaryPercent": null,
+      "nativeBounds": null
+    },
+    {
+      "moveId": "move-odor-sleuth",
+      "nativeId": 54,
+      "consumer": "primary",
+      "effect": "exposed",
+      "secondaryPercent": null,
+      "nativeBounds": null
+    },
+    {
+      "moveId": "move-stun-spore",
+      "nativeId": 124,
+      "consumer": "primary",
+      "effect": "paralysis",
+      "secondaryPercent": null,
+      "nativeBounds": [
+        1,
+        2
+      ]
+    },
+    {
+      "moveId": "move-growth",
+      "nativeId": 148,
+      "consumer": "primary",
+      "effect": "special-attack-plus-one",
+      "secondaryPercent": null,
+      "nativeBounds": null
+    },
+    {
+      "moveId": "move-yawn",
+      "nativeId": 3,
+      "consumer": "primary",
+      "effect": "yawning",
+      "secondaryPercent": null,
+      "nativeBounds": [
+        2,
+        2
+      ]
+    },
+    {
+      "moveId": "move-encore",
+      "nativeId": 17,
+      "consumer": "primary",
+      "effect": "encore",
+      "secondaryPercent": null,
+      "nativeBounds": [
+        10,
+        10
+      ]
+    }
+  ],
+  "contracts": {
+    "ghostCurseHp": "max(1,floor(currentHP/2)) after Safeguard; already-cursed still pays; no direct damage/Reviver",
+    "durationBounds": "lower-inclusive upper-exclusive; equal endpoints no draw; CalculateStatusTurns where specified; application caller adds1",
+    "protectCurer": false,
+    "detectSelfAlwaysHits": false,
+    "frozenDamageGuard": "after CalcDamage and second accuracy; fire helper thaws before CalcDamage; due Curse residual first settles countdown10 then emits Frozen denial without HP/faint/EXP mutation",
+    "yawnExpiry": "clear yawning, CalculateStatusTurns4\u20138+1, self SleepStatusTarget guards/Early Bird",
+    "wrapLink": "browser reciprocal actual actor IDs replace native opaque token; distinct roles except source self-wrap",
+    "barrage": "uniform2\u20135 once after paid PP/last-used; reenumerate targets each hit; misses do not stop",
+    "rockThrow": "existing normal damage; no new consumer",
+    "exposed": "Ghost only; clamp evasion to10 if higher; forces accuracy evasion10; removes Normal/Fighting immunity; floor lifetime; distinct evasion-reset notice precedes separate exposure outcome",
+    "lastUsed": "actual existing flagged slots; MarkLastUsed clears four and Struggle then sets exact slot; Spite scans all learned slots; Encore accepts Struggle; AI Encore accepts learned or genuine Struggle flag at native index4",
+    "activation": "no current selected callers; prospective raw schema/flags/cursor/casualty hooks and output-bound proof required"
+  }
+}

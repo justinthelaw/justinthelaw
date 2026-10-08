@@ -1,0 +1,160 @@
+{
+  "checkpointDate": "2026-10-06",
+  "sourcePin": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "records": [
+    {
+      "sourcePath": "/tmp/pokemon-navigation-generation-corpus.json",
+      "savedPath": "tools/pokemon-dungeon/content/research/pokemon-navigation-generation-corpus.json",
+      "sha256": "b074413fce5840f7159c2a34cb89ebe9814caf64128312cf824aadfa07989882",
+      "bytes": 586800,
+      "kind": "independently normalized factual research; original Red comparative qualification retained"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-expedition-policy-corpus.json",
+      "savedPath": "tools/pokemon-dungeon/content/research/pokemon-expedition-policy-corpus.json",
+      "sha256": "9feb572d54ee58655828749f7831cca8c288bce356d3a0813b60c2617d60645a",
+      "bytes": 704281,
+      "kind": "independently normalized factual research; original Red comparative qualification retained"
+    },
+    {
+      "sourcePath": ".superpowers/sdd/navigation-plan/task-1-brief.md",
+      "savedPath": "games/pokemon-dungeon-reimagined/plan/recovery/navigation-plan-task-1-brief.md",
+      "sha256": "61142a36097e48af772a70e610030f02fa6d7bebb30e51ebc6076da244da8c59",
+      "bytes": 4240,
+      "kind": "historical worker handoff, not current acceptance"
+    },
+    {
+      "sourcePath": ".superpowers/sdd/navigation-research-brief.md",
+      "savedPath": "games/pokemon-dungeon-reimagined/plan/recovery/navigation-research-brief.md",
+      "sha256": "5a63d148d5c461e12f5655c1600051d066bd0fb75a0c016405ff6e9dc6485d57",
+      "bytes": 1668,
+      "kind": "historical worker handoff, not current acceptance"
+    },
+    {
+      "sourcePath": ".superpowers/sdd/turns-plan/task-1-brief.md",
+      "savedPath": "games/pokemon-dungeon-reimagined/plan/recovery/turns-plan-task-1-brief.md",
+      "sha256": "87f2a95785402c967f2444c807967611acc085bcb01a3134276b7dd32df31fc2",
+      "bytes": 5313,
+      "kind": "historical worker handoff, not current acceptance"
+    },
+    {
+      "sourcePath": ".superpowers/sdd/roster-art-plan/task-1-brief.md",
+      "savedPath": "games/pokemon-dungeon-reimagined/plan/recovery/roster-art-plan-task-1-brief.md",
+      "sha256": "88233aae8b7aee0072af739d3532f6b58db8455e8e29b9238f001f921504dee5",
+      "bytes": 3715,
+      "kind": "historical worker handoff, not current acceptance"
+    },
+    {
+      "sourcePath": ".superpowers/sdd/campaign-data-plan/task-1-report.md",
+      "savedPath": "games/pokemon-dungeon-reimagined/plan/recovery/campaign-data-plan-task-1-report.md",
+      "sha256": "a1303d93bfff9b15c3bb0ab95e5d61bb0bd5051d80c990ff9ccd416952b8447c",
+      "bytes": 7749,
+      "kind": "historical worker handoff, not current acceptance"
+    },
+    {
+      "sourcePath": ".superpowers/sdd/environment-plan/task-1-report.md",
+      "savedPath": "games/pokemon-dungeon-reimagined/plan/recovery/environment-plan-task-1-report.md",
+      "sha256": "53a4d44a55e40dac4a8ea18833ba07ef4ee0363ce2eddaac36b52cea54145bb6",
+      "bytes": 11139,
+      "kind": "historical worker handoff, not current acceptance"
+    },
+    {
+      "sourcePath": ".superpowers/sdd/renderer-plan/task-1-report.md",
+      "savedPath": "games/pokemon-dungeon-reimagined/plan/recovery/renderer-plan-task-1-report.md",
+      "sha256": "4731b4294cbbbec687639cbb70db70f0fc85907510d90b7cf023178895139b55",
+      "bytes": 5629,
+      "kind": "historical worker handoff, not current acceptance"
+    },
+    {
+      "sourcePath": ".superpowers/sdd/persistence-plan/task-1-report.md",
+      "savedPath": "games/pokemon-dungeon-reimagined/plan/recovery/persistence-plan-task-1-report.md",
+      "sha256": "3e0ed025da06876f50701f3d4f7d0a7c7c9ac952144eb7953cce110fb6b6e40d",
+      "bytes": 14863,
+      "kind": "historical worker handoff, not current acceptance"
+    },
+    {
+      "sourcePath": ".superpowers/sdd/state-plan/task-1-report.md",
+      "savedPath": "games/pokemon-dungeon-reimagined/plan/recovery/state-plan-task-1-report.md",
+      "sha256": "d204a509a3bd94cc1f6ca4272d6661af5c69e90eb76bd30cbc138975ea40473d",
+      "bytes": 9321,
+      "kind": "historical worker handoff, not current acceptance"
+    },
+    {
+      "sourcePath": ".superpowers/sdd/onboarding-data-plan/task-1-report.md",
+      "savedPath": "games/pokemon-dungeon-reimagined/plan/recovery/onboarding-data-plan-task-1-report.md",
+      "sha256": "feb369cae2c5d431c72c79533b47cc60e55d92a2f7a3869d4326d50cf132c487",
+      "bytes": 11973,
+      "kind": "historical worker handoff, not current acceptance"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-campaign-event-corpus.json",
+      "savedPath": null,
+      "sha256": "22f0a5f0305191fd8727db43a87f8ced4666ed2f48cc52ed963052d01544a67b",
+      "bytes": 2687406,
+      "kind": "scratch inventory; durable replacement described in RESEARCH-HANDOFF.md"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-campaign-event-corpus.md",
+      "savedPath": null,
+      "sha256": "9dbc95cb3f3731a165522ebb1abfc84e67bcda40cc433d94e58c0fb2a0b05c05",
+      "bytes": 13487,
+      "kind": "scratch inventory; durable replacement described in RESEARCH-HANDOFF.md"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-content-corpus.md",
+      "savedPath": null,
+      "sha256": "c13ca312f30781351fdd9d96ef940e382d8e2bf45743b612de9a44db1ee424d4",
+      "bytes": 20703,
+      "kind": "scratch inventory; durable replacement described in RESEARCH-HANDOFF.md"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-dungeon-corpus.md",
+      "savedPath": null,
+      "sha256": "66abc7594b6bbe7beef7c5d88ee57ab756d2389eec7edfaa9bf36c95fda27443",
+      "bytes": 17786,
+      "kind": "scratch inventory; durable replacement described in RESEARCH-HANDOFF.md"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-effect-corpus.json",
+      "savedPath": null,
+      "sha256": "05f511831cc241b607c7c07272730520562a2cebeeb8d2829d9bb7ecead74cc6",
+      "bytes": 5648000,
+      "kind": "scratch inventory; durable replacement described in RESEARCH-HANDOFF.md"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-effect-corpus.md",
+      "savedPath": null,
+      "sha256": "56496d8d3011711f063e52642127634f35ef5bb878b5b92508e968143f9be2d4",
+      "bytes": 31403,
+      "kind": "scratch inventory; durable replacement described in RESEARCH-HANDOFF.md"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-expedition-policy-corpus.md",
+      "savedPath": null,
+      "sha256": "865f374ffbfbd37d560f077c907c3987f3628a991ea06901dfd1e78687716415",
+      "bytes": 28969,
+      "kind": "scratch inventory; durable replacement described in RESEARCH-HANDOFF.md"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-navigation-generation-corpus.md",
+      "savedPath": null,
+      "sha256": "6bbcf303e0d3df0ef0b4ea601a9b67881cdc31fe3bf8b2da64506019456b5763",
+      "bytes": 10335,
+      "kind": "scratch inventory; durable replacement described in RESEARCH-HANDOFF.md"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-onboarding-corpus.json",
+      "savedPath": null,
+      "sha256": "773d4ddbbef81e50c8fde8d3499d3b96505c7ec32dc51978c7041896879fe081",
+      "bytes": 168604,
+      "kind": "scratch inventory; durable replacement described in RESEARCH-HANDOFF.md"
+    },
+    {
+      "sourcePath": "/tmp/pokemon-onboarding-corpus.md",
+      "savedPath": null,
+      "sha256": "35d484b22c7295a2d8db1549df34db9c6f80cdaabe1cd23773cfb09a63a37acb",
+      "bytes": 12463,
+      "kind": "scratch inventory; durable replacement described in RESEARCH-HANDOFF.md"
+    }
+  ]
+}

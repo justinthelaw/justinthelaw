@@ -1,0 +1,2837 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-onboarding",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "questions",
+  "records": [
+    {
+      "id": "hardy-q1",
+      "originalIndex": 0,
+      "sourceSymbol": "HardyQuest1",
+      "originalQuestionId": "HARDY_Q1",
+      "categoryId": "hardy",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "HARDY_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hardy": 2
+          },
+          "followUp": null,
+          "optionId": "hardy-q1-a0",
+          "text": "Study a little every day."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "HARDY_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "relaxed": 2
+          },
+          "followUp": null,
+          "optionId": "hardy-q1-a1",
+          "text": "Save the studying for the final evening."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "HARDY_Q1_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "impish": 2
+          },
+          "followUp": null,
+          "optionId": "hardy-q1-a2",
+          "text": "Have fun and leave the books alone."
+        }
+      ],
+      "prompt": "A difficult exam is a week away. How do you spend that week?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 6
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 5
+      },
+      "factsSha256": "6b88e88814d852b972e0e54db0277bf7b808e9917f03f1a53c0ed44ef1588d5a",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "hardy-q2",
+      "originalIndex": 1,
+      "sourceSymbol": "HardyQuest2",
+      "originalQuestionId": "HARDY_Q2",
+      "categoryId": "hardy",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "HARDY_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hardy": 2,
+            "docile": 1
+          },
+          "followUp": null,
+          "optionId": "hardy-q2-a0",
+          "text": "I can stay with it for ages."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "HARDY_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "hardy-q2-a1",
+          "text": "My attention still wanders."
+        }
+      ],
+      "prompt": "When a subject fascinates you, can you give it your full attention?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 19
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 11
+      },
+      "factsSha256": "df7a3e8f2a8f6d80738340b88e47c204c4b2428fae0227c52b0ac1796659a9a7",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "hardy-q3",
+      "originalIndex": 2,
+      "sourceSymbol": "HardyQuest3",
+      "originalQuestionId": "HARDY_Q3",
+      "categoryId": "hardy",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "HARDY_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hardy": 2,
+            "brave": 2
+          },
+          "followUp": null,
+          "optionId": "hardy-q3-a0",
+          "text": "Keep working until I make progress."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "HARDY_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "sassy": 2,
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "hardy-q3-a1",
+          "text": "Leave that challenge to someone else."
+        }
+      ],
+      "prompt": "A task turns out to be much tougher than expected. What now?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 30
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 16
+      },
+      "factsSha256": "34cf69d8281ead5d9d2df77c066636d73139c313128c82f41c9ec957a87d924e",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "hardy-q4",
+      "originalIndex": 3,
+      "sourceSymbol": "HardyQuest4",
+      "originalQuestionId": "HARDY_Q4",
+      "categoryId": "hardy",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "HARDY_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hardy": 2
+          },
+          "followUp": null,
+          "optionId": "hardy-q4-a0",
+          "text": "Right at the top."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "HARDY_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "calm": 2
+          },
+          "followUp": null,
+          "optionId": "hardy-q4-a1",
+          "text": "Around the halfway mark."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "HARDY_Q4_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "hardy-q4-a2",
+          "text": "After adding just a little."
+        }
+      ],
+      "prompt": "You're filling an empty bucket. Where do you stop?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 41
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 20
+      },
+      "factsSha256": "828e539829b9154aa072006796f834d48ff230c76e7782ee70e36d0e50e85d99",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "docile-q1",
+      "originalIndex": 4,
+      "sourceSymbol": "DocileQuest1",
+      "originalQuestionId": "DOCILE_Q1",
+      "categoryId": "docile",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "DOCILE_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "docile": 2,
+            "naive": 1
+          },
+          "followUp": null,
+          "optionId": "docile-q1-a0",
+          "text": "The bigger parcel."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "DOCILE_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "timid": 2,
+            "calm": 1
+          },
+          "followUp": null,
+          "optionId": "docile-q1-a1",
+          "text": "The smaller parcel."
+        }
+      ],
+      "prompt": "Two wrapped gifts are waiting, one big and one small. Which catches your eye?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 56
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 26
+      },
+      "factsSha256": "35615356bd37756d7c75dd87dba2cc5144e81daa2e5f90d589c034a94cba5434",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "docile-q2",
+      "originalIndex": 5,
+      "sourceSymbol": "DocileQuest2",
+      "originalQuestionId": "DOCILE_Q2",
+      "categoryId": "docile",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "DOCILE_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "docile": 2,
+            "hasty": 1
+          },
+          "followUp": null,
+          "optionId": "docile-q2-a0",
+          "text": "Let some fresh air in."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "DOCILE_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "naive": 2,
+            "relaxed": 1
+          },
+          "followUp": null,
+          "optionId": "docile-q2-a1",
+          "text": "Lean closer to find out how bad it smells."
+        }
+      ],
+      "prompt": "An old egg cracks open in your room. What do you do first?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 67
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 31
+      },
+      "factsSha256": "4ca506155dff33a27a13b986ca939209adfafb66b9bd252dc22d82a80d0d3815",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "docile-q3",
+      "originalIndex": 6,
+      "sourceSymbol": "DocileQuest3",
+      "originalQuestionId": "DOCILE_Q3",
+      "categoryId": "docile",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "DOCILE_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "docile": 2
+          },
+          "followUp": null,
+          "optionId": "docile-q3-a0",
+          "text": "Let them know I appreciate the help."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "DOCILE_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "naive": 1,
+            "lonely": 1
+          },
+          "followUp": null,
+          "optionId": "docile-q3-a1",
+          "text": "Thank them with a playful joke."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "DOCILE_Q3_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "docile-q3-a2",
+          "text": "Give a brief, casual thanks."
+        }
+      ],
+      "prompt": "A friend brings back something you forgot. How do you respond?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 78
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 35
+      },
+      "factsSha256": "6c448705f36308fdaa99712004063cd51b2941ec952a74611f40ce3c59a4dca9",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "docile-q4",
+      "originalIndex": 7,
+      "sourceSymbol": "DocileQuest4",
+      "originalQuestionId": "DOCILE_Q4",
+      "categoryId": "docile",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "DOCILE_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "docile": 2
+          },
+          "followUp": null,
+          "optionId": "docile-q4-a0",
+          "text": "Take it to someone who handles lost property."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "DOCILE_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "naive": 2
+          },
+          "followUp": null,
+          "optionId": "docile-q4-a1",
+          "text": "Feel thrilled about my lucky discovery."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "DOCILE_Q4_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "impish": 2
+          },
+          "followUp": null,
+          "optionId": "docile-q4-a2",
+          "text": "Look around to see who's watching."
+        }
+      ],
+      "prompt": "You notice a wallet lying on the pavement. What is your first response?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 91
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 41
+      },
+      "factsSha256": "5d4df33aba35ffad40b1ba51c78b541038e10326767635c5eefba25ea0c34efe",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "brave-q1",
+      "originalIndex": 8,
+      "sourceSymbol": "BraveQuest1",
+      "originalQuestionId": "BRAVE_Q1",
+      "categoryId": "brave",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "BRAVE_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "brave": 3,
+            "impish": 1
+          },
+          "followUp": null,
+          "optionId": "brave-q1-a0",
+          "text": "I'd go ahead with the jump."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "BRAVE_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "docile": 2,
+            "timid": 1
+          },
+          "followUp": null,
+          "optionId": "brave-q1-a1",
+          "text": "I'd give the jump a miss."
+        }
+      ],
+      "prompt": "A bungee cord snaps during a practice drop with a dummy. Would you still take your turn?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 106
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 46
+      },
+      "factsSha256": "92dd27f91678cb0c3f70b7d35a8ca8508305961171cbd37b6e002b9dbb2c6434",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "brave-q2a",
+      "originalIndex": 9,
+      "sourceSymbol": "BraveQuest2A",
+      "originalQuestionId": "BRAVE_Q2A",
+      "categoryId": "brave",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "BRAVE_Q2A_A0",
+          "originalMenuValue": 99,
+          "scores": {},
+          "followUp": "brave-q2b",
+          "optionId": "brave-q2a-a0",
+          "text": "Stand up to the invaders."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "BRAVE_Q2A_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "brave-q2a-a1",
+          "text": "Get somewhere safe."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "BRAVE_Q2A_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "relaxed": 2
+          },
+          "followUp": null,
+          "optionId": "brave-q2a-a2",
+          "text": "Carry on as if nothing happened."
+        }
+      ],
+      "prompt": "Visitors from space are attacking your town. How do you react?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 117
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 51
+      },
+      "factsSha256": "758bd453905cc0dd03a72aa5a532aa20dc7ed3dc867b7c859260a17ed4ad2d41",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "brave-q3",
+      "originalIndex": 10,
+      "sourceSymbol": "BraveQuest3",
+      "originalQuestionId": "BRAVE_Q3",
+      "categoryId": "brave",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "BRAVE_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hardy": 1,
+            "brave": 2
+          },
+          "followUp": null,
+          "optionId": "brave-q3-a0",
+          "text": "Pull the door open at once."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "BRAVE_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "naive": 2
+          },
+          "followUp": null,
+          "optionId": "brave-q3-a1",
+          "text": "Start shouting in alarm too."
+        }
+      ],
+      "prompt": "Someone sounds frightened behind a closed door. What do you do?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 141
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 57
+      },
+      "factsSha256": "6217f7b566d825a60dd988e23d953fc2be3dea1aa453fd7402a038ea7fd887d4",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "brave-q4",
+      "originalIndex": 11,
+      "sourceSymbol": "BraveQuest4",
+      "originalQuestionId": "BRAVE_Q4",
+      "categoryId": "brave",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "BRAVE_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "brave": 3
+          },
+          "followUp": null,
+          "optionId": "brave-q4-a0",
+          "text": "Step in without hesitation."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "BRAVE_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hardy": 2,
+            "brave": 2
+          },
+          "followUp": null,
+          "optionId": "brave-q4-a1",
+          "text": "Step in even though I'm shaking."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "BRAVE_Q4_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "docile": 1,
+            "timid": 1,
+            "relaxed": 1
+          },
+          "followUp": null,
+          "optionId": "brave-q4-a2",
+          "text": "Find someone in authority to help."
+        },
+        {
+          "index": 3,
+          "originalAnswerId": "BRAVE_Q4_A3",
+          "originalMenuValue": 3,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "brave-q4-a3",
+          "text": "Freeze because I'm too frightened."
+        }
+      ],
+      "prompt": "You see someone being harassed on a busy street. How do you respond?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 152
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 61
+      },
+      "factsSha256": "3b50471a980a2637db96cd41c736e48ef3d4a6bcf33bb223d41815dfe8f8286a",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "jolly-q1",
+      "originalIndex": 12,
+      "sourceSymbol": "JollyQuest1",
+      "originalQuestionId": "JOLLY_Q1",
+      "categoryId": "jolly",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "JOLLY_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "jolly": 2,
+            "naive": 1
+          },
+          "followUp": null,
+          "optionId": "jolly-q1-a0",
+          "text": "Mostly bright and upbeat."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "JOLLY_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "sassy": 1,
+            "quirky": 1
+          },
+          "followUp": null,
+          "optionId": "jolly-q1-a1",
+          "text": "Not especially cheerful."
+        }
+      ],
+      "prompt": "How would you describe your usual mood?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 170
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 68
+      },
+      "factsSha256": "9f5cd6d08de2cbe175900a4a1080ffcfbd1253819b6cbc297ffccecdf1354cb8",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "jolly-q2",
+      "originalIndex": 13,
+      "sourceSymbol": "JollyQuest2",
+      "originalQuestionId": "JOLLY_Q2",
+      "categoryId": "jolly",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "JOLLY_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "jolly": 2,
+            "lonely": 1
+          },
+          "followUp": null,
+          "optionId": "jolly-q2-a0",
+          "text": "I'd love to join the crowd."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "JOLLY_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "timid": 1
+          },
+          "followUp": null,
+          "optionId": "jolly-q2-a1",
+          "text": "I'd rather avoid the bustle."
+        }
+      ],
+      "prompt": "A loud celebration is bringing everyone together. Does that sound fun?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 181
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 73
+      },
+      "factsSha256": "c30ac126c17b91a706f9754fa394025eef10bdb6f721bbf6f2546ca82b064e10",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "jolly-q3",
+      "originalIndex": 14,
+      "sourceSymbol": "JollyQuest3",
+      "originalQuestionId": "JOLLY_Q3",
+      "categoryId": "jolly",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "JOLLY_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "jolly": 2
+          },
+          "followUp": null,
+          "optionId": "jolly-q3-a0",
+          "text": "To the coast for some fun."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "JOLLY_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "calm": 2
+          },
+          "followUp": null,
+          "optionId": "jolly-q3-a1",
+          "text": "To a peaceful hot spring."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "JOLLY_Q3_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "jolly-q3-a2",
+          "text": "I don't mind where we go."
+        }
+      ],
+      "prompt": "You can choose a summer getaway. Where would you head?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 192
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 77
+      },
+      "factsSha256": "6701a335dbdafea91856ce7ec3f8494a0fa63fa7226e7841f819fa7cdc6c4266",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "jolly-q4",
+      "originalIndex": 15,
+      "sourceSymbol": "JollyQuest4",
+      "originalQuestionId": "JOLLY_Q4",
+      "categoryId": "jolly",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "JOLLY_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "jolly": 3
+          },
+          "followUp": null,
+          "optionId": "jolly-q4-a0",
+          "text": "Smile and laugh along confidently."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "JOLLY_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hardy": 2
+          },
+          "followUp": null,
+          "optionId": "jolly-q4-a1",
+          "text": "Ask them to explain another way."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "JOLLY_Q4_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "jolly-q4-a2",
+          "text": "Bring the conversation to an end."
+        }
+      ],
+      "prompt": "A visitor chats to you in a language you don't understand. Your response?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 205
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 83
+      },
+      "factsSha256": "35ddeb9ad861f130b87b9565ec112aeb368fc36c3a7e69ab00709de819b79244",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "impish-q1",
+      "originalIndex": 16,
+      "sourceSymbol": "ImpishQuest1",
+      "originalQuestionId": "IMPISH_Q1",
+      "categoryId": "impish",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "IMPISH_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "impish": 2,
+            "lonely": 1
+          },
+          "followUp": null,
+          "optionId": "impish-q1-a0",
+          "text": "I've tried that prank."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "IMPISH_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "calm": 2
+          },
+          "followUp": null,
+          "optionId": "impish-q1-a1",
+          "text": "I've never done that."
+        }
+      ],
+      "prompt": "Have you ever made a hidden hole as a prank?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 220
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 88
+      },
+      "factsSha256": "caea6412969dc292b9e93c4a41ad3b7fd5aa6d0c9dea0695485562ed975a0a0c",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "impish-q2",
+      "originalIndex": 17,
+      "sourceSymbol": "ImpishQuest2",
+      "originalQuestionId": "IMPISH_Q2",
+      "categoryId": "impish",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "IMPISH_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "impish": 2
+          },
+          "followUp": null,
+          "optionId": "impish-q2-a0",
+          "text": "I get a kick out of them."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "IMPISH_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "docile": 1,
+            "relaxed": 1
+          },
+          "followUp": null,
+          "optionId": "impish-q2-a1",
+          "text": "They aren't my kind of fun."
+        }
+      ],
+      "prompt": "How do you feel about playful pranks?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 231
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 93
+      },
+      "factsSha256": "ad07de40e35c0fd81eeec8b5b2a7b083b4e0d4f649694af35ab4a59efc29d740",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "impish-q3",
+      "originalIndex": 18,
+      "sourceSymbol": "ImpishQuest3",
+      "originalQuestionId": "IMPISH_Q3",
+      "categoryId": "impish",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "IMPISH_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hardy": 1,
+            "impish": 2
+          },
+          "followUp": null,
+          "optionId": "impish-q3-a0",
+          "text": "It keeps growing!"
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "IMPISH_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "sassy": 1,
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "impish-q3-a1",
+          "text": "Only a few things come to mind."
+        }
+      ],
+      "prompt": "Think of all the things you'd like to try. How long is your list?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 242
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 98
+      },
+      "factsSha256": "f6fb449b62c0d80c1eaf38cfb70cb6ad5082a3acfa7f3e5d928b8ff6978174ec",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "impish-q4",
+      "originalIndex": 19,
+      "sourceSymbol": "ImpishQuest4",
+      "originalQuestionId": "IMPISH_Q4",
+      "categoryId": "impish",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "IMPISH_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "brave": 3
+          },
+          "followUp": null,
+          "optionId": "impish-q4-a0",
+          "text": "Go straight up and confront the bully."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "IMPISH_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "impish-q4-a1",
+          "text": "Call out a warning from a safe distance."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "IMPISH_Q4_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "impish": 2
+          },
+          "followUp": null,
+          "optionId": "impish-q4-a2",
+          "text": "Hide and make fun of the bully."
+        }
+      ],
+      "prompt": "A bully is picking on your friend. What would you do?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 253
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 103
+      },
+      "factsSha256": "5a2dbfc332207b63c67fb595692d5f91a0de317de42cc19f2d177f18384329ef",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "naive-q1",
+      "originalIndex": 20,
+      "sourceSymbol": "NaiveQuest1",
+      "originalQuestionId": "NAIVE_Q1",
+      "categoryId": "naive",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "NAIVE_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "impish": 1,
+            "naive": 3
+          },
+          "followUp": null,
+          "optionId": "naive-q1-a0",
+          "text": "I love that sort of joke."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "NAIVE_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "jolly": 2
+          },
+          "followUp": null,
+          "optionId": "naive-q1-a1",
+          "text": "It earns a small chuckle."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "NAIVE_Q1_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "naive-q1-a2",
+          "text": "I'd rather skip the wordplay."
+        }
+      ],
+      "prompt": "Someone tells a wonderfully terrible pun. How does it land with you?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 268
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 108
+      },
+      "factsSha256": "66664099dad16926ce6e74df8be68f199495d73e80b06c3b4c31e69d46b11034",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "naive-q2",
+      "originalIndex": 21,
+      "sourceSymbol": "NaiveQuest2",
+      "originalQuestionId": "NAIVE_Q2",
+      "categoryId": "naive",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "NAIVE_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "docile": 1,
+            "naive": 2
+          },
+          "followUp": null,
+          "optionId": "naive-q2-a0",
+          "text": "I laugh at all sorts of things."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "NAIVE_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "naive-q2-a1",
+          "text": "I don't laugh very often."
+        }
+      ],
+      "prompt": "Is laughter a regular part of your day?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 281
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 114
+      },
+      "factsSha256": "ef1e685e5aabd6d2eb464ba21e823aa57018add12b5bc58765b446b5ee3e4aa5",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "naive-q3",
+      "originalIndex": 22,
+      "sourceSymbol": "NaiveQuest3",
+      "originalQuestionId": "NAIVE_Q3",
+      "categoryId": "naive",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "NAIVE_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "jolly": 1,
+            "naive": 2
+          },
+          "followUp": null,
+          "optionId": "naive-q3-a0",
+          "text": "I hear that quite a lot."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "NAIVE_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "calm": 2
+          },
+          "followUp": null,
+          "optionId": "naive-q3-a1",
+          "text": "That isn't something people say about me."
+        }
+      ],
+      "prompt": "Do people often say you act younger than your age?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 292
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 119
+      },
+      "factsSha256": "e21b35467d56bbc43f49464251b32af3200d972af6639ef093dbb7771420a9c7",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "naive-q4",
+      "originalIndex": 23,
+      "sourceSymbol": "NaiveQuest4",
+      "originalQuestionId": "NAIVE_Q4",
+      "categoryId": "naive",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "NAIVE_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "naive": 2
+          },
+          "followUp": null,
+          "optionId": "naive-q4-a0",
+          "text": "I can happily entertain myself that way."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "NAIVE_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hasty": 2
+          },
+          "followUp": null,
+          "optionId": "naive-q4-a1",
+          "text": "That doesn't really interest me."
+        }
+      ],
+      "prompt": "Do you enjoy inventing little adventures in your imagination?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 303
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 124
+      },
+      "factsSha256": "961f230af36e8539afdd359de3e7c4a64646c88fcdc88e0f3ae3ca32ea65981e",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "timid-q1",
+      "originalIndex": 24,
+      "sourceSymbol": "TimidQuest1",
+      "originalQuestionId": "TIMID_Q1",
+      "categoryId": "timid",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "TIMID_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q1-a0",
+          "text": "Run away in a panic."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "TIMID_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hardy": 1,
+            "calm": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q1-a1",
+          "text": "Lower the lid as quietly as possible."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "TIMID_Q1_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "brave": 2,
+            "impish": 1,
+            "naive": 1
+          },
+          "followUp": null,
+          "optionId": "timid-q1-a2",
+          "text": "Reach out for a handshake."
+        }
+      ],
+      "prompt": "A strange hand suddenly rises from the toilet bowl. What is your reaction?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 316
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 129
+      },
+      "factsSha256": "d7d14852214c95b454cee3702d784294187d3a5dabb03e485df8e4228c54ce26",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "timid-q2",
+      "originalIndex": 25,
+      "sourceSymbol": "TimidQuest2",
+      "originalQuestionId": "TIMID_Q2",
+      "categoryId": "timid",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "TIMID_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q2-a0",
+          "text": "My thumb."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "TIMID_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hasty": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q2-a1",
+          "text": "My pointing finger."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "TIMID_Q2_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "jolly": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q2-a2",
+          "text": "The middle finger."
+        },
+        {
+          "index": 3,
+          "originalAnswerId": "TIMID_Q2_A3",
+          "originalMenuValue": 3,
+          "scores": {
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q2-a3",
+          "text": "The ring finger."
+        },
+        {
+          "index": 4,
+          "originalAnswerId": "TIMID_Q2_A4",
+          "originalMenuValue": 4,
+          "scores": {
+            "lonely": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q2-a4",
+          "text": "My smallest finger."
+        }
+      ],
+      "prompt": "Use your right hand to choose one finger on your left. Which one did you pick?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 329
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 134
+      },
+      "factsSha256": "7a5a27f410030c92305a34a5ecb180fc8da67419084290829fbeb51f0290880d",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "timid-q3",
+      "originalIndex": 26,
+      "sourceSymbol": "TimidQuest3",
+      "originalQuestionId": "TIMID_Q3",
+      "categoryId": "timid",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "TIMID_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q3-a0",
+          "text": "Bang on the door."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "TIMID_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "lonely": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q3-a1",
+          "text": "Start to cry."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "TIMID_Q3_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "impish": 2,
+            "quirky": 1
+          },
+          "followUp": null,
+          "optionId": "timid-q3-a2",
+          "text": "Put the room in order."
+        }
+      ],
+      "prompt": "The lights go out and you're stuck in a room. What do you do?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 346
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 142
+      },
+      "factsSha256": "ca42b4edb15eea5235a13c8b19f98adde1c1c74bd4c621eb520bc1576eb86b30",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "timid-q4",
+      "originalIndex": 27,
+      "sourceSymbol": "TimidQuest4",
+      "originalQuestionId": "TIMID_Q4",
+      "categoryId": "timid",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "TIMID_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "brave": 3
+          },
+          "followUp": null,
+          "optionId": "timid-q4-a0",
+          "text": "I'd walk in without worrying."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "TIMID_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q4-a1",
+          "text": "I'd be too scared to enter."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "TIMID_Q4_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "timid-q4-a2",
+          "text": "I'd go with someone I really like."
+        }
+      ],
+      "prompt": "People say an empty house is haunted. Would you explore it?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 359
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 147
+      },
+      "factsSha256": "160df3517c709571f7200615148097bc552af96d37f5daea988a2b966ae4ad2f",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "hasty-q1",
+      "originalIndex": 28,
+      "sourceSymbol": "HastyQuest1",
+      "originalQuestionId": "HASTY_Q1",
+      "categoryId": "hasty",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "HASTY_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hasty": 2
+          },
+          "followUp": null,
+          "optionId": "hasty-q1-a0",
+          "text": "Tear into the wrapping right away."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "HASTY_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "calm": 2
+          },
+          "followUp": null,
+          "optionId": "hasty-q1-a1",
+          "text": "Leave it unopened for a while."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "HASTY_Q1_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "hasty-q1-a2",
+          "text": "Ask someone else to open it."
+        }
+      ],
+      "prompt": "A gift has just arrived for you. How do you approach it?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 374
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 153
+      },
+      "factsSha256": "fcd8cb041362980346ffb1b4726af0c889705619fcd233accccc4924ad08a730",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "hasty-q2",
+      "originalIndex": 29,
+      "sourceSymbol": "HastyQuest2",
+      "originalQuestionId": "HASTY_Q2",
+      "categoryId": "hasty",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "HASTY_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "jolly": 2,
+            "hasty": 1
+          },
+          "followUp": null,
+          "optionId": "hasty-q2-a0",
+          "text": "Go shopping straight away."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "HASTY_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hardy": 1,
+            "calm": 1
+          },
+          "followUp": null,
+          "optionId": "hasty-q2-a1",
+          "text": "Put the money aside."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "HASTY_Q2_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "brave": 2,
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "hasty-q2-a2",
+          "text": "Give the winnings to a good cause."
+        }
+      ],
+      "prompt": "A lottery ticket brings you a big prize. What would you do with the money?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 387
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 159
+      },
+      "factsSha256": "4acd4f886f7426df2523a765f7f2c70f95075972b5ccf866b3a416262d920e59",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "hasty-q3",
+      "originalIndex": 30,
+      "sourceSymbol": "HastyQuest3",
+      "originalQuestionId": "HASTY_Q3",
+      "categoryId": "hasty",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "HASTY_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hasty": 2
+          },
+          "followUp": null,
+          "optionId": "hasty-q3-a0",
+          "text": "I can't wait to look inside."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "HASTY_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "hasty-q3-a1",
+          "text": "There could be something dangerous in there."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "HASTY_Q3_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "hasty-q3-a2",
+          "text": "It's probably empty."
+        }
+      ],
+      "prompt": "You find an old treasure chest. What is your first thought?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 400
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 164
+      },
+      "factsSha256": "ba06e60e8e640cbb187e0eb7f341a3bac98a364d88aae662187aa1b3aa54d135",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "hasty-q4",
+      "originalIndex": 31,
+      "sourceSymbol": "HastyQuest4",
+      "originalQuestionId": "HASTY_Q4",
+      "categoryId": "hasty",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "HASTY_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "docile": 1,
+            "hasty": 2
+          },
+          "followUp": null,
+          "optionId": "hasty-q4-a0",
+          "text": "Keep waiting, but feel irritated."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "HASTY_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "relaxed": 2
+          },
+          "followUp": null,
+          "optionId": "hasty-q4-a1",
+          "text": "Wait without getting worked up."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "HASTY_Q4_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "hasty": 3
+          },
+          "followUp": null,
+          "optionId": "hasty-q4-a2",
+          "text": "Get angry and leave."
+        }
+      ],
+      "prompt": "Your friend hasn't arrived at the agreed time. What do you do?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 413
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 170
+      },
+      "factsSha256": "f598d8011f9b03d3e053ae52e8914148c0bc8fc91aa887b36ffd7d649377c2a8",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "sassy-q1",
+      "originalIndex": 32,
+      "sourceSymbol": "SassyQuest1",
+      "originalQuestionId": "SASSY_Q1",
+      "categoryId": "sassy",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "SASSY_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hardy": 2
+          },
+          "followUp": null,
+          "optionId": "sassy-q1-a0",
+          "text": "Calm and collected."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "SASSY_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "docile": 2
+          },
+          "followUp": null,
+          "optionId": "sassy-q1-a1",
+          "text": "Nervous and hesitant."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "SASSY_Q1_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "sassy-q1-a2",
+          "text": "Like their position doesn't impress me."
+        }
+      ],
+      "prompt": "You have a chance to speak to your country's leader. How would you sound?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 428
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 175
+      },
+      "factsSha256": "c9f16412dcbf67f51f6487a34344124f202ff0d5f6a825e4e8342b465cad1481",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "sassy-q2",
+      "originalIndex": 33,
+      "sourceSymbol": "SassyQuest2",
+      "originalQuestionId": "SASSY_Q2",
+      "categoryId": "sassy",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "SASSY_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "impish": 1,
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "sassy-q2-a0",
+          "text": "I've been told that before."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "SASSY_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "calm": 2
+          },
+          "followUp": null,
+          "optionId": "sassy-q2-a1",
+          "text": "People don't usually tell me that."
+        }
+      ],
+      "prompt": "Do people ever ask you to be more careful with your words?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 441
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 181
+      },
+      "factsSha256": "37aded3dd0af51ee4d7a295a47ed90fecb3e3ae94a3c3b3cd149c6991a52d1b5",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "sassy-q3",
+      "originalIndex": 34,
+      "sourceSymbol": "SassyQuest3",
+      "originalQuestionId": "SASSY_Q3",
+      "categoryId": "sassy",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "SASSY_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "sassy-q3-a0",
+          "text": "I think I make quite an impression."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "SASSY_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "relaxed": 2
+          },
+          "followUp": null,
+          "optionId": "sassy-q3-a1",
+          "text": "I wouldn't describe myself as cool."
+        }
+      ],
+      "prompt": "Do you see yourself as someone others find cool?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 452
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 186
+      },
+      "factsSha256": "f7a447ae2d29e2566e675d8d9f67cdf4e5936caceeae0f84bd222594b2b5e571",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "sassy-q4",
+      "originalIndex": 35,
+      "sourceSymbol": "SassyQuest4",
+      "originalQuestionId": "SASSY_Q4",
+      "categoryId": "sassy",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "SASSY_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "docile": 2,
+            "calm": 1
+          },
+          "followUp": null,
+          "optionId": "sassy-q4-a0",
+          "text": "I can tell people what their help means to me."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "SASSY_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "sassy": 2,
+            "quirky": 1
+          },
+          "followUp": null,
+          "optionId": "sassy-q4-a1",
+          "text": "I can't say it sincerely."
+        }
+      ],
+      "prompt": "When you feel grateful, can you say so sincerely?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 463
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 191
+      },
+      "factsSha256": "54c6b092d5f2bd5851fa5335de8881a3142a199a1ad97d8a89c28bb9c34580c8",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "calm-q1",
+      "originalIndex": 36,
+      "sourceSymbol": "CalmQuest1",
+      "originalQuestionId": "CALM_Q1",
+      "categoryId": "calm",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "CALM_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "calm": 2,
+            "lonely": 1
+          },
+          "followUp": null,
+          "optionId": "calm-q1-a0",
+          "text": "That sounds like me sometimes."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "CALM_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hardy": 2
+          },
+          "followUp": null,
+          "optionId": "calm-q1-a1",
+          "text": "That doesn't sound like me."
+        }
+      ],
+      "prompt": "Would you call yourself so careful that you can seem a little dull?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 476
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 195
+      },
+      "factsSha256": "6f12f91e0a8ca2c5743dee0603ecaa9e598a981789a0e7951bc8c74c44a8a138",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "calm-q2",
+      "originalIndex": 37,
+      "sourceSymbol": "CalmQuest2",
+      "originalQuestionId": "CALM_Q2",
+      "categoryId": "calm",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "CALM_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "calm": 2
+          },
+          "followUp": null,
+          "optionId": "calm-q2-a0",
+          "text": "That sounds comfortable."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "CALM_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "impish": 2
+          },
+          "followUp": null,
+          "optionId": "calm-q2-a1",
+          "text": "I'd want more going on."
+        }
+      ],
+      "prompt": "Would a quiet life with very little to do suit you?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 487
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 200
+      },
+      "factsSha256": "ce0a9f16c27b3102e78dbe483f5f0de869171b559c3f1d397d35c08660d6dfbb",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "calm-q3",
+      "originalIndex": 38,
+      "sourceSymbol": "CalmQuest3",
+      "originalQuestionId": "CALM_Q3",
+      "categoryId": "calm",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "CALM_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "impish": 1,
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "calm-q3-a0",
+          "text": "I enjoy a confrontation."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "CALM_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "calm": 2,
+            "lonely": 1
+          },
+          "followUp": null,
+          "optionId": "calm-q3-a1",
+          "text": "I'd rather avoid fighting."
+        }
+      ],
+      "prompt": "Do you enjoy getting into fights?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 498
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 205
+      },
+      "factsSha256": "f190f45b0b74dbde1cc9edc1a721d448aa78a4683a91e4ceae035fbe9a4ad522",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "calm-q4",
+      "originalIndex": 39,
+      "sourceSymbol": "CalmQuest4",
+      "originalQuestionId": "CALM_Q4",
+      "categoryId": "calm",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "CALM_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "calm": 2,
+            "relaxed": 1
+          },
+          "followUp": null,
+          "optionId": "calm-q4-a0",
+          "text": "Quite often, actually."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "CALM_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hardy": 1,
+            "hasty": 2
+          },
+          "followUp": null,
+          "optionId": "calm-q4-a1",
+          "text": "Only once in a while."
+        }
+      ],
+      "prompt": "Do you catch yourself yawning often?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 509
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 210
+      },
+      "factsSha256": "ceb46ae849f2ca446c568b24c4a1404b00e6e2cc04833176d251293e14c148b2",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "relaxed-q1",
+      "originalIndex": 40,
+      "sourceSymbol": "RelaxedQuest1",
+      "originalQuestionId": "RELAXED_Q1",
+      "categoryId": "relaxed",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "RELAXED_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "sassy": 1,
+            "relaxed": 2
+          },
+          "followUp": null,
+          "optionId": "relaxed-q1-a0",
+          "text": "It happens a lot."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "RELAXED_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hardy": 2,
+            "hasty": 1
+          },
+          "followUp": null,
+          "optionId": "relaxed-q1-a1",
+          "text": "I usually arrive on time."
+        }
+      ],
+      "prompt": "How often do you arrive late for school or appointments?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 522
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 215
+      },
+      "factsSha256": "705cc4495bd6d759baccb0bf18c3efba2395f771bbede03efc0ea4ce5e854e96",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "relaxed-q2",
+      "originalIndex": 41,
+      "sourceSymbol": "RelaxedQuest2",
+      "originalQuestionId": "RELAXED_Q2",
+      "categoryId": "relaxed",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "RELAXED_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "relaxed": 2
+          },
+          "followUp": null,
+          "optionId": "relaxed-q2-a0",
+          "text": "I feel as though I've slowed down."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "RELAXED_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "impish": 1,
+            "hasty": 2
+          },
+          "followUp": null,
+          "optionId": "relaxed-q2-a1",
+          "text": "My pace feels much the same."
+        }
+      ],
+      "prompt": "Has your usual pace become slower lately?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 533
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 219
+      },
+      "factsSha256": "23c1165025a3f121e90ab853e605d6b21dd713fa3cb9e5d7889ff7cee5d2fa12",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "relaxed-q3",
+      "originalIndex": 42,
+      "sourceSymbol": "RelaxedQuest3",
+      "originalQuestionId": "RELAXED_Q3",
+      "categoryId": "relaxed",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "RELAXED_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "jolly": 2
+          },
+          "followUp": null,
+          "optionId": "relaxed-q3-a0",
+          "text": "Excited to make the most of it."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "RELAXED_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "relaxed": 2
+          },
+          "followUp": null,
+          "optionId": "relaxed-q3-a1",
+          "text": "Sleepy and completely at ease."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "RELAXED_Q3_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "hasty": 2
+          },
+          "followUp": null,
+          "optionId": "relaxed-q3-a2",
+          "text": "Ready to head somewhere else."
+        }
+      ],
+      "prompt": "It's a lovely day beside the sea. How are you feeling?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 544
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 224
+      },
+      "factsSha256": "fa9fce30fd173ad40fa992381d27b0eb3cd3d655d6fec43005a7d22bc25c40b9",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "relaxed-q4",
+      "originalIndex": 43,
+      "sourceSymbol": "RelaxedQuest4",
+      "originalQuestionId": "RELAXED_Q4",
+      "categoryId": "relaxed",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "RELAXED_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "calm": 1,
+            "relaxed": 2
+          },
+          "followUp": null,
+          "optionId": "relaxed-q4-a0",
+          "text": "I drift off pretty often."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "RELAXED_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hardy": 2
+          },
+          "followUp": null,
+          "optionId": "relaxed-q4-a1",
+          "text": "That hardly ever happens."
+        }
+      ],
+      "prompt": "Do you sometimes fall asleep without meaning to?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 557
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 230
+      },
+      "factsSha256": "481d33aee8907c88f68be4e4081a75cfe8d97897cf128f7197b6b9f7c3baa8d9",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "lonely-q1",
+      "originalIndex": 44,
+      "sourceSymbol": "LonelyQuest1",
+      "originalQuestionId": "LONELY_Q1",
+      "categoryId": "lonely",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "LONELY_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "timid": 1,
+            "lonely": 2
+          },
+          "followUp": null,
+          "optionId": "lonely-q1-a0",
+          "text": "I start wishing someone were with me."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "LONELY_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "lonely-q1-a1",
+          "text": "I'm comfortable with my own company."
+        }
+      ],
+      "prompt": "How do you tend to feel when you're on your own?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 570
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 235
+      },
+      "factsSha256": "18a5d64ca81d430ea539a2dfa061af444bcd07e99fa51dfa6632631bba50ce7f",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "lonely-q2",
+      "originalIndex": 45,
+      "sourceSymbol": "LonelyQuest2",
+      "originalQuestionId": "LONELY_Q2",
+      "categoryId": "lonely",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "LONELY_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "timid": 1,
+            "lonely": 2
+          },
+          "followUp": null,
+          "optionId": "lonely-q2-a0",
+          "text": "I dislike being the last person there."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "LONELY_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "brave": 3,
+            "relaxed": 1
+          },
+          "followUp": null,
+          "optionId": "lonely-q2-a1",
+          "text": "I'm happy to stay by myself."
+        }
+      ],
+      "prompt": "Everyone has left the classroom except you. Does that bother you?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 581
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 239
+      },
+      "factsSha256": "ce4582e3f9c153244b8aa48578676ead7061dc9aae8ed46db956de166246258f",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "lonely-q3",
+      "originalIndex": 46,
+      "sourceSymbol": "LonelyQuest3",
+      "originalQuestionId": "LONELY_Q3",
+      "categoryId": "lonely",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "LONELY_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "timid": 1,
+            "lonely": 2
+          },
+          "followUp": null,
+          "optionId": "lonely-q3-a0",
+          "text": "I'd like a light to stay on."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "LONELY_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "calm": 2
+          },
+          "followUp": null,
+          "optionId": "lonely-q3-a1",
+          "text": "I'd like the room dark."
+        }
+      ],
+      "prompt": "What lighting do you prefer when you settle down to sleep?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 592
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 244
+      },
+      "factsSha256": "cfaadb8f38b828eacf70c29cd9a0aad2f7f8b46fc190d4d0febcfc2b014f3a8e",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "lonely-q4",
+      "originalIndex": 47,
+      "sourceSymbol": "LonelyQuest4",
+      "originalQuestionId": "LONELY_Q4",
+      "categoryId": "lonely",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "LONELY_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "jolly": 1,
+            "lonely": 1
+          },
+          "followUp": null,
+          "optionId": "lonely-q4-a0",
+          "text": "Go out and do something on my own."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "LONELY_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "calm": 1,
+            "relaxed": 2
+          },
+          "followUp": null,
+          "optionId": "lonely-q4-a1",
+          "text": "Pass the time without making plans."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "LONELY_Q4_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "timid": 1,
+            "lonely": 3
+          },
+          "followUp": null,
+          "optionId": "lonely-q4-a2",
+          "text": "Stay in and feel down about it."
+        }
+      ],
+      "prompt": "You have free time, but none of your friends is available. What next?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 603
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 249
+      },
+      "factsSha256": "f2495bbd7f4c806694808ef41ca9d46dcc29dc364e310acab541d94c9bb89f9f",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "quirky-q1",
+      "originalIndex": 48,
+      "sourceSymbol": "QuirkyQuest1",
+      "originalQuestionId": "QUIRKY_Q1",
+      "categoryId": "quirky",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "QUIRKY_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "quirky-q1-a0",
+          "text": "Sometimes my ideas just stop."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "QUIRKY_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hardy": 2
+          },
+          "followUp": null,
+          "optionId": "quirky-q1-a1",
+          "text": "I can usually think of another activity."
+        }
+      ],
+      "prompt": "Do you sometimes find yourself with no idea what to do next?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 618
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 254
+      },
+      "factsSha256": "c6b0fd56cd90447437e4137d7fc88f3b27d15e7d1a1a694f8b19d63536ac743c",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "quirky-q2",
+      "originalIndex": 49,
+      "sourceSymbol": "QuirkyQuest2",
+      "originalQuestionId": "QUIRKY_Q2",
+      "categoryId": "quirky",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "QUIRKY_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hardy": 1,
+            "hasty": 1
+          },
+          "followUp": null,
+          "optionId": "quirky-q2-a0",
+          "text": "Send a reply right away."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "QUIRKY_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "quirky-q2-a1",
+          "text": "Reply when the mood takes me."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "QUIRKY_Q2_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "quirky-q2-a2",
+          "text": "Leave it because replying feels like a chore."
+        }
+      ],
+      "prompt": "When a new message arrives, what do you usually do?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 629
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 259
+      },
+      "factsSha256": "f86cefd6a9fcb79fa5ea1e00eda1b0f03f9269d0723b4ce4af10e535e75ac437",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "quirky-q3",
+      "originalIndex": 50,
+      "sourceSymbol": "QuirkyQuest3",
+      "originalQuestionId": "QUIRKY_Q3",
+      "categoryId": "quirky",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "QUIRKY_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hardy": 1,
+            "brave": 3
+          },
+          "followUp": null,
+          "optionId": "quirky-q3-a0",
+          "text": "Tell them how I feel."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "QUIRKY_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "quirky-q3-a1",
+          "text": "Try a simple hello."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "QUIRKY_Q3_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "impish": 2
+          },
+          "followUp": null,
+          "optionId": "quirky-q3-a2",
+          "text": "Get their attention with a bit of mischief."
+        },
+        {
+          "index": 3,
+          "originalAnswerId": "QUIRKY_Q3_A3",
+          "originalMenuValue": 3,
+          "scores": {
+            "timid": 2
+          },
+          "followUp": null,
+          "optionId": "quirky-q3-a3",
+          "text": "Watch from a distance without approaching."
+        }
+      ],
+      "prompt": "You rarely get a chance to talk to someone you like. How would you use the next chance?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 642
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 265
+      },
+      "factsSha256": "b76d78111aae662e94fdb4b868f20ffd75023419fef00927dd55b6c3bd891aef",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "quirky-q4",
+      "originalIndex": 51,
+      "sourceSymbol": "QuirkyQuest4",
+      "originalQuestionId": "QUIRKY_Q4",
+      "categoryId": "quirky",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "QUIRKY_Q4_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "docile": 2
+          },
+          "followUp": null,
+          "optionId": "quirky-q4-a0",
+          "text": "Take the route they recommended."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "QUIRKY_Q4_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "sassy": 2
+          },
+          "followUp": null,
+          "optionId": "quirky-q4-a1",
+          "text": "Distrust the advice and go the other way."
+        },
+        {
+          "index": 2,
+          "originalAnswerId": "QUIRKY_Q4_A2",
+          "originalMenuValue": 2,
+          "scores": {
+            "quirky": 2
+          },
+          "followUp": null,
+          "optionId": "quirky-q4-a2",
+          "text": "Pick either route without a preference."
+        }
+      ],
+      "prompt": "At a fork in the road, a stranger points toward buried treasure. Which way do you go?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 657
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 271
+      },
+      "factsSha256": "eab6de51b7251b7b9cbbaa1d8c99467eb1f6b76e2ac9b647e016df7dc0340a28",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "misc-q1",
+      "originalIndex": 52,
+      "sourceSymbol": "MiscQuest1",
+      "originalQuestionId": "MISC_Q1",
+      "categoryId": "misc",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "MISC_Q1_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "hasty": 1,
+            "quirky": 1
+          },
+          "followUp": null,
+          "optionId": "misc-q1-a0",
+          "text": "I'd enjoy travelling on my own."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "MISC_Q1_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "jolly": 1,
+            "lonely": 1
+          },
+          "followUp": null,
+          "optionId": "misc-q1-a1",
+          "text": "I'd like friends to come along."
+        }
+      ],
+      "prompt": "What sort of company would you like on a holiday?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 672
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 277
+      },
+      "factsSha256": "966d94afb08cec6be971439a5b1620daf9e1646c2ff3b3231f4fa438fbaedee7",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "misc-q2",
+      "originalIndex": 53,
+      "sourceSymbol": "MiscQuest2",
+      "originalQuestionId": "MISC_Q2",
+      "categoryId": "misc",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "MISC_Q2_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "jolly": 2
+          },
+          "followUp": null,
+          "optionId": "misc-q2-a0",
+          "text": "I'm looking forward to the festivities."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "MISC_Q2_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "sassy": 1,
+            "quirky": 1
+          },
+          "followUp": null,
+          "optionId": "misc-q2-a1",
+          "text": "It doesn't make much difference to me."
+        }
+      ],
+      "prompt": "A festival is coming to town. Are you interested?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 683
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 281
+      },
+      "factsSha256": "a5ec57a19d7faf01729090a17dd898df11a0b0994f4c7cc4970cf368612f0a94",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "misc-q3",
+      "originalIndex": 54,
+      "sourceSymbol": "MiscQuest3",
+      "originalQuestionId": "MISC_Q3",
+      "categoryId": "misc",
+      "selectable": true,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "MISC_Q3_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "naive": 1,
+            "lonely": 1
+          },
+          "followUp": null,
+          "optionId": "misc-q3-a0",
+          "text": "I'm pleased they enjoy my odd side."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "MISC_Q3_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "hasty": 1,
+            "sassy": 1
+          },
+          "followUp": null,
+          "optionId": "misc-q3-a1",
+          "text": "I'd rather they hadn't described me that way."
+        }
+      ],
+      "prompt": "Someone says your unusual habits make you entertaining. How do you take it?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 694
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 286
+      },
+      "factsSha256": "66dc9088decec7284c2457a2259e1d8a1e907d76dda8159f8947bf3259c6745d",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    },
+    {
+      "id": "brave-q2b",
+      "originalIndex": 55,
+      "sourceSymbol": "BraveQuest2B",
+      "originalQuestionId": "BRAVE_Q2B",
+      "categoryId": "brave",
+      "selectable": false,
+      "options": [
+        {
+          "index": 0,
+          "originalAnswerId": "BRAVE_Q2B_A0",
+          "originalMenuValue": 0,
+          "scores": {
+            "sassy": 1,
+            "relaxed": 1
+          },
+          "followUp": null,
+          "optionId": "brave-q2b-a0",
+          "text": "Accept their offer and join them."
+        },
+        {
+          "index": 1,
+          "originalAnswerId": "BRAVE_Q2B_A1",
+          "originalMenuValue": 1,
+          "scores": {
+            "brave": 4
+          },
+          "followUp": null,
+          "optionId": "brave-q2b-a1",
+          "text": "Refuse to become their ally."
+        }
+      ],
+      "prompt": "The invaders defeat you, then offer you a place beside them in power. Your answer?",
+      "redLocator": {
+        "sourceId": "red:src/data/personality_test1.h",
+        "line": 130
+      },
+      "sharedLocator": {
+        "sourceId": "upc:quiz",
+        "renderedLine": 290
+      },
+      "factsSha256": "10a64fb6069cf4d94194e958aec9d0c5b9cfbf73c7a2628dd4c433b4cd022a93",
+      "evidenceId": "shared-quiz",
+      "textProvenanceId": "project-original-en-v1"
+    }
+  ]
+}

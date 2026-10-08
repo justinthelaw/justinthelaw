@@ -70,3 +70,8 @@ public/*.pdf
 .coverage
 .coverage.*
 htmlcov/
+
+# Deterministic tools-only roster raster artifacts; checked-in sources and
+# hash manifests reproduce/verify these through npm run roster:check.
+/tools/pokemon-dungeon/art/roster/output/*.png
+/tools/pokemon-dungeon/art/roster/evidence/*.png

@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "profile": "directional-pixel-v1",
+  "scope": "art-only-candidate",
+  "memory": {
+    "decodedRgbaBytesPerAtlas": 3538944,
+    "proofCharacterBytes": 10616832,
+    "proposedCharacterCacheBytes": 25165824,
+    "proposedResidentAtlasLimit": 6,
+    "runtimeStreamingImplemented": false
+  },
+  "cell": {
+    "width": 96,
+    "height": 96,
+    "footAnchor": [
+      48,
+      92
+    ],
+    "transparentBorder": 2
+  },
+  "atlas": {
+    "width": 1152,
+    "height": 768,
+    "columns": 12,
+    "rows": 8,
+    "origin": "top-left"
+  },
+  "directions": [
+    "front",
+    "front-right",
+    "right",
+    "back-right",
+    "back",
+    "back-left",
+    "left",
+    "front-left"
+  ],
+  "directionConvention": "row 0 faces camera; row 2 faces screen-right; row 6 faces screen-left; select nearest 45 degrees of actor heading minus camera bearing",
+  "sampling": {
+    "min": "nearest",
+    "mag": "nearest",
+    "mipmaps": false,
+    "alpha": "binary-straight",
+    "colorSpace": "srgb"
+  },
+  "clips": [
+    {
+      "id": "idle",
+      "firstColumn": 0,
+      "frames": 4,
+      "frameMs": 180,
+      "loop": true
+    },
+    {
+      "id": "walk",
+      "firstColumn": 4,
+      "frames": 4,
+      "frameMs": 110,
+      "loop": true
+    },
+    {
+      "id": "attack-physical",
+      "firstColumn": 8,
+      "frames": 4,
+      "frameMs": 100,
+      "loop": false
+    }
+  ],
+  "provenance": {
+    "method": "original-code-native-pixel-art",
+    "author": "Codex, commissioned for this repository",
+    "sourceFiles": [
+      {
+        "path": "characters.mjs",
+        "sha256": "6266defc34d78312d58b1ac61ffecd96c73ec7c59507c2333d5e8ed5cff855c7"
+      },
+      {
+        "path": "raster.mjs",
+        "sha256": "9199a2a4eb2cfaaa4b5027e4107e5420368026456f50948fae2f28f899756406"
+      },
+      {
+        "path": "export.mjs",
+        "sha256": "4a47ea9ed6331a263a987bf9f30147f4d9ef601c11608883b50c9c8a3a323c93"
+      }
+    ],
+    "commercialAssetsExtracted": false,
+    "reference": "EthrA user frame: direction and 3D composition only; no source pixels sampled",
+    "rights": "Original authored implementation; underlying Pokemon characters belong to their respective rights holders. No rights-holder license is asserted.",
+    "generationService": "Built-in ImageGen attempt failed moderation and returned no asset; no retry or API fallback used."
+  },
+  "characters": [
+    {
+      "assetId": "character.pokemon-025.default.pixel-v1",
+      "speciesId": "pokemon-025",
+      "formId": "default",
+      "name": "pikachu",
+      "atlas": "output/pikachu.png",
+      "sha256": "257468afed1089fe19b4d00f2173e3731592fc51a0bc24e9a01d854beda647d3",
+      "encodedBytes": 21380,
+      "decodedRgbaBytes": 3538944,
+      "worldHeight": 1.65,
+      "review": "candidate-unaccepted",
+      "coverage": {
+        "directions": 8,
+        "clips": [
+          "idle",
+          "walk",
+          "attack-physical"
+        ],
+        "missingClips": [
+          "turn",
+          "attack-special",
+          "cast-status",
+          "hit-light",
+          "hit-heavy",
+          "defeat",
+          "celebrate",
+          "rest-sleep",
+          "interact"
+        ],
+        "runtimeIntegrated": false
+      }
+    },
+    {
+      "assetId": "character.pokemon-004.default.pixel-v1",
+      "speciesId": "pokemon-004",
+      "formId": "default",
+      "name": "charmander",
+      "atlas": "output/charmander.png",
+      "sha256": "8bd9255d9c35b43c43d0d577a194e351e239a1e6129c8b3f98f6ffcafc493110",
+      "encodedBytes": 20979,
+      "decodedRgbaBytes": 3538944,
+      "worldHeight": 1.75,
+      "review": "candidate-unaccepted",
+      "coverage": {
+        "directions": 8,
+        "clips": [
+          "idle",
+          "walk",
+          "attack-physical"
+        ],
+        "missingClips": [
+          "turn",
+          "attack-special",
+          "cast-status",
+          "hit-light",
+          "hit-heavy",
+          "defeat",
+          "celebrate",
+          "rest-sleep",
+          "interact"
+        ],
+        "runtimeIntegrated": false
+      }
+    },
+    {
+      "assetId": "character.pokemon-383.default.pixel-v1",
+      "speciesId": "pokemon-383",
+      "formId": "default",
+      "name": "groudon",
+      "atlas": "output/groudon.png",
+      "sha256": "4676aa5f3c4a22839fed34051a36e87529f8131e3dd99285a1bb51792946c23f",
+      "encodedBytes": 25872,
+      "decodedRgbaBytes": 3538944,
+      "worldHeight": 4.8,
+      "review": "candidate-unaccepted",
+      "coverage": {
+        "directions": 8,
+        "clips": [
+          "idle",
+          "walk",
+          "attack-physical"
+        ],
+        "missingClips": [
+          "turn",
+          "attack-special",
+          "cast-status",
+          "hit-light",
+          "hit-heavy",
+          "defeat",
+          "celebrate",
+          "rest-sleep",
+          "interact"
+        ],
+        "runtimeIntegrated": false
+      }
+    }
+  ]
+}

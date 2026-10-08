@@ -1,0 +1,3433 @@
+{
+  "schemaVersion": 1,
+  "repository": "pret/pmd-red",
+  "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "qualification": "pinned-red-comparative-not-blue-binary-proof",
+  "flagOrder": [
+    "self-use",
+    "ally-throw",
+    "enemy-throw"
+  ],
+  "sourceFiles": [
+    {
+      "path": "data/item/item_data.json",
+      "sha256": "3b69628c8c61c567d600e47d6c52a9e649153ceb8e016cb0d0c35a6438d2d586"
+    },
+    {
+      "path": "tools/dungeonjson/dungeonjson.cpp",
+      "sha256": "beea15a8d9c5c31cd3498e1317d731f8fbc15a63e500baff5d4a36fe98cd8f20"
+    },
+    {
+      "path": "include/structs/str_items.h",
+      "sha256": "b0e705c1aab0893578f61f69b006ab4a404789d623a59feae7c27b00171ff4cb"
+    },
+    {
+      "path": "include/constants/item.h",
+      "sha256": "8786b3352a0cb539a150ae887b2ad8282e5315d80bde21d728094648261dcc03"
+    }
+  ],
+  "zeroDefaultEvidence": {
+    "path": "tools/dungeonjson/dungeonjson.cpp",
+    "readArrayLines": [
+      666,
+      680
+    ],
+    "emitItemLines": [
+      751,
+      774
+    ]
+  },
+  "flagOrderEvidence": {
+    "path": "include/structs/str_items.h",
+    "lines": [
+      7,
+      24
+    ]
+  },
+  "records": [
+    {
+      "nativeId": 0,
+      "itemId": "item-nothing",
+      "sourceName": "ItemNameNone",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_NOTHING",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 1,
+      "itemId": "item-stick",
+      "sourceName": "ItemNameStick",
+      "category": "thrown_line",
+      "actionType": "ITEM_ACTION_TYPE_THROWABLE",
+      "spawnStackRange": [
+        6,
+        10
+      ],
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 2,
+      "itemId": "item-iron-thorn",
+      "sourceName": "ItemNameIronThorn",
+      "category": "thrown_line",
+      "actionType": "ITEM_ACTION_TYPE_THROWABLE",
+      "spawnStackRange": [
+        5,
+        8
+      ],
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 3,
+      "itemId": "item-silver-spike",
+      "sourceName": "ItemNameSilverSpike",
+      "category": "thrown_line",
+      "actionType": "ITEM_ACTION_TYPE_THROWABLE",
+      "spawnStackRange": [
+        5,
+        8
+      ],
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 4,
+      "itemId": "item-gold-fang",
+      "sourceName": "ItemNameGoldFang",
+      "category": "thrown_line",
+      "actionType": "ITEM_ACTION_TYPE_THROWABLE",
+      "spawnStackRange": [
+        5,
+        5
+      ],
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 5,
+      "itemId": "item-cacnea-spike",
+      "sourceName": "ItemNameCacneaSpike",
+      "category": "thrown_line",
+      "actionType": "ITEM_ACTION_TYPE_THROWABLE",
+      "spawnStackRange": [
+        5,
+        5
+      ],
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 6,
+      "itemId": "item-corsola-twig",
+      "sourceName": "ItemNameCorsolaTwig",
+      "category": "thrown_line",
+      "actionType": "ITEM_ACTION_TYPE_THROWABLE",
+      "spawnStackRange": [
+        5,
+        5
+      ],
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 7,
+      "itemId": "item-gravelerock",
+      "sourceName": "ItemNameGravelerock",
+      "category": "thrown_arc",
+      "actionType": "ITEM_ACTION_TYPE_ROCKS",
+      "spawnStackRange": [
+        3,
+        5
+      ],
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 8,
+      "itemId": "item-geo-pebble",
+      "sourceName": "ItemNameGeoPebble",
+      "category": "thrown_arc",
+      "actionType": "ITEM_ACTION_TYPE_ROCKS",
+      "spawnStackRange": [
+        7,
+        10
+      ],
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 9,
+      "itemId": "item-mobile-scarf",
+      "sourceName": "ItemNameMobileScarf",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 10,
+      "itemId": "item-heal-ribbon",
+      "sourceName": "ItemNameHealRibbon",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 11,
+      "itemId": "item-twist-band",
+      "sourceName": "ItemNameTwistBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 12,
+      "itemId": "item-scope-lens",
+      "sourceName": "ItemNameScopeLens",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SPECS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 13,
+      "itemId": "item-patsy-band",
+      "sourceName": "ItemNamePatsyBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 14,
+      "itemId": "item-nostick-cap",
+      "sourceName": "ItemNameNoStickCap",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 15,
+      "itemId": "item-pierce-band",
+      "sourceName": "ItemNamePierceBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 16,
+      "itemId": "item-joy-ribbon",
+      "sourceName": "ItemNameJoyRibbon",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 17,
+      "itemId": "item-x-ray-specs",
+      "sourceName": "ItemNameXRaySpecs",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SPECS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 18,
+      "itemId": "item-persim-band",
+      "sourceName": "ItemNamePersimBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 19,
+      "itemId": "item-power-band",
+      "sourceName": "ItemNamePowerBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 20,
+      "itemId": "item-pecha-scarf",
+      "sourceName": "ItemNamePechaScarf",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 21,
+      "itemId": "item-insomniscope",
+      "sourceName": "ItemNameInsomniscope",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SPECS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 22,
+      "itemId": "item-warp-scarf",
+      "sourceName": "ItemNameWarpScarf",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 23,
+      "itemId": "item-tight-belt",
+      "sourceName": "ItemNameTightBelt",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 24,
+      "itemId": "item-sneak-scarf",
+      "sourceName": "ItemNameSneakScarf",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 25,
+      "itemId": "item-gold-ribbon",
+      "sourceName": "ItemNameGoldRibbon",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 26,
+      "itemId": "item-goggle-specs",
+      "sourceName": "ItemNameGoggleSpecs",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SPECS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 27,
+      "itemId": "item-diet-ribbon",
+      "sourceName": "ItemNameDietRibbon",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 28,
+      "itemId": "item-trap-scarf",
+      "sourceName": "ItemNameTrapScarf",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 29,
+      "itemId": "item-racket-band",
+      "sourceName": "ItemNameRacketBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 30,
+      "itemId": "item-def-scarf",
+      "sourceName": "ItemNameDefScarf",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 31,
+      "itemId": "item-stamina-band",
+      "sourceName": "ItemNameStaminaBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 32,
+      "itemId": "item-plain-ribbon",
+      "sourceName": "ItemNamePlainRibbon",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 33,
+      "itemId": "item-special-band",
+      "sourceName": "ItemNameSpecialBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 34,
+      "itemId": "item-zinc-band",
+      "sourceName": "ItemNameZincBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 35,
+      "itemId": "item-detect-band",
+      "sourceName": "ItemNameDetectBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 36,
+      "itemId": "item-alert-specs",
+      "sourceName": "ItemNameAlertSpecs",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SPECS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 37,
+      "itemId": "item-dodge-scarf",
+      "sourceName": "ItemNameDodgeScarf",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 38,
+      "itemId": "item-bounce-band",
+      "sourceName": "ItemNameBounceBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 39,
+      "itemId": "item-curve-band",
+      "sourceName": "ItemNameCurveBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 40,
+      "itemId": "item-whiff-specs",
+      "sourceName": "ItemNameWhiffSpecs",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SPECS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 41,
+      "itemId": "item-no-aim-scope",
+      "sourceName": "ItemNameNoAimScope",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SPECS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 42,
+      "itemId": "item-lockon-specs",
+      "sourceName": "ItemNameLockonSpecs",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SPECS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 43,
+      "itemId": "item-munch-belt",
+      "sourceName": "ItemNameMunchBelt",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 44,
+      "itemId": "item-pass-scarf",
+      "sourceName": "ItemNamePassScarf",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 45,
+      "itemId": "item-weather-band",
+      "sourceName": "ItemNameWeatherBand",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 46,
+      "itemId": "item-friend-bow",
+      "sourceName": "ItemNameFriendBow",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 47,
+      "itemId": "item-beauty-scarf",
+      "sourceName": "ItemNameBeautyScarf",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_SCARFS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 48,
+      "itemId": "item-sun-ribbon",
+      "sourceName": "ItemNameSunRibbon",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 49,
+      "itemId": "item-lunar-ribbon",
+      "sourceName": "ItemNameLunarRibbon",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 50,
+      "itemId": "item-ring-d",
+      "sourceName": "ItemNameRingD",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 51,
+      "itemId": "item-ring-e",
+      "sourceName": "ItemNameRingE",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 52,
+      "itemId": "item-ring-f",
+      "sourceName": "ItemNameRingF",
+      "category": "held_items",
+      "actionType": "ITEM_ACTION_TYPE_RIBBONS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 53,
+      "itemId": "item-heal-seed",
+      "sourceName": "ItemNameHealSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 54,
+      "itemId": "item-wish-stone",
+      "sourceName": "ItemNameWishStone",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MONEY_WISH_STONE",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 55,
+      "itemId": "item-oran-berry",
+      "sourceName": "ItemNameOranBerry",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 56,
+      "itemId": "item-sitrus-berry",
+      "sourceName": "ItemNameSitrusBerry",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 57,
+      "itemId": "item-eyedrop-seed",
+      "sourceName": "ItemNameEyedropSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 58,
+      "itemId": "item-reviver-seed",
+      "sourceName": "ItemNameReviverSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 59,
+      "itemId": "item-blinker-seed",
+      "sourceName": "ItemNameBlinkerSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 60,
+      "itemId": "item-doom-seed",
+      "sourceName": "ItemNameDoomSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 61,
+      "itemId": "item-allure-seed",
+      "sourceName": "ItemNameAllureSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 62,
+      "itemId": "item-life-seed",
+      "sourceName": "ItemNameLifeSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 63,
+      "itemId": "item-rawst-berry",
+      "sourceName": "ItemNameRawstBerry",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 64,
+      "itemId": "item-hunger-seed",
+      "sourceName": "ItemNameHungerSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 65,
+      "itemId": "item-quick-seed",
+      "sourceName": "ItemNameQuickSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 66,
+      "itemId": "item-pecha-berry",
+      "sourceName": "ItemNamePechaBerry",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 67,
+      "itemId": "item-cheri-berry",
+      "sourceName": "ItemNameCheriBerry",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 68,
+      "itemId": "item-totter-seed",
+      "sourceName": "ItemNameTotterSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 69,
+      "itemId": "item-sleep-seed",
+      "sourceName": "ItemNameSleepSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 70,
+      "itemId": "item-plain-seed",
+      "sourceName": "ItemNamePlainSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 71,
+      "itemId": "item-warp-seed",
+      "sourceName": "ItemNameWarpSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 72,
+      "itemId": "item-blast-seed",
+      "sourceName": "ItemNameBlastSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 73,
+      "itemId": "item-ginseng",
+      "sourceName": "ItemNameGinseng",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_HEALING",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 74,
+      "itemId": "item-joy-seed",
+      "sourceName": "ItemNameJoySeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 75,
+      "itemId": "item-chesto-berry",
+      "sourceName": "ItemNameChestoBerry",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 76,
+      "itemId": "item-stun-seed",
+      "sourceName": "ItemNameStunSeed",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 77,
+      "itemId": "item-max-elixir",
+      "sourceName": "ItemNameMaxElixir",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_HEALING",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 78,
+      "itemId": "item-protein",
+      "sourceName": "ItemNameProtein",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_HEALING",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 79,
+      "itemId": "item-calcium",
+      "sourceName": "ItemNameCalcium",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_HEALING",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 80,
+      "itemId": "item-iron",
+      "sourceName": "ItemNameIron",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_HEALING",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 81,
+      "itemId": "item-zinc",
+      "sourceName": "ItemNameZinc",
+      "category": "berries_seeds_vitamins",
+      "actionType": "ITEM_ACTION_TYPE_HEALING",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 82,
+      "itemId": "item-apple",
+      "sourceName": "ItemNameApple",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 83,
+      "itemId": "item-big-apple",
+      "sourceName": "ItemNameBigApple",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 84,
+      "itemId": "item-grimy-food",
+      "sourceName": "ItemNameGrimyFood",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        true
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 85,
+      "itemId": "item-huge-apple",
+      "sourceName": "ItemNameHugeApple",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 86,
+      "itemId": "item-white-gummi",
+      "sourceName": "ItemNameWhiteGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 87,
+      "itemId": "item-red-gummi",
+      "sourceName": "ItemNameRedGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 88,
+      "itemId": "item-blue-gummi",
+      "sourceName": "ItemNameBlueGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 89,
+      "itemId": "item-grass-gummi",
+      "sourceName": "ItemNameGrassGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 90,
+      "itemId": "item-yellow-gummi",
+      "sourceName": "ItemNameYellowGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 91,
+      "itemId": "item-clear-gummi",
+      "sourceName": "ItemNameClearGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 92,
+      "itemId": "item-orange-gummi",
+      "sourceName": "ItemNameOrangeGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 93,
+      "itemId": "item-pink-gummi",
+      "sourceName": "ItemNamePinkGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 94,
+      "itemId": "item-brown-gummi",
+      "sourceName": "ItemNameBrownGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 95,
+      "itemId": "item-sky-gummi",
+      "sourceName": "ItemNameSkyGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 96,
+      "itemId": "item-gold-gummi",
+      "sourceName": "ItemNameGoldGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 97,
+      "itemId": "item-green-gummi",
+      "sourceName": "ItemNameGreenGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 98,
+      "itemId": "item-gray-gummi",
+      "sourceName": "ItemNameGrayGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 99,
+      "itemId": "item-purple-gummi",
+      "sourceName": "ItemNamePurpleGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 100,
+      "itemId": "item-royal-gummi",
+      "sourceName": "ItemNameRoyalGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 101,
+      "itemId": "item-black-gummi",
+      "sourceName": "ItemNameBlackGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 102,
+      "itemId": "item-silver-gummi",
+      "sourceName": "ItemNameSilverGummi",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 103,
+      "itemId": "item-banana",
+      "sourceName": "ItemNameBanana",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_FOOD",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        true,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 104,
+      "itemId": "item-chestnut",
+      "sourceName": "ItemNameChestnut",
+      "category": "food_gummies",
+      "actionType": "ITEM_ACTION_TYPE_CHESTNUT",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 105,
+      "itemId": "item-poke",
+      "sourceName": "ItemNamePoke",
+      "category": "poke",
+      "actionType": "ITEM_ACTION_TYPE_MONEY_WISH_STONE",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 106,
+      "itemId": "item-upgrade",
+      "sourceName": "ItemNameUpgrade",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 107,
+      "itemId": "item-kings-rock",
+      "sourceName": "ItemNameKingsRock",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 108,
+      "itemId": "item-thunderstone",
+      "sourceName": "ItemNameThunderstone",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 109,
+      "itemId": "item-deepseascale",
+      "sourceName": "ItemNameDeepseascale",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 110,
+      "itemId": "item-deepseatooth",
+      "sourceName": "ItemNameDeepseatooth",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 111,
+      "itemId": "item-sun-stone",
+      "sourceName": "ItemNameSunStone",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 112,
+      "itemId": "item-moon-stone",
+      "sourceName": "ItemNameMoonStone",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 113,
+      "itemId": "item-fire-stone",
+      "sourceName": "ItemNameFireStone",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 114,
+      "itemId": "item-water-stone",
+      "sourceName": "ItemNameWaterStone",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 115,
+      "itemId": "item-metal-coat",
+      "sourceName": "ItemNameMetalCoat",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 116,
+      "itemId": "item-leaf-stone",
+      "sourceName": "ItemNameLeafStone",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 117,
+      "itemId": "item-dragon-scale",
+      "sourceName": "ItemNameDragonScale",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 118,
+      "itemId": "item-link-cable",
+      "sourceName": "ItemNameLinkCable",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 119,
+      "itemId": "item-ice-part",
+      "sourceName": "ItemNameIcePart",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 120,
+      "itemId": "item-steel-part",
+      "sourceName": "ItemNameSteelPart",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 121,
+      "itemId": "item-rock-part",
+      "sourceName": "ItemNameRockPart",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 122,
+      "itemId": "item-music-box",
+      "sourceName": "ItemNameMusicBox",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 123,
+      "itemId": "item-key",
+      "sourceName": "ItemNameKey",
+      "category": "other",
+      "actionType": "ITEM_ACTION_TYPE_MISC",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 124,
+      "itemId": "item-tm-used-tm",
+      "sourceName": "ItemNameUsedTM",
+      "category": "used_tm",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 125,
+      "itemId": "item-tm-focus-punch",
+      "sourceName": "ItemNameFocusPunch",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 126,
+      "itemId": "item-tm-dragon-claw",
+      "sourceName": "ItemNameDragonClaw",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 127,
+      "itemId": "item-tm-water-pulse",
+      "sourceName": "ItemNameWaterPulse",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 128,
+      "itemId": "item-tm-calm-mind",
+      "sourceName": "ItemNameCalmMind",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 129,
+      "itemId": "item-tm-roar",
+      "sourceName": "ItemNameRoar",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 130,
+      "itemId": "item-tm-toxic",
+      "sourceName": "ItemNameToxic",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 131,
+      "itemId": "item-hail-orb",
+      "sourceName": "ItemNameHail",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 132,
+      "itemId": "item-tm-bulk-up",
+      "sourceName": "ItemNameBulkUp",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 133,
+      "itemId": "item-tm-bullet-seed",
+      "sourceName": "ItemNameBulletSeed",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 134,
+      "itemId": "item-tm-hidden-power",
+      "sourceName": "ItemNameHiddenPower",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 135,
+      "itemId": "item-sunny-orb",
+      "sourceName": "ItemNameSunnyDay",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 136,
+      "itemId": "item-tm-taunt",
+      "sourceName": "ItemNameTaunt",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 137,
+      "itemId": "item-tm-ice-beam",
+      "sourceName": "ItemNameIceBeam",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 138,
+      "itemId": "item-tm-blizzard",
+      "sourceName": "ItemNameBlizzard",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 139,
+      "itemId": "item-tm-hyper-beam",
+      "sourceName": "ItemNameHyperBeam",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 140,
+      "itemId": "item-tm-light-screen",
+      "sourceName": "ItemNameLightScreen",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 141,
+      "itemId": "item-tm-protect",
+      "sourceName": "ItemNameProtect",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 142,
+      "itemId": "item-rainy-orb",
+      "sourceName": "ItemNameRainDance",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 143,
+      "itemId": "item-tm-giga-drain",
+      "sourceName": "ItemNameGigaDrain",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 144,
+      "itemId": "item-tm-safeguard",
+      "sourceName": "ItemNameSafeguard",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 145,
+      "itemId": "item-tm-frustration",
+      "sourceName": "ItemNameFrustration",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 146,
+      "itemId": "item-tm-solarbeam",
+      "sourceName": "ItemNameSolarBeam",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 147,
+      "itemId": "item-tm-iron-tail",
+      "sourceName": "ItemNameIronTail",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 148,
+      "itemId": "item-tm-thunderbolt",
+      "sourceName": "ItemNameThunderbolt",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 149,
+      "itemId": "item-tm-thunder",
+      "sourceName": "ItemNameThunder",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 150,
+      "itemId": "item-tm-earthquake",
+      "sourceName": "ItemNameEarthquake",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 151,
+      "itemId": "item-tm-return",
+      "sourceName": "ItemNameReturn",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 152,
+      "itemId": "item-tm-dig",
+      "sourceName": "ItemNameDig",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 153,
+      "itemId": "item-tm-psychic",
+      "sourceName": "ItemNamePsychic",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 154,
+      "itemId": "item-tm-shadow-ball",
+      "sourceName": "ItemNameShadowBall",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 155,
+      "itemId": "item-tm-brick-break",
+      "sourceName": "ItemNameBrickBreak",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 156,
+      "itemId": "item-evasion-orb",
+      "sourceName": "ItemNameDoubleTeam",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 157,
+      "itemId": "item-tm-reflect",
+      "sourceName": "ItemNameReflect",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 158,
+      "itemId": "item-tm-shock-wave",
+      "sourceName": "ItemNameShockWave",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 159,
+      "itemId": "item-tm-flamethrower",
+      "sourceName": "ItemNameFlamethrower",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 160,
+      "itemId": "item-tm-sludge-bomb",
+      "sourceName": "ItemNameSludgeBomb",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 161,
+      "itemId": "item-sandy-orb",
+      "sourceName": "ItemNameSandstorm",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 162,
+      "itemId": "item-tm-fire-blast",
+      "sourceName": "ItemNameFireBlast",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 163,
+      "itemId": "item-rocky-orb",
+      "sourceName": "ItemNameRockTomb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 164,
+      "itemId": "item-tm-aerial-ace",
+      "sourceName": "ItemNameAerialAce",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 165,
+      "itemId": "item-tm-torment",
+      "sourceName": "ItemNameTorment",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 166,
+      "itemId": "item-tm-facade",
+      "sourceName": "ItemNameFacade",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 167,
+      "itemId": "item-tm-secret-power",
+      "sourceName": "ItemNameSecretPower",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 168,
+      "itemId": "item-tm-rest",
+      "sourceName": "ItemNameRest",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 169,
+      "itemId": "item-tm-attract",
+      "sourceName": "ItemNameAttract",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 170,
+      "itemId": "item-tm-thief",
+      "sourceName": "ItemNameThief",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 171,
+      "itemId": "item-tm-steel-wing",
+      "sourceName": "ItemNameSteelWIng",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 172,
+      "itemId": "item-tm-skill-swap",
+      "sourceName": "ItemNameSkillSwap",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 173,
+      "itemId": "item-snatch-orb",
+      "sourceName": "ItemNameSnatch",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 174,
+      "itemId": "item-tm-overheat",
+      "sourceName": "ItemNameOverheat",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 175,
+      "itemId": "item-tm-wide-slash",
+      "sourceName": "ItemNameWideSlash",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 176,
+      "itemId": "item-tm-excavate",
+      "sourceName": "ItemNameExcavate",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 177,
+      "itemId": "item-tm-spin-slash",
+      "sourceName": "ItemNameSpinSlash",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 178,
+      "itemId": "item-see-trap-orb",
+      "sourceName": "ItemNameSeeTrapOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 179,
+      "itemId": "item-mug-orb",
+      "sourceName": "ItemNameMugOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 180,
+      "itemId": "item-rebound-orb",
+      "sourceName": "ItemNameReboundOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 181,
+      "itemId": "item-lob-orb",
+      "sourceName": "ItemNameLobOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 182,
+      "itemId": "item-switcher-orb",
+      "sourceName": "ItemNameSwitcherOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 183,
+      "itemId": "item-blowback-orb",
+      "sourceName": "ItemNameBlowbackOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 184,
+      "itemId": "item-warp-orb",
+      "sourceName": "ItemNameWarpOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 185,
+      "itemId": "item-transfer-orb",
+      "sourceName": "ItemNameTransferOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 186,
+      "itemId": "item-slow-orb",
+      "sourceName": "ItemNameSlowOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 187,
+      "itemId": "item-quick-orb",
+      "sourceName": "ItemNameQuickOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 188,
+      "itemId": "item-luminous-orb",
+      "sourceName": "ItemNameLuminousOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 189,
+      "itemId": "item-petrify-orb",
+      "sourceName": "ItemNamePetrifyOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 190,
+      "itemId": "item-stayaway-orb",
+      "sourceName": "ItemNameStayawayOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 191,
+      "itemId": "item-pounce-orb",
+      "sourceName": "ItemNamePounceOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 192,
+      "itemId": "item-trawl-orb",
+      "sourceName": "ItemNameTrawlOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 193,
+      "itemId": "item-cleanse-orb",
+      "sourceName": "ItemNameCleanseOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 194,
+      "itemId": "item-observer-orb",
+      "sourceName": "ItemNameObserverOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 195,
+      "itemId": "item-decoy-orb",
+      "sourceName": "ItemNameDecoyOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 196,
+      "itemId": "item-slumber-orb",
+      "sourceName": "ItemNameSlumberOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 197,
+      "itemId": "item-totter-orb",
+      "sourceName": "ItemNameTotterOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 198,
+      "itemId": "item-two-edge-orb",
+      "sourceName": "ItemNameTwoEdgeOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 199,
+      "itemId": "item-silence-orb",
+      "sourceName": "ItemNameSilenceOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 200,
+      "itemId": "item-escape-orb",
+      "sourceName": "ItemNameEscapeOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 201,
+      "itemId": "item-scanner-orb",
+      "sourceName": "ItemNameScannerOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 202,
+      "itemId": "item-radar-orb",
+      "sourceName": "ItemNameRadarOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 203,
+      "itemId": "item-drought-orb",
+      "sourceName": "ItemNameDroughtOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 204,
+      "itemId": "item-trapbust-orb",
+      "sourceName": "ItemNameTrapbustOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 205,
+      "itemId": "item-rollcall-orb",
+      "sourceName": "ItemNameRollcallOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        true,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "explicit"
+    },
+    {
+      "nativeId": 206,
+      "itemId": "item-invisify-orb",
+      "sourceName": "ItemNameInvisifyOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 207,
+      "itemId": "item-one-shot-orb",
+      "sourceName": "ItemNameOneShotOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 208,
+      "itemId": "item-identify-orb",
+      "sourceName": "ItemNameIdentifyOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 209,
+      "itemId": "item-tm-vacuum-cut",
+      "sourceName": "ItemNameVacuumCut",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 210,
+      "itemId": "item-reviver-orb",
+      "sourceName": "ItemNameReviverOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 211,
+      "itemId": "item-shocker-orb",
+      "sourceName": "ItemNameShockerOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 212,
+      "itemId": "item-sizebust-orb",
+      "sourceName": "ItemNameSizebustOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 213,
+      "itemId": "item-one-room-orb",
+      "sourceName": "ItemNameOneRoomOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 214,
+      "itemId": "item-fill-in-orb",
+      "sourceName": "ItemNameFillInOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 215,
+      "itemId": "item-trapper-orb",
+      "sourceName": "ItemNameTrapperOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 216,
+      "itemId": "item-possess-orb",
+      "sourceName": "ItemNamePossessOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 217,
+      "itemId": "item-itemizer-orb",
+      "sourceName": "ItemNameItemizerOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 218,
+      "itemId": "item-hurl-orb",
+      "sourceName": "ItemNameHurlOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 219,
+      "itemId": "item-mobile-orb",
+      "sourceName": "ItemNameMobileOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 220,
+      "itemId": "item-toss-orb",
+      "sourceName": "ItemNameTossOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 221,
+      "itemId": "item-stairs-orb",
+      "sourceName": "ItemNameStairsOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 222,
+      "itemId": "item-longtoss-orb",
+      "sourceName": "ItemNameLongtossOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 223,
+      "itemId": "item-pierce-orb",
+      "sourceName": "ItemNamePierceOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 224,
+      "itemId": "item-hm-cut",
+      "sourceName": "ItemNameCut",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 225,
+      "itemId": "item-hm-fly",
+      "sourceName": "ItemNameFly",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 226,
+      "itemId": "item-hm-surf",
+      "sourceName": "ItemNameSurf",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 227,
+      "itemId": "item-hm-strength",
+      "sourceName": "ItemNameStrength",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 228,
+      "itemId": "item-hm-flash",
+      "sourceName": "ItemNameFlash",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 229,
+      "itemId": "item-hm-rock-smash",
+      "sourceName": "ItemNameRockSmash",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 230,
+      "itemId": "item-hm-waterfall",
+      "sourceName": "ItemNameWaterfall",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 231,
+      "itemId": "item-hm-dive",
+      "sourceName": "ItemNameDive",
+      "category": "tms_hms",
+      "actionType": "ITEM_ACTION_TYPE_TM",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 232,
+      "itemId": "item-link-box",
+      "sourceName": "ItemNameLinkBox",
+      "category": "link_box",
+      "actionType": "ITEM_ACTION_TYPE_LINK_BOX",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 233,
+      "itemId": "item-switch-box",
+      "sourceName": "ItemNameSwitchBox",
+      "category": "link_box",
+      "actionType": "ITEM_ACTION_TYPE_LINK_BOX",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 234,
+      "itemId": "item-weavile-fig",
+      "sourceName": "ItemNameWeavileFig",
+      "category": "link_box",
+      "actionType": "ITEM_ACTION_TYPE_LINK_BOX",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 235,
+      "itemId": "item-mime-jr-fig",
+      "sourceName": "ItemNameMimeJrFig",
+      "category": "link_box",
+      "actionType": "ITEM_ACTION_TYPE_LINK_BOX",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 236,
+      "itemId": "item-beatup-orb",
+      "sourceName": "ItemNameBeatupOrb",
+      "category": "orbs",
+      "actionType": "ITEM_ACTION_TYPE_ORBS",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 237,
+      "itemId": "item-g-machine-6",
+      "sourceName": "ItemNameGMachine6",
+      "category": "link_box",
+      "actionType": "ITEM_ACTION_TYPE_LINK_BOX",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 238,
+      "itemId": "item-g-machine-7",
+      "sourceName": "ItemNameGMachine7",
+      "category": "link_box",
+      "actionType": "ITEM_ACTION_TYPE_LINK_BOX",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    },
+    {
+      "nativeId": 239,
+      "itemId": "item-g-machine-8",
+      "sourceName": "ItemNameGMachine8",
+      "category": "link_box",
+      "actionType": "ITEM_ACTION_TYPE_LINK_BOX",
+      "spawnStackRange": null,
+      "aiFlags": [
+        false,
+        false,
+        false
+      ],
+      "aiFlagsOrigin": "assembler-default-zero"
+    }
+  ]
+}

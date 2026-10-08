@@ -1,0 +1,2579 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-species-profiles",
+  "edition": "blue-rescue-team-qualified-facts",
+  "kind": "identities",
+  "moves": [
+    {
+      "originalId": 154,
+      "id": "move-tackle",
+      "name": "Tackle"
+    },
+    {
+      "originalId": 217,
+      "id": "move-growl",
+      "name": "Growl"
+    },
+    {
+      "originalId": 329,
+      "id": "move-leech-seed",
+      "name": "Leech Seed"
+    },
+    {
+      "originalId": 182,
+      "id": "move-vine-whip",
+      "name": "Vine Whip"
+    },
+    {
+      "originalId": 199,
+      "id": "move-poison-powder",
+      "name": "Poisonpowder"
+    },
+    {
+      "originalId": 231,
+      "id": "move-sleep-powder",
+      "name": "Sleep Powder"
+    },
+    {
+      "originalId": 251,
+      "id": "move-razor-leaf",
+      "name": "Razor Leaf"
+    },
+    {
+      "originalId": 10,
+      "id": "move-sweet-scent",
+      "name": "Sweet Scent"
+    },
+    {
+      "originalId": 148,
+      "id": "move-growth",
+      "name": "Growth"
+    },
+    {
+      "originalId": 94,
+      "id": "move-synthesis",
+      "name": "Synthesis"
+    },
+    {
+      "originalId": 151,
+      "id": "move-solar-beam",
+      "name": "Solarbeam"
+    },
+    {
+      "originalId": 18,
+      "id": "move-cut",
+      "name": "Cut"
+    },
+    {
+      "originalId": 29,
+      "id": "move-rock-smash",
+      "name": "Rock Smash"
+    },
+    {
+      "originalId": 48,
+      "id": "move-return",
+      "name": "Return"
+    },
+    {
+      "originalId": 50,
+      "id": "move-strength",
+      "name": "Strength"
+    },
+    {
+      "originalId": 56,
+      "id": "move-double-team",
+      "name": "Double Team"
+    },
+    {
+      "originalId": 67,
+      "id": "move-facade",
+      "name": "Facade"
+    },
+    {
+      "originalId": 76,
+      "id": "move-giga-drain",
+      "name": "Giga Drain"
+    },
+    {
+      "originalId": 163,
+      "id": "move-bullet-seed",
+      "name": "Bullet Seed"
+    },
+    {
+      "originalId": 197,
+      "id": "move-toxic",
+      "name": "Toxic"
+    },
+    {
+      "originalId": 223,
+      "id": "move-sunny-day",
+      "name": "Sunny Day"
+    },
+    {
+      "originalId": 232,
+      "id": "move-rest",
+      "name": "Rest"
+    },
+    {
+      "originalId": 263,
+      "id": "move-secret-power",
+      "name": "Secret Power"
+    },
+    {
+      "originalId": 273,
+      "id": "move-flash",
+      "name": "Flash"
+    },
+    {
+      "originalId": 280,
+      "id": "move-sludge-bomb",
+      "name": "Sludge Bomb"
+    },
+    {
+      "originalId": 301,
+      "id": "move-protect",
+      "name": "Protect"
+    },
+    {
+      "originalId": 324,
+      "id": "move-hidden-power",
+      "name": "Hidden Power"
+    },
+    {
+      "originalId": 326,
+      "id": "move-attract",
+      "name": "Attract"
+    },
+    {
+      "originalId": 328,
+      "id": "move-frustration",
+      "name": "Frustration"
+    },
+    {
+      "originalId": 360,
+      "id": "move-wide-slash",
+      "name": "Wide Slash"
+    },
+    {
+      "originalId": 394,
+      "id": "move-vacuum-cut",
+      "name": "Vacuum-Cut"
+    },
+    {
+      "originalId": 238,
+      "id": "move-frenzy-plant",
+      "name": "Frenzy Plant"
+    },
+    {
+      "originalId": 118,
+      "id": "move-earthquake",
+      "name": "Earthquake"
+    },
+    {
+      "originalId": 242,
+      "id": "move-hyper-beam",
+      "name": "Hyper Beam"
+    },
+    {
+      "originalId": 284,
+      "id": "move-roar",
+      "name": "Roar"
+    },
+    {
+      "originalId": 260,
+      "id": "move-scratch",
+      "name": "Scratch"
+    },
+    {
+      "originalId": 262,
+      "id": "move-ember",
+      "name": "Ember"
+    },
+    {
+      "originalId": 325,
+      "id": "move-metal-claw",
+      "name": "Metal Claw"
+    },
+    {
+      "originalId": 19,
+      "id": "move-rage",
+      "name": "Rage"
+    },
+    {
+      "originalId": 37,
+      "id": "move-smokescreen",
+      "name": "Smokescreen"
+    },
+    {
+      "originalId": 106,
+      "id": "move-scary-face",
+      "name": "Scary Face"
+    },
+    {
+      "originalId": 53,
+      "id": "move-flamethrower",
+      "name": "Flamethrower"
+    },
+    {
+      "originalId": 81,
+      "id": "move-slash",
+      "name": "Slash"
+    },
+    {
+      "originalId": 341,
+      "id": "move-dragon-rage",
+      "name": "Dragon Rage"
+    },
+    {
+      "originalId": 291,
+      "id": "move-fire-spin",
+      "name": "Fire Spin"
+    },
+    {
+      "originalId": 1,
+      "id": "move-iron-tail",
+      "name": "Iron Tail"
+    },
+    {
+      "originalId": 8,
+      "id": "move-dig",
+      "name": "Dig"
+    },
+    {
+      "originalId": 41,
+      "id": "move-overheat",
+      "name": "Overheat"
+    },
+    {
+      "originalId": 72,
+      "id": "move-brick-break",
+      "name": "Brick Break"
+    },
+    {
+      "originalId": 75,
+      "id": "move-focus-punch",
+      "name": "Focus Punch"
+    },
+    {
+      "originalId": 157,
+      "id": "move-fire-blast",
+      "name": "Fire Blast"
+    },
+    {
+      "originalId": 179,
+      "id": "move-aerial-ace",
+      "name": "Aerial Ace"
+    },
+    {
+      "originalId": 208,
+      "id": "move-dragon-claw",
+      "name": "Dragon Claw"
+    },
+    {
+      "originalId": 230,
+      "id": "move-heat-wave",
+      "name": "Heat Wave"
+    },
+    {
+      "originalId": 178,
+      "id": "move-wing-attack",
+      "name": "Wing Attack"
+    },
+    {
+      "originalId": 272,
+      "id": "move-blast-burn",
+      "name": "Blast Burn"
+    },
+    {
+      "originalId": 153,
+      "id": "move-fly",
+      "name": "Fly"
+    },
+    {
+      "originalId": 244,
+      "id": "move-steel-wing",
+      "name": "Steel Wing"
+    },
+    {
+      "originalId": 122,
+      "id": "move-tail-whip",
+      "name": "Tail Whip"
+    },
+    {
+      "originalId": 16,
+      "id": "move-bubble",
+      "name": "Bubble"
+    },
+    {
+      "originalId": 70,
+      "id": "move-withdraw",
+      "name": "Withdraw"
+    },
+    {
+      "originalId": 308,
+      "id": "move-water-gun",
+      "name": "Water Gun"
+    },
+    {
+      "originalId": 63,
+      "id": "move-bite",
+      "name": "Bite"
+    },
+    {
+      "originalId": 96,
+      "id": "move-rapid-spin",
+      "name": "Rapid Spin"
+    },
+    {
+      "originalId": 12,
+      "id": "move-rain-dance",
+      "name": "Rain Dance"
+    },
+    {
+      "originalId": 348,
+      "id": "move-skull-bash",
+      "name": "Skull Bash"
+    },
+    {
+      "originalId": 240,
+      "id": "move-hydro-pump",
+      "name": "Hydro Pump"
+    },
+    {
+      "originalId": 14,
+      "id": "move-hail",
+      "name": "Hail"
+    },
+    {
+      "originalId": 156,
+      "id": "move-dive",
+      "name": "Dive"
+    },
+    {
+      "originalId": 158,
+      "id": "move-waterfall",
+      "name": "Waterfall"
+    },
+    {
+      "originalId": 219,
+      "id": "move-surf",
+      "name": "Surf"
+    },
+    {
+      "originalId": 270,
+      "id": "move-blizzard",
+      "name": "Blizzard"
+    },
+    {
+      "originalId": 310,
+      "id": "move-water-pulse",
+      "name": "Water Pulse"
+    },
+    {
+      "originalId": 345,
+      "id": "move-ice-beam",
+      "name": "Ice Beam"
+    },
+    {
+      "originalId": 239,
+      "id": "move-hydro-cannon",
+      "name": "Hydro Cannon"
+    },
+    {
+      "originalId": 23,
+      "id": "move-string-shot",
+      "name": "String Shot"
+    },
+    {
+      "originalId": 58,
+      "id": "move-harden",
+      "name": "Harden"
+    },
+    {
+      "originalId": 234,
+      "id": "move-confusion",
+      "name": "Confusion"
+    },
+    {
+      "originalId": 124,
+      "id": "move-stun-spore",
+      "name": "Stun Spore"
+    },
+    {
+      "originalId": 171,
+      "id": "move-supersonic",
+      "name": "Supersonic"
+    },
+    {
+      "originalId": 268,
+      "id": "move-whirlwind",
+      "name": "Whirlwind"
+    },
+    {
+      "originalId": 57,
+      "id": "move-gust",
+      "name": "Gust"
+    },
+    {
+      "originalId": 107,
+      "id": "move-psybeam",
+      "name": "Psybeam"
+    },
+    {
+      "originalId": 134,
+      "id": "move-safeguard",
+      "name": "Safeguard"
+    },
+    {
+      "originalId": 82,
+      "id": "move-silver-wind",
+      "name": "Silver Wind"
+    },
+    {
+      "originalId": 109,
+      "id": "move-psychic",
+      "name": "Psychic"
+    },
+    {
+      "originalId": 127,
+      "id": "move-shadow-ball",
+      "name": "Shadow Ball"
+    },
+    {
+      "originalId": 137,
+      "id": "move-skill-swap",
+      "name": "Skill Swap"
+    },
+    {
+      "originalId": 214,
+      "id": "move-thief",
+      "name": "Thief"
+    },
+    {
+      "originalId": 200,
+      "id": "move-poison-sting",
+      "name": "Poison Sting"
+    },
+    {
+      "originalId": 311,
+      "id": "move-fury-attack",
+      "name": "Fury Attack"
+    },
+    {
+      "originalId": 74,
+      "id": "move-focus-energy",
+      "name": "Focus Energy"
+    },
+    {
+      "originalId": 164,
+      "id": "move-twineedle",
+      "name": "Twineedle"
+    },
+    {
+      "originalId": 38,
+      "id": "move-pursuit",
+      "name": "Pursuit"
+    },
+    {
+      "originalId": 306,
+      "id": "move-pin-missile",
+      "name": "Pin Missile"
+    },
+    {
+      "originalId": 95,
+      "id": "move-agility",
+      "name": "Agility"
+    },
+    {
+      "originalId": 66,
+      "id": "move-endeavor",
+      "name": "Endeavor"
+    },
+    {
+      "originalId": 142,
+      "id": "move-sand-attack",
+      "name": "Sand-Attack"
+    },
+    {
+      "originalId": 190,
+      "id": "move-quick-attack",
+      "name": "Quick Attack"
+    },
+    {
+      "originalId": 267,
+      "id": "move-feather-dance",
+      "name": "Featherdance"
+    },
+    {
+      "originalId": 40,
+      "id": "move-mirror-move",
+      "name": "Mirror Move"
+    },
+    {
+      "originalId": 261,
+      "id": "move-hyper-fang",
+      "name": "Hyper Fang"
+    },
+    {
+      "originalId": 20,
+      "id": "move-super-fang",
+      "name": "Super Fang"
+    },
+    {
+      "originalId": 64,
+      "id": "move-thunder",
+      "name": "Thunder"
+    },
+    {
+      "originalId": 129,
+      "id": "move-thunderbolt",
+      "name": "Thunderbolt"
+    },
+    {
+      "originalId": 172,
+      "id": "move-taunt",
+      "name": "Taunt"
+    },
+    {
+      "originalId": 189,
+      "id": "move-shock-wave",
+      "name": "Shock Wave"
+    },
+    {
+      "originalId": 174,
+      "id": "move-peck",
+      "name": "Peck"
+    },
+    {
+      "originalId": 224,
+      "id": "move-leer",
+      "name": "Leer"
+    },
+    {
+      "originalId": 211,
+      "id": "move-drill-peck",
+      "name": "Drill Peck"
+    },
+    {
+      "originalId": 294,
+      "id": "move-wrap",
+      "name": "Wrap"
+    },
+    {
+      "originalId": 281,
+      "id": "move-glare",
+      "name": "Glare"
+    },
+    {
+      "originalId": 27,
+      "id": "move-screech",
+      "name": "Screech"
+    },
+    {
+      "originalId": 332,
+      "id": "move-acid",
+      "name": "Acid"
+    },
+    {
+      "originalId": 160,
+      "id": "move-stockpile",
+      "name": "Stockpile"
+    },
+    {
+      "originalId": 236,
+      "id": "move-swallow",
+      "name": "Swallow"
+    },
+    {
+      "originalId": 245,
+      "id": "move-spit-up",
+      "name": "Spit Up"
+    },
+    {
+      "originalId": 88,
+      "id": "move-haze",
+      "name": "Haze"
+    },
+    {
+      "originalId": 22,
+      "id": "move-torment",
+      "name": "Torment"
+    },
+    {
+      "originalId": 334,
+      "id": "move-snatch",
+      "name": "Snatch"
+    },
+    {
+      "originalId": 188,
+      "id": "move-thunder-shock",
+      "name": "Thundershock"
+    },
+    {
+      "originalId": 192,
+      "id": "move-thunder-wave",
+      "name": "Thunder Wave"
+    },
+    {
+      "originalId": 161,
+      "id": "move-slam",
+      "name": "Slam"
+    },
+    {
+      "originalId": 259,
+      "id": "move-light-screen",
+      "name": "Light Screen"
+    },
+    {
+      "originalId": 302,
+      "id": "move-defense-curl",
+      "name": "Defense Curl"
+    },
+    {
+      "originalId": 145,
+      "id": "move-swift",
+      "name": "Swift"
+    },
+    {
+      "originalId": 312,
+      "id": "move-fury-swipes",
+      "name": "Fury Swipes"
+    },
+    {
+      "originalId": 143,
+      "id": "move-sand-tomb",
+      "name": "Sand Tomb"
+    },
+    {
+      "originalId": 141,
+      "id": "move-sandstorm",
+      "name": "Sandstorm"
+    },
+    {
+      "originalId": 73,
+      "id": "move-rock-tomb",
+      "name": "Rock Tomb"
+    },
+    {
+      "originalId": 222,
+      "id": "move-double-kick",
+      "name": "Double Kick"
+    },
+    {
+      "originalId": 185,
+      "id": "move-helping-hand",
+      "name": "Helping Hand"
+    },
+    {
+      "originalId": 45,
+      "id": "move-flatter",
+      "name": "Flatter"
+    },
+    {
+      "originalId": 62,
+      "id": "move-crunch",
+      "name": "Crunch"
+    },
+    {
+      "originalId": 235,
+      "id": "move-body-slam",
+      "name": "Body Slam"
+    },
+    {
+      "originalId": 243,
+      "id": "move-superpower",
+      "name": "Superpower"
+    },
+    {
+      "originalId": 176,
+      "id": "move-horn-attack",
+      "name": "Horn Attack"
+    },
+    {
+      "originalId": 177,
+      "id": "move-horn-drill",
+      "name": "Horn Drill"
+    },
+    {
+      "originalId": 9,
+      "id": "move-thrash",
+      "name": "Thrash"
+    },
+    {
+      "originalId": 323,
+      "id": "move-megahorn",
+      "name": "Megahorn"
+    },
+    {
+      "originalId": 250,
+      "id": "move-pound",
+      "name": "Pound"
+    },
+    {
+      "originalId": 17,
+      "id": "move-encore",
+      "name": "Encore"
+    },
+    {
+      "originalId": 34,
+      "id": "move-sing",
+      "name": "Sing"
+    },
+    {
+      "originalId": 39,
+      "id": "move-double-slap",
+      "name": "Doubleslap"
+    },
+    {
+      "originalId": 102,
+      "id": "move-follow-me",
+      "name": "Follow Me"
+    },
+    {
+      "originalId": 169,
+      "id": "move-minimize",
+      "name": "Minimize"
+    },
+    {
+      "originalId": 330,
+      "id": "move-metronome",
+      "name": "Metronome"
+    },
+    {
+      "originalId": 99,
+      "id": "move-cosmic-power",
+      "name": "Cosmic Power"
+    },
+    {
+      "originalId": 173,
+      "id": "move-moonlight",
+      "name": "Moonlight"
+    },
+    {
+      "originalId": 103,
+      "id": "move-meteor-mash",
+      "name": "Meteor Mash"
+    },
+    {
+      "originalId": 319,
+      "id": "move-calm-mind",
+      "name": "Calm Mind"
+    },
+    {
+      "originalId": 338,
+      "id": "move-reflect",
+      "name": "Reflect"
+    },
+    {
+      "originalId": 47,
+      "id": "move-will-o-wisp",
+      "name": "Will-O-Wisp"
+    },
+    {
+      "originalId": 13,
+      "id": "move-confuse-ray",
+      "name": "Confuse Ray"
+    },
+    {
+      "originalId": 266,
+      "id": "move-imprison",
+      "name": "Imprison"
+    },
+    {
+      "originalId": 49,
+      "id": "move-grudge",
+      "name": "Grudge"
+    },
+    {
+      "originalId": 59,
+      "id": "move-disable",
+      "name": "Disable"
+    },
+    {
+      "originalId": 105,
+      "id": "move-rollout",
+      "name": "Rollout"
+    },
+    {
+      "originalId": 327,
+      "id": "move-mimic",
+      "name": "Mimic"
+    },
+    {
+      "originalId": 241,
+      "id": "move-hyper-voice",
+      "name": "Hyper Voice"
+    },
+    {
+      "originalId": 140,
+      "id": "move-double-edge",
+      "name": "Double-Edge"
+    },
+    {
+      "originalId": 80,
+      "id": "move-leech-life",
+      "name": "Leech Life"
+    },
+    {
+      "originalId": 46,
+      "id": "move-astonish",
+      "name": "Astonish"
+    },
+    {
+      "originalId": 36,
+      "id": "move-air-cutter",
+      "name": "Air Cutter"
+    },
+    {
+      "originalId": 89,
+      "id": "move-mean-look",
+      "name": "Mean Look"
+    },
+    {
+      "originalId": 198,
+      "id": "move-poison-fang",
+      "name": "Poison Fang"
+    },
+    {
+      "originalId": 135,
+      "id": "move-absorb",
+      "name": "Absorb"
+    },
+    {
+      "originalId": 253,
+      "id": "move-petal-dance",
+      "name": "Petal Dance"
+    },
+    {
+      "originalId": 15,
+      "id": "move-aromatherapy",
+      "name": "Aromatherapy"
+    },
+    {
+      "originalId": 320,
+      "id": "move-mega-drain",
+      "name": "Mega Drain"
+    },
+    {
+      "originalId": 79,
+      "id": "move-spore",
+      "name": "Spore"
+    },
+    {
+      "originalId": 315,
+      "id": "move-foresight",
+      "name": "Foresight"
+    },
+    {
+      "originalId": 296,
+      "id": "move-magnitude",
+      "name": "Magnitude"
+    },
+    {
+      "originalId": 213,
+      "id": "move-mud-slap",
+      "name": "Mud-Slap"
+    },
+    {
+      "originalId": 131,
+      "id": "move-fissure",
+      "name": "Fissure"
+    },
+    {
+      "originalId": 207,
+      "id": "move-tri-attack",
+      "name": "Tri Attack"
+    },
+    {
+      "originalId": 228,
+      "id": "move-pay-day",
+      "name": "Pay Day"
+    },
+    {
+      "originalId": 167,
+      "id": "move-feint-attack",
+      "name": "Faint Attack"
+    },
+    {
+      "originalId": 226,
+      "id": "move-fake-out",
+      "name": "Fake Out"
+    },
+    {
+      "originalId": 24,
+      "id": "move-swagger",
+      "name": "Swagger"
+    },
+    {
+      "originalId": 307,
+      "id": "move-water-sport",
+      "name": "Water Sport"
+    },
+    {
+      "originalId": 115,
+      "id": "move-psych-up",
+      "name": "Psych Up"
+    },
+    {
+      "originalId": 92,
+      "id": "move-low-kick",
+      "name": "Low Kick"
+    },
+    {
+      "originalId": 68,
+      "id": "move-karate-chop",
+      "name": "Karate Chop"
+    },
+    {
+      "originalId": 170,
+      "id": "move-seismic-toss",
+      "name": "Seismic Toss"
+    },
+    {
+      "originalId": 90,
+      "id": "move-cross-chop",
+      "name": "Cross Chop"
+    },
+    {
+      "originalId": 265,
+      "id": "move-bulk-up",
+      "name": "Bulk Up"
+    },
+    {
+      "originalId": 54,
+      "id": "move-odor-sleuth",
+      "name": "Odor Sleuth"
+    },
+    {
+      "originalId": 203,
+      "id": "move-take-down",
+      "name": "Take Down"
+    },
+    {
+      "originalId": 52,
+      "id": "move-flame-wheel",
+      "name": "Flame Wheel"
+    },
+    {
+      "originalId": 132,
+      "id": "move-extreme-speed",
+      "name": "Extremespeed"
+    },
+    {
+      "originalId": 111,
+      "id": "move-hypnosis",
+      "name": "Hypnosis"
+    },
+    {
+      "originalId": 257,
+      "id": "move-belly-drum",
+      "name": "Belly Drum"
+    },
+    {
+      "originalId": 116,
+      "id": "move-submission",
+      "name": "Submission"
+    },
+    {
+      "originalId": 98,
+      "id": "move-mind-reader",
+      "name": "Mind Reader"
+    },
+    {
+      "originalId": 187,
+      "id": "move-teleport",
+      "name": "Teleport"
+    },
+    {
+      "originalId": 146,
+      "id": "move-kinesis",
+      "name": "Kinesis"
+    },
+    {
+      "originalId": 117,
+      "id": "move-recover",
+      "name": "Recover"
+    },
+    {
+      "originalId": 317,
+      "id": "move-future-sight",
+      "name": "Future Sight"
+    },
+    {
+      "originalId": 220,
+      "id": "move-role-play",
+      "name": "Role Play"
+    },
+    {
+      "originalId": 209,
+      "id": "move-trick",
+      "name": "Trick"
+    },
+    {
+      "originalId": 340,
+      "id": "move-revenge",
+      "name": "Revenge"
+    },
+    {
+      "originalId": 7,
+      "id": "move-vital-throw",
+      "name": "Vital Throw"
+    },
+    {
+      "originalId": 246,
+      "id": "move-dynamic-punch",
+      "name": "Dynamicpunch"
+    },
+    {
+      "originalId": 71,
+      "id": "move-constrict",
+      "name": "Constrict"
+    },
+    {
+      "originalId": 255,
+      "id": "move-bubble-beam",
+      "name": "Bubblebeam"
+    },
+    {
+      "originalId": 258,
+      "id": "move-barrier",
+      "name": "Barrier"
+    },
+    {
+      "originalId": 212,
+      "id": "move-mud-sport",
+      "name": "Mud Sport"
+    },
+    {
+      "originalId": 28,
+      "id": "move-rock-throw",
+      "name": "Rock Throw"
+    },
+    {
+      "originalId": 123,
+      "id": "move-self-destruct",
+      "name": "Selfdestruct"
+    },
+    {
+      "originalId": 350,
+      "id": "move-rock-blast",
+      "name": "Rock Blast"
+    },
+    {
+      "originalId": 155,
+      "id": "move-explosion",
+      "name": "Explosion"
+    },
+    {
+      "originalId": 271,
+      "id": "move-stomp",
+      "name": "Stomp"
+    },
+    {
+      "originalId": 205,
+      "id": "move-bounce",
+      "name": "Bounce"
+    },
+    {
+      "originalId": 3,
+      "id": "move-yawn",
+      "name": "Yawn"
+    },
+    {
+      "originalId": 237,
+      "id": "move-curse",
+      "name": "Curse"
+    },
+    {
+      "originalId": 139,
+      "id": "move-headbutt",
+      "name": "Headbutt"
+    },
+    {
+      "originalId": 215,
+      "id": "move-amnesia",
+      "name": "Amnesia"
+    },
+    {
+      "originalId": 83,
+      "id": "move-metal-sound",
+      "name": "Metal Sound"
+    },
+    {
+      "originalId": 152,
+      "id": "move-sonic-boom",
+      "name": "Sonicboom"
+    },
+    {
+      "originalId": 144,
+      "id": "move-spark",
+      "name": "Spark"
+    },
+    {
+      "originalId": 349,
+      "id": "move-lock-on",
+      "name": "Lock-On"
+    },
+    {
+      "originalId": 193,
+      "id": "move-zap-cannon",
+      "name": "Zap Cannon"
+    },
+    {
+      "originalId": 249,
+      "id": "move-knock-off",
+      "name": "Knock Off"
+    },
+    {
+      "originalId": 346,
+      "id": "move-fury-cutter",
+      "name": "Fury Cutter"
+    },
+    {
+      "originalId": 181,
+      "id": "move-swords-dance",
+      "name": "Swords Dance"
+    },
+    {
+      "originalId": 314,
+      "id": "move-false-swipe",
+      "name": "False Swipe"
+    },
+    {
+      "originalId": 112,
+      "id": "move-uproar",
+      "name": "Uproar"
+    },
+    {
+      "originalId": 97,
+      "id": "move-icy-wind",
+      "name": "Icy Wind"
+    },
+    {
+      "originalId": 42,
+      "id": "move-aurora-beam",
+      "name": "Aurora Beam"
+    },
+    {
+      "originalId": 114,
+      "id": "move-signal-beam",
+      "name": "Signal Beam"
+    },
+    {
+      "originalId": 150,
+      "id": "move-sheer-cold",
+      "name": "Sheer Cold"
+    },
+    {
+      "originalId": 196,
+      "id": "move-poison-gas",
+      "name": "Poison Gas"
+    },
+    {
+      "originalId": 279,
+      "id": "move-sludge",
+      "name": "Sludge"
+    },
+    {
+      "originalId": 202,
+      "id": "move-acid-armor",
+      "name": "Acid Armor"
+    },
+    {
+      "originalId": 43,
+      "id": "move-memento",
+      "name": "Memento"
+    },
+    {
+      "originalId": 180,
+      "id": "move-icicle-spear",
+      "name": "Icicle Spear"
+    },
+    {
+      "originalId": 69,
+      "id": "move-clamp",
+      "name": "Clamp"
+    },
+    {
+      "originalId": 295,
+      "id": "move-spikes",
+      "name": "Spikes"
+    },
+    {
+      "originalId": 201,
+      "id": "move-spike-cannon",
+      "name": "Spike Cannon"
+    },
+    {
+      "originalId": 120,
+      "id": "move-lick",
+      "name": "Lick"
+    },
+    {
+      "originalId": 35,
+      "id": "move-spite",
+      "name": "Spite"
+    },
+    {
+      "originalId": 216,
+      "id": "move-night-shade",
+      "name": "Night Shade"
+    },
+    {
+      "originalId": 331,
+      "id": "move-dream-eater",
+      "name": "Dream Eater"
+    },
+    {
+      "originalId": 313,
+      "id": "move-destiny-bond",
+      "name": "Destiny Bond"
+    },
+    {
+      "originalId": 5,
+      "id": "move-nightmare",
+      "name": "Nightmare"
+    },
+    {
+      "originalId": 126,
+      "id": "move-shadow-punch",
+      "name": "Shadow Punch"
+    },
+    {
+      "originalId": 125,
+      "id": "move-bind",
+      "name": "Bind"
+    },
+    {
+      "originalId": 342,
+      "id": "move-dragon-breath",
+      "name": "Dragonbreath"
+    },
+    {
+      "originalId": 333,
+      "id": "move-meditate",
+      "name": "Meditate"
+    },
+    {
+      "originalId": 248,
+      "id": "move-vice-grip",
+      "name": "Vicegrip"
+    },
+    {
+      "originalId": 299,
+      "id": "move-mud-shot",
+      "name": "Mud Shot"
+    },
+    {
+      "originalId": 247,
+      "id": "move-guillotine",
+      "name": "Guillotine"
+    },
+    {
+      "originalId": 87,
+      "id": "move-crabhammer",
+      "name": "Crabhammer"
+    },
+    {
+      "originalId": 121,
+      "id": "move-flail",
+      "name": "Flail"
+    },
+    {
+      "originalId": 128,
+      "id": "move-charge",
+      "name": "Charge"
+    },
+    {
+      "originalId": 316,
+      "id": "move-mirror-coat",
+      "name": "Mirror Coat"
+    },
+    {
+      "originalId": 168,
+      "id": "move-barrage",
+      "name": "Barrage"
+    },
+    {
+      "originalId": 166,
+      "id": "move-egg-bomb",
+      "name": "Egg Bomb"
+    },
+    {
+      "originalId": 289,
+      "id": "move-bone-club",
+      "name": "Bone Club"
+    },
+    {
+      "originalId": 290,
+      "id": "move-bonemerang",
+      "name": "Bonemerang"
+    },
+    {
+      "originalId": 285,
+      "id": "move-bone-rush",
+      "name": "Bone Rush"
+    },
+    {
+      "originalId": 303,
+      "id": "move-rolling-kick",
+      "name": "Rolling Kick"
+    },
+    {
+      "originalId": 204,
+      "id": "move-jump-kick",
+      "name": "Jump Kick"
+    },
+    {
+      "originalId": 206,
+      "id": "move-high-jump-kick",
+      "name": "Hi Jump Kick"
+    },
+    {
+      "originalId": 104,
+      "id": "move-endure",
+      "name": "Endure"
+    },
+    {
+      "originalId": 321,
+      "id": "move-mega-kick",
+      "name": "Mega Kick"
+    },
+    {
+      "originalId": 77,
+      "id": "move-reversal",
+      "name": "Reversal"
+    },
+    {
+      "originalId": 347,
+      "id": "move-comet-punch",
+      "name": "Comet Punch"
+    },
+    {
+      "originalId": 300,
+      "id": "move-mach-punch",
+      "name": "Mach Punch"
+    },
+    {
+      "originalId": 65,
+      "id": "move-thunder-punch",
+      "name": "Thunderpunch"
+    },
+    {
+      "originalId": 292,
+      "id": "move-fire-punch",
+      "name": "Fire Punch"
+    },
+    {
+      "originalId": 344,
+      "id": "move-ice-punch",
+      "name": "Ice Punch"
+    },
+    {
+      "originalId": 136,
+      "id": "move-sky-uppercut",
+      "name": "Sky Uppercut"
+    },
+    {
+      "originalId": 322,
+      "id": "move-mega-punch",
+      "name": "Mega Punch"
+    },
+    {
+      "originalId": 305,
+      "id": "move-detect",
+      "name": "Detect"
+    },
+    {
+      "originalId": 51,
+      "id": "move-counter",
+      "name": "Counter"
+    },
+    {
+      "originalId": 339,
+      "id": "move-refresh",
+      "name": "Refresh"
+    },
+    {
+      "originalId": 147,
+      "id": "move-smog",
+      "name": "Smog"
+    },
+    {
+      "originalId": 165,
+      "id": "move-soft-boiled",
+      "name": "Softboiled"
+    },
+    {
+      "originalId": 233,
+      "id": "move-ingrain",
+      "name": "Ingrain"
+    },
+    {
+      "originalId": 85,
+      "id": "move-tickle",
+      "name": "Tickle"
+    },
+    {
+      "originalId": 264,
+      "id": "move-dizzy-punch",
+      "name": "Dizzy Punch"
+    },
+    {
+      "originalId": 162,
+      "id": "move-twister",
+      "name": "Twister"
+    },
+    {
+      "originalId": 343,
+      "id": "move-dragon-dance",
+      "name": "Dragon Dance"
+    },
+    {
+      "originalId": 286,
+      "id": "move-camouflage",
+      "name": "Camouflage"
+    },
+    {
+      "originalId": 304,
+      "id": "move-substitute",
+      "name": "Substitute"
+    },
+    {
+      "originalId": 297,
+      "id": "move-magical-leaf",
+      "name": "Magical Leaf"
+    },
+    {
+      "originalId": 337,
+      "id": "move-recycle",
+      "name": "Recycle"
+    },
+    {
+      "originalId": 252,
+      "id": "move-baton-pass",
+      "name": "Baton Pass"
+    },
+    {
+      "originalId": 4,
+      "id": "move-lovely-kiss",
+      "name": "Lovely Kiss"
+    },
+    {
+      "originalId": 101,
+      "id": "move-powder-snow",
+      "name": "Powder Snow"
+    },
+    {
+      "originalId": 33,
+      "id": "move-fake-tears",
+      "name": "Fake Tears"
+    },
+    {
+      "originalId": 293,
+      "id": "move-perish-song",
+      "name": "Perish Song"
+    },
+    {
+      "originalId": 254,
+      "id": "move-splash",
+      "name": "Splash"
+    },
+    {
+      "originalId": 130,
+      "id": "move-mist",
+      "name": "Mist"
+    },
+    {
+      "originalId": 282,
+      "id": "move-transform",
+      "name": "Transform"
+    },
+    {
+      "originalId": 183,
+      "id": "move-conversion",
+      "name": "Conversion"
+    },
+    {
+      "originalId": 184,
+      "id": "move-conversion-2",
+      "name": "Conversion 2"
+    },
+    {
+      "originalId": 55,
+      "id": "move-sharpen",
+      "name": "Sharpen"
+    },
+    {
+      "originalId": 93,
+      "id": "move-ancient-power",
+      "name": "Ancientpower"
+    },
+    {
+      "originalId": 25,
+      "id": "move-snore",
+      "name": "Snore"
+    },
+    {
+      "originalId": 227,
+      "id": "move-sleep-talk",
+      "name": "Sleep Talk"
+    },
+    {
+      "originalId": 194,
+      "id": "move-block",
+      "name": "Block"
+    },
+    {
+      "originalId": 287,
+      "id": "move-covet",
+      "name": "Covet"
+    },
+    {
+      "originalId": 100,
+      "id": "move-sky-attack",
+      "name": "Sky Attack"
+    },
+    {
+      "originalId": 91,
+      "id": "move-outrage",
+      "name": "Outrage"
+    },
+    {
+      "originalId": 86,
+      "id": "move-spider-web",
+      "name": "Spider Web"
+    },
+    {
+      "originalId": 11,
+      "id": "move-charm",
+      "name": "Charm"
+    },
+    {
+      "originalId": 191,
+      "id": "move-sweet-kiss",
+      "name": "Sweet Kiss"
+    },
+    {
+      "originalId": 354,
+      "id": "move-volt-tackle",
+      "name": "Volt Tackle"
+    },
+    {
+      "originalId": 225,
+      "id": "move-wish",
+      "name": "Wish"
+    },
+    {
+      "originalId": 351,
+      "id": "move-cotton-spore",
+      "name": "Cotton Spore"
+    },
+    {
+      "originalId": 30,
+      "id": "move-rock-slide",
+      "name": "Rock Slide"
+    },
+    {
+      "originalId": 6,
+      "id": "move-morning-sun",
+      "name": "Morning Sun"
+    },
+    {
+      "originalId": 108,
+      "id": "move-psywave",
+      "name": "Psywave"
+    },
+    {
+      "originalId": 21,
+      "id": "move-pain-split",
+      "name": "Pain Split"
+    },
+    {
+      "originalId": 61,
+      "id": "move-bide",
+      "name": "Bide"
+    },
+    {
+      "originalId": 186,
+      "id": "move-iron-defense",
+      "name": "Iron Defense"
+    },
+    {
+      "originalId": 269,
+      "id": "move-beat-up",
+      "name": "Beat Up"
+    },
+    {
+      "originalId": 44,
+      "id": "move-octazooka",
+      "name": "Octazooka"
+    },
+    {
+      "originalId": 277,
+      "id": "move-present",
+      "name": "Present"
+    },
+    {
+      "originalId": 195,
+      "id": "move-howl",
+      "name": "Howl"
+    },
+    {
+      "originalId": 138,
+      "id": "move-sketch",
+      "name": "Sketch"
+    },
+    {
+      "originalId": 210,
+      "id": "move-triple-kick",
+      "name": "Triple Kick"
+    },
+    {
+      "originalId": 318,
+      "id": "move-milk-drink",
+      "name": "Milk Drink"
+    },
+    {
+      "originalId": 26,
+      "id": "move-heal-bell",
+      "name": "Heal Bell"
+    },
+    {
+      "originalId": 353,
+      "id": "move-aeroblast",
+      "name": "Aeroblast"
+    },
+    {
+      "originalId": 149,
+      "id": "move-sacred-fire",
+      "name": "Sacred Fire"
+    },
+    {
+      "originalId": 336,
+      "id": "move-leaf-blade",
+      "name": "Leaf Blade"
+    },
+    {
+      "originalId": 276,
+      "id": "move-blaze-kick",
+      "name": "Blaze Kick"
+    },
+    {
+      "originalId": 32,
+      "id": "move-whirlpool",
+      "name": "Whirlpool"
+    },
+    {
+      "originalId": 159,
+      "id": "move-muddy-water",
+      "name": "Muddy Water"
+    },
+    {
+      "originalId": 119,
+      "id": "move-nature-power",
+      "name": "Nature Power"
+    },
+    {
+      "originalId": 60,
+      "id": "move-razor-wind",
+      "name": "Razor Wind"
+    },
+    {
+      "originalId": 133,
+      "id": "move-extrasensory",
+      "name": "Extrasensory"
+    },
+    {
+      "originalId": 218,
+      "id": "move-slack-off",
+      "name": "Slack Off"
+    },
+    {
+      "originalId": 175,
+      "id": "move-arm-thrust",
+      "name": "Arm Thrust"
+    },
+    {
+      "originalId": 78,
+      "id": "move-smelling-salts",
+      "name": "Smellingsalt"
+    },
+    {
+      "originalId": 229,
+      "id": "move-assist",
+      "name": "Assist"
+    },
+    {
+      "originalId": 288,
+      "id": "move-tail-glow",
+      "name": "Tail Glow"
+    },
+    {
+      "originalId": 84,
+      "id": "move-grass-whistle",
+      "name": "Grasswhistle"
+    },
+    {
+      "originalId": 113,
+      "id": "move-water-spout",
+      "name": "Water Spout"
+    },
+    {
+      "originalId": 278,
+      "id": "move-eruption",
+      "name": "Eruption"
+    },
+    {
+      "originalId": 298,
+      "id": "move-magic-coat",
+      "name": "Magic Coat"
+    },
+    {
+      "originalId": 274,
+      "id": "move-teeter-dance",
+      "name": "Teeter Dance"
+    },
+    {
+      "originalId": 221,
+      "id": "move-needle-arm",
+      "name": "Needle Arm"
+    },
+    {
+      "originalId": 275,
+      "id": "move-crush-claw",
+      "name": "Crush Claw"
+    },
+    {
+      "originalId": 283,
+      "id": "move-poison-tail",
+      "name": "Poison Tail"
+    },
+    {
+      "originalId": 31,
+      "id": "move-weather-ball",
+      "name": "Weather Ball"
+    },
+    {
+      "originalId": 2,
+      "id": "move-ice-ball",
+      "name": "Ice Ball"
+    },
+    {
+      "originalId": 309,
+      "id": "move-mist-ball",
+      "name": "Mist Ball"
+    },
+    {
+      "originalId": 335,
+      "id": "move-luster-purge",
+      "name": "Luster Purge"
+    },
+    {
+      "originalId": 256,
+      "id": "move-doom-desire",
+      "name": "Doom Desire"
+    },
+    {
+      "originalId": 110,
+      "id": "move-psycho-boost",
+      "name": "Psycho Boost"
+    }
+  ],
+  "abilities": [
+    {
+      "originalId": 26,
+      "id": "ability-overgrow",
+      "name": "Overgrow"
+    },
+    {
+      "originalId": 70,
+      "id": "ability-blaze",
+      "name": "Blaze"
+    },
+    {
+      "originalId": 16,
+      "id": "ability-torrent",
+      "name": "Torrent"
+    },
+    {
+      "originalId": 76,
+      "id": "ability-shield-dust",
+      "name": "Shield Dust"
+    },
+    {
+      "originalId": 33,
+      "id": "ability-shed-skin",
+      "name": "Shed Skin"
+    },
+    {
+      "originalId": 51,
+      "id": "ability-compound-eyes",
+      "name": "Compoundeyes"
+    },
+    {
+      "originalId": 67,
+      "id": "ability-swarm",
+      "name": "Swarm"
+    },
+    {
+      "originalId": 30,
+      "id": "ability-keen-eye",
+      "name": "Keen Eye"
+    },
+    {
+      "originalId": 43,
+      "id": "ability-run-away",
+      "name": "Run Away"
+    },
+    {
+      "originalId": 17,
+      "id": "ability-guts",
+      "name": "Guts"
+    },
+    {
+      "originalId": 6,
+      "id": "ability-intimidate",
+      "name": "Intimidate"
+    },
+    {
+      "originalId": 32,
+      "id": "ability-static",
+      "name": "Static"
+    },
+    {
+      "originalId": 29,
+      "id": "ability-sand-veil",
+      "name": "Sand Veil"
+    },
+    {
+      "originalId": 39,
+      "id": "ability-poison-point",
+      "name": "Poison Point"
+    },
+    {
+      "originalId": 68,
+      "id": "ability-cute-charm",
+      "name": "Cute Charm"
+    },
+    {
+      "originalId": 72,
+      "id": "ability-flash-fire",
+      "name": "Flash Fire"
+    },
+    {
+      "originalId": 31,
+      "id": "ability-inner-focus",
+      "name": "Inner Focus"
+    },
+    {
+      "originalId": 74,
+      "id": "ability-chlorophyll",
+      "name": "Chlorophyll"
+    },
+    {
+      "originalId": 61,
+      "id": "ability-effect-spore",
+      "name": "Effect Spore"
+    },
+    {
+      "originalId": 5,
+      "id": "ability-arena-trap",
+      "name": "Arena Trap"
+    },
+    {
+      "originalId": 71,
+      "id": "ability-pickup",
+      "name": "Pickup"
+    },
+    {
+      "originalId": 22,
+      "id": "ability-limber",
+      "name": "Limber"
+    },
+    {
+      "originalId": 21,
+      "id": "ability-damp",
+      "name": "Damp"
+    },
+    {
+      "originalId": 45,
+      "id": "ability-cloud-nine",
+      "name": "Cloud Nine"
+    },
+    {
+      "originalId": 73,
+      "id": "ability-vital-spirit",
+      "name": "Vital Spirit"
+    },
+    {
+      "originalId": 36,
+      "id": "ability-water-absorb",
+      "name": "Water Absorb"
+    },
+    {
+      "originalId": 25,
+      "id": "ability-synchronize",
+      "name": "Synchronize"
+    },
+    {
+      "originalId": 15,
+      "id": "ability-clear-body",
+      "name": "Clear Body"
+    },
+    {
+      "originalId": 58,
+      "id": "ability-liquid-ooze",
+      "name": "Liquid Ooze"
+    },
+    {
+      "originalId": 7,
+      "id": "ability-rock-head",
+      "name": "Rock Head"
+    },
+    {
+      "originalId": 13,
+      "id": "ability-sturdy",
+      "name": "Sturdy"
+    },
+    {
+      "originalId": 41,
+      "id": "ability-oblivious",
+      "name": "Oblivious"
+    },
+    {
+      "originalId": 64,
+      "id": "ability-own-tempo",
+      "name": "Own Tempo"
+    },
+    {
+      "originalId": 23,
+      "id": "ability-magnet-pull",
+      "name": "Magnet Pull"
+    },
+    {
+      "originalId": 47,
+      "id": "ability-early-bird",
+      "name": "Early Bird"
+    },
+    {
+      "originalId": 2,
+      "id": "ability-thick-fat",
+      "name": "Thick Fat"
+    },
+    {
+      "originalId": 1,
+      "id": "ability-stench",
+      "name": "Stench"
+    },
+    {
+      "originalId": 44,
+      "id": "ability-sticky-hold",
+      "name": "Sticky Hold"
+    },
+    {
+      "originalId": 19,
+      "id": "ability-shell-armor",
+      "name": "Shell Armor"
+    },
+    {
+      "originalId": 55,
+      "id": "ability-levitate",
+      "name": "Levitate"
+    },
+    {
+      "originalId": 54,
+      "id": "ability-insomnia",
+      "name": "Insomnia"
+    },
+    {
+      "originalId": 9,
+      "id": "ability-hyper-cutter",
+      "name": "Hyper Cutter"
+    },
+    {
+      "originalId": 60,
+      "id": "ability-soundproof",
+      "name": "Soundproof"
+    },
+    {
+      "originalId": 50,
+      "id": "ability-lightning-rod",
+      "name": "Lightningrod"
+    },
+    {
+      "originalId": 20,
+      "id": "ability-natural-cure",
+      "name": "Natural Cure"
+    },
+    {
+      "originalId": 38,
+      "id": "ability-serene-grace",
+      "name": "Serene Grace"
+    },
+    {
+      "originalId": 27,
+      "id": "ability-swift-swim",
+      "name": "Swift Swim"
+    },
+    {
+      "originalId": 66,
+      "id": "ability-water-veil",
+      "name": "Water Veil"
+    },
+    {
+      "originalId": 46,
+      "id": "ability-illuminate",
+      "name": "Illuminate"
+    },
+    {
+      "originalId": 62,
+      "id": "ability-flame-body",
+      "name": "Flame Body"
+    },
+    {
+      "originalId": 35,
+      "id": "ability-volt-absorb",
+      "name": "Volt Absorb"
+    },
+    {
+      "originalId": 40,
+      "id": "ability-trace",
+      "name": "Trace"
+    },
+    {
+      "originalId": 12,
+      "id": "ability-battle-armor",
+      "name": "Battle Armor"
+    },
+    {
+      "originalId": 57,
+      "id": "ability-pressure",
+      "name": "Pressure"
+    },
+    {
+      "originalId": 69,
+      "id": "ability-immunity",
+      "name": "Immunity"
+    },
+    {
+      "originalId": 48,
+      "id": "ability-hustle",
+      "name": "Hustle"
+    },
+    {
+      "originalId": 34,
+      "id": "ability-huge-power",
+      "name": "Huge Power"
+    },
+    {
+      "originalId": 11,
+      "id": "ability-speed-boost",
+      "name": "Speed Boost"
+    },
+    {
+      "originalId": 10,
+      "id": "ability-shadow-tag",
+      "name": "Shadow Tag"
+    },
+    {
+      "originalId": 65,
+      "id": "ability-magma-armor",
+      "name": "Magma Armor"
+    },
+    {
+      "originalId": 14,
+      "id": "ability-suction-cups",
+      "name": "Suction Cups"
+    },
+    {
+      "originalId": 28,
+      "id": "ability-sand-stream",
+      "name": "Sand Stream"
+    },
+    {
+      "originalId": 3,
+      "id": "ability-rain-dish",
+      "name": "Rain Dish"
+    },
+    {
+      "originalId": 42,
+      "id": "ability-truant",
+      "name": "Truant"
+    },
+    {
+      "originalId": 53,
+      "id": "ability-wonder-guard",
+      "name": "Wonder Guard"
+    },
+    {
+      "originalId": 75,
+      "id": "ability-pure-power",
+      "name": "Pure Power"
+    },
+    {
+      "originalId": 56,
+      "id": "ability-plus",
+      "name": "Plus"
+    },
+    {
+      "originalId": 63,
+      "id": "ability-minus",
+      "name": "Minus"
+    },
+    {
+      "originalId": 18,
+      "id": "ability-rough-skin",
+      "name": "Rough Skin"
+    },
+    {
+      "originalId": 24,
+      "id": "ability-white-smoke",
+      "name": "White Smoke"
+    },
+    {
+      "originalId": 52,
+      "id": "ability-marvel-scale",
+      "name": "Marvel Scale"
+    },
+    {
+      "originalId": 37,
+      "id": "ability-forecast",
+      "name": "Forecast"
+    },
+    {
+      "originalId": 59,
+      "id": "ability-color-change",
+      "name": "Color Change"
+    },
+    {
+      "originalId": 4,
+      "id": "ability-drizzle",
+      "name": "Drizzle"
+    },
+    {
+      "originalId": 49,
+      "id": "ability-drought",
+      "name": "Drought"
+    },
+    {
+      "originalId": 8,
+      "id": "ability-air-lock",
+      "name": "Air Lock"
+    }
+  ],
+  "types": [
+    {
+      "originalId": 4,
+      "name": "Grass"
+    },
+    {
+      "originalId": 8,
+      "name": "Poison"
+    },
+    {
+      "originalId": 2,
+      "name": "Fire"
+    },
+    {
+      "originalId": 10,
+      "name": "Flying"
+    },
+    {
+      "originalId": 3,
+      "name": "Water"
+    },
+    {
+      "originalId": 12,
+      "name": "Bug"
+    },
+    {
+      "originalId": 1,
+      "name": "Normal"
+    },
+    {
+      "originalId": 5,
+      "name": "Electric"
+    },
+    {
+      "originalId": 9,
+      "name": "Ground"
+    },
+    {
+      "originalId": 7,
+      "name": "Fighting"
+    },
+    {
+      "originalId": 11,
+      "name": "Psychic"
+    },
+    {
+      "originalId": 13,
+      "name": "Rock"
+    },
+    {
+      "originalId": 17,
+      "name": "Steel"
+    },
+    {
+      "originalId": 6,
+      "name": "Ice"
+    },
+    {
+      "originalId": 14,
+      "name": "Ghost"
+    },
+    {
+      "originalId": 15,
+      "name": "Dragon"
+    },
+    {
+      "originalId": 16,
+      "name": "Dark"
+    }
+  ],
+  "friendAreas": [
+    {
+      "originalId": 13,
+      "id": "friend-area-beau-plains",
+      "name": "Beau Plains",
+      "sourceSymbol": "FRIEND_AREA_BEAU_PLAINS"
+    },
+    {
+      "originalId": 9,
+      "id": "friend-area-mt-cleft",
+      "name": "Mt. Cleft",
+      "sourceSymbol": "FRIEND_AREA_MT_CLEFT"
+    },
+    {
+      "originalId": 28,
+      "id": "friend-area-turtleshell-pond",
+      "name": "Turtleshell Pond",
+      "sourceSymbol": "FRIEND_AREA_TURTLESHELL_POND"
+    },
+    {
+      "originalId": 18,
+      "id": "friend-area-mist-rise-forest",
+      "name": "Mist-Rise Forest",
+      "sourceSymbol": "FRIEND_AREA_MIST_RISE_FOREST"
+    },
+    {
+      "originalId": 19,
+      "id": "friend-area-flyaway-forest",
+      "name": "Flyaway Forest",
+      "sourceSymbol": "FRIEND_AREA_FLYAWAY_FOREST"
+    },
+    {
+      "originalId": 12,
+      "id": "friend-area-wild-plains",
+      "name": "Wild Plains",
+      "sourceSymbol": "FRIEND_AREA_WILD_PLAINS"
+    },
+    {
+      "originalId": 52,
+      "id": "friend-area-ravaged-field",
+      "name": "Ravaged Field",
+      "sourceSymbol": "FRIEND_AREA_RAVAGED_FIELD"
+    },
+    {
+      "originalId": 21,
+      "id": "friend-area-energetic-forest",
+      "name": "Energetic Forest",
+      "sourceSymbol": "FRIEND_AREA_ENERGETIC_FOREST"
+    },
+    {
+      "originalId": 43,
+      "id": "friend-area-furnace-desert",
+      "name": "Furnace Desert",
+      "sourceSymbol": "FRIEND_AREA_FURNACE_DESERT"
+    },
+    {
+      "originalId": 15,
+      "id": "friend-area-safari",
+      "name": "Safari",
+      "sourceSymbol": "FRIEND_AREA_SAFARI"
+    },
+    {
+      "originalId": 10,
+      "id": "friend-area-mt-moonview",
+      "name": "Mt. Moonview",
+      "sourceSymbol": "FRIEND_AREA_MT_MOONVIEW"
+    },
+    {
+      "originalId": 47,
+      "id": "friend-area-darkness-ridge",
+      "name": "Darkness Ridge",
+      "sourceSymbol": "FRIEND_AREA_DARKNESS_RIDGE"
+    },
+    {
+      "originalId": 14,
+      "id": "friend-area-sky-blue-plains",
+      "name": "Sky Blue Plains",
+      "sourceSymbol": "FRIEND_AREA_SKY_BLUE_PLAINS"
+    },
+    {
+      "originalId": 33,
+      "id": "friend-area-echo-cave",
+      "name": "Echo Cave",
+      "sourceSymbol": "FRIEND_AREA_ECHO_CAVE"
+    },
+    {
+      "originalId": 37,
+      "id": "friend-area-jungle",
+      "name": "Jungle",
+      "sourceSymbol": "FRIEND_AREA_JUNGLE"
+    },
+    {
+      "originalId": 22,
+      "id": "friend-area-mushroom-forest",
+      "name": "Mushroom Forest",
+      "sourceSymbol": "FRIEND_AREA_MUSHROOM_FOREST"
+    },
+    {
+      "originalId": 25,
+      "id": "friend-area-secretive-forest",
+      "name": "Secretive Forest",
+      "sourceSymbol": "FRIEND_AREA_SECRETIVE_FOREST"
+    },
+    {
+      "originalId": 36,
+      "id": "friend-area-boulder-cave",
+      "name": "Boulder Cave",
+      "sourceSymbol": "FRIEND_AREA_BOULDER_CAVE"
+    },
+    {
+      "originalId": 16,
+      "id": "friend-area-scorched-plains",
+      "name": "Scorched Plains",
+      "sourceSymbol": "FRIEND_AREA_SCORCHED_PLAINS"
+    },
+    {
+      "originalId": 27,
+      "id": "friend-area-tadpole-pond",
+      "name": "Tadpole Pond",
+      "sourceSymbol": "FRIEND_AREA_TADPOLE_POND"
+    },
+    {
+      "originalId": 38,
+      "id": "friend-area-decrepit-lab",
+      "name": "Decrepit Lab",
+      "sourceSymbol": "FRIEND_AREA_DECREPIT_LAB"
+    },
+    {
+      "originalId": 39,
+      "id": "friend-area-mt-discipline",
+      "name": "Mt. Discipline",
+      "sourceSymbol": "FRIEND_AREA_MT_DISCIPLINE"
+    },
+    {
+      "originalId": 1,
+      "id": "friend-area-bountiful-sea",
+      "name": "Bountiful Sea",
+      "sourceSymbol": "FRIEND_AREA_BOUNTIFUL_SEA"
+    },
+    {
+      "originalId": 8,
+      "id": "friend-area-mt-deepgreen",
+      "name": "Mt. Deepgreen",
+      "sourceSymbol": "FRIEND_AREA_MT_DEEPGREEN"
+    },
+    {
+      "originalId": 41,
+      "id": "friend-area-power-plant",
+      "name": "Power Plant",
+      "sourceSymbol": "FRIEND_AREA_POWER_PLANT"
+    },
+    {
+      "originalId": 49,
+      "id": "friend-area-ice-floe-beach",
+      "name": "Ice Floe Beach",
+      "sourceSymbol": "FRIEND_AREA_ICE_FLOE_BEACH"
+    },
+    {
+      "originalId": 32,
+      "id": "friend-area-poison-swamp",
+      "name": "Poison Swamp",
+      "sourceSymbol": "FRIEND_AREA_POISON_SWAMP"
+    },
+    {
+      "originalId": 7,
+      "id": "friend-area-shallow-beach",
+      "name": "Shallow Beach",
+      "sourceSymbol": "FRIEND_AREA_SHALLOW_BEACH"
+    },
+    {
+      "originalId": 2,
+      "id": "friend-area-treasure-sea",
+      "name": "Treasure Sea",
+      "sourceSymbol": "FRIEND_AREA_TREASURE_SEA"
+    },
+    {
+      "originalId": 26,
+      "id": "friend-area-rub-a-dub-river",
+      "name": "Rub-a-Dub River",
+      "sourceSymbol": "FRIEND_AREA_RUB_A_DUB_RIVER"
+    },
+    {
+      "originalId": 20,
+      "id": "friend-area-overgrown-forest",
+      "name": "Overgrown Forest",
+      "sourceSymbol": "FRIEND_AREA_OVERGROWN_FOREST"
+    },
+    {
+      "originalId": 48,
+      "id": "friend-area-frigid-cavern",
+      "name": "Frigid Cavern",
+      "sourceSymbol": "FRIEND_AREA_FRIGID_CAVERN"
+    },
+    {
+      "originalId": 42,
+      "id": "friend-area-crater",
+      "name": "Crater",
+      "sourceSymbol": "FRIEND_AREA_CRATER"
+    },
+    {
+      "originalId": 30,
+      "id": "friend-area-waterfall-lake",
+      "name": "Waterfall Lake",
+      "sourceSymbol": "FRIEND_AREA_WATERFALL_LAKE"
+    },
+    {
+      "originalId": 29,
+      "id": "friend-area-mystic-lake",
+      "name": "Mystic Lake",
+      "sourceSymbol": "FRIEND_AREA_MYSTIC_LAKE"
+    },
+    {
+      "originalId": 24,
+      "id": "friend-area-transform-forest",
+      "name": "Transform Forest",
+      "sourceSymbol": "FRIEND_AREA_TRANSFORM_FOREST"
+    },
+    {
+      "originalId": 4,
+      "id": "friend-area-deep-sea-floor",
+      "name": "Deep-Sea Floor",
+      "sourceSymbol": "FRIEND_AREA_DEEP_SEA_FLOOR"
+    },
+    {
+      "originalId": 46,
+      "id": "friend-area-ancient-relic",
+      "name": "Ancient Relic",
+      "sourceSymbol": "FRIEND_AREA_ANCIENT_RELIC"
+    },
+    {
+      "originalId": 54,
+      "id": "friend-area-legendary-island",
+      "name": "Legendary Island",
+      "sourceSymbol": "FRIEND_AREA_LEGENDARY_ISLAND"
+    },
+    {
+      "originalId": 34,
+      "id": "friend-area-cryptic-cave",
+      "name": "Cryptic Cave",
+      "sourceSymbol": "FRIEND_AREA_CRYPTIC_CAVE"
+    },
+    {
+      "originalId": 57,
+      "id": "friend-area-final-island",
+      "name": "Final Island",
+      "sourceSymbol": "FRIEND_AREA_FINAL_ISLAND"
+    },
+    {
+      "originalId": 40,
+      "id": "friend-area-thunder-meadow",
+      "name": "Thunder Meadow",
+      "sourceSymbol": "FRIEND_AREA_THUNDER_MEADOW"
+    },
+    {
+      "originalId": 31,
+      "id": "friend-area-peanut-swamp",
+      "name": "Peanut Swamp",
+      "sourceSymbol": "FRIEND_AREA_PEANUT_SWAMP"
+    },
+    {
+      "originalId": 44,
+      "id": "friend-area-aged-chamber-an",
+      "name": "Aged Chamber AN",
+      "sourceSymbol": "FRIEND_AREA_AGED_CHAMBER_AN"
+    },
+    {
+      "originalId": 45,
+      "id": "friend-area-aged-chamber-o-question",
+      "name": "Aged Chamber O?",
+      "sourceSymbol": "FRIEND_AREA_AGED_CHAMBER_O_EXCLAIM"
+    },
+    {
+      "originalId": 3,
+      "id": "friend-area-serene-sea",
+      "name": "Serene Sea",
+      "sourceSymbol": "FRIEND_AREA_SERENE_SEA"
+    },
+    {
+      "originalId": 17,
+      "id": "friend-area-sacred-field",
+      "name": "Sacred Field",
+      "sourceSymbol": "FRIEND_AREA_SACRED_FIELD"
+    },
+    {
+      "originalId": 5,
+      "id": "friend-area-deep-sea-current",
+      "name": "Deep-Sea Current",
+      "sourceSymbol": "FRIEND_AREA_DEEP_SEA_CURRENT"
+    },
+    {
+      "originalId": 11,
+      "id": "friend-area-rainbow-peak",
+      "name": "Rainbow Peak",
+      "sourceSymbol": "FRIEND_AREA_RAINBOW_PEAK"
+    },
+    {
+      "originalId": 23,
+      "id": "friend-area-healing-forest",
+      "name": "Healing Forest",
+      "sourceSymbol": "FRIEND_AREA_HEALING_FOREST"
+    },
+    {
+      "originalId": 35,
+      "id": "friend-area-dragon-cave",
+      "name": "Dragon Cave",
+      "sourceSymbol": "FRIEND_AREA_DRAGON_CAVE"
+    },
+    {
+      "originalId": 53,
+      "id": "friend-area-magnetic-quarry",
+      "name": "Magnetic Quarry",
+      "sourceSymbol": "FRIEND_AREA_MAGNETIC_QUARRY"
+    },
+    {
+      "originalId": 55,
+      "id": "friend-area-southern-island",
+      "name": "Southern Island",
+      "sourceSymbol": "FRIEND_AREA_SOUTHERN_ISLAND"
+    },
+    {
+      "originalId": 6,
+      "id": "friend-area-seafloor-cave",
+      "name": "Seafloor Cave",
+      "sourceSymbol": "FRIEND_AREA_SEAFLOOR_CAVE"
+    },
+    {
+      "originalId": 50,
+      "id": "friend-area-volcanic-pit",
+      "name": "Volcanic Pit",
+      "sourceSymbol": "FRIEND_AREA_VOLCANIC_PIT"
+    },
+    {
+      "originalId": 51,
+      "id": "friend-area-stratos-lookout",
+      "name": "Stratos Lookout",
+      "sourceSymbol": "FRIEND_AREA_STRATOS_LOOKOUT"
+    },
+    {
+      "originalId": 56,
+      "id": "friend-area-enclosed-island",
+      "name": "Enclosed Island",
+      "sourceSymbol": "FRIEND_AREA_ENCLOSED_ISLAND"
+    }
+  ]
+}

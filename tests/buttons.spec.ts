@@ -1,4 +1,4 @@
-import { test, expect, type Locator, type Page } from "@playwright/test";
+import { test, expect, type Locator, type Page } from "./fixtures";
 
 async function expectConciseTooltip(page: Page, control: Locator, topic: RegExp): Promise<void> {
   // Scroll events are queued after geometry updates. Drain them before focus
@@ -23,8 +23,6 @@ test.beforeEach(async ({ page }) => {
   await page.route("**/games/pokemon-dungeon-reimagined/**", (route) =>
     route.fulfill({ contentType: "text/html", body: "<!doctype html><html><body>Website game fixture</body></html>" }),
   );
-  await page.route("https://api.github.com/users/**", (route) => route.fulfill({ status: 503 }));
-  await page.route("https://drive.google.com/**", (route) => route.fulfill({ contentType: "text/html", body: "Resume preview" }));
 });
 
 test("home controls explain their destinations on keyboard focus and hover", async ({ page }, testInfo) => {

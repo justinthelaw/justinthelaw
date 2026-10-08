@@ -15,6 +15,11 @@ interface Control {
   interruptsMovement?: boolean;
 }
 
+interface GameFocusTarget {
+  iframe: HTMLIFrameElement;
+  document: Document;
+}
+
 const directions: readonly Control[] = [
   { label: "Move up-left", glyph: "↖", keys: [GAME_KEYS.up, GAME_KEYS.left], tooltip: "Move up-left" },
   { label: "Move up", glyph: "↑", keys: [GAME_KEYS.up], tooltip: "Move up" },
@@ -40,11 +45,27 @@ const systemActions: readonly Control[] = [
 export function GameControls({ iframeRef }: GameControlsProps): React.ReactElement {
   const { visible, toggle, pressPointer, releasePointer, pulse } = useGameControls(iframeRef);
   const activationKeyRef = useRef<string | null>(null);
-  const pendingFocusRef = useRef(false);
+  const pendingFocusRef = useRef<GameFocusTarget | null>(null);
 
-  function focusGame(): void {
-    iframeRef.current?.focus();
-    iframeRef.current?.contentWindow?.focus();
+  function captureGameFocus(): GameFocusTarget | null {
+    const iframe = iframeRef.current;
+    try {
+      const document = iframe?.contentDocument;
+      return iframe?.isConnected && document?.defaultView ? { iframe, document } : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function focusGame(target: GameFocusTarget | null): void {
+    if (!target || iframeRef.current !== target.iframe || !target.iframe.isConnected) return;
+    try {
+      if (target.iframe.contentDocument !== target.document) return;
+      target.iframe.focus();
+      target.document.defaultView?.focus();
+    } catch {
+      // A navigation may have replaced the same-origin focus recipient.
+    }
   }
 
   function renderControl(control: Control, className: string): React.ReactElement {
@@ -85,7 +106,7 @@ export function GameControls({ iframeRef }: GameControlsProps): React.ReactEleme
         aria-expanded={visible}
         aria-controls="arcade-game-controls"
         tooltip={visible ? "Hide game controls" : "Show game controls"}
-        onPointerDown={() => { activationKeyRef.current = null; }}
+        onPointerDown={() => { activationKeyRef.current = null; pendingFocusRef.current = null; }}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") activationKeyRef.current = event.key;
         }}
@@ -93,21 +114,22 @@ export function GameControls({ iframeRef }: GameControlsProps): React.ReactEleme
           if (event.key !== activationKeyRef.current) return;
           activationKeyRef.current = null;
           if (pendingFocusRef.current) {
-            pendingFocusRef.current = false;
-            focusGame();
+            const target = pendingFocusRef.current;
+            pendingFocusRef.current = null;
+            focusGame(target);
           }
         }}
         onBlur={() => {
           activationKeyRef.current = null;
-          pendingFocusRef.current = false;
+          pendingFocusRef.current = null;
         }}
         onClick={() => {
           toggle();
-          if (!visible) return;
           // Keep a keyboard activation's keyup in the host document. Pointer
           // and assistive clicks can return native game focus immediately.
-          if (activationKeyRef.current) pendingFocusRef.current = true;
-          else focusGame();
+          const target = captureGameFocus();
+          if (activationKeyRef.current) pendingFocusRef.current = target;
+          else focusGame(target);
         }}
       >
         {visible ? "Hide controls" : "Show controls"}

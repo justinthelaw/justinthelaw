@@ -1,0 +1,406 @@
+import { SINISTER_WORK_REVISION } from '../state/sinister-work-revision.js';
+import { sinisterTurnProblem } from '../state/sinister-turn-proof.js';
+import { prepareSinisterMove, advanceSinisterImpact, finishSinisterMove, saveSinisterCheckpoint, sealSinisterTerminalFrame, sinisterSchedulerFields } from '../gameplay/sinister-turn-work.js';
+import { hasSpeedOpportunity } from '../rules/speed.js';
+import { continuingSession } from '../state/continuation.js';
+import { collectTilePresentation } from './presentation-events.js';
+import { TurnFault, resultShape, hookResult as priorHookResult, checkPrompt as priorCheckPrompt, sessionOf, actorAt, slotAt, leaderRef, activeOrder, refreshSpeed, requireTurnHooks } from './support.js';
+/** @typedef {import('./types.js').MutationContext} Context */
+/** @typedef {import('./types.js').TurnHooks & {moveComplete(context:Context,actor:Ref,action:Action):import('./types.js').HookResult}} Hooks */
+/** @typedef {import('../gameplay/support.js').Catalogs} Catalogs */
+/** @typedef {import('./types.js').ActorRef} Ref */
+/** @typedef {import('./types.js').Action} Action */
+/** @typedef {import('../../contracts/campaign.js').ExpeditionState} Session */
+/** @typedef {import('../../contracts/campaign.js').TurnContinuation} Frame */
+
+/** A yield is an actual saved recipient cursor, never a pending UI prompt.
+ * The direct complete raw factory independently proves its origin/PC/order.
+ * @param {string} kind @param {Context} context */
+function checkPrompt(kind,context) {
+  if (kind === 'yield') {
+    const s = context.state.session;
+    if (context.state.contentRevision !== SINISTER_WORK_REVISION || !(s?.learningWork && s.scheduler.kind === 'learning-continuing' || s?.sinisterTurn?.terminal && s.scheduler.kind === 'sinister-continuing') || s.learning || context.state.pendingResult || context.state.earlyWork?.clientPrompt) throw new TurnFault('content-blocked','escort-learning-yield-owner');
+    return;
+  }
+  priorCheckPrompt(kind,context);
+}
+/** @param {import('./types.js').HookResult} result @param {Context} context @param {boolean} [existingPrompt] */
+function hookResult(result,context,existingPrompt = false) {
+  if (result.kind === 'yield') { resultShape(result); checkPrompt(result.kind,context); return; }
+  priorHookResult(result,context,existingPrompt);
+}
+
+export const TURN_BUDGET = Object.freeze({ steps: 16384, effects: 4096 });
+
+/** Create only scheduler engineering state. The caller supplies sourced policy and
+ * native slot capacity; actor initializers must supply actual species/status facts.
+ * @param {import('../../contracts/campaign.js').PolicyId} schedulePolicyId
+ * @param {(import('../../contracts.js').ActorId|null)[]} teamSlots
+ * @param {(import('../../contracts.js').ActorId|null)[]} wildSlots
+ * @returns {import('../../contracts/campaign.js').SchedulerState}
+ */
+export function createScheduler(schedulePolicyId, teamSlots, wildSlots) {
+  if (teamSlots.length !== 4 || wildSlots.length < 1 || wildSlots.length > 128) throw new RangeError('Invalid native slot capacities.');
+  return { kind: 'ready', roundNumber: 0, schedulePolicyId, teamSlots: [...teamSlots], wildSlots: [...wildSlots], continuation: {
+    phase: 0, pass: 'prephase', step: 0, slotIndex: 0, followerRound: 0, followerOrder: [], followerIndex: 0,
+    active: null, stage: 'select', beginningRan: false, skipBeginning: false, replanCount: 0, action: null,
+    activeEffect: null, actionStop: 'none', leaderChanged: false, terminal: 'none', petrifiedSwapPending: false, special: null, flushing: null,
+  } };
+}
+/** @param {Frame} frame @param {import('../../contracts/campaign.js').TurnPass} pass */
+function nextPass(frame, pass) {
+  frame.pass = pass; frame.step = 0; frame.slotIndex = 0; frame.active = null; frame.stage = 'select';
+  frame.action = null; frame.activeEffect = null; frame.beginningRan = false;
+}
+/** @param {Frame} frame @param {Ref} ref @param {boolean} repeated */
+function select(frame, ref, repeated) {
+  frame.active = ref; frame.stage = repeated ? 'decision' : 'begin'; frame.step = 0;
+  frame.beginningRan = repeated; frame.replanCount = 0; frame.action = null; frame.activeEffect = null;
+  frame.actionStop = 'none'; frame.leaderChanged = false;
+}
+/** @param {Context} context @param {Hooks} hooks @param {Session} session @param {Ref} ref */
+function eligible(context, hooks, session, ref) {
+  const actor = actorAt(session, ref);
+  if (!actor) return false;
+  if (ref.actorId === session.leaderActorId) return !actor.speed.attackLocked && hasSpeedOpportunity(refreshSpeed(context, hooks, ref, false), session.scheduler.continuation.phase);
+  if (actor.speed.petrifiedSwap) return false;
+  // R dungeon_engine.c:344–354: wild consumes the skip before querying speed.
+  if (ref.side === 'wild' && actor.speed.swapSkip) { actor.speed.swapSkip = false; return false; }
+  if (actor.speed.attackLocked || !hasSpeedOpportunity(refreshSpeed(context, hooks, ref, false), session.scheduler.continuation.phase)) return false;
+  // R :230–241: team consumes it only after admission by speed/lock/0x8000.
+  if (actor.speed.swapSkip) { actor.speed.swapSkip = false; return false; }
+  return true;
+}
+/** @param {Session} session */
+function startFlush(session) {
+  const frame = session.scheduler.continuation;
+  const refs = activeOrder(session).filter(ref => actorAt(session, ref)?.speed.movementPending);
+  const leader = refs.findIndex(ref => ref.actorId === session.leaderActorId);
+  if (leader > 0) { const ref = refs.splice(leader, 1)[0]; if (ref) refs.unshift(ref); }
+  frame.flushing = { order: refs, index: 0, step: 0 };
+}
+/** One step at a time: a prompt resumes after the completed hook, never replays it.
+ * Returns true only after one real recipient's entire work and index advance.
+ * @param {Context} context @param {Hooks} hooks @param {Session} session @param {Catalogs} catalogs @returns {boolean} */
+function flushStep(context, hooks, session, catalogs) {
+  const frame = session.scheduler.continuation;
+  const flush = frame.flushing;
+  if (!flush) return false;
+  const ref = flush.order[flush.index];
+  if (!ref) { frame.flushing = null; return false; }
+  const actor = actorAt(session, ref);
+  if (!actor) { const completed = flush.step > 0; flush.index++; flush.step = 0; return completed; }
+  const step = flush.step++;
+  switch (step) {
+    case 0: actor.speed.movementPending = false; hookResult(collectTilePresentation(context, scoped => hooks.tile(scoped, ref)), context); break;
+    case 1: hookResult(hooks.forcedLoss(context), context); break;
+    case 2:
+      if (actor.speed.endEffectsPending) { actor.speed.endEffectsPending = false; hookResult(hooks.end(context, ref), context); if (!session.sinisterTurn?.terminal && session.scheduler.kind === 'ready') saveSinisterCheckpoint(context,'flush-end',ref,catalogs); }
+      break;
+    case 3: hookResult(hooks.experience(context, ref), context); break;
+    case 4: hookResult(hooks.room(context, ref), context); break;
+    default: flush.index++; flush.step = 0; return true;
+  }
+  return false;
+}
+/** @param {Session} session @returns {Ref[]} */
+function followers(session) {
+  const leader = actorAt(session, leaderRef(session));
+  if (leader?.placement.kind !== 'map') return [];
+  const origin = leader.placement.position;
+  /** @type {Ref[]} */ const order = [];
+  for (let bucket = 0; bucket < 3; bucket++) {
+    for (let slot = 3; slot >= 0; slot--) {
+      const ref = slotAt(session, 'team', slot); const actor = actorAt(session, ref);
+      if (!ref || !actor?.speed.deferred || actor.actorId === session.leaderActorId || actor.placement.kind !== 'map') continue;
+      const point = actor.placement.position;
+      if (Math.min(2, Math.max(Math.abs(point.x - origin.x), Math.abs(point.z - origin.z))) === bucket) order.push(ref);
+    }
+  }
+  return order;
+}
+/** @param {Context} context @param {Session} session @param {import('./types.js').EffectResult} result */
+function applyEffectResult(context, session, result) {
+  resultShape(result);
+  const frame = session.scheduler.continuation;
+  const actor = actorAt(session, frame.active);
+  if (result.kind === 'yield' && 'completed' in result && session.sinisterTurn?.terminal) {
+    if (context.state.session !== session || frame.stage !== 'decision' || frame.step !== 0 || !frame.beginningRan || frame.active?.actorId !== session.leaderActorId || !['exit','give-up'].includes(frame.action?.kind ?? '') || result.movement !== false || result.leaderChanged !== false || result.stop !== 'none') throw new TurnFault('content-blocked','sinister-terminal-action');
+    frame.activeEffect = null; frame.actionStop = result.stop; frame.leaderChanged = false;
+    if (actor) actor.speed.movementPending = false;
+    frame.stage = 'after'; frame.step = 0; sealSinisterTerminalFrame(context); return;
+  }
+  if ((result.kind === 'prompt' || result.kind === 'yield') && 'completed' in result) throw new TurnFault('content-blocked','sinister-terminal-capture-required');
+
+  checkPrompt(result.kind, context);
+  if (result.kind === 'continue' || result.kind === 'prompt') {
+    if (!('cursor' in result) || !result.cursor || typeof result.cursor !== 'object') throw new TurnFault('content-blocked', 'effect-cursor');
+    frame.activeEffect = result.cursor; frame.stage = 'effect'; return;
+  }
+  if (result.kind !== 'done' || typeof result.movement !== 'boolean' || typeof result.leaderChanged !== 'boolean' || !['none', 'recruited', 'effect-stop'].includes(result.stop)) throw new TurnFault('content-blocked', 'effect-result');
+  frame.activeEffect = null; frame.actionStop = result.stop; frame.leaderChanged = result.leaderChanged;
+  if (actor) actor.speed.movementPending = result.movement;
+  frame.stage = 'after'; frame.step = 0;
+}
+/** Resolve forced loss after every hit/reaction step, including a step that
+ * opened a choice. No other actor or link can overtake this boundary.
+ * @param {Context} context @param {Hooks} hooks @param {Session} session
+ * @param {import('./types.js').EffectResult} result */
+function settleEffect(context, hooks, session, result) {
+  applyEffectResult(context, session, result);
+  if (context.state.session === session && session.scheduler.continuation.terminal === 'none') {
+    const paused = session.scheduler.kind !== 'ready';
+    hookResult(hooks.forcedLoss(context), context, paused);
+  }
+}
+/** @param {Context} context @param {Hooks} hooks @param {Session} session @param {Action} action @param {Catalogs} catalogs */
+function beginAction(context, hooks, session, action, catalogs) {
+  const frame = session.scheduler.continuation; const ref = frame.active; const actor = actorAt(session, ref);
+  if (!ref || !actor || ('actorId' in action && action.actorId !== ref.actorId) || action.kind === 'face') throw new TurnFault('rejected', 'invalid-command');
+  frame.action = action; frame.actionStop = 'none'; frame.leaderChanged = false;
+  actor.speed.endEffectsPending = true;
+  if (action.kind !== 'move' && action.kind !== 'wait') actor.speed.attackLocked = true;
+  const mapId = session.floor.mapId;
+  if (action.kind === 'attack' || action.kind === 'struggle' || action.kind === 'move-use') {
+    if (prepareSinisterMove(context,ref,action,catalogs)) return;
+    // Failed use owes source caller completion, but no impact or paid sequence.
+    hookResult(hooks.moveComplete(context,ref,action),context);
+    settleEffect(context,hooks,session,{ kind: 'done',movement: false,leaderChanged: false,stop: 'none' }); return;
+  }
+  const result = hooks.startAction(context, ref, action);
+  // A terminal action may atomically install a new floor and fresh scheduler.
+  // Never write the old action's after-stage into that new continuation.
+  if (context.state.session !== session || session.floor.mapId !== mapId) {
+    resultShape(result);
+    if (result.kind !== 'done' || result.movement || result.leaderChanged || result.stop !== 'none') throw new TurnFault('content-blocked', 'terminal-action-result');
+    return;
+  }
+  settleEffect(context, hooks, session, result);
+}
+
+/** Runs only until the first completed opportunity, flush recipient or phase,
+ * or an earlier input/prompt/terminal boundary. Every call works on Adventure's private draft.
+ * Missing concrete hooks block before any mutation. No animation or clock enters.
+ * @param {Context} context @param {Hooks} hooks @param {Catalogs} catalogs @param {Action|null} [action]
+ * @returns {import('./types.js').TurnOutcome}
+ */
+export function advanceSinisterTurns(context, hooks, catalogs, action = null) {
+  requireTurnHooks(hooks);
+  if (typeof hooks.moveComplete !== 'function') throw new TurnFault('content-blocked','sinister-move-completion-hook');
+  const session = sessionOf(context); let scheduler = session.scheduler; const frame = scheduler.continuation;
+  const mapId = session.floor.mapId;
+  if (context.state.contentRevision !== SINISTER_WORK_REVISION || !session.sinisterTurn) throw new TurnFault('content-blocked','sinister-engine-owner');
+  if (scheduler.kind === 'sinister-continuing') {
+    if (action || sinisterTurnProblem(context.state,catalogs)) throw new TurnFault('content-blocked','sinister-raw-checkpoint');
+    const work = session.sinisterTurn,checkpoint = work.checkpoint;
+    if (!checkpoint || checkpoint.kind === 'terminal') throw new TurnFault('content-blocked','sinister-terminal-needs-return-owner');
+    work.checkpoint = null; scheduler = session.scheduler = { ...sinisterSchedulerFields(scheduler),kind: 'ready' };
+    if (checkpoint.kind === 'prepared-move' || checkpoint.kind === 'impact') {
+      advanceSinisterImpact(context,catalogs);
+      // Every real impact resolves immediate loss/scene arbitration before
+      // another hit. Ordinary EXP remains queued until whole-move/end work.
+      hookResult(hooks.forcedLoss(context),context);
+      if (context.state.session !== session || session.floor.mapId !== mapId) throw new TurnFault('content-blocked','sinister-inline-terminal-copyback');
+      const move = work.move; if (!move) throw new TurnFault('content-blocked','sinister-impact-receipt');
+      if (move.disposition !== 'active') {
+        finishSinisterMove(context); hookResult(hooks.moveComplete(context,move.actor,move.action),context,session.scheduler.kind !== 'ready');
+      }
+      if (work.terminal) saveSinisterCheckpoint(context,'terminal',null,catalogs);
+      else saveSinisterCheckpoint(context,move.disposition === 'active' ? 'impact' : 'move-complete',move.actor,catalogs);
+      return { kind: 'yielded',consumedTurn: false };
+    }
+    if (checkpoint.kind === 'move-complete') work.move = null;
+  }
+  if (scheduler.kind === 'continuing') {
+    if (action || !continuingSession(session, context.state)) throw new TurnFault('rejected', 'unavailable');
+    // The same frame resumes. This transient ready tag lets existing synchronous
+    // hooks keep their real-prompt contract; it is never published mid-unit.
+    scheduler = session.scheduler = { ...scheduler, kind: 'ready' };
+  }
+  if (scheduler.kind !== 'ready' || frame.terminal !== 'none') throw new TurnFault('rejected', 'unavailable');
+  let consumedTurn = false; let effects = 0;
+  let unitCompleted = false, restoringLeader = false;
+  if (action) {
+    if (frame.pass !== 'leader' || frame.stage !== 'decision' || frame.active?.actorId !== session.leaderActorId) throw new TurnFault('rejected', 'unavailable');
+    beginAction(context, hooks, session, action, catalogs); consumedTurn = true; effects++;
+  }
+  for (let step = 0; step < TURN_BUDGET.steps; step++) {
+    if (effects > TURN_BUDGET.effects) throw new TurnFault('content-blocked', 'effect-budget');
+    if (context.state.session !== session || session.floor.mapId !== mapId) return { kind: 'terminal', consumedTurn };
+    scheduler = session.scheduler;
+    if (scheduler.continuation !== frame) throw new TurnFault('content-blocked', 'turn-continuation-authority');
+    if (session.scheduler.kind === 'sinister-continuing') {
+      if (!session.sinisterTurn.checkpoint && session.sinisterTurn.terminal) saveSinisterCheckpoint(context,'terminal',null,catalogs);
+      if (sinisterTurnProblem(context.state,catalogs,context.state.revision+1)) throw new TurnFault('content-blocked','sinister-published-checkpoint');
+      return { kind: 'yielded',consumedTurn };
+    }
+    if (frame.terminal !== 'none') return { kind: 'terminal', consumedTurn };
+    if (session.scheduler.kind === 'learning-continuing' && session.learningWork) return { kind: 'yielded',consumedTurn };
+    if (session.scheduler.kind !== 'ready') return { kind: 'prompt', consumedTurn };
+    if (context.state.pendingResult || context.state.pendingScene) throw new TurnFault('content-blocked', 'unowned-turn-prompt');
+    if (unitCompleted) {
+      session.scheduler = { ...scheduler, kind: 'continuing' };
+      if (!continuingSession(session, context.state)) throw new TurnFault('content-blocked', 'turn-checkpoint');
+      return { kind: 'yielded', consumedTurn };
+    }
+    if (frame.flushing) { unitCompleted = flushStep(context, hooks, session, catalogs); continue; }
+    if (frame.active) {
+      const ref = frame.active; const actor = actorAt(session, ref);
+      if (!actor) { frame.stage = 'refresh'; frame.activeEffect = null; }
+      switch (frame.stage) {
+        case 'begin': {
+          if (!actor) break;
+          actor.speed.speedRaisedThisAction = false;
+          frame.stage = 'experience'; frame.beginningRan = true;
+          if (frame.skipBeginning) { frame.skipBeginning = false; break; }
+          refreshSpeed(context, hooks, ref, true);
+          const result = hooks.begin(context, ref); resultShape(result); checkPrompt(result.kind, context);
+          if ((result.kind !== 'continue' && result.kind !== 'prompt') || typeof result.canAct !== 'boolean') throw new TurnFault('content-blocked', 'begin-result');
+          if (!result.canAct) { actor.speed.endEffectsPending = true; frame.stage = 'after'; frame.step = 0; consumedTurn = true; }
+          break;
+        }
+        case 'experience': frame.stage = 'decision'; hookResult(hooks.experience(context, ref), context); break;
+        case 'decision': {
+          if (!actor) break;
+          if (frame.pass === 'leader' && !frame.special) return { kind: 'input', consumedTurn };
+          const decision = hooks.ai(context, ref, actor.speed.replan); resultShape(decision);
+          if (decision.kind === 'action') {
+            actor.speed.deferred = false; beginAction(context, hooks, session, decision.action, catalogs); effects++;
+          } else if (decision.kind === 'replan' && frame.replanCount < 2) {
+            actor.speed.replan = true; frame.replanCount++;
+          } else if (decision.kind === 'defer' || decision.kind === 'replan') {
+            actor.speed.endEffectsPending = true;
+            actor.speed.deferred = ref.side === 'team';
+            frame.stage = ref.side === 'team' ? 'refresh' : 'after'; frame.step = 0;
+          } else throw new TurnFault('content-blocked', 'ai-result');
+          break;
+        }
+        case 'effect': {
+          const cursor = frame.activeEffect;
+          if (!actor || !cursor || frame.actionStop !== 'none') { frame.activeEffect = null; frame.stage = 'after'; frame.step = 0; break; }
+          const allowed = hooks.effectAllowed(context, ref, cursor);
+          if (typeof allowed !== 'boolean') throw new TurnFault('content-blocked', 'effect-predicate');
+          if (!allowed) { frame.activeEffect = null; frame.actionStop = 'effect-stop'; frame.stage = 'after'; frame.step = 0; break; }
+          if (++effects > TURN_BUDGET.effects) throw new TurnFault('content-blocked', 'effect-budget');
+          const target = cursor.targetOrder[cursor.targetIndex];
+          const reaction = cursor.reactionStack.at(-1);
+          const invalid = reaction && !actorAt(session, reaction.source) ? 'reaction-source' : reaction?.target && !actorAt(session, reaction.target) ? 'reaction-target' : target && !actorAt(session, target) ? 'target' : null;
+          settleEffect(context, hooks, session, invalid ? hooks.invalidReference(context, ref, cursor, invalid) : hooks.effect(context, ref, cursor));
+          break;
+        }
+        case 'after': {
+          const after = frame.step++;
+          if (after === 0) hookResult(hooks.forcedLoss(context), context);
+          else if (after === 1 && frame.pass === 'leader' && actor?.speed.petrifiedSwap) { actor.speed.petrifiedSwap = false; actor.speed.swapSkip = true; }
+          else if (after === 2 && actor?.speed.endEffectsPending && !actor.speed.movementPending && !actor.speed.deferred) { actor.speed.endEffectsPending = false; hookResult(hooks.end(context, ref), context); if (!session.sinisterTurn.terminal && session.scheduler.kind === 'ready') saveSinisterCheckpoint(context,'opportunity-end',ref,catalogs); }
+          else if (after === 3 && !actor?.speed.movementPending) hookResult(hooks.experience(context, ref), context);
+          else if (after > 3) {
+            frame.stage = 'refresh'; frame.step = 0;
+            if (frame.pass === 'leader' && !frame.special && frame.petrifiedSwapPending) {
+              frame.petrifiedSwapPending = false;
+              frame.special = { leader: ref, leaderChanged: frame.leaderChanged, index: 0 };
+              frame.active = null; frame.stage = 'select';
+              // Leader after-work is complete before special traversal. Its
+              // action/beginning fields are dead: restoration visits refresh
+              // directly and needs only special.leader/leaderChanged + speed.
+              frame.action = null; frame.activeEffect = null; frame.beginningRan = false;
+              unitCompleted = true;
+            }
+          }
+          break;
+        }
+        case 'refresh': {
+          const raised = actor?.speed.speedRaisedThisAction;
+          if (actor) actor.speed.replan = false;
+          frame.active = null; frame.stage = 'select'; frame.activeEffect = null; frame.action = null; frame.beginningRan = false;
+          if (frame.special) { frame.leaderChanged = false; unitCompleted = true; break; }
+          if (frame.pass === 'leader') {
+            if (frame.leaderChanged || session.leaderActorId !== ref.actorId) {
+              frame.skipBeginning = true; frame.step = 1;
+            } else if (raised) { frame.phase = 0; frame.step = 1; }
+            else { frame.step = 2; }
+          }
+          // Restoring the leader after special traversal does no action/upkeep;
+          // do not count that administrative refresh as another opportunity.
+          unitCompleted = !restoringLeader; restoringLeader = false;
+          break;
+        }
+        default: throw new TurnFault('content-blocked', 'opportunity-cursor');
+      }
+      continue;
+    }
+    if (frame.special) {
+      const special = frame.special; const index = special.index++;
+      const finished = index >= scheduler.teamSlots.length + scheduler.wildSlots.length;
+      const ref = index < scheduler.teamSlots.length ? slotAt(session, 'team', index) : slotAt(session, 'wild', index - scheduler.teamSlots.length);
+      if (finished) {
+        frame.active = special.leader; frame.leaderChanged = special.leaderChanged;
+        frame.special = null; frame.stage = 'refresh';
+        restoringLeader = true;
+      } else if (ref && actorAt(session, ref)?.speed.petrifiedSwap) select(frame, ref, false);
+      continue;
+    }
+    switch (frame.pass) {
+      case 'prephase': {
+        if (!hasSpeedOpportunity(1, frame.phase)) { nextPass(frame, 'leader'); break; }
+        const phaseStep = frame.step++;
+        if (phaseStep === 0) hookResult(hooks.spawn(context), context);
+        else if (phaseStep === 1) hookResult(hooks.refreshSides(context), context);
+        else if (phaseStep === 2) { for (const ref of activeOrder(session)) { const actor = actorAt(session, ref); if (actor) actor.speed.attackLocked = false; } }
+        else if (phaseStep === 3) hookResult(hooks.forcedLoss(context), context);
+        else nextPass(frame, 'leader');
+        break;
+      }
+      case 'leader': {
+        const ref = leaderRef(session);
+        if (frame.step === 2) { frame.step = 3; hookResult(hooks.wind(context), context); break; }
+        if (frame.step === 3) { nextPass(frame, 'team'); break; }
+        if (!ref || (frame.step === 0 && !eligible(context, hooks, session, ref))) { nextPass(frame, 'team'); break; }
+        select(frame, ref, false); startFlush(session); break;
+      }
+      case 'team': case 'wild': {
+        const side = frame.pass; const slots = side === 'team' ? scheduler.teamSlots : scheduler.wildSlots;
+        if (frame.slotIndex >= slots.length) {
+          nextPass(frame, side === 'team' ? 'followers' : 'boundary');
+          frame.followerRound = 0; frame.followerOrder = []; frame.followerIndex = 0; break;
+        }
+        const ref = slotAt(session, side, frame.slotIndex++);
+        if (!ref || ref.actorId === session.leaderActorId || !eligible(context, hooks, session, ref)) break;
+        select(frame, ref, false); break;
+      }
+      case 'followers': {
+        if (frame.followerRound >= 3) { nextPass(frame, 'follower-end'); break; }
+        if (!frame.followerOrder.length && frame.followerIndex === 0) frame.followerOrder = followers(session);
+        const ref = frame.followerOrder[frame.followerIndex++];
+        if (!ref) { frame.followerRound++; frame.followerOrder = []; frame.followerIndex = 0; break; }
+        const actor = actorAt(session, ref);
+        if (!actor?.speed.deferred || ref.actorId === session.leaderActorId) break;
+        actor.speed.replan = true; actor.speed.deferred = false; select(frame, ref, true); break;
+      }
+      case 'follower-end': {
+        if (frame.slotIndex >= scheduler.teamSlots.length) { nextPass(frame, 'wild'); break; }
+        const ref = slotAt(session, 'team', frame.slotIndex++); const actor = actorAt(session, ref);
+        if (ref && actor?.speed.deferred) {
+          actor.speed.deferred = false;
+          if (actor.speed.endEffectsPending) { actor.speed.endEffectsPending = false; hookResult(hooks.end(context, ref), context); if (!session.sinisterTurn.terminal && session.scheduler.kind === 'ready') saveSinisterCheckpoint(context,'follower-end',ref,catalogs); }
+        }
+        break;
+      }
+      case 'boundary': {
+        if (!hasSpeedOpportunity(1, (frame.phase + 1) % 24)) { nextPass(frame, 'phase-end'); break; }
+        const boundaryStep = frame.step++;
+        if (boundaryStep === 0) startFlush(session);
+        else if (boundaryStep === 1) { hookResult(hooks.fieldUpkeep(context), context); hookResult(hooks.experience(context, null), context); }
+        else if (boundaryStep === 2) hookResult(hooks.forcedLoss(context), context);
+        else nextPass(frame, 'phase-end');
+        break;
+      }
+      case 'phase-end':
+        frame.phase = (frame.phase + 1) % 24;
+        if (frame.phase === 0) scheduler.roundNumber++;
+        nextPass(frame, 'prephase'); unitCompleted = true; break;
+      default: throw new TurnFault('content-blocked', 'turn-pass');
+    }
+  }
+  throw new TurnFault('content-blocked', 'turn-step-budget');
+}

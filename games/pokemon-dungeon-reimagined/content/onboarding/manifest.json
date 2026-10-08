@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "original-blue-onboarding",
+  "kind": "manifest",
+  "resources": [
+    {
+      "file": "schema.json",
+      "bytes": 74296,
+      "sha256": "70e28bd22ffac1346894e599dbbd026aaa6151f938a41cdfedc89635669ba305"
+    },
+    {
+      "file": "questions.json",
+      "bytes": 81084,
+      "sha256": "c03d98359b143b62a766f2b26a4384fc49d0adfe6525e4aaee0e960a4498fa3d"
+    },
+    {
+      "file": "algorithm.json",
+      "bytes": 9231,
+      "sha256": "5ee18afc6bb7c48f9579a8a1f1178fb5e7e2bbec653ca908706d9212dba6719a"
+    },
+    {
+      "file": "results.json",
+      "bytes": 5151,
+      "sha256": "4643ebc8a10ecdbb3fadcd7f145792f4bac330b11eb7ffc55e6bc3409212add1"
+    },
+    {
+      "file": "partners.json",
+      "bytes": 33989,
+      "sha256": "6e5463e2710e4f5b4719146347318ebc7e7926d6a4e4122466868c9d6a10e8b4"
+    },
+    {
+      "file": "profiles.json",
+      "bytes": 39328,
+      "sha256": "11aa4aecee3b55d8c49a1eeebca0cae7caaadfcb3219089854c8b8d9eea5d168"
+    },
+    {
+      "file": "initialization.json",
+      "bytes": 6162,
+      "sha256": "d6cd6be1bb4b233f2f2b5ad176183d604a25f8e98fbac6a9ceca7d11687d1bd3"
+    },
+    {
+      "file": "sources.json",
+      "bytes": 17924,
+      "sha256": "dbb2786b7f8aadeaad833d2793457eb850cf0b33ee2eb7d2d8491acfba73a0ef"
+    }
+  ]
+}
