@@ -6,13 +6,17 @@ continuation prerequisite below. Warp needs the same sourced interruption owner.
 D02b activation, Item Master and every other remaining item dependency stay open.
 Independent review and human gameplay/visual acceptance are separate gates.
 
-Activation is blocked on bounded turn continuation: the exact existing save
+Activation awaits independent review of implemented [turn continuation](TURN-CONTINUATION.md): the exact existing save
 boundary admits128 wild slots and slow leaders. A30-tick self-Stun can exceed
-the current16,384 scheduler steps and4096 emitted-event limits before input
+the old16,384 scheduler steps and4096 emitted-event limits before input
 returns. Later interruption/status chains may extend this further. Increasing
-limits to millions of synchronous steps/events is not the accepted fix; a
-separate cooperative continuation owner must preserve timing, state and saves.
-This implementation does not yet establish complete admitted-state playability.
+limits to millions of synchronous steps/events is not the accepted fix; the
+v19 cooperative continuation owner now preserves native timing and exact saved
+work at finite completed units, with scoped counted tile notices and explicit
+3800/2300/1950 atomic event allowances. Public activation remains pending its
+independent review. Human latency/device/save-interruption acceptance remains
+open separately for full release.
+Static implementation does not establish complete admitted-state playability.
 
 ## Application and lifetime
 

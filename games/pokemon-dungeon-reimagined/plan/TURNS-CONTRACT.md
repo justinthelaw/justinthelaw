@@ -14,7 +14,7 @@ are in `src/contracts/campaign.js` and the matching state schema/graph checks.
 | `adventure.getEpoch()` | Fresh instance-local symbol; neither serialized nor interchangeable with the persistence application epoch |
 | `adventure.dispatch(command)` | Synchronous discriminated DispatchResult with ordered frozen events |
 | `createScheduler(schedulePolicyId, teamSlots, wildSlots)` from `src/domain/turns.js` | Initial mutable engineering record for phase 0; concrete actor/policy facts still required |
-| `advanceTurns(context, hooks, action = null)` | Internal transaction-draft operation; returns `{kind:'input' \| 'prompt' \| 'terminal',consumedTurn}` or throws a bounded TurnFault |
+| `advanceTurns(context, hooks, action = null)` | Internal transaction-draft operation; returns `{kind:'input' \| 'prompt' \| 'terminal' \| 'yielded',consumedTurn}` or throws a bounded TurnFault |
 | `installSpeedChange(context, actorRef, change)` | Install a reviewed speed-core TimerChange, preserving earlier effective-raise flags |
 | `TURN_BUDGET` | 16,384 scheduler steps and 4,096 effect steps per advance call |
 
@@ -43,7 +43,7 @@ guards still apply. Generic turn-hook failure fallbacks are a separate boundary.
 
 | Result / handler type | Meaning |
 | --- | --- |
-| `DispatchResult` | `accepted` with changed/consumedTurn/revision/events, or safe `rejected` / `content-blocked` with empty events |
+| `DispatchResult` | `accepted` with changed/consumedTurn/turnOutcome/revision/events; turnOutcome is input/prompt/terminal/yielded or null without scheduling; safe `rejected` / `content-blocked` has empty events |
 | `CommandHandler.plan(snapshot,intent)` | `presentation`, `mutation`, `action` with ResolvedAction, or explicit failure |
 | `CommandHandler.apply(context,intent)` | Required for mutation plans: `changed` with resumeDungeon, `unchanged`, or failure |
 | `MutationContext` | Private state plus bounded `emit(EventData)`; handlers may not replace state or control revision/allocation authority |
@@ -85,8 +85,9 @@ requirements; the scheduler does not implement their catalogs.
 | Stable identity | ActorSlotRef is side/slot/monotonic ActorId; empty native slots remain meaningful; later-slot recruits/spawns can participate in the current pass |
 | Movement/end effects | Logical movement precedes deferred tile/loss/end/experience/room handling; leader is flushed first; explicit pending flags prevent duplicate end passes |
 | Prompts | Hook establishes canonical pendingScene/pendingResult and matching paused scheduler; persisted next cursor resumes completed work without replay |
+| Automatic checkpoints | Exact v19 `continuing` resumes only the first completed opportunity, flush recipient or otherwise-empty phase; genuine outcomes win before yield. Player mutations cannot interleave. See TURN-CONTINUATION.md for the complete PC whitelist and ownership proofs. |
 | Structural limits | Four team slots, 1-128 wild slots; five speed counters per sign, 0-127; cached stage 0-4; effect hitCount 1-256, target list at most 132, linked moves at most four, reactions at most 32 |
-| Dispatch limits | At most 4,096 emitted events; event/revision/allocation exhaustion rejects; finite scheduler/effect budget failure discards the draft |
+| Dispatch limits | At most 4,096 published events after the narrowly scoped tile collector; conservative first-unit allowances are3800/2300/1950. Event/revision/allocation exhaustion rejects; finite scheduler/effect budget failure discards the draft. |
 
 Full CampaignContent is mandatory: all sixteen semantic policies, identity joins,
 accepted content revision and initialCampaign lookup. Scheduler/actor/condition/
@@ -130,3 +131,19 @@ The engine detects terminal session/floor replacement before applying the prior
 action's after-stage, preserving the newly materialized floor's scheduler.
 This consumer does not close application wiring, manual evidence or full-campaign
 gates described above.
+
+## V19 cooperative continuation consumer — 2026-10-08
+
+A yield commits the exact next native work rather than requesting input.
+`consumedTurn` remains per-call action/incapacitated-beginning consumption;
+automatic traversal does not manufacture a player turn. `continuing` semantic
+admission is owned separately from exact v18 ready/prompt/terminal policy.
+`leaderInputReady` supplies simulation authority to commands/UI;
+`automaticTurnReady` admits continuing or the separate fresh-floor initializer.
+
+The tile-scoped presentation collector preserves all canonical mutation calls
+and ordered unknown notices while deliberately replacing consecutive Wonder
+Tile/pickup notices with exact counted summaries. This is a transient API change,
+not saved audit history. Every future effect/entry/propagation/tile owner must
+revisit the full event-burst proof in [TURN-CONTINUATION.md](TURN-CONTINUATION.md).
+No hard per-frame millisecond deadline or runtime performance evidence is claimed.

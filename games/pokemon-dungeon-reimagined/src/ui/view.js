@@ -24,6 +24,7 @@ export function createView(root) {
   hud.append(objective, stats, toolbar); root.replaceChildren(hud, map, log, notice, panel);
   let panelOpen = false;
   let panelToken = Symbol('closed');
+  let hudToken = Symbol('hud');
   const controlSelector = 'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)';
   function focusPanel() {
     const focus = panel.querySelector(controlSelector);
@@ -45,8 +46,10 @@ export function createView(root) {
   /** @param {string} title @param {string} text @param {Action[]} actions @param {HTMLElement[]} [extra] */
   function show(title, text, actions, extra = []) {
     panelToken = Symbol('panel'); panelOpen = true; panel.hidden = false; hud.inert = true;
+    const token = panelToken;
     const heading = node('h2', title); heading.id = 'panel-heading';
-    const content = node('p', text); const controls = node('div', '', 'choices'); controls.append(...actions.map(button));
+    const content = node('p', text); const controls = node('div', '', 'choices');
+    controls.append(...actions.map(action => button({ ...action, run() { if (panelOpen && panelToken === token) action.run(); } })));
     panel.replaceChildren(heading, content, ...extra, controls);
     focusPanel(); return panelToken;
   }
@@ -64,7 +67,7 @@ export function createView(root) {
     /** @param {string[]} messages */ messages(messages) { history = [...history, ...messages].slice(-5); log.replaceChildren(...history.map(message => node('li', message))); },
     clearMessages() { history = []; log.replaceChildren(); },
     /** @param {string} goal @param {string[]} team @param {Action[]} actions */
-    hud(goal, team, actions) { objective.textContent = goal; stats.replaceChildren(...team.map(text => node('p', text))); toolbar.replaceChildren(...actions.map(button)); hud.hidden = team.length === 0; },
+    hud(goal, team, actions) { const token = hudToken = Symbol('hud'); objective.textContent = goal; stats.replaceChildren(...team.map(text => node('p', text))); toolbar.replaceChildren(...actions.map(action => button({ ...action, run() { if (!panelOpen && hudToken === token) action.run(); } }))); hud.hidden = team.length === 0; },
     /** @param {import('../presentation/types.js').RenderSnapshot|null} view */
     minimap(view) {
       map.hidden = !view; if (!view) return;
@@ -87,6 +90,6 @@ export function createView(root) {
       const delta = direction.dz || direction.dx; controls[(current + delta + controls.length) % controls.length]?.focus();
     },
     confirm() { if (document.activeElement instanceof HTMLButtonElement && panel.contains(document.activeElement)) document.activeElement.click(); },
-    dispose() { document.removeEventListener('focusin', containFocus); root.replaceChildren(); },
+    dispose() { panelOpen = false; panelToken = Symbol('disposed'); hudToken = Symbol('disposed'); document.removeEventListener('focusin', containFocus); root.replaceChildren(); },
   };
 }

@@ -2,6 +2,7 @@ import { requireRelation as check, unique, keyed, checkMoves, checkPp, inBounds,
 import { checkInventory } from './inventory.js';
 import { pointer } from './structure.js';
 import { checkParticipants } from './participants.js';
+import { continuingSession } from './continuation.js';
 
 /** @typedef {import('./relations.js').GraphContext} GraphContext */
 /** @typedef {import('../../contracts/campaign.js').ExpeditionState} ExpeditionState */
@@ -128,7 +129,9 @@ export function checkSession(context, session, suspended, path) {
   if (suspended) check(context, session.status === 'suspended', path, 'Rescue escrow must contain a suspended run.');
   checkScheduler(context, session, path);
   const scheduler = session.scheduler;
-  if (scheduler.kind !== 'ready') {
+  if (scheduler.kind === 'continuing') {
+    check(context, !suspended && continuingSession(session, context.state), path, 'Continuing scheduler is not an exact live work checkpoint.');
+  } else if (scheduler.kind !== 'ready') {
     const frame = scheduler.continuation;
     if (frame.action) actionCheck(context, frame.action, session, path);
     if (frame.activeEffect) {

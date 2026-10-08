@@ -17,7 +17,8 @@ remains false without adding a profile. Item Master remains unimplemented.
 
 The finite thrown surface is Oran, Pecha, Cheri, Rawst, Apple, Big Apple,
 Max Elixir, Reviver/Plain Seed, Sleep/Blast Seed and Gravelerock. The later
-[Stun Seed core](STUN-SEED.md) is staged behind a bounded continuation prerequisite;
+[Stun Seed core](STUN-SEED.md) is staged behind independent review of the
+implemented [v19 continuation prerequisite](TURN-CONTINUATION.md);
 public use/throw availability remains unchanged. Its staged effect uses T01
 recipient/catch/sticky/wake/effect/revival owners. Ginseng self use does not admit
 a thrown effect. Line projectile MOVE_PROJECTILE damage, broader effects,
@@ -48,7 +49,11 @@ represented blocking statuses override search/explicit tile to three forward. Co
 predicate. Only the landing occupant resolves; misses skip the landing origin.
 
 Flight and impact are synchronous/transient with no effect PC or serialized
-payload. At ready input the scheduler clears the prior action. A throw that
+payload. At completed opportunity checkpoints the scheduler clears the prior
+action, retaining exact movement/end and special traversal obligations. Saved
+automatic work cannot admit another throw or other player mutation; the pump
+resumes only the next native work. At ready input the prior action is cleared.
+A throw that
 finishes the Steel boss can pause in the existing departure after-action cursor:
 `activeEffect=null`, consumed item reference remains historical, and facing/tile
 has no removed live actor reference. `session.js` deliberately does not resurrect

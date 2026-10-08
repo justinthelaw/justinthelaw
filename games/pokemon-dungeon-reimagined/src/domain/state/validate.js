@@ -4,6 +4,8 @@ import { recordsEarlyWork } from './early-work.js';
 import { copyPlainData, snapshotPlainData } from './plain.js';
 import { inspectShape, issue } from './structure.js';
 import { SHAPES } from './schema.js';
+import { CONTINUATION_SHAPES } from './continuation-schema.js';
+import { TURN_CONTINUATION_REVISION } from './continuation-revision.js';
 import { recordsSpeciesSeen } from './species-seen.js';
 import { checkGraph } from './graph.js';
 import { contentInterface, checkPolicies, runPolicy } from './policies.js';
@@ -50,7 +52,11 @@ export function validateCampaign(input, content) {
     issue(issues, 'unsupported-version', '/schemaVersion', 'Unsupported campaign schema.'); return failure(issues, requirements);
   }
   const campaignShape = typeof data.contentRevision === 'string' && recordsFieldMoves(data.contentRevision) ? 'CampaignStateWithFieldMoves' : typeof data.contentRevision === 'string' && (data.contentRevision.startsWith('blue-campaign-state-v12-friends-opening:browser-opening-v12-friends:') || data.contentRevision.startsWith('blue-campaign-state-v13-wild-ai-opening:browser-opening-v12-friends:') || data.contentRevision.startsWith('blue-campaign-state-v14-party-moves-opening:browser-opening-v12-friends:') || data.contentRevision.startsWith('blue-campaign-state-v15-damage-status-opening:browser-opening-v12-friends:')) ? 'CampaignStateWithFriends' : typeof data.contentRevision === 'string' && data.contentRevision.startsWith('blue-campaign-state-v11-moves-opening:browser-opening-v11-moves:') ? 'CampaignStateWithMoves' : typeof data.contentRevision === 'string' && recordsSteel(data.contentRevision) ? 'CampaignStateWithSteel' : typeof data.contentRevision === 'string' && recordsEarlyWork(data.contentRevision) ? 'CampaignStateWithWork' : typeof data.contentRevision === 'string' && recordsSpeciesSeen(data.contentRevision) ? 'CampaignStateWithSeen' : 'CampaignState';
-  if (!inspectShape(data, campaignShape, issues)) return failure(issues, requirements);
+  // Select one registry by exact agreement with the trusted factory. Every
+  // recursive preflight and visitor below uses this same registry; old/default
+  // revision admission remains on the byte-frozen predecessor shape table.
+  const shapes = data.contentRevision === TURN_CONTINUATION_REVISION && content.contentRevision === TURN_CONTINUATION_REVISION ? CONTINUATION_SHAPES : SHAPES;
+  if (!inspectShape(data, campaignShape, issues, undefined, '', shapes)) return failure(issues, requirements);
   const state = /** @type {CampaignState} */ (/** @type {unknown} */ (data));
   checkNativeProgress(state.progress.native, issues, '/progress/native');
   if (issues.length) return failure(issues, requirements);
@@ -63,7 +69,7 @@ export function validateCampaign(input, content) {
   const moveOwners = new Map();
   // All references, including immutable history, count toward the global mark.
   inspectShape(data, campaignShape, issues, (name, value, path) => {
-    const shape = SHAPES[name];
+    const shape = shapes[name];
     if (shape?.kind === 'instance' && typeof value === 'string') {
       const number = Number(value.slice(value.lastIndexOf(':') + 1));
       if (number >= state.idSequence.next || state.idSequence.next < 1) issue(issues, 'range', path, 'Identity is at or above the global allocation mark.');
@@ -106,7 +112,7 @@ export function validateCampaign(input, content) {
       const quantity = /** @type {import('../../contracts/campaign.js').Quantity} */ (value);
       if (quantity.denominator <= 0 || gcd(Math.abs(quantity.numerator), quantity.denominator) !== 1) issue(issues, 'range', path, 'Quantity must be a reduced rational with positive denominator.');
     }
-  });
+  }, '', shapes);
   if (state.revision < 0 || state.idSequence.next < 1) issue(issues, 'range', '', 'Invalid canonical revision or allocator.');
   try { validateCampaignStreams(state.random); } catch { issue(issues, 'range', '/random', 'Invalid campaign random streams.'); }
   if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(state.profile.createdAt) || !Number.isFinite(Date.parse(state.profile.createdAt)) || new Date(state.profile.createdAt).toISOString() !== state.profile.createdAt) issue(issues, 'shape', '/profile/createdAt', 'Creation time must be canonical UTC metadata.');
@@ -115,7 +121,7 @@ export function validateCampaign(input, content) {
   // Policies receive frozen inputs; they cannot repair or mutate a rejected save.
   freezeData(state);
   inspectShape(data, campaignShape, issues, (name, value, path) => {
-    const shape = SHAPES[name];
+    const shape = shapes[name];
     if (shape?.kind === 'catalog' && typeof value === 'string') {
       try { if (content.identities.has(shape.name, value) !== true) issue(issues, 'unknown-id', path, 'Identity is absent from the accepted catalog.'); }
       catch { requirements.add(`campaign-identity-lookup:${shape.name}`); }
@@ -133,7 +139,7 @@ export function validateCampaign(input, content) {
       const location = /** @type {{dungeonId:import('../../contracts.js').DungeonId,sectionId:import('../../contracts.js').SectionId}} */ (value);
       runPolicy(() => content.identities.permitsSection(location.dungeonId, location.sectionId), 'identity-section', issues, requirements, path);
     }
-  });
+  }, '', shapes);
   if (issues.length || requirements.size) return failure(issues, requirements);
   checkPolicies(state, content, issues, requirements);
   if (issues.length || requirements.size) return failure(issues, requirements);

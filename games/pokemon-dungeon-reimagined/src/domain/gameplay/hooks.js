@@ -15,6 +15,7 @@ import { tickConditions, periodicStatusDamage, resetStatChanges } from './condit
 import { useDungeonItem, pickup } from './items.js';
 import { applyExperience } from './growth.js';
 import { movementPlan } from './movement.js';
+import { pendingSpecialSwap } from './swap-continuation.js';
 import { canStep, canMeleeAttack } from '../navigation/geometry.js';
 import { findPath } from '../navigation/path.js';
 import { isActuallyInSight, visibleTiles } from '../navigation/sight.js';
@@ -104,7 +105,10 @@ export function createTurnHooks(catalogs, authored) {
       // The flagged counterpart's native special pass ticks first, then AI
       // releases only Petrified before its forced walk. Ordinary actors pass.
       const swap = a.speed.petrifiedSwap && sessionOf(context).scheduler.continuation.special !== null;
-      return { kind: 'continue', canAct: (swap || a.conditions.frozen?.statusId !== 'petrified') && a.conditions.sleep === null && a.conditions.cringe?.statusId !== 'infatuated' && a.conditions.bide?.statusId !== 'bide' };
+      // R dungeon_engine.c:151–175 and dungeon_ai.c:34–64: the real
+      // flagged opportunity retains its queued WALK after all ticks and bypasses
+      // the entire ordinary AI status gate; it only clears Petrified in AI.
+      return { kind: 'continue', canAct: swap || a.conditions.frozen?.statusId !== 'petrified' && a.conditions.sleep === null && a.conditions.cringe?.statusId !== 'infatuated' && a.conditions.bide?.statusId !== 'bide' };
     },
     fieldUpkeep(context) { tickWaterSport(context); return CONTINUE; },
     experience(context, ref) { if (ref) applyExperience(context, actor(context, ref), catalogs); return CONTINUE; },
@@ -172,7 +176,12 @@ export function createTurnHooks(catalogs, authored) {
         if (action.kind === 'wait') return done();
         if (action.kind === 'item') { if (action.operation === 'equip') transferHeldItem(context, action); else useDungeonItem(context, action, catalogs); return done(); }
         if (action.kind === 'move') {
-          const plan = movementPlan(s, a, action.destination, catalogs);
+          const swap = pendingSpecialSwap(s, catalogs);
+          // Native flagged WALK bypasses the second ordinary direction check
+          // (dungeon_action_execution.c:143–144). Complete only this proved pair
+          // into its safe vacant origin; never infer an arbitrary forced move.
+          const forced = swap?.other.actorId === a.actorId && s.scheduler.continuation.active?.actorId === a.actorId && action.destination.x === swap.origin.x && action.destination.z === swap.origin.z;
+          const plan = forced ? { kind: /** @type {const} */ ('walk') } : movementPlan(s, a, action.destination, catalogs);
           if (a.placement.kind !== 'map' || plan.kind === 'blocked') return { kind: 'rejected', reason: 'unavailable' };
           const from = { ...a.placement.position }; a.facing = facing(action.destination.x - from.x, action.destination.z - from.z);
           if (plan.kind === 'swap') {

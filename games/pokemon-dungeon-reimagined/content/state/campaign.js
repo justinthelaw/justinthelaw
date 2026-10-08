@@ -1,2 +1,2 @@
-export { createCampaignContent } from './stun-seed-campaign.js';
+export { createCampaignContent } from './continuation-campaign.js';
 /** @typedef {import('./opening-campaign.js').CampaignCatalogs} CampaignCatalogs */

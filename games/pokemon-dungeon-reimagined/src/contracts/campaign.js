@@ -802,7 +802,9 @@
  *     continuation: TurnContinuation;
  * }} SchedulerBase
  */
-/** @typedef {SchedulerBase & ({kind:'ready';}|{kind:'choice-paused';resultId:ResultId;}|{kind:'scene-paused';sceneInstanceId:SceneInstanceId;})} SchedulerState */
+/** Continuing is a completed native-work unit awaiting automatic advance, never
+ * player input or a prompt. Only exact v19 admits the whitelisted saved PCs.
+ * @typedef {SchedulerBase & ({kind:'ready';}|{kind:'continuing';}|{kind:'choice-paused';resultId:ResultId;}|{kind:'scene-paused';sceneInstanceId:SceneInstanceId;})} SchedulerState */
 
 /** @typedef {{ items:Record<string,ItemInstance>; containers:Record<string,ItemContainer>; }} ItemArchive */
 

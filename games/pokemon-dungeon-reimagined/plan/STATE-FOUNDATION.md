@@ -81,3 +81,22 @@ preparation and one persisted revision. Events remain epoch-scoped runtime state
 succeed without the sourced P19 profile and all required policies. It does not
 invent a starting town, scene, stat or move. Read the complete API, scope,
 engineering-budget and policy obligations in CAMPAIGN-STATE before consuming it.
+
+## V19 exact turn-continuation boundary — 2026-10-08
+
+The exact trusted `v19-turn-continuation-opening` factory composes frozen v18
+and selects an immutable successor shape registry. Frozen schema.js bytes and
+all historical pins remain unchanged; recursive union preflight, three shape
+passes and both identity/catalog visitor lookups share the selected registry.
+Only scheduler kind `continuing` is added; no event backlog, player decision or
+active effect is fabricated. Graph/semantic validation owns an exact completed
+unit whitelist while old ready/real-prompt/terminal policy remains delegated.
+
+Exact v18 import compatibility validates its original envelope/state before
+prospective metadata conversion, as every earlier predecessor already does.
+Conversion draws no RNG, allocates no actor/ID and performs no gameplay/status
+replay. All slots, histories, inventories, Leech links, Water Sport and prior
+item provenance remain intact. New continuing round-trips retain the exact PC.
+See [TURN-CONTINUATION.md](TURN-CONTINUATION.md) for checkpoint ownership, narrow
+pending safe-swap validation and the admission/review gates. Static verification
+is not interrupted-save/reload or human gameplay acceptance.

@@ -22,23 +22,24 @@ export function issue(issues, code, path, message) {
 /** The registry enumerates every persisted field and every union variant.
  * Catalog predicates are intentionally deferred until this entire pass succeeds.
  * @param {JsonValue} value @param {string} name @param {StateIssue[]} issues
- * @param {Visitor} [visitor] @param {string} [path]
+ * @param {Visitor} [visitor] @param {string} [path] @param {Readonly<Record<string,Shape>>} [shapes]
  * @returns {boolean}
  */
-export function inspectShape(value, name, issues, visitor, path = '') {
-  const shape = SHAPES[name];
+export function inspectShape(value, name, issues, visitor, path = '', shapes = SHAPES) {
+  const shape = shapes[name];
   if (!shape) throw new TypeError('Unknown internal state shape.');
-  return inspect(value, shape, path, issues, visitor);
+  return inspect(value, shape, path, issues, visitor, shapes);
 }
 
 /** @param {JsonValue} value @param {Shape} shape @param {string} path
- * @param {StateIssue[]} issues @param {Visitor} [visitor] @returns {boolean}
+ * @param {StateIssue[]} issues @param {Visitor|undefined} visitor
+ * @param {Readonly<Record<string,Shape>>} shapes @returns {boolean}
  */
-function inspect(value, shape, path, issues, visitor) {
+function inspect(value, shape, path, issues, visitor, shapes) {
   const fail = () => { issue(issues, 'shape', path, 'Value does not match the required state shape.'); return false; };
   switch (shape.kind) {
     case 'ref': {
-      const valid = inspectShape(value, shape.name, issues, visitor, path);
+      const valid = inspectShape(value, shape.name, issues, visitor, path, shapes);
       if (valid && visitor) visitor(shape.name, value, path);
       return valid;
     }
@@ -53,7 +54,7 @@ function inspect(value, shape, path, issues, visitor) {
       return (typeof value === 'string' && /^[a-z][a-z0-9-]{0,95}$/.test(value)) || fail();
     case 'union': {
       for (const member of shape.members) {
-        if (inspect(value, member, path, [])) return inspect(value, member, path, issues, visitor);
+        if (inspect(value, member, path, [], undefined, shapes)) return inspect(value, member, path, issues, visitor, shapes);
       }
       return fail();
     }
@@ -62,7 +63,7 @@ function inspect(value, shape, path, issues, visitor) {
       let valid = true;
       for (const [index, child] of value.entries()) {
         const member = 'value' in shape ? shape.value : shape.members[index];
-        if (!member || !inspect(child, member, pointer(path, index), issues, visitor)) valid = false;
+        if (!member || !inspect(child, member, pointer(path, index), issues, visitor, shapes)) valid = false;
         if (issues.length >= ISSUE_LIMIT) break;
       }
       return valid;
@@ -77,12 +78,12 @@ function inspect(value, shape, path, issues, visitor) {
         for (const [key, field] of Object.entries(shape.fields)) {
           const child = value[key];
           if (child === undefined) { issue(issues, 'shape', pointer(path, key), 'Required field is absent.'); valid = false; }
-          else if (!inspect(child, field, pointer(path, key), issues, visitor)) valid = false;
+          else if (!inspect(child, field, pointer(path, key), issues, visitor, shapes)) valid = false;
           if (issues.length >= ISSUE_LIMIT) break;
         }
       } else {
         for (const [key, child] of Object.entries(value)) {
-          if (!inspect(child, shape.value, pointer(path, key), issues, visitor)) valid = false;
+          if (!inspect(child, shape.value, pointer(path, key), issues, visitor, shapes)) valid = false;
           if (issues.length >= ISSUE_LIMIT) break;
         }
       }

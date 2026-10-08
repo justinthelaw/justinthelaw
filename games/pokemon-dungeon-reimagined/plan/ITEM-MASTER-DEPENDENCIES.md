@@ -16,9 +16,13 @@ they do not establish Blue instruction parity.
 Current D02b staged core: [Stun Seed/Petrified](STUN-SEED.md) implements its role
 timers, upkeep, acting/swap/interruption and exact v18 item-source admission over
 frozen v17. Public use/throw availability remains unchanged; independent review
-is a separate checkpoint. D02b activation is blocked on bounded turn continuation:
-long self-Stun can exceed existing scheduler/event budgets under unchanged old
-save admission. The baseline inventory/count evidence and tables below remain
+is a separate checkpoint. The [v19 continuation prerequisite](TURN-CONTINUATION.md)
+is implemented, with saved completed-unit PCs, blocked interleaved player mutations,
+an owned browser-frame pump and explicit atomic notification bounds. D02b public
+activation remains pending independent prerequisite review; native Item Master
+selection is still absent. Long self-Stun exceeded old whole-turn budgets under
+unchanged admission, which this bounded owner preserves. The baseline
+inventory/count evidence and historical tables below remain
 historical. Warp and D01/D03–D10 remain open, and Item Master is not enabled.
 
 ## Closed boundary
@@ -202,7 +206,7 @@ must retain `damage-resolution.js:dealDamage/finishDamage` and
 | --- | --- | --- |
 | D01: projectile effect dispatch | Stick/Iron Thorn/Silver Spike/Geo Pebble (4) | `projectiles.js:throwRock` and `damage-resolution.js` support fixed Gravelerock damage only. Geo Pebble needs its explicit fixed15 operation; the three admitted line items need the actual MOVE_PROJECTILE damage consumer in pinned `src/dungeon_item_action.c:156–178,371–382`, not projectile constants treated as fixed damage. Reuse T02 launch/quantity and T01 impact; no persisted projectile identity parallel to canonical lots. |
 | D02a: Warp Seed | Warp Seed (1) | No gameplay warp function exists. Close the source-qualified random destination/placement and live actor scheduling/tile boundary; preserve real recipient and floor/map ownership. Do not substitute ordinary walk/pathfinding or invent a random empty-tile distribution from the high-level factual op. |
-| D02b: Stun Seed | Stun Seed (1) | Existing movement/action guards recognize Petrified; `field-moves.js:43` clears it on target interruption, and the engine supports petrified swaps. There is no item-origin application or admitted Petrified condition owner. Add the actual source-qualified lifetime, item user/session/map/identity, payload and interruption lifecycle in a successor; a generic frozen class is not sufficient admission. |
+| D02b: Stun Seed | Stun Seed (1) | Staged v18 core implements source-qualified role timers, real item user/session/map/identity, empty payload, interruption, upkeep/suppression and safe special swap. V19 saveable bounded continuation is implemented, preserving prior admission. Development use/throw activation awaits independent continuation review; human acceptance remains a separate full-release gate and Item Master selection remains open. See STUN-SEED.md and TURN-CONTINUATION.md. |
 | D03: Heal Seed | Heal Seed (1) | `conditions.js:hasNegativeStatus` is a shared predicate; `resetFloorConditions` is a floor reset that also clears beneficial state and speed. Implement the exact negative-status cure set and derived refreshes. Do not invoke wholesale floor reset to fake Heal Seed. |
 | D04: stat/HP items | Sitrus/Life/Protein/Calcium/Iron/Zinc (6) | `support.js:maxHp`, item healing and permanent Pokémon stat caps exist. `content/state/expedition-current.js:51` still requires actor bonuses unchanged from entry; line67 rejects nonzero statItems gains. A new real item-gain projection/settlement and successor actor policy are required. Sitrus full-HP2 and Life HP3 cannot silently mutate an inadmissible bonus; vitamin gains3 need native saturation and actual recipient. |
 | D05: visibility/treatment seeds | Eyedrop/Blinker/Allure (3) | General condition fields exist, but `expedition-current.js:createConditionsPolicy` falls through to a named requirement for these states. Close actual item-source timers, upkeep and `CanSeeTarget`/blinded-observer/apparent treatment consumers. Representing a status label without selector/visibility behavior does not close T03. |

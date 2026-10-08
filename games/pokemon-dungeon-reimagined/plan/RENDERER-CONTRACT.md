@@ -161,3 +161,24 @@ repeated transitions, rapid cancellation, mobile frame budgets, and actual
 campaign animation/composition acceptance remain unmeasured. Full-roster visual
 acceptance, rich pickup UI, encounter staging and campaign binding are
 separate package work, not silently substituted by this renderer.
+
+## V19 committed chunk notification contract — 2026-10-08
+
+The shell presents each committed continuation chunk exactly once, without
+concatenating histories. Render-asset readiness can queue the owned frame pump
+but cannot dispatch directly or enable leader controls while continuing. Stale
+asset callbacks must match binding, snapshot and generation before readiness;
+menu/save/replacement/hidden/graphics-loss gates pause automatic work.
+
+Domain `EventData` now has transient `messageRepeated` (exact wonder-tile/count)
+and `pickupChanges` (count of completed pickup change notices). Consecutive runs
+are collected only inside one tile hook; counts are positive safe integers,
+singletons preserve prior filtering, and unknown/combat/floor/progression notices
+remain ordered/verbatim. Different item IDs are intentionally summarized as
+inventory invalidations, not deduplicated or described as quantities. Readable
+pickup wording directs the player to toolbox/held state and does not promise
+all lots fit. No per-lot audit history survives this summary. Canonical pickups,
+money, IDs and RNG remain snapshot-owned. The current tile chain publishes at
+most two notices with constant collector memory. See the complete contract and
+conditional4096-event proof in [TURN-CONTINUATION.md](TURN-CONTINUATION.md).
+Human visual/performance/device acceptance remains open.

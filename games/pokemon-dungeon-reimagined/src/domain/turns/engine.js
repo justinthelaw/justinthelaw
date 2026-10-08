@@ -1,4 +1,6 @@
 import { hasSpeedOpportunity } from '../rules/speed.js';
+import { continuingSession } from '../state/continuation.js';
+import { collectTilePresentation } from './presentation-events.js';
 import { TurnFault, resultShape, hookResult, checkPrompt, sessionOf, actorAt, slotAt, leaderRef, activeOrder, refreshSpeed, requireTurnHooks } from './support.js';
 /** @typedef {import('./types.js').MutationContext} Context */
 /** @typedef {import('./types.js').TurnHooks} Hooks */
@@ -57,26 +59,28 @@ function startFlush(session) {
   frame.flushing = { order: refs, index: 0, step: 0 };
 }
 /** One step at a time: a prompt resumes after the completed hook, never replays it.
- * @param {Context} context @param {Hooks} hooks @param {Session} session */
+ * Returns true only after one real recipient's entire work and index advance.
+ * @param {Context} context @param {Hooks} hooks @param {Session} session @returns {boolean} */
 function flushStep(context, hooks, session) {
   const frame = session.scheduler.continuation;
   const flush = frame.flushing;
-  if (!flush) return;
+  if (!flush) return false;
   const ref = flush.order[flush.index];
-  if (!ref) { frame.flushing = null; return; }
+  if (!ref) { frame.flushing = null; return false; }
   const actor = actorAt(session, ref);
-  if (!actor) { flush.index++; flush.step = 0; return; }
+  if (!actor) { const completed = flush.step > 0; flush.index++; flush.step = 0; return completed; }
   const step = flush.step++;
   switch (step) {
-    case 0: actor.speed.movementPending = false; hookResult(hooks.tile(context, ref), context); break;
+    case 0: actor.speed.movementPending = false; hookResult(collectTilePresentation(context, scoped => hooks.tile(scoped, ref)), context); break;
     case 1: hookResult(hooks.forcedLoss(context), context); break;
     case 2:
       if (actor.speed.endEffectsPending) { actor.speed.endEffectsPending = false; hookResult(hooks.end(context, ref), context); }
       break;
     case 3: hookResult(hooks.experience(context, ref), context); break;
     case 4: hookResult(hooks.room(context, ref), context); break;
-    default: flush.index++; flush.step = 0;
+    default: flush.index++; flush.step = 0; return true;
   }
+  return false;
 }
 /** @param {Session} session @returns {Ref[]} */
 function followers(session) {
@@ -138,18 +142,25 @@ function beginAction(context, hooks, session, action) {
   settleEffect(context, hooks, session, result);
 }
 
-/** Runs synchronously until the next leader command, an explicit canonical prompt,
- * or terminal outcome. Every call works on Adventure's private transaction draft.
+/** Runs only until the first completed opportunity, flush recipient or phase,
+ * or an earlier input/prompt/terminal boundary. Every call works on Adventure's private draft.
  * Missing concrete hooks block before any mutation. No animation or clock enters.
  * @param {Context} context @param {Hooks} hooks @param {Action|null} [action]
- * @returns {{kind:'input'|'prompt'|'terminal',consumedTurn:boolean}}
+ * @returns {import('./types.js').TurnOutcome}
  */
 export function advanceTurns(context, hooks, action = null) {
   requireTurnHooks(hooks);
   const session = sessionOf(context); let scheduler = session.scheduler; const frame = scheduler.continuation;
   const mapId = session.floor.mapId;
+  if (scheduler.kind === 'continuing') {
+    if (action || !continuingSession(session, context.state)) throw new TurnFault('rejected', 'unavailable');
+    // The same frame resumes. This transient ready tag lets existing synchronous
+    // hooks keep their real-prompt contract; it is never published mid-unit.
+    scheduler = session.scheduler = { ...scheduler, kind: 'ready' };
+  }
   if (scheduler.kind !== 'ready' || frame.terminal !== 'none') throw new TurnFault('rejected', 'unavailable');
   let consumedTurn = false; let effects = 0;
+  let unitCompleted = false, restoringLeader = false;
   if (action) {
     if (frame.pass !== 'leader' || frame.stage !== 'decision' || frame.active?.actorId !== session.leaderActorId) throw new TurnFault('rejected', 'unavailable');
     beginAction(context, hooks, session, action); consumedTurn = true; effects++;
@@ -161,7 +172,12 @@ export function advanceTurns(context, hooks, action = null) {
     if (scheduler.continuation !== frame) throw new TurnFault('content-blocked', 'turn-continuation-authority');
     if (session.scheduler.kind !== 'ready') return { kind: 'prompt', consumedTurn };
     if (context.state.pendingResult || context.state.pendingScene) throw new TurnFault('content-blocked', 'unowned-turn-prompt');
-    if (frame.flushing) { flushStep(context, hooks, session); continue; }
+    if (unitCompleted) {
+      session.scheduler = { ...scheduler, kind: 'continuing' };
+      if (!continuingSession(session, context.state)) throw new TurnFault('content-blocked', 'turn-checkpoint');
+      return { kind: 'yielded', consumedTurn };
+    }
+    if (frame.flushing) { unitCompleted = flushStep(context, hooks, session); continue; }
     if (frame.active) {
       const ref = frame.active; const actor = actorAt(session, ref);
       if (!actor) { frame.stage = 'refresh'; frame.activeEffect = null; }
@@ -218,6 +234,11 @@ export function advanceTurns(context, hooks, action = null) {
               frame.petrifiedSwapPending = false;
               frame.special = { leader: ref, leaderChanged: frame.leaderChanged, index: 0 };
               frame.active = null; frame.stage = 'select';
+              // Leader after-work is complete before special traversal. Its
+              // action/beginning fields are dead: restoration visits refresh
+              // directly and needs only special.leader/leaderChanged + speed.
+              frame.action = null; frame.activeEffect = null; frame.beginningRan = false;
+              unitCompleted = true;
             }
           }
           break;
@@ -226,13 +247,16 @@ export function advanceTurns(context, hooks, action = null) {
           const raised = actor?.speed.speedRaisedThisAction;
           if (actor) actor.speed.replan = false;
           frame.active = null; frame.stage = 'select'; frame.activeEffect = null; frame.action = null; frame.beginningRan = false;
-          if (frame.special) { frame.leaderChanged = false; break; }
+          if (frame.special) { frame.leaderChanged = false; unitCompleted = true; break; }
           if (frame.pass === 'leader') {
             if (frame.leaderChanged || session.leaderActorId !== ref.actorId) {
               frame.skipBeginning = true; frame.step = 1;
             } else if (raised) { frame.phase = 0; frame.step = 1; }
             else { frame.step = 2; }
           }
+          // Restoring the leader after special traversal does no action/upkeep;
+          // do not count that administrative refresh as another opportunity.
+          unitCompleted = !restoringLeader; restoringLeader = false;
           break;
         }
         default: throw new TurnFault('content-blocked', 'opportunity-cursor');
@@ -246,6 +270,7 @@ export function advanceTurns(context, hooks, action = null) {
       if (finished) {
         frame.active = special.leader; frame.leaderChanged = special.leaderChanged;
         frame.special = null; frame.stage = 'refresh';
+        restoringLeader = true;
       } else if (ref && actorAt(session, ref)?.speed.petrifiedSwap) select(frame, ref, false);
       continue;
     }
@@ -307,7 +332,7 @@ export function advanceTurns(context, hooks, action = null) {
       case 'phase-end':
         frame.phase = (frame.phase + 1) % 24;
         if (frame.phase === 0) scheduler.roundNumber++;
-        nextPass(frame, 'prephase'); break;
+        nextPass(frame, 'prephase'); unitCompleted = true; break;
       default: throw new TurnFault('content-blocked', 'turn-pass');
     }
   }

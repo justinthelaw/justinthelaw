@@ -298,6 +298,18 @@
     {
       "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v17.js",
       "sha256": "24359717818a2064bb3c736fee946d6df3e4ac87b3f604af84c462d2dc6db2a0"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/stun-seed-campaign.js",
+      "sha256": "ae6d8e703ee0d0ef7276d6c72dfc069bee43d7a5ea1f33d02972e836baada17a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/stun-seed.js",
+      "sha256": "63e523f46089f44b4439a9e6dfe160941c866db130d878d6453acdddea3ef83c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v18.js",
+      "sha256": "0c09e6e405bb797121e4eb0e1e8bd04ca871d68453ead0a632af31ac055bec6d"
     }
   ],
   "functionBodies": [
@@ -427,5 +439,10 @@
     "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
     "sha256": "19c50f1dbe7c141aebe90ec14f2e161ac94599a49326642d9c2051bef68f6c4d"
   },
-  "stunSeedPredecessorBaselineCommit": "500a705d38fea989c81b8c1f66d4f7343d32c33e"
+  "stunSeedPredecessorBaselineCommit": "500a705d38fea989c81b8c1f66d4f7343d32c33e",
+  "continuationPredecessorBaselineCommit": "1b9eb5fc1d03a8f20dcf53ea182121a5b5112ef2",
+  "continuationPredecessorSchema": {
+    "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
+    "sha256": "39f6613b5fb55f26dece5bd4f899c0be53e5a14e120c181e6d71ae7924a34f8d"
+  }
 }

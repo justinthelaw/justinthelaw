@@ -1291,3 +1291,50 @@ the swap flag outside the special pass. The ordinary AI now waits while
 Petrified unless both the flag and actual special pass are present, preserving
 published non-Petrified flag behavior. The finding awaits scoped re-review;
 no predecessor state or flag combination is excluded.
+
+## V19 — saveable cooperative turn continuation (2026-10-08; review pending)
+
+Implemented the infrastructure prerequisite over published staged v18
+`1b9eb5fc1d03a8f20dcf53ea182121a5b5112ef2`; initial unpublished implementation
+checkpoint is `26a9336`. Public Stun use/throw remains staged. No whole-game or
+admitted-state human play/performance acceptance is claimed.
+
+- Kernel/transaction: exact first completed opportunity, flush recipient or
+  otherwise-empty phase commits `continuing` with truthful yielded outcome.
+  Leader special installation yields before selecting its counterpart; pending
+  damage/revival/faint/loss, native speed/deferred and cursor work remains owned.
+- State/persistence: exact v19 successor registry, recursive inspection/visitor
+  threading and continuing graph/policy admission; original v18 factory/policy/
+  field-root pins append to existing inventory. Every original predecessor
+  validates before work-free metadata conversion. Frozen schema/factual pins,
+  ready-Petrified rejection and prior slot/inventory/history admission survive.
+- Events: one tile-scoped constant-memory collector preserves canonical calls
+  while replacing only consecutive Wonder Tile/pickup notifications with exact
+  counted summaries. This deliberately changes transient multiplicity. Complete
+  source accounting is3793 opportunity /2295 flush /1941 empty phase, rounded
+  to3800/2300/1950 under4096, using132 actors and older deferred end hooks.
+- Domain/shell: central interleaved-mutation rejection, shared simulation
+  readiness and one binding/snapshot/revision-guarded RAF continuation pump.
+  Per-chunk presentation/autosave uses existing coalescing ownership; menus,
+  load/replacement, visibility, graphics loss and save pause preserve exact PC.
+- Documentation: [TURN-CONTINUATION.md](TURN-CONTINUATION.md), turn/input/render/
+  state contracts, AGENTS, Stun/throw and Item Master ledger record implementation
+  and pending prerequisite review. All wider effect/party/AI/route work stays open.
+
+Independent review F1 found an omitted or reordered live flush suffix could
+bypass native tile/end ordering. The successor-only predicate now requires every
+live pending mover's exact generation in the unvisited suffix and native relative
+order of resolving captured refs, retaining genuinely stale refs and saved order.
+Narrow static re-review remains the controller's gate.
+
+Focused static lint337 files, strict types255 files and save boundaries77 pinned
+dependencies/14 exact bodies/2 factual manifests passed. Baseline preservation
+and final commit evidence are recorded in the ignored continuation handoff; controller owns final full static
+flight-check/hooks/export/Pages verification and publication. D05 excludes game
+imports/evaluation/tests, browser boot and playthrough. No push/merge/deploy.
+Independent review must include128 wild slots, incapacitated leader/status
+replacement, deferred/special movement, co-located trap/money batches, real
+prompt/terminal/floor outcomes, each saved PC and stale load/replacement/menu/
+save/render callbacks. Human latency/device/save-interruption and full visual/
+campaign/release acceptance remain open. Future effect/propagation/tile/entry
+owners must revise the complete burst proof before widening execution.

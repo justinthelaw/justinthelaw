@@ -16,11 +16,12 @@ Square wind request and rest at MAIN5,5, with navigable owned areas and resident
 management. Later chapter-five work, escort, wild recruitment and Sinister remain
 in implementation. Static checks do not establish human play/visual acceptance or a complete
 campaign; later services, escort admission and routes remain incomplete.
-Current v18 Stun Seed saves preserve exact v2-v17 import admission, including
+Current v19 turn-continuation saves preserve exact v2-v18 import admission, including
 v17 Sleep Seed provenance, v16 Leech Seed links and Water Sport counters. Stun
 has staged sourced Petrified role timers, interruption, action suppression and
-safe team swap release; public use/throw activation awaits saveable bounded
-turn continuation. See plan/STUN-SEED.md. Wider frozen statuses and Item Master
+safe team swap release; public use/throw activation awaits independent review of
+the implemented saveable bounded turn continuation prerequisite. See
+plan/STUN-SEED.md and plan/TURN-CONTINUATION.md. Wider frozen statuses and Item Master
 remain separate owners. Leech Seed
 and Water Sport now have shared action, upkeep, damage and persistence consumers;
 Water Sport Weak Type Picker weighting remains a full party-AI dependency. Bide, Focus
@@ -127,6 +128,20 @@ applicable, with the standalone-game exceptions stated here.
   coverage, task progress, and provenance when work changes them.
 
 ## Required controls and asset workflow
+
+Continuation work must preserve frozen schema.js, all historical pins/original
+envelope admission, four-team/128-wild slots and large co-located trap/money
+records. `continuing` is a saved native work PC, never leader input or a fake
+prompt. Yield at the first completed opportunity/flush recipient/empty phase,
+including leader after-work before Petrified special traversal. Do not admit an
+active effect or normalize fields without the specific ownership proof in
+plan/TURN-CONTINUATION.md. Future effects, propagation, entry/growth policies or
+tile event patterns must revise its conservative3800/2300/1950 burst allowances
+under4096. Preserve tile-scoped exact counted notices and unknown-event order.
+The single frame pump must guard binding/snapshot/revision, pause for menus,
+saves and interruption, and present/autosave each committed chunk once. Review
+every saved cursor and stale callback path before activating Stun. Static checks
+do not establish maximum-envelope latency, device or interrupted-save acceptance.
 
 - Controls appear as a semi-transparent emulator-style overlay on the lower half
   of the screen; follow RENDERING for touch, keyboard, safe areas and visibility.

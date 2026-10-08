@@ -225,3 +225,20 @@ rejected/no-change actions rearm a single permit, and no timer advances turns.
 Menus/dialogue/typing, replacement, blur, visibility and context loss interrupt
 world input. Website touch controls remain the sole emulator overlay owner.
 Human keyboard/touch acceptance remains open.
+
+## V19 automatic work readiness — 2026-10-08
+
+The shell now separates asset readiness from canonical `leaderInputReady`.
+Continuing work cancels queued/held player input and disables action controls,
+including face, move SET and equipment. Adventure's central gate independently
+blocks player mutations, so renderer readiness never grants simulation authority.
+Menus, inspection, camera, save/export and their existing typing controls remain
+usable without consuming simulation time. Cadence resumes only at real input.
+
+One owned RAF pump advances at most one finite committed unit per frame, captures
+binding/Adventure epochs plus snapshot/revision and obtains fresh commandContext
+only after rechecking them. It pauses/cancels on replacement/load/disposal,
+hidden document, graphics loss, blur and menu/save pause; assets-ready load of
+continuing resumes the saved PC. The280ms player clip-idle delay is not applied
+to automatic chunks. See [TURN-CONTINUATION.md](TURN-CONTINUATION.md). Static
+inspection does not replace human keyboard/touch/device/interruption acceptance.

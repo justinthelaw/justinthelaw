@@ -392,5 +392,17 @@ frozen species/effects resources. See the game plan/THROWING.md for T02 scope,
 legacy Gravelerock compatibility and remaining Item Master gates. Stun Seed has
 staged native Petrified lifetime, interruption and safe-swap consumers in v18
 over exact frozen v17 admission. Public use/throw activation remains blocked on
-saveable bounded turn continuation; see plan/STUN-SEED.md. Preserve every earlier
-envelope boundary, live Leech link and Water Sport counter.
+independent review of implemented v19 saveable bounded turn continuation; see
+game plan/STUN-SEED.md and plan/TURN-CONTINUATION.md. Preserve every earlier
+envelope boundary, live Leech link and Water Sport counter. Continuation checkpoints
+commit only the first completed opportunity, flush recipient or empty-completion
+phase; special leader after-work must yield before selecting its counterpart.
+Keep schema.js and historical pins frozen, exact original-envelope validation,
+all128 wild slots and co-located trap/money admission. New effects, propagation,
+entry policies or tile event patterns must revise the documented4096-event burst
+proof. Scoped counted tile notices deliberately change transient notification
+multiplicity; canonical pickups remain intact. One owned browser-frame pump
+resumes the exact saved PC; no player mutation may interleave. Independently
+review stale load, replacement and menu callbacks before development Stun
+activation. Human latency/device/save-interruption and broader acceptance remain
+separate full-release gates.

@@ -1,4 +1,5 @@
 import { draw } from './support.js';
+import { leaderInputReady } from '../turns/readiness.js';
 
 /** SET is an explicit owning-slot toggle, with no turn, PP, hunger or RNG cost.
  * Selection does not require that the move's runtime effect is implemented.
@@ -6,7 +7,7 @@ import { draw } from './support.js';
 export const setMoveHandler = {
   plan(state, intent) {
     const session = state.session, actor = session?.actors[session.leaderActorId];
-    if (intent.type !== 'setMove' || state.mode !== 'dungeon' || state.pendingScene || state.pendingResult || state.earlyWork?.clientPrompt || session?.scheduler.kind !== 'ready' || session.scheduler.continuation.pass !== 'leader' || session.scheduler.continuation.stage !== 'decision' || actor?.placement.kind !== 'map' || actor.actorId !== intent.actorId) return { kind: 'rejected', reason: 'unavailable' };
+    if (intent.type !== 'setMove' || !leaderInputReady(state) || actor?.placement.kind !== 'map' || actor.actorId !== intent.actorId) return { kind: 'rejected', reason: 'unavailable' };
     if (!actor.moves.slots.some(slot => slot?.moveSlotId === intent.moveSlotId)) return { kind: 'rejected', reason: 'unavailable' };
     if (actor.moves.links.length) return { kind: 'content-blocked', requirement: 'linked-move-menu-not-supported' };
     return { kind: 'mutation' };

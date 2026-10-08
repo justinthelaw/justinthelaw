@@ -59,6 +59,10 @@ export function createAdventure(options) {
       if (incoming.expectedRevision !== expected.expectedRevision || incoming.transactionId !== expected.transactionId) return failure('rejected', 'stale');
       const intent = /** @type {import('./turns/types.js').Intent} */ (/** @type {unknown} */ (freezeData(copyPlainData(incoming.intent))));
       if (!intent || typeof intent !== 'object' || typeof intent.type !== 'string') return failure('rejected', 'invalid-command');
+      // A work checkpoint owns the next simulation step. This central gate also
+      // covers independent mutation handlers (face, SET, equipment and future
+      // menus), so no player mutation can interleave with automatic advance.
+      if (snapshot.session?.scheduler.kind === 'continuing' && intent.type !== 'advance' && intent.type !== 'presentation') return failure('rejected', 'unavailable');
       if (intent.type === 'ackResult') {
         const result = snapshot.pendingResult;
         if (!result || result.resultId !== intent.resultId || result.cursor !== intent.cursor || intent.revision !== snapshot.revision) return failure('rejected', 'stale');
@@ -71,7 +75,7 @@ export function createAdventure(options) {
       if (!handler || typeof Object.getOwnPropertyDescriptor(handler, 'plan')?.value !== 'function') return failure('content-blocked', 'command-handler');
       const plan = /** @type {import('./turns/types.js').CommandHandler} */ (handler).plan(snapshot, intent);
       commandResultShape(plan);
-      if (plan.kind === 'presentation') return Object.freeze({ kind: 'accepted', changed: false, consumedTurn: false, revision: snapshot.revision, events: Object.freeze([]) });
+      if (plan.kind === 'presentation') return Object.freeze({ kind: 'accepted', changed: false, consumedTurn: false, turnOutcome: null, revision: snapshot.revision, events: Object.freeze([]) });
       if (plan.kind !== 'mutation' && plan.kind !== 'action') return failure('content-blocked', 'command-plan');
       if (plan.kind === 'action') requireTurnHooks(options.turns);
       const apply = /** @type {import('./turns/types.js').CommandHandler} */ (handler).apply;
@@ -79,19 +83,23 @@ export function createAdventure(options) {
       const prepared = prepareTransaction(snapshot, incoming); draft = prepared.draft; const allocatedNext = draft.idSequence.next;
       /** @type {EventData[]} */ const emitted = [];
       const context = { state: draft, emit: (/** @type {EventData} */ data) => {
+        if ((data.type === 'messageRepeated' || data.type === 'pickupChanges') && (!Number.isSafeInteger(data.count) || data.count < 1)) throw new TurnFault('content-blocked', 'notification-count');
+        // The tile collector publishes its bounded representation here. All
+        // unknown/unaggregated notifications retain this unchanged hard guard.
         if (emitted.length >= 4096) throw new TurnFault('content-blocked', 'event-budget');
         emitted.push(/** @type {EventData} */ (/** @type {unknown} */ (freezeData(copyPlainData(data)))));
       } };
       let consumedTurn = false;
+      /** @type {import('./turns/types.js').TurnOutcome['kind']|null} */ let turnOutcome = null;
       if (plan.kind === 'action') {
         const outcome = advanceTurns(context, options.turns, /** @type {import('./turns/types.js').Action} */ (/** @type {unknown} */ (copyPlainData(plan.action))));
-        consumedTurn = outcome.consumedTurn;
+        consumedTurn = outcome.consumedTurn; turnOutcome = outcome.kind;
       } else {
         if (!apply) throw new TurnFault('content-blocked', 'command-mutation');
         const applied = apply(context, intent); commandResultShape(applied);
-        if (applied.kind === 'unchanged') return Object.freeze({ kind: 'accepted', changed: false, consumedTurn: false, revision: snapshot.revision, events: Object.freeze([]) });
+        if (applied.kind === 'unchanged') return Object.freeze({ kind: 'accepted', changed: false, consumedTurn: false, turnOutcome: null, revision: snapshot.revision, events: Object.freeze([]) });
         if (applied.kind !== 'changed' || typeof applied.resumeDungeon !== 'boolean') throw new TurnFault('content-blocked', 'command-result');
-        if (applied.resumeDungeon) consumedTurn = advanceTurns(context, options.turns).consumedTurn;
+        if (applied.resumeDungeon) { const outcome = advanceTurns(context, options.turns); consumedTurn = outcome.consumedTurn; turnOutcome = outcome.kind; }
       }
       // Contexts must not replace the transaction object itself. No ID/revision
       // counter is sourced from a callback's return value.
@@ -101,7 +109,7 @@ export function createAdventure(options) {
       if (!validated.ok) return failure('content-blocked', validated.kind === 'blocked' ? 'campaign-policy' : 'command-state');
       if (!Number.isSafeInteger(nextEventId + emitted.length)) return failure('rejected', 'exhausted');
       const events = freezeData(emitted.map((data, index) => ({ ...data, eventId: nextEventId + index, revision: prepared.commitRevision, epoch })));
-      const result = Object.freeze({ kind: /** @type {const} */ ('accepted'), changed: true, consumedTurn, revision: prepared.commitRevision, events });
+      const result = Object.freeze({ kind: /** @type {const} */ ('accepted'), changed: true, consumedTurn, turnOutcome, revision: prepared.commitRevision, events });
       // All fallible work precedes this pointer swap; no callbacks or await follow.
       snapshot = validated.snapshot; nextEventId += events.length;
       return result;

@@ -18,6 +18,7 @@ import { TEAM } from '../../content/authored/team-formation.js';
 import { loadCatalogs } from '../application/catalogs.js';
 import { createGameplay } from '../domain/gameplay/index.js';
 import { commandContext } from '../domain/state/transaction.js';
+import { leaderInputReady, automaticTurnReady } from '../domain/turns/readiness.js';
 import { createInputController } from '../input/index.js';
 import { DungeonRenderer, loadEnvironmentKit } from '../rendering/index.js';
 import { renderSnapshot, eventMessages } from '../application/presentation.js';
@@ -49,6 +50,7 @@ export async function createApplication(canvas, signal, startup) {
   const showScene = createScenePresenter(view);
   let booted = false;
   let disposed = false, busy = false, paused = false, failed = false, lost = false, ready = false;
+  let focusPaused = false, automaticFrame = 0, automaticTicket = 0;
   let frame = 0, lastFrame = 0, permitAt = 0, generation = 0, epochCounter = 0;
   let epoch = 'title';
   let dialogue = false, groundExploring = false;
@@ -63,8 +65,39 @@ export async function createApplication(canvas, signal, startup) {
   /** @type {MediaQueryList|undefined} */ let density;
 
   function current() { return saves?.service.getBinding().instance?.getSnapshot() ?? null; }
+  function cancelAutomatic() {
+    automaticTicket++;
+    if (automaticFrame) window.cancelAnimationFrame(automaticFrame);
+    automaticFrame = 0;
+  }
+  function canAdvanceAutomatically() {
+    return !disposed && !busy && !paused && !focusPaused && !failed && !lost && !document.hidden && ready && followsGame && !view.isOpen() && saves?.service.canAcceptCommands() === true && automaticTurnReady(current());
+  }
+  // One owner, one dispatch per browser frame. Every callback captures the
+  // binding and exact validated snapshot, and obtains commandContext only after
+  // all lifetime checks. Neither save callbacks nor render promises dispatch.
+  function queueAutomatic() {
+    if (automaticFrame || !canAdvanceAutomatically() || !saves) return;
+    const bound = saves.service.getBinding(), adventure = bound.instance;
+    if (!adventure) return;
+    const snapshot = adventure.getSnapshot(), revision = snapshot.revision;
+    const domainEpoch = adventure.getEpoch(), ticket = automaticTicket;
+    automaticFrame = window.requestAnimationFrame(() => {
+      if (ticket !== automaticTicket) return;
+      automaticFrame = 0;
+      const now = saves?.service.getBinding();
+      if (ticket !== automaticTicket || !canAdvanceAutomatically() || now?.adventureEpoch !== bound.adventureEpoch || now.instance !== adventure || adventure.getEpoch() !== domainEpoch || adventure.getSnapshot() !== snapshot || snapshot.revision !== revision) return;
+      const result = adventure.dispatch({ ...commandContext(snapshot), epoch: domainEpoch, intent: { type: 'advance' } });
+      if (result.kind !== 'accepted' || !result.changed) { fail(new Error('The saved turn cannot resume. Export the checkpoint and reload.')); return; }
+      saves?.autosave();
+      if (leaderInputReady(adventure.getSnapshot())) permitAt = performance.now() + 240;
+      // Present only this committed chunk. Asset readiness queues the next RAF;
+      // the 280ms player clip-idle timer never delays automatic native work.
+      refresh(result.events, snapshot);
+    });
+  }
   function mode() {
-    if (disposed || busy || paused || document.hidden) return /** @type {const} */ ('blocked');
+    if (disposed || busy || paused || focusPaused || document.hidden) return /** @type {const} */ ('blocked');
     if (failed || lost) return view.isOpen() ? /** @type {const} */ ('menu') : /** @type {const} */ ('blocked');
     const snapshot = current();
     if (snapshot?.pendingScene && dialogue) return /** @type {const} */ ('dialogue');
@@ -72,11 +105,11 @@ export async function createApplication(canvas, signal, startup) {
     return snapshot?.mode === 'dungeon' || snapshot?.friends && snapshot.mode === 'town' && groundExploring ? /** @type {const} */ ('world') : /** @type {const} */ ('menu');
   }
   /** @param {boolean} [worldReady] */
-  function context(worldReady = ready && !failed && !lost) {
+  function context(worldReady = ready && !failed && !lost && (current()?.mode !== 'dungeon' || leaderInputReady(current()))) {
     input?.setContext({ mode: mode(), epoch, revision: current()?.revision ?? null, worldReady,
       cameraYaw: renderer?.cameraYaw ?? 0, controlDirection: 'camera' });
   }
-  function close() { followsGame = true; dialogue = false; saves?.cancelPreviews(); view.close(); input?.cancel(); context(); }
+  function close() { cancelAutomatic(); followsGame = true; dialogue = false; saves?.cancelPreviews(); view.close(); input?.cancel(); context(); }
   function title() {
     close(); followsGame = false;
     view.hud('', [], []); view.minimap(null);
@@ -91,25 +124,18 @@ export async function createApplication(canvas, signal, startup) {
     close(); followsGame = false; context();
     startOnboarding({ catalogs: loaded.catalogs, gameplay, view, commit: (snapshot, storageMode) => saves?.newCampaign(snapshot, storageMode), back: title }); context();
   }
-  function menu() { if (busy) return; followsGame = false; dialogue = false; input?.cancel(); saves?.menu(); context(); }
+  function menu() { if (busy) return; cancelAutomatic(); followsGame = false; dialogue = false; input?.cancel(); saves?.menu(); context(); }
   function resumedBinding() {
-    const adventure = saves?.service.getBinding().instance;
-    const snapshot = adventure?.getSnapshot();
-    if (!adventure || !snapshot || !saves?.service.canAcceptCommands()) { refresh(); return; }
-    const scheduler = snapshot.session?.scheduler;
-    if (snapshot.mode === 'dungeon' && scheduler?.kind === 'ready' && scheduler.roundNumber === 0 && scheduler.continuation.pass === 'prephase' && scheduler.continuation.stage === 'select') {
-      // A saved fresh-floor boundary is a canonical continuation, not a timer.
-      const result = adventure.dispatch({ ...commandContext(snapshot), epoch: adventure.getEpoch(), intent: { type: 'advance' } });
-      if (result.kind !== 'accepted') { fail(new Error('The saved floor cannot resume. Export the checkpoint and reload.')); return; }
-      if (result.changed) saves.autosave(); refresh(result.events, snapshot); return;
-    }
+    cancelAutomatic(); input?.cancel();
+    // Both a saved continuing PC and a fresh floor enter the same owned pump
+    // after assets are ready. No synchronous advance or retained old callback.
     refresh();
   }
   function resume() { groundExploring = false; close(); const snapshot = current(); if (snapshot) screen(snapshot); else title(); context(); }
   /** @param {string} text @param {Action[]} actions @param {string} [titleText] */
-  function panel(text, actions, titleText = 'Adventure menu') { followsGame = false; dialogue = false; input?.cancel(); view.show(titleText, text, [...actions, { label: 'Back', run: resume }]); context(); }
+  function panel(text, actions, titleText = 'Adventure menu') { cancelAutomatic(); followsGame = false; dialogue = false; input?.cancel(); view.show(titleText, text, [...actions, { label: 'Back', run: resume }]); context(); }
   function rearmWorldPermit() {
-    if (!ready || failed || lost || mode() !== 'world') return;
+    if (!ready || failed || lost || mode() !== 'world' || current()?.mode === 'dungeon' && !leaderInputReady(current())) return;
     permitAt = performance.now() + 240;
     // A consumed no-change intent admits the next held step after the cadence.
     // Keep actor readiness, binding, revision and the one-intent queue intact.
@@ -117,13 +143,14 @@ export async function createApplication(canvas, signal, startup) {
   }
   /** @param {Intent} intent @param {'world'|'panel'} [origin] */
   function act(intent, origin = 'world') {
-    if (!saves || !saves.service.canAcceptCommands() || busy || paused || failed || lost || disposed || document.hidden) return;
+    if (!saves || !saves.service.canAcceptCommands() || busy || paused || focusPaused || failed || lost || disposed || document.hidden) return;
     // Only deliberate choices inside the owning panel may close it and commit.
     // Background HUD/world activations cannot dismiss saves, previews or forms.
     if (origin === 'panel' ? !view.isOpen() : view.isOpen()) return;
     const adventure = saves.service.getBinding().instance; if (!adventure) return;
     const before = adventure.getSnapshot();
-    if (['move', 'face', 'attack', 'wait', 'useMove', 'setMove', 'useItem', 'throwItem', 'useStairs', 'giveUp'].includes(intent.type) && (!ready || performance.now() < permitAt)) return;
+    if (before.session?.scheduler.kind === 'continuing') return;
+    if (['move', 'face', 'attack', 'wait', 'useMove', 'setMove', 'useItem', 'throwItem', 'equipItem', 'useStairs', 'giveUp'].includes(intent.type) && (!ready || before.mode === 'dungeon' && !leaderInputReady(before) || performance.now() < permitAt)) return;
     if (['ackScene', 'submitSceneName'].includes(intent.type) && !ready) return;
     if (intent.type === 'townTravel' || intent.type === 'friendAction') groundExploring = false;
     if (view.isOpen()) close();
@@ -133,15 +160,9 @@ export async function createApplication(canvas, signal, startup) {
     permitAt = performance.now() + 240;
     if (result.changed) {
       saves.autosave();
-      // A committed new floor needs one canonical scheduler advance; never run
-      // this on RAF or after ordinary actions/initial dungeon entry.
-      let events = [...result.events];
-      if (intent.type === 'useStairs' && result.events.some(event => event.type === 'floorChanged') && adventure.getSnapshot().mode === 'dungeon') {
-        const next = adventure.getSnapshot(); const advanced = adventure.dispatch({ ...commandContext(next), epoch: adventure.getEpoch(), intent: { type: 'advance' } });
-        if (advanced.kind !== 'accepted') { view.notify('The new floor cannot resume. Export the checkpoint and reload.'); failed = true; }
-        else if (advanced.changed) { saves.autosave(); events = [...events, ...advanced.events]; }
-      }
-      refresh(events, before);
+      // floorChanged and yielded work are presented once. The canonical fresh
+      // floor/continuing scheduler selects the next automatic frame separately.
+      refresh(result.events, before);
     } else { screen(before); rearmWorldPermit(); }
   }
   /** @param {number} position */
@@ -152,16 +173,18 @@ export async function createApplication(canvas, signal, startup) {
   }
   function moves() {
     const snapshot = current(); if (!snapshot || !gameplay) return;
-    panel('Use a move, or SET one for Ginseng. Selecting SET again unsets it without taking a turn.', gameplay.getMoveChoices(snapshot).flatMap(move => [{ label: `${move.isSet ? 'SET · ' : ''}${move.name}${move.powerBoost ? ` +${move.powerBoost}` : ''} · ${move.currentPp} PP${move.requirement ? ' · unavailable' : ''}`, detail: move.requirement ?? 'Use this move', disabled: !!move.requirement,
-      run: () => act({ type: 'useMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') }, { label: `${move.isSet ? 'Unset' : 'Set'} ${move.name}`, detail: 'Choose the move Ginseng can strengthen', disabled: !move.canSet, run: () => act({ type: 'setMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') }]), 'Moves');
+    const canAct = ready && leaderInputReady(snapshot);
+    panel('Use a move, or SET one for Ginseng. Selecting SET again unsets it without taking a turn.', gameplay.getMoveChoices(snapshot).flatMap(move => [{ label: `${move.isSet ? 'SET · ' : ''}${move.name}${move.powerBoost ? ` +${move.powerBoost}` : ''} · ${move.currentPp} PP${move.requirement ? ' · unavailable' : ''}`, detail: move.requirement ?? 'Use this move', disabled: !canAct || !!move.requirement,
+      run: () => act({ type: 'useMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') }, { label: `${move.isSet ? 'Unset' : 'Set'} ${move.name}`, detail: 'Choose the move Ginseng can strengthen', disabled: !canAct || !move.canSet, run: () => act({ type: 'setMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') }]), 'Moves');
   }
   function inventory() {
     const snapshot = current(); const session = snapshot?.session; const leader = session?.actors[session.leaderActorId];
     if (!snapshot) return;
+    const canAct = ready && leaderInputReady(snapshot);
     const ids = session ? [...(snapshot.containers[session.inventory]?.itemIds ?? []), ...(leader ? snapshot.containers[leader.heldContainerId]?.itemIds ?? [] : [])] : [...(snapshot.containers[snapshot.economy.toolbox]?.itemIds ?? []), ...snapshot.selectedPartyIds.flatMap(id => snapshot.containers[snapshot.roster[id]?.heldContainerId ?? '']?.itemIds ?? [])];
     panel(snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[2]) ? 'Use berries, seeds or food yourself, or Throw supported items in your facing direction. Keep a clean Reviver Seed for automatic revival; eating it only restores 5 Belly. Max Elixir restores all move PP. Blast Seed hits directly ahead; Gravelerock is thrown toward enemies in the direction you face. Pickups enter your toolbox.' : 'Before the starter toolbox, floor pickups use your held slot. Use a held berry here, or Throw supported items in your facing direction.', ids.flatMap(id => {
-      const item = snapshot.items[id]; return [...(item?.template.itemId === 'item-gravelerock' ? [] : [{ label: item ? `${item.template.itemId === 'item-reviver-seed' ? 'Eat ' : ''}${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Unavailable item', disabled: !leader || !item || !USABLE_ITEMS.includes(item.template.itemId), detail: item && !USABLE_ITEMS.includes(item.template.itemId) ? 'This item use is still in development; carrying and storage work.' : 'Use this item yourself',
-        run: () => { if (leader) act({ type: 'useItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel'); } }]), { label: item ? `Throw ${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Throw unavailable item', disabled: !leader || !item || !THROWABLE_ITEMS.includes(item.template.itemId), detail: item && !THROWABLE_ITEMS.includes(item.template.itemId) ? 'This thrown effect is still in development; carrying and storage work.' : 'Throw in the direction you face; takes a turn.', run: () => { if (leader) act({ type: 'throwItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'facing' } }, 'panel'); } }, ...(leader && item && snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[2]) ? [{ label: `${snapshot.containers[leader.heldContainerId]?.itemIds.includes(id) ? 'Take' : 'Hold'} ${item.template.itemId.replace('item-', '').replaceAll('-', ' ')}`, disabled: !snapshot.containers[leader.heldContainerId]?.itemIds.includes(id) && (!loaded || !supportedHeldItem(loaded.catalogs, item.template.itemId)), detail: 'Transfer this whole item slot; takes a turn. Unsupported held effects remain unavailable.', run: () => act({ type: 'equipItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel') }] : [])];
+      const item = snapshot.items[id]; return [...(item?.template.itemId === 'item-gravelerock' ? [] : [{ label: item ? `${item.template.itemId === 'item-reviver-seed' ? 'Eat ' : ''}${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Unavailable item', disabled: !canAct || !leader || !item || !USABLE_ITEMS.includes(item.template.itemId), detail: item && !USABLE_ITEMS.includes(item.template.itemId) ? 'This item use is still in development; carrying and storage work.' : 'Use this item yourself',
+        run: () => { if (leader) act({ type: 'useItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel'); } }]), { label: item ? `Throw ${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Throw unavailable item', disabled: !canAct || !leader || !item || !THROWABLE_ITEMS.includes(item.template.itemId), detail: item && !THROWABLE_ITEMS.includes(item.template.itemId) ? 'This thrown effect is still in development; carrying and storage work.' : 'Throw in the direction you face; takes a turn.', run: () => { if (leader) act({ type: 'throwItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'facing' } }, 'panel'); } }, ...(leader && item && snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[2]) ? [{ label: `${snapshot.containers[leader.heldContainerId]?.itemIds.includes(id) ? 'Take' : 'Hold'} ${item.template.itemId.replace('item-', '').replaceAll('-', ' ')}`, disabled: !canAct || !snapshot.containers[leader.heldContainerId]?.itemIds.includes(id) && (!loaded || !supportedHeldItem(loaded.catalogs, item.template.itemId)), detail: 'Transfer this whole item slot; takes a turn. Unsupported held effects remain unavailable.', run: () => act({ type: 'equipItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel') }] : [])];
     }), 'Items & held slot');
   }
   function readNews() { panel('First rescue-team news: the badge marks your team, the toolbox carries dungeon supplies, and letters in your mailbox bring requests. Resting at home is a good time to keep a checkpoint. Check your mailbox before heading out to help.', [], 'Pokémon News'); }
@@ -170,16 +193,17 @@ export async function createApplication(canvas, signal, startup) {
     if (!gameplay || !followsGame) return;
     const session = snapshot.session;
     const leader = session?.actors[session.leaderActorId];
+    const worldReady = ready && (snapshot.mode !== 'dungeon' || leaderInputReady(snapshot));
     const team = session ? gameplay.getActors(snapshot).filter(actor => actor.role === 'hero' || actor.role === 'partner').map(actor => `${actor.name} · HP ${actor.hp}/${actor.maxHp} · Lv ${session.actors[actor.actorId]?.growth.level ?? 1}${actor.role === 'hero' && leader ? ` · Belly ${Math.floor(leader.resources.belly.numerator / leader.resources.belly.denominator)}/${Math.floor(leader.resources.maxBelly.numerator / leader.resources.maxBelly.denominator)}` : ''}`) : snapshot.selectedPartyIds.map(id => `${snapshot.roster[id]?.nickname} · Lv ${snapshot.roster[id]?.growth.level}`);
     if (session) team.push(`Moves · ${gameplay.getMoveChoices(snapshot).map(move => `${move.name} ${move.currentPp} PP`).join(' · ')}`);
     const location = session?.floor.location;
     const floor = location?.kind === 'exploration' && loaded ? loaded.catalogs.dungeons.getFloorById(location.address.floorId).display : null;
     const goal = snapshot.friends && !session ? `Team ${snapshot.profile.teamName} · Friend Areas · Poké ${snapshot.economy.carriedMoney}` : session?.purpose.kind === 'ordinary' ? `${session.dungeonId === STEEL.dungeonId ? 'Mt. Steel' : session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ordinary rescue work · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === TOWN.story ? `Team ${snapshot.profile.teamName} · town services · Poké ${snapshot.economy.carriedMoney}` : session ? `${session.dungeonId === STEEL.dungeonId ? 'Mt. Steel' : session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === STEEL.dungeonId ? 'Rescue Diglett' : session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
     const onStairs = leader?.placement.kind === 'map' && Object.values(session?.floor.exits ?? {}).some(exit => leader.placement.kind === 'map' && exit.position.x === leader.placement.position.x && exit.position.z === leader.placement.position.z);
-    view.hud(goal, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
-      { label: snapshot.friends && !session ? nearbyResident(snapshot) ? 'Talk to resident' : nearWigglytuff(snapshot) ? 'Wigglytuff' : 'Ground menu' : loaded && facingJobClient(snapshot, loaded.catalogs) ? 'Talk to client' : 'Attack', run: () => { if (snapshot.friends && !session) resume(); else act({ type: 'attack' }); }, disabled: snapshot.mode !== 'dungeon' && !(snapshot.friends && snapshot.mode === 'town') || !ready },
-      { label: 'Wait', run: () => act({ type: 'wait' }), disabled: snapshot.mode !== 'dungeon' || !ready },
-      { label: 'Use stairs', run: () => { if (session) act({ type: 'useStairs', sessionId: session.sessionId }); }, disabled: snapshot.mode !== 'dungeon' || !onStairs || !ready },
+    view.hud(`${goal}${session?.scheduler.kind === 'continuing' ? ' · Resolving turn; menus pause progress' : ''}`, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
+      { label: snapshot.friends && !session ? nearbyResident(snapshot) ? 'Talk to resident' : nearWigglytuff(snapshot) ? 'Wigglytuff' : 'Ground menu' : loaded && facingJobClient(snapshot, loaded.catalogs) ? 'Talk to client' : 'Attack', run: () => { if (snapshot.friends && !session) resume(); else act({ type: 'attack' }); }, disabled: snapshot.mode !== 'dungeon' && !(snapshot.friends && snapshot.mode === 'town') || !worldReady },
+      { label: 'Wait', run: () => act({ type: 'wait' }), disabled: snapshot.mode !== 'dungeon' || !worldReady },
+      { label: 'Use stairs', run: () => { if (session) act({ type: 'useStairs', sessionId: session.sessionId }); }, disabled: snapshot.mode !== 'dungeon' || !onStairs || !worldReady },
     ]);
     view.minimap(session ? projected : null);
     if (snapshot.steel?.rewardChoice) {
@@ -267,11 +291,13 @@ export async function createApplication(canvas, signal, startup) {
   }
   /** @param {readonly import('../domain/turns/types.js').Event[]} [events] @param {Snapshot|null} [before] */
   function refresh(events = [], before = null) {
+    cancelAutomatic();
     const snapshot = current();
     if (!snapshot || !gameplay || !loaded || !renderer || !saves) { title(); return; }
     const bound = saves.service.getBinding();
     if (bindingEpoch !== bound.adventureEpoch) { groundExploring = false; bindingEpoch = bound.adventureEpoch; epoch = `campaign-${++epochCounter}`; input?.cancel(); view.clearMessages(); renderer.recenter(); renderer.zoom((snapshot.options.camera.zoom - 7) / 3); renderer.reducedMotion = snapshot.options.reducedMotion === 'on' || snapshot.options.reducedMotion === 'system' && reducedMotion.matches; root?.style.setProperty('--text-scale', String(snapshot.options.accessibility.textScale)); }
     if (before) assetRetries = 0;
+    if (automaticTurnReady(snapshot)) input?.cancel();
     const ticket = ++generation; ready = false; context();
     try {
       projected = renderSnapshot(snapshot, gameplay, epoch, loaded.catalogs.species, events);
@@ -280,18 +306,18 @@ export async function createApplication(canvas, signal, startup) {
       renderer.setFollow(snapshot.session?.leaderActorId ?? snapshot.profile.heroId);
       view.messages(eventMessages(before, projected, events));
       for (const actor of projected.actors) if (before?.session?.actors[actor.actorId] && actor.hp < (before.session.actors[actor.actorId]?.resources.hp ?? actor.hp)) renderer.flash(actor.x, actor.z, 'hit');
-      presented = snapshot; idleAt = events.length ? performance.now() + 280 : 0;
+      presented = snapshot; idleAt = events.length && !automaticTurnReady(snapshot) ? performance.now() + 280 : 0;
       const actors = projected.actors;
       void renderer.syncActors(actors).then(() => {
         if (disposed || ticket !== generation || current() !== snapshot || bound.adventureEpoch !== saves?.service.getBinding().adventureEpoch || failed || lost) return;
-        ready = true; screen(snapshot); context();
+        ready = true; screen(snapshot); context(); queueAutomatic();
       }).catch(error => { if (!disposed && ticket === generation && current() === snapshot) fail(error); });
       screen(snapshot);
     } catch (error) { fail(error); }
   }
   /** @param {unknown} error */
   function fail(error) {
-    if (disposed) return; followsGame = false; failed = true; ready = false; input?.cancel(); context();
+    if (disposed) return; cancelAutomatic(); followsGame = false; failed = true; ready = false; input?.cancel(); context();
     const cancellation = error instanceof Error && (error.name === 'AbortError' || error.message === 'Art resource is cancelling or has conflicting identity.');
     if (cancellation && current() && assetRetries < 2) {
       dialogue = false;
@@ -321,7 +347,7 @@ export async function createApplication(canvas, signal, startup) {
       if (current()?.friends && !current()?.session) { groundExploring = false; resume(); return; }
       if (action.panel === 'inventory') inventory(); else if (action.panel === 'map') panel('Gold marks your leader, blue your partner, red visible enemies and white discovered stairs. Only explored terrain is shown.', [], 'Explored map');
       else if (action.panel === 'tactics') panel('Your partner follows and attacks adjacent enemies using the reviewed opening policy. Changing tactics and IQ is not available yet.', [], 'Partner tactics');
-      else panel('Use stairs when standing on them, or give up this expedition. Defeat settlement retains growth and applies carried-item/money loss.', [ { label: 'Campaign & saves', run: menu }, { label: 'Give up expedition', disabled: !current()?.session, run: () => { const session = current()?.session; if (session) panel('Giving up ends this expedition and applies the sourced defeat losses.', [{ label: 'Confirm give up', run: () => act({ type: 'giveUp', sessionId: session.sessionId }, 'panel') }], 'Give up?'); } } ]);
+      else panel('Use stairs when standing on them, or give up this expedition. Defeat settlement retains growth and applies carried-item/money loss.', [ { label: 'Campaign & saves', run: menu }, { label: 'Give up expedition', disabled: !ready || !leaderInputReady(current()), run: () => { const session = current()?.session; if (session) panel('Giving up ends this expedition and applies the sourced defeat losses.', [{ label: 'Confirm give up', run: () => act({ type: 'giveUp', sessionId: session.sessionId }, 'panel') }], 'Give up?'); } } ]);
       return;
     }
     if (action.type === 'move' || action.type === 'face') act({ type: action.type, dx: action.direction.dx, dz: action.direction.dz });
@@ -336,12 +362,13 @@ export async function createApplication(canvas, signal, startup) {
     // turn nor commits a revision, and actor readiness is rechecked normally.
     if (idleAt && now >= idleAt && current() === presented && ready) { idleAt = 0; refresh(); }
     context(); if (mode() !== 'world' || now >= permitAt) input?.flush();
+    queueAutomatic();
     frame = window.requestAnimationFrame(tick);
   }
   function resize() { renderer?.resize(); }
   function watchDensity() { density?.removeEventListener('change', watchDensity); density = window.matchMedia(`(resolution: ${window.devicePixelRatio || 1}dppx)`); density.addEventListener('change', watchDensity, { once: true }); resize(); }
   function dispose() {
-    if (disposed) return; disposed = true; generation++; lifetime.abort(); listeners.abort(); signal.removeEventListener('abort', abort);
+    if (disposed) return; cancelAutomatic(); disposed = true; generation++; lifetime.abort(); listeners.abort(); signal.removeEventListener('abort', abort);
     window.cancelAnimationFrame(frame); observer?.disconnect(); density?.removeEventListener('change', watchDensity);
     input?.dispose(); saves?.dispose(); renderer?.dispose(); kit?.dispose?.(); loaded?.dispose(); view.dispose(); canvas.hidden = true; if (root) root.hidden = true;
   }
@@ -362,17 +389,18 @@ export async function createApplication(canvas, signal, startup) {
       throw new Error(`Unavailable environment kit: ${world.biomeId}`);
     }, dispose() { forest.dispose?.(); town.dispose?.(); cave.dispose?.(); } };
     renderer = new DungeonRenderer(canvas, { environmentKit: kit, reducedMotion: reducedMotion.matches,
-      onError: fail, onContextState(state) { lost = state === 'lost'; ready = false; input?.cancel(); context(); if (lost) view.notify('Graphics interrupted. Commands paused until recovery.'); else { lastFrame = 0; view.notify('Graphics restored.'); refresh(); } },
+      onError: fail, onContextState(state) { cancelAutomatic(); lost = state === 'lost'; ready = false; input?.cancel(); context(); if (lost) view.notify('Graphics interrupted. Commands paused until recovery.'); else { lastFrame = 0; view.notify('Graphics restored.'); refresh(); } },
     });
     await renderer.ready; lifetime.signal.throwIfAborted();
-    saves = createSaves({ gameplay, compatibility: createOpeningCompatibility(loaded.catalogs, gameplay.content, gameplay.authored), view, pause() { paused = true; input?.cancel(); context(); return () => { paused = false; }; },
-      busy(value) { busy = value; if (busy) input?.cancel(); context(); }, changed() { close(); resumedBinding(); }, back: resume, newGame });
+    saves = createSaves({ gameplay, compatibility: createOpeningCompatibility(loaded.catalogs, gameplay.content, gameplay.authored), view, pause() { cancelAutomatic(); paused = true; input?.cancel(); context(); return () => { paused = false; }; },
+      busy(value) { busy = value; if (busy) { cancelAutomatic(); input?.cancel(); } context(); }, changed() { close(); resumedBinding(); }, back: resume, newGame });
     input = createInputController({ target: document, cameraSurface: canvas, onIntent: intent });
     canvas.hidden = false; root.hidden = false;
     observer = new ResizeObserver(resize); observer.observe(canvas); window.addEventListener('resize', resize, { signal: listeners.signal });
     reducedMotion.addEventListener('change', () => { if (renderer) { const preference = current()?.options.reducedMotion ?? 'system'; renderer.reducedMotion = preference === 'on' || preference === 'system' && reducedMotion.matches; } }, { signal: listeners.signal });
-    document.addEventListener('visibilitychange', () => { input?.cancel(); lastFrame = 0; context(); if (document.hidden) { window.cancelAnimationFrame(frame); frame = 0; } else { resize(); if (!frame) frame = window.requestAnimationFrame(tick); } }, { signal: listeners.signal });
-    window.addEventListener('blur', () => { input?.cancel(); }, { signal: listeners.signal });
+    document.addEventListener('visibilitychange', () => { cancelAutomatic(); input?.cancel(); lastFrame = 0; context(); if (document.hidden) { window.cancelAnimationFrame(frame); frame = 0; } else { resize(); if (!frame) frame = window.requestAnimationFrame(tick); } }, { signal: listeners.signal });
+    window.addEventListener('blur', () => { focusPaused = true; cancelAutomatic(); input?.cancel(); context(); }, { signal: listeners.signal });
+    window.addEventListener('focus', () => { focusPaused = false; context(); }, { signal: listeners.signal });
     watchDensity(); booted = true; title(); frame = window.requestAnimationFrame(tick);
     return { dispose };
   } catch (error) { dispose(); throw error; }

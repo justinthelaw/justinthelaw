@@ -121,6 +121,8 @@ export function eventMessages(previous, view, events) {
   for (const event of events) {
     if (event.type === 'attackResolved' && names.has(event.actorId) && event.outcome !== 'hit') lines.push(`${names.get(event.actorId)}: ${event.outcome === 'miss' ? 'miss' : 'no effect'}`);
     if (event.type === 'message') lines.push(Object.hasOwn(messages, event.messageId) ? /** @type {Record<string,string>} */ (messages)[event.messageId] ?? event.messageId : event.messageId.startsWith('wind-') ? 'A mysterious wind is approaching. Find the stairs.' : event.messageId.replaceAll('-', ' '));
+    if (event.type === 'messageRepeated') lines.push(`Wonder Tiles reset stat changes (${event.count} notices).`);
+    if (event.type === 'pickupChanges') lines.push(`Multiple pickup changes completed (${event.count}). Check the toolbox or held item.`);
     if (event.type === 'expeditionEnded') lines.push(event.outcome === 'success' ? previous?.session?.purpose.kind === 'ordinary' ? 'The ordinary expedition ended. Eligible clients will thank you in town.' : previous?.session?.dungeonId === STEEL.dungeonId ? 'The summit is clear. Help Diglett cross the gap.' : previous?.session?.dungeonId === T.dungeonId ? 'The Magnemite are safe.' : 'Caterpie is safe.' : 'The expedition ended. Growth is retained; carried items and money follow the defeat rules. You can retry.');
     if (event.type === 'itemChanged' && view.pickups.every(item => item.pickupId !== event.itemInstanceId)) lines.push('An item changed. Check your held item or toolbox.');
   }
