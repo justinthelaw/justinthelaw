@@ -126,6 +126,12 @@ assert(activationText && activationText.indexOf('audio.activate(event)') < activ
 assert(repaintText.includes('view.rebuildPanel(snapshot)'),'Preference repaint must rebuild the current retained gameplay model, not merely its sound controls.');
 const view = await parse('src/ui/view.js');
 assert(view.source.includes('panelRebuild = rebuild ?? null') && view.source.includes('if (!panelOpen || !rebuild) return false') && view.source.includes('const token = panelToken; rebuild(snapshot)'),'Retained rebuilding needs the actual active panel owner.');
+const defaultFocus = named(view.ast,'focusPanel'), defaultFocusText = view.source.slice(defaultFocus.start,defaultFocus.end);
+assert(defaultFocusText.includes("!element.hasAttribute('data-audio-control')"),'Default panel focus must exclude sound controls before choosing a gameplay/form control.');
+assert(defaultFocusText.includes("element.matches('input, select, textarea')"),'A current naming or quantity form must receive focus before its submit/menu action.');
+assert(defaultFocusText.indexOf('.find(') < defaultFocusText.indexOf('primary[0]'),'Form focus must precede the first enabled gameplay action.');
+assert(defaultFocusText.includes('primary[0] ?? controls[0]'),'Sound stays available as a fallback only when no enabled gameplay/form control exists.');
+assert(view.source.includes('if (!soundFocus(soundKey)) focusPanel()') && view.source.includes('if (restoreFocus) soundFocus(key)'),'Explicit sound focus must survive current panel/settings repaints.');
 const model = await parse('src/application/snapshot-panel.js');
 assert(model.source.includes('send(intent,current)') && model.source.includes('view.ownsPanel(token) && current === shown') && model.source.includes('if (!view.ownsPanel(token) || current !== shown) return'),'Rebuilding must not authorize retired buttons or remove exact shown-snapshot dispatch.');
 for (const module of ['friends','town','work','reward-panel']) {

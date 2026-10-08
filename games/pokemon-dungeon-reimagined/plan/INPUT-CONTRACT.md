@@ -242,3 +242,15 @@ hidden document, graphics loss, blur and menu/save pause; assets-ready load of
 continuing resumes the saved PC. The280ms player clip-idle delay is not applied
 to automatic chunks. See [TURN-CONTINUATION.md](TURN-CONTINUATION.md). Static
 inspection does not replace human keyboard/touch/device/interruption acceptance.
+
+## Dialogue confirmation focus — 2026-10-08
+
+Opening a panel focuses its first enabled non-audio form field, then its first
+enabled gameplay action. Sound controls remain reachable with Tab/arrows and
+retain explicitly selected focus during sound-setting repaints. A synthetic
+emulator confirm cannot unlock audio, so default focus must not select Enable
+sound ahead of Continue or Enter Tiny Woods. Existing panel tokens and stale
+callback guards remain authoritative.
+
+The parser-only audio-integration audit checks this boundary. Manual
+WebGL-capable device acceptance remains separate.
