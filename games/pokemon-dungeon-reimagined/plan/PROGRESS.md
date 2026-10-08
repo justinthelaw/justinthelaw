@@ -1649,3 +1649,14 @@ factory is selected. Exact second-work/station/history and original-envelope/
 caller/readiness/UI composition remain the immediate dependency. Static-only
 resource audit, types/source and original save preservation are recorded in the
 implementation report; independent scoped review remains pending.
+
+### Escort second-work station dependency
+
+Added separate, unselected real second-work source jobs/Pidgey occupancy, full
+station reward/debt/result/day owners, actual interval history, raw scene/ground
+fields and original Caterpie staging through prospective MAIN5,9. See
+[ESCORT-SECOND-WORK.md](ESCORT-SECOND-WORK.md). Corrected source batch ruling:
+Pidgey3F plus generic5–8 permits five second-work jobs/end6; no reward truncation.
+Static station source audit, types and original save-boundary pins are the
+validation scope. Whole raw heritage/factory/conversion/caller/UI activation is
+still being completed in this task; current production remains v23 MAIN5,7.

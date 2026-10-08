@@ -1,0 +1,25 @@
+// Static authoring audit only. No game/native module is imported or evaluated.
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { parse } from 'acorn';
+const root = new URL('../../../games/pokemon-dungeon-reimagined/',import.meta.url);
+const source = async name => { const body = await readFile(new URL(name,root),'utf8'); parse(body,{ ecmaVersion: 'latest',sourceType: 'module' }); return body; };
+const work = await source('src/domain/gameplay/escort-work.js');
+for (const text of ['work.returned.cursor < work.returned.jobIds.length','returned.cursor < returned.jobIds.length','returned.cursor++; work.reward = null','state.progress.statistics.jobsCompleted++','state.progress.native.clearCount + 1','requestFriendsScene(context,authored,7)','deliverEscortMailbox(state,work)','completeNativeEscortObjective(context,prompt.actorId,catalogs)','legacyUnpaidPrefixProblem(state)']) assert.ok(work.includes(text),text);
+assert.ok(work.indexOf('work.returned = null; state.town.day++') < work.indexOf('state.progress.native.clearCount >= 2'));
+assert.ok(!/jobIds\.slice\(|jobIds\.length\s*=/.test(work),'No station batch truncation');
+const history = await source('content/state/escort-work-history.js');
+for (const text of ['finalBatch(r,firstClaims,3,4); finalBatch(r,secondClaims,2,5)','secondClaims.length <= secondRuns*5','allClaims.reduce((sum,job) => sum+job.reward.rankPoints,0)','encounter.lastRevision','secondMorning.firstRevision','nativeOrdinaryRosterCapacity','session.entry.selectedPartyIds.length >= 1',"actor.binding.kind === 'escort-guest'",'unlock.acquiredRevision === request.lastRevision']) assert.ok(history.includes(text),text);
+const records = await source('src/domain/gameplay/escort-job-records.js');
+for (const text of ['isScriptedPidgey(job)',"'active','objective-complete','reward-ready'","floor: 3,escort: false",'generateBronzeBoard(state,escortWorkOccupancy(state,work))','generateBronzeJob(state,escortWorkOccupancy(state,work))','drawMailFriendArea(state,work)','const reward = 4+draw(state,5,\'jobsRewards\')','news <= 49']) assert.ok(records.includes(text),text);
+const scenes = await source('src/domain/gameplay/escort-work-scenes.js');
+for (const text of ["friends.phase = 'caterpie-ready'",'setFriendsStep(state,8)',"friends.phase = 'sinister-ready'",'setFriendsStep(state,9)','state.progress.milestones[SINISTER_UNLOCK]']) assert.ok(scenes.includes(text),text);
+const refresh = await source('src/domain/gameplay/escort-ground-refresh.js');
+assert.ok(refresh.indexOf('refreshTownShops(') < refresh.indexOf('refreshEscortJobs('));
+for (const file of ['content/state/escort-station.js','content/state/escort-jobs.js','content/state/escort-ground.js','content/authored/escort-work.js','src/domain/gameplay/escort-job-interaction.js','src/domain/state/escort-work-prefix.js']) await source(file);
+const summit = await source('src/domain/gameplay/escort-meanies-scenes.js');
+assert.ok(summit.includes("!['work-three','work-two'].includes(state.friends?.phase ?? '')"));
+assert.ok(summit.includes("import { settleExpedition } from './escort-expedition.js'"));
+const expedition = await source('src/domain/gameplay/escort-expedition.js');
+assert.ok(expedition.includes("import { enterOrdinarySteelSummit } from './escort-meanies-scenes.js'"));
+console.log('Escort station source audit PASS: full five-job second batch, genuine Pidgey3F occupancy, ordered rewards/debt/day, actual inside/outside5,8/5,9 receipts; no execution.');

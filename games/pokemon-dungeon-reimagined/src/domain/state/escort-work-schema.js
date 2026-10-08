@@ -9,6 +9,8 @@ import { ESCORT_GUEST_SHAPES as PRIOR } from './escort-guest-schema.js';
 /** @param {Shape} value @returns {Shape} */ const array = value => ({ kind: 'array',value });
 /** @param {Shape} value @returns {Shape} */ const nullable = value => union([value,lit(null)]);
 /** @param {string} name */ function object(name) { const shape = PRIOR[name]; if (shape?.kind !== 'object') throw new TypeError('Unknown frozen escort prerequisite object.'); return shape; }
+const friends = PRIOR.FriendsState;
+if (friends?.kind !== 'union' || friends.members.some(row => row.kind !== 'object')) throw new TypeError('Unknown original friend variants.');
 const actor = PRIOR.SessionActor,expedition = PRIOR.ExpeditionState,scheduler = PRIOR.SchedulerState;
 if (actor?.kind !== 'union' || expedition?.kind !== 'union' || expedition.members.some(row => row.kind !== 'object')) throw new TypeError('Unknown frozen learning variants.');
 if (scheduler?.kind !== 'union') throw new TypeError('Unknown original scheduler variants.');
@@ -31,6 +33,7 @@ const guest = obj({ entry: ref('EscortGuestEntry'),ai: nullable(ref('EscortNativ
 const variants = [...expedition.members,...expedition.members.map(row => row.kind === 'object' ? obj({ ...row.fields,nativeTeamHistory: history }) : row),...expedition.members.map(row => row.kind === 'object' ? obj({ ...row.fields,nativeTeamHistory: history,escortGuest: guest }) : row)];
 /** @type {Readonly<Record<string,Shape>>} */
 export const ESCORT_WORK_SHAPES = Object.freeze({ ...PRIOR,
+  FriendsState: union(friends.members.map(row => row.kind === 'object' && row.fields.phase?.kind === 'union' ? obj({ ...row.fields,phase: union([...row.fields.phase.members,lit('caterpie-ready'),lit('caterpie')]) }) : row)),
   EscortNativeAi: obj({ mapId: ref('MapId'),objective: union(['stand','chase','remembered','roam','leave-room','run-away'].map(lit)),target: nullable(obj({ ref: ref('ActorSlotRef'),mapId: ref('MapId') })),targetPosition: obj({ x: ref('Int'),z: ref('Int') }),notNextToTarget: { kind: 'boolean' },targetingEnemy: { kind: 'boolean' },turningAround: { kind: 'boolean' },allySkip: { kind: 'boolean' },recalculateFollow: { kind: 'boolean' },waiting: { kind: 'boolean' },moveRandomly: { kind: 'boolean' },mobileTurnTimer: ref('Int') }),
   CampaignStateWithFieldMoves: obj({ ...object('CampaignStateWithFieldMoves').fields,escortRuntime: nullable(obj({ policyId: lit('native-general-prospective-conversions-and-pickup-v1'),adoptedRevision: ref('Int'),generalRandom: general })) }),
   SchedulerState: union([...scheduler.members,obj({ ...ready.fields,kind: lit('learning-continuing') })]),

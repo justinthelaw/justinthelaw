@@ -264,3 +264,10 @@ actors/slots/resources and require the final complete raw proof callback before
 field delegation. Their resource-only proof is not whole second-work admission.
 Preserve narrow casualty/swap and retired condition-source views, original frozen
 primitives, genuine source guest generation and exact ordinary final exits.
+
+[Second-work station ownership](plan/ESCORT-SECOND-WORK.md) preserves the complete
+native reward queue. Retained original normal Pidgey3F may coexist with four
+Steel5–8 requests: second maximum batch5/endpoint6, first batch4/endpoint6. Never
+truncate or cap producer rewards. Actual rank derives from every reward, and
+inside24/outside31 remain distinct MAIN5,8/5,9 boundaries. These unselected owners
+still require full raw heritage, factory, original-envelope and live caller joins.
