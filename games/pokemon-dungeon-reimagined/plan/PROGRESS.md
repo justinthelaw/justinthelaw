@@ -1206,3 +1206,26 @@ lines. Static baseline comparison confirmed every historical pin value retained
 and the v16 revision predicate frozen byte-for-byte; `git diff --check` passed.
 No full build/export or acceptance claim is made here; those remain controller
 and human gates. The bounded commit/check record is in the ignored T01 handoff.
+
+## T02 — finite ordinary item throws (2026-10-07; review pending)
+
+- Approval/dependencies: autonomous continued PR392 implementation; published T01
+  v17 baseline99986f4e83fbbd9716fbab7eb6eb18b8398c335b and bounded T02 brief.
+- Changed owners: separate capability authoring/raw source/checker/runtime facts;
+  finite throw planner/registration/launch/trajectory and inventory controls. See
+  [THROWING.md](THROWING.md) for exact source, selectors, ownership and save cursors.
+- Source: pinned Red6bcbec4 comparative; all424 rows/419 profile joins, native422
+  Statue=false, strict booleans, independent mapping, exact factual bytes and seven source-chain byte/hash/blob
+  metadata pins. No Blue instruction parity claim or frozen corpus change.
+- Static checks: capability export/check, lint323 files, strict types241 files and
+  save boundaries71 dependencies/14 predecessor bodies/2 factual manifests passed.
+  Final focused checks/hygiene/contribution hooks and commit recorded in handoff.
+- Admission: twelve verified T01 thrown effects, facing ordinary range10 and
+  existing/explicit arc destination. Sticky/flee failures retain origin and turn;
+  consumption/catch/drop/revival use shared owners. Flight cannot suspend/replay.
+  V17 and every predecessor/pin remain unchanged; no new saved field/revision.
+- Independent review: pending controller review; no gameplay/manual visual evidence
+  collected. D05 excludes game imports/execution/tests/boot/playthroughs.
+- Remaining: T03 exact Item Master/RNG/admission closure, wider item consumers,
+  line MOVE_PROJECTILE damage, trajectory equipment/status/role policies, original
+  Blue parity and full party/campaign/visual/release acceptance. No push/merge/deploy.

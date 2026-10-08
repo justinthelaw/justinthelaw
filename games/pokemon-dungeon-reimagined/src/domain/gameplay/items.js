@@ -1,22 +1,22 @@
-import { throwRock } from './projectiles.js';
+import { launchDungeonItem } from './throws.js';
 import { consumeItemOrigin, applyDungeonItemEffect, USABLE_ITEMS } from './item-effects.js';
 import { receiveRewardItem } from './reward-items.js';
 import { maxHp, ability, blocked } from './support.js';
 export { USABLE_ITEMS } from './item-effects.js';
 
 /** Origin/operation admission stays separate from recipient effects. Existing
- * self ingestion and player Gravelerock arc search remain the finite surface.
+ * self ingestion remains here; ordinary and legacy rock throws share launch.
  * @param {import('../turns/types.js').MutationContext} context @param {import('../../contracts/campaign.js').ResolvedAction & {kind:'item'}} action @param {import('./support.js').Catalogs} catalogs */
 export function useDungeonItem(context, action, catalogs) {
   const state = context.state; const session = state.session; const actor = session?.actors[action.actorId];
   const item = state.items[action.itemInstanceId]; const origin = session ? [state.containers[session.inventory], actor ? state.containers[actor.heldContainerId] : null].find(container => container?.itemIds.includes(action.itemInstanceId)) : null;
-  if (!session || !actor || !item || !origin?.itemIds.includes(item.itemInstanceId) || action.operation !== 'use' && action.operation !== 'throw' || action.target.kind !== 'self' || !USABLE_ITEMS.includes(item.template.itemId)) return blocked('item-action-not-supported');
+  if (action.operation === 'throw') return launchDungeonItem(context, action, catalogs);
+  if (!session || !actor || !item || !origin?.itemIds.includes(item.itemInstanceId) || action.operation !== 'use' || action.target.kind !== 'self' || !USABLE_ITEMS.includes(item.template.itemId)) return blocked('item-action-not-supported');
+  if (item.template.itemId === 'item-gravelerock') return blocked('projectile-use-operation');
   if (item.template.sticky) { context.emit({ type: 'message', messageId: 'item-sticky' }); return; }
-  const projectile = item.template.itemId === 'item-gravelerock';
-  if (!projectile && actor.auxiliaryConditions.muzzled && ['food_gummies', 'berries_seeds_vitamins'].includes(catalogs.effects.getItem(item.template.itemId).category)) { context.emit({ type: 'message', messageId: 'item-muzzled' }); return; }
-  const detached = consumeItemOrigin(context, origin, item, projectile);
-  if (projectile) throwRock(context, actor, detached, catalogs);
-  else { applyDungeonItemEffect(context, actor, actor, detached.payload, 'eaten', catalogs); context.emit({ type: 'message', messageId: 'berry-used' }); }
+  if (actor.auxiliaryConditions.muzzled && ['food_gummies', 'berries_seeds_vitamins'].includes(catalogs.effects.getItem(item.template.itemId).category)) { context.emit({ type: 'message', messageId: 'item-muzzled' }); return; }
+  const detached = consumeItemOrigin(context, origin, item, false);
+  applyDungeonItemEffect(context, actor, actor, detached.payload, 'eaten', catalogs); context.emit({ type: 'message', messageId: 'berry-used' });
   context.emit({ type: 'itemChanged', itemInstanceId: item.itemInstanceId });
 }
 

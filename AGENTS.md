@@ -384,3 +384,9 @@ Shared early recipient item effects and catching now route self ingestion and
 player Gravelerock impact through one owner. V17 admits only actual nonself
 Sleep Seed provenance over frozen v16. Straight throws and Item Master remain
 separate gates; all admitted inventories/learned slots remain intact.
+
+Finite Pokémon item throws use the existing command/turn transaction and inventory
+panel. All424 native capability positions have a separate parser-only source
+projection with419 exact profile joins; do not add guessed defaults or modify
+frozen species/effects resources. See the game plan/THROWING.md for T02 scope,
+legacy Gravelerock compatibility, v17 preservation and remaining Item Master gates.

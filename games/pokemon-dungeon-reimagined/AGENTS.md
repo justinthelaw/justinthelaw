@@ -26,8 +26,10 @@ completed movement using native bag/own-held order, projectile stacking and flee
 guards. All240 native item AI triples have a separate qualified factual export;
 these facts do not complete autonomous use/throw AI or native movement. Shared
 early recipient effects/catching now consume self ingestion and player
-Gravelerock hits; straight beneficial/harmful throw commands remain a separate
-owner. Catch/damage order is Red comparative evidence, not Blue binary parity.
+Gravelerock hits. Finite ordinary facing throw commands and explicit arc tiles
+now share launch/impact/drop owners; all424 native throw-capability facts retain
+419 exact profile joins. See plan/THROWING.md. Item Master and wider effects remain
+separate owners. Catch/damage order is Red comparative evidence, not Blue binary parity.
 Withdraw, Helping Hand, Thunder Wave, Disable,
 Attract, Smokescreen and Reflect now have scoped execution consumers; Reviver
 Seeds restore base move PP. Low Kick, Metal Claw, Mud-Slap and Water Gun have

@@ -8,6 +8,7 @@ import { workHandlers, workReady, facingJobClient } from './work.js';
 import { refreshJobBoard } from './job-records.js';
 import { townHandlers } from './town.js';
 import { USABLE_ITEMS } from './items.js';
+import { canThrowItems, THROWABLE_ITEMS, throwCategory } from './throws.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { canMeleeAttack } from '../navigation/geometry.js';
 import { movementPlan } from './movement.js';
@@ -38,6 +39,20 @@ export function createCommandHandlers(catalogs, authored, tutorialSaved) {
       if (intent.actorId !== leader.actorId || intent.target.kind !== 'self' || !canTransferHeldItem(leader) || !item || ![session.inventory, leader.heldContainerId].some(id => state.containers[id]?.itemIds.includes(item.itemInstanceId))) return { kind: 'rejected', reason: 'unavailable' };
       return { kind: 'action', action: { kind: 'item', actorId: leader.actorId, itemInstanceId: item.itemInstanceId, operation: 'equip', target: { kind: 'self' } } };
     }
+    if (intent.type === 'throwItem') {
+      const item = state.items[intent.itemInstanceId], bag = state.containers[session.inventory], held = state.containers[leader.heldContainerId];
+      const frame = session.scheduler.continuation;
+      if (intent.actorId !== leader.actorId || leader.resources.hp <= 0 || leader.placement.mapId !== session.floor.mapId || frame.terminal !== 'none' || frame.pass !== 'leader' || frame.stage !== 'decision' || frame.active?.actorId !== leader.actorId || !item || bag?.owner.kind !== 'session-toolbox' || bag.owner.sessionId !== session.sessionId || held?.owner.kind !== 'actor-held' || held.owner.actorId !== leader.actorId || held.owner.sessionId !== session.sessionId || [bag,held].filter(row => row.itemIds.includes(item.itemInstanceId)).length !== 1) return { kind: 'rejected', reason: 'unavailable' };
+      const capability = canThrowItems(leader, catalogs);
+      if (capability === null) return { kind: 'content-blocked', requirement: 'throw-capability-profile' };
+      if (!capability) return { kind: 'rejected', reason: 'unavailable' };
+      if (!THROWABLE_ITEMS.includes(item.template.itemId)) return { kind: 'content-blocked', requirement: `item-throw-effect-consumer:${item.template.itemId}` };
+      const category = throwCategory(item.template.itemId);
+      if (!category || category !== catalogs.effects.getItem(item.template.itemId).category) return { kind: 'content-blocked', requirement: 'throw-item-category' };
+      if (intent.target.kind !== 'facing') return { kind: 'rejected', reason: 'invalid-command' };
+      if (item.shopLotId !== null) return { kind: 'content-blocked', requirement: 'throw-shop-aggression-consumer' };
+      return { kind: 'action', action: { kind: 'item', actorId: leader.actorId, itemInstanceId: item.itemInstanceId, operation: 'throw', target: intent.target } };
+    }
     if (intent.type === 'useItem') {
       const item = state.items[intent.itemInstanceId]; const bag = state.containers[session.inventory];
       if (intent.actorId !== leader.actorId || intent.target.kind !== 'self' || !item || !bag?.itemIds.includes(item.itemInstanceId) && !state.containers[leader.heldContainerId]?.itemIds.includes(item.itemInstanceId)) return { kind: 'rejected', reason: 'unavailable' };
@@ -64,7 +79,7 @@ export function createCommandHandlers(catalogs, authored, tutorialSaved) {
     }
     return { kind: 'rejected', reason: 'invalid-command' };
   } };
-  return { friendAction: friendHandler(catalogs, authored), steelRewardChoice: steelRewardHandler(authored), ...work, ...townHandlers(catalogs, authored), beginMorning: morningHandler(authored), submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs, tutorialSaved), move: { plan(state,intent) { return intent.type === 'move' && friendsGroundReady(state) ? { kind: 'mutation' } : dungeonAction.plan(state,intent); }, apply(context,intent) { return intent.type === 'move' && moveFriendsGround(context,authored,intent.dx,intent.dz) ? { kind: 'changed', resumeDungeon: false } : { kind: 'rejected', reason: 'unavailable' }; } }, wait: dungeonAction, attack: { plan(state, intent) { return intent.type === 'attack' && facingJobClient(state, catalogs) ? { kind: 'mutation' } : dungeonAction.plan(state, intent); }, apply(context) { return work.workAction?.apply?.(context, { type: 'workAction', order: { kind: 'client-talk' } }) ?? { kind: 'rejected', reason: 'unavailable' }; } }, useMove: dungeonAction, setMove: setMoveHandler, useItem: dungeonAction, equipItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
+  return { friendAction: friendHandler(catalogs, authored), steelRewardChoice: steelRewardHandler(authored), ...work, ...townHandlers(catalogs, authored), beginMorning: morningHandler(authored), submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs, tutorialSaved), move: { plan(state,intent) { return intent.type === 'move' && friendsGroundReady(state) ? { kind: 'mutation' } : dungeonAction.plan(state,intent); }, apply(context,intent) { return intent.type === 'move' && moveFriendsGround(context,authored,intent.dx,intent.dz) ? { kind: 'changed', resumeDungeon: false } : { kind: 'rejected', reason: 'unavailable' }; } }, wait: dungeonAction, attack: { plan(state, intent) { return intent.type === 'attack' && facingJobClient(state, catalogs) ? { kind: 'mutation' } : dungeonAction.plan(state, intent); }, apply(context) { return work.workAction?.apply?.(context, { type: 'workAction', order: { kind: 'client-talk' } }) ?? { kind: 'rejected', reason: 'unavailable' }; } }, useMove: dungeonAction, setMove: setMoveHandler, useItem: dungeonAction, throwItem: dungeonAction, equipItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
     presentation: { plan: () => ({ kind: 'presentation' }) },
     advance: { plan: state => state.mode === 'dungeon' && !state.earlyWork?.clientPrompt && state.session?.scheduler.kind === 'ready' ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }, apply: () => ({ kind: 'changed', resumeDungeon: true }) },
     enterDungeon: { plan(state, intent) { if (intent.type !== 'enterDungeon' || !['tiny-woods', T.dungeonId, STEEL.dungeonId].includes(intent.dungeonId)) return { kind: 'content-blocked', requirement: 'dungeon-entry-not-supported' }; const reason = admission(catalogs, state, intent.dungeonId); return reason ? { kind: 'content-blocked', requirement: reason } : { kind: 'mutation' }; }, apply(context, intent) { if (intent.type !== 'enterDungeon') return { kind: 'rejected', reason: 'invalid-command' }; if (intent.dungeonId === STEEL.dungeonId) { beginSteelTravel(context, authored); return { kind: 'changed', resumeDungeon: false }; } const ordinary = workReady(context.state); if (ordinary && context.state.earlyWork) refreshJobBoard(context.state, context.state.earlyWork); enterOpening(context, catalogs, authored, intent.dungeonId, ordinary); return { kind: 'changed', resumeDungeon: true }; } },
