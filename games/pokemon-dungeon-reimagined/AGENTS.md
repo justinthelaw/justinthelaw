@@ -178,3 +178,21 @@ do not establish maximum-envelope latency, device or interrupted-save acceptance
 Do not recover or ship abandoned scratch prototypes as production code. They
 were interrupted when the user changed the task to planning and have not been
 reviewed for correctness, completeness, or visual quality.
+
+Bronze continuation work consumes [BRONZE-JOBS.md](plan/BRONZE-JOBS.md).
+The exact v22 successor prepares native numeric2 metadata, Set3 reward payloads,
+mail-area/news producers and saved station prefix/mission-area receipts while
+MAIN5,7 departure/refresh remains held for the separate escort guest/second interval.
+Preserve all95 original dependency pins and original-envelope admission; do not
+add default posting/guest/prefix/area history during conversion. EVENT_B01P01
+figure bits are distinct from cutscene flags. Wonder Mail areas are10/14/35/36
+(Boulder Cave36); Decrepit Lab38 is a shop area. New area receipt admission must
+compose the actual successful interval and `checkMissionAreaRewards` ownership.
+
+Round1 Bronze review requires one pure prospective proof before every legacy
+per-job/progress/town projection. Saved v22 pauses require exclusive applied prefix
+or authenticated unpaid conversion debt; absence alone is invalid. A real old
+prepared queue may gain truthful current-conversion metadata only after original
+envelope/hash/exact factory admission, preserving every lot/queue/RNG/resource.
+The next successor must carry the exact prefix/schema/revision guards recorded in
+BRONZE-JOBS.md; do not restore old ordering or infer debt from field omission.

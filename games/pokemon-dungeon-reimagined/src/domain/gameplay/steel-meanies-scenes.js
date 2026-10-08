@@ -4,6 +4,7 @@ import { MORNING } from '../../../content/authored/first-morning.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
 import { ORDINARY_SUMMIT, POSTING_CURSOR, placeMeaniesGround } from '../../../content/authored/steel-meanies.js';
 import { STEEL_MEANIES_REVISION } from '../state/steel-meanies-revision.js';
+import { BRONZE_JOBS_REVISION } from '../state/bronze-jobs-revision.js';
 import { requestScene } from './scenes.js';
 import { settleExpedition } from './expedition.js';
 import { postMeaniesMail } from './steel-meanies-mail.js';
@@ -13,12 +14,12 @@ import { blocked } from './support.js';
  * @typedef {import('../../../content/authored/opening.js').AuthoredOpening} Authored */
 /** @param {import('../../contracts/campaign.js').CampaignSnapshot} state */
 export function meaniesExitReady(state) {
-  return state.contentRevision === STEEL_MEANIES_REVISION && state.friends?.phase === 'meanies-ready' && state.mode === 'town' && state.town.mapDefinitionId === MORNING.interior && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 6 && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt;
+  return (state.contentRevision === STEEL_MEANIES_REVISION || state.contentRevision === BRONZE_JOBS_REVISION) && state.friends?.phase === 'meanies-ready' && state.mode === 'town' && state.town.mapDefinitionId === MORNING.interior && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 6 && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt;
 }
 /** Offer/list commands at the genuine outside input stop; no departure/refresh.
  * @param {import('../../contracts/campaign.js').CampaignSnapshot} state */
 export function meaniesMailboxReady(state) {
-  return state.contentRevision === STEEL_MEANIES_REVISION && state.friends?.phase === 'work-two' && state.mode === 'town' && state.town.mapDefinitionId === TEAM.map && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 7 && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt;
+  return (state.contentRevision === STEEL_MEANIES_REVISION || state.contentRevision === BRONZE_JOBS_REVISION) && state.friends?.phase === 'work-two' && state.mode === 'town' && state.town.mapDefinitionId === TEAM.map && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 7 && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt;
 }
 /** @param {Context} context @param {Authored} authored */
 export function beginMeaniesScene(context, authored) {

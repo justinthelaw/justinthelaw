@@ -12,7 +12,7 @@
  * newsRead:number[],
  * mailPending:boolean,
  * returned:null|{sessionId:import('../contracts.js').SessionId,dungeonId:import('../contracts.js').DungeonId,outcome:'success'|'fainting'|'wind-expulsion'|'give-up',jobIds:import('../contracts.js').JobId[],cursor:number},
- * reward:null|{jobId:import('../contracts.js').JobId,preparedRevision:number,nextItem:number},
+ * reward:null|{jobId:import('../contracts.js').JobId,preparedRevision:number,nextItem:number,prefixAppliedRevision?:number,unpaidPrefix?:{sourceContentRevision:string,sourceRevision:number,conversionRevision:number,queueFingerprint:string}},
  * }} EarlyWorkState
  */
 export {};

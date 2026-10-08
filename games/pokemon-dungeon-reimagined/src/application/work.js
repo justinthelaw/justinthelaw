@@ -1,3 +1,4 @@
+import { FRIEND_AREA_FACTS } from '../../content/authored/friend-area-facts.js';
 import { workReady } from '../domain/gameplay/work.js';
 import { meaniesMailboxReady } from '../domain/gameplay/steel-meanies-scenes.js';
 import { rescueRank } from '../domain/gameplay/job-generation.js';
@@ -30,9 +31,9 @@ export function showWork({ snapshot, catalogs, view, send, back, menu, open }, p
   /** @param {Snapshot['progress']['jobs'][string]} job */
   function description(job) {
     const goal = job.goal, client = person(goal.client.identity.speciesId);
-    const task = goal.kind === 'find-pokemon' ? `Help ${person(goal.target.identity.speciesId)} for ${client}.` : goal.kind === 'deliver-item' ? `Bring ${itemName(goal.itemId)} to ${client}.` : goal.kind === 'retrieve-item' ? `Bring ${itemName(goal.itemId)} back for ${client}. A matching item already in your toolbox counts on a successful return; held items do not count.` : `Rescue ${client}.`;
+    const task = goal.kind === 'escort' ? `Escort ${client} to ${person(goal.recipient.identity.speciesId)}.` : goal.kind === 'find-pokemon' ? `Help ${person(goal.target.identity.speciesId)} for ${client}.` : goal.kind === 'deliver-item' ? `Bring ${itemName(goal.itemId)} to ${client}.` : goal.kind === 'retrieve-item' ? `Bring ${itemName(goal.itemId)} back for ${client}. A matching item already in your toolbox counts on a successful return; held items do not count.` : `Rescue ${client}.`;
     const extra = job.source.kind === 'generated' && 'rewardType' in job.source ? job.source.rewardType === 3 ? ' plus one extra item' : job.source.rewardType === 7 ? ' plus two extra items' : '' : '';
-    return `${task} Listed location: ${routeName(goal.destination.dungeonId)}, ${Number(goal.destination.floorId.split('-').at(-1))}F. Promised reward: ${job.reward.money ? `${job.reward.money} Poké` : ''}${job.reward.money && job.reward.items.length ? ' + ' : ''}${job.reward.items.map(row => `${itemName(row.template.itemId)} ×${row.quantity}`).join(', ')}${extra}. Rescue rank: ${job.reward.rankPoints} points. Accepted requests must also be marked Take Job before departure.`;
+    return `${task} Listed location: ${routeName(goal.destination.dungeonId)}, ${Number(goal.destination.floorId.split('-').at(-1))}F. Promised reward: ${job.reward.money ? `${job.reward.money} Poké` : ''}${job.reward.money && job.reward.items.length ? ' + ' : ''}${job.reward.items.map(row => `${itemName(row.template.itemId)} ×${row.quantity}`).join(', ')}${extra}${job.reward.friendAreaIds.map(id => FRIEND_AREA_FACTS.find(row => row.id === id)?.name ?? id).join(', ')}. Rescue rank: ${job.reward.rankPoints} points. Accepted requests must also be marked Take Job before departure.`;
   }
   /** @param {import('../contracts.js').JobId} id @param {()=>void} previous */
   function detail(id, previous) {
@@ -83,7 +84,9 @@ export function showWork({ snapshot, catalogs, view, send, back, menu, open }, p
     }
     const result = snapshot.pendingResult;
     if (result?.kind === 'job-reward') {
-      show("Client's thanks", `Request complete. ${result.reward.money} Poké and ${result.reward.rankPoints} rescue points awarded. Promised items: ${result.reward.items.map(row => `${itemName(row.template.itemId)} ×${row.quantity}`).join(', ') || 'none'}. Items went to your toolbox or storage, or were discarded according to your confirmed choices.`, [
+      const areaReceipt = snapshot.friends?.missionAreaRewards?.find(row => row.jobId === result.jobId);
+      const areaText = areaReceipt ? ` ${FRIEND_AREA_FACTS.find(row => row.id === areaReceipt.areaId)?.name ?? areaReceipt.areaId}: ${areaReceipt.outcome === 'unlocked' ? 'unlocked' : 'already owned; 1000 Poké compensation awarded'}.` : '';
+      show("Client's thanks", `Request complete. ${result.reward.money} Poké and ${result.reward.rankPoints} rescue points awarded.${areaText} Promised items: ${result.reward.items.map(row => `${itemName(row.template.itemId)} ×${row.quantity}`).join(', ') || 'none'}. Items went to your toolbox or storage, or were discarded according to your confirmed choices.`, [
         { label: 'Continue', run: () => send({ type: 'ackResult', resultId: result.resultId, cursor: result.cursor, revision: snapshot.revision, choice: { kind: 'ack' } }) }, { label: 'Campaign & saves', run: menu },
       ]); return;
     }

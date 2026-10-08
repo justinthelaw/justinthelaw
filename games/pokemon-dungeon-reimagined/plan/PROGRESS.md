@@ -1439,3 +1439,72 @@ then escort guest/objective/turn admission and second work. Unrestricted MAIN5,7
 departures/refresh/travel remain held; no offer is removed or draw suppressed to
 make them work. Caterpie/Sinister, full Item Master/party AI, extra-party entry,
 wild recruitment and the complete campaign/postgame/art/release goals remain.
+
+## V22 — Bronze generation and station prerequisite (2026-10-08; review pending)
+
+Accepted base: published/reviewed Steel-Meanies through genuine MAIN5,7,
+`77ee7640810d20974e707c67f477206e1edae1b6` (tree
+`f686e4dfb24acf99076b46920b8eac2cc0f3fd91`).
+[BRONZE-JOBS.md](BRONZE-JOBS.md) records exact source locators/draws/semantic,
+station prefix/overflow, area receipt/capacity and original-envelope preservation.
+
+Owned: parser-only ordered45-item Set3/20-TM factual export; true native numeric2
+producer and independent recipient/metadata; occupancy/Take/capacity/slot sorting;
+prospective mail eligible-area suppression/rank fallback and regular issue0–49;
+difficulty-aware promised/complete prepared station rewards; saved money→area→
+items→points prefix and real area acquisition/1000 compensation receipt; exact
+v22 schema/factory and v21 original compatibility, seven appended dependency pins,
+focused static audit and UI source descriptions. Existing early/friend/source
+policies and all original resources/selections/history remain intact.
+
+Source correction: Wonder Mail areas10/14/35/36 include Boulder Cave36, not the
+research prose's Decrepit Lab38. EVENT_B01P01 reward figure flags are distinct from
+cutscene flags; Set1/Set3 contain neither figure. Only finite exclusive Minun is
+already Blue available; client/recipient thank-you eligibility is checked together.
+Native Red evidence remains comparative, not proven Blue binary parity.
+
+Actual current entry/refresh remains held at MAIN5,7. New source active/claim/area
+history is not admitted before the genuine guest/second-interval owner. Concrete
+new producers are exported and station/selection consumers are wired prospectively;
+no live command draws unsupported escort or grants an area. Old paused imports
+retain their already prepared/delivered item prefix; first actual resume records
+only still-pending money, never fabricated past source-order history. No new
+turn/event consumer changes3800/2300/1950 bounds under4096.
+
+Verification: focused lint/types/save95 pins/friend/new Bronze source/data audit,
+native parser export --check, content/campaign facts and source-preservation audit;
+exact commands/results/final SHA in ignored bronze-generation-report.md. No game
+module import/evaluation/execution, tests, browser, playthrough, full suite/build,
+hooks or publication. Independent review pending; no package acceptance claim.
+Fine-grained generated-jobs/area coverage remains partial. Human/device/visual/
+Blue/full-release acceptance, escort guest/Pickup/AI/loss/objective/cleanup,
+second interval/Caterpie/Sinister, wider party/item AI and recruitment remain open.
+Next owner: genuine temporary escort lifecycle, then second-work admission only
+after independent review of both prerequisites.
+
+### V22 review round1 — legacy callback and unpaid-prefix fixes
+
+BGR-001 legacy Pidgey per-job delegation now receives the same exact predecessor
+view as progress/town, after one pure complete prospective-addition/source/prefix
+proof with no predecessor recursion or callback-order dependency. Retained offered/
+accepted/suspended/taken Pidgey and old news/source/selection remain intact beside
+genuine new Bronze mailbox/news additions; frozen Meanies checks are unchanged.
+
+BGR-002 removes unmarked pauses from the saved v22 reward union. Fresh preparation
+applies and persists prefix before any overflow. True original v8–v21 pauses gain
+truthful unpaid conversion metadata only after exact original envelope/factory
+admission: source version/canonical revision, actual conversion revision, and exact
+queue/job/lot/RNG fingerprint. Conversion pays nothing and preserves original
+preparedRevision/items/nextItem/resources/history. Genuine resume validates debt,
+consumes it and records applied prefix before items/overflow; missing/simultaneous/
+malformed metadata rejects. The controller explicitly ruled this conversion-debt
+metadata valid because it invents no earlier gameplay/payment history.
+
+The tracked contract and parser-only source audit include these callback and
+fresh/debt/omission/repeated-overflow/complete-receipt cases and every exact-revision
+guard the future guest successor must carry. Covering lint/types/save/friend/Bronze/
+native projection/preservation/whitespace checks only; no game import/execution,
+tests, hooks, broad suite, browser/playthrough or publication. Exact fix commit and
+commands/results in ignored bronze-generation-report.md appendix. Stop for the
+same independent reviewer's scoped re-review; no acceptance claim or guest/second
+work/area history activation.

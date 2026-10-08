@@ -354,6 +354,34 @@
     {
       "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-registry-v20.js",
       "sha256": "05e78d4b8e885b4b3cf893a4c02532ac70f32baeb650b8a2df214ded528925f6"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v21.js",
+      "sha256": "32cb6516ae6aa077dc9b53a46883b3b8754de56ae4c35844ce4e1057f905f51d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-registry-v21.js",
+      "sha256": "ffa84fe1e6259ff15eb925ea50ff9d66c8986c0fd5bc6d40973fb0dcd85d395f"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/steel-meanies-revision.js",
+      "sha256": "d0b0ddd3d4bb40613e0f09988be3b5a0fa3f7a5bcadae9d6961405db7454ba1c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-meanies-campaign.js",
+      "sha256": "b17c5169657b636de82334b1136970ca01b0a7c96f1c6f479cfef598705bdc18"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-meanies-work.js",
+      "sha256": "0aa0daa58347ddab3df8202ee482b4de95bd728c04a6a99625fefd84602df872"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/steel-meanies-owners.js",
+      "sha256": "7644bdc5f5325fa93b470ce540f939763693034ea8f62621d114db8ba1f2136b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/steel-meanies.js",
+      "sha256": "0a15a77a5625b14fc22ca7330ffcecfb6e3c607e5769c57b1fc7bcb90f558eba"
     }
   ],
   "functionBodies": [
@@ -490,5 +518,6 @@
     "sha256": "39f6613b5fb55f26dece5bd4f899c0be53e5a14e120c181e6d71ae7924a34f8d"
   },
   "chapterWorkPredecessorBaselineCommit": "659bfe78ecb9708b775573af3501d4f68f6c0c51",
-  "steelMeaniesPredecessorBaselineCommit": "c98a8152088875ab7d412ba75c493295ab66e103"
+  "steelMeaniesPredecessorBaselineCommit": "c98a8152088875ab7d412ba75c493295ab66e103",
+  "bronzeJobsPredecessorBaselineCommit": "77ee7640810d20974e707c67f477206e1edae1b6"
 }

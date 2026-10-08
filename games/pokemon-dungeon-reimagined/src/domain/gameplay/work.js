@@ -1,3 +1,6 @@
+import { legacyUnpaidPrefixProblem } from '../state/bronze-reward-prefix.js';
+import { BRONZE_JOBS_REVISION } from '../state/bronze-jobs-revision.js';
+import { isBronzeJob, bronzeJob, prepareBronzeReward, prepareBronzeClientThanks, applyBronzeRewardPrefix, changeBronzeJobSelection } from './bronze-job-records.js';
 import { STEEL_MEANIES_REVISION } from '../state/steel-meanies-revision.js';
 import { meaniesMailboxReady } from './steel-meanies-scenes.js';
 import { FRIENDS, placeFriendsGround } from '../../../content/authored/friends.js';
@@ -26,7 +29,7 @@ export function workReady(state) {
 }
 /** The new interval adds no bypass for a canonical input owner.
  * @param {Snapshot} state */
-export function chapterWorkReady(state) { return state.contentRevision === STEEL_MEANIES_REVISION && state.friends?.phase === 'work-three' && state.progress.storyNodeId === FRIENDS.story && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 5 && state.progress.native.clearCount < 3; }
+export function chapterWorkReady(state) { return (state.contentRevision === STEEL_MEANIES_REVISION || state.contentRevision === BRONZE_JOBS_REVISION) && state.friends?.phase === 'work-three' && state.progress.storyNodeId === FRIENDS.story && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 5 && state.progress.native.clearCount < 3; }
 /** Opening a new prompt also requires that no other client prompt owns input.
  * @param {Snapshot} state @param {import('./support.js').Catalogs} catalogs */
 export function facingJobClient(state, catalogs) {
@@ -57,20 +60,43 @@ function nextMorning(context, authored) {
   }
 }
 
-/** Receipt is last: inventory cursor, money, points, count, accepted removal and
+/** Receipt is last: saved money/area prefix, inventory cursor, points/count and
  * display commit in one draft. Loading an overflow choice never rerolls extras.
- * @param {Context} context @param {import('./reward-items.js').RewardItemChoice} [choice] */
-function deliverPreparedReward(context, choice) {
+ * @param {Context} context @param {import('./reward-items.js').RewardItemChoice} [choice]
+ * @param {boolean} [freshPreparation] */
+function deliverPreparedReward(context, choice, freshPreparation = false) {
   const state = context.state, work = state.earlyWork, prepared = work?.reward, returned = work?.returned;
   if (!work || !prepared || !returned) return blocked('work-reward-owner');
   const job = state.progress.jobs[prepared.jobId]; if (!job || job.phase.kind !== 'reward-ready') return blocked('work-reward-job');
+  if (state.contentRevision === BRONZE_JOBS_REVISION) {
+    if (returned.jobIds[returned.cursor] !== job.jobId) return blocked('work-reward-prefix-cursor');
+    if (freshPreparation) {
+      // A transient new lot can be unmarked only inside this preparation draft;
+      // no saved v22 pause admits this shape. Apply prefix before any yield.
+      if (prepared.preparedRevision !== state.revision+1 || prepared.nextItem !== 0 || prepared.prefixAppliedRevision !== undefined || prepared.unpaidPrefix !== undefined) return blocked('work-fresh-reward-prefix');
+      if (isBronzeJob(job)) applyBronzeRewardPrefix(context,job);
+      else {
+        state.economy.carriedMoney = Math.min(99999,state.economy.carriedMoney+job.reward.money);
+        prepared.prefixAppliedRevision = state.revision+1;
+      }
+    } else if (prepared.prefixAppliedRevision !== undefined) {
+      if (prepared.unpaidPrefix !== undefined || prepared.prefixAppliedRevision < prepared.preparedRevision || prepared.prefixAppliedRevision > state.revision) return blocked('work-applied-reward-prefix');
+    } else {
+      // Only original-envelope conversion can own unpaid legacy money. Consume
+      // its descriptor before genuine item resume/overflow, never infer debt.
+      if (legacyUnpaidPrefixProblem(state) !== null) return blocked('work-authenticated-unpaid-prefix');
+      state.economy.carriedMoney = Math.min(99999,state.economy.carriedMoney+job.reward.money);
+      delete prepared.unpaidPrefix;
+      prepared.prefixAppliedRevision = state.revision+1;
+    }
+  }
   while (prepared.nextItem < job.reward.items.length) {
     const item = job.reward.items[prepared.nextItem]; if (!item) return blocked('work-reward-item');
     const result = receiveRewardItem(context, item, choice); choice = undefined;
     if (result === 'choice') return;
     prepared.nextItem++;
   }
-  state.economy.carriedMoney = Math.min(99999, state.economy.carriedMoney + job.reward.money);
+  if (prepared.prefixAppliedRevision === undefined) state.economy.carriedMoney = Math.min(99999, state.economy.carriedMoney + job.reward.money);
   state.progress.rankPoints = Math.min(99999999, state.progress.rankPoints + job.reward.rankPoints);
   state.progress.statistics.jobsCompleted++;
   state.progress.native.clearCount = Math.min(100, state.progress.native.clearCount + 1);
@@ -94,9 +120,10 @@ function nextReward(context, authored) {
       job.phase = { kind: 'reward-ready', completedRevision: state.revision + 1 };
     }
     if (job.phase.kind !== 'reward-ready') return blocked('work-station-phase');
-    job.reward = prepareJobReward(state, earlyJob(job).source);
+    if (isBronzeJob(job)) prepareBronzeClientThanks(job);
+    job.reward = isBronzeJob(job) ? prepareBronzeReward(state,bronzeJob(job).source) : prepareJobReward(state, earlyJob(job).source);
     work.reward = { jobId: job.jobId, preparedRevision: state.revision + 1, nextItem: 0 };
-    deliverPreparedReward(context); return;
+    deliverPreparedReward(context,undefined,true); return;
   }
   nextMorning(context, authored);
 }
@@ -144,7 +171,7 @@ export function workHandlers(catalogs, authored) { return {
         else if (order.yes) { work.clientPrompt = null; settleExpedition(context, 'success', catalogs); }
         else prompt.stage = 'leave';
       } else if (order.kind === 'job') {
-        if (!(state.friends ? changeChapterJobSelection : changeJobSelection)(state, work, order.jobId, order.operation)) return { kind: 'rejected', reason: 'unavailable' };
+        if (!(state.contentRevision === BRONZE_JOBS_REVISION ? changeBronzeJobSelection : state.friends ? changeChapterJobSelection : changeJobSelection)(state, work, order.jobId, order.operation)) return { kind: 'rejected', reason: 'unavailable' };
       } else if (order.kind === 'read-news') {
         const index = work.mailbox.findIndex(row => row.kind === 'news' && row.newsId === order.newsId);
         if (index < 0) return { kind: 'rejected', reason: 'unavailable' };

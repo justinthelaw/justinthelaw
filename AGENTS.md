@@ -415,3 +415,10 @@ continuation review covers saved cursors and stale load, replacement and menu
 callbacks; future changes require scoped review. Human latency/device/save-
 interruption and broader acceptance remain
 separate full-release gates.
+
+The bounded Bronze generation/reward prerequisite is recorded in
+`games/pokemon-dungeon-reimagined/plan/BRONZE-JOBS.md`. Its exact v22 schema/policy
+adds prospective source metadata and station prefix/mission-area ownership while
+preserving original v2–v21 envelopes and every historical source pin. MAIN5,7
+outing/refresh remains held for genuine escort guest/second-work lifecycle;
+static source/type/admission checks do not establish gameplay or full-game gates.

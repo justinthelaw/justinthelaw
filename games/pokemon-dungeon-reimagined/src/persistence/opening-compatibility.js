@@ -1,3 +1,6 @@
+import { recordLegacyUnpaidPrefix } from '../domain/state/bronze-reward-prefix.js';
+import { createCampaignContent as createSteelMeaniesContent } from '../../content/state/steel-meanies-campaign.js';
+import { STEEL_MEANIES_REVISION } from '../domain/state/steel-meanies-revision.js';
 import { createCampaignContent as createChapterWorkContent } from '../../content/state/chapter-work-campaign.js';
 import { CHAPTER_WORK_REVISION } from '../domain/state/chapter-work-revision.js';
 import { createCampaignContent as createContinuationContent } from '../../content/state/continuation-campaign.js';
@@ -94,7 +97,9 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   if (continuation.contentRevision !== TURN_CONTINUATION_REVISION) throw new TypeError('Continuation-v19 factual catalog boundary differs.');
   const chapterWork = createChapterWorkContent(catalogs);
   if (chapterWork.contentRevision !== CHAPTER_WORK_REVISION) throw new TypeError('Chapter-work-v20 factual catalog boundary differs.');
-  return Object.freeze([...([chapterWork, continuation, stun, impact, field, damage, party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
+  const steelMeanies = createSteelMeaniesContent(catalogs);
+  if (steelMeanies.contentRevision !== STEEL_MEANIES_REVISION) throw new TypeError('Steel/Meanies-v21 factual catalog boundary differs.');
+  return Object.freeze([...([steelMeanies, chapterWork, continuation, stun, impact, field, damage, party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);
@@ -102,8 +107,10 @@ export function createOpeningCompatibility(catalogs, content, authored) {
       try {
         const { draft, commitRevision } = prepareTransaction(admitted.snapshot, commandContext(admitted.snapshot));
         draft.contentRevision = content.contentRevision; draft.revision = commitRevision;
-        if (predecessor === chapterWork || predecessor === continuation || predecessor === stun) {
-          // Exact v18/v19 already own every current field. Convert metadata only:
+        recordLegacyUnpaidPrefix(draft,admitted,predecessor.contentRevision,commitRevision);
+        if (predecessor === steelMeanies || predecessor === chapterWork || predecessor === continuation || predecessor === stun) {
+          // Exact v18–v21 preserve every canonical owner. Convert metadata only,
+          // including truthful unpaid conversion debt on an actual old pause:
           // no defaults, actor initialization, cursor normalization or work.
           const checked = validateCampaign(draft, content);
           return checked.ok ? succeed(checked.snapshot) : fail(checked.kind === 'blocked' ? 'content-blocked' : 'invalid');
