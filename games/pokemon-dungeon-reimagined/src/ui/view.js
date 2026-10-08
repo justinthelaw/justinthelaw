@@ -43,7 +43,12 @@ export function createView(root) {
   const controlSelector = 'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)';
   function panelControls() { return [...panel.querySelectorAll(controlSelector)].flatMap(element => element instanceof HTMLElement && !element.closest('[hidden]') && !element.closest('[inert]') ? [element] : []); }
   function focusPanel() {
-    const focus = panelControls()[0];
+    const controls = panelControls();
+    // Sound precedes the choices visually, but A/Start must first reach the
+    // current form or gameplay action. Explicit sound focus is restored by its
+    // repaint owner; all sound controls remain in Tab/arrow navigation.
+    const primary = controls.filter(element => !element.hasAttribute('data-audio-control'));
+    const focus = primary.find(element => element.matches('input, select, textarea')) ?? primary[0] ?? controls[0];
     (focus instanceof HTMLElement ? focus : panel).focus({ preventScroll: true });
   }
   function containFocus() {

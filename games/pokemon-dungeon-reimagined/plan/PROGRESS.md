@@ -1871,3 +1871,24 @@ non-routing transaction statements are source-authenticated. Selected binding,
 repository, factory and departure remain unmodified pending full composition and
 review. Static source audits cover six negative routing regressions; no game
 code executes. See [revision routing](SINISTER-WORK.md).
+
+## Opening dialogue controller focus — 2026-10-08
+
+Justin reported that the questionnaire/Butterfree dialogue blocks all controls
+and requested full-game continuation from main. Source diagnosis found that
+panel sound controls precede choices, default focus selected Enable sound,
+and that listener consumes trusted Enter or rejects synthetic A/Z confirmation.
+Default focus now selects a non-audio form or gameplay choice first. Explicit
+sound focus, keyboard navigation and current panel ownership remain intact.
+
+The parser-only regression audit failed before this change and passed after it.
+Independent scoped review found no actionable findings; lint/types and
+diff checks passed. Butterfree's exact idle asset/shard/bundle hashes match.
+The available browser fails at WebGL2 initialization, so this evidence does
+not establish an actual gameplay/device pass. Local production lint/build
+passed; flight-check stopped at a truncated pinned Chromium download before
+website fixtures. Hosted current-head checks must close those gates.
+
+Full-game continuation remains required under FULL-GAME-EXECUTION. Selected
+play still ends at MAIN(5,9); recovered later scene/preparation leaves are
+implementation prerequisites rather than playable campaign acceptance.
