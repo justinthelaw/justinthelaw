@@ -55,7 +55,7 @@ async function scan(dir) {
     const path = dir+row.name;
     if (row.isDirectory()) { if (row.name !== 'vendor') await scan(path+'/'); continue; }
     if (!path.endsWith('.js')) continue;
-    for (const node of parseSource(await read(path)).body) assert.ok(!/sinister-run-preparation\.js$/.test(node.source?.value ?? ''),`Unselected run preparation ${path}`);
+    for (const node of parseSource(await read(path)).body) assert.ok(!/sinister-run-preparation\.js$/.test(node.source?.value ?? '') || path === 'src/domain/gameplay/sinister-native-slots.js' && node.type === 'ImportDeclaration' && node.source.value === './sinister-run-preparation.js',`Unselected run preparation ${path}`);
   }
 }
 await scan('src/'); await scan('content/');

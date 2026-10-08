@@ -58,7 +58,8 @@ async function inspectNewConsumers(directory) {
     for (const node of ast(source).body) {
       if (!['ImportDeclaration','ExportNamedDeclaration','ExportAllDeclaration'].includes(node.type) || typeof node.source?.value !== 'string') continue;
       if (node.source.value.endsWith('/sinister-roster-domain.js')) assert(['src/domain/gameplay/sinister-roster-mapping.js','content/state/sinister-ability-domain.js'].includes(path),'Only the two exact new source-domain owners consume roster admission: '+path);
-      if (node.source.value.endsWith('/sinister-ability-domain.js') || node.source.value.endsWith('/sinister-roster-mapping.js')) assert.fail('Unselected source-domain helper acquired an unaudited live consumer: '+path);
+      if (node.source.value.endsWith('/sinister-ability-domain.js')) assert.fail('Unselected ability-domain helper acquired an unaudited live consumer: '+path);
+      if (node.source.value.endsWith('/sinister-roster-mapping.js')) assert(path === 'src/domain/gameplay/sinister-native-slots.js' && node.type === 'ImportDeclaration' && node.source.value === './sinister-roster-mapping.js','Only the exact unselected actual new-memory producer may consume the mapper: '+path);
     }
   }
 }

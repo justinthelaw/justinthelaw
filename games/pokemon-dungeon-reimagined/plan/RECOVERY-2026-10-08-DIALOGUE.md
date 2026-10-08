@@ -38,7 +38,7 @@ local pixel atlases and Three.js environments, static Pages export.
 | Produce native roster mapping | Authenticate original hero-first/partner-next and actual source Friend Area partitions plus story Magnemite | Exact source/capacity/pair-domain audit | Implemented; revision exhaustion and exact boss binding corrections reviewed |
 | Produce cache lifetime | Actual 64-entry cache, sentinel tail, deterministic ranks, hit/miss/RNG ownership | Exact native/source/receipt audit | Implemented; portable/native audits and independent SPEC/QUALITY review pass |
 | Recover source end effects | Exact runtime and typedef plus explicit current-body provenance restoration | Native22-pin/dependency/negative source controls | Complete recovery; no live end/terminal adapter |
-| Produce actual native memory | Genuine new-run zero, retained floor resets, first-free allocation and native generations | Pinned source/AST proof with private authority boundaries | In progress |
+| Produce actual native memory | Genuine new-run zero, retained floor resets, first-free allocation and native generations | Pinned source/AST proof with private authority boundaries | Implemented scoped memory/reset/allocation prefix; independent review pass |
 | Close real v25 admission | Genuine allocation/spawn/Hidden Power/sleep/source counters plus direct raw resource/condition/history/scene proofs, original-envelope routing | Source-domain and composed burst review, exact callback ownership | Blocked until preceding producers exist |
 | Activate Sinister and later routes | Selected registry/departure/Adventure/codec/repository/UI/audio joins, then every main/postgame route in FULL-GAME-EXECUTION | Static and independent scoped checks plus permitted human play | Open |
 
@@ -66,3 +66,15 @@ requires every route/system/visual/human acceptance gate in the existing plan.
   only the reachable recovery base fetched. Deleted donor objects are unnecessary.
 - The live exported `src/ui/view.js` returns HTTP200 and is byte-identical to the
   merged dialogue repair. This does not substitute for manual gameplay.
+
+## Actual construction frontier
+
+The native memory prefix now preserves real new-run zeroes and later retained
+slot bytes, genuine body/slot allocation, original capacities and native
+generations. Review corrected duplicate acquisition IDs and preserved the
+complete predecessor's canonical input budget. This is not a full constructor.
+Next implement actual partial geometry/room/mask observers, source temporary
+Hidden Power and initial AI, final party/cache/held/sleep copies, ordered final
+floor refresh, and authenticated construction journals. Then compose exact
+canonical shapes and direct raw policies before selecting Sinister routing.
+Source turn/contact/terminal adapters and every later route remain open.

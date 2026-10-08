@@ -79,7 +79,8 @@
     "sinister-initial-ai:check": "node scripts/check-sinister-initial-ai.mjs",
     "sinister-roster-domain:check": "node scripts/check-sinister-roster-domain.mjs",
     "sinister-cache64:check": "node scripts/check-sinister-cache64.mjs",
-    "sinister-end:check": "node scripts/check-sinister-end-effects.mjs"
+    "sinister-end:check": "node scripts/check-sinister-end-effects.mjs",
+    "sinister-native-slots:check": "node scripts/check-sinister-native-slots.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

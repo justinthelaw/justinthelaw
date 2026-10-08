@@ -33,6 +33,10 @@
   also pass on a fresh shallow staged-tree clone with only the reachable recovery
   base fetched; unavailable donor commits are unnecessary. The live exported
   dialogue view returns HTTP200 and matches the merged repair byte for byte.
+- Added an unselected native-memory/reset/allocation prefix with literal4/16/20
+  capacities, source scalar layouts, symbolic pointers and unreused canonical
+  ActorIds. Review corrected duplicate acquisition IDs and retained full original
+  predecessor input budgets. This supplies neither full actors nor live routing.
 - The selected owner still ends at MAIN(5,9), with three actual dungeon routes.
   Concrete native memory/actor/geometry construction, complete raw validation,
   source tile/end/contact/terminal adapters, routing and subsequent main/postgame
