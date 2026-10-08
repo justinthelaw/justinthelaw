@@ -46,3 +46,7 @@ export function endRage(context, actor) {
   if (c?.statusId !== 'enraged' || c.duration.kind !== 'counter') return;
   if (--c.duration.remaining === 0) { actor.conditions.bide = null; context.emit({ type: 'conditionChanged', actorId: actor.actorId }); context.emit({ type: 'message', messageId: 'rage-ended' }); }
 }
+
+// Prospective source handlers reuse the exact existing burn owner with their
+// own causal move source; selected Ember calls and function body are unchanged.
+export { burn as inflictBurn };

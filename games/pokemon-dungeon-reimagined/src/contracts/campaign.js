@@ -809,7 +809,7 @@
  */
 /** Continuing is a completed native-work unit awaiting automatic advance, never
  * player input or a prompt. Only exact v19 admits the whitelisted saved PCs.
- * @typedef {SchedulerBase & ({kind:'ready';}|{kind:'continuing';}|{kind:'learning-continuing';}|{kind:'choice-paused';resultId:ResultId;}|{kind:'scene-paused';sceneInstanceId:SceneInstanceId;})} SchedulerState */
+ * @typedef {SchedulerBase & ({kind:'ready';}|{kind:'continuing';}|{kind:'learning-continuing';}|{kind:'sinister-continuing';}|{kind:'choice-paused';resultId:ResultId;}|{kind:'scene-paused';sceneInstanceId:SceneInstanceId;})} SchedulerState */
 
 /** @typedef {{ items:Record<string,ItemInstance>; containers:Record<string,ItemContainer>; }} ItemArchive */
 
@@ -905,6 +905,7 @@
  *     actors: Record<string, SessionActor>;
  *     learning?: import('./move-learning.js').LearningChoice;
  *     learningWork?: import('./escort-work.js').EscortLearningWork;
+ *     sinisterTurn?: import('./sinister-work.js').SinisterTurnState;
  *     forgottenMoves?: import('./move-learning.js').ForgottenMove[];
  *     nativeTeamHistory?: import('./escort-work.js').EscortTeamHistory;
  *     escortGuest?: import('./escort-work.js').EscortGuestRuntime;

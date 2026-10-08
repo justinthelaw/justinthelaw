@@ -1701,3 +1701,35 @@ request/score joins, escort activation/work/station and frozen115/14/2 pins pass
 This port awaits independent integration review and exact delivery checks;
 human audition, device/interruption, Blue parity and full release remain open.
 No game/native module was imported or executed.
+
+## Prospective Sinister work prerequisite
+
+Added the unselected [saved-work responsibility](SINISTER-WORK.md): separate v25
+shapes and seven actual PC variants, original/resolved action and preparation
+RNG/PP/LAST_USED receipts, one complete impact per dispatch, saved recipient end
+boundaries, and a no-growth terminal/return split. Imported the exact reviewed
+3fc0834 effect leaves; no current factory/registry/codec/route/UI activation.
+The direct PC proof remains complementary to the future complete raw actor,
+resource, award and campaign owner. Required source learning/completion/terminal
+hooks have no old-state projection fallback.
+
+Focused static lint/types, source-only work/effect audits and frozen save audits
+are recorded in the package report. Full composed4018/2908 source-bound acceptance
+still needs actual ability/status adapters and live-link limits; Silent remains
+unselected. Current main6ec audio/preferences must survive later integration.
+Continue with direct learning/raw factory, actual generation/cache lifetime and
+source route/caller composition; this prerequisite does not complete Sinister,
+Task5, full campaign or human/device/visual acceptance. No game code executed.
+
+### Sinister prerequisite port onto current audio campaign
+
+The accepted unselected d1ffc1f saved-work prerequisite is ported onto the actual
+6ecdcf0 current audio/escort state. Its eighteen non-metadata leaves are exact
+accepted bytes. The progress append and authoring check chain preserve both
+audio audits alongside the two Sinister audits; dependency pins are unchanged.
+Actual current factory/codec/registry/commands/advance/readiness/audio/UI leaves
+remain byte-identical. Focused source477/types381/frozen115-14-2/native effects17,
+seven work PCs, audio and current escort audits pass. Independent integration
+review and whole-repository delivery verification follow this isolated commit.
+The current route still stops at MAIN5,9; this prerequisite does not select v25,
+prove complete composed notification bounds or imply game/manual completion.
