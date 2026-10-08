@@ -213,3 +213,11 @@ The whole132-actor3798/2300/1946 proof retains3800/2300/1950 under4096; future
 guests/entry/effects/output must revise it. All105 frozen dependencies and original
 schema/bodies/manifests/resources remain checked. MAIN5,7 outings/refresh, escort
 and Caterpie stay held for the preserved actual escort/second-work successor.
+
+The [escort general RNG prerequisite](plan/ESCORT-GUEST.md) supplies a pure,
+explicit comparative native LCG seed/state interface. Preserve signed16 OR,
+two transitions, low16 scaling, zero-bound draw and reseed overwrite semantics;
+never substitute a browser stream or fabricate original seed history. Exact
+guest/state/AI/loss/cleanup and second-work successor activation remains held.
+The live PR records completed scoped independent v23 review after ML-R001–003;
+human/device/visual/Blue parity/full release remain pending.

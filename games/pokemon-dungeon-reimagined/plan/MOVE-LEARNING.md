@@ -6,6 +6,12 @@ remain held. Full original Blue main/postgame/optional content,386/forms, native
 party AI, human play/visual review and release approval remain open. No game or
 native module was executed for implementation or checks.
 
+The published PR at03459a9 records completed scoped independent specification
+PASS/quality APPROVE after ML-R001/ML-R002/ML-R003 fixes, with clean scoped
+re-review and the identical reviewed localc2e1f700 tree. This does not close
+human, Blue parity or full-release acceptance. The next prerequisite is tracked in
+[ESCORT-GUEST.md](ESCORT-GUEST.md).
+
 ## Comparative source and inherited qualifications
 
 `content/authored/move-learning-facts.js` pins five full source files at Red

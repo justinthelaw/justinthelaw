@@ -1537,3 +1537,28 @@ tests, hooks, broad suite, browser/playthrough or publication. Exact fix commit 
 commands/results in ignored bronze-generation-report.md appendix. Stop for the
 same independent reviewer's scoped re-review; no acceptance claim or guest/second
 work/area history activation.
+
+## V23 scoped review and escort RNG prerequisite (2026-10-08)
+
+Current published03459a9 PR records completed scoped independent v23
+specification PASS/quality APPROVE after ML-R001 terminal prompt, ML-R002 retired
+slot ownership and ML-R003 foreign-pass corrections, with clean scoped re-review
+and the identical reviewed localc2e1f700 tree. Prior pending review language above
+describes its historical checkpoint, not current v23 review status. No human,
+device, visual, interrupted-save, Blue parity or full-release acceptance is inferred.
+
+The next real prerequisite adds pure comparative native general RNG with its
+six-byte seed interface, explicit state/transition count, wrapped LCG, signed
+halfwords, low16 bounded/range arithmetic and exact reseed overwrite. Parser-only
+source exporter/factual AST audit pin random.c bytes and semantic locators; all
+original xoshiro streams, schemas/manifests/envelope factories and115 currently
+checked frozen pins remain unchanged (including the ten pre-escort v23 pins). It emits0 events and does not change current3798/2300/1946
+whole-chunk sums or3800/2300/1950 allowances under4096.
+
+[ESCORT-GUEST.md](ESCORT-GUEST.md) records the exact interface, Blue qualification,
+preservation and next owner. Guest construction/slot/state/PP/Hidden Power/Pickup,
+native movement/AI/loss/cleanup, whole second-work interval and Caterpie remain
+open. Live exact v23/MAIN5,7 entry/refresh is still held; no seed, guest, payment,
+EXP or source receipt is invented on conversion. Focused lint/types/save-boundary
+and RNG text/AST checks only; exact commands, commits and next dependency are in
+ignored escort-report.md. Root owns scoped review/publication and broad gates.

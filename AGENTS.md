@@ -422,3 +422,10 @@ adds prospective source metadata and station prefix/mission-area ownership while
 preserving original v2–v21 envelopes and every historical source pin. MAIN5,7
 outing/refresh remains held for genuine escort guest/second-work lifecycle;
 static source/type/admission checks do not establish gameplay or full-game gates.
+
+The escort [general RNG prerequisite](games/pokemon-dungeon-reimagined/plan/ESCORT-GUEST.md)
+keeps the native signed-halfword LCG separate from all four browser streams and
+dungeon RNG. Its explicit seed/state interfaces grant no old-save seed history
+or guest admission. Live v23/MAIN5,7 remains held until the exact saved guest,
+native movement/AI/loss/cleanup and second-work owner compose; future activation
+must reprove events under4096 and retain every v23 learning and v22 prefix/debt PC.
