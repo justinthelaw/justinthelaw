@@ -1402,3 +1402,40 @@ Bronze escorts/rewards/second interval, Caterpie/Sinister, full party/item AI,
 extra-party entry and recruitment; visuals/human/full-release acceptance open.
 Next exact package: source-qualified Steel revisit and Meanies mailbox owner
 only after independent review of this checkpoint.
+
+## V21 — ordinary Steel and outside Meanies mail (2026-10-08; review pending)
+
+Accepted prerequisite: published chapter-five first-work checkpoint
+`c98a8152088875ab7d412ba75c493295ab66e103`, independently reviewed and published
+by the controller. Its frozen v20 original-envelope proof remains unchanged.
+This bounded successor owns first-interval original-pair Steel1–8/fixed9, actual
+Meanies/Pelipper base-exit scene and exact op3b06 Pidgey/Steel3F posting, then
+stops at genuine MAIN5,7. [STEEL-MEANIES.md](STEEL-MEANIES.md) records comparative
+Red6bcbec4 hashes/locators, purpose guards, source RNG order, receipt/staging,
+expanded actual-history/four-client/50-point proof, maps, persistence and controls.
+
+Owned paths: new authored/factory/progress/scene/source owners and exact revision;
+command/base-exit/menu/render joins; v20 original compatibility routing; copied
+recognizers and six appended save-source pins; parser-only changed-source factual
+audit; root/game AGENTS and this contract/ledger. v2–v20 admission still precedes
+conversion; v18/v19/v20 convert metadata only. No canonical history rewrite,
+Tiny surrogate job, schema/old pin/factual resource change, party force-selection,
+Diglett replay, duplicate return refresh, reward truncation or rank/draw filter.
+Invalid actual proof returns before the local frozen v19 onboarding prerequisite.
+True holdings/source bits/accepted copies/selected Magnemite and turn PCs remain.
+
+Focused lint/types/save-boundary/friend/campaign/source factual checks and
+source-preservation audit are recorded with exact base/final SHA and commands in
+the ignored steel-meanies report. Controller owns full static/build/hooks/export,
+independent review and publication. No game imports/evaluation/execution/tests,
+browser/playthrough, subagents, push/merge/deploy or root README changes. No
+full-plan box or human/visual/device/save-interruption/Blue parity gate is closed.
+
+Turn/kernel generation and neutral-client bounds remain unchanged; fixed9 is
+empty and ground scene/posting changes are command transactions. Existing
+3793/2295/1941 sums,3800/2300/1950 allowances and4096 cap still apply. Next bounded
+owner after review/publication is genuine Bronze escort generation/rewards;
+then escort guest/objective/turn admission and second work. Unrestricted MAIN5,7
+departures/refresh/travel remain held; no offer is removed or draw suppressed to
+make them work. Caterpie/Sinister, full Item Master/party AI, extra-party entry,
+wild recruitment and the complete campaign/postgame/art/release goals remain.

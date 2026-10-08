@@ -396,9 +396,11 @@ share real recipient ingestion/impact without a new save revision: Heal clears
 owned admitted classes/slow/seals with cache-only speed refresh; Quick samples
 before cap/full-array checks and uses the turn raise/attack-unlock owner. See
 game plan/HEAL-QUICK-SEEDS.md, STUN-SEED.md and TURN-CONTINUATION.md. Preserve
-the bounded v20 chapter-work bridge in game plan/CHAPTER-FIVE-WORK.md: original-pair
-Tiny/Thunderwave work through inside-base MAIN5,6 only. Keep Steel postings and
-Magnemite selection; ordinary Steel, Meanies op6 and later work remain held. Preserve
+the frozen v20 chapter-work bridge in game plan/CHAPTER-FIVE-WORK.md. Its v21
+successor in plan/STEEL-MEANIES.md independently owns original-pair ordinary
+Steel1–8/fixed9, the complete station batch/50-point endpoint and actual outside
+Meanies/Pelipper op6 through MAIN5,7. Preserve Steel postings and Magnemite
+selection; unrestricted later work stays held for real Bronze escorts/rewards. Preserve
 every earlier
 envelope boundary, live Leech link and Water Sport counter. Continuation checkpoints
 commit only the first completed opportunity, flush recipient or empty-completion

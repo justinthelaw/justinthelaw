@@ -13,13 +13,14 @@ through Thunderwave Cave, functioning bank/storage/Kecleon services, and real
 ordinary rescue work through Diglett's request and the nine-floor Mt. Steel rescue at MAIN(5,0).
 Friend Area onboarding now continues through Wigglytuff, story Magnemite, the
 Square wind request and rest at MAIN5,5, with navigable owned areas and resident
-management. The v20 successor now opens original-pair Tiny/Thunderwave work at MAIN5,5
-through the real inside-base MAIN5,6 morning boundary. Steel ordinary revisit,
-Meanies replacement mail, later work, escort, wild recruitment and Sinister remain
-in implementation. See plan/CHAPTER-FIVE-WORK.md; mandatory client/return/reward/
+management. Frozen v20 opens original-pair Tiny/Thunderwave work at MAIN5,5
+through the real inside-base MAIN5,6 morning boundary. Its v21 successor adds
+ordinary Steel1–8/fixed9 and actual outside Meanies/Pelipper replacement mail,
+then stops at MAIN5,7. Later work, escort, wild recruitment and Sinister remain
+in implementation. See plan/CHAPTER-FIVE-WORK.md and plan/STEEL-MEANIES.md; mandatory client/return/reward/
 morning owners block new work, and selected Magnemite is never silently removed. Static checks do not establish human play/visual acceptance or a complete
 campaign; later services, escort admission and routes remain incomplete.
-Current v20 chapter-work saves preserve exact v2-v19 import admission, including
+Current v21 saves preserve exact v2-v20 original-envelope import admission, including
 v17 Sleep Seed provenance, v16 Leech Seed links and Water Sport counters. Stun
 has development use/throw activation over its reviewed Petrified lifecycle and
 accepted bounded turn continuation. Heal/Quick Seed consumers mutate already

@@ -1,4 +1,4 @@
-import { refreshGroundJobs as refreshFriendJobs } from './friend-job-records.js';
+import { refreshSteelMeaniesGround as refreshFriendJobs } from './steel-meanies-mail.js';
 import { refreshTownShops } from './town-shop.js';
 import { refreshGroundJobs } from './job-records.js';
 import { blocked } from './support.js';

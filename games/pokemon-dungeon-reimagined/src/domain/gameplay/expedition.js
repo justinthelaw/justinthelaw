@@ -1,4 +1,5 @@
 import { STEEL } from '../../../content/authored/mt-steel.js';
+import { enterOrdinarySteelSummit } from './steel-meanies-scenes.js';
 import { STEEL_SLEEP_CHANCES, STEEL_FLOOR_ITEMS } from '../../../content/state/steel-facts.js';
 import { steelReady, enterSteelSummit, afterSteelSettlement } from './steel.js';
 import { workReady } from './work.js';
@@ -26,9 +27,9 @@ import { requestScene } from './scenes.js';
 /** @param {Catalogs} catalogs @param {import('../../contracts/campaign.js').CampaignSnapshot} state @param {string} [dungeonId] */
 export function admission(catalogs, state, dungeonId = 'tiny-woods') {
   const steel = dungeonId === STEEL.dungeonId;
-  const ordinary = !steel && workReady(state);
-  if (steel && state.friends) return 'ordinary-steel-revisit-owner';
-  if (steel && !steelReady(state)) return 'steel-prerequisite';
+  const ordinary = workReady(state);
+  if (steel && !ordinary && !steelReady(state)) return 'steel-prerequisite';
+  if (steel && ordinary && (!state.friends || state.steel?.phase !== 'complete' || !state.progress.clears[STEEL.dungeonId])) return 'ordinary-steel-prerequisite';
   if (ordinary && state.town.mapDefinitionId !== TEAM.map) return 'departure-at-base';
   if (state.session || state.mode !== 'town' || !ordinary && state.progress.clears[dungeonId]) return 'expedition-unavailable';
   const cave = dungeonId === T.dungeonId;
@@ -94,9 +95,9 @@ function buildFloor(state, catalogs, floorId, authored, ordinary = state.session
   const factual = catalogs.dungeons.getFloorById(floorId); const generation = catalogs.dungeons.getGeneration(factual.generationId);
   const client = ordinary ? floorJobClient(state, floorId) : null;
   const summit = factual.dungeonId === STEEL.dungeonId && generation.parameters.fixedRoomNumber === 1;
-  const fixedActors = state.steel?.bossDefeated ? [] : [{ roleId: STEEL.bossRole, speciesId: 'pokemon-227', formId: null, level: 10 }, { roleId: STEEL.clientRole, speciesId: 'pokemon-050', formId: null, level: 5 }];
+  const fixedActors = ordinary || state.steel?.bossDefeated ? [] : [{ roleId: STEEL.bossRole, speciesId: 'pokemon-227', formId: null, level: 10 }, { roleId: STEEL.clientRole, speciesId: 'pokemon-050', formId: null, level: 5 }];
   const result = generateFloor({ profile: factual, generation, streams: { layout: state.random.layout, encountersItems: state.random.encountersItems }, context: {
-    floorType: summit ? 'fixed' : 'normal', missionSuppressesHouse: !!client, missionAddsEnemy: !!client, ...(client ? { missionClient: { roleId: client.jobId, speciesId: client.identity.speciesId, formId: client.identity.formId, level: 1 } } : {}), canChangeLeader: false, teamSize: 2, enemyLimit: 16, required: [], fixedEncounter: summit ? { callbackId: 'steel-skarmory-faint', actors: fixedActors, isolatedRoleIds: [STEEL.clientRole], exit: 'none' } : null, receivedTeam: null, specialPopulation: null, ownedRewardItemIds: [],
+    floorType: summit ? 'fixed' : 'normal', missionSuppressesHouse: !!client, missionAddsEnemy: !!client, ...(client ? { missionClient: { roleId: client.jobId, speciesId: client.identity.speciesId, formId: client.identity.formId, level: 1 } } : {}), canChangeLeader: false, teamSize: 2, enemyLimit: 16, required: [], fixedEncounter: summit ? { callbackId: ordinary ? 'steel-ordinary-empty-summit' : 'steel-skarmory-faint', actors: fixedActors, isolatedRoleIds: [STEEL.clientRole], exit: 'none' } : null, receivedTeam: null, specialPopulation: null, ownedRewardItemIds: [],
   } }, { navigation: catalogs.navigation, dungeons: catalogs.dungeons, isEncounterEligible: eligibleEncounter });
   if (result.kind !== 'ready') return blocked('floor-generation');
   const section = catalogs.dungeons.getSection(factual.sectionId); const floors = section.variants[0]?.floorIds ?? []; const next = floors[floors.indexOf(floorId) + 1];
@@ -169,7 +170,10 @@ export function takeStairs(context, catalogs, authored, exitId) {
   });
   session.scheduler = createScheduler(INITIAL_SCHEDULE_POLICY_ID, [session.teamOrder[0] ?? null, session.teamOrder[1] ?? null, null, null], Array(16).fill(null));
   populate(context, catalogs, next.placements);
-  if (session.dungeonId === STEEL.dungeonId && session.floor.location.kind === 'boss') enterSteelSummit(context, authored);
+  if (session.dungeonId === STEEL.dungeonId && session.floor.location.kind === 'boss') {
+    if (session.purpose.kind === 'ordinary') enterOrdinarySteelSummit(context,authored);
+    else enterSteelSummit(context,authored);
+  }
   context.emit({ type: 'floorChanged', mapId: session.floor.mapId });
 }
 
@@ -219,5 +223,5 @@ export function settleExpedition(context, outcome, catalogs, authored) {
   if (session.purpose.kind !== 'ordinary' && session.dungeonId === T.dungeonId) { if (outcome === 'success') placeAtBase(state); else placeInside(state); }
   state.moveState = null;
   state.session = null; state.pendingScene = null; state.mode = 'town'; context.emit({ type: 'expeditionEnded', outcome });
-  if (session.dungeonId === STEEL.dungeonId) { refreshGround(state, catalogs); if (!authored) return blocked('steel-return-script'); afterSteelSettlement(context, outcome === 'success', authored); }
+  if (session.purpose.kind === 'story' && session.dungeonId === STEEL.dungeonId) { refreshGround(state, catalogs); if (!authored) return blocked('steel-return-script'); afterSteelSettlement(context, outcome === 'success', authored); }
 }

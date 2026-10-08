@@ -1,5 +1,5 @@
-import { recordsFieldMoves as recordsV19FieldMoves } from './field-moves-v19.js';
-import { CHAPTER_WORK_REVISION } from './chapter-work-revision.js';
-/** Exact successor recognition; historical roots retain their original admission.
+import { recordsFieldMoves as recordsV20FieldMoves } from './field-moves-v20.js';
+import { STEEL_MEANIES_REVISION } from './steel-meanies-revision.js';
+/** Exact successor recognition; every historical root keeps its original owner.
  * @param {string} revision */
-export const recordsFieldMoves = revision => recordsV19FieldMoves(revision) || revision === CHAPTER_WORK_REVISION;
+export const recordsFieldMoves = revision => recordsV20FieldMoves(revision) || revision === STEEL_MEANIES_REVISION;

@@ -1,4 +1,5 @@
 import { workReady } from '../domain/gameplay/work.js';
+import { meaniesMailboxReady } from '../domain/gameplay/steel-meanies-scenes.js';
 import { rescueRank } from '../domain/gameplay/job-generation.js';
 import { TOWN } from '../../content/authored/town.js';
 import { STEEL } from '../../content/authored/mt-steel.js';
@@ -13,7 +14,7 @@ import { showRewardChoices } from './reward-panel.js';
  * @param {'board'|'jobs'|'mailbox'|'depart'|'flow'} page */
 export function showWork({ snapshot, catalogs, view, send, back, menu, open }, page) {
   const work = snapshot.earlyWork; if (!work) return;
-  if (page !== 'flow' && !workReady(snapshot)) return;
+  if (page !== 'flow' && !workReady(snapshot) && !(meaniesMailboxReady(snapshot) && ['jobs','mailbox'].includes(page))) return;
   const itemName = (/** @type {string} */ id) => catalogs.effects.getItem(id).name;
   const person = (/** @type {string} */ id) => catalogs.species.getSpecies(id).name;
   const routeName = (/** @type {string} */ id) => id === 'tiny-woods' ? 'Tiny Woods' : id === STEEL.dungeonId ? 'Mt. Steel' : 'Thunderwave Cave';
@@ -64,7 +65,7 @@ export function showWork({ snapshot, catalogs, view, send, back, menu, open }, p
     ]);
   }
   function depart() {
-    show('Choose a dungeon', `Taken requests are active in their named dungeon. Ordinary exploration without completing a request earns no job reward or request count.${snapshot.friends ? ' Mt. Steel revisit is still in development; its accepted jobs stay in your Job List. Select the original pair through resident Standby before departure; additional team entry is still in development.' : ''} Stun Seeds can be eaten or thrown. Purchased TMs, orbs and Warp Seeds can be carried; their uses remain unavailable.`, [
+    show('Choose a dungeon', `Taken requests are active in their named dungeon. Ordinary exploration without completing a request earns no job reward or request count.${snapshot.friends ? ' Mt. Steel has eight exploration floors and a quiet summit. Select the original pair through resident Standby before departure; additional team entry is still in development.' : ''} Stun Seeds can be eaten or thrown. Purchased TMs, orbs and Warp Seeds can be carried; their uses remain unavailable.`, [
       ...['tiny-woods','thunderwave-cave', ...(snapshot.friends ? [STEEL.dungeonId] : [])].map(id => ({ label: `Enter ${routeName(id)}`, disabled: !!admission(catalogs,snapshot,id), detail: admission(catalogs,snapshot,id) ?? 'Begin an ordinary expedition', run: () => confirm(`Enter ${routeName(id)} with your current toolbox and taken jobs?`, () => send({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (id) }), depart) })),
       { label: 'Cancel', run: back },
     ]);

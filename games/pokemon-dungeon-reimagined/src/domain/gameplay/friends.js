@@ -1,4 +1,5 @@
 import { deliverChapterMailbox } from './chapter-job-records.js';
+import { meaniesExitReady, beginMeaniesScene } from './steel-meanies-scenes.js';
 import { FRIENDS, placeFriendsGround, areaMapId, friendAreaMap } from '../../../content/authored/friends.js';
 import { FRIEND_AREA_FACTS } from '../../../content/authored/friend-area-facts.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
@@ -14,7 +15,7 @@ import { blocked, facing } from './support.js';
 /** @typedef {import('../../../content/authored/opening.js').AuthoredOpening} Authored */
 /** @typedef {import('./friend-residents.js').ResidentOrder|{kind:'begin'}|{kind:'welcome'}|{kind:'nickname-answer';rename:boolean}|{kind:'nickname';name:string|null}} FriendOrder */
 /** @param {import('../../contracts/campaign.js').CampaignSnapshot} state */
-export function friendsGroundReady(state) { return !!state.friends && state.friends.phase !== 'meanies-ready' && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt; }
+export function friendsGroundReady(state) { return !!state.friends && !['meanies-ready','work-two'].includes(state.friends.phase) && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt; }
 /** Every MAIN change resets native CLEAR_COUNT, including changes of substage.
  * @param {import('../../contracts/campaign.js').CampaignState} state @param {number} step */
 export function setFriendsStep(state, step) { state.progress.native.scenarios.MAIN = { chapter: 5, step }; state.progress.native.clearCount = 0; }
@@ -82,6 +83,7 @@ export function friendHandler(catalogs, authored) { return {
  * the companion tour to the square, never an expedition or premature area trip.
  * @param {Context} context @param {Authored} authored @param {import('../../contracts/campaign.js').MapDefinitionId} map */
 export function travelFriends(context, authored, map) {
+  if (meaniesExitReady(context.state)) { if (map !== TEAM.map) return false; beginMeaniesScene(context,authored); return true; }
   const state = context.state, friends = state.friends; if (!friends || !friendsGroundReady(state)) return false;
   const area = FRIEND_AREA_FACTS.find(row => row.id && areaMapId(row.id) === map);
   if (area?.id ? state.progress.native.scenarios.MAIN.step < 4 || !state.economy.ownedFriendAreaIds.some(id => id === area.id) : ![TEAM.map, MORNING.interior, TOWN.square, TOWN.post].includes(map)) return false;

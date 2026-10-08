@@ -1,4 +1,5 @@
 import { FRIENDS, FRIEND_AREA_FACTS, areaMapId, friendAreaMap } from '../../content/authored/friends.js';
+import { MEANIES_ACTORS } from '../../content/authored/steel-meanies.js';
 import { STEEL } from '../../content/authored/mt-steel.js';
 import { steelScene } from './steel-presentation.js';
 import { WORK } from '../../content/authored/early-work.js';
@@ -16,8 +17,12 @@ const headings = { s: 0, se: Math.PI / 4, e: Math.PI / 2, ne: Math.PI * 3 / 4, n
  * @param {import('../../content/species.js').SpeciesCatalog} species
  * @returns {ActorView[]} */
 function groundActors(snapshot, epoch, species) {
-  return snapshot.town.placements.flatMap(placement => {
-    if (placement.reference.kind !== 'pokemon') return [];
+  return snapshot.town.placements.flatMap(/** @returns {ActorView[]} */ placement => {
+    if (placement.reference.kind === 'story-actor') {
+      const role = MEANIES_ACTORS.find(actor => placement.reference.kind === 'story-actor' && actor.id === placement.reference.storyActorId);
+      if (!role) return [];
+      return [{ actorId: role.id,speciesId: role.speciesId,formId: null,name: species.getSpecies(role.speciesId).name,...placement.position,heading: headings[placement.facing],role: 'npc',hp: 1,maxHp: 1,statuses: [],clip: 'idle',clipToken: `${epoch}:${snapshot.pendingScene?.sceneInstanceId}:${snapshot.pendingScene?.cursor}:${role.id}`,tint: '#ffffff',bounds: { width: 1,height: 1 } }];
+    }
     const pokemon = snapshot.roster[placement.reference.pokemonId]; if (!pokemon) return [];
     const hp = pokemon.growth.naturalStats.hp + pokemon.growth.permanentStatBonuses.hp;
     return [{ actorId: pokemon.pokemonId, ...pokemon.identity, name: pokemon.nickname || species.getSpecies(pokemon.identity.speciesId).name,

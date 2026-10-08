@@ -1,4 +1,5 @@
-import { CHAPTER_WORK_REVISION } from '../state/chapter-work-revision.js';
+import { STEEL_MEANIES_REVISION } from '../state/steel-meanies-revision.js';
+import { meaniesMailboxReady } from './steel-meanies-scenes.js';
 import { FRIENDS, placeFriendsGround } from '../../../content/authored/friends.js';
 import { requestFriendsScene } from './friends.js';
 import { deliverChapterMailbox, changeChapterJobSelection } from './chapter-job-records.js';
@@ -25,7 +26,7 @@ export function workReady(state) {
 }
 /** The new interval adds no bypass for a canonical input owner.
  * @param {Snapshot} state */
-export function chapterWorkReady(state) { return state.contentRevision === CHAPTER_WORK_REVISION && state.friends?.phase === 'work-three' && state.progress.storyNodeId === FRIENDS.story && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 5 && state.progress.native.clearCount < 3; }
+export function chapterWorkReady(state) { return state.contentRevision === STEEL_MEANIES_REVISION && state.friends?.phase === 'work-three' && state.progress.storyNodeId === FRIENDS.story && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 5 && state.progress.native.clearCount < 3; }
 /** Opening a new prompt also requires that no other client prompt owns input.
  * @param {Snapshot} state @param {import('./support.js').Catalogs} catalogs */
 export function facingJobClient(state, catalogs) {
@@ -117,7 +118,7 @@ export function workHandlers(catalogs, authored) { return {
         const item = work.reward ? state.progress.jobs[work.reward.jobId]?.reward.items[work.reward.nextItem] : null;
         return item && order.choice && !rewardItemChoiceProblem(state, item, order.choice) ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' };
       }
-      if (!workReady(state)) return { kind: 'rejected', reason: 'unavailable' };
+      if (!workReady(state) && !meaniesMailboxReady(state)) return { kind: 'rejected', reason: 'unavailable' };
       if (order.kind === 'read-news' || order.kind === 'discard-mail') return state.town.mapDefinitionId === TEAM.map ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' };
       if (order.kind !== 'job') return { kind: 'rejected', reason: 'unavailable' };
       const posting = state.progress.jobs[order.jobId]?.source;

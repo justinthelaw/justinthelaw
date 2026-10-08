@@ -1,4 +1,5 @@
 import { friendsGroundReady, travelFriends } from './friends.js';
+import { meaniesExitReady } from './steel-meanies-scenes.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
 import { WORK } from '../../../content/authored/early-work.js';
 import { initializeEarlyWork } from './job-records.js';
@@ -26,7 +27,7 @@ export function townHandlers(catalogs, authored) { return {
     },
   },
   townTravel: {
-    plan(state, intent) { return intent.type === 'townTravel' && (friendsGroundReady(state) || townReady(state) && [TOWN.square, TOWN.post, TEAM.map, MORNING.interior].includes(intent.mapId)) ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }; },
+    plan(state, intent) { return intent.type === 'townTravel' && (meaniesExitReady(state) && intent.mapId === TEAM.map || friendsGroundReady(state) || townReady(state) && [TOWN.square, TOWN.post, TEAM.map, MORNING.interior].includes(intent.mapId)) ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }; },
     apply(context, intent) {
       if (intent.type !== 'townTravel') return { kind: 'rejected', reason: 'invalid-command' };
       if (context.state.friends) return travelFriends(context, authored, intent.mapId) ? { kind: 'changed', resumeDungeon: false } : { kind: 'rejected', reason: 'unavailable' };

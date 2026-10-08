@@ -36,7 +36,7 @@ export function beginSteelTravel(context, authored) {
  * @param {Context} context @param {Authored} authored */
 export function enterSteelSummit(context, authored) {
   const state = context.state, steel = state.steel, session = state.session;
-  if (!steel || !session || session.dungeonId !== STEEL.dungeonId) return blocked('steel-summit-owner');
+  if (!steel || !session || session.purpose.kind !== 'story' || session.dungeonId !== STEEL.dungeonId) return blocked('steel-summit-owner');
   const repeat = steel.bossVisits > 0; steel.bossVisits++;
   state.progress.native.flags.persistent[0] = true;
   steel.phase = steel.bossDefeated ? 'poststory' : 'battle-intro';
@@ -49,14 +49,14 @@ export function enterSteelSummit(context, authored) {
  * @param {Context} context @param {import('../../contracts/campaign.js').SessionActor} target */
 export function noteSteelBossFaint(context, target) {
   const state = context.state, session = state.session, steel = state.steel;
-  if (!steel || steel.phase !== 'battle' || !session || session.dungeonId !== STEEL.dungeonId || session.floor.location.kind !== 'boss' || target.binding.kind !== 'boss' || target.binding.encounterId !== STEEL.bossRole || target.identity.speciesId !== 'pokemon-227' || target.resources.hp !== 0) return;
+  if (!steel || steel.phase !== 'battle' || !session || session.purpose.kind !== 'story' || session.dungeonId !== STEEL.dungeonId || session.floor.location.kind !== 'boss' || target.binding.kind !== 'boss' || target.binding.encounterId !== STEEL.bossRole || target.identity.speciesId !== 'pokemon-227' || target.resources.hp !== 0) return;
   steel.bossDefeated = true; state.progress.native.flags.persistent[1] = true;
 }
 /** Run after same-hit recoil/revival and forced partner/leader loss checks.
  * @param {Context} context @param {Authored} authored */
 export function finishSteelBattle(context, authored) {
   const state = context.state, steel = state.steel, session = state.session;
-  if (!steel?.bossDefeated || steel.phase !== 'battle' || !session) return;
+  if (!steel?.bossDefeated || steel.phase !== 'battle' || !session || session.purpose.kind !== 'story' || session.dungeonId !== STEEL.dungeonId) return;
   steel.phase = 'departure';
   scene(context, authored, 5);
   if (!state.pendingScene) return blocked('steel-departure-scene');

@@ -1,3 +1,5 @@
+import { ORDINARY_SUMMIT } from '../../../content/authored/steel-meanies.js';
+import { advanceSteelMeaniesScene } from './steel-meanies-scenes.js';
 import { FRIENDS } from '../../../content/authored/friends.js';
 import { advanceFriendsScene } from './friends.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
@@ -42,6 +44,7 @@ export function sceneHandler(authored, catalogs, tutorialSaved) { return {
   },
   apply(context, intent) {
     const state = context.state; const scene = state.pendingScene;
+    if (scene && [ORDINARY_SUMMIT,FRIENDS.scenes[6]].includes(scene.sceneId)) return advanceSteelMeaniesScene(context,authored,catalogs);
     if (scene && FRIENDS.scenes.includes(scene.sceneId)) return advanceFriendsScene(context, authored, catalogs);
     if (scene && STEEL.scenes.includes(scene.sceneId)) return advanceSteelScene(context, authored, catalogs);
     if (!scene || intent.type !== 'ackScene') return { kind: 'rejected', reason: 'unavailable' };
