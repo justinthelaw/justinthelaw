@@ -1,5 +1,20 @@
 # Pokémon Dungeon Reimagined
 
+## Current recovery checkpoint
+
+Dialogue confirmation repair PR #396 is merged as `ff21bb9` and deployed.
+Default panel focus must select real non-audio fields/actions; preserve explicit
+sound focus, trusted audio permission and stale callback ownership.
+
+Full-campaign continuation is tracked in
+`plan/RECOVERY-2026-10-08-DIALOGUE.md`. Source-recovered Sinister prerequisites
+and new roster/ability/cache64 owners remain unselected development work. Do not
+mistake recovered narrative or a conditional private-authority proof for a full
+raw factory. Actual memory/actor construction, turn/terminal adapters, later
+routes and whole-game acceptance remain open. Sourceful CI audits fetch the
+exact available recovery base and pinned comparative Red Git snapshot; they
+read source/AST/JSON only, with no native or game execution under D05.
+
 ## Current status: opening implemented; full campaign acceptance pending
 
 Justin's later 2026-10-08 instruction "Push to main, delete all other branches"

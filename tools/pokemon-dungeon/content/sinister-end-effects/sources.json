@@ -1,0 +1,460 @@
+{
+  "schemaVersion": 1,
+  "scope": "unselected-sinister-atomic-end-owner",
+  "baseCommit": "2a40962388682092aca64af33cccdb5e47892956",
+  "nativeCommit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "nativeTree": "3a0dcb371062a672e6c291e6e0bda4314499e985",
+  "qualification": "pinned-red-comparative-qualified-browser-RNG-not-blue-binary-or-native-instruction-parity",
+  "sourceFiles": [
+    {
+      "path": "src/dungeon_turn_effects.c",
+      "blob": "1a210520c692f9e24724996ffd98e173b1174e12",
+      "sha256": "537b485db77e3b52dd2115fffd6e92f75c5e0adbe3694102ecbd33edc7f4e461",
+      "locators": "49-398 complete end order and guards"
+    },
+    {
+      "path": "src/dungeon_config.c",
+      "blob": "89a9e4afbc500742906741f26e2282da21a0d38a",
+      "sha256": "e1d24abb5eab54a2223449c9e5b7e98aba55244e87fadb13c1dd1811b496c21b",
+      "locators": "77 Shed50;159 Speed250;161-216 countdown/damage/heal;431-454 belly;1051 linkedcost"
+    },
+    {
+      "path": "src/weather.c",
+      "blob": "cca1b561dfe686d119f2785ffc0616629124b234",
+      "sha256": "5b9d05b4c022f01b928ad4f0ef28d4203dd58a31014d48357aa7781d8540e405",
+      "locators": "39 apparent held weather;191 refresh speed/current types"
+    },
+    {
+      "path": "src/math.c",
+      "blob": "3157b3dce38baa12ce7523591502efe0447ff2d1",
+      "sha256": "1a68c538021e0b63d7fa407ca2cd897898f8d2eaa457b74564cd7723b7c18cd3",
+      "locators": "583 signedmul;682-747 half-up unsignedmul"
+    },
+    {
+      "path": "src/number_util.c",
+      "blob": "70427c1ba0db984b6223147a3bb80d243fb7ed85",
+      "sha256": "e40b380f78fcd060c114e435d991d93a45ad3372ee1ec7792070af3e39b69a18",
+      "locators": "19 subtract/clamp;86 Q16 to thousandths"
+    },
+    {
+      "path": "include/number_util.h",
+      "blob": "d17b6ef3f54a16e7d8761d743629d6d1955ed353",
+      "sha256": "d0243e63b235141bc57d89ffb10395257637c3cf9e1730a03d9fa0f47a03a59c",
+      "locators": "40 native S48_16 macro"
+    },
+    {
+      "path": "src/dungeon_move_util.c",
+      "blob": "b6a572284064ef22845238398904febe97b8d8ba",
+      "sha256": "0b69f36c9e8c497acdfef2c06566fe84ccb4549390d53293dc24347e57af9d53",
+      "locators": "388 capped linked move counter;233-256 deferred Spore"
+    },
+    {
+      "path": "src/dungeon_mon_spawn.c",
+      "blob": "2be58a4af326352e7480720e67015568d6c17a18",
+      "sha256": "96f868db765eecfca6730929bee5c00debb913d5f4ec0699b74000f589922ab3",
+      "locators": "572 successful team placement calls InitEntityFromSpawnInfo(TRUE,...);691-817 actual init;778/792/795 counters;819 bare ResetMonEntityData"
+    },
+    {
+      "path": "src/dungeon_damage.c",
+      "blob": "492bd7160e30226d82c898da91cd10f11121d609",
+      "sha256": "27d89918523feda4cd0edbb362248a3ef6064bc51099311eb6b02ffc2287bc90",
+      "locators": "253-287 interrupt/Frozen/wake;504 Wrap release;520/577/632 leaderalert Reviver reset"
+    },
+    {
+      "path": "src/dungeon_serializer.c",
+      "blob": "7df55f22ec369a54d53420c420902e47b970dfa2",
+      "sha256": "66f6cb6089931740f4e197da6feb257022c13f0563477bda07576083addd2d40",
+      "locators": "153-156 and754-757 complete unk644;366/375/384 and1055/1064/1073 actor counters"
+    },
+    {
+      "path": "src/run_dungeon.c",
+      "blob": "f6108c7247373254a80d8cb8acf9ff9ff92c88db",
+      "sha256": "6cc792aa349add7f72cd04694d703c1612cacef8681ef7fae840f392908a5d90",
+      "locators": "239 repeated floor loop;285 !r6 initial/new-floor alert reset;443 restored r6 becomes FALSE"
+    },
+    {
+      "path": "src/dungeon_main.c",
+      "blob": "bec907ecccbce059a8330b463643eb6f724d94e8",
+      "sha256": "7daf903b44586acefe989f7a5804f541ff5d9decff48891faede157f62fe87fb",
+      "locators": "1045 genuine leader change alert reset"
+    },
+    {
+      "path": "include/structs/str_dungeon.h",
+      "blob": "0781df2807d8cb3b22c51a126ef7ff8e95553f0f",
+      "sha256": "aabd46208d12aa63947556e52cad423d76d52ba821887ef34707803497ac887c",
+      "locators": "251-284 unk644 alert field0x35"
+    },
+    {
+      "path": "src/move_orb_effects_1.c",
+      "blob": "3ea05c97b2a791ca5ecc54e3db574003486b658a",
+      "sha256": "ecf90f999159169a903422a173035958ba448d0a9b9a908ab78e227fa5ddbeb3",
+      "locators": "token release;1348 BoostSpeed127 FALSE message behavior"
+    },
+    {
+      "path": "src/move_orb_effects_2.c",
+      "blob": "d76d3d79ccef310345f387366f84c143cad892c1",
+      "sha256": "487b31d259a9adf18483503bfa47042ff0434aad3fff60dabaeb6d9811220434",
+      "locators": "95-179 HealTargetHP outcomes"
+    },
+    {
+      "path": "src/move_orb_effects_3.c",
+      "blob": "ab096a897b1ee534796a27b93902753eeba9fa56",
+      "sha256": "b1833f5525c0481d0aea2c1c9bfa2696258b8ede380ff4c861858f2b3890af57",
+      "locators": "35-107 Bide/Rage native class flag"
+    },
+    {
+      "path": "src/move_orb_effects_5.c",
+      "blob": "a9df558ccc65084fb9a52a5821c49edfa151bf7f",
+      "sha256": "ec500ddc8a2ebcdf85451fb313781d3e8ae578686b9789cd0a900cd444e9b677",
+      "locators": "44-124 allcure order;FALSE,FALSE sleepend"
+    },
+    {
+      "path": "src/move_orb_actions_1.c",
+      "blob": "133fdd88418d8108826502b820d96b0762462416",
+      "sha256": "c06151ffdf0febb81695621993a0dd5b788c697d4d9468ff31a289e77462948f",
+      "locators": "658 Bide2 typed nominal2stored cap999"
+    },
+    {
+      "path": "src/dungeon_util.c",
+      "blob": "fcbe9497c21e31e96d1d7d8815fa77a152f0bff6",
+      "sha256": "700a2c7c7f52b71cc463e5e7cb4b7b5c4ec69b7cfd5e4c57dd185e696470b126",
+      "locators": "35 entityvalid"
+    },
+    {
+      "path": "data/dungeon/SinisterWoods/main_data.inc",
+      "blob": "3cd2cea39307c028c87351f3358f908b76d5b453",
+      "sha256": "a43588ea68d2c844805a4f8e01e64456a4bbbe1e177f79a0c0012ff20015d15d",
+      "locators": "13 actual rows;weatherbyte4 all0"
+    },
+    {
+      "path": "data/dungeon/SinisterWoods/floor_id.json",
+      "blob": "ca7f97f171c65173ac6a2eb888d83e7fc778d417",
+      "sha256": "eda015601b93b676ddb6e5076527f1d5a3430e6861dcf555ea7fc675481f0429",
+      "locators": "13 floorID MainData joins"
+    },
+    {
+      "path": "src/dungeon_pos_data.c",
+      "blob": "59e0e28e06430e9a51f9e1f13d8bd264013659f0",
+      "sha256": "53de480e4f3c8ba403a7565e4b42c0198d74875b10eaf076dc26454db580a202",
+      "locators": "first drop offset99 sentinel"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/contracts/campaign.js",
+      "blob": "c2e61b5aa928ad75271b4d063acf2436c67a93cc",
+      "sha256": "7103d94f33959233a70e8d7dd5da840ac22baf5538a958217f5bc45e8714f13a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/turns/types.js",
+      "blob": "c594abb3c9430a7acc18b7ea9f3a7e72e1a45b21",
+      "sha256": "9d23132fc75397dabdd26d8780b1224aaaca0dcaf64bbe2e0394c5c2fd30822d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/turns/support.js",
+      "blob": "a14394a9a6640a4aa9a12bdb0fb6b51d035dcba1",
+      "sha256": "0c8930ff75bb25ffad4ea3758444f2a2ea8d6ab9189b1994bcbe66719e54f01b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/conditions.js",
+      "blob": "f04a6aee66c879f3854c89308d6c17dcafb3252e",
+      "sha256": "75e4aafba6d6feaa27fc663b4e1248ff5af54f1d6101711fa8c6c961edc664c6"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/held-effects.js",
+      "blob": "0ec242b0fca9b536b2080566ec5e7d09f1da2272",
+      "sha256": "0f5a94b8b742aeaccd151746262ef221e1ee747a5ca43874a2bd71fb74f37985"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/sinister-status-adapters.js",
+      "blob": "8566c18fb93c8ad8f29923dbe881c8f416390d21",
+      "sha256": "1ff0841774f740033973df02b57a2e7d5b2dd50d397aaaf89c2ca9fef996d462"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/sinister-condition-lifecycle.js",
+      "blob": "2422307568e6abf75817a4003d3cafac1ee21503",
+      "sha256": "a68e989698963354669ee1bd981f0836dff536dd44239883773f0dd4f3e95933"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/status-interruptions.js",
+      "blob": "b9ca374e5be6ca4361e6dac01c4deba93faea07a",
+      "sha256": "50e664b7db182131e53a806ff5a9c5292d310b76c03423b95955f1fd9fde62a6"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/hp-damage.js",
+      "blob": "a901e43acb924686174a7f25fb3f9ae8ae7693bb",
+      "sha256": "c467900e665ed13a1b8cf370847c582e7060732faadff6b64882c9bdd5b512ba"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/damage-resolution.js",
+      "blob": "0dc9ad84407a5ca33d7d1f274fc8d61c702e9c71",
+      "sha256": "b5bd948a819885f8d42b15874159d449447993360ad2857b96f53b4a9e306274"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/battle-status.js",
+      "blob": "9af21ab5df46a8b30b3103a4c7ad06157462ab49",
+      "sha256": "a544264dfa959ef6e7dd67a6bcc8a1abd6df17e783908c65a9f7bdfeab6cfc4b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/damage-status.js",
+      "blob": "dc1d81f7b3c568650e53b7d3b28213ce220a281d",
+      "sha256": "67cd92f28082b2b224d910257e81eff2af84ece48c6c03dbe5341f7c5def5ed3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/sinister-combat.js",
+      "blob": "09306c0f1bd7a3f208ae2eb6ab4f1dd971f4dc82",
+      "sha256": "b8922cc86630255c32f686ab747c16cacddcf2e329c68b0825d31db770893536"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/move-targets.js",
+      "blob": "d39a82f22330af7beaf83ec588a6b66364615562",
+      "sha256": "85ea6fecc85da9511425350b9baee283ea046ce5dc79f8d457bea33a44f96428"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/support.js",
+      "blob": "5f65c61523415f07ffe7c4e0a8799bbcae9b1285",
+      "sha256": "710b9f10cfb8f622f4be832da5c47db8937c7638844a959e9762a64bb37a1d1f"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/speed-context.js",
+      "blob": "8e98df43ffa6d7054c3d34371aad48d2de7d02b0",
+      "sha256": "4012c3f33305e802eee24ce9e69077568e5b896f2c98d019a73b2aeced1789e7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/rules/speed.js",
+      "blob": "d44478ad7336b0eeb87679b3a925a0fc878c8b09",
+      "sha256": "d52e7aacd14c11233886da74b6330cab3ce9d17d2968894d6a60d5b40169f7ea"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/combat.js",
+      "blob": "f5a712c74acf4252732d76c4579dcbe86832b9fb",
+      "sha256": "a9493333c804cda942c1710d0113d8442ae65d5a04e4f354fba67fb2f9d465c0"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/revival.js",
+      "blob": "fbaaeaa13c3d22e3f4637bc80071dd8c8e0882e8",
+      "sha256": "92aeff7dbf7bea8137e8a3dd9b3cda21e089570bb08ed3ce102473adbda67638"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/leech-links.js",
+      "blob": "e617870d43074183d7cd0aa7f5ec2563b2f489c6",
+      "sha256": "4ef8e1ef39bc199f40c80eaba4ee1f24129812c05ee6c0322320317b2d90fced"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/item-drops.js",
+      "blob": "47103e358f03772102095938518c113e13ef19cd",
+      "sha256": "c6c6f16204bd3883474ca847db5f2b0518df4aa32649ad4a2cadc19d4dd5c4cb"
+    }
+  ],
+  "catalogs": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/dungeons/floors-01.json",
+      "blob": "81d1e9a775680e4a0ff1ec81251e868a239845ab",
+      "sha256": "5ace52bd885584be0600761fac137849de3d37490fc42c1ac1a08b52e5225e29"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/dungeons/floors-02.json",
+      "blob": "adf37b04ccb13c6f4f102c8b6fe92e0f526c15f7",
+      "sha256": "0f731ee5c023a49df23fe71ff564104322d2f3a90dd73c9c30b2e1494a9ff9f0"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/dungeons/floors-03.json",
+      "blob": "4994ac69a0bd7443bd4e10dcedc6d49c41f41823",
+      "sha256": "f164b5b4115acb3d34b7b8ae07ee3e6fbd33ce1b4d43310e2ddbfe19dd665786"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/dungeons/generation-01.json",
+      "blob": "3232b9c9287d1fb86ca6c16847d3cd66be2b36da",
+      "sha256": "2173f4d49997149726b86d0fa7a92dd90189c94660dc93cba65814ecf1c7f958"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/dungeons/generation-02.json",
+      "blob": "37dd854d7bc02a7634f96d50ce1b37370ab7175e",
+      "sha256": "be9b550410ea8f501fcd4b0ca0df719cdf66111dfdc6db2385a1a6e9f804947d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/dungeons/generation-03.json",
+      "blob": "0bf0cd4e0b8fe39125ded9e951bc9f0f85d69b87",
+      "sha256": "1dbfa65dd36b54a03d211cb6eee0ea7f81d2d81916fa1f9c159d7f7980fbdf5b"
+    }
+  ],
+  "clearFloorProof": [
+    {
+      "floorId": "sinister-woods-floor-01",
+      "sourceFloorKey": "SinisterWoods:1",
+      "generationId": "generation-dd222885c329fc515ac5",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-02",
+      "sourceFloorKey": "SinisterWoods:2",
+      "generationId": "generation-bc7f120b1f22b4a288eb",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-03",
+      "sourceFloorKey": "SinisterWoods:3",
+      "generationId": "generation-16aaa0234443528c0366",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-04",
+      "sourceFloorKey": "SinisterWoods:4",
+      "generationId": "generation-6e09dac7a4249ccb9be9",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-05",
+      "sourceFloorKey": "SinisterWoods:5",
+      "generationId": "generation-01f61d9bcc8fbf51064c",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-06",
+      "sourceFloorKey": "SinisterWoods:6",
+      "generationId": "generation-06dcd11a68c5ac221d80",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-07",
+      "sourceFloorKey": "SinisterWoods:7",
+      "generationId": "generation-dec6fa777a1087568edf",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-08",
+      "sourceFloorKey": "SinisterWoods:8",
+      "generationId": "generation-ceeb4869fb962cd2db12",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-09",
+      "sourceFloorKey": "SinisterWoods:9",
+      "generationId": "generation-ca90bdbd0a4e2588f26a",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-10",
+      "sourceFloorKey": "SinisterWoods:10",
+      "generationId": "generation-5cd8133f4f9ae681a0a1",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-11",
+      "sourceFloorKey": "SinisterWoods:11",
+      "generationId": "generation-5d5f3c675c4c11a848ba",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-12",
+      "sourceFloorKey": "SinisterWoods:12",
+      "generationId": "generation-b5f5d5f9463e3b552fbe",
+      "weather": 0
+    },
+    {
+      "floorId": "sinister-woods-floor-13",
+      "sourceFloorKey": "SinisterWoods:13",
+      "generationId": "generation-9249ab5e9d2f4c96d2a4",
+      "weather": 0
+    }
+  ],
+  "bounds": {
+    "liveActors": 132,
+    "retiredHistory": "R-authenticated-retained-census-no-active-retired-Leech-or-Wrap-debts",
+    "dummyDamageCalls": 7,
+    "dummyPerCall": {
+      "C": 5,
+      "K": 6,
+      "I": 1
+    },
+    "sharedLeechClears": 132,
+    "intrinsic": {
+      "C": 192,
+      "K": 66,
+      "I": 7,
+      "A": 1,
+      "total": 266
+    },
+    "displayCalls": 9,
+    "forcedLossCalls": 7,
+    "composed": "266+9D+7F; D/F concrete adapters remain independently unclosed",
+    "rngDraws": {
+      "upper100": 2,
+      "other": 0
+    },
+    "bideDomain": "only no-target or authenticated unchanged Protect/Frozen target; full reachable contact/EXP owner mandatory before activation"
+  },
+  "recovery": {
+    "originalSourcesSha256": "084029f38daf60d12a90be2746effa07584647cd9dcd6af40f3bd8d56574fa21",
+    "integrationBaseCommit": "efe20598c424cb09873dbc1def9aad9f7fe97d44",
+    "leafPins": [
+      {
+        "path": "games/pokemon-dungeon-reimagined/src/contracts/sinister-end.js",
+        "sha256": "6d9f3cad576c87577314c19e13e0b08b1f7372ce2944950ab1e6c7b6f6d9c103"
+      },
+      {
+        "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/sinister-end-effects.js",
+        "sha256": "3119c67e73b669ccd003359e1f656a676c8b15f41d6491200a5fe12e9047171e"
+      }
+    ],
+    "dependencyAdaptations": [
+      {
+        "path": "games/pokemon-dungeon-reimagined/src/contracts/campaign.js",
+        "currentSha256": "08f456d0ee956b5b53500c38be0e9e0bbe32582626b9b65fea45609fee2541d9",
+        "currentReplacements": [
+          {
+            "currentSource": " * } | {\n *     kind: 'early-campaign';\n *     cursor: import('./early-campaign-scenes.js').EarlyCampaignSceneCursor;\n *     actors: Record<string,ActorSlotRef>;\n",
+            "originalSource": ""
+          }
+        ],
+        "integrationSha256": "7103d94f33959233a70e8d7dd5da840ac22baf5538a958217f5bc45e8714f13a",
+        "integrationBlob": "c2e61b5aa928ad75271b4d063acf2436c67a93cc",
+        "integrationReplacements": []
+      },
+      {
+        "path": "games/pokemon-dungeon-reimagined/src/domain/turns/types.js",
+        "currentSha256": "0e44fab8f3307f76c429ecf848c14dff06631e7a39835d10661188e12bc724ba",
+        "currentReplacements": [
+          {
+            "currentSource": " | {type:'setAudioPreferences',audio:import('../../audio/types.js').AudioPreferences}",
+            "originalSource": ""
+          }
+        ],
+        "integrationSha256": "0e44fab8f3307f76c429ecf848c14dff06631e7a39835d10661188e12bc724ba",
+        "integrationBlob": "bd2f6dee2bb18b179ce73379e77b31e64c96ed19",
+        "integrationReplacements": [
+          {
+            "currentSource": " | {type:'setAudioPreferences',audio:import('../../audio/types.js').AudioPreferences}",
+            "originalSource": ""
+          }
+        ]
+      },
+      {
+        "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/damage-resolution.js",
+        "currentSha256": "6245c2c379a322a03dfad66e24c8d3431dfcd1dd6ce6ce0386e959551034c100",
+        "currentReplacements": [
+          {
+            "currentSource": "import { SINISTER_WORK_REVISION } from '../state/sinister-work-revision.js';\nimport { creditSinisterDefeat } from './sinister-experience.js';\n",
+            "originalSource": ""
+          },
+          {
+            "currentSource": "    if (context.state.contentRevision === SINISTER_WORK_REVISION && giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile') creditSinisterDefeat(context,target,attacker,catalogs);\n    for (const id of context.state.contentRevision === SINISTER_WORK_REVISION ? [] : giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile' ? session.teamOrder : []) {",
+            "originalSource": "    for (const id of giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile' ? session.teamOrder : []) {"
+          }
+        ],
+        "integrationSha256": "6245c2c379a322a03dfad66e24c8d3431dfcd1dd6ce6ce0386e959551034c100",
+        "integrationBlob": "ed8f1a8f43c042a576d4fb80ac80ef6c99c348d5",
+        "integrationReplacements": [
+          {
+            "currentSource": "import { SINISTER_WORK_REVISION } from '../state/sinister-work-revision.js';\nimport { creditSinisterDefeat } from './sinister-experience.js';\n",
+            "originalSource": ""
+          },
+          {
+            "currentSource": "    if (context.state.contentRevision === SINISTER_WORK_REVISION && giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile') creditSinisterDefeat(context,target,attacker,catalogs);\n    for (const id of context.state.contentRevision === SINISTER_WORK_REVISION ? [] : giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile' ? session.teamOrder : []) {",
+            "originalSource": "    for (const id of giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile' ? session.teamOrder : []) {"
+          }
+        ]
+      }
+    ]
+  }
+}

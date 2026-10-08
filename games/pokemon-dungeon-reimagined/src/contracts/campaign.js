@@ -1228,6 +1228,10 @@
  * } | {
  *     kind: 'await-rescue';
  *     requestId: RescueRequestId;
+ * } | {
+ *     kind: 'early-campaign';
+ *     cursor: import('./early-campaign-scenes.js').EarlyCampaignSceneCursor;
+ *     actors: Record<string,ActorSlotRef>;
  * }} Continuation
  */
 

@@ -1,0 +1,42 @@
+{
+  "scope": "unselected-early-scene-fixed-meanies-binding-correction",
+  "qualification": "canonical-browser-boss-binding-not-native-boss-flag-behavior-or-construction-proof",
+  "originalRecoveredHelperSha256": "7a3099e792ad23cfa859b05d09c9ca5cf16a1a0ec646269761d36d4ec006750a",
+  "qualifiedHelperSha256": "8f735bbf5e5129441c8f35269c18124eaf545f7dc8884deb65be62bdafc73e73",
+  "encounterId": "campaign-boss-sinister-woods-team-meanies",
+  "fixedRoomId": "sinister-woods-team-meanies-floor",
+  "floorId": "sinister-woods-floor-13",
+  "scenes": [
+    "browser-sinister-first-battle",
+    "browser-sinister-retry-battle"
+  ],
+  "roles": [
+    {
+      "role": "gengar",
+      "speciesId": "pokemon-094"
+    },
+    {
+      "role": "ekans",
+      "speciesId": "pokemon-023"
+    },
+    {
+      "role": "medicham",
+      "speciesId": "pokemon-308"
+    }
+  ],
+  "catalogPins": [
+    {
+      "path": "content/campaign/bosses.json",
+      "sha256": "0c8b930a3bb36e986b3953d8fc152ff9d86517e4ec6af420ae9f51963ddff15b"
+    },
+    {
+      "path": "content/dungeons/floors-02.json",
+      "sha256": "0f731ee5c023a49df23fe71ff564104322d2f3a90dd73c9c30b2e1494a9ff9f0"
+    },
+    {
+      "path": "content/dungeons/fixed-rooms-01.json",
+      "sha256": "2afb01ef1646ed89c09d302bdffab0e9572e6e05c34a6cd67cb330b8de7d3984"
+    }
+  ],
+  "remainingOwner": "Actual complete raw factory must authenticate generation/allocation/source behavior, native flags, first/retry variant, whole actor/resource state and scene entry; supplied IDs and canonical BossBinding are necessary only."
+}

@@ -1,5 +1,49 @@
 # Pokémon Dungeon Reimagined progress and decisions
 
+## Dialogue recovery and campaign continuation — 2026-10-08
+
+- [PR #396](https://github.com/justinthelaw/justinthelaw/pull/396) merged as
+  `ff21bb9c0228ff872455908ffbad4bd5760467de`. All seven checks passed;
+  [Pages deployment](https://github.com/justinthelaw/justinthelaw/actions/runs/37859868912)
+  succeeded. The panel had focused Enable sound before Continue/Enter Tiny
+  Woods; trusted Enter was consumed there and controller A/Z generated a click
+  the audio permission control must reject. Default focus now selects the real
+  form/action, preserving explicit sound focus and guarded callbacks.
+- The available browser stops before onboarding with WebGL2 unavailable.
+  This establishes no gameplay/device acceptance. Local lint/build/export pass;
+  local website browser installation stops on a truncated pinned Chromium ZIP.
+  Hosted website fixtures, static game checks, hooks and CodeQL passed on #396.
+- Recovered the actual Sinister run/pre-cache receipt, initial AI, early
+  scene/cursor/schema and end-effect leaves from preserved in-flight packages.
+  Their historical source bodies remain authenticated; recovery onto current
+  main permits only exact reversible accepted additions. Fresh source audits
+  use pinned comparative Red commit `6bcbec4f906938c0243aa2026bcbd41b577bab85`.
+- Added source roster address mapping over413 native capacity partitions and129
+  original pairs, a finite35-profile/27-ability domain retaining real contact
+  abilities, and a full64-entry cache with exact miss receipts,424 EXP ranks
+  and independent mutable PP/counter precursors. Cache hits draw no move RNG;
+  full cache misses sample without inserting or applying pre-cache Blowback.
+- Independent reviews corrected prospective revision exhaustion and a fixed
+  Team Meanies role mismatch. Both scene and ability owners now require the
+  same canonical BossBinding/encounter in actual wild scheduler slots; native
+  bossFlag, behavior and generation still need genuine construction receipts.
+  The completed scoped recovery, roster/domain, scene and cache packages pass
+  independent SPEC/QUALITY review; source/AST checks never execute game code.
+- Full current authoring check and both hook stages pass. Six sourceful audits
+  also pass on a fresh shallow staged-tree clone with only the reachable recovery
+  base fetched; unavailable donor commits are unnecessary. The live exported
+  dialogue view returns HTTP200 and matches the merged repair byte for byte.
+- The selected owner still ends at MAIN(5,9), with three actual dungeon routes.
+  Concrete native memory/actor/geometry construction, complete raw validation,
+  source tile/end/contact/terminal adapters, routing and subsequent main/postgame
+  systems remain implementation work. Available Red source contains the core
+  construction and turn algorithms; an absent source tree is no longer a blocker.
+  Its expressly uncertain original Blue AvoidEnemies and possible DS tile checks
+  retain their comparative qualification. No full-game/parity claim is made.
+- Continue [RECOVERY-2026-10-08-DIALOGUE.md](RECOVERY-2026-10-08-DIALOGUE.md) and
+  [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md). Keep these unfinished campaign
+  prerequisites separate from the authorized published startup repair.
+
 ## Opening MVP publication and startup repair — 2026-10-08
 
 - The first repair deployed as `2075b6a`: all seven PR #394 checks and the

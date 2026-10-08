@@ -37,3 +37,18 @@ jobs:
       - name: Check source types and static assets
         working-directory: tools/pokemon-dungeon
         run: npm run check
+      - name: Fetch pinned comparative source for text audits
+        run: |
+          git fetch --no-tags --depth=1 origin efe20598c424cb09873dbc1def9aad9f7fe97d44
+          git clone --filter=blob:none --no-checkout https://github.com/pret/pmd-red.git "$RUNNER_TEMP/pokemon-native-source"
+          git -C "$RUNNER_TEMP/pokemon-native-source" fetch --no-tags --depth=1 origin 6bcbec4f906938c0243aa2026bcbd41b577bab85
+          git -C "$RUNNER_TEMP/pokemon-native-source" update-ref --no-deref HEAD 6bcbec4f906938c0243aa2026bcbd41b577bab85
+      - name: Authenticate recovered source owners without game execution
+        working-directory: tools/pokemon-dungeon
+        run: |
+          npm run sinister-run-preparation:check -- --native-root "$RUNNER_TEMP/pokemon-native-source"
+          npm run sinister-cache-source:check -- --native-source "$RUNNER_TEMP/pokemon-native-source"
+          npm run sinister-cache64:check -- --native-source "$RUNNER_TEMP/pokemon-native-source"
+          npm run sinister-roster-domain:check -- --native-root "$RUNNER_TEMP/pokemon-native-source"
+          npm run sinister-initial-ai:check -- --native-root "$RUNNER_TEMP/pokemon-native-source" --negative-controls
+          npm run sinister-end:check -- --native-root "$RUNNER_TEMP/pokemon-native-source" --negative-controls
