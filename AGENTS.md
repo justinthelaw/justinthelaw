@@ -189,7 +189,8 @@ may pause animation and stub the external resume iframe; disclose that in the PR
 `/arcade/` is a separate page with a Home link and a single scrolling column of
 cards. Each card centers its preview with padding, places a short description
 below it, and puts Play at the bottom right. The first card launches the
-Pokémon development shell and clearly states that its campaign is unavailable.
+Pokémon development checkpoint and describes its implemented opening through
+Mt. Steel and escort jobs, with later chapters explicitly unfinished.
 Its picture is the existing P06 3D art study, not a gameplay capture. The other
 two cards say "Coming soon" with lavender and apricot pixel characters.
 Placeholders animate; reduced-motion preferences keep them still.

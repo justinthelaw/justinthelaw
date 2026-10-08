@@ -13,6 +13,8 @@
   with v24 escort/second-work and Caterpie request through MAIN(5,9); full campaign and human acceptance
   remain open. See its progress ledger for the published checkpoint.
 - The other two cards retain animated pixel previews and disabled Play buttons.
+- PR #392 prepares a revision-specific [Pages preview artifact](pokemon-dungeon-reimagined/plan/PAGES-PREVIEW.md)
+  after website CI passes; human opening-route/device review remains pending.
 
 | Slot | Current card | Planned work |
 | --- | --- | --- |

@@ -13,6 +13,7 @@ interface RecordedKey {
 // This fixture records the website's input bridge; it contains no game source.
 const inputFixture = `<!doctype html><html><body>
   <output id="key-events">[]</output>
+  <output id="focused-key-events">[]</output>
   <input id="ordinary-input" type="text" value="ordinary text">
   <input id="confirm-input" type="text" data-game-controls-confirm="submit" value="  exact  ">
   <input id="readonly-input" type="text" data-game-controls-confirm="submit" readonly value="read only">
@@ -21,10 +22,16 @@ const inputFixture = `<!doctype html><html><body>
   <div id="ordinary-editable" contenteditable="true" data-game-controls-confirm="submit">editable</div>
   <script>
     const events = [];
+    const focusedEvents = [];
     for (const type of ["keydown", "keyup"]) {
       window.addEventListener(type, event => {
-        events.push({ type: event.type, code: event.code, key: event.key });
+        const recorded = { type: event.type, code: event.code, key: event.key };
+        events.push(recorded);
         document.getElementById("key-events").textContent = JSON.stringify(events);
+        if (document.hasFocus()) {
+          focusedEvents.push(recorded);
+          document.getElementById("focused-key-events").textContent = JSON.stringify(focusedEvents);
+        }
       });
     }
   </script>
@@ -82,6 +89,54 @@ test("should restore native desktop keyboard input after hiding touch controls",
     { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
     { type: "keydown", code: "KeyZ", key: "z" },
     { type: "keyup", code: "KeyZ", key: "z" },
+  ]);
+});
+
+test("should focus the game when showing controls and deliver focused bridge input", async ({ page }) => {
+  await openPlayer(page);
+  const controls = page.getByRole("region", { name: "Game controls", exact: true });
+  if (await controls.isVisible()) await page.getByRole("button", { name: "Hide controls", exact: true }).click();
+  const show = page.getByRole("button", { name: "Show controls", exact: true });
+  await show.focus();
+  await expect(show).toBeFocused();
+  const iframe = page.locator(`iframe[title="${gameTitle} game"]`);
+  await expect(iframe).not.toBeFocused();
+  await show.click();
+  await expect(controls).toBeVisible();
+  await expect(iframe).toBeFocused();
+  await controls.getByRole("button", { name: "Move right", exact: true }).click();
+  await expect(page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("#focused-key-events")).toHaveText(JSON.stringify([
+    { type: "keydown", code: "ArrowRight", key: "ArrowRight" },
+    { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
+  ]));
+});
+
+test("should defer game focus until the keyboard toggle key is released", async ({ page }) => {
+  await openPlayer(page);
+  const controls = page.getByRole("region", { name: "Game controls", exact: true });
+  if (await controls.isVisible()) await page.getByRole("button", { name: "Hide controls", exact: true }).click();
+  const iframe = page.locator(`iframe[title="${gameTitle} game"]`);
+  const show = page.getByRole("button", { name: "Show controls", exact: true });
+  await show.focus();
+  await page.keyboard.down("Enter");
+  await expect(controls).toBeVisible();
+  await expect(page.getByRole("button", { name: "Hide controls", exact: true })).toBeFocused();
+  await expect(iframe).not.toBeFocused();
+  await page.keyboard.up("Enter");
+  await expect(iframe).toBeFocused();
+  expect(await recordedKeys(page)).toEqual([]);
+  const hide = page.getByRole("button", { name: "Hide controls", exact: true });
+  await hide.focus();
+  await page.keyboard.down("Enter");
+  await expect(controls).toBeHidden();
+  await expect(page.getByRole("button", { name: "Show controls", exact: true })).toBeFocused();
+  await page.keyboard.up("Enter");
+  await expect(iframe).toBeFocused();
+  expect(await recordedKeys(page)).toEqual([]);
+  await page.keyboard.press("ArrowRight");
+  await expect.poll(() => recordedKeys(page)).toEqual([
+    { type: "keydown", code: "ArrowRight", key: "ArrowRight" },
+    { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
   ]);
 });
 

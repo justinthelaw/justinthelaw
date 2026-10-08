@@ -2,6 +2,7 @@ import { createIndexedDbAdapter, createSaveRepository, createPersistenceService,
 import { createAdventure } from '../domain/adventure.js';
 /** @typedef {import('../persistence/application.js').ReplacementRequest} ReplacementRequest */
 /** @typedef {import('../contracts/campaign.js').CampaignSnapshot} Snapshot */
+/** @typedef {{owns:()=>boolean,failed:()=>void}} NewCampaignPreparation */
 
 /** Persistence/UI owner: exact frozen snapshot identity is retained by detached
  * bind; observers run after service operations. No save callback dispatches.
@@ -18,10 +19,15 @@ export function createSaves(options) {
   /** Exact session export receipt; never represents durable browser storage.
    * @type {{snapshot:Snapshot,epoch:symbol}|null} */ let tutorialSession = null;
   /** @type {Set<ReplacementRequest>} */ const previews = new Set();
-  function cancelPreviews() { for (const token of previews) service.cancelReplacement(token); previews.clear(); }
+  /** @type {symbol|null} */ let campaignPreparation = null;
+  function cancelPreviews() {
+    const preparing = campaignPreparation !== null; campaignPreparation = null;
+    for (const token of previews) service.cancelReplacement(token); previews.clear();
+    if (preparing && !disposed) options.busy(false);
+  }
   /** @param {()=>Promise<void>} action */
   function run(action) {
-    options.busy(true); cancelPreviews();
+    cancelPreviews(); options.busy(true);
     void action().catch(error => { if (!disposed) view.notify(error instanceof Error ? error.message : 'Save operation failed.'); }).finally(() => { if (!disposed) options.busy(false); });
   }
   /** @param {import('../persistence/contracts.js').SavePreview|null} preview */
@@ -105,7 +111,7 @@ export function createSaves(options) {
       if (disposed || tutorialSaving || service.getBinding().instance?.getSnapshot() !== snapshot) return;
       const epoch = service.getBinding().adventureEpoch;
       const current = () => !disposed && service.getBinding().adventureEpoch === epoch && service.getBinding().instance?.getSnapshot() === snapshot;
-      tutorialSaving = true; options.busy(true); cancelPreviews();
+      tutorialSaving = true; cancelPreviews(); options.busy(true);
       void (async () => {
         if (memory) {
           const outcome = await service.exportSave();
@@ -124,8 +130,35 @@ export function createSaves(options) {
       })().then(saved => { tutorialSaving = false; if (!disposed) options.busy(false); if (saved && current()) complete(); }).catch(error => { tutorialSaving = false; if (!disposed) { options.busy(false); view.notify(error instanceof Error ? error.message : 'Tutorial checkpoint failed.'); } });
     },
     isMemoryOnly: () => memory,
-    /** @param {Snapshot} snapshot @param {'durable'|'memory'} storageMode */
-    newCampaign(snapshot, storageMode) { run(async () => prepared(await service.prepareNewGame(snapshot, storageMode))); },
+    /** A failed preparation returns ownership only to its submitted draft after
+     * input is released. A concrete preview permanently retains its sealed draft.
+     * @param {Snapshot} snapshot @param {'durable'|'memory'} storageMode @param {NewCampaignPreparation} preparation */
+    newCampaign(snapshot, storageMode, preparation) {
+      if (disposed || campaignPreparation !== null || !preparation.owns()) return;
+      cancelPreviews(); options.busy(true);
+      const attempt = campaignPreparation = Symbol('new-campaign-preparation');
+      const captured = service.getContext();
+      let previewPrepared = false, failed = false;
+      const active = () => !disposed && campaignPreparation === attempt;
+      const owns = () => {
+        const current = service.getContext();
+        return active() && preparation.owns() && current.adventureEpoch === captured.adventureEpoch && current.slotId === captured.slotId && current.sourceRevision === captured.sourceRevision;
+      };
+      void service.prepareNewGame(snapshot, storageMode).then(result => {
+        if (!owns()) { if (result.ok) service.cancelReplacement(result.value); return; }
+        if (result.ok) { previewPrepared = true; confirmation(result.value); }
+        else { failed = !['stale', 'disposed'].includes(result.code); view.notify(result.message); }
+      }).catch(error => {
+        if (!owns()) return;
+        failed = !previewPrepared;
+        view.notify(error instanceof Error ? error.message : 'Save operation failed.');
+      }).finally(() => {
+        if (!active()) return;
+        const retry = failed && owns();
+        campaignPreparation = null; options.busy(false);
+        if (retry) preparation.failed();
+      });
+    },
     autosave() { void save(true).catch(error => { if (!disposed) view.notify(error instanceof Error ? error.message : 'Autosave failed.'); }); },
     dispose() { disposed = true; cancelPreviews(); service.dispose(); },
   };

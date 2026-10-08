@@ -188,7 +188,7 @@ export async function createApplication(canvas, signal, startup) {
     idleAt = 0; draftMode = 'title'; draftToken = Symbol('title-options'); draftSealed = false; audio.draft('title',optionsDraft.audio);
     close(); followsGame = false;
     view.hud('', [], []); view.minimap(null);
-    view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods, Caterpie's rescue, team formation, the first morning, the Thunderwave Cave rescue, town services, ordinary requests, and Dugtrio's Diglett request. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
+    view.show('Pokémon Dungeon Reimagined', "Development opening: personality quiz, Awakening, Tiny Woods, team formation, Thunderwave Cave, town services, Mt. Steel, Friend Areas, ordinary and escort jobs, and Caterpie's next request. Sinister Woods is the next development boundary. The remaining Blue campaign is in development; browser staging and candidate pixel art await human review.", [
       { label: 'New game', run: newGame }, { label: 'Continue / backup', run: () => { saves?.load(); context(); } }, { label: 'Saves & import', run: () => { saves?.menu(); context(); } },
       { label: 'Controls', run: help },
     ]); context();
@@ -197,7 +197,26 @@ export async function createApplication(canvas, signal, startup) {
   function newGame() {
     if (!gameplay || !loaded || busy) return;
     close(); followsGame = false; idleAt = 0; draftMode = 'quiz'; draftToken = Symbol('quiz-options'); draftSealed = false; const quizToken = draftToken; audio.draft('quiz',optionsDraft.audio); context();
-    startOnboarding({ catalogs: loaded.catalogs, gameplay, view, commit(snapshot, storageMode) { draftSealed = true; view.refreshAudioControls(); saves?.newCampaign(snapshot, storageMode); }, back: title, getOptions: () => structuredClone(optionsDraft), isCurrent: () => !disposed && !draftSealed && draftMode === 'quiz' && draftToken === quizToken }); context();
+    const ownsDraft = () => !disposed && draftMode === 'quiz' && draftToken === quizToken;
+    const canSubmit = () => ownsDraft() && !draftSealed && !busy;
+    let quizPanel = Symbol('unpresented-quiz');
+    const quizView = { ...view,
+      /** @param {Parameters<typeof view.show>} args */
+      show(...args) {
+        const actions = args[2].map(action => ({ ...action, run() { if (canSubmit()) action.run(); } }));
+        quizPanel = view.show(args[0], args[1], actions, args[3], args[4]); return quizPanel;
+      },
+    };
+    startOnboarding({ catalogs: loaded.catalogs, gameplay, view: quizView, commit(snapshot, storageMode) {
+      if (!saves || !canSubmit()) return;
+      const submittedPanel = quizPanel;
+      const owns = () => ownsDraft() && view.ownsPanel(submittedPanel);
+      draftSealed = true; view.refreshAudioControls();
+      saves.newCampaign(snapshot, storageMode, { owns, failed() {
+        if (!owns() || busy || !draftSealed) return;
+        draftSealed = false; view.refreshAudioControls();
+      } });
+    }, back: title, getOptions: () => structuredClone(optionsDraft), isCurrent: canSubmit }); context();
   }
   function menu() { if (busy) return; cancelAutomatic(); followsGame = false; dialogue = false; input?.cancel(); saves?.menu(); context(); }
   function resumedBinding() {

@@ -16,6 +16,14 @@
 - Corrected hidden-canvas startup quality selection using the canvas's own
   document viewport. Explicit quality overrides and visible canvas width retain
   priority; static source/type checks and independent review passed.
+- Showing and hiding touch controls now restore the captured game's focus;
+  Enter release remains in the host before focus returns. Inert website fixture
+  regressions cover focused bridge input and both keyboard toggle directions.
+- Failed new-game save preparation now returns the current quiz's submission
+  ownership for a browser or memory-only retry. Pending/stale results cannot
+  reopen a newer draft or release a newer operation's busy state.
+- Updated development descriptions to list the selected opening through
+  Mt. Steel and escort jobs, with Sinister as the next boundary.
 - [Pages preview preparation](PAGES-PREVIEW.md) reuses successful website CI
   to upload the complete production export. Merge and live deployment remain
   separate from this development artifact and full-game acceptance.
