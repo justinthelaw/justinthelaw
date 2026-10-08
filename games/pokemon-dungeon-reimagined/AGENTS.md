@@ -15,8 +15,10 @@ Friend Area onboarding now continues through Wigglytuff, story Magnemite, the
 Square wind request and rest at MAIN5,5, with navigable owned areas and resident
 management. Frozen v20 opens original-pair Tiny/Thunderwave work at MAIN5,5
 through the real inside-base MAIN5,6 morning boundary. Its v21 successor adds
-ordinary Steel1–8/fixed9 and actual outside Meanies/Pelipper replacement mail,
-then stops at MAIN5,7. Later work, escort, wild recruitment and Sinister remain
+ordinary Steel1–8/fixed9 and actual outside Meanies/Pelipper replacement mail
+at MAIN5,7. The complete v24 owner now selects actual escort and second-work
+entry, station and saved EXP through the Caterpie request at MAIN5,9. Independent
+activation review remains required; wild recruitment and Sinister remain
 in implementation. See plan/CHAPTER-FIVE-WORK.md and plan/STEEL-MEANIES.md; mandatory client/return/reward/
 morning owners block new work, and selected Magnemite is never silently removed. Static checks do not establish human play/visual acceptance or a complete
 campaign; later services, escort admission and routes remain incomplete.
@@ -271,3 +273,14 @@ Steel5–8 requests: second maximum batch5/endpoint6, first batch4/endpoint6. Ne
 truncate or cap producer rewards. Actual rank derives from every reward, and
 inside24/outside31 remain distinct MAIN5,8/5,9 boundaries. These unselected owners
 still require full raw heritage, factory, original-envelope and live caller joins.
+
+## Current v24 escort activation boundary
+
+The complete [v24 activation](plan/ESCORT-ACTIVATION.md) supersedes the historical
+unselected prerequisite holds above. Preserve actual raw heritage/work/resources
+before every state-bearing callback, exact original-envelope admission through
+v23, real roster1–3 plus a temporary guest, and the native saved EXP return PC.
+The whole reward queue precedes inside24/outside31 MAIN5,8/5,9. The4096 hard cap
+remains; static burst bounds3603/2105/1751 retain independent source review.
+Current activation is a scoped development owner, pending independent candidate
+review and human/device/visual/Blue-parity/full-campaign acceptance.

@@ -1,3 +1,4 @@
+import { placeFriendsGround } from '../../../content/authored/friends.js';
 /** Direct prospective v24 expedition owner. Historical live entry/settlement
  * code is untouched; exact schema/raw factory and full spatial/second-work proof
  * must select this owner together before live activation. */
@@ -63,7 +64,7 @@ export function enterOpening(context, catalogs, authored, dungeonId = 'tiny-wood
   const nativeParty = state.selectedPartyIds.map((id,slot) => { const pokemon = state.roster[id]; if (!pokemon) return blocked('escort-entry-roster'); return { slot,identity: { ...pokemon.identity },priority: slot === 0 ? /** @type {const} */ ('leader') : id === state.profile.partnerId ? /** @type {const} */ ('locked-partner') : /** @type {const} */ ('member') }; });
   if (prepared) nativeParty.push({ slot: prepared.slot,identity: { ...prepared.client },priority: 'member' });
   const cave = dungeonId === T.dungeonId, steel = dungeonId === STEEL.dungeonId;
-  if (cave || steel) placeAtBase(state);
+  if (cave || steel) { if (state.friends) placeFriendsGround(state,TEAM.map); else placeAtBase(state); }
   const route = steel ? { ...STEEL, storyNode: STEEL.story } : cave ? { ...T, storyNode: T.story, rescueScene: T.rescue, returnNode: T.returned } : OPENING;
   if (!ordinary && !cave && !steel && !state.progress.milestones[OPENING.boostGuard]) {
     for (const id of state.selectedPartyIds) {
@@ -247,7 +248,7 @@ export function settleExpedition(context, outcome, catalogs, authored) {
     refreshGround(state, catalogs);
     const jobIds = outcome === 'success' ? settleJobObjectives(state, session, true) : failedJobs;
     work.returned = { sessionId: session.sessionId, dungeonId: session.dungeonId, outcome, jobIds, cursor: 0 };
-    placeInTown(state, outcome === 'success' ? TOWN.post : MORNING.interior);
+    (state.friends ? placeFriendsGround : placeInTown)(state, outcome === 'success' ? TOWN.post : MORNING.interior);
   } else if (outcome === 'success' && session.dungeonId !== STEEL.dungeonId) {
     state.progress.clears[session.dungeonId] = { dungeonId: session.dungeonId, firstClearRevision: state.revision + 1, lastClearRevision: state.revision + 1, firstClearDay: state.town.day, lastClearDay: state.town.day, clearCount: 1, reachedFloorIds: [...session.visitedFloorIds] };
     state.progress.statistics.rescuesCompleted++; state.progress.storyNodeId = session.dungeonId === T.dungeonId ? T.returned : OPENING.returnNode;

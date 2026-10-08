@@ -44,6 +44,6 @@ assert.ok(texts.get('gameplay/escort-native-moves.js').includes('cumulative >= r
 assert.ok(texts.get('gameplay/escort-native-moves.js').includes("actor.conditions.blinker?.statusId === 'blinker' ? 1 : 8"));
 assert.ok(texts.get('state/escort-pickup-proof.js').includes('fingerprint(receipt.beforeDungeonRandom) !== fingerprint(lastDungeon)'));
 assert.ok(texts.get('state/escort-shape-proof.js').includes('copyPlainData(input)'));
-const live = await read('content/authored/opening.js'),validator = await read('src/domain/state/validate.js');
-assert.ok(!live.includes('ESCORT_WORK_REVISION') && !validator.includes('ESCORT_WORK_SHAPES'),'Full factory/event/caller successor remains held.');
-console.log(`Prospective escort owner static audit: ${files.length} parsed owner modules; 24 complete native byte pins; actual source placement/Pickup/direction/history/move/objective joins; exact live hold. No game execution.`);
+const live = await read('content/state/campaign.js'),validator = await read('src/domain/state/validate.js');
+assert.ok(live.includes("'./escort-campaign.js'") && validator.includes('ESCORT_WORK_SHAPES'),'Complete exact factory/registry selected; separate activation audit owns all caller joins.');
+console.log(`Prospective escort owner static audit: ${files.length} parsed owner modules; 24 complete native byte pins; actual source placement/Pickup/direction/history/move/objective joins; exact live selection with separate activation audit. No game execution.`);

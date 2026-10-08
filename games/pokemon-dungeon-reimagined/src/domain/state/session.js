@@ -1,3 +1,4 @@
+import { ESCORT_WORK_REVISION } from './escort-work-revision.js';
 import { forgottenMove } from './move-learning-proof.js';
 import { requireRelation as check, unique, keyed, checkMoves, checkPp, inBounds, actorHasMoveReference } from './relations.js';
 import { checkInventory } from './inventory.js';
@@ -78,6 +79,7 @@ function actorCheck(context, actor, session, path) {
     }
   }
   const binding = actor.binding;
+  if (binding.kind === 'escort-guest') check(context, context.state.contentRevision === ESCORT_WORK_REVISION && session.escortGuest?.entry.actorId === actor.actorId && !!context.state.progress.jobs[binding.jobId], path, 'Temporary guest requires its exact actual entry and job owner.');
   if (binding.kind === 'job-client') check(context, !!context.state.progress.jobs[binding.jobId], path, 'Job client record is absent.');
   if (binding.kind === 'imported-team') check(context, context.state.rescue.importedTeams[binding.teamId]?.members.some(member => member.memberKey === binding.memberKey), path, 'Imported team member is absent.');
 }
@@ -132,6 +134,8 @@ export function checkSession(context, session, suspended, path) {
   const scheduler = session.scheduler;
   if (scheduler.kind === 'continuing') {
     check(context, !suspended && continuingSession(session, context.state), path, 'Continuing scheduler is not an exact live work checkpoint.');
+  } else if (scheduler.kind === 'learning-continuing') {
+    check(context, !suspended && context.state.contentRevision === ESCORT_WORK_REVISION && context.state.session === session && !!session.learningWork && !session.learning && !context.state.pendingResult, path, 'Saved learning work requires its independently proved actual live owner.');
   } else if (scheduler.kind !== 'ready') {
     const frame = scheduler.continuation;
     if (frame.action) actionCheck(context, frame.action, session, path);

@@ -435,3 +435,10 @@ supplied roster slot before guest admission. Its finite19 stats/moves/PP and
 fixed prospective boot seed are independently pinned; first-free-four/body6
 results do not authorize live actor/save/AI/lifecycle activation. Preserve the
 entire selected roster and conditional native draw schedule before the successor.
+
+Current v24 escort activation composes actual source guest/second-work through
+MAIN5,9 with direct raw heritage, original v2–v23 envelope admission, true saved
+native EXP return cursors and full station queues. See game plan/ESCORT-ACTIVATION.md.
+Earlier unselected prerequisite notes remain checkpoint history. Preserve the
+4096 cap, source qualification and independent scoped review; full campaign,
+human/device/visual/Blue parity and release acceptance remain open.

@@ -28,7 +28,7 @@ function commandResultShape(result) {
 /** Full validation is mandatory. A validated snapshot is retained by identity for
  * P08 detached binding; mutable inputs are detached by the validator first.
  * The domain epoch is instance-local, separate from P08's application binding epoch.
- * @param {{initial:Snapshot,content:import('../contracts/campaign.js').CampaignContent,handlers:import('./turns/types.js').CommandHandlers,turns:import('./turns/types.js').TurnHooks}} options
+ * @param {{initial:Snapshot,content:import('../contracts/campaign.js').CampaignContent,handlers:import('./turns/types.js').CommandHandlers,turns:import('./turns/types.js').TurnHooks,advanceTurns?:typeof advanceTurns}} options
  * @returns {{ok:true,adventure:import('./turns/types.js').Adventure}|{ok:false,kind:'invalid'|'content-blocked',message:string}}
  */
 export function createAdventure(options) {
@@ -62,7 +62,7 @@ export function createAdventure(options) {
       // A work checkpoint owns the next simulation step. This central gate also
       // covers independent mutation handlers (face, SET, equipment and future
       // menus), so no player mutation can interleave with automatic advance.
-      if (snapshot.session?.scheduler.kind === 'continuing' && intent.type !== 'advance' && intent.type !== 'presentation') return failure('rejected', 'unavailable');
+      if ((snapshot.session?.scheduler.kind === 'continuing' || snapshot.session?.scheduler.kind === 'learning-continuing') && intent.type !== 'advance' && intent.type !== 'presentation') return failure('rejected', 'unavailable');
       if (snapshot.pendingResult?.kind === 'move-learn-choice' && intent.type !== 'ackResult' && intent.type !== 'presentation') return failure('rejected','unavailable');
       if (intent.type === 'ackResult') {
         const result = snapshot.pendingResult;
@@ -93,14 +93,14 @@ export function createAdventure(options) {
       let consumedTurn = false;
       /** @type {import('./turns/types.js').TurnOutcome['kind']|null} */ let turnOutcome = null;
       if (plan.kind === 'action') {
-        const outcome = advanceTurns(context, options.turns, /** @type {import('./turns/types.js').Action} */ (/** @type {unknown} */ (copyPlainData(plan.action))));
+        const outcome = (options.advanceTurns ?? advanceTurns)(context, options.turns, /** @type {import('./turns/types.js').Action} */ (/** @type {unknown} */ (copyPlainData(plan.action))));
         consumedTurn = outcome.consumedTurn; turnOutcome = outcome.kind;
       } else {
         if (!apply) throw new TurnFault('content-blocked', 'command-mutation');
         const applied = apply(context, intent); commandResultShape(applied);
         if (applied.kind === 'unchanged') return Object.freeze({ kind: 'accepted', changed: false, consumedTurn: false, turnOutcome: null, revision: snapshot.revision, events: Object.freeze([]) });
         if (applied.kind !== 'changed' || typeof applied.resumeDungeon !== 'boolean') throw new TurnFault('content-blocked', 'command-result');
-        if (applied.resumeDungeon) { const outcome = advanceTurns(context, options.turns); consumedTurn = outcome.consumedTurn; turnOutcome = outcome.kind; }
+        if (applied.resumeDungeon) { const outcome = (options.advanceTurns ?? advanceTurns)(context, options.turns); consumedTurn = outcome.consumedTurn; turnOutcome = outcome.kind; }
       }
       // Contexts must not replace the transaction object itself. No ID/revision
       // counter is sourced from a callback's return value.

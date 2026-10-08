@@ -34,5 +34,5 @@ for (const required of ['factual.id === floors.at(-1)','destination.mapDefinitio
 const stun = await read('content/state/escort-stun-seed.js'); parse(stun,{ ecmaVersion: 'latest',sourceType: 'module' });
 assert.ok(stun.includes('state.session?.sessionId !== session.sessionId') && stun.includes('ownsEscortSourceRef(state,') && stun.includes('ref.mapId === session.floor.mapId'));
 assert.ok(!stun.includes('state.session !== session'),'Retired-source session views retain canonical guest generation ownership.');
-assert.ok(!(await read('content/state/campaign.js')).includes('createEscortResourcePolicies'),'Prerequisite remains unselected pending complete factory composition.');
+assert.ok((await read('content/state/escort-campaign.js')).includes('createEscortResourcePolicies(runtimeCatalogs,identities,complete)'),'Live factory composes the required complete raw proof.');
 console.log('Direct escort resource AST audit PASS: ten state callbacks independently preflight raw and complete ownership; actual resource/floor/condition/casualty/swap owners; no game execution.');

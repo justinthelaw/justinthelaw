@@ -1,3 +1,4 @@
+import { CATERPIE_ACTOR } from '../../content/authored/escort-work.js';
 import { FRIENDS, FRIEND_AREA_FACTS, areaMapId, friendAreaMap } from '../../content/authored/friends.js';
 import { MEANIES_ACTORS } from '../../content/authored/steel-meanies.js';
 import { STEEL } from '../../content/authored/mt-steel.js';
@@ -19,7 +20,7 @@ const headings = { s: 0, se: Math.PI / 4, e: Math.PI / 2, ne: Math.PI * 3 / 4, n
 function groundActors(snapshot, epoch, species) {
   return snapshot.town.placements.flatMap(/** @returns {ActorView[]} */ placement => {
     if (placement.reference.kind === 'story-actor') {
-      const role = MEANIES_ACTORS.find(actor => placement.reference.kind === 'story-actor' && actor.id === placement.reference.storyActorId);
+      const role = [...MEANIES_ACTORS,CATERPIE_ACTOR].find(actor => placement.reference.kind === 'story-actor' && actor.id === placement.reference.storyActorId);
       if (!role) return [];
       return [{ actorId: role.id,speciesId: role.speciesId,formId: null,name: species.getSpecies(role.speciesId).name,...placement.position,heading: headings[placement.facing],role: 'npc',hp: 1,maxHp: 1,statuses: [],clip: 'idle',clipToken: `${epoch}:${snapshot.pendingScene?.sceneInstanceId}:${snapshot.pendingScene?.cursor}:${role.id}`,tint: '#ffffff',bounds: { width: 1,height: 1 } }];
     }

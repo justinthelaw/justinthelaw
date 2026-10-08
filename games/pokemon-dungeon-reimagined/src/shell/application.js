@@ -6,13 +6,13 @@ import { STEEL } from '../../content/authored/mt-steel.js';
 import { showSteelReward, steelGroundBoundary } from '../application/steel.js';
 import { WORK } from '../../content/authored/early-work.js';
 import { showWork } from '../application/work.js';
-import { facingJobClient } from '../domain/gameplay/work.js';
+import { facingJobClient } from '../domain/gameplay/escort-work.js';
 import { TOWN } from '../../content/authored/town.js';
 import { showTown } from '../application/town.js';
 import { THUNDERWAVE as T } from '../../content/authored/thunderwave.js';
 import { USABLE_ITEMS } from '../domain/gameplay/items.js';
 import { THROWABLE_ITEMS } from '../domain/gameplay/throws.js';
-import { createOpeningCompatibility } from '../persistence/opening-compatibility.js';
+import { createEscortCompatibility as createOpeningCompatibility } from '../persistence/escort-compatibility.js';
 import { createScenePresenter } from '../application/team-formation.js';
 import { MORNING } from '../../content/authored/first-morning.js';
 import { TEAM } from '../../content/authored/team-formation.js';
@@ -150,7 +150,7 @@ export async function createApplication(canvas, signal, startup) {
     if (origin === 'panel' ? !view.isOpen() : view.isOpen()) return;
     const adventure = saves.service.getBinding().instance; if (!adventure) return;
     const before = adventure.getSnapshot();
-    if (before.session?.scheduler.kind === 'continuing') return;
+    if ((before.session?.scheduler.kind === 'continuing' || before.session?.scheduler.kind === 'learning-continuing')) return;
     if (['move', 'face', 'attack', 'wait', 'useMove', 'setMove', 'useItem', 'throwItem', 'equipItem', 'useStairs', 'giveUp'].includes(intent.type) && (!ready || before.mode === 'dungeon' && !leaderInputReady(before) || performance.now() < permitAt)) return;
     if (['ackScene', 'submitSceneName'].includes(intent.type) && !ready) return;
     if (intent.type === 'townTravel' || intent.type === 'friendAction') groundExploring = false;
@@ -201,7 +201,7 @@ export async function createApplication(canvas, signal, startup) {
     const floor = location?.kind === 'exploration' && loaded ? loaded.catalogs.dungeons.getFloorById(location.address.floorId).display : null;
     const goal = snapshot.friends && !session ? `Team ${snapshot.profile.teamName} · Friend Areas · Poké ${snapshot.economy.carriedMoney}` : session?.purpose.kind === 'ordinary' ? `${session.dungeonId === STEEL.dungeonId ? 'Mt. Steel' : session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ordinary rescue work · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === TOWN.story ? `Team ${snapshot.profile.teamName} · town services · Poké ${snapshot.economy.carriedMoney}` : session ? `${session.dungeonId === STEEL.dungeonId ? 'Mt. Steel' : session.dungeonId === T.dungeonId ? 'Thunderwave Cave' : 'Tiny Woods'} ${floor ? `${floor.prefix}${floor.number}${floor.suffix}` : ''} · ${session.dungeonId === STEEL.dungeonId ? 'Rescue Diglett' : session.dungeonId === T.dungeonId ? 'Rescue Magnemite' : 'Rescue Caterpie'} · Poké ${session.carriedMoney}` : snapshot.progress.storyNodeId === T.complete ? 'Magnemite rescued · first request complete' : snapshot.progress.storyNodeId === T.story ? 'Magnemite rescue · recovered at home' : snapshot.progress.storyNodeId === MORNING.story ? `Team ${snapshot.profile.teamName} · first morning at the rescue base` : snapshot.town.mapDefinitionId === TEAM.map ? `Team ${snapshot.profile.teamName} · rescue base` : snapshot.progress.clears['tiny-woods'] ? 'Caterpie rescued · reunite and return home' : 'Butterfree needs help · prepare to enter Tiny Woods';
     const onStairs = leader?.placement.kind === 'map' && Object.values(session?.floor.exits ?? {}).some(exit => leader.placement.kind === 'map' && exit.position.x === leader.placement.position.x && exit.position.z === leader.placement.position.z);
-    view.hud(`${goal}${session?.scheduler.kind === 'continuing' ? ' · Resolving turn; menus pause progress' : ''}`, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
+    view.hud(`${goal}${(session?.scheduler.kind === 'continuing' || session?.scheduler.kind === 'learning-continuing') ? ' · Resolving turn; menus pause progress' : ''}`, team, [ { label: 'Menu', run: menu }, { label: 'Moves', run: moves, disabled: !session }, { label: 'Items', run: inventory, disabled: !!snapshot.pendingScene },
       { label: snapshot.friends && !session ? nearbyResident(snapshot) ? 'Talk to resident' : nearWigglytuff(snapshot) ? 'Wigglytuff' : 'Ground menu' : loaded && facingJobClient(snapshot, loaded.catalogs) ? 'Talk to client' : 'Attack', run: () => { if (snapshot.friends && !session) resume(); else act({ type: 'attack' }); }, disabled: snapshot.mode !== 'dungeon' && !(snapshot.friends && snapshot.mode === 'town') || !worldReady },
       { label: 'Wait', run: () => act({ type: 'wait' }), disabled: snapshot.mode !== 'dungeon' || !worldReady },
       { label: 'Use stairs', run: () => { if (session) act({ type: 'useStairs', sessionId: session.sessionId }); }, disabled: snapshot.mode !== 'dungeon' || !onStairs || !worldReady },
@@ -211,6 +211,8 @@ export async function createApplication(canvas, signal, startup) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
       showMoveLearning({ snapshot,catalogs: loaded.catalogs,view,menu,open() { followsGame = false; input?.cancel(); context(); },send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This move choice is stale.'); return; } act(intent,'panel'); } });
+    } else if (session?.scheduler.kind === 'learning-continuing') {
+      dialogue = false; groundExploring = false; view.close(); input?.cancel();
     } else if (snapshot.steel?.rewardChoice) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;

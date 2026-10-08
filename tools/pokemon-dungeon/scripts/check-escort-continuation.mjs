@@ -8,6 +8,18 @@ function nodes(node,predicate) { const out = []; function walk(value) { if (!val
 const source = await read('src/domain/gameplay/escort-native-learning.js'),ast = parse(source,{ ecmaVersion: 'latest',sourceType: 'module' });
 function fn(name) { const row = nodes(ast,node => node.type === 'FunctionDeclaration' && node.id.name === name); assert.equal(row.length,1); return row[0]; }
 const text = name => source.slice(fn(name).start,fn(name).end);
+// Exact discriminated scheduler payloads must not survive a tag change:
+// terminal scene → choice/automatic → captured scene, including imported v23 ACK.
+const transitions = nodes(ast,node => node.type === 'AssignmentExpression' && node.left.type === 'MemberExpression' && node.left.object.name === 's' && node.left.property.name === 'scheduler');
+assert.equal(transitions.length,7);
+for (const transition of transitions) {
+  const first = transition.right.properties?.[0];
+  assert.equal(first?.type,'SpreadElement');
+  assert.equal(first.argument.type,'CallExpression');
+  assert.equal(first.argument.callee.name,'schedulerFields','Every saved learning scheduler transition must discard prior tag-only payloads.');
+}
+const strip = text('schedulerFields');
+assert.ok(strip.includes('{ resultId,sceneInstanceId,...scheduler }') && strip.includes('return scheduler;'));
 assert.equal(nodes(fn('drainRecipient'),node => node.type === 'CallExpression' && node.callee.name === 'grow').length,1);
 assert.ok(text('drainRecipient').includes('work.actorIndex++; break;'));
 assert.ok(text('drainRecipient').includes("work.phase = 'return'") && text('drainRecipient').includes("kind: 'learning-continuing'"));
@@ -36,5 +48,5 @@ assert.ok((await read('src/domain/state/escort-work-schema.js')).includes("kind:
 // end/flush recipient;133 tile notice bound. New floor/Pickup <=5; client loss1.
 const growth = 198+1+1,ordinary = 3397+growth+5+1,flush = 1899+growth+5+1,empty = 1545+growth+5+1;
 assert.deepEqual([growth,ordinary,flush,empty],[200,3603,2105,1751]); assert.ok(ordinary < 4096);
-assert.ok(!(await read('content/authored/opening.js')).includes('ESCORT_WORK_REVISION'),'Full successor still unselected.');
-console.log('Prospective saved learning cursor AST/source audit PASS: one eligible recipient, exclusive choice ACK, actual source PCs/return marker; candidate caps3603/2105/1751 under4096. Full caller/raw-factory activation still held; no game execution.');
+assert.ok((await read('src/domain/gameplay/index.js')).includes('advanceTurns: createEscortAdvance('),'Actual successor supplies its genuine saved parent callback.');
+console.log('Prospective saved learning cursor AST/source audit PASS: one eligible recipient, exclusive choice ACK, actual source PCs/return marker; candidate caps3603/2105/1751 under4096. Caller/raw-factory joins have a separate activation audit; no game execution.');

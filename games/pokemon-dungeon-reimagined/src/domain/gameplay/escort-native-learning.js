@@ -12,6 +12,13 @@ import { allocate, blocked, clone, draw, maxHp, profile, value } from './support
  * @typedef {import('../turns/types.js').MutationContext} Context
  * @typedef {import('./support.js').Catalogs} Catalogs
  * @typedef {import('../../contracts/move-learning.js').LearningOrigin} Origin */
+/** Keep common saved work fields; old tag payloads never cross a transition.
+ * The genuine scene return identity remains in learning/work.schedulerTag.
+ * @param {import('../../contracts/campaign.js').SchedulerState} current */
+function schedulerFields(current) {
+  const { resultId,sceneInstanceId,...scheduler } = /** @type {import('../../contracts/campaign.js').SchedulerState & {resultId?:import('../../contracts/campaign.js').ResultId;sceneInstanceId?:import('../../contracts/campaign.js').SceneInstanceId}} */ (current);
+  void resultId; void sceneInstanceId; return scheduler;
+}
 /** Native source ordered candidates, pokemon.c1062–1104. Known moves are not
  * excluded; duplicated move identities retain distinct real slot identities.
  * @param {Actor} actor @param {number} level @param {Catalogs} catalogs */
@@ -87,7 +94,7 @@ function grow(context,actor,catalogs,origin,order,actorIndex) {
     s.learning = { actorId: actor.actorId,level: next.level,moveId,selectionRevision: context.state.revision+1,movesFingerprint: fingerprint({ moves: actor.moves,pp: actor.battleMoves }),resumeFrameFingerprint: fingerprint(s.scheduler.continuation),candidateRng,beforeGrowth,beforeHp,origin: clone(origin),actorOrder: [...order],actorIndex,schedulerTag };
     context.state.pendingResult = { resultId,createdRevision: context.state.revision+1,cursor: 0,kind: 'move-learn-choice',sessionId: s.sessionId,owner: { kind: 'actor',actorId: actor.actorId },moveId,
       replaceableSlotIds: actor.moves.slots.flatMap(slot => slot ? [slot.moveSlotId] : []),canDecline: true,continuation: { kind: 'resume-turn',sessionId: s.sessionId,gate: { kind: 'result',resultId } } };
-    s.scheduler = { ...s.scheduler,kind: 'choice-paused',resultId }; return true;
+    s.scheduler = { ...schedulerFields(s.scheduler),kind: 'choice-paused',resultId }; return true;
   }
   return false;
 }
@@ -103,7 +110,7 @@ export function processLearning(context,catalogs,origin,order,start = 0) {
   if (prior) {
     const same = prior.origin.kind === origin.kind && (origin.kind === 'settlement' ? prior.origin.kind === 'settlement' && prior.origin.outcome === origin.outcome : fingerprint(prior.origin) === fingerprint(origin));
     if (!same) return blocked('escort-learning-parent-owner');
-    if (prior.phase === 'return') { delete s.learningWork; s.scheduler = { ...s.scheduler,...prior.schedulerTag }; return false; }
+    if (prior.phase === 'return') { delete s.learningWork; s.scheduler = { ...schedulerFields(s.scheduler),...prior.schedulerTag }; return false; }
     return true;
   }
   if (s.learning) return blocked('escort-learning-missing-work');
@@ -129,7 +136,7 @@ export function processLearning(context,catalogs,origin,order,start = 0) {
 function drainRecipient(context,catalogs) {
   const s = context.state.session,work = s?.learningWork;
   if (!s || !work || work.phase !== 'recipient' || s.learning) return blocked('escort-learning-recipient-owner');
-  s.scheduler = { ...s.scheduler,...work.schedulerTag };
+  s.scheduler = { ...schedulerFields(s.scheduler),...work.schedulerTag };
   while (work.actorIndex < work.actorOrder.length) {
     const a = s.actors[work.actorOrder[work.actorIndex] ?? '']; if (!a) return blocked('learning-recipient');
     if (a.binding.kind === 'escort-guest') {
@@ -142,7 +149,7 @@ function drainRecipient(context,catalogs) {
     work.actorIndex++; break;
   }
   if (work.actorIndex === work.actorOrder.length) work.phase = 'return';
-  s.scheduler = { ...s.scheduler,kind: 'learning-continuing' };
+  s.scheduler = { ...schedulerFields(s.scheduler),kind: 'learning-continuing' };
 }
 /** A saved advance drains one recipient or returns exactly once to its captured
  * native parent. It never executes suffix recipients on an acknowledgment.
@@ -153,7 +160,7 @@ export function advanceLearningWork(context,catalogs,resume) {
   const s = context.state.session,work = s?.learningWork;
   if (!s || !work || s.scheduler.kind !== 'learning-continuing' || context.state.pendingResult || context.state.earlyWork?.clientPrompt || fingerprint(s.scheduler.continuation) !== work.resumeFrameFingerprint) return blocked('escort-learning-advance-owner');
   if (work.phase === 'recipient') { drainRecipient(context,catalogs); return { kind: 'changed',resumeDungeon: false }; }
-  s.scheduler = { ...s.scheduler,...work.schedulerTag };
+  s.scheduler = { ...schedulerFields(s.scheduler),...work.schedulerTag };
   if (work.origin.kind === 'turn') delete s.learningWork;
   return resume(context,work.origin);
 }
@@ -178,13 +185,12 @@ export function learningHandler(catalogs) { return {
     if (intent.choice.replaceSlotId !== null) learnMove(context,actor,owner.moveId,catalogs,intent.choice.replaceSlotId);
     else context.emit({ type: 'message',messageId: 'move-learning-declined' });
     context.state.pendingResult = null; delete s.learning;
-    const { resultId,sceneInstanceId,...scheduler } = /** @type {import('../../contracts/campaign.js').SchedulerState & {resultId?:import('../../contracts/campaign.js').ResultId;sceneInstanceId?:import('../../contracts/campaign.js').SceneInstanceId}} */ (s.scheduler); void resultId; void sceneInstanceId;
-    s.scheduler = { ...scheduler,...owner.schedulerTag };
+    s.scheduler = { ...schedulerFields(s.scheduler),...owner.schedulerTag };
     // An imported authentic v23 prompt keeps its original candidate fields.
     // Only this real acknowledgment creates the prospective execution cursor.
     const work = s.learningWork ??= { phase: 'recipient',origin: clone(owner.origin),actorOrder: [...owner.actorOrder],actorIndex: owner.actorIndex,createdRevision: context.state.revision+1,resumeFrameFingerprint: owner.resumeFrameFingerprint,schedulerTag: clone(owner.schedulerTag) };
     if (!work || work.phase !== 'recipient' || work.actorIndex !== owner.actorIndex || fingerprint(work.actorOrder) !== fingerprint(owner.actorOrder) || fingerprint(work.origin) !== fingerprint(owner.origin)) return blocked('escort-learning-choice-traversal');
-    s.scheduler = { ...s.scheduler,kind: 'learning-continuing' };
+    s.scheduler = { ...schedulerFields(s.scheduler),kind: 'learning-continuing' };
     return { kind: 'changed',resumeDungeon: false };
   },
 }; }

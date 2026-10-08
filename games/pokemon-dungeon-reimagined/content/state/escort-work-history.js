@@ -1,5 +1,5 @@
 import { FRIENDS } from '../authored/friends.js';
-import { ORDINARY_SUMMIT, MEANIES_POSTING, POSTING_CURSOR } from '../authored/steel-meanies.js';
+import { ORDINARY_SUMMIT, MEANIES_POSTING, MEANIES_POLICY, POSTING_CURSOR } from '../authored/steel-meanies.js';
 import { SINISTER_UNLOCK } from '../authored/escort-work.js';
 import { STEEL } from '../authored/mt-steel.js';
 import { INITIAL_NATIVE_PROGRESS } from '../authored/opening.js';
@@ -38,6 +38,7 @@ export function checkEscortWorkHistory(state,catalogs) {
   const second = ['work-two','caterpie-morning','caterpie-ready','caterpie','sinister-ready'].includes(f.phase);
   const afterFirst = second || ['meanies-ready','meanies'].includes(f.phase),wakingFirst = f.phase === 'meanies-morning';
   r.check(['work-three','meanies-morning','meanies-ready','meanies','work-two','caterpie-morning','caterpie-ready','caterpie','sinister-ready'].includes(f.phase) && p.storyNodeId === FRIENDS.story && state.steel?.phase === 'complete' && rest && rest.count === 1,'/friends','Work retains the actual completed Steel, onboarding rest and exact supported interval.');
+  r.check(Object.values(p.jobs).filter(job => job.source.kind === 'generated' && job.source.generationPolicyId === MEANIES_POLICY).length <= 1,'/jobs','The one original op6 posting can retain at most one actual Pidgey record across all live and historical phases.');
   const allClaims = Object.values(p.jobs).filter(job => job.phase.kind === 'claimed');
   const oldClaims = allClaims.filter(job => claimRevision(job) < f.startedRevision);
   const firstClaims = allClaims.filter(job => claimRevision(job) >= f.startedRevision && (!morning || claimRevision(job) < morning.firstRevision));

@@ -1,3 +1,4 @@
+import { ESCORT_WORK_REVISION } from '../state/escort-work-revision.js';
 import { continuingSession } from '../state/continuation.js';
 /** @typedef {import('../../contracts/campaign.js').CampaignState|import('../../contracts/campaign.js').CampaignSnapshot} State */
 
@@ -14,6 +15,7 @@ export function leaderInputReady(state) {
  * @param {State|null} state */
 export function automaticTurnReady(state) {
   const s = state?.session, c = s?.scheduler.continuation;
+  if (state?.contentRevision === ESCORT_WORK_REVISION && s?.scheduler.kind === 'learning-continuing') return !!s.learningWork && !s.learning && !state.pendingResult && !state.earlyWork?.clientPrompt && s.status === 'active' && (state.mode === 'dungeon' && !state.pendingScene || state.mode === 'scene' && !!state.pendingScene && s.learningWork.origin.kind === 'scene');
   if (!state || !s || state.mode !== 'dungeon' || state.pendingScene || state.pendingResult || state.earlyWork?.clientPrompt || s.status !== 'active') return false;
   if (s.scheduler.kind === 'continuing') return continuingSession(s, state);
   return s.scheduler.kind === 'ready' && s.scheduler.roundNumber === 0 && c?.phase === 0 && c.pass === 'prephase' && c.step === 0 && c.stage === 'select' && c.active === null && c.action === null && c.activeEffect === null && c.terminal === 'none' && c.flushing === null && c.special === null;

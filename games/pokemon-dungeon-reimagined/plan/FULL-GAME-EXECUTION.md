@@ -123,8 +123,11 @@ records; preserve original numbered floors, terminal maps and unlock gates.
 Bounded checkpoint: opening/Tiny Woods/team formation and first morning through
 the accepted Magnemite request and Thunderwave return are implemented. See
 [FIRST-MORNING.md](FIRST-MORNING.md) and [THUNDERWAVE.md](THUNDERWAVE.md) for save
-gates, source qualifications and remaining acceptance. The next checkpoint is
-the MAIN(4,0) interior; later services/routes and whole-story acceptance remain open.
+gates, source qualifications and remaining acceptance. Accepted opening work now reaches the actual MAIN(5,7) Meanies/Pelipper boundary.
+The v24 escort/second-work owner extends that route through the complete station
+and distinct inside/outside Caterpie request at MAIN(5,9); its independent
+activation review and human acceptance remain separate. Sinister Woods is the
+next route owner; later campaign and whole-story acceptance remain open.
 
 - [ ] Implement onboarding, first rescues, town services, jobs and Friend Areas.
 - [ ] Implement early rescues, Team Meanies, Mt. Thunder and Great Canyon.

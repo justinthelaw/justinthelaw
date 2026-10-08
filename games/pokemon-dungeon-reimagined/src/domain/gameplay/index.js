@@ -1,13 +1,14 @@
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
-import { createSteelMeaniesContent } from '../../../content/authored/steel-meanies.js';
+import { createEscortWorkContent } from '../../../content/authored/escort-work.js';
+import { createEscortAdvance } from './escort-composition.js';
 import { createCampaignContent } from '../../../content/state/campaign.js';
 import { freezeData } from '../state/validate.js';
-import { createCommandHandlers } from './commands.js';
-import { createTurnHooks } from './hooks.js';
+import { createCommandHandlers } from './escort-commands.js';
+import { createEscortTurnHooks as createTurnHooks } from './escort-turn-hooks.js';
 import { visibility, presentation, actorsView } from './projection.js';
 import { sceneText, scenePrompt } from './scenes.js';
-import { admission } from './expedition.js';
+import { admission } from './escort-expedition.js';
 import { supportedMove } from './combat.js';
 
 /** Compose actual canonical content, commands and sixteen turn hooks. The caller
@@ -15,9 +16,9 @@ import { supportedMove } from './combat.js';
  * @param {import('./support.js').Catalogs} catalogs
  * @param {{tutorialSaved?:(snapshot:import('../../contracts/campaign.js').CampaignSnapshot)=>boolean}} [options] */
 export function createGameplay(catalogs, options = {}) {
-  const authored = freezeData(createSteelMeaniesContent());
+  const authored = freezeData(createEscortWorkContent());
   const content = createCampaignContent(catalogs, authored);
-  return Object.freeze({ content, authored,
+  return Object.freeze({ content, authored,advanceTurns: createEscortAdvance(catalogs,authored,options.tutorialSaved ?? (() => false)),
     handlers: createCommandHandlers(catalogs, authored, options.tutorialSaved ?? (() => false)), turns: createTurnHooks(catalogs, authored),
     getScenePrompt: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => scenePrompt(snapshot, authored),
     getSceneText: (/** @type {import('../../contracts/campaign.js').CampaignSnapshot} */ snapshot) => sceneText(snapshot, authored),

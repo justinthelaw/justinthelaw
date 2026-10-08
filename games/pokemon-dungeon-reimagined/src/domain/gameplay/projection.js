@@ -18,7 +18,7 @@ export function actorsView(state, catalogs) {
     const record = actor.binding.kind === 'roster' ? state.roster[actor.binding.pokemonId] : null;
     return [{ actorId: actor.actorId, speciesId: actor.identity.speciesId, formId: actor.identity.formId, name: record?.nickname || catalogs.species.getSpecies(actor.identity.speciesId).name,
       x: actor.placement.position.x, z: actor.placement.position.z, heading: FACINGS.indexOf(actor.facing) * Math.PI / 4, hp: actor.resources.hp, maxHp: maxHp(actor),
-      role: actor.binding.kind === 'roster' ? actor.binding.pokemonId === state.profile.heroId ? 'hero' : 'partner' : actor.binding.kind === 'job-client' || actor.binding.kind === 'guest' ? 'client' : actor.binding.kind === 'boss' ? 'boss' : 'enemy' }];
+      role: actor.binding.kind === 'roster' ? actor.binding.pokemonId === state.profile.heroId ? 'hero' : 'partner' : actor.binding.kind === 'escort-guest' ? 'partner' : actor.binding.kind === 'job-client' || actor.binding.kind === 'guest' ? 'client' : actor.binding.kind === 'boss' ? 'boss' : 'enemy' }];
   });
 }
 
@@ -31,7 +31,7 @@ export function presentation(state, catalogs, epoch) {
     const record = actor.binding.kind === 'roster' ? state.roster[actor.binding.pokemonId] : null;
     /** @type {import('../../presentation/types.js').ActorPresentation} */ const view = {
       appearance: { ...actor.identity }, name: record?.nickname || catalogs.species.getSpecies(actor.identity.speciesId).name,
-      role: actor.binding.kind === 'roster' ? actor.binding.pokemonId === state.profile.heroId ? 'hero' : 'partner' : actor.binding.kind === 'job-client' || actor.binding.kind === 'guest' ? 'client' : actor.binding.kind === 'boss' ? 'boss' : 'enemy', maxHp: maxHp(actor),
+      role: actor.binding.kind === 'roster' ? actor.binding.pokemonId === state.profile.heroId ? 'hero' : 'partner' : actor.binding.kind === 'escort-guest' ? 'partner' : actor.binding.kind === 'job-client' || actor.binding.kind === 'guest' ? 'client' : actor.binding.kind === 'boss' ? 'boss' : 'enemy', maxHp: maxHp(actor),
       statuses: Object.values(actor.conditions).flatMap(c => c ? [{ id: c.statusId, label: c.statusId }] : []),
       clip: actor.conditions.sleep ? 'rest-sleep' : 'idle', clipToken: `${epoch}:${actor.actorId}:idle`, tint: '#ffffff', bounds: { width: 1, height: 1 },
     }; return [actor.actorId, view];

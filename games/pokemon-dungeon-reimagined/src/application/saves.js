@@ -11,7 +11,7 @@ export function createSaves(options) {
   const repository = createSaveRepository({ adapter: createIndexedDbAdapter(), content: gameplay.content, compatibility });
   const service = createPersistenceService({ repository, initial: /** @type {import('../domain/turns/types.js').Adventure|null} */ (null),
     getCurrent: instance => instance.getSnapshot(),
-    bind(snapshot) { const created = createAdventure({ initial: snapshot, content: gameplay.content, handlers: gameplay.handlers, turns: gameplay.turns }); if (!created.ok) throw new Error(created.message); return created.adventure; },
+    bind(snapshot) { const created = createAdventure({ initial: snapshot, content: gameplay.content, handlers: gameplay.handlers, turns: gameplay.turns,advanceTurns: gameplay.advanceTurns }); if (!created.ok) throw new Error(created.message); return created.adventure; },
     pause: options.pause,
   });
   let disposed = false; let memory = false; let tutorialSaving = false;

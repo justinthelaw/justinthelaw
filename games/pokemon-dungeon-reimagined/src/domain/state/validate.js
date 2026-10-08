@@ -1,3 +1,5 @@
+import { ESCORT_WORK_REVISION } from './escort-work-revision.js';
+import { ESCORT_WORK_SHAPES } from './escort-work-schema.js';
 import { recordsFieldMoves } from './field-moves.js';
 import { recordsSteel } from './steel.js';
 import { recordsEarlyWork } from './early-work.js';
@@ -60,7 +62,7 @@ export function validateCampaign(input, content) {
   // Select one registry by exact agreement with the trusted factory. Every
   // recursive preflight and visitor below uses this same registry; old/default
   // revision admission remains on the byte-frozen predecessor shape table.
-  const shapes = data.contentRevision === MOVE_LEARNING_REVISION && data.contentRevision === content.contentRevision ? MOVE_LEARNING_SHAPES : data.contentRevision === BRONZE_JOBS_REVISION && data.contentRevision === content.contentRevision ? BRONZE_JOBS_SHAPES : typeof data.contentRevision === 'string' && data.contentRevision === content.contentRevision && recordsContinuation(data.contentRevision) ? CONTINUATION_SHAPES : SHAPES;
+  const shapes = data.contentRevision === ESCORT_WORK_REVISION && data.contentRevision === content.contentRevision ? ESCORT_WORK_SHAPES : data.contentRevision === MOVE_LEARNING_REVISION && data.contentRevision === content.contentRevision ? MOVE_LEARNING_SHAPES : data.contentRevision === BRONZE_JOBS_REVISION && data.contentRevision === content.contentRevision ? BRONZE_JOBS_SHAPES : typeof data.contentRevision === 'string' && data.contentRevision === content.contentRevision && recordsContinuation(data.contentRevision) ? CONTINUATION_SHAPES : SHAPES;
   if (!inspectShape(data, campaignShape, issues, undefined, '', shapes)) return failure(issues, requirements);
   const state = /** @type {CampaignState} */ (/** @type {unknown} */ (data));
   checkNativeProgress(state.progress.native, issues, '/progress/native');
@@ -72,7 +74,7 @@ export function validateCampaign(input, content) {
   // Exact v23 retired slots can share their permanent owner's identity only
   // after structural preflight and the trusted factory's complete raw proof.
   // Every later callback repeats that proof independently; this is no cache.
-  if (state.contentRevision === MOVE_LEARNING_REVISION && state.session?.forgottenMoves) {
+  if ((state.contentRevision === MOVE_LEARNING_REVISION && state.session?.forgottenMoves || state.contentRevision === ESCORT_WORK_REVISION)) {
     freezeData(state);
     runPolicy(() => content.policies.profile(state), 'learning-raw-owner', issues, requirements, '/session/forgottenMoves');
     if (issues.length || requirements.size) return failure(issues, requirements);
@@ -110,7 +112,7 @@ export function validateCampaign(input, content) {
         const actorMatch = /\/actors\/([^/]+)/.exec(path);
         const session = path.startsWith('/rescue/suspended/') ? state.rescue.suspended?.session : state.session;
         const actor = actorMatch?.[1] ? session?.actors[actorMatch[1]] : null;
-        const retiredMatch = state.contentRevision === MOVE_LEARNING_REVISION ? /^\/session\/forgottenMoves\/(0|[1-9]\d*)\/moveSlot$/.exec(path) : null;
+        const retiredMatch = (state.contentRevision === MOVE_LEARNING_REVISION || state.contentRevision === ESCORT_WORK_REVISION) ? /^\/session\/forgottenMoves\/(0|[1-9]\d*)\/moveSlot$/.exec(path) : null;
         const retired = retiredMatch ? state.session?.forgottenMoves?.[Number(retiredMatch[1])] : null;
         const retiredActor = retired?.moveSlot === value ? state.session?.actors[retired.actorId] : null;
         const retiredOwner = retiredActor?.binding.kind === 'roster' ? retiredActor.binding.pokemonId : null;
@@ -121,7 +123,7 @@ export function validateCampaign(input, content) {
       }
     }
     if (name === 'Int' && typeof value === 'number') {
-      if (value < 0 && !/\/stages\/|\/moneyChange$|\/numerator$/.test(path)) issue(issues, 'range', path, 'Unsigned state counter is negative.');
+      if (value < 0 && !(state.contentRevision === ESCORT_WORK_REVISION && /^\/session\/escortGuest\/ai\/targetPosition\/(x|z)$/.test(path)) && !/\/stages\/|\/moneyChange$|\/numerator$/.test(path)) issue(issues, 'range', path, 'Unsigned state counter is negative.');
       if (/(?:Revision|\/revision)$/.test(path) && value > state.revision) issue(issues, 'range', path, 'Historical revision is in the future.');
       if (/(?:Day|\/day)$/.test(path) && !path.endsWith('/expiryDay') && value > state.town.day) issue(issues, 'range', path, 'Historical day is in the future.');
     }

@@ -1,11 +1,11 @@
 import { FRIEND_AREA_FACTS } from '../../content/authored/friend-area-facts.js';
-import { workReady } from '../domain/gameplay/work.js';
-import { meaniesMailboxReady } from '../domain/gameplay/steel-meanies-scenes.js';
+import { workReady } from '../domain/gameplay/escort-work.js';
+import { meaniesMailboxReady } from '../domain/gameplay/escort-meanies-scenes.js';
 import { rescueRank } from '../domain/gameplay/job-generation.js';
 import { TOWN } from '../../content/authored/town.js';
 import { STEEL } from '../../content/authored/mt-steel.js';
 import { WORK } from '../../content/authored/early-work.js';
-import { admission } from '../domain/gameplay/expedition.js';
+import { admission } from '../domain/gameplay/escort-expedition.js';
 import { jobTargetItem } from '../domain/gameplay/job-objectives.js';
 import { showRewardChoices } from './reward-panel.js';
 /** @typedef {import('../contracts/campaign.js').CampaignSnapshot} Snapshot */
@@ -24,7 +24,7 @@ export function showWork({ snapshot, catalogs, view, send, back, menu, open }, p
     let token = Symbol('pending'); token = view.show(title, text, actions.map(action => ({ ...action, run() { if (view.ownsPanel(token)) action.run(); } })));
     open();
   }
-  /** @param {import('../domain/gameplay/work.js').WorkOrder} order */
+  /** @param {import('../domain/gameplay/escort-work.js').WorkOrder} order */
   const dispatch = order => send({ type: 'workAction', order });
   /** @param {string} text @param {()=>void} yes @param {()=>void} no */
   function confirm(text, yes, no) { show('Confirm', text, [{ label: 'Confirm', run: yes }, { label: 'Cancel', run: no }]); }
@@ -66,7 +66,7 @@ export function showWork({ snapshot, catalogs, view, send, back, menu, open }, p
     ]);
   }
   function depart() {
-    show('Choose a dungeon', `Taken requests are active in their named dungeon. Ordinary exploration without completing a request earns no job reward or request count.${snapshot.friends ? ' Mt. Steel has eight exploration floors and a quiet summit. Select the original pair through resident Standby before departure; additional team entry is still in development.' : ''} Stun Seeds can be eaten or thrown. Purchased TMs, orbs and Warp Seeds can be carried; their uses remain unavailable.`, [
+    show('Choose a dungeon', `Taken requests are active in their named dungeon. Ordinary exploration without completing a request earns no job reward or request count.${snapshot.friends ? ' Mt. Steel has eight exploration floors and a quiet summit. Up to three selected members may enter; an accepted escort follows as a separate temporary client.' : ''} Stun Seeds can be eaten or thrown. Purchased TMs, orbs and Warp Seeds can be carried; their uses remain unavailable.`, [
       ...['tiny-woods','thunderwave-cave', ...(snapshot.friends ? [STEEL.dungeonId] : [])].map(id => ({ label: `Enter ${routeName(id)}`, disabled: !!admission(catalogs,snapshot,id), detail: admission(catalogs,snapshot,id) ?? 'Begin an ordinary expedition', run: () => confirm(`Enter ${routeName(id)} with your current toolbox and taken jobs?`, () => send({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (id) }), depart) })),
       { label: 'Cancel', run: back },
     ]);

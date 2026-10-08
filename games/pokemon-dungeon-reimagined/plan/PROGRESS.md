@@ -1660,3 +1660,27 @@ Pidgey3F plus generic5–8 permits five second-work jobs/end6; no reward truncat
 Static station source audit, types and original save-boundary pins are the
 validation scope. Whole raw heritage/factory/conversion/caller/UI activation is
 still being completed in this task; current production remains v23 MAIN5,7.
+
+### Complete v24 escort/second-work activation candidate
+
+The actual raw factory, heritage, original-envelope v2–v23 conversion, exact
+registry/graph guards, native saved EXP return callbacks, command/scene/readiness
+and UI composition now select the source-qualified escort and full second-work
+owner through distinct inside24/outside31 MAIN5,9. All retained Pidgey3F/five-job
+station rewards finish before morning; selected additional roster and real guest
+remain visible. See [ESCORT-ACTIVATION.md](ESCORT-ACTIVATION.md). Focused static
+source/types/pins/activation checks are being sealed for independent SPEC/QUALITY
+review; no automated game/native execution. Full campaign/human/visual acceptance
+remains open, and Sinister Woods is the next route owner.
+
+### v24 review correction: exact learning scheduler tags
+
+ESCORT-LIVE-R001 found scene-only `sceneInstanceId` surviving a spread into
+`choice-paused` or `learning-continuing`. All seven direct learning scheduler
+transitions now strip prior `resultId`/`sceneInstanceId` before installing the
+new tag. The genuine captured scene return remains in the learning/work owner.
+This covers terminal scene growth, a full-slot choice, and an authenticated v23
+scene-choice acknowledgment. Source AST regression rejects the prior unguarded
+transition pattern and accepts all seven corrected joins. Static source/types,
+continuation/activation and 115/14/2 frozen save pins pass; independent rereview
+and exact repository verification remain required. No game code was executed.

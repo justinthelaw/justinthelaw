@@ -1,5 +1,5 @@
 import { showWork } from './work.js';
-import { workReady } from '../domain/gameplay/work.js';
+import { workReady } from '../domain/gameplay/escort-work.js';
 import { IQ_SKILLS } from '../../content/state/pokemon-rules.js';
 import { FRIEND_AREA_FACTS, areaMapId, areaResidents } from '../../content/authored/friends.js';
 import { TOWN } from '../../content/authored/town.js';
@@ -52,10 +52,10 @@ export function showFriends({ snapshot, catalogs, view, send, menu, open, explor
   /** @param {'board'|'jobs'|'mailbox'|'depart'} page */
   function jobs(page) { showWork({ snapshot,catalogs,view,send,back: home,menu,open },page); }
   function home() {
-    if (friends?.phase === 'meanies-ready') { show('The next morning','You are awake inside the rescue base. Your partner is waiting outside.',[{ label: 'Leave home',run: () => send({ type: 'townTravel',mapId: TEAM.map }) },{ label: 'Campaign & saves',run: menu }]); return; }
-    if (friends?.phase === 'work-two') { show('Rescue base','Pelipper has delivered a new request. You can file the mail and manage your Job List. Further departures are in development while escort requests and their rewards are completed.',[{ label: 'Check mailbox',run: () => jobs('mailbox') },{ label: 'Job List',run: () => jobs('jobs') },{ label: 'Campaign & saves',run: menu }]); return; }
+    if ((friends?.phase === 'meanies-ready' || friends?.phase === 'caterpie-ready')) { show('The next morning','You are awake inside the rescue base. Your partner is waiting outside.',[{ label: 'Leave home',run: () => send({ type: 'townTravel',mapId: TEAM.map }) },{ label: 'Campaign & saves',run: menu }]); return; }
+    if (friends?.phase === 'sinister-ready') { show("Caterpie's request","Metapod is waiting in Sinister Woods. This development checkpoint ends after accepting Caterpie's request.",[{ label: 'Campaign & saves',run: menu }]); return; }
     const square = snapshot.town.mapDefinitionId === TOWN.square, canExplore = square || !!area, readyWork = workReady(snapshot);
-    const guidance = friends?.phase === 'morning-ready' ? 'Your partner is waiting outside.' : friends?.phase === 'tour' ? 'Visit Wigglytuff near the center of the Square. Walk beside the counter, then speak with Wigglytuff.' : friends?.phase === 'encounter-ready' ? 'A Jumpluff is asking for help near the northeast side of the Square. Walk over to hear the request.' : area ? 'Walk beside a resident, then use Talk to manage your team or held items.' : `Take rescue requests and finish their objectives in Tiny Woods, Thunderwave Cave or Mt. Steel. ${snapshot.progress.native.clearCount}/3 requests claimed this interval. Additional team entry remains in development; accepted jobs and selected residents are retained.${snapshot.earlyWork?.history === 'legacy-postings-unavailable' ? ' Imported posting history remains unavailable.' : ''}`;
+    const guidance = friends?.phase === 'morning-ready' ? 'Your partner is waiting outside.' : friends?.phase === 'tour' ? 'Visit Wigglytuff near the center of the Square. Walk beside the counter, then speak with Wigglytuff.' : friends?.phase === 'encounter-ready' ? 'A Jumpluff is asking for help near the northeast side of the Square. Walk over to hear the request.' : area ? 'Walk beside a resident, then use Talk to manage your team or held items.' : `Take rescue requests and finish their objectives in Tiny Woods, Thunderwave Cave or Mt. Steel. ${snapshot.progress.native.clearCount}/${friends?.phase === 'work-two' ? 2 : 3} requests claimed this interval. Up to three selected members can enter; an escort follows separately.${snapshot.earlyWork?.history === 'legacy-postings-unavailable' ? ' Imported posting history remains unavailable.' : ''}`;
     show(area?.name ?? (square ? 'Pokémon Square' : 'Rescue base'),guidance,[
       ...(readyWork ? [{ label: 'Job List',run: () => jobs('jobs') }] : []),
       ...(readyWork && snapshot.town.mapDefinitionId === TOWN.post ? [{ label: 'Bulletin board',run: () => jobs('board') }] : []),
