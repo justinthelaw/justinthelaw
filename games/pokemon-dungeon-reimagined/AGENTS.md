@@ -221,3 +221,11 @@ never substitute a browser stream or fabricate original seed history. Exact
 guest/state/AI/loss/cleanup and second-work successor activation remains held.
 The live PR records completed scoped independent v23 review after ML-R001–003;
 human/device/visual/Blue parity/full release remain pending.
+
+Native [escort entry preparation](plan/ESCORT-GUEST.md) now owns qualified19-client
+stats/source-ordered level1 moves/full PP, explicit prospective fixed boot seed,
+real Hidden Power general draws for all supplied roster slots before conditional
+guest admission, first-free-four/body6 failure and temporary native identity/IQ26.
+Preparation is not a canonical/saved guest. Do not activate it before exact slot/
+actor/container/archive/RNG proof and native placement/AI/loss/cleanup closure;
+do not skip roster draws or let rejection evict selected members.

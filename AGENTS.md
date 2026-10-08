@@ -429,3 +429,9 @@ dungeon RNG. Its explicit seed/state interfaces grant no old-save seed history
 or guest admission. Live v23/MAIN5,7 remains held until the exact saved guest,
 native movement/AI/loss/cleanup and second-work owner compose; future activation
 must reprove events under4096 and retain every v23 learning and v22 prefix/debt PC.
+
+Source-qualified escort preparation consumes this general stream for every actual
+supplied roster slot before guest admission. Its finite19 stats/moves/PP and
+fixed prospective boot seed are independently pinned; first-free-four/body6
+results do not authorize live actor/save/AI/lifecycle activation. Preserve the
+entire selected roster and conditional native draw schedule before the successor.

@@ -1,8 +1,9 @@
 # Escort dependency: native general random state
 
-The first independently reviewable escort prerequisite supplies the comparative
-native **general** RNG primitive. It does not open MAIN5,7 departures or refresh,
-construct a guest in canonical state, or claim the second work interval/Caterpie.
+The independently reviewable escort prerequisites supply the comparative native
+**general** RNG primitive and pure source-qualified entry preparation. They do
+not open MAIN5,7 departures or refresh, construct a guest in canonical state, or
+claim the second work interval/Caterpie.
 The live campaign remains exact v23. Existing four xoshiro streams and all
 historical revisions/envelopes remain unchanged.
 
@@ -36,7 +37,7 @@ shape: its future owner must provide exact successor recognition, source receipt
 seed-origin qualification and original-envelope admission before conversion.
 Neither the general stream nor a guest may be inferred during old-save conversion.
 
-## Next genuine guest owner
+## Source-qualified entry preparation
 
 Native CreateLevel1Pokemon uses the client's species, base stats, level1/EXP0,
 IQ1, Let's go together, default IQ and empty held item, joined location74/floor1.
@@ -45,8 +46,46 @@ the factory stores zero PP before dungeon conversion resets it. The temporary
 dungeon conversion raises IQ to26, creates Hidden Power on the **general** stream,
 and inserts the first free existing team slot subject to the real body-size check.
 It does not allocate a persistent roster member or a wild/client surrogate.
-These inspected facts identify the next responsibility; the whole guest constructor,
-slot/PP/Hidden Power proof, Pickup and native following/AI/loss/cleanup remain open.
+
+`content/authored/escort-entry-facts.js`, SHA256
+`d6f2f29876de6443fde66f60f3d3172e5b799827558d003473f286287625ac26`, records10 native
+full-byte source pins/locators and13 existing qualified catalog pins. Its19 actual
+current eligible clients retain Blue/Red stats and learning evidence separately
+from comparative native PP/behavior. All source/catalog bytes authenticate before
+parsing/writing; data is parsed from those same authenticated bytes. No native
+numeric resource absent from the source checkout is falsely claimed as extracted.
+
+`src/domain/gameplay/native-escort-entry.js` consumes the general primitive. Its
+explicit prospective initializer uses actual `src/main.c:83–85` boot bytes
+36/27/46/01/B9/48, yielding69517; this marks a future first adopted general stream,
+not a reconstruction of historical draws. Preparation requires the caller's
+already owned stream and four actual native slots; it never initializes/reset it
+implicitly. Every live roster slot converts Hidden Power in supplied native slot
+order, even without that move. Power index precedes up to100 type draws; zero
+types consume real retries and Fire follows only100 zeros. The first matching
+taken escort uses its client independently of the recipient. Body total>=7 or
+four occupied slots returns actual guest-admission failure while retaining all
+roster conversion draws and making no guest draw. Successful preparation takes
+the first real empty slot and its one guest conversion, retaining native temporary
+0x55aa/join74/floor1, source level1/EXP0/base stats/full PP/ginseng0, IQ26/default
+three menu bits, Lets go together, empty held/belly100 and independent identities.
+It neither filters guest moves nor suppresses an escort/pair/orientation draw.
+
+The returned preparation includes each actual roster identity/slot and before/
+after general state, plus the guest's source conversion witness. It emits0 events
+and makes no canonical allocations/copyback or resource mutations. It is **not**
+an admitted live/saved actor, placement, guest lifecycle or complete entry proof.
+The future caller must prove real team ordering, selected roster identity, accepted
+request/source ownership and stream origin, then commit actor/move/container/slot/
+archive and RNG together in an exact successor. Its separate general-stream
+adoption/lifetime remains a qualified browser integration until reviewed; full
+native/Blue call schedule is not established by this isolated consumer.
+
+Native placement, saved guest actor/held/turn/candidate/terminal owner, Pickup,
+following/item/move AI, Reviver/faint/objective/escape/return cleanup and complete
+second-work reward/history/day/morning/Caterpie remain the next responsibility.
+The finite19 level1 moves already have current effect consumers (Voltorb128 is
+Charge); no invented Screech dependency or effect-based candidate filtering applies.
 
 The next exact successor must carry v23 learning/candidate/award/retired-slot and
 terminal PCs, original Pidgey/mail ownership, v22 applied prefix versus authenticated
@@ -65,4 +104,4 @@ specification PASS/quality APPROVE after ML-R001 terminal prompt, ML-R002 retire
 slot ownership and ML-R003 foreign-pass corrections; its reviewed tree is local
 c2e1f700. This is scoped prerequisite review, with human/device/visual/interrupted
 save, Blue parity and full campaign/release acceptance still pending.
-The general-RNG prerequisite needs its own scoped independent review.
+The general-RNG and entry-preparation prerequisites need their own scoped review.

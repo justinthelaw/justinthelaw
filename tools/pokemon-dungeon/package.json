@@ -15,7 +15,7 @@
     "typecheck": "node scripts/check-types.mjs",
     "assets": "node scripts/check-assets.mjs && npm run pixel:check && npm run production:check && npm run roster:check && npm run runtime-pixels:check && npm run environment:check",
     "art:export": "node art/export.mjs",
-    "check": "npm run lint && npm run typecheck && npm run save-boundaries:check && npm run friends:check && npm run bronze-jobs:check && npm run move-learning:check && npm run native-general-rng:check && npm run content && npm run species:check && npm run rules:check && npm run dungeons:check && npm run effects:check && npm run ai:check && npm run item-ai:check && npm run throw-capability:check && npm run onboarding:check && npm run campaign:check && npm run navigation:check && node scripts/export-content-coverage.mjs --check && npm run assets && npm run vendor -- --check",
+    "check": "npm run lint && npm run typecheck && npm run save-boundaries:check && npm run friends:check && npm run bronze-jobs:check && npm run move-learning:check && npm run native-general-rng:check && npm run escort-entry:check && npm run content && npm run species:check && npm run rules:check && npm run dungeons:check && npm run effects:check && npm run ai:check && npm run item-ai:check && npm run throw-capability:check && npm run onboarding:check && npm run campaign:check && npm run navigation:check && node scripts/export-content-coverage.mjs --check && npm run assets && npm run vendor -- --check",
     "content": "node scripts/check-content.mjs",
     "content:coverage": "npm run content && node scripts/export-content-coverage.mjs",
     "pixel:export": "node art/pixel/export.mjs",
@@ -56,7 +56,8 @@
     "throw-capability:check": "node scripts/export-throw-capability.mjs --check",
     "bronze-jobs:check": "node scripts/check-bronze-jobs.mjs",
     "move-learning:check": "node scripts/check-move-learning.mjs",
-    "native-general-rng:check": "node scripts/check-native-general-rng.mjs"
+    "native-general-rng:check": "node scripts/check-native-general-rng.mjs",
+    "escort-entry:check": "node scripts/check-escort-entry.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

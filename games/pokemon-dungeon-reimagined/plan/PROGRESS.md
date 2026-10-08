@@ -1562,3 +1562,24 @@ open. Live exact v23/MAIN5,7 entry/refresh is still held; no seed, guest, paymen
 EXP or source receipt is invented on conversion. Focused lint/types/save-boundary
 and RNG text/AST checks only; exact commands, commits and next dependency are in
 ignored escort-report.md. Root owns scoped review/publication and broad gates.
+
+### Source-qualified escort entry preparation checkpoint
+
+Pure preparation now consumes the real general primitive for source Hidden Power:
+power first, up to100 actual type retries and Fire only on full zero exhaustion.
+Native fixed six-byte boot seed yields69517, available only through an explicit
+prospective initializer; no old draw history is reconstructed. Every supplied
+native roster slot converts before guest capacity/admission; full-four or body>=7
+retains roster draws with no guest draw, and actual first empty admits preparation.
+The client's independent temporary identity/join74/floor1, level1/EXP0/base stats,
+full PP/zero boost, IQ26/three menu skills, tactic, empty held and belly100 come
+from10 pinned native sources plus13 authenticated existing qualified catalogs.
+All19 current eligible clients retain their original source-ordered moves. All
+finite effects have existing consumers; Voltorb128 is Charge, not Screech.
+
+This independently reviewable precursor makes no canonical actor/container/slot/
+archive allocations or mutation, and does not compose a saved guest/seed successor.
+Its0 events leave burst proof/4096 unchanged. Live exact v23/MAIN5,7 remains held;
+native placement/AI/loss/cleanup, actual saved seed/guest/turn ownership and complete
+second work/Caterpie remain next. Scope/preservation/static evidence and commit(s)
+are in ignored escort-report.md; no game/native execution, tests or playthrough.
