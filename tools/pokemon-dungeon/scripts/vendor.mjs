@@ -127,7 +127,7 @@ const lockedThree = lock.packages["node_modules/three"];
 if (packageInfo.version !== version || lockedThree?.version !== version || lockedThree?.integrity !== integrity) {
   throw new Error("Installed/locked Three.js does not match the reviewed version and integrity");
 }
-for (const [name, expected] of [["terser", "5.51.2"], ["acorn", "8.18.0"]]) {
+for (const [name, expected] of [["terser", "5.51.2"], ["acorn", "8.19.0"]]) {
   const installed = JSON.parse(await readFile(path.join(toolsRoot, "node_modules", name, "package.json"), "utf8"));
   if (installed.version !== expected || lock.packages[`node_modules/${name}`]?.version !== expected) {
     throw new Error(`${name}: installed/locked version must be ${expected}`);
@@ -160,7 +160,7 @@ outputs.set("LICENSE", license);
 const provenance = {
   schemaVersion: 1,
   package: { name: "three", version, source: `https://registry.npmjs.org/three/-/three-${version}.tgz`, integrity, license: "MIT", licenseFile: "LICENSE", licenseSha256: licenseHash },
-  generator: { script: "tools/pokemon-dungeon/scripts/vendor.mjs", terser: "5.51.2", acorn: "8.18.0", options: { ecma: 2022, module: true, compressPasses: 2, mangle: true, retainedComments: "@license|@preserve|^!" } },
+  generator: { script: "tools/pokemon-dungeon/scripts/vendor.mjs", terser: "5.51.2", acorn: "8.19.0", options: { ecma: 2022, module: true, compressPasses: 2, mangle: true, retainedComments: "@license|@preserve|^!" } },
   scope: "WebGL2 engine and GLTFLoader static dependency closure; no game code or decoder packages",
   files: records,
 };

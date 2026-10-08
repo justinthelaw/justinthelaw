@@ -1,10 +1,10 @@
-# Upgrade deferred: Hub 2.0.0 conflicts with Transformers 5.17/tokenizers 0.23.2 (<2.0); retain 1.33.0.
-# Revisit when upstreams permit Hub 2: https://pypi.org/pypi/transformers/5.17.0/json
+# Upgrade deferred: Hub 2.1.1 conflicts with tokenizers 0.23.2 (<2.0); retain the native compatible Hub 1 resolution.
+# Revisit when tokenizers supports Hub 2: https://pypi.org/pypi/tokenizers/0.23.2/json
 huggingface-hub>=1.33.0
-onnx>=1.23.1
+onnx>=1.23.2
 onnxruntime>=1.30.0
 onnxscript>=0.7.2
 safetensors>=0.8.0
 sentencepiece>=0.2.2
-torch>=2.14.0
-transformers>=5.17.0
+torch>=2.14.1
+transformers>=5.19.0

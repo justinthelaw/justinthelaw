@@ -32,7 +32,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install uv
-        run: python -m pip install uv==0.12.21
+        run: python -m pip install uv==0.12.23
 
       - name: Verify Manifest-to-Lock Consistency
         run: |
@@ -76,7 +76,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install uv
-        run: python -m pip install uv==0.12.21
+        run: python -m pip install uv==0.12.23
 
       - name: Recreate Locked Training Environment
         run: |
@@ -126,7 +126,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install uv
-        run: python -m pip install uv==0.12.21
+        run: python -m pip install uv==0.12.23
 
       - name: Recreate Locked Exporter Environment
         run: |
