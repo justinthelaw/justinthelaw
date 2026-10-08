@@ -4,7 +4,7 @@ import { ClipPageCache, loadPixelManifest } from './assets.js';
 import { ActorLayer } from './actors.js';
 import { FollowCamera } from './camera.js';
 import { basicEnvironmentKit } from './environment.js';
-import { QUALITY } from './quality.js';
+import { QUALITY, initialQuality } from './quality.js';
 /** @typedef {import('../presentation/types.js').WorldView} WorldView */
 /** @typedef {import('../presentation/types.js').ActorView} ActorView */
 /** @typedef {import('../presentation/types.js').PickupView} PickupView */
@@ -20,7 +20,7 @@ export class DungeonRenderer {
         this.generation = 0;
         this.syncGeneration = 0;
         this.reducedMotion = options.reducedMotion ?? false;
-        this.quality = QUALITY[options.quality ?? (canvas.clientWidth < 768 ? 'mobile' : 'desktop')];
+        this.quality = QUALITY[options.quality ?? initialQuality(canvas)];
         this.listeners = new AbortController();
         this.assetsAbort = new AbortController();
         this.scene = new Scene();

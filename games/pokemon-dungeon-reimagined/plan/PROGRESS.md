@@ -1,5 +1,28 @@
 # Pokémon Dungeon Reimagined progress and decisions
 
+## Opening MVP continuation — 2026-10-08
+
+- Justin requested autonomous continuation, parallel work, frequent verified
+  pushes and a playable Pages MVP checkpoint.
+- Recovered `f9ab930a264ed839f0092465ab7a3d678172eb4f` into
+  `/workspace/scratch/2dba18a323c4/pr392`. All 1,703 tracked files match the
+  preserved integration snapshot; the prior worktree Git metadata is absent.
+- The selected opening already composes quiz, Tiny Woods, Thunderwave Cave,
+  town services, ordinary work, Mt. Steel, Friend Areas and escort/second-work
+  through MAIN(5,9). Sinister remains the explicit development boundary.
+- [Recovered work inventory](recovery/2026-10-08-mvp-handoff.md) preserves later
+  unselected packages and exact historical source pins. Do not overlay an old
+  checkout onto current audio/UI or activate Sinister from incomplete owners.
+- Corrected hidden-canvas startup quality selection using the canvas's own
+  document viewport. Explicit quality overrides and visible canvas width retain
+  priority; static source/type checks and independent review passed.
+- [Pages preview preparation](PAGES-PREVIEW.md) reuses successful website CI
+  to upload the complete production export. Merge and live deployment remain
+  separate from this development artifact and full-game acceptance.
+- Human play, physical device, visual and save-interruption acceptance remain
+  open. The browser could not reach the local game preview; no automated game
+  execution or gameplay test was substituted.
+
 ## Persisted move-learning prerequisite — 2026-10-08
 
 Exact v23 carries authenticated original v2–v22 admission and frozen v22 debt/

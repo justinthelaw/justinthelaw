@@ -281,7 +281,7 @@ paths so both humans and agents can act on the instructions.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
-# This is NOT the Next.js you know
+## This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
 
@@ -290,6 +290,14 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 <!-- END:nextjs-agent-rules -->
 
 ## Pokémon Dungeon Reimagined execution and release gates
+
+On 2026-10-08, Justin requested autonomous continuation of PR #392, parallel
+work, frequent verified pushes, and preparation of a playable Pages MVP.
+Prioritize the existing opening through MAIN(5,9), its controls, recovery and
+production export. Preserve the complete campaign goal and unpublished work.
+The scoped MVP is a development checkpoint with separate human play/device
+review; it does not complete P36/P37. Prepare a downloadable Pages artifact
+without merging or changing the live deployment until explicitly authorized.
 
 The first game lives under `games/pokemon-dungeon-reimagined/`; the user
 permitted a game folder instead of the original single-HTML limit. Planning

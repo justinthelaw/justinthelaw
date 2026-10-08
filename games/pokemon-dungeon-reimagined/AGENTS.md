@@ -2,6 +2,13 @@
 
 ## Current status: opening implemented; full campaign acceptance pending
 
+The 2026-10-08 continuation instruction prioritizes a playable development MVP
+from the existing selected opening through MAIN(5,9), frequent verified pushes,
+and parallel work. Preserve later unpublished packages, the full campaign goal,
+historical save admission and the game-test boundary. Prepare the production
+Pages artifact and record human play/device review separately; this request
+does not mark full-game acceptance or authorize merge/live deployment.
+
 Planning PR #387 was merged on 2026-10-04. Justin's later instruction to
 "Continue the @Codex implementation" authorizes execution of this plan. Resume
 the first incomplete dependency-ready package in `plan/PROGRESS.md`. P01 retains

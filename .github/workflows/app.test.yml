@@ -47,6 +47,15 @@ jobs:
       - name: Run Playwright Tests
         run: npx playwright test
 
+      - name: Upload Pages Preview
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: pages-preview-${{ github.sha }}
+          path: out/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+
       - name: Upload Test Artifacts
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
