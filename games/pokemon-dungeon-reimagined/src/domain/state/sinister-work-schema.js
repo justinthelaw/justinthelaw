@@ -19,8 +19,26 @@ const terminalOrigins = origin.members.filter(row => row.kind === 'object' && ro
 if (terminalOrigins.length !== 2) throw new TypeError('Original terminal origins changed.');
 const action = PRIOR.ResolvedAction;
 if (action?.kind !== 'union') throw new TypeError('Original action shape changed.');
-const attacks = action.members.filter(row => row.kind === 'object' && row.fields.kind?.kind === 'literal' && ['attack','move-use','struggle'].includes(String(row.fields.kind.value)));
-if (attacks.length !== 3) throw new TypeError('Original attack variants changed.');
+/** Canonical attack and struggle share one object with a union discriminator.
+ * @param {Shape} row @returns {string[]} */
+function actionKinds(row) {
+  if (row.kind !== 'object') return [];
+  const discriminator = row.fields.kind;
+  const tags = discriminator?.kind === 'union' ? discriminator.members : discriminator ? [discriminator] : [];
+  const kinds = [];
+  for (const tag of tags) {
+    if (tag.kind !== 'literal' || typeof tag.value !== 'string') return [];
+    kinds.push(tag.value);
+  }
+  return kinds;
+}
+const attackKinds = ['attack','move-use','struggle'];
+const attacks = action.members.filter(row => {
+  const kinds = actionKinds(row);
+  return kinds.length > 0 && kinds.every(kind => attackKinds.includes(kind));
+});
+const selectedKinds = attacks.flatMap(actionKinds);
+if (selectedKinds.length !== attackKinds.length || new Set(selectedKinds).size !== attackKinds.length) throw new TypeError('Original attack variants changed.');
 const attack = union(attacks),tag = union([obj({ kind: lit('ready') }),obj({ kind: lit('scene-paused'),sceneInstanceId: ref('SceneInstanceId') })]);
 const checkpoint = obj({ kind: union(['prepared-move','impact','move-complete','opportunity-end','flush-end','follower-end','terminal'].map(lit)),actor: nullable(ref('ActorSlotRef')),createdRevision: ref('Int'),frameFingerprint: text });
 const sequence = obj({ actorId: ref('ActorId'),sessionId: ref('SessionId'),mapId: ref('MapId'),action: attack,nextHit: ref('Int'),totalHits: ref('Int') });
