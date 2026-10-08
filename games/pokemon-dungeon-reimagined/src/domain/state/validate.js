@@ -5,6 +5,8 @@ import { copyPlainData, snapshotPlainData } from './plain.js';
 import { inspectShape, issue } from './structure.js';
 import { SHAPES } from './schema.js';
 import { CONTINUATION_SHAPES } from './continuation-schema.js';
+import { MOVE_LEARNING_SHAPES } from './move-learning-schema.js';
+import { MOVE_LEARNING_REVISION } from './move-learning-revision.js';
 import { BRONZE_JOBS_SHAPES } from './bronze-jobs-schema.js';
 import { BRONZE_JOBS_REVISION } from './bronze-jobs-revision.js';
 import { recordsContinuation } from './continuation-registry.js';
@@ -39,7 +41,8 @@ function gcd(left, right) {
   return left;
 }
 
-/** Exact structural and graph validation precedes all trusted catalog callbacks.
+/** Structural preflight precedes every trusted callback; exact v23 retired-slot
+ * raw proof precedes owner comparison, and the full graph precedes policy traversal.
  * Returns only detached, deeply frozen state or bounded diagnostics.
  * @param {unknown} input @param {CampaignContent} content @returns {CampaignValidation}
  */
@@ -57,7 +60,7 @@ export function validateCampaign(input, content) {
   // Select one registry by exact agreement with the trusted factory. Every
   // recursive preflight and visitor below uses this same registry; old/default
   // revision admission remains on the byte-frozen predecessor shape table.
-  const shapes = data.contentRevision === BRONZE_JOBS_REVISION && data.contentRevision === content.contentRevision ? BRONZE_JOBS_SHAPES : typeof data.contentRevision === 'string' && data.contentRevision === content.contentRevision && recordsContinuation(data.contentRevision) ? CONTINUATION_SHAPES : SHAPES;
+  const shapes = data.contentRevision === MOVE_LEARNING_REVISION && data.contentRevision === content.contentRevision ? MOVE_LEARNING_SHAPES : data.contentRevision === BRONZE_JOBS_REVISION && data.contentRevision === content.contentRevision ? BRONZE_JOBS_SHAPES : typeof data.contentRevision === 'string' && data.contentRevision === content.contentRevision && recordsContinuation(data.contentRevision) ? CONTINUATION_SHAPES : SHAPES;
   if (!inspectShape(data, campaignShape, issues, undefined, '', shapes)) return failure(issues, requirements);
   const state = /** @type {CampaignState} */ (/** @type {unknown} */ (data));
   checkNativeProgress(state.progress.native, issues, '/progress/native');
@@ -65,6 +68,14 @@ export function validateCampaign(input, content) {
   if (!contentInterface(content, requirements)) return failure(issues, requirements);
   if (state.contentRevision !== content.contentRevision) {
     issue(issues, 'content-mismatch', '/contentRevision', 'Campaign and catalog revisions differ.'); return failure(issues, requirements);
+  }
+  // Exact v23 retired slots can share their permanent owner's identity only
+  // after structural preflight and the trusted factory's complete raw proof.
+  // Every later callback repeats that proof independently; this is no cache.
+  if (state.contentRevision === MOVE_LEARNING_REVISION && state.session?.forgottenMoves) {
+    freezeData(state);
+    runPolicy(() => content.policies.profile(state), 'learning-raw-owner', issues, requirements, '/session/forgottenMoves');
+    if (issues.length || requirements.size) return failure(issues, requirements);
   }
   const allocated = new Map();
   const declarations = new Map();
@@ -99,7 +110,11 @@ export function validateCampaign(input, content) {
         const actorMatch = /\/actors\/([^/]+)/.exec(path);
         const session = path.startsWith('/rescue/suspended/') ? state.rescue.suspended?.session : state.session;
         const actor = actorMatch?.[1] ? session?.actors[actorMatch[1]] : null;
-        const owner = rosterOwner ?? (actor?.binding.kind === 'roster' ? actor.binding.pokemonId : actor?.actorId) ?? path.split('/moves/')[0];
+        const retiredMatch = state.contentRevision === MOVE_LEARNING_REVISION ? /^\/session\/forgottenMoves\/(0|[1-9]\d*)\/moveSlot$/.exec(path) : null;
+        const retired = retiredMatch ? state.session?.forgottenMoves?.[Number(retiredMatch[1])] : null;
+        const retiredActor = retired?.moveSlot === value ? state.session?.actors[retired.actorId] : null;
+        const retiredOwner = retiredActor?.binding.kind === 'roster' ? retiredActor.binding.pokemonId : null;
+        const owner = rosterOwner ?? retiredOwner ?? (actor?.binding.kind === 'roster' ? actor.binding.pokemonId : actor?.actorId) ?? path.split('/moves/')[0];
         const previous = moveOwners.get(fields.moveSlotId);
         if (previous && previous !== owner) issue(issues, 'ownership', path, 'Move slot identity is shared by different owners.');
         moveOwners.set(fields.moveSlotId, owner);

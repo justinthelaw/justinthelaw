@@ -1,0 +1,5 @@
+import { BRONZE_JOBS_REVISION } from './bronze-jobs-revision.js';
+/** Exact learning owner; native source is comparative and RNG remains browser qualified. */
+export const MOVE_LEARNING_REVISION = 'blue-campaign-state-v23-move-learning-opening:browser-opening-v23-move-learning:834c35ac48e325dd5444ffb2bc1fa5e7fbfd3fb3989b394ee5f84bb18d4ad461:b508ee769bd36619ac9eb07f22ad12455351323e7331f3568263b70a3cdcc44f:084d8380ed8dd09b02e5d7fbd660c65696b8c1830ea6b23da3aa262e423898cc:6d01abcea548861649dcbe24e37e27926b69c069e3c746cb1beb837969d466a8:947d052df0e8b6a6715b1d1039dd8b1cb425f974fa934b45363cecefaf0997dd:923f411ea7427579335db655885ec792ea30bbb7528c04242d980c99d34afa68:d9da994d9a03c749ee7faf805f96c74862ee1345bd3c8477ed60ed2e1a1afee2:3571043e95909c127b23f76cc9ac6ed131794f8a9e0fea0de8eaa4f820c81bac';
+/** @param {string} revision */
+export const ownsBronzeRuntime = revision => revision === BRONZE_JOBS_REVISION || revision === MOVE_LEARNING_REVISION;

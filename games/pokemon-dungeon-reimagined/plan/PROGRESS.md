@@ -1,5 +1,34 @@
 # Pokémon Dungeon Reimagined progress and decisions
 
+## Persisted move-learning prerequisite — 2026-10-08
+
+Exact v23 carries authenticated original v2–v22 admission and frozen v22 debt/
+source recognition, adding actual full-slot replace/decline input after native
+level/stat/HP update and one saved source-ordered candidate draw. Complete team
+recipient traversal, normal/flush/boundary hooks, direct settlement and terminal
+scene acknowledgment pause on the real saved PC; copyback/outcome/scene receipts
+wait for every actual candidate. UI names and confirms the selected linked tail,
+uses canonical ack and preserves snapshot/binding/panel interruption owners.
+
+Prospective awards retain exact pre-award EXP/gains and each defeated source,
+delta/revision/round/interrupted frame. Only eligible consumption emits EXP
+feedback; unrevived casualties restore only new unconsumed credit and retain
+defeat. Converted legacy direct-credit totals/choices remain untouched. Actual
+compact layouts follow native learning; authentic inherited internal gaps retain
+all slots/PP/link/order and hold growth before mutation pending a real layout
+owner. Source-learned unsupported effect possession stays canonical, with actual
+effect-use gates and existing partial party AI explicitly retained.
+
+MOVE-LEARNING.md records raw proof/projection, exact revision guards, comparative
+R6bcbec4/browser-RNG qualification and whole132-actor3798/2300/1946 bounds under
+4096 with unchanged3800/2300/1950 allowances. Focused lint/types, source/AST,
+save/factual and preservation checks pass; independent spec/quality review and
+human play/device/interrupted-save/visual evidence remain pending. No game/native
+execution, hooks, build or publication establishes acceptance. MAIN5,7 outings/
+refresh, escort and Caterpie remain held; preserved guest/general/movement drafts
+belong to the next actual escort+second-work successor through MAIN5,9. Full main/
+postgame/optional386/forms/P37 and explicit release approval remain open.
+
 ## Mt. Steel integrated rescue checkpoint — 2026-10-07
 
 Current v10 continues the completed Diglett request through eight source

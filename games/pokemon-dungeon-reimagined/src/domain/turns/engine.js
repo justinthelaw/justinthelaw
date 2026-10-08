@@ -1,3 +1,5 @@
+import { MOVE_LEARNING_REVISION } from '../state/move-learning-revision.js';
+import { sealLearningFrame } from '../gameplay/native-learning.js';
 import { hasSpeedOpportunity } from '../rules/speed.js';
 import { continuingSession } from '../state/continuation.js';
 import { collectTilePresentation } from './presentation-events.js';
@@ -100,11 +102,23 @@ function followers(session) {
 }
 /** @param {Context} context @param {Session} session @param {import('./types.js').EffectResult} result */
 function applyEffectResult(context, session, result) {
-  resultShape(result); checkPrompt(result.kind, context);
+  resultShape(result);
   const frame = session.scheduler.continuation;
   const actor = actorAt(session, frame.active);
+  if (result.kind === 'prompt' && 'completed' in result && result.completed === true) {
+    const learning = session.learning,resultOwner = context.state.pendingResult;
+    if (context.state.contentRevision !== MOVE_LEARNING_REVISION || context.state.session !== session || session.scheduler.kind !== 'choice-paused' || !learning || learning.origin.kind !== 'settlement' || resultOwner?.kind !== 'move-learn-choice' || resultOwner.resultId !== session.scheduler.resultId || frame.stage !== 'decision' || frame.step !== 0 || !frame.beginningRan || frame.replanCount !== 0 || frame.pass !== 'leader' || frame.special || frame.flushing || frame.active?.side !== 'team' || actor?.actorId !== session.leaderActorId || !(frame.action?.kind === 'exit' && learning.origin.outcome === 'success' || frame.action?.kind === 'give-up' && learning.origin.outcome === 'give-up') || result.movement !== false || result.leaderChanged !== false || result.stop !== 'none') throw new TurnFault('content-blocked', 'terminal-learning-result');
+    // The synchronous action has finished. Seal its actual PC before observing
+    // the owned input pause; cursor prompts and ordinary done retain their guard.
+    frame.activeEffect = null; frame.actionStop = result.stop; frame.leaderChanged = result.leaderChanged;
+    actor.speed.movementPending = result.movement;
+    frame.stage = 'after'; frame.step = 0;
+    sealLearningFrame(context);
+    checkPrompt(result.kind, context); return;
+  }
+  checkPrompt(result.kind, context);
   if (result.kind === 'continue' || result.kind === 'prompt') {
-    if (!result.cursor || typeof result.cursor !== 'object') throw new TurnFault('content-blocked', 'effect-cursor');
+    if (!('cursor' in result) || !result.cursor || typeof result.cursor !== 'object') throw new TurnFault('content-blocked', 'effect-cursor');
     frame.activeEffect = result.cursor; frame.stage = 'effect'; return;
   }
   if (result.kind !== 'done' || typeof result.movement !== 'boolean' || typeof result.leaderChanged !== 'boolean' || !['none', 'recruited', 'effect-stop'].includes(result.stop)) throw new TurnFault('content-blocked', 'effect-result');
@@ -140,6 +154,7 @@ function beginAction(context, hooks, session, action) {
     return;
   }
   settleEffect(context, hooks, session, result);
+  sealLearningFrame(context);
 }
 
 /** Runs only until the first completed opportunity, flush recipient or phase,

@@ -17,8 +17,9 @@
 /** @typedef {{kind:'continue',canAct:boolean}|{kind:'prompt',canAct:boolean}|Failure} BeginResult */
 /** @typedef {{kind:'action',action:Action}|{kind:'defer'}|{kind:'replan'}|Failure} DecisionResult */
 /** Each effect step resolves all zero-HP/revival/faint/recruit work synchronously.
- * Continue and prompt return the *next* cursor; done never silently truncates a chain.
- * @typedef {{kind:'continue',cursor:EffectCursor}|{kind:'prompt',cursor:EffectCursor}|{kind:'done',movement:boolean,leaderChanged:boolean,stop:'none'|'recruited'|'effect-stop'}|Failure} EffectResult
+ * Cursor prompts return the next effect cursor. A completed terminal learning
+ * prompt instead owns the real after/step0 action PC; done never truncates a chain.
+ * @typedef {{kind:'continue',cursor:EffectCursor}|{kind:'prompt',cursor:EffectCursor}|{kind:'prompt',completed:true,movement:false,leaderChanged:false,stop:'none'}|{kind:'done',movement:boolean,leaderChanged:boolean,stop:'none'|'recruited'|'effect-stop'}|Failure} EffectResult
  */
 /** @typedef {{state:State,emit(data:EventData):void}} MutationContext */
 /** @typedef {{

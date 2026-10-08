@@ -574,6 +574,7 @@
  *     overrides: ActorOverrides;
  *     heldContainerId: ContainerId;
  *     gains: RunGains;
+ *     pendingExperience?: import('./move-learning.js').PendingExperience;
  *     ai: {
  *         target: TargetSelector | null;
  *         destination: GridPosition | null;
@@ -897,6 +898,8 @@
  *     leaderActorId: ActorId;
  *     teamOrder: ActorId[];
  *     actors: Record<string, SessionActor>;
+ *     learning?: import('./move-learning.js').LearningChoice;
+ *     forgottenMoves?: import('./move-learning.js').ForgottenMove[];
  *     floor: FloorState;
  *     inventory: ContainerId;
  *     carriedMoney: Int;
@@ -1374,7 +1377,7 @@
  *     item(item: ItemInstance, container: ItemContainer, state: CampaignState, scope: ValidationScope): RuleCheck;
  *     economy(state: CampaignState): RuleCheck;
  *     floor(floor: FloorState, session: ExpeditionState, state: CampaignState, scope: ValidationScope): RuleCheck;
- *     conditions(actor: SessionActor, session: ExpeditionState, scope: ValidationScope): RuleCheck;
+ *     conditions(actor: SessionActor, session: ExpeditionState, scope: ValidationScope, state?: CampaignState): RuleCheck;
  *     scheduler(session: ExpeditionState, state: CampaignState, scope: ValidationScope): RuleCheck;
  *     expeditionEntry(session: ExpeditionState, state: CampaignState, scope: ValidationScope): RuleCheck;
  *     progress(state: CampaignState): RuleCheck;

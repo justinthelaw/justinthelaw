@@ -1,3 +1,4 @@
+import { forgottenMove } from './move-learning-proof.js';
 import { requireRelation as check, unique, keyed, checkMoves, checkPp, inBounds, actorHasMoveReference } from './relations.js';
 import { checkInventory } from './inventory.js';
 import { pointer } from './structure.js';
@@ -39,7 +40,7 @@ function actionCheck(context, action, session, path) {
   if ('target' in action) targetCheck(context, action.target, session, path);
   if (action.kind === 'move') inBounds(context, action.destination, session.floor, path);
   if (action.kind === 'exit') check(context, !!session.floor.exits[action.exitId], path, 'Action exit is absent.');
-  if (action.kind === 'move-use') check(context, actorHasMoveReference(session.actors[action.actorId], action.moveSlotId, action.moveId), path, 'Action move slot is absent or mismatched.');
+  if (action.kind === 'move-use') check(context, (actorHasMoveReference(session.actors[action.actorId], action.moveSlotId, action.moveId) || forgottenMove(session,action.actorId,action.moveSlotId,action.moveId)), path, 'Action move slot is absent or mismatched.');
   // An item may already have been consumed at a paused effect; its historical
   // reference is validated by the exact effect-PC policy rather than resurrected.
 }
@@ -66,7 +67,7 @@ function actorCheck(context, actor, session, path) {
     if (payload.kind === 'actor-link' && payload.actorId !== null) check(context, !!session.actors[payload.actorId], path, 'Condition actor link is absent.');
     if (payload.kind === 'bide' && payload.lastAttackerId !== null) check(context, !!session.actors[payload.lastAttackerId], path, 'Bide attacker link is absent.');
     if (payload.kind === 'move-lock' || payload.kind === 'charge') {
-      check(context, actorHasMoveReference(actor, payload.moveSlotId, payload.moveId), path, 'Condition move slot is absent or mismatched.');
+      check(context, (actorHasMoveReference(actor, payload.moveSlotId, payload.moveId) || forgottenMove(session,actor.actorId,payload.moveSlotId,payload.moveId)), path, 'Condition move slot is absent or mismatched.');
       if (payload.kind === 'charge') targetCheck(context, payload.target, session, path);
     }
     if (payload.kind === 'copied-combat') {

@@ -63,6 +63,7 @@ export function createAdventure(options) {
       // covers independent mutation handlers (face, SET, equipment and future
       // menus), so no player mutation can interleave with automatic advance.
       if (snapshot.session?.scheduler.kind === 'continuing' && intent.type !== 'advance' && intent.type !== 'presentation') return failure('rejected', 'unavailable');
+      if (snapshot.pendingResult?.kind === 'move-learn-choice' && intent.type !== 'ackResult' && intent.type !== 'presentation') return failure('rejected','unavailable');
       if (intent.type === 'ackResult') {
         const result = snapshot.pendingResult;
         if (!result || result.resultId !== intent.resultId || result.cursor !== intent.cursor || intent.revision !== snapshot.revision) return failure('rejected', 'stale');

@@ -98,7 +98,7 @@ export function checkPolicies(state, content, issues, requirements) {
     run(() => policies.expeditionEntry(session, state, scope), 'expeditionEntry', `${path}/entry`);
     for (const actor of Object.values(session.actors)) {
       run(() => policies.actor(actor, session, state, scope), 'actor', `${path}/actors/${actor.actorId}`);
-      run(() => policies.conditions(actor, session, scope), 'conditions', `${path}/actors/${actor.actorId}/conditions`);
+      run(() => policies.conditions(actor, session, scope, state), 'conditions', `${path}/actors/${actor.actorId}/conditions`);
     }
     /** @type {ValidationScope} */
     const history = Object.freeze({ kind: 'entry-history', sessionId: session.sessionId, owner });

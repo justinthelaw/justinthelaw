@@ -1,3 +1,4 @@
+import { processLearning } from './native-learning.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
 import { enterOrdinarySteelSummit } from './steel-meanies-scenes.js';
 import { STEEL_SLEEP_CHANCES, STEEL_FLOOR_ITEMS } from '../../../content/state/steel-facts.js';
@@ -182,6 +183,7 @@ export function takeStairs(context, catalogs, authored, exitId) {
  * @param {Context} context @param {'success'|'fainting'|'wind-expulsion'|'give-up'} outcome @param {Catalogs} catalogs @param {import('../../../content/authored/opening.js').AuthoredOpening} [authored] */
 export function settleExpedition(context, outcome, catalogs, authored) {
   const state = context.state; const session = state.session; if (!session) return blocked('settlement-session');
+  if (processLearning(context,catalogs,{ kind: 'settlement',outcome })) return;
   for (const actor of Object.values(session.actors)) if (actor.binding.kind === 'roster') {
     applyExperience(context, actor, catalogs);
     const pokemon = state.roster[actor.binding.pokemonId]; if (!pokemon) return blocked('settlement-participant');

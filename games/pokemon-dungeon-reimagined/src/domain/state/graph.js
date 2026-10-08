@@ -1,3 +1,4 @@
+import { MOVE_LEARNING_REVISION } from './move-learning-revision.js';
 import { requireRelation as check, unique, keyed, checkMoves, fingerprint, hasMoveReference, actorHasMoveReference } from './relations.js';
 import { checkInventory } from './inventory.js';
 import { checkSession } from './session.js';
@@ -15,7 +16,7 @@ function checkContinuation(context, continuation, path) {
   if (continuation.kind === 'resume-turn') {
     const gate = continuation.gate;
     const scheduler = state.session?.scheduler;
-    check(context, gate.kind === 'result' ? scheduler?.kind === 'choice-paused' && scheduler.resultId === gate.resultId && state.pendingResult?.resultId === gate.resultId : scheduler?.kind === 'scene-paused' && scheduler.sceneInstanceId === gate.sceneInstanceId && state.pendingScene?.sceneInstanceId === gate.sceneInstanceId, path, 'Continuation gate does not own the paused scheduler.');
+    check(context, gate.kind === 'result' ? scheduler?.kind === 'choice-paused' && scheduler.resultId === gate.resultId && state.pendingResult?.resultId === gate.resultId : (scheduler?.kind === 'scene-paused' && scheduler.sceneInstanceId === gate.sceneInstanceId || state.contentRevision === MOVE_LEARNING_REVISION && state.session?.learning?.origin.kind === 'scene' && state.session.learning.schedulerTag.kind === 'scene-paused' && state.session.learning.schedulerTag.sceneInstanceId === gate.sceneInstanceId) && state.pendingScene?.sceneInstanceId === gate.sceneInstanceId, path, 'Continuation gate does not own the paused scheduler.');
   }
 }
 /** @param {GraphContext} context */
@@ -26,7 +27,7 @@ function checkFlows(context) {
   switch (state.mode) {
     case 'town': check(context, state.session === null && scene === null && (!result || ['job-reward', 'choice', 'move-learn-choice', 'expedition-complete', 'rescue'].includes(result.kind)), '/mode', 'Town mode is inconsistent with its flow owners.'); break;
     case 'dungeon': check(context, state.session !== null && scene === null && (!result || ['recruit-choice', 'move-learn-choice', 'choice', 'rescue'].includes(result.kind)) && (state.session?.status === 'active' || result !== null), '/mode', 'Dungeon mode is inconsistent with its flow owners.'); break;
-    case 'scene': check(context, scene !== null && result === null, '/mode', 'Scene mode requires one pending scene.'); break;
+    case 'scene': check(context, scene !== null && (result === null || state.contentRevision === MOVE_LEARNING_REVISION && result.kind === 'move-learn-choice' && state.session?.learning?.origin.kind === 'scene'), '/mode', 'Scene mode requires one pending scene.'); break;
     case 'awaitingRescue': check(context, state.session === null && scene === null && state.rescue.suspended !== null && (!result || result.kind === 'rescue'), '/mode', 'Awaiting rescue requires its isolated suspension.'); break;
     case 'defeat': check(context, state.session === null && scene === null && result?.kind === 'defeat', '/mode', 'Defeat requires its committed final result.'); break;
   }

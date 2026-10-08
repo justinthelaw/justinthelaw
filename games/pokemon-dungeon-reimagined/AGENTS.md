@@ -20,7 +20,7 @@ then stops at MAIN5,7. Later work, escort, wild recruitment and Sinister remain
 in implementation. See plan/CHAPTER-FIVE-WORK.md and plan/STEEL-MEANIES.md; mandatory client/return/reward/
 morning owners block new work, and selected Magnemite is never silently removed. Static checks do not establish human play/visual acceptance or a complete
 campaign; later services, escort admission and routes remain incomplete.
-Current v21 saves preserve exact v2-v20 original-envelope import admission, including
+Current v23 learning saves preserve exact v2-v22 original-envelope import admission, including
 v17 Sleep Seed provenance, v16 Leech Seed links and Water Sport counters. Stun
 has development use/throw activation over its reviewed Petrified lifecycle and
 accepted bounded turn continuation. Heal/Quick Seed consumers mutate already
@@ -196,3 +196,20 @@ prepared queue may gain truthful current-conversion metadata only after original
 envelope/hash/exact factory admission, preserving every lot/queue/RNG/resource.
 The next successor must carry the exact prefix/schema/revision guards recorded in
 BRONZE-JOBS.md; do not restore old ordering or infer debt from field omission.
+
+The v23 [move-learning prerequisite](plan/MOVE-LEARNING.md) owns actual persisted
+level/candidate choices, native team traversal, direct settlement and terminal
+scene continuations before copyback. Source stats/HP precede the sole candidate
+draw; confirmed forgetting removes the exact selected linked tail. Preserve
+new-only unconsumed EXP source/frame ledgers and immediate/forced-loss Reviver
+arbitration; never infer or rewind converted legacy EXP/choices. Every new policy
+callback independently proves raw ownership before a frozen v22 view, including
+the complete-state condition callback. Internal inherited slot gaps retain all
+resources and hold growth before mutation until a real layout/reorder owner;
+trailing empty slots remain valid. Unsupported source-learned move possession
+must remain canonical without effect filtering or automatic decline. Full party
+move/item AI, broader effects and human/UI interruption acceptance remain open.
+The whole132-actor3798/2300/1946 proof retains3800/2300/1950 under4096; future
+guests/entry/effects/output must revise it. All105 frozen dependencies and original
+schema/bodies/manifests/resources remain checked. MAIN5,7 outings/refresh, escort
+and Caterpie stay held for the preserved actual escort/second-work successor.

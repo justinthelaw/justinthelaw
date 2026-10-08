@@ -1,3 +1,5 @@
+import { MOVE_LEARNING_REVISION } from '../state/move-learning-revision.js';
+import { processLearning } from './native-learning.js';
 import { allocate, blocked, draw, profile, value, maxHp } from './support.js';
 
 /** Native growth/first-free-slot path. Once four slots are occupied this browser
@@ -5,7 +7,8 @@ import { allocate, blocked, draw, profile, value, maxHp } from './support.js';
  * it never rolls back an otherwise valid KO or silently replaces a learned move.
  * @param {import('../turns/types.js').MutationContext} context @param {import('../../contracts/campaign.js').SessionActor} actor @param {import('./support.js').Catalogs} catalogs */
 export function applyExperience(context, actor, catalogs) {
-  if (actor.affiliation !== 'team') return;
+  if (context.state.contentRevision === MOVE_LEARNING_REVISION) return processLearning(context,catalogs,{ kind: 'turn',sourceActorId: actor.actorId });
+  if (actor.affiliation !== 'team') return false;
   const p = profile(actor.identity, catalogs);
   while (actor.growth.level < 100) {
     const next = catalogs.species.getGrowthAtLevel(p.id, actor.growth.level + 1);
@@ -29,4 +32,5 @@ export function applyExperience(context, actor, catalogs) {
     const oldHp = maxHp(actor); actor.growth.level = next.level; actor.growth.naturalStats = { ...next.stats }; actor.resources.hp += maxHp(actor) - oldHp;
     context.emit({ type: 'message', messageId: 'level-up' });
   }
+  return false;
 }

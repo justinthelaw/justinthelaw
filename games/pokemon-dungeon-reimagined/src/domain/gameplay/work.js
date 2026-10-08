@@ -1,5 +1,5 @@
-import { legacyUnpaidPrefixProblem } from '../state/bronze-reward-prefix.js';
-import { BRONZE_JOBS_REVISION } from '../state/bronze-jobs-revision.js';
+import { learningUnpaidPrefixProblem as legacyUnpaidPrefixProblem } from '../state/move-learning-prefix.js';
+import { ownsBronzeRuntime } from '../state/move-learning-revision.js';
 import { isBronzeJob, bronzeJob, prepareBronzeReward, prepareBronzeClientThanks, applyBronzeRewardPrefix, changeBronzeJobSelection } from './bronze-job-records.js';
 import { STEEL_MEANIES_REVISION } from '../state/steel-meanies-revision.js';
 import { meaniesMailboxReady } from './steel-meanies-scenes.js';
@@ -29,7 +29,7 @@ export function workReady(state) {
 }
 /** The new interval adds no bypass for a canonical input owner.
  * @param {Snapshot} state */
-export function chapterWorkReady(state) { return (state.contentRevision === STEEL_MEANIES_REVISION || state.contentRevision === BRONZE_JOBS_REVISION) && state.friends?.phase === 'work-three' && state.progress.storyNodeId === FRIENDS.story && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 5 && state.progress.native.clearCount < 3; }
+export function chapterWorkReady(state) { return (state.contentRevision === STEEL_MEANIES_REVISION || ownsBronzeRuntime(state.contentRevision)) && state.friends?.phase === 'work-three' && state.progress.storyNodeId === FRIENDS.story && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 5 && state.progress.native.clearCount < 3; }
 /** Opening a new prompt also requires that no other client prompt owns input.
  * @param {Snapshot} state @param {import('./support.js').Catalogs} catalogs */
 export function facingJobClient(state, catalogs) {
@@ -68,7 +68,7 @@ function deliverPreparedReward(context, choice, freshPreparation = false) {
   const state = context.state, work = state.earlyWork, prepared = work?.reward, returned = work?.returned;
   if (!work || !prepared || !returned) return blocked('work-reward-owner');
   const job = state.progress.jobs[prepared.jobId]; if (!job || job.phase.kind !== 'reward-ready') return blocked('work-reward-job');
-  if (state.contentRevision === BRONZE_JOBS_REVISION) {
+  if (ownsBronzeRuntime(state.contentRevision)) {
     if (returned.jobIds[returned.cursor] !== job.jobId) return blocked('work-reward-prefix-cursor');
     if (freshPreparation) {
       // A transient new lot can be unmarked only inside this preparation draft;
@@ -171,7 +171,7 @@ export function workHandlers(catalogs, authored) { return {
         else if (order.yes) { work.clientPrompt = null; settleExpedition(context, 'success', catalogs); }
         else prompt.stage = 'leave';
       } else if (order.kind === 'job') {
-        if (!(state.contentRevision === BRONZE_JOBS_REVISION ? changeBronzeJobSelection : state.friends ? changeChapterJobSelection : changeJobSelection)(state, work, order.jobId, order.operation)) return { kind: 'rejected', reason: 'unavailable' };
+        if (!(ownsBronzeRuntime(state.contentRevision) ? changeBronzeJobSelection : state.friends ? changeChapterJobSelection : changeJobSelection)(state, work, order.jobId, order.operation)) return { kind: 'rejected', reason: 'unavailable' };
       } else if (order.kind === 'read-news') {
         const index = work.mailbox.findIndex(row => row.kind === 'news' && row.newsId === order.newsId);
         if (index < 0) return { kind: 'rejected', reason: 'unavailable' };

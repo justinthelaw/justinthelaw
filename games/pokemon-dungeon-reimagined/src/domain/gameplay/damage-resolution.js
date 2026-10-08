@@ -1,3 +1,4 @@
+import { MOVE_LEARNING_REVISION } from '../state/move-learning-revision.js';
 import { clearLeechSeedLinks } from './leech-links.js';
 import { interruptPetrifiedSleep } from './status-interruptions.js';
 import { dropFaintedHeldItem } from './item-drops.js';
@@ -7,7 +8,7 @@ import { rollContactReactions } from './conditions.js';
 import { tryRevive } from './revival.js';
 import { noteSteelBossFaint } from './steel.js';
 import { recordSpeciesSeen } from '../state/species-seen.js';
-import { blocked, profile, quantity, value } from './support.js';
+import { blocked, clone, profile, quantity, value } from './support.js';
 /** @typedef {import('../../contracts/campaign.js').SessionActor} Actor */
 /** @typedef {import('../turns/types.js').MutationContext} Context */
 /** @typedef {import('./support.js').Catalogs} Catalogs */
@@ -41,6 +42,18 @@ export function finishDamage(context, target, catalogs, attacker, giveExperience
     const xp = Math.max(1, target.memory.experienceContributors.length ? base : Math.trunc(base / 2));
     for (const id of giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile' ? session.teamOrder : []) {
       const actor = session.actors[id]; if (!actor) continue;
+      if (context.state.contentRevision === MOVE_LEARNING_REVISION) {
+        if (actor.resources.hp === 0 || actor.growth.level === 100) continue;
+        const amount = Math.min(9999999-value(actor.growth.totalExperience),xp);
+        if (amount > 0 && attacker) {
+          actor.pendingExperience ??= { experienceBefore: clone(actor.growth.totalExperience),gainsBefore: clone(actor.gains.experience),amount: 0,level: actor.growth.level,awards: [] };
+          actor.pendingExperience.amount += amount;
+          actor.pendingExperience.awards.push({ defeatedActorId: target.actorId,attackerActorId: attacker.actorId,amount,awardedRevision: context.state.revision+1,sourceRound: session.scheduler.roundNumber,sourceFrame: clone(session.scheduler.continuation) });
+          actor.growth.totalExperience = quantity(value(actor.growth.totalExperience)+amount);
+          actor.gains.experience = quantity(value(actor.gains.experience)+amount);
+        }
+        continue;
+      }
       actor.growth.totalExperience = quantity(Math.min(9999999, value(actor.growth.totalExperience) + xp));
       actor.gains.experience = quantity(value(actor.gains.experience) + xp);
     }

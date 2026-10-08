@@ -1,3 +1,4 @@
+import { processLearning } from './native-learning.js';
 import { ORDINARY_SUMMIT } from '../../../content/authored/steel-meanies.js';
 import { advanceSteelMeaniesScene } from './steel-meanies-scenes.js';
 import { FRIENDS } from '../../../content/authored/friends.js';
@@ -44,6 +45,8 @@ export function sceneHandler(authored, catalogs, tutorialSaved) { return {
   },
   apply(context, intent) {
     const state = context.state; const scene = state.pendingScene;
+    const pendingScript = authored.scenes.find(row => row.id === scene?.sceneId);
+    if (state.session && scene && [O.rescueScene,T.rescue,STEEL.scenes[5],STEEL.scenes[10],ORDINARY_SUMMIT].includes(scene.sceneId) && scene.awaiting.kind === 'advance' && pendingScript && scene.cursor+1 === pendingScript.lines.length && processLearning(context,catalogs,{ kind: 'scene',sceneId: scene.sceneId,sceneInstanceId: scene.sceneInstanceId,cursor: scene.cursor })) return { kind: 'changed',resumeDungeon: false };
     if (scene && [ORDINARY_SUMMIT,FRIENDS.scenes[6]].includes(scene.sceneId)) return advanceSteelMeaniesScene(context,authored,catalogs);
     if (scene && FRIENDS.scenes.includes(scene.sceneId)) return advanceFriendsScene(context, authored, catalogs);
     if (scene && STEEL.scenes.includes(scene.sceneId)) return advanceSteelScene(context, authored, catalogs);

@@ -1,3 +1,4 @@
+import { showMoveLearning } from '../application/move-learning.js';
 import { showFriends } from '../application/friends.js';
 import { nearbyResident, nearWigglytuff } from '../domain/gameplay/friend-residents.js';
 import { supportedHeldItem } from '../domain/gameplay/held-items.js';
@@ -206,7 +207,11 @@ export async function createApplication(canvas, signal, startup) {
       { label: 'Use stairs', run: () => { if (session) act({ type: 'useStairs', sessionId: session.sessionId }); }, disabled: snapshot.mode !== 'dungeon' || !onStairs || !worldReady },
     ]);
     view.minimap(session ? projected : null);
-    if (snapshot.steel?.rewardChoice) {
+    if (loaded && snapshot.pendingResult?.kind === 'move-learn-choice') {
+      dialogue = false;
+      const shownEpoch = saves?.service.getBinding().adventureEpoch;
+      showMoveLearning({ snapshot,catalogs: loaded.catalogs,view,menu,open() { followsGame = false; input?.cancel(); context(); },send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This move choice is stale.'); return; } act(intent,'panel'); } });
+    } else if (snapshot.steel?.rewardChoice) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
       showSteelReward({ snapshot, view, saves: menu, send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This reward choice is stale.'); return; } act(intent, 'panel'); } });

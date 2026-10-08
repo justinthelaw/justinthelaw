@@ -1,4 +1,6 @@
-import { recordLegacyUnpaidPrefix } from '../domain/state/bronze-reward-prefix.js';
+import { recordLearningUnpaidPrefix as recordLegacyUnpaidPrefix } from '../domain/state/move-learning-prefix.js';
+import { createCampaignContent as createBronzeContent } from '../../content/state/bronze-jobs-campaign.js';
+import { BRONZE_JOBS_REVISION } from '../domain/state/bronze-jobs-revision.js';
 import { createCampaignContent as createSteelMeaniesContent } from '../../content/state/steel-meanies-campaign.js';
 import { STEEL_MEANIES_REVISION } from '../domain/state/steel-meanies-revision.js';
 import { createCampaignContent as createChapterWorkContent } from '../../content/state/chapter-work-campaign.js';
@@ -99,7 +101,9 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   if (chapterWork.contentRevision !== CHAPTER_WORK_REVISION) throw new TypeError('Chapter-work-v20 factual catalog boundary differs.');
   const steelMeanies = createSteelMeaniesContent(catalogs);
   if (steelMeanies.contentRevision !== STEEL_MEANIES_REVISION) throw new TypeError('Steel/Meanies-v21 factual catalog boundary differs.');
-  return Object.freeze([...([steelMeanies, chapterWork, continuation, stun, impact, field, damage, party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
+  const bronze = createBronzeContent(catalogs);
+  if (bronze.contentRevision !== BRONZE_JOBS_REVISION) throw new TypeError('Original Bronze-v22 factual boundary differs.');
+  return Object.freeze([...([bronze, steelMeanies, chapterWork, continuation, stun, impact, field, damage, party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);
@@ -108,8 +112,8 @@ export function createOpeningCompatibility(catalogs, content, authored) {
         const { draft, commitRevision } = prepareTransaction(admitted.snapshot, commandContext(admitted.snapshot));
         draft.contentRevision = content.contentRevision; draft.revision = commitRevision;
         recordLegacyUnpaidPrefix(draft,admitted,predecessor.contentRevision,commitRevision);
-        if (predecessor === steelMeanies || predecessor === chapterWork || predecessor === continuation || predecessor === stun) {
-          // Exact v18–v21 preserve every canonical owner. Convert metadata only,
+        if (predecessor === bronze || predecessor === steelMeanies || predecessor === chapterWork || predecessor === continuation || predecessor === stun) {
+          // Exact v18–v22 preserve every canonical owner. Convert metadata only,
           // including truthful unpaid conversion debt on an actual old pause:
           // no defaults, actor initialization, cursor normalization or work.
           const checked = validateCampaign(draft, content);

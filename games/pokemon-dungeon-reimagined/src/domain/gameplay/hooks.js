@@ -14,6 +14,7 @@ import { SPAWN_SLEEP_CHANCES, eligibleEncounter } from '../../../content/state/e
 import { selectEncounter } from '../generation/encounters.js';
 import { tickConditions, periodicStatusDamage, resetStatChanges } from './conditions.js';
 import { useDungeonItem, pickup } from './items.js';
+import { processLearning } from './native-learning.js';
 import { applyExperience } from './growth.js';
 import { movementPlan } from './movement.js';
 import { pendingSpecialSwap } from './swap-continuation.js';
@@ -32,6 +33,11 @@ import { draw, value, quantity, maxHp, profile, ability, blocked, navActor, navi
 /** @type {import('../turns/types.js').HookResult} */ const CONTINUE = Object.freeze({ kind: 'continue' });
 /** @param {boolean} [movement] @returns {import('../turns/types.js').EffectResult} */
 const done = (movement = false) => ({ kind: 'done', movement, leaderChanged: false, stop: 'none' });
+/** @param {import('../turns/types.js').MutationContext} context */
+const pendingLearning = context => context.state.pendingResult?.kind === 'move-learn-choice';
+/** Only synchronous exit/give-up settlement owns a completed input pause.
+ * @param {import('../turns/types.js').MutationContext} context @returns {import('../turns/types.js').EffectResult} */
+const terminalCompletion = context => pendingLearning(context) && context.state.session?.learning?.origin.kind === 'settlement' ? { kind: 'prompt',completed: true,movement: false,leaderChanged: false,stop: 'none' } : done();
 /** @param {import('../turns/types.js').MutationContext} context @param {import('../turns/types.js').ActorRef} ref */
 function actor(context, ref) { const result = actorAt(sessionOf(context), ref); if (!result) return blocked('actor-reference'); return result; }
 
@@ -86,11 +92,12 @@ export function createTurnHooks(catalogs, authored) {
       return CONTINUE;
     },
     forcedLoss(context) {
+      if (context.state.pendingResult?.kind === 'move-learn-choice') return CONTINUE;
       const s = context.state.session;
       if (s) for (const id of s.teamOrder) { const member = s.actors[id]; if (member) tryRevive(context, member, catalogs); }
       if (s && s.teamOrder.some(id => s.actors[id]?.resources.hp === 0)) settleExpedition(context, 'fainting', catalogs, authored);
       else if (s) finishSteelBattle(context, authored);
-      return CONTINUE;
+      return pendingLearning(context) ? { kind: 'prompt' } : CONTINUE;
     },
     begin(context, ref) {
       const a = actor(context, ref); const p = profile(a.identity, catalogs);
@@ -111,7 +118,7 @@ export function createTurnHooks(catalogs, authored) {
       return { kind: 'continue', canAct: swap || a.conditions.frozen?.statusId !== 'petrified' && a.conditions.sleep === null && a.conditions.cringe?.statusId !== 'infatuated' && a.conditions.bide?.statusId !== 'bide' };
     },
     fieldUpkeep(context) { tickWaterSport(context); return CONTINUE; },
-    experience(context, ref) { if (ref) applyExperience(context, actor(context, ref), catalogs); return CONTINUE; },
+    experience(context, ref) { return (ref ? applyExperience(context, actor(context, ref), catalogs) : processLearning(context,catalogs,{ kind: 'turn',sourceActorId: null })) ? { kind: 'prompt' } : CONTINUE; },
     ai(context, ref) {
       const s = sessionOf(context); const a = actor(context, ref); if (a.placement.kind !== 'map') return blocked('ai-placement');
       if (a.binding.kind === 'guest' && a.binding.storyActorId === STEEL.clientRole) return { kind: 'action', action: { kind: 'wait', actorId: a.actorId } };
@@ -197,8 +204,8 @@ export function createTurnHooks(catalogs, authored) {
           context.emit({ type: 'actorMoved', actorId: a.actorId, from, to: { ...action.destination } }); return done(true);
         }
         if (action.kind === 'attack' || action.kind === 'struggle' || action.kind === 'move-use') { attack(context, a, action, catalogs); return done(); }
-        if (action.kind === 'exit') { takeStairs(context, catalogs, authored, action.exitId); return done(); }
-        if (action.kind === 'give-up') { settleExpedition(context, 'give-up', catalogs, authored); return done(); }
+        if (action.kind === 'exit') { takeStairs(context, catalogs, authored, action.exitId); return terminalCompletion(context); }
+        if (action.kind === 'give-up') { settleExpedition(context, 'give-up', catalogs, authored); return terminalCompletion(context); }
         return blocked('action-effect');
       } finally {
         // Native action completion clears an old Charge after any action, even
@@ -248,7 +255,7 @@ export function createTurnHooks(catalogs, authored) {
       const s = sessionOf(context); s.floor.turnCounter++; s.floor.windCounter = Math.max(0, s.floor.windCounter - 1);
       if ([249, 149, 49].includes(s.floor.windCounter)) context.emit({ type: 'message', messageId: `wind-${s.floor.windCounter}` });
       if (s.floor.windCounter === 0) settleExpedition(context, 'wind-expulsion', catalogs, authored);
-      return CONTINUE;
+      return context.state.pendingResult?.kind === 'move-learn-choice' ? { kind: 'prompt' } : CONTINUE;
     },
   };
   return hooks;

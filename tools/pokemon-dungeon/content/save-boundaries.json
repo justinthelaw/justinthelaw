@@ -382,6 +382,46 @@
     {
       "path": "games/pokemon-dungeon-reimagined/content/authored/steel-meanies.js",
       "sha256": "0a15a77a5625b14fc22ca7330ffcecfb6e3c607e5769c57b1fc7bcb90f558eba"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/bronze-jobs-campaign.js",
+      "sha256": "101963a07d71bf8b3a92a9465551176f8e0e13dee72c16be083512904295aaaa"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/bronze-jobs.js",
+      "sha256": "f2cf1680e3e3fcf37d76d8bb332ac61d5f8355236ff21db3301c65a32f8e43e7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/bronze-jobs-revision.js",
+      "sha256": "9d910ed577c529f3fb699e058b803735cd367ed54485779abda0386f12633905"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/bronze-jobs-schema.js",
+      "sha256": "049c3c41542cf7c1a6286672bd7e0873f6b3c5dc40e09d99c39d835f6b71de41"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/bronze-reward-prefix.js",
+      "sha256": "ae21c67a7b09648e922a0706e3814e18fcbac29a1eee5526b58d3ddfef182381"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/bronze-job-facts.js",
+      "sha256": "d9da994d9a03c749ee7faf805f96c74862ee1345bd3c8477ed60ed2e1a1afee2"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/bronze-job-generation.js",
+      "sha256": "014a2f7a554379570f81fa318c4a38e4c0a1f33b69f37eac0966dd98d9c7887d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/bronze-job-records.js",
+      "sha256": "414858d89a5f699c0e0e39bdcd240b1aa5f5e2001b979a8efff0dbb7ad5ca6b6"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v22.js",
+      "sha256": "9336ba04da0feefac04823a9eb481b1009f1f614e25086651751935a8c99e783"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-registry-v22.js",
+      "sha256": "c9a8c87e8852791ec97d5fd072294b93903e2382fefc225cd356155709378bd3"
     }
   ],
   "functionBodies": [
@@ -519,5 +559,6 @@
   },
   "chapterWorkPredecessorBaselineCommit": "659bfe78ecb9708b775573af3501d4f68f6c0c51",
   "steelMeaniesPredecessorBaselineCommit": "c98a8152088875ab7d412ba75c493295ab66e103",
-  "bronzeJobsPredecessorBaselineCommit": "77ee7640810d20974e707c67f477206e1edae1b6"
+  "bronzeJobsPredecessorBaselineCommit": "77ee7640810d20974e707c67f477206e1edae1b6",
+  "moveLearningPredecessorBaselineCommit": "961cb987ef18bb6715f4f54a4711fbf8a04cf282"
 }

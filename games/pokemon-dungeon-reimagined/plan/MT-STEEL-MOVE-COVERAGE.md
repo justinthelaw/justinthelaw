@@ -55,6 +55,21 @@ partial regular-attack policy; it does not pretend to use unsupported moves.
 | pokemon-300 | tackle, growl, tail-whip, feint-attack, attract | sing, double-slap, assist, charm, covet, heal-bell, double-edge |
 
 Full release requires native movement and partner move/item selection, the listed
-missing effect families, learning/replacement/linking UI and their exact state/
-interruption rules. Mt. Steel wild AI admission is scoped to its fully closed
+missing effect families, native linking/reordering services and their exact state/
+interruption rules. Persisted native learning/replacement is the bounded v23
+prerequisite recorded in MOVE-LEARNING.md; human interruption evidence is open. Mt. Steel wild AI admission is scoped to its fully closed
 encounter profiles; that staging boundary does not reduce original game scope.
+
+## Source move acquisition versus effect readiness
+
+V23 retains every source-selected level candidate, including ordinary work levels
+beyond this finite effect table. Automatic compact free-slot acquisition and real
+four-slot replace/decline choices preserve source PP/link resources; no supported-
+effect filter or default decline is applied. The selected linked tail is explicitly
+confirmed. Canonical permanent/session possession does not authorize an absent
+effect consumer: manual use remains content-blocked and native wild selection
+retains its entire-profile guard. Existing team regular-attack AI remains partial;
+it is not native learned-move selection. Internal inherited slot gaps are a
+separate exact layout-owner gate, with unchanged authenticated resources and
+atomic growth rollback. These acquisition/state/UI owners do not complete the
+missing effects listed above or full P14/P17/P18 acceptance.

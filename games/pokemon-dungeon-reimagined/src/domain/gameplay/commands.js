@@ -1,3 +1,4 @@
+import { learningHandler } from './native-learning.js';
 import { refreshSteelMeaniesBoard as refreshFriendJobBoard } from './steel-meanies-mail.js';
 import { friendHandler, friendsGroundReady, moveFriendsGround } from './friends.js';
 import { leaderInputReady, automaticTurnReady } from '../turns/readiness.js';
@@ -14,7 +15,7 @@ import { canThrowItems, THROWABLE_ITEMS, throwCategory } from './throws.js';
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { canMeleeAttack } from '../navigation/geometry.js';
 import { movementPlan } from './movement.js';
-import { admission, enterOpening } from './expedition.js';
+import { admission, enterOpening, settleExpedition } from './expedition.js';
 import { sceneHandler, nameHandler, morningHandler } from './scenes.js';
 import { supportedMove } from './combat.js';
 import { facing, navActor, navigationContext, FACINGS } from './support.js';
@@ -81,7 +82,15 @@ export function createCommandHandlers(catalogs, authored, tutorialSaved) {
     }
     return { kind: 'rejected', reason: 'invalid-command' };
   } };
-  return { friendAction: friendHandler(catalogs, authored), steelRewardChoice: steelRewardHandler(authored), ...work, ...townHandlers(catalogs, authored), beginMorning: morningHandler(authored), submitSceneName: nameHandler(authored), ackScene: sceneHandler(authored, catalogs, tutorialSaved), move: { plan(state,intent) { return intent.type === 'move' && friendsGroundReady(state) ? { kind: 'mutation' } : dungeonAction.plan(state,intent); }, apply(context,intent) { return intent.type === 'move' && moveFriendsGround(context,authored,intent.dx,intent.dz) ? { kind: 'changed', resumeDungeon: false } : { kind: 'rejected', reason: 'unavailable' }; } }, wait: dungeonAction, attack: { plan(state, intent) { return intent.type === 'attack' && facingJobClient(state, catalogs) ? { kind: 'mutation' } : dungeonAction.plan(state, intent); }, apply(context) { return work.workAction?.apply?.(context, { type: 'workAction', order: { kind: 'client-talk' } }) ?? { kind: 'rejected', reason: 'unavailable' }; } }, useMove: dungeonAction, setMove: setMoveHandler, useItem: dungeonAction, throwItem: dungeonAction, equipItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
+  const scene = sceneHandler(authored,catalogs,tutorialSaved);
+  const learning = learningHandler(catalogs,(context,origin) => {
+    if (origin.kind === 'scene') return scene.apply?.(context,{ type: 'ackScene',sceneId: origin.sceneId,sceneInstanceId: origin.sceneInstanceId,cursor: origin.cursor,revision: context.state.revision,optionId: null }) ?? { kind: 'rejected',reason: 'unavailable' };
+    if (origin.kind === 'settlement') { settleExpedition(context,origin.outcome,catalogs,authored); return { kind: 'changed',resumeDungeon: false }; }
+    return { kind: 'changed',resumeDungeon: true };
+  });
+  const reward = work.ackResult;
+  const ackResult = { plan: (/** @type {Parameters<typeof learning.plan>[0]} */ state,/** @type {Parameters<typeof learning.plan>[1]} */ intent) => state.pendingResult?.kind === 'move-learn-choice' ? learning.plan(state,intent) : reward?.plan(state,intent) ?? { kind: /** @type {const} */ ('rejected'),reason: 'unavailable' },apply: (/** @type {import('../turns/types.js').MutationContext} */ context,/** @type {import('../turns/types.js').Intent} */ intent) => context.state.pendingResult?.kind === 'move-learn-choice' ? learning.apply?.(context,intent) ?? { kind: /** @type {const} */ ('rejected'),reason: 'unavailable' } : reward?.apply?.(context,intent) ?? { kind: /** @type {const} */ ('rejected'),reason: 'unavailable' } };
+  return { friendAction: friendHandler(catalogs, authored), steelRewardChoice: steelRewardHandler(authored), ...work,ackResult, ...townHandlers(catalogs, authored), beginMorning: morningHandler(authored), submitSceneName: nameHandler(authored), ackScene: scene, move: { plan(state,intent) { return intent.type === 'move' && friendsGroundReady(state) ? { kind: 'mutation' } : dungeonAction.plan(state,intent); }, apply(context,intent) { return intent.type === 'move' && moveFriendsGround(context,authored,intent.dx,intent.dz) ? { kind: 'changed', resumeDungeon: false } : { kind: 'rejected', reason: 'unavailable' }; } }, wait: dungeonAction, attack: { plan(state, intent) { return intent.type === 'attack' && facingJobClient(state, catalogs) ? { kind: 'mutation' } : dungeonAction.plan(state, intent); }, apply(context) { return work.workAction?.apply?.(context, { type: 'workAction', order: { kind: 'client-talk' } }) ?? { kind: 'rejected', reason: 'unavailable' }; } }, useMove: dungeonAction, setMove: setMoveHandler, useItem: dungeonAction, throwItem: dungeonAction, equipItem: dungeonAction, useStairs: dungeonAction, giveUp: dungeonAction,
     presentation: { plan: () => ({ kind: 'presentation' }) },
     advance: { plan: state => automaticTurnReady(state) ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' }, apply: () => ({ kind: 'changed', resumeDungeon: true }) },
     enterDungeon: { plan(state, intent) { if (intent.type !== 'enterDungeon' || !['tiny-woods', T.dungeonId, STEEL.dungeonId].includes(intent.dungeonId)) return { kind: 'content-blocked', requirement: 'dungeon-entry-not-supported' }; const reason = admission(catalogs, state, intent.dungeonId); return reason ? { kind: 'content-blocked', requirement: reason } : { kind: 'mutation' }; }, apply(context, intent) { if (intent.type !== 'enterDungeon') return { kind: 'rejected', reason: 'invalid-command' }; if (intent.dungeonId === STEEL.dungeonId && !workReady(context.state)) { beginSteelTravel(context, authored); return { kind: 'changed', resumeDungeon: false }; } const ordinary = workReady(context.state); if (ordinary && context.state.earlyWork) (context.state.friends ? refreshFriendJobBoard : refreshJobBoard)(context.state, context.state.earlyWork); enterOpening(context, catalogs, authored, intent.dungeonId, ordinary); return { kind: 'changed', resumeDungeon: true }; } },

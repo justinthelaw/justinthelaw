@@ -1,5 +1,4 @@
-import { recordsContinuation as recordsV21Continuation } from './continuation-registry-v21.js';
-import { BRONZE_JOBS_REVISION } from './bronze-jobs-revision.js';
-/** Only exact complete trusted revisions own the unchanged continuation shapes.
- * @param {string} revision */
-export const recordsContinuation = revision => recordsV21Continuation(revision) || revision === BRONZE_JOBS_REVISION;
+import { recordsContinuation as prior } from './continuation-registry-v22.js';
+import { MOVE_LEARNING_REVISION } from './move-learning-revision.js';
+/** Exact successor; frozen v22 recognizes every original identity. @param {string} revision */
+export const recordsContinuation = revision => prior(revision) || revision === MOVE_LEARNING_REVISION;
