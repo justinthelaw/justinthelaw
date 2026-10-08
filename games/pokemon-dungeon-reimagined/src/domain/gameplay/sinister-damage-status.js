@@ -1,7 +1,7 @@
 import { DIRECTIONS } from '../navigation/geometry.js';
 import { activeActors } from './move-targets.js';
 import { inflictBurn } from './damage-status.js';
-import { inflictParalysis, refreshSpeed, statusTurns } from './conditions.js';
+import { inflictParalysis, statusTurns } from './conditions.js';
 import { moveConditionSource, secondaryAllowed } from './move-conditions.js';
 import { hasHeldItem } from './held-effects.js';
 import { SINISTER_EFFECT_POLICY, releaseSinisterWrap } from './sinister-condition-lifecycle.js';
@@ -18,7 +18,7 @@ export function inflictSinisterPoison(context, target, source, catalogs) {
   const session = context.state.session;
   if (!session || target.placement.kind !== 'map' || target.resources.hp <= 0 || target.conditions.reflect?.statusId === 'safeguard' || hasHeldItem(context.state, target, 'item-pecha-scarf') || ability(target, catalogs, 'Immunity') || profile(target.identity, catalogs).typeIds.some(id => id === 8 || id === 17) || ['poisoned', 'badly-poisoned'].includes(target.conditions.burn?.statusId ?? '')) return false;
   target.conditions.burn = { statusId: 'poisoned', source, duration: { kind: 'counter', policyId: SINISTER_EFFECT_POLICY, remaining: statusTurns(context, target, 127, 127, catalogs) + 1 }, periodicCountdown: 0, payload: { kind: 'none' } };
-  refreshSpeed(target, catalogs); context.emit({ type: 'conditionChanged', actorId: target.actorId }); context.emit({ type: 'message', messageId: 'poisoned-status' });
+  context.emit({ type: 'conditionChanged', actorId: target.actorId }); context.emit({ type: 'message', messageId: 'poisoned-status' });
   if (ability(target, catalogs, 'Synchronize')) {
     const position = target.placement.position;
     for (const d of DIRECTIONS) {

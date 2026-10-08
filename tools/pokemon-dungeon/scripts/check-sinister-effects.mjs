@@ -20,6 +20,20 @@ const moduleNames = ['sinister-combat', 'sinister-move-effects', 'sinister-damag
 const sources = new Map();
 for (const name of moduleNames) { const source = await read(base + name + '.js'); parse(source, { ecmaVersion: 'latest', sourceType: 'module' }); sources.set(name, source); }
 const primary = sources.get('sinister-move-effects'), secondary = sources.get('sinister-damage-status'), lifecycle = sources.get('sinister-condition-lifecycle'), combat = sources.get('sinister-combat');
+// SINISTER-POISON-R001: native PoisonedStatusTarget replaces Paralysis without
+// CalcSpeedStage. Preserve the actual stale cache until its later source owner.
+function poisonCacheTiming(source) {
+  const ast = parse(source,{ecmaVersion:'latest',sourceType:'module'});
+  const node = ast.body.find(row => row.type === 'ExportNamedDeclaration' && row.declaration?.type === 'FunctionDeclaration' && row.declaration.id.name === 'inflictSinisterPoison')?.declaration;
+  assert.ok(node);
+  const body = source.slice(node.start,node.end);
+  assert.ok(body.includes("target.conditions.burn = { statusId: 'poisoned'"));
+  assert.ok(!/refreshSpeed|CalcSpeedStage|target\.speed/.test(body),'Poison does not refresh or rewrite the cached speed');
+}
+poisonCacheTiming(secondary);
+assert.throws(() => poisonCacheTiming(secondary.replace("  target.conditions.burn = { statusId: 'poisoned'", "  refreshSpeed(target, catalogs);\n  target.conditions.burn = { statusId: 'poisoned'")));
+const priorPoison = secondary.replace('inflictParalysis, statusTurns','inflictParalysis, refreshSpeed, statusTurns').replace("  context.emit({ type: 'conditionChanged', actorId: target.actorId }); context.emit({ type: 'message', messageId: 'poisoned-status' });", "  refreshSpeed(target, catalogs); context.emit({ type: 'conditionChanged', actorId: target.actorId }); context.emit({ type: 'message', messageId: 'poisoned-status' });");
+assert.equal(createHash('sha256').update(priorPoison).digest('hex'),'cfd5f3dbbcbf70e9ca488d27c35d6c6b9ad1aaaa12dcc6f6f0d66ed86689a285','Only poison cache refresh/import differ from accepted3fc leaf');
 for (const row of facts.moves) {
   const source = row.consumer === 'damage-secondary' ? secondary : row.consumer === 'multi-hit' ? combat : primary;
   assert.ok(source.includes(`'${row.moveId}'`), `Missing consumer ${row.moveId}`);
@@ -58,6 +72,8 @@ const nativeIndex = process.argv.indexOf('--native-root');
 if (nativeIndex !== -1) {
   const nativeRoot = process.argv[nativeIndex + 1]; assert.ok(nativeRoot, 'Supply native checkout path.');
   assert.equal(execFileSync('git', ['rev-parse', 'HEAD'], { cwd: nativeRoot, encoding: 'utf8' }).trim(), facts.commit);
+  const poisonNative = execFileSync('git',['show',`${facts.commit}:src/move_orb_effects_1.c`],{cwd:nativeRoot,encoding:'utf8'}).split('void PoisonedStatusTarget(')[1]?.split('\nvoid ')[0];
+  assert.ok(poisonNative && poisonNative.includes('STATUS_POISONED') && !poisonNative.includes('CalcSpeedStage'), 'Pinned native poison owner has no immediate speed refresh');
   for (const record of facts.sourceFiles) {
     const bytes = execFileSync('git', ['show', `${facts.commit}:${record.path}`], { cwd: nativeRoot, maxBuffer: 16 * 1024 * 1024 });
     assert.equal(createHash('sha256').update(bytes).digest('hex'), record.sha256, record.path);

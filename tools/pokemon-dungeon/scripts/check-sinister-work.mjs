@@ -10,11 +10,11 @@ const pins = {
   'damage-status':'67cd92f28082b2b224d910257e81eff2af84ece48c6c03dbe5341f7c5def5ed3',
   'sinister-combat':'b8922cc86630255c32f686ab747c16cacddcf2e329c68b0825d31db770893536',
   'sinister-condition-lifecycle':'a68e989698963354669ee1bd981f0836dff536dd44239883773f0dd4f3e95933',
-  'sinister-damage-status':'cfd5f3dbbcbf70e9ca488d27c35d6c6b9ad1aaaa12dcc6f6f0d66ed86689a285',
+  'sinister-damage-status':'ab849a0b33e2ff155c8d3a4dae5cdf26bd48239e9b23c2cb643af1b8286e2533',
   'sinister-move-effects':'677aac33c974117a537d4ac7a0cf0cd46d88763477a0c6bec0c81c19c481bc73',
 };
-for (const [name,hash] of Object.entries(pins)) assert.equal(createHash('sha256').update(await read(`src/domain/gameplay/${name}.js`)).digest('hex'),hash,`Exact accepted 3fc0834 effect leaf ${name}`);
-const names = ['domain/state/sinister-work-schema','domain/state/sinister-work-revision','domain/state/sinister-turn-proof','domain/gameplay/sinister-turn-work','domain/turns/sinister-engine','domain/turns/sinister-advance'];
+for (const [name,hash] of Object.entries(pins)) assert.equal(createHash('sha256').update(await read(`src/domain/gameplay/${name}.js`)).digest('hex'),hash,`Accepted 3fc0834 leaf plus reviewed poison speed-timing correction ${name}`);
+const names = ['domain/state/sinister-work-schema','domain/state/sinister-work-revision','domain/state/sinister-turn-proof','domain/gameplay/sinister-turn-work','domain/turns/sinister-engine','domain/turns/sinister-advance','domain/gameplay/sinister-experience','domain/gameplay/sinister-native-learning','domain/state/sinister-award-proof','domain/state/sinister-learning-proof','domain/sinister-adventure','persistence/sinister-codec'];
 const files = new Map();
 for (const name of names) { const source = await read(`src/${name}.js`),ast = parse(source,{ecmaVersion:'latest',sourceType:'module'}); files.set(name.split('/').at(-1),{source,ast}); }
 const source = name => files.get(name).source;
@@ -80,7 +80,7 @@ async function scan(dir) {
     if (!row.name.endsWith('.js')) continue;
     const text = await read(path),ast = parse(text,{ecmaVersion:'latest',sourceType:'module'});
     for (const node of ast.body) if (node.type === 'ImportDeclaration' || node.type === 'ExportNamedDeclaration' || node.type === 'ExportAllDeclaration') {
-      if (/sinister-(?:turn-work|turn-proof|work-schema|work-revision|engine|advance)\.js$/.test(node.source?.value ?? '')) assert.ok(allowed.has(path),`Selected/foreign consumer ${path}`);
+      if (/sinister-(?:turn-work|turn-proof|work-schema|work-revision|engine|advance)\.js$/.test(node.source?.value ?? '')) assert.ok(allowed.has(path) || path === 'src/domain/gameplay/damage-resolution.js' && node.source.value === '../state/sinister-work-revision.js',`Selected/foreign consumer ${path}`);
     }
   }
 }

@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "scope": "unselected-sinister-self-status-and-cure-only",
+  "qualification": "pinned-red-comparative-qualified-browser-RNG-not-blue-binary-or-native-instruction-parity",
+  "baseCommit": "d1ffc1f3d7f5014f1dc1b59f8cee7dd73cdc288c",
+  "nativeCommit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "nativeTree": "3a0dcb371062a672e6c291e6e0bda4314499e985",
+  "acceptedEffects": "3fc0834a560a8481901b3e554e6db6a25f8e04bb",
+  "acceptedItems": "b23f0237835148481f2763775ccd88ab42893a4c",
+  "sourceFiles": [
+    {
+      "path": "src/move_orb_effects_1.c",
+      "blob": "3ea05c97b2a791ca5ecc54e3db574003486b658a",
+      "sha256": "ecf90f999159169a903422a173035958ba448d0a9b9a908ab78e227fa5ddbeb3",
+      "locators": "37-64 shared sleep setter;68-135 CannotSleep;427-514 PoisonedStatusTarget;784-805 token release;1289-1346 paralysis"
+    },
+    {
+      "path": "src/move_orb_effects_2.c",
+      "blob": "d76d3d79ccef310345f387366f84c143cad892c1",
+      "sha256": "487b31d259a9adf18483503bfa47042ff0434aad3fff60dabaeb6d9811220434",
+      "locators": "95-179 HealTargetHP"
+    },
+    {
+      "path": "src/move_orb_effects_5.c",
+      "blob": "a9df558ccc65084fb9a52a5821c49edfa151bf7f",
+      "sha256": "ec500ddc8a2ebcdf85451fb313781d3e8ae578686b9789cd0a900cd444e9b677",
+      "locators": "44-124 all-cure;151-215 EndSleep(FALSE,FALSE);217-570 ordered class ends"
+    },
+    {
+      "path": "src/dungeon_logic.c",
+      "blob": "4f7fb462ccc2ad2aae25cc693b2e2ea146e5ba6d",
+      "sha256": "662b79a226f4e76a5b7c4e84553477e1e310c28e2483c80b702f4bbe35d9ced9",
+      "locators": "471-510 negative predicate;1179-1202 ignored-status treatment;1204-1215 Safeguard;1263-1291 active abilities/types"
+    },
+    {
+      "path": "src/dungeon_random.c",
+      "blob": "c19a58a19da2b065a14743ac5a6e33e90b2bee46",
+      "sha256": "6f272ba5b0546774c1276b9ace5818e31e67a40eac492c38df34205a9a1ee8f9",
+      "locators": "53-66 half-open RandRange;85-110 CalculateStatusTurns"
+    },
+    {
+      "path": "src/dungeon_config.c",
+      "blob": "89a9e4afbc500742906741f26e2282da21a0d38a",
+      "sha256": "e1d24abb5eab54a2223449c9e5b7e98aba55244e87fadb13c1dd1811b496c21b",
+      "locators": "95 poison127/127;102 paralysis1/2;111 sleep3/7;193 Napping heal999"
+    },
+    {
+      "path": "src/dungeon_move_util.c",
+      "blob": "b6a572284064ef22845238398904febe97b8d8ba",
+      "sha256": "0b69f36c9e8c497acdfef2c06566fe84ccb4549390d53293dc24347e57af9d53",
+      "locators": "233-256 deferred Effect Spore self user/target and range draw"
+    },
+    {
+      "path": "src/dungeon_turn_effects.c",
+      "blob": "1a210520c692f9e24724996ffd98e173b1174e12",
+      "sha256": "537b485db77e3b52dd2115fffd6e92f75c5e0adbe3694102ecbd33edc7f4e461",
+      "locators": "179-190 every-actor Shed Skin roll/display/validity/cure"
+    },
+    {
+      "path": "src/dungeon_util.c",
+      "blob": "fcbe9497c21e31e96d1d7d8815fa77a152f0bff6",
+      "sha256": "700a2c7c7f52b71cc463e5e7cb4b7b5c4ec69b7cfd5e4c57dd185e696470b126",
+      "locators": "35-42 valid native entity"
+    },
+    {
+      "path": "src/dungeon_8041AD0.c",
+      "blob": "d7469724e074053c557a8f7c5967ea1b45431242",
+      "sha256": "09abd0f9942cae38b34e61676a20cb61cc4b451e09786ad5a57ad10ac610d0f6",
+      "locators": "360-453 status sprite projection;592-596 poison presentation without speed calculation"
+    },
+    {
+      "path": "include/constants/dungeon.h",
+      "blob": "48e4a9256fc2e5a35fa6e2ea4e2d0d02ff658f93",
+      "sha256": "dbcc8c729ba4df3b8e9edbb67ef5464a3b59d87ba0293f509f0467ccb2f2f8c7",
+      "locators": "119-125 client/base joined-at experience lock"
+    },
+    {
+      "path": "include/constants/status.h",
+      "blob": "7085276f1593f2bc10e0940a4c345b8007b708f0",
+      "sha256": "25335d6d2ba4b02009b1a39fa368b68cd62aa12eb05f147bfd0baf37fef797bc",
+      "locators": "native class/status enum IDs"
+    },
+    {
+      "path": "include/constants/type.h",
+      "blob": "722a9f0ee18b76ff8f550aecfb41ea77e35ce765",
+      "sha256": "9d56a046e511fdc6bb7a9af2af978d7a34aba4cd741ef2d4f7f32ac64ee6ead8",
+      "locators": "Poison8/Steel17"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/conditions.js",
+      "blob": "f04a6aee66c879f3854c89308d6c17dcafb3252e",
+      "sha256": "75e4aafba6d6feaa27fc663b4e1248ff5af54f1d6101711fa8c6c961edc664c6"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/held-effects.js",
+      "blob": "0ec242b0fca9b536b2080566ec5e7d09f1da2272",
+      "sha256": "0f5a94b8b742aeaccd151746262ef221e1ee747a5ca43874a2bd71fb74f37985"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/support.js",
+      "blob": "5f65c61523415f07ffe7c4e0a8799bbcae9b1285",
+      "sha256": "710b9f10cfb8f622f4be832da5c47db8937c7638844a959e9762a64bb37a1d1f"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/speed-context.js",
+      "blob": "8e98df43ffa6d7054c3d34371aad48d2de7d02b0",
+      "sha256": "4012c3f33305e802eee24ce9e69077568e5b896f2c98d019a73b2aeced1789e7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/rules/speed.js",
+      "blob": "d44478ad7336b0eeb87679b3a925a0fc878c8b09",
+      "sha256": "d52e7aacd14c11233886da74b6330cab3ce9d17d2968894d6a60d5b40169f7ea"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/move-targets.js",
+      "blob": "d39a82f22330af7beaf83ec588a6b66364615562",
+      "sha256": "85ea6fecc85da9511425350b9baee283ea046ce5dc79f8d457bea33a44f96428"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/navigation/geometry.js",
+      "blob": "560afcbec6dc6554ccb96a72bc7db3510e093b0a",
+      "sha256": "c4d0846f39ec8ad8d65b0a4600f1028d105e6b290a28aa632917d847eb7de0a7"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/sinister-condition-lifecycle.js",
+      "blob": "2422307568e6abf75817a4003d3cafac1ee21503",
+      "sha256": "a68e989698963354669ee1bd981f0836dff536dd44239883773f0dd4f3e95933"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/turns/types.js",
+      "blob": "c594abb3c9430a7acc18b7ea9f3a7e72e1a45b21",
+      "sha256": "9d23132fc75397dabdd26d8780b1224aaaca0dcaf64bbe2e0394c5c2fd30822d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/contracts/campaign.js",
+      "blob": "c2e61b5aa928ad75271b4d063acf2436c67a93cc",
+      "sha256": "7103d94f33959233a70e8d7dd5da840ac22baf5538a958217f5bc45e8714f13a"
+    }
+  ],
+  "itemInterfaces": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/sinister-abilities.js",
+      "blob": "a628f6d2fb8c4b6c9effeacdce9350b5ba0d44f5",
+      "sha256": "9632b8e0239be98359c5ab1081e13a775607bdd6b9230baddb3017a69c627d17"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/sinister-item-contracts.js",
+      "blob": "650119102ce67e02679aaa9d66b03d463cafdd58",
+      "sha256": "417875dac4d69ab37aa3a5fd02a067c1150bb50db114a51a8740eb69a990ea52"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/plan/SINISTER-ITEMS-ABILITIES.md",
+      "blob": "4aad05a9aea05c678f08b7e1038043ed4631299d",
+      "sha256": "91758d7eb668955fc4580aa8f52f9ffa7fc34f3be29ea79eff65d5c99b289142"
+    }
+  ],
+  "bounds": {
+    "liveActors": 132,
+    "adjacentDirections": 8,
+    "affliction": {
+      "calls": 1057,
+      "C": 132,
+      "K": 1189,
+      "total": 1321,
+      "paralysisDurationDraws": 132,
+      "poisonDurationDraws": 0
+    },
+    "sleep": {
+      "C": 1,
+      "K": 1,
+      "additionalDraws": 0
+    },
+    "cure": {
+      "recipientC": 14,
+      "reciprocalC": 1,
+      "K": 14,
+      "total": 29,
+      "draws": 0
+    },
+    "allRecipientCures": {
+      "C": 1980,
+      "K": 1848,
+      "total": 3828
+    }
+  },
+  "integrationTypeOverlays": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/turns/types.js",
+      "currentCommit": "de34e78747f94f23f680304ec4020869b3aa34d4",
+      "currentBlob": "bd2f6dee2bb18b179ce73379e77b31e64c96ed19",
+      "currentSha256": "0e44fab8f3307f76c429ecf848c14dff06631e7a39835d10661188e12bc724ba",
+      "insertedText": " | {type:'setAudioPreferences',audio:import('../../audio/types.js').AudioPreferences}",
+      "qualification": "one accepted current-audio Intent typedef alternative; removal reconstructs exact original dependency; executable module body unchanged"
+    }
+  ]
+}

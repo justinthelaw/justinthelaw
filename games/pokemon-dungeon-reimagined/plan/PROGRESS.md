@@ -1733,3 +1733,60 @@ seven work PCs, audio and current escort audits pass. Independent integration
 review and whole-repository delivery verification follow this isolated commit.
 The current route still stops at MAIN5,9; this prerequisite does not select v25,
 prove complete composed notification bounds or imply game/manual completion.
+
+## Direct prospective Sinister award and learning owner
+
+Added actual impact preparation/hit evidence to newly credited v25 awards, exact
+new-only shape/source proof, and direct one-recipient growth/choice/return work.
+The original shared damage path and native growth body remain authenticated;
+only the explicit unselected revision branch selects new awards. Actual forgetting
+removes only retired LAST_USED slots. Old v24 prompts/guests/awards retain their
+genuine owner until return, with no retrofit. See [saved work](SINISTER-WORK.md).
+
+Static source/type/frozen and new ownership audits accompany the checkpoint;
+no game modules run. Full raw factory, original-envelope conversion, cache/spawn,
+conditions/abilities, exact terminal scene/settlement and current caller selection
+remain the next package. This learning prerequisite does not activate Sinister
+or establish final composed event bounds or full-game/manual acceptance.
+
+## Prospective Sinister retained campaign history
+
+Added an unselected direct historical owner through the genuine Caterpie request:
+actual receipt/day/claim joins preserve both complete final batches and the
+original acquisition prefix while later state stays visible. Four accepted
+receipt bodies remain exact; original factories and envelope pins are unchanged.
+Source/AST checks include five negative source regressions and prohibit selected
+consumers or input mutation. Whole factory, entry/spawn, native end counters and
+actual caller integration remain in progress. Newly verified Synchronize output
+costs invalidate using the earlier conditional4018/2908 sums as a composed bound;
+see [the source work qualification](SINISTER-WORK.md). No game code executed.
+
+## Current audio campaign: reviewed Sinister prerequisites composed
+
+Composed the accepted source-paid learning and direct actual historical receipt
+owners with the current v24/audio campaign, plus exact status/cure adapters and
+reviewed poison speed-cache timing correction. Current v24 factory, codec,
+registry, route and caller selection remain their actual current owners. The
+prospective source award seam is gated on the real v25 session; no active old save
+is retagged or supplied new counters. Historical admission remains115 pins,
+14 predecessor bodies and two factual resources. Whole future revision-family,
+raw factory, real entry/spawn/cache history, full native end/contact owners and
+composed4096-output bounds are still required before live Sinister selection.
+
+The preceding core checkpoint24c401b2 passed all seven hosted checks, including
+website fixtures and CodeQL. This new integration needs its own full independent
+review and static/Pages/controller verification; no gameplay acceptance follows
+from source checks. The old unconditional poison speed refresh is superseded by
+native-qualified timing: replacing paralysis with poison preserves the real
+cached speed until a later source refresh. No game modules executed.
+
+## Unselected genuine revision routing
+
+Added separate Adventure/codec leaves for exact v24/v25 ownership. Active old
+sessions retain their genuine factory/turns and original-envelope admission;
+only a real settled MAIN5,9 Sinister departure may commit the forward transition,
+which yields before successor turns. Exact6ec codec/Adventure bytes and all
+non-routing transaction statements are source-authenticated. Selected binding,
+repository, factory and departure remain unmodified pending full composition and
+review. Static source audits cover six negative routing regressions; no game
+code executes. See [revision routing](SINISTER-WORK.md).

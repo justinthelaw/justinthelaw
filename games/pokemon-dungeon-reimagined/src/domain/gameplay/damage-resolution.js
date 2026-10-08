@@ -1,3 +1,5 @@
+import { SINISTER_WORK_REVISION } from '../state/sinister-work-revision.js';
+import { creditSinisterDefeat } from './sinister-experience.js';
 import { ESCORT_WORK_REVISION } from '../state/escort-work-revision.js';
 import { removeUnrevivedEscort } from './escort-lifecycle.js';
 import { MOVE_LEARNING_REVISION } from '../state/move-learning-revision.js';
@@ -43,7 +45,8 @@ export function finishDamage(context, target, catalogs, attacker, giveExperience
     // R CalculateEXPGain and dungeon_damage.c: half credit until a move hits.
     const p = profile(target.identity, catalogs); const base = p.experienceYield + Math.trunc(p.experienceYield * (target.growth.level - 1) / 10);
     const xp = Math.max(1, target.memory.experienceContributors.length ? base : Math.trunc(base / 2));
-    for (const id of giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile' ? session.teamOrder : []) {
+    if (context.state.contentRevision === SINISTER_WORK_REVISION && giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile') creditSinisterDefeat(context,target,attacker,catalogs);
+    for (const id of context.state.contentRevision === SINISTER_WORK_REVISION ? [] : giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile' ? session.teamOrder : []) {
       const actor = session.actors[id]; if (!actor) continue;
       if (context.state.contentRevision === MOVE_LEARNING_REVISION || context.state.contentRevision === ESCORT_WORK_REVISION) {
         if (context.state.contentRevision === ESCORT_WORK_REVISION && actor.binding.kind === 'escort-guest') continue;
