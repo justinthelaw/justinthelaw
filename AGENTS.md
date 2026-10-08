@@ -292,6 +292,13 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Pokémon Dungeon Reimagined execution and release gates
 
+Justin subsequently instructed "Push to main, delete all other branches" on
+2026-10-08, explicitly authorizing this opening MVP's merge and Pages publication.
+PR #392 merged as `7665c20`; all 42 non-main remote branches were deleted after
+recording their commit SHAs. This scoped publication does not complete the
+campaign or human acceptance gates below. Fix confirmed MVP startup blockers
+within this authorized release; keep canonical save schemas and D05 unchanged.
+
 On 2026-10-08, Justin requested autonomous continuation of PR #392, parallel
 work, frequent verified pushes, and preparation of a playable Pages MVP.
 Prioritize the existing opening through MAIN(5,9), its controls, recovery and

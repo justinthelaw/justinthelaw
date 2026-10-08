@@ -2,6 +2,13 @@
 
 ## Current status: opening implemented; full campaign acceptance pending
 
+Justin's later 2026-10-08 instruction "Push to main, delete all other branches"
+authorized this opening MVP's merge and Pages publication. PR #392 merged as
+`7665c20`; only `main` remains after preserving branch commit SHAs. Confirmed
+MVP startup blockers remain within this release authorization. Full-campaign,
+human play/device and visual acceptance remain separate; D05 still prohibits
+automated game-source execution and playthroughs.
+
 The 2026-10-08 continuation instruction prioritizes a playable development MVP
 from the existing selected opening through MAIN(5,9), frequent verified pushes,
 and parallel work. Preserve later unpublished packages, the full campaign goal,

@@ -1,5 +1,31 @@
 # Pokémon Dungeon Reimagined progress and decisions
 
+## Opening MVP publication and startup repair — 2026-10-08
+
+- Justin explicitly instructed "Push to main, delete all other branches".
+  PR #392 merged as `7665c20`; all 42 non-main remote branches were deleted
+  after recording their exact heads. The complete-game acceptance remains open.
+- [Pages release](https://github.com/justinthelaw/justinthelaw/actions/runs/37840500289)
+  succeeded: 354 website fixture checks passed, 21 conditional skips. A live
+  HTTP audit found 24 URLs available and 22 game files identical to the commit.
+- Live visual startup exposed `Original attack variants changed.` The
+  prospective Sinister schema is imported by existing proof dependencies, even
+  though its factory remains unselected. Its guard counted three attack objects
+  while the canonical schema groups `attack` and `struggle` in one object.
+- Select canonical attack objects by literal or union-of-literal tags and
+  verify the three unique action tags. Keep those original objects intact;
+  canonical schema, save revisions and selected campaign scope do not change.
+- Validation: pinned `npm@12.2.0 --prefix tools/pokemon-dungeon run check`
+  passed all static stages, including 490 linted files, 390 typed files and the
+  419-profile asset inventory. Independent scope and quality review approved
+  the fix and found no further import-time Sinister schema mismatch.
+- Both pre-commit stages passed. `flight-check` passed lint, website types,
+  production build and game export; its browser installation failed on a
+  truncated official Chromium ZIP before fixtures ran. Exact-head deployment
+  CI owns the pending website fixture result; live startup follows deployment.
+- Human campaign, device, save-interruption and visual acceptance remain open.
+  No automated game test or playthrough is introduced.
+
 ## Opening MVP continuation — 2026-10-08
 
 - Justin requested autonomous continuation, parallel work, frequent verified
