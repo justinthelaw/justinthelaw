@@ -229,3 +229,17 @@ guest admission, first-free-four/body6 failure and temporary native identity/IQ2
 Preparation is not a canonical/saved guest. Do not activate it before exact slot/
 actor/container/archive/RNG proof and native placement/AI/loss/cleanup closure;
 do not skip roster draws or let rejection evict selected members.
+
+Prospective native-escort-actor creates a real distinct escort-guest team actor,
+unique full-PP move slots and reciprocal empty held container directly from
+qualified preparation, with no extra RNG or permanent roster record. Its exact
+separate shapes and fresh construction proof do not admit current/historical
+saves. Preserve atomic source entry/slot/general/mutable lifecycle/learning proof
+responsibilities before any live constructor call or campaign activation.
+
+Fresh escort construction must use bounded detached exact raw shapes and the
+actual ordered generated allocation receipt/global mark before comparing source
+defaults. Keep the supplied detached native before/after Hidden Power witness in
+the return owner and independently replay it in the proof. Require a canonically
+validated input draft and disjoint fresh numeric identities; reciprocal equality
+or an in-range pair alone is insufficient. Later saved lifecycle remains separate.

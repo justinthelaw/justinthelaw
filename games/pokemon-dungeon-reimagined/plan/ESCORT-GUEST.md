@@ -105,3 +105,41 @@ slot ownership and ML-R003 foreign-pass corrections; its reviewed tree is local
 c2e1f700. This is scoped prerequisite review, with human/device/visual/interrupted
 save, Blue parity and full campaign/release acceptance still pending.
 The general-RNG and entry-preparation prerequisites need their own scoped review.
+
+## Prospective temporary actor construction
+
+The separate native-escort-actor constructor now allocates a genuine
+`escort-guest` team actor with unique real move slots/full source PP and one
+empty reciprocal actor-held container. It directly constructs the actor from
+the19 qualified source rows; it never invokes hostile/default growth construction
+or consumes a browser/general RNG stream. It validates/detaches complete
+preparation data, catalog species/form/PP and source Hidden Power pre/post witness
+before any allocation, then proves its actual clean entry resources. It does
+not create a permanent roster/recruit/area record or guest item archive. Source
+Hidden Power is retained in the separate native entry witness; none of these19
+level1 moves is Hidden Power and this does not invent an old unsupported TypeId
+namespace. Placement/slot/general adoption/entry history and mutable lifecycle
+remain the successor caller's atomic responsibility.
+
+Prospective types and exact EscortGuestActor/EscortGuestEntry shapes are separate:
+no current/historical registry or factory selects them, and no live entry calls
+the constructor. It returns actor+baseline after an independent fresh-construction
+proof. This proof is intentionally only for initial entry, not admission of later
+mutable saved actors, EXP sources, learned resources or casualty PCs. Activation
+remains held while those complete raw owners and native AI/movement/Pickup/loss/
+objective/cleanup/second interval/event-bound joins are implemented. Source is
+available; remaining work is implementation/integration/proof/review.
+
+The fresh-construction proof now copies a bounded whole raw record and inspects
+its exact EscortGuestActor/Entry/ItemContainer/preparation/allocation shapes
+before source comparisons. Generated identity kinds and numeric ownership are
+distinct; actual ordered move/actor/container allocation witnesses bind captured
+beforeNext to the actual after mark. The constructor requires an already validated
+canonical draft, whose older IDs are below beforeNext; the fresh interval is
+disjoint from supplied map/session/request references. Five positive and negative
+speed timers are required, so missing/extra fields and empty arrays cannot pass
+clean-default predicates. Returned construction witness retains the detached
+qualified preparation; the independent proof replays its native before/after
+Hidden Power conversion and compares the actual entry pair. This still is an
+initial construction proof, with saved general lifetime/native slot/lifecycle/
+learning and campaign activation owned by the later exact successor.

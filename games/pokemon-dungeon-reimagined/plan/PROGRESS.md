@@ -1583,3 +1583,12 @@ Its0 events leave burst proof/4096 unchanged. Live exact v23/MAIN5,7 remains hel
 native placement/AI/loss/cleanup, actual saved seed/guest/turn ownership and complete
 second work/Caterpie remain next. Scope/preservation/static evidence and commit(s)
 are in ignored escort-report.md; no game/native execution, tests or playthrough.
+
+Escort actor construction prerequisite: genuine distinct temporary team actor,
+source level1/EXP0/stats/fullPP/IQ26/default tactics, allocated real slots and
+empty reciprocal held container, detached input/catalog/Hidden Power witness
+preflight and independent clean construction proof implemented. Separate typed
+exact shapes remain unselected; live v23 and MAIN5,7 still held. Saved guest raw
+learning/lifecycle/source frames, native placement/AI/movement/Pickup/loss/cleanup
+and second interval/Caterpie integration continue; no absent-source blocker,
+game execution or human/Blue/release acceptance.
