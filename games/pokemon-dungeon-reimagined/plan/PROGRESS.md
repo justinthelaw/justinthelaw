@@ -2,6 +2,30 @@
 
 ## Opening MVP publication and startup repair — 2026-10-08
 
+- The first repair deployed as `2075b6a`: all seven PR #394 checks and the
+  [main Pages deployment](https://github.com/justinthelaw/justinthelaw/actions/runs/37843297889)
+  passed, including 354 website fixture checks and 21 conditional skips. The
+  live HTTP audit passed 25 URLs, with 23 game files identical to that commit.
+- Live startup then reached `External move move-struggle`. Startup treated the
+  355 learned-move identities as the complete action namespace, while the
+  reviewed effect inventory contains 356 moves. Static JSON comparison found
+  exactly one difference: original, nonlearned native action 352, Struggle.
+- Startup now adds that exact confirmed identity before effect membership
+  validation. Keep Struggle outside learnsets; retain mandatory membership
+  checks, original catalog bytes/integrity pins and canonical save schemas.
+  No other effect identity is admitted by a generic fallback.
+- Independent static startup-reference audit also found a campaign predicate
+  naming Deoxys without a form. The documented campaign contract means species
+  ownership for absent/null forms, while dungeon/effect/navigation references
+  retain exact profile membership. Use a campaign-only species adapter for
+  that contract; supplied concrete forms still require exact membership.
+  All other external startup catalog joins passed the JSON/reference audit.
+- Second repair validation passed source lint/types, save/source boundaries,
+  authoring content and all six startup catalog static checks. Independent
+  final scope/quality review approved both composition changes. Both hook
+  stages, website lint/types/build and the final byte-matched game export
+  passed; local browser installation again stopped on the truncated official
+  Chromium ZIP. New-head CI and live startup verification remain required.
 - Justin explicitly instructed "Push to main, delete all other branches".
   PR #392 merged as `7665c20`; all 42 non-main remote branches were deleted
   after recording their exact heads. The complete-game acceptance remains open.
