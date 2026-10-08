@@ -243,3 +243,18 @@ defaults. Keep the supplied detached native before/after Hidden Power witness in
 the return owner and independently replay it in the proof. Require a canonically
 validated input draft and disjoint fresh numeric identities; reciprocal equality
 or an in-range pair alone is insufficient. Later saved lifecycle remains separate.
+
+Prospective source guest expedition/AI owners now join source-capped roster entry and genuine four-slot guest lifecycle,
+stairs, Pickup, loss/objective deletion, movement and saved leader history in a
+separate unselected v24 consumer. See plan/ESCORT-GUEST.md for the actual mapping,
+source and preservation qualifications. Do not activate before the full raw
+factory/proofs, true saved EXP recipient yield and second-work/caller joins close;
+the old whole-growth burst can exceed4096 with four roster members.
+
+Prospective saved EXP traversal now has a direct one-recipient consumer and
+separate engine yield, exact source-PC/order/choice/return-marker proof and static
+audit. See plan/ESCORT-CONTINUATION.md. Current source route entry admits at most
+3 roster, plus optional trueguest; conservative4-grower technical capacity remains
+covered for future genuine joining. Preserve the fixed4096 event cap, original
+v23 learning/source/envelope owners, and current live hold until complete actual
+raw factory/caller/terminal scene composition and bound review close.

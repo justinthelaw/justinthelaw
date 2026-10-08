@@ -143,3 +143,53 @@ qualified preparation; the independent proof replays its native before/after
 Hidden Power conversion and compares the actual entry pair. This still is an
 initial construction proof, with saved general lifetime/native slot/lifecycle/
 learning and campaign activation owned by the later exact successor.
+
+## Prospective escort expedition and source AI checkpoint
+
+The separate v24 owner now stages actual source-admitted roster members (current ordinary cap3) and the first
+native escort, constructs the real first-free guest slot, places the party with
+the native first-sentinel121-offset priority, preserves four slots across stairs,
+and owns canonical floor Pickup including general-RNG Gravelerock quantities.
+The source recipient remains independent of the client. Objective deletion keeps
+actual before-actors/floor/leader input receipts, resets the native join location,
+and removes both slots without damage/EXP/drop. Faint arbitration keeps existing
+Reviver-before-drop priority and records irreversible guest loss. The direct
+learning draft keeps the guest in real traversal while XP lock excludes growth.
+
+Native guest AI now owns candidate-before-target draws, exhausted selected moves,
+source facing order, Blinker/cross-eyed status branches, leader follow/remembered
+positions, x-major room-exit lists, corridor terrain masks, and Run Away tie/exit
+selection. Saved four-position team history uses native placement reset and walk
+shifting, including Invisible's slot0 rule. Browser DungeonRand calls use saved
+xoshiro upper16 scaling; general state remains the explicit prospective source
+seed/conversion/Pickup owner. Neither mapping claims native full call schedule,
+historical reconstruction or Blue binary parity. Source movement itself records
+an incomplete Blue match. `escort-work:check` parses these owners and24 complete
+native pins without evaluating game modules.
+
+This checkpoint remains unselected. Complete raw successor callbacks, actor/AI
+history proofs, original-envelope conversion, actual second-work station/scenes,
+and caller/UI joins must close together. Four roster members also require a real
+saved one-recipient EXP traversal boundary: the old whole-growth bound can exceed
+4096, so the original event proof cannot authorize activation. Current v23 live
+behavior and original factories/shape/resource/body pins remain unchanged. Human
+play, save interruption, visuals and full-campaign release acceptance stay open.
+
+The Pickup draw cap is derived from authenticated `include/items.h`:
+`ITEM_SETS_RANDOM_CAP9999 +1 =10000`. Both actual conditional category/item
+samples use that cap with the source inclusive nonzero thresholds. Earlier
+handoff10001 was corrected during independent source review; no such prospective
+checkpoint was activated or admitted as a save.
+
+The [saved EXP cursor](ESCORT-CONTINUATION.md) now has separate direct consumers,
+exact raw shapes/recipient-PC proofs and a prospective engine hard yield. One
+recipient runs per dispatch; a true choice ACK runs no suffix. Final caller/raw
+factory/scene composition and event proof review remain required before selection.
+
+Native route admission is separate from the four-slot lifecycle: current
+Tiny/Cave/Steel catalog restrictions allow at most3 selected roster members. The
+pinned no-HM source gate clamps maximums above3 before guest join. Admission,
+canonical staging and independent raw entry proof now enforce the actual route
+cap before conversion draws;3 roster plus a genuine guest still occupies4 slots.
+The general pure preparer keeps4 technical slots, and prospective saved growth
+retains its conservative4-grower bound for later genuine joining.

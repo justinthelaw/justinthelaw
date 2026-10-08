@@ -52,7 +52,7 @@ export function protectedItemTarget(actor) {
  * @param {Context} context @param {Actor} target @param {Catalogs} catalogs */
 function canCatch(context, target, catalogs) {
   const session = context.state.session;
-  if (!session || protectedItemTarget(target) || !canTransferHeldItem(target)) return false;
+  if (!session || target.binding.kind === 'escort-guest' || protectedItemTarget(target) || !canTransferHeldItem(target)) return false;
   return target.actorId === session.leaderActorId || !(ability(target, catalogs, 'Run Away') && target.resources.hp < Math.trunc(maxHp(target) / 2) || target.tacticId === 'tactic-get-away' || target.tacticId === 'tactic-avoid-trouble' && target.resources.hp <= Math.trunc(maxHp(target) / 2));
 }
 

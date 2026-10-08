@@ -13,13 +13,13 @@
  * @typedef {{type:'message',messageId:string}|{type:'messageRepeated',messageId:'wonder-tile',count:number}|{type:'pickupChanges',count:number}|{type:'actorMoved',actorId:ActorId,from:import('../../contracts.js').GridPosition,to:import('../../contracts.js').GridPosition}|{type:'attackResolved',actorId:ActorId,targetId:ActorId|null,outcome:'hit'|'miss'|'immune'}|{type:'conditionChanged',actorId:ActorId}|{type:'itemChanged',itemInstanceId:import('../../contracts.js').ItemInstanceId}|{type:'floorChanged',mapId:import('../../contracts/campaign.js').MapId}|{type:'sceneRequested',sceneId:import('../../contracts.js').SceneId}|{type:'objectiveChanged',jobId:import('../../contracts.js').JobId}|{type:'recruitOffered',actorId:ActorId}|{type:'expeditionEnded',outcome:import('../../contracts/campaign.js').FinalOutcome}|{type:'rankChanged',rankPoints:number}} EventData */
 /** @typedef {Readonly<EventData & {eventId:number,revision:number,epoch:symbol}>} Event */
 /** @typedef {{kind:'content-blocked',requirement:string}|{kind:'rejected',reason:'invalid-command'|'unavailable'|'stale'|'busy'|'exhausted'}} Failure */
-/** @typedef {{kind:'continue'}|{kind:'prompt'}|Failure} HookResult */
+/** @typedef {{kind:'continue'}|{kind:'prompt'}|{kind:'yield'}|Failure} HookResult */
 /** @typedef {{kind:'continue',canAct:boolean}|{kind:'prompt',canAct:boolean}|Failure} BeginResult */
 /** @typedef {{kind:'action',action:Action}|{kind:'defer'}|{kind:'replan'}|Failure} DecisionResult */
 /** Each effect step resolves all zero-HP/revival/faint/recruit work synchronously.
  * Cursor prompts return the next effect cursor. A completed terminal learning
  * prompt instead owns the real after/step0 action PC; done never truncates a chain.
- * @typedef {{kind:'continue',cursor:EffectCursor}|{kind:'prompt',cursor:EffectCursor}|{kind:'prompt',completed:true,movement:false,leaderChanged:false,stop:'none'}|{kind:'done',movement:boolean,leaderChanged:boolean,stop:'none'|'recruited'|'effect-stop'}|Failure} EffectResult
+ * @typedef {{kind:'continue',cursor:EffectCursor}|{kind:'prompt',cursor:EffectCursor}|{kind:'prompt',completed:true,movement:false,leaderChanged:false,stop:'none'}|{kind:'yield',completed:true,movement:false,leaderChanged:false,stop:'none'}|{kind:'done',movement:boolean,leaderChanged:boolean,stop:'none'|'recruited'|'effect-stop'}|Failure} EffectResult
  */
 /** @typedef {{state:State,emit(data:EventData):void}} MutationContext */
 /** @typedef {{

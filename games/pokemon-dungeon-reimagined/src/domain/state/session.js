@@ -144,7 +144,7 @@ export function checkSession(context, session, suspended, path) {
     // saved gate. The active namespace must point to its current pending owner.
     if (!suspended) {
       if (scheduler.kind === 'choice-paused') check(context, context.state.pendingResult?.resultId === scheduler.resultId, path, 'Paused turn has no matching result.');
-      else check(context, context.state.pendingScene?.sceneInstanceId === scheduler.sceneInstanceId, path, 'Paused turn has no matching scene.');
+      else check(context, scheduler.kind === 'scene-paused' && context.state.pendingScene?.sceneInstanceId === scheduler.sceneInstanceId, path, 'Paused turn has no matching scene.');
     }
   }
 }

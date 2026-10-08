@@ -1,3 +1,4 @@
+import { placeNativeEscortParty } from './escort-party-placement.js';
 import { selectEncounter } from './encounters.js';
 import { cell, positions, ordinary, reachable } from './support.js';
 /** @typedef {import('./types.js').Position} Position */
@@ -121,8 +122,8 @@ export function placePopulation(map, input, dependencies, rng, finalRecovery = f
     // Party anchors use ordinary connected floor; no actor/item is silently overwritten.
     const candidates = positions(map, (t, x, z) => ordinary(t) && !t.shop && !t.special && component.has(z * 56 + x)).filter(pos => !occupied.has(key(pos)) || key(pos) === key(map.entry ?? pos));
     candidates.sort((a, b) => Math.max(Math.abs(a.x - (map.entry?.x ?? 0)), Math.abs(a.z - (map.entry?.z ?? 0))) - Math.max(Math.abs(b.x - (map.entry?.x ?? 0)), Math.abs(b.z - (map.entry?.z ?? 0))) || key(a) - key(b));
-    const partyPositions = [map.entry, ...candidates.filter(pos => key(pos) !== key(map.entry ?? pos)).slice(0, context.teamSize - 1)];
-    if (partyPositions.length !== context.teamSize)
+    const partyPositions = context.nativeParty ? placeNativeEscortParty(map,context.nativeParty,dependencies,p.tileset) : [map.entry, ...candidates.filter(pos => key(pos) !== key(map.entry ?? pos)).slice(0, context.teamSize - 1)];
+    if (!partyPositions || partyPositions.length !== context.teamSize)
         return null;
     for (const pos of partyPositions)
         occupied.add(key(pos));

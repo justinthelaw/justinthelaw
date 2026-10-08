@@ -1,3 +1,5 @@
+import { ESCORT_WORK_REVISION } from '../state/escort-work-revision.js';
+import { removeUnrevivedEscort } from './escort-lifecycle.js';
 import { MOVE_LEARNING_REVISION } from '../state/move-learning-revision.js';
 import { clearLeechSeedLinks } from './leech-links.js';
 import { interruptPetrifiedSleep } from './status-interruptions.js';
@@ -35,6 +37,7 @@ export function finishDamage(context, target, catalogs, attacker, giveExperience
   if (target.resources.hp === 0) clearLeechSeedLinks(context, target);
   dropFaintedHeldItem(context, target, catalogs);
   if (target.resources.hp === 0 && attacker?.actorId === session.leaderActorId) recordSpeciesSeen(context.state, target.identity);
+  if (context.state.contentRevision === ESCORT_WORK_REVISION && target.resources.hp === 0 && target.binding.kind === 'escort-guest') removeUnrevivedEscort(context,target);
   if (target.resources.hp === 0 && target.affiliation !== 'team') {
     noteSteelBossFaint(context, target);
     // R CalculateEXPGain and dungeon_damage.c: half credit until a move hits.
@@ -42,7 +45,8 @@ export function finishDamage(context, target, catalogs, attacker, giveExperience
     const xp = Math.max(1, target.memory.experienceContributors.length ? base : Math.trunc(base / 2));
     for (const id of giveExperience && attacker?.affiliation === 'team' && target.affiliation === 'hostile' ? session.teamOrder : []) {
       const actor = session.actors[id]; if (!actor) continue;
-      if (context.state.contentRevision === MOVE_LEARNING_REVISION) {
+      if (context.state.contentRevision === MOVE_LEARNING_REVISION || context.state.contentRevision === ESCORT_WORK_REVISION) {
+        if (context.state.contentRevision === ESCORT_WORK_REVISION && actor.binding.kind === 'escort-guest') continue;
         if (actor.resources.hp === 0 || actor.growth.level === 100) continue;
         const amount = Math.min(9999999-value(actor.growth.totalExperience),xp);
         if (amount > 0 && attacker) {
