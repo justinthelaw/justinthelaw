@@ -1684,3 +1684,20 @@ scene-choice acknowledgment. Source AST regression rejects the prior unguarded
 transition pattern and accepts all seven corrected joins. Static source/types,
 continuation/activation and 115/14/2 frozen save pins pass; independent rereview
 and exact repository verification remain required. No game code was executed.
+
+### Audio composition on the live v24 escort owner
+
+Ported the reviewed original audio foundation28a10e7 and composition0247d08 using
+exact isolated audio leaves and focused shared presenter/view/shell joins. The
+real escort registry now owns the exact preference-only command, while saved
+native learning, original envelope admission and the whole second-work route
+remain selected. Retained menus rebuild their genuine current submenu after a
+preference transaction, keeping shown-snapshot/binding/token guards and drafts.
+The actual two/ten-stage Caterpie scenes have a newly qualified native request
+map:43scenes/120cursors/54requests, including17silent cursors and nine ground maps.
+Both audio audits join the authoring check chain. The original85music/28effects
+bank remains byte-identical to its accepted foundation. Source/types, native
+request/score joins, escort activation/work/station and frozen115/14/2 pins pass.
+This port awaits independent integration review and exact delivery checks;
+human audition, device/interruption, Blue parity and full release remain open.
+No game/native module was imported or executed.

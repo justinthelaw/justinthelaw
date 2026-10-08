@@ -5,7 +5,8 @@ import { node } from '../ui/view.js';
 import { checkName, diagnostics } from '../../content/state/pokemon-rules.js';
 
 /** Forms project the canonical gate. Only unsubmitted text lives here; it is
- * retained across saves and readiness repaints within this binding/revision.
+ * retained across saves/readiness/settings repaints within the same binding,
+ * scene instance/cursor and canonical prefill; revision alone does not erase it.
  * @param {ReturnType<typeof import('../ui/view.js').createView>} view */
 export function createScenePresenter(view) {
   let draftKey = '', draftText = '';
@@ -28,7 +29,7 @@ export function createScenePresenter(view) {
       if (gate.kind === 'name-confirm') { const candidate = node('p', gate.value); candidate.style.whiteSpace = 'pre-wrap'; candidate.setAttribute('aria-label', `Team name: ${gate.value}`); extra.push(candidate); }
       for (const option of prompt.options) actions.push({ label: option.label, disabled: !ready, run: () => submitIntent({ type: 'ackScene', ...tokens, optionId: option.id }) });
     } else {
-      const key = `${epoch}:${scene.sceneInstanceId}:${snapshot.revision}:${scene.cursor}`;
+      const key = `${epoch}:${scene.sceneInstanceId}:${scene.cursor}:${gate.value}`;
       if (draftKey !== key) { draftKey = key; draftText = gate.value; }
       const label = node('label', 'Team name'); label.setAttribute('for', 'team-name');
       const input = document.createElement('input'); input.id = 'team-name'; input.type = 'text'; input.value = draftText; input.autocomplete = 'off'; input.spellcheck = false;

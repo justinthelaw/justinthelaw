@@ -1,3 +1,7 @@
+import { createApplicationAudio } from '../application/audio.js';
+import { createAudioControls } from '../application/audio-controls.js';
+import { initialOptions } from '../application/quiz.js';
+import { exactAudioPreferences, audioPreferenceBlocked } from '../domain/gameplay/audio-preferences.js';
 import { showMoveLearning } from '../application/move-learning.js';
 import { showFriends } from '../application/friends.js';
 import { nearbyResident, nearWigglytuff } from '../domain/gameplay/friend-residents.js';
@@ -49,6 +53,11 @@ export async function createApplication(canvas, signal, startup) {
   /** @type {ResizeObserver|undefined} */ let observer;
   const view = createView(root);
   const showScene = createScenePresenter(view);
+  const audio = createApplicationAudio(canvas.ownerDocument);
+  let optionsDraft = initialOptions();
+  /** @type {'title'|'quiz'|null} */ let draftMode = 'title';
+  let draftToken = Symbol('title-options'), draftSealed = false, soundExpanded = false;
+  /** @type {Partial<Record<'panel'|'hud',()=>void>>} */ const soundRefresh = {};
   let booted = false;
   let disposed = false, busy = false, paused = false, failed = false, lost = false, ready = false;
   let focusPaused = false, automaticFrame = 0, automaticTicket = 0;
@@ -66,6 +75,70 @@ export async function createApplication(canvas, signal, startup) {
   /** @type {MediaQueryList|undefined} */ let density;
 
   function current() { return saves?.service.getBinding().instance?.getSnapshot() ?? null; }
+  /** No renderer/leader readiness condition: ordinary scenes own legal settings.
+   * @param {()=>boolean} owns @param {Snapshot|null} snapshot @param {symbol|null} binding
+   * @param {symbol|null} draft */
+  function soundOwns(owns,snapshot,binding,draft) {
+    return !disposed && owns() && (draft !== null ? draftMode !== null && draftToken === draft : draftMode === null && current() === snapshot && saves?.service.getBinding().adventureEpoch === binding);
+  }
+  function soundForeground() { return !disposed && !busy && !paused && !failed && !lost && !focusPaused && !document.hidden && document.hasFocus(); }
+  /** Preference-only dispatch retains canonical scene/PCs, never calls act().
+   * @param {import('../audio/types.js').AudioPreferences} next @param {()=>boolean} owns
+   * @param {Snapshot|null} snapshot @param {symbol|null} binding @param {symbol|null} draft */
+  function commitSound(next,owns,snapshot,binding,draft) {
+    if (!exactAudioPreferences(next) || !soundOwns(owns,snapshot,binding,draft) || !soundForeground()) return false;
+    if (draft !== null) { if (draftSealed) return false; optionsDraft = {...optionsDraft,audio:{...next}}; audio.draftPreferences(next); return true; }
+    if (!snapshot || !saves || !saves.service.canAcceptCommands() || audioPreferenceBlocked(snapshot)) return false;
+    const adventure = saves.service.getBinding().instance;
+    if (!adventure || adventure.getSnapshot() !== snapshot) return false;
+    const result = adventure.dispatch({...commandContext(snapshot),epoch:adventure.getEpoch(),intent:{type:'setAudioPreferences',audio:{...next}}});
+    if (result.kind !== 'accepted') { view.notify('Saved sound settings are unavailable until the current step finishes.'); return false; }
+    if (result.changed) saves.autosave();
+    // Repainting is performed after trusted activation stays on its original stack.
+    return true;
+  }
+  /** Scene repaint renews its actions; retained menus rebuild their actual
+   * current submenu and controls against the newly committed snapshot.
+   * @param {symbol|null} draft */
+  function repaintSound(draft) {
+    if (draft !== null) { view.refreshAudioControls(); return; }
+    refresh();
+    if (!followsGame) { const snapshot = current(); if (!snapshot || !view.rebuildPanel(snapshot)) view.refreshAudioControls(); }
+  }
+  view.setAudioUi(cue => audio.ui(cue));
+  view.setAudioControls((owns,scope) => {
+    const draft = draftMode !== null ? draftToken : null;
+    const snapshot = draft !== null ? null : current();
+    const binding = saves?.service.getBinding().adventureEpoch ?? null;
+    const preferences = draft !== null ? optionsDraft.audio : snapshot?.options.audio ?? optionsDraft.audio;
+    const ownsSound = () => soundOwns(owns,snapshot,binding,draft);
+    const canPresent = () => ownsSound() && soundForeground();
+    const blocked = !soundForeground() || draft === null && !saves?.service.canAcceptCommands() ? 'Sound settings are unavailable during this operation.' : draft !== null && draftSealed ? 'The new adventure preview already contains its sound settings.' : draft === null ? audioPreferenceBlocked(snapshot) : null;
+    const controls = createAudioControls({preferences,owns:ownsSound,canPresent,blocked,expanded:soundExpanded,draft:draft !== null,
+      toggle() { soundExpanded = !soundExpanded; }, pause:audio.pause,status:audio.status,
+      change(next) { const accepted = commitSound(next,owns,snapshot,binding,draft); if (accepted) repaintSound(draft); return accepted; },
+      activate(event) {
+        if (!canPresent()) return;
+        if (preferences.muted && !commitSound({...preferences,muted:false},owns,snapshot,binding,draft)) return;
+        const committed = draft !== null ? null : current();
+        if (draft !== null) audio.draftPreferences(optionsDraft.audio);
+        else if (committed && loaded && gameplay && saves) {
+          try { const projection = renderSnapshot(committed,gameplay,epoch,loaded.catalogs.species,[]); audio.bind(saves.service.getBinding()); audio.present(saves.service.getBinding(),committed,[],projection,loaded.catalogs); } catch { audio.pause(); }
+        }
+        // No await, promise/storage callback, synthetic click or RAF before unlock.
+        const activated = audio.activate(event);
+        if (draft !== null || committed !== snapshot) repaintSound(draft);
+        const currentDraft = draftToken, currentBinding = saves?.service.getBinding().adventureEpoch;
+        void activated.then(() => {
+          if (disposed) return;
+          const matches = draft !== null ? draftMode !== null && draftToken === currentDraft : current() === committed && saves?.service.getBinding().adventureEpoch === currentBinding;
+          if (matches) { soundRefresh.panel?.(); soundRefresh.hud?.(); }
+        });
+      },
+    });
+    soundRefresh[scope] = () => { if (ownsSound()) controls.refreshStatus(); };
+    return controls.element;
+  });
   function cancelAutomatic() {
     automaticTicket++;
     if (automaticFrame) window.cancelAnimationFrame(automaticFrame);
@@ -112,6 +185,7 @@ export async function createApplication(canvas, signal, startup) {
   }
   function close() { cancelAutomatic(); followsGame = true; dialogue = false; saves?.cancelPreviews(); view.close(); input?.cancel(); context(); }
   function title() {
+    idleAt = 0; draftMode = 'title'; draftToken = Symbol('title-options'); draftSealed = false; audio.draft('title',optionsDraft.audio);
     close(); followsGame = false;
     view.hud('', [], []); view.minimap(null);
     view.show('Pokémon Dungeon Reimagined', "Opening checkpoint: personality quiz, Awakening, Tiny Woods, Caterpie's rescue, team formation, the first morning, the Thunderwave Cave rescue, town services, ordinary requests, and Dugtrio's Diglett request. The rest of the Blue campaign is in development. Original browser staging and candidate pixel art await human review.", [
@@ -119,11 +193,11 @@ export async function createApplication(canvas, signal, startup) {
       { label: 'Controls', run: help },
     ]); context();
   }
-  function help() { panel('Move: arrows/WASD (camera relative). Hold left Shift to face without stepping. Z/A attacks or talks to a client directly ahead; Space waits; 1–4 use the exact move slots. Enter/Start opens menus, Escape/Menu opens expedition actions, X/B cancels. Right Shift/Select opens the explored map. Q/E and drag orbit the camera; R recenters. Menus use arrows and Z/Enter. The website owns the touch emulator overlay.', [], 'Controls'); }
+  function help() { panel('Move: arrows/WASD (camera relative). Hold left Shift to face without stepping. Z/A attacks or talks to a client directly ahead; Space waits; 1–4 use the exact move slots. Enter/Start opens menus, Escape/Menu opens expedition actions, X/B cancels. Right Shift/Select opens the explored map. Q/E and drag orbit the camera; R recenters. Menus use arrows and Z/Enter. The website owns the touch emulator overlay.', [], 'Controls',help); }
   function newGame() {
     if (!gameplay || !loaded || busy) return;
-    close(); followsGame = false; context();
-    startOnboarding({ catalogs: loaded.catalogs, gameplay, view, commit: (snapshot, storageMode) => saves?.newCampaign(snapshot, storageMode), back: title }); context();
+    close(); followsGame = false; idleAt = 0; draftMode = 'quiz'; draftToken = Symbol('quiz-options'); draftSealed = false; const quizToken = draftToken; audio.draft('quiz',optionsDraft.audio); context();
+    startOnboarding({ catalogs: loaded.catalogs, gameplay, view, commit(snapshot, storageMode) { draftSealed = true; view.refreshAudioControls(); saves?.newCampaign(snapshot, storageMode); }, back: title, getOptions: () => structuredClone(optionsDraft), isCurrent: () => !disposed && !draftSealed && draftMode === 'quiz' && draftToken === quizToken }); context();
   }
   function menu() { if (busy) return; cancelAutomatic(); followsGame = false; dialogue = false; input?.cancel(); saves?.menu(); context(); }
   function resumedBinding() {
@@ -132,9 +206,9 @@ export async function createApplication(canvas, signal, startup) {
     // after assets are ready. No synchronous advance or retained old callback.
     refresh();
   }
-  function resume() { groundExploring = false; close(); const snapshot = current(); if (snapshot) screen(snapshot); else title(); context(); }
-  /** @param {string} text @param {Action[]} actions @param {string} [titleText] */
-  function panel(text, actions, titleText = 'Adventure menu') { cancelAutomatic(); followsGame = false; dialogue = false; input?.cancel(); view.show(titleText, text, [...actions, { label: 'Back', run: resume }]); context(); }
+  function resume() { groundExploring = false; close(); const snapshot = current(); if (snapshot) { if (draftMode !== null) { draftMode = null; draftToken = Symbol('retired-options'); refresh(); } else screen(snapshot); } else title(); context(); }
+  /** @param {string} text @param {Action[]} actions @param {string} [titleText] @param {()=>void} [rebuild] */
+  function panel(text, actions, titleText = 'Adventure menu', rebuild = () => panel(text,actions,titleText)) { cancelAutomatic(); followsGame = false; dialogue = false; input?.cancel(); view.show(titleText, text, [...actions, { label: 'Back', run: resume }],[],rebuild); context(); }
   function rearmWorldPermit() {
     if (!ready || failed || lost || mode() !== 'world' || current()?.mode === 'dungeon' && !leaderInputReady(current())) return;
     permitAt = performance.now() + 240;
@@ -150,7 +224,7 @@ export async function createApplication(canvas, signal, startup) {
     if (origin === 'panel' ? !view.isOpen() : view.isOpen()) return;
     const adventure = saves.service.getBinding().instance; if (!adventure) return;
     const before = adventure.getSnapshot();
-    if ((before.session?.scheduler.kind === 'continuing' || before.session?.scheduler.kind === 'learning-continuing')) return;
+    if (['continuing','learning-continuing'].includes(before.session?.scheduler.kind ?? '')) return;
     if (['move', 'face', 'attack', 'wait', 'useMove', 'setMove', 'useItem', 'throwItem', 'equipItem', 'useStairs', 'giveUp'].includes(intent.type) && (!ready || before.mode === 'dungeon' && !leaderInputReady(before) || performance.now() < permitAt)) return;
     if (['ackScene', 'submitSceneName'].includes(intent.type) && !ready) return;
     if (intent.type === 'townTravel' || intent.type === 'friendAction') groundExploring = false;
@@ -176,7 +250,7 @@ export async function createApplication(canvas, signal, startup) {
     const snapshot = current(); if (!snapshot || !gameplay) return;
     const canAct = ready && leaderInputReady(snapshot);
     panel('Use a move, or SET one for Ginseng. Selecting SET again unsets it without taking a turn.', gameplay.getMoveChoices(snapshot).flatMap(move => [{ label: `${move.isSet ? 'SET · ' : ''}${move.name}${move.powerBoost ? ` +${move.powerBoost}` : ''} · ${move.currentPp} PP${move.requirement ? ' · unavailable' : ''}`, detail: move.requirement ?? 'Use this move', disabled: !canAct || !!move.requirement,
-      run: () => act({ type: 'useMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') }, { label: `${move.isSet ? 'Unset' : 'Set'} ${move.name}`, detail: 'Choose the move Ginseng can strengthen', disabled: !canAct || !move.canSet, run: () => act({ type: 'setMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') }]), 'Moves');
+      run: () => act({ type: 'useMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') }, { label: `${move.isSet ? 'Unset' : 'Set'} ${move.name}`, detail: 'Choose the move Ginseng can strengthen', disabled: !canAct || !move.canSet, run: () => act({ type: 'setMove', actorId: move.actorId, moveSlotId: move.moveSlotId }, 'panel') }]), 'Moves',moves);
   }
   function inventory() {
     const snapshot = current(); const session = snapshot?.session; const leader = session?.actors[session.leaderActorId];
@@ -186,9 +260,18 @@ export async function createApplication(canvas, signal, startup) {
     panel(snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[2]) ? 'Use berries, seeds or food yourself, or Throw supported items in your facing direction. Keep a clean Reviver Seed for automatic revival; eating it only restores 5 Belly. Max Elixir restores all move PP. Blast Seed hits directly ahead; Gravelerock is thrown toward enemies in the direction you face. Pickups enter your toolbox.' : 'Before the starter toolbox, floor pickups use your held slot. Use a held berry here, or Throw supported items in your facing direction.', ids.flatMap(id => {
       const item = snapshot.items[id]; return [...(item?.template.itemId === 'item-gravelerock' ? [] : [{ label: item ? `${item.template.itemId === 'item-reviver-seed' ? 'Eat ' : ''}${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Unavailable item', disabled: !canAct || !leader || !item || !USABLE_ITEMS.includes(item.template.itemId), detail: item && !USABLE_ITEMS.includes(item.template.itemId) ? 'This item use is still in development; carrying and storage work.' : 'Use this item yourself',
         run: () => { if (leader) act({ type: 'useItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel'); } }]), { label: item ? `Throw ${item.template.itemId.replace('item-', '').replaceAll('-', ' ')} ×${item.quantity}` : 'Throw unavailable item', disabled: !canAct || !leader || !item || !THROWABLE_ITEMS.includes(item.template.itemId), detail: item && !THROWABLE_ITEMS.includes(item.template.itemId) ? 'This thrown effect is still in development; carrying and storage work.' : 'Throw in the direction you face; takes a turn.', run: () => { if (leader) act({ type: 'throwItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'facing' } }, 'panel'); } }, ...(leader && item && snapshot.progress.appliedGrants.some(row => row.grantId === MORNING.grants[2]) ? [{ label: `${snapshot.containers[leader.heldContainerId]?.itemIds.includes(id) ? 'Take' : 'Hold'} ${item.template.itemId.replace('item-', '').replaceAll('-', ' ')}`, disabled: !canAct || !snapshot.containers[leader.heldContainerId]?.itemIds.includes(id) && (!loaded || !supportedHeldItem(loaded.catalogs, item.template.itemId)), detail: 'Transfer this whole item slot; takes a turn. Unsupported held effects remain unavailable.', run: () => act({ type: 'equipItem', actorId: leader.actorId, itemInstanceId: id, target: { kind: 'self' } }, 'panel') }] : [])];
-    }), 'Items & held slot');
+    }), 'Items & held slot',inventory);
   }
-  function readNews() { panel('First rescue-team news: the badge marks your team, the toolbox carries dungeon supplies, and letters in your mailbox bring requests. Resting at home is a good time to keep a checkpoint. Check your mailbox before heading out to help.', [], 'Pokémon News'); }
+  function readNews() { panel('First rescue-team news: the badge marks your team, the toolbox carries dungeon supplies, and letters in your mailbox bring requests. Resting at home is a good time to keep a checkpoint. Check your mailbox before heading out to help.', [], 'Pokémon News',readNews); }
+  /** @param {import('../contracts.js').SessionId} sessionId */
+  function giveUp(sessionId) {
+    const snapshot = current(); if (!snapshot?.session || snapshot.session.sessionId !== sessionId) return;
+    panel('Giving up ends this expedition and applies the sourced defeat losses.', [{ label: 'Confirm give up', disabled: !ready || !leaderInputReady(snapshot), run: () => act({ type: 'giveUp', sessionId }, 'panel') }], 'Give up?',() => giveUp(sessionId));
+  }
+  function expedition() {
+    const snapshot = current(), session = snapshot?.session; if (!snapshot || !session) return;
+    panel('Use stairs when standing on them, or give up this expedition. Defeat settlement retains growth and applies carried-item/money loss.', [{ label: 'Campaign & saves', run: menu }, { label: 'Give up expedition', disabled: !ready || !leaderInputReady(snapshot), run: () => giveUp(session.sessionId) }], 'Adventure menu',expedition);
+  }
   /** @param {Snapshot} snapshot */
   function screen(snapshot) {
     if (!gameplay || !followsGame) return;
@@ -216,11 +299,11 @@ export async function createApplication(canvas, signal, startup) {
     } else if (snapshot.steel?.rewardChoice) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
-      showSteelReward({ snapshot, view, saves: menu, send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This reward choice is stale.'); return; } act(intent, 'panel'); } });
+      showSteelReward({ snapshot, view, saves: menu, open() { followsGame = false; input?.cancel(); context(); }, send(intent,shown) { if (current() !== shown || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This reward choice is stale.'); return; } act(intent, 'panel'); } });
     } else if (snapshot.friends?.nicknamePrompt && loaded) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
-      showFriends({ snapshot,catalogs: loaded.catalogs,view,menu,open() { followsGame = false; input?.cancel(); context(); },explore() {},send(intent) { if (current() === snapshot && saves?.service.getBinding().adventureEpoch === shownEpoch) act(intent,'panel'); } });
+      showFriends({ snapshot,catalogs: loaded.catalogs,view,menu,open() { followsGame = false; input?.cancel(); context(); },explore() {},send(intent,shown) { if (current() === shown && saves?.service.getBinding().adventureEpoch === shownEpoch) act(intent,'panel'); } });
     } else if (snapshot.pendingScene) {
       groundExploring = false;
       dialogue = true;
@@ -238,18 +321,18 @@ export async function createApplication(canvas, signal, startup) {
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
       showWork({ snapshot, catalogs: loaded.catalogs, view, back: resume, menu,
         open() { followsGame = false; input?.cancel(); context(); },
-        send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This work selection is stale.'); return; } act(intent, 'panel'); },
+        send(intent,shown) { if (current() !== shown || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This work selection is stale.'); return; } act(intent, 'panel'); },
       }, 'flow');
     } else if (loaded && snapshot.friends && !session) {
       dialogue = false;
       if (!groundExploring) {
         const shownEpoch = saves?.service.getBinding().adventureEpoch;
-        showFriends({ snapshot,catalogs: loaded.catalogs,view,menu,open() { followsGame = false; input?.cancel(); context(); },explore() { groundExploring = true; close(); screen(snapshot); context(); },send(intent) { if (current() === snapshot && saves?.service.getBinding().adventureEpoch === shownEpoch) act(intent,'panel'); } });
+        showFriends({ snapshot,catalogs: loaded.catalogs,view,menu,open() { followsGame = false; input?.cancel(); context(); },explore(shown) { if (current() !== shown || saves?.service.getBinding().adventureEpoch !== shownEpoch) return; groundExploring = true; close(); screen(shown); context(); },send(intent,shown) { if (current() === shown && saves?.service.getBinding().adventureEpoch === shownEpoch) act(intent,'panel'); } });
       } else view.close();
     } else if (loaded && !session && (snapshot.progress.storyNodeId === WORK.story || snapshot.steel?.phase === 'ready') && [TOWN.square, TOWN.post].includes(snapshot.town.mapDefinitionId)) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
-      showTown({ snapshot, catalogs: loaded.catalogs, view, menu, open() { followsGame = false; input?.cancel(); context(); }, send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) return; act(intent, 'panel'); } });
+      showTown({ snapshot, catalogs: loaded.catalogs, view, menu, open() { followsGame = false; input?.cancel(); context(); }, send(intent,shown) { if (current() !== shown || saves?.service.getBinding().adventureEpoch !== shownEpoch) return; act(intent, 'panel'); } });
     } else if (steelGroundBoundary(snapshot)) {
       dialogue = false;
       const complete = snapshot.steel?.phase === 'complete', choice = gameplay.getDungeonChoices(snapshot).find(row => row.dungeonId === STEEL.dungeonId);
@@ -265,14 +348,14 @@ export async function createApplication(canvas, signal, startup) {
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
       showWork({ snapshot, catalogs: loaded.catalogs, view, back: resume, menu,
         open() { followsGame = false; input?.cancel(); context(); },
-        send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This work selection is stale.'); return; } act(intent, 'panel'); },
+        send(intent,shown) { if (current() !== shown || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This work selection is stale.'); return; } act(intent, 'panel'); },
       }, 'flow');
     } else if (!session && snapshot.progress.storyNodeId === TOWN.story && loaded) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
       showTown({ snapshot, catalogs: loaded.catalogs, view, menu,
         open() { followsGame = false; input?.cancel(); context(); },
-        send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This town selection is stale.'); return; } act(intent, 'panel'); },
+        send(intent,shown) { if (current() !== shown || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This town selection is stale.'); return; } act(intent, 'panel'); },
       });
     } else if (!session && [T.story, T.complete].includes(snapshot.progress.storyNodeId)) {
       dialogue = false;
@@ -306,6 +389,7 @@ export async function createApplication(canvas, signal, startup) {
   /** @param {readonly import('../domain/turns/types.js').Event[]} [events] @param {Snapshot|null} [before] */
   function refresh(events = [], before = null) {
     cancelAutomatic();
+    if (draftMode === null) audio.bind(saves?.service.getBinding() ?? null);
     const snapshot = current();
     if (!snapshot || !gameplay || !loaded || !renderer || !saves) { title(); return; }
     const bound = saves.service.getBinding();
@@ -315,6 +399,7 @@ export async function createApplication(canvas, signal, startup) {
     const ticket = ++generation; ready = false; context();
     try {
       projected = renderSnapshot(snapshot, gameplay, epoch, loaded.catalogs.species, events);
+      audio.present(bound,snapshot,events,projected,loaded.catalogs);
       renderer.loadWorld(projected.world); renderer.syncPickups(projected.pickups);
       if (before && before.town.mapDefinitionId !== snapshot.town.mapDefinitionId && snapshot.town.mapDefinitionId === TEAM.map) renderer.recenter();
       renderer.setFollow(snapshot.session?.leaderActorId ?? snapshot.profile.heroId);
@@ -324,14 +409,14 @@ export async function createApplication(canvas, signal, startup) {
       const actors = projected.actors;
       void renderer.syncActors(actors).then(() => {
         if (disposed || ticket !== generation || current() !== snapshot || bound.adventureEpoch !== saves?.service.getBinding().adventureEpoch || failed || lost) return;
-        ready = true; screen(snapshot); context(); queueAutomatic();
+        ready = true; screen(snapshot); if (!followsGame) view.rebuildPanel(snapshot); context(); queueAutomatic();
       }).catch(error => { if (!disposed && ticket === generation && current() === snapshot) fail(error); });
       screen(snapshot);
     } catch (error) { fail(error); }
   }
   /** @param {unknown} error */
   function fail(error) {
-    if (disposed) return; cancelAutomatic(); followsGame = false; failed = true; ready = false; input?.cancel(); context();
+    if (disposed) return; audio.pause(); cancelAutomatic(); followsGame = false; failed = true; ready = false; input?.cancel(); context();
     const cancellation = error instanceof Error && (error.name === 'AbortError' || error.message === 'Art resource is cancelling or has conflicting identity.');
     if (cancellation && current() && assetRetries < 2) {
       dialogue = false;
@@ -356,12 +441,12 @@ export async function createApplication(canvas, signal, startup) {
     if (action.type === 'cameraRecenter') { renderer?.recenter(); return; }
     if (action.type === 'navigate') { view.navigate(action.direction); return; }
     if (action.type === 'confirm') { view.confirm(); return; }
-    if (action.type === 'cancel') { if (view.isOpen()) resume(); else menu(); return; }
+    if (action.type === 'cancel') { audio.ui('effect-ui-cancel'); if (view.isOpen()) resume(); else menu(); return; }
     if (action.type === 'panel') {
       if (current()?.friends && !current()?.session) { groundExploring = false; resume(); return; }
       if (action.panel === 'inventory') inventory(); else if (action.panel === 'map') panel('Gold marks your leader, blue your partner, red visible enemies and white discovered stairs. Only explored terrain is shown.', [], 'Explored map');
       else if (action.panel === 'tactics') panel('Your partner follows and attacks adjacent enemies using the reviewed opening policy. Changing tactics and IQ is not available yet.', [], 'Partner tactics');
-      else panel('Use stairs when standing on them, or give up this expedition. Defeat settlement retains growth and applies carried-item/money loss.', [ { label: 'Campaign & saves', run: menu }, { label: 'Give up expedition', disabled: !ready || !leaderInputReady(current()), run: () => { const session = current()?.session; if (session) panel('Giving up ends this expedition and applies the sourced defeat losses.', [{ label: 'Confirm give up', run: () => act({ type: 'giveUp', sessionId: session.sessionId }, 'panel') }], 'Give up?'); } } ]);
+      else expedition();
       return;
     }
     if (action.type === 'move' || action.type === 'face') act({ type: action.type, dx: action.direction.dx, dz: action.direction.dz });
@@ -384,7 +469,7 @@ export async function createApplication(canvas, signal, startup) {
   function dispose() {
     if (disposed) return; cancelAutomatic(); disposed = true; generation++; lifetime.abort(); listeners.abort(); signal.removeEventListener('abort', abort);
     window.cancelAnimationFrame(frame); observer?.disconnect(); density?.removeEventListener('change', watchDensity);
-    input?.dispose(); saves?.dispose(); renderer?.dispose(); kit?.dispose?.(); loaded?.dispose(); view.dispose(); canvas.hidden = true; if (root) root.hidden = true;
+    audio.dispose(); delete soundRefresh.panel; delete soundRefresh.hud; input?.dispose(); saves?.dispose(); renderer?.dispose(); kit?.dispose?.(); loaded?.dispose(); view.dispose(); canvas.hidden = true; if (root) root.hidden = true;
   }
   signal.addEventListener('abort', dispose, { once: true });
   try {
@@ -403,18 +488,18 @@ export async function createApplication(canvas, signal, startup) {
       throw new Error(`Unavailable environment kit: ${world.biomeId}`);
     }, dispose() { forest.dispose?.(); town.dispose?.(); cave.dispose?.(); } };
     renderer = new DungeonRenderer(canvas, { environmentKit: kit, reducedMotion: reducedMotion.matches,
-      onError: fail, onContextState(state) { cancelAutomatic(); lost = state === 'lost'; ready = false; input?.cancel(); context(); if (lost) view.notify('Graphics interrupted. Commands paused until recovery.'); else { lastFrame = 0; view.notify('Graphics restored.'); refresh(); } },
+      onError: fail, onContextState(state) { cancelAutomatic(); lost = state === 'lost'; if (lost) audio.pause(); ready = false; input?.cancel(); context(); if (lost) view.notify('Graphics interrupted. Commands paused until recovery.'); else { lastFrame = 0; view.notify('Graphics restored.'); refresh(); } },
     });
     await renderer.ready; lifetime.signal.throwIfAborted();
-    saves = createSaves({ gameplay, compatibility: createOpeningCompatibility(loaded.catalogs, gameplay.content, gameplay.authored), view, pause() { cancelAutomatic(); paused = true; input?.cancel(); context(); return () => { paused = false; }; },
-      busy(value) { busy = value; if (busy) { cancelAutomatic(); input?.cancel(); } context(); }, changed() { close(); resumedBinding(); }, back: resume, newGame });
+    saves = createSaves({ gameplay, compatibility: createOpeningCompatibility(loaded.catalogs, gameplay.content, gameplay.authored), view, pause() { audio.pause(); cancelAutomatic(); paused = true; input?.cancel(); context(); return () => { paused = false; view.refreshAudioControls(); }; },
+      busy(value) { busy = value; view.refreshAudioControls(false); if (busy) { cancelAutomatic(); input?.cancel(); } context(); }, changed() { draftMode = null; draftToken = Symbol('retired-options'); close(); resumedBinding(); }, back: resume, newGame });
     input = createInputController({ target: document, cameraSurface: canvas, onIntent: intent });
     canvas.hidden = false; root.hidden = false;
     observer = new ResizeObserver(resize); observer.observe(canvas); window.addEventListener('resize', resize, { signal: listeners.signal });
     reducedMotion.addEventListener('change', () => { if (renderer) { const preference = current()?.options.reducedMotion ?? 'system'; renderer.reducedMotion = preference === 'on' || preference === 'system' && reducedMotion.matches; } }, { signal: listeners.signal });
-    document.addEventListener('visibilitychange', () => { cancelAutomatic(); input?.cancel(); lastFrame = 0; context(); if (document.hidden) { window.cancelAnimationFrame(frame); frame = 0; } else { resize(); if (!frame) frame = window.requestAnimationFrame(tick); } }, { signal: listeners.signal });
-    window.addEventListener('blur', () => { focusPaused = true; cancelAutomatic(); input?.cancel(); context(); }, { signal: listeners.signal });
-    window.addEventListener('focus', () => { focusPaused = false; context(); }, { signal: listeners.signal });
+    document.addEventListener('visibilitychange', () => { cancelAutomatic(); input?.cancel(); lastFrame = 0; context(); view.refreshAudioControls(false); if (document.hidden) { window.cancelAnimationFrame(frame); frame = 0; } else { resize(); if (!frame) frame = window.requestAnimationFrame(tick); } }, { signal: listeners.signal });
+    window.addEventListener('blur', () => { focusPaused = true; cancelAutomatic(); input?.cancel(); context(); view.refreshAudioControls(false); }, { signal: listeners.signal });
+    window.addEventListener('focus', () => { focusPaused = false; context(); view.refreshAudioControls(false); }, { signal: listeners.signal });
     watchDensity(); booted = true; title(); frame = window.requestAnimationFrame(tick);
     return { dispose };
   } catch (error) { dispose(); throw error; }

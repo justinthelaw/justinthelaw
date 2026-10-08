@@ -15,7 +15,7 @@
     "typecheck": "node scripts/check-types.mjs",
     "assets": "node scripts/check-assets.mjs && npm run pixel:check && npm run production:check && npm run roster:check && npm run runtime-pixels:check && npm run environment:check",
     "art:export": "node art/export.mjs",
-    "check": "npm run lint && npm run typecheck && npm run save-boundaries:check && npm run friends:check && npm run bronze-jobs:check && npm run move-learning:check && npm run native-general-rng:check && npm run escort-entry:check && npm run escort-work:check && npm run escort-continuation:check && npm run escort-resources:check && npm run escort-station:check && npm run escort-activation:check && npm run content && npm run species:check && npm run rules:check && npm run dungeons:check && npm run effects:check && npm run ai:check && npm run item-ai:check && npm run throw-capability:check && npm run onboarding:check && npm run campaign:check && npm run navigation:check && node scripts/export-content-coverage.mjs --check && npm run assets && npm run vendor -- --check",
+    "check": "npm run lint && npm run typecheck && npm run save-boundaries:check && npm run friends:check && npm run bronze-jobs:check && npm run move-learning:check && npm run native-general-rng:check && npm run escort-entry:check && npm run escort-work:check && npm run escort-continuation:check && npm run escort-resources:check && npm run escort-station:check && npm run escort-activation:check && npm run content && npm run species:check && npm run rules:check && npm run dungeons:check && npm run effects:check && npm run ai:check && npm run item-ai:check && npm run throw-capability:check && npm run onboarding:check && npm run campaign:check && npm run navigation:check && node scripts/export-content-coverage.mjs --check && npm run assets && npm run vendor -- --check && npm run audio:check && npm run audio-integration:check",
     "content": "node scripts/check-content.mjs",
     "content:coverage": "npm run content && node scripts/export-content-coverage.mjs",
     "pixel:export": "node art/pixel/export.mjs",
@@ -62,7 +62,9 @@
     "escort-continuation:check": "node scripts/check-escort-continuation.mjs",
     "escort-resources:check": "node scripts/check-escort-resources.mjs",
     "escort-station:check": "node scripts/check-escort-station.mjs",
-    "escort-activation:check": "node scripts/check-escort-activation.mjs"
+    "escort-activation:check": "node scripts/check-escort-activation.mjs",
+    "audio:check": "node scripts/check-audio.mjs",
+    "audio-integration:check": "node scripts/check-audio-integration.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

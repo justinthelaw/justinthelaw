@@ -24,10 +24,26 @@ export function createView(root) {
   hud.append(objective, stats, toolbar); root.replaceChildren(hud, map, log, notice, panel);
   let panelOpen = false;
   let panelToken = Symbol('closed');
+  /** @type {((snapshot:import('../contracts/campaign.js').CampaignSnapshot)=>void)|null} */ let panelRebuild = null;
   let hudToken = Symbol('hud');
+  /** @type {((owns:()=>boolean,scope:'panel'|'hud')=>HTMLElement)|null} */ let audioControls = null;
+  /** @type {((cue:string)=>void)|null} */ let audioUi = null;
+  const soundToolbar = node('div','','sound-toolbar'); hud.append(soundToolbar);
+  /** @type {HTMLElement|null} */ let panelSound = null;
+  let audioPanelToken = Symbol('audio-panel'), audioHudToken = Symbol('audio-hud');
+  /** @param {'panel'|'hud'} scope */
+  function sound(scope) {
+    const token = Symbol('audio-control');
+    if (scope === 'panel') audioPanelToken = token; else audioHudToken = token;
+    const outer = scope === 'panel' ? panelToken : hudToken;
+    return audioControls?.(() => scope === 'panel' ? panelOpen && panelToken === outer && audioPanelToken === token : !panelOpen && hudToken === outer && audioHudToken === token,scope) ?? null;
+  }
+  /** @param {string|undefined} key */
+  function soundFocus(key) { if (!key) return false; const target = [...root.querySelectorAll('[data-audio-control]')].find(element => element instanceof HTMLElement && element.dataset.audioControl === key && !element.matches(':disabled') && !element.closest('[hidden]') && !element.closest('[inert]')); if (target instanceof HTMLElement) { target.focus({preventScroll:true}); return true; } return false; }
   const controlSelector = 'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)';
+  function panelControls() { return [...panel.querySelectorAll(controlSelector)].flatMap(element => element instanceof HTMLElement && !element.closest('[hidden]') && !element.closest('[inert]') ? [element] : []); }
   function focusPanel() {
-    const focus = panel.querySelector(controlSelector);
+    const focus = panelControls()[0];
     (focus instanceof HTMLElement ? focus : panel).focus({ preventScroll: true });
   }
   function containFocus() {
@@ -36,30 +52,69 @@ export function createView(root) {
   document.addEventListener('focusin', containFocus);
   panel.addEventListener('keydown', event => {
     if (event.key !== 'Tab') return;
-    const controls = [...panel.querySelectorAll(controlSelector)].filter(element => element instanceof HTMLElement);
+    const controls = panelControls();
     const first = controls[0], last = controls[controls.length - 1];
     if (!first) { event.preventDefault(); panel.focus(); }
     else if (event.shiftKey && (document.activeElement === first || document.activeElement === panel)) { event.preventDefault(); last?.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
   });
   /** @type {string[]} */ let history = [];
-  /** @param {string} title @param {string} text @param {Action[]} actions @param {HTMLElement[]} [extra] */
-  function show(title, text, actions, extra = []) {
+  /** @param {string} title @param {string} text @param {Action[]} actions @param {HTMLElement[]} [extra]
+   * @param {(snapshot:import('../contracts/campaign.js').CampaignSnapshot)=>void} [rebuild] */
+  function show(title, text, actions, extra = [], rebuild) {
+    const soundKey = document.activeElement instanceof HTMLElement ? document.activeElement.dataset.audioControl : undefined;
     panelToken = Symbol('panel'); panelOpen = true; panel.hidden = false; hud.inert = true;
     const token = panelToken;
+    panelRebuild = rebuild ?? null;
     const heading = node('h2', title); heading.id = 'panel-heading';
     const content = node('p', text); const controls = node('div', '', 'choices');
-    controls.append(...actions.map(action => button({ ...action, run() { if (panelOpen && panelToken === token) action.run(); } })));
-    panel.replaceChildren(heading, content, ...extra, controls);
-    focusPanel(); return panelToken;
+    controls.append(...actions.map(action => button({ ...action, run() { if (panelOpen && panelToken === token) { audioUi?.('effect-ui-confirm'); action.run(); } } })));
+    panelSound = sound('panel');
+    panel.replaceChildren(heading, content, ...extra, ...(panelSound ? [panelSound] : []), controls);
+    if (!soundFocus(soundKey)) focusPanel(); return panelToken;
   }
   return {
     show,
+    /** The shell invokes after an admitted preference commit or guarded current
+     * asset readiness; each registered model redraws its exact current submenu.
+     * @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
+    rebuildPanel(snapshot) {
+      const rebuild = panelRebuild;
+      if (!panelOpen || !rebuild) return false;
+      const focused = document.activeElement;
+      const owned = focused instanceof HTMLElement && panel.contains(focused);
+      const audioKey = owned ? focused.dataset.audioControl : undefined;
+      const inputs = [...panel.querySelectorAll('input:not([data-audio-control]),textarea,select')];
+      const inputIndex = inputs.indexOf(/** @type {Element} */ (focused));
+      const text = owned && focused instanceof HTMLButtonElement ? focused.textContent : null;
+      const selection = owned && (focused instanceof HTMLInputElement || focused instanceof window.HTMLTextAreaElement) && focused.selectionStart !== null ? [focused.selectionStart,focused.selectionEnd] : null;
+      const token = panelToken; rebuild(snapshot);
+      const changed = panelOpen && panelToken !== token;
+      if (changed && owned && !soundFocus(audioKey)) {
+        const target = inputIndex >= 0 ? panel.querySelectorAll('input:not([data-audio-control]),textarea,select')[inputIndex] : text !== null ? panelControls().find(element => element instanceof HTMLButtonElement && element.textContent === text) : null;
+        if (target instanceof HTMLElement && !target.matches(':disabled') && !target.closest('[hidden]') && !target.closest('[inert]')) {
+          target.focus({preventScroll:true});
+          if (selection && (target instanceof HTMLInputElement || target instanceof window.HTMLTextAreaElement)) target.setSelectionRange(selection[0] ?? 0,selection[1] ?? selection[0] ?? 0);
+        }
+      }
+      return changed;
+    },
+    /** @param {(owns:()=>boolean,scope:'panel'|'hud')=>HTMLElement} factory */
+    setAudioControls(factory) { audioControls = factory; },
+    /** @param {(cue:string)=>void} listener */
+    setAudioUi(listener) { audioUi = listener; },
+    /** @param {boolean} [restoreFocus] */
+    refreshAudioControls(restoreFocus = true) {
+      const key = document.activeElement instanceof HTMLElement ? document.activeElement.dataset.audioControl : undefined;
+      if (panelOpen && panelSound) { const next = sound('panel'); if (next) { panelSound.replaceWith(next); panelSound = next; } }
+      else { const next = sound('hud'); soundToolbar.replaceChildren(...(next ? [next] : [])); }
+      if (restoreFocus) soundFocus(key);
+    },
     /** @param {symbol} token */
     ownsPanel: token => panelOpen && panelToken === token,
     close() {
       const restoreFocus = panelOpen && panel.contains(document.activeElement);
-      panelToken = Symbol('closed'); panelOpen = false; panel.hidden = true; hud.inert = false;
+      panelToken = Symbol('closed'); panelRebuild = null; panelOpen = false; panel.hidden = true; hud.inert = false;
       if (restoreFocus) root.focus({ preventScroll: true });
     },
     isOpen: () => panelOpen,
@@ -67,7 +122,7 @@ export function createView(root) {
     /** @param {string[]} messages */ messages(messages) { history = [...history, ...messages].slice(-5); log.replaceChildren(...history.map(message => node('li', message))); },
     clearMessages() { history = []; log.replaceChildren(); },
     /** @param {string} goal @param {string[]} team @param {Action[]} actions */
-    hud(goal, team, actions) { const token = hudToken = Symbol('hud'); objective.textContent = goal; stats.replaceChildren(...team.map(text => node('p', text))); toolbar.replaceChildren(...actions.map(action => button({ ...action, run() { if (!panelOpen && hudToken === token) action.run(); } }))); hud.hidden = team.length === 0; },
+    hud(goal, team, actions) { const token = hudToken = Symbol('hud'); objective.textContent = goal; stats.replaceChildren(...team.map(text => node('p', text))); toolbar.replaceChildren(...actions.map(action => button({ ...action, run() { if (!panelOpen && hudToken === token) { audioUi?.('effect-ui-confirm'); action.run(); } } }))); const soundView = sound('hud'); soundToolbar.replaceChildren(...(soundView ? [soundView] : [])); hud.hidden = team.length === 0; },
     /** @param {import('../presentation/types.js').RenderSnapshot|null} view */
     minimap(view) {
       map.hidden = !view; if (!view) return;
@@ -85,11 +140,11 @@ export function createView(root) {
     },
     /** @param {import('../input/map.js').Direction} direction */
     navigate(direction) {
-      const controls = [...panel.querySelectorAll(controlSelector)].filter(element => element instanceof HTMLElement);
+      const controls = panelControls();
       const current = controls.indexOf(/** @type {HTMLElement} */ (document.activeElement));
-      const delta = direction.dz || direction.dx; controls[(current + delta + controls.length) % controls.length]?.focus();
+      const delta = direction.dz || direction.dx; const next = controls[(current + delta + controls.length) % controls.length]; if (next && next !== document.activeElement) { next.focus(); audioUi?.('effect-ui-cursor'); }
     },
     confirm() { if (document.activeElement instanceof HTMLButtonElement && panel.contains(document.activeElement)) document.activeElement.click(); },
-    dispose() { panelOpen = false; panelToken = Symbol('disposed'); hudToken = Symbol('disposed'); document.removeEventListener('focusin', containFocus); root.replaceChildren(); },
+    dispose() { panelOpen = false; panelToken = Symbol('disposed'); panelRebuild = null; hudToken = Symbol('disposed'); document.removeEventListener('focusin', containFocus); root.replaceChildren(); },
   };
 }

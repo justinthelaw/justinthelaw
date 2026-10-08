@@ -39,3 +39,12 @@ input:focus-visible { outline: 3px solid #ffe0a0; outline-offset: 2px; }
 @media (max-width: 850px) { .hud { width: calc(100% - 105px); } .minimap { width: 96px; height: 72px; } .toolbar { gap: 4px; } .toolbar button { min-height: 44px; } .event-log { top: 195px; max-width: 75%; } }
 @media (max-width: 460px) { #game-ui { padding: 8px; } .hud { padding: 8px; width: calc(100% - 84px); } .minimap { width: 78px; height: 60px; right: 8px; top: 8px; } .team-stats p { font-size: .72rem; } .objective { font-size: .78rem; } .toolbar button { padding: 5px 6px; } .event-log { top: 235px; font-size: .7rem; max-width: 66%; } .panel { max-height: 74svh; } }
 .panel { font-size: calc(1rem * var(--text-scale, 1)); }
+
+.audio-controls { pointer-events: auto; display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; padding-top: 8px; border-top: 1px solid #a2bfa566; }
+.audio-controls > button { font-size: .78rem; padding: 7px 10px; min-height: 44px; }
+.audio-controls > p { flex-basis: 100%; margin: 0; font-size: .78rem; line-height: 1.4; }
+.sound-settings { flex-basis: 100%; display: grid; gap: 8px; max-height: 36svh; overflow: auto; }
+.sound-settings label { display: grid; gap: 4px; font-size: .85rem; }
+.sound-settings input[type="range"] { width: 100%; accent-color: #ffd185; padding: 4px; }
+.sound-settings input[type="checkbox"] { justify-self: start; min-width: 44px; min-height: 44px; accent-color: #ffd185; }
+.event-log { position: relative; top: auto; left: auto; margin-top: 8px; max-height: 16svh; overflow: auto; }

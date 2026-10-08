@@ -1,0 +1,914 @@
+{
+  "revision": "current-audio-requests-v2-escort",
+  "sourceQualification": {
+    "edition": "red-comparative",
+    "blueParity": "unverified",
+    "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+    "report": "current-source-map.md",
+    "reportSha256": "e4c4644b90b9cc84fd87d1a0cfb5174f3c8aee54c1414a0340c0b45120dfb2af",
+    "nativeFiles": [
+      {
+        "path": "src/data/ground/ground_data_s01_station.h",
+        "sha256": "8c3aeab27c6105e6a7d16debf596d7c47fa50bf908585e2bd92e5228dbbd6e6c"
+      },
+      {
+        "path": "src/data/ground/ground_data_s02_station.h",
+        "sha256": "94c4e84d3c3a8b166cd55417aec5ee4381eb24689292985a75962493dfbdcff0"
+      },
+      {
+        "path": "src/data/ground/ground_data_t01p01_station.h",
+        "sha256": "a4364d126c9b837c787ca951a15a9ebf7ac4a9f700ba73d7b5fbd48c5604988c"
+      },
+      {
+        "path": "src/data/ground/ground_data_d01p01_station.h",
+        "sha256": "351bfc18160008658cbb67a4347c8a586e02b3e67efa64935dd80758470d4738"
+      },
+      {
+        "path": "src/data/ground/ground_data_d02p01_station.h",
+        "sha256": "0b6ad991c5d91f8bb11befca7d4334a6bfb9af87946352269c950d03542efcc1"
+      },
+      {
+        "path": "src/data/ground/ground_data_d03p01_station.h",
+        "sha256": "8b1b439bf7774de128ed7b17805f9b9b81e4a29a714893a0c31e965ac10e3c13"
+      },
+      {
+        "path": "src/data/ground/ground_data_b01p01a_station.h",
+        "sha256": "ff76c6663176eec864165e6d8c933f4de144f5415c1262535e2842d15632897f"
+      },
+      {
+        "path": "src/data/ground/ground_data_b01p02a_station.h",
+        "sha256": "9f4ea54ddc8ac4b6d7de7d6481b88b7d201f31fd61c1a350490908158409db35"
+      },
+      {
+        "path": "src/data/ground/ground_data_d01p02_station.h",
+        "sha256": "d6e8be002e0c1ad938fd2fcd3fe1d69a3ac0fac64b88fe6e61fcec829034e1cd"
+      },
+      {
+        "path": "src/data/ground/ground_data_d02p02_station.h",
+        "sha256": "80c73654bb7f403fa20bbc4aefd5452fc54c28095b2b2668ac1552a7e3c9e2fd"
+      },
+      {
+        "path": "src/data/ground/ground_data_d03p02_station.h",
+        "sha256": "e09c9e8ea74a262482c8ded065ccfa1783685997009b1d4c836dbed10c697017"
+      },
+      {
+        "path": "src/data/ground/ground_data_a01p01_station.h",
+        "sha256": "2c2fabeb7e6b86e7211c055765823a75bad09d722da7a4ff7bab4772fc3cee82"
+      },
+      {
+        "path": "src/data/ground/ground_data_t01p03_station.h",
+        "sha256": "ca12d04d0fca77cee7471fa6b3e9f5efb09621a4978fab6dd31cb5fb1e2a4b5f"
+      },
+      {
+        "path": "src/data/ground/ground_event_data.h",
+        "sha256": "fbc968f4d9c23c836f5047dd6e894515508d17eeec2c61b9a5e6ba7a9b56af62"
+      },
+      {
+        "path": "include/data_script.h",
+        "sha256": "54bbf45f8f29b3037ef8043d739f3243e33a84ea7788fc13bd7f122882b1b01c"
+      },
+      {
+        "path": "include/constants/bg_music.h",
+        "sha256": "ed93c5bf5c9e1cf7c0b4bec0e0a58acd243e448ab1288ec07315bc8c1ae218eb"
+      },
+      {
+        "path": "src/ground_script.c",
+        "sha256": "c457af6617ca0e9edc8efc59ffd0ec8df8e012ccafc4f3beffb97b066eb906f3"
+      },
+      {
+        "path": "src/event_flag.c",
+        "sha256": "1726f2e121b7f15a1ab4f2a30c2a0b45ebe088364cb37e01d9bbdbeae42c7f5e"
+      },
+      {
+        "path": "src/ground_main.c",
+        "sha256": "4f782dae4947be39c34b0230360382d0cc13540926570531231b96a37585b411"
+      },
+      {
+        "path": "src/dungeon_cutscene.c",
+        "sha256": "1ef9c15a9ddb6463404f962d18f5890f23e4845d97d043af9c614becad436252"
+      },
+      {
+        "path": "src/dungeon_cutscene_skarmory.c",
+        "sha256": "0aa469f6a3b258cbdc8fde22cbc4d87c1e247dc1c6699bd755ba8031ffdd0fe6"
+      },
+      {
+        "path": "src/dungeon_config.c",
+        "sha256": "e1d24abb5eab54a2223449c9e5b7e98aba55244e87fadb13c1dd1811b496c21b"
+      },
+      {
+        "path": "src/run_dungeon.c",
+        "sha256": "6cc792aa349add7f72cd04694d703c1612cacef8681ef7fae840f392908a5d90"
+      },
+      {
+        "path": "src/dungeon_music.c",
+        "sha256": "f95d69b029602aab24d3b29ff8f5e910a8a9b819539c450c051c0503ea1469e6"
+      }
+    ],
+    "browserFiles": [
+      {
+        "path": "content/authored/opening.js",
+        "sha256": "a618aed50a51c024d43b3ddbb5ebbfbb23635f0b836ec8095528f04932f2a44c"
+      },
+      {
+        "path": "content/authored/team-formation.js",
+        "sha256": "5b192ec8bee5825796fb22d3a533c4b5325fdcd38d363b01ef5e6a16681a90a4"
+      },
+      {
+        "path": "content/authored/first-morning.js",
+        "sha256": "c7ed5d0bde75bf122066c02bbbf67d9b07a29304e9013b7f249f75e171c0a08c"
+      },
+      {
+        "path": "content/authored/thunderwave.js",
+        "sha256": "a5d9b9c7620443ca68a06fffc2d253b21efb9e461c26d340186064781e24be62"
+      },
+      {
+        "path": "content/authored/town.js",
+        "sha256": "50765d7f5732d3eca5c9de2bc9f9e66f6d7b15dc8a6c85555a5a08ae3ebafa48"
+      },
+      {
+        "path": "content/authored/early-work.js",
+        "sha256": "98ea8f886c1c39d4a13ec1f531fbe75a34c3681e35a0186767dd7a603db57904"
+      },
+      {
+        "path": "content/authored/mt-steel.js",
+        "sha256": "207919e0c9c2fa7f780bdff6634da774f37dc31a294210071eba2d4b44f7d140"
+      },
+      {
+        "path": "content/authored/friends.js",
+        "sha256": "1e4c68deb2477145be83d037b14d3eee4738cf6d8cf753fa8fbfb20e84d472fd"
+      },
+      {
+        "path": "content/authored/chapter-work.js",
+        "sha256": "c638a694bb80fc8c2d666896b4adc3a42b8366bab4c31955250a8602e809a350"
+      },
+      {
+        "path": "content/authored/steel-meanies.js",
+        "sha256": "0a15a77a5625b14fc22ca7330ffcecfb6e3c607e5769c57b1fc7bcb90f558eba"
+      },
+      {
+        "path": "src/domain/gameplay/scenes.js",
+        "sha256": "a6605b34be9a77b1dbe790306623b788717e7ccdc8f3d14a40c68ee88feeed42"
+      },
+      {
+        "path": "src/domain/gameplay/steel.js",
+        "sha256": "aef1ce374f996b10b262a6291abbf1340d57f9fe0fe1cdb579bf99f57d8e7a5c"
+      },
+      {
+        "path": "src/domain/gameplay/friends.js",
+        "sha256": "bb520a26c8f018d171c87bc16034b309cf9d6314516db7fbc3779ab64bbb33e0"
+      },
+      {
+        "path": "src/domain/gameplay/steel-meanies-scenes.js",
+        "sha256": "5e2623249591558df1f2d8212af0002cf2b2de56617193406360547d8ff200dd"
+      },
+      {
+        "path": "content/authored/escort-work.js",
+        "sha256": "dea569e6bcc628ef49a5d8de78f7ae8a9b3b5bd4694b33e8a3518bd6349633b2"
+      },
+      {
+        "path": "src/domain/gameplay/escort-scenes.js",
+        "sha256": "76a61bb0597b005321212ef3503fa9717cb965d94bcb66c880c1bf604d285179"
+      },
+      {
+        "path": "src/domain/gameplay/escort-work-scenes.js",
+        "sha256": "7353b6509500fddab13a4947a7d15871907abecdd4a22247bbe35c92a8735457"
+      },
+      {
+        "path": "src/domain/gameplay/escort-meanies-scenes.js",
+        "sha256": "bbce74a9dfe53604637bd00bc8b896b893e7526b2bd0d149103af80d854e3cf2"
+      }
+    ]
+  },
+  "sceneInventory": [
+    {
+      "scene": "browser-opening-awakening",
+      "fromCursor": 0,
+      "throughCursor": 3,
+      "requestSummary": "0\u20132\u2192101;3\u219210",
+      "qualification": "d01p01 g1 introduction \u2192 Butterfree trouble; initial silent prologue is omitted by this browser scene"
+    },
+    {
+      "scene": "browser-caterpie-clearing",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u2192114",
+      "qualification": "d01p02 g1 direct end-room command"
+    },
+    {
+      "scene": "browser-butterfree-reunion",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u2192103",
+      "qualification": "d01p01 g3; fade after completed actor cue"
+    },
+    {
+      "scene": "browser-team-base-offer",
+      "fromCursor": 0,
+      "throughCursor": 5,
+      "requestSummary": "all\u21921",
+      "qualification": "b01p01a g17; refusal cursor5 is after1 resumed, not the transient fade"
+    },
+    {
+      "scene": "browser-team-naming",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u21921",
+      "qualification": "g17 naming input/confirmation before final cue"
+    },
+    {
+      "scene": "browser-team-name-celebration",
+      "fromCursor": 0,
+      "throughCursor": 2,
+      "requestSummary": "0\u20131\u21921;2\u2192silence",
+      "qualification": "g17 farewell then station fade; browser final night line deliberately collapses post-fade"
+    },
+    {
+      "scene": "browser-morning-awakening",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u21921",
+      "qualification": "b01p02a g15 after cold-title STOP; those prologue PCs have no displayed cursor"
+    },
+    {
+      "scene": "browser-morning-bed-save",
+      "fromCursor": 0,
+      "throughCursor": 0,
+      "requestSummary": "0\u21921",
+      "qualification": "g16 prompt BEFORE STOP1371; saving itself has no saved current cursor"
+    },
+    {
+      "scene": "browser-morning-refreshed",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u21921",
+      "qualification": "g16s1 SWITCH1"
+    },
+    {
+      "scene": "browser-morning-partner",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u21921",
+      "qualification": "b01p01a g18"
+    },
+    {
+      "scene": "browser-morning-starter-set",
+      "fromCursor": 0,
+      "throughCursor": 2,
+      "requestSummary": "all\u21921",
+      "qualification": "g18; no music replacement"
+    },
+    {
+      "scene": "browser-morning-pelipper",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u21921",
+      "qualification": "g18; no music replacement"
+    },
+    {
+      "scene": "browser-morning-request",
+      "fromCursor": 0,
+      "throughCursor": 2,
+      "requestSummary": "all\u21921",
+      "qualification": "g20; cursor2 refusal plea is after SWITCH1"
+    },
+    {
+      "scene": "browser-magnemite-rescue",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u2192114",
+      "qualification": "d02p02 g1; reward is a separate next scene"
+    },
+    {
+      "scene": "browser-magnemite-thanks",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u2192103",
+      "qualification": "d02p01 g3"
+    },
+    {
+      "scene": "browser-first-request-evening",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "0\u21921;1\u2192silence",
+      "qualification": "b01p01a g23; final original sleep/bed line collapses completed fade"
+    },
+    {
+      "scene": "browser-town-dream",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "0\u21924;1\u21921",
+      "qualification": "exact wrapper1955\u20131957: a01p01 g1 \u2192 b01p02a g19"
+    },
+    {
+      "scene": "browser-town-mailbox",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u21921",
+      "qualification": "known base enter1 b01p01a240 plus g24/g25 conversation; no Square map substitution just because continuation goes there"
+    },
+    {
+      "scene": "browser-square-tour",
+      "fromCursor": 0,
+      "throughCursor": 2,
+      "requestSummary": "all\u21927",
+      "qualification": "t01p01 g6; source owner wins over final Post continuation map"
+    },
+    {
+      "scene": "browser-post-tour",
+      "fromCursor": 0,
+      "throughCursor": 2,
+      "requestSummary": "all\u21927",
+      "qualification": "t01p03 g12"
+    },
+    {
+      "scene": "browser-dugtrio-request",
+      "fromCursor": 0,
+      "throughCursor": 2,
+      "requestSummary": "all\u21921",
+      "qualification": "b01p02a g20 reaches FADEIN1 before request dialogue; base26 also1"
+    },
+    {
+      "scene": "browser-diglett-departure",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u21921",
+      "qualification": "actual current base preparation before Steel travel; base26/normal enter1"
+    },
+    {
+      "scene": "browser-steel-first-travel",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u2192120",
+      "qualification": "d03p01 g1"
+    },
+    {
+      "scene": "browser-steel-retry-travel",
+      "fromCursor": 0,
+      "throughCursor": 0,
+      "requestSummary": "0\u2192120",
+      "qualification": "d03p01 g2"
+    },
+    {
+      "scene": "browser-steel-first-battle",
+      "fromCursor": 0,
+      "throughCursor": 2,
+      "requestSummary": "all\u2192114",
+      "qualification": "native first prebattle current owner;11 begins after scene is acknowledged"
+    },
+    {
+      "scene": "browser-steel-retry-battle",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u2192114",
+      "qualification": "native retry prebattle current owner;11 begins after scene is acknowledged"
+    },
+    {
+      "scene": "browser-steel-loss",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u21921",
+      "qualification": "wrapper2004 \u2192 b01p02a g21 displayed wakeup after cold STOP"
+    },
+    {
+      "scene": "browser-steel-departure",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u2192silence",
+      "qualification": "native boss-faint STOP638; independent browser departure staging"
+    },
+    {
+      "scene": "browser-steel-crossing",
+      "fromCursor": 0,
+      "throughCursor": 3,
+      "requestSummary": "all\u2192114",
+      "qualification": "wrapper2017 \u2192 d03p02 g1"
+    },
+    {
+      "scene": "browser-steel-thanks",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u2192103",
+      "qualification": "wrapper2018 \u2192 b01p01a g28"
+    },
+    {
+      "scene": "browser-steel-home",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "0\u2192103;1\u2192silence",
+      "qualification": "g28 final partner response then fade; browser final inside/save line collapses post-fade"
+    },
+    {
+      "scene": "browser-steel-return-bridge",
+      "fromCursor": 0,
+      "throughCursor": 0,
+      "requestSummary": "0\u2192silence",
+      "qualification": "explicit bridge after boss-faint STOP and before d03p02 request114"
+    },
+    {
+      "scene": "browser-steel-quiet-summit",
+      "fromCursor": 0,
+      "throughCursor": 0,
+      "requestSummary": "0\u2192114",
+      "qualification": "qualified retry after completion returning to postfight gap end-room owner; if producer cannot prove that owner, source-gap/silence"
+    },
+    {
+      "scene": "browser-friends-dream",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "0\u21924;1\u21921",
+      "qualification": "wrapper2035\u20132037: a01p01 g3 \u2192 b01p02a g22"
+    },
+    {
+      "scene": "browser-friends-morning",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u21921",
+      "qualification": "wrapper2044 \u2192 b01p01a g29 initial conversation"
+    },
+    {
+      "scene": "browser-wigglytuff-welcome",
+      "fromCursor": 0,
+      "throughCursor": 4,
+      "requestSummary": "all\u21927",
+      "qualification": "known Square7 \u2192 g8 proximity \u2192 g9; nickname prompt cursor3 retains7"
+    },
+    {
+      "scene": "browser-square-wind-request",
+      "fromCursor": 0,
+      "throughCursor": 4,
+      "requestSummary": "all\u21927",
+      "qualification": "t01p01 g10"
+    },
+    {
+      "scene": "browser-friends-rest",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u2192source-gap \u2192 silence",
+      "qualification": "independent browser rest inserted after native wind encounter; requested headers do not establish one native PC for its two prose cursors; do not substitute earlier g29 or remembered Square7"
+    },
+    {
+      "scene": "browser-meanies-morning",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u21921",
+      "qualification": "current v20 inside wakeup; wrapper2071 \u2192 b01p02a g23"
+    },
+    {
+      "scene": "browser-meanies-mailbox",
+      "fromCursor": 0,
+      "throughCursor": 10,
+      "requestSummary": "0\u21921;1\u20135\u219210;6\u201310\u2192silence",
+      "qualification": "current v21 expanded g30 staging; base1 resumes only AFTER final scene ack, not on Pelipper/closing cursor"
+    },
+    {
+      "scene": "browser-caterpie-morning",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "0\u20131\u21921",
+      "qualification": "v24 escort-work two-stage inside24; base1 after cold prologue"
+    },
+    {
+      "scene": "browser-sinister-request",
+      "fromCursor": 0,
+      "throughCursor": 9,
+      "requestSummary": "0\u21921;1\u20132\u2192silence;3\u20137\u219210;8\u20139\u2192silence",
+      "qualification": "v24 escort-work outside31 ten-stage greeting, silent arrival/request, rivals10 and silent departure/reassurance; actual final ground32 resumes1"
+    },
+    {
+      "scene": "browser-steel-ordinary-empty-summit",
+      "fromCursor": 0,
+      "throughCursor": 1,
+      "requestSummary": "all\u2192114",
+      "qualification": "actual ordinary9F floor table0\u2192114; POSTSTORY deletes fixed actors and does not request11. Require current ordinary Steel9F session owner; otherwise source-gap/silence"
+    }
+  ],
+  "sceneRequests": [
+    {
+      "scene": "browser-opening-awakening",
+      "from": 0,
+      "through": 2,
+      "musicId": 101,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-opening-awakening",
+      "from": 3,
+      "through": 3,
+      "musicId": 10,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-caterpie-clearing",
+      "from": 0,
+      "through": 1,
+      "musicId": 114,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-butterfree-reunion",
+      "from": 0,
+      "through": 1,
+      "musicId": 103,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-team-base-offer",
+      "from": 0,
+      "through": 5,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-team-naming",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-team-name-celebration",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-team-name-celebration",
+      "from": 2,
+      "through": 2,
+      "musicId": null,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-morning-awakening",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-morning-bed-save",
+      "from": 0,
+      "through": 0,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-morning-refreshed",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-morning-partner",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-morning-starter-set",
+      "from": 0,
+      "through": 2,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-morning-pelipper",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-morning-request",
+      "from": 0,
+      "through": 2,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-magnemite-rescue",
+      "from": 0,
+      "through": 1,
+      "musicId": 114,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-magnemite-thanks",
+      "from": 0,
+      "through": 1,
+      "musicId": 103,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-first-request-evening",
+      "from": 0,
+      "through": 0,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-first-request-evening",
+      "from": 1,
+      "through": 1,
+      "musicId": null,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-town-dream",
+      "from": 0,
+      "through": 0,
+      "musicId": 4,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-town-dream",
+      "from": 1,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-town-mailbox",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-square-tour",
+      "from": 0,
+      "through": 2,
+      "musicId": 7,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-post-tour",
+      "from": 0,
+      "through": 2,
+      "musicId": 7,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-dugtrio-request",
+      "from": 0,
+      "through": 2,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-diglett-departure",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-steel-first-travel",
+      "from": 0,
+      "through": 1,
+      "musicId": 120,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-steel-retry-travel",
+      "from": 0,
+      "through": 0,
+      "musicId": 120,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-steel-first-battle",
+      "from": 0,
+      "through": 2,
+      "musicId": 114,
+      "owner": "dungeon"
+    },
+    {
+      "scene": "browser-steel-retry-battle",
+      "from": 0,
+      "through": 1,
+      "musicId": 114,
+      "owner": "dungeon"
+    },
+    {
+      "scene": "browser-steel-loss",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-steel-departure",
+      "from": 0,
+      "through": 1,
+      "musicId": null,
+      "owner": "dungeon"
+    },
+    {
+      "scene": "browser-steel-crossing",
+      "from": 0,
+      "through": 3,
+      "musicId": 114,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-steel-thanks",
+      "from": 0,
+      "through": 1,
+      "musicId": 103,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-steel-home",
+      "from": 0,
+      "through": 0,
+      "musicId": 103,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-steel-home",
+      "from": 1,
+      "through": 1,
+      "musicId": null,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-steel-return-bridge",
+      "from": 0,
+      "through": 0,
+      "musicId": null,
+      "owner": "dungeon"
+    },
+    {
+      "scene": "browser-steel-quiet-summit",
+      "from": 0,
+      "through": 0,
+      "musicId": 114,
+      "owner": "ground",
+      "guard": "steel-poststory"
+    },
+    {
+      "scene": "browser-friends-dream",
+      "from": 0,
+      "through": 0,
+      "musicId": 4,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-friends-dream",
+      "from": 1,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-friends-morning",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-wigglytuff-welcome",
+      "from": 0,
+      "through": 4,
+      "musicId": 7,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-square-wind-request",
+      "from": 0,
+      "through": 4,
+      "musicId": 7,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-friends-rest",
+      "from": 0,
+      "through": 1,
+      "musicId": null,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-meanies-morning",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-meanies-mailbox",
+      "from": 0,
+      "through": 0,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-meanies-mailbox",
+      "from": 1,
+      "through": 5,
+      "musicId": 10,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-meanies-mailbox",
+      "from": 6,
+      "through": 10,
+      "musicId": null,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-caterpie-morning",
+      "from": 0,
+      "through": 1,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-sinister-request",
+      "from": 0,
+      "through": 0,
+      "musicId": 1,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-sinister-request",
+      "from": 1,
+      "through": 2,
+      "musicId": null,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-sinister-request",
+      "from": 3,
+      "through": 7,
+      "musicId": 10,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-sinister-request",
+      "from": 8,
+      "through": 9,
+      "musicId": null,
+      "owner": "ground"
+    },
+    {
+      "scene": "browser-steel-ordinary-empty-summit",
+      "from": 0,
+      "through": 1,
+      "musicId": 114,
+      "owner": "dungeon",
+      "guard": "ordinary-steel-summit"
+    }
+  ],
+  "groundRequests": [
+    {
+      "map": "browser-team-base-exterior",
+      "musicId": 1
+    },
+    {
+      "map": "browser-team-base-interior",
+      "musicId": 1
+    },
+    {
+      "map": "browser-pokemon-square",
+      "musicId": 7
+    },
+    {
+      "map": "browser-pelipper-post-office",
+      "musicId": 7
+    },
+    {
+      "map": "browser-opening-meadow",
+      "musicId": null
+    },
+    {
+      "map": "browser-thunderwave-clearing",
+      "musicId": null
+    },
+    {
+      "map": "browser-thunderwave-entrance",
+      "musicId": 14
+    },
+    {
+      "map": "browser-steel-entrance",
+      "musicId": 120
+    },
+    {
+      "map": "browser-steel-rescue-summit",
+      "musicId": null
+    }
+  ],
+  "unassigned": [
+    "browser-friends-rest: independently inserted browser rest has no unique native owner",
+    "Friend Area normal music: exact manifest/native normal request join pending",
+    "Dungeon fail/complete fanfare: exact active result owner pending",
+    "Native theft/shop/monster-house override facts not owned in current snapshot",
+    "Future MAIN chapter>5: private native start-mode bypass and quest/music ownership pending",
+    "Unproven hit/status/heal/item/pickup/job/learning/faint sound audience/outcome annotations pending",
+    "Blue parity and human autoplay/device/focus/mixing/composition audition pending"
+  ]
+}

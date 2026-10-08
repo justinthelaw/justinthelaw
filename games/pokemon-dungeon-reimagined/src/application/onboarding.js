@@ -1,16 +1,16 @@
-import { createQuiz, campaignSeed, initialOptions } from './quiz.js';
+import { createQuiz, campaignSeed } from './quiz.js';
 import { createInitialSelection } from '../../content/state/initial.js';
 import { createCampaign } from '../domain/state.js';
 import { node } from '../ui/view.js';
 
 /** Quiz/result/partner/name screens remain uncommitted until canonical validation
  * and a concrete persistence preview. No alternate hero selector is exposed.
- * @param {{catalogs:import('../domain/gameplay/support.js').Catalogs,gameplay:ReturnType<typeof import('../domain/gameplay/index.js').createGameplay>,view:ReturnType<typeof import('../ui/view.js').createView>,commit:(snapshot:import('../contracts/campaign.js').CampaignSnapshot,mode:'durable'|'memory')=>void,back:()=>void}} options */
-export function startOnboarding({ catalogs, gameplay, view, commit, back }) {
+ * @param {{catalogs:import('../domain/gameplay/support.js').Catalogs,gameplay:ReturnType<typeof import('../domain/gameplay/index.js').createGameplay>,view:ReturnType<typeof import('../ui/view.js').createView>,commit:(snapshot:import('../contracts/campaign.js').CampaignSnapshot,mode:'durable'|'memory')=>void,back:()=>void,getOptions:()=>import('../contracts/campaign.js').CampaignOptions,isCurrent:()=>boolean}} options */
+export function startOnboarding({ catalogs, gameplay, view, commit, back, getOptions, isCurrent }) {
   const quiz = createQuiz(catalogs.onboarding);
   /** @type {string|null} */ let nature = null;
   /** @param {()=>void} action */
-  function safely(action) { try { action(); } catch (error) { view.notify(error instanceof Error ? error.message : 'Quiz could not continue. Start a new quiz.'); } }
+  function safely(action) { if (!isCurrent()) return; try { action(); } catch (error) { view.notify(error instanceof Error ? error.message : 'Quiz could not continue. Start a new quiz.'); } }
   function questionScreen() {
     const question = quiz.current();
     if (!question) { nature = quiz.result(); genderScreen(); return; }
@@ -51,7 +51,7 @@ export function startOnboarding({ catalogs, gameplay, view, commit, back }) {
     function prepare(mode) { safely(() => {
       // Spaces are native name cells; canonical validation owns length/glyphs.
       const result = createCampaign({ selection, heroName: heroInput.value, partnerName: partnerInput.value, teamName: 'Pokémon',
-        seed: campaignSeed(), createdAt: new Date().toISOString(), options: initialOptions(), initialProfileId: gameplay.authored.profileId }, gameplay.content);
+        seed: campaignSeed(), createdAt: new Date().toISOString(), options: structuredClone(getOptions()), initialProfileId: gameplay.authored.profileId }, gameplay.content);
       if (!result.ok) { view.notify(result.kind === 'blocked' ? `New campaign needs: ${result.requirementIds.join(', ')}` : result.issues.map(issue => issue.message).join(' ')); return; }
       commit(result.snapshot, mode);
     }); }

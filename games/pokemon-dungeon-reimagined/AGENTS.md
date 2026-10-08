@@ -284,3 +284,14 @@ The whole reward queue precedes inside24/outside31 MAIN5,8/5,9. The4096 hard cap
 remains; static burst bounds3603/2105/1751 retain independent source review.
 Current activation is a scoped development owner, pending independent candidate
 review and human/device/visual/Blue-parity/full-campaign acceptance.
+
+## Current audio composition boundary
+
+Follow [AUDIO.md](plan/AUDIO.md) for the original local score and presentation
+owner. Preserve trusted native iframe activation, complete accepted event-ID
+consumption before bounded cue selection, saved preference-only transactions,
+and the exact current escort registry/automatic-turn gates. Retained menus must
+rebuild their real current submenu after preference commits without granting
+retired buttons a new snapshot/token. Requalify the finite authored cursor map
+when scenes change. Static score/source checks do not establish human audition,
+Blue binary parity or campaign/release acceptance.
