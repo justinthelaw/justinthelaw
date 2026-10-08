@@ -1,3 +1,5 @@
+import { workReady } from '../domain/gameplay/work.js';
+import { rescueRank } from '../domain/gameplay/job-generation.js';
 import { TOWN } from '../../content/authored/town.js';
 import { STEEL } from '../../content/authored/mt-steel.js';
 import { WORK } from '../../content/authored/early-work.js';
@@ -11,9 +13,10 @@ import { showRewardChoices } from './reward-panel.js';
  * @param {'board'|'jobs'|'mailbox'|'depart'|'flow'} page */
 export function showWork({ snapshot, catalogs, view, send, back, menu, open }, page) {
   const work = snapshot.earlyWork; if (!work) return;
+  if (page !== 'flow' && !workReady(snapshot)) return;
   const itemName = (/** @type {string} */ id) => catalogs.effects.getItem(id).name;
   const person = (/** @type {string} */ id) => catalogs.species.getSpecies(id).name;
-  const routeName = (/** @type {string} */ id) => id === 'tiny-woods' ? 'Tiny Woods' : 'Thunderwave Cave';
+  const routeName = (/** @type {string} */ id) => id === 'tiny-woods' ? 'Tiny Woods' : id === STEEL.dungeonId ? 'Mt. Steel' : 'Thunderwave Cave';
   /** @param {string} title @param {string} text @param {import('../ui/view.js').Action[]} actions */
   function show(title, text, actions) {
     let token = Symbol('pending'); token = view.show(title, text, actions.map(action => ({ ...action, run() { if (view.ownsPanel(token)) action.run(); } })));
@@ -47,7 +50,7 @@ export function showWork({ snapshot, catalogs, view, send, back, menu, open }, p
   function list() {
     if (!work) return;
     const ids = page === 'board' ? work.boardJobIds : snapshot.progress.acceptedJobIds;
-    show(page === 'board' ? 'Bulletin board' : 'Job List', page === 'board' ? 'Accept a request, then choose Take Job in your Job List. Accepted offers stay displayed until the board refreshes.' : `${ids.length}/8 accepted · ${snapshot.progress.rankPoints} rescue points · Normal rank. Only taken requests create objectives.`, [
+    show(page === 'board' ? 'Bulletin board' : 'Job List', page === 'board' ? 'Accept a request, then choose Take Job in your Job List. Accepted offers stay displayed until the board refreshes.' : `${ids.length}/8 accepted · ${snapshot.progress.rankPoints} rescue points · ${rescueRank(snapshot.progress.rankPoints) === 0 ? 'Normal' : 'Bronze'} rank. Only taken requests create objectives.`, [
       ...ids.flatMap(id => { const job = snapshot.progress.jobs[id]; return job ? [{ label: `${routeName(job.goal.destination.dungeonId)} ${Number(job.goal.destination.floorId.split('-').at(-1))}F · ${job.goal.kind.replaceAll('-',' ')} · ${job.phase.kind === 'accepted' ? 'Taken' : job.phase.kind === 'suspended' ? 'Suspended' : 'Available'}`, run: () => detail(id,list) }] : []; }),
       { label: 'Back', run: back },
     ]);
@@ -61,8 +64,8 @@ export function showWork({ snapshot, catalogs, view, send, back, menu, open }, p
     ]);
   }
   function depart() {
-    show('Choose a dungeon', 'Taken requests are active in their named dungeon. Ordinary exploration without completing a request earns no job reward or request count. Stun Seeds can be eaten or thrown. Purchased TMs, orbs and Warp Seeds can be carried; their uses remain unavailable.', [
-      ...['tiny-woods','thunderwave-cave'].map(id => ({ label: `Enter ${routeName(id)}`, disabled: !!admission(catalogs,snapshot,id), detail: admission(catalogs,snapshot,id) ?? 'Begin an ordinary expedition', run: () => confirm(`Enter ${routeName(id)} with your current toolbox and taken jobs?`, () => send({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (id) }), depart) })),
+    show('Choose a dungeon', `Taken requests are active in their named dungeon. Ordinary exploration without completing a request earns no job reward or request count.${snapshot.friends ? ' Mt. Steel revisit is still in development; its accepted jobs stay in your Job List. Select the original pair through resident Standby before departure; additional team entry is still in development.' : ''} Stun Seeds can be eaten or thrown. Purchased TMs, orbs and Warp Seeds can be carried; their uses remain unavailable.`, [
+      ...['tiny-woods','thunderwave-cave', ...(snapshot.friends ? [STEEL.dungeonId] : [])].map(id => ({ label: `Enter ${routeName(id)}`, disabled: !!admission(catalogs,snapshot,id), detail: admission(catalogs,snapshot,id) ?? 'Begin an ordinary expedition', run: () => confirm(`Enter ${routeName(id)} with your current toolbox and taken jobs?`, () => send({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (id) }), depart) })),
       { label: 'Cancel', run: back },
     ]);
   }

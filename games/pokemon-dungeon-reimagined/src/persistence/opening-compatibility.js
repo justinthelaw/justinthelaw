@@ -1,3 +1,5 @@
+import { createCampaignContent as createContinuationContent } from '../../content/state/continuation-campaign.js';
+import { TURN_CONTINUATION_REVISION } from '../domain/state/continuation-revision.js';
 import { createCampaignContent as createItemImpactContent } from '../../content/state/item-impact-campaign.js';
 import { createCampaignContent as createStunSeedContent } from '../../content/state/stun-seed-campaign.js';
 import { createCampaignContent as createFieldCampaignContent } from '../../content/state/field-moves-campaign.js';
@@ -86,7 +88,9 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   if (impact.contentRevision !== field.contentRevision.replace('v16-field-moves-opening:', 'v17-item-impact-opening:')) throw new TypeError('Item-impact-v17 factual catalog boundary differs.');
   const stun = createStunSeedContent(catalogs);
   if (stun.contentRevision !== impact.contentRevision.replace('v17-item-impact-opening:', 'v18-stun-seed-opening:')) throw new TypeError('Stun-seed-v18 factual catalog boundary differs.');
-  return Object.freeze([...([stun, impact, field, damage, party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
+  const continuation = createContinuationContent(catalogs);
+  if (continuation.contentRevision !== TURN_CONTINUATION_REVISION) throw new TypeError('Continuation-v19 factual catalog boundary differs.');
+  return Object.freeze([...([continuation, stun, impact, field, damage, party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);
@@ -94,8 +98,8 @@ export function createOpeningCompatibility(catalogs, content, authored) {
       try {
         const { draft, commitRevision } = prepareTransaction(admitted.snapshot, commandContext(admitted.snapshot));
         draft.contentRevision = content.contentRevision; draft.revision = commitRevision;
-        if (predecessor === stun) {
-          // Exact v18 already owns every current field. Convert metadata only:
+        if (predecessor === continuation || predecessor === stun) {
+          // Exact v18/v19 already own every current field. Convert metadata only:
           // no defaults, actor initialization, cursor normalization or work.
           const checked = validateCampaign(draft, content);
           return checked.ok ? succeed(checked.snapshot) : fail(checked.kind === 'blocked' ? 'content-blocked' : 'invalid');

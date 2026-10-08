@@ -226,6 +226,13 @@ export async function createApplication(canvas, signal, startup) {
       showScene({ snapshot, epoch, prompt: gameplay.getScenePrompt(snapshot), ready, saves: menu, news: readNews, memoryOnly: saves?.isMemoryOnly() ?? false,
         saveTutorial(complete) { saves?.saveTutorial(snapshot, complete); },
         send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This scene prompt is stale.'); return; } act(intent, 'panel'); } });
+    } else if (loaded && snapshot.earlyWork && (snapshot.earlyWork.clientPrompt || snapshot.earlyWork.returned || snapshot.earlyWork.reward || snapshot.pendingResult)) {
+      dialogue = false;
+      const shownEpoch = saves?.service.getBinding().adventureEpoch;
+      showWork({ snapshot, catalogs: loaded.catalogs, view, back: resume, menu,
+        open() { followsGame = false; input?.cancel(); context(); },
+        send(intent) { if (current() !== snapshot || saves?.service.getBinding().adventureEpoch !== shownEpoch) { view.notify('This work selection is stale.'); return; } act(intent, 'panel'); },
+      }, 'flow');
     } else if (loaded && snapshot.friends && !session) {
       dialogue = false;
       if (!groundExploring) {
@@ -246,7 +253,7 @@ export async function createApplication(canvas, signal, startup) {
         ...(!complete ? [{ label: 'Prepare in town', run: () => act({ type: 'townTravel', mapId: TOWN.square }, 'panel') }] : []),
         { label: 'Campaign & saves', run: menu }, { label: 'View rewards', run: inventory },
       ]);
-    } else if (loaded && snapshot.earlyWork && (snapshot.earlyWork.clientPrompt || snapshot.earlyWork.returned || snapshot.earlyWork.reward || snapshot.pendingResult || snapshot.progress.storyNodeId === WORK.story)) {
+    } else if (loaded && snapshot.earlyWork && snapshot.progress.storyNodeId === WORK.story) {
       dialogue = false;
       const shownEpoch = saves?.service.getBinding().adventureEpoch;
       showWork({ snapshot, catalogs: loaded.catalogs, view, back: resume, menu,

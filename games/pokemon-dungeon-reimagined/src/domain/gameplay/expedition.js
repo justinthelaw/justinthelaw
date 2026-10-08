@@ -27,6 +27,7 @@ import { requestScene } from './scenes.js';
 export function admission(catalogs, state, dungeonId = 'tiny-woods') {
   const steel = dungeonId === STEEL.dungeonId;
   const ordinary = !steel && workReady(state);
+  if (steel && state.friends) return 'ordinary-steel-revisit-owner';
   if (steel && !steelReady(state)) return 'steel-prerequisite';
   if (ordinary && state.town.mapDefinitionId !== TEAM.map) return 'departure-at-base';
   if (state.session || state.mode !== 'town' || !ordinary && state.progress.clears[dungeonId]) return 'expedition-unavailable';

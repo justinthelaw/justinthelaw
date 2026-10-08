@@ -1,3 +1,7 @@
+import { CHAPTER_WORK_REVISION } from '../state/chapter-work-revision.js';
+import { FRIENDS, placeFriendsGround } from '../../../content/authored/friends.js';
+import { requestFriendsScene } from './friends.js';
+import { deliverChapterMailbox, changeChapterJobSelection } from './chapter-job-records.js';
 import { TOWN, placeInTown } from '../../../content/authored/town.js';
 import { WORK } from '../../../content/authored/early-work.js';
 import { TEAM } from '../../../content/authored/team-formation.js';
@@ -17,8 +21,11 @@ import { allocate, blocked, clone } from './support.js';
 /** Shared UI/command access, with mandatory return/dialogue ownership.
  * @param {Snapshot} state */
 export function workReady(state) {
-  return !!state.earlyWork && state.progress.storyNodeId === TOWN.story && state.progress.seenScenes[TOWN.scenes[3] ?? '']?.count === 1 && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork.returned && !state.earlyWork.reward && !state.earlyWork.clientPrompt;
+  return !!state.earlyWork && (state.progress.storyNodeId === TOWN.story && state.progress.seenScenes[TOWN.scenes[3] ?? '']?.count === 1 || chapterWorkReady(state)) && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork.returned && !state.earlyWork.reward && !state.earlyWork.clientPrompt;
 }
+/** The new interval adds no bypass for a canonical input owner.
+ * @param {Snapshot} state */
+export function chapterWorkReady(state) { return state.contentRevision === CHAPTER_WORK_REVISION && state.friends?.phase === 'work-three' && state.progress.storyNodeId === FRIENDS.story && state.progress.native.scenarios.MAIN.chapter === 5 && state.progress.native.scenarios.MAIN.step === 5 && state.progress.native.clearCount < 3; }
 /** Opening a new prompt also requires that no other client prompt owns input.
  * @param {Snapshot} state @param {import('./support.js').Catalogs} catalogs */
 export function facingJobClient(state, catalogs) {
@@ -28,7 +35,17 @@ export function facingJobClient(state, catalogs) {
 /** @param {Context} context @param {import('../../../content/authored/opening.js').AuthoredOpening} authored */
 function nextMorning(context, authored) {
   const state = context.state, work = state.earlyWork; if (!work?.returned || work.returned.cursor < work.returned.jobIds.length || work.reward || state.pendingResult) return blocked('work-return-unfinished');
-  work.returned = null; state.town.day++; placeInTown(state, TEAM.map);
+  work.returned = null; state.town.day++;
+  if (state.friends?.phase === 'work-three') {
+    if (state.progress.native.clearCount >= 3) { state.friends.phase = 'meanies-morning'; requestFriendsScene(context,authored,5); }
+    else {
+      placeFriendsGround(state,TEAM.map);
+      const delivered = deliverChapterMailbox(state,work);
+      context.emit({ type: 'message',messageId: delivered ? 'work-new-mail' : 'work-next-morning' });
+    }
+    return;
+  }
+  placeInTown(state, TEAM.map);
   if (state.progress.native.clearCount >= 2) {
     state.progress.storyNodeId = WORK.story;
     const scene = authored.scenes.find(row => row.id === WORK.scenes[0]); if (!scene) return blocked('diglett-request-script');
@@ -126,7 +143,7 @@ export function workHandlers(catalogs, authored) { return {
         else if (order.yes) { work.clientPrompt = null; settleExpedition(context, 'success', catalogs); }
         else prompt.stage = 'leave';
       } else if (order.kind === 'job') {
-        if (!changeJobSelection(state, work, order.jobId, order.operation)) return { kind: 'rejected', reason: 'unavailable' };
+        if (!(state.friends ? changeChapterJobSelection : changeJobSelection)(state, work, order.jobId, order.operation)) return { kind: 'rejected', reason: 'unavailable' };
       } else if (order.kind === 'read-news') {
         const index = work.mailbox.findIndex(row => row.kind === 'news' && row.newsId === order.newsId);
         if (index < 0) return { kind: 'rejected', reason: 'unavailable' };

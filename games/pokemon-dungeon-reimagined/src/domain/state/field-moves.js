@@ -1,5 +1,5 @@
-import { recordsFieldMoves as recordsV18FieldMoves } from './field-moves-v18.js';
-import { TURN_CONTINUATION_REVISION } from './continuation-revision.js';
-/** Exact admitted roots retain the v16 field cache shape and links.
+import { recordsFieldMoves as recordsV19FieldMoves } from './field-moves-v19.js';
+import { CHAPTER_WORK_REVISION } from './chapter-work-revision.js';
+/** Exact successor recognition; historical roots retain their original admission.
  * @param {string} revision */
-export const recordsFieldMoves = revision => recordsV18FieldMoves(revision) || revision === TURN_CONTINUATION_REVISION;
+export const recordsFieldMoves = revision => recordsV19FieldMoves(revision) || revision === CHAPTER_WORK_REVISION;

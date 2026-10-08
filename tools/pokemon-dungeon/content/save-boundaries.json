@@ -310,6 +310,26 @@
     {
       "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v18.js",
       "sha256": "0c09e6e405bb797121e4eb0e1e8bd04ca871d68453ead0a632af31ac055bec6d"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/continuation-campaign.js",
+      "sha256": "8e75c52223e1e391813633479eca817927b85a50211ab64683ebef29ec054698"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/continuation-policy.js",
+      "sha256": "c7a0000af543883cf5fc66c3d340e2cd09e27c80056e2d39d7974d97438957a0"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-revision.js",
+      "sha256": "1f8562102ffe46c4536a5707f4002299c546ce0c30433e14fc1a39274fd3211a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-schema.js",
+      "sha256": "c156984e8ebbe7850344c21e3d7e6a1d09b343b529b0e98ffcb8203ba936383f"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v19.js",
+      "sha256": "9c65feb7753fd161d2e6bbab5cd1f9cba45d941e2373eaa4a29e22d140a15597"
     }
   ],
   "functionBodies": [
@@ -444,5 +464,6 @@
   "continuationPredecessorSchema": {
     "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
     "sha256": "39f6613b5fb55f26dece5bd4f899c0be53e5a14e120c181e6d71ae7924a34f8d"
-  }
+  },
+  "chapterWorkPredecessorBaselineCommit": "659bfe78ecb9708b775573af3501d4f68f6c0c51"
 }

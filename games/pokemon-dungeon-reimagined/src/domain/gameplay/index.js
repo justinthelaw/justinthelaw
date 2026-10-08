@@ -1,6 +1,6 @@
 import { THUNDERWAVE as T } from '../../../content/authored/thunderwave.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
-import { createFriendsContent } from '../../../content/authored/friends.js';
+import { createChapterWorkContent } from '../../../content/authored/chapter-work.js';
 import { createCampaignContent } from '../../../content/state/campaign.js';
 import { freezeData } from '../state/validate.js';
 import { createCommandHandlers } from './commands.js';
@@ -15,7 +15,7 @@ import { supportedMove } from './combat.js';
  * @param {import('./support.js').Catalogs} catalogs
  * @param {{tutorialSaved?:(snapshot:import('../../contracts/campaign.js').CampaignSnapshot)=>boolean}} [options] */
 export function createGameplay(catalogs, options = {}) {
-  const authored = freezeData(createFriendsContent());
+  const authored = freezeData(createChapterWorkContent());
   const content = createCampaignContent(catalogs, authored);
   return Object.freeze({ content, authored,
     handlers: createCommandHandlers(catalogs, authored, options.tutorialSaved ?? (() => false)), turns: createTurnHooks(catalogs, authored),

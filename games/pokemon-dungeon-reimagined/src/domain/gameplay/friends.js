@@ -1,3 +1,4 @@
+import { deliverChapterMailbox } from './chapter-job-records.js';
 import { FRIENDS, placeFriendsGround, areaMapId, friendAreaMap } from '../../../content/authored/friends.js';
 import { FRIEND_AREA_FACTS } from '../../../content/authored/friend-area-facts.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
@@ -13,7 +14,7 @@ import { blocked, facing } from './support.js';
 /** @typedef {import('../../../content/authored/opening.js').AuthoredOpening} Authored */
 /** @typedef {import('./friend-residents.js').ResidentOrder|{kind:'begin'}|{kind:'welcome'}|{kind:'nickname-answer';rename:boolean}|{kind:'nickname';name:string|null}} FriendOrder */
 /** @param {import('../../contracts/campaign.js').CampaignSnapshot} state */
-export function friendsGroundReady(state) { return !!state.friends && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward; }
+export function friendsGroundReady(state) { return !!state.friends && state.friends.phase !== 'meanies-ready' && state.mode === 'town' && !state.session && !state.pendingScene && !state.pendingResult && !state.earlyWork?.returned && !state.earlyWork?.reward && !state.earlyWork?.clientPrompt; }
 /** Every MAIN change resets native CLEAR_COUNT, including changes of substage.
  * @param {import('../../contracts/campaign.js').CampaignState} state @param {number} step */
 export function setFriendsStep(state, step) { state.progress.native.scenarios.MAIN = { chapter: 5, step }; state.progress.native.clearCount = 0; }
@@ -42,7 +43,8 @@ export function advanceFriendsScene(context, authored, catalogs) {
   else if (index === 1) { setFriendsStep(state, 3); friends.phase = 'tour'; state.progress.native.scalars.warpLock = 4; }
   else if (index === 2) { setFriendsStep(state, 4); friends.phase = 'encounter-ready'; }
   else if (index === 3) { state.progress.native.scalars.warpLock = 0; refreshGround(state, catalogs); friends.phase = 'rest'; requestFriendsScene(context, authored, 4); }
-  else if (index === 4) { state.town.day++; setFriendsStep(state, 5); friends.phase = 'work-three'; placeFriendsGround(state, TEAM.map); }
+  else if (index === 4) { state.town.day++; setFriendsStep(state, 5); friends.phase = 'work-three'; placeFriendsGround(state, TEAM.map); if (state.earlyWork) deliverChapterMailbox(state,state.earlyWork); }
+  else if (index === 5 && friends.phase === 'meanies-morning') { setFriendsStep(state,6); friends.phase = 'meanies-ready'; }
   else return blocked('later-friend-scene-dependency');
   return { kind: /** @type {const} */ ('changed'), resumeDungeon: false };
 }
@@ -55,7 +57,7 @@ export function friendHandler(catalogs, authored) { return {
     if (order.kind === 'welcome') return friendsGroundReady(state) && state.friends?.phase === 'tour' && nearWigglytuff(state) ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' };
     if (order.kind === 'nickname-answer') return state.friends?.nicknamePrompt === 'ask' && typeof order.rename === 'boolean' ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' };
     if (order.kind === 'nickname') return state.friends?.nicknamePrompt === 'edit' && (order.name === null || typeof order.name === 'string') ? { kind: 'mutation' } : { kind: 'rejected', reason: 'unavailable' };
-    return residentOrderProblem(state, order, catalogs) ? { kind: 'rejected', reason: 'unavailable' } : { kind: 'mutation' };
+    return !friendsGroundReady(state) || residentOrderProblem(state, order, catalogs) ? { kind: 'rejected', reason: 'unavailable' } : { kind: 'mutation' };
   },
   apply(context, intent) {
     if (intent.type !== 'friendAction') return { kind: 'rejected', reason: 'invalid-command' };
@@ -84,9 +86,10 @@ export function travelFriends(context, authored, map) {
   const area = FRIEND_AREA_FACTS.find(row => row.id && areaMapId(row.id) === map);
   if (area?.id ? state.progress.native.scenarios.MAIN.step < 4 || !state.economy.ownedFriendAreaIds.some(id => id === area.id) : ![TEAM.map, MORNING.interior, TOWN.square, TOWN.post].includes(map)) return false;
   if (friends.phase === 'tour' && ![TEAM.map, TOWN.square].includes(map)) return false;
-  if (friends.phase === 'morning-ready' && map !== TEAM.map) return false;
+  if (friends.phase === 'morning-ready' && map !== TEAM.map || state.town.mapDefinitionId === map) return false;
   placeFriendsGround(state, map);
   if (friends.phase === 'morning-ready') { friends.phase = 'morning'; requestFriendsScene(context, authored, 1); }
+  else if (friends.phase === 'work-three' && map === TEAM.map && state.earlyWork) deliverChapterMailbox(state,state.earlyWork);
   return true;
 }
 /** Readable ground exploration and actual proximity trigger. Domain placement

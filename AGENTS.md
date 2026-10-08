@@ -396,6 +396,9 @@ share real recipient ingestion/impact without a new save revision: Heal clears
 owned admitted classes/slow/seals with cache-only speed refresh; Quick samples
 before cap/full-array checks and uses the turn raise/attack-unlock owner. See
 game plan/HEAL-QUICK-SEEDS.md, STUN-SEED.md and TURN-CONTINUATION.md. Preserve
+the bounded v20 chapter-work bridge in game plan/CHAPTER-FIVE-WORK.md: original-pair
+Tiny/Thunderwave work through inside-base MAIN5,6 only. Keep Steel postings and
+Magnemite selection; ordinary Steel, Meanies op6 and later work remain held. Preserve
 every earlier
 envelope boundary, live Leech link and Water Sport counter. Continuation checkpoints
 commit only the first completed opportunity, flush recipient or empty-completion

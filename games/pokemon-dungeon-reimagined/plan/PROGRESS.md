@@ -1372,3 +1372,33 @@ and commit evidence are in the ignored heal-quick handoff. Controller owns full
 static/build/hooks/export, independent review and publication. No game imports,
 execution/tests/browser/playthrough, subagents, push/merge/deployment or next
 package work occurred here. Stop for scoped spec/quality review of this package.
+
+## V20 — chapter-five first work interval (2026-10-08; review pending)
+
+Package/sub-batch: actual MAIN5,5 original-pair Tiny/Thunderwave work through
+inside-base MAIN5,6 wakeup, before outside Meanies/op6.
+Approval/dependencies: controller's bounded chapter5 brief/research over accepted
+Heal/Quick/Stun/continuation; full scope and release gates unchanged.
+Base and resulting commit: published `659bfe78ecb9708b775573af3501d4f68f6c0c51`;
+resulting bounded checkpoint is recorded in the ignored chapter5 report.
+Owned paths changed: successor authored/factory/progress/scene/registry owners,
+work/friend command and UI joins, compatibility routing, appended source pins,
+AGENTS and [CHAPTER-FIVE-WORK.md](CHAPTER-FIVE-WORK.md).
+Public interfaces: exact v20 continuation recognition, chapter-work readiness,
+full friend-native mail/selection wrapper, real inside wakeup/meanies-ready.
+Research sources/gaps: pinned Red6bcbec4 comparative ground dispatch, event flags,
+normal mail and refresh-before-station; exact hashes/locators in linked contract.
+Preservation: unchanged frozen schema/factories/policies/factual manifests and
+old pins; v2–v19 authenticate/admit before prospective conversion; no item/party/
+move/history filtering or invented Steel exit. New work counters/field cache/
+objective/client/return/wakeup facts precede onboarding validation projection.
+Static checks: focused lint/types/source pins/friend/campaign facts only;
+actual commands/results in ignored report. No game source executed or imported.
+Independent review: pending fresh controller review; no package acceptance claim.
+Manual evidence: not performed; D05 game tests/browser/playthrough excluded.
+Coverage: bounded P19/P21/P23 work consumer only; no full-plan box closed.
+Remaining gaps: ordinary Steel, exact Meanies/Pelipper scripted Pidgey mail,
+Bronze escorts/rewards/second interval, Caterpie/Sinister, full party/item AI,
+extra-party entry and recruitment; visuals/human/full-release acceptance open.
+Next exact package: source-qualified Steel revisit and Meanies mailbox owner
+only after independent review of this checkpoint.

@@ -1,3 +1,5 @@
+import { showWork } from './work.js';
+import { workReady } from '../domain/gameplay/work.js';
 import { IQ_SKILLS } from '../../content/state/pokemon-rules.js';
 import { FRIEND_AREA_FACTS, areaMapId, areaResidents } from '../../content/authored/friends.js';
 import { TOWN } from '../../content/authored/town.js';
@@ -47,10 +49,16 @@ export function showFriends({ snapshot, catalogs, view, send, menu, open, explor
     }),{ label: 'Back',run: talk }]);
   }
   function moves() { if (!resident) return; show(`${resident.nickname} · moves`,'Choose whether your teammate may use each learned move.',[...resident.moves.slots.flatMap(slot => slot ? [{ label: `${slot.enabled ? 'Enabled' : 'Disabled'} · ${catalogs.effects.getMove(slot.moveId).name}`,run: () => send({ type: 'friendAction',order: { kind: 'move-toggle',pokemonId: resident.pokemonId,moveSlotId: slot.moveSlotId } }) }] : []),{ label: 'Back',run: talk }]); }
+  /** @param {'board'|'jobs'|'mailbox'|'depart'} page */
+  function jobs(page) { showWork({ snapshot,catalogs,view,send,back: home,menu,open },page); }
   function home() {
-    const square = snapshot.town.mapDefinitionId === TOWN.square, canExplore = square || !!area;
-    const guidance = friends?.phase === 'morning-ready' ? 'Your partner is waiting outside.' : friends?.phase === 'tour' ? 'Visit Wigglytuff near the center of the Square. Walk beside the counter, then speak with Wigglytuff.' : friends?.phase === 'encounter-ready' ? 'A Jumpluff is asking for help near the northeast side of the Square. Walk over to hear the request.' : area ? 'Walk beside a resident, then use Talk to manage your team or held items.' : 'The Friend Area introduction is complete. The next rescue-work interval is still being integrated.';
+    if (friends?.phase === 'meanies-ready') { show('The next morning','You are awake inside the rescue base. The next event outside, including Team Meanies and the replacement request, is still in development. Your jobs, rewards and team selection are saved.',[{ label: 'Campaign & saves',run: menu }]); return; }
+    const square = snapshot.town.mapDefinitionId === TOWN.square, canExplore = square || !!area, readyWork = workReady(snapshot);
+    const guidance = friends?.phase === 'morning-ready' ? 'Your partner is waiting outside.' : friends?.phase === 'tour' ? 'Visit Wigglytuff near the center of the Square. Walk beside the counter, then speak with Wigglytuff.' : friends?.phase === 'encounter-ready' ? 'A Jumpluff is asking for help near the northeast side of the Square. Walk over to hear the request.' : area ? 'Walk beside a resident, then use Talk to manage your team or held items.' : `Take rescue requests and finish their objectives in Tiny Woods or Thunderwave Cave. ${snapshot.progress.native.clearCount}/3 requests claimed this interval. Mt. Steel revisit and additional team entry remain in development; accepted jobs and selected residents are retained.${snapshot.earlyWork?.history === 'legacy-postings-unavailable' ? ' Imported posting history remains unavailable.' : ''}`;
     show(area?.name ?? (square ? 'Pokémon Square' : 'Rescue base'),guidance,[
+      ...(readyWork ? [{ label: 'Job List',run: () => jobs('jobs') }] : []),
+      ...(readyWork && snapshot.town.mapDefinitionId === TOWN.post ? [{ label: 'Bulletin board',run: () => jobs('board') }] : []),
+      ...(readyWork && snapshot.town.mapDefinitionId === TEAM.map ? [{ label: 'Check mailbox',run: () => jobs('mailbox') },{ label: 'Choose dungeon',run: () => jobs('depart') }] : []),
       ...(canExplore ? [{ label: 'Explore on foot',run: explore }] : []),
       ...(resident ? [{ label: `Talk to ${resident.nickname}`,run: talk }] : []),
       ...(square && nearWigglytuff(snapshot) ? [{ label: friends?.phase === 'tour' ? 'Speak to Wigglytuff' : 'Buy Friend Areas',run: friends?.phase === 'tour' ? () => send({ type: 'friendAction',order: { kind: 'welcome' } }) : shop }] : []),

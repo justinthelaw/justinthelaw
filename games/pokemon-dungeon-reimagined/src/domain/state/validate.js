@@ -5,7 +5,7 @@ import { copyPlainData, snapshotPlainData } from './plain.js';
 import { inspectShape, issue } from './structure.js';
 import { SHAPES } from './schema.js';
 import { CONTINUATION_SHAPES } from './continuation-schema.js';
-import { TURN_CONTINUATION_REVISION } from './continuation-revision.js';
+import { recordsContinuation } from './continuation-registry.js';
 import { recordsSpeciesSeen } from './species-seen.js';
 import { checkGraph } from './graph.js';
 import { contentInterface, checkPolicies, runPolicy } from './policies.js';
@@ -55,7 +55,7 @@ export function validateCampaign(input, content) {
   // Select one registry by exact agreement with the trusted factory. Every
   // recursive preflight and visitor below uses this same registry; old/default
   // revision admission remains on the byte-frozen predecessor shape table.
-  const shapes = data.contentRevision === TURN_CONTINUATION_REVISION && content.contentRevision === TURN_CONTINUATION_REVISION ? CONTINUATION_SHAPES : SHAPES;
+  const shapes = typeof data.contentRevision === 'string' && data.contentRevision === content.contentRevision && recordsContinuation(data.contentRevision) ? CONTINUATION_SHAPES : SHAPES;
   if (!inspectShape(data, campaignShape, issues, undefined, '', shapes)) return failure(issues, requirements);
   const state = /** @type {CampaignState} */ (/** @type {unknown} */ (data));
   checkNativeProgress(state.progress.native, issues, '/progress/native');
