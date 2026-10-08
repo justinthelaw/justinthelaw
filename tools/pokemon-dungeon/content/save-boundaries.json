@@ -422,6 +422,46 @@
     {
       "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-registry-v22.js",
       "sha256": "c9a8c87e8852791ec97d5fd072294b93903e2382fefc225cd356155709378bd3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/move-learning-campaign.js",
+      "sha256": "674165e244f110005dc7b68876379ebe9be9a27946d9d22515d1758168825ae3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/move-learning.js",
+      "sha256": "94d5796d6f522eb3eb14bb17c13a6cdcd4d4c5a7ac769f0a899371c83099d38b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/authored/move-learning-facts.js",
+      "sha256": "3571043e95909c127b23f76cc9ac6ed131794f8a9e0fea0de8eaa4f820c81bac"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/move-learning-proof.js",
+      "sha256": "75f19d25500f3f8791daa1b26d08a0b2d12398d15addb23a1d5ca8552e3f7651"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/move-learning-prefix.js",
+      "sha256": "95e86c4b3a63cdc53a69bbaafda6153b572521ac3bc552f338dba5efcbd07809"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/move-learning-schema.js",
+      "sha256": "648127bcaae71927c6c8354d00f2573e4be1b9aee4b0502196d7bb89ae4e55f5"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/move-learning-revision.js",
+      "sha256": "f13dd2386f3b048da136691b7e6aedff0bc2bde1c7651fdfd38474d3172e592b"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/native-learning.js",
+      "sha256": "9728d608080c0d51d7878ecd402e0256f357c4c67e51f5063bb76d354aa20f04"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v23.js",
+      "sha256": "44d238517b1aa97fcc95aff9e8ad458c3e2069c3926789b211553d50b6809701"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/continuation-registry-v23.js",
+      "sha256": "ddf8f44892882203d77e88025d77c7d524a331deeee9ba5d3a4e3449d7437108"
     }
   ],
   "functionBodies": [
@@ -560,5 +600,6 @@
   "chapterWorkPredecessorBaselineCommit": "659bfe78ecb9708b775573af3501d4f68f6c0c51",
   "steelMeaniesPredecessorBaselineCommit": "c98a8152088875ab7d412ba75c493295ab66e103",
   "bronzeJobsPredecessorBaselineCommit": "77ee7640810d20974e707c67f477206e1edae1b6",
-  "moveLearningPredecessorBaselineCommit": "961cb987ef18bb6715f4f54a4711fbf8a04cf282"
+  "moveLearningPredecessorBaselineCommit": "961cb987ef18bb6715f4f54a4711fbf8a04cf282",
+  "escortWorkPredecessorBaselineCommit": "5851d00a15694c7417e2139c856401594c982d0e"
 }
