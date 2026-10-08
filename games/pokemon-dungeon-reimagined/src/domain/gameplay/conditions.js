@@ -1,4 +1,6 @@
 import { DIRECTIONS } from '../navigation/geometry.js';
+import { calculateSpeedStage } from '../rules/speed.js';
+import { currentSpeedContext } from './speed-context.js';
 import { clearPetrified } from './status-interruptions.js';
 import { activeActors } from './move-targets.js';
 import { hasHeldItem } from './held-effects.js';
@@ -22,7 +24,7 @@ export function statusTurns(context, actor, low, high, catalogs) {
 }
 /** @param {Actor} actor @param {Catalogs} catalogs */
 export function refreshSpeed(actor, catalogs) {
-  actor.speed.cachedStage = Math.max(0, Math.min(4, profile(actor.identity, catalogs).baseMovementSpeed + actor.speed.positiveTimers.filter(Boolean).length - actor.speed.negativeTimers.filter(Boolean).length - Number(actor.conditions.burn?.statusId === 'paralysis')));
+  actor.speed.cachedStage = calculateSpeedStage(currentSpeedContext(actor, catalogs));
 }
 /** Only the admitted early-route contact abilities are consumed here. Native
  * rolls flags after damage/faint/revival; move-specific effects run before the

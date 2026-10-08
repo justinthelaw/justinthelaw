@@ -1,22 +1,16 @@
 # Stun Seed and Petrified — D02b
 
-Stun Seed's core is staged for the shared deliberate eat and ordinary facing
-throw paths. It remains absent from public use/throw availability pending the
-continuation prerequisite below. Warp needs the same sourced interruption owner.
-D02b activation, Item Master and every other remaining item dependency stay open.
-Independent review and human gameplay/visual acceptance are separate gates.
+Stun Seed is active in the development deliberate eat and ordinary facing
+throw paths after independent staged-core and v19 continuation review. Activation
+changes only the public effect/throw arrays; its sourced rules and exact v18
+admission remain intact. Item Master and wider item/status owners remain open.
 
-Activation awaits independent review of implemented [turn continuation](TURN-CONTINUATION.md): the exact existing save
-boundary admits128 wild slots and slow leaders. A30-tick self-Stun can exceed
-the old16,384 scheduler steps and4096 emitted-event limits before input
-returns. Later interruption/status chains may extend this further. Increasing
-limits to millions of synchronous steps/events is not the accepted fix; the
-v19 cooperative continuation owner now preserves native timing and exact saved
-work at finite completed units, with scoped counted tile notices and explicit
-3800/2300/1950 atomic event allowances. Public activation remains pending its
-independent review. Human latency/device/save-interruption acceptance remains
-open separately for full release.
-Static implementation does not establish complete admitted-state playability.
+The accepted [turn continuation](TURN-CONTINUATION.md) preserves all128 wild slots
+and slow leaders at finite completed units, retaining native timing and saved
+work under the unchanged16,384-step/4096-event caps. The reviewed continuation
+local head55e272b and published03df87c have identical trees; final specification
+PASS and quality APPROVE close the prerequisite. Human latency/device/save-
+interruption, gameplay/visual and full-release acceptance remain open separately.
 
 ## Application and lifetime
 
@@ -147,7 +141,7 @@ The source snapshot hashes below document reused evidence, not new runtime data.
 
 Remaining scope includes Warp/Monster House/forced placement, wider frozen and
 reciprocal statuses, unsafe swap confirmation, new actor roles and leader changes,
-full native party movement/item selection, D01/D03–D10 effects and complete
+full native party movement/item selection, D01 and D04–D06/D08–D10 effects and complete
 campaign/art/audio/device acceptance. D05 permits static source/type/provenance
 checks only; no game import, execution, tests, browser boot or playthrough is
 part of this checkpoint.

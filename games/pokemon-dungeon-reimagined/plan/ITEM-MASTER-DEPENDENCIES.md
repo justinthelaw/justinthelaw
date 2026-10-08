@@ -13,17 +13,13 @@ Native item flags and behavior references use the pinned original Red source
 `pret/pmd-red@6bcbec4f906938c0243aa2026bcbd41b577bab85` as comparative evidence;
 they do not establish Blue instruction parity.
 
-Current D02b staged core: [Stun Seed/Petrified](STUN-SEED.md) implements its role
-timers, upkeep, acting/swap/interruption and exact v18 item-source admission over
-frozen v17. Public use/throw availability remains unchanged; independent review
-is a separate checkpoint. The [v19 continuation prerequisite](TURN-CONTINUATION.md)
-is implemented, with saved completed-unit PCs, blocked interleaved player mutations,
-an owned browser-frame pump and explicit atomic notification bounds. D02b public
-activation remains pending independent prerequisite review; native Item Master
-selection is still absent. Long self-Stun exceeded old whole-turn budgets under
-unchanged admission, which this bounded owner preserves. The baseline
-inventory/count evidence and historical tables below remain
-historical. Warp and D01/D03–D10 remain open, and Item Master is not enabled.
+Current D02b [Stun Seed/Petrified](STUN-SEED.md) is active for development
+use/throw after independent lifecycle and [v19 continuation](TURN-CONTINUATION.md)
+review. [D03 Heal and D07 Quick](HEAL-QUICK-SEEDS.md) now consume deliberate
+self ingestion/uncaught facing impacts over already-admitted fields. Native
+Item Master selection remains absent. Human/device/full-release acceptance
+remains separate; old inventories, flags and historical counts below stay intact.
+Warp, D01, D04–D06 and D08–D10 remain open.
 
 ## Closed boundary
 
@@ -161,7 +157,7 @@ consumer pending T01 recipient integration. **D01–D10** are tasks below.
 |27|item-diet-ribbon|001|Yes / —|D10: held Belly/hunger behavior and uncaught equipment impact|
 |40|item-whiff-specs|001|Yes / —|D10: held own-throw hit override and equipment impact|
 |41|item-no-aim-scope|001|Yes / —|D10: held throw direction and equipment impact|
-|53|item-heal-seed|110|Yes / —|D03: negative-status cure absent; predicate exists|
+|53|item-heal-seed|110|Yes / —|D03: deliberate Heal consumer implemented; T03 chooser open|
 |55|item-oran-berry|110|Yes / F,P,G|C0: Belly5/heal100, self only|
 |56|item-sitrus-berry|110|Yes / —|D04: heal reuse plus full-HP permanent HP gain|
 |57|item-eyedrop-seed|110|Yes / —|D05: eyedrops state/visibility absent|
@@ -171,7 +167,7 @@ consumer pending T01 recipient integration. **D01–D10** are tasks below.
 |62|item-life-seed|100|Yes / —|D04: permanent HP gain absent|
 |63|item-rawst-berry|110|Yes / P,G|C0: self burn cure/Belly5|
 |64|item-hunger-seed|001|Yes / —|D09: leader/nonleader Belly branches absent|
-|65|item-quick-seed|110|Yes / —|D07: item speed-up application absent; timers/upkeep exist|
+|65|item-quick-seed|110|Yes / —|D07: deliberate Quick consumer implemented; T03 chooser open|
 |66|item-pecha-berry|110|Yes / F,P,G|C0: self poison cure/Belly5|
 |67|item-cheri-berry|110|Yes / F,P,J|C0: self paralysis cure/speed refresh/Belly5|
 |68|item-totter-seed|001|Yes / —|D06: Confusion lifecycle exists, item-source application/admission absent|
@@ -180,7 +176,7 @@ consumer pending T01 recipient integration. **D01–D10** are tasks below.
 |72|item-blast-seed|001|Yes / F,P|C0: eaten front damage; distinct thrown recipient/thaw effect belongs to T01|
 |74|item-joy-seed|110|Yes / —|D08: item level increase absent; KO growth owner is not a substitute|
 |75|item-chesto-berry|110|Yes / —|D06: Sleepless guards exist, item application/source/expiry absent|
-|76|item-stun-seed|001|Yes / P|D02b: item Petrified application/source absent; interruption handling exists|
+|76|item-stun-seed|001|Yes / P|D02b: deliberate Stun lifecycle/continuation active; T03 chooser open|
 |77|item-max-elixir|110|Yes / F,P,J|C0: learned-slot base PP restore, self only|
 |78|item-protein|110|Yes / —|D04: retained attack bonus/gain reconciliation absent|
 |79|item-calcium|110|Yes / —|D04: retained special-attack bonus/gain reconciliation absent|
@@ -206,12 +202,12 @@ must retain `damage-resolution.js:dealDamage/finishDamage` and
 | --- | --- | --- |
 | D01: projectile effect dispatch | Stick/Iron Thorn/Silver Spike/Geo Pebble (4) | `projectiles.js:throwRock` and `damage-resolution.js` support fixed Gravelerock damage only. Geo Pebble needs its explicit fixed15 operation; the three admitted line items need the actual MOVE_PROJECTILE damage consumer in pinned `src/dungeon_item_action.c:156–178,371–382`, not projectile constants treated as fixed damage. Reuse T02 launch/quantity and T01 impact; no persisted projectile identity parallel to canonical lots. |
 | D02a: Warp Seed | Warp Seed (1) | No gameplay warp function exists. Close the source-qualified random destination/placement and live actor scheduling/tile boundary; preserve real recipient and floor/map ownership. Do not substitute ordinary walk/pathfinding or invent a random empty-tile distribution from the high-level factual op. |
-| D02b: Stun Seed | Stun Seed (1) | Staged v18 core implements source-qualified role timers, real item user/session/map/identity, empty payload, interruption, upkeep/suppression and safe special swap. V19 saveable bounded continuation is implemented, preserving prior admission. Development use/throw activation awaits independent continuation review; human acceptance remains a separate full-release gate and Item Master selection remains open. See STUN-SEED.md and TURN-CONTINUATION.md. |
-| D03: Heal Seed | Heal Seed (1) | `conditions.js:hasNegativeStatus` is a shared predicate; `resetFloorConditions` is a floor reset that also clears beneficial state and speed. Implement the exact negative-status cure set and derived refreshes. Do not invoke wholesale floor reset to fake Heal Seed. |
+| D02b: Stun Seed | Stun Seed (1) | Reviewed v18 sourced Petrified role timers, interruption/upkeep/suppression/safe swap and accepted v19 saveable continuation now support development use/throw. Native Item Master selection and human acceptance remain separate. See STUN-SEED.md and TURN-CONTINUATION.md. |
+| D03: Heal Seed | Heal Seed (1) | Implemented once-only negative predicate, source-ordered whole admitted class purge, recipient-only Leech release, all negative timers/seals and cache-only refresh preserving flags. No HP/PP/stat reset or new source/schema. Wider unadmitted class end contracts remain dependencies. See HEAL-QUICK-SEEDS.md. |
 | D04: stat/HP items | Sitrus/Life/Protein/Calcium/Iron/Zinc (6) | `support.js:maxHp`, item healing and permanent Pokémon stat caps exist. `content/state/expedition-current.js:51` still requires actor bonuses unchanged from entry; line67 rejects nonzero statItems gains. A new real item-gain projection/settlement and successor actor policy are required. Sitrus full-HP2 and Life HP3 cannot silently mutate an inadmissible bonus; vitamin gains3 need native saturation and actual recipient. |
 | D05: visibility/treatment seeds | Eyedrop/Blinker/Allure (3) | General condition fields exist, but `expedition-current.js:createConditionsPolicy` falls through to a named requirement for these states. Close actual item-source timers, upkeep and `CanSeeTarget`/blinded-observer/apparent treatment consumers. Representing a status label without selector/visibility behavior does not close T03. |
 | D06: Confusion/Sleepless items | Totter/Chesto (2) | `conditions.js:applyConfusion` and `battle-status.js` own move-origin Confusion; `battle-mechanics.js:11–17` requires learned move-confusion actor provenance. Sleep-related guards in `move-conditions.js:32` already recognize Sleepless. Neither seed/berry has a real item application/admitted source. Reuse lifecycle with explicit item provenance; do not invent a learned move source or alias Chesto to Sleep Seed. |
-| D07: Quick Seed | Quick Seed (1) | `conditions.js:refreshSpeed`, hooks upkeep and five native positive timers exist; `expedition-current.js:106–113` validates them structurally. Add the item-specific sampled timer/application/stacking/derived speed behavior. No new serialized condition field is justified merely by reusing the existing timer owner; confirm exact sourced lifecycle before implementation. |
+| D07: Quick Seed | Quick Seed (1) | Implemented unreduced [8,10)+1 draw before capped/full checks, first-empty positive insertion and turn-owned true raise/attack-unlock with existing upkeep/leader refresh. All admitted fields/pins remain intact; no persistent item condition. See HEAL-QUICK-SEEDS.md. |
 | D08: level-changing seeds | Joy/Doom (2) | `growth.js:applyExperience` handles KO-driven level increases, learned-slot identity and HP differences. It is not an item level-change or level-loss handler. Close cumulative EXP, reverse natural growth, HP, gain reconciliation and learned-slot semantics, with source-preserving successor admission where necessary. Do not remove learned moves or invent a generic main-series curve. |
 | D09: wider food/Belly | Hunger/Grimy/Huge Apple/Banana (4) | Normal food/Belly primitives and max-Belly gains exist in items.js, but these source operations do not dispatch. Hunger's role/Self Curer branches, Huge Apple's always-on max-Belly branch and Banana's full-Belly branch are distinct. Grimy Food's equal five-way result requires genuine item-origin poison/shadow-hold/burn/paralysis/stat-lowering consumers; current damage-status/party-move policies require their actual move sources. Persistent item conditions must be admitted separately rather than borrowing those move PCs. Diet Ribbon is a shared nonleader Belly guard, not a reason to filter food. |
 | D10: harmful held equipment | Patsy Band/Diet Ribbon/Whiff Specs/No Aim Scope (4) | Frozen facts specify named held passives and an explicit uncaught1-damage throw branch. There is no runtime implementation for these held effects. They can already occupy admitted companion-held state; before being selected/thrown, the actual holder's critical/Belly/hunger/hit/direction behavior matters. Close those owners plus T01 catch/sticky/default equipment impact and T02 direction handling. Do not treat all unknown effects as default damage or ignore a held passive because it will eventually be thrown. |
@@ -240,7 +236,7 @@ not a claim that all accepted held passives or all240 item actions execute.
    their explicit command admission or rewriting frozen predecessors.
 2. Publish the39-item admitted roster closure ledger above as T03's actual
    dependency set. Close D02a/D02b early because Warp/Stun are also real early
-   purchases; finish D01 and D03–D10 as separately reviewable recipient-effect/
+   purchases; finish D01, D04–D06 and D08–D10 as reviewable recipient-effect/
    source-policy packages. Do not describe the fresh eight-item companion set as
    a complete save-admission boundary or ship Item Master that skips the other
    native candidates.

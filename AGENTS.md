@@ -389,11 +389,14 @@ Finite Pokémon item throws use the existing command/turn transaction and invent
 panel. All424 native capability positions have a separate parser-only source
 projection with419 exact profile joins; do not add guessed defaults or modify
 frozen species/effects resources. See the game plan/THROWING.md for T02 scope,
-legacy Gravelerock compatibility and remaining Item Master gates. Stun Seed has
-staged native Petrified lifetime, interruption and safe-swap consumers in v18
-over exact frozen v17 admission. Public use/throw activation remains blocked on
-independent review of implemented v19 saveable bounded turn continuation; see
-game plan/STUN-SEED.md and plan/TURN-CONTINUATION.md. Preserve every earlier
+legacy Gravelerock compatibility and remaining Item Master gates. Stun Seed now
+has development use/throw activation over its reviewed v18
+Petrified lifecycle and accepted v19 bounded continuation. Heal/Quick Seeds
+share real recipient ingestion/impact without a new save revision: Heal clears
+owned admitted classes/slow/seals with cache-only speed refresh; Quick samples
+before cap/full-array checks and uses the turn raise/attack-unlock owner. See
+game plan/HEAL-QUICK-SEEDS.md, STUN-SEED.md and TURN-CONTINUATION.md. Preserve
+every earlier
 envelope boundary, live Leech link and Water Sport counter. Continuation checkpoints
 commit only the first completed opportunity, flush recipient or empty-completion
 phase; special leader after-work must yield before selecting its counterpart.
@@ -402,7 +405,8 @@ all128 wild slots and co-located trap/money admission. New effects, propagation,
 entry policies or tile event patterns must revise the documented4096-event burst
 proof. Scoped counted tile notices deliberately change transient notification
 multiplicity; canonical pickups remain intact. One owned browser-frame pump
-resumes the exact saved PC; no player mutation may interleave. Independently
-review stale load, replacement and menu callbacks before development Stun
-activation. Human latency/device/save-interruption and broader acceptance remain
+resumes the exact saved PC; no player mutation may interleave. The accepted
+continuation review covers saved cursors and stale load, replacement and menu
+callbacks; future changes require scoped review. Human latency/device/save-
+interruption and broader acceptance remain
 separate full-release gates.

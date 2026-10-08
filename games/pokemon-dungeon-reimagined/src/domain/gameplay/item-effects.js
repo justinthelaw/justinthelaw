@@ -1,5 +1,6 @@
 import { useGinseng } from './move-menu.js';
 import { stunSeed } from './stun-seed.js';
+import { healSeed, quickSeed } from './heal-quick.js';
 import { interruptPetrifiedSleep } from './status-interruptions.js';
 import { sleepSeed, refreshSpeed } from './conditions.js';
 import { dealDamage } from './damage-resolution.js';
@@ -19,7 +20,7 @@ import { allocate, clone, value, quantity, maxHp, ability, blocked, FACINGS, nav
 
 /** Finite supported effect surface with complete Stun/Petrified lifecycle.
  * Reviver/Plain Seed ingestion is Belly only; faint revival owns Reviver use. */
-export const USABLE_ITEMS = Object.freeze(['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry', 'item-cheri-berry', 'item-apple', 'item-big-apple', 'item-max-elixir', 'item-reviver-seed', 'item-plain-seed', 'item-sleep-seed', 'item-blast-seed', 'item-gravelerock', 'item-ginseng']);
+export const USABLE_ITEMS = Object.freeze(['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry', 'item-cheri-berry', 'item-apple', 'item-big-apple', 'item-max-elixir', 'item-reviver-seed', 'item-plain-seed', 'item-sleep-seed', 'item-stun-seed', 'item-heal-seed', 'item-quick-seed', 'item-blast-seed', 'item-gravelerock', 'item-ginseng']);
 
 /** Copy before mutation. Remove whole canonical lots before flight/effect, or
  * decrement a projectile stack and leave the flying copy without an ID.
@@ -67,7 +68,7 @@ export function impactDungeonItem(context, user, recipient, item, catalogs) {
   if (!USABLE_ITEMS.includes(item.payload.template.itemId)) return blocked(`item-effect-consumer:${item.payload.template.itemId}`);
   const existingId = item.existingId;
   if (existingId && (state.items[existingId] || Object.values(state.containers).some(row => row.itemIds.includes(existingId)))) return blocked('item-impact-detached-owner');
-  interruptPetrifiedSleep(context, recipient);
+  const impactMessage = interruptPetrifiedSleep(context, recipient);
   const category = catalogs.effects.getItem(item.payload.template.itemId).category;
   const eligible = category !== 'berries_seeds_vitamins' && (recipient.affiliation === 'team' ? recipient.enabledIqSkillIds.some(id => id === 'iq-item-catcher') : category !== 'thrown_line' && category !== 'thrown_arc');
   const held = state.containers[recipient.heldContainerId];
@@ -77,7 +78,7 @@ export function impactDungeonItem(context, user, recipient, item, catalogs) {
     state.items[id] = { ...clone(item.payload), itemInstanceId: id }; held.itemIds.push(id);
     context.emit({ type: 'itemChanged', itemInstanceId: id }); context.emit({ type: 'message', messageId: 'item-caught' }); return 'caught';
   }
-  applyDungeonItemEffect(context, user, recipient, item.payload, 'uncaught-thrown', catalogs);
+  applyDungeonItemEffect(context, user, recipient, item.payload, 'uncaught-thrown', catalogs, impactMessage);
   return 'consumed';
 }
 
@@ -97,8 +98,8 @@ function restoreBelly(context, recipient, amount, maximumGain = 0) {
  * fallback belongs here. Red item_action84..362/565..616 is comparative evidence.
  * @param {Context} context @param {Actor} user @param {Actor} recipient
  * @param {DetachedItem['payload']} payload @param {'eaten'|'uncaught-thrown'} use
- * @param {Catalogs} catalogs */
-export function applyDungeonItemEffect(context, user, recipient, payload, use, catalogs) {
+ * @param {Catalogs} catalogs @param {boolean} [impactMessage] */
+export function applyDungeonItemEffect(context, user, recipient, payload, use, catalogs, impactMessage = false) {
   const session = context.state.session; if (!session) return blocked('item-effect-session');
   const id = payload.template.itemId;
   if (!USABLE_ITEMS.includes(id)) return blocked(`item-effect-consumer:${id}`);
@@ -125,6 +126,8 @@ export function applyDungeonItemEffect(context, user, recipient, payload, use, c
     case 'item-ginseng': useGinseng(context, recipient, catalogs); break;
     case 'item-sleep-seed': sleepSeed(context, user, recipient, catalogs); break;
     case 'item-stun-seed': stunSeed(context, user, recipient, catalogs); break;
+    case 'item-heal-seed': healSeed(context, recipient, catalogs, impactMessage); break;
+    case 'item-quick-seed': quickSeed(context, recipient, catalogs); break;
     case 'item-blast-seed': {
       const boss = session.floor.location.kind === 'boss';
       const target = use === 'uncaught-thrown' ? recipient : frontTarget();

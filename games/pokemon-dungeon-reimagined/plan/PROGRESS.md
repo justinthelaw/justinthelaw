@@ -1338,3 +1338,37 @@ prompt/terminal/floor outcomes, each saved PC and stale load/replacement/menu/
 save/render callbacks. Human latency/device/save-interruption and full visual/
 campaign/release acceptance remain open. Future effect/propagation/tile/entry
 owners must revise the complete burst proof before widening execution.
+
+## D03/D07 — Heal/Quick Seeds and development Stun activation (2026-10-08)
+
+The continuation prerequisite received final independent spec PASS and quality
+APPROVE at local55e272b; published03df87c is tree-identical. The accepted staged
+Stun lifecycle now activates only its public use/throw array membership and
+aligned current docs/copy. Historical staged hold entries above record prior
+checkpoints; human latency/device/save-interruption/full-release gates stay open.
+
+Heal/Quick share real self ingestion and successful uncaught facing impacts,
+canonical consumption, prior interruption/catch/sticky2/Belly5 ordering and
+completed-action continuation. [HEAL-QUICK-SEEDS.md](HEAL-QUICK-SEEDS.md) records
+source provenance and the exact admitted subset. Heal evaluates the shared
+negative predicate once, ends complete owned classes in native order (including
+Focus Energy with slow/seal), clears only its recipient's Leech, all negative
+speed timers and learned seals, and recomputes cache without raise/unlock flags.
+Quick samples9/10 before stage/full checks, retains negatives/positive counters,
+and installs true raises through the existing turn speed owner. Both preserve
+resources, learned metadata, unrelated effects and saved work. No new save
+revision/schema, admission narrowing, old pin/resource change or README edit.
+
+The source proof retains finite item32 plus outer Charge1 within action1500:
+Heal effect16 / thrown21 / self18; Quick effect2 / thrown7 / self4. Existing
+3793/2295/1941 chunk sums, rounded3800/2300/1950 and4096 cap remain valid. Quick
+leader refresh resumes after the completed action without replay; Heal cannot
+invent a refresh opportunity. Wider class ends, Warp/projectiles/other items,
+Item Master/party AI, later campaign/art and Blue parity remain separate.
+
+Focused static lint339 files, strict types257 files and save pins77 dependencies/
+14 exact predecessor bodies/2 factual manifests PASS; source-preservation audit
+and commit evidence are in the ignored heal-quick handoff. Controller owns full
+static/build/hooks/export, independent review and publication. No game imports,
+execution/tests/browser/playthrough, subagents, push/merge/deployment or next
+package work occurred here. Stop for scoped spec/quality review of this package.

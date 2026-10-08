@@ -16,11 +16,11 @@ never default true. All419 admitted profiles are true, and unjoined Statue422
 remains false without adding a profile. Item Master remains unimplemented.
 
 The finite thrown surface is Oran, Pecha, Cheri, Rawst, Apple, Big Apple,
-Max Elixir, Reviver/Plain Seed, Sleep/Blast Seed and Gravelerock. The later
-[Stun Seed core](STUN-SEED.md) is staged behind independent review of the
-implemented [v19 continuation prerequisite](TURN-CONTINUATION.md);
-public use/throw availability remains unchanged. Its staged effect uses T01
-recipient/catch/sticky/wake/effect/revival owners. Ginseng self use does not admit
+Max Elixir, Reviver/Plain Seed, Sleep/Blast/Stun/Heal/Quick Seed and Gravelerock.
+[Stun Seed](STUN-SEED.md) is active after accepted independent review of the
+[v19 continuation prerequisite](TURN-CONTINUATION.md). [Heal/Quick Seeds](HEAL-QUICK-SEEDS.md)
+use the same T01 recipient/catch/sticky/wake/effect/revival owners. Their effects
+finish before the saved completed-unit checkpoint. Ginseng self use does not admit
 a thrown effect. Line projectile MOVE_PROJECTILE damage, broader effects,
 modifier equipment/statuses, shops and relationship/transformation owners remain
 named dependencies; no generic damage/no-op fallback or inventory filter exists.

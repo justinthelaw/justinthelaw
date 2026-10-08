@@ -61,7 +61,7 @@ export function showWork({ snapshot, catalogs, view, send, back, menu, open }, p
     ]);
   }
   function depart() {
-    show('Choose a dungeon', 'Taken requests are active in their named dungeon. Ordinary exploration without completing a request earns no job reward or request count. Purchased TMs, orbs, Warp Seeds and Stun Seeds can be carried; their uses remain unavailable.', [
+    show('Choose a dungeon', 'Taken requests are active in their named dungeon. Ordinary exploration without completing a request earns no job reward or request count. Stun Seeds can be eaten or thrown. Purchased TMs, orbs and Warp Seeds can be carried; their uses remain unavailable.', [
       ...['tiny-woods','thunderwave-cave'].map(id => ({ label: `Enter ${routeName(id)}`, disabled: !!admission(catalogs,snapshot,id), detail: admission(catalogs,snapshot,id) ?? 'Begin an ordinary expedition', run: () => confirm(`Enter ${routeName(id)} with your current toolbox and taken jobs?`, () => send({ type: 'enterDungeon', dungeonId: /** @type {import('../contracts.js').DungeonId} */ (id) }), depart) })),
       { label: 'Cancel', run: back },
     ]);

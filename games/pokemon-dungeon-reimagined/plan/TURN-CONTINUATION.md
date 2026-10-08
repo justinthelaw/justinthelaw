@@ -1,9 +1,11 @@
 # Saveable cooperative turn continuation — v19
 
 The prerequisite is implemented over published staged v18 at
-`1b9eb5fc1d03a8f20dcf53ea182121a5b5112ef2`. Independent specification/quality
-review remains required; Stun Seed is still absent from public `USABLE_ITEMS`
-and `THROWABLE_ITEMS`. This is bounded native work and notification memory,
+`1b9eb5fc1d03a8f20dcf53ea182121a5b5112ef2`. Independent specification PASS/quality
+APPROVE at final local head55e272b
+accepted this prerequisite; published03df87c has its identical tree. Stun Seed
+now belongs to development `USABLE_ITEMS` and `THROWABLE_ITEMS`. This is bounded
+native work and notification memory,
 not whole-game acceptance or a measured millisecond latency guarantee.
 
 ## Version and transaction boundary
@@ -125,8 +127,20 @@ Every current damaging action resolves one target. Its larger bound is
 interruption4 + damage10 + attack1 + Ember burn1189 + largest extra move
 (Absorb/Ooze or recoil)11 + contact266 + thaw2 + Charge1 =1484, rounded to
 **A=1500**. Distinct secondaries/move IDs are deliberately overcounted together.
-Current item/throw paths are below32 plus Charge; movement/equip/wait and
-instant status branches are smaller. Current effect hooks block linked/repeated
+Current item/throw paths are bounded by32 plus Charge. Heal's six admitted
+class ends each emit at most conditionChanged+message (12); slow removal and
+seal removal each emit at most two (4), hence16 effect notices. Throw interruption
+adds at most4, and origin bookkeeping1, totaling21; self ingestion adds ordinary
+used+origin2, totaling18. Quick emits at most conditionChanged+message2, hence
+throw4+2+1=7 or self2+2=4. Miss/drop, catch and sticky-damage branches retain their
+older smaller bounds. These deliberately overlapping class/interruption counts
+are conservative; broader class ends are not admitted. The finite item bound32,
+outer Charge1 and action allowance1500 remain valid without changing chunk sums.
+Quick's genuine leader raise resumes the existing phase refresh after the completed
+action; its consumed origin/draw cannot replay. Heal's cache-only recalculation
+preserves raise/attack-lock flags and creates no new leader opportunity.
+Movement/equip/wait and instant status branches are smaller. Current effect
+hooks block linked/repeated
 effect programs, so structural hit/target ranges are not an execution proof.
 
 Older admitted deferred follower-end records can execute up to four extra
@@ -203,8 +217,9 @@ menu and save callbacks cannot gain dispatch authority in a replacement binding.
 Independent static review must cover128 wild slots, incapacitated leader/status
 replacement, deferred/special movement, large co-located trap/money batches,
 genuine prompt/terminal/floor outcomes, every saved PC, and stale replacement,
-load/menu/save/render callbacks. Review of this prerequisite precedes public
-Stun activation. Human keyboard/touch/visual, maximum-envelope latency/device,
+load/menu/save/render callbacks. The accepted prerequisite review permits
+development Stun activation; future cursor/callback changes still require
+independent review. Human keyboard/touch/visual, maximum-envelope latency/device,
 and save interruption/reload acceptance remain open under D05. Atomic hook scans,
 pathfinding and full copy/validation/serialization may still take appreciable
 synchronous time. A strict maximum-frame deadline would need separate resumable

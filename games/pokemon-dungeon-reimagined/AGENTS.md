@@ -18,10 +18,12 @@ in implementation. Static checks do not establish human play/visual acceptance o
 campaign; later services, escort admission and routes remain incomplete.
 Current v19 turn-continuation saves preserve exact v2-v18 import admission, including
 v17 Sleep Seed provenance, v16 Leech Seed links and Water Sport counters. Stun
-has staged sourced Petrified role timers, interruption, action suppression and
-safe team swap release; public use/throw activation awaits independent review of
-the implemented saveable bounded turn continuation prerequisite. See
-plan/STUN-SEED.md and plan/TURN-CONTINUATION.md. Wider frozen statuses and Item Master
+has development use/throw activation over its reviewed Petrified lifecycle and
+accepted bounded turn continuation. Heal/Quick Seed consumers mutate already
+admitted class/timer/seal/cache fields without a new save revision. Heal retains
+scheduler flags; Quick installs genuine raises through the turn speed owner. See
+plan/HEAL-QUICK-SEEDS.md, plan/STUN-SEED.md and plan/TURN-CONTINUATION.md.
+Wider frozen statuses and Item Master
 remain separate owners. Leech Seed
 and Water Sport now have shared action, upkeep, damage and persistence consumers;
 Water Sport Weak Type Picker weighting remains a full party-AI dependency. Bide, Focus
@@ -139,8 +141,9 @@ plan/TURN-CONTINUATION.md. Future effects, propagation, entry/growth policies or
 tile event patterns must revise its conservative3800/2300/1950 burst allowances
 under4096. Preserve tile-scoped exact counted notices and unknown-event order.
 The single frame pump must guard binding/snapshot/revision, pause for menus,
-saves and interruption, and present/autosave each committed chunk once. Review
-every saved cursor and stale callback path before activating Stun. Static checks
+saves and interruption, and present/autosave each committed chunk once. Accepted
+continuation review covers every saved cursor and stale callback
+path; review future changes to those responsibilities independently. Static checks
 do not establish maximum-envelope latency, device or interrupted-save acceptance.
 
 - Controls appear as a semi-transparent emulator-style overlay on the lower half

@@ -1,4 +1,5 @@
 import { tickLeechSeed, pulseLeechSeed, tickWaterSport } from './field-moves.js';
+import { currentSpeedContext } from './speed-context.js';
 import { clearPetrified } from './status-interruptions.js';
 import { refreshFieldAbilities } from './field-abilities.js';
 import { transferHeldItem } from './held-items.js';
@@ -42,8 +43,7 @@ function actor(context, ref) { const result = actorAt(sessionOf(context), ref); 
 export function createTurnHooks(catalogs, authored) {
   /** @type {import('../turns/types.js').TurnHooks} */ const hooks = {
     speed(context, ref) {
-      const a = actor(context, ref); const p = profile(a.identity, catalogs);
-      return { baseMovementSpeed: p.baseMovementSpeed, positiveTimers: a.speed.positiveTimers, negativeTimers: a.speed.negativeTimers, paralyzed: a.conditions.burn?.statusId === 'paralysis', iceType: p.typeIds.includes(6), snow: false, deoxysSpeedForm: false, wildKecleonInTheftMode: false };
+      return currentSpeedContext(actor(context, ref), catalogs);
     },
     spawn(context) {
       const s = sessionOf(context);

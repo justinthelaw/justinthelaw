@@ -1,4 +1,5 @@
 import { applySpeedTimers, makeLoweredSpeedTimer } from '../rules/speed.js';
+import { currentSpeedContext } from './speed-context.js';
 import { profile, blocked, draw, ability } from './support.js';
 import { secondaryAllowed } from './move-conditions.js';
 import { changeStatStage } from './stat-effects.js';
@@ -36,8 +37,7 @@ export function damageStatSecondary(context, user, target, moveId, targetRevived
 function lowerMoveSpeed(context, target, catalogs) {
   if (target.conditions.reflect?.statusId === 'safeguard' || target.speed.cachedStage === 0 || !target.speed.negativeTimers.includes(0)) return;
   const timer = makeLoweredSpeedTimer(6 + draw(context.state, 2), target.enabledIqSkillIds.some(id => id === 'iq-self-curer'), ability(target, catalogs, 'Natural Cure'));
-  const p = profile(target.identity, catalogs);
-  const change = applySpeedTimers({ baseMovementSpeed: p.baseMovementSpeed, positiveTimers: target.speed.positiveTimers, negativeTimers: target.speed.negativeTimers, paralyzed: target.conditions.burn?.statusId === 'paralysis', iceType: p.typeIds.includes(6), snow: false, deoxysSpeedForm: false, wildKecleonInTheftMode: false }, 'lower', [timer], false);
+  const change = applySpeedTimers(currentSpeedContext(target, catalogs), 'lower', [timer], false);
   target.speed.positiveTimers = [...change.positiveTimers]; target.speed.negativeTimers = [...change.negativeTimers]; target.speed.cachedStage = change.after;
   context.emit({ type: 'conditionChanged', actorId: target.actorId });
   if (change.after !== change.before) context.emit({ type: 'message', messageId: 'speed-lowered' });
