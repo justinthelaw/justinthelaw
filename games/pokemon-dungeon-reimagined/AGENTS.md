@@ -258,3 +258,9 @@ audit. See plan/ESCORT-CONTINUATION.md. Current source route entry admits at mos
 covered for future genuine joining. Preserve the fixed4096 event cap, original
 v23 learning/source/envelope owners, and current live hold until complete actual
 raw factory/caller/terminal scene composition and bound review close.
+
+Direct [escort resource policies](plan/ESCORT-RAW-POLICIES.md) retain actual raw
+actors/slots/resources and require the final complete raw proof callback before
+field delegation. Their resource-only proof is not whole second-work admission.
+Preserve narrow casualty/swap and retired condition-source views, original frozen
+primitives, genuine source guest generation and exact ordinary final exits.

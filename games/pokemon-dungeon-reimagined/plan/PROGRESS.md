@@ -1639,3 +1639,13 @@ runs no suffix or normal turn; imported real v23 prompts acquire new execution
 cursor only at their actual ACK. Separate successor engine owns true automatic
 yield and terminal after0 sealing. Exact raw callback/caller/scene composition
 remains held; candidate3603/2105/1751 bounds need final independent review.
+
+Direct [escort resource policies](ESCORT-RAW-POLICIES.md) now compose original
+field primitives on actual raw state after independent entry/history/learning
+proof and a required complete-proof callback. They preserve source guest roles,
+actual ordinary final exits, growth-aware Magnemite origin, pending roster loss,
+special-swap learning occupancy and retired condition-source witnesses. No live
+factory is selected. Exact second-work/station/history and original-envelope/
+caller/readiness/UI composition remain the immediate dependency. Static-only
+resource audit, types/source and original save preservation are recorded in the
+implementation report; independent scoped review remains pending.
