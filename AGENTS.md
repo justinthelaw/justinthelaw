@@ -12,7 +12,7 @@ with a resume viewer and an LLM-based chatbot that answers from personal context
 
 | Layer | Tooling |
 | --- | --- |
-| Framework | Next.js 16.3, static export, pages router, patched PostCSS line |
+| Framework | Next.js 16.4, static export, pages router, patched PostCSS line |
 | UI | React 19 and TypeScript 6 |
 | Styles | Tailwind CSS 4 |
 | State | Zustand 5 |

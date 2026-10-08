@@ -596,7 +596,7 @@
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
             "kind": "generated-source",
             "locator": "tools/pokemon-dungeon/package-lock.json",
-            "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
+            "sha256": "41f878325cf6365ca2f323fa6ab8451b29022b80bf2b262a0d7d8835ac54562a",
             "use": "npm-generated record of the pinned third-party authoring dependency closure."
           }
         ],
@@ -1404,7 +1404,7 @@
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
             "kind": "generated-source",
             "locator": "tools/pokemon-dungeon/package-lock.json",
-            "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
+            "sha256": "41f878325cf6365ca2f323fa6ab8451b29022b80bf2b262a0d7d8835ac54562a",
             "use": "npm-generated record of the pinned third-party authoring dependency closure."
           }
         ],
@@ -2243,7 +2243,7 @@
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
             "kind": "generated-source",
             "locator": "tools/pokemon-dungeon/package-lock.json",
-            "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
+            "sha256": "41f878325cf6365ca2f323fa6ab8451b29022b80bf2b262a0d7d8835ac54562a",
             "use": "npm-generated record of the pinned third-party authoring dependency closure."
           }
         ],
@@ -3128,7 +3128,7 @@
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
             "kind": "generated-source",
             "locator": "tools/pokemon-dungeon/package-lock.json",
-            "sha256": "1181cf2890e80c8ce8addfbd236eed41c0c721f2951395aceeafd881d4fb770d",
+            "sha256": "41f878325cf6365ca2f323fa6ab8451b29022b80bf2b262a0d7d8835ac54562a",
             "use": "npm-generated record of the pinned third-party authoring dependency closure."
           }
         ],

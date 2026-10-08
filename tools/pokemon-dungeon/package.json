@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Static authoring and validation tools for Pok\u00e9mon Dungeon Reimagined",
-  "packageManager": "npm@12.1.0",
+  "packageManager": "npm@12.2.0",
   "engines": {
     "node": ">=24.19.0 <25",
     "npm": ">=12.1.0 <13"
@@ -61,12 +61,12 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/node": "24.13.6",
+    "@types/node": "24.19.1",
     "@types/three": "0.186.0",
-    "acorn": "8.18.0",
+    "acorn": "8.19.0",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
-    "eslint": "10.10.0",
+    "eslint": "10.12.0",
     "gltf-validator": "2.0.0-dev.3.10",
     "terser": "5.51.2",
     "three": "0.186.1",

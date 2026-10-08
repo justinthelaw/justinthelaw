@@ -226,6 +226,45 @@ def ensure_teapot_seq2seq_config(config: Any, model_id: str) -> None:
     )
 
 
+def build_training_arguments(
+    args: argparse.Namespace, stack: dict[str, Any], compute_dtype: Any
+) -> Any:
+    """Build trainer configuration independently of model and GPU initialization."""
+
+    if not 0 <= args.warmup_ratio <= 1:
+        raise ValueError("warmup ratio must be between 0 and 1")
+    if args.warmup_ratio == 1 and args.max_steps <= 0:
+        raise ValueError("100% warmup requires a positive max-steps budget")
+    warmup_steps = args.max_steps if args.warmup_ratio == 1 else args.warmup_ratio
+    torch = stack["torch"]
+    return stack["Seq2SeqTrainingArguments"](
+        output_dir=args.output_dir,
+        per_device_train_batch_size=args.train_batch_size,
+        per_device_eval_batch_size=args.eval_batch_size,
+        gradient_accumulation_steps=args.gradient_accumulation_steps,
+        learning_rate=args.learning_rate,
+        max_steps=args.max_steps,
+        lr_scheduler_type=args.lr_scheduler_type,
+        warmup_steps=warmup_steps,
+        weight_decay=args.weight_decay,
+        optim=args.optim,
+        fp16=compute_dtype == torch.float16,
+        bf16=compute_dtype == torch.bfloat16,
+        gradient_checkpointing=True,
+        logging_steps=10,
+        eval_strategy="steps",
+        eval_steps=args.eval_steps,
+        save_strategy="steps",
+        save_steps=args.save_steps,
+        save_total_limit=3,
+        load_best_model_at_end=True,
+        metric_for_best_model="eval_loss",
+        greater_is_better=False,
+        predict_with_generate=False,
+        report_to="none",
+    )
+
+
 def run_training(args: argparse.Namespace) -> None:
     if args.resume and args.adapter_model_id:
         raise RuntimeError(
@@ -327,32 +366,7 @@ def run_training(args: argparse.Namespace) -> None:
     tokenized_eval = eval_dataset.map(
         tokenize_seq2seq, batched=True, remove_columns=eval_dataset.column_names
     )
-    training_args = stack["Seq2SeqTrainingArguments"](
-        output_dir=args.output_dir,
-        per_device_train_batch_size=args.train_batch_size,
-        per_device_eval_batch_size=args.eval_batch_size,
-        gradient_accumulation_steps=args.gradient_accumulation_steps,
-        learning_rate=args.learning_rate,
-        max_steps=args.max_steps,
-        lr_scheduler_type=args.lr_scheduler_type,
-        warmup_ratio=args.warmup_ratio,
-        weight_decay=args.weight_decay,
-        optim=args.optim,
-        fp16=compute_dtype == torch.float16,
-        bf16=compute_dtype == torch.bfloat16,
-        gradient_checkpointing=True,
-        logging_steps=10,
-        eval_strategy="steps",
-        eval_steps=args.eval_steps,
-        save_strategy="steps",
-        save_steps=args.save_steps,
-        save_total_limit=3,
-        load_best_model_at_end=True,
-        metric_for_best_model="eval_loss",
-        greater_is_better=False,
-        predict_with_generate=False,
-        report_to="none",
-    )
+    training_args = build_training_arguments(args, stack, compute_dtype)
     callbacks = []
     if args.early_stopping_patience > 0:
         callbacks.append(
