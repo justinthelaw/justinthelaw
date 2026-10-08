@@ -1229,3 +1229,65 @@ and human gates. The bounded commit/check record is in the ignored T01 handoff.
 - Remaining: T03 exact Item Master/RNG/admission closure, wider item consumers,
   line MOVE_PROJECTILE damage, trajectory equipment/status/role policies, original
   Blue parity and full party/campaign/visual/release acceptance. No push/merge/deploy.
+
+## D02b — staged Stun Seed and Petrified core (2026-10-08; review pending)
+
+The staged core extends published T02 baseline500a705 with Stun Seed mechanics
+for the canonical T01/T02 owners. Public use/throw availability remains unchanged
+until bounded turn continuation is reviewed. Real item provenance, Safeguard
+including self, duplicate no-refresh/no-draw, leader curer bounds and every
+nonleader's no-draw128-to-127 sentinel follow the pinned native source. Frozen
+upkeep follows Sleep/Burn; suppression runs after own ticks. Safe team swap keeps
+its existing special pass/flags and clears only Petrified after that tick, before
+the forced counterpart walk. The common interruption owner now serves pre-hit
+moves, successful thrown hits and shared damage including zero; Leech damage
+uses it while healing does not. Companion fallback attacks respect native
+Petrified target treatment; manual attack and flee threat behavior are retained.
+Readable apply/protected/duplicate/end messages use the current presentation map.
+
+The exact v18 successor admits only supported roster/wild/boss item-source
+Petrified, live-active or narrowly historical fainted recipients, correct role
+counter bounds, empty payload and null periodic countdown. It delegates every
+other condition to exact v17 after neutralizing only its new group. Frozen v17
+factory/policy/root-predicate pins are additive. Original v2-v17 envelope
+admission remains before prospective conversion; no action, item, RNG or Stun
+replay occurs. Field-root recognition preserves live Leech links and nonzero
+Water Sport through creation, refresh, graph validation and old-save conversion.
+All old hashes, factual resources, codec and root README bytes remain unchanged.
+
+See [STUN-SEED.md](STUN-SEED.md) for source locators, hashes, role boundaries,
+ordering and remaining scope. No Wrap/Wrapped effect is admitted or partially
+cured; its reciprocal consumer remains an explicit dependency. Warp, Item Master,
+other item/status/role owners, full party/movement/recruitment/campaign and human
+visual/play acceptance remain open. The Item Master ledger records only this
+one additional consumer; native flags and every inventory/learned slot survive.
+
+Allowed static lint (328 files), strict types (246) and save-boundary checks
+(74 unchanged dependencies/14 exact bodies/2 factual manifests and resources)
+passed. Byte/JSON baseline comparison confirmed every previous manifest value,
+exact new v17 pins and the unchanged codec/factual boundaries. Final changed-path
+contribution hooks, commit and handoff evidence are recorded by the implementer;
+controller review, full build/export and publication remain separate. D05 means
+no game module import/execution, automated game test, browser boot or playthrough.
+
+D02b post-implementation source review found an activation blocker:30 own Stun
+ticks at minimum speed can span240 phases, while exact prior admission retains
+up to128 wild slots. Empty-slot scanning alone can exceed16,384 engine steps;
+long active populations can also exceed the4096-event transaction limit. Later
+Stun interruption into Sleep/Attract can extend a transaction further. This is
+not closed by raising limits to millions of synchronous operations. A separate
+bounded cooperative continuation/save owner is required before activation or
+claiming admitted-state Stun closure. Native timing and old admission remain
+unchanged. Two narrow corrections retain Petrified suppression at repeated AI
+opportunities and reject an inconsistent v18 ready-leader decision; the native
+flagged special-swap exception still runs after its own tick. Static lint/types
+pass on this delta; controller continues the separate prerequisite. The staged
+core can be independently reviewed and published without activating Stun. All
+inventory rows, native item flags and predecessor admission remain intact; D02b
+is not complete.
+
+Independent staged-core review found an admitted deferred companion could carry
+the swap flag outside the special pass. The ordinary AI now waits while
+Petrified unless both the flag and actual special pass are present, preserving
+published non-Petrified flag behavior. The finding awaits scoped re-review;
+no predecessor state or flag combination is excluded.

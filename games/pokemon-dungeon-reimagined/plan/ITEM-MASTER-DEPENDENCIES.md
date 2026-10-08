@@ -13,6 +13,14 @@ Native item flags and behavior references use the pinned original Red source
 `pret/pmd-red@6bcbec4f906938c0243aa2026bcbd41b577bab85` as comparative evidence;
 they do not establish Blue instruction parity.
 
+Current D02b staged core: [Stun Seed/Petrified](STUN-SEED.md) implements its role
+timers, upkeep, acting/swap/interruption and exact v18 item-source admission over
+frozen v17. Public use/throw availability remains unchanged; independent review
+is a separate checkpoint. D02b activation is blocked on bounded turn continuation:
+long self-Stun can exceed existing scheduler/event budgets under unchanged old
+save admission. The baseline inventory/count evidence and tables below remain
+historical. Warp and D01/D03–D10 remain open, and Item Master is not enabled.
+
 ## Closed boundary
 
 The complete240-row native item-AI owner has43 nonzero eligibility triples and

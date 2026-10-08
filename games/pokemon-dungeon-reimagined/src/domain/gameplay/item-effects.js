@@ -1,4 +1,6 @@
 import { useGinseng } from './move-menu.js';
+import { stunSeed } from './stun-seed.js';
+import { interruptPetrifiedSleep } from './status-interruptions.js';
 import { sleepSeed, refreshSpeed } from './conditions.js';
 import { dealDamage } from './damage-resolution.js';
 import { hasHeldItem } from './held-effects.js';
@@ -15,7 +17,7 @@ import { allocate, clone, value, quantity, maxHp, ability, blocked, FACINGS, nav
  * still-owned origin ID. Flight is transient and cannot suspend for a prompt.
  * @typedef {{payload:Omit<import('../../contracts/campaign.js').ItemInstance,'itemInstanceId'>, existingId:import('../../contracts/campaign.js').ItemInstanceId|null}} DetachedItem */
 
-/** Finite supported effect surface, unchanged from the prior self-use owner.
+/** Finite supported effect surface with complete Stun/Petrified lifecycle.
  * Reviver/Plain Seed ingestion is Belly only; faint revival owns Reviver use. */
 export const USABLE_ITEMS = Object.freeze(['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry', 'item-cheri-berry', 'item-apple', 'item-big-apple', 'item-max-elixir', 'item-reviver-seed', 'item-plain-seed', 'item-sleep-seed', 'item-blast-seed', 'item-gravelerock', 'item-ginseng']);
 
@@ -43,22 +45,14 @@ export function protectedItemTarget(actor) {
 
 /** CheckVariousConditions subset on actually admitted state: protected rescue/
  * experience-locked Diglett role, nonleader flee, sleep, frozen, Bide, pause,
- * infatuation. Charge/Rage are not native two-turn charging moves. Terrified,
- * petrification and wider join-origin/charging policies remain separate owners.
+ * infatuation. Successful impact already releases Petrified before this gate.
+ * Charge/Rage are not native two-turn charging moves. Terrified and wider
+ * join-origin/charging policies remain separate owners.
  * @param {Context} context @param {Actor} target @param {Catalogs} catalogs */
 function canCatch(context, target, catalogs) {
   const session = context.state.session;
   if (!session || protectedItemTarget(target) || !canTransferHeldItem(target)) return false;
   return target.actorId === session.leaderActorId || !(ability(target, catalogs, 'Run Away') && target.resources.hp < Math.trunc(maxHp(target) / 2) || target.tacticId === 'tactic-get-away' || target.tacticId === 'tactic-avoid-trouble' && target.resources.hp <= Math.trunc(maxHp(target) / 2));
-}
-
-/** Pinned Red projectile wake precedes catch: ordinary indefinite Sleep only.
- * No petrification state/lifecycle is added by this bounded owner.
- * @param {Context} context @param {Actor} recipient */
-function wakeProjectileRecipient(context, recipient) {
-  if (recipient.conditions.sleep?.statusId === 'sleep' && recipient.conditions.sleep.duration.kind === 'indefinite') {
-    recipient.conditions.sleep = null; context.emit({ type: 'conditionChanged', actorId: recipient.actorId });
-  }
 }
 
 /** Successful hit only. Team Catcher permits rocks/food; wild category rules
@@ -73,7 +67,7 @@ export function impactDungeonItem(context, user, recipient, item, catalogs) {
   if (!USABLE_ITEMS.includes(item.payload.template.itemId)) return blocked(`item-effect-consumer:${item.payload.template.itemId}`);
   const existingId = item.existingId;
   if (existingId && (state.items[existingId] || Object.values(state.containers).some(row => row.itemIds.includes(existingId)))) return blocked('item-impact-detached-owner');
-  wakeProjectileRecipient(context, recipient);
+  interruptPetrifiedSleep(context, recipient);
   const category = catalogs.effects.getItem(item.payload.template.itemId).category;
   const eligible = category !== 'berries_seeds_vitamins' && (recipient.affiliation === 'team' ? recipient.enabledIqSkillIds.some(id => id === 'iq-item-catcher') : category !== 'thrown_line' && category !== 'thrown_arc');
   const held = state.containers[recipient.heldContainerId];
@@ -130,6 +124,7 @@ export function applyDungeonItemEffect(context, user, recipient, payload, use, c
       break;
     case 'item-ginseng': useGinseng(context, recipient, catalogs); break;
     case 'item-sleep-seed': sleepSeed(context, user, recipient, catalogs); break;
+    case 'item-stun-seed': stunSeed(context, user, recipient, catalogs); break;
     case 'item-blast-seed': {
       const boss = session.floor.location.kind === 'boss';
       const target = use === 'uncaught-thrown' ? recipient : frontTarget();

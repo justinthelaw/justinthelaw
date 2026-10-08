@@ -6,7 +6,7 @@ import { navActor, navigationContext, occupants } from './support.js';
 /** @param {Actor} actor @returns {import('../navigation/types.js').SwapActor} */
 function swapActor(actor) {
   const sleep = actor.conditions.sleep?.statusId ?? 'none';
-  return { actor: navActor(actor), immobilized: actor.conditions.frozen !== null, confused: actor.conditions.cringe?.statusId === 'confused', sleep: sleep === 'none' || sleep === 'sleepless' || sleep === 'yawning' ? sleep : 'other', charging: actor.conditions.bide !== null, swapEligible: actor.affiliation === 'team' };
+  return { actor: navActor(actor), immobilized: actor.conditions.frozen !== null && actor.conditions.frozen.statusId !== 'petrified', confused: actor.conditions.cringe?.statusId === 'confused', sleep: sleep === 'none' || sleep === 'sleepless' || sleep === 'yawning' ? sleep : 'other', charging: actor.conditions.bide !== null, swapEligible: actor.affiliation === 'team' };
 }
 /** Ordinary movement and safe team exchanges share the canonical geometry.
  * Unsafe terrain swaps require a future explicit confirmation/relocation path.

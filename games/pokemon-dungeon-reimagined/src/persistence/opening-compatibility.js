@@ -1,3 +1,4 @@
+import { createCampaignContent as createItemImpactContent } from '../../content/state/item-impact-campaign.js';
 import { createCampaignContent as createFieldCampaignContent } from '../../content/state/field-moves-campaign.js';
 import { createCampaignContent as createDamageCampaignContent } from '../../content/state/damage-status-campaign.js';
 import { createCampaignContent as createPartyCampaignContent } from '../../content/state/party-status-campaign.js';
@@ -80,7 +81,9 @@ export function createOpeningCompatibility(catalogs, content, authored) {
   if (damage.contentRevision !== party.contentRevision.replace('v14-party-moves-opening:', 'v15-damage-status-opening:')) throw new TypeError('Damage-v15 factual catalog boundary differs.');
   const field = createFieldCampaignContent(catalogs);
   if (field.contentRevision !== damage.contentRevision.replace('v15-damage-status-opening:', 'v16-field-moves-opening:')) throw new TypeError('Field-v16 factual catalog boundary differs.');
-  return Object.freeze([...([field, damage, party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
+  const impact = createItemImpactContent(catalogs);
+  if (impact.contentRevision !== field.contentRevision.replace('v16-field-moves-opening:', 'v17-item-impact-opening:')) throw new TypeError('Item-impact-v17 factual catalog boundary differs.');
+  return Object.freeze([...([impact, field, damage, party, wild, friends, moves, steel, battle, work, seen, town, thunderwave, morning, team].map(predecessor => ({ content: predecessor,
     /** @param {import('../contracts/campaign.js').CampaignSnapshot} snapshot */
     convert(snapshot) {
       const admitted = validateCampaign(snapshot, predecessor);

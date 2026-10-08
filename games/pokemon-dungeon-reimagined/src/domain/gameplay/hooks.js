@@ -1,4 +1,5 @@
 import { tickLeechSeed, pulseLeechSeed, tickWaterSport } from './field-moves.js';
+import { clearPetrified } from './status-interruptions.js';
 import { refreshFieldAbilities } from './field-abilities.js';
 import { transferHeldItem } from './held-items.js';
 import { STEEL } from '../../../content/authored/mt-steel.js';
@@ -100,7 +101,10 @@ export function createTurnHooks(catalogs, authored) {
       tickLeechSeed(context, a);
       tickBattleStatus(context, a);
       if (a.conditions.bide?.statusId === 'charging' && (a.conditions.sleep || a.conditions.cringe?.statusId === 'infatuated')) { a.conditions.bide = null; context.emit({ type: 'conditionChanged', actorId: a.actorId }); }
-      return { kind: 'continue', canAct: a.conditions.sleep === null && a.conditions.cringe?.statusId !== 'infatuated' && a.conditions.bide?.statusId !== 'bide' };
+      // The flagged counterpart's native special pass ticks first, then AI
+      // releases only Petrified before its forced walk. Ordinary actors pass.
+      const swap = a.speed.petrifiedSwap && sessionOf(context).scheduler.continuation.special !== null;
+      return { kind: 'continue', canAct: (swap || a.conditions.frozen?.statusId !== 'petrified') && a.conditions.sleep === null && a.conditions.cringe?.statusId !== 'infatuated' && a.conditions.bide?.statusId !== 'bide' };
     },
     fieldUpkeep(context) { tickWaterSport(context); return CONTINUE; },
     experience(context, ref) { if (ref) applyExperience(context, actor(context, ref), catalogs); return CONTINUE; },
@@ -116,7 +120,12 @@ export function createTurnHooks(catalogs, authored) {
         const walk = catalogs.navigation.mobility(a.identity.speciesId, a.identity.formId).canMove && movementPlan(s, a, destination, catalogs).kind === 'walk';
         return { kind: 'action', action: walk ? { kind: 'move', actorId: a.actorId, destination } : { kind: 'wait', actorId: a.actorId } };
       }
+      // Deferred opportunities skip begin. Only the actual flagged special
+      // pass may release Petrified; retain old flag behavior for other actors.
+      const specialSwap = a.speed.petrifiedSwap && s.scheduler.continuation.special !== null;
+      if (a.conditions.frozen?.statusId === 'petrified' && !specialSwap) return { kind: 'action', action: { kind: 'wait', actorId: a.actorId } };
       if (a.speed.petrifiedSwap) {
+        clearPetrified(context, a);
         const angle = FACINGS.indexOf(a.facing) * Math.PI / 4;
         return { kind: 'action', action: { kind: 'move', actorId: a.actorId, destination: { x: a.placement.position.x + Math.round(Math.sin(angle)), z: a.placement.position.z - Math.round(Math.cos(angle)) } } };
       }
@@ -139,7 +148,9 @@ export function createTurnHooks(catalogs, authored) {
         const chosen = chooseNativeWildMove(context, a, catalogs);
         if (chosen) return { kind: 'action', action: chosen };
       }
-      const adjacent = enemies.find(other => other.placement.kind === 'map' && canMeleeAttack(navActor(a), s.floor, other.placement.position, nav));
+      // GetTreatment(..., checkPetrified=TRUE) excludes Petrified opponents
+      // for team AI. Keep manual attacks and flee threat scanning unchanged.
+      const adjacent = enemies.find(other => !(a.affiliation === 'team' && other.conditions.frozen?.statusId === 'petrified') && other.placement.kind === 'map' && canMeleeAttack(navActor(a), s.floor, other.placement.position, nav));
       if (!nativeWild && adjacent && !skipAttack) return { kind: 'action', action: { kind: 'attack', actorId: a.actorId, target: { kind: 'actor', actorId: adjacent.actorId } } };
       if (confused) {
         if (!catalogs.navigation.mobility(a.identity.speciesId, a.identity.formId).canMove) return { kind: 'action', action: { kind: 'wait', actorId: a.actorId } };

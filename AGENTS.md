@@ -382,11 +382,15 @@ models, retry blocked ImageGen requests, or substitute paid API generation.
 
 Shared early recipient item effects and catching now route self ingestion and
 player Gravelerock impact through one owner. V17 admits only actual nonself
-Sleep Seed provenance over frozen v16. Straight throws and Item Master remain
-separate gates; all admitted inventories/learned slots remain intact.
+Sleep Seed provenance over frozen v16. Broader trajectory modifiers and Item
+Master remain separate gates; all admitted inventories/learned slots remain intact.
 
 Finite Pokémon item throws use the existing command/turn transaction and inventory
 panel. All424 native capability positions have a separate parser-only source
 projection with419 exact profile joins; do not add guessed defaults or modify
 frozen species/effects resources. See the game plan/THROWING.md for T02 scope,
-legacy Gravelerock compatibility, v17 preservation and remaining Item Master gates.
+legacy Gravelerock compatibility and remaining Item Master gates. Stun Seed has
+staged native Petrified lifetime, interruption and safe-swap consumers in v18
+over exact frozen v17 admission. Public use/throw activation remains blocked on
+saveable bounded turn continuation; see plan/STUN-SEED.md. Preserve every earlier
+envelope boundary, live Leech link and Water Sport counter.

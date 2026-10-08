@@ -1,4 +1,5 @@
 import { FIELD_MOVE_IDS, applyFieldMove, waterSportActive } from './field-moves.js';
+import { interruptPetrifiedSleep } from './status-interruptions.js';
 import { payDayDrop } from './item-drops.js';
 import { damageStatusSecondary } from './damage-status.js';
 import { PARTY_DAMAGE_MOVES, lowKickMultiplier, damageStatSecondary } from './damage-moves.js';
@@ -38,14 +39,6 @@ function accuracy(context, attacker, target, base, physical, catalogs) {
   const e = Math.max(0, Math.min(20, target.stages.evasion + (physical && ability(attacker, catalogs, 'Hustle') ? 2 : 0)));
   return roll < Math.trunc(Math.trunc(base * (ACCURACY[a] ?? 256) / 256) * (EVASION[e] ?? 256) / 256);
 }
-/** Native pre-dispatch wake occurs before protection and hit checks, but only
- * clears indefinite spawn sleep, never finite sleep from an item/effect.
- * @param {Context} context @param {Actor} target */
-function wakeSpawnSleeper(context, target) {
-  if (target.conditions.sleep?.duration.kind !== 'indefinite') return;
-  target.conditions.sleep = null;
-  context.emit({ type: 'conditionChanged', actorId: target.actorId });
-}
 /** Single-impact supported actions resolve HP before returning to the scheduler.
  * @param {Context} context @param {Actor} attacker @param {import('../../contracts/campaign.js').ResolvedAction & {kind:'attack'|'struggle'|'move-use'}} action @param {Catalogs} catalogs */
 export function attack(context, attacker, action, catalogs) {
@@ -73,12 +66,12 @@ export function attack(context, attacker, action, catalogs) {
     if (move.numeric.type === 'electric') {
       const redirect = lightningRodTarget(context.state, attacker, attacker);
       if (redirect.redirected) {
-        wakeSpawnSleeper(context, redirect.target);
+        interruptPetrifiedSleep(context, redirect.target);
         accuracy(context, attacker, redirect.target, move.numeric.accuracyBeforeEffect, false, catalogs);
         context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: redirect.target.actorId, outcome: 'immune' }); return;
       }
     }
-    wakeSpawnSleeper(context, attacker);
+    interruptPetrifiedSleep(context, attacker);
     accuracy(context, attacker, attacker, move.numeric.accuracyBeforeEffect, true, catalogs);
     if (attacker.affiliation !== 'team' && !attacker.memory.experienceContributors.includes(attacker.actorId)) attacker.memory.experienceContributors.push(attacker.actorId);
     selfBattleStatus(context, attacker, slot);
@@ -88,7 +81,7 @@ export function attack(context, attacker, action, catalogs) {
     const effects = move.effects.filter(effect => effect.op === 'stat-stage');
     if (!effects.length || effects.some(effect => !['attack', 'defense', 'accuracy', 'special-attack', 'special-defense'].includes(effect.stat))) return blocked('stat-move-projection');
     for (const target of targets) {
-      wakeSpawnSleeper(context, target);
+      interruptPetrifiedSleep(context, target);
       if (['move-growl', 'move-metal-sound'].includes(action.moveId) && ability(target, catalogs, 'Soundproof')) {
         context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: target.actorId, outcome: 'immune' }); continue;
       }
@@ -110,7 +103,7 @@ export function attack(context, attacker, action, catalogs) {
   const redirect = initialTarget && move.numeric.type === 'electric' ? lightningRodTarget(context.state, attacker, initialTarget) : null;
   const target = redirect?.target ?? initialTarget;
   if (!target) { context.emit({ type: 'attackResolved', actorId: attacker.actorId, targetId: null, outcome: 'miss' }); return; }
-  wakeSpawnSleeper(context, target);
+  interruptPetrifiedSleep(context, target);
   const moveType = ELEMENT_TYPES.find(type => type.toLowerCase() === move.numeric.type);
   if (!moveType) return blocked('move-type');
   const physical = isPhysicalType(moveType);
@@ -199,7 +192,7 @@ export function releaseBide(context, actor, amount, catalogs) {
   const session = context.state.session; if (!session) return;
   const target = moveTargets(session, actor, 0, catalogs, { kind: 'facing' })[0];
   if (!target) { context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: null, outcome: 'miss' }); return; }
-  wakeSpawnSleeper(context, target);
+  interruptPetrifiedSleep(context, target);
   if (!accuracy(context, actor, target, catalogs.effects.getAction(357).numeric.accuracyBeforeEffect, true, catalogs)) {
     context.emit({ type: 'attackResolved', actorId: actor.actorId, targetId: target.actorId, outcome: 'miss' }); return;
   }

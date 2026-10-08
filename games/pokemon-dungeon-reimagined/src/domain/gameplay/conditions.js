@@ -1,4 +1,5 @@
 import { DIRECTIONS } from '../navigation/geometry.js';
+import { clearPetrified } from './status-interruptions.js';
 import { activeActors } from './move-targets.js';
 import { hasHeldItem } from './held-effects.js';
 import { ability, profile, draw, blocked, quantity } from './support.js';
@@ -92,10 +93,13 @@ export function sleepSeed(context, user, target, catalogs) {
 /** Native counter 127 persists, including poison's 128→127 first tick.
  * @param {Context} context @param {Actor} actor @param {Catalogs} catalogs */
 export function tickConditions(context, actor, catalogs) {
-  for (const group of /** @type {const} */ (['sleep', 'burn', 'cringe', 'reflect'])) {
+  for (const group of /** @type {const} */ (['sleep', 'burn', 'frozen', 'cringe', 'reflect'])) {
     const c = actor.conditions[group];
     if (c?.duration.kind !== 'counter' || c.duration.remaining === 127) continue;
-    if (--c.duration.remaining === 0) { actor.conditions[group] = null; context.emit({ type: 'conditionChanged', actorId: actor.actorId }); }
+    if (--c.duration.remaining === 0) {
+      if (group === 'frozen' && c.statusId === 'petrified') clearPetrified(context, actor);
+      else { actor.conditions[group] = null; context.emit({ type: 'conditionChanged', actorId: actor.actorId }); }
+    }
   }
   refreshSpeed(actor, catalogs);
 }

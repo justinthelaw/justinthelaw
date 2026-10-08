@@ -286,6 +286,18 @@
     {
       "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v16.js",
       "sha256": "644880630bbfd4953f0f579af5c865b230d226c38c11c7442b529a1b9a30967c"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/item-impact-campaign.js",
+      "sha256": "6d0141fcec9670434bbd0f47b4145464ebcbfafeecccac98e10eef74df9df050"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/state/item-impact.js",
+      "sha256": "45dbd249a0d6cd4ac8bfe687353c17e9688dcf4e83ab8e1820af4a88f217e3b0"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/field-moves-v17.js",
+      "sha256": "24359717818a2064bb3c736fee946d6df3e4ac87b3f604af84c462d2dc6db2a0"
     }
   ],
   "functionBodies": [
@@ -414,5 +426,6 @@
   "fieldMovesRootShape": {
     "path": "games/pokemon-dungeon-reimagined/src/domain/state/schema.js",
     "sha256": "19c50f1dbe7c141aebe90ec14f2e161ac94599a49326642d9c2051bef68f6c4d"
-  }
+  },
+  "stunSeedPredecessorBaselineCommit": "500a705d38fea989c81b8c1f66d4f7343d32c33e"
 }

@@ -16,7 +16,12 @@ Square wind request and rest at MAIN5,5, with navigable owned areas and resident
 management. Later chapter-five work, escort, wild recruitment and Sinister remain
 in implementation. Static checks do not establish human play/visual acceptance or a complete
 campaign; later services, escort admission and routes remain incomplete.
-Current v17 item-impact saves preserve exact v2-v16 import admission, including v16 Leech Seed links and Water Sport counters. Leech Seed
+Current v18 Stun Seed saves preserve exact v2-v17 import admission, including
+v17 Sleep Seed provenance, v16 Leech Seed links and Water Sport counters. Stun
+has staged sourced Petrified role timers, interruption, action suppression and
+safe team swap release; public use/throw activation awaits saveable bounded
+turn continuation. See plan/STUN-SEED.md. Wider frozen statuses and Item Master
+remain separate owners. Leech Seed
 and Water Sport now have shared action, upkeep, damage and persistence consumers;
 Water Sport Weak Type Picker weighting remains a full party-AI dependency. Bide, Focus
 Energy and Confusion now have sourced lifecycle consumers; Mt. Steel uses exact scoped wild move selection, boss/neutral roles, retry/loss

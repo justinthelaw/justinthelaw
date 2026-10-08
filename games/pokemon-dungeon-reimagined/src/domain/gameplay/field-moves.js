@@ -36,15 +36,6 @@ export function tickLeechSeed(context, actor) {
     context.emit({ type: 'message', messageId: 'leech-seed-ended' });
   }
 }
-/** Residual immobilization release precedes damage, not healing. Native finite
- * sleep stays asleep. @param {Context} context @param {Actor} actor */
-function releaseResidualStatus(context, actor) {
-  let changed = false;
-  if (actor.conditions.frozen?.statusId === 'petrified') { actor.conditions.frozen = null; changed = true; }
-  const sleep = actor.conditions.sleep;
-  if (sleep?.statusId === 'sleep' && (sleep.duration.kind === 'indefinite' || sleep.duration.kind === 'counter' && sleep.duration.remaining === 127)) { actor.conditions.sleep = null; changed = true; }
-  if (changed) context.emit({ type: 'conditionChanged', actorId: actor.actorId });
-}
 /** Native pulse before Bide, with fixed nominal transfer even at low HP or
  * same-pulse revival/faint. Freeze skips both sides after resetting countdown.
  * Captured Liquid Ooze and dummy damage cannot trigger Rage, contact or XP.
@@ -58,10 +49,10 @@ export function pulseLeechSeed(context, actor, catalogs) {
   if (!user || user.resources.hp === 0 || !activeActors(session).includes(user)) { actor.conditions.leechSeed = null; context.emit({ type: 'conditionChanged', actorId: actor.actorId }); return; }
   if (actor.conditions.frozen?.statusId === 'frozen') return;
   const ooze = ability(actor, catalogs, 'Liquid Ooze');
-  releaseResidualStatus(context, actor);
+  // Shared dealDamage owns Petrified/native127 Sleep release before HP; the
+  // healing branch never calls it. Liquid Ooze interrupts its damage recipient.
   dealDamage(context, actor, catalogs, { attacker: null, amount: 10, contact: false, physical: false, giveExperience: false });
   if (ooze) {
-    releaseResidualStatus(context, user);
     dealDamage(context, user, catalogs, { attacker: null, amount: 10, contact: false, physical: false, giveExperience: false });
   }
   else user.resources.hp = Math.min(maxHp(user), user.resources.hp + 10);

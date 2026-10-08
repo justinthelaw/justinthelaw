@@ -4,7 +4,8 @@ import { consumeItemOrigin } from './item-effects.js';
 import { throwDungeonProjectile } from './projectiles.js';
 import { inBounds } from '../navigation/geometry.js';
 import { profile, ability, maxHp, blocked } from './support.js';
-/** T01 verified uncaught/caught recipient effects. Ginseng's self-use is not
+/** Verified uncaught/caught recipient effects; Stun activation awaits continuation.
+ * Ginseng's self-use is not
  * thrown-effect admission. No generic damage or inventory filtering. */
 export const THROWABLE_ITEMS = Object.freeze(['item-oran-berry', 'item-pecha-berry', 'item-rawst-berry', 'item-cheri-berry', 'item-apple', 'item-big-apple', 'item-max-elixir', 'item-reviver-seed', 'item-plain-seed', 'item-sleep-seed', 'item-blast-seed', 'item-gravelerock']);
 /** Shared player/later-AI predicate: missing or mismatched evidence is null,

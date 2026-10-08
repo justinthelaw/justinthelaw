@@ -16,7 +16,9 @@ never default true. All419 admitted profiles are true, and unjoined Statue422
 remains false without adding a profile. Item Master remains unimplemented.
 
 The finite thrown surface is Oran, Pecha, Cheri, Rawst, Apple, Big Apple,
-Max Elixir, Reviver/Plain Seed, Sleep/Blast Seed and Gravelerock. It uses T01
+Max Elixir, Reviver/Plain Seed, Sleep/Blast Seed and Gravelerock. The later
+[Stun Seed core](STUN-SEED.md) is staged behind a bounded continuation prerequisite;
+public use/throw availability remains unchanged. Its staged effect uses T01
 recipient/catch/sticky/wake/effect/revival owners. Ginseng self use does not admit
 a thrown effect. Line projectile MOVE_PROJECTILE damage, broader effects,
 modifier equipment/statuses, shops and relationship/transformation owners remain
@@ -51,7 +53,7 @@ finishes the Steel boss can pause in the existing departure after-action cursor:
 `activeEffect=null`, consumed item reference remains historical, and facing/tile
 has no removed live actor reference. `session.js` deliberately does not resurrect
 consumed item IDs; the Steel departure policy admits this settled after cursor.
-No new policy or revision is needed. Exact v17 nonself Sleep provenance and
+T02 itself needs no new policy or revision. Its exact v17 nonself Sleep provenance and
 historical-fainted admission, v16 Leech/Water Sport, every predecessor factory,
 byte pin and frozen factual resource remain unchanged.
 
