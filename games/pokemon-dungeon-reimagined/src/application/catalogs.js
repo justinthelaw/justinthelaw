@@ -38,6 +38,8 @@ export async function loadCatalogs(signal, status) {
     }
     if (items.size !== 240) throw new Error('Incomplete original item identity namespace.');
     const moves = new Set(species.identities.moves.map(row => row.id));
+    // The learning crosswalk omits native action 352: original, nonlearned Struggle.
+    moves.add('move-struggle');
     const isItemId = (/** @type {string} */ id) => items.has(id);
     const isSpeciesForm = (/** @type {string} */ id, /** @type {string|null} */ form) => contains(() => species.getProfile(id, form)) && species.getProfile(id, form).formId === form;
     /** @type {typeof fetch} */ const fetchResource = (url, options) => fetch(url, { ...options, redirect: 'error', credentials: 'same-origin', signal: options?.signal ? AbortSignal.any([signal, options.signal]) : signal });
@@ -45,7 +47,9 @@ export async function loadCatalogs(signal, status) {
     const dungeons = await loadDungeonCatalog({ isSpeciesForm, isItemId, fetchResource });
     const effects = await loadEffectCatalog({ isSpeciesForm, isItemId, isMoveId: id => moves.has(id), signal, fetchResource }); cleanup.push(() => effects.dispose());
     const navigation = await loadNavigationCatalog({ isSpeciesForm, isItemId }, { signal }); cleanup.push(() => navigation.dispose());
-    const campaign = await loadCampaignCatalog({ isSpeciesForm, isItemId,
+    const campaign = await loadCampaignCatalog({
+      // Campaign references without a form mean species ownership, not a null-form profile.
+      isSpeciesForm: (id, form) => form === null ? contains(() => species.getSpecies(id)) : isSpeciesForm(id, form), isItemId,
       isDungeonId: id => contains(() => dungeons.getDungeon(id)),
       isSection: (id, section) => contains(() => dungeons.getSection(section)) && dungeons.getSection(section).dungeonId === id,
       isFixedRoomId: id => contains(() => dungeons.getFixedRoom(id)),
