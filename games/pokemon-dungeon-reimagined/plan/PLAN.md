@@ -1,13 +1,17 @@
 # Pokémon Dungeon Reimagined: implementation handoff
 
-**Current authority (2026-10-05):** deliver the complete Blue campaign and
-postgame described in [FULL-GAME-GOAL.md](FULL-GAME-GOAL.md). Latest visual
-direction is faithful directional pixel characters in textured, illuminated
-real 3D, superseding D03 B and earlier inferred P06 acceptance. The three new
-pixel studies and tools-only viewer are Task 1 foundations, never full gameplay.
-The [execution plan](FULL-GAME-EXECUTION.md) preserves all completion gates.
+**Current authority (2026-10-09):** follow
+[CODEX-HANDOFF-2026-10-09.md](CODEX-HANDOFF-2026-10-09.md) first, then
+[FULL-GAME-GOAL.md](FULL-GAME-GOAL.md) and
+[FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md). Deliver the complete Blue
+campaign/postgame, with faithful directional pixel characters in textured real
+3D. First resolve actual browser stability and verify the selected opening.
 
-**Status: implementation authorized on 2026-10-04 after planning PR #387 merged. The unmerged foundation work includes reviewed P03-A/P04-A interfaces, a P05 startup shell and P06 art candidates. P01 remains incomplete; see PROGRESS.md and COVERAGE.csv for evidence and remaining gates.**
+**Status:** PR #392 is merged; continue draft #397 on
+`feat/pokemon-campaign-recovery` from its current remote head. The selected v24
+opening through MAIN(5,9) is implemented. Sinister and later routes, full-game
+acceptance, real-browser latency/device checks and final visual review remain
+open. The historical foundation descriptions below are not current task status.
 
 **Goal:** recreate the scope of the original Nintendo DS Blue Rescue Team adventure as a polished third-person 3D game served from Justin's arcade on GitHub Pages, with the entire main campaign, postgame, optional content, original rule systems, and a documented account of deliberate adaptations.
 
@@ -39,9 +43,9 @@ The [execution plan](FULL-GAME-EXECUTION.md) preserves all completion gates.
 
 Recommended review order for Justin: read sections 2-6, the milestone table in section 10, and the resolved decisions in section 12; then inspect the campaign and rendering appendices. The remaining work packages are the detailed handoff for the implementing model.
 
-## 2. Current foundation scope
+## 2. Historical foundation scope
 
-### Present on the unmerged implementation branch
+### Original foundation record (superseded status)
 
 - The planning baseline merged in PR #387, followed by Justin's implementation-start authorization; root/game AGENTS and the parent `games/README.md` retain the game/website boundary and release hold.
 - This plan, source research, domain appendices, coverage and progress ledgers, including the source-qualified P01 profiles and their unresolved fields.
@@ -52,11 +56,11 @@ Recommended review order for Justin: read sections 2-6, the milestone table in s
 - The approved Blue baseline, with two historical loading illustrations and their prompts/provenance. The latest directional-pixel/real-3D visual direction supersedes B; both illustrations are retained evidence.
 - Recorded static checks and independent reviews, with their exact scope and limitations in PROGRESS.md. These do not complete P01, M1 or gameplay acceptance.
 
-### Remaining work and gates
+### Historical gates and current interpretation
 
 - Resolve source blockers before implementing dependent rules/content; complete the full campaign, systems, roster and production assets through the packages below.
 - Obtain P05 manual acceptance and finish P06 clip/rig/device acceptance; retain P10 and all later visual and whole-game gates. The later explicit pixel direction supersedes the old inferred P06 acceptance.
-- Keep the arcade card and public screenshot unchanged until P36/P37. Intermediate runtime work remains unmerged; merge and deployment require full-scope acceptance and explicit authorization.
+- The opening MVP card is already live under separate authorization. Retain its development label; replace its art study only with real gameplay capture. Keep PR #397 unmerged until applicable acceptance and explicit approval.
 - Keep root website package files and root README unchanged. Game authoring dependencies and the independent static-check workflow remain scoped to the documented tooling boundary.
 
 Early unreviewed implementation drafts were removed during the historical planning stage. They are not accepted architecture, code, assets, validation evidence, or a starting point the next model should silently revive.
@@ -85,7 +89,7 @@ An item can be researched, specified, implemented, statically reviewed, manually
 ## 4. Global constraints
 
 1. Use the original Nintendo DS Blue Rescue Team as the product baseline, as explicitly selected by the user (D01 resolved). Red Rescue Team is a comparative research source only; do not add edition selection or import Red-only rules. DX and Explorers facts require explicit exclusion unless the user approves an adaptation.
-2. Entry point: `games/pokemon-dungeon-reimagined/index.html`, currently a startup-only shell. The user allowed a folder, superseding the requested single `pokemon_dungeon_reimagined.html` file.
+2. Entry point: `games/pokemon-dungeon-reimagined/index.html`, now the selected opening runtime. The user allowed a folder, superseding the requested single `pokemon_dungeon_reimagined.html` file.
 3. All runtime URLs are relative and resolve under `/justinthelaw/games/pokemon-dungeon-reimagined/`; no hard-coded root assets, CDN scripts, external fonts, or API-dependent content.
 4. Keep the existing site architecture, system fonts, live GitHub bio, controls, tooltips, arcade width, margins and navigation intact.
 5. Preserve the first card as Coming soon until the eventual release gate. Replace only that card, using a real gameplay capture, not concept art passed off as gameplay.

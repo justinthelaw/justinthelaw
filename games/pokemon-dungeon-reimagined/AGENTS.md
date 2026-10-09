@@ -1,6 +1,15 @@
 # Pokémon Dungeon Reimagined
 
-## Current recovery checkpoint
+## Current handoff — 2026-10-09
+
+Resume `plan/CODEX-HANDOFF-2026-10-09.md` on draft PR #397, branch
+`feat/pokemon-campaign-recovery`. PR #392 is merged. Prior startup-only and
+"only main remains" notes are historical. Complete overlay focus regressions
+and independently review/profile the immutable shape-cache candidate before
+widening campaign activation. Actual WebGL 2 gameplay/device acceptance remains
+open; static checks and inert website fixtures are not that evidence.
+
+## Previous recovery checkpoint
 
 Dialogue confirmation repair PR #396 is merged as `ff21bb9` and deployed.
 Default panel focus must select real non-audio fields/actions; preserve explicit

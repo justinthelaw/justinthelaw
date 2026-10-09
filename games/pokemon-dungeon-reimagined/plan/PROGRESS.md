@@ -1940,3 +1940,27 @@ website fixtures. Hosted current-head checks must close those gates.
 Full-game continuation remains required under FULL-GAME-EXECUTION. Selected
 play still ends at MAIN(5,9); recovered later scene/preparation leaves are
 implementation prerequisites rather than playable campaign acceptance.
+
+## Browser stability handoff — 2026-10-09
+
+Justin requested a committed plan and PR comment for a follow-on Codex with a
+working browser/development environment, then an immediate stop. Continue
+[CODEX-HANDOFF-2026-10-09.md](CODEX-HANDOFF-2026-10-09.md) on draft PR #397.
+The previous #392/current-branch and startup-only plan claims are corrected.
+
+- Two failing-first focus regressions were published at `7c119cf`; a further
+  interrupted-activation case is included in this checkpoint. No production
+  overlay focus fix has been made. Complete and verify that work next.
+- A candidate positive structural cache for exact deeply frozen input graphs
+  removes duplicate copy/shape preflight while preserving every semantic raw
+  callback. See [its scope/evidence](ESCORT-SHAPE-PREFLIGHT-CACHE.md).
+- The candidate passed parser-only negative controls, game lint/types,
+  historical pins and focused escort checks. Full rerun was interrupted for
+  handoff; independent review, hosted final-head CI and measured performance
+  remain open. Earlier baseline authoring checks passed in full.
+- Local website lint/types/build passed; browser tests could not start because
+  pinned Chromium downloads were truncated. Live cloud startup fails at WebGL 2
+  initialization. No actual freeze reproduction, gameplay pass or latency
+  improvement is claimed. The hosted test-first run is `38001364529`.
+- Selected gameplay still stops at MAIN(5,9). Full Sinister/later main/postgame,
+  original-scope systems/content and device/visual/save acceptance remain open.

@@ -175,6 +175,27 @@ test("should deliver one focused action after releasing an overlay activation ke
   }
 });
 
+test("should cancel an overlay keyboard action when its focus or frame changes", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  const action = page.getByRole("region", { name: "Game controls", exact: true })
+    .getByRole("button", { name: "A (Z key)", exact: true });
+  await action.focus();
+  await page.keyboard.down("Enter");
+  await page.getByRole("button", { name: "Back to games", exact: true }).focus();
+  await page.keyboard.up("Enter");
+  expect(await recordedKeys(page)).toEqual([]);
+  await action.focus();
+  await page.keyboard.down("Enter");
+  await page.locator(`iframe[title="${gameTitle} game"]`).evaluate((element) => {
+    const frame = element as HTMLIFrameElement;
+    frame.src = `${frame.src}?replacement=1`;
+  });
+  await expect(page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("#key-events")).toHaveText("[]");
+  await page.keyboard.up("Enter");
+  expect(await recordedKeys(page)).toEqual([]);
+});
+
 test("should provide usable touch controls and bridge diagonal and action keys", async ({ page }, testInfo) => {
   await openPlayer(page);
   const controls = page.getByRole("region", { name: "Game controls", exact: true });

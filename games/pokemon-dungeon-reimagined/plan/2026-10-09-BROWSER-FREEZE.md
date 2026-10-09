@@ -1,7 +1,7 @@
 # Browser input recovery implementation plan
 
-> Execute inline under the existing continuation authorization. Use the
-> executing-plans workflow and independent scoped review before publication.
+> Paused for the user-requested handoff. Resume
+> CODEX-HANDOFF-2026-10-09.md; do not treat this plan as completed.
 
 **Goal:** Keep the embedded game responsive to its controls after website
 focus changes, and investigate turn stalls without weakening save validation.
@@ -35,7 +35,7 @@ JavaScript game source with independent static checks.
 iframe and key set. Only an admitted recipient may regain focus. Keyboard
 activation is delivered after the owning host key is released.
 
-- [ ] Add fixture regressions for pointer input after toolbar focus and keyboard
+- [x] Add fixture regressions for pointer input after toolbar focus and keyboard
   activation of a focused overlay control, including exact down/up delivery.
 - [ ] Observe the regressions fail before changing production code.
 - [ ] Restore exact frame focus before bridge delivery; preserve typing and
@@ -43,13 +43,18 @@ activation is delivered after the owning host key is released.
 - [ ] Run website lint/build/fixture suites and independent scoped review.
 - [ ] Record actual evidence and update the existing PR #397.
 
-## Task 2: Diagnose turn latency
+## Task 2: Reuse immutable structural preflight
 
-**Files:** Read-only trace of current escort policy/shape owners and callers.
+**Files:** `src/domain/state/escort-shape-proof.js`, the independent authoring
+checker and check chain, and `plan/ESCORT-SHAPE-PREFLIGHT-CACHE.md`.
 
-- [ ] Identify repeated synchronous work with exact source evidence.
-- [ ] Implement only a separately reviewed optimization that preserves every
-  current raw proof, original-envelope boundary and frozen source pin.
+- [x] Identify repeated synchronous work: nested escort resource/learning
+  proofs repeatedly detach and scan the entire state within one validation.
+- [ ] Cache only successful structural checks of exact deeply frozen input
+  identities in a private WeakSet; prove all descendants frozen using data
+  descriptors, without freezing callers. Mutable inputs always revalidate.
+- [ ] Keep every semantic/raw callback and original envelope proof intact;
+  add a failing parser-only source audit before implementation.
 - [ ] Run authoring static checks; record browser/device limits explicitly.
 
 ## Initial environment evidence
@@ -60,3 +65,21 @@ activation is delivered after the owning host key is released.
   installation downloads truncated ZIP archives before any fixture test runs.
 - Use hosted fixture CI for executable website regression evidence. No real
   game response is allowed into those tests.
+
+## Execution ledger
+
+- Pre-flight: the website focus and immutable shape cache have no shared
+  implementation interface. Both retain the game/website test boundary.
+- Test-only checkpoint `7c119cf` is published for hosted regression evidence.
+- Ruling: keep validation reuse structural and identity-based only; semantic
+  results are never cached because their ownership depends on each callback.
+- Ruling: use hosted browser fixtures because local pinned browser downloads
+  are truncated; actual game acceptance remains blocked by cloud WebGL 2.
+
+## User-requested stopping point
+
+On 2026-10-09 Justin requested a committed handoff and PR comment, then an
+immediate end to this turn. Focus regression tests are committed ahead of the
+production fix; hosted results and the final head must be inspected next.
+The structural-cache candidate and parser audit are preserved for independent
+review and real-browser profiling. Full acceptance remains open.

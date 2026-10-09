@@ -28,6 +28,14 @@ local pixel atlases and Three.js environments, static Pages export.
   human/device evidence separately.
 - Keep unfinished campaign activation on a development branch.
 
+## Current priority — 2026-10-09
+
+Complete [browser stability and the Codex handoff](CODEX-HANDOFF-2026-10-09.md)
+before widening campaign activation. PR #397 is the active draft; the published
+# 396 focus repair does not prove all controls or gameplay work. The new overlay
+focus regressions are intentionally ahead of their production fix. Review and
+profile the candidate immutable structural cache independently.
+
 ## Current tasks
 
 | Task | Files and interface | Check | Status |
