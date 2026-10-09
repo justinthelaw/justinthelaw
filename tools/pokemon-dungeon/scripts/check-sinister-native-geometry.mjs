@@ -82,7 +82,7 @@ async function noConsumers(directory) {
   for (const entry of await readdir(new URL(game+directory,root),{withFileTypes:true})) {
     const path=game+directory+entry.name;
     if (entry.isDirectory()) { if (entry.name !== 'vendor') await noConsumers(directory+entry.name+'/'); }
-    else if (entry.name.endsWith('.js') && path !== ownerPath && path !== contractPath) assert(!(await read(path)).includes('sinister-native-geometry'),'Unselected geometry has a new unaudited consumer: '+path);
+    else if (entry.name.endsWith('.js') && path !== ownerPath && path !== contractPath && ![game+'src/domain/gameplay/sinister-construction.js',game+'src/contracts/sinister-construction.js'].includes(path)) assert(!(await read(path)).includes('sinister-native-geometry'),'Unselected geometry has a new unaudited consumer: '+path);
   }
 }
 await noConsumers('src/'); await noConsumers('content/');

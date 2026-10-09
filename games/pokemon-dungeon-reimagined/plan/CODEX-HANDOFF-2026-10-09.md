@@ -1,5 +1,32 @@
 # Codex continuation: browser stability and complete game
 
+## Local continuation checkpoint
+
+The requested checkout now exists at `~/demo/justinthelaw` on the PR branch.
+Local commit `e093c21` contains the reviewed overlay focus repair, bounded
+ordinary-save receipts and native geometry prerequisite. The subsequent local
+work fixes the measured dungeon structural-validation hotspot and joins the
+private Sinister construction prefix. See the latest entries in PROGRESS.md
+and the local Git log before resuming the older checklist below.
+
+Actual Chrome/WebGL2 startup, onboarding, saving and Tiny Woods entry were
+observed. The baseline dungeon trace captured a 16.625-second interaction;
+nearly all `instanceId` samples occurred on its expected TypeError path.
+STRUCTURAL-PREFLIGHT.md records the narrow repair and preservation argument.
+The same saved dungeon loaded and accepted movement after the repair, but
+the Mac locked before comparable after-profiling or a complete playthrough.
+
+GitHub rejected the push because the available work account and connector have
+read-only access. No new current-branch CI or production deployment occurred.
+The user has been asked to unlock the Mac and authenticate a GitHub account
+with write access. Keep the PR draft and preserve its complete campaign scope.
+
+The authoring parser is now pinned to policy-permitted Acorn8.18.0; its previous
+8.19.0 download was blocked. All other authoring pins and root website pins
+remain unchanged. Node24.21.0 is the current `.nvmrc` selection. Root website
+installation remains blocked on its recently published pinned dependencies;
+use current-head hosted checks once write access is available.
+
 ## Instruction and scope
 
 Justin requested on 2026-10-09: continue the game PR, make it work without

@@ -14,24 +14,24 @@ const digest = text => createHash('sha256').update(text).digest('hex');
 // Only the exact new unselected runtime consumer is added to the inherited
 // parser gate. Its entire previous body and pure run owner remain authenticated.
 const oldRunGate = "    for (const node of parseSource(await read(path)).body) assert.ok(!/sinister-run-preparation\\.js$/.test(node.source?.value ?? ''),`Unselected run preparation ${path}`);";
-const newRunGate = "    for (const node of parseSource(await read(path)).body) assert.ok(!/sinister-run-preparation\\.js$/.test(node.source?.value ?? '') || path === 'src/domain/gameplay/sinister-native-slots.js' && node.type === 'ImportDeclaration' && node.source.value === './sinister-run-preparation.js',`Unselected run preparation ${path}`);";
+const newRunGate = "    for (const node of parseSource(await read(path)).body) assert.ok(!/sinister-run-preparation\\.js$/.test(node.source?.value ?? '') || ['src/domain/gameplay/sinister-native-slots.js','src/domain/gameplay/sinister-construction.js'].includes(path) && node.type === 'ImportDeclaration' && node.source.value === './sinister-run-preparation.js',`Unselected run preparation ${path}`);";
 function auditInheritedRun(text) {
   assert.equal(text.split(newRunGate).length,2,'Exactly one named native slot runtime consumer allowance required.');
   assert.equal(digest(text.replace(newRunGate,oldRunGate)),'16834e0074adb4e9ff749f59dece9d1d9d7685c74b9b5e81d41f7a7814b4a731','Every other inherited run-preparation checker byte remains unchanged.');
 }
 const inheritedRun=await read('tools/pokemon-dungeon/scripts/check-sinister-run-preparation.mjs');
 auditInheritedRun(inheritedRun);
-for (const [from,to] of [["path === 'src/domain/gameplay/sinister-native-slots.js'","true"],["node.source.value === './sinister-run-preparation.js'","true"]]) assert.throws(() => auditInheritedRun(inheritedRun.replace(from,to)),undefined,'A broad run consumer exception must fail authentication.');
+for (const [from,to] of [["['src/domain/gameplay/sinister-native-slots.js','src/domain/gameplay/sinister-construction.js'].includes(path)","true"],["node.source.value === './sinister-run-preparation.js'","true"]]) assert.throws(() => auditInheritedRun(inheritedRun.replace(from,to)),undefined,'A broad run consumer exception must fail authentication.');
 assert.equal(digest(await read(game+'src/domain/gameplay/sinister-run-preparation.js')),'e34d70b6574c643a2e59143e863ce806dba093648244f7b094e2eb1827141519','Original pure run/preseed source owner remains unchanged.');
 const oldRosterGate = "      if (node.source.value.endsWith('/sinister-ability-domain.js') || node.source.value.endsWith('/sinister-roster-mapping.js')) assert.fail('Unselected source-domain helper acquired an unaudited live consumer: '+path);";
-const newRosterGate = "      if (node.source.value.endsWith('/sinister-ability-domain.js')) assert.fail('Unselected ability-domain helper acquired an unaudited live consumer: '+path);\n      if (node.source.value.endsWith('/sinister-roster-mapping.js')) assert(path === 'src/domain/gameplay/sinister-native-slots.js' && node.type === 'ImportDeclaration' && node.source.value === './sinister-roster-mapping.js','Only the exact unselected actual new-memory producer may consume the mapper: '+path);";
+const newRosterGate = "      if (node.source.value.endsWith('/sinister-ability-domain.js')) assert.fail('Unselected ability-domain helper acquired an unaudited live consumer: '+path);\n      if (node.source.value.endsWith('/sinister-roster-mapping.js')) assert(['src/domain/gameplay/sinister-native-slots.js','src/domain/gameplay/sinister-construction.js'].includes(path) && node.type === 'ImportDeclaration' && node.source.value === './sinister-roster-mapping.js','Only the exact unselected actual new-memory producer may consume the mapper: '+path);";
 function auditInheritedRoster(text) {
   assert.equal(text.split(newRosterGate).length,2,'Exactly one named native slot mapper consumer allowance required.');
   assert.equal(digest(text.replace(newRosterGate,oldRosterGate)),'012ff59a31ad44c83f972e55ba40bd2a89b1ad5bc972fb671e55a0fb9a63f369','Every other prior roster-domain checker byte remains unchanged.');
 }
 const inheritedRoster=await read('tools/pokemon-dungeon/scripts/check-sinister-roster-domain.mjs');
 auditInheritedRoster(inheritedRoster);
-assert.throws(() => auditInheritedRoster(inheritedRoster.replace("path === 'src/domain/gameplay/sinister-native-slots.js'",'true')),undefined,'A broad mapper consumer exception must fail authentication.');
+assert.throws(() => auditInheritedRoster(inheritedRoster.replace("['src/domain/gameplay/sinister-native-slots.js','src/domain/gameplay/sinister-construction.js'].includes(path)",'true')),undefined,'A broad mapper consumer exception must fail authentication.');
 function nodes(tree,predicate) { const out=[]; function visit(node) { if (!node || typeof node !== 'object') return; if (predicate(node)) out.push(node); for (const value of Object.values(node)) if (Array.isArray(value)) value.forEach(visit); else visit(value); } visit(tree); return out; }
 function body(source,name) { const tree=parse(source,{ecmaVersion:'latest',sourceType:'module'}),rows=nodes(tree,node => node.type === 'FunctionDeclaration' && node.id.name === name); assert.equal(rows.length,1,name); return source.slice(rows[0].start,rows[0].end); }
 function literal(node) { if (node.type === 'Literal') return node.value; if (node.type === 'ArrayExpression') return node.elements.map(literal); if (node.type === 'ObjectExpression') return Object.fromEntries(node.properties.map(row => [row.key.name??row.key.value,literal(row.value)])); if (node.type === 'CallExpression' && node.callee.object?.name === 'Object' && node.callee.property?.name === 'freeze') return literal(node.arguments[0]); throw Error('Nonliteral factual source'); }
@@ -85,7 +85,7 @@ async function scanNative(directory) {
   for (const row of await readdir(new URL(game+directory,root),{withFileTypes:true})) {
     const path=game+directory+row.name;
     if (row.isDirectory()) { if (row.name !== 'vendor') await scanNative(directory+row.name+'/'); continue; }
-    if (!path.endsWith('.js') || Object.values(files).includes(path)) continue;
+    if (!path.endsWith('.js') || Object.values(files).includes(path) || [game+'src/domain/gameplay/sinister-construction.js',game+'src/contracts/sinister-construction.js'].includes(path)) continue;
     const text=await read(path);
     assert(!text.includes('sinister-native-slots') && !text.includes('sinister-native-slot-facts'),'Only the three exact new unselected slot package files may consume themselves: '+path);
   }

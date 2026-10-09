@@ -49,12 +49,18 @@ function inspect(value, shape, path, issues, visitor, shapes) {
     case 'boolean': return typeof value === 'boolean' || fail();
     case 'string': return typeof value === 'string' || fail();
     case 'instance':
+      // Nullable IDs probe this branch before null. Reject their known type
+      // mismatch without constructing/catching an exception for every tile.
+      if (typeof value !== 'string') return fail();
       try { instanceId(shape.name, value); return true; } catch { return fail(); }
     case 'catalog':
       return (typeof value === 'string' && /^[a-z][a-z0-9-]{0,95}$/.test(value)) || fail();
     case 'union': {
       for (const member of shape.members) {
-        if (inspect(value, member, path, [], undefined, shapes)) return inspect(value, member, path, issues, visitor, shapes);
+        // A successful isolated probe has already proved this entire member.
+        // Only a visitor needs a second walk to deliver the admitted references;
+        // repeating a visitorless success multiplies work at each nested union.
+        if (inspect(value, member, path, [], undefined, shapes)) return visitor ? inspect(value, member, path, issues, visitor, shapes) : true;
       }
       return fail();
     }

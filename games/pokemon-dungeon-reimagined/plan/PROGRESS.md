@@ -34,6 +34,53 @@
   the later full campaign, assets, physical devices and release gates remain
   open. PR #397 remains draft; no merge or production deployment performed.
 
+### Measured dungeon stall and local verification
+
+- Recorded actual Chrome/macOS Tiny Woods gameplay at the baseline runtime
+  `2b5c883`. A 46.425-second native DevTools trace reports a 16.625-second
+  interaction and five production main-thread tasks of 3.492–14.592 seconds.
+  CPU sampling attributes 38.740 seconds to `instanceId`; 99.87% of its samples
+  are at the predictable invalid-identity TypeError. Rendering accounts for
+  roughly 0.237 seconds of sampled ancestry. These sampled and exact timings
+  use different accounting and must not be added together.
+- Removed the redundant successful visitorless union traversal and rejected
+  known nonstring instance mismatches through the original failure owner before
+  constructing an exception. Strings retain the complete unchanged identity
+  validator. Independent review and eleven parser-only negative controls pass;
+  historical schemas and codec remain unchanged. See
+  [STRUCTURAL-PREFLIGHT.md](STRUCTURAL-PREFLIGHT.md).
+- Exported the baseline dungeon save, then loaded that browser save under the
+  repaired source and observed directional movement. The Mac locked before
+  after-profiling, further gameplay or production-route acceptance. No measured
+  improvement or freeze-resolution claim is made yet.
+- Local trace, data-only analysis and exported-save evidence live beside the
+  checkout in `../justinthelaw-evidence/2026-10-09/`. The baseline dungeon trace
+  hash is `d24498bdb1ede24fe613da3c37c84ca870ad401be8d25d28fbe117ff3c49b118`;
+  the exported save hash is
+  `2c6be1d4fdf0a8e2eb3e9477be0e0df8b1372b5e2872268c3048e6b3861738c9`.
+- Pinned the isolated authoring Acorn dependency to permitted8.18.0 after the
+  security policy rejected8.19.0. Independently verified its registry tarball
+  integrity and compatibility with every locked consumer. A clean install of
+  the updated lock succeeds. All other authoring pins and root pins remain
+  unchanged; all4546 installed dependency files match the clean lock install.
+- Full game lint passes537 authored files and exact TypeScript6.0.3 passes421
+  files. All nine sourceful native audits pass, including construction and
+  geometry. Pre-commit checks pass; pre-push hygiene passes, while website
+  ESLint/build/fixtures still require the blocked root dependency install or
+  current-head hosted CI.
+- Every authoring check stage completed, including419-profile/386-species
+  raster coverage,5028 runtime pages,12 environment kits, vendor and audio
+  audits. The initial asset source-path check correctly rejected the bootstrap
+  dependency symlink; using an ordinary installed package fixed it. Vendor
+  verification also caught its separate parser pin, which now consistently
+  records8.18.0. Regeneration changes only provenance's parser version; all six
+  other vendor files are byte-identical to the prior checkpoint. These static
+  checks do not approve visuals, sound or full gameplay.
+- The push of `e093c21` failed: both available GitHub interfaces have read-only
+  repository access. Local commits are preserved. The user has been asked for
+  write authentication and a Mac unlock; no remote update, merge or deployment
+  has occurred during this continuation.
+
 ## Dialogue recovery and campaign continuation — 2026-10-08
 
 - [PR #396](https://github.com/justinthelaw/justinthelaw/pull/396) merged as
@@ -2044,3 +2091,46 @@ The previous #392/current-branch and startup-only plan claims are corrected.
   geometry proposals must be joined to genuine private construction history
   before live selection. Later route, turn/contact/terminal and full-campaign
   gates remain open.
+
+## Private Sinister construction prefix — 2026-10-09
+
+- Package/sub-batch: one private fresh-run constructor now derives source
+  mapping, run conversion/preseed and slot-memory receipts from the complete
+  admitted predecessor, and creates genuine whole-Dungeon zero geometry.
+  One owned first-floor continuation allocates a map, advances the native
+  preseed and records the existing source slot-reset projection atomically.
+- Approval/dependencies: authorized continuation from the preceding reviewed
+  prerequisites. Ten existing runtime dependencies, including the reviewed
+  geometry implementation, remain unchanged.
+- Base/result: starts at `e093c2184710a4448e9f53d6be546935752f86b9`;
+  integrating owner records the resulting commit.
+- Owned paths: new `src/domain/gameplay/sinister-construction.js`, its contract,
+  `tools/pokemon-dungeon/content/sinister-construction/`, source audit, four
+  exact inherited consumer allowances, package/CI command and this record.
+- Public interface: `createSinisterConstruction(predecessor,catalogs,authority)`
+  returns `getSnapshot`, `beginFirstFloor` and `dispose`. The exact immutable
+  current snapshot is the continuation token; there is no raw journal import,
+  arbitrary observer replacement, old-session retagging or live route consumer.
+- Research/source: the pinned comparative Red RunDungeon zeroing and floor
+  seed boundary; existing admitted source mapping/run/native-slot owners.
+  See [the precise constructor scope](../../../tools/pokemon-dungeon/content/sinister-construction/CONTRACT.md).
+- Static checks: all three new JavaScript files pass `node --check` and diff
+  hygiene. Source-only Python/Git verification confirms ten unchanged runtime
+  fingerprints, one native fingerprint and four complete inherited audits
+  after removing only the exact named consumer additions. Full source AST,
+  lint and strict type checks await dependency-policy resolution.
+- Independent review: scoped review passed predecessor admission, actual
+  transaction/session/map authority, retained stream origin, current-token
+  lifecycle and atomic swap, genuine zero geometry and explicit prefix stop.
+  The reviewer independently confirmed all native/runtime hashes, reconstructed
+  all four inherited audits byte-for-byte to `e093c21`, and passed syntax/diff
+  checks. Strict lint/types/full source-AST execution remains pending.
+- Manual evidence: not performed; no game/native module executed.
+- Coverage IDs advanced: none; no whole constructor or v25 activation claim.
+- Remaining gaps/next exact package: the actual source-ordered browser RNG
+  qualification, Deoxys/cache/layout history and partial tile writes, then
+  temporary actor resets/placement/Hidden Power and initial AI. The existing
+  slot reset combines a projection of separated source writes, so this package
+  records `floor-prefix-ready`, not a fictitious contiguous native PC. Final
+  party/resources/sleep/refresh, raw admission, route/turn/terminal and full
+  campaign/device/visual acceptance remain open.

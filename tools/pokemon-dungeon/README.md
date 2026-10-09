@@ -38,7 +38,7 @@ packages. In environments with an explicit HTTP(S) proxy, Node 24's
 
 `scripts/vendor.mjs` reads `three@0.186.1` from this package's `node_modules`,
 verifies the npm lock integrity and exact upstream SHA-256 hashes, parses
-imports with `acorn@8.19.0`, and minifies using pure-JavaScript `terser@5.51.2`.
+imports with `acorn@8.18.0`, and minifies using pure-JavaScript `terser@5.51.2`.
 The settings are ES2022 modules, two compression passes, mangling and retained
 license/preserve comments. No downloaded native minifier is required.
 

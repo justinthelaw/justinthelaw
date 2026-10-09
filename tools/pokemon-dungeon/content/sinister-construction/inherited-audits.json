@@ -1,0 +1,18 @@
+[
+  {
+    "path": "tools/pokemon-dungeon/scripts/check-sinister-run-preparation.mjs",
+    "sha256": "61881ffdc1e6a1039c1cdf6cc2f0a85185586631f3be900f3de62ae5615aa836"
+  },
+  {
+    "path": "tools/pokemon-dungeon/scripts/check-sinister-roster-domain.mjs",
+    "sha256": "46be956eb432c501b2f6238dc11da61a88da7d094bfac757ca2bf24f67ff1258"
+  },
+  {
+    "path": "tools/pokemon-dungeon/scripts/check-sinister-native-slots.mjs",
+    "sha256": "9e830427e318e6626bbeb370e5dc87533bcc0e19fbfdd7a7501396608b7816df"
+  },
+  {
+    "path": "tools/pokemon-dungeon/scripts/check-sinister-native-geometry.mjs",
+    "sha256": "214b62ba585061fd36fc9a13af09c9b2fbab32660c69cb3dbbd61ff300942adc"
+  }
+]

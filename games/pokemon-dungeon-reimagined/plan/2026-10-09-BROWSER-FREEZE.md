@@ -1,7 +1,8 @@
 # Browser input recovery implementation plan
 
-> Paused for the user-requested handoff. Resume
-> CODEX-HANDOFF-2026-10-09.md; do not treat this plan as completed.
+> Resumed locally. Read the latest checkpoint in CODEX-HANDOFF-2026-10-09.md.
+> Production focus repair and structural fixes are implemented and reviewed;
+> after-profiling and current-head website fixtures remain open.
 
 **Goal:** Keep the embedded game responsive to its controls after website
 focus changes, and investigate turn stalls without weakening save validation.
@@ -37,8 +38,8 @@ activation is delivered after the owning host key is released.
 
 - [x] Add fixture regressions for pointer input after toolbar focus and keyboard
   activation of a focused overlay control, including exact down/up delivery.
-- [ ] Observe the regressions fail before changing production code.
-- [ ] Restore exact frame focus before bridge delivery; preserve typing and
+- [x] Observe the regressions fail before changing production code.
+- [x] Restore exact frame focus before bridge delivery; preserve typing and
   document replacement guards and cancel interrupted keyboard activation.
 - [ ] Run website lint/build/fixture suites and independent scoped review.
 - [ ] Record actual evidence and update the existing PR #397.
@@ -50,14 +51,21 @@ checker and check chain, and `plan/ESCORT-SHAPE-PREFLIGHT-CACHE.md`.
 
 - [x] Identify repeated synchronous work: nested escort resource/learning
   proofs repeatedly detach and scan the entire state within one validation.
-- [ ] Cache only successful structural checks of exact deeply frozen input
+- [x] Cache only successful structural checks of exact deeply frozen input
   identities in a private WeakSet; prove all descendants frozen using data
   descriptors, without freezing callers. Mutable inputs always revalidate.
-- [ ] Keep every semantic/raw callback and original envelope proof intact;
+- [x] Keep every semantic/raw callback and original envelope proof intact;
   add a failing parser-only source audit before implementation.
 - [ ] Run authoring static checks; record browser/device limits explicitly.
 
 ## Initial environment evidence
+
+The local continuation later reproduced actual Tiny Woods stalls in Chrome.
+Native DevTools recorded 42.395 seconds of scripting in a 46.425-second trace
+and a 16.625-second interaction. The original structural inspector repeatedly
+threw on null tile IDs and re-walked successful visitorless union branches.
+See STRUCTURAL-PREFLIGHT.md for the reviewed fixes. This newer evidence does
+not establish after-performance or whole-game acceptance.
 
 - Live arcade reaches renderer construction, then reports WebGL 2 unavailable
   in the available cloud browser; gameplay cannot be verified there.

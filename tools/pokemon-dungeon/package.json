@@ -46,8 +46,9 @@
     "roster:export": "node art/roster/export.mjs",
     "roster:capture": "node scripts/capture-roster-pixels.mjs",
     "preroster:check": "node art/roster/export.mjs --materialize",
-    "save-boundaries:check": "node scripts/check-save-boundaries.mjs && npm run save-receipts:check",
+    "save-boundaries:check": "node scripts/check-save-boundaries.mjs && npm run save-receipts:check && npm run structure-unions:check",
     "save-receipts:check": "node scripts/check-save-receipts.mjs",
+    "structure-unions:check": "node scripts/check-structure-unions.mjs",
     "ai:export": "node scripts/export-ai-facts.mjs",
     "ai:check": "node scripts/export-ai-facts.mjs --check",
     "friends:check": "node scripts/check-friend-facts.mjs",
@@ -83,13 +84,14 @@
     "sinister-cache64:check": "node scripts/check-sinister-cache64.mjs",
     "sinister-end:check": "node scripts/check-sinister-end-effects.mjs",
     "sinister-native-slots:check": "node scripts/check-sinister-native-slots.mjs",
-    "sinister-native-geometry:check": "node scripts/check-sinister-native-geometry.mjs"
+    "sinister-native-geometry:check": "node scripts/check-sinister-native-geometry.mjs",
+    "sinister-construction:check": "node scripts/check-sinister-construction.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/node": "24.19.1",
     "@types/three": "0.186.0",
-    "acorn": "8.19.0",
+    "acorn": "8.18.0",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "eslint": "10.12.0",
