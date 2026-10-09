@@ -53,3 +53,4 @@ jobs:
           npm run sinister-initial-ai:check -- --native-root "$RUNNER_TEMP/pokemon-native-source" --negative-controls
           npm run sinister-end:check -- --native-root "$RUNNER_TEMP/pokemon-native-source" --negative-controls
           npm run sinister-native-slots:check -- --native-root "$RUNNER_TEMP/pokemon-native-source"
+          npm run sinister-native-geometry:check -- --native-root "$RUNNER_TEMP/pokemon-native-source"

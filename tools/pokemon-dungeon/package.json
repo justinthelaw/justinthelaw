@@ -46,7 +46,8 @@
     "roster:export": "node art/roster/export.mjs",
     "roster:capture": "node scripts/capture-roster-pixels.mjs",
     "preroster:check": "node art/roster/export.mjs --materialize",
-    "save-boundaries:check": "node scripts/check-save-boundaries.mjs",
+    "save-boundaries:check": "node scripts/check-save-boundaries.mjs && npm run save-receipts:check",
+    "save-receipts:check": "node scripts/check-save-receipts.mjs",
     "ai:export": "node scripts/export-ai-facts.mjs",
     "ai:check": "node scripts/export-ai-facts.mjs --check",
     "friends:check": "node scripts/check-friend-facts.mjs",
@@ -81,7 +82,8 @@
     "sinister-roster-domain:check": "node scripts/check-sinister-roster-domain.mjs",
     "sinister-cache64:check": "node scripts/check-sinister-cache64.mjs",
     "sinister-end:check": "node scripts/check-sinister-end-effects.mjs",
-    "sinister-native-slots:check": "node scripts/check-sinister-native-slots.mjs"
+    "sinister-native-slots:check": "node scripts/check-sinister-native-slots.mjs",
+    "sinister-native-geometry:check": "node scripts/check-sinister-native-geometry.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

@@ -1,5 +1,39 @@
 # Pokémon Dungeon Reimagined progress and decisions
 
+## Local browser continuation — 2026-10-09
+
+- Cloned PR #397 at `2b5c883` into the requested local checkout and resumed
+  `feat/pokemon-campaign-recovery`. Chrome on macOS successfully renders the
+  actual WebGL2 game. Observed quiz, partner selection, browser-save creation
+  and awakening dialogue with working keyboard progression. This is a limited
+  browser observation, not a full playthrough or human/device acceptance.
+- Implemented the website overlay focus repair and retained the failing-first
+  inert fixtures. Actions reacquire the exact document, wait for host Enter/
+  Space release and cancel stale activations. Independent review caught and
+  corrected child-only key release ownership and delayed initial-load focus
+  theft; new inert fixtures cover both.
+- Inspected hosted baseline failures from runs `38001364529` and
+  `38002077938`: toolbar blur and premature overlay activation fail before the
+  repair. Current-change hosted checks are pending the scoped checkpoint push.
+- Independent source review found no defect in the deeply frozen structural
+  cache. Added bounded ordinary-save receipts to avoid re-decoding identical
+  envelopes produced by the repository's own successful writes. Public load,
+  import, changed bytes, new snapshot validation and CAS remain intact. See
+  [SAVE-RECEIPTS.md](SAVE-RECEIPTS.md); independent persistence review passed.
+- The current `.nvmrc` selects Node24.21.0, superseding the older handoff's
+  24.19.0 environment note. Node24.21.0 and npm12.2.0 are installed locally.
+  Both pinned dependency installs fail under Socket Security Policy because
+  pinned packages are recently published. No registry policy was bypassed or
+  lockfile weakened. Local complete lint/types/flight-check remain pending;
+  syntax-only checks and `git diff --check` pass.
+- Downloaded the existing Pages preview for head `f2389c4`, build
+  `3e55a6666894e5a4aba6c28945d33f911cb6880f`, separately from the working tree.
+  This baseline artifact is not evidence for new changes. A new current-head
+  export and direct/iframe review remain required.
+- Selected campaign scope still ends at MAIN(5,9). Sinister construction and
+  the later full campaign, assets, physical devices and release gates remain
+  open. PR #397 remains draft; no merge or production deployment performed.
+
 ## Dialogue recovery and campaign continuation — 2026-10-08
 
 - [PR #396](https://github.com/justinthelaw/justinthelaw/pull/396) merged as
@@ -1964,3 +1998,49 @@ The previous #392/current-branch and startup-only plan claims are corrected.
   improvement is claimed. The hosted test-first run is `38001364529`.
 - Selected gameplay still stops at MAIN(5,9). Full Sinister/later main/postgame,
   original-scope systems/content and device/visual/save acceptance remain open.
+
+## Native geometry construction prerequisite — 2026-10-09
+
+- Package/sub-batch: unselected Sinister native geometry operations. Adds the
+  actual main-tile reset projection, ordered junction finalization and list
+  rebuild, room bounds and four neighbor-mask algorithms. Preserves full
+  32-entry junction tails and inactive-room pixel bytes rather than constructing
+  final-looking geometry from an actor's current position.
+- Approval/dependencies: authorized full-campaign continuation; pinned
+  comparative Red source and existing plain-data/identity/freeze helpers.
+  Browser focus/cache work remains the current activation priority.
+- Base and resulting commit: working from PR #397 branch
+  `feat/pokemon-campaign-recovery`; resulting commit recorded by the integrating
+  owner. No existing save schema, historical pin or selected route is changed.
+- Owned paths changed: `src/contracts/sinister-native-geometry.js`,
+  `src/domain/gameplay/sinister-native-geometry.js`, this progress record,
+  `tools/pokemon-dungeon/content/sinister-native-geometry/`, its source audit,
+  the authoring package script and the sourceful game-static CI call.
+- Public interfaces: `prepareSinisterNativeGeometry(input, authority)` returns
+  one detached, deeply frozen before/after proposal for an exact named native
+  call. Matching authority does not itself prove source history or admission.
+- Research: exact `6bcbec4f906938c0243aa2026bcbd41b577bab85` native sources;
+  five file hashes and four unchanged runtime dependency hashes recorded in
+  [the contract](../../../tools/pokemon-dungeon/content/sinister-native-geometry/CONTRACT.md).
+  Room254 traversal, native56x32 wall limits, signed16 room sentinels and u32
+  pixel conversion remain explicit comparative facts, not Blue binary claims.
+- Static checks: `node --check` passed both new runtime/contract files and the
+  source audit; `git diff --check` passed. A source-only Python/Git SHA256 pass
+  confirmed all five native and four unchanged dependency fingerprints.
+  Source lint/type/full AST audit follow dependency installation; the initial
+  lint attempt stopped before checking because `eslint` was not installed and
+  the pinned install is blocked by the environment's dependency policy.
+- Independent review: scoped source review found no actionable mismatch across
+  all four operations, preserved partial/retained geometry and detached proposal
+  boundary; independently verified the five native/four dependency hashes and
+  syntax checks. Strict lint/types/full AST audit remain blocked as above.
+- Manual evidence: not performed; no game/native module was executed.
+- Coverage IDs advanced: none. This is a constructor prerequisite, not P11,
+  P23, v25 admission, campaign or human acceptance completion.
+- Remaining gaps/next exact package: actual layout and partial tile write
+  journals; qualified browser/native observer crosswalk; temporary actor,
+  Hidden Power and initial AI; final resources/sleep/ordered refresh; complete
+  raw admission and current-caller composition. Existing memory allocation and
+  geometry proposals must be joined to genuine private construction history
+  before live selection. Later route, turn/contact/terminal and full-campaign
+  gates remain open.

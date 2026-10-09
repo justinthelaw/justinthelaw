@@ -237,6 +237,13 @@ submission, validation and scene guards; the bridge only emits the bounded key
 pair to the captured input recipient. Website fixture tests cover this contract
 without importing or executing game source.
 
+Overlay input restores the exact captured iframe document before delivery.
+Enter/Space action activation waits for the host key release; interruption,
+navigation or recipient changes cancel it. A release arriving in the current
+child document clears host ownership without replaying the cancelled action.
+Initial loads preserve deliberate overlay focus, and subsequent iframe loads
+preserve host focus so a held activation cannot leak into a replacement game.
+
 For a screenshot or GIF, set
 `preview: { src: "/arcade/my-game.gif", alt: "Description of the game" }` and put
 the file in `public/arcade/`. Local preview paths receive the configured base

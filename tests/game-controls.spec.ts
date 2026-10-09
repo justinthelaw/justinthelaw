@@ -140,6 +140,25 @@ test("should defer game focus until the keyboard toggle key is released", async 
   ]);
 });
 
+test("should keep Space toggle activation and release in the website", async ({ page }) => {
+  await openPlayer(page);
+  const controls = page.getByRole("region", { name: "Game controls", exact: true });
+  if (await controls.isVisible()) await page.getByRole("button", { name: "Hide controls", exact: true }).click();
+  const iframe = page.locator(`iframe[title="${gameTitle} game"]`);
+  for (const name of ["Show controls", "Hide controls"]) {
+    const toggle = page.getByRole("button", { name, exact: true });
+    const wasVisible = await controls.isVisible();
+    await toggle.focus();
+    await page.keyboard.down("Space");
+    await expect(toggle).toBeFocused();
+    expect(await controls.isVisible()).toBe(wasVisible);
+    await page.keyboard.up("Space");
+    await expect(iframe).toBeFocused();
+    await expect(controls).toBeVisible({ visible: !wasVisible });
+    expect(await recordedKeys(page)).toEqual([]);
+  }
+});
+
 test("should resume focused bridge input after the website toolbar takes focus", async ({ page }) => {
   await openPlayer(page);
   await showControls(page);
@@ -187,11 +206,97 @@ test("should cancel an overlay keyboard action when its focus or frame changes",
   expect(await recordedKeys(page)).toEqual([]);
   await action.focus();
   await page.keyboard.down("Enter");
+  const replacement = page.waitForEvent("framenavigated", { predicate: (frame) => frame.url().endsWith("?replacement=1") });
   await page.locator(`iframe[title="${gameTitle} game"]`).evaluate((element) => {
     const frame = element as HTMLIFrameElement;
+    frame.addEventListener("load", () => frame.setAttribute("data-fixture-loaded", "true"), { once: true });
     frame.src = `${frame.src}?replacement=1`;
   });
+  await replacement;
+  await expect(page.locator(`iframe[title="${gameTitle} game"]`)).toHaveAttribute("data-fixture-loaded", "true");
   await expect(page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("#key-events")).toHaveText("[]");
+  await expect(action).toBeFocused();
+  await page.keyboard.up("Enter");
+  expect(await recordedKeys(page)).toEqual([]);
+});
+
+test("should cancel interrupted keyboard input and ignore activation repeats", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  const action = page.getByRole("region", { name: "Game controls", exact: true })
+    .getByRole("button", { name: "A (Z key)", exact: true });
+  await action.focus();
+  await page.keyboard.down("Enter");
+  await page.evaluate(() => window.dispatchEvent(new Event("blur")));
+  await page.keyboard.up("Enter");
+  await expect(action).toBeFocused();
+  expect(await recordedKeys(page)).toEqual([]);
+  await page.keyboard.down("Enter");
+  await page.keyboard.down("Enter");
+  expect(await recordedKeys(page)).toEqual([]);
+  await page.keyboard.up("Enter");
+  await expect.poll(() => recordedKeys(page)).toEqual([
+    { type: "keydown", code: "KeyZ", key: "z" },
+    { type: "keyup", code: "KeyZ", key: "z" },
+  ]);
+});
+
+test("should retain a cancelled activation release in the host during a pointer toggle", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  const controls = page.getByRole("region", { name: "Game controls", exact: true });
+  await controls.getByRole("button", { name: "A (Z key)", exact: true }).focus();
+  await page.keyboard.down("Enter");
+  await page.getByRole("button", { name: "Hide controls", exact: true }).click();
+  await expect(controls).toBeHidden();
+  await expect(page.locator(`iframe[title="${gameTitle} game"]`)).not.toBeFocused();
+  await page.keyboard.up("Enter");
+  expect(await recordedKeys(page)).toEqual([]);
+  await page.getByRole("button", { name: "Show controls", exact: true }).click();
+  await expect(page.locator(`iframe[title="${gameTitle} game"]`)).toBeFocused();
+});
+
+test("should clear cancelled host activation ownership when release reaches the frame", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  const controls = page.getByRole("region", { name: "Game controls", exact: true });
+  await controls.getByRole("button", { name: "A (Z key)", exact: true }).focus();
+  await page.keyboard.down("Enter");
+  await page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("#key-events").click();
+  await page.keyboard.up("Enter");
+  await controls.getByRole("button", { name: "Move right", exact: true }).click();
+  await expect.poll(() => recordedKeys(page)).toEqual([
+    { type: "keyup", code: "Enter", key: "Enter" },
+    { type: "keydown", code: "ArrowRight", key: "ArrowRight" },
+    { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
+  ]);
+});
+
+test("should preserve overlay activation focus during a delayed first frame load", async ({ page }) => {
+  let releaseFrame: () => void = () => {};
+  const frameReady = new Promise<void>((resolve) => { releaseFrame = resolve; });
+  await page.route("**/games/pokemon-dungeon-reimagined/**", async (route) => {
+    await frameReady;
+    await route.fulfill({ contentType: "text/html", body: inputFixture });
+  });
+  await page.goto("/");
+  await page.getByRole("link", { name: portalName }).click();
+  const opening = page.getByRole("button", { name: `Play ${gameTitle}`, exact: true }).click();
+  await expect(page.getByTestId("game-player")).toBeVisible();
+  await showControls(page);
+  const iframe = page.locator(`iframe[title="${gameTitle} game"]`);
+  await iframe.evaluate((element) => {
+    element.addEventListener("load", () => element.setAttribute("data-fixture-loaded", "true"), { once: true });
+  });
+  const action = page.getByRole("region", { name: "Game controls", exact: true })
+    .getByRole("button", { name: "A (Z key)", exact: true });
+  await action.focus();
+  await page.keyboard.down("Enter");
+  releaseFrame();
+  await opening;
+  await expect(iframe).toHaveAttribute("data-fixture-loaded", "true");
+  await expect(page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("#key-events")).toHaveText("[]");
+  await expect(action).toBeFocused();
   await page.keyboard.up("Enter");
   expect(await recordedKeys(page)).toEqual([]);
 });
@@ -385,4 +490,41 @@ test("should retain ordinary typing protection and require the exact confirm opt
     { type: "keydown", code: "Enter", key: "Enter" },
     { type: "keyup", code: "Enter", key: "Enter" },
   ]);
+});
+
+
+test("should recheck a captured text field before releasing an overlay confirmation", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  const field = page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("#confirm-input");
+  const action = page.getByRole("region", { name: "Game controls", exact: true })
+    .getByRole("button", { name: "A (Z key)", exact: true });
+  await field.focus();
+  await action.focus();
+  await page.keyboard.down("Enter");
+  await field.evaluate((element) => element.setAttribute("readonly", ""));
+  await page.keyboard.up("Enter");
+  await expect(action).toBeFocused();
+  expect(await recordedKeys(page)).toEqual([]);
+  await expect(field).toHaveValue("  exact  ");
+});
+
+test("should keep host-page typing protected from overlay keys", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  await page.getByTestId("game-player").evaluate((player) => {
+    const field = document.createElement("input");
+    field.id = "host-typing-fixture";
+    field.value = "host text";
+    player.append(field);
+    field.focus();
+  });
+  const field = page.locator("#host-typing-fixture");
+  for (const name of ["A (Z key)", "Start (Enter key)", "Move left"]) {
+    await page.getByRole("region", { name: "Game controls", exact: true })
+      .getByRole("button", { name, exact: true }).click();
+    await expect(field).toBeFocused();
+    await expect(field).toHaveValue("host text");
+  }
+  expect(await recordedKeys(page)).toEqual([]);
 });

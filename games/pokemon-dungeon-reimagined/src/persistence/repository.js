@@ -38,27 +38,57 @@ export function createSaveRepository({ adapter, content, compatibility, now = ()
   let exclusive = false;
   /** @type {SaveJob[]} */ const queue = [];
   /** @type {Promise<void>|null} */ let running = null;
+  /** Exact canonical bytes admitted by this repository's completed ordinary
+   * write. Never a revision/hash/generation alias or a file-import receipt.
+   * @type {ReadonlyMap<string,EncodedSave>} */ let saveReceipts = new Map();
+  /** The local content owner remains fixed for this repository's lifetime.
+   * Mutable/incomplete injected interfaces keep ordinary full decoding. */
+  function frozenContentOwner() {
+    return Object.isFrozen(content) && ['policies', 'identities'].every(key => {
+      const descriptor = Object.getOwnPropertyDescriptor(content, key);
+      return descriptor && Object.hasOwn(descriptor, 'value') && descriptor.value && typeof descriptor.value === 'object' && Object.isFrozen(descriptor.value);
+    });
+  }
+  /** Retain only the two exact envelopes written by a successful ordinary save.
+   * The text budget bounds this optimization; larger saves still fully admit.
+   * @param {EncodedSave} save @param {PreparedLoad} loaded */
+  function rememberCommitted(save, loaded) {
+    if (disposed || !frozenContentOwner()) { saveReceipts = new Map(); return; }
+    const backup = loaded.primary.ok ? loaded.primary : loaded.backup;
+    const admitted = backup.ok ? [save, backup.value] : [save];
+    /** @type {Map<string,EncodedSave>} */ const next = new Map();
+    let textLength = 0;
+    for (const receipt of admitted) { textLength += receipt.text.length; next.set(receipt.text, receipt); }
+    saveReceipts = textLength <= 2 * 1024 * 1024 ? next : new Map();
+  }
   /** @param {CommitGuard} guard @returns {boolean} */
   function current(guard) { try { return !disposed && guard(); } catch { return false; } }
   /** @template T @param {()=>Promise<Result<T>>} action @returns {Promise<Result<T>>} */
   async function boundary(action) { try { return await action(); } catch (error) { return storageFailure(error); } }
   /** Preserve individual admission failures without parsing rejected payloads.
-   * @param {StorageSlot} slot @returns {Promise<Result<EncodedSave>>}
+   * @param {StorageSlot} slot @param {ReadonlyMap<string,EncodedSave>|null} receipts
+   * @returns {Promise<Result<EncodedSave>>}
    */
-  async function decodeSlot(slot) {
+  async function decodeSlot(slot, receipts) {
     if (!slot.ok) return slot;
-    return slot.value === null ? fail('empty') : decodeSave(slot.value, content, compatibility);
+    if (slot.value === null) return fail('empty');
+    const receipt = receipts?.get(slot.value);
+    return receipt ? succeed(receipt) : decodeSave(slot.value, content, compatibility);
   }
-  /** @param {CommitGuard} guard @returns {Promise<Result<PreparedLoad>>} */
-  async function prepareLoad(guard) {
+  /** Only ordinary saves may reuse exact successful write receipts. Public load,
+   * confirmation and import retain independent original-envelope admission.
+   * @param {CommitGuard} guard @param {boolean} [reuseStoredReceipts]
+   * @returns {Promise<Result<PreparedLoad>>} */
+  async function prepareLoad(guard, reuseStoredReceipts = false) {
     if (!current(guard)) return fail(disposed ? 'disposed' : 'stale');
     const stored = await boundary(() => adapter.read());
     if (!current(guard)) return fail(disposed ? 'disposed' : 'stale');
     if (!stored.ok) return stored;
     if (knownGeneration === null) knownGeneration = stored.value.generation;
-    const primary = await decodeSlot(stored.value.primary);
+    const receipts = reuseStoredReceipts && frozenContentOwner() ? saveReceipts : null;
+    const primary = await decodeSlot(stored.value.primary, receipts);
     if (!current(guard)) return fail(disposed ? 'disposed' : 'stale');
-    const backup = await decodeSlot(stored.value.backup);
+    const backup = await decodeSlot(stored.value.backup, receipts);
     if (!current(guard)) return fail(disposed ? 'disposed' : 'stale');
     const view = Object.freeze({ generation: stored.value.generation, primary: slotView(primary), backup: slotView(backup) });
     return succeed(Object.freeze({ record: stored.value, primary, backup, view }));
@@ -79,14 +109,16 @@ export function createSaveRepository({ adapter, content, compatibility, now = ()
     const encoded = await encodeSave(job.snapshot, content, now());
     if (!current(job.guard)) return fail(disposed ? 'disposed' : 'stale');
     if (!encoded.ok) return encoded;
-    const loaded = await prepareLoad(job.guard);
+    const loaded = await prepareLoad(job.guard, true);
     if (!loaded.ok) return loaded;
     if (loaded.value.record.generation !== knownGeneration) return fail('conflict');
     // Ordinary saves never erase a present unreadable campaign. Recovery/import
     // are separately confirmed replacement operations; export remains available.
     if (!loaded.value.primary.ok && loaded.value.primary.code !== 'empty') return loaded.value.primary;
     if (loaded.value.primary.ok && loaded.value.primary.value.snapshot.revision > job.snapshot.revision) return fail('conflict');
-    return commit(encoded.value, loaded.value, job.guard);
+    const committed = await commit(encoded.value, loaded.value, job.guard);
+    if (committed.ok) rememberCommitted(encoded.value, loaded.value);
+    return committed;
   }
   function pump() {
     if (running || exclusive || disposed || queue.length === 0) return;
@@ -119,7 +151,8 @@ export function createSaveRepository({ adapter, content, compatibility, now = ()
       if (queue.length >= 64) return Promise.resolve(fail('busy'));
       return new Promise(resolve => { queue.push({ context, snapshot, guard, autosave, resolve }); pump(); });
     },
-    prepareLoad,
+    /** @param {CommitGuard} guard */
+    prepareLoad: guard => prepareLoad(guard),
     /** @param {string} text @returns {Promise<Result<EncodedSave>>} */
     prepareImport: text => disposed ? Promise.resolve(fail('disposed')) : decodeSave(text, content, compatibility),
     /** Export never opens browser storage. @param {CampaignSnapshot} snapshot @returns {Promise<Result<EncodedSave>>} */
@@ -153,7 +186,7 @@ export function createSaveRepository({ adapter, content, compatibility, now = ()
           async reset(generation, guard) {
             if (!current(scoped(guard))) return fail('stale');
             const result = await boundary(() => adapter.remove(generation, scoped(guard)));
-            if (result.ok) knownGeneration = result.value.generation;
+            if (result.ok) { knownGeneration = result.value.generation; saveReceipts = new Map(); }
             return result;
           },
         });
@@ -162,6 +195,6 @@ export function createSaveRepository({ adapter, content, compatibility, now = ()
       finally { active = false; exclusive = false; pump(); }
     },
     /** Synchronous idempotent cancellation. In-flight adapter transactions abort. */
-    dispose() { if (disposed) return; disposed = true; invalidateQueued('disposed'); adapter.close(); },
+    dispose() { if (disposed) return; disposed = true; saveReceipts = new Map(); invalidateQueued('disposed'); adapter.close(); },
   });
 }
