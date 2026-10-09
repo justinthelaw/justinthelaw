@@ -140,6 +140,41 @@ test("should defer game focus until the keyboard toggle key is released", async 
   ]);
 });
 
+test("should resume focused bridge input after the website toolbar takes focus", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  await page.getByRole("button", { name: "Back to games", exact: true }).focus();
+  const iframe = page.locator(`iframe[title="${gameTitle} game"]`);
+  await expect(iframe).not.toBeFocused();
+  await page.getByRole("region", { name: "Game controls", exact: true })
+    .getByRole("button", { name: "Move right", exact: true }).click();
+  await expect(iframe).toBeFocused();
+  await expect(page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("#focused-key-events")).toHaveText(JSON.stringify([
+    { type: "keydown", code: "ArrowRight", key: "ArrowRight" },
+    { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
+  ]));
+});
+
+test("should deliver one focused action after releasing an overlay activation key", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  const iframe = page.locator(`iframe[title="${gameTitle} game"]`);
+  const action = page.getByRole("region", { name: "Game controls", exact: true })
+    .getByRole("button", { name: "A (Z key)", exact: true });
+  const expected: RecordedKey[] = [];
+  for (const key of ["Enter", "Space"]) {
+    await action.focus();
+    await page.keyboard.down(key);
+    await expect(action).toBeFocused();
+    expect(await recordedKeys(page)).toEqual(expected);
+    await page.keyboard.up(key);
+    expected.push({ type: "keydown", code: "KeyZ", key: "z" }, { type: "keyup", code: "KeyZ", key: "z" });
+    await expect(iframe).toBeFocused();
+    await expect(page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("#focused-key-events")).toHaveText(JSON.stringify(expected));
+    expect(await recordedKeys(page)).toEqual(expected);
+  }
+});
+
 test("should provide usable touch controls and bridge diagonal and action keys", async ({ page }, testInfo) => {
   await openPlayer(page);
   const controls = page.getByRole("region", { name: "Game controls", exact: true });
