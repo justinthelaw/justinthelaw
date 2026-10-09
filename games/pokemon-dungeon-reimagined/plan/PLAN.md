@@ -17,7 +17,7 @@ open. The historical foundation descriptions below are not current task status.
 
 **Architecture:** a standalone, locally hosted browser game in `games/pokemon-dungeon-reimagined/`, with separate content, simulation, presentation, UI/input, audio, and persistence modules. The existing Next.js site exports that directory unchanged and opens its entry point in the existing arcade iframe. Simulation owns gameplay state; the renderer consumes presentation snapshots and cannot change game rules.
 
-**Selected stack:** browser ES modules, JavaScript with JSDoc and an independent static type check, locally pinned Three.js/WebGL 2, local glTF/GLB and compressed texture/audio assets, HTML/CSS menus, browser storage through one adapter. Tooling, the local engine and the startup shell now exist; gameplay, production menus and persistence remain planned. No website React dependency, runtime CDN, server, Unreal runtime, account service, or game test runner.
+**Selected stack:** browser ES modules, JavaScript with JSDoc and an independent static type check, locally pinned Three.js/WebGL 2, local glTF/GLB and compressed texture/audio assets, HTML/CSS menus, browser storage through one adapter. The selected opening implements gameplay, menus, saving, pixel rendering and audio; complete campaign/system/device acceptance remains open. No website React dependency, runtime CDN, server, Unreal runtime, account service, or game test runner.
 
 **Spec:** this plan's approved requirements and the linked appendices constitute the specification. Instructions in AGENTS.md and later explicit user decisions take precedence. Justin's implementation-start instruction permits execution in the dependency order below; package acceptance, visual review and release authorization remain separate.
 
@@ -92,7 +92,7 @@ An item can be researched, specified, implemented, statically reviewed, manually
 2. Entry point: `games/pokemon-dungeon-reimagined/index.html`, now the selected opening runtime. The user allowed a folder, superseding the requested single `pokemon_dungeon_reimagined.html` file.
 3. All runtime URLs are relative and resolve under `/justinthelaw/games/pokemon-dungeon-reimagined/`; no hard-coded root assets, CDN scripts, external fonts, or API-dependent content.
 4. Keep the existing site architecture, system fonts, live GitHub bio, controls, tooltips, arcade width, margins and navigation intact.
-5. Preserve the first card as Coming soon until the eventual release gate. Replace only that card, using a real gameplay capture, not concept art passed off as gameplay.
+5. Preserve the live first card's opening-development label. Its current image is an art study; replace it only with a verified real campaign capture. Keep the other two cards Coming soon.
 6. Game and website code must be DRY, SOLID, and idiomatic for their respective frameworks. Avoid a monolithic simulation/UI/renderer class.
 7. Do not write or run tests against game source. No unit, integration, snapshot, automated gameplay, simulation replay test, or test-only game hook is permitted. Static syntax, lint, type, schema/provenance/size checks and code review are permitted. Manual gameplay/visual acceptance is approved under D05 and must remain distinct from automated website tests.
 8. Website tests remain meaningful and thorough. Intercept every game iframe navigation with inert fixtures before it is triggered; test export copying with temporary fixture files. Never let a website test boot real game code.
@@ -101,7 +101,7 @@ An item can be researched, specified, implemented, statically reviewed, manually
 11. Every source-derived claim and external asset has provenance. Keep third-party notices and licenses. Create newly written dialogue preserving the original events, plus original art/audio, instead of extracting commercial game resources or copying a complete script.
 12. Current pre-push policy rejects added files over 1,024 KiB. Optimize and partition assets; do not weaken that policy without an explicit reviewed decision.
 13. Preserve canonical save data across retries, migrations and failed imports. No automatic reset on validation failure.
-14. Planning-document-only changes may merge only with explicit user authorization. Every intermediate package containing runtime files remains review-only and unmerged until P37 full-scope release authorization; no interim runtime belongs on `main`. A disabled arcade card does not prevent access to a directly served game URL, because the exporter publishes the entire `games/` tree.
+14. The opening MVP was separately authorized and published through PR #392. Further full-game work remains on draft PR #397 until applicable acceptance and explicit merge/deployment approval. The exporter publishes the entire `games/` tree, so a disabled arcade card does not prevent direct access.
 
 ## 5. Authority order and uncertainty handling
 
@@ -142,7 +142,7 @@ P04-A pins Three.js **0.186.1** in the independent tooling package and includes 
 
 ## 7. Architecture and file ownership
 
-The startup shell (`index.html`, `styles.css`, `src/bootstrap.js`, `src/shell/`), `assets/initial-scene.json`, `vendor/three/`, game AGENTS and `plan/` documentation now exist. Other gameplay/content layers below remain planned. P06 authoring sources, candidate exports and the disposable preview remain outside the game tree under `tools/pokemon-dungeon/`. Do not create empty implementations merely to make this tree look complete.
+The startup shell, canonical domain, saving, input, content, pixel renderer, UI and audio now serve the selected v24 opening. The following ownership table is an architectural guide; consult the current files and handoff for implemented interfaces and remaining scope. P06 authoring sources, candidate exports and the disposable preview remain outside the game tree under `tools/pokemon-dungeon/`. Do not create empty implementations merely to make this tree look complete.
 
 | Path within `games/pokemon-dungeon-reimagined/` | Responsibility | Allowed dependencies |
 | --- | --- | --- |
@@ -334,7 +334,7 @@ All product choices in this register are resolved. Justin subsequently authorize
 | D04 | **Resolved: browser equivalents** | Browser rescue codes/files, Blue extra-mode equivalents and archived event expeditions; preserve content/progression. Cartridge interoperability is not a required gate and may only be claimed where verified | P21, P31 |
 | D05 | **Resolved: manual acceptance allowed** | Human play/visual review is allowed after implementation starts; all automated game-source tests remain excluded | Every gameplay/visual gate |
 | D06 | **Resolved: omit standalone practice** | No separate Groudon practice mode; preserve the campaign battle and capture actual campaign gameplay for the arcade | P18, P35-P36 |
-| D07 | **Established full-release hold** | Keep interim runtime off `main`; keep public card Coming soon until full-scope P36/P37 gates and explicit release authorization | P36-P37 |
+| D07 | **Full-release hold with published opening exception** | The opening MVP is live under separate approval. Keep draft #397 unmerged pending applicable full-scope acceptance and explicit approval; retain honest development copy | P36-P37 |
 | D08 | **Resolved: JavaScript with JSDoc** | Directly served ES modules with strict independent static type checks and game-scoped lint/schema tools | P04 |
 
 The fixed browser-save recommendation is one current campaign with primary/backup recovery, automatic checkpoints after completed canonical state transactions, and manual save/export. SYSTEMS S03 owns exact trigger and recovery behavior; strict cartridge single-use quicksave is not a separate pending choice.
@@ -427,7 +427,7 @@ non-gameplay inputs. No unresolved P01 rule becomes an executable default.
 
 **Acceptance:** static review covers every startup/lifecycle branch; approved manual capture shows direct-page and iframe loading/error states. No white screen or uncontrolled network fallback is accepted.
 
-**Current bounded result:** the startup shell and its reviewed lifecycle interface exist. Direct-page, iframe and device observations remain pending; no gameplay or save operations are implemented.
+**Current bounded result:** the startup shell now composes the selected opening gameplay and save owners. Actual direct-page/iframe/device acceptance remains open; use the current handoff for browser blockers and evidence.
 
 ### P06 - Visual target proof before mass production
 
