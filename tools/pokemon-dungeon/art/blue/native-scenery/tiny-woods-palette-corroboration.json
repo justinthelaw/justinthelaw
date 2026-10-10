@@ -1,0 +1,8106 @@
+{
+  "reference": "Blue_Rescue_Team_Press_Release_-_ss01.png",
+  "referenceCrop": [
+    8,
+    208,
+    256,
+    192
+  ],
+  "tileSize": 24,
+  "confirmedPalette": {
+    "239,215,95,255": [
+      227,
+      211,
+      89,
+      255
+    ],
+    "199,119,31,255": [
+      195,
+      113,
+      24,
+      255
+    ],
+    "247,183,79,255": [
+      235,
+      178,
+      73,
+      255
+    ],
+    "239,255,119,255": [
+      227,
+      243,
+      113,
+      255
+    ],
+    "103,175,0,255": [
+      97,
+      170,
+      0,
+      255
+    ],
+    "167,231,0,255": [
+      162,
+      219,
+      0,
+      255
+    ],
+    "231,199,87,255": [
+      219,
+      195,
+      81,
+      255
+    ],
+    "135,199,0,255": [
+      130,
+      195,
+      0,
+      255
+    ],
+    "199,255,0,255": [
+      195,
+      243,
+      0,
+      255
+    ],
+    "175,95,15,255": [
+      170,
+      89,
+      8,
+      255
+    ],
+    "239,167,63,255": [
+      227,
+      162,
+      56,
+      255
+    ],
+    "215,143,47,255": [
+      211,
+      138,
+      40,
+      255
+    ],
+    "247,231,103,255": [
+      235,
+      219,
+      97,
+      255
+    ],
+    "255,239,87,255": [
+      243,
+      227,
+      81,
+      255
+    ],
+    "255,239,119,255": [
+      243,
+      227,
+      113,
+      255
+    ],
+    "231,223,127,255": [
+      219,
+      219,
+      121,
+      255
+    ],
+    "183,167,103,255": [
+      178,
+      162,
+      97,
+      255
+    ],
+    "199,207,127,255": [
+      195,
+      203,
+      121,
+      255
+    ],
+    "215,175,87,255": [
+      211,
+      170,
+      81,
+      255
+    ],
+    "175,127,31,255": [
+      170,
+      121,
+      24,
+      255
+    ],
+    "183,239,63,255": [
+      178,
+      227,
+      56,
+      255
+    ],
+    "79,183,63,255": [
+      73,
+      178,
+      56,
+      255
+    ],
+    "135,215,63,255": [
+      130,
+      211,
+      56,
+      255
+    ],
+    "87,143,63,255": [
+      81,
+      138,
+      56,
+      255
+    ],
+    "247,239,0,255": [
+      235,
+      227,
+      0,
+      255
+    ],
+    "255,231,231,255": [
+      243,
+      219,
+      219,
+      255
+    ],
+    "223,119,175,255": [
+      219,
+      113,
+      170,
+      255
+    ],
+    "239,175,199,255": [
+      227,
+      170,
+      195,
+      255
+    ]
+  },
+  "completeTileMatches": [
+    {
+      "variant": 0,
+      "sourceTile": [
+        1,
+        0
+      ],
+      "referenceLowerScreen": [
+        20,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        1,
+        0
+      ],
+      "referenceLowerScreen": [
+        68,
+        116,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        1,
+        0
+      ],
+      "referenceLowerScreen": [
+        92,
+        116,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        1,
+        0
+      ],
+      "referenceLowerScreen": [
+        140,
+        140,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        1,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        140,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        1,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        140,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        1,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        140,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        2,
+        0
+      ],
+      "referenceLowerScreen": [
+        44,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        2,
+        0
+      ],
+      "referenceLowerScreen": [
+        116,
+        116,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        4,
+        0
+      ],
+      "referenceLowerScreen": [
+        20,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        140,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        44,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        92,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        1,
+        1
+      ],
+      "referenceLowerScreen": [
+        20,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        1,
+        1
+      ],
+      "referenceLowerScreen": [
+        44,
+        140,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        1,
+        1
+      ],
+      "referenceLowerScreen": [
+        68,
+        140,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        2,
+        1
+      ],
+      "referenceLowerScreen": [
+        116,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        2,
+        1
+      ],
+      "referenceLowerScreen": [
+        116,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        2,
+        1
+      ],
+      "referenceLowerScreen": [
+        44,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        0,
+        2
+      ],
+      "referenceLowerScreen": [
+        92,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        140,
+        116,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        116,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        116,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        116,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        68,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 0,
+      "sourceTile": [
+        0,
+        6
+      ],
+      "referenceLowerScreen": [
+        44,
+        116,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        2,
+        0
+      ],
+      "referenceLowerScreen": [
+        44,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        2,
+        0
+      ],
+      "referenceLowerScreen": [
+        116,
+        116,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        0
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        0,
+        1
+      ],
+      "referenceLowerScreen": [
+        92,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        1
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        2
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        3
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        4
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        5
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        6
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        12,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        13,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        14,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        15,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        16,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        20,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        20,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        140,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        44,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        68,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        68,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        164,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        188,
+        92,
+        24,
+        24
+      ]
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        17,
+        7
+      ],
+      "referenceLowerScreen": [
+        212,
+        92,
+        24,
+        24
+      ]
+    }
+  ],
+  "unconfirmed": {
+    "232,210,93,255": 1293,
+    "199,142,36,255": 838,
+    "229,192,83,255": 342,
+    "212,172,83,255": 448,
+    "152,106,33,255": 1113,
+    "116,83,0,255": 1387,
+    "43,126,123,255": 1493,
+    "26,150,122,255": 1133,
+    "10,189,159,255": 7716,
+    "62,206,199,255": 5617,
+    "114,227,215,255": 4897,
+    "166,245,222,255": 362
+  },
+  "additionalPatternMatches": [
+    {
+      "variant": 1,
+      "sourceTile": [
+        1,
+        1
+      ],
+      "referenceLowerScreen": [
+        20,
+        116,
+        24,
+        24
+      ],
+      "knownPixels": 467,
+      "inferredPalette": {
+        "247,239,0,255": [
+          235,
+          227,
+          0,
+          255
+        ],
+        "255,231,231,255": [
+          243,
+          219,
+          219,
+          255
+        ],
+        "223,119,175,255": [
+          219,
+          113,
+          170,
+          255
+        ],
+        "239,175,199,255": [
+          227,
+          170,
+          195,
+          255
+        ]
+      }
+    },
+    {
+      "variant": 1,
+      "sourceTile": [
+        1,
+        1
+      ],
+      "referenceLowerScreen": [
+        20,
+        140,
+        24,
+        24
+      ],
+      "knownPixels": 467,
+      "inferredPalette": {
+        "247,239,0,255": [
+          235,
+          227,
+          0,
+          255
+        ],
+        "255,231,231,255": [
+          243,
+          219,
+          219,
+          255
+        ],
+        "223,119,175,255": [
+          219,
+          113,
+          170,
+          255
+        ],
+        "239,175,199,255": [
+          227,
+          170,
+          195,
+          255
+        ]
+      }
+    },
+    {
+      "variant": 2,
+      "sourceTile": [
+        1,
+        1
+      ],
+      "referenceLowerScreen": [
+        92,
+        140,
+        24,
+        24
+      ],
+      "knownPixels": 418,
+      "inferredPalette": {
+        "247,239,0,255": [
+          235,
+          227,
+          0,
+          255
+        ],
+        "255,231,231,255": [
+          243,
+          219,
+          219,
+          255
+        ],
+        "223,119,175,255": [
+          219,
+          113,
+          170,
+          255
+        ],
+        "239,175,199,255": [
+          227,
+          170,
+          195,
+          255
+        ]
+      }
+    },
+    {
+      "variant": 2,
+      "sourceTile": [
+        0,
+        6
+      ],
+      "referenceLowerScreen": [
+        116,
+        140,
+        24,
+        24
+      ],
+      "knownPixels": 527,
+      "inferredPalette": {
+        "247,239,0,255": [
+          235,
+          227,
+          0,
+          255
+        ],
+        "255,231,231,255": [
+          243,
+          219,
+          219,
+          255
+        ],
+        "239,175,199,255": [
+          227,
+          170,
+          195,
+          255
+        ],
+        "223,119,175,255": [
+          219,
+          113,
+          170,
+          255
+        ]
+      }
+    }
+  ]
+}

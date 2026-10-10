@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/pret/pmd-red",
+  "commit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+  "sourceEdition": "Red Rescue Team, with directly captured Blue touch-toolbar imagery",
+  "blueStatus": "Native font glyphs, dialogue geometry and selected UI palette pixels corroborated against original Blue press captures. HUD layout and remaining glyphs are source-derived comparative Rescue Team data.",
+  "rights": "Original Pokémon / Chunsoft / Nintendo artwork and public decompilation data. Provenance is retained; no rights-holder reuse grant is asserted.",
+  "archive": {
+    "path": "native-ui-source.tar.gz",
+    "bytes": 353107,
+    "sha256": "0244b14573c7f4a60c2315e5bf6bb2026569b36a6ec4cfd80074d1e222cc46c9"
+  },
+  "files": [
+    {
+      "path": "data/system_sbin.s",
+      "bytes": 2072450,
+      "sha256": "46b30bbc8719002cf2d0a3a7bf613270b7b3e4702bfbf5de7eeede1cfab91926",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/system_sbin.s"
+    },
+    {
+      "path": "data/dungeon/etcfont.inc",
+      "bytes": 9904,
+      "sha256": "9a68ab57204fb6705e5266072f632c50523f67b3f30cf71355b0f29e1af1fb26",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon/etcfont.inc"
+    },
+    {
+      "path": "data/dungeon/hp5font.inc",
+      "bytes": 3206,
+      "sha256": "2a6eeceeedc7ea9f01969204b4a3969d5366710ec616ae55ffed341c44310101",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon/hp5font.inc"
+    },
+    {
+      "path": "graphics/ax/pal/0.pal",
+      "bytes": 202,
+      "sha256": "f7eb2849cea3aba41b2fbb7cb46ac82c245bfe1b17d278c6cbc88c33c8700c63",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/0.pal"
+    },
+    {
+      "path": "graphics/ax/pal/3.pal",
+      "bytes": 200,
+      "sha256": "65d3e8afcbf93580d438052f6361cc6e3d959e7f80a06cd824687f5c64fd9a69",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/3.pal"
+    },
+    {
+      "path": "graphics/ax/pal/10.pal",
+      "bytes": 209,
+      "sha256": "bb79dea3c5c21a498b335c8a1dd6020141f0f8dd91829a51212517fc47e0cad6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/10.pal"
+    },
+    {
+      "path": "charmap.txt",
+      "bytes": 9882,
+      "sha256": "3b46842c609bde4a98545fd720c565f70529ab0c3068ed15d58d83b027293c94",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/charmap.txt"
+    },
+    {
+      "path": "src/text_1.c",
+      "bytes": 30429,
+      "sha256": "159bd11e9f13028eef8e071c8a8540aec393b91625a15d7aa8c9d6df8b00cae3",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/text_1.c"
+    },
+    {
+      "path": "src/text_2.c",
+      "bytes": 38997,
+      "sha256": "00c744ae8a09c3200cb0d16e88b319bb3c6af0908b2a52761a04e0f4e95f31d5",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/text_2.c"
+    },
+    {
+      "path": "src/text_3.c",
+      "bytes": 13955,
+      "sha256": "99cfcc0570e04cd6d006046aeb76b3582742787ce726abf532198d4247098e53",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/text_3.c"
+    },
+    {
+      "path": "src/string_format.c",
+      "bytes": 29362,
+      "sha256": "7732953fa025002ee06f18b6f198f23e757e1020c77e8cbbbf89d65d6e385584",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/string_format.c"
+    },
+    {
+      "path": "src/graphics_memory.c",
+      "bytes": 7979,
+      "sha256": "ca848ea8df2f354599e50b281f52b38959043f6749abc7397619166b01ee4ebb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/graphics_memory.c"
+    },
+    {
+      "path": "src/pokemon.c",
+      "bytes": 35082,
+      "sha256": "ca46804becf408ad3a3a8cad21d7ac16309b2e43fd80bf4945a29951b66aa58b",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/pokemon.c"
+    },
+    {
+      "path": "src/dungeon_tilemap.c",
+      "bytes": 20577,
+      "sha256": "28aac2bdf721aee8c5f42b6e85ac96f6e4e70771fd7a547fee0585d9dfd119bc",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_tilemap.c"
+    },
+    {
+      "path": "src/dungeon_vram.c",
+      "bytes": 25421,
+      "sha256": "4d16ee6ee294ea233f35eaad43d154c7418aa1083d1a6dd61ba80a3e4df4e075",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_vram.c"
+    },
+    {
+      "path": "src/dungeon_mon_sprite_render.c",
+      "bytes": 16066,
+      "sha256": "a0d8ed04930f3edae3a93eca3ec47d3512efc94c06ce3f16821a9930b07a43c7",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_mon_sprite_render.c"
+    },
+    {
+      "path": "src/bg_palette_buffer.c",
+      "bytes": 2688,
+      "sha256": "1f5ab72be89f92c20afe227eb3b162fae842306a606a256cff2d8f0b8448d356",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/bg_palette_buffer.c"
+    },
+    {
+      "path": "src/game_options.c",
+      "bytes": 6868,
+      "sha256": "c09cd379fa0a9a90a5c66cfea7b73675b2ea32d949e8a47771b4277a8c7b8ab7",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/game_options.c"
+    }
+  ],
+  "references": [
+    {
+      "path": "native-reference/ss01.png",
+      "sha256": "347c5bc6dc6d240a5ba649b172a656956d361fad2d9f48ad1500551eca73c454",
+      "url": "https://mysterydungeonwiki.com/images/8/8a/Blue_Rescue_Team_Press_Release_-_ss01.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Blue_Rescue_Team_Press_Release_-_ss01.png",
+      "use": "Original five-button Blue dungeon touch toolbar; only its native UI pixels are exported."
+    }
+  ]
+}

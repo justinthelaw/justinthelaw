@@ -7,8 +7,8 @@ export const ARCADE_GAMES: readonly ArcadeGame[] = [
     description: "Become a Pokémon, meet your partner, and rescue Caterpie in Tiny Woods. A browser adaptation of the original DS opening, in development.",
     blobVariant: "blue",
     preview: {
-      src: "/arcade/blue-rescue-team-preview.jpg",
-      alt: "Art study of Pikachu and Charmander facing Groudon in Magma Cavern.",
+      src: "/arcade/blue-rescue-team-preview.png",
+      alt: "Psyduck and Charmander exploring Tiny Woods in the browser game.",
     },
     entryPoint: "/games/pokemon-dungeon-reimagined/index.html",
   },

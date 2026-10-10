@@ -1,15 +1,31 @@
 {
-  "schemaVersion": 1,
-  "profile": "blue-opening-original-art-v1",
-  "provenance": "Deterministic nearest-neighbor reduction of original source-native art already authored in this repository. Not Nintendo DS art; no commercial assets were extracted.",
-  "sourceManifestSha256": "2294b3feac6b50722bca8ccb86f0f2288c645be021d2859937eac21b800168cd",
-  "cell": 32,
-  "footAnchor": [
-    16,
-    31
+  "schemaVersion": 2,
+  "profile": "blue-opening-rescue-team-native-v2",
+  "provenance": "Original Rescue Team world sprites and portraits from explicitly identified public image sources, with recorded native frame composition and timing. Selected sprites and display colors corroborated against Blue screenshots; remaining Red-derived data is comparative. No rights-holder reuse grant asserted.",
+  "sourceManifestSha256": "d9082e81e417d2559449705a5d7215232eee70de2b29e2dfc47804806ea60687",
+  "sourceManifestPath": "tools/pokemon-dungeon/art/blue/native-sources.json",
+  "sourceArchives": [
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-sprite-source.tar.gz",
+      "bytes": 596829,
+      "sha256": "3d8c59b43064ca8d76bc1554d988468a0b5c0b53d503889d266cb3892f6d2eb8"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-portrait-source.tar.gz",
+      "bytes": 308563,
+      "sha256": "b78aad0ae144b5a1421e1dd691fb454ca6704b82e68a67b335809dd09913f42e"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-ornament-source.tar.gz",
+      "bytes": 10485,
+      "sha256": "91505c1e2809271d4f0fe815d219d0504309c008d235b82f468af706a6c0e99a"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-ui-source.tar.gz",
+      "bytes": 353107,
+      "sha256": "0244b14573c7f4a60c2315e5bf6bb2026569b36a6ec4cfd80074d1e222cc46c9"
+    }
   ],
-  "width": 128,
-  "height": 2048,
   "directions": [
     "s",
     "se",
@@ -20,1498 +36,2097 @@
     "w",
     "sw"
   ],
-  "clips": [
-    "idle",
-    "walk",
-    "attack-physical",
-    "hit-light",
-    "defeat",
-    "rest-sleep",
-    "celebrate",
-    "interact"
-  ],
   "records": [
     {
       "speciesId": "pokemon-001",
       "path": "pokemon-001.png",
-      "bytes": 28043,
-      "sha256": "9452c49f6609972b0ae7315c211003142e76398ad7c2c788adb9edf3e357787b",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/bulbasaur-idle.png",
-          "originalSha256": "feaef1c16ea230a69a2918391e863952fcfd73a857c24974eea29871522b5a4f"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/bulbasaur-walk.png",
-          "originalSha256": "ad9c4fd5cca8a3cf7e03475ee57bd05e0b6219e4a95aaf0e5523db9e2e01643e"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/bulbasaur-attack-physical.png",
-          "originalSha256": "1a8e9aab0f6b94060c96be3020c1c71942bffaed61e5cbd03c6d1151ab4d573d"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/bulbasaur-hit-light.png",
-          "originalSha256": "350a0c9a403cb62661853c66e4c85678425a9f2abba87b68fdaf062fd9de4791"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/bulbasaur-defeat.png",
-          "originalSha256": "5f5484ce946d9e6ee4c1c9e037e982871413f17f55ca792fdcc71b7d4e08d7e7"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/bulbasaur-rest-sleep.png",
-          "originalSha256": "55db610930d9ec56751836db605719a2f303b5ad779c3d9281066579e9d157ce"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/bulbasaur-celebrate.png",
-          "originalSha256": "c366453e1d9d88efc10bb4e62970c5a18945cfd2ee21d283bc7c6dd962783d28"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/bulbasaur-interact.png",
-          "originalSha256": "c2e497a02ba2fa743520d523ab3b6ad991771b636b13b06cf87b5210123d7997"
-        }
-      ]
+      "width": 512,
+      "height": 240,
+      "bytes": 29545,
+      "sha256": "86951d30799a86ec5053ede1fa1b2cea50c3794a302507c93a0de932b8453b76",
+      "metadataPath": "pokemon-001.json",
+      "metadataBytes": 33049,
+      "metadataSha256": "3ce530fd97a34c0b7ab46fbd5b068d86f8844856131fda75c6c650402d91c2fb",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/bulbasaur.h"
     },
     {
       "speciesId": "pokemon-004",
       "path": "pokemon-004.png",
-      "bytes": 25355,
-      "sha256": "6b99f0c1dcc00420b3b1c12ad1f6c08f0152f1d4df76a123cb5a9afceada3a76",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/charmander-idle.png",
-          "originalSha256": "02faa9bb38f64d55142261cdf36ef5cb941009917e47932a6672e3fb622773a9"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/charmander-walk.png",
-          "originalSha256": "e1df871328cb030ce1621b7eba0060be42568ca445cbf4c7a436585be5863492"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/charmander-attack-physical.png",
-          "originalSha256": "ec413e1e0fbed4536aad05f3c0469821c0e284685d0edee5e987904b61d595cc"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/charmander-hit-light.png",
-          "originalSha256": "38ce9a128a8e36a99985c52b6bd483f2a56e13d941ed9929425c4799a44879e5"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/charmander-defeat.png",
-          "originalSha256": "38666756110e43e77904c3791490c7b35826f0e3d6bd35896b337b9479db362d"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/charmander-rest-sleep.png",
-          "originalSha256": "d356d6e773c2df5ef819efdb0db0b502d661b81ce62a08b01ee5451c0600ff78"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/charmander-celebrate.png",
-          "originalSha256": "2325fbcad7a9e654feff24b074cc734acff28f8cd443167ceae224ff844abec1"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/charmander-interact.png",
-          "originalSha256": "b6500093fbf915ae40bf0c570eff5483f2c10f45d6e1c823770a5c415d6ee7bc"
-        }
-      ]
+      "width": 512,
+      "height": 320,
+      "bytes": 33574,
+      "sha256": "19e767fa3c0815cd6cad1d3b6ac86f52ad421290372680c78421ed5e6a882884",
+      "metadataPath": "pokemon-004.json",
+      "metadataBytes": 34411,
+      "metadataSha256": "d6d854e9fb730233cc702ee69bebcb4b1c28f9e270fc1c8c7a86e1c7ddab38d8",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/charmander.h"
     },
     {
       "speciesId": "pokemon-007",
       "path": "pokemon-007.png",
-      "bytes": 26132,
-      "sha256": "0f37128666edef256624f5f9fc39550cfdf49764e2ce106aaea7e901224b40bd",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/squirtle-idle.png",
-          "originalSha256": "097141c2a91f8c58f584e05c13e17c02f3e2b75ec7b755e98b37124b91fed9fd"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/squirtle-walk.png",
-          "originalSha256": "16e7256aeba06fb905db8c6d356df38ac40cdc1cc4eef9e88acceaf08954394e"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/squirtle-attack-physical.png",
-          "originalSha256": "9100a80f65cbb7d06a08c155fac6d80b9f7914fd3b304949f7359e9da3ac8059"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/squirtle-hit-light.png",
-          "originalSha256": "d540aebd264d6d1cb825bad5b4c67396bfdffe7adcb3776b5566ea4c38630111"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/squirtle-defeat.png",
-          "originalSha256": "b8d3d1a0b0cc86698950582295c6d6f3d58ff4eb12db2fd99b5f7b9fbd889d8f"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/squirtle-rest-sleep.png",
-          "originalSha256": "9f37749b5e6a1f39f0004588ac6d4e4564e7d1b827cac18c07c0ef89f7ce6e65"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/squirtle-celebrate.png",
-          "originalSha256": "6f11a35962af4476099089840b7dbb5ea51de88657dbfeb3e76f302a4962abaa"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/squirtle-interact.png",
-          "originalSha256": "a2226d161ca7a7b1a91ed9e43d35de128a428707a3f1f55332a8dd74a1b8e862"
-        }
-      ]
+      "width": 512,
+      "height": 238,
+      "bytes": 25559,
+      "sha256": "bf8d84bb73551983d1f0bccd91eda34aa9de6109a41b3dba7b33c73c40624dd0",
+      "metadataPath": "pokemon-007.json",
+      "metadataBytes": 33556,
+      "metadataSha256": "654a44138ebeb29e0f27e11ba9e3f656c7fb2eed9ebf96dc4abda53ffc701349",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/squirtle.h"
     },
     {
       "speciesId": "pokemon-010",
       "path": "pokemon-010.png",
-      "bytes": 20942,
-      "sha256": "53ca08edb44b21e8f5422d0a3395f02fe87962b5bff825cc7472affe0dd5cf4e",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "output/pokemon-010-idle.png",
-          "originalSha256": "900489ec31c474db16f8e604019fedc18399db0b25da71d330b1875ec42fd6ec"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "output/pokemon-010-walk.png",
-          "originalSha256": "ccea7291b5680b675c5a7cc9edae1b9360722ac5838123897984bbe75cac360f"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "output/pokemon-010-attack-physical.png",
-          "originalSha256": "7980924f0fd70ed079419195f52e36d19cc54d77ccd2083e47d54d2a8f848132"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "output/pokemon-010-hit-light.png",
-          "originalSha256": "40dd385c066f652523971583d48d95ebd22cf45f466e05100119f5aaf3536549"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "output/pokemon-010-defeat.png",
-          "originalSha256": "7f41392a909eab36726d111fe1cea9b757a4544778ed2e7074a4623fbb105b0b"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "output/pokemon-010-rest-sleep.png",
-          "originalSha256": "e448950e79a225a26f553519240dcac0e5b10aee4494df9413ef74be26c68607"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "output/pokemon-010-celebrate.png",
-          "originalSha256": "40071e10d6aa744d6082b26541b598d80790d56ebe0fd4c158f7b996eedd0f7a"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "output/pokemon-010-interact.png",
-          "originalSha256": "11440aaca6882f3072517b6332ac5006c4552d961340eb007f9114fdf6b5b227"
-        }
-      ]
+      "width": 512,
+      "height": 172,
+      "bytes": 15086,
+      "sha256": "8a3ef5450785af7a5bd66e2f3aecace0b7f0f569b3db05e666c644a58dbe129d",
+      "metadataPath": "pokemon-010.json",
+      "metadataBytes": 22958,
+      "metadataSha256": "18dd4243e73eef39d92c36f9b423b82f7d605279417a5f7dc16528a506dd7311",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/caterpie.h"
     },
     {
       "speciesId": "pokemon-012",
       "path": "pokemon-012.png",
-      "bytes": 25296,
-      "sha256": "5dbeaa393744a7be5385230ba8b2c9b4839fde80a136d1a8bfe3a1a798c8dbd3",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "output/pokemon-012-idle.png",
-          "originalSha256": "d245c4cca1b5bafe1279a60d083a967685d014ac9be26ba57b834c9f9eb7eb67"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "output/pokemon-012-walk.png",
-          "originalSha256": "e7e3b1621a2d4ffe2bc728f5db7f323c16eb9b2f66aafd220ae57bf18a1f687d"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "output/pokemon-012-attack-physical.png",
-          "originalSha256": "5d5400558dff69072b98a25e55c5e8f0397e729eb163a92444991c543d812503"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "output/pokemon-012-hit-light.png",
-          "originalSha256": "5d0b0c4e265debb0c350c611bbb99de9772660685253f80a47c9c336561b3aa3"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "output/pokemon-012-defeat.png",
-          "originalSha256": "4738d81c313fb6820c491ffd0a912ae32f14774429eedc5f5fdfd0e45dff2617"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "output/pokemon-012-rest-sleep.png",
-          "originalSha256": "212152f15c2e9138c887e112edda8b737fc6da9ed73d1697e50f89085b9fde0d"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "output/pokemon-012-celebrate.png",
-          "originalSha256": "e1beadd4925bc55469fc32c57c1441bfa1b0ee443de1b18ef4ae6ff2aed4c5c4"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "output/pokemon-012-interact.png",
-          "originalSha256": "ffd9cfa74f60688045f4fd2be42bb4f6b828571f952c041befb396d7eb8b8a98"
-        }
-      ]
+      "width": 512,
+      "height": 172,
+      "bytes": 21580,
+      "sha256": "4b0af0bb74f12ad545a36796cacf38cc4b97c34e6f9571cdf9aa34960309b5e1",
+      "metadataPath": "pokemon-012.json",
+      "metadataBytes": 28428,
+      "metadataSha256": "819c40b2510c905a35cbc710bc825a6f8ceb03c0cc15a757fb79d1dfd3b41ed3",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/butterfree.h"
     },
     {
       "speciesId": "pokemon-016",
       "path": "pokemon-016.png",
-      "bytes": 20995,
-      "sha256": "9b819bc70e828fe0d4ea0278057c1e30a14f8c3037b84d59be11d2c89a9ba289",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "output/pokemon-016-idle.png",
-          "originalSha256": "a8222e8dfe3df0be95e5c7f970b4553d1f980961f3cf0a803c4f1eb5d2726c8d"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "output/pokemon-016-walk.png",
-          "originalSha256": "25e3ff6c86894c7bb17b1646872aa3b7d3d9ec3e803fce3a47f9a00167c6b864"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "output/pokemon-016-attack-physical.png",
-          "originalSha256": "7e3cc33acadf751a26fca5084fc61255dd08ee81839e78d47be2288eae3c3c8f"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "output/pokemon-016-hit-light.png",
-          "originalSha256": "5ad69c8a7f71ac6da55ad42e272934980f72674b18d8b0711515f537a3da4017"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "output/pokemon-016-defeat.png",
-          "originalSha256": "815f0026d0482807e5f3192ec2dc7fe17d4d26c0e53737f50e4b0af3af4c8a0b"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "output/pokemon-016-rest-sleep.png",
-          "originalSha256": "fbc3935be0eae6e0f45ed5f6ecdc477762ac16e06a48d16e0a39d4bcad16b51f"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "output/pokemon-016-celebrate.png",
-          "originalSha256": "b32301888180afc12710a579a31080a9e32d2e725d730f716549d2690e123ff6"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "output/pokemon-016-interact.png",
-          "originalSha256": "8823758d28ac39de48f6b97a8a795406b3e8403b931c215a84193a7224c32583"
-        }
-      ]
+      "width": 512,
+      "height": 150,
+      "bytes": 14626,
+      "sha256": "1aee5322434da81d59d81e1739a0d22fab0c82f4d6489474b45e4b124da1cca3",
+      "metadataPath": "pokemon-016.json",
+      "metadataBytes": 25127,
+      "metadataSha256": "148f4a5179cbb6cc2fbd3279b1387574effad3b0e6fb91f32669266760d713a3",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/pidgey.h"
     },
     {
       "speciesId": "pokemon-025",
       "path": "pokemon-025.png",
-      "bytes": 27747,
-      "sha256": "1e510b320d6c9e5994a68dc0f2eb6d02481bdf9d8de783a87e77f632081656ab",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/pikachu-idle.png",
-          "originalSha256": "e33878b4aaa516fbf5a3f2ed0fba9b25c7293fb554d5aab4c031e772006091d0"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/pikachu-walk.png",
-          "originalSha256": "ffeb0d24832b7c26a3b3d49039d9e6d5ff4d8d80810306f3d5337fcbdc0bffd4"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/pikachu-attack-physical.png",
-          "originalSha256": "ed3796b01a4abc00c36d444e2af1475facdd811b4fb47110fcd65b692f65ca29"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/pikachu-hit-light.png",
-          "originalSha256": "ff45c6d3ee384f0f3788e64f2c33d449ef19cc11e8ee15b4e1c033495b4ce5dd"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/pikachu-defeat.png",
-          "originalSha256": "2925e798439ac823cadfb65eb1237611574091e3e06922151534a205cc2316a4"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/pikachu-rest-sleep.png",
-          "originalSha256": "34a8c04df26e7310953bb3aea957d70a4e9a4638d510b631102f4e1887f6c782"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/pikachu-celebrate.png",
-          "originalSha256": "279f4073e98980e2047ac069c5da05f3cd0d4b37b96fe78ed270ace5f6ff9270"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/pikachu-interact.png",
-          "originalSha256": "810cb808f999d401ab864e29fc36b2aa5f03751c6d2f808b81aa018e9515cbd6"
-        }
-      ]
+      "width": 512,
+      "height": 454,
+      "bytes": 42072,
+      "sha256": "d9a7953fb70853f0ca16e23cbbd688cadb78889f814120d54e4781feab1c87b9",
+      "metadataPath": "pokemon-025.json",
+      "metadataBytes": 35130,
+      "metadataSha256": "273da36b8537aa8c3aefe9be075062ec7c3512f1cc89cc53b9c958e60a9e32a5",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/pikachu.h"
     },
     {
       "speciesId": "pokemon-052",
       "path": "pokemon-052.png",
-      "bytes": 29410,
-      "sha256": "7d17d13c4ffd799edbaa3b5c9ed4f7aa23ad694767baad3ee8ad0be6abf581d8",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/meowth-idle.png",
-          "originalSha256": "f7223bcd879cccb391f4de6b758e83485dd1459bf5db2601f9ce7b04af20ee7a"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/meowth-walk.png",
-          "originalSha256": "67684445816446faac7348645bd85d9df3fdd527251d5592a82529ab3db4dd7a"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/meowth-attack-physical.png",
-          "originalSha256": "a7471e8082b6a70eab78fce1eb54b5b8a1e007fe17283f6a79675548b248fe09"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/meowth-hit-light.png",
-          "originalSha256": "d336cebbc7218d1cbde5301cd0b7887c9801e288044449a05aa78cf4493c880e"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/meowth-defeat.png",
-          "originalSha256": "54ff5999e76f2a49ef6a44d9c539f947d57e4722b26c0f895c3f70f1387f1282"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/meowth-rest-sleep.png",
-          "originalSha256": "0f0e2d17c97d078c1e4dcc4f173607cb92c3ead6190876ab49c14d81c3ee5566"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/meowth-celebrate.png",
-          "originalSha256": "e29c8f43ed091a958d38affd9e7ec45fb5e4f7a249d8f70fd7472ab93b2e6ce2"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/meowth-interact.png",
-          "originalSha256": "f19a534ff88f9ecdd9249d6e5b38170f6f637ccab327505a54d0c284e5b18d1d"
-        }
-      ]
+      "width": 512,
+      "height": 308,
+      "bytes": 37075,
+      "sha256": "bbf0ce3141bc5c36392810401607bac98f03b1ba08e670041b57682b61ec29a3",
+      "metadataPath": "pokemon-052.json",
+      "metadataBytes": 34449,
+      "metadataSha256": "9b6426307236eb2cd0c725c6bdf70eb56be5fba50e8c4ecc56714b57eff1704f",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/meowth.h"
     },
     {
       "speciesId": "pokemon-054",
       "path": "pokemon-054.png",
-      "bytes": 24110,
-      "sha256": "bb7646e40ff447b29435ad9eedd1fef68cef76a8ccee7da414502a4bb11bd9a0",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/psyduck-idle.png",
-          "originalSha256": "6b9961767a8839b2499b90a24d04ca7cb04a4e992d090d5c120c6774c9eb88d3"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/psyduck-walk.png",
-          "originalSha256": "6a3557ea46ec484c1d78d5d5bf53ae3f05d683891b8b07a1a8ec1136808e89d0"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/psyduck-attack-physical.png",
-          "originalSha256": "2c56e8937886dde92266a221510f527362cd176b2665b8211ba82bfcbef91b90"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/psyduck-hit-light.png",
-          "originalSha256": "45b62bec22c48c8611cfe063252b7755f66c066afad22331ac26ed607ccb1145"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/psyduck-defeat.png",
-          "originalSha256": "c949f5b62306da50dc88c68977f60345ed8a729f300f5a2ee4b8e8a465fd00dd"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/psyduck-rest-sleep.png",
-          "originalSha256": "4d813dd338b2cefa6701a6b81e9ab83990ffc99d8321abed2182b593ac505864"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/psyduck-celebrate.png",
-          "originalSha256": "d89343c8211c05905ab46d52bb51c2b76d803cd37c5c3ac7e2afcb289e0c4822"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/psyduck-interact.png",
-          "originalSha256": "ba5c77309d01b94ea2388206d7f71e95849ddab5846232fccc2e266006955df7"
-        }
-      ]
+      "width": 512,
+      "height": 320,
+      "bytes": 36910,
+      "sha256": "1321dfcb04c18bf09fa99e8e1cee304a243e38e29ddc39ce6fbfefa3aea3bc3a",
+      "metadataPath": "pokemon-054.json",
+      "metadataBytes": 34919,
+      "metadataSha256": "4ed9bf0c6eae3ceb110f70b4036c236bdf248094562cd97df00956af70cef44c",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/psyduck.h"
     },
     {
       "speciesId": "pokemon-066",
       "path": "pokemon-066.png",
-      "bytes": 25597,
-      "sha256": "77295504739aa4de0f292e313959be9d1d8f9f1c8452fa3723b38ec6ecbfb49f",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/machop-idle.png",
-          "originalSha256": "778c093cd651a4de691608960806dacc0d02e4ffb2d9017723c4403ba2e171eb"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/machop-walk.png",
-          "originalSha256": "708cb3c5a83e424a789bd55a1584a92afe0f4d707820a6dba733cb2c85b166bf"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/machop-attack-physical.png",
-          "originalSha256": "818032b39fdfae59973edac9de63e6969f55f5c7f32559dfb3971830630f1b24"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/machop-hit-light.png",
-          "originalSha256": "5d27f4981a853feeec48d54802a937702b54a8312cdb90651896a2579979bf9e"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/machop-defeat.png",
-          "originalSha256": "03d85ddc04ff842bff5751c11cb317665621a8a6b1451fc88569a74160871faa"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/machop-rest-sleep.png",
-          "originalSha256": "7ce32d50d1a724059d724f80d9994dcd63616482180da52ed80cf3eaee36c01b"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/machop-celebrate.png",
-          "originalSha256": "fc0e1403759535afa8f079c4fd99c75c1a4e2c862750403262b79ae1094ada6b"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/machop-interact.png",
-          "originalSha256": "5eab7398571e18620ea3b6c47924af64789edc99488dd384396af4159736dd03"
-        }
-      ]
+      "width": 512,
+      "height": 272,
+      "bytes": 31204,
+      "sha256": "f25bf680474ad0ed871dd74aa9b63e8ca9ad2d5a7d97b1d11eaba244742dbeef",
+      "metadataPath": "pokemon-066.json",
+      "metadataBytes": 33914,
+      "metadataSha256": "30769de9cadad57ca7f8e8a820fe9332dc65e869c3e3ab3ba3461c2b787f96d7",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/machop.h"
     },
     {
       "speciesId": "pokemon-102",
       "path": "pokemon-102.png",
-      "bytes": 18994,
-      "sha256": "6fcb62fcb706fa1aa579470d99fa2064c5be34a533cb89a87ae3d0a3b7816316",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "output/pokemon-102-idle.png",
-          "originalSha256": "c2f7a825f6330e9f5708d2d72fea2fd9b263a6a0cf80e56f3ce81c5a8d2e4d7e"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "output/pokemon-102-walk.png",
-          "originalSha256": "93dc1e6e3d53d11541ecf4fba9f8de22e8a13dbdb4b925a65a3f1d6a6906732c"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "output/pokemon-102-attack-physical.png",
-          "originalSha256": "7ea7f6432c50de9cb006fdd81e84cdff4813138f301ba5b8035f83900559eb16"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "output/pokemon-102-hit-light.png",
-          "originalSha256": "97ebee74a35a6e3c751fdcb51ca2beb581887fe869c4485145ac9eb6e9abc253"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "output/pokemon-102-defeat.png",
-          "originalSha256": "58a7dc131fb1494f7668e5de8d59306b24df083f296cfb57393011886d0f2950"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "output/pokemon-102-rest-sleep.png",
-          "originalSha256": "b07f8f41ccf0a6df8fb2ed5600faf8e141f74dd2cd30e86c703b9bd6b380ac21"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "output/pokemon-102-celebrate.png",
-          "originalSha256": "b0b2dbc27eaab2b80e4a3de3f84cc5e84cd4e34c1885b0f1e681f71458c22326"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "output/pokemon-102-interact.png",
-          "originalSha256": "4d234c3af778a84d58e925dd4964792b4a92e0bc6f58e81af1a890b409364e69"
-        }
-      ]
+      "width": 512,
+      "height": 188,
+      "bytes": 19187,
+      "sha256": "48f4cfea6ed0eb2ea026f8275a99c21e6bac6bc5570ab884aef2e467888b1531",
+      "metadataPath": "pokemon-102.json",
+      "metadataBytes": 23925,
+      "metadataSha256": "c0853d4596ad5758060824a8c5f4543dad7c2064766d5e475517038120cac92e",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/exeggcute.h"
     },
     {
       "speciesId": "pokemon-104",
       "path": "pokemon-104.png",
-      "bytes": 30199,
-      "sha256": "d6b5cd6e66f53edbb3afc9ec8331dd2717de45deec124b77fc8ef693cbaf74df",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/cubone-idle.png",
-          "originalSha256": "942e32504d8ed3bfbdadbf24dd532ac3a2b4548670a17371b1717242ecad7f70"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/cubone-walk.png",
-          "originalSha256": "c4c03ca9b8ce66d4fa414ce37dec382743843351096abc9895b4b1e7190fd9c0"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/cubone-attack-physical.png",
-          "originalSha256": "d3c57de80dbdd34704afe82d023438e1a17cfa092baedce23ad5fbf290231e01"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/cubone-hit-light.png",
-          "originalSha256": "80091c73d9ee52491079dca73fb08ef238919752f34b86346391469f9f8b38bc"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/cubone-defeat.png",
-          "originalSha256": "154db3d3f56c8cf3c92fff752c7fec6682a42d6c22235ac27af3379d53c9d47c"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/cubone-rest-sleep.png",
-          "originalSha256": "4b5340bdb1439ac05f6dfd9ee2f7d1c25b88058ccbf05e4688e5ae1f28654a06"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/cubone-celebrate.png",
-          "originalSha256": "99be73033f27eb2a22695d1daf3a1b0219b3d5312fba17dc9e7b557c6294351f"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/cubone-interact.png",
-          "originalSha256": "f609c3d9b716b720c52efe004930b302a62e53aa94817bcd74409db555549191"
-        }
-      ]
+      "width": 512,
+      "height": 278,
+      "bytes": 34106,
+      "sha256": "e31549696aa68f174a823160be8b4ab17b1d589d91a091290c3f61f35394fc8c",
+      "metadataPath": "pokemon-104.json",
+      "metadataBytes": 32940,
+      "metadataSha256": "327fb67ce0fcc4ee55a99572c65bc56749f360e2ecc7aa0cae8f6e0cb7e42441",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/cubone.h"
     },
     {
       "speciesId": "pokemon-133",
       "path": "pokemon-133.png",
-      "bytes": 31521,
-      "sha256": "2b00aaf0061ca1818a73b817d95da93bcd708656d42e987096c424bf9d6c931c",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/eevee-idle.png",
-          "originalSha256": "0389f111fd772837cd5e4279f896280a23c3a0cb924187d4d2395ee9a3ef8ee2"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/eevee-walk.png",
-          "originalSha256": "d0ebe422f03b81063fd735e96322ef9fb586515ae42d258424e3bff6f8494305"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/eevee-attack-physical.png",
-          "originalSha256": "cef2725de223421489d86ccc0ff77710fc63abbf9b31ca21215b62051530916a"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/eevee-hit-light.png",
-          "originalSha256": "7ae6ffd3b2df2daccb28b643835dd167b26c1f7fa81d3390042b7e492ff64dc0"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/eevee-defeat.png",
-          "originalSha256": "5352ac9e438877ba4ccc15049daee2c1295a51596894ab61f83773883b2404c6"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/eevee-rest-sleep.png",
-          "originalSha256": "29ff34126d7407899ec8ff17c637177542e17590ed3b32390ecea12c9f9054f0"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/eevee-celebrate.png",
-          "originalSha256": "8a65ecc47f79e6fdf72661c706afa0455eb09861c24fb3d70603d1688f3213ab"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/eevee-interact.png",
-          "originalSha256": "950558d834f934ca62950823bfebc5a2ff06aa07e813a34890b34a1b2dc95018"
-        }
-      ]
+      "width": 512,
+      "height": 256,
+      "bytes": 29684,
+      "sha256": "516babffad4e1660193ce4ee010ec1e93680b12010e266e3c5ee2057a1c6aec6",
+      "metadataPath": "pokemon-133.json",
+      "metadataBytes": 33762,
+      "metadataSha256": "0fb201ea1df9cb3a053b022972126d1645189f85e9def49a10d6ef078210e4a8",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/eevee.h"
     },
     {
       "speciesId": "pokemon-152",
       "path": "pokemon-152.png",
-      "bytes": 26907,
-      "sha256": "64020f6f8b2a8f83640f01bf13269d5990780cb99c657c4f51adf03b1cba1d16",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/chikorita-idle.png",
-          "originalSha256": "bdfd32186b99d312d16fad89cd62e1dbe80da3c520690f1c257e3c15cebd5924"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/chikorita-walk.png",
-          "originalSha256": "d0fed5f35dc059e9b64d140cc8de60a8a3fde5fa484cbecfb6d16916c936b8b7"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/chikorita-attack-physical.png",
-          "originalSha256": "3ecfe9a43fc82fcab4a226d8cb6c4be6275c6a8af4f7ad14102da2fc67343c21"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/chikorita-hit-light.png",
-          "originalSha256": "d56ca3f7bec30f2ce60aaab48e11b48921dc76009e73200a55c2cf4cb0c9ac7f"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/chikorita-defeat.png",
-          "originalSha256": "ffef6efba30c516de46899a702b1fbc64e282d6e5c72dfd501a268e3bb5502da"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/chikorita-rest-sleep.png",
-          "originalSha256": "df99753615d6b6ab71a9998e82179db8ad7d57fdf9808313afb05097ebb2ad57"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/chikorita-celebrate.png",
-          "originalSha256": "7078ffe3cc61c4f1a12ac213710a4672ca56c546b90cbc2a34b6af33baa4da2a"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/chikorita-interact.png",
-          "originalSha256": "c392c69a2ba819e966e6948a37aff70ad15313aad388869d6e8e748eee16c986"
-        }
-      ]
+      "width": 512,
+      "height": 376,
+      "bytes": 31441,
+      "sha256": "5b120a6d4c5259e7b2ed06051bd8d429e8191ca4bb3fe3a95dca3c06c17b1a04",
+      "metadataPath": "pokemon-152.json",
+      "metadataBytes": 33807,
+      "metadataSha256": "daa61a77bd688de59a2e90f4c1e90ae6c1a0d117944ed6d67e8f8998af73a6ee",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/chikorita.h"
     },
     {
       "speciesId": "pokemon-155",
       "path": "pokemon-155.png",
-      "bytes": 25230,
-      "sha256": "570a726536f95ba863393715af5a931ad69240850fc6ea4ce017d32b9c72964e",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/cyndaquil-idle.png",
-          "originalSha256": "547955fcf4a6d80e5788b516a1b226af3a41ccc7ae6af961f0c76b65ae819e0e"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/cyndaquil-walk.png",
-          "originalSha256": "9d99690f6c94ae36d9b557008595fbb12d0998d73fa639b25a6f92c94c84db90"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/cyndaquil-attack-physical.png",
-          "originalSha256": "e23f1d48964fe7514a09e2b396e3d6f8670b061dc28b6917d5e654a35807fabc"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/cyndaquil-hit-light.png",
-          "originalSha256": "c27be4a3ad46c3138f5c83847de1c8289236a5cc981bdada2b30e9b01f37d553"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/cyndaquil-defeat.png",
-          "originalSha256": "22a02584607f6164a5295b63889d2db0380d6778b36b8d1f141612911c99bfc7"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/cyndaquil-rest-sleep.png",
-          "originalSha256": "d68fcb985b071177d692ed190e8d9f8e2204a996eff2d199d1fba81eb31733a5"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/cyndaquil-celebrate.png",
-          "originalSha256": "fbac024bca1cbf949be7c881c209d94859610cc89de1b8b9685fe02997bfb2bd"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/cyndaquil-interact.png",
-          "originalSha256": "4eea8e6c6c3180d827d4b6d6a259a68f35db1aca8b714d8a99479199f7e23589"
-        }
-      ]
+      "width": 512,
+      "height": 258,
+      "bytes": 30176,
+      "sha256": "bf284c28407564d812ad1cda7926f5d2f6482439530f83b701bb9489998bd972",
+      "metadataPath": "pokemon-155.json",
+      "metadataBytes": 33608,
+      "metadataSha256": "b215f8d99ef3c6fbb269ee36eeb57c0dc4b804f706b61cbf3cc03d038aaa5d28",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/cyndaquil.h"
     },
     {
       "speciesId": "pokemon-158",
       "path": "pokemon-158.png",
-      "bytes": 25770,
-      "sha256": "b77b7c22067cac46d57dfe074ac65e816e8c402b113180ffc36f61b5874be75f",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/totodile-idle.png",
-          "originalSha256": "dd57980ed3529910f5d9c5f0a44178091aedcf3a2bf3d780ece8628221d8b8e9"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/totodile-walk.png",
-          "originalSha256": "029e5ea935bd6fb6e49c516eb179f41ed7560ea2a915bad98493a8dcd2d3d501"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/totodile-attack-physical.png",
-          "originalSha256": "53ee9756dfd730d5520bc9a2c3b9ce92212221b3136bfd259cd9a4b9d9d6d5ff"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/totodile-hit-light.png",
-          "originalSha256": "9fe1ced09bb56041363327c2b9d957c8de990b54a13e3ba2e290526c85cc3ec6"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/totodile-defeat.png",
-          "originalSha256": "d3959c3920f256dd2aea4e0a9fd020ae95b2345475a7a3182b4d8a5e2ca9ac70"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/totodile-rest-sleep.png",
-          "originalSha256": "49fb14bf5a67344ee02126c82c66398dc67644ed85b490a5e0fc5526177eaa32"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/totodile-celebrate.png",
-          "originalSha256": "b63f5730216a1a587b911328d06f3b61cb8559367bd229224e2ff18fd31af81d"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/totodile-interact.png",
-          "originalSha256": "664e9be4f1c8680b55bf7c00428541c8f737c77b4318671f55f0b2c9e0968959"
-        }
-      ]
+      "width": 512,
+      "height": 270,
+      "bytes": 35528,
+      "sha256": "d9ed779b04e5772baedc7793442a75fa7b57f2013c2cd095ea4019520b3ea79e",
+      "metadataPath": "pokemon-158.json",
+      "metadataBytes": 35299,
+      "metadataSha256": "bd2a182f444229ff6f988ad540d27e2bd3ccaa9589fcb87a5cdac5e3a52b73cf",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/totodile.h"
     },
     {
       "speciesId": "pokemon-191",
       "path": "pokemon-191.png",
-      "bytes": 19418,
-      "sha256": "2b426ee6308b89520a14d67d5b59d0208e3ee0ce053becb1dadd651eee382c2e",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "output/pokemon-191-idle.png",
-          "originalSha256": "5e8cec49bfc859bc07095d0fe1a952421012f92789964f797012d51803c3723d"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "output/pokemon-191-walk.png",
-          "originalSha256": "de6de88af8bfdfc50ee65a24288b406efb93b4dac6b0b1fb7e3a9c2205a0dad5"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "output/pokemon-191-attack-physical.png",
-          "originalSha256": "56d627277153ca86c4d8ecdd85c9bd40161b0ded7d3a5e4388056ad7b56e0a2d"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "output/pokemon-191-hit-light.png",
-          "originalSha256": "64c52a6df99ca5bb8f0c2b1af0e4296e3974bbdccf3cd877568ff242d6bc51dc"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "output/pokemon-191-defeat.png",
-          "originalSha256": "fe6f5cec267e94c4862042c8aa3428b1da7d9acc3286a1238dcca8d2bac852e7"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "output/pokemon-191-rest-sleep.png",
-          "originalSha256": "0de1fbdd7869d036ea848f7d8a0a76f30ca2b665d2549a07bfbe132c68f141ee"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "output/pokemon-191-celebrate.png",
-          "originalSha256": "929bb31c9ed472e1b32dc08150a518ee20a721b9967e7bc1c873941013f9da0f"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "output/pokemon-191-interact.png",
-          "originalSha256": "056b6c4c8e917eabd8d90b11495b145b076522bc0a63ef3a3fb1560b655e40dd"
-        }
-      ]
+      "width": 512,
+      "height": 106,
+      "bytes": 9083,
+      "sha256": "d20e238cef119d8baa70c485617f58253b7542a0f9384973766aef5172dd02ba",
+      "metadataPath": "pokemon-191.json",
+      "metadataBytes": 22541,
+      "metadataSha256": "73a000f4d0fe6c5d0f2dc9d689ab0cc0f1ad90c6c6864bc3bacf3fa5b8b1f43b",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/sunkern.h"
     },
     {
       "speciesId": "pokemon-252",
       "path": "pokemon-252.png",
-      "bytes": 28346,
-      "sha256": "1965bb3b46b057b58a185d5745907071d4e07fbec42182d345bb028d374e0dca",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/treecko-idle.png",
-          "originalSha256": "e3934f660f89a3adea0cb0b7b87ad03f9d3cd7fb8987a7396a832ea77a816f36"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/treecko-walk.png",
-          "originalSha256": "82eb9b62ee69449c5a018b6a975205bf7359cddadcb11946ba6eaf80723e6783"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/treecko-attack-physical.png",
-          "originalSha256": "1b2dbc6ae1a243258d7c85eb5d8d515f26dbf2edd0709d976699c121fed8c853"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/treecko-hit-light.png",
-          "originalSha256": "ff448e35923876fd5213a5944e53130f8c246506b5e127507f87f2a335495113"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/treecko-defeat.png",
-          "originalSha256": "9d476bd98cef3c451e6931ab1fe4deb256e0b6279680c79773fdadbefb7469ee"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/treecko-rest-sleep.png",
-          "originalSha256": "af9678767b116cdf3bfe7a3932905d8e0cc1e69f4f0b8f6f5519df5925853ff2"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/treecko-celebrate.png",
-          "originalSha256": "94d8c1e3575c5e7c250af07bc5bbd542efd9c51a12aaac299378c70c6189a04d"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/treecko-interact.png",
-          "originalSha256": "fe06e9beb6404ae7fb2a94503df8f4eb26064e40ae17d0361dee22f674b47d55"
-        }
-      ]
+      "width": 512,
+      "height": 314,
+      "bytes": 32671,
+      "sha256": "a16413b8e2e26bc39315c7502bcfe72a85404bd01e566a7f048212e4744196cd",
+      "metadataPath": "pokemon-252.json",
+      "metadataBytes": 33411,
+      "metadataSha256": "d1d0b6e258eafd6d3cdb06a28ccf49907c2cf6fecdae8df9bea770c8ba95446f",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/treecko.h"
     },
     {
       "speciesId": "pokemon-255",
       "path": "pokemon-255.png",
-      "bytes": 22759,
-      "sha256": "3e8d813ebd9dceb3826eafc566817d023ef5b252f2bc4ed6dd35a5bcf66b27b6",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/torchic-idle.png",
-          "originalSha256": "9de8444a036df4e34a228db4e8aa50e6aa8eaa9038f8f782867416c8d5e82923"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/torchic-walk.png",
-          "originalSha256": "43d0b6579195181aef097dd9e984b4c9f244e97294562b724897b14cba73d7f6"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/torchic-attack-physical.png",
-          "originalSha256": "49cb44770017d7df18ce66ac540cc110656c1d6872f9427dd2e2650a90aac871"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/torchic-hit-light.png",
-          "originalSha256": "a76c7db2aa8e7e8216e1da25fe62061549ff460de35d124c29bc899b01019e67"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/torchic-defeat.png",
-          "originalSha256": "5d82845e19786dc64d58a243cbb883919e3dbbe22b60e4a926d03a405724e2d7"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/torchic-rest-sleep.png",
-          "originalSha256": "1d51bea8bc6a426f98b693ece65611e8d293a523aa41b171404e596aae31a765"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/torchic-celebrate.png",
-          "originalSha256": "969d5f23361f89a2893e63bd454662ebe64a92aa5eec03088b0320342d4c3742"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/torchic-interact.png",
-          "originalSha256": "2089c903f5e6ee6bdd9d8ceebbab76e3022dac59604b7b7f751dac94f534afc7"
-        }
-      ]
+      "width": 512,
+      "height": 200,
+      "bytes": 22976,
+      "sha256": "d57b4ad46b9f7a084345d4974b09ab4f7dcc4ff80dd0d2b2df04aa86b12a33d4",
+      "metadataPath": "pokemon-255.json",
+      "metadataBytes": 34344,
+      "metadataSha256": "808b318975cc31a7ac02173d14475cf35c55cbab5f535bc48a43caa0658a9194",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/torchic.h"
     },
     {
       "speciesId": "pokemon-258",
       "path": "pokemon-258.png",
-      "bytes": 27251,
-      "sha256": "56b7cd11991843d96c7392cd9ee69c799af2f53df3046e40640fbc2bbb8f0d35",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/mudkip-idle.png",
-          "originalSha256": "845d4235fcb6565ca01c5ce35edfce9df5c765c64411cbc546591dd575cf3fe8"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/mudkip-walk.png",
-          "originalSha256": "0fc6b279d94625f2c732625b24ebf39faa7af47c79cb0c97b56f9492a9e8f181"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/mudkip-attack-physical.png",
-          "originalSha256": "434ab63eec390a4486a6c85b8c8dfba1af88f7de56913bd33d21d48da152d272"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/mudkip-hit-light.png",
-          "originalSha256": "d2026b941c0776369d851f4f3e827072993d77cb44cd4bb792c45b9bb676450d"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/mudkip-defeat.png",
-          "originalSha256": "7562eb57d40f370e7f24a6002d0c93bf98bd22f60596186096616135e3bc7e7f"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/mudkip-rest-sleep.png",
-          "originalSha256": "b2f7e9806fe56e276ba9802b9607adda5a970346a8e2fc42673e9c9c9044f5cf"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/mudkip-celebrate.png",
-          "originalSha256": "8c6869ad0e894270a8ffd5f9ece8934890f0a8315be82e3a7db81d7432f916b4"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/mudkip-interact.png",
-          "originalSha256": "ebf381fb6d2f675411e57287de8702a52f882abb9a58287b71da05cfacfcbda6"
-        }
-      ]
+      "width": 512,
+      "height": 192,
+      "bytes": 19075,
+      "sha256": "cc4e3701757f7ddf51e6ff7fed77164850c7dd1b952c37fb39b80ef2d5bcfcdb",
+      "metadataPath": "pokemon-258.json",
+      "metadataBytes": 35265,
+      "metadataSha256": "fca84ab0e006546bbf23f0f72cb848f1d80f355a3cd8498d57901b95e6b27f23",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/mudkip.h"
     },
     {
       "speciesId": "pokemon-265",
       "path": "pokemon-265.png",
-      "bytes": 18974,
-      "sha256": "1b29ba8b989c197f0395357d0bbe044692d3437ddeb071dcec99ed0807fafbeb",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "output/pokemon-265-idle.png",
-          "originalSha256": "b10ed913e6fb198eb017a461ed0e65e71dd8b68bfeb8df1d24832394b791a29d"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "output/pokemon-265-walk.png",
-          "originalSha256": "0827aac3c1f31ddaa1882e9f3b28bd0d8ba7331cb5ac0d68b9cf1fbe2e60220d"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "output/pokemon-265-attack-physical.png",
-          "originalSha256": "6220dbdd1e6105513259ae2f2c6da516bde8205f00c5b33e2d7649641d723e91"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "output/pokemon-265-hit-light.png",
-          "originalSha256": "b91f0d4dd827ec54429d1a385f7aeb9f5446dea989dd924e4b442b931eb224f5"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "output/pokemon-265-defeat.png",
-          "originalSha256": "15287e9303f760b18a17f17e4d57d760678beb49d81b371512a4da2eb31cf915"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "output/pokemon-265-rest-sleep.png",
-          "originalSha256": "c1ea8a26b6eda78cddf2a3c2cb4efc2b02a55ae6bd984b42475e3eac534630eb"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "output/pokemon-265-celebrate.png",
-          "originalSha256": "30f3eb6772107da300243994a7536c925a08b6e75257f93d01b3736b8cd7d14c"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "output/pokemon-265-interact.png",
-          "originalSha256": "1d6e9f7cf6ac9d9c8061990ddd15ca70629f2a85851258739356edc9bb1b5324"
-        }
-      ]
+      "width": 512,
+      "height": 108,
+      "bytes": 13222,
+      "sha256": "217b6229a487acd16102c4b418ef6724de201b451fcf045eff3e75e9708a686c",
+      "metadataPath": "pokemon-265.json",
+      "metadataBytes": 22098,
+      "metadataSha256": "25c1ddf326a78dfbbfbff2413a769f3c3756150542c74b809465f212c1625f39",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/wurmple.h"
     },
     {
       "speciesId": "pokemon-279",
       "path": "pokemon-279.png",
-      "bytes": 24337,
-      "sha256": "87192bb72908294c7eb09e9386f288187ea4f14503ee98cdbce50aad8e32efb2",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "output/pokemon-279-idle.png",
-          "originalSha256": "d7bd11fefed60497ddec61d4eeb567733ab80787118c727944f00f2f38aa5cd5"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "output/pokemon-279-walk.png",
-          "originalSha256": "559259ac613901f9d587e9a3165a5f725a0bb6c3b6f0749e3f6b139753f270f0"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "output/pokemon-279-attack-physical.png",
-          "originalSha256": "75e210a39e26cdc5b9c511bfc0716d62cc42350ff8fd19f96831eda9643abcc3"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "output/pokemon-279-hit-light.png",
-          "originalSha256": "fb3aa4ea32635061a4a127f1c5ded6b000f44d34bafc3f6d7a8bc5c768da4d7b"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "output/pokemon-279-defeat.png",
-          "originalSha256": "eb049ada0a615a746cc9f159debde90708e8de61d2205b9a5f740fe697ca531b"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "output/pokemon-279-rest-sleep.png",
-          "originalSha256": "67fe6a8d1666435475a4954ea53167badd58147b778529a68ac879b40dfe3109"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "output/pokemon-279-celebrate.png",
-          "originalSha256": "f92db5cc54cea9d9ad119ce564cf8c61751b56807379beb0ddc5b3ba801193f2"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "output/pokemon-279-interact.png",
-          "originalSha256": "d224b383c8320a1667c54cd38f3adb1c34c33492e09c86244ef4b9f3e6d5a966"
-        }
-      ]
+      "width": 512,
+      "height": 220,
+      "bytes": 26010,
+      "sha256": "c16f5dfc69164070d11efb7c176101415fb1eb23950fe537ebdb90b1afd3e46f",
+      "metadataPath": "pokemon-279.json",
+      "metadataBytes": 30952,
+      "metadataSha256": "b58048a1afd6072636703bd457bda21ae078b10725d4c156a4a3b679dd2c4a86",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/pelipper.h"
     },
     {
       "speciesId": "pokemon-300",
       "path": "pokemon-300.png",
-      "bytes": 28456,
-      "sha256": "acc70d8b79ecd1812a6a695a7e4dcbe7d4bc608630b9887120144b978af8a2f0",
-      "sources": [
-        {
-          "clip": "idle",
-          "originalPath": "../production/output/skitty-idle.png",
-          "originalSha256": "52c2000ac269578ba69c5811a37e9d23ab94458e1b4d468ae5b9c05cc221f9b9"
-        },
-        {
-          "clip": "walk",
-          "originalPath": "../production/output/skitty-walk.png",
-          "originalSha256": "dab42edfd0753533f978f84633777b4af504f2a53c4436275160dda0c11b1fc3"
-        },
-        {
-          "clip": "attack-physical",
-          "originalPath": "../production/output/skitty-attack-physical.png",
-          "originalSha256": "ebef2f425e1f9acde949e8b21c8f279ce224801696cb28b998907ccf134eaa12"
-        },
-        {
-          "clip": "hit-light",
-          "originalPath": "../production/output/skitty-hit-light.png",
-          "originalSha256": "ec74446016ef90a482b33a087a6673b2d04c278f940d62034ed0e66177fb8508"
-        },
-        {
-          "clip": "defeat",
-          "originalPath": "../production/output/skitty-defeat.png",
-          "originalSha256": "5273df80ed08b8504622499e8bcf6267e0b0abd2ee47d97fa501ca72d4e2c814"
-        },
-        {
-          "clip": "rest-sleep",
-          "originalPath": "../production/output/skitty-rest-sleep.png",
-          "originalSha256": "bf9cb65635fc5724a9418e3074bdbe7b01a673992ac6f2b9a448204efc3c0049"
-        },
-        {
-          "clip": "celebrate",
-          "originalPath": "../production/output/skitty-celebrate.png",
-          "originalSha256": "0adf6cd05291be386bbe121b5d60943242ba4795918545b8e0bb255c460b8121"
-        },
-        {
-          "clip": "interact",
-          "originalPath": "../production/output/skitty-interact.png",
-          "originalSha256": "b51a809a0329a9699b44df16c243e117cff113c339b240d322f7f7b8a3f28d4d"
-        }
-      ]
-    }
-  ],
-  "scenes": [
-    {
-      "id": "post-interior",
-      "path": "post-interior.png",
-      "width": 528,
-      "height": 528,
-      "bytes": 8689,
-      "sha256": "15ab7d8fb1712fd30bb9f88ca1883638d306fdf8b2838ac1c1d1fa0e61e86888",
-      "provenance": "original-source-native-pixel-painting"
-    },
-    {
-      "id": "post-exterior",
-      "path": "post-exterior.png",
-      "width": 720,
-      "height": 528,
-      "bytes": 8203,
-      "sha256": "65553692f5560c5f1382fbbf117382ee67fa9bed8c02dc52d72e09741e5f7a07",
-      "provenance": "original-source-native-pixel-painting"
-    },
-    {
-      "id": "town-aerial",
-      "path": "town-aerial.png",
-      "width": 288,
-      "height": 312,
-      "bytes": 8607,
-      "sha256": "af73efa9ced173372a9abfeaa9154c5e45be51a0913bad28b0b622ff07c42238",
-      "provenance": "original-source-native-pixel-painting"
-    },
-    {
-      "id": "pelipper-flight",
-      "path": "pelipper-flight.png",
-      "width": 384,
-      "height": 96,
-      "bytes": 2074,
-      "sha256": "16dedc5646bea9f8d0fbfb5eb72e58a431a2386d12983c88cad506e245288a47",
-      "provenance": "original-source-native-pixel-painting"
+      "width": 512,
+      "height": 280,
+      "bytes": 31594,
+      "sha256": "27e7752b62e3a651f3dfea4540e19d3e9a867155ef26e93159f97c432ef6c1c2",
+      "metadataPath": "pokemon-300.json",
+      "metadataBytes": 34235,
+      "metadataSha256": "18f77dd57ba55dc7e52440e75c67baa431b9c26b2eecf48f02593d9ae7df2ba4",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/skitty.h"
     }
   ],
   "portraitAtlas": {
     "path": "portraits.png",
-    "width": 288,
-    "height": 192,
-    "cell": 48,
-    "columns": 6,
-    "bytes": 9748,
-    "sha256": "ef3c7bec6698d1c3457ef65e6825a361225f91db8e1b2cb4aef7ec5eb4264ed2",
+    "width": 320,
+    "height": 1080,
+    "cell": 40,
+    "columns": 8,
+    "bytes": 172104,
+    "sha256": "78f342d01f0c59c46e1ab9bc34fc79d99b3c1da06f75a385dfce03d403d1e66b",
+    "metadataPath": "portraits.json",
+    "metadataBytes": 18329,
+    "metadataSha256": "bfc135f3a20f8fa7db11a9faca7b5266879612b423d43b1b168a83e47b70ddb6",
     "records": [
       {
         "speciesId": "pokemon-001",
-        "x": 4,
-        "y": 4,
+        "emotion": "angry",
+        "x": 0,
+        "y": 0,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          30,
-          35,
-          37,
-          37
-        ],
-        "originalSha256": "feaef1c16ea230a69a2918391e863952fcfd73a857c24974eea29871522b5a4f"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "crying",
+        "x": 40,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "happy",
+        "x": 80,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "inspired",
+        "x": 120,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "joyous",
+        "x": 160,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "normal",
+        "x": 200,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "pain",
+        "x": 240,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "sad",
+        "x": 280,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "shocked",
+        "x": 0,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "shouting",
+        "x": 40,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "special",
+        "x": 80,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "teary-eyed",
+        "x": 120,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "worried",
+        "x": 160,
+        "y": 40,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-004",
-        "x": 52,
-        "y": 4,
+        "emotion": "angry",
+        "x": 200,
+        "y": 40,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          33,
-          32,
-          38,
-          38
-        ],
-        "originalSha256": "02faa9bb38f64d55142261cdf36ef5cb941009917e47932a6672e3fb622773a9"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "crying",
+        "x": 240,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "happy",
+        "x": 280,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "inspired",
+        "x": 0,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "joyous",
+        "x": 40,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "normal",
+        "x": 80,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "pain",
+        "x": 120,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "sad",
+        "x": 160,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "shocked",
+        "x": 200,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "shouting",
+        "x": 240,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "special",
+        "x": 280,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "teary-eyed",
+        "x": 0,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "worried",
+        "x": 40,
+        "y": 120,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-007",
-        "x": 100,
-        "y": 4,
+        "emotion": "angry",
+        "x": 80,
+        "y": 120,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          29,
-          31,
-          38,
-          38
-        ],
-        "originalSha256": "097141c2a91f8c58f584e05c13e17c02f3e2b75ec7b755e98b37124b91fed9fd"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "crying",
+        "x": 120,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "happy",
+        "x": 160,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "inspired",
+        "x": 200,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "joyous",
+        "x": 240,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "normal",
+        "x": 280,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "pain",
+        "x": 0,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "sad",
+        "x": 40,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "shocked",
+        "x": 80,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "shouting",
+        "x": 120,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "special",
+        "x": 160,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "teary-eyed",
+        "x": 200,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "worried",
+        "x": 240,
+        "y": 160,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-010",
-        "x": 148,
-        "y": 4,
+        "emotion": "inspired",
+        "x": 280,
+        "y": 160,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          29,
-          25,
-          38,
-          42
-        ],
-        "originalSha256": "900489ec31c474db16f8e604019fedc18399db0b25da71d330b1875ec42fd6ec"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-010",
+        "emotion": "normal",
+        "x": 0,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-010",
+        "emotion": "teary-eyed",
+        "x": 40,
+        "y": 200,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-012",
-        "x": 196,
-        "y": 4,
+        "emotion": "normal",
+        "x": 80,
+        "y": 200,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          32,
-          20,
-          32,
-          40
-        ],
-        "originalSha256": "d245c4cca1b5bafe1279a60d083a967685d014ac9be26ba57b834c9f9eb7eb67"
-      },
-      {
-        "speciesId": "pokemon-016",
-        "x": 244,
-        "y": 4,
-        "width": 40,
-        "height": 40,
-        "originalCrop": [
-          27,
-          24,
-          42,
-          42
-        ],
-        "originalSha256": "a8222e8dfe3df0be95e5c7f970b4553d1f980961f3cf0a803c4f1eb5d2726c8d"
+        "height": 40
       },
       {
         "speciesId": "pokemon-025",
-        "x": 4,
-        "y": 52,
+        "emotion": "angry",
+        "x": 120,
+        "y": 200,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          30,
-          20,
-          45,
-          45
-        ],
-        "originalSha256": "e33878b4aaa516fbf5a3f2ed0fba9b25c7293fb554d5aab4c031e772006091d0"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "crying",
+        "x": 160,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "happy",
+        "x": 200,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "inspired",
+        "x": 240,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "joyous",
+        "x": 280,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "normal",
+        "x": 0,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "pain",
+        "x": 40,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "sad",
+        "x": 80,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "shocked",
+        "x": 120,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "shouting",
+        "x": 160,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "special",
+        "x": 200,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "teary-eyed",
+        "x": 240,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "worried",
+        "x": 280,
+        "y": 240,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-052",
-        "x": 52,
-        "y": 52,
+        "emotion": "angry",
+        "x": 0,
+        "y": 280,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          23,
-          14,
-          50,
-          50
-        ],
-        "originalSha256": "f7223bcd879cccb391f4de6b758e83485dd1459bf5db2601f9ce7b04af20ee7a"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "crying",
+        "x": 40,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "happy",
+        "x": 80,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "inspired",
+        "x": 120,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "joyous",
+        "x": 160,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "normal",
+        "x": 200,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "pain",
+        "x": 240,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "sad",
+        "x": 280,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "shocked",
+        "x": 0,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "shouting",
+        "x": 40,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "special",
+        "x": 80,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "teary-eyed",
+        "x": 120,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "worried",
+        "x": 160,
+        "y": 320,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-054",
-        "x": 100,
-        "y": 52,
+        "emotion": "angry",
+        "x": 200,
+        "y": 320,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          27,
-          23,
-          42,
-          42
-        ],
-        "originalSha256": "6b9961767a8839b2499b90a24d04ca7cb04a4e992d090d5c120c6774c9eb88d3"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "crying",
+        "x": 240,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "happy",
+        "x": 280,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "inspired",
+        "x": 0,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "joyous",
+        "x": 40,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "normal",
+        "x": 80,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "pain",
+        "x": 120,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "sad",
+        "x": 160,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "shocked",
+        "x": 200,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "shouting",
+        "x": 240,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "special",
+        "x": 280,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "teary-eyed",
+        "x": 0,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "worried",
+        "x": 40,
+        "y": 400,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-066",
-        "x": 148,
-        "y": 52,
+        "emotion": "angry",
+        "x": 80,
+        "y": 400,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          26,
-          20,
-          45,
-          45
-        ],
-        "originalSha256": "778c093cd651a4de691608960806dacc0d02e4ffb2d9017723c4403ba2e171eb"
+        "height": 40
       },
       {
-        "speciesId": "pokemon-102",
-        "x": 196,
-        "y": 52,
+        "speciesId": "pokemon-066",
+        "emotion": "crying",
+        "x": 120,
+        "y": 400,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          24,
-          41,
-          48,
-          48
-        ],
-        "originalSha256": "c2f7a825f6330e9f5708d2d72fea2fd9b263a6a0cf80e56f3ce81c5a8d2e4d7e"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "happy",
+        "x": 160,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "inspired",
+        "x": 200,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "joyous",
+        "x": 240,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "normal",
+        "x": 280,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "pain",
+        "x": 0,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "sad",
+        "x": 40,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "shocked",
+        "x": 80,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "shouting",
+        "x": 120,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "special",
+        "x": 160,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "teary-eyed",
+        "x": 200,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "worried",
+        "x": 240,
+        "y": 440,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-104",
-        "x": 244,
-        "y": 52,
+        "emotion": "angry",
+        "x": 280,
+        "y": 440,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          25,
-          15,
-          48,
-          48
-        ],
-        "originalSha256": "942e32504d8ed3bfbdadbf24dd532ac3a2b4548670a17371b1717242ecad7f70"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "crying",
+        "x": 0,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "happy",
+        "x": 40,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "inspired",
+        "x": 80,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "joyous",
+        "x": 120,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "normal",
+        "x": 160,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "pain",
+        "x": 200,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "sad",
+        "x": 240,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "shocked",
+        "x": 280,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "shouting",
+        "x": 0,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "special",
+        "x": 40,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "teary-eyed",
+        "x": 80,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "worried",
+        "x": 120,
+        "y": 520,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-133",
-        "x": 4,
-        "y": 100,
+        "emotion": "angry",
+        "x": 160,
+        "y": 520,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          22,
-          10,
-          52,
-          52
-        ],
-        "originalSha256": "0389f111fd772837cd5e4279f896280a23c3a0cb924187d4d2395ee9a3ef8ee2"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "crying",
+        "x": 200,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "happy",
+        "x": 240,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "inspired",
+        "x": 280,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "joyous",
+        "x": 0,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "normal",
+        "x": 40,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "pain",
+        "x": 80,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "sad",
+        "x": 120,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "shocked",
+        "x": 160,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "shouting",
+        "x": 200,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "special",
+        "x": 240,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "teary-eyed",
+        "x": 280,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "worried",
+        "x": 0,
+        "y": 600,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-152",
-        "x": 52,
-        "y": 100,
+        "emotion": "angry",
+        "x": 40,
+        "y": 600,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          26,
-          23,
-          44,
-          44
-        ],
-        "originalSha256": "bdfd32186b99d312d16fad89cd62e1dbe80da3c520690f1c257e3c15cebd5924"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "crying",
+        "x": 80,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "happy",
+        "x": 120,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "inspired",
+        "x": 160,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "joyous",
+        "x": 200,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "normal",
+        "x": 240,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "pain",
+        "x": 280,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "sad",
+        "x": 0,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "shocked",
+        "x": 40,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "shouting",
+        "x": 80,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "special",
+        "x": 120,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "teary-eyed",
+        "x": 160,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "worried",
+        "x": 200,
+        "y": 640,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-155",
-        "x": 100,
-        "y": 100,
+        "emotion": "angry",
+        "x": 240,
+        "y": 640,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          32,
-          38,
-          34,
-          34
-        ],
-        "originalSha256": "547955fcf4a6d80e5788b516a1b226af3a41ccc7ae6af961f0c76b65ae819e0e"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "crying",
+        "x": 280,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "happy",
+        "x": 0,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "inspired",
+        "x": 40,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "joyous",
+        "x": 80,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "normal",
+        "x": 120,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "pain",
+        "x": 160,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "sad",
+        "x": 200,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "shocked",
+        "x": 240,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "shouting",
+        "x": 280,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "special",
+        "x": 0,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "teary-eyed",
+        "x": 40,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "worried",
+        "x": 80,
+        "y": 720,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-158",
-        "x": 148,
-        "y": 100,
+        "emotion": "angry",
+        "x": 120,
+        "y": 720,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          28,
-          30,
-          41,
-          41
-        ],
-        "originalSha256": "dd57980ed3529910f5d9c5f0a44178091aedcf3a2bf3d780ece8628221d8b8e9"
+        "height": 40
       },
       {
-        "speciesId": "pokemon-191",
-        "x": 196,
-        "y": 100,
+        "speciesId": "pokemon-158",
+        "emotion": "crying",
+        "x": 160,
+        "y": 720,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          28,
-          26,
-          40,
-          40
-        ],
-        "originalSha256": "5e8cec49bfc859bc07095d0fe1a952421012f92789964f797012d51803c3723d"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "happy",
+        "x": 200,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "inspired",
+        "x": 240,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "joyous",
+        "x": 280,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "normal",
+        "x": 0,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "pain",
+        "x": 40,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "sad",
+        "x": 80,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "shocked",
+        "x": 120,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "shouting",
+        "x": 160,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "special",
+        "x": 200,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "teary-eyed",
+        "x": 240,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "worried",
+        "x": 280,
+        "y": 760,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-252",
-        "x": 244,
-        "y": 100,
+        "emotion": "angry",
+        "x": 0,
+        "y": 800,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          27,
-          27,
-          42,
-          42
-        ],
-        "originalSha256": "e3934f660f89a3adea0cb0b7b87ad03f9d3cd7fb8987a7396a832ea77a816f36"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "crying",
+        "x": 40,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "happy",
+        "x": 80,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "inspired",
+        "x": 120,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "joyous",
+        "x": 160,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "normal",
+        "x": 200,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "pain",
+        "x": 240,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "sad",
+        "x": 280,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "shocked",
+        "x": 0,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "shouting",
+        "x": 40,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "special",
+        "x": 80,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "teary-eyed",
+        "x": 120,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "worried",
+        "x": 160,
+        "y": 840,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-255",
-        "x": 4,
-        "y": 148,
+        "emotion": "angry",
+        "x": 200,
+        "y": 840,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          26,
-          19,
-          45,
-          45
-        ],
-        "originalSha256": "9de8444a036df4e34a228db4e8aa50e6aa8eaa9038f8f782867416c8d5e82923"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "crying",
+        "x": 240,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "happy",
+        "x": 280,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "inspired",
+        "x": 0,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "joyous",
+        "x": 40,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "normal",
+        "x": 80,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "pain",
+        "x": 120,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "sad",
+        "x": 160,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "shocked",
+        "x": 200,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "shouting",
+        "x": 240,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "special",
+        "x": 280,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "teary-eyed",
+        "x": 0,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "worried",
+        "x": 40,
+        "y": 920,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-258",
-        "x": 52,
-        "y": 148,
+        "emotion": "angry",
+        "x": 80,
+        "y": 920,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          25,
-          19,
-          47,
-          47
-        ],
-        "originalSha256": "845d4235fcb6565ca01c5ce35edfce9df5c765c64411cbc546591dd575cf3fe8"
+        "height": 40
       },
       {
-        "speciesId": "pokemon-265",
-        "x": 100,
-        "y": 148,
+        "speciesId": "pokemon-258",
+        "emotion": "crying",
+        "x": 120,
+        "y": 920,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          31,
-          38,
-          35,
-          35
-        ],
-        "originalSha256": "b10ed913e6fb198eb017a461ed0e65e71dd8b68bfeb8df1d24832394b791a29d"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "happy",
+        "x": 160,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "inspired",
+        "x": 200,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "joyous",
+        "x": 240,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "normal",
+        "x": 280,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "pain",
+        "x": 0,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "sad",
+        "x": 40,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "shocked",
+        "x": 80,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "shouting",
+        "x": 120,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "special",
+        "x": 160,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "teary-eyed",
+        "x": 200,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "worried",
+        "x": 240,
+        "y": 960,
+        "width": 40,
+        "height": 40
       },
       {
         "speciesId": "pokemon-279",
-        "x": 148,
-        "y": 148,
+        "emotion": "normal",
+        "x": 280,
+        "y": 960,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          22,
-          27,
-          52,
-          52
-        ],
-        "originalSha256": "d7bd11fefed60497ddec61d4eeb567733ab80787118c727944f00f2f38aa5cd5"
+        "height": 40
       },
       {
         "speciesId": "pokemon-300",
-        "x": 196,
-        "y": 148,
+        "emotion": "angry",
+        "x": 0,
+        "y": 1000,
         "width": 40,
-        "height": 40,
-        "originalCrop": [
-          29,
-          31,
-          39,
-          39
-        ],
-        "originalSha256": "52c2000ac269578ba69c5811a37e9d23ab94458e1b4d468ae5b9c05cc221f9b9"
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "crying",
+        "x": 40,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "happy",
+        "x": 80,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "inspired",
+        "x": 120,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "joyous",
+        "x": 160,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "normal",
+        "x": 200,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "pain",
+        "x": 240,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "sad",
+        "x": 280,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "shocked",
+        "x": 0,
+        "y": 1040,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "shouting",
+        "x": 40,
+        "y": 1040,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "special",
+        "x": 80,
+        "y": 1040,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "teary-eyed",
+        "x": 120,
+        "y": 1040,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "worried",
+        "x": 160,
+        "y": 1040,
+        "width": 40,
+        "height": 40
       }
     ],
-    "provenance": "Face crops of the original authored96px front poses; no commercial portraits."
+    "provenance": "Original 40x40 Rescue Team portraits, with source display color conversion; see authoring native-sources.json."
+  },
+  "scenes": [],
+  "ornaments": [
+    {
+      "id": "title-bird",
+      "path": "title-bird.png",
+      "width": 512,
+      "height": 116,
+      "bytes": 7744,
+      "sha256": "b0c9289b29cd0679c00b88e2738872bb5bb7ee2d9cff22eeba8dabbbef62b9e5",
+      "metadataPath": "title-bird.json",
+      "metadataBytes": 2197,
+      "metadataSha256": "04c0ce1f9a63330bdaa5cea91c3f816242ab8120a33da988a72297eb05224703",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ornament/titleop1.h"
+    },
+    {
+      "id": "title-letter",
+      "path": "title-letter.png",
+      "width": 512,
+      "height": 23,
+      "bytes": 361,
+      "sha256": "37d77fa2acf96c3af1dddd418574db876a6b7bc923a9685ad021a04d9b888fc1",
+      "metadataPath": "title-letter.json",
+      "metadataBytes": 674,
+      "metadataSha256": "4294fc9f5456e3fcbaa98dc38543fe6ce88594cf484cb5da9995e2eac1dd0757",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ornament/titleop2.h"
+    }
+  ],
+  "nativeUi": {
+    "modulePath": "src/blue/render-native-ui-data.js",
+    "bytes": 27738,
+    "sha256": "1086eaa5b5cae0675e4749933abe4e629bbd54a005829990f972fd4ed9f190e8",
+    "sourceManifestPath": "tools/pokemon-dungeon/art/blue/native-ui-sources.json",
+    "sourceManifestSha256": "80c5d5079e61dbe91d985462250113034b1762dd878cb12c0ce0b01a777d8df1",
+    "archive": {
+      "path": "native-ui-source.tar.gz",
+      "bytes": 353107,
+      "sha256": "0244b14573c7f4a60c2315e5bf6bb2026569b36a6ec4cfd80074d1e222cc46c9"
+    },
+    "corroboratedFontPixels": 265
   },
   "authoringSources": [
     {
-      "path": "tools/pokemon-dungeon/art/blue/intro.mjs",
-      "sha256": "86dec271855ff60c1c58d1f7877532cc7b852feee6974800d9d55376c42f6dc5"
+      "path": "tools/pokemon-dungeon/art/blue/export.mjs",
+      "sha256": "2d97f389a4c7cb169c2713a4cf799f1603552f99107683de43186b32a8f7613e"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-export.mjs",
+      "sha256": "73eb67d606e65411fd5472ddcc4e325ecaaa1b072a993077285262124427e31f"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-format.mjs",
+      "sha256": "3512bb91412f154e877ab9889d5177602962869cae0eb6991c4424c907a2c7fd"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-ornament-export.mjs",
+      "sha256": "c7d3e75dbffa35f6d396ff382deb66105706c11fb7333dbf688439d800dfe8de"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-ui-export.mjs",
+      "sha256": "5f363a3ba68e36bd78ece3c994d8412f1ec9d1a69c8c83a7e039b5527e088c53"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/capture-native.mjs",
+      "sha256": "1c8dfa17b6ff8e2500de283a316c74d09654a88297e3df93bb30837e0366e5e3"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/capture-native-ui.mjs",
+      "sha256": "6827e221eecbad43815f21062f014b7357c9874d2b31c99bf46b8ed74f0127c9"
     }
-  ]
+  ],
+  "sceneryManifest": "scenery/manifest.json"
 }

@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+  "provenance": "Selected public git-tracked background files and byte literals from pret/pmd-red; no ROM downloaded, read or built.",
+  "records": [
+    {
+      "path": "maps/D01P01.bpl",
+      "bytes": 304,
+      "sha256": "2f1607c80a4ba1838a6bd5181a7b6b5793b7569c2281c230c3d6ed6a9de4ef2c",
+      "sourcePath": "data/map_bg/D01P01.bpl",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/D01P01.bpl"
+    },
+    {
+      "path": "maps/D01P01c.bpc",
+      "bytes": 8496,
+      "sha256": "8de6e31c3b558f3fc15fc393b8d5ec5c9fac143fbbd2749ae0b539c54aa9c675",
+      "sourcePath": "data/map_bg/D01P01c.bpc",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/D01P01c.bpc"
+    },
+    {
+      "path": "maps/D01P01m.bma",
+      "bytes": 424,
+      "sha256": "f8f8e375fbcc8ed21e36c4c26519d1f7abf64e1a807e77d1ae0db0804c41f0db",
+      "sourcePath": "data/map_bg/D01P01m.bma",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/D01P01m.bma"
+    },
+    {
+      "path": "maps/T01P04.bpl",
+      "bytes": 604,
+      "sha256": "e86ade0011ddc3543c7918adf680bdc475bdf9394a5bb5306f8dccaa0edf2617",
+      "sourcePath": "data/map_bg/T01P04.bpl",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/T01P04.bpl"
+    },
+    {
+      "path": "maps/T01P04c.bpc",
+      "bytes": 31600,
+      "sha256": "e9df255ed09f64d01ac6122d6cccbb5733bf45bcb0f676543d8642c29fb95d98",
+      "sourcePath": "data/map_bg/T01P04c.bpc",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/T01P04c.bpc"
+    },
+    {
+      "path": "maps/T01P04m.bma",
+      "bytes": 636,
+      "sha256": "5184681dcd1a925aa627bb004699490b9924269d64d9ea5c7648be25bd604987",
+      "sourcePath": "data/map_bg/T01P04m.bma",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/T01P04m.bma"
+    },
+    {
+      "path": "maps/S03.bpl",
+      "bytes": 46852,
+      "sha256": "5f3abbe1d30c36a1e61506b632205499be4d71743faa32018fdb144893e0be6a",
+      "sourcePath": "data/map_bg/S03.bpl",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S03.bpl"
+    },
+    {
+      "path": "maps/S03c.bpc",
+      "bytes": 25012,
+      "sha256": "0d88c8ec57553fcf424ff3bee2f48e64a71ca122884e65cf3e550e54949cc898",
+      "sourcePath": "data/map_bg/S03c.bpc",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S03c.bpc"
+    },
+    {
+      "path": "maps/S03m.bma",
+      "bytes": 216,
+      "sha256": "5d5ea460e1b67fd668b2f820610963286e6519fef36561d99f0c39249fa73449",
+      "sourcePath": "data/map_bg/S03m.bma",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S03m.bma"
+    },
+    {
+      "path": "maps/D01P02m.bma",
+      "bytes": 100,
+      "sha256": "c3c0881300a7ffd8895517c42a648aaa77479c934c3c116cf08501d9194ed4a0",
+      "sourcePath": "data/map_bg/D01P02m.bma",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/D01P02m.bma"
+    },
+    {
+      "path": "maps/b14fon.at4px",
+      "bytes": 8265,
+      "sha256": "95f74330c9d1c764aae735b0dde5c242d639186f62e065407d848bd5dcb4ef4f",
+      "sourcePath": "data/dungeon_sbin.s",
+      "sourceSymbol": "gUnknown_83E355F",
+      "sourceFileSha256": "6bef0cadba232f87aeb7c6d01228f9c42412228b35b05fecaf6a86cb5ad9f842",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon_sbin.s"
+    },
+    {
+      "path": "maps/b14cel.at4px",
+      "bytes": 2024,
+      "sha256": "a3bbf2dbd18347c56fff4dbe5e1646090851a8e8f9d0a5577442cbcf8b37c6fb",
+      "sourcePath": "data/dungeon_sbin.s",
+      "sourceSymbol": "gUnknown_83E29E0",
+      "sourceFileSha256": "6bef0cadba232f87aeb7c6d01228f9c42412228b35b05fecaf6a86cb5ad9f842",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon_sbin.s"
+    },
+    {
+      "path": "maps/b14cex.at4px",
+      "bytes": 903,
+      "sha256": "ff78001027ed415c796ea842d8b472157d17c6ad0c7a056890a7fd114f90061e",
+      "sourcePath": "data/dungeon_sbin.s",
+      "sourceSymbol": "gUnknown_83E31D8",
+      "sourceFileSha256": "6bef0cadba232f87aeb7c6d01228f9c42412228b35b05fecaf6a86cb5ad9f842",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon_sbin.s"
+    },
+    {
+      "path": "maps/b14pal.rgb",
+      "bytes": 768,
+      "sha256": "a04b516668217fe4ffcce98a2db21e62ad068fee384c8314f4b517677b35d730",
+      "sourcePath": "data/dungeon_sbin.s",
+      "sourceSymbol": "gUnknown_83E55A8",
+      "sourceFileSha256": "6bef0cadba232f87aeb7c6d01228f9c42412228b35b05fecaf6a86cb5ad9f842",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon_sbin.s"
+    },
+    {
+      "path": "maps/A01P01.bpl",
+      "bytes": 64,
+      "sha256": "a22e066e1fa1d36d86c27aa072bc1804d52965d9fa734feecf8528c1ececa554",
+      "sourcePath": "data/map_bg/A01P01.bpl",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/A01P01.bpl"
+    },
+    {
+      "path": "maps/A01P02.bpl",
+      "bytes": 64,
+      "sha256": "645f68153c70be80b5f412eb5d6f991f61052320a54cf49380a36101e9b90a6e",
+      "sourcePath": "data/map_bg/A01P02.bpl",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/A01P02.bpl"
+    },
+    {
+      "path": "maps/S01.bpl",
+      "bytes": 3848,
+      "sha256": "82db21b3d0e5a4b69d82c33b1ef23dd9b12e1e6486e051470732631574dd5a6d",
+      "sourcePath": "data/map_bg/S01.bpl",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S01.bpl"
+    },
+    {
+      "path": "maps/A01P01c.bpc",
+      "bytes": 17704,
+      "sha256": "da69bb1cec50a179995080e8fc3dd381702ceefae1941d1a3060afe898922e05",
+      "sourcePath": "data/map_bg/A01P01c.bpc",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/A01P01c.bpc"
+    },
+    {
+      "path": "maps/A01P01m.bma",
+      "bytes": 528,
+      "sha256": "8e6693b39b3deea1a5656630b4ad0972b5aa5292bd1a1bca490c11f7e061bb3c",
+      "sourcePath": "data/map_bg/A01P01m.bma",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/A01P01m.bma"
+    }
+  ],
+  "groundMaps": [
+    {
+      "id": "tiny-woods-entry",
+      "stem": "D01P01"
+    },
+    {
+      "id": "post-interior",
+      "stem": "T01P04"
+    },
+    {
+      "id": "town-aerial",
+      "stem": "S03"
+    }
+  ],
+  "rescueEnd": {
+    "layout": "D01P02m.bma",
+    "tileset": 14,
+    "variant": 0,
+    "camera": [
+      180,
+      168
+    ],
+    "displayCenter": [
+      129,
+      108
+    ]
+  },
+  "decoderReference": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/ground_bg.c",
+  "fixedDungeonReference": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/unk_dungeon_load_maybe.c",
+  "compressionReference": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/decompress_at.c",
+  "aura": {
+    "layout": "A01P01m.bma",
+    "tiles": "A01P01c.bpc",
+    "cycle": "S01.bpl",
+    "cyan": "A01P01.bpl",
+    "purple": "A01P02.bpl",
+    "camera": [
+      244,
+      156
+    ],
+    "displayCenter": [
+      129,
+      108
+    ],
+    "blendCoefficients": [
+      8,
+      8
+    ],
+    "paletteFrameTicks": 8,
+    "scrollPixelsPerTick": 0.5,
+    "sourceScene": "src/data/ground/ground_data_s01_station.h",
+    "sourceScroll": "src/ground_map.c:sub_80A59DC"
+  }
+}

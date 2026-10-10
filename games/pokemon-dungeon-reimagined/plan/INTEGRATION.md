@@ -2,7 +2,15 @@
 
 ## Scope and status
 
-### Latest scoped launcher authorization — 2026-10-05
+### Current opening integration — 2026-10-10
+
+PR #397 now selects the 2D DS opening through Caterpie's rescue. The first card
+uses a real 256×192 Tiny Woods browser capture at its full 4:3 aspect ratio.
+The scoped distribution and manual evidence are recorded in
+[BLUE-OPENING-REVIEW.md](BLUE-OPENING-REVIEW.md). Earlier campaign and art-study
+descriptions below are historical; merge and deployment remain unauthorized.
+
+### Historical launcher authorization — 2026-10-05
 
 Justin requested merging #390, then a new PR for the 🕹️ portal, first Pokémon
 WIP card with picture/description, full-page modal, mobile emulator controls
@@ -16,7 +24,7 @@ screenshot. Full-game P35–P37 acceptance remains incomplete.
 | Current launcher contract | Implementation |
 | --- | --- |
 | First card | `pokemon-dungeon-reimagined`; exact requested title; explicit development description |
-| Picture | `public/arcade/blue-rescue-team-preview.jpg`, an unchanged P06 art-study capture |
+| Picture | `public/arcade/blue-rescue-team-preview.png`, an unchanged native-resolution browser capture of Tiny Woods B3F; see the current opening review |
 | Player | `GamePlayer.tsx` viewport dialog; cards remain mounted; Back restores Play focus |
 | Input | Website `GameControls.tsx` / `useGameControls.ts`; native desktop iframe focus and touch key bridge |
 | Keys | Arrows/diagonals, A/Z, B/X, Start/Enter, Select/Shift, Menu/Escape |

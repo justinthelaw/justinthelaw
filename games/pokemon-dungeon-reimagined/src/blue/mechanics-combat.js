@@ -77,8 +77,11 @@ export function heal(state,actor,amount,events) { const restored=Math.min(amount
 /** @param {DungeonState} state @param {Actor} target @param {number} amount @param {OpeningData} data @param {GameEvent[]} events @param {Actor|null} [source] */
 export function damage(state,target,amount,data,events,source=null) {
   if(target.hp<=0)return;
+  // Native final modifiers/rounding can produce zero. Its dedicated branch
+  // reports no damage and does not run the damage-number/hit reaction path.
+  if(amount<=0){message(state,events,`${target.name} took no damage!`);return;}
   const loss=Math.min(target.hp,Math.max(0,amount));target.hp-=loss;
-  events.push({type:'damage',actorId:target.id,targetId:source?.id,amount:loss});
+  events.push({type:'damage',actorId:source?.id,targetId:target.id,amount:loss});
   message(state,events,`${target.name} took ${loss} damage!`);
   if(target.status.bide)target.bideDamage=Math.min(999,target.bideDamage+amount);
   if(source&&target.status.enraged&&loss>0)target.stages.attack=clamp((target.stages.attack??10)+1,0,20);
@@ -142,7 +145,12 @@ function applyEffect(state,actor,target,effect,data,events) {
     const old=recipient.stages[stat]??10;recipient.stages[stat]=clamp(old+(effect.delta??0),0,20);
     message(state,events,old===recipient.stages[stat]?`${recipient.name}'s ${stat} can't go any further.`:`${recipient.name}'s ${stat} ${effect.delta&&effect.delta>0?'rose':'fell'}!`);
   } else if(effect.op==='apply-status'&&effect.status)inflict(state,actor,recipient,effect.status,data,events);
-  else if(effect.op==='speed-stage'){recipient.status.slow=7+draw(state,2);message(state,events,`${recipient.name}'s Movement Speed fell!`);}
+  else if(effect.op==='speed-stage'){
+    // All admitted actors have base stage one. LowerSpeed refuses a further
+    // reduction at stage zero, without drawing or refreshing a duration.
+    if(recipient.status.slow||recipient.status.paralysis)message(state,events,`${recipient.name}'s Movement Speed cannot fall further.`);
+    else{recipient.status.slow=7+draw(state,2);message(state,events,`${recipient.name}'s Movement Speed fell!`);}
+  }
 }
 /** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {MoveData} move @param {OpeningData} data */
 function damageAmount(state,actor,target,move,data) {
@@ -207,14 +215,19 @@ export function attack(state,actor,slot,data,events) {
 }
 /** Native beginning-of-opportunity timers and HP accumulator, followed by source
  * blocking classes. Autonomous scheduler differences remain documented.
- * @param {DungeonState} state @param {Actor} actor @param {OpeningData} data @param {GameEvent[]} events */
-export function beginTurn(state,actor,data,events) {
+ * Swapping supplies its already-selected Walk and does not report an AI block.
+ * @param {DungeonState} state @param {Actor} actor @param {OpeningData} data @param {GameEvent[]} events @param {boolean} [reportBlocked] */
+export function beginTurn(state,actor,data,events,reportBlocked=true) {
   if(actor.hp<=0)return false;
   if(team(actor)&&actor.belly>0&&!actor.status.poison){const rate=clamp(data.species[actor.speciesId]?.regenerationRate??100,30,500);actor.regen+=actor.maxHp;actor.hp=Math.min(actor.maxHp,actor.hp+Math.floor(actor.regen/rate));actor.regen%=rate;}
-  for(const key of Object.keys(actor.status)){if(key==='bide'||key==='enraged')continue;const value=actor.status[key]??0;if(value>0&&value!==127){actor.status[key]=value-1;if(actor.status[key]===0){delete actor.status[key];if(key==='leechSeed')actor.leechSource=null;}}}
-  if(actor.status.sleep||actor.status.infatuated){message(state,events,`${actor.name} can't move!`);return false;}
-  if(actor.status.slow&&state.turn%2===1)return false;
-  if(actor.status.bide){message(state,events,`${actor.name} is storing energy!`);return false;}
+  for(const key of Object.keys(actor.status)){if(key==='bide'||key==='enraged')continue;const value=actor.status[key]??0;if(value>0&&value!==127){actor.status[key]=value-1;if(actor.status[key]===0){delete actor.status[key];if(key==='leechSeed')actor.leechSource=null;
+    if(key==='sleep')message(state,events,`${actor.name} woke up!`);
+    if(key==='infatuated')message(state,events,`${actor.name} is no longer infatuated.`);
+    if(key==='paralysis')message(state,events,`${actor.name} recovered from paralysis.`);
+    if(key==='slow')message(state,events,`${actor.name}'s Movement Speed returned to normal.`);
+  }}}
+  if(actor.status.sleep||actor.status.infatuated){if(reportBlocked)message(state,events,`${actor.name} can't move!`);return false;}
+  if(actor.status.bide){if(reportBlocked)message(state,events,`${actor.name} is storing energy!`);return false;}
   return true;
 }
 

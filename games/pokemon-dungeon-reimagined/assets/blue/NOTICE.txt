@@ -1,17 +1,42 @@
-Blue opening original-art package
+Blue opening Rescue Team image package
 
-These character atlases are compact derivatives of original, source-native
-character art already authored for this repository. No ROM data, Nintendo DS
-sprite, commercial portrait, downloaded game art or commercial font is included.
+World sprites are original Rescue Team artwork preserved in the public
+pret/pmd-red project at commit 013475aa04f5be3191e5527c186d9bfceae7cae0.
+Native PNG tile fragments, palettes, composition offsets, flips and animation
+tables are assembled without resizing or discarding frames. The source edition
+is Red Rescue Team. Selected Pikachu, Charmander and Butterfree poses match
+original Blue press screenshots after the documented DS color conversion;
+unverified species, poses and timing are not claimed to be exact Blue data.
+Source: https://github.com/pret/pmd-red
 
-The four cinematic PNGs are original integer-grid paintings authored in
-tools/pokemon-dungeon/art/blue/intro.mjs. Original-game screenshots informed
-scene layout only; their raster pixels were not copied, traced, or sampled.
+The 40x40 portraits are original Rescue Team artwork publicly hosted by Mystery
+Dungeon Franchise Wiki, under explicitly Rescue Team-specific file names.
+Per-image URLs, upload timestamps, SHA-256 hashes and native emotion names are
+preserved in tools/pokemon-dungeon/art/blue/native-sources.json.
+Source: https://mysterydungeonwiki.com/wiki/Rescue_Team:Portrait
 
-Reproduce with:
+Pokemon, artwork and game assets remain the property of their respective rights
+holders, including Nintendo, The Pokemon Company and Chunsoft. These public
+reference hosts do not establish a rights-holder reuse license. No such grant,
+endorsement, or original repository authorship is asserted for native images.
+
+The font, window borders, cursors, HUD tiles, shadow silhouettes, team markers
+and floating numbers are source image data from the same pinned public project.
+Their exact source URLs and hashes are recorded in art/blue/native-ui-sources.json.
+The generated synchronous runtime data module preserves native masks, palettes
+and glyph advances. Selected pixels are checked against Blue press captures.
+
+Field and dungeon sprite palettes remain separate: dungeon brightness uses the
+source31/256 conversion before DS channel expansion. Native scenery has separate
+per-image and map-data provenance in scenery/manifest.json. The four historical
+original scene paintings remain recoverable locally but are excluded from the
+runtime manifest and release distribution.
+
+Reproduce offline using the repository's required Node 24.21.0 toolchain:
   node tools/pokemon-dungeon/art/blue/export.mjs
+Check without writing:
+  node tools/pokemon-dungeon/art/blue/export.mjs --check
 
-The manifest records the exact source-page hashes, output hashes and dimensions.
-Original art is not Nintendo DS visual parity. Pokemon and the depicted
-characters remain the intellectual property of their respective rights holders;
-original authorship of these files does not assert a rights-holder license.
+Pinned input archives and readable URL/hash manifests live in art/blue.
+No ROM download, ROM extraction, runtime CDN or runtime network asset source is
+required. The output manifest records exact bytes, dimensions and metadata hashes.

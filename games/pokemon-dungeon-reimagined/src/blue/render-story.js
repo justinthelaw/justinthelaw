@@ -64,7 +64,7 @@ export class StoryActors {
     /** @type {FieldActor} */const partner={speciesId:partnerId,x:144,y:clearing?116:104,direction:clearing||reunion?'n':'w'};
     /** @type {FieldActor[]} */const actors=[hero,partner];
 
-    if(awakening&&line<=2)hero.clip='rest-sleep';
+    if(awakening&&line<=2)hero.clip='story-sleep';
     if(awakening&&line>=3){
       this.wakeStart??=time;
       const awakeFor=time-this.wakeStart;
@@ -111,9 +111,11 @@ export class StoryActors {
     }
     actors.sort((left,right)=>left.y-right.y);
     for(const actor of actors){
+      // Exact Blue ss02 map crop and native AX pose matching establish the DS
+      // viewport center at(129,108), twelve pixels below the nominal midpoint.
+      actor.x+=1;actor.y+=12;
       const jump=actor.jump??0;
-      if(jump){context.fillStyle='#23382355';context.fillRect(Math.round(actor.x-7),Math.round(actor.y-1),14,3);}
-      sprites.draw(context,actor.speciesId,actor.x,actor.y-jump,{direction:actor.direction,clip:actor.clip??'idle',time:actor.time??animationTime,shadow:jump===0});
+      sprites.draw(context,actor.speciesId,actor.x,actor.y,{direction:actor.direction,clip:actor.clip??'idle',time:actor.time??animationTime,lift:jump});
       if(actor.surprised){
         const x=Math.round(actor.x+7),y=Math.round(actor.y-39-jump);
         context.fillStyle='#3c445b';context.fillRect(x-1,y-2,10,13);context.fillStyle='#fffde8';context.fillRect(x,y-1,8,11);

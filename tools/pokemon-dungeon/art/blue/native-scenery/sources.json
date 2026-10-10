@@ -1,0 +1,219 @@
+{
+  "schemaVersion": 1,
+  "retrievedAt": "2026-10-10",
+  "rawAssetCommit": "03c80dad937911572f8fb19903771a47956fc696",
+  "rights": "These are published original commercial game image assets. Source/archive attribution is not a rights-holder reuse license; no publisher reuse grant is claimed.",
+  "records": [
+    {
+      "path": "sources/tiny-woods-exterior.png",
+      "bytes": 10128,
+      "sha256": "7001b960ecb86f2171c9a526bf8c8790400ea5b730cdf7d33421244a9a05a438",
+      "width": 432,
+      "height": 360,
+      "url": "https://mysterydungeonwiki.com/images/a/a5/Rescue_Team_-_Tiny_Woods_exterior.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Tiny_Woods_exterior.png",
+      "credit": "Rescue Team scenery; wiki contributor upload; original game art by Nintendo / The Pokemon Company / Chunsoft."
+    },
+    {
+      "path": "sources/Rescue_Team_-_World_Map.png",
+      "bytes": 35710,
+      "sha256": "ace35397d3f8c64267276136913e8474c16d0c34e4087f454c1169a652b8c100",
+      "width": 479,
+      "height": 320,
+      "url": "https://mysterydungeonwiki.com/images/d/da/Rescue_Team_-_World_Map.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_World_Map.png",
+      "credit": "Rescue Team world map; wiki contributor upload; original game art by Nintendo / The Pokemon Company / Chunsoft."
+    },
+    {
+      "path": "sources/Tile-24x24-PostOffice.png",
+      "bytes": 35120,
+      "sha256": "498fcbd2c391fb9efa609219f0a688b7d995255aa01af8fafb946c3ddf0ab46a",
+      "width": 384,
+      "height": 312,
+      "url": "https://raw.githubusercontent.com/PMDCollab/RawAsset/03c80dad937911572f8fb19903771a47956fc696/Tile/24x24/PostOffice.png",
+      "sourcePage": "https://github.com/PMDCollab/RawAsset/blob/03c80dad937911572f8fb19903771a47956fc696/Tile/24x24/PostOffice.png",
+      "credit": "PMDCollab RawAsset archive; original game art by Nintendo / The Pokemon Company / Chunsoft."
+    },
+    {
+      "path": "sources/Object-Stairs_Down.None.png",
+      "bytes": 394,
+      "sha256": "81c1b10132c43a615ef9122d00b34d4e112ed0937bfcff3d91a99b0e479304bc",
+      "width": 24,
+      "height": 24,
+      "url": "https://raw.githubusercontent.com/PMDCollab/RawAsset/03c80dad937911572f8fb19903771a47956fc696/Object/Stairs_Down.None.png",
+      "sourcePage": "https://github.com/PMDCollab/RawAsset/blob/03c80dad937911572f8fb19903771a47956fc696/Object/Stairs_Down.None.png",
+      "credit": "PMDCollab RawAsset archive; original game art by Nintendo / The Pokemon Company / Chunsoft."
+    },
+    {
+      "path": "sources/TileDtef-TinyWoods-tileset_0.png",
+      "bytes": 42382,
+      "sha256": "72725ae6d9a42d5c8155846ad31b94d88553a07f40970e7830b0a3ad0ae26f6e",
+      "width": 432,
+      "height": 192,
+      "url": "https://raw.githubusercontent.com/PMDCollab/RawAsset/03c80dad937911572f8fb19903771a47956fc696/TileDtef/TinyWoods/tileset_0.png",
+      "sourcePage": "https://github.com/PMDCollab/RawAsset/blob/03c80dad937911572f8fb19903771a47956fc696/TileDtef/TinyWoods/tileset_0.png",
+      "credit": "PMDCollab RawAsset Dungeon Tile Exchange Format archive; original game art by Nintendo / The Pokemon Company / Chunsoft."
+    },
+    {
+      "path": "sources/TileDtef-TinyWoods-tileset_1.png",
+      "bytes": 22305,
+      "sha256": "e6df6eacf87be7704f5a481ef3f17582de1182717c3d7057ff42cedb69fa754c",
+      "width": 432,
+      "height": 192,
+      "url": "https://raw.githubusercontent.com/PMDCollab/RawAsset/03c80dad937911572f8fb19903771a47956fc696/TileDtef/TinyWoods/tileset_1.png",
+      "sourcePage": "https://github.com/PMDCollab/RawAsset/blob/03c80dad937911572f8fb19903771a47956fc696/TileDtef/TinyWoods/tileset_1.png",
+      "credit": "PMDCollab RawAsset Dungeon Tile Exchange Format archive; original game art by Nintendo / The Pokemon Company / Chunsoft."
+    },
+    {
+      "path": "sources/TileDtef-TinyWoods-tileset_2.png",
+      "bytes": 14181,
+      "sha256": "dae96cbe3e463aa49107b29761b2f81faad9f93c1c12c84de1e29ca4924e0050",
+      "width": 432,
+      "height": 192,
+      "url": "https://raw.githubusercontent.com/PMDCollab/RawAsset/03c80dad937911572f8fb19903771a47956fc696/TileDtef/TinyWoods/tileset_2.png",
+      "sourcePage": "https://github.com/PMDCollab/RawAsset/blob/03c80dad937911572f8fb19903771a47956fc696/TileDtef/TinyWoods/tileset_2.png",
+      "credit": "PMDCollab RawAsset Dungeon Tile Exchange Format archive; original game art by Nintendo / The Pokemon Company / Chunsoft."
+    },
+    {
+      "path": "sources/intro-scenes-mirror.png",
+      "bytes": 373777,
+      "sha256": "6b7458d97c8b7584acb49103a1825de2d1d803c817b73c64099236bef8844277",
+      "width": 850,
+      "height": 1171,
+      "url": "https://i.pinimg.com/originals/70/c4/21/70c421992f7d760a72d7b3e3ef438328.png",
+      "sourcePage": "https://www.pinterest.com/pin/pokemon-mystery-dungeon-rrt-intro-scenes--480196378991037109/",
+      "credit": "Sheet credited to mega_leo; published archival mirror of Rescue Team introductory scene artwork; original game artwork by Nintendo / The Pokemon Company / Chunsoft."
+    },
+    {
+      "path": "sources/Rescue_Team_-_Startup_Cutscene.png",
+      "bytes": 13352,
+      "sha256": "4f8366bc04969fdd799a4f8e5b8ce5bf978545d49c04b945a19abe04d29a6203",
+      "width": 255,
+      "height": 192,
+      "url": "https://mysterydungeonwiki.com/images/a/a0/Rescue_Team_-_Startup_Cutscene.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Startup_Cutscene.png",
+      "credit": "Original game screenshot published on Mystery Dungeon Wiki; raw RGB555 shifted3 channels; 255px capture omits one displaycolumn."
+    },
+    {
+      "path": "sources/blue-title-public-preview.png",
+      "bytes": 22424,
+      "sha256": "e5c2d1abdad6c1a1de5aa050dd20348a34faa21f4e4f3009ae0f47548ef4ef6d",
+      "width": 256,
+      "height": 384,
+      "url": "https://cdn.mobygames.com/screenshots/15873909-pokemon-mystery-dungeon-blue-rescue-team-nintendo-ds-title-scree.png",
+      "sourcePage": "https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287133/",
+      "credit": "Original Blue title screenshot contributed by JRK; public displayed image downloaded with Browser; paywalled original-download feature was not accessed."
+    },
+    {
+      "path": "sources/Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+      "bytes": 12122,
+      "sha256": "0b91d5437ff548fe51e9f51ef92544277baa91ce893494f315b286dea40e35b3",
+      "width": 255,
+      "height": 192,
+      "url": "https://mysterydungeonwiki.com/images/4/45/Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+      "credit": "Original Blue North American English title screenshot;255px capture omits the leftmost black displaycolumn. Used only for unoccluded title sky and native prompt pixels."
+    },
+    {
+      "path": "sources/item-berry-indices.png",
+      "bytes": 201,
+      "sha256": "76a70c2e45a08f3b6e549d70a80edb0209845f54f8ee0a858f615b57586882e9",
+      "width": 16,
+      "height": 16,
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ornament/Item01/sprite_3.png",
+      "sourcePage": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ornament/Item01/sprite_3.png",
+      "credit": "Original Rescue Team 16x16 item pixels, preserved in the public pret comparative Red source archive. PNG indices exactly equal public dungeon/itempat sprite2 or6."
+    },
+    {
+      "path": "sources/item-poke-indices.png",
+      "bytes": 201,
+      "sha256": "e564f5995f374acb75d6246831ab102642e9bfd2f83ef19db911db251e8e039b",
+      "width": 16,
+      "height": 16,
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ornament/Item01/sprite_7.png",
+      "sourcePage": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ornament/Item01/sprite_7.png",
+      "credit": "Original Rescue Team 16x16 item pixels, preserved in the public pret comparative Red source archive. PNG indices exactly equal public dungeon/itempat sprite2 or6."
+    }
+  ],
+  "palettes": [
+    {
+      "id": 0,
+      "path": "sources/item-palette-0.pal",
+      "bytes": 202,
+      "sha256": "f7eb2849cea3aba41b2fbb7cb46ac82c245bfe1b17d278c6cbc88c33c8700c63",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/0.pal",
+      "sourcePage": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/0.pal"
+    },
+    {
+      "id": 3,
+      "path": "sources/item-palette-3.pal",
+      "bytes": 200,
+      "sha256": "65d3e8afcbf93580d438052f6361cc6e3d959e7f80a06cd824687f5c64fd9a69",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/3.pal",
+      "sourcePage": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/3.pal"
+    },
+    {
+      "id": 4,
+      "path": "sources/item-palette-4.pal",
+      "bytes": 205,
+      "sha256": "1d083da3479d41afe6b09917ab5ff396bfc3bea99c63d5221bf204b24638d66c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/4.pal",
+      "sourcePage": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/4.pal"
+    },
+    {
+      "id": 10,
+      "path": "sources/item-palette-10.pal",
+      "bytes": 209,
+      "sha256": "bb79dea3c5c21a498b335c8a1dd6020141f0f8dd91829a51212517fc47e0cad6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/10.pal",
+      "sourcePage": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/10.pal"
+    }
+  ],
+  "items": {
+    "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+    "parameterSource": {
+      "path": "data/item/item_data.json",
+      "sha256": "3b69628c8c61c567d600e47d6c52a9e649153ceb8e016cb0d0c35a6438d2d586"
+    },
+    "pixelSource": {
+      "path": "data/dungeon/itempat.inc",
+      "sha256": "2df000ca1ce8f50c0e4068e4607fd9c5a9a655ca2297420c3af7dbe5bf650bb8"
+    },
+    "paletteRule": {
+      "path": "src/bg_palette_buffer.c",
+      "function": "SetBGPaletteBufferColorRGB",
+      "brightness": 31,
+      "expression": "fiveBit=floor(channel*31/256); blue=(fiveBit<<3)|(fiveBit>>3)"
+    },
+    "records": [
+      {
+        "kind": "poke",
+        "itemId": 105,
+        "spriteId": 6,
+        "paletteId": 3,
+        "sourcePng": "item-poke-indices.png"
+      },
+      {
+        "kind": "oran-berry",
+        "itemId": 55,
+        "spriteId": 2,
+        "paletteId": 0,
+        "sourcePng": "item-berry-indices.png"
+      },
+      {
+        "kind": "pecha-berry",
+        "itemId": 66,
+        "spriteId": 2,
+        "paletteId": 4,
+        "sourcePng": "item-berry-indices.png"
+      },
+      {
+        "kind": "rawst-berry",
+        "itemId": 63,
+        "spriteId": 2,
+        "paletteId": 10,
+        "sourcePng": "item-berry-indices.png"
+      }
+    ]
+  }
+}

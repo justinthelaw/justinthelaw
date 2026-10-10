@@ -199,9 +199,10 @@ may pause animation and stub the external resume iframe; disclose that in the PR
 `/arcade/` is a separate page with a Home link and a single scrolling column of
 cards. Each card centers its preview with padding, places a short description
 below it, and puts Play at the bottom right. The first card launches the
-Pokémon development checkpoint and describes its implemented opening through
-Mt. Steel and escort jobs, with later chapters explicitly unfinished.
-Its picture is the existing P06 3D art study, not a gameplay capture. The other
+Pokémon development checkpoint and describes its opening through Tiny Woods
+and Caterpie's rescue, with later chapters outside the selected scope.
+Its picture is a native-resolution browser gameplay capture from Tiny Woods,
+displayed at its full 4:3 aspect ratio with crisp pixel scaling. The other
 two cards say "Coming soon" with lavender and apricot pixel characters.
 Placeholders animate; reduced-motion preferences keep them still.
 The sprites are original 32-pixel designs rendered with crisp SVG edges,

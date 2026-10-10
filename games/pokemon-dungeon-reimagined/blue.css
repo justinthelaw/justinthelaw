@@ -50,6 +50,9 @@ button:focus-visible, input:focus-visible, #screens:focus-visible { outline: 2px
 canvas { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; image-rendering: crisp-edges; image-rendering: pixelated; background: #000; }
 .screen-gap { height: 8px; background: #080c16; }
 #bottom-wrap { position: relative; touch-action: none; }
+.start-prompt { position: absolute; z-index: 4; inset: 0; display: grid; align-content: center; justify-items: center; gap: 8px; padding: 12px; background: #080c16e8; color: #ecf4ff; text-align: center; pointer-events: none; }
+.start-prompt button { min-width: 44px; min-height: 44px; padding: 10px 18px; border: 1px solid #bdd0e9; border-radius: 4px; background: #254566; pointer-events: auto; touch-action: manipulation; }
+.start-prompt p { margin: 0; max-width: 24ch; font-size: 12px; line-height: 1.4; }
 #choice-buttons { position: absolute; inset: 0; pointer-events: none; }
 .game-choice { position: absolute; padding: 0; border: 0; background: transparent; color: transparent; pointer-events: auto; overflow: hidden; forced-color-adjust: none; }
 .game-choice:focus-visible { outline-offset: -2px; outline: 2px solid #fff29a; background: #ffed8c18; }

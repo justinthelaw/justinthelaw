@@ -8,6 +8,7 @@ import { createSynth } from './audio-synth.js';
 /** @typedef {import('./audio-types.js').Cue} Cue */
 const LOOKAHEAD = .25;
 const PUMP_MS = 80;
+const RESUME_TIMEOUT_MS = 2000;
 const MAX_FRAME_EFFECTS = 64;
 const MAX_NEW_EFFECT_CUES = 4;
 /** Isolated browser presentation owner. Constructing/presenting never creates an
@@ -26,6 +27,8 @@ export function createAudioBus({ document: doc }) {
   /** @type {string|null} */ let selectedMusic = null;
   /** @type {Cue|null} */ let playingMusic = null;
   /** @type {Promise<boolean>|null} */ let pendingResume = null;
+  /** @type {((result:boolean)=>void)|null} */ let resolveResume = null;
+  let resumeTimer = 0;
   let pendingResumeGeneration = -1;
   let revision = -1, lastEvent = 0, generation = 0, timer = 0;
   let armed = false, disposed = false, origin = 0, loop = 0, noteIndex = 0, musicPosition = 0;
@@ -33,6 +36,16 @@ export function createAudioBus({ document: doc }) {
   function foreground() { return !doc.hidden && doc.hasFocus(); }
   function audible() { return !disposed && armed && foreground() && !preferences.muted && preferences.master > 0 && context?.state === 'running'; }
   function cancelPump() { if (timer) win?.clearTimeout(timer); timer = 0; }
+  /** Retire the current request before resolving its caller. A browser may keep
+   * resume() pending until a later gesture; it must not hold the UI gate open.
+   * @param {boolean} result
+   */
+  function settleResume(result) {
+    if (resumeTimer) win?.clearTimeout(resumeTimer);
+    const resolve = resolveResume;
+    resumeTimer = 0; resolveResume = null; pendingResume = null; pendingResumeGeneration = -1;
+    resolve?.(result);
+  }
   function rememberMusic() {
     if (!context || !playingMusic) return;
     const length = playingMusic.beats * 60 / playingMusic.bpm;
@@ -50,12 +63,12 @@ export function createAudioBus({ document: doc }) {
   /** All scheduled nodes are stopped/disconnected before any async suspension. */
   function pause() {
     if (disposed) return;
-    rememberMusic(); armed = false; generation++; silence(); suspendContext();
+    rememberMusic(); armed = false; generation++; settleResume(false); silence(); suspendContext();
     if (state !== 'unsupported' && state !== 'denied') state = 'paused';
   }
   /** @param {unknown} error */
   function deny(error) {
-    rememberMusic(); armed = false; generation++; silence(); suspendContext();
+    rememberMusic(); armed = false; generation++; settleResume(false); silence(); suspendContext();
     state = 'denied'; reason = error instanceof Error ? error.message.slice(0, 160) : 'Sound is unavailable. Try Enable sound again.';
   }
   function levels() {
@@ -89,7 +102,13 @@ export function createAudioBus({ document: doc }) {
       while (scheduled < 64) {
         const note = cue.notes[noteIndex];
         if (!note) {
-          if (!cue.loop) { musicPosition = cue.beats * seconds; playingMusic = null; return; }
+          if (!cue.loop) {
+            // Scheduling the final note does not finish its audible tail. Keep
+            // the transport position live until the cue's actual end so a
+            // pause in this interval can resume from the correct position.
+            if (context.currentTime < origin + loopSeconds) break;
+            musicPosition = loopSeconds; playingMusic = null; return;
+          }
           loop++; noteIndex = 0; continue;
         }
         const at = origin + (loop * cue.beats + note.beat) * seconds;
@@ -151,13 +170,19 @@ export function createAudioBus({ document: doc }) {
       }
       const current = context; if (!current) return Promise.resolve(false);
       armed = true; const ticket = ++generation;
-      if (current.state === 'running') { startTransport(); return Promise.resolve(true); }
-      const request = current.resume().then(() => {
-        if (disposed || context !== current || ticket !== generation) return false;
-        if (!audible()) { silence(); suspendContext(); return false; }
-        startTransport(); return true;
-      }).catch(error => { if (!disposed && context === current && ticket === generation) deny(error); return false; }).finally(() => { if (pendingResume === request) pendingResume = null; });
-      pendingResume = request; pendingResumeGeneration = ticket; return request;
+      if (current.state === 'running') { startTransport(); return Promise.resolve(state === 'ready' && audible()); }
+      const request = new Promise(resolve => { resolveResume = resolve; });
+      pendingResume = request; pendingResumeGeneration = ticket;
+      resumeTimer = win.setTimeout(() => {
+        if (!disposed && context === current && ticket === generation) deny(new Error('Sound did not start. Try Enable sound again.'));
+      }, RESUME_TIMEOUT_MS);
+      void current.resume().then(() => {
+        if (disposed || context !== current || ticket !== generation) return;
+        if (!audible()) { silence(); suspendContext(); settleResume(false); return; }
+        startTransport();
+        if (ticket === generation) settleResume(true);
+      }).catch(error => { if (!disposed && context === current && ticket === generation) deny(error); });
+      return request;
     } catch (error) { deny(error); return Promise.resolve(false); }
   }
   /** Binding owner explicitly begins a fresh unique epoch before presenting.
@@ -167,8 +192,9 @@ export function createAudioBus({ document: doc }) {
   function beginEpoch(next) {
     if (disposed || typeof next !== 'string' || !next || next.length > 160) return false;
     if (next === epoch) return true;
-    generation++; silence(); musicPosition = 0; epoch = next; revision = -1; lastEvent = 0; selectedMusic = null;
-    if (pendingResume) { armed = false; suspendContext(); state = 'paused'; }
+    const wasResuming = pendingResume !== null;
+    generation++; settleResume(false); silence(); musicPosition = 0; epoch = next; revision = -1; lastEvent = 0; selectedMusic = null;
+    if (wasResuming) { armed = false; suspendContext(); state = 'paused'; }
     else levels();
     return true;
   }
@@ -214,7 +240,7 @@ export function createAudioBus({ document: doc }) {
    */
   function dispose() {
     if (disposed) return;
-    disposed = true; armed = false; generation++; silence(); listeners.abort();
+    disposed = true; armed = false; generation++; settleResume(false); silence(); listeners.abort();
     if (graph) for (const node of Object.values(graph)) try { node.disconnect(); } catch { /* Already disconnected. */ }
     const retained = context; graph = null; synth = null; context = null; pendingResume = null;
     if (retained && retained.state !== 'closed') try { void retained.close().catch(() => {}); } catch { /* Already closed. */ }

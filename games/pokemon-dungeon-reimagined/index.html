@@ -25,6 +25,10 @@
           <div class="screen-gap" aria-hidden="true"></div>
           <div id="bottom-wrap">
             <canvas id="bottom-screen" width="256" height="192" aria-label="Adventure screen"></canvas>
+            <div id="start-prompt" class="start-prompt" aria-label="Start adventure">
+              <button id="start-game" type="button">Start game</button>
+              <p id="start-instruction" aria-live="polite">Press Z or Enter, or tap to begin.</p>
+            </div>
             <div id="choice-buttons" aria-label="Current choices"></div>
             <button id="advance" class="advance" type="button" aria-label="Continue dialogue" hidden></button>
             <div id="name-entry" class="sr-only" hidden>
@@ -63,7 +67,7 @@
           <p>Arrows: move · Z/A: confirm or attack · X/B: cancel or menu · Enter/Esc: menu</p>
           <p>Hold X/B + arrows: run · Hold C/Y + arrows: face · Shift: map · Space: wait · Q + Z/A: set move</p>
           <p>Numpad 1–9: eight directions · Hold R + arrows: diagonals only</p>
-          <p>Progress saves in this browser. This edition ends after Caterpie’s rescue. Art, dialogue, and music are original adaptations.</p>
+          <p>Progress saves in this browser. This adventure ends after Caterpie's rescue.</p>
           <button id="save-screen" type="button">Save game screen</button>
           <button id="help-close" type="button">Return to game</button>
         </aside>

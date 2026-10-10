@@ -8,6 +8,10 @@ and Caterpie's reunion with Butterfree. `src/blue/` owns the scoped 2D runtime;
 old v24 saves remain untouched. The historical constraints below apply only
 where compatible with this later instruction. Keep original asset provenance,
 the static-check/manual-gameplay boundary, and honest fidelity qualifications.
+The exact-visual request supersedes the historical authored-art-only constraint
+for publicly published individual Rescue Team images and image-data sources.
+Keep their pinned source URLs, hashes and attribution; do not claim a reuse grant
+from public availability. No ROM or copied commercial narrative is included.
 
 ## Current handoff — 2026-10-09
 

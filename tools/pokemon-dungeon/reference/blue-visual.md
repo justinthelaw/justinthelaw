@@ -1,148 +1,174 @@
 # Blue Rescue Team opening visual evidence
 
-Checked 2026-10-10 for the narrowed boot-to-Caterpie browser game. The source
-edition is the original Nintendo DS **Blue Rescue Team**, not the GBA or DX
-remake. The new renderer adopts its screen geometry and presentation structure;
-the local artwork, lettering, portraits, logo and cinematic remain original
-adaptations. They are not pixel-identical Nintendo assets.
+Checked 2026-10-10 for the browser game scoped from opening cinematic through
+Caterpie's rescue. The target is the original Nintendo DS Blue Rescue Team.
+Native Rescue Team image data now replaces the earlier authored approximations.
+Where the available source belongs to Red Rescue Team, its edition is recorded
+and Blue identity is asserted only for the pixels actually compared.
 
-## Directly observed references
+## Direct Blue evidence
 
-| Source | Observation | Implementation consequence |
-| --- | --- | --- |
-| [Nintendo manual, printed pp. 14–15, 24–25](https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf) | The quiz has a luminous cloud backdrop and blue framed question/choice panels. Naming uses a letter grid. Tiny Woods has pale ground, green edges and a one-line floor/level/HP HUD. The separate upper screen can show map, team or message log. | Preserve two displays, compact framed UI, keyboard naming and independently selectable upper information. |
-| [Original DS title screenshot](https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287133/) | 256×384 stacked capture. The upper 256×192 is black. The lower display contains the title above clouds and blue sea, with a white envelope near the upper edge. | Do not duplicate the logo onto both screens or add a wide cinematic crop. |
-| [Original DS dungeon screenshot](https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287134/) | Upper display has four lavender team rows; empty slots remain visible. Lower display has small overhead sprites, a compact HP/floor line, an outlined map overlay, and a blue framed message window. | Keep 1:1 logical pixels, nearest-neighbor scaling, tight HUD and 4-slot team layout. This image is a later dungeon, not a Tiny Woods layout reference. |
-| [Original DS dialogue screenshot](https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287137/) | Upper display shows an illustrated region map with a location label. Lower display has a large bottom message frame and yellow speaker name. | Preserve the two-screen distinction, speaker emphasis and location panel. This image is at Pelipper Post Office, not the opening clearing. |
-| [Original Blue Butterfree screenshot](https://www.serebii.net/mysteriousdungeon/eng-ds9.jpg) | Removing the capture's 8-pixel surround leaves a bottom message window at (16,136), 224×40 pixels, with three text rows and an external portrait. The entry meadow is bright green, with a stump above the characters and no tan path. | Use the native message geometry, a 208-pixel text area, an inline yellow speaker name, and independent portrait positions. |
-| [Blue Rescue Team original opening/title video](https://www.youtube.com/watch?v=PsqaxW-COlM) | The source identifies itself as the Blue opening sequence and title. Anonymous video retrieval returned a sign-in/bot challenge. No frame sequence or timing was inspected. | Do not claim frame timing, exact cinematic staging or animation parity from this link. |
+The eight original Blue press PNGs are retained in
+[`art/blue/native-reference`](../art/blue/native-reference/manifest.json), with
+original host URLs, source timestamps and SHA-256 hashes. The logical screens
+occupy (8,8,256,192) and (8,208,256,192) in those 272×408 captures.
 
-Screenshots and the manual were downloaded to temporary reference files only.
-No pixels or commercial script from these sources were copied into runtime
-assets. Screenshots are evidence of the game, not redistributable art licenses.
+| Evidence | Result |
+| --- | --- |
+| `ss02`: entry meadow | The native 432×360 map cropped at (87,80) matches the background; independent actor/template comparisons establish the field viewport center (129,108). |
+| `ss02`: character pixels | Selected native Charmander, Pikachu and Butterfree poses match every opaque pixel after DS palette expansion. Their AX anchors are (145,116),(113,116),(129,92). |
+| `ss02` and `ss04`: portraits | Butterfree normal at (64,24) and Pikachu inspired at (24,80) each match all 1,600 pixels of their 40×40 image. |
+| `ss02`: font and windows | 265 native glyph/shadow pixels, 1,796 dialogue-border pixels and 692 portrait-border pixels match exactly. The source font resolves Rescue Team's 0, 1 and colon variants. |
+| `ss01`: dungeon actors | With the source dungeon brightness conversion, Pikachu pose18 matches 314 opaque pixels at AX anchor(128,108), and Charmander's corresponding image matches 237 pixels. |
+| `ss01`: HUD and team marker | 256 fixed-palette HUD pixels and 50 exposed Pikachu team-marker pixels match. Dynamic palette index 8 brightness is explicitly excluded from the HUD assertion. |
 
-## Runtime drawing contract
+These checks compare static image data; they do not execute the game. Durable
+results live in `sprite-pixel-corroboration.json`, `dungeon-sprite-pixel-corroboration.json`,
+`portrait-pixel-corroboration.json`, and `ui-pixel-corroboration.json` beside the
+reference images. The native export command repeats the selected exact checks.
+The larger sprite comparison is also preserved as a reference report; it does
+not establish every pose, species or animation timing.
 
-- Two independent 256×192 logical Canvas 2D displays; drawing uses integer
-  positions and disables image smoothing. The host owns responsive sizing.
-- Dungeon grid: 24 logical pixels per cell, centered camera, eight sprite
-  directions and animation interpolation that never advances the simulation.
-- Menus and dialogue use a local original bitmap alphabet. Choice hit bounds
-  are returned in lower-screen coordinates for pointer input and an accessible
-  DOM mirror. The host uses `paginateDialogue` to retain all text in three-row,
-  208-pixel pages. The normal frame is (16,136,224,40); portraits sit outside it.
-  A legacy longer page expands the window instead of discarding text.
-- Upper dungeon display supports map, team and message log. Pre-game upper
-  display stays black. Opening dream dialogue can explicitly black out both
-  backgrounds.
-- Original terrain uses a separate deterministic decoration hash. It never
-  consumes the mechanics RNG. No runtime CDN, web font or remote image exists.
-- Species PNGs are fetched individually. There are 23 scoped species and 8
-  clips per species; each decoded atlas occupies 1 MiB. A renderer retains at
-  most 12 atlases after each scene load and disposes bitmaps and pending fetches.
-- A separate 288×192 portrait sheet contains 23 original 40×40 face crops from
-  the authored 96-pixel source fronts. It adds 216 KiB of decoded memory and
-  keeps face detail separate from the reduced world sprites.
+Additional presentation references:
+
+- [Nintendo's Blue manual](https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf), printed pp. 14–15 and 24–25: cloud-backed quiz, naming grid, two displays and dungeon HUD.
+- [Original DS title capture](https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287133/): black upper display and native lower-screen title. The scenery exporter records the exact image input and its complementary frame patch.
+- [Original DS dungeon capture](https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287134/): four team rows, including empty slots, and compact lower-screen HUD. This is a later dungeon, not evidence of a Tiny Woods layout.
+- [Original Blue opening video](https://www.youtube.com/watch?v=PsqaxW-COlM): anonymous retrieval encountered a sign-in/bot challenge. No claim of frame comparison or timing is based on this video.
+
+## Pixel and layout contract
+
+Both Canvas2D displays are 256×192 logical pixels. Drawing uses native dimensions,
+integer destination positions and nearest-neighbor scaling. The dungeon cell is
+24×24 pixels. Native sprites keep every source direction, pose, flip, frame
+length, composition offset and independent shadow offset.
+
+Dialogue uses a 224×40 native type0 window at (16,136). Its 208-pixel content area
+starts at x24, and source text begins at local (4,4): absolute(28,140). Line origins
+are y140,151,162. The available width after the four-pixel indentation is 204.
+The font uses 11 drawn rows and source proportional advances, including a
+four-pixel space. There is no extra inter-character or trailing-pixel deduction.
+The speaker name is yellow; the following colon and body text are white.
+Automatic pagination preserves browser-authored text in three-row pages. The
+original game used explicit script line breaks, so matching page breaks are not
+claimed for paraphrased dialogue.
+
+Portraits are native 40×40 images. Their visible four-pixel source border gives
+a 48×48 frame. Hero placement is (24,80), partner is flipped at (192,80), upper-left
+is (64,24), and upper-right is flipped at (152,24). Portraits receive no world-camera
+offset. The emotion mapping is documented separately in
+[`blue-portrait-mapping.md`](blue-portrait-mapping.md).
+
+Native male/female window palettes use the source blue/pink border banks. The
+window background is the source default blue. Source UI white is #fbfbfb and
+speaker yellow is #fbfb00 under the corroborated DS channel expansion.
+
+The battle hero anchor is (128,108), with the source world position at
+(tileX×24+12, tileY×24+16). Team members use the gold/brown native marker; enemies
+and field actors use black native shadow silhouettes. Native AX frame offsets
+move the body separately from the marker. In particular, Charmander's idle 7
+animation includes an eight-frame y=-3 pose, explaining the raised body in ss01
+without inventing an additional walking bounce.
+
+The lower HUD is built from the original 8×8 tiles. Its HP bar starts at x144 and
+uses one pixel per maximum HP up to 96, then scales proportionally. Floating
+numbers use original hp5font image data, six-pixel advances and separate source
+damage/healing palettes. Their comparative source duration is 60 frames with a
+46/256-pixel rise per frame, starting 24 pixels above the actor's shadow anchor.
 
 ## Source-derived opening sequence
 
-The pinned [comparative Red source](https://github.com/pret/pmd-red/tree/013475aa04f5be3191e5527c186d9bfceae7cae0)
-provides the original ordering and movement coordinates. It is not proof of
-identical Blue timing. The `DEMO_03` owner in
-[`ground_event_data.h`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_event_data.h)
-orders the post-office interior, exterior, aerial town, and animated title.
+The pinned [public Red source](https://github.com/pret/pmd-red/tree/013475aa04f5be3191e5527c186d9bfceae7cae0)
+provides ordering, waypoints and native image tables. It is comparative evidence
+where a corresponding Blue frame or driver behavior has not been verified.
+[`DEMO_03`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_event_data.h)
+orders these stages:
 
-| Stage | Source ownership | Presentation |
+| Stage | Source owner | Presentation |
 | --- | --- | --- |
-| Post office interior | [`t01p04` group 5](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_t01p04_station.h) | A random starter visits two Pelipper at their straw perches. One Pelipper waits, flaps, rises, and exits while the camera pans upward. |
-| Post office exterior | [`t01p03` group 29](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_t01p03_station.h) | Pelipper leaves the open-beaked building, accelerating northeast. |
-| Aerial town | [`s03` group 1](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_s03_station.h) | Northward camera pan; distant Pelipper curves right, then sweeps left toward the viewer at increasing sizes and drops a letter. A 60-frame white fade precedes the title. Blue stays in daylight. |
-| Animated title | [`s02` group 3](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_s02_station.h) | Letter descends; a small Pelipper crosses west; after a 32-frame pause a large Pelipper sweeps northeast and catches the letter. The prompt appears later and blinks in 10-frame intervals. |
+| Post office interior | [`t01p04`, group 5](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_t01p04_station.h) | A random eligible starter visits two Pelipper. The carrier waits, flaps, rises and leaves as the camera moves upward. |
+| Post office exterior | [`t01p03`, group 29](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_t01p03_station.h) | Pelipper leaves the open-beaked building and accelerates northeast. |
+| Aerial town | [`s03`, group 1](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_s03_station.h) | The camera pans north; Pelipper curves right, grows as it sweeps toward the viewer and drops a letter. A 60-frame white fade precedes the title. |
+| Animated title | [`s02`, group 3](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_s02_station.h) | A descending letter, a small westbound Pelipper, then the native large Pelipper catching the letter. The prompt appears later and blinks in 10-frame intervals. |
 
-The movement reconstruction uses nominal 60 Hz script frames, preserving
-fixed-point waypoint speeds, explicit pauses, and the 8-pixel ground-coordinate
-grid. The authored upper screen remains black. Nominal interior/exterior/aerial
-movement and fade windows are 497/115/407 frames. The opening then holds white
-until the 19-second presentation boundary. Native `MUS_INTRO` runs continuously
-across the cuts and waits for its nonlooping end; its 876 music ticks and tempo
-changes yield about 19 seconds, but GBA driver completion is not DS timing proof.
-The animated title's nominal cue and prompt boundaries are 8.75 and 10.75 seconds.
-An explicit user skip can select the settled title instead.
+The reconstruction uses nominal 60Hz script frames and the source fixed-point
+waypoint speeds. Interior/exterior/aerial movement and fade windows are
+497/115/407 frames. The opening holds white until a qualified 19-second boundary.
+Native MUS_INTRO runs continuously across the cuts and waits for its nonlooping
+end; its GBA driver duration is not proof of DS completion timing. Animated-title
+cue and prompt boundaries are nominally 8.75 and 10.75 seconds. An explicit skip
+selects the settled title. The commercial music is not imported.
+
+Native Titleop1/Titleop2 composition and animation data supplies the large bird
+and letter. The smaller carrier uses the native Pelipper animation selected by
+the ground script. Scenery, tile assembly, map coordinates, title reconstruction
+and the aura background have their own pinned input inventory in
+`art/blue/native-scenery` and runtime `assets/blue/scenery/manifest.json`.
 
 ## Field staging
 
-The entry and reunion use the fixed camera and actor coordinates from
-[`d01p01`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h).
-The hero and partner stand at lower-screen positions (112,104) and (144,104).
-Butterfree follows the source's eight approach waypoints from the left edge to
-(128,80); the worried turning cycle uses the source's four 30-frame directions.
-At the reunion Caterpie and Butterfree stand at (112,76) and (144,76). They leave
-east after the farewell. These are nominal script-derived movements; the browser
-story has original wording and input pacing rather than exact script timing.
-
-The end clearing uses
+Entry/reunion use comparative
+[`d01p01`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h)
+waypoints with the directly corroborated field-camera offset. The entry hero and
+partner settle at (113,116)/(145,116), and Butterfree at (129,92). Butterfree follows
+the original eight approach segments. Its worried turning cycle uses four
+30-frame directions. The ending follows
 [`d01p02`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p02_station.h):
-Caterpie starts at (128,76), facing north. The rescuers enter from below the
-display at y=204 and walk 88 pixels north before the conversation. Named story
-beats drive wake-up, surprise and thankful reactions. Motion remains visual
-only and never changes story or dungeon state.
+Caterpie waits facing north while the rescuers enter from below. Reunion reward
+approach and eastward departure are visual state separate from game mechanics.
 
-The comparative source's
-[`portrait_placements.h`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/portrait_placements.h)
-plus the DS display offset places the hero portrait at (24,80), the flipped
-partner at (192,80), and Caterpie/arrival Butterfree at (64,24). Reunion
-Butterfree uses the flipped upper-right placement at (152,24).
+The browser narrative combines some original beats and uses newly written
+dialogue, browser input pacing and some reconstructed reaction timing. Native images and source
+waypoints do not establish an exact commercial script or complete frame parity.
 
-The interior composition was checked against the original
-[startup capture](https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Startup_Cutscene.png)
-and [interior image](https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Pelipper_Post_Office_interior.png).
-The exterior was checked against a
-[Blue press screenshot](https://images.nintendolife.com/screenshots/4996/900x.jpg).
-All runtime scene paintings and the flight sheet were authored from geometric
-primitives; these reference images are not paint, tracing, or sampling inputs.
+## Offline assets, memory and provenance
 
-## Asset provenance and limitations
+`art/blue/export.mjs` produces 23 native species atlases, 213 native 40×40 portrait
+emotions, two title ornaments and a compact synchronous native UI data module.
+The original Red sprite PNG fragments, palettes and source AX tables are pinned
+in offline archives. The portrait PNGs have Rescue Team-specific wiki names,
+per-image URLs, timestamps and hashes. No Explorers glyph or sprite is silently
+substituted for a Rescue Team asset.
 
-`art/blue/export.mjs` reads the already-authored original character PNGs from
-the authoring `art/roster` and `art/production` trees, checks their recorded SHA-256 values,
-and reduces 96-pixel cells to 32-pixel cells with deterministic nearest-neighbor
-sampling. It records every original clip hash in `assets/blue/manifest.json`.
-The 23 encoded character atlases total 581,789 bytes. Four original cinematic
-paintings add 27,573 bytes and the portrait sheet adds 9,748 bytes, for 619,110
-bytes of PNG art. Existing 3D runtime asset bundles
-are not requested by this renderer.
+Field and dungeon sprite palettes occupy two halves of each atlas. The latter
+uses floor(sourceChannel×31/256) before DS bit expansion; this is separately
+corroborated against ss01. The loader retains at most 12 species atlases and 8 MiB
+of decoded species pixels, with abortable local fetches and disposed ImageBitmaps.
+The largest dual-palette species image is 929,792 decoded bytes; the largest 12
+fit within the species budget. The portrait atlas adds 1,382,400 decoded bytes.
+Generated text tints have a 16-entry cache; UI tile caches have a fixed small
+palette inventory and explicit disposal hooks.
 
-Generate and check these PNGs with the repository's required Node 24.21.0
-toolchain. Its zlib 1.3.2.1 encoder produced different compressed bytes from the
-local Node 26.11.0/zlib 1.2.12 combination. The corrected Node 24 export passed
-`--check`; all 28 runtime PNGs had identical decoded RGBA bytes to the frozen
-review snapshot, while 27 compressed files changed. Source hashes were unchanged.
+Generate and check with the repository's required Node 24.21.0 toolchain:
 
-[PMDCollab SpriteCollab](https://github.com/PMDCollab/SpriteCollab) was inspected
-as a reference route, but not imported. Its README distinguishes original
-Chunsoft art from community submissions. The submission policy grants
-noncommercial credited reuse of submitted work; it does not establish a
-rights-holder license for the original commercial sprites. Likewise,
-[pret/pmd-red](https://github.com/pret/pmd-red) is comparative Red version
-research, not proof of Blue rendering or a commercial-asset license.
+```sh
+node tools/pokemon-dungeon/art/blue/export.mjs
+node tools/pokemon-dungeon/art/blue/export.mjs --check
+```
 
-Still unverified: exact Blue boot/cinematic frame timings, exact cloud/ripple timing,
-font metrics, palette values, title logo geometry, original portraits, all
-sprite-frame timings, exact Blue clearing tiles and camera choreography, and browser/device
-visual acceptance. The new terrain, world map and cinematic are newly authored.
-Do not label this renderer an exact replica, or equate static checks with a
-human comparison against the Nintendo DS game.
+The non-mutating check parses source byte tables and image data, hashes output
+bytes, and compares selected native pixels. It does not import a runtime game
+module or run a playthrough. Node 26's different zlib build produces different
+PNG bytes, so it must not be used to regenerate these committed outputs.
 
-## Visual acceptance checklist
+Source manifests and asset NOTICE files record original rights-holder
+attribution. Public availability is not described as a publisher reuse grant.
+No ROM, copied commercial narrative, or commercial music is included in this
+image pipeline. There are no runtime CDN/font/image dependencies. Historical
+original scene paintings remain recoverable but all four are excluded from the
+release manifest, which now selects native scenery.
 
-- Verify the title upper display is black and lower display is exactly 4:3.
-- Verify every available hero and partner fits a 24-pixel dungeon cell with
-  recognisable front, back, side and diagonal views.
-- Verify all name keys, menu rows, speaker labels and three-line portrait
-  messages remain within their frames at integer and fractional CSS sizes.
-- Verify darkness, minimap discovery, stairs, berries, money and enemy positions
-  match the selected state; the renderer must not expose undiscovered entities.
-- Verify one turn animates once, pausing/returning does not jump state, and
-  reduced motion holds visual poses without delaying input.
-- Compare captured scenes against a lawful original Blue playthrough before
-  making stronger claims about visual fidelity.
+## Remaining visual acceptance
+
+Static pixel proofs cover the explicitly recorded samples, not the full game.
+Exact Blue driver timing, every pose/species, all aura palette animation,
+comprehensive menu geometry, story pacing, remaining reaction effects and
+browser/device presentation still require direct review. The upper team panel
+also needs a native-layout comparison independent of its now-correct font.
+
+Human review should compare title, quiz, naming, all starter/partner sizes,
+three-line dialogue, Tiny Woods battle HUD, visibility/minimap and Caterpie's
+rescue at native resolution. It should check integer/fractional CSS scaling,
+reduced motion, pause/resume and one-turn animation. Do not call the complete
+browser game an exact replica solely because selected pixels or static checks
+pass.

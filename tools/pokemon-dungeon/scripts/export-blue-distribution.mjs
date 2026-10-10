@@ -40,14 +40,34 @@ files.add('assets/blue/manifest.json'); files.add('assets/blue/NOTICE.txt');
 for (const record of spriteManifest.records) {
   if (!/^pokemon-\d{3}\.png$/.test(record.path) || record.path !== `${record.speciesId}.png`) throw new Error('Invalid opening sprite path');
   files.add(`assets/blue/${record.path}`);
+  if (record.metadataPath !== undefined) {
+    if (record.metadataPath !== `${record.speciesId}.json`) throw new Error('Invalid opening sprite metadata path');
+    files.add(`assets/blue/${record.metadataPath}`);
+  }
 }
 for (const scene of spriteManifest.scenes ?? []) {
-  if (!/^[a-z][a-z-]+\.png$/.test(scene.path) || scene.path !== `${scene.id}.png`) throw new Error('Invalid opening scene path');
+  if (!/^[a-z][a-z0-9-]+\.png$/.test(scene.path) || scene.path !== `${scene.id}.png`) throw new Error('Invalid opening scene path');
   files.add(`assets/blue/${scene.path}`);
+}
+for (const ornament of spriteManifest.ornaments ?? []) {
+  if (!/^[a-z][a-z0-9-]+$/.test(ornament.id) || ornament.path !== `${ornament.id}.png` || ornament.metadataPath !== `${ornament.id}.json`) throw new Error('Invalid opening ornament path');
+  files.add(`assets/blue/${ornament.path}`);
+  files.add(`assets/blue/${ornament.metadataPath}`);
 }
 if (spriteManifest.portraitAtlas) {
   if (spriteManifest.portraitAtlas.path !== 'portraits.png') throw new Error('Invalid portrait atlas path');
   files.add('assets/blue/portraits.png');
+  if (spriteManifest.portraitAtlas.metadataPath !== undefined) {
+    if (spriteManifest.portraitAtlas.metadataPath !== 'portraits.json') throw new Error('Invalid portrait metadata path');
+    files.add('assets/blue/portraits.json');
+  }
+}
+const sceneryManifest = JSON.parse(await readFile(path.join(game, 'assets/blue/scenery/manifest.json'), 'utf8'));
+if (sceneryManifest.schemaVersion !== 2 || sceneryManifest.profile !== 'blue-native-scenery-v2' || !Array.isArray(sceneryManifest.records) || sceneryManifest.records.length > 32) throw new Error('Invalid opening scenery manifest');
+files.add('assets/blue/scenery/manifest.json');
+for (const record of sceneryManifest.records) {
+  if (!/^[a-z][a-z0-9-]+\.png$/.test(record.path) || record.path !== `${record.id}.png`) throw new Error('Invalid opening scenery path');
+  files.add(`assets/blue/scenery/${record.path}`);
 }
 const ordered = [...files].sort();
 let totalBytes = 0;

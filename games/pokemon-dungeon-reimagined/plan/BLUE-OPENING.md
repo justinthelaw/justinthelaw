@@ -28,11 +28,14 @@ storage keys; this opening has a separate versioned save namespace.
 | Delivery | Static export containing only the scoped runtime resources; signed commits to the existing PR branch |
 
 Original-game sources and existing factual catalogs establish rules independently
-of presentation assets. The repository's character art, score and dialogue are
-original adaptations. They cannot establish exact commercial-asset, script or
-soundtrack parity. Record these and any unverified Blue-specific behavior as
-open fidelity gaps; do not describe approximations or static checks as perfect
-replication.
+of presentation assets. The selected runtime now uses published original Rescue
+Team sprites, portraits, scenery, font and UI tiles with pinned provenance and
+explicit Blue pixel comparisons. The current exact-visual instruction supersedes
+the historical authored-art-only preference for these public image/data sources.
+No ROM is included, and source attribution is not a publisher reuse license.
+Dialogue and score remain authored adaptations. Record script, soundtrack and
+unverified Blue behavior as open fidelity gaps; sampled pixel matches and static
+checks do not establish perfect replication.
 
 Keep historical implementation/evidence recoverable. Do not alter old save
 schemas or overwrite old browser saves. Existing static audits remain applicable
