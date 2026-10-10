@@ -1,5 +1,14 @@
 # Pokémon Dungeon Reimagined
 
+## Current scope — 2026-10-10
+
+Follow [BLUE-OPENING.md](plan/BLUE-OPENING.md). Justin explicitly replaced the
+full campaign and 3D direction with the original DS opening through Tiny Woods
+and Caterpie's reunion with Butterfree. `src/blue/` owns the scoped 2D runtime;
+old v24 saves remain untouched. The historical constraints below apply only
+where compatible with this later instruction. Keep original asset provenance,
+the static-check/manual-gameplay boundary, and honest fidelity qualifications.
+
 ## Current handoff — 2026-10-09
 
 Resume `plan/CODEX-HANDOFF-2026-10-09.md` on draft PR #397, branch

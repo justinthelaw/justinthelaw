@@ -2,6 +2,16 @@
 
 Instructions for AI coding agents operating in this repository.
 
+## Current Pokémon task — 2026-10-10
+
+Justin has replaced the historical 3D/full-campaign goal with the original DS
+opening through Tiny Woods and Caterpie's rescue only, on PR #397. Follow
+`games/pokemon-dungeon-reimagined/plan/BLUE-OPENING.md` before the historical
+requirements below. The selected runtime uses two 256 × 192 Canvas 2D displays
+and a separate save namespace. Preserve existing saves and evidence; later
+campaign resources are excluded from the scoped distribution. Exact asset and
+behavior parity requires evidence, not a completion claim based on code volume.
+
 ## Project Overview
 
 Next.js static site for GitHub Pages with an in-browser AI chatbot powered by

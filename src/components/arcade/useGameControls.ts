@@ -110,20 +110,26 @@ function focusFrame(iframeRef: RefObject<HTMLIFrameElement | null>, target: Fram
   }
 }
 
-function recipientFor(iframe: HTMLIFrameElement | null, keys: readonly GameKey[]): Recipient | null {
+function acceptsKeys(target: Element, keys: readonly GameKey[]): boolean {
+  if (!isTyping(target)) return true;
+  // A form can opt its focused editable text field into submit only.
+  // Movement, B, Select/Menu and every other typing surface stay protected.
+  return keys.length === 1 && (keys[0]?.code === GAME_KEYS.a.code || keys[0]?.code === GAME_KEYS.start.code)
+    && target.matches('input[type="text"][data-game-controls-confirm="submit"]:not(:disabled):not([readonly])')
+    && !target.closest("[inert], [hidden]");
+}
+
+function recipientFor(iframe: HTMLIFrameElement | null, keys: readonly GameKey[], remembered: Recipient | null): Recipient | null {
   try {
     const frame = frameTargetFor(iframe);
     if (!frame || isTyping(document.activeElement)) return null;
     const frameDocument = frame.document;
-    const target = frameDocument.activeElement ?? frameDocument.body;
-    if (isTyping(target)) {
-      // A form can opt its focused editable text field into submit only.
-      // Movement, B, Select/Menu and every other typing surface stay protected.
-      const confirmsInput = keys.length === 1 && (keys[0]?.code === GAME_KEYS.a.code || keys[0]?.code === GAME_KEYS.start.code)
-        && target.matches('input[type="text"][data-game-controls-confirm="submit"]:not(:disabled):not([readonly])')
-        && !target.closest("[inert], [hidden]");
-      if (!confirmsInput) return null;
-    }
+    const active = frameDocument.activeElement ?? frameDocument.body;
+    // Some browsers report body after focus moves to the website toolbar.
+    // Retain the actual child recipient so this cannot bypass typing guards.
+    const target = !frameDocument.hasFocus() && active === frameDocument.body
+      && remembered && isCurrentFrame(iframe, remembered) ? remembered.target : active;
+    if (!target.isConnected || target.ownerDocument !== frameDocument || !acceptsKeys(target, keys)) return null;
     return { ...frame, target };
   } catch {
     // An external frame cannot receive this same-origin adapter.
@@ -151,12 +157,27 @@ function emitKey(held: HeldKey, type: "keydown" | "keyup", shiftKey: boolean): v
   }
 }
 
-function subscribeFrame(iframe: HTMLIFrameElement | null, clearAll: () => void, onKeyUp: (event: KeyboardEvent) => void): () => void {
+function subscribeFrame(iframe: HTMLIFrameElement | null, clearAll: () => void, onKeyUp: (event: KeyboardEvent) => void, onFocus: (recipient: Recipient) => void): () => void {
   try {
     const frameDocument = iframe?.contentDocument;
     const frameWindow = frameDocument?.defaultView;
-    if (!frameDocument || !frameWindow) return () => {};
+    if (!iframe || !frameDocument || !frameWindow) return () => {};
+    let attached = true;
+    const rememberFocus = (target: Element): void => { onFocus({ iframe, document: frameDocument, target }); };
+    const onFocusIn = (event: FocusEvent): void => {
+      if (event.target instanceof frameWindow.Element) rememberFocus(event.target);
+    };
+    const onFocusOut = (): void => {
+      // Preserve the recipient when focus leaves the iframe, but forget an
+      // explicitly blurred input while its own document remains focused.
+      queueMicrotask(() => {
+        if (attached && frameDocument.hasFocus()) rememberFocus(frameDocument.activeElement ?? frameDocument.body);
+      });
+    };
+    rememberFocus(frameDocument.activeElement ?? frameDocument.body);
     const onVisibility = (): void => { if (frameDocument.hidden) clearAll(); };
+    frameDocument.addEventListener("focusin", onFocusIn, true);
+    frameDocument.addEventListener("focusout", onFocusOut, true);
     frameDocument.addEventListener("pointerdown", noteTouch, true);
     frameDocument.addEventListener("keyup", onKeyUp, true);
     frameDocument.addEventListener("visibilitychange", onVisibility);
@@ -164,6 +185,9 @@ function subscribeFrame(iframe: HTMLIFrameElement | null, clearAll: () => void, 
     frameWindow.addEventListener("pagehide", clearAll);
     frameWindow.addEventListener("beforeunload", clearAll);
     return () => {
+      attached = false;
+      frameDocument.removeEventListener("focusin", onFocusIn, true);
+      frameDocument.removeEventListener("focusout", onFocusOut, true);
       frameDocument.removeEventListener("pointerdown", noteTouch, true);
       frameDocument.removeEventListener("keyup", onKeyUp, true);
       frameDocument.removeEventListener("visibilitychange", onVisibility);
@@ -186,6 +210,7 @@ export function useGameControls(iframeRef: RefObject<HTMLIFrameElement | null>) 
   const keyboardActivationRef = useRef<KeyboardActivation | null>(null);
   const hostActivationKeysRef = useRef(new Set<string>());
   const interruptionRef = useRef(0);
+  const frameRecipientRef = useRef<Recipient | null>(null);
 
   const cancelKeyboard = useCallback((): void => {
     keyboardActivationRef.current = null;
@@ -229,14 +254,22 @@ export function useGameControls(iframeRef: RefObject<HTMLIFrameElement | null>) 
 
   const pressKeys = useCallback((keys: readonly GameKey[], recipient: Recipient | null): boolean => {
     if (hostActivationKeysRef.current.size > 0 || !recipient || !isCurrentFrame(iframeRef.current, recipient)
-      || !recipient.target.isConnected || recipient.document.activeElement !== recipient.target
+      || !recipient.target.isConnected
       || isTyping(document.activeElement)) return false;
     // Re-admit the same recipient: editable opt-ins can change while a host
     // activation key is held, and focus restoration must not bypass protection.
-    if (recipientFor(iframeRef.current, keys)?.target !== recipient.target) return false;
-    if (!focusFrame(iframeRef, recipient)
-      || recipient.document.activeElement !== recipient.target
-      || recipientFor(iframeRef.current, keys)?.target !== recipient.target) return false;
+    if (recipientFor(iframeRef.current, keys, frameRecipientRef.current)?.target !== recipient.target) return false;
+    if (!focusFrame(iframeRef, recipient) || !acceptsKeys(recipient.target, keys)) return false;
+    if (recipient.document.activeElement !== recipient.target) {
+      // Restore only a browser-cleared recipient, never replace a new focus
+      // target selected by a child focus handler.
+      if (recipient.document.activeElement !== recipient.document.body) return false;
+      const FrameHTMLElement = recipient.document.defaultView?.HTMLElement;
+      if (!FrameHTMLElement || !(recipient.target instanceof FrameHTMLElement)) return false;
+      recipient.target.focus({ preventScroll: true });
+    }
+    if (recipient.document.activeElement !== recipient.target
+      || recipientFor(iframeRef.current, keys, frameRecipientRef.current)?.target !== recipient.target) return false;
     const interruption = interruptionRef.current;
     for (const key of keys) {
       const held = heldKeysRef.current.get(key.code);
@@ -255,7 +288,7 @@ export function useGameControls(iframeRef: RefObject<HTMLIFrameElement | null>) 
   const pressPointer = useCallback((pointerId: number, element: HTMLButtonElement, keys: readonly GameKey[], interruptsMovement: boolean): void => {
     cancelKeyboard();
     releasePointer(pointerId);
-    const recipient = recipientFor(iframeRef.current, keys);
+    const recipient = recipientFor(iframeRef.current, keys, frameRecipientRef.current);
     if (!recipient) return;
     if (interruptsMovement) clearMovement();
     if (!pressKeys(keys, recipient)) return;
@@ -275,7 +308,7 @@ export function useGameControls(iframeRef: RefObject<HTMLIFrameElement | null>) 
 
   const pulse = useCallback((keys: readonly GameKey[], interruptsMovement: boolean): void => {
     cancelKeyboard();
-    pulseRecipient(keys, interruptsMovement, recipientFor(iframeRef.current, keys));
+    pulseRecipient(keys, interruptsMovement, recipientFor(iframeRef.current, keys, frameRecipientRef.current));
   }, [cancelKeyboard, iframeRef, pulseRecipient]);
 
   const changeVisibility = useCallback((): void => {
@@ -291,7 +324,7 @@ export function useGameControls(iframeRef: RefObject<HTMLIFrameElement | null>) 
 
   const beginKeyboard = useCallback((key: string, element: HTMLButtonElement, keys: readonly GameKey[], interruptsMovement: boolean): void => {
     hostActivationKeysRef.current.add(key);
-    const recipient = recipientFor(iframeRef.current, keys);
+    const recipient = recipientFor(iframeRef.current, keys, frameRecipientRef.current);
     keyboardActivationRef.current = recipient
       ? { kind: "control", key, element, keys, interruptsMovement, recipient }
       : null;
@@ -328,6 +361,30 @@ export function useGameControls(iframeRef: RefObject<HTMLIFrameElement | null>) 
 
   useEffect(() => {
     const iframe = iframeRef.current;
+    const publishVisibility = (): void => {
+      const frame = frameTargetFor(iframe);
+      if (!frame || !isCurrentFrame(iframeRef.current, frame)) return;
+      try {
+        const frameWindow = frame.document.defaultView;
+        const root = frame.document.documentElement;
+        const value = String(visible);
+        if (!frameWindow || root.dataset.arcadeControlsVisible === value) return;
+        // The attribute supports games that start after load; the event keeps
+        // an already running game aligned with manual overlay toggles.
+        root.dataset.arcadeControlsVisible = value;
+        if (!isCurrentFrame(iframeRef.current, frame)) return;
+        frameWindow.dispatchEvent(new frameWindow.CustomEvent("arcade-controls-visibility", { detail: { visible } }));
+      } catch {
+        // Navigation or an external frame can prevent same-origin publication.
+      }
+    };
+    publishVisibility();
+    iframe?.addEventListener("load", publishVisibility);
+    return () => { iframe?.removeEventListener("load", publishVisibility); };
+  }, [iframeRef, visible]);
+
+  useEffect(() => {
+    const iframe = iframeRef.current;
     let detachFrame = (): void => {};
     const onVisibilityChange = (): void => {
       if (document.hidden) {
@@ -349,20 +406,29 @@ export function useGameControls(iframeRef: RefObject<HTMLIFrameElement | null>) 
       hostActivationKeysRef.current.delete(event.key);
       cancelKeyboard();
     };
-    const attachFrame = (): void => {
+    const onFrameFocus = (recipient: Recipient): void => {
+      if (!isCurrentFrame(iframeRef.current, recipient)) return;
+      if (frameRecipientRef.current?.target !== recipient.target) clearAll();
+      frameRecipientRef.current = recipient;
+    };
+    const invalidateFrame = (): void => {
+      frameRecipientRef.current = null;
       clearAll();
+    };
+    const attachFrame = (): void => {
+      invalidateFrame();
       detachFrame();
-      detachFrame = subscribeFrame(iframe, clearAll, onFrameKeyUp);
+      detachFrame = subscribeFrame(iframe, clearAll, onFrameKeyUp, onFrameFocus);
     };
     attachFrame();
     iframe?.addEventListener("load", attachFrame);
-    const navigationObserver = new MutationObserver(clearAll);
+    const navigationObserver = new MutationObserver(invalidateFrame);
     if (iframe) navigationObserver.observe(iframe, { attributes: true, attributeFilter: ["src", "srcdoc"] });
     window.addEventListener("blur", onWindowBlur);
     document.addEventListener("keyup", onHostKeyUp, true);
     document.addEventListener("visibilitychange", onVisibilityChange);
     return () => {
-      clearAll();
+      invalidateFrame();
       detachFrame();
       navigationObserver.disconnect();
       iframe?.removeEventListener("load", attachFrame);

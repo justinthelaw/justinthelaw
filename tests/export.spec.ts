@@ -328,7 +328,7 @@ test("should reject malformed absolute request targets without stopping the serv
 });
 
 test("should load the arcade picture and fixture player under the exported base path", async ({ page }) => {
-  const gameTitle = "Pokemon Mystery Dungeon Blue Rescue Team - Reimagined";
+  const gameTitle = "Pokémon Mystery Dungeon: Blue Rescue Team";
   let requestedEntryPoint = "";
   // Exercise exported website integration without running real game source.
   await page.route("**/games/pokemon-dungeon-reimagined/**", (route) => {

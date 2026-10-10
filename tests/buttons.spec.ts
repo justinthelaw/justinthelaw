@@ -43,7 +43,7 @@ test("home controls explain their destinations on keyboard focus and hover", asy
 test("arcade navigation and available and unavailable games explain their actions", async ({ page }) => {
   await page.goto("/arcade/");
   await expectConciseTooltip(page, page.getByRole("link", { name: "Back to home" }), /home/i);
-  const available = page.getByRole("button", { name: "Play Pokemon Mystery Dungeon Blue Rescue Team - Reimagined", exact: true });
+  const available = page.getByRole("button", { name: "Play Pokémon Mystery Dungeon: Blue Rescue Team", exact: true });
   await expect(available).toBeEnabled();
   await expectConciseTooltip(page, available, /play game/i);
   const unavailable = page.getByRole("button", { name: "Play, coming soon" }).first();

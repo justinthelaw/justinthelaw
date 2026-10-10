@@ -1,117 +1,77 @@
 # Justin's arcade
 
-- The arcade has vertically stacked cards with a preview, short description,
-  and Play button.
-- Play opens a page-filling modal with a same-site iframe; Back to games
-  restores focus to the mounted Play button.
-
 ## Current games
 
-- No complete accepted game is released.
-- The first card opens the development checkpoint. PR #392 implements the
-  opening through town services, Mt. Steel, Friend Areas and Meanies at MAIN(5,7),
-  with v24 escort/second-work and Caterpie request through MAIN(5,9); full campaign and human acceptance
-  remain open. See its progress ledger for the published checkpoint.
-- The other two cards retain animated pixel previews and disabled Play buttons.
-- PR #392 prepares a revision-specific [Pages preview artifact](pokemon-dungeon-reimagined/plan/PAGES-PREVIEW.md)
-  after website CI passes; human opening-route/device review remains pending.
-
-| Slot | Current card | Planned work |
+| Slot | Game | Scope |
 | --- | --- | --- |
-| First | Pokemon Mystery Dungeon Blue Rescue Team - Reimagined; P06 art-study picture | [Development plan](pokemon-dungeon-reimagined/plan/PLAN.md): opening through Meanies MAIN(5,7), with v24 escorts and second work through the Caterpie request MAIN(5,9) on PR #392; [progress and verification](pokemon-dungeon-reimagined/plan/PROGRESS.md); full campaign and gameplay/visual acceptance pending |
-| Second | Coming soon, lavender preview | Unnamed; no game announced |
-| Third | Coming soon, apricot preview | Unnamed; no game announced |
+| First | Pokémon Mystery Dungeon: Blue Rescue Team | Original DS opening through Tiny Woods and Caterpie's rescue; browser adaptation in development on PR #397 |
+| Second | Coming soon | Unnamed; no game announced |
+| Third | Coming soon | Unnamed; no game announced |
 
-## Pokémon Dungeon decisions
-
-- Baseline: original **Blue Rescue Team**; Red is comparative research only,
-  with no Red campaign or edition selector.
-- On **2026-10-04**, the user approved all recommendations except the design
-  recommendation, selecting **B**; later that day they authorized implementation.
-- On **2026-10-05**, the user authorized this development launcher in a new PR,
-  autonomous implementation and skipping external Codex review.
-- Package evidence, visual reviews and full-game release acceptance remain open;
-  the launcher PR #391 is merged; full-game PR #392 remains unmerged.
-
-| Decision | Approved choice |
-| --- | --- |
-| D03 | Directional pixel characters in textured real 3D spaces; supersedes the historical cel-shaded candidate selection |
-| D04 | Browser rescue codes/files and Blue extra-mode/event equivalents; original cartridge interoperability is not a completion gate; claim it only where sourced and verified |
-| D05 | Human play and visual review allowed; no automated game-source tests |
-| D06 | No separate Groudon practice; retain the campaign encounter and campaign capture |
-| D08 | JavaScript ES modules, JSDoc, and strict independent static type checks |
-
-- Generated loading illustrations are raster planning assets, not 3D models or
-  gameplay screenshots; candidate A remains an archived comparison.
-- Actual 3D quality review and P36–P37 full-scope acceptance remain required;
-  selected loading art does not replace the arcade's real gameplay preview.
+- Play opens a viewport-filling same-origin iframe; Back to games restores
+  focus to the card's Play button.
+- The latest 2026-10-10 instruction replaces the historical 3D/full-campaign
+  target. Follow [the opening plan](pokemon-dungeon-reimagined/plan/BLUE-OPENING.md).
+- The new runtime uses two 256 × 192 Canvas 2D screens, an isolated save journal,
+  local original artwork/audio, and sourced original-game numerical data.
+- Exact audiovisual, script and cartridge-behavior parity remains unverified.
+  Static checks and authored substitutes do not establish exact replication.
+- PR #392 and the #396 startup repair were previously merged. PR #397 remains
+  a development branch; this task authorizes commits, not merge or deployment.
 
 ## Player controls
 
-- Desktop keyboard input goes to the iframe after it loads.
-- Mobile devices show semitransparent controls with targets of at least 44px;
-  Show/Hide controls switches the overlay manually.
-- The website sends keyboard events; the game must implement their behavior.
-  The development game consumes these controls for its bounded opening route.
-
-| Emulator control | Keyboard key |
+| Action | Keyboard |
 | --- | --- |
-| D-pad | Arrows; diagonals hold two arrows |
-| A / B | Z / X |
-| Start / Select / Menu | Enter / Shift / Escape |
+| Move | Arrow keys; two arrows or numpad for diagonals |
+| Confirm / regular attack | Z or A |
+| Cancel / menu | X or B; Enter or Escape also opens the menu |
+| Run | Hold X/B with a direction |
+| Face without moving | Hold C/Y with a direction |
+| Map | Shift |
+| Wait | Space, or A+B |
+| Set move | Q + Z/A |
+| Diagonal-only movement | Hold R with directions |
 
-- Held keys release on cancellation, blur, hidden page, hidden controls,
-  frame reload and player disposal.
+- The website's touch overlay sends standard keyboard events to the iframe.
+- The direct game also has optional touch controls with 44px minimum targets.
+- Interrupted, cancelled and released controls cannot continue taking turns.
+- Name fields explicitly opt into overlay confirmation; typing remains protected.
 
-## Static game layout
+## Static game distribution
 
-- Put a future game's entry HTML and browser resources in `games/<game-id>/`.
-- Use local relative URLs for modules, data, models, textures, and audio so
-  resources work beneath the GitHub Pages project base path.
-- `npm run build` exports the website, then copies the entire `games/` tree to
-  `out/games/`; it does not compile game source.
-- Keep Pokémon Dungeon authoring packages, dependencies, scripts, and caches in
-  repository-relative `tools/pokemon-dungeon/`, outside the copied game tree.
-  Git-ignored files inside `games/` would still be copied.
-- The development entry point is `games/pokemon-dungeon-reimagined/index.html`;
-  the development branch implements the bounded route described above; the full
-  campaign is incomplete and has no human acceptance evidence.
-- Keep intermediate runtime-package PRs unmerged until P37 full-scope acceptance
-  and explicit release approval: main deploys `games/**` at direct URLs even
-  when the arcade card is disabled.
+- Browser resources live in `games/<game-id>/` and use local relative URLs.
+- `npm run build` exports the website, then runs `scripts/export-games.mjs`.
+- Games with `distribution.json` export only the declared local files. Games
+  without a manifest retain complete-directory copying.
+- Blue's distribution is generated from its actual module closure and scoped
+  resources by `tools/pokemon-dungeon/scripts/export-blue-distribution.mjs`.
+- Retained historical campaign source, art studies, vendor files and plans are
+  not part of the selected opening distribution.
+- Authoring tools, dependencies, caches and captured review evidence stay in
+  `tools/pokemon-dungeon/`, outside the game's exported resources.
+- Older campaign saves are left untouched. The opening uses a distinct key and
+  alternating verified checkpoints; no automatic migration or reset occurs.
 
-## Add a game after approval
+## Validation
 
-1. Complete and review its static runtime, local resources, provenance, and
-   game-specific readiness requirements.
-2. Capture an actual gameplay preview in `public/arcade/` and update its record
-   in [arcade configuration](../src/config/arcade.ts) with title, description,
-   `preview`, and `/games/<game-id>/index.html` entry point.
-3. Verify preview loading, enabled Play, no preload, prefixed iframe URL,
-   keyboard focus, Back, and responsive spacing with website fixtures.
-4. Run required static checks, website `npm run flight-check`, contribution
-   checks, current-head CI, and applicable review; obtain explicit merge/deployment
-   authorization. Pokémon Dungeon's detailed gates are P36–P37 in its plan.
-
-- The website adds its configured base path to local previews and iframe URLs.
-- Preserve other cards, fonts, live GitHub bio, shared button sizes/tooltips,
-  sprite animations, and page margins when integrating one game.
-
-## Validation boundary
-
-- Do not add tests that import or execute game source, or automated playthroughs.
-- Website integration tests replace game responses with inert HTML before
-  navigation and keep interception active through Back, reload, and cleanup.
-- Export tests may copy temporary fixture trees without running game code.
-- Independent game syntax, lint, type, schema, license, and size checks are
-  permitted; authoring tools stay outside `games/`.
+- Game checks parse, lint, type-check and inspect factual/asset resources without
+  importing or executing game source. D05 prohibits automated playthroughs.
+- User-directed manual browser gameplay and visual inspection are separate
+  evidence and must be recorded accurately.
+- Website integration tests intercept game responses with inert fixtures before
+  navigation. Export tests copy temporary fixture trees without running a game.
+- Run the independent authoring checks, website flight check, contribution hooks,
+  and applicable exact-commit CI. Report environment blockers rather than
+  weakening tests or bypassing package security policy.
 
 ## Repository references
 
 | Reference | Purpose |
 | --- | --- |
-| [Arcade page](../src/pages/arcade.tsx) | Route, Home navigation, card configuration, and page padding |
-| [Card](../src/components/arcade/ArcadeCard.tsx) / [player](../src/components/arcade/GamePlayer.tsx) / [controls](../src/components/arcade/GameControls.tsx) | Preview, full-page dialog, keyboard/touch bridge and focus restoration |
-| [Exporter](../scripts/export-games.mjs) / [preview server](../scripts/serve-static-preview.mjs) | Static directory copying and base-path preview |
-| [Arcade tests](../tests/arcade.spec.ts) / [controls fixtures](../tests/game-controls.spec.ts) / [export fixtures](../tests/game-export.spec.ts) | Website behavior and fixture-only checks |
-| [Root instructions](../AGENTS.md) / [game instructions](pokemon-dungeon-reimagined/AGENTS.md) | Execution/release gates, quality requirements, and source-test exclusions |
+| [Opening plan](pokemon-dungeon-reimagined/plan/BLUE-OPENING.md) | Current scope, authority and acceptance |
+| [Progress](pokemon-dungeon-reimagined/plan/PROGRESS.md) | Implementation and verification evidence |
+| [Arcade configuration](../src/config/arcade.ts) | Card, preview and game entry point |
+| [Player](../src/components/arcade/GamePlayer.tsx) | Iframe, touch controls and focus restoration |
+| [Exporter](../scripts/export-games.mjs) | Safe scoped static distribution |
+| [Website fixtures](../tests/game-controls.spec.ts) | Input integration without game execution |

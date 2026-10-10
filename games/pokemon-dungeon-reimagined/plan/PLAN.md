@@ -1,5 +1,10 @@
 # Pokémon Dungeon Reimagined: implementation handoff
 
+**Current authority (2026-10-10):** [BLUE-OPENING.md](BLUE-OPENING.md) supersedes
+the full-campaign and 3D target below. PR #397 now delivers only the DS-style
+opening through Tiny Woods and Caterpie's rescue. The remainder is historical
+planning and source evidence, not the current completion scope.
+
 **Current authority (2026-10-09):** follow
 [CODEX-HANDOFF-2026-10-09.md](CODEX-HANDOFF-2026-10-09.md) first, then
 [FULL-GAME-GOAL.md](FULL-GAME-GOAL.md) and

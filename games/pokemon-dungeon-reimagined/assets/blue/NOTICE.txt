@@ -1,0 +1,17 @@
+Blue opening original-art package
+
+These character atlases are compact derivatives of original, source-native
+character art already authored for this repository. No ROM data, Nintendo DS
+sprite, commercial portrait, downloaded game art or commercial font is included.
+
+The four cinematic PNGs are original integer-grid paintings authored in
+tools/pokemon-dungeon/art/blue/intro.mjs. Original-game screenshots informed
+scene layout only; their raster pixels were not copied, traced, or sampled.
+
+Reproduce with:
+  node tools/pokemon-dungeon/art/blue/export.mjs
+
+The manifest records the exact source-page hashes, output hashes and dimensions.
+Original art is not Nintendo DS visual parity. Pokemon and the depicted
+characters remain the intellectual property of their respective rights holders;
+original authorship of these files does not assert a rights-holder license.

@@ -595,9 +595,9 @@
           {
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
             "kind": "generated-source",
-            "locator": "tools/pokemon-dungeon/package-lock.json",
+            "locator": "tools/pokemon-dungeon/art/snapshots/p06-v002-package-lock.json",
             "sha256": "41f878325cf6365ca2f323fa6ab8451b29022b80bf2b262a0d7d8835ac54562a",
-            "use": "npm-generated record of the pinned third-party authoring dependency closure."
+            "use": "Exact archived npm lockfile for this historical P06 revision; recovered from commit f6fa92165513084de7d6370067a1aadf1fae49c8. It records the original authoring dependency closure, not the current tooling environment."
           }
         ],
         "exporter": {
@@ -1403,9 +1403,9 @@
           {
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
             "kind": "generated-source",
-            "locator": "tools/pokemon-dungeon/package-lock.json",
+            "locator": "tools/pokemon-dungeon/art/snapshots/p06-v002-package-lock.json",
             "sha256": "41f878325cf6365ca2f323fa6ab8451b29022b80bf2b262a0d7d8835ac54562a",
-            "use": "npm-generated record of the pinned third-party authoring dependency closure."
+            "use": "Exact archived npm lockfile for this historical P06 revision; recovered from commit f6fa92165513084de7d6370067a1aadf1fae49c8. It records the original authoring dependency closure, not the current tooling environment."
           }
         ],
         "exporter": {
@@ -2242,9 +2242,9 @@
           {
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
             "kind": "generated-source",
-            "locator": "tools/pokemon-dungeon/package-lock.json",
+            "locator": "tools/pokemon-dungeon/art/snapshots/p06-v002-package-lock.json",
             "sha256": "41f878325cf6365ca2f323fa6ab8451b29022b80bf2b262a0d7d8835ac54562a",
-            "use": "npm-generated record of the pinned third-party authoring dependency closure."
+            "use": "Exact archived npm lockfile for this historical P06 revision; recovered from commit f6fa92165513084de7d6370067a1aadf1fae49c8. It records the original authoring dependency closure, not the current tooling environment."
           }
         ],
         "exporter": {
@@ -3127,9 +3127,9 @@
           {
             "sourceId": "tools-pokemon-dungeon-package-lock-json",
             "kind": "generated-source",
-            "locator": "tools/pokemon-dungeon/package-lock.json",
+            "locator": "tools/pokemon-dungeon/art/snapshots/p06-v002-package-lock.json",
             "sha256": "41f878325cf6365ca2f323fa6ab8451b29022b80bf2b262a0d7d8835ac54562a",
-            "use": "npm-generated record of the pinned third-party authoring dependency closure."
+            "use": "Exact archived npm lockfile for this historical P06 revision; recovered from commit f6fa92165513084de7d6370067a1aadf1fae49c8. It records the original authoring dependency closure, not the current tooling environment."
           }
         ],
         "exporter": {
