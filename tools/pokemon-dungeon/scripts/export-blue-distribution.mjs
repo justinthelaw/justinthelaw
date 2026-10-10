@@ -54,6 +54,14 @@ for (const ornament of spriteManifest.ornaments ?? []) {
   files.add(`assets/blue/${ornament.path}`);
   files.add(`assets/blue/${ornament.metadataPath}`);
 }
+for (const record of spriteManifest.nativeUi?.images ?? []) {
+  if (!/^[a-z][a-z0-9-]+\.png$/.test(record.path)) throw new Error('Invalid native UI image path');
+  files.add(`assets/blue/${record.path}`);
+}
+if (spriteManifest.statusAtlas) {
+  if (spriteManifest.statusAtlas.path !== 'status-icons.png' || spriteManifest.statusAtlas.metadataPath !== 'status-icons.json') throw new Error('Invalid status atlas path');
+  files.add('assets/blue/status-icons.png'); files.add('assets/blue/status-icons.json');
+}
 if (spriteManifest.portraitAtlas) {
   if (spriteManifest.portraitAtlas.path !== 'portraits.png') throw new Error('Invalid portrait atlas path');
   files.add('assets/blue/portraits.png');

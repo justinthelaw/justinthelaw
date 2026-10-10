@@ -76,6 +76,8 @@ for (const record of assets.records) {
   for (const [, y, , height] of metadata.poses) assert(y + height <= metadata.dungeonOffsetY && y + height + metadata.dungeonOffsetY <= record.height,
     `Native field/dungeon palette copies overlap or escape atlas: ${record.speciesId}`);
   assert.deepEqual(metadata.directions, directions);
+  assert(Array.isArray(metadata.statusOffsets) && metadata.statusOffsets.length === metadata.poses.length);
+  assert(metadata.statusOffsets.every(offset => Array.isArray(offset) && offset.length === 2 && offset.every(value => integer(value, -32767, 32767))));
   verifyAnimationTables(metadata, record);
   for (const name of requiredClips) assert(metadata.clips[name], `Missing native animation alias: ${record.speciesId}/${name}`);
   for (const clip of Object.values(metadata.clips)) assert(integer(clip.animation, 0, metadata.animations.length - 1) && typeof clip.loop === 'boolean');
@@ -131,8 +133,31 @@ for (const [mode, palettes] of Object.entries(scenery.aura.palettes)) {
 assert.deepEqual(scenery.mapLabel.bounds, [56, 152, 184, 32]);
 assert.deepEqual(scenery.mapLabel.textOrigin, [121, 162]); assert.equal(scenery.mapLabel.text, 'Tiny Woods');
 for (const record of scenery.records) await verifiedPng('assets/blue/scenery', record);
+const bootRecord = scenery.records.find(record => record.id === 'boot-cards');
+assert(bootRecord, 'The original company cards must be in the opening distribution.');
+assert.deepEqual([bootRecord.width, bootRecord.height], [256, 768]);
+assert.deepEqual(scenery.boot.cards.map(card => card.id), ['pokemon-company', 'nintendo', 'chunsoft', 'copyright']);
+for (const [index, card] of scenery.boot.cards.entries()) {
+  assert.deepEqual(card.rect, [0, index * 192, 256, 192]);
+  assert.equal(card.matchedFiveBitPixels, 255 * 192);
+  assert(/^[0-9a-f]{64}$/.test(card.sourceSha256));
+}
 assert.equal(assets.nativeUi.modulePath, 'src/blue/render-native-ui-data.js');
 await verifiedBytes(assets.nativeUi.modulePath, assets.nativeUi.bytes, assets.nativeUi.sha256);
+for (const record of assets.nativeUi.images ?? []) await verifiedPng('assets/blue', record);
+if (assets.statusAtlas) {
+  await verifiedPng('assets/blue', assets.statusAtlas);
+  const metadata = await verifiedMetadata(assets.statusAtlas);
+  assert.equal(metadata.schemaVersion, 1); assert.equal(metadata.records.length, 9);
+  assert.equal(metadata.selectionFrames, 61); assert.equal(metadata.animationFrameTicks, 4);
+  const ids = new Set();
+  for (const record of metadata.records) {
+    assert(!ids.has(record.id)); ids.add(record.id);
+    assert(integer(record.width, 8, 32) && record.height === 16 && integer(record.frames, 1, 16));
+    assert(integer(record.bit, 0, 27) && integer(record.phase, 0, 3));
+    assert(record.x >= 0 && record.y >= 0 && record.x + record.width * record.frames <= metadata.width && record.y + record.height <= metadata.height);
+  }
+}
 assert.equal(distribution.entry, 'src/blue/app.js');
 assert(!distribution.files.some(filename => /^(?:plan|vendor)\//.test(filename)), 'Historical plans/vendor bundles must not ship');
 assert(!distribution.files.some(filename => /sinister|escort|steel|thunderwave|campaign/.test(filename)), 'Later chapters must not ship');

@@ -1,13 +1,17 @@
-import { createRenderer, OPENING_DURATION_MS } from './renderer.js';
-import { paginateDialogue } from './render-font.js';
+import { createRenderer, BOOT_DURATION_MS, OPENING_DURATION_MS } from './renderer.js';
+import { paginateDialogue, textWidth } from './render-font.js';
 import { createOpeningAudio } from './audio.js';
 import { createInput } from './input.js';
 import { canContinueDash } from './dash.js';
 import { createDungeonMenus } from './menus.js';
+import { DungeonCamera } from './dungeon-camera.js';
+import { discoverCameraArea } from './mechanics-visibility.js';
 import { loadOnboarding, createQuiz, currentQuestion, nextQuestion, answerQuestion,
-  finishQuiz, eligiblePartners, speciesName, normalizeName, sanitizeName } from './onboarding.js';
+  finishQuiz, eligiblePartners, speciesName } from './onboarding.js';
+import { NAMING_END_KEY, NAMING_KEYS, createNamingState, namingLabels, moveNamingSelection,
+  moveNamingCaret, deleteNamingCharacter, activateNamingKey, replaceNamingText, namingError, sanitizeNamingText } from './naming.js';
 import { loadOpeningData, createDungeon, performAction, retryDungeon, validateDungeon,
-  getDungeonTurnPhase, prepareDungeonTurn, completeForcedTurn } from './mechanics.js';
+  getDungeonTurnPhase, prepareDungeonTurn, completeForcedTurn, updateVisibility } from './mechanics.js';
 import { createSaveRepository, validateOpeningSave } from './save.js';
 import { createPreferencesRepository } from './preferences.js';
 import { STORY, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolateStory } from './story.js';
@@ -21,6 +25,8 @@ import { STORY, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolateStory } from './st
 /** @typedef {import('./mechanics-types.js').DungeonAction} DungeonAction */
 /** @typedef {import('./mechanics-types.js').ActionResult} ActionResult */
 /** @typedef {import('./audio-types.js').AudioScene} AudioScene */
+/** @typedef {import('./naming.js').NamingState} NamingState */
+/** @typedef {{editor:NamingState,transition:number}} NameComposition */
 
 /** @param {string} id */
 function element(id) {
@@ -137,11 +143,17 @@ async function main() {
   /** @type {Dialogue|null} */ let fieldDialogue = null;
   /** @type {string|null} */ let notice = null;
   /** @type {string[]} */ let tutorials = [];
+  /** Live message presentation is independent of the persisted Message Log. */
+  /** @type {string[]} */ let liveMessages = [];
+  let liveMessageRemaining = 0;
   let selectedIndex = 0, dialoguePage = 0, speechStarted = 0, clock = 0, lastFrame = 0;
   let openingStarted = 0, textSpeed = preferences.textSpeed, revealed = false, uiSignature = '!unrendered', lastNarration = '';
   let busy = false, paused = document.hidden || !document.hasFocus(), disposed = false, transition = 0, frameId = 0;
   let saveTimer = 0, hasStored = stored.hasStored, saveFailed = false;
-  let eventUntil = 0, lowercase = false, presentationRevision = 0, lastRenderedRevision = -1, titleImmediate = false;
+  let eventUntil = 0, presentationRevision = 0, lastRenderedRevision = -1, titleImmediate = false;
+  let nameComposing = false;
+  /** @type {NameComposition|null} */ let nameComposition = null;
+  /** @type {NameComposition|null} */ let completedNameComposition = null;
   /** @type {number|null} */ let forcedReadyAt = null;
   let fastDungeon = preferences.fastDungeon, gridVisible = preferences.grids;
   /** @type {'waiting'|'starting'|'running'} */ let startGate = 'waiting';
@@ -149,6 +161,42 @@ async function main() {
   /** @type {'map'|'team'|'log'} */ let topScreen = preferences.topScreen;
   let mapVisible = false;
   const currentDungeon = () => state?.dungeon ?? null;
+  const dungeonCamera = new DungeonCamera();
+  /** @type {{menu:Menu,index:number,revision:number,event?:Event}|null} */let pendingCameraChoice=null;
+  /** @type {{menu:Menu,revision:number}|null} */let pendingCameraCancel=null;
+
+  function resetDungeonCamera(){
+    dungeonCamera.reset();pendingCameraChoice=null;pendingCameraCancel=null;
+    const dungeon=currentDungeon();if(dungeon)updateVisibility(dungeon);
+  }
+  function requestMenuCamera(){
+    const dungeon=currentDungeon();
+    if(mode!=='play'||state?.phase!=='dungeon'||!dungeon){dungeonCamera.reset();pendingCameraChoice=null;pendingCameraCancel=null;return;}
+    const member=pendingCameraCancel?.menu===menu?'hero':menu?.cameraChoices?.[selectedIndex]??menu?.cameraMember??'hero';
+    dungeonCamera.request(dungeon,member,clock);
+    view.cameraActorId=dungeonCamera.target;
+  }
+  /** @param {number} index */
+  function selectChoice(index){
+    if(pendingCameraCancel)return;
+    if(index!==selectedIndex)pendingCameraChoice=null;
+    selectedIndex=index;view.selectedIndex=index;requestMenuCamera();
+  }
+  function advanceMenuCamera(){
+    const dungeon=currentDungeon();if(mode!=='play'||state?.phase!=='dungeon'||!dungeon)return;
+    requestMenuCamera();
+    const changed=dungeonCamera.advance(dungeon,clock);
+    if(changed&&discoverCameraArea(dungeon,changed))commitSoon();
+    view.cameraActorId=dungeonCamera.target;
+    if(!dungeonCamera.locked&&pendingCameraCancel){
+      const pending=pendingCameraCancel;pendingCameraCancel=null;
+      if(pending.menu===menu&&pending.revision===presentationRevision){if(pending.menu.cancel)pending.menu.cancel();else showMenu(null);}
+    }
+    if(!dungeonCamera.locked&&pendingCameraChoice){
+      const pending=pendingCameraChoice;pendingCameraChoice=null;
+      if(pending.menu===menu&&pending.revision===presentationRevision&&pending.index===selectedIndex)choose(pending.event);
+    }
+  }
 
   /** @param {string|null} message */
   function setWarning(message) {
@@ -168,10 +216,26 @@ async function main() {
     saveTimer = window.setTimeout(commitNow, 220);
   }
 
+  function clearLiveMessages() { liveMessages = []; liveMessageRemaining = 0; }
+  /** @param {ActionResult} result */
+  function enqueueLiveMessages(result) {
+    if (result.events.some(event => event.type === 'floor')) clearLiveMessages();
+    for (const event of result.events) {
+      if (event.type !== 'message' || !event.text) continue;
+      liveMessages.push(event.text);
+      if (liveMessages.length > 8) liveMessages.shift();
+      // Native live-message lifetime is 240 nominal frames after a new line.
+      liveMessageRemaining = 240 * 1000 / 60;
+    }
+  }
+
   /** @param {Menu|null} next */
   function showMenu(next) {
-    menu = next; selectedIndex = 0; dialoguePage = 0; notice = null;
-    input.clear(); audio.effect(next ? 'open' : 'cancel'); rebuild();
+    pendingCameraChoice=null;pendingCameraCancel=null;
+    menu = next; selectedIndex = next?.initialSelection??0; dialoguePage = 0; notice = null;
+    // Input owns the cue. Rendering a submenu must not replace its accept or
+    // cancel sound on the source's single menu-effect channel.
+    input.clear(); rebuild();
   }
 
   const dungeonMenus = createDungeonMenus({
@@ -245,6 +309,7 @@ async function main() {
       return { delayMs: Math.max(0, eventUntil - clock), accepted: faceOnly || accepted, stopRepeat: run && !faceOnly && !accepted };
     },
     interrupt() {
+      pendingCameraChoice=null;pendingCameraCancel=null;
       paused = true; lastFrame = 0; audio.pause(); updateSoundButton(); commitNow();
       for (const button of touchControls.querySelectorAll('.held')) button.classList.remove('held');
     },
@@ -284,7 +349,7 @@ async function main() {
   }
 
   function isDungeonSurface() {
-    return mode === 'play' && state?.phase === 'dungeon' && !menu && !notice && !fieldDialogue && !tutorials.length && !busy && !paused && helpPanel.hidden === true;
+    return mode === 'play' && state?.phase === 'dungeon' && !menu && !notice && !fieldDialogue && !tutorials.length && !busy && !paused && !dungeonCamera.locked && helpPanel.hidden === true;
   }
   function dungeonTurnLocked() {
     const dungeon = currentDungeon();
@@ -316,6 +381,11 @@ async function main() {
   /** @param {Phase} phase @param {number} [line] @param {boolean} [newFloor] */
   async function setPhase(phase, line = 0, newFloor = false) {
     if (!state || disposed) return;
+    resetDungeonCamera();
+    clearLiveMessages();
+    nameComposing = false; nameComposition = null; completedNameComposition = null;
+    if ((phase === 'partner-name' || phase === 'hero-name') &&
+        (state.phase !== phase || !state.naming || state.naming.text !== state.nameDraft)) state.naming = createNamingState(state.nameDraft);
     state.phase = phase; state.line = line; dialoguePage = 0; selectedIndex = 0;
     menu = null; notice = null; fieldDialogue = null; tutorials = []; forcedReadyAt = null; input.clear();
     const token = ++transition; busy = true; lastFrame = 0;
@@ -353,6 +423,8 @@ async function main() {
   }
 
   function returnToMenu() {
+    resetDungeonCamera();
+    clearLiveMessages();
     commitNow(); mode = 'menu'; menu = null; notice = null; fieldDialogue = null; tutorials = [];
     selectedIndex = 0; dialoguePage = 0; forcedReadyAt = null; input.clear(); audio.setScene('menu'); rebuild();
   }
@@ -390,6 +462,7 @@ async function main() {
   }
 
   function showHelp() {
+    pendingCameraChoice=null;pendingCameraCancel=null;
     helpReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     input.clear(); paused = true; lastFrame = 0; audio.pause(); updateSoundButton();
     helpPanel.hidden = false; helpToggle.setAttribute('aria-expanded', 'true');
@@ -406,6 +479,52 @@ async function main() {
     updateSoundButton();
   }
 
+  function isNaming() { return mode === 'play' && (state?.phase === 'partner-name' || state?.phase === 'hero-name'); }
+  /** @returns {NamingState|null} */
+  function namingState() {
+    if (!state || !isNaming()) return null;
+    if (!state.naming || state.naming.text !== state.nameDraft) state.naming = createNamingState(state.nameDraft);
+    return state.naming;
+  }
+  /** @param {boolean} [redraw] */
+  function updateNaming(redraw = true) {
+    if (!state?.naming) return;
+    state.nameDraft = state.naming.text; selectedIndex = state.naming.selected;
+    view.naming = state.naming; view.nameValue = state.nameDraft; view.selectedIndex = selectedIndex;
+    if (redraw) rebuild();
+    commitSoon();
+  }
+  function confirmName() {
+    const editor = namingState(); if (!state || !editor) return;
+    const error = namingError(editor.text, textWidth);
+    if (error) {
+      audio.effect('denied');
+      if (!editor.text.length) { lastNarration = 'Please enter a name.'; narration.textContent = lastNarration; return; }
+      // Confirm-name errors return to a fresh native naming screen: OVR, a,
+      // and the caret at the end. Keep the entered text, including spaces.
+      state.naming = createNamingState(editor.text); input.clear(); screens.focus();
+      notice = error === 'empty' ? 'Please enter a name.' : 'This name is too long.';
+      dialoguePage = 0; rebuild(); commitSoon(); return;
+    }
+    audio.effect('confirm');
+    state.nameDraft = editor.text; screens.focus();
+    void setPhase(state.phase === 'hero-name' ? 'hero-name-confirm' : 'partner-name-confirm');
+  }
+  function chooseNaming() {
+    if(nameComposing)return;
+    const editor = namingState(); if (!editor) return;
+    if (document.activeElement === nameInput) {
+      const prefix = nameInput.value.slice(0, nameInput.selectionStart ?? nameInput.value.length);
+      replaceNamingText(editor, nameInput.value, Array.from(sanitizeNamingText(prefix)).length);
+      updateNaming(false); confirmName(); return;
+    }
+    const key = NAMING_KEYS[selectedIndex];
+    const result = activateNamingKey(editor, selectedIndex);
+    if (result !== 'end') audio.effect(result === 'denied' ? 'denied' : key?.kind === 'delete' ? 'cancel' : key?.kind === 'mode' ? 'open' : 'confirm');
+    updateNaming();
+    if (result === 'end') confirmName();
+  }
+
   /** Rebuild semantic UI only after an action or phase transition, never per frame. */
   function rebuild() {
     /** @type {View} */ const next = {
@@ -413,6 +532,8 @@ async function main() {
       heroSpeciesId: state?.heroSpeciesId, partnerSpeciesId: state?.partnerSpeciesId,
       heroName: state?.heroName, partnerName: state?.partnerName,
       dungeon: state?.dungeon, selectedIndex, topScreen, mapVisible,
+      cameraActorId:dungeonCamera.target,menuActorId:menu?.cameraMember,
+      dungeonLightLevel:data.floors[(state?.dungeon?.floor??1)-1]?.generation.visibilityRange,
       events: view.events, eventStartedAt: view.eventStartedAt, eventDuration: view.eventDuration,
     };
     labels = []; speech = null; speechPages = [];
@@ -445,16 +566,16 @@ async function main() {
         next.scene = 'partner'; text = `Would you like ${speciesName(state.partnerSpeciesId)} as your partner?`; labels = ['Yes', 'No'];
       } else if (phase === 'partner-name' || phase === 'hero-name') {
         next.scene = 'name'; next.nameTarget = phase === 'hero-name' ? 'hero' : 'partner';
-        next.nameValue = state.nameDraft; next.choiceColumns = 10;
-        labels = [...Array.from(lowercase ? 'abcdefghijklmnopqrstuvwxyz' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), '.', '-', '!', '?', lowercase ? 'ABC' : 'abc', 'SPACE', 'BACK', 'END'];
+        const editor = namingState();
+        if (editor) { next.naming = editor; next.nameValue = editor.text; selectedIndex = editor.selected; labels = namingLabels(editor); }
       } else if (phase === 'partner-name-confirm' || phase === 'hero-name-confirm') {
-        next.scene = phase === 'hero-name-confirm' ? 'awakening' : 'partner';
+        next.scene = 'quiz';
         text = `Is ${state.nameDraft} the name you want?`; labels = ['Yes', 'No'];
       } else if (phase === 'help-choice') {
         next.scene = 'trouble'; text = 'Will you help rescue Caterpie?'; speaker = state.partnerName;
         portraitSpeciesId = state.partnerSpeciesId; labels = ['Yes', 'No'];
       } else if (phase === 'dungeon') {
-        next.scene = 'dungeon'; next.notice = state.dungeon?.log.at(-1);
+        next.scene = 'dungeon'; next.notice = liveMessages.length ? liveMessages.join('\n') : undefined;
       } else if (phase === 'defeated') {
         next.scene = 'dungeon'; text = 'The rescue did not go as planned... Caterpie still needs your help.';
         labels = ['Try again', 'Return to top menu'];
@@ -494,10 +615,26 @@ async function main() {
     next.selectedIndex = selectedIndex; next.choices = labels;
     revealed = Boolean(menu) || !speech || textSpeed === 0; speechStarted = clock;
     view = next; presentationRevision += 1; uiSignature = '!unrendered';
+    requestMenuCamera();
     game.dataset.scene = mode === 'play' ? state?.phase ?? 'opening' : mode;
-    const naming = mode === 'play' && (state?.phase === 'hero-name' || state?.phase === 'partner-name');
+    const naming = isNaming() && !notice && !menu;
     nameEntry.hidden = !naming;
-    if (naming && state) { nameInput.value = state.nameDraft; element('name-label').textContent = state.phase === 'hero-name' ? 'Your name' : "Your partner's name"; }
+    screens.setAttribute('aria-label', naming
+      ? 'Name entry. Arrows select keys, Z confirms, X deletes, Q or L and R move the text caret, and Enter selects END.'
+      : 'Game screens. Use arrow keys and Z to play.');
+    if (naming && state) {
+      if (nameInput.value !== state.nameDraft) {
+        nameInput.value = state.nameDraft;
+        // Controller edits can run while the native field owns focus. Assigning
+        // value moves its caret to the end, so restore the editor's position.
+        // Unchanged values leave normal browser typing and selection untouched.
+        if (document.activeElement === nameInput) {
+          const caret = Array.from(state.nameDraft).slice(0, state.naming?.caret ?? Array.from(state.nameDraft).length).join('').length;
+          nameInput.setSelectionRange(caret, caret);
+        }
+      }
+      element('name-label').textContent = state.phase === 'hero-name' ? 'Your name' : "Your partner's name";
+    }
     const announcement = [speaker, text].filter(Boolean).join(': ');
     if (announcement !== lastNarration) { narration.textContent = announcement; lastNarration = announcement; }
   }
@@ -508,6 +645,8 @@ async function main() {
     const signature = bounds.map(bound => `${bound.index}:${labels[bound.index]}:${Boolean(view.disabledChoices?.[bound.index])}:${bound.x}:${bound.y}:${bound.width}:${bound.height}`).join('|') +
       '#' + toolbar.map(bound => `${bound.id}:${bound.x}:${bound.y}:${bound.width}:${bound.height}`).join('|');
     if (signature !== uiSignature) {
+      const namingFocusOwner = isNaming() && !notice && !menu && choiceButtons.contains(document.activeElement) ? state?.naming : null;
+      /** @type {HTMLButtonElement|null} */ let namingFocusTarget = null;
       uiSignature = signature; choiceButtons.replaceChildren();
       const currentRevision = presentationRevision;
       for (const bound of bounds) {
@@ -521,13 +660,15 @@ async function main() {
           event.stopPropagation();
           if (currentRevision !== presentationRevision) return;
           if (!activate(event)) return;
-          selectedIndex = bound.index; choose(event);
+          selectChoice(bound.index); choose(event);
         });
         button.addEventListener('focus', () => {
           if (currentRevision !== presentationRevision) return;
-          selectedIndex = bound.index; view.selectedIndex = selectedIndex;
+          selectChoice(bound.index);
+          if (isNaming() && state?.naming) { state.naming.selected = selectedIndex; commitSoon(); }
         });
         choiceButtons.append(button);
+        if (namingFocusOwner && bound.index === namingFocusOwner.selected) namingFocusTarget = button;
       }
       for (const bound of toolbar) {
         const button = document.createElement('button');
@@ -543,6 +684,12 @@ async function main() {
         });
         choiceButtons.append(button);
       }
+      // Keep keyboard/assistive activation on the current naming key, including
+      // automatic END selection at ten characters. Never steal native-field
+      // focus or restore a key from a replaced editor or presentation.
+      if (namingFocusTarget && state?.naming === namingFocusOwner && presentationRevision === currentRevision) {
+        namingFocusTarget.focus({ preventScroll: true });
+      }
     }
     const hideAdvance = !speech || Boolean(view.choices?.length) || busy;
     if (advanceButton.hidden !== hideAdvance) advanceButton.hidden = hideAdvance;
@@ -554,7 +701,7 @@ async function main() {
   function handleToolbar(id, event) {
     if (!['throw', 'moves', 'items', 'team', 'menu'].includes(id)) return;
     if (!activate(event) || !isDungeonInput() || clock < eventUntil || id === 'throw') return;
-    screens.focus(); input.clear();
+    screens.focus(); input.clear(); audio.effect('open');
     if (id === 'moves') dungeonMenus.moves('hero');
     else if (id === 'items') dungeonMenus.items();
     else if (id === 'team') dungeonMenus.team();
@@ -566,35 +713,57 @@ async function main() {
     if (disposed || document.hidden) return;
     if (!helpPanel.hidden) { if (action === 'cancel' || action === 'menu') hideHelp(event); return; }
     if (busy || paused || startGate !== 'running') return;
+    if(dungeonCamera.locked&&['north','south','west','east'].includes(action))return;
     if (dungeonTurnLocked()) return;
     if (isDungeonInput() && clock < eventUntil) return;
     if (mode === 'opening') { if (action === 'confirm' || action === 'menu' || action === 'cancel') { mode = 'title'; titleImmediate = true; audio.setScene('title'); rebuild(); input.clear(); } return; }
     if (mode === 'title') { if (action === 'confirm' || action === 'menu') { mode = 'menu'; audio.setScene('menu'); rebuild(); input.clear(); } return; }
+    if (isNaming() && !notice && !menu) {
+      const editor = namingState(); if (!editor) return;
+      if (action === 'north' || action === 'south' || action === 'west' || action === 'east') {
+        const moved = moveNamingSelection(editor, action); screens.focus(); updateNaming(false);
+        audio.effect(moved ? 'cursor' : 'denied'); return;
+      }
+      if (action === 'caretLeft' || action === 'caretRight') {
+        const moved = moveNamingCaret(editor, action === 'caretLeft' ? -1 : 1); updateNaming(false);
+        audio.effect(moved ? 'cursor' : 'denied'); return;
+      }
+      if (action === 'menu') { editor.selected = NAMING_END_KEY; screens.focus(); updateNaming(false); audio.effect('cursor'); return; }
+      if (action === 'cancel') { const changed = deleteNamingCharacter(editor); updateNaming(); audio.effect(changed ? 'cancel' : 'denied'); return; }
+      if (action === 'confirm' || action === 'setMove' || action === 'wait') { chooseNaming(); return; }
+    }
+    if (action === 'cancel' && (state?.phase === 'hero-name-confirm' || state?.phase === 'partner-name-confirm')) {
+      audio.effect('cancel');
+      void setPhase(state.phase === 'hero-name-confirm' ? 'hero-name' : 'partner-name');
+      return;
+    }
     if (['north', 'south', 'west', 'east'].includes(action) && labels.length) {
       if (speech && !revealed) return;
       const columns = view.choiceColumns ?? (view.scene === 'partner' && state?.phase === 'partner' ? 2 : 1);
       const delta = action === 'north' ? -columns : action === 'south' ? columns : action === 'west' ? -1 : 1;
-      selectedIndex = (selectedIndex + delta + labels.length) % labels.length;
-      screens.focus(); view.selectedIndex = selectedIndex; audio.effect('cursor'); return;
+      selectChoice((selectedIndex + delta + labels.length) % labels.length);
+      screens.focus(); audio.effect('cursor'); return;
     }
     if (action === 'map' && state?.phase === 'dungeon' && !menu) {
       mapVisible = !mapVisible; topScreen = mapVisible ? 'map' : 'team'; rebuild(); return;
     }
-    if (action === 'menu' && (state?.phase === 'partner-name' || state?.phase === 'hero-name')) {
-      selectedIndex = labels.indexOf('END'); choose(event); return;
-    }
     if ((action === 'cancel' || action === 'menu') && mode === 'menu') {
+      audio.effect('cancel');
       if (menu) showMenu(null); else { mode = 'title'; audio.setScene('title'); rebuild(); }
       return;
     }
     if ((action === 'cancel' || action === 'menu') && state?.phase === 'dungeon') {
-      if (menu) { if (menu.cancel) menu.cancel(); else showMenu(null); return; }
+      if (menu) {
+        audio.effect('cancel');
+        if(menu.cameraChoices&&dungeonCamera.target!=='hero'){
+          pendingCameraChoice=null;pendingCameraCancel={menu,revision:presentationRevision};requestMenuCamera();return;
+        }
+        if (menu.cancel) menu.cancel(); else showMenu(null); return;
+      }
       if (speech || notice || tutorials.length) { handleInput('confirm', event); return; }
+      audio.effect('open');
       dungeonMenus.main();
       return;
-    }
-    if (action === 'cancel' && (state?.phase === 'partner-name' || state?.phase === 'hero-name')) {
-      state.nameDraft = Array.from(state.nameDraft).slice(0, -1).join(''); rebuild(); return;
     }
     if (action === 'confirm') { choose(event); return; }
     if (isDungeonInput() && clock >= eventUntil) {
@@ -610,16 +779,25 @@ async function main() {
   /** @param {Event} [event] */
   function choose(event) {
     if (busy || paused || disposed || !helpPanel.hidden || startGate !== 'running') return;
+    if(pendingCameraCancel)return;
+    if(dungeonCamera.locked){if(menu)pendingCameraChoice={menu,index:selectedIndex,revision:presentationRevision,event};return;}
     if (dungeonTurnLocked()) return;
     if (speech && !revealed) { revealed = true; audio.effect('confirm'); return; }
     if (speech && dialoguePage < speechPages.length - 1) { dialoguePage += 1; rebuild(); audio.effect('confirm'); return; }
     if (notice) { notice = null; dialoguePage = 0; rebuild(); return; }
     if (tutorials.length) { tutorials.shift(); dialoguePage = 0; rebuild(); return; }
     if (fieldDialogue) { fieldDialogue = null; dialoguePage = 0; rebuild(); return; }
+    if (isNaming() && !menu) { chooseNaming(); return; }
     if (state?.phase === 'dungeon' && clock < eventUntil) return;
-    if (menu?.choices[selectedIndex]?.disabled) { audio.effect('cancel'); return; }
-    audio.effect('confirm');
-    if (menu) { const choice = menu.choices[selectedIndex]; choice?.run(event); return; }
+    if (menu?.choices[selectedIndex]?.disabled) { audio.effect('denied'); return; }
+    if (menu) {
+      audio.effect('confirm');
+      const choice = menu.choices[selectedIndex];
+      if (choice) choice.run(event);
+      else if (!menu.choices.length) menu.cancel?.();
+      return;
+    }
+    if (state?.phase !== 'dungeon') audio.effect('confirm');
     if (mode === 'menu') {
       if (state) {
         if (selectedIndex === 0) {
@@ -660,16 +838,7 @@ async function main() {
       state.partnerSpeciesId = partner; state.partnerName = speciesName(partner); void setPhase('partner-confirm');
     } else if (phase === 'partner-confirm') {
       if (selectedIndex === 1) void setPhase('partner');
-      else { state.nameDraft = state.partnerName; lowercase = false; void setPhase('partner-name'); }
-    } else if (phase === 'partner-name' || phase === 'hero-name') {
-      const value = labels[selectedIndex];
-      if (document.activeElement === nameInput || value === 'END') {
-        state.nameDraft = normalizeName(nameInput === document.activeElement ? nameInput.value : state.nameDraft,
-          phase === 'hero-name' ? state.heroName : state.partnerName);
-        screens.focus(); void setPhase(phase === 'hero-name' ? 'hero-name-confirm' : 'partner-name-confirm');
-      } else if (value === 'BACK') { state.nameDraft = Array.from(state.nameDraft).slice(0, -1).join(''); rebuild(); }
-      else if (value === 'abc' || value === 'ABC') { lowercase = !lowercase; rebuild(); }
-      else if (value && Array.from(state.nameDraft).length < 10) { state.nameDraft += value === 'SPACE' ? ' ' : value; rebuild(); }
+      else { state.nameDraft = state.partnerName; void setPhase('partner-name'); }
     } else if (phase === 'partner-name-confirm' || phase === 'hero-name-confirm') {
       if (selectedIndex === 1) void setPhase(phase === 'hero-name-confirm' ? 'hero-name' : 'partner-name');
       else if (phase === 'partner-name-confirm') { state.partnerName = state.nameDraft; void setPhase('departure'); }
@@ -699,7 +868,7 @@ async function main() {
     }
     if (phase === 'welcome') { nextQuestion(state.quiz, onboarding); void setPhase('quiz'); }
     else if (phase === 'departure') void setPhase('awakening');
-    else if (phase === 'awakening') { state.nameDraft = state.heroName; lowercase = false; void setPhase('hero-name'); }
+    else if (phase === 'awakening') { state.nameDraft = state.heroName; void setPhase('hero-name'); }
     else if (phase === 'named') void setPhase('trouble');
     else if (phase === 'trouble') void setPhase('help-choice');
     else if (phase === 'enter') {
@@ -725,6 +894,7 @@ async function main() {
   /** @param {ActionResult} result @param {boolean} [running] @param {boolean} [autonomous] */
   function presentDungeonResult(result, running = false, autonomous = false) {
     const dungeon = currentDungeon(); if (!dungeon || disposed) return;
+    enqueueLiveMessages(result);
     view.events = result.events; view.eventStartedAt = clock;
     // Comparative native walking spans 24 frames, or 12 with Fast selected.
     // Running suppresses movement interpolation rather than shortening turns.
@@ -786,7 +956,7 @@ async function main() {
     if (dungeon.status === 'defeated') { void setPhase('defeated'); return; }
     if (dungeon.pendingLearning.length) { dungeonMenus.learning(); return; }
     if (dungeon.status === 'stairs') {
-      if (getDungeonTurnPhase(dungeon) === 'input') dungeonMenus.stairs();
+      if (getDungeonTurnPhase(dungeon) === 'input') { audio.effect('open'); dungeonMenus.stairs(); }
       return;
     }
     const unseen = GENERAL_TUTORIALS.findIndex((_, index) => !state?.tutorialSeen.includes(index + 1));
@@ -846,17 +1016,60 @@ async function main() {
     const toolbar = renderer.getToolbarBounds().find(bound => x >= bound.x && x < bound.x + bound.width && y >= bound.y && y < bound.y + bound.height);
     if (toolbar) { handleToolbar(toolbar.id, event); return; }
     if (!nameEntry.hidden) {
-      if (y >= 10 && y <= 57) { nameInput.focus(); nameInput.select(); return; }
+      if (x >= 32 && x <= 224 && y >= 16 && y <= 72) { nameInput.focus(); nameInput.select(); }
+      return;
     }
     screens.focus(); handleInput('confirm', event);
   });
   bottomCanvas.addEventListener('pointerup', event => { activate(event); });
-  nameInput.addEventListener('input', () => {
-    if (!state || !['hero-name', 'partner-name'].includes(state.phase)) return;
-    state.nameDraft = sanitizeName(nameInput.value);
-    if (nameInput.value !== state.nameDraft) nameInput.value = state.nameDraft;
-    view.nameValue = state.nameDraft; commitSoon();
+  /** @returns {NamingState|null} */
+  function activeNameField() {
+    if (disposed || busy || nameEntry.hidden || !helpPanel.hidden || document.activeElement !== nameInput) return null;
+    return namingState();
+  }
+  /** @param {NameComposition|null} owner */
+  function ownsNameComposition(owner) {
+    return Boolean(owner && !disposed && !busy && !nameEntry.hidden && isNaming() &&
+      owner.transition === transition && owner.editor === state?.naming);
+  }
+  /** @param {NamingState|null} editor */
+  function syncNameInput(editor) {
+    if (!editor) return;
+    const prefix = nameInput.value.slice(0, nameInput.selectionStart ?? nameInput.value.length);
+    const caret = Array.from(sanitizeNamingText(prefix)).length;
+    replaceNamingText(editor, nameInput.value, caret);
+    if (nameInput.value !== editor.text) { nameInput.value = editor.text; nameInput.setSelectionRange(caret, caret); }
+    updateNaming(false);
+  }
+  nameInput.addEventListener('compositionstart', () => {
+    const editor = activeNameField();
+    nameComposing = Boolean(editor); completedNameComposition = null;
+    nameComposition = editor ? { editor, transition } : null;
   });
+  nameInput.addEventListener('compositionend', () => {
+    const owner = nameComposition;
+    nameComposing = false; nameComposition = null;
+    completedNameComposition = ownsNameComposition(owner) ? owner : null;
+    if (completedNameComposition) syncNameInput(completedNameComposition.editor);
+  });
+  nameInput.addEventListener('input', event => {
+    if (nameComposing || event instanceof window.InputEvent && event.isComposing) return;
+    const fromComposition = event instanceof window.InputEvent && /composition/i.test(event.inputType);
+    // Some browsers send a final input after compositionend. Admit it only for
+    // that same editor and phase; delayed IME events cannot edit a successor.
+    if (fromComposition && !ownsNameComposition(completedNameComposition)) return;
+    if (!fromComposition) completedNameComposition = null;
+    syncNameInput(activeNameField());
+  });
+  function syncNameCaret() {
+    if (nameComposing) return;
+    const editor = activeNameField(); if (!editor) return;
+    const prefix = nameInput.value.slice(0, nameInput.selectionStart ?? nameInput.value.length);
+    editor.caret = Math.min(9, Array.from(editor.text).length, Array.from(sanitizeNamingText(prefix)).length);
+    updateNaming(false);
+  }
+  nameInput.addEventListener('select', syncNameCaret);
+  nameInput.addEventListener('keyup', syncNameCaret);
   for (const button of touchControls.querySelectorAll('button[data-key]')) {
     if (!(button instanceof HTMLButtonElement)) continue;
     const key = button.dataset.key; if (!key) continue;
@@ -886,9 +1099,15 @@ async function main() {
     const elapsed = lastFrame ? Math.min(50, Math.max(0, now - lastFrame)) : 0;
     lastFrame = now;
     if (startGate === 'running' && !document.hidden && document.hasFocus() && !paused && !busy && helpPanel.hidden) clock += elapsed;
+    if (liveMessageRemaining > 0 && !document.hidden && document.hasFocus() && isDungeonSurface()) {
+      liveMessageRemaining = Math.max(0, liveMessageRemaining - elapsed);
+      if (liveMessageRemaining === 0) clearLiveMessages();
+    }
+    if(mode==='opening')audio.setScene(clock-openingStarted>=BOOT_DURATION_MS?'opening':'silent');
     if (mode === 'opening' && clock - openingStarted >= OPENING_DURATION_MS) {
       mode = 'title'; titleImmediate = false; audio.setScene('title'); rebuild();
     }
+    advanceMenuCamera();
     const schedulerWorked = advanceDungeonClock();
     if (disposed) return;
     if (startGate === 'running' && !document.hidden && document.hasFocus() && !busy && !paused && helpPanel.hidden && !schedulerWorked && !dungeonTurnLocked()) input.update(now, isDungeonInput());
@@ -900,6 +1119,7 @@ async function main() {
     }
     view.choices = revealed || !speech ? labels : [];
     view.selectedIndex = selectedIndex; view.topScreen = topScreen; view.mapVisible = mapVisible;
+    if (mode === 'play' && state?.phase === 'dungeon') view.notice = liveMessages.length ? liveMessages.join('\n') : undefined;
     view.showGrid = isDungeonInput() && input.isFacing();
     view.gridLines = gridVisible;
     view.showToolbar = isDungeonInput() && clock >= eventUntil;
@@ -926,7 +1146,7 @@ async function main() {
   controlsToggle.setAttribute('aria-pressed', String(!touchControls.hidden));
   controlsToggle.setAttribute('aria-expanded', String(!touchControls.hidden));
   startup.hidden = true; game.hidden = false; application.setAttribute('aria-busy', 'false');
-  openingStarted = clock; audio.setScene('opening'); updateSoundButton(); rebuild();
+  openingStarted = clock; audio.setScene('silent'); updateSoundButton(); rebuild();
   // The host may deliberately own a pending overlay activation during loading.
   // Only refine focus already inside this document; never steal it from there.
   if (document.hasFocus()) screens.focus();

@@ -16,6 +16,9 @@ const ACTIVE_STATUSES=new Set(['sleep','paralysis','poisoned','burn','cringe','c
 const STATUS_CLASSES=[['poison','burn','paralysis'],['cringe','confusion','infatuated'],['focusEnergy','whiffer'],['bide','enraged']];
 const NEGATIVE_STATUSES=['sleep','poison','burn','paralysis','cringe','confusion','infatuated','leechSeed','whiffer','slow'];
 export const STATUS_KEYS=Object.freeze([...NEGATIVE_STATUSES,'focusEnergy','bide','enraged','reflect']);
+/** Scoped native visualFlags bits, used only to deduplicate activation text.
+ * @type {Readonly<Record<string,number>>} */
+export const ABILITY_VISUAL_FLAGS=Object.freeze({Guts:0x01,Overgrow:0x02,Blaze:0x20,Torrent:0x80});
 /** Read afresh after an effect that can end the dungeon. @param {DungeonState} state */
 function defeated(state) { return state.status==='defeated'; }
 /** Explicit handler coverage prevents a later learned move from consuming PP
@@ -37,6 +40,24 @@ export function supportsMove(move) {
 }
 /** @param {OpeningData} data @param {Actor} actor @param {string} name */
 export function ability(data,actor,name) { return data.species[actor.speciesId]?.abilities.includes(name) ?? false; }
+/** SetVisualFlags announces only a false-to-true transition. A later inactive
+ * evaluation clears the bit; unrelated move types do not evaluate a type boost.
+ * @param {DungeonState} state @param {Actor} actor @param {string} name @param {boolean} active @param {GameEvent[]} events */
+function announceBoost(state,actor,name,active,events) {
+  const bit=ABILITY_VISUAL_FLAGS[name]??0,previous=actor.abilityVisualFlags??0;
+  actor.abilityVisualFlags=active?previous|bit:previous&~bit;
+  if(active&&!(previous&bit))message(state,events,`${actor.name}'s ${name} boosted its power!`);
+}
+/** Numerical calculation already succeeded. Preserve the native message order:
+ * stat abilities, then matching-type abilities, before the second accuracy roll.
+ * This never samples RNG, changes damage or infers a successful hit.
+ * @param {DungeonState} state @param {Actor} actor @param {MoveData} move @param {OpeningData} data @param {GameEvent[]} events */
+function announceDamageAbilities(state,actor,move,data,events) {
+  if(ability(data,actor,'Guts'))announceBoost(state,actor,'Guts',NEGATIVE_STATUSES.some(key=>!!actor.status[key]),events);
+  for(const [type,name] of /** @type {const} */([['water','Torrent'],['grass','Overgrow'],['fire','Blaze']])){
+    if(move.type===type&&ability(data,actor,name))announceBoost(state,actor,name,actor.hp<=Math.floor(actor.maxHp/4),events);
+  }
+}
 /** @param {string} name @returns {ElementType} */
 function element(name) { return /** @type {ElementType} */(name.charAt(0).toUpperCase()+name.slice(1)); }
 /** @param {OpeningData} data @param {Actor} actor @returns {[ElementType,ElementType]} */
@@ -152,18 +173,22 @@ function applyEffect(state,actor,target,effect,data,events) {
     else{recipient.status.slow=7+draw(state,2);message(state,events,`${recipient.name}'s Movement Speed fell!`);}
   }
 }
-/** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {MoveData} move @param {OpeningData} data */
-function damageAmount(state,actor,target,move,data) {
+/** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {MoveData} move @param {OpeningData} data @param {GameEvent[]} events */
+function damageAmount(state,actor,target,move,data,events) {
   const physical=isPhysicalType(element(move.type)),a=actor.stats,t=target.stats,regular=move.id==='regular-attack';
   let multiplier=regular?128:256;
   if(move.id==='move-low-kick')multiplier=data.species[target.speciesId]?.lowKickMultiplier??256;
   const armored=ability(data,target,'Battle Armor')||ability(data,target,'Shell Armor');
-  return calculateNormalDamage({
+  const result=calculateNormalDamage({
     type:{moveType:element(move.type),attackerTypes:types(data,actor),defenderTypes:types(data,target),defenderExposed:false,abilities:{wonderGuard:false,thickFat:ability(data,target,'Thick Fat'),flashFire:ability(data,target,'Flash Fire'),levitate:ability(data,target,'Levitate'),torrent:ability(data,actor,'Torrent'),overgrow:ability(data,actor,'Overgrow'),swarm:ability(data,actor,'Swarm'),blaze:ability(data,actor,'Blaze')},attackerHp:actor.hp,attackerMaxHp:actor.maxHp,weather:'clear',mudSport:false,waterSport:state.waterSport>0,charging:false},
     stats:{rawOffense:physical?a.attack:a.specialAttack,rawDefense:physical?t.defense:t.specialDefense,movePower:move.power,offenseStage:actor.stages[physical?'attack':'specialAttack']??10,defenseStage:target.stages[physical?'defense':'specialDefense']??10,offensiveMultiplierQ8:256,defensiveMultiplierQ8:256,flashFireBoost:0,attackerForm:'none',defenderForm:'none',skullBash:false,attackerItem:'none',defenderItem:'none',abilities:{guts:ability(data,actor,'Guts'),attackerNegativeStatus:NEGATIVE_STATUSES.some(key=>!!actor.status[key]),hugePower:ability(data,actor,'Huge Power'),purePower:ability(data,actor,'Pure Power'),hustle:ability(data,actor,'Hustle'),plus:false,minus:false,sameSidePlus:false,sameSideMinus:false,intimidate:ability(data,target,'Intimidate'),marvelScale:false,defenderNegativeStatus:false}},
     critical:{moveChance:move.criticalPercent,focusEnergy:!!actor.status.focusEnergy,typeAdvantageMaster:false,battleArmor:armored,shellArmor:false},teamMember:team(actor),leader:actor.id==='hero',integerBelly:Math.floor(actor.belly),level:actor.level,regularAttack:regular,targetEffectsApply:true,reflect:!!target.status.reflect,lightScreen:false,moveEffectMultiplierQ8:multiplier,
     rolls:actor.id!=='hero'&&Math.floor(actor.belly)===0?null:{sharedPowerRoll:draw(state,100),criticalRoll:armored?null:draw(state,100),varianceRoll:draw(state,16384)},
-  }).damage;
+  });
+  // Native early one-damage branches bypass both ability-flag evaluators.
+  // Accuracy 1 / absent-target failures never reach this function at all.
+  if(result.earlyReason===null)announceDamageAbilities(state,actor,move,data,events);
+  return result.damage;
 }
 /** An action consumes PP once; all targets and hits belong to that same turn.
  * @param {DungeonState} state @param {Actor} actor @param {number|'struggle'|null} slot @param {OpeningData} data @param {GameEvent[]} events */
@@ -186,7 +211,7 @@ export function attack(state,actor,slot,data,events) {
     if(damaging){
       const count=move.hitCount.min_hits===null?1:move.hitCount.min_hits+draw(state,(move.hitCount.max_hits??move.hitCount.min_hits)-move.hitCount.min_hits+1);
       for(let hit=0;hit<count&&target.hp>0&&actor.hp>0&&!defeated(state);hit++){
-        let amount=damageAmount(state,actor,target,move,data);
+        let amount=damageAmount(state,actor,target,move,data,events);
         if(!hits(state,actor,target,move.accuracyAfterDamage,data)){message(state,events,`${actor.name}'s attack missed!`);continue;}
         if(move.id==='move-false-swipe')amount=Math.min(amount,Math.max(0,target.hp-1));
         if(amount>0&&move.id!=='regular-attack'&&!team(target))target.experienceMarked=true;
@@ -199,8 +224,10 @@ export function attack(state,actor,slot,data,events) {
           const staticReaction=contact&&ability(data,target,'Static')&&draw(state,100)<12;
           const charmReaction=contact&&ability(data,target,'Cute Charm')&&draw(state,100)<12;
           for(const effect of move.effects){if(effect.op==='secondary'&&effect.effect&&draw(state,100)<(effect.chancePercent??0)&&!ability(data,target,'Shield Dust'))applyEffect(state,actor,target,effect.effect,data,events);}
-          if(staticReaction)inflict(state,target,actor,'paralysis',data,events);
-          if(charmReaction)inflict(state,target,actor,'infatuated',data,events);
+          // Native TriggerTargetAbilityEffect announces the sampled reaction
+          // immediately before the status helper, after move secondary effects.
+          if(staticReaction){message(state,events,`${target.name}'s Static activated!`);inflict(state,target,actor,'paralysis',data,events);}
+          if(charmReaction){message(state,events,`${target.name}'s Cute Charm activated!`);inflict(state,target,actor,'infatuated',data,events);}
         }
         if(amount>0&&move.id==='move-struggle'&&actor.hp>0&&!defeated(state))damage(state,actor,Math.max(1,Math.floor(actor.maxHp/4)),data,events);
       }

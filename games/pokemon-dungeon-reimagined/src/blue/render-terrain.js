@@ -76,8 +76,8 @@ export class Terrain {
       Number(matching(0,-1))<<4|Number(matching(-1,-1))<<5|Number(matching(-1,0))<<6|Number(matching(-1,1))<<7;
   }
 
-  /** @param {CanvasRenderingContext2D} context @param {import('./mechanics-types.js').DungeonState} state @param {number} cameraX @param {number} cameraY */
-  dungeon(context, state, cameraX, cameraY) {
+  /** @param {CanvasRenderingContext2D} context @param {import('./mechanics-types.js').DungeonState} state @param {number} cameraX @param {number} cameraY @param {{fullyLit?:boolean}} [options] */
+  dungeon(context, state, cameraX, cameraY,options={}) {
     const atlas=this.images.get('tiny-woods-tiles');if(!atlas)return;
     block(context,0,0,256,192,'#619e00');
     const left=Math.floor(cameraX/TILE),top=Math.floor(cameraY/TILE);
@@ -91,7 +91,7 @@ export class Terrain {
       const sample=terrainHash(x,y,state.floor)%4,requested=sample===3?0:sample;
       const cell=this.lookup[((floor?512:0)+mask)*3+requested]??0;
       context.drawImage(atlas,cell%25*TILE,Math.floor(cell/25)*TILE,TILE,TILE,Math.round(screenX),Math.round(screenY),TILE,TILE);
-      if(!inside||!state.visible[index]) { context.fillStyle=inside&&state.explored[index]?'#112b2373':'#10221ee6';context.fillRect(Math.round(screenX),Math.round(screenY),TILE,TILE); }
+      if(!options.fullyLit&&(!inside||!state.visible[index])) { context.fillStyle=inside&&state.explored[index]?'#112b2373':'#10221ee6';context.fillRect(Math.round(screenX),Math.round(screenY),TILE,TILE); }
     }
   }
 

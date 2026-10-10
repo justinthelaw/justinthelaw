@@ -8103,6 +8103,85 @@
     },
     "provenance": "Original indexed A01P01 BMA/BPC layers and A01P01/A01P02/S01 BPL palettes. Native8:8 blend, opposite half-pixel-per-tick vertical scroll and63 eight-tick palette frames; comparison to Blue timing remains qualified."
   },
+  "boot": {
+    "sourceManifestSha256": "2846462c3a7094ab663ec42392bfbfea03e714da1e791a6755cc5a90f8d983c9",
+    "cards": [
+      {
+        "id": "pokemon-company",
+        "rect": [
+          0,
+          0,
+          256,
+          192
+        ],
+        "matchedFiveBitPixels": 48960,
+        "sourceSha256": "b6cedd741924c27f42c3ac3bf5db4ff7c0677bd31a4863ac6e2c731619a171a2"
+      },
+      {
+        "id": "nintendo",
+        "rect": [
+          0,
+          192,
+          256,
+          192
+        ],
+        "matchedFiveBitPixels": 48960,
+        "sourceSha256": "efd635b354217c6bfcdd5936cbae1c76e3df6daca69abe81b16d3c3cc1a978ab"
+      },
+      {
+        "id": "chunsoft",
+        "rect": [
+          0,
+          384,
+          256,
+          192
+        ],
+        "matchedFiveBitPixels": 48960,
+        "sourceSha256": "d4e5271f4aa29b47fb99d6d87e06d2927474ad3504a2b75ab2b00d8cd187800f"
+      },
+      {
+        "id": "copyright",
+        "rect": [
+          0,
+          576,
+          256,
+          192
+        ],
+        "matchedFiveBitPixels": 48960,
+        "sourceSha256": "718b27415f56ab9432e07929bcf1121c67d800f1667b33b6a6eaaa078418bddd"
+      }
+    ],
+    "sourceEdition": "Original Blue captures with comparative native logo-data corroboration",
+    "reconstructedBlankColumn": "Published screenshots omit one column. Runtime places each255px image at x1; the missing blank column uses the matching source background, white for the first two cards and black for the last two. No logo or text pixel is invented.",
+    "timing": {
+      "cardStartTicks": [
+        0,
+        122,
+        244,
+        366
+      ],
+      "fadeInTicks": 20,
+      "holdTicks": 60,
+      "fadeOutTicks": 20,
+      "totalTicks": 534,
+      "nominalHz": 60
+    },
+    "timingQualification": "Source-derived cue/return/palette-exit schedule; Blue video establishes broad order and black exit but was not frame-counted.",
+    "directBlueVideo": {
+      "url": "https://www.youtube.com/watch?v=4iTyZkVX9DI",
+      "method": "Manual normal-browser inspection by the root reviewer.",
+      "observations": {
+        "1": "The Pokémon Company black lettering on white.",
+        "3": "Red Nintendo wordmark on white.",
+        "5": "Blue/yellow CHUNSOFT logo and website on black.",
+        "7": "Separate copyright card with2006,1995–2006 and1993–2006 lines.",
+        "8": "Copyright remains fully visible.",
+        "9": "Black frame.",
+        "10": "Post Office interior during fade-in; client at bottom edge."
+      },
+      "limitations": "Compressed, horizontally stretched single-screen footage establishes sequence and broad timing, not frame timing, exact color channels or top-screen color."
+    }
+  },
   "mapLabel": {
     "bounds": [
       56,
@@ -8187,7 +8266,7 @@
       "height": 312,
       "bytes": 34648,
       "sha256": "9cda610fb827466efc4656a89c1775cd493b33e4b8977865749bd8af179af09e",
-      "provenance": "Complete original288x312 S03 ground map decoded from public BMA/BPC/BPL files, including its native margins; palette animation disabled by original opening map selection."
+      "provenance": "Complete original288x312 S03 ground map decoded from public BMA/BPC/BPL files, including native margins. Daytime palette retained: original Blue video4iTyZkVX9DI at0:24/0:25/0:27 shows no Red sunset transition. Compressed footage is qualitative evidence, not pixel proof."
     },
     {
       "id": "title",
@@ -8224,6 +8303,15 @@
       "bytes": 24950,
       "sha256": "6f33e3605d27b6e1089a45ab893f55a17f29422a51667cf5d71d85ec2ca08896",
       "provenance": "Two original480x384 personality background index layers, packed without resampling. Grayscale encodes the4-bit palette index; runtime uses original palette data and native integer blending."
+    },
+    {
+      "id": "boot-cards",
+      "path": "boot-cards.png",
+      "width": 256,
+      "height": 768,
+      "bytes": 9151,
+      "sha256": "dcd2fffdacc3043b9fc212bab5ef120926e5ab23feb5f340554efc6954400994",
+      "provenance": "Four original Blue company/copyright captures; all48960 pixels per card match native logo data at five-bit precision. Blue copyright is9px lower than Red. Only the omitted blank first column is restored from the proven background."
     }
   ]
 }

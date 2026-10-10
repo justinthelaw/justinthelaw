@@ -1,5 +1,6 @@
 import { createAudioBus } from './audio-transport.js';
 import { DEFAULT_AUDIO_PREFERENCES, normalizeAudioPreferences } from './audio-preferences.js';
+import { MENU_EFFECTS, MENU_EFFECT_THROTTLE_SECONDS } from './audio-menu-data.js';
 /** @typedef {import('./audio-types.js').AudioScene} AudioScene */
 /** @typedef {import('./audio-types.js').AudioEffect} AudioEffect */
 /** @typedef {import('./audio-types.js').AudioPreferences} AudioPreferences */
@@ -28,7 +29,7 @@ const EFFECTS = Object.freeze({
   reward: 'effect-reward', levelUp: 'effect-level-up', faint: 'effect-faint',
   hunger: 'effect-hunger', spark: 'effect-story-spark',
 });
-/** Scoped original score for the opening. The caller owns the current scene;
+/** Scoped authored score and comparative native menu effects. The caller owns the current scene;
  * this manager never imports game state, allocates WebGL, or changes a save.
  * Call activate(event) directly within the iframe's native input handler. It
  * remains silent until that trusted gesture; synthesized host keys cannot unlock.
@@ -39,7 +40,7 @@ export function createOpeningAudio(doc) {
   const epoch = 'blue-opening';
   /** @type {AudioScene} */ let scene = 'silent';
   /** @type {AudioPreferences} */ let preferences = DEFAULT_AUDIO_PREFERENCES;
-  let revision = 0, eventId = 0, disposed = false;
+  let revision = 0, eventId = 0, disposed = false, lastGeneralMenuEffect = -Infinity;
   bus.beginEpoch(epoch);
   bus.setPreferences(preferences);
   /** @param {readonly {eventId:number,cueId:string}[]} [effects] */
@@ -62,6 +63,11 @@ export function createOpeningAudio(doc) {
    */
   function effect(name) {
     if (disposed || !Object.hasOwn(EFFECTS, name)) return false;
+    if (scene !== 'dungeon' && MENU_EFFECTS[EFFECTS[name]]) {
+      const now = (doc.defaultView?.performance.now() ?? Date.now()) / 1000;
+      if (now - lastGeneralMenuEffect < MENU_EFFECT_THROTTLE_SECONDS) return true;
+      lastGeneralMenuEffect = now;
+    }
     return present([{ eventId: ++eventId, cueId: EFFECTS[name] }]);
   }
   /** Setting mute never grants permission to start audio.

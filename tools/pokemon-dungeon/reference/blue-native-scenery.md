@@ -19,13 +19,14 @@ imports or executes the browser game. The main Blue art exporter invokes it.
 | Upper location display | Lossless crop 8,8,256,192 of [Blue press image ss02](../art/blue/native-reference/manifest.json) | The underlying [world map](https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_World_Map.png), crop 63,80,256,192, independently matches 38,427 pixels; final export retains the marker and restores the label rectangle so blue/pink UI can be drawn dynamically |
 | Dungeon tiles | Original `b14fon`, `b14cel` and `b14cex` byte literals in [the public native archive](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon_sbin.s) | All 206 independently archived [DTEF wall/floor variants](https://github.com/PMDCollab/RawAsset/tree/03c80dad937911572f8fb19903771a47956fc696/TileDtef/TinyWoods) match the original cell lookup, plus 600 complete 24x24 tile comparisons against original Blue `ss01` |
 | Caterpie rescue ending | Original `D01P02m.bma` fixed layout, tileset 14, variant 0 and original ground-scene palette | Source camera 180,168 and Blue display center 129,108 give crop 51,60,256,192; the sunken dirt rectangle, rocky rim and bottom path agree with the [original Blue video at 5:12](https://www.youtube.com/watch?v=RrglH3dOqrg&t=312s) |
-| Aerial town | Complete original `S03.bpl`, `S03c.bpc` and `S03m.bma` | The full 288x312 map includes sky and native margins; the opening map-selection code disables its sunset palette animation |
+| Aerial town | Complete original `S03.bpl`, `S03c.bpc` and `S03m.bma` | The full 288x312 map includes sky and native margins. [Original Blue footage](https://www.youtube.com/watch?v=4iTyZkVX9DI&t=24s) stays blue/green at 0:24, 0:25 and the white fade at 0:27, so the comparative Red sunset cycle remains unselected |
 | Post Office interior | [Original384x312 image](https://github.com/PMDCollab/RawAsset/blob/03c80dad937911572f8fb19903771a47956fc696/Tile/24x24/PostOffice.png) | Crop76,78,255,192 matches47,952 pixels of the [startup screenshot](https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Startup_Cutscene.png); the remaining pixels are actors |
 | Post Office exterior | Lossless 256x192 crop from the [published mega_leo scene sheet](https://www.pinterest.com/pin/pokemon-mystery-dungeon-rrt-intro-scenes--480196378991037109/) | Sheet coordinates 285,114; no resizing or invented edge pixels. The unused ocean image stays in authoring evidence only |
 | Title | Lower256x192 display of [JRK's original Blue title capture](https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287133/) | The36x18 captured letter region is replaced only by unoccluded pixels from the [other original title frame](https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_NA_English_logo.png); full-display x1 equals the narrower frame's x0 |
 | Press START | Original75x11 glyph image at full-display95,144 | Black outline and enclosed white foreground isolated from the original title frame; no replacement font |
 | Items | Public original indexed16x16 [Item01 images](https://github.com/pret/pmd-red/tree/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ornament/Item01) | Berry and money indices equal dungeon `itempat` sprites2 and6 byte-for-byte; parameter records55/63/66/105 select palettes0/10/4/3 |
 | Personality background | Original `A01P01c.bpc` and `A01P01m.bma` indexed layers; `S01.bpl`, `A01P01.bpl` and `A01P02.bpl` palettes | Two 480x384 layers, camera 244,156, opposite 0.5px/tick scroll, 8:8 integer blend, and 63 palette frames lasting eight ticks each; direct Blue timing comparison remains open |
+| Company cards | Four published original Blue captures, corroborated against native `S04` data | All 48,960 pixels per card match at five-bit precision; Blue copyright sits nine pixels lower. See [boot-card evidence](blue-boot-cards.md) |
 
 The original Blue press PNGs are retained once in `art/blue/native-reference/`.
 The background, palette and crop comparison records are under
@@ -73,7 +74,7 @@ it does not reproduce the cartridge's cosmetic RNG call order. The fixed ending
 uses variant 0, as the original ground-dungeon loader does, with no random choice.
 
 The selected scenery profile is `blue-native-scenery-v2`. Its only runtime files
-are `manifest.json` and the 12 PNG records it lists, totaling 300,060 bytes.
+are `manifest.json` and the 13 PNG records it lists, totaling 312,493 bytes.
 Aura palette tables are embedded in that manifest; there is no second aura JSON
 or binary download. The packed aura image is decoded once and released. Its
 reusable 256x192 output buffer updates only when a native pixel offset or palette

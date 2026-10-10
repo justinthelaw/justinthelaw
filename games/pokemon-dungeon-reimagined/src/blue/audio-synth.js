@@ -7,9 +7,9 @@ import { AUDIO_CATALOG } from './audio-catalog.js';
 export const MAX_VOICES = 32;
 const MAX_BUS_VOICES = 16;
 /** One oscillator/envelope per voice; no samples, buffers, noise RNG or worklets.
- * @param {AudioContext} context @param {GainNode} music @param {GainNode} effects
+ * @param {AudioContext} context @param {GainNode} music @param {GainNode} effects @param {()=>number} [otherVoices]
  */
-export function createSynth(context, music, effects) {
+export function createSynth(context, music, effects, otherVoices = () => 0) {
   /** @type {Set<Voice>} */ const voices = new Set();
   /** @param {Voice} voice */
   function release(voice) {
@@ -30,7 +30,7 @@ export function createSynth(context, music, effects) {
    * @param {Note} note @param {Cue} cue @param {number} when @param {Bus} bus
    */
   function schedule(note, cue, when, bus) {
-    if (voices.size >= MAX_VOICES || [...voices].filter(voice => voice.bus === bus).length >= MAX_BUS_VOICES) return false;
+    if (voices.size + otherVoices() >= MAX_VOICES || [...voices].filter(voice => voice.bus === bus).length >= MAX_BUS_VOICES) return false;
     const patch = AUDIO_CATALOG.patches[note.patch];
     if (!patch) return false;
     const length = note.length * 60 / cue.bpm;

@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "normalization": "RGB555 capture channels are expanded through the native Blue 5-to-6-bit display mapping; this also removes sub-quantum press-capture noise.",
+  "teamRows": {
+    "width": 256,
+    "height": 48,
+    "emptyExactPixels": 12288,
+    "occupiedPedestal": {
+      "width": 48,
+      "height": 48,
+      "exposedPositions": 2170,
+      "inferredPositions": 134,
+      "paletteMappings": {
+        "female": {
+          "73,73,113": "105,24,56",
+          "121,121,121": "186,130,48",
+          "138,138,138": "203,154,81",
+          "170,170,170": "219,195,138",
+          "154,154,154": "219,178,113",
+          "105,105,105": "162,97,24",
+          "65,65,65": "138,65,0",
+          "186,186,186": "235,219,170",
+          "195,195,195": "243,227,195"
+        },
+        "male": {
+          "73,73,113": "73,73,113",
+          "121,121,121": "186,130,48",
+          "138,138,138": "203,154,81",
+          "170,170,170": "219,195,138",
+          "154,154,154": "219,178,113",
+          "105,105,105": "162,97,24",
+          "65,65,65": "138,65,0",
+          "195,195,195": "243,227,195",
+          "186,186,186": "235,219,170"
+        }
+      }
+    },
+    "spriteMasks": [
+      {
+        "speciesId": "pokemon-025",
+        "poseIndex": 21,
+        "opaquePixels": 333,
+        "anchor": [
+          24,
+          40
+        ]
+      },
+      {
+        "speciesId": "pokemon-004",
+        "poseIndex": 21,
+        "opaquePixels": 254,
+        "anchor": [
+          24,
+          40
+        ]
+      },
+      {
+        "speciesId": "pokemon-054",
+        "poseIndex": 22,
+        "opaquePixels": 287,
+        "anchor": [
+          24,
+          40
+        ]
+      },
+      {
+        "speciesId": "pokemon-025",
+        "poseIndex": 21,
+        "opaquePixels": 333,
+        "anchor": [
+          24,
+          40
+        ]
+      },
+      {
+        "speciesId": "reference-magnemite",
+        "poseIndex": 23,
+        "opaquePixels": 138,
+        "anchor": [
+          24,
+          39
+        ]
+      }
+    ],
+    "panelCenter": "Horizontal stripe inferred between x56 and x247 from unobscured x240; rounded edges x48..55 and248..255 are direct source pixels.",
+    "retailText": [
+      {
+        "label": "name",
+        "origin": [
+          56,
+          56
+        ],
+        "exactPixels": 191
+      },
+      {
+        "label": "level",
+        "origin": [
+          60,
+          19
+        ],
+        "exactPixels": 174
+      },
+      {
+        "label": "currentHP",
+        "origin": [
+          122,
+          19
+        ],
+        "exactPixels": 69
+      },
+      {
+        "label": "slash",
+        "origin": [
+          134,
+          19
+        ],
+        "exactPixels": 20
+      },
+      {
+        "label": "maximumHP",
+        "origin": [
+          145,
+          19
+        ],
+        "exactPixels": 69
+      },
+      {
+        "label": "leaderTactic",
+        "origin": [
+          148,
+          30
+        ],
+        "exactPixels": 159
+      },
+      {
+        "label": "partnerTactic",
+        "origin": [
+          148,
+          78
+        ],
+        "exactPixels": 360
+      }
+    ],
+    "layoutQualification": "The selected English retail layout follows Moby287134 name x56 and level/item x60, also corroborated at half size by the official English manual p25. Press ss01 uses x72/x76 instead. A pre-release/build difference is a possibility, not an established explanation."
+  },
+  "fileMenu": {
+    "reference": "menu-blue-localized.png",
+    "original": "menu-delivery-source.png",
+    "editionQualification": "Korean localization of Blue; background only. Source illustration is publicly retained in Explorers of Sky.",
+    "exactUnobscuredPixels": 31040,
+    "clippedColumn": 0,
+    "excludedUiRectangles": [
+      [
+        16,
+        16,
+        104,
+        88
+      ],
+      [
+        16,
+        128,
+        224,
+        40
+      ]
+    ],
+    "mailbox": {
+      "original": "menu-mailbox-source.png",
+      "video": "https://www.youtube.com/watch?v=RrglH3dOqrg&t=5s",
+      "proofLevel": "English Blue scene identity; pixel bytes and palette are source-qualified, not measured from compressed video."
+    }
+  }
+}

@@ -7,6 +7,7 @@ import { Raster } from '../pixel/raster.mjs';
 import { decodePng } from './native-format.mjs';
 import { decodeAt4px, renderGroundMap, nativeDungeonAtlas, renderFixedDungeon } from './native-ground-format.mjs';
 import { nativeAuraAssets } from './native-aura-format.mjs';
+import { nativeBootAssets } from './native-boot-format.mjs';
 
 const sourceRoot = new URL('./native-scenery/', import.meta.url);
 const referenceRoot = new URL('./native-reference/', import.meta.url);
@@ -86,6 +87,7 @@ export async function exportNativeScenery({ check = false } = {}) {
   const nativeLookup = mapFiles.get('b14cex.at4px');
   const rescueEnd = renderFixedDungeon(mapFiles.get('D01P02m.bma'), groundTiles, nativeLookup).image;
   const aura = nativeAuraAssets(mapFiles, mapSources.aura);
+  const boot = await nativeBootAssets();
   const itemPalettes = new Map();
   for (const record of sources.palettes) {
     const bytes = await readFile(new URL(record.path, sourceRoot));
@@ -192,11 +194,12 @@ export async function exportNativeScenery({ check = false } = {}) {
     ['stairs-down', nativeBlue(images.get('Object-Stairs_Down.None.png')), 'Original published stairs image with native Blue channel expansion.'],
     ['post-interior', crop(groundMaps.get('post-interior'), 72, 90, 384, 312), 'Original T01P04 BMA/BPC/BPL image, cropped without scaling; source-world origin(72,90), DS displaycenter(129,108) proven by independent backdrop and exact Pelipper anchors.'],
     ['post-exterior', nativeBlue(crop(images.get('intro-scenes-mirror.png'), 285, 114, 256, 192)), 'Lossless native-size crop from the credited mega_leo introductory scene sheet, then native Blue channel expansion; comparative Rescue Team scene, Blue camera still requires frame corroboration.'],
-    ['town-aerial', groundMaps.get('town-aerial'), 'Complete original288x312 S03 ground map decoded from public BMA/BPC/BPL files, including its native margins; palette animation disabled by original opening map selection.'],
+    ['town-aerial', groundMaps.get('town-aerial'), 'Complete original288x312 S03 ground map decoded from public BMA/BPC/BPL files, including native margins. Daytime palette retained: original Blue video4iTyZkVX9DI at0:24/0:25/0:27 shows no Red sunset transition. Compressed footage is qualitative evidence, not pixel proof.'],
     ['title', nativeBlue(title), 'Original complete256x192 Blue title frame. Captured letter rectangle(178,0,36,18) replaced by unoccluded pixels from the second original title capture at(177,0). No scaling or painted pixels; cloud/ocean phase is one observed frame.'],
     ['title-prompt', nativeTitlePrompt(siblingTitle), 'Original PRESS START pixels at full-display(95,144), isolated by its black outline and enclosed white glyphs; no font substitution.'],
     ['items', items, 'Original16x16 item pixels match public dungeon/itempat data byte-for-byte. Palettes0/3/4/10 and brightness31 follow the comparative source; Blue item palette still requires direct screenshot corroboration.'],
     ['aura-indices', aura.image, 'Two original480x384 personality background index layers, packed without resampling. Grayscale encodes the4-bit palette index; runtime uses original palette data and native integer blending.'],
+    ['boot-cards', boot.image, 'Four original Blue company/copyright captures; all48960 pixels per card match native logo data at five-bit precision. Blue copyright is9px lower than Red. Only the omitted blank first column is restored from the proven background.'],
   ]) {
     const path = `${id}.png`, bytes = art.png(); await emit(path, bytes);
     records.push({ id, path, width: art.width, height: art.height, bytes: bytes.length, sha256: digest(bytes), provenance });
@@ -209,6 +212,7 @@ export async function exportNativeScenery({ check = false } = {}) {
     terrain: { tileSize: 24, sheetWidth: 600, sheetHeight: 240, columns: 25, cellCount: 250, lookup: Array.from(nativeLookup), maskDirections: ['s','se','e','ne','n','nw','w','sw'], paletteSha256: digest(paletteBytes), corroboratedNativeCells, variantSelection: 'Native0/1/2 weighting2:1:1 from an isolated deterministic coordinate hash; original cartridge cosmetic RNG ordering is not yet reproduced.' },
     items: { ...sources.items, cell: 16, anchor: [8, 8] },
     aura: aura.metadata,
+    boot: boot.metadata,
     mapLabel: { bounds: [56,152,184,32], textOrigin: [121,162], text: 'Tiny Woods' },
     records,
   };

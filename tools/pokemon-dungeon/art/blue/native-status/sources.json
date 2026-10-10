@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+  "sourceEdition": "Red Rescue Team comparative",
+  "qualification": "Published original status-image sources and source-derived attachment/timing facts. Blue status graphics and timing have not been pixel-corroborated. No ROM is used.",
+  "sources": [
+    {
+      "path": "src/dungeon_pokemon_sprites.c",
+      "sha256": "55a197e17c485234e41f8d4fbf88c2949f29b0545ba5d8c4e95ec697fcf7bf2c"
+    },
+    {
+      "path": "src/dungeon_8041AD0.c",
+      "sha256": "09abd0f9942cae38b34e61676a20cb61cc4b451e09786ad5a57ad10ac610d0f6"
+    },
+    {
+      "path": "src/dungeon_mon_sprite_render.c",
+      "sha256": "a0d8ed04930f3edae3a93eca3ec47d3512efc94c06ce3f16821a9930b07a43c7"
+    },
+    {
+      "path": "src/sprite.c",
+      "sha256": "f7ae33c492686366b4c6b5508f76612a31bcc87e9c738569e54e82c774af87eb"
+    },
+    {
+      "path": "include/constants/status.h",
+      "sha256": "25335d6d2ba4b02009b1a39fa368b68cd62aa12eb05f147bfd0baf37fef797bc"
+    }
+  ],
+  "records": [
+    {
+      "id": "sleep",
+      "sourcePath": "graphics/status/sleep.png",
+      "path": "sleep.png",
+      "bytes": 354,
+      "sha256": "405d28392b582843f577d6bbe7241c6d6253594f1371223f3c50bc5b779e3650",
+      "width": 16,
+      "height": 160,
+      "frameHeight": 16,
+      "frames": 10,
+      "palette": 4,
+      "bit": 26,
+      "phase": 3,
+      "xShift": 8
+    },
+    {
+      "id": "burn",
+      "sourcePath": "graphics/status/burned.png",
+      "path": "burned.png",
+      "bytes": 558,
+      "sha256": "433627f5b79fe04cb1c9b07d0d14b07b76bea9a1aaea7e744a5eda81cbcbcdcc",
+      "width": 16,
+      "height": 112,
+      "frameHeight": 16,
+      "frames": 7,
+      "palette": 0,
+      "bit": 1,
+      "phase": 0,
+      "xShift": 0
+    },
+    {
+      "id": "poison",
+      "sourcePath": "graphics/status/poisoned.png",
+      "path": "poisoned.png",
+      "bytes": 458,
+      "sha256": "d91eb29f25939f509711dcdb3275ad94ff7af520496790a3872c43748686ab95",
+      "width": 16,
+      "height": 256,
+      "frameHeight": 16,
+      "frames": 16,
+      "palette": 11,
+      "bit": 2,
+      "phase": 0,
+      "xShift": 0
+    },
+    {
+      "id": "confusion",
+      "sourcePath": "graphics/status/confused.png",
+      "path": "confused.png",
+      "bytes": 507,
+      "sha256": "6459686578298e8d94d0d101ba6deb2a987b195a9151fc26d68181add510cda0",
+      "width": 32,
+      "height": 64,
+      "frameHeight": 16,
+      "frames": 4,
+      "palette": 0,
+      "bit": 4,
+      "phase": 1,
+      "xShift": 0
+    },
+    {
+      "id": "whiffer",
+      "sourcePath": "graphics/status/whiffer.png",
+      "path": "whiffer.png",
+      "bytes": 397,
+      "sha256": "0503f26e42e2772e04ab5b5fb4b1bd918215dfef64770a8ff561237c760ffeea",
+      "width": 16,
+      "height": 144,
+      "frameHeight": 16,
+      "frames": 9,
+      "palette": 10,
+      "bit": 17,
+      "phase": 1,
+      "xShift": 0
+    },
+    {
+      "id": "reflect",
+      "sourcePath": "graphics/status/shield.png",
+      "path": "shield.png",
+      "bytes": 531,
+      "sha256": "3f44ee1c760a30a189bb33e22c314ce9ef0ba8cfecd141dd12835f8de5c93e34",
+      "width": 16,
+      "height": 208,
+      "frameHeight": 16,
+      "frames": 13,
+      "palette": 0,
+      "bit": 8,
+      "phase": 2,
+      "xShift": 0
+    },
+    {
+      "id": "focus-energy",
+      "sourcePath": "graphics/status/sword.png",
+      "path": "sword.png",
+      "bytes": 410,
+      "sha256": "acde3682e4c1aca72034e67ab7cc64ad4be349a41c5e6248175336c2f2fc5d7b",
+      "width": 16,
+      "height": 208,
+      "frameHeight": 16,
+      "frames": 13,
+      "palette": 4,
+      "bit": 19,
+      "phase": 2,
+      "xShift": 0
+    },
+    {
+      "id": "low-hp",
+      "sourcePath": "graphics/status/lowhp.png",
+      "path": "lowhp.png",
+      "bytes": 304,
+      "sha256": "ea52c7ce8f3d6f0ff3f0a06f8aa049f72f5cb5faebeeba676a51fb0a79674156",
+      "width": 8,
+      "height": 128,
+      "frameHeight": 16,
+      "frames": 8,
+      "palette": 0,
+      "bit": 13,
+      "phase": 1,
+      "xShift": 0
+    },
+    {
+      "id": "stat-down",
+      "sourcePath": "graphics/status/statdown.png",
+      "path": "statdown.png",
+      "bytes": 374,
+      "sha256": "5d06aed9f9f33c80d8d7b8a10ea9c90d6df780619a56974662aad4de05d578f5",
+      "width": 16,
+      "height": 160,
+      "frameHeight": 16,
+      "frames": 10,
+      "palette": 3,
+      "bit": 27,
+      "phase": 2,
+      "xShift": 0
+    }
+  ],
+  "paletteSource": "../native-sprite-source.tar.gz",
+  "selectionFrames": 61,
+  "animationFrameTicks": 4
+}

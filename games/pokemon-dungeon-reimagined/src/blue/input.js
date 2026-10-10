@@ -1,5 +1,5 @@
 /** Browser input adapter. Simulation is never advanced by native key repeat. */
-/** @typedef {'confirm'|'cancel'|'menu'|'map'|'wait'|'setMove'|'north'|'south'|'west'|'east'} InputAction */
+/** @typedef {'confirm'|'cancel'|'menu'|'map'|'wait'|'setMove'|'caretLeft'|'caretRight'|'north'|'south'|'west'|'east'} InputAction */
 /** @typedef {{delayMs:number,accepted:boolean,stopRepeat?:boolean}} MoveResult */
 /** @typedef {{action:(action:InputAction,event?:Event)=>void,move:(dx:number,dy:number,faceOnly:boolean,run:boolean,continuedDash:boolean)=>MoveResult,activate:(event:Event)=>boolean,interrupt:()=>void}} InputHandlers */
 
@@ -24,6 +24,7 @@ export function createInput(doc, handlers) {
   let nextMove = 0;
   let moving = false;
   let disposed = false;
+  let composing = false;
   let bUsed = false;
   let shiftUsed = false;
   let revision = 0;
@@ -85,7 +86,7 @@ export function createInput(doc, handlers) {
   function keyboardOwner(event) { return `keyboard:${event.code || event.key.toLowerCase()}`; }
   /** @param {KeyboardEvent} event */
   function keydown(event) {
-    if (disposed || doc.hidden || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (disposed || doc.hidden || composing || event.isComposing || event.ctrlKey || event.metaKey || event.altKey) return;
     if (held.has('shift') && event.key.toLowerCase() !== 'shift') shiftUsed = true;
     if (isTyping(event.target)) {
       const overlayConfirm = !event.isTrusted && event.code === 'KeyZ' && confirmsInput(event.target);
@@ -109,7 +110,7 @@ export function createInput(doc, handlers) {
       return;
     }
     const key = event.key.toLowerCase();
-    if (['z', 'a', 'x', 'b', 'q', 'c', 'y', 'r', 's', 'shift', 'enter', 'escape', ' '].includes(key)) {
+    if (['z', 'a', 'x', 'b', 'q', 'l', 'c', 'y', 'r', 's', 'shift', 'enter', 'escape', ' '].includes(key)) {
       event.preventDefault();
       // Shift is also the browser's reverse-Tab modifier. Defer its standalone
       // Select action until release so keyboard navigation cannot start a game.
@@ -119,6 +120,8 @@ export function createInput(doc, handlers) {
         if (hasB()) bUsed = true;
         handlers.action(held.has('q') ? 'setMove' : hasB() ? 'wait' : 'confirm', event);
       } else if (key === 'enter' || key === 'escape') handlers.action('menu', event);
+      else if (key === 'q' || key === 'l') handlers.action('caretLeft', event);
+      else if (key === 'r') handlers.action('caretRight', event);
       else if (key === 's') handlers.action('map', event);
       else if (key === ' ') handlers.action('wait', event);
     }
@@ -127,15 +130,20 @@ export function createInput(doc, handlers) {
   function keyup(event) {
     const key = release(keyboardOwner(event));
     if (!hasDirection() && !pending.size) { moving = false; nextMove = 0; }
+    if (composing || event.isComposing) return;
     if ((key === 'b' || key === 'x') && !hasB() && !bUsed && !disposed && !doc.hidden && doc.hasFocus()) handlers.action('cancel', event);
     if (key === 'shift' && !held.has('shift') && !shiftUsed && !disposed && !doc.hidden && doc.hasFocus() && handlers.activate(event)) handlers.action('map', event);
   }
-  function interrupt() { clear(); handlers.interrupt(); }
+  function interrupt() { composing = false; clear(); handlers.interrupt(); }
   function visibility() { if (doc.hidden) interrupt(); }
   /** @param {FocusEvent} event */
   function focus(event) { if (isTyping(event.target)) clear(); }
+  function compositionStart() { clear(); composing = true; }
+  function compositionEnd() { composing = false; }
   doc.addEventListener('keydown', keydown);
   doc.addEventListener('keyup', keyup);
+  doc.addEventListener('compositionstart', compositionStart);
+  doc.addEventListener('compositionend', compositionEnd);
   doc.addEventListener('focusin', focus);
   doc.addEventListener('visibilitychange', visibility);
   doc.defaultView?.addEventListener('blur', interrupt);
@@ -201,11 +209,11 @@ export function createInput(doc, handlers) {
         // Always retire a matching owner, including while the leader is between
         // turns. Activation still receives an unowned release for the opening's
         // trusted first-tap gate, but cannot authorize a cancelled B action.
-        const activated = !cancelled && !disposed && !doc.hidden && handlers.activate(event);
+        const activated = !cancelled && !disposed && !doc.hidden && !composing && handlers.activate(event);
         if (activated && (released === 'b' || released === 'x') && !hasB() && !bUsed) handlers.action('cancel', event);
         return;
       }
-      if (disposed || doc.hidden || cancelled || !handlers.activate(event)) return;
+      if (disposed || doc.hidden || composing || cancelled || !handlers.activate(event)) return;
       if (isTyping(doc.activeElement)) {
         if (key === 'a' && confirmsInput(doc.activeElement)) handlers.action('confirm', event);
         return;
@@ -221,6 +229,8 @@ export function createInput(doc, handlers) {
       disposed = true; clear();
       doc.removeEventListener('keydown', keydown);
       doc.removeEventListener('keyup', keyup);
+      doc.removeEventListener('compositionstart', compositionStart);
+      doc.removeEventListener('compositionend', compositionEnd);
       doc.removeEventListener('focusin', focus);
       doc.removeEventListener('visibilitychange', visibility);
       doc.defaultView?.removeEventListener('blur', interrupt);

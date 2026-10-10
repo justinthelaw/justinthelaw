@@ -1,10 +1,11 @@
 /** A small, separate browser save journal for the Tiny Woods opening.
  * Historical campaign keys are never read, migrated, overwritten or removed.
  */
+import { isNamingText, validateNamingState } from './naming.js';
 /** @typedef {import('./onboarding.js').QuizState} QuizState */
 /** @typedef {import('./mechanics.js').DungeonState} DungeonState */
 /** @typedef {'welcome'|'quiz'|'gender'|'result'|'partner'|'partner-confirm'|'partner-name'|'partner-name-confirm'|'departure'|'awakening'|'hero-name'|'hero-name-confirm'|'named'|'trouble'|'help-choice'|'enter'|'dungeon'|'clearing'|'reunion'|'complete'|'defeated'} Phase */
-/** @typedef {{version:1,phase:Phase,line:number,quiz:QuizState,gender:'male'|'female',natureId:string,heroSpeciesId:string,partnerSpeciesId:string,heroName:string,partnerName:string,nameDraft:string,dungeon:DungeonState|null,tutorialSeen:number[],rewarded:boolean}} OpeningSave */
+/** @typedef {{version:1,phase:Phase,line:number,quiz:QuizState,gender:'male'|'female',natureId:string,heroSpeciesId:string,partnerSpeciesId:string,heroName:string,partnerName:string,nameDraft:string,naming?:import('./naming.js').NamingState,dungeon:DungeonState|null,tutorialSeen:number[],rewarded:boolean}} OpeningSave */
 /** @typedef {{state:OpeningSave|null,warning:string|null,hasStored:boolean}} LoadResult */
 /** @typedef {{slot:0|1,revision:number,state:OpeningSave}} SaveRecord */
 
@@ -51,12 +52,9 @@ export function validateOpeningSave(value, validateDungeon, speciesIds) {
       typeof value.rewarded !== 'boolean' || !Array.isArray(value.tutorialSeen) ||
       value.tutorialSeen.length > 3 || value.tutorialSeen.some(floor => !integer(floor, 3) || floor === 0)) return false;
   for (const field of ['heroName', 'partnerName', 'nameDraft']) {
-    const name = value[field];
-    if (typeof name !== 'string' || Array.from(name).length > 10 || Array.from(name).some(character => {
-      const code = character.codePointAt(0) ?? 0;
-      return code < 32 || code > 126 && character !== 'é';
-    })) return false;
+    if (!isNamingText(value[field])) return false;
   }
+  if (Object.hasOwn(value, 'naming') && (!validateNamingState(value.naming) || value.naming.text !== value.nameDraft)) return false;
   for (const field of ['heroSpeciesId', 'partnerSpeciesId']) {
     if (typeof value[field] !== 'string' || !speciesIds.has(value[field])) return false;
   }

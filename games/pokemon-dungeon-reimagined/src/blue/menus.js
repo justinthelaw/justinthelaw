@@ -1,10 +1,11 @@
 import { getGroundItem, itemName, setMoveEnabled, setShortcut } from './mechanics.js';
 import { IQ_SKILLS, TACTICS, canChangePolicy, hasIq, setTactic, tacticFor, talkToPartner, toggleIq } from './mechanics-policy.js';
+import { VECTORS } from './mechanics-common.js';
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
 /** @typedef {import('./mechanics-types.js').OpeningData} OpeningData */
 /** @typedef {import('./mechanics-types.js').DungeonAction} DungeonAction */
 /** @typedef {{label:string,run:(event?:Event)=>void,disabled?:boolean}} MenuChoice */
-/** @typedef {{title:string,choices:MenuChoice[],detail?:string,cancel?:()=>void}} Menu */
+/** @typedef {{title:string,choices:MenuChoice[],detail?:string,cancel?:()=>void,cameraMember?:'hero'|'partner',cameraChoices?:('hero'|'partner')[],initialSelection?:number}} Menu */
 /** @typedef {{state:()=>DungeonState|null,data:OpeningData,show:(menu:Menu|null)=>void,act:(action:DungeonAction)=>void,commit:()=>void,title:()=>void,help:()=>void,settings:()=>void}} MenuHost */
 
 /** Dungeon menus only describe available actions; the mechanics owner decides
@@ -12,14 +13,17 @@ import { IQ_SKILLS, TACTICS, canChangePolicy, hasIq, setTactic, tacticFor, talkT
  * @param {MenuHost} host
  */
 export function createDungeonMenus(host) {
+  /** @type {'hero'|'partner'} */let cameraMember='hero';
+  /** @type {'hero'|'partner'|null} */let teamSelection=null;
   /** @param {string} title @param {MenuChoice[]} choices @param {string} [detail] @param {()=>void} [cancel] */
-  function show(title, choices, detail, cancel = main) { host.show({ title, choices, detail, cancel }); }
-  function close() { host.show(null); }
+  function show(title, choices, detail, cancel = main) { host.show({ title, choices, detail, cancel, cameraMember }); }
+  function close() { cameraMember='hero';teamSelection=null;host.show(null); }
   /** @param {string} detail @param {()=>void} [back] */
-  function info(detail, back = main) { show('Information', [{ label: 'Back', run: back }], detail, back); }
+  function info(detail, back = main) { show('Information', [], detail, back); }
 
   function main() {
     const state = host.state(); if (!state) return;
+    cameraMember='hero';teamSelection=null;
     show('Menu', [
       { label: 'Moves', run: () => moves('hero') },
       { label: 'Items', run: items },
@@ -32,6 +36,7 @@ export function createDungeonMenus(host) {
   /** @param {'hero'|'partner'} actorId */
   function moves(actorId) {
     const actor = host.state()?.[actorId]; if (!actor) return;
+    cameraMember=actorId;
     const struggle = actorId === 'hero' && actor.moves.every(move => move.pp === 0);
     show(`${actor.name}'s Moves`, [
       ...(struggle ? [{ label: 'Struggle', run() { close(); host.act({ type: 'struggle' }); } }] : []),
@@ -39,7 +44,6 @@ export function createDungeonMenus(host) {
         label: `${actorId === 'hero' ? move.set ? '★ ' : '' : move.enabled ? '+ ' : '- '}${move.name} ${move.pp}/${move.maxPp}`,
         run: () => moveOptions(actorId, slot),
       })),
-      { label: 'Back', run: actorId === 'hero' ? main : () => member('partner') },
     ], undefined, actorId === 'hero' ? main : () => member('partner'));
   }
 
@@ -58,22 +62,24 @@ export function createDungeonMenus(host) {
       setMoveEnabled(state, actorId, slot, !move.enabled); host.commit(); moves(actorId);
     } });
     choices.push({ label: 'Info', run: () => info(`${move.name}\nType: ${fact?.type ?? 'None'}\nPP: ${move.pp}/${move.maxPp}\n${fact?.power ? `Power: ${fact.power}` : 'A status move.'}`, () => moveOptions(actorId, slot)) });
-    choices.push({ label: 'Back', run: () => moves(actorId) });
     show(move.name, choices, undefined, () => moves(actorId));
   }
 
   function team() {
     const state = host.state(); if (!state) return;
-    show('Team', [
+    const [dx,dy]=VECTORS[state.hero.direction];
+    const initial=teamSelection??(state.partner.hp>0&&state.partner.x===state.hero.x+dx&&state.partner.y===state.hero.y+dy?'partner':'hero');
+    cameraMember=initial;
+    host.show({title:'Team',choices:[
       { label: state.hero.name, run: () => member('hero') },
       { label: state.partner.name, run: () => member('partner') },
-      { label: 'Back', run: main },
-    ], undefined, main);
+    ],cancel:main,cameraMember,cameraChoices:['hero','partner'],initialSelection:initial==='hero'?0:1});
   }
 
   /** @param {'hero'|'partner'} actorId */
   function member(actorId) {
     const actor = host.state()?.[actorId]; if (!actor) return;
+    cameraMember=actorId;teamSelection=actorId;
     const species=host.data.species[actor.speciesId];
     /** @type {MenuChoice[]} */const choices=[
       { label: 'Summary', run: () => info(`${actor.name}  Level ${actor.level}\nHP ${actor.hp}/${actor.maxHp}   Belly ${Math.ceil(actor.belly)}/${actor.maxBelly}\nAttack ${actor.stats.attack}   Defense ${actor.stats.defense}\nSp. Atk ${actor.stats.specialAttack}   Sp. Def ${actor.stats.specialDefense}\nExperience ${actor.exp}\nType: ${species?.types.filter(type=>type!=='None').join(' / ')}\nAbilities: ${species?.abilities.filter(ability=>ability!=='None').join(' / ')}\nStatus: ${Object.keys(actor.status).filter(key=>(actor.status[key]??0)>0).join(', ')||'Normal'}`, () => member(actorId)) },
@@ -108,6 +114,7 @@ export function createDungeonMenus(host) {
 
   function items() {
     const state=host.state();if(!state)return;
+    cameraMember='hero';
     const groundItem=getGroundItem(state);
     /** @type {MenuChoice[]} */const choices=[];
     if(groundItem)choices.push({label:`Ground: ${itemName(groundItem.kind)}`,run:()=>ground(items)});
@@ -146,6 +153,7 @@ export function createDungeonMenus(host) {
   /** @param {()=>void} [back] */
   function ground(back=main) {
     const state = host.state(); if (!state) return;
+    cameraMember='hero';
     const item = getGroundItem(state);
     if (state.hero.x === state.stairs.x && state.hero.y === state.stairs.y) { stairs(); return; }
     if (!item) { info('There is nothing on the ground here.',back); return; }
@@ -162,6 +170,7 @@ export function createDungeonMenus(host) {
 
   function others() {
     const state = host.state(); if (!state) return;
+    cameraMember='hero';
     show('Others', [
       { label: 'Game Options', run: host.settings },
       { label: 'Quicksave or Give Up', run: saveOrGiveUp },
@@ -192,6 +201,7 @@ export function createDungeonMenus(host) {
   }
 
   function stairs() {
+    cameraMember='hero';
     show('Proceed to the next floor?', [
       { label: 'Proceed', run() { close(); host.act({ type: 'stairs' }); } },
       { label: 'No', run() { close(); host.act({ type: 'cancelStairs' }); } },
@@ -200,6 +210,7 @@ export function createDungeonMenus(host) {
 
   function learning() {
     const state = host.state(), request = state?.pendingLearning[0]; if (!state || !request) return;
+    cameraMember='hero';
     const actor = request.actorId === 'hero' ? state.hero : state.partner;
     const name = host.data.moves[request.moveId]?.name ?? 'a move';
     show(`Learn ${name}?`, [
@@ -208,7 +219,6 @@ export function createDungeonMenus(host) {
           ...actor.moves.map((move, slot) => ({ label: move.name, run() {
             close(); host.act({ type: 'learnMove', actorId: request.actorId, slot });
           } })),
-          { label: 'Back', run: learning },
         ], undefined, learning);
       } },
       { label: 'Do not learn', run() { close(); host.act({ type: 'learnMove', actorId: request.actorId, slot: null }); } },

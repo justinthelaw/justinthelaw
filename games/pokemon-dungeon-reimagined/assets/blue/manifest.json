@@ -22,8 +22,8 @@
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-ui-source.tar.gz",
-      "bytes": 353107,
-      "sha256": "0244b14573c7f4a60c2315e5bf6bb2026569b36a6ec4cfd80074d1e222cc46c9"
+      "bytes": 430943,
+      "sha256": "1fd2b9e2099e929fd18cb809480144dd7ab4c50f6af59f6fa449fa9edec15773"
     }
   ],
   "directions": [
@@ -45,8 +45,8 @@
       "bytes": 29545,
       "sha256": "86951d30799a86ec5053ede1fa1b2cea50c3794a302507c93a0de932b8453b76",
       "metadataPath": "pokemon-001.json",
-      "metadataBytes": 33049,
-      "metadataSha256": "3ce530fd97a34c0b7ab46fbd5b068d86f8844856131fda75c6c650402d91c2fb",
+      "metadataBytes": 35228,
+      "metadataSha256": "cafcacc9dbd68dd6791182f822435314647b785017064542633201834ba88868",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/bulbasaur.h"
     },
@@ -58,8 +58,8 @@
       "bytes": 33574,
       "sha256": "19e767fa3c0815cd6cad1d3b6ac86f52ad421290372680c78421ed5e6a882884",
       "metadataPath": "pokemon-004.json",
-      "metadataBytes": 34411,
-      "metadataSha256": "d6d854e9fb730233cc702ee69bebcb4b1c28f9e270fc1c8c7a86e1c7ddab38d8",
+      "metadataBytes": 36795,
+      "metadataSha256": "87201927d4e8cdda05e26d486ab632108c3d51832d1b7a9b56513be9a2390e7f",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/charmander.h"
     },
@@ -71,8 +71,8 @@
       "bytes": 25559,
       "sha256": "bf8d84bb73551983d1f0bccd91eda34aa9de6109a41b3dba7b33c73c40624dd0",
       "metadataPath": "pokemon-007.json",
-      "metadataBytes": 33556,
-      "metadataSha256": "654a44138ebeb29e0f27e11ba9e3f656c7fb2eed9ebf96dc4abda53ffc701349",
+      "metadataBytes": 35626,
+      "metadataSha256": "b1294d2ea04e2860b3998f75451573285c588509562fdaf89994349bf0f77830",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/squirtle.h"
     },
@@ -84,8 +84,8 @@
       "bytes": 15086,
       "sha256": "8a3ef5450785af7a5bd66e2f3aecace0b7f0f569b3db05e666c644a58dbe129d",
       "metadataPath": "pokemon-010.json",
-      "metadataBytes": 22958,
-      "metadataSha256": "18dd4243e73eef39d92c36f9b423b82f7d605279417a5f7dc16528a506dd7311",
+      "metadataBytes": 24811,
+      "metadataSha256": "85505eb251962224ffd25a32758325f72f87b1a5aee26027d255b1ca3f907f48",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/caterpie.h"
     },
@@ -97,8 +97,8 @@
       "bytes": 21580,
       "sha256": "4b0af0bb74f12ad545a36796cacf38cc4b97c34e6f9571cdf9aa34960309b5e1",
       "metadataPath": "pokemon-012.json",
-      "metadataBytes": 28428,
-      "metadataSha256": "819c40b2510c905a35cbc710bc825a6f8ceb03c0cc15a757fb79d1dfd3b41ed3",
+      "metadataBytes": 30726,
+      "metadataSha256": "ca790edad2a4fe9fd305f1bf8e9b61e039bf92ad20465c03fdd9e6509006c3f2",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/butterfree.h"
     },
@@ -110,8 +110,8 @@
       "bytes": 14626,
       "sha256": "1aee5322434da81d59d81e1739a0d22fab0c82f4d6489474b45e4b124da1cca3",
       "metadataPath": "pokemon-016.json",
-      "metadataBytes": 25127,
-      "metadataSha256": "148f4a5179cbb6cc2fbd3279b1387574effad3b0e6fb91f32669266760d713a3",
+      "metadataBytes": 26888,
+      "metadataSha256": "355e0a3a2e0e737ec9b2d585d72a3bd0f555d063f62f67b3fdcf421d9166867e",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/pidgey.h"
     },
@@ -123,8 +123,8 @@
       "bytes": 42072,
       "sha256": "d9a7953fb70853f0ca16e23cbbd688cadb78889f814120d54e4781feab1c87b9",
       "metadataPath": "pokemon-025.json",
-      "metadataBytes": 35130,
-      "metadataSha256": "273da36b8537aa8c3aefe9be075062ec7c3512f1cc89cc53b9c958e60a9e32a5",
+      "metadataBytes": 37597,
+      "metadataSha256": "7ebe21f3acef64b6de73b60432710591a6301e681604fc3aac193d8399627f92",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/pikachu.h"
     },
@@ -136,8 +136,8 @@
       "bytes": 37075,
       "sha256": "bbf0ce3141bc5c36392810401607bac98f03b1ba08e670041b57682b61ec29a3",
       "metadataPath": "pokemon-052.json",
-      "metadataBytes": 34449,
-      "metadataSha256": "9b6426307236eb2cd0c725c6bdf70eb56be5fba50e8c4ecc56714b57eff1704f",
+      "metadataBytes": 36632,
+      "metadataSha256": "8be2d45c3922907d63016b31b8d742879260ebcd33c82f1d37b103dce0600551",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/meowth.h"
     },
@@ -149,8 +149,8 @@
       "bytes": 36910,
       "sha256": "1321dfcb04c18bf09fa99e8e1cee304a243e38e29ddc39ce6fbfefa3aea3bc3a",
       "metadataPath": "pokemon-054.json",
-      "metadataBytes": 34919,
-      "metadataSha256": "4ed9bf0c6eae3ceb110f70b4036c236bdf248094562cd97df00956af70cef44c",
+      "metadataBytes": 37369,
+      "metadataSha256": "fab4e2a453bc77751ecd687d9f34458bb51bad22bd69717c11e10432f52ccabb",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/psyduck.h"
     },
@@ -162,8 +162,8 @@
       "bytes": 31204,
       "sha256": "f25bf680474ad0ed871dd74aa9b63e8ca9ad2d5a7d97b1d11eaba244742dbeef",
       "metadataPath": "pokemon-066.json",
-      "metadataBytes": 33914,
-      "metadataSha256": "30769de9cadad57ca7f8e8a820fe9332dc65e869c3e3ab3ba3461c2b787f96d7",
+      "metadataBytes": 36155,
+      "metadataSha256": "9d18abe1b679c8822d2963eaabcea6c01380063514ce3b9efb2442c7001b3ec5",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/machop.h"
     },
@@ -175,8 +175,8 @@
       "bytes": 19187,
       "sha256": "48f4cfea6ed0eb2ea026f8275a99c21e6bac6bc5570ab884aef2e467888b1531",
       "metadataPath": "pokemon-102.json",
-      "metadataBytes": 23925,
-      "metadataSha256": "c0853d4596ad5758060824a8c5f4543dad7c2064766d5e475517038120cac92e",
+      "metadataBytes": 25570,
+      "metadataSha256": "4053897c3d890bd2960f3deb856b0eef38473d770a6990d9bf5c42d0203c0046",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/exeggcute.h"
     },
@@ -188,8 +188,8 @@
       "bytes": 34106,
       "sha256": "e31549696aa68f174a823160be8b4ab17b1d589d91a091290c3f61f35394fc8c",
       "metadataPath": "pokemon-104.json",
-      "metadataBytes": 32940,
-      "metadataSha256": "327fb67ce0fcc4ee55a99572c65bc56749f360e2ecc7aa0cae8f6e0cb7e42441",
+      "metadataBytes": 34957,
+      "metadataSha256": "f70305ecaa2a14071dc2122137a4c6e108d85f1db4dbebf03d6352c2eaa455e6",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/cubone.h"
     },
@@ -201,8 +201,8 @@
       "bytes": 29684,
       "sha256": "516babffad4e1660193ce4ee010ec1e93680b12010e266e3c5ee2057a1c6aec6",
       "metadataPath": "pokemon-133.json",
-      "metadataBytes": 33762,
-      "metadataSha256": "0fb201ea1df9cb3a053b022972126d1645189f85e9def49a10d6ef078210e4a8",
+      "metadataBytes": 35860,
+      "metadataSha256": "28ba77f7d3068d4294e1d932b13a28c07401a82537068d722afdcd09bc31e07b",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/eevee.h"
     },
@@ -214,8 +214,8 @@
       "bytes": 31441,
       "sha256": "5b120a6d4c5259e7b2ed06051bd8d429e8191ca4bb3fe3a95dca3c06c17b1a04",
       "metadataPath": "pokemon-152.json",
-      "metadataBytes": 33807,
-      "metadataSha256": "daa61a77bd688de59a2e90f4c1e90ae6c1a0d117944ed6d67e8f8998af73a6ee",
+      "metadataBytes": 35895,
+      "metadataSha256": "357dd31a23b4db07721310fd85fb7bc9b5c610e30b894637c7c7dec6491c3bba",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/chikorita.h"
     },
@@ -227,8 +227,8 @@
       "bytes": 30176,
       "sha256": "bf284c28407564d812ad1cda7926f5d2f6482439530f83b701bb9489998bd972",
       "metadataPath": "pokemon-155.json",
-      "metadataBytes": 33608,
-      "metadataSha256": "b215f8d99ef3c6fbb269ee36eeb57c0dc4b804f706b61cbf3cc03d038aaa5d28",
+      "metadataBytes": 35688,
+      "metadataSha256": "e1ca125c690438ade257d799fba5ce77179a1a488cdb573d6d13d7de90e73ebc",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/cyndaquil.h"
     },
@@ -240,8 +240,8 @@
       "bytes": 35528,
       "sha256": "d9ed779b04e5772baedc7793442a75fa7b57f2013c2cd095ea4019520b3ea79e",
       "metadataPath": "pokemon-158.json",
-      "metadataBytes": 35299,
-      "metadataSha256": "bd2a182f444229ff6f988ad540d27e2bd3ccaa9589fcb87a5cdac5e3a52b73cf",
+      "metadataBytes": 37508,
+      "metadataSha256": "b1d970598e689537b238bbc29d86e11e9d193506374fb8147a05d04201d8d8b5",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/totodile.h"
     },
@@ -253,8 +253,8 @@
       "bytes": 9083,
       "sha256": "d20e238cef119d8baa70c485617f58253b7542a0f9384973766aef5172dd02ba",
       "metadataPath": "pokemon-191.json",
-      "metadataBytes": 22541,
-      "metadataSha256": "73a000f4d0fe6c5d0f2dc9d689ab0cc0f1ad90c6c6864bc3bacf3fa5b8b1f43b",
+      "metadataBytes": 24058,
+      "metadataSha256": "a2e696897595c0b332548ac613b6e7d87d2b89849910f03e9bf4c17f6b485d3d",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/sunkern.h"
     },
@@ -266,8 +266,8 @@
       "bytes": 32671,
       "sha256": "a16413b8e2e26bc39315c7502bcfe72a85404bd01e566a7f048212e4744196cd",
       "metadataPath": "pokemon-252.json",
-      "metadataBytes": 33411,
-      "metadataSha256": "d1d0b6e258eafd6d3cdb06a28ccf49907c2cf6fecdae8df9bea770c8ba95446f",
+      "metadataBytes": 35532,
+      "metadataSha256": "8c2165817afd09746ff0849f9790950fd7a669a09b317fb55d8dc3e388944f3f",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/treecko.h"
     },
@@ -279,8 +279,8 @@
       "bytes": 22976,
       "sha256": "d57b4ad46b9f7a084345d4974b09ab4f7dcc4ff80dd0d2b2df04aa86b12a33d4",
       "metadataPath": "pokemon-255.json",
-      "metadataBytes": 34344,
-      "metadataSha256": "808b318975cc31a7ac02173d14475cf35c55cbab5f535bc48a43caa0658a9194",
+      "metadataBytes": 36557,
+      "metadataSha256": "928795f821b0c090328542fd469ef75c9f88a55d0ec80d25cb0b6b892c5b85f8",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/torchic.h"
     },
@@ -292,8 +292,8 @@
       "bytes": 19075,
       "sha256": "cc4e3701757f7ddf51e6ff7fed77164850c7dd1b952c37fb39b80ef2d5bcfcdb",
       "metadataPath": "pokemon-258.json",
-      "metadataBytes": 35265,
-      "metadataSha256": "fca84ab0e006546bbf23f0f72cb848f1d80f355a3cd8498d57901b95e6b27f23",
+      "metadataBytes": 37320,
+      "metadataSha256": "f5749372ad7f9b9b1298c970b00f6d22955760013a3e135b03150ff3b7703858",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/mudkip.h"
     },
@@ -305,8 +305,8 @@
       "bytes": 13222,
       "sha256": "217b6229a487acd16102c4b418ef6724de201b451fcf045eff3e75e9708a686c",
       "metadataPath": "pokemon-265.json",
-      "metadataBytes": 22098,
-      "metadataSha256": "25c1ddf326a78dfbbfbff2413a769f3c3756150542c74b809465f212c1625f39",
+      "metadataBytes": 23462,
+      "metadataSha256": "6b0e6bb670fed06e2fe9b59d3c73caaaaa042752b01f8d843ca30afc84035760",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/wurmple.h"
     },
@@ -318,8 +318,8 @@
       "bytes": 26010,
       "sha256": "c16f5dfc69164070d11efb7c176101415fb1eb23950fe537ebdb90b1afd3e46f",
       "metadataPath": "pokemon-279.json",
-      "metadataBytes": 30952,
-      "metadataSha256": "b58048a1afd6072636703bd457bda21ae078b10725d4c156a4a3b679dd2c4a86",
+      "metadataBytes": 32872,
+      "metadataSha256": "f9faf1100f81eaf5cb2d4a4ad13c832739538977d3761fe95329340766f7f76c",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/pelipper.h"
     },
@@ -331,8 +331,8 @@
       "bytes": 31594,
       "sha256": "27e7752b62e3a651f3dfea4540e19d3e9a867155ef26e93159f97c432ef6c1c2",
       "metadataPath": "pokemon-300.json",
-      "metadataBytes": 34235,
-      "metadataSha256": "18f77dd57ba55dc7e52440e75c67baa431b9c26b2eecf48f02593d9ae7df2ba4",
+      "metadataBytes": 36287,
+      "metadataSha256": "52f6f7ca1b9e79468b52f5125dfd333b9e9bc9fa872935b51d3917751a19c4ae",
       "sourceEdition": "Red Rescue Team",
       "sourceHeader": "src/data/ax/skitty.h"
     }
@@ -2087,25 +2087,67 @@
   ],
   "nativeUi": {
     "modulePath": "src/blue/render-native-ui-data.js",
-    "bytes": 27738,
-    "sha256": "1086eaa5b5cae0675e4749933abe4e629bbd54a005829990f972fd4ed9f190e8",
+    "bytes": 30423,
+    "sha256": "974616201f5c6a30c47ad39c76ed944449f08f51ebbb55c176e738d6c381f03c",
     "sourceManifestPath": "tools/pokemon-dungeon/art/blue/native-ui-sources.json",
-    "sourceManifestSha256": "80c5d5079e61dbe91d985462250113034b1762dd878cb12c0ce0b01a777d8df1",
+    "sourceManifestSha256": "2f21f4617d1c69f33bd5ae1a67dbb329f1bbc44f923a64ac2122c02b8d6ef24d",
     "archive": {
       "path": "native-ui-source.tar.gz",
-      "bytes": 353107,
-      "sha256": "0244b14573c7f4a60c2315e5bf6bb2026569b36a6ec4cfd80074d1e222cc46c9"
+      "bytes": 430943,
+      "sha256": "1fd2b9e2099e929fd18cb809480144dd7ab4c50f6af59f6fa449fa9edec15773"
     },
-    "corroboratedFontPixels": 265
+    "corroboratedFontPixels": 265,
+    "images": [
+      {
+        "id": "team-panels",
+        "path": "team-panels.png",
+        "width": 256,
+        "height": 144,
+        "bytes": 1721,
+        "sha256": "a431d980c5471664cc4f910a9dbfa67f7bae6972a02ebd936d2f510e986b04b7",
+        "provenance": "Original Blue team-row captures; 2170/2304 occupied pedestal positions exposed across five native sprite masks; the remaining 134 positions use the observed gray-to-gold palette correspondence. Center panel stripes reconstructed from unobscured pixels."
+      },
+      {
+        "id": "menu-delivery",
+        "path": "menu-delivery.png",
+        "width": 256,
+        "height": 192,
+        "bytes": 25299,
+        "sha256": "96c0edf1c89aacdd1b8a7a1ec5275c207295ec36408ed2263b5e871828b27447",
+        "provenance": "Public Rescue Team illustration retained in Explorers of Sky; 31040 background pixels corroborated against a Blue Korean-localization capture after source brightness conversion. This does not establish English-retail menu text or all three random illustrations."
+      },
+      {
+        "id": "menu-mailbox",
+        "path": "menu-mailbox.png",
+        "width": 256,
+        "height": 192,
+        "bytes": 24168,
+        "sha256": "5e1c0b2730ee89a20780ac9cc11cd1922bcaa679dbdd76c09fd3ee9660da10fe",
+        "provenance": "Public Rescue Team illustration retained in Explorers of Sky; scene identity corroborated by original English Blue gameplay video RrglH3dOqrg at0:05. Palette uses the source brightness conversion proven on Delivery; compressed video does not establish pixel-byte parity."
+      }
+    ]
+  },
+  "statusAtlas": {
+    "path": "status-icons.png",
+    "width": 256,
+    "height": 144,
+    "bytes": 4526,
+    "sha256": "f870bcfe11556eb87470a28cae60f44d8fb22f5e48427c86585be0e6ae7a2a92",
+    "metadataPath": "status-icons.json",
+    "metadataBytes": 997,
+    "metadataSha256": "7a0424a1d14a9cea52e1bd7ca9b3355f41475d92bdede1ca72075706f5fe10c2",
+    "sourceManifestPath": "tools/pokemon-dungeon/art/blue/native-status/sources.json",
+    "sourceManifestSha256": "01554a17d9999d363a7dfe7cb6261ca38eb2f70ea717284e40d6d52d8a581037",
+    "sourceEdition": "Red Rescue Team comparative"
   },
   "authoringSources": [
     {
       "path": "tools/pokemon-dungeon/art/blue/export.mjs",
-      "sha256": "2d97f389a4c7cb169c2713a4cf799f1603552f99107683de43186b32a8f7613e"
+      "sha256": "f7dcbbc60a9232c181d57a3fc1ebd9cc101c73b57669c56de679ac5509e4042c"
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-export.mjs",
-      "sha256": "73eb67d606e65411fd5472ddcc4e325ecaaa1b072a993077285262124427e31f"
+      "sha256": "ff0b5f53d4e25cd7de3609c9f75aafa6ff577346c5d98d584491f2f0ef678026"
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-format.mjs",
@@ -2117,7 +2159,31 @@
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-ui-export.mjs",
-      "sha256": "5f363a3ba68e36bd78ece3c994d8412f1ec9d1a69c8c83a7e039b5527e088c53"
+      "sha256": "73b2b8926738073eaa5bbea89023c478a501e3ae249d8b328a7572db96816267"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-panel-export.mjs",
+      "sha256": "8bd2dc15c95896ca8ec6043f17396f5389b17bac6f05bd11dbc8ed841e79e9ec"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-status-export.mjs",
+      "sha256": "1c13900bcb5aac838955958b2e64362a478523f7fc1639ac7fe15ffe4558ccc4"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-scenery-export.mjs",
+      "sha256": "dc98341580d8db5e3897b6d1ba64a62de7da5aa51ecfbfb46bf6547fb94ec3c4"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-ground-format.mjs",
+      "sha256": "012304759d1fcf91a3e2824c7029fa7b3d3853c8b92ab886f6475c55852853c3"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-aura-format.mjs",
+      "sha256": "ac30f92456ca5c075c8660648d5594391a68906453fa3496c02552aa94da9985"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-boot-format.mjs",
+      "sha256": "c910d7a911347ec4f3d27d1340d5c83cdef0e05ccc90257e90ba16bc7a6e932f"
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/capture-native.mjs",
@@ -2125,7 +2191,7 @@
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/capture-native-ui.mjs",
-      "sha256": "6827e221eecbad43815f21062f014b7357c9874d2b31c99bf46b8ed74f0127c9"
+      "sha256": "c7cb9dee0b613690a967b6deaf4b26dd3793eeec0667ab5da171afa1c02e8e53"
     }
   ],
   "sceneryManifest": "scenery/manifest.json"

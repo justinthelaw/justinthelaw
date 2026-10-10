@@ -1,7 +1,9 @@
 # Blue Rescue Team opening audio
 
 The browser opening uses the project's original synthesized score. It does not
-contain the Nintendo DS soundtrack, extracted sequences, samples, or sound banks.
+contain the Nintendo DS soundtrack, PCM samples or sound banks. Five menu roles
+now use four source-derived short PSG effects, explicitly qualified as Red
+Rescue Team comparative evidence until Blue playback is corroborated.
 The scoped bank in `src/blue/audio-bank.js` contains 11 themes and 21 effects;
 its editable source is `tools/pokemon-dungeon/audio/original-score.json`.
 The original opening composition is retimed to the browser's 18.9-second
@@ -76,3 +78,36 @@ Exact commercial melodies, DS sample timbres, loop points, source fade timing,
 scene-to-cue timing, SFX playback and mix remain unverified. Static type, syntax,
 data and import checks do not establish human audition or soundtrack parity.
 No claim of an exact DS audio reproduction is supported by this implementation.
+
+## Source-derived menu effects — 2026-10-10
+
+`audio/blue-menu-effects.json` pins 13 source files at the comparative commit
+above. `export-blue-menu-effects.mjs --source-root PATH --check` verifies those
+source bytes and regenerates only numerical short-effect facts. It never imports
+or executes game code. The original Blue sound-effects archive at
+[Spriters Resource](https://sounds.spriters-resource.com/ds_dsi/pokemonmysterydungeonbluerescueteam/asset/395434/)
+remained behind its verification page in the normal browser; no archive was
+downloaded and no Blue file-number mapping was guessed.
+
+| Role | Sequence | Pulse duty | Audible events |
+| --- | --- | --- | --- |
+| Navigate | 301 | 50% | Key 84 for two ticks |
+| Accept | 302 | 50% | Key 90 for two ticks; the preceding same-tick key 79 is replaced |
+| Back / invalid | 303 | 25% | Keys 58,55,67,67 at ticks 0,3,5,6, with gates 2,2,1,1 |
+| Open / information | 304 | 50% | Key 88 for one tick |
+
+The source tempo resolves to one tick per GBA frame (280,896 cycles at
+16,777,216 Hz). Pitch uses the original integer frequency-register table, and
+center-pan/velocity arithmetic resolves to four-bit envelope levels. Attack and
+release are instantaneous. Accept's remaining 384-tick track span is silence.
+The SE2 player has priority checking disabled, so a new menu request replaces
+its old cue, including scheduled future notes. General menus retain the four-frame
+throttle; dungeon menu wrappers bypass it.
+
+`audio-menu.js` owns at most four scheduled oscillators and two cached pulse
+waveforms. Its voices share the existing 32-voice ceiling with the authored
+synthesizer. Pause, mute, interruption, denial, epoch replacement and disposal
+stop and disconnect both players; retired effects never replay on activation.
+Web Audio band-limiting, a quiet browser gain and the existing output compressor
+remain presentation choices. Their waveform phase, analog filtering, DS clock,
+overall mix and exact Blue parity are not established by these comparative facts.

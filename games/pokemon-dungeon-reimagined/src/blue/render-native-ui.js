@@ -1,5 +1,5 @@
 /** Native Rescue Team UI tiles. Generated image data is synchronous and local. */
-import {NATIVE_UI_TILES,NATIVE_UI_PALETTES,NATIVE_CURSOR_TILES,NATIVE_CURSOR_PALETTE,NATIVE_SHADOWS,NATIVE_TEAM_SHADOWS,NATIVE_SHADOW_PALETTE,NATIVE_DAMAGE_TILES,NATIVE_DAMAGE_PALETTES,NATIVE_TOUCH_BUTTONS} from './render-native-ui-data.js';
+import {NATIVE_UI_TILES,NATIVE_UI_PALETTES,NATIVE_CURSOR_TILES,NATIVE_CURSOR_PALETTE,NATIVE_SHADOWS,NATIVE_TEAM_SHADOWS,NATIVE_SHADOW_PALETTE,NATIVE_DAMAGE_TILES,NATIVE_DAMAGE_PALETTES,NATIVE_TOUCH_BUTTONS,NATIVE_ICONS} from './render-native-ui-data.js';
 
 /** @type {Map<string,HTMLCanvasElement>} */
 const ATLASES=new Map();
@@ -120,6 +120,51 @@ export function dialogueArrow(context,x,y){
   drawTile(context,image,0,x,y);drawTile(context,image,1,x+8,y);
 }
 
+/** @param {CanvasRenderingContext2D} context @param {number} x @param {number} y */
+export function nativeNamingCursor(context,x,y){cursor(context,x,y);}
+/** @param {CanvasRenderingContext2D} context @param {number} x @param {number} y */
+export function nativeNamingCaret(context,x,y){
+  const image=atlas('cursor',NATIVE_CURSOR_TILES,NATIVE_CURSOR_PALETTE);
+  drawTile(context,image,0,x,y,false,true);drawTile(context,image,1,x+8,y,false,true);
+}
+/** Blue's naming panels use the rounded normal-window border, corroborated by
+ * Nintendo's manual p15 and direct Blue footage. Red's borderless template and
+ * one-pixel outline do not establish this edition's frame presentation.
+ * @param {CanvasRenderingContext2D} context @param {number} x @param {number} y @param {number} width @param {number} height @param {boolean} [pink] */
+export function nativeNamingFrame(context,x,y,width,height,pink=false){
+  panel(context,x,y,width,height,{pink,kind:'normal'});
+}
+/** @param {CanvasRenderingContext2D} context @param {number} x @param {number} y @param {number} [width] */
+export function nativeNamingUnderline(context,x,y,width=60){context.fillStyle='#59fb59';context.fillRect(x,y,width,1);context.fillStyle='#000000';context.fillRect(x,y+1,width,1);}
+
+/** Indexed native icons retain their own colors rather than inheriting tint.
+ * @param {CanvasRenderingContext2D} context @param {'set'|'star'} kind @param {number} x @param {number} y @param {number} [scale] */
+export function nativeMoveIcon(context,kind,x,y,scale=1){
+  drawNativeIcon(context,kind,x,y,scale);
+}
+
+/** Original size encodes HP tier; yellow is used by ordinary roster members.
+ * @param {CanvasRenderingContext2D} context @param {'red'|'yellow'} color @param {number} tier
+ * @param {number} x @param {number} y */
+export function nativeHeart(context,color,tier,x,y){
+  const size=['tiny','small','medium','large'][Math.max(0,Math.min(3,Math.floor(tier)))];
+  drawNativeIcon(context,`heart-${color}-${size}`,x,y,1);
+}
+
+/** @param {CanvasRenderingContext2D} context @param {string} kind @param {number} x @param {number} y @param {number} scale */
+function drawNativeIcon(context,kind,x,y,scale){
+  const icon=NATIVE_ICONS[kind];if(!icon)return;
+  const key=`icon:${kind}`;let image=ATLASES.get(key);
+  if(!image){
+    image=document.createElement('canvas');image.width=icon.width;image.height=icon.height;
+    const pixels=image.getContext('2d');if(!pixels)throw Error('A 2D canvas is required for native icons.');
+    const colors=palette(false);
+    Array.from(icon.pixels).forEach((value,index)=>{const color=parseInt(value,16);if(color){pixels.fillStyle=colors[color]??'#000000';pixels.fillRect(index%icon.width,Math.floor(index/icon.width),1,1);}});
+    ATLASES.set(key,image);
+  }
+  context.drawImage(image,Math.round(x),Math.round(y),icon.width*scale,icon.height*scale);
+}
+
 /** Native shadow bitmap and source AX anchor. Species Diglett/Dugtrio are not
  * in this opening roster; their native no-shadow exception is not needed here.
  * @param {CanvasRenderingContext2D} context @param {number} shadowSize @param {number} x @param {number} y @param {number} [scale] @param {boolean} [team] */
@@ -144,7 +189,7 @@ export function nativeShadow(context,shadowSize,x,y,scale=1,team=false){
 /** Original HUD uses fixed8×8 label/digit tiles. The HP bar is one pixel per
  * maximum HP up to96, then proportionally scaled. Coordinates match Blue ss01.
  * @param {CanvasRenderingContext2D} context
- * @param {{floor:number,level:number,hp:number,maxHp:number,belly?:number,pink?:boolean,time?:number}} state */
+ * @param {{floor:number,level:number,hp:number,maxHp:number,belly?:number,leader?:boolean,pink?:boolean,time?:number}} state */
 export function nativeHud(context,state){
   const warn=Math.floor((state.time??0)*60/1000)&16;
   const bank=warn&&state.belly===0?3:warn&&state.hp>0&&state.hp<=state.maxHp/4?2:state.pink?4:0;
@@ -154,7 +199,7 @@ export function nativeHud(context,state){
   /** @param {number} value @param {number} column @param {number} length */
   const digits=(value,column,length)=>{
     const characters=String(Math.max(0,Math.min(999,Math.floor(value)))).padStart(length,' ');
-    Array.from(characters).slice(-length).forEach((character,index)=>{if(character!==' ')put(16+Number(character),column+index);});
+    Array.from(characters).slice(-length).forEach((character,index)=>{if(character!==' ')put(16+Number(character)+(state.leader===false?55:0),column+index);});
   };
   put(70,1);digits(state.floor,2,state.floor<10?1:2);put(64,state.floor<10?3:4);
   put(65,5);put(66,6);digits(state.level,7,2);put(67,9);put(68,10);
@@ -162,7 +207,7 @@ export function nativeHud(context,state){
   const maximum=Math.max(1,Math.min(96,state.maxHp)),remaining=Math.max(0,Math.min(maximum,state.maxHp>=96?Math.floor(state.hp*96/state.maxHp):state.hp));
   context.fillStyle=colors[7]??'#fbfbfb';context.fillRect(144,1,maximum,1);context.fillRect(144,6,maximum,1);
   context.fillStyle=colors[2]??'#fb8259';context.fillRect(144,2,maximum,4);
-  context.fillStyle=colors[4]??'#59fb59';context.fillRect(144,2,remaining,4);
+  context.fillStyle=colors[state.leader===false?5:4]??'#59fb59';context.fillRect(144,2,remaining,4);
 }
 
 /** Native8×8 floating-number glyphs, with a six-pixel advance.

@@ -15,7 +15,7 @@
  * @typedef {'poke'|'oran-berry'|'pecha-berry'|'rawst-berry'} ItemKind
  * @typedef {{kind:ItemKind,amount:number}} HeldItem
  * @typedef {{id:string,kind:ItemKind,x:number,y:number,amount:number}} GroundItem
- * @typedef {{id:string,speciesId:string,name:string,x:number,y:number,direction:Direction,level:number,hp:number,maxHp:number,belly:number,maxBelly:number,exp:number,stats:Stats,moves:MoveSlot[],status:Record<string,number>,periodic:{poison:number,burn:number,leechSeed:number},stages:Record<string,number>,heldItem:HeldItem|null,regen:number,usedMove:boolean,experienceMarked:boolean,goal:Point|null,leechSource:string|null,bideDamage:number,skipAction:boolean,useHeldItem?:boolean,tactic?:Tactic,enabledIq?:IqSkill[]}} Actor
+ * @typedef {{id:string,speciesId:string,name:string,x:number,y:number,direction:Direction,level:number,hp:number,maxHp:number,belly:number,maxBelly:number,exp:number,stats:Stats,moves:MoveSlot[],status:Record<string,number>,periodic:{poison:number,burn:number,leechSeed:number},stages:Record<string,number>,heldItem:HeldItem|null,regen:number,usedMove:boolean,experienceMarked:boolean,goal:Point|null,leechSource:string|null,bideDamage:number,skipAction:boolean,useHeldItem?:boolean,tactic?:Tactic,enabledIq?:IqSkill[],abilityVisualFlags?:number}} Actor
  * @typedef {'playing'|'stairs'|'rescued'|'defeated'} DungeonStatus
  * @typedef {'unprepared'|'input'|'forced'|'blocked'} DungeonTurnPhase
  * @typedef {{actorId:string,moveId:string}} LearnRequest

@@ -86,8 +86,8 @@
     "sinister-native-slots:check": "node scripts/check-sinister-native-slots.mjs",
     "sinister-native-geometry:check": "node scripts/check-sinister-native-geometry.mjs",
     "sinister-construction:check": "node scripts/check-sinister-construction.mjs",
-    "blue:export": "node scripts/export-blue-opening.mjs && node art/blue/export.mjs && node scripts/export-blue-distribution.mjs",
-    "blue:check": "node scripts/export-blue-opening.mjs --check && node art/blue/export.mjs --check && node scripts/export-blue-distribution.mjs --check && node scripts/check-blue-opening.mjs"
+    "blue:export": "node scripts/export-blue-opening.mjs && node art/blue/export.mjs && node scripts/export-blue-menu-effects.mjs && node scripts/export-blue-distribution.mjs",
+    "blue:check": "node scripts/export-blue-opening.mjs --check && node art/blue/export.mjs --check && node scripts/export-blue-menu-effects.mjs --check && node scripts/export-blue-distribution.mjs --check && node scripts/check-blue-opening.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

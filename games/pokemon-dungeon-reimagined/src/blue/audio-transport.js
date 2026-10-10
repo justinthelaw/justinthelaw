@@ -1,7 +1,8 @@
 /** Adapted from this project's original src/audio/audio-bus.js for the scoped Blue opening. */
 import { musicCue, effectCue } from './audio-catalog.js';
 import { DEFAULT_AUDIO_PREFERENCES, normalizeAudioPreferences } from './audio-preferences.js';
-import { createSynth } from './audio-synth.js';
+import { createSynth, MAX_VOICES } from './audio-synth.js';
+import { createMenuEffects } from './audio-menu.js';
 /** @typedef {import('./audio-types.js').AudioPresentation} AudioPresentation */
 /** @typedef {import('./audio-types.js').AudioStatus} AudioStatus */
 /** @typedef {import('./audio-types.js').AudioState} AudioState */
@@ -20,6 +21,7 @@ export function createAudioBus({ document: doc }) {
   /** @type {AudioContext|null} */ let context = null;
   /** @type {{master:GainNode,music:GainNode,effects:GainNode,limiter:DynamicsCompressorNode}|null} */ let graph = null;
   /** @type {ReturnType<typeof createSynth>|null} */ let synth = null;
+  /** @type {ReturnType<typeof createMenuEffects>|null} */ let menuEffects = null;
   /** @type {import('./audio-types.js').AudioPreferences} */ let preferences = DEFAULT_AUDIO_PREFERENCES;
   /** @type {AudioState} */ let state = win && typeof win.AudioContext === 'function' ? 'locked' : 'unsupported';
   /** @type {string|null} */ let reason = state === 'unsupported' ? 'This browser cannot play synthesized audio.' : null;
@@ -53,7 +55,7 @@ export function createAudioBus({ document: doc }) {
     musicPosition = playingMusic.loop ? position % length : Math.min(position, length);
   }
   function silence() {
-    cancelPump(); synth?.stop(); playingMusic = null;
+    cancelPump(); synth?.stop(); menuEffects?.stop(); playingMusic = null;
     if (context && graph) try { graph.master.gain.cancelScheduledValues(context.currentTime); graph.master.gain.setValueAtTime(0, context.currentTime); } catch { /* Closed/interrupted graph remains silent. */ }
   }
   function suspendContext() {
@@ -138,7 +140,9 @@ export function createAudioBus({ document: doc }) {
       limiter.threshold.value = -12; limiter.knee.value = 18; limiter.ratio.value = 8;
       limiter.attack.value = .003; limiter.release.value = .15;
       music.connect(master); effects.connect(master); master.connect(limiter); limiter.connect(next.destination);
-      graph = { master, music, effects, limiter }; synth = createSynth(next, music, effects);
+      graph = { master, music, effects, limiter };
+      menuEffects = createMenuEffects(next, effects);
+      synth = createSynth(next, music, effects, () => menuEffects?.count() ?? 0);
       next.addEventListener('statechange', () => {
         if (disposed || context !== next) return;
         if (next.state !== 'running') pause();
@@ -147,6 +151,7 @@ export function createAudioBus({ document: doc }) {
       return true;
     } catch (error) {
       for (const node of created) try { node.disconnect(); } catch { /* Partial graph. */ }
+      menuEffects?.stop(); menuEffects = null; synth?.stop(); synth = null;
       context = null; try { void next.close().catch(() => {}); } catch { /* Already closed. */ } throw error;
     }
   }
@@ -166,7 +171,7 @@ export function createAudioBus({ document: doc }) {
       if (!context || context.state === 'closed') {
         silence();
         if (graph) for (const node of Object.values(graph)) try { node.disconnect(); } catch { /* Previous closed graph. */ }
-        graph = null; synth = null; context = null; if (!createContext()) return Promise.resolve(false);
+        graph = null; synth = null; menuEffects = null; context = null; if (!createContext()) return Promise.resolve(false);
       }
       const current = context; if (!current) return Promise.resolve(false);
       armed = true; const ticket = ++generation;
@@ -223,6 +228,7 @@ export function createAudioBus({ document: doc }) {
         if (!audible() || !context || !synth || preferences.effects === 0 || admitted >= MAX_NEW_EFFECT_CUES) continue;
         const cue = effectCue(effect.cueId); if (!cue) continue;
         admitted++;
+        if (menuEffects?.play(cue.id, context.currentTime + .01, MAX_VOICES - synth.count())) continue;
         for (const note of cue.notes) synth.schedule(note, cue, context.currentTime + .01 + note.beat * 60 / cue.bpm, 'effects');
       }
     } catch (error) { deny(error); }
@@ -242,7 +248,7 @@ export function createAudioBus({ document: doc }) {
     if (disposed) return;
     disposed = true; armed = false; generation++; settleResume(false); silence(); listeners.abort();
     if (graph) for (const node of Object.values(graph)) try { node.disconnect(); } catch { /* Already disconnected. */ }
-    const retained = context; graph = null; synth = null; context = null; pendingResume = null;
+    const retained = context; graph = null; synth = null; menuEffects = null; context = null; pendingResume = null;
     if (retained && retained.state !== 'closed') try { void retained.close().catch(() => {}); } catch { /* Already closed. */ }
     state = 'disposed'; reason = null;
   }
@@ -250,6 +256,6 @@ export function createAudioBus({ document: doc }) {
   win?.addEventListener('blur', pause, { signal: listeners.signal });
   win?.addEventListener('pagehide', pause, { signal: listeners.signal });
   /** @returns {AudioStatus} */
-  const status = () => Object.freeze({ state, reason, epoch, voices: synth?.count() ?? 0 });
+  const status = () => Object.freeze({ state, reason, epoch, voices: (synth?.count() ?? 0) + (menuEffects?.count() ?? 0) });
   return Object.freeze({ beginEpoch, present, setPreferences, activate, pause, dispose, status });
 }

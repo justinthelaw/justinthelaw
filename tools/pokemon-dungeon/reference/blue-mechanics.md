@@ -372,3 +372,50 @@ directions, matching the ordinary native held-D-pad input path
 Manual verification still owns those browser and presentation properties.
 The compact stage-zero/one scheduler is not proof of all native 24-slot speed,
 multiaction, weather or suspended-learning behavior.
+
+## Early ability activation announcements
+
+The scoped numerical ability audit found no gameplay defect for the 16 heroes,
+ten partners, four Tiny Woods wild species and typical level-five-to-seven
+moves. In particular, Pickup explicitly excludes Tiny Woods; Lightningrod
+does not intercept allied Pikachu's moves; Rock Head does not suppress Struggle
+recoil; and the imported damage helpers already apply the native Guts and
+quarter-HP type boosts. Psyduck's Cloud Nine/Damp have no weather/explosion
+interaction in this slice. Water Sport is a separate floor effect.
+
+The browser now supplies authored activation announcements through the existing
+message/log event path, without new random draws or numerical changes:
+
+- `ApplyAtkDefStatBoosts` (`src/dungeon_damage.c:1027-1038`) evaluates Guts;
+  `sub_806E100` (`:820-865`) evaluates Torrent, Overgrow and Blaze only for the
+  corresponding attack type. `SetVisualFlags` (`src/dungeon_logic.c:1425-1449`)
+  announces a false-to-true transition. A qualifying inactive evaluation clears
+  its bit, while an unrelated move type leaves a type-boost bit untouched.
+- Optional actor `abilityVisualFlags` preserves those four native bits: Guts
+  `0x01`, Overgrow `0x02`, Blaze `0x20`, Torrent `0x80`. It starts at zero and
+  resets when a new floor/retry recreates dungeon actors, matching
+  `src/dungeon_mon_spawn.c:789-790`. It survives browser saves, matching the
+  native visual-flag serialization at `src/dungeon_serializer.c:372-373`.
+  Admission accepts only bits belonging to that actor's sourced abilities.
+  Historical opening saves without the field remain valid; their first future
+  evaluation starts prospective announcement tracking at zero. No historical
+  native announcement state is inferred or written during validation.
+- `HandleDamagingMove` (`src/dungeon_move.c:1333-1343`) calls `CalcDamage`
+  **before** `TryHitTarget_Async` performs the second accuracy check
+  (`:1358-1391`). Consequently, a newly activated boost can correctly be
+  announced before that later miss. No-target/first-accuracy failures never
+  reach the announcement evaluator. The early one-damage branches in
+  `CalcDamage` (`src/dungeon_damage.c:1125-1131`) also bypass it. This follows
+  source evaluation order instead of claiming every announcement means a hit.
+- Static/Cute Charm messages use the already-sampled contact-reaction booleans.
+  They occur after move-specific secondary effects and immediately before the
+  corresponding status helper, as in `TriggerTargetAbilityEffect`
+  (`src/dungeon_move_util.c:238-268`). There is no extra probability roll or
+  speculative activation on a failed contact check. The native announcement
+  precedes the status helper's duplicate/immunity checks too; it is not a
+  second claim that a new status was successfully installed.
+
+The original ability-specific visual and sound effects are still absent.
+These messages use the existing browser combat-log visibility policy; exact
+native viewport-dependent popup suppression remains a presentation limitation.
+The source remains the pinned comparative Red revision, not Blue binary proof.

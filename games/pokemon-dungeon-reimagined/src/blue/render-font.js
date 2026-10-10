@@ -1,6 +1,7 @@
 /** Native Rescue Team glyph masks and advances, verified against Blue imagery. */
 import {NATIVE_GLYPHS} from './render-native-ui-data.js';
-export {panel,cursor,dialogueArrow,nativeHud,nativeDamage,nativeTouchToolbar,touchToolbarBounds,nativeMenuFrame,disposeNativeUi} from './render-native-ui.js';
+import {nativeMoveIcon} from './render-native-ui.js';
+export {panel,cursor,dialogueArrow,nativeHud,nativeDamage,nativeTouchToolbar,touchToolbarBounds,nativeMenuFrame,nativeMoveIcon,nativeHeart,nativeNamingCursor,nativeNamingCaret,nativeNamingFrame,nativeNamingUnderline,disposeNativeUi} from './render-native-ui.js';
 
 /** @type {Map<string,HTMLCanvasElement>} */
 const TINTS=new Map();
@@ -9,6 +10,7 @@ const MAX_TINTS=16,GLYPH_WIDTH=12,GLYPH_HEIGHT=11;
 
 /** @param {string} character */
 function normalize(character){
+  if(NATIVE_GLYPHS[character])return character;
   if(character==='\u2019'||character==='\u2018')return "'";
   if(character==='\u201c'||character==='\u201d')return '"';
   if(character==='\u2014'||character==='\u2013')return '-';
@@ -21,7 +23,7 @@ function characterGlyph(character){return NATIVE_GLYPHS[normalize(character)]??N
 
 /** Native advance includes spacing; there is no extra trailing-pixel deduction.
  * @param {string} value @param {number} [scale] */
-export function textWidth(value,scale=1){return Array.from(value).reduce((width,character)=>width+(characterGlyph(character)?.advance??6),0)*scale;}
+export function textWidth(value,scale=1){return Array.from(value).reduce((width,character)=>width+(character==='★'?8:characterGlyph(character)?.advance??6),0)*scale;}
 
 /** @param {string} color @param {boolean} shadow */
 function glyphAtlas(color,shadow){
@@ -48,9 +50,10 @@ export function text(context,value,x,y,options={}){
   const top=Math.round(y),start=left,image=glyphAtlas(options.color??'#fbfbfb',false);
   const shadow=options.shadow===false?null:glyphAtlas('#000000',true);
   for(const character of Array.from(value)){
-    const glyph=characterGlyph(character),advance=glyph?.advance??6;
+    const glyph=characterGlyph(character),advance=character==='★'?8:glyph?.advance??6;
     if(options.maxWidth!==undefined&&left-start+advance*scale>options.maxWidth)break;
-    if(character!==' '){
+    if(character==='★')nativeMoveIcon(context,'star',left,top,scale);
+    else if(character!==' '){
       const index=INDEX.get(normalize(character))??INDEX.get('?')??0;
       if(shadow)context.drawImage(shadow,index*GLYPH_WIDTH,0,GLYPH_WIDTH,GLYPH_HEIGHT,left,top,GLYPH_WIDTH*scale,GLYPH_HEIGHT*scale);
       context.drawImage(image,index*GLYPH_WIDTH,0,GLYPH_WIDTH,GLYPH_HEIGHT,left,top,GLYPH_WIDTH*scale,GLYPH_HEIGHT*scale);

@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "edition": "Red Rescue Team comparative",
+  "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+  "qualification": "Original short menu sound-effect control facts. Blue sound-file access was blocked; DS instrument, clock and mix parity are unverified. No commercial music or PCM samples are included.",
+  "sources": [
+    {
+      "path": "sound/songs/seq_301.s",
+      "sha256": "3b80ef7281b5f8643c487490400cac4f2daaec2d71bb527a7ebfa19502f8ffb4"
+    },
+    {
+      "path": "sound/songs/seq_302.s",
+      "sha256": "403b781fd2613035540a3a0c2bdde0286e5b9651ee340677093635528bf45c38"
+    },
+    {
+      "path": "sound/songs/seq_303.s",
+      "sha256": "ec028be8e975b5b701feefa1321c070cbdcc4628e22d56c62bc621f670b91caa"
+    },
+    {
+      "path": "sound/songs/seq_304.s",
+      "sha256": "deb21f2f36db78bf27d8db1e4b40d5f5d7fb4ce4df2b663e5012cd3096266c2d"
+    },
+    {
+      "path": "sound/voicegroups/bank_027.s",
+      "sha256": "facc5bfdbc7b22e70b689e4933101c9542c6028d6639c99c03b4231a02c85fb3"
+    },
+    {
+      "path": "sound/music_player_table.inc",
+      "sha256": "f89fdb522c3a1490095b68c7bd8dc4add0e4e966963c622282db21b612d87569"
+    },
+    {
+      "path": "src/music_util.c",
+      "sha256": "478a6dc1cde3ce8cf0169e6e887f5eafe9f18dd8451a98133b544c49b290989f"
+    },
+    {
+      "path": "src/dungeon_music.c",
+      "sha256": "f95d69b029602aab24d3b29ff8f5e910a8a9b819539c450c051c0503ea1469e6"
+    },
+    {
+      "path": "src/m4a.c",
+      "sha256": "024533db60947651009bcd7d213f29214e3786396859f9ef73d45f0fb52725c5"
+    },
+    {
+      "path": "src/m4a_1.s",
+      "sha256": "41fa2269304f2a0981b1692b194d94b408f4f6e6aea9eef25a2433c59cbd77ef"
+    },
+    {
+      "path": "src/m4a_tables.c",
+      "sha256": "8f9e8af38613fc257dcfb751c250cf07e22eaea3ef1abff14bb45a388bc4c862"
+    },
+    {
+      "path": "MPlayDef.s",
+      "sha256": "efc01b7608ed0f4beed7d6c3a6811da5bfb8db350c8a57bd24dcef2d96fcf635"
+    },
+    {
+      "path": "VoiceDef.s",
+      "sha256": "e94881bd29a5dd051bcec51da0fe39bac2efd839c7eca2fa67e2a585ac65fbf7"
+    }
+  ],
+  "clock": {
+    "cpuHz": 16777216,
+    "cyclesPerFrame": 280896
+  },
+  "frequencyBase": [
+    -2004,
+    -1891,
+    -1785,
+    -1685,
+    -1591,
+    -1501,
+    -1417,
+    -1337,
+    -1262,
+    -1192,
+    -1125,
+    -1062
+  ],
+  "generalMenuThrottleFrames": 4,
+  "browserGain": 0.22,
+  "cues": [
+    {
+      "id": "effect-ui-cursor",
+      "sequence": 301,
+      "duty": 0.5,
+      "volume": 70,
+      "trackTicks": 2,
+      "notes": [
+        [
+          0,
+          84,
+          2,
+          100
+        ]
+      ]
+    },
+    {
+      "id": "effect-ui-confirm",
+      "sequence": 302,
+      "duty": 0.5,
+      "volume": 100,
+      "trackTicks": 384,
+      "notes": [
+        [
+          0,
+          79,
+          2,
+          120
+        ],
+        [
+          0,
+          90,
+          2,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "effect-ui-cancel",
+      "sequence": 303,
+      "duty": 0.25,
+      "volume": 70,
+      "trackTicks": 7,
+      "notes": [
+        [
+          0,
+          58,
+          2,
+          100
+        ],
+        [
+          3,
+          55,
+          2,
+          92
+        ],
+        [
+          5,
+          67,
+          1,
+          80
+        ],
+        [
+          6,
+          67,
+          1,
+          20
+        ]
+      ]
+    },
+    {
+      "id": "effect-ui-open",
+      "sequence": 304,
+      "duty": 0.5,
+      "volume": 70,
+      "trackTicks": 2,
+      "notes": [
+        [
+          0,
+          88,
+          1,
+          116
+        ]
+      ]
+    }
+  ],
+  "aliases": {
+    "effect-ui-denied": "effect-ui-cancel"
+  }
+}

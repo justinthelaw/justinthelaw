@@ -13,7 +13,7 @@ Three.js runtime, plans and art studies.
 | Characters | All 16 quiz outcomes; sourced partner pool/type exclusions; partner naming before awakening and hero naming afterward |
 | Rules | Three Tiny Woods floors, level-5 starting profiles, moves/PP, original damage helpers, early statuses, partner/enemy behavior, held items, stairs, growth, loss/retry and reunion rewards |
 | Browser | Keyboard/touch input, interruption ownership, bounded sprite cache, no WebGL, startup cancellation, accessible menu mirrors and help, isolated alternating save checkpoints |
-| Export | Parsed module closure plus explicit asset manifest; approximately 2.60 MB instead of the retained 84 MB historical tree |
+| Export | Parsed module closure plus explicit asset manifest; approximately 2.81 MB instead of the retained 84 MB historical tree |
 
 ## Review evidence
 
@@ -30,6 +30,13 @@ Three.js runtime, plans and art studies.
   pixel/provenance checks. All 184 selected changed files passed the applicable
   pre-commit checks using the required pre-commit 4.6.2. The distribution contains
   112 resources totaling 2,615,396 bytes; each contribution remains below 1 MiB.
+- Signed checkpoint `b7bfc5e78b6961500051757f1c0404cf153d2034` was pushed
+  to the PR branch and verified against the remote head. Its hosted
+  [Lint](https://github.com/justinthelaw/justinthelaw/actions/runs/38092986752),
+  [Game Static Checks](https://github.com/justinthelaw/justinthelaw/actions/runs/38092986754),
+  [Playwright Tests](https://github.com/justinthelaw/justinthelaw/actions/runs/38092986701)
+  and [CodeQL](https://github.com/justinthelaw/justinthelaw/actions/runs/38092984939)
+  all completed successfully. No merge or deployment was performed.
 - Independent prepared-turn review fixed missing partner swap upkeep/end effects,
   pointer releases suppressed during locked phases and dropped held movement
   across slow scheduling gaps. Sleep wake-up, Bide completion, prepared saves,
@@ -54,7 +61,7 @@ Three.js runtime, plans and art studies.
   checkpoints. The full static suite reached the new art check after all legacy
   checks passed. Node 26 versus pinned Node 24 PNG encoding differed; regenerating
   under Node 24.21.0 preserved every decoded RGBA pixel across all 28 PNGs. Final
-  full-check and publication outcomes belong in the next ledger entry.
+  checks remain separate from manual visual and gameplay acceptance.
 - Root website dependency installation failed with Socket Security Policy E403
   for recently published pinned packages. No versions, security policy or checks
   were weakened. Full local website lint/build/Playwright remain unverified.
@@ -85,6 +92,69 @@ capture from this run. The later held-direction fix across slow beats is a
 documented source delta from that frozen snapshot and passed static review;
 this run does not establish its manual status-effect behavior.
 
+The same frozen native build was manually inspected at 390×844 and 844×390
+browser viewports. Both screens and the expanded directional/A/B/Menu/Map touch
+controls fit in portrait and landscape. The viewport override was then reset.
+These observations do not establish physical iOS or Android acceptance.
+
+## Native interface checkpoint
+
+This pass adds the source-derived 81-key naming editor, original menu
+illustrations and Team hearts, the English retail upper-team layout, original
+status symbols with per-pose head attachments, and four short comparative Red
+menu sound effects. The naming editor retains a native browser text alternative
+and handles IME ownership, insertion/overwrite, caret movement and confirmation
+cancellation. Combat-log messages now expire on a pause-aware presentation clock.
+Ability activation announcements retain native evaluation order and optional
+persisted deduplication bits without changing numerical effects or RNG draws.
+The source-derived Team camera waits four nominal frames, follows the selected
+member through submenus and restores the leader on exit. Tiny Woods world
+lighting is separated from minimap discovery; AI and targeting remain unchanged.
+Independent reviewers checked those ownership and numerical boundaries.
+
+The complete authoring `npm run check` passed under Node 24.21.0, including
+597-file static lint, 463-file strict types, all retained audits and the new
+asset checks. All 112 changed files passed applicable pre-commit checks with
+pre-commit 4.6.2. The distribution has 128 resources totaling 2,808,504 bytes.
+An independent release audit verified all 81 imports across 48 runtime modules,
+106 source/runtime hashes and local-only fetch paths. No game module was
+executed by these checks.
+
+The native species cache's 8 MiB cap applies after a scene finishes loading.
+Preserving the previous scene during loading can temporarily retain up to
+11,657,216 decoded species bytes in the current catalog. Other image sheets
+and browser decoder overhead are additional; no measured total-memory claim
+is made.
+
+Direct inspection of the original Blue opening at 0:24, 0:25 and 0:27 in
+[this footage](https://www.youtube.com/watch?v=4iTyZkVX9DI) confirms daylight
+through the aerial shot's white fade. The comparative Red sunset palette cycle
+is therefore excluded. Nintendo's English manual and the retail Moby capture
+support the selected upper-team text positions; the earlier press capture is
+retained as a separately observed layout. These video observations are not
+pixel or frame-timing proof. Four original Blue boot cards now precede the
+cinematic; their source-derived 8.9-second prefix remains timing-qualified.
+
+The 23:26 UTC frozen build completed a fresh eight-question quiz and produced
+calm/female Bulbasaur with the expected seven non-Grass partners. Pikachu was
+selected and named Spark. Manual checks covered empty-name rejection, the
+60-pixel name-width limit, caret movement, overwrite, insertion, deletion,
+B backspace and cancellation from name confirmation. The thin comparative
+Red naming border and wide-letter hitbox discrepancy found during this pass
+were corrected before the next snapshot.
+
+The 23:41 UTC frozen build contains the 128-file distribution and per-file
+hashes at 2,808,127 bytes. A later 377-byte NOTICE attribution addition changes
+no game behavior. Startup reached the company card, cinematic and title. Continue restored
+Spark, insertion mode, the selected key and the saved caret: insertion still
+occurred before the final character. Repeated Enter activation retained naming
+key focus, and a click on W's rightmost stroke selected W. Start selected END
+without accepting the name; A then entered confirmation. The corrected naming
+screen is preserved as `native-naming.png` in that review directory, SHA-256
+`fcaa876344851bfc777e3931b5df44cc33f6171dc5c01f2ca0039f96b88da0e3`.
+The run has reached the native awakening scene. Final-build dungeon camera,
+status-effect and completion observations remain separate pending checks.
+
 One raw browser-debugger reload call stalled for roughly 16 minutes. Ordinary
 browser controls resumed, and the page reported no JavaScript errors. This is
 not a measured game-engine freeze or performance result.
@@ -112,5 +182,7 @@ not a measured game-engine freeze or performance result.
 - [Visual evidence](../../../tools/pokemon-dungeon/reference/blue-visual.md)
 - [Audio evidence](../../../tools/pokemon-dungeon/reference/blue-audio.md)
 - [Mechanics evidence](../../../tools/pokemon-dungeon/reference/blue-mechanics.md)
+- [Boot-card evidence](../../../tools/pokemon-dungeon/reference/blue-boot-cards.md)
+- [Status artwork evidence](../../../tools/pokemon-dungeon/reference/blue-status-effects.md)
 - [Original Blue introduction video](https://www.youtube.com/watch?v=RrglH3dOqrg)
 - [Current scope](BLUE-OPENING.md)

@@ -13,7 +13,8 @@
 - The latest 2026-10-10 instruction replaces the historical 3D/full-campaign
   target. Follow [the opening plan](pokemon-dungeon-reimagined/plan/BLUE-OPENING.md).
 - The new runtime uses two 256 × 192 Canvas 2D screens, an isolated save journal,
-  local native Rescue Team images/UI, authored audio and sourced game rules.
+  local native Rescue Team images/UI, an authored score, source-derived menu
+  effects and sourced game rules.
 - Exact audiovisual, script and cartridge-behavior parity remains unverified.
   Selected pixel comparisons and static checks do not establish exact replication.
 - PR #392 and the #396 startup repair were previously merged. PR #397 remains

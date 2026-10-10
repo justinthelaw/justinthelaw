@@ -132,10 +132,12 @@ substituted for a Rescue Team asset.
 
 Field and dungeon sprite palettes occupy two halves of each atlas. The latter
 uses floor(sourceChannel×31/256) before DS bit expansion; this is separately
-corroborated against ss01. The loader retains at most 12 species atlases and 8 MiB
-of decoded species pixels, with abortable local fetches and disposed ImageBitmaps.
-The largest dual-palette species image is 929,792 decoded bytes; the largest 12
-fit within the species budget. The portrait atlas adds 1,382,400 decoded bytes.
+corroborated against ss01. After a load, the loader retains at most 12 species
+atlases and 8 MiB of decoded species pixels, with abortable local fetches and
+disposed ImageBitmaps. During a transition it can briefly retain the complete
+23-species inventory, totaling 11,657,216 decoded bytes, before eviction. The
+largest dual-palette species image is 929,792 decoded bytes; the largest 12 fit
+within the steady-state budget. The portrait atlas adds 1,382,400 decoded bytes.
 Generated text tints have a 16-entry cache; UI tile caches have a fixed small
 palette inventory and explicit disposal hooks.
 
@@ -158,13 +160,134 @@ image pipeline. There are no runtime CDN/font/image dependencies. Historical
 original scene paintings remain recoverable but all four are excluded from the
 release manifest, which now selects native scenery.
 
+## Native menu and team-screen checkpoint
+
+The upper dungeon display now uses original Blue row artwork from the pinned
+`ss01.png` press capture and [MobyGames capture 287134](https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287134/).
+Each row is 256×48. The empty row matches all 12,288 pixels across the captures
+after their documented RGB555 display normalization. Five native sprite masks
+expose 2,170 of the 2,304 occupied-pedestal positions; **134 covered positions are
+inferred** using the directly observed gray-to-gold palette correspondence.
+Rounded panel edges are captured pixels, while the center's horizontal stripes
+are reconstructed from an unobscured column. These qualifications are recorded
+in `art/blue/native-reference/panel-pixel-corroboration.json`.
+
+The pedestals carry unscaled southwest-facing world sprites, not portraits.
+Pikachu, Charmander, Psyduck and reference-only Magnemite masks match their
+captured opaque pixels at anchor (24,40), with Magnemite one pixel higher. The
+runtime uses their original southwest walk sequences; the upper-screen playback
+cadence still needs video timing. The two captures differ in text indent: ss01
+uses name x72 and level/item x76, while capture 287134 uses x56 and x60. The
+[official English Blue manual](https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf#page=13),
+printed page25, independently shows the compact x56/x60 layout at half size.
+The selected English retail layout therefore follows capture287134: HP slash
+x134, maximum-HP right edge x157, bar x162, and tactic x148. Seven native text
+samples are compared pixel by pixel by the exporter. The captured manual image
+is pinned for layout evidence only; its CMYK/JPEG conversion cannot prove native
+colors. A pre-release/build difference could explain ss01, but that explanation
+has not been established, and no text-indent setting was found.
+
+Two original file-menu illustrations are retained from the [public Rescue Team
+menu-background collection](https://projectpokemon.org/home/gallery/album/840-rescue-team-menu-backgrounds/).
+The collection identifies them as Rescue Team art retained in Explorers of Sky.
+Delivery matches 31,040 unobscured background pixels in the pinned [localized
+Blue comparison](https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Main_Menu_Comparison_Korean.png),
+using the native brightness conversion and clipped x0 column. This is background
+evidence, not proof of English-retail menu text. The parent agent's direct review
+of [English Blue footage at 0:05](https://www.youtube.com/watch?v=RrglH3dOqrg&t=5s)
+corroborates the mailbox scene's identity; compressed video does not prove its
+pixel bytes. Mailbox is the selected default. The third original illustration
+and the English upper-display menu logo are still missing.
+
+File-menu choices occupy the upper-left frame and show short authored selection
+help in a 224×40 window at (16,128). The source normal-window templates and
+`menu_input.c` establish eight-pixel borders, first-entry y2, and 12-pixel rows.
+The selected main frame (16,8) follows the approximate English-video placement;
+the localized capture uses y16. These positions are not described as a common
+binary coordinate across all Blue versions.
+
+The dungeon main menu follows the five-entry window from
+[`dungeon_main.c`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_main.c)
+and the three full-menu templates in
+[`dungeon_vram.c`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_vram.c).
+The moves window follows
+[`dungeon_menu_moves.c`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_menu_moves.c):
+four 12-pixel slots, a notched header, PP at local x106, and a separate lower
+help window. These Blue translations remain comparative source placements.
+The browser's cancel/B action returns without adding a non-native Back row.
+Leader set moves use original glyph
+0x8741 (the E marker); partner-enabled moves use 0x8742 (the colored star).
+
+Tiny Woods has no Toolbox. Its Team menu follows the normal-window branch in
+[`dungeon_menu_team.c`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_menu_team.c):
+14 content tiles, no header, first-entry y0, and three height tiles for the two
+members. The leader star starts at local x9, names follow its eight-pixel advance,
+and the heart starts at local x89. Names use native yellow. Both opening members
+use **yellow** hearts because they have ordinary nonnegative recruited IDs;
+[`sub_806A538`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_misc.c)
+reserves red hearts for negative or guest sentinel IDs. Four heart sizes use
+glyphs0x874A–0x874D and compare HP to q,2q,3q where q=floor(maxHP/4), preserving
+the source's rounding order. The red0x8746–0x8749 masks are retained with their
+palette indices as source data, rather than incorrectly assigned to the leader.
+
+The Team selector now follows the source camera route in
+[`TryPointCameraToMonster`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_misc.c):
+when the target changes, wait four nominal frames, snap to that member, then
+discover its minimap surroundings. The initially highlighted member is the
+teammate immediately ahead of the leader if present, otherwise the leader.
+Member submenus retain the chosen camera; cancel waits before returning to the
+leader. This camera is transient and resets on phase exit/Continue. A bounded
+browser confirmation waiting for the four-frame change is canceled by menu
+replacement, Help or lost focus; native per-frame hardware input timing is not
+claimed. No camera operation advances a gameplay turn or random stream.
+
+All three scoped floor records have visibilityRange0 and trapDensity0. In
+[`dungeon_tilemap.c`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_tilemap.c),
+zero light range disables the world dimming window; it does not expose the whole
+minimap. This matches the bright Tiny Woods field shown in ss01 and the official
+English manual p24. World terrain and on-screen items/actors therefore remain
+lit, while minimap enemy dots use the current camera member's room plus border
+or two-tile corridor range. Item markers remain on discovered tiles. The camera
+target supplies the HUD's HP, level and Belly; a nonleader uses the native second
+digit bank and cyan HP bar.
+
+[`DiscoverMinimap`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_map_access.c)
+updates persistent map knowledge only for the leader's normal movement or an
+explicit camera selection. The former automatic union of both members' sight
+has been removed. Existing explored tiles in older opening saves are retained;
+the renderer cannot reconstruct which were previously over-revealed. Native
+`UpdateTrapsVisibility` rebuilds the tile display rather than revealing traps;
+Tiny Woods has none to mutate. All consumers of `state.visible`/`explored` were
+audited as presentation or the unused actor-list export. AI and targeting still
+use the unchanged `inSight` helper directly. Native sprite-phase randomization
+on camera refresh is not copied into the gameplay RNG.
+
+The naming UI now renders the native special glyphs, rounded window frame,
+double underline, selection arrow and flipped text caret. Nintendo's Blue manual,
+printed p15, visibly shows rounded, layered borders on both naming panels. The
+parent agent's direct review of [Blue footage at 1:37](https://www.youtube.com/watch?v=RrglH3dOqrg&t=97s)
+corroborates that frame style and the outer boxes `(32,16,192,56)` and
+`(8,88,240,88)`. `nativeNamingFrame` therefore uses the existing native normal
+window tiles; the comparative Red borderless template's one-pixel outline is not
+used for Blue. Text, key and caret positions are unchanged. The compressed video
+and small manual image establish the frame family, not every border pixel.
+Interior key positions remain comparative source coordinates. The editor owns
+the exact source key adjacency and 60-pixel name width restriction separately
+from rendering.
+
+The live dungeon log preserves its original 224×40 visible window with three
+11-pixel rows. Its fourth row is a scrolling buffer, not extra visible height.
+The renderer advances one pixel per nominal frame for eleven frames, pauses
+while a menu covers it, and keeps a bounded 24-line presentation queue. The app
+owns the 240-frame expiry; the persisted message log is independent.
+
 ## Remaining visual acceptance
 
 Static pixel proofs cover the explicitly recorded samples, not the full game.
 Exact Blue driver timing, every pose/species, all aura palette animation,
 comprehensive menu geometry, story pacing, remaining reaction effects and
-browser/device presentation still require direct review. The upper team panel
-also needs a native-layout comparison independent of its now-correct font.
+browser/device presentation still require direct review. The cause of the press
+team-layout variant and preview animation timing remain explicitly unresolved.
 
 Human review should compare title, quiz, naming, all starter/partner sizes,
 three-line dialogue, Tiny Woods battle HUD, visibility/minimap and Caterpie's

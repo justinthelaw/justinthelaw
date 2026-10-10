@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "repository": "https://github.com/pret/pmd-red",
   "commit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
-  "sourceEdition": "Red Rescue Team, with directly captured Blue touch-toolbar imagery",
-  "blueStatus": "Native font glyphs, dialogue geometry and selected UI palette pixels corroborated against original Blue press captures. HUD layout and remaining glyphs are source-derived comparative Rescue Team data.",
+  "sourceEdition": "Red Rescue Team literal UI data, with directly captured Blue toolbar and team-panel imagery; public Rescue Team menu illustrations retained in Explorers of Sky",
+  "blueStatus": "Selected native font, window, HUD, toolbar and team-row pixels are corroborated against Blue captures. Menu-background and layout proof levels are recorded separately; source-derived comparative data is not silently promoted to Blue pixel parity.",
   "rights": "Original Pokémon / Chunsoft / Nintendo artwork and public decompilation data. Provenance is retained; no rights-holder reuse grant is asserted.",
   "archive": {
     "path": "native-ui-source.tar.gz",
-    "bytes": 353107,
-    "sha256": "0244b14573c7f4a60c2315e5bf6bb2026569b36a6ec4cfd80074d1e222cc46c9"
+    "bytes": 430943,
+    "sha256": "1fd2b9e2099e929fd18cb809480144dd7ab4c50f6af59f6fa449fa9edec15773"
   },
   "files": [
     {
@@ -28,24 +28,6 @@
       "bytes": 3206,
       "sha256": "2a6eeceeedc7ea9f01969204b4a3969d5366710ec616ae55ffed341c44310101",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon/hp5font.inc"
-    },
-    {
-      "path": "graphics/ax/pal/0.pal",
-      "bytes": 202,
-      "sha256": "f7eb2849cea3aba41b2fbb7cb46ac82c245bfe1b17d278c6cbc88c33c8700c63",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/0.pal"
-    },
-    {
-      "path": "graphics/ax/pal/3.pal",
-      "bytes": 200,
-      "sha256": "65d3e8afcbf93580d438052f6361cc6e3d959e7f80a06cd824687f5c64fd9a69",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/3.pal"
-    },
-    {
-      "path": "graphics/ax/pal/10.pal",
-      "bytes": 209,
-      "sha256": "bb79dea3c5c21a498b335c8a1dd6020141f0f8dd91829a51212517fc47e0cad6",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/10.pal"
     },
     {
       "path": "charmap.txt",
@@ -118,6 +100,558 @@
       "bytes": 6868,
       "sha256": "c09cd379fa0a9a90a5c66cfea7b73675b2ea32d949e8a47771b4277a8c7b8ab7",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/game_options.c"
+    },
+    {
+      "path": "src/naming_screen.c",
+      "bytes": 28958,
+      "sha256": "d345f4376d480fec819318b6d1c70f54fa085db678df990eaef86ac9da10734f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/naming_screen.c"
+    },
+    {
+      "path": "src/confirm_name_menu.c",
+      "bytes": 5697,
+      "sha256": "e9f4b741cd735b5e3db083bac0d0caf6aef1fcdf6b43ac87296e6d59cb3c9eb8",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/confirm_name_menu.c"
+    },
+    {
+      "path": "src/dungeon_menu_moves.c",
+      "bytes": 37562,
+      "sha256": "94035a3ead7f2faf4608abb4c44706bb2a137354269a1732bde35cc45e988e92",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_menu_moves.c"
+    },
+    {
+      "path": "src/moves.c",
+      "bytes": 41127,
+      "sha256": "bc1ed7fe1cbdeb2fd294c1329913b158b9c1365538f547f177877968dd345916",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/moves.c"
+    },
+    {
+      "path": "src/main_loops.c",
+      "bytes": 33645,
+      "sha256": "0c70781fee3cba93cbb016d8ae2b7de9fac31230c585b90352608357966bfec8",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/main_loops.c"
+    },
+    {
+      "path": "src/main_menu2.c",
+      "bytes": 10948,
+      "sha256": "9fa3bab136e57cef710dddbc4a6dbab7ff920fd6506a81504e00bb68ff655f79",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/main_menu2.c"
+    },
+    {
+      "path": "src/data/main_menu2.h",
+      "bytes": 5348,
+      "sha256": "45e7f95607d1d822a354e4117bffbeb877a19800f750328e2f9b0db86728dff3",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/main_menu2.h"
+    },
+    {
+      "path": "graphics/ax/pal/0.pal",
+      "bytes": 202,
+      "sha256": "f7eb2849cea3aba41b2fbb7cb46ac82c245bfe1b17d278c6cbc88c33c8700c63",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/0.pal"
+    },
+    {
+      "path": "graphics/ax/pal/1.pal",
+      "bytes": 202,
+      "sha256": "589531dbe884eab749b7055b5018b50fb14815e3cd9f518a3ee904388e7e5a99",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/1.pal"
+    },
+    {
+      "path": "graphics/ax/pal/2.pal",
+      "bytes": 200,
+      "sha256": "e2ed6baf005ed557bd1ea955cf0a4799feb2435b5f8e91a5e065de737b74400a",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/2.pal"
+    },
+    {
+      "path": "graphics/ax/pal/3.pal",
+      "bytes": 200,
+      "sha256": "65d3e8afcbf93580d438052f6361cc6e3d959e7f80a06cd824687f5c64fd9a69",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/3.pal"
+    },
+    {
+      "path": "graphics/ax/pal/4.pal",
+      "bytes": 205,
+      "sha256": "1d083da3479d41afe6b09917ab5ff396bfc3bea99c63d5221bf204b24638d66c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/4.pal"
+    },
+    {
+      "path": "graphics/ax/pal/5.pal",
+      "bytes": 207,
+      "sha256": "bded1ed37ff628997b9a880d9a4a9294e421d1edee1d631e394c7c50b01b92cd",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/5.pal"
+    },
+    {
+      "path": "graphics/ax/pal/6.pal",
+      "bytes": 204,
+      "sha256": "c41ea42d73606061adf2361efa3cbf13606ce041a6706a5088f39e889726bbcc",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/6.pal"
+    },
+    {
+      "path": "graphics/ax/pal/7.pal",
+      "bytes": 213,
+      "sha256": "cd68cb6459fa41b9351bf84de8f9dc2a65d45d7cdc3e64a1cfa35a3e07a507c5",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/7.pal"
+    },
+    {
+      "path": "graphics/ax/pal/8.pal",
+      "bytes": 199,
+      "sha256": "2f52099d55abd9bc6b2d1faae10e761e1575d2dd37b9593d1fd1fa85b34cf05c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/8.pal"
+    },
+    {
+      "path": "graphics/ax/pal/9.pal",
+      "bytes": 209,
+      "sha256": "61ef9ed52d69e1be19f2a37c5a522ef336064ed050926f876b4cd516d0b465c7",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/9.pal"
+    },
+    {
+      "path": "graphics/ax/pal/10.pal",
+      "bytes": 209,
+      "sha256": "bb79dea3c5c21a498b335c8a1dd6020141f0f8dd91829a51212517fc47e0cad6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/10.pal"
+    },
+    {
+      "path": "graphics/ax/pal/11.pal",
+      "bytes": 210,
+      "sha256": "f64d83d37d0107aedecb7056edea272ac063f2884ff95b834a52c007959bb631",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/11.pal"
+    },
+    {
+      "path": "graphics/ax/pal/12.pal",
+      "bytes": 202,
+      "sha256": "61b7b9a181a14b3545c8f23e65868c368ce2802531a8a0e384eed51393198cb8",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/12.pal"
+    },
+    {
+      "path": "graphics/ax/pal/13.pal",
+      "bytes": 136,
+      "sha256": "4bfc53253ca5e1b72145340cc5ac70fac2ad5f9fa322fa34aeaefba086b16a85",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/13.pal"
+    },
+    {
+      "path": "src/dungeon_menu_team.c",
+      "bytes": 53799,
+      "sha256": "611fc083d09de11b7ca21dd874f848e05034a83f5e128da6cc29dbd835de17e2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_menu_team.c"
+    },
+    {
+      "path": "src/dungeon_misc.c",
+      "bytes": 55931,
+      "sha256": "9f5de68c48737bb3b9aadd0b92a9ae2069a53349383d125174e7b2aeca04d90d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_misc.c"
+    },
+    {
+      "path": "src/dungeon_logic.c",
+      "bytes": 47442,
+      "sha256": "662b79a226f4e76a5b7c4e84553477e1e310c28e2483c80b702f4bbe35d9ced9",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_logic.c"
+    },
+    {
+      "path": "src/menu_input.c",
+      "bytes": 32268,
+      "sha256": "f6dd312fffd2b83291ec21b5724fc42e161d62071708690917dc22b6c0fa1709",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/menu_input.c"
+    },
+    {
+      "path": "include/constants/colors.h",
+      "bytes": 278,
+      "sha256": "46f20055083fb0cffde883139ec5fd4c19c61e190a95879dc7b58c20221ef3a4",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/constants/colors.h"
+    },
+    {
+      "path": "src/data/ax/magnemite.h",
+      "bytes": 163907,
+      "sha256": "9e726222e7f751c11f77900034e01a38c1b880ebf6c2eed49e05e38cfa9d9578",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ax/magnemite.h"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_1.png",
+      "bytes": 233,
+      "sha256": "bda50c50869d5f0307a5563761a794dbac6bde1df2e910c63bb468acd8004b3d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_1.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_2.png",
+      "bytes": 240,
+      "sha256": "30e929743f7b5e7fcb3a9b99520cccf4db3312c089dce04f255f09cc13755874",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_2.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_3.png",
+      "bytes": 239,
+      "sha256": "4bee59e09831065bdd57c39613d5b066be47d28e1dd5298d19642ac70da5623b",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_3.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_4.png",
+      "bytes": 227,
+      "sha256": "929cab031b2a8acea095a83b04c8785ce8a4182f387219249a803682d93dfb55",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_4.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_5.png",
+      "bytes": 231,
+      "sha256": "2831ee1b5869f575e1dd5929a3e067a3146b25fefd2d432abdc45a4f678691cd",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_5.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_6.png",
+      "bytes": 230,
+      "sha256": "07cd6bf02a37a66fa2d8f32d0630e732ee46e0278350f165cbbacf340b1525f4",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_6.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_7.png",
+      "bytes": 211,
+      "sha256": "d736f1bcdba669c72d561565ecf00f801f724dda054c5ee6a73efb46316e8afc",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_7.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_8.png",
+      "bytes": 207,
+      "sha256": "d21253081fb367605f0f871caeaea36fa84e845248ac3ade4f98bc58d91c8cca",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_8.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_9.png",
+      "bytes": 215,
+      "sha256": "d9378db32782a56b09986f99913f912b09676b09f31a4e3a5efa8a439afd5116",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_9.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_10.png",
+      "bytes": 213,
+      "sha256": "9016f4ea981bce060acff7501c0d8c77b55e15142470e5ab1ecdae86c5823bc2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_10.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_11.png",
+      "bytes": 213,
+      "sha256": "99a5336f4a856c860535da1564c1e86ad81cc5e4cf86831cc37cc928accccc31",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_11.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_12.png",
+      "bytes": 221,
+      "sha256": "cac24a126528aca5b62103ce16d4f09a43e6e1e22dcbc75b0c2b80e1ccc37c7b",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_12.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_13.png",
+      "bytes": 224,
+      "sha256": "d85844f174ddfac9bf234c5dccd711b32db7caefad6f4e669faf95e4ecd4760f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_13.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_14.png",
+      "bytes": 230,
+      "sha256": "fae79138da27264b6ca25b61b99e01ad398b7394a7f4f88d4c8f1ba68b0406ea",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_14.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_15.png",
+      "bytes": 234,
+      "sha256": "afa541ba0a68e2a3a894368f4779f5254eb90c7cb3c3a92d81faa4cc4aa5bdf8",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_15.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_16.png",
+      "bytes": 216,
+      "sha256": "acd84f4e8e1984a29e8f5305a7b3e0abdc916ba4f4a6ca16258f31d0838a7b63",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_16.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_17.png",
+      "bytes": 216,
+      "sha256": "ded2ce4d8556449af52e82b81c3a9c3f508af97f23a8e0403da52004baf6d210",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_17.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_18.png",
+      "bytes": 220,
+      "sha256": "104a0f37745fedf21f57589f81f6664f3a3629e1084b0242b73060178a8e29f9",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_18.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_19.png",
+      "bytes": 210,
+      "sha256": "709c3bd01f66ea35ae0f7973a4088bfb283e29a7bb310d25e1b8f3bea7691804",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_19.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_20.png",
+      "bytes": 205,
+      "sha256": "8281ddca65ffc3cc54ca084c326c4aa5264d6800cff136cfa65078e2dcaec77a",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_20.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_21.png",
+      "bytes": 216,
+      "sha256": "db7f41a496336396c9429e69f92cc06af696ae65c12cbd5208218d2a76ef4747",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_21.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_22.png",
+      "bytes": 227,
+      "sha256": "8cfe307a6b21913ca03fa6142ca56ea6803fe844b7f3003f36335535026f514f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_22.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_23.png",
+      "bytes": 229,
+      "sha256": "dbb641cd98c57557d2172c59d90607d71e368b7904301f99a643fd5bac18b9aa",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_23.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_24.png",
+      "bytes": 231,
+      "sha256": "8c5765211a713a208e3619714088073aaeb292651a2da6ec191a731de3af254f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_24.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_25.png",
+      "bytes": 174,
+      "sha256": "cac22f99acefcf800a955d1394be93ca9de37875eba53a5d7dd683b474f0f75a",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_25.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_25_1.png",
+      "bytes": 182,
+      "sha256": "5a055700786a7be5aaaf839c8b794c794d4a23ec91ae93987b776ff6a0ef7535",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_25_1.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_26.png",
+      "bytes": 168,
+      "sha256": "9358f44b903b6f978a6a36787af3b713d5cb6a88920599784f5ee678af791407",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_26.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_26_1.png",
+      "bytes": 191,
+      "sha256": "99d9c1f8bd28671baa33c7ec941908c5896741d17adfdf3eb6330c942ca2b668",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_26_1.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_27.png",
+      "bytes": 221,
+      "sha256": "a509c2a1ccf1b633845c6d0301f3b4ecac1046b08d69158b4db6485676f26aca",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_27.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_28.png",
+      "bytes": 208,
+      "sha256": "abe6837175711992104951bb150d7d6e5e0ea004d36190be79b8ff2d4fa5c1e8",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_28.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_29.png",
+      "bytes": 217,
+      "sha256": "13f56e8076f3eb7f009cb49e22373a7f8b71994cfd77a9da67b43927e5fb22aa",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_29.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_30.png",
+      "bytes": 214,
+      "sha256": "928d50c20a0952eaeee748404cdc40634afa1dada3a27e2f034a9609820b4c5f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_30.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_31.png",
+      "bytes": 208,
+      "sha256": "6c5ed4c5dd2dd46adaf502379c719dd278a0def75a13297e4719ca8c1acfc958",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_31.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_32.png",
+      "bytes": 213,
+      "sha256": "7481af07f6292b2f28b99e64be4170e558af1545ecd332553af17a4f193adc96",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_32.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_33.png",
+      "bytes": 204,
+      "sha256": "8a2331da3d9fdd7857ba5121e98eaa339abf0c4a63233d82c987d24dc3fb256c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_33.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_34.png",
+      "bytes": 204,
+      "sha256": "cf30d14c0ace76e68e34bb38ec4b09b7062b567074e9899298cb627ffee5a325",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_34.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_35.png",
+      "bytes": 203,
+      "sha256": "aab7b5a22a6c98547fa4b16f17ab78948ea20a7fa79fc0a37295535f521b0ce3",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_35.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_36.png",
+      "bytes": 200,
+      "sha256": "da9cbf44aac026507548900e298ff4afa4e6e4bb53f8a95826f13a1d79c9077e",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_36.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_37.png",
+      "bytes": 179,
+      "sha256": "df2267a19bab7cde2a9353a95f56304b77b026d9af41535d3712fd107b57ce77",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_37.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_37_1.png",
+      "bytes": 180,
+      "sha256": "50c00527e96790529a8c1e6cab7ca639e7c5f40a1c5a8035d1ba4186295a7f4b",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_37_1.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_38.png",
+      "bytes": 172,
+      "sha256": "268526dc0e8a32f69a66298506a28a4eedec1deebbf60893cb8c5ad1e0e27000",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_38.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_38_1.png",
+      "bytes": 177,
+      "sha256": "2c30dd1684c42c4b261cff5ecd017f1308b14062ce9fdad22cfeb23d2432228e",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_38_1.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_39.png",
+      "bytes": 163,
+      "sha256": "1ec79dd07f5fde771ba6f132a25e6484cf3ff1541b37bb986adefcb982331b38",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_39.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_39_1.png",
+      "bytes": 185,
+      "sha256": "cf17c1a13b0df0728d28c77065129b8c61e8e1510634ccd785f2ce519678a39c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_39_1.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_40.png",
+      "bytes": 206,
+      "sha256": "82c073f36fc4c19a438d2acc0bfb96585b09b36c4082282235d5707d5791ae98",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_40.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_41.png",
+      "bytes": 201,
+      "sha256": "d0ed94ed34cfd35f2b697412bd8c4fb3519c07736b452bcbbdc301653900ae72",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_41.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_42.png",
+      "bytes": 202,
+      "sha256": "e8ced30507d9c8d067129250974ff8ff024ab250ad822348e28667d4f8b17108",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_42.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_43.png",
+      "bytes": 211,
+      "sha256": "e789bffc62422075fa35fe3dc5a25f09c21a7d0349bf28f6ff9ab20748252d89",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_43.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_44.png",
+      "bytes": 212,
+      "sha256": "a718d3324f0070976245d6b284be17d9b864b18e93f4aef1c5e9ba95118d0262",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_44.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_45.png",
+      "bytes": 202,
+      "sha256": "83b9599fe6b7be681721fde4c772bc0599867a0d4fdc56287ede3abf9bf4e46f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_45.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_46.png",
+      "bytes": 206,
+      "sha256": "1107e26289145dc5927ef714e568c1eb609c1631eed6eddc4345535582739ffb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_46.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_47.png",
+      "bytes": 215,
+      "sha256": "3ef22a90ddf8249be0348d879bcb87688df1d968afc3eee6546c61cb4b5e3f81",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_47.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_48.png",
+      "bytes": 211,
+      "sha256": "95c466ef3d8c0f353bc6b432fc450c12bcf6417f75f52b3b62165607094f44e2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_48.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_49.png",
+      "bytes": 230,
+      "sha256": "7cc747b131a2cab4f29f84ea7dd899093c1ee2158176a0f599d5b603794b39dc",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_49.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_50.png",
+      "bytes": 235,
+      "sha256": "b9fc367d68368245be397cad6cd152d0b27f889930d70c2ea37b40b9d6875cb6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_50.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_51.png",
+      "bytes": 285,
+      "sha256": "5a57495d009027803f77d4520315be47f8c9b85dd10b2bc4bee788c662150dfe",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_51.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_52.png",
+      "bytes": 284,
+      "sha256": "afb73a5235f4e827b381daf850a8c451a5a5cefe0d7d8c24c46914ac712f84d9",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_52.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_53.png",
+      "bytes": 283,
+      "sha256": "eb876559b80dcae7af799f85e4529d2b7855f92f0b2c4cd1160af1d4f768e79c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_53.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_54.png",
+      "bytes": 270,
+      "sha256": "7c6d40ec894fd117bc9c68780d233b51326ea09074e2c8a59c865b68d89fb3c4",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_54.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_55.png",
+      "bytes": 277,
+      "sha256": "3e8d02c4de524c45e613c811f035305e1308298760a5c750be6476b474714b39",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_55.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_56.png",
+      "bytes": 267,
+      "sha256": "5a74d0f1cdd914f33a29c1007828529d1e247ff81b8cf142be44d757dd23f842",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_56.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_57.png",
+      "bytes": 288,
+      "sha256": "8cd54bc08febc60766c6f0f8d8f3dcf883b7cd548e09493a98614045e51762e3",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_57.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_58.png",
+      "bytes": 281,
+      "sha256": "02a7d8d28fe809b40ef0b02e282189788ad2bf276cca171de0eec93cba2ba39f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_58.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_59.png",
+      "bytes": 217,
+      "sha256": "0ca06c3d36be2e58de8676d988145f500c8eefe7f276649e5c76fd72c6c450af",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_59.png"
+    },
+    {
+      "path": "graphics/ax/mon/magnemite/sprite_60.png",
+      "bytes": 216,
+      "sha256": "6c41f4b44737b06d7a72564f47e5d432714644c7a43e18d5963040331e84cbbe",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/mon/magnemite/sprite_60.png"
     }
   ],
   "references": [
@@ -127,6 +661,36 @@
       "url": "https://mysterydungeonwiki.com/images/8/8a/Blue_Rescue_Team_Press_Release_-_ss01.png",
       "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Blue_Rescue_Team_Press_Release_-_ss01.png",
       "use": "Original five-button Blue dungeon touch toolbar; only its native UI pixels are exported."
+    },
+    {
+      "path": "native-reference/dungeon-blue-moby.png",
+      "url": "https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287134/",
+      "use": "Original Blue capture; team row geometry, male palette and world sprite corroboration.",
+      "sha256": "5b7c8a97621a1d887c3f8364ab84533266855d8984e5cf23065914202886ab19"
+    },
+    {
+      "path": "native-reference/team-blue-manual.png",
+      "url": "https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf#page=13",
+      "use": "Team display from the official English Blue manual, printed page25. A128x95 CMYK/JPEG image extracted asPNG; layout corroboration only, not a native-color or pixel-byte proof.",
+      "sha256": "880f572e8876fe8a3c188c7fec1ea62027259c63af4a13bd05d1fa5149450724"
+    },
+    {
+      "path": "native-reference/menu-delivery-source.png",
+      "url": "https://projectpokemon.org/home/uploads/monthly_2017_12/large.title_01.png.55429e636800eb8e3f904d2d3006e633.png",
+      "use": "Original Rescue Team illustration, published as unused art retained in Explorers of Sky; corroborated against localized Blue.",
+      "sha256": "acd2cec67f4d94e2ecf09f50c6a9dad7b8aff1ebe128f5ce616432de963e6f9b"
+    },
+    {
+      "path": "native-reference/menu-mailbox-source.png",
+      "url": "https://projectpokemon.org/home/uploads/monthly_2017_12/large.title_00.png.a369ad5616579399a92f53f8a1fd6489.png",
+      "use": "Original Rescue Team illustration, published as unused art retained in Explorers of Sky; English Blue scene identity corroborated at 0:05 of https://www.youtube.com/watch?v=RrglH3dOqrg, not a compressed-video pixel proof.",
+      "sha256": "cc82fca2bb25a0e8b700b2bbe87179202815f1f38e76999975ebe5d87d6a853c"
+    },
+    {
+      "path": "native-reference/menu-blue-localized.png",
+      "url": "https://mysterydungeonwiki.com/images/6/64/Rescue_Team_-_Main_Menu_Comparison_Korean.png",
+      "use": "Blue Korean-localization screenshot; background pixel evidence only, not English-retail UI proof.",
+      "sha256": "f10798a61876df359c84a79c42fac67b58f99867d28051b7d348bf3c5b80e336"
     }
   ]
 }

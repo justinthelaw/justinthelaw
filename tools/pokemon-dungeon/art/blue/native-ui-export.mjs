@@ -1,8 +1,10 @@
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {readTarGzip,decodePng} from './native-format.mjs';
+import {exportNativePanels} from './native-panel-export.mjs';
 
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
+const stringify=value=>JSON.stringify(value).replace(/[\u007f-\uffff]/g,character=>'\\u'+character.charCodeAt(0).toString(16).padStart(4,'0'));
 const rgba=value=>{const five=value>>3;return(five<<3)|(five>>3);};
 const hexColor=values=>'#'+values.map(value=>rgba(value).toString(16).padStart(2,'0')).join('');
 function sections(source){return new Map([...source.matchAll(/^(\w+):\n([\s\S]*?)(?=^\.global |$(?![\s\S]))/gm)].map(match=>[match[1],match[2]]));}
@@ -21,7 +23,8 @@ export async function exportNativeUi({emit}){
     const record=literalBytes(match[2]);if(record.length!==8)throw Error('Native font character record changed.');
     characters.set(record.readUInt16LE(0),{label:match[1],advance:record.readInt16LE(2),flags:record[6]});
   }
-  const codepoints=[...Array.from({length:95},(_,index)=>index+32),201,233,189,190],glyphs={};
+  const codepoints=[...Array.from({length:95},(_,index)=>index+32),201,233,189,190,133,145,146,147,148,0x8159],glyphs={};
+  const unicode={133:'\u22ef',145:'\u2018',146:'\u2019',147:'\u201c',148:'\u201d',189:'\u2642',190:'\u2640',0x8159:'\u2423'};
   for(const code of codepoints){
     const record=characters.get(code);if(!record)throw Error(`Native font lacks character ${code}.`);
     const bytes=literalBytes(source.get(record.label));if(bytes.length!==72)throw Error('Native glyph dimensions changed.');
@@ -30,8 +33,15 @@ export async function exportNativeUi({emit}){
       let row=0;for(let x=0;x<12;x++)if(((bytes[y*6+(x>>1)]>>(4*(x&1)))&15)!==0)row|=1<<x;
       rows.push(row);shadow.push(record.flags&2?(((row<<1)|((rows[y-1]??0)<<1))&~row)&4095:0);
     }
-    const character=code===189?'♂':code===190?'♀':String.fromCharCode(code);
+    const character=unicode[code]??String.fromCharCode(code);
     glyphs[character]={advance:record.advance,rows,shadow};
+  }
+  const icons={};
+  const iconCodes=[['set',0x8741],['star',0x8742],...['red','yellow'].flatMap((color,bank)=>['tiny','small','medium','large'].map((size,index)=>[`heart-${color}-${size}`,0x8746+bank*4+index]))];
+  for(const[id,code]of iconCodes){
+    const record=characters.get(code),bytes=literalBytes(source.get(record.label));let pixels='';
+    for(let y=0;y<11;y++)for(let x=0;x<12;x++)pixels+=((bytes[y*6+(x>>1)]>>(4*(x&1)))&15).toString(16);
+    icons[id]={advance:record.advance,width:12,height:11,pixels};
   }
   const font=literalBytes(source.get('gUnknown_8302024')),fontPalette=literalBytes(source.get('gUnknown_830612C')),sprite=literalBytes(source.get('gUnknown_830632C')),spritePalette=literalBytes(source.get('gUnknown_8306530'));
   if(font.readUInt32LE(0)!==136||sprite.readUInt32LE(0)!==16||fontPalette.length!==512||spritePalette.length!==64)throw Error('Native UI table dimensions changed.');
@@ -119,7 +129,8 @@ export async function exportNativeUi({emit}){
   const corroboration={schemaVersion:1,font:{reference:'ss02.png',origin:[28,140],lineAdvance:11,availableWidth:204,exactPixels:matched},dialogueBorder:{reference:'ss02.png',bounds:[16,136,224,40],exactPixels:borderPixels},portraitBorder:{reference:'ss02.png',imageBounds:[64,24,40,40],visibleBorderBounds:[60,20,48,48],exactPixels:portraitBorderPixels},hud:{reference:'ss01.png',exactPixels:hudPixels,excluded:'Dynamic palette index8 brightness is not asserted.'},teamMarker:{reference:'ss01.png',actorAnchor:[128,108],exactVisiblePixels:markerPixels},touchToolbar:{reference:'ss01.png',exactPixels:toolbarPixels,buttons:toolbar.map(({id,x,y,width,height})=>({id,bounds:[x,y,width,height]})),paletteNote:'Female pixels are directly captured; male border colors use the corresponding source font-palette bank. Four transparent corners per button expose the dungeon.'}};
   await emit(new URL('native-reference/ui-pixel-corroboration.json',import.meta.url),JSON.stringify(corroboration,null,2)+'\n');
   const data='/** Generated from pinned native image data by native-ui-export.mjs. */\n'+
-    '/** @type {Record<string,{advance:number,rows:number[],shadow:number[]}>} */\nexport const NATIVE_GLYPHS='+JSON.stringify(glyphs)+';\n'+
+    '/** @type {Record<string,{advance:number,rows:number[],shadow:number[]}>} */\nexport const NATIVE_GLYPHS='+stringify(glyphs)+';\n'+
+    '/** @type {Record<string,{advance:number,width:number,height:number,pixels:string}>} */\nexport const NATIVE_ICONS='+stringify(icons)+';\n'+
     '/** @type {string[]} */\nexport const NATIVE_UI_TILES='+JSON.stringify(tiles)+';\n'+
     '/** @type {string[][]} */\nexport const NATIVE_UI_PALETTES='+JSON.stringify(palettes)+';\n'+
     '/** @type {string[]} */\nexport const NATIVE_CURSOR_TILES='+JSON.stringify(spriteTiles)+';\n'+
@@ -132,5 +143,6 @@ export async function exportNativeUi({emit}){
     '/** @type {{id:string,label:string,x:number,y:number,width:number,height:number,pixels:string}[]} */\nexport const NATIVE_TOUCH_BUTTONS='+JSON.stringify(toolbar)+';\n';
   const modulePath='src/blue/render-native-ui-data.js';
   await emit(new URL(`../../../../games/pokemon-dungeon-reimagined/${modulePath}`,import.meta.url),data);
-  return{modulePath,bytes:Buffer.byteLength(data),sha256:digest(data),sourceManifestPath:'tools/pokemon-dungeon/art/blue/native-ui-sources.json',sourceManifestSha256:digest(manifestBytes),archive:manifest.archive,corroboratedFontPixels:matched};
+  const images=await exportNativePanels({emit,files,glyphs});
+  return{modulePath,bytes:Buffer.byteLength(data),sha256:digest(data),sourceManifestPath:'tools/pokemon-dungeon/art/blue/native-ui-sources.json',sourceManifestSha256:digest(manifestBytes),archive:manifest.archive,corroboratedFontPixels:matched,images};
 }

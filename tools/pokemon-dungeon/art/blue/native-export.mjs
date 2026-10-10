@@ -25,6 +25,13 @@ export function composeNativeAsset(files,species,monsterData,options={}){
   const poseBodies=arrays(source,'ax_pose'),poseTable=namedTable(arrays(source,'ax_pose \\*const'),'sAxPoses');
   const animationBodies=arrays(source,'ax_anim'),animationTables=arrays(source,'ax_anim \\*const');
   const animationTable=namedTable(arrays(source,'ax_anim \\*const \\*const'),'sAxAnimations');
+  const statusOffsets=[];
+  if(!options.ornament){
+    const positionBody=[...arrays(source,'struct PositionSets').values()][0];
+    if(!positionBody)throw Error('Native character is missing attachment positions.');
+    for(const match of positionBody.matchAll(/\[(\d+)\]\s*=\s*\{\s*\.set\s*=\s*\{\s*\{\s*(-?\d+),\s*(-?\d+)\}/g))statusOffsets[Number(match[1])]=[Number(match[2]),Number(match[3])];
+    if(statusOffsets.length!==poseTable.length||Object.keys(statusOffsets).length!==poseTable.length)throw Error('Native status attachment coverage differs from pose coverage.');
+  }
   const animations=animationTable.map(name=>{
     const directions=names(get(animationTables,name)).map(sequence=>[...get(animationBodies,sequence).matchAll(ANIM)].map(match=>{
       const[ticks,flags,pose,x,y,sx,sy]=match.slice(1).map(Number);
@@ -92,7 +99,7 @@ export function composeNativeAsset(files,species,monsterData,options={}){
   for(const rectangle of unique.values())blit(atlas,rectangle.art,rectangle.x,rectangle.y);
   const monster=monsterData.find(record=>record.name.toLowerCase()===`MonsterName${species.name}`.toLowerCase());
   if(!monster&&!options.ornament)throw Error(`Missing native monster display metadata: ${species.name}`);
-  const metadata=options.ornament?{schemaVersion:2,id:species.id,width:atlas.width,height:atlas.height,poses:rectangles,animations,sourceEdition:'Red Rescue Team'}:{schemaVersion:2,speciesId:species.speciesId,width:atlas.width,height:atlas.height,directions:DIRECTIONS,poses:rectangles,animations,clips:nativeClips(animations.length),shadowSize:monster.shadowSize,sourceEdition:'Red Rescue Team'};
+  const metadata=options.ornament?{schemaVersion:2,id:species.id,width:atlas.width,height:atlas.height,poses:rectangles,animations,sourceEdition:'Red Rescue Team'}:{schemaVersion:2,speciesId:species.speciesId,width:atlas.width,height:atlas.height,directions:DIRECTIONS,poses:rectangles,statusOffsets,animations,clips:nativeClips(animations.length),shadowSize:monster.shadowSize,sourceEdition:'Red Rescue Team'};
   return{atlas,metadata,composed};
 }
 

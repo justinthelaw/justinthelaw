@@ -26,11 +26,22 @@ Their exact source URLs and hashes are recorded in art/blue/native-ui-sources.js
 The generated synchronous runtime data module preserves native masks, palettes
 and glyph advances. Selected pixels are checked against Blue press captures.
 
+The status indicators use nine original status sheets and the same pinned
+source's palette, pose-attachment and animation tables. Source hashes live in
+art/blue/native-status/sources.json. Their Blue appearance and timing remain
+comparative rather than independently pixel-corroborated.
+
 Field and dungeon sprite palettes remain separate: dungeon brightness uses the
 source31/256 conversion before DS channel expansion. Native scenery has separate
 per-image and map-data provenance in scenery/manifest.json. The four historical
 original scene paintings remain recoverable locally but are excluded from the
 runtime manifest and release distribution.
+
+The four company/copyright cards are original Blue captures from Mystery
+Dungeon Franchise Wiki. Each is corroborated against pinned native logo data;
+Blue's copyright placement and the documented missing blank column are handled
+by the boot exporter. URLs, source hashes and pixel evidence are recorded in
+art/blue/native-scenery/boot-sources.json and scenery/manifest.json.
 
 Reproduce offline using the repository's required Node 24.21.0 toolchain:
   node tools/pokemon-dungeon/art/blue/export.mjs

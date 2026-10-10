@@ -5,7 +5,14 @@ import { SpriteBank } from './render-sprites.js';
 import { StoryActors } from './render-story.js';
 import { IntroArtwork, INTRO_CLIENT_IDS, TITLE_PROMPT_MS } from './render-intro.js';
 import { TACTICS, tacticFor } from './mechanics-policy.js';
-export { OPENING_DURATION_MS, TITLE_READY_MS, TITLE_PROMPT_MS } from './render-intro.js';
+import { renderNaming } from './render-naming.js';
+import { UiArtwork } from './render-ui-art.js';
+import { fileMenu, dungeonMenu } from './render-menus.js';
+import { StatusSprites } from './render-status.js';
+import { DungeonNotice } from './render-notice.js';
+import { itemName } from './mechanics.js';
+import { cameraSight } from './mechanics-visibility.js';
+export { BOOT_DURATION_MS, OPENING_DURATION_MS, TITLE_READY_MS, TITLE_PROMPT_MS } from './render-intro.js';
 
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
 /** @typedef {import('./mechanics-types.js').Actor} Actor */
@@ -13,7 +20,7 @@ export { OPENING_DURATION_MS, TITLE_READY_MS, TITLE_PROMPT_MS } from './render-i
 /** @typedef {'opening'|'title'|'menu'|'quiz'|'gender'|'result'|'partner'|'name'|'awakening'|'trouble'|'dungeon'|'clearing'|'reunion'|'complete'} Scene */
 /** @typedef {{speaker?:string,text:string,portraitSpeciesId?:string,portraitEmotion?:string,visibleChars?:number}} Dialogue */
 /** @typedef {{index:number,x:number,y:number,width:number,height:number}} ChoiceBounds */
-/** @typedef {{scene:Scene,gender?:'male'|'female',dialogue?:Dialogue|null,choices?:string[],disabledChoices?:boolean[],selectedIndex?:number,choiceColumns?:number,heroSpeciesId?:string,partnerSpeciesId?:string,heroName?:string,partnerName?:string,dungeon?:DungeonState|null,menuTitle?:string,notice?:string,titleSubtitle?:string,titleImmediate?:boolean,nameValue?:string,nameTarget?:'hero'|'partner',quizProgress?:number,partnerChoices?:string[],storyPhase?:string,storyLine?:number,storyPose?:string,events?:GameEvent[],eventStartedAt?:number,eventDuration?:number,topScreen?:'map'|'team'|'log',mapVisible?:boolean,showGrid?:boolean,gridLines?:boolean,showToolbar?:boolean,reducedMotion?:boolean,blackout?:boolean,fade?:number,openingProgress?:number}} View */
+/** @typedef {{scene:Scene,gender?:'male'|'female',dialogue?:Dialogue|null,choices?:string[],disabledChoices?:boolean[],selectedIndex?:number,choiceColumns?:number,heroSpeciesId?:string,partnerSpeciesId?:string,heroName?:string,partnerName?:string,dungeon?:DungeonState|null,cameraActorId?:'hero'|'partner',menuActorId?:'hero'|'partner',dungeonLightLevel?:number,menuTitle?:string,notice?:string,titleSubtitle?:string,titleImmediate?:boolean,nameValue?:string,nameTarget?:'hero'|'partner',naming?:import('./naming.js').NamingState,quizProgress?:number,partnerChoices?:string[],storyPhase?:string,storyLine?:number,storyPose?:string,events?:GameEvent[],eventStartedAt?:number,eventDuration?:number,topScreen?:'map'|'team'|'log',mapVisible?:boolean,showGrid?:boolean,gridLines?:boolean,showToolbar?:boolean,reducedMotion?:boolean,blackout?:boolean,fade?:number,openingProgress?:number}} View */
 
 const WIDTH = 256, HEIGHT = 192;
 const AURA_SCENES = new Set(['quiz', 'gender', 'result', 'partner', 'name']);
@@ -43,30 +50,37 @@ function minimap(context,state,x,y,scale,overlay=false){
   }
   const drawPoint=(/** @type {{x:number,y:number}} */ point,/** @type {string} */ color)=>{context.fillStyle=color;context.fillRect(x+point.x*scale,y+point.y*scale,Math.max(2,scale),Math.max(2,scale));};
   if(state.explored[state.stairs.y*state.width+state.stairs.x])drawPoint(state.stairs,'#71c7ff');
-  for(const item of state.items)if(state.visible[item.y*state.width+item.x])drawPoint(item,'#739aff');
+  for(const item of state.items)if(state.explored[item.y*state.width+item.x])drawPoint(item,'#739aff');
   for(const enemy of state.enemies)if(enemy.hp>0&&state.visible[enemy.y*state.width+enemy.x])drawPoint(enemy,'#ff626a');
   if(state.partner.hp>0)drawPoint(state.partner,'#ffe16a');drawPoint(state.hero,'#ffffff');context.restore();
 }
 
-/** @param {CanvasRenderingContext2D} context @param {SpriteBank} sprites @param {DungeonState} state */
-function teamScreen(context,sprites,state){
-  fill(context,'#45466f');
+/** @param {CanvasRenderingContext2D} context @param {SpriteBank} sprites @param {UiArtwork} artwork @param {DungeonState} state @param {boolean} pink @param {number} time */
+function teamScreen(context,sprites,artwork,state,pink,time){
   [state.hero,state.partner,null,null].forEach((actor,index)=>{
-    const y=index*48;context.fillStyle=index%2?'#9090b9':'#a6a2c7';context.fillRect(1,y+1,254,46);
-    context.fillStyle='#c4bfda';context.fillRect(3,y+1,250,1);context.fillStyle='#696d9b';context.fillRect(1,y+45,254,2);
-    if(!actor){context.fillStyle='#575d69';context.fillRect(3,y+2,43,42);context.fillStyle='#8a8f99';context.fillRect(5,y+32,39,10);return;}
-    sprites.portrait(context,actor.speciesId,3,y+3,41,{face:false});text(context,actor.name,55,y+5,{color:'#ffe564',maxWidth:194});
-    text(context,`Level ${actor.level}`,55,y+16);text(context,`${actor.hp}/${actor.maxHp}`,115,y+16);
-    context.fillStyle='#293a37';context.fillRect(171,y+17,69,5);context.fillStyle='#67e977';context.fillRect(172,y+18,Math.floor(67*Math.max(0,actor.hp)/actor.maxHp),3);
-    text(context,`Item: ${actor.heldItem?actor.heldItem.kind.replaceAll('-',' '):'None'}`,55,y+27,{maxWidth:188});
-    text(context,index===0?'Leader':TACTICS.find(tactic=>tactic.id===tacticFor(actor))?.name??'',149,y+37,{maxWidth:97});
+    const y=index*48;artwork.row(context,y,Boolean(actor),pink);if(!actor)return;
+    // Original Blue captures use native world sprites on 48-pixel pedestals.
+    // The SW walk loop contains every directly matched preview pose; its Blue
+    // preview animation cadence has not yet been independently frame-timed.
+    sprites.draw(context,actor.speciesId,24,y+40,{direction:'sw',clip:'walk',time,shadow:false,dungeon:true});
+    // The official English manual and retail capture287134 agree on this
+    // compact layout; press ss01 has a different, retained reference indent.
+    text(context,actor.name,56,y+8,{color:'#fbfb00',maxWidth:192});
+    text(context,`Level ${actor.level}`,60,y+19);
+    text(context,String(actor.hp),134,y+19,{align:'right'});text(context,'/',134,y+19);text(context,String(actor.maxHp),157,y+19,{align:'right'});
+    const width=Math.min(94,Math.max(1,actor.maxHp)),filled=Math.floor(width*Math.max(0,actor.hp)/actor.maxHp);
+    context.fillStyle='#fbfbfb';context.fillRect(162,y+20,width,1);context.fillRect(162,y+28,width,1);
+    context.fillStyle='#000000';context.fillRect(162,y+21,width,7);
+    context.fillStyle=actor.hp<=Math.floor(actor.maxHp/4)?'#fb5959':actor.hp<=Math.floor(actor.maxHp/2)?'#fbfb59':'#59fb59';context.fillRect(162,y+22,filled,5);
+    text(context,actor.heldItem?itemName(actor.heldItem.kind):'Item: None',60,y+30,{maxWidth:84});
+    text(context,index===0?'Leader':TACTICS.find(tactic=>tactic.id===tacticFor(actor))?.name??'',148,y+30,{maxWidth:106});
   });
 }
 
-/** @param {CanvasRenderingContext2D} context @param {SpriteBank} sprites @param {View} view */
-function topDungeon(context,sprites,view){
+/** @param {CanvasRenderingContext2D} context @param {SpriteBank} sprites @param {UiArtwork} artwork @param {View} view @param {number} time */
+function topDungeon(context,sprites,artwork,view,time){
   const state=view.dungeon;if(!state)return;
-  if(view.topScreen==='team'){teamScreen(context,sprites,state);return;}
+  if(view.topScreen==='team'){teamScreen(context,sprites,artwork,state,view.gender==='female',view.reducedMotion?0:time);return;}
   fill(context,'#303655');
   for(let y=0;y<192;y+=3){context.fillStyle='#343a5d';context.fillRect(0,y,256,1);}
   if(view.topScreen==='log'){
@@ -114,6 +128,8 @@ function drawDialogue(context,sprites,dialogue,time,pink=false,placement='left',
 /** @param {CanvasRenderingContext2D} context @param {View} view @returns {ChoiceBounds[]} */
 function choices(context,view){
   const values=view.choices??[];if(values.length===0)return[];
+  if(view.scene==='menu')return fileMenu(context,view);
+  if(view.scene==='dungeon'){const bounds=dungeonMenu(context,view);if(bounds)return bounds;}
   const selected=view.selectedIndex??0;
   /** @type {ChoiceBounds[]} */const bounds=[];
   if(view.scene==='partner'&&view.partnerChoices){
@@ -124,29 +140,12 @@ function choices(context,view){
       text(context,value,32,y);bounds.push({index,x:24,y:y-1,width:72,height:12});
     });return bounds;
   }
-  if(view.scene==='name'){
-    const columns=Math.min(10,Math.max(1,view.choiceColumns??10));
-    const letters=values.filter(value=>Array.from(value).length===1).length;
-    panel(context,5,66,246,116);
-    values.forEach((value,index)=>{
-      const special=index>=letters;
-      const position=special?index-letters:index;
-      const x=special?12+position*60:12+(position%columns)*23;
-      const y=special?155:77+Math.floor(position/columns)*23;
-      const width=special?55:21;
-      if(index===selected){context.fillStyle='#98a6d5';context.fillRect(x-2,y-3,width,18);context.fillStyle='#e9ecfc';context.fillRect(x-2,y-3,width,1);}
-      text(context,value,x+(width-4)/2,y,{align:'center',color:index===selected?'#fff4a8':'#fffce9',maxWidth:width});
-      bounds.push({index,x:x-2,y:y-4,width,height:21});
-    });return bounds;
-  }
   const columns=Math.min(2,Math.max(1,view.choiceColumns??1));
   const rows=Math.ceil(values.length/columns),rowHeight=17;
   const width=columns===2?232:Math.min(232,Math.max(95,...values.map(value=>textWidth(value)+32)));
-  // The partner preview occupies y=5..53. Three compact rows leave it fully
-  // visible, while the existing row scroll keeps every eligible partner reachable.
   const maxHeight=view.scene==='partner'?64:view.dialogue?104:151,height=Math.min(maxHeight,rows*rowHeight+13);
   const rightPortrait=Boolean(view.dialogue?.portraitSpeciesId&&view.dialogue.portraitSpeciesId===view.partnerSpeciesId);
-  const x=columns===2||rightPortrait?12:Math.max(12,244-width),y=view.scene==='menu'?32:Math.max(20,(view.dialogue?128:173)-height);
+  const x=columns===2||rightPortrait?12:Math.max(12,244-width),y=Math.max(20,(view.dialogue?128:173)-height);
   panel(context,x,y,width,height);
   const rowsVisible=Math.floor((height-13)/rowHeight);
   const selectedRow=Math.floor(selected/columns),scrollRow=Math.max(0,selectedRow-rowsVisible+1);
@@ -183,22 +182,24 @@ function drawFacingGuide(context,state,cameraX,cameraY,lines){
   }
 }
 
-/** @param {CanvasRenderingContext2D} context @param {SpriteBank} sprites @param {Terrain} terrain @param {View} view @param {number} time */
-function dungeon(context,sprites,terrain,view,time){
+/** @param {CanvasRenderingContext2D} context @param {SpriteBank} sprites @param {Terrain} terrain @param {StatusSprites} statuses @param {DungeonNotice} notice @param {View} view @param {number} time */
+function dungeon(context,sprites,terrain,statuses,notice,view,time){
   const state=view.dungeon;if(!state)return;
   const elapsed=Math.max(0,time-(view.eventStartedAt??0)),duration=view.reducedMotion?0:view.eventDuration??400;
   const events=view.events??[],progress=duration===0?1:Math.min(1,elapsed/duration);
-  const heroMove=events.find(event=>event.type==='move'&&event.actorId===state.hero.id);
-  const heroX=heroMove?.from&&heroMove.to?heroMove.from.x+(heroMove.to.x-heroMove.from.x)*progress:state.hero.x;
-  const heroY=heroMove?.from&&heroMove.to?heroMove.from.y+(heroMove.to.y-heroMove.from.y)*progress:state.hero.y;
-  const cameraX=Math.round(heroX*TILE+12-128),cameraY=Math.round(heroY*TILE+16-108);
-  terrain.dungeon(context,state,cameraX,cameraY);
-  if(state.visible[state.stairs.y*state.width+state.stairs.x]){
+  const focus=state[view.cameraActorId??'hero'],fullyLit=view.dungeonLightLevel===0;
+  const focusMove=events.find(event=>event.type==='move'&&event.actorId===focus.id);
+  const focusX=focusMove?.from&&focusMove.to?focusMove.from.x+(focusMove.to.x-focusMove.from.x)*progress:focus.x;
+  const focusY=focusMove?.from&&focusMove.to?focusMove.from.y+(focusMove.to.y-focusMove.from.y)*progress:focus.y;
+  const cameraX=Math.round(focusX*TILE+12-128),cameraY=Math.round(focusY*TILE+16-108);
+  terrain.dungeon(context,state,cameraX,cameraY,{fullyLit});
+  if(fullyLit||state.visible[state.stairs.y*state.width+state.stairs.x]){
     const x=state.stairs.x*TILE-cameraX,y=state.stairs.y*TILE-cameraY;
     terrain.stairs(context,x,y);
   }
-  for(const item of state.items)if(state.visible[item.y*state.width+item.x])terrain.item(context,item.kind,item.x*TILE+12-cameraX,item.y*TILE+12-cameraY);
-  const actors=[state.hero,state.partner,...state.enemies].filter(actor=>(actor.hp>0||elapsed<600&&events.some(event=>event.type==='defeat'&&(event.targetId??event.actorId)===actor.id))&&(actor===state.hero||state.visible[actor.y*state.width+actor.x])).sort((left,right)=>left.y-right.y);
+  for(const item of state.items)if(fullyLit||state.visible[item.y*state.width+item.x])terrain.item(context,item.kind,item.x*TILE+12-cameraX,item.y*TILE+12-cameraY);
+  const actors=[state.hero,state.partner,...state.enemies].filter(actor=>(actor.hp>0||elapsed<600&&events.some(event=>event.type==='defeat'&&(event.targetId??event.actorId)===actor.id))&&(fullyLit||actor===state.hero||actor===state.partner||state.visible[actor.y*state.width+actor.x])).sort((left,right)=>left.y-right.y);
+  statuses.beginFrame(state,time,{reducedMotion:view.reducedMotion});
   for(const actor of actors){
     const move=events.find(event=>event.type==='move'&&event.actorId===actor.id),attacked=events.some(event=>event.type==='attack'&&event.actorId===actor.id),damaged=events.some(event=>event.type==='damage'&&(event.targetId??event.actorId)===actor.id);
     const px=move?.from&&move.to?move.from.x+(move.to.x-move.from.x)*progress:actor.x;
@@ -206,8 +207,8 @@ function dungeon(context,sprites,terrain,view,time){
     let clip=(actor.status.sleep??0)>0?'rest-sleep':'idle';if(actor.hp<=0)clip='defeat';else if(elapsed<duration&&move)clip='walk';else if(elapsed<520&&attacked)clip='attack-physical';else if(elapsed<480&&damaged)clip='hit-light';
     const blink=damaged&&elapsed<280&&!view.reducedMotion&&Math.floor(elapsed/60)%2===0;
     const poseTime=clip==='idle'||clip==='rest-sleep'?time:elapsed;
-    sprites.draw(context,actor.speciesId,px*TILE+12-cameraX,py*TILE+16-cameraY,{direction:actor.direction,clip,time:view.reducedMotion?0:poseTime,dungeon:true,teamShadow:actor.id==='hero'||actor.id==='partner',alpha:actor.hp<=0?Math.max(0,1-elapsed/600):blink?.45:1});
-    if((actor.status.sleep??0)>0)text(context,'Z',px*TILE+18-cameraX,py*TILE-4-cameraY,{color:'#edf5ff'});
+    const attachment=sprites.draw(context,actor.speciesId,px*TILE+12-cameraX,py*TILE+16-cameraY,{direction:actor.direction,clip,time:view.reducedMotion?0:poseTime,dungeon:true,teamShadow:actor.id==='hero'||actor.id==='partner',alpha:actor.hp<=0?Math.max(0,1-elapsed/600):blink?.45:1});
+    statuses.draw(context,actor,attachment);
   }
   if(!view.reducedMotion&&elapsed<duration)for(const event of events){
     if(event.type!=='throw'||!event.from||!event.to||event.text!=='oran-berry'&&event.text!=='pecha-berry'&&event.text!=='rawst-berry')continue;
@@ -217,24 +218,26 @@ function dungeon(context,sprites,terrain,view,time){
   if(view.showGrid)drawFacingGuide(context,state,cameraX,cameraY,view.gridLines!==false);
   if(view.mapVisible)minimap(context,state,44,32,3,true);
   if(elapsed<1000&&!view.reducedMotion){for(const event of events){if(event.type!=='damage'&&event.type!=='heal')continue;const actor=[state.hero,state.partner,...state.enemies].find(candidate=>candidate.id===(event.targetId??event.actorId));if(!actor)continue;nativeDamage(context,event.amount??0,actor.x*TILE+12-cameraX,actor.y*TILE+16-cameraY-24-Math.floor(elapsed*60/1000*46/256),event.type==='heal');}}
-  nativeHud(context,{floor:state.floor,level:state.hero.level,hp:state.hero.hp,maxHp:state.hero.maxHp,belly:state.hero.belly,pink:view.gender==='female',time});
-  if(view.notice&&!view.dialogue&&!view.choices?.length){panel(context,16,136,224,40,{kind:'dialogue',pink:view.gender==='female'});wrapText(view.notice,204).slice(-3).forEach((line,index)=>text(context,line,28,140+index*11));}
+  nativeHud(context,{floor:state.floor,level:focus.level,hp:focus.hp,maxHp:focus.maxHp,belly:focus.belly,leader:focus===state.hero,pink:view.gender==='female',time});
+  notice.draw(context,view.notice??'',time,{pink:view.gender==='female',visible:!view.dialogue&&!view.choices?.length,reducedMotion:view.reducedMotion});
 }
 
 /** Fixed two-screen presentation; the owner supplies state and advances time.
  * @param {HTMLCanvasElement} topCanvas @param {HTMLCanvasElement} bottomCanvas
  * @param {{initialSpecies?:string[],reducedMotion?:boolean,introClientSpeciesId?:string,signal?:AbortSignal}} [options] */
 export async function createRenderer(topCanvas,bottomCanvas,options={}){
-  const top=contextFor(topCanvas),bottom=contextFor(bottomCanvas),sprites=new SpriteBank(),terrain=new Terrain(),intro=new IntroArtwork(),aura=new AuraBackdrop(),storyActors=new StoryActors();
+  const top=contextFor(topCanvas),bottom=contextFor(bottomCanvas),sprites=new SpriteBank(),terrain=new Terrain(),intro=new IntroArtwork(),aura=new AuraBackdrop(),storyActors=new StoryActors(),artwork=new UiArtwork(),statuses=new StatusSprites(),notice=new DungeonNotice();
   const introClient=options.introClientSpeciesId??INTRO_CLIENT_IDS[Math.floor(Math.random()*INTRO_CLIENT_IDS.length)]??'pokemon-025';
   /** @type {ChoiceBounds[]} */let choiceBounds=[];
   let toolbarVisible=false;
   /** @type {Scene|null} */let previousScene=null;let sceneStart=0,disposed=false,titleAnimated=false;
   let waitingDialogue='',waitingSince=0;
-  function dispose(){if(disposed)return;disposed=true;options.signal?.removeEventListener('abort',dispose);sprites.dispose();terrain.dispose();intro.dispose();aura.dispose();disposeFont();disposeNativeUi();choiceBounds=[];toolbarVisible=false;fill(top,'#000000');fill(bottom,'#000000');}
+  /** @type {boolean[]} */let sight=[];
+  /** @type {number[]|null} */let sightTiles=null;let sightKey='';
+  function dispose(){if(disposed)return;disposed=true;options.signal?.removeEventListener('abort',dispose);sprites.dispose();terrain.dispose();intro.dispose();aura.dispose();artwork.dispose();statuses.dispose();notice.reset();disposeFont();disposeNativeUi();choiceBounds=[];sight=[];sightTiles=null;toolbarVisible=false;fill(top,'#000000');fill(bottom,'#000000');}
   options.signal?.addEventListener('abort',dispose,{once:true});
   if(options.signal?.aborted){dispose();throw new DOMException('Loading was cancelled.','AbortError');}
-  try{await Promise.all([sprites.loadSpecies([...new Set([...(options.initialSpecies??['pokemon-025','pokemon-004','pokemon-007']),'pokemon-279',introClient])]),intro.load(),terrain.load(),aura.load()]);if(disposed)throw new DOMException('Loading was cancelled.','AbortError');}catch(error){dispose();throw error;}
+  try{await Promise.all([sprites.loadSpecies([...new Set([...(options.initialSpecies??['pokemon-025','pokemon-004','pokemon-007']),'pokemon-279',introClient])]),intro.load(),terrain.load(),aura.load(),artwork.load(),statuses.load()]);if(disposed)throw new DOMException('Loading was cancelled.','AbortError');}catch(error){dispose();throw error;}
   return {
     /** @param {string[]} ids */loadSpecies(ids){return sprites.loadSpecies(ids);},
     getChoiceBounds(){return choiceBounds.map(bound=>({...bound}));},
@@ -243,6 +246,17 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
     render(source,time){
       if(disposed)return;
       const view={...source,reducedMotion:source.reducedMotion??options.reducedMotion??false};
+      if(view.scene!=='dungeon')notice.reset();
+      if(previousScene==='dungeon'&&view.scene!=='dungeon'){statuses.reset();sight=[];sightTiles=null;sightKey='';}
+      if(view.scene==='dungeon'&&view.dungeon){
+        const state=view.dungeon,focus=state[view.cameraActorId??'hero'],key=`${focus.id}:${focus.x}:${focus.y}:${focus.hp>0}`;
+        if(sightTiles!==state.tiles||sightKey!==key){
+          if(sight.length!==state.width*state.height)sight=Array(state.width*state.height).fill(false);
+          cameraSight(state,focus,sight);sightTiles=state.tiles;sightKey=key;
+        }
+        // A transient projection keeps camera sight out of saved/AI state.
+        view.dungeon={...state,visible:sight};
+      }
       if(previousScene!==view.scene){if(AURA_SCENES.has(view.scene)&&!AURA_SCENES.has(previousScene??''))aura.reset(time);titleAnimated=view.scene==='title'&&previousScene==='opening'&&!view.titleImmediate;previousScene=view.scene;sceneStart=time;}
       const elapsed=time-sceneStart,animationTime=view.reducedMotion?0:elapsed;
       const hero=view.heroSpeciesId??'pokemon-025',partner=view.partnerSpeciesId??'pokemon-004';
@@ -257,23 +271,18 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
         const promptTime=animated?elapsed-TITLE_PROMPT_MS:elapsed;
         if(promptReady&&(view.reducedMotion||Math.floor(promptTime/(1000/6))%2===1))intro.titlePrompt(bottom);
       }else if(view.scene==='menu'){
-        terrain.clearing(bottom,animationTime,{reducedMotion:view.reducedMotion});sprites.draw(bottom,hero,195,112,{direction:'sw',time:animationTime});sprites.draw(bottom,partner,220,120,{direction:'w',time:animationTime});
-        if(view.menuTitle){panel(bottom,9,3,238,28);text(bottom,view.menuTitle,128,11,{align:'center'});}
+        artwork.menu(bottom);
       }else if(['quiz','gender','result','partner','name'].includes(view.scene)){
         aura.draw(bottom,time,{reducedMotion:view.reducedMotion,mode:'cycle'});
         if(view.scene==='result'&&view.storyLine===2){panel(bottom,100,60,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,hero,104,64,40,{flip:true,emotion:'happy'});}
         if(view.scene==='partner'){
           const current=view.partnerChoices?.[view.selectedIndex??0]??partner;panel(bottom,116,44,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,current,120,48,40,{flip:true,emotion:'normal'});
         }
-        if(view.scene==='name'){
-          panel(bottom,12,10,232,47);text(bottom,view.nameTarget==='hero'?'What is your name?':"Your partner's name?",128,18,{align:'center'});
-          text(bottom,view.nameValue||'__________',128,36,{align:'center',color:'#fff0a6'});
-        }
+        if(view.scene==='name')choiceBounds=renderNaming(bottom,view,time);
       }else if(view.scene==='dungeon'){
-        topDungeon(top,sprites,view);dungeon(bottom,sprites,terrain,view,time);
+        topDungeon(top,sprites,artwork,view,time);dungeon(bottom,sprites,terrain,statuses,notice,view,time);
         toolbarVisible=Boolean(view.showToolbar&&!view.dialogue&&!view.choices?.length);
         if(toolbarVisible)nativeTouchToolbar(bottom,view.gender==='female');
-        if(view.menuTitle){panel(bottom,8,17,Math.min(240,textWidth(view.menuTitle)+22),28);text(bottom,view.menuTitle,19,25,{color:'#fbfb00'});}
       }else{
         terrain.regionMap(top);panel(top,56,152,184,32,{pink:view.gender==='female'});text(top,'Tiny Woods',121,162);
         terrain.clearing(bottom,animationTime,{clearing:view.scene==='clearing',reducedMotion:view.reducedMotion});
@@ -281,7 +290,7 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
         if(view.scene==='complete'){panel(bottom,26,12,204,28);text(bottom,'Caterpie was rescued!',128,20,{align:'center',color:'#fbfb00'});}
       }
       if(view.blackout){fill(top,'#000000');fill(bottom,'#000000');}
-      if(view.choices?.length)choiceBounds=choices(bottom,view);
+      if(view.choices?.length&&view.scene!=='name')choiceBounds=choices(bottom,view);
       const completedDialogue=view.dialogue&&(view.dialogue.visibleChars??Array.from(view.dialogue.text).length)>=Array.from(view.dialogue.text).length;
       const waitingKey=completedDialogue?`${view.scene}:${view.storyLine}:${view.dialogue?.speaker??''}:${view.dialogue?.text}`:'';
       if(waitingKey!==waitingDialogue){waitingDialogue=waitingKey;waitingSince=time;}
