@@ -6,8 +6,10 @@ now use four source-derived short PSG effects, explicitly qualified as Red
 Rescue Team comparative evidence until Blue playback is corroborated.
 The scoped bank in `src/blue/audio-bank.js` contains 11 themes and 21 effects;
 its editable source is `tools/pokemon-dungeon/audio/original-score.json`.
-The original opening composition is retimed to the browser's 18.9-second
-presentation and plays once. The reunion theme loops for the entire scene.
+The original opening composition lasts 18.9 seconds and plays once. It begins
+after the silent 8.9-second boot sequence; the cinematic lasts 19.0 seconds.
+These separate clocks are a qualified approximation, not an exact audio/video
+match. The reunion theme loops for the entire scene.
 
 ## Reference cues
 
@@ -57,9 +59,10 @@ selected by `DEMO_03` or the shortened `DEMO_04` route.
 Static arithmetic over the controlling `seq_040` track's 876 wait ticks and
 tempo changes gives a nominal 18.891713 seconds. The comparative GBA driver's
 frame accumulator and end detection put its end around 19 seconds; these are
-not verified DS driver timings. The browser's 18.9-second presentation is a
-qualified timing approximation. Only wait/tempo/control facts were inspected;
-no commercial note data is imported into the authored score.
+not verified DS driver timings. The browser's 19.0-second cinematic and
+18.9-second authored cue are qualified timing approximations. Only
+wait/tempo/control facts were inspected; no commercial note data is imported
+into the authored score.
 
 ## Browser implementation and remaining parity
 
@@ -73,6 +76,15 @@ silence a newer trusted activation. Disposal invalidates pending callbacks and r
 nodes and listeners. Bounds are one context, 32 voices and four new effects per
 presentation. See [Web Audio autoplay guidance](https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Autoplay)
 and [audio scheduling guidance](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices).
+
+On music resume or a delayed pump, binary search skips elapsed notes before
+the 64-note scheduling limit applies. Seven scoped loops contain 76 notes;
+scanning old notes against that limit previously delayed the remaining notes
+by another 80-millisecond pump. For example, Tiny Woods resumed at 14.43 seconds
+could drop its note at 14.454545 seconds, despite the transport's 25-millisecond
+lead. This correction changes only the audio cursor, not score data, effect
+consumption, voice bounds, game state or activation permission. Static score
+ordering and timing arithmetic support the fix; browser audition remains open.
 
 Exact commercial melodies, DS sample timbres, loop points, source fade timing,
 scene-to-cue timing, SFX playback and mix remain unverified. Static type, syntax,

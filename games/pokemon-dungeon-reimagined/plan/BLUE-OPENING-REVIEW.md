@@ -13,7 +13,7 @@ Three.js runtime, plans and art studies.
 | Characters | All 16 quiz outcomes; sourced partner pool/type exclusions; partner naming before awakening and hero naming afterward |
 | Rules | Three Tiny Woods floors, level-5 starting profiles, moves/PP, original damage helpers, early statuses, partner/enemy behavior, held items, stairs, growth, loss/retry and reunion rewards |
 | Browser | Keyboard/touch input, interruption ownership, bounded sprite cache, no WebGL, startup cancellation, accessible menu mirrors and help, isolated alternating save checkpoints |
-| Export | Parsed module closure plus explicit asset manifest; approximately 2.81 MB instead of the retained 84 MB historical tree |
+| Export | Parsed module closure plus explicit asset manifest; approximately 2.84 MB instead of the retained 84 MB historical tree |
 
 ## Review evidence
 
@@ -37,6 +37,14 @@ Three.js runtime, plans and art studies.
   [Playwright Tests](https://github.com/justinthelaw/justinthelaw/actions/runs/38092986701)
   and [CodeQL](https://github.com/justinthelaw/justinthelaw/actions/runs/38092984939)
   all completed successfully. No merge or deployment was performed.
+- Signed checkpoint `049af6e219f10c54bb50fe648c34c6ff77eb6e64` was pushed
+  and verified against the remote head. Its hosted
+  [Lint](https://github.com/justinthelaw/justinthelaw/actions/runs/38096310407),
+  [Game Static Checks](https://github.com/justinthelaw/justinthelaw/actions/runs/38096310455),
+  [Playwright Tests](https://github.com/justinthelaw/justinthelaw/actions/runs/38096310392)
+  and [CodeQL](https://github.com/justinthelaw/justinthelaw/actions/runs/38096307813)
+  all completed successfully. The pipeline watcher reached terminal success;
+  no requested or active Codex review was present.
 - Independent prepared-turn review fixed missing partner swap upkeep/end effects,
   pointer releases suppressed during locked phases and dropped held movement
   across slow scheduling gaps. Sleep wake-up, Bide completion, prepared saves,
@@ -152,12 +160,95 @@ key focus, and a click on W's rightmost stroke selected W. Start selected END
 without accepting the name; A then entered confirmation. The corrected naming
 screen is preserved as `native-naming.png` in that review directory, SHA-256
 `fcaa876344851bfc777e3931b5df44cc33f6171dc5c01f2ca0039f96b88da0e3`.
-The run has reached the native awakening scene. Final-build dungeon camera,
-status-effect and completion observations remain separate pending checks.
+The hero-name editor normalized decomposed `Cafe\u0301` to Café; the run then
+continued with Bulbasaur named Ivy and Pikachu named Spark. Declining Butterfree's
+request returned to the rescue decision. Accepting it entered Tiny Woods.
+
+This frozen run reached B3F through ordinary manual movement and combat. Team
+selection shifted the camera to Spark, retained it through the member submenu,
+and restored Ivy on exit. Setting Tackle did not consume PP; the L+A shortcut
+later used that move. The run collected 22 Poké and an Oran Berry, displayed
+their first-use tutorials, and showed the native stat-down arrow on Sunkern
+after Growl. Facing left without moving retained actor positions and HP. Spark
+grew to level six after the final observed Sunkern defeat. The B3F status capture
+is `native-status.png`, SHA-256
+`e4cab4ba1db9b5a00bbc203b02ca3cc393ef6320503e0e2d2d09aefa5872767f`.
+Browser logs contained no warnings or errors at the end of this segment.
+The old SELECT control exposed duplicate upper/lower maps; the subsequent map
+implementation corrects that observed mismatch. This run continued to completion
+on the later map snapshot described below.
 
 One raw browser-debugger reload call stalled for roughly 16 minutes. Ordinary
 browser controls resumed, and the page reported no JavaScript errors. This is
 not a measured game-engine freeze or performance result.
+
+## Map and title follow-up
+
+The seven original DS display combinations A-G now separate upper Team/Log/Map
+selection from the lower map's off/clear/shaded setting. Fresh preferences use
+B; explicit earlier Team/Log/Map preferences migrate to A/D/G. SELECT preserves
+the upper display and temporarily presents the lower map after ten nominal
+frames. A toggles all monster dots, while B or SELECT closes it after two display
+frames. G leaves SELECT inactive. Native 4×4 map patterns distinguish clear,
+shaded and upper-screen maps; 60 opaque marker pixels match the Blue reference.
+The independent static review checked interruption timing, accessibility text,
+leader blink resets, migration and absence of turn/RNG/discovery mutations.
+
+The title's ocean now scrolls using a reconstructed Blue-only 312×28 strip.
+All 8,736 texels have agreeing native-color observations, with zero conflicts
+or unobserved colors. Initial phase, scroll cadence and the missing capture
+column's placement retain explicit qualifications. Upper clouds remain fixed:
+the available flattened captures do not provide enough uncontaminated pixels
+to reconstruct that layer. Red's orange title artwork is excluded.
+
+The 00:20 UTC review snapshot contains 131 resources totaling 2,831,738 bytes,
+with individual hashes. The scoped source, native image exports, provenance
+and distribution checks passed under Node 24.21.0 before it was copied.
+This snapshot also contains the independently reviewed two-pass Bonemerang
+correction; ordinary Tiny Woods play does not cover that level-25 move.
+
+Manual inspection of that snapshot restored Ivy and Spark on B3F with their
+levels, HP and held berry intact. B showed Team above a clear lower map; C used
+the native shaded pattern. SELECT retained Team above its black-backed lower
+map, A hid both team markers, and Help preserved that hidden-marker state.
+B closed the map, cleared its accessibility announcement and restored the same
+actor positions and HP. G displayed the map only above, and SELECT was inactive.
+The manual observations do not measure the ten-frame/two-frame timing constants.
+
+Ordinary movement explored two dead-end branches, returned through the room
+junction and found the final stairs. Partner Growl and Thundershock defeated
+another Wurmple during this route. Proceed entered Caterpie's clearing, followed
+by the Butterfree reunion, Oran/Pecha/Rawst reward and scoped completion screen.
+No later chapter opened. Browser logs contained no warnings or errors. The
+native-resolution captures in the snapshot directory are:
+
+| Capture | SHA-256 |
+| --- | --- |
+| `native-reunion.png` | `1c57b85cc66d236c81d3cc88b72fd5e3452dbfee3ad1708225d746b634cdb513` |
+| `native-complete.png` | `33d46a816e62eb62c5a322e40911b28fcb5ed428cc6242f2cb2d8a3146027e3a` |
+
+The subsequent 00:32 UTC snapshot contains 131 resources totaling 2,837,297
+bytes. Its five changed runtime files add the manually measured two-row upper
+map footer, failure-path Help focus cleanup, audio resume cursor seeking and
+six reviewed later-level move handlers. It is 5,559 bytes larger than the played
+00:20 snapshot; these later changes are static-review evidence, not part of that
+completed dungeon run. The footer removes the unsupported Belly/Money row;
+half-size manual text measurements and its female palette remain qualified.
+
+Seismic Toss, Dragon Rage, Endeavor, Take Down, Submission and Double-Edge now
+retain their source direct-HP/recoil rules. Independent review corrected recoil
+before deferred EXP/level-up healing and verified unchanged older handlers by
+AST comparison. Twenty-six rejected learned move IDs across 36 species/level
+entries remain in the prolonged-retry inventory. The audio-only binary seek
+avoids spending its 64-note scheduling limit on elapsed notes after resume;
+voice limits, activation ownership and the authored score are unchanged.
+
+The complete authoring `npm run check` passed under Node 24.21.0 after these
+changes: 602-file static lint, 465-file strict types, retained historical audits
+and all selected native asset/distribution checks. No game source was executed.
+All 45 changed paths passed their applicable pre-commit checks. Manual startup,
+opening skip, title/menu and Continue on the 00:32 snapshot restored the completed
+Ivy/Spark rescue. This confirms that save boundary, not the newly added late moves.
 
 ## Fidelity limits
 

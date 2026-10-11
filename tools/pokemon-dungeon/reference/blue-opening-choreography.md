@@ -107,9 +107,10 @@ The observed Blue cinematic begins around 0:07 after logos and reaches its
 white fade around 0:27. These are player timestamps, not frame-counted scene
 boundaries; they do not prove or correct the current 19-second duration.
 
-Native title cloud/ocean animation, exact aerial palette channels, fade phase,
-Blue scene transitions and device acceptance remain open. The loading audit and
-static checks do not establish those results.
+The [Blue title ocean](blue-title-background.md) now scrolls a fully corroborated
+original texture. Upper-cloud animation, exact Blue scroll timing, aerial
+palette channels, fade phase, scene transitions and device acceptance remain
+open. The loading audit and static checks do not establish those results.
 
 Validation: `node scripts/check-source.mjs` passed for 594 authored files and
 `node scripts/check-types.mjs` passed for 461 source files. Both commands parse

@@ -66,6 +66,7 @@
     "assets/blue/scenery/tiny-woods-map.png",
     "assets/blue/scenery/tiny-woods-tiles.png",
     "assets/blue/scenery/title-prompt.png",
+    "assets/blue/scenery/title-water.png",
     "assets/blue/scenery/title.png",
     "assets/blue/scenery/town-aerial.png",
     "assets/blue/status-icons.json",
@@ -94,6 +95,7 @@
     "src/blue/dash.js",
     "src/blue/dungeon-camera.js",
     "src/blue/input.js",
+    "src/blue/map-mode.js",
     "src/blue/mechanics-combat.js",
     "src/blue/mechanics-common.js",
     "src/blue/mechanics-generation.js",
@@ -107,6 +109,7 @@
     "src/blue/render-aura.js",
     "src/blue/render-font.js",
     "src/blue/render-intro.js",
+    "src/blue/render-map.js",
     "src/blue/render-menus.js",
     "src/blue/render-naming.js",
     "src/blue/render-native-sprites.js",
@@ -131,6 +134,6 @@
     "src/domain/rules/type-context.js",
     "src/domain/state/plain.js"
   ],
-  "totalBytes": 2808504,
+  "totalBytes": 2837297,
   "scope": "Opening cinematic and menu through Tiny Woods and Caterpie rescue only"
 }

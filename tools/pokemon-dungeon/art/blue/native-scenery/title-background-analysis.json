@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 1,
+  "sourceManifestSha256": "e733b2b55aa8c183e3d7a206c0272180ee41eeb56022692e810aa148944970d3",
+  "region": [
+    0,
+    0,
+    312,
+    164
+  ],
+  "method": "Align the nine original Blue captures with their proven horizontal phases at five-bit precision. Count all raw samples, then repeat outside deliberately conservative foreground rectangles.",
+  "raw": {
+    "pixels": 51168,
+    "observations": 376380,
+    "agreeingPixels": 8019,
+    "conflictingPixels": 43149,
+    "unobservedPixels": 0,
+    "singleObservationPixels": 0,
+    "multipleAgreeingObservationPixels": 8019,
+    "coverageHistogram": {
+      "4": 2460,
+      "5": 6396,
+      "6": 820,
+      "7": 15252,
+      "8": 13284,
+      "9": 12956
+    }
+  },
+  "conservativeMasks": {
+    "EU_English": [
+      [
+        16,
+        16,
+        230,
+        136
+      ],
+      [
+        0,
+        142,
+        255,
+        24
+      ]
+    ],
+    "EU_French": [
+      [
+        16,
+        16,
+        230,
+        136
+      ],
+      [
+        0,
+        142,
+        255,
+        24
+      ]
+    ],
+    "EU_German": [
+      [
+        16,
+        16,
+        230,
+        136
+      ],
+      [
+        0,
+        142,
+        255,
+        24
+      ]
+    ],
+    "EU_Italian": [
+      [
+        16,
+        16,
+        230,
+        136
+      ],
+      [
+        0,
+        142,
+        255,
+        24
+      ]
+    ],
+    "EU_Spanish": [
+      [
+        16,
+        16,
+        230,
+        136
+      ],
+      [
+        0,
+        142,
+        255,
+        24
+      ]
+    ],
+    "Japanese": [
+      [
+        0,
+        20,
+        255,
+        140
+      ]
+    ],
+    "Korean": [
+      [
+        0,
+        24,
+        255,
+        136
+      ]
+    ],
+    "NA_English": [
+      [
+        0,
+        0,
+        255,
+        156
+      ]
+    ],
+    "Moby": [
+      [
+        0,
+        0,
+        255,
+        156
+      ]
+    ]
+  },
+  "masked": {
+    "pixels": 51168,
+    "observations": 53490,
+    "agreeingPixels": 16384,
+    "conflictingPixels": 0,
+    "unobservedPixels": 34784,
+    "singleObservationPixels": 5230,
+    "multipleAgreeingObservationPixels": 11154,
+    "coverageHistogram": {
+      "0": 34784,
+      "1": 5230,
+      "2": 2168,
+      "3": 1880,
+      "4": 2910,
+      "5": 772,
+      "6": 1184,
+      "7": 2240
+    }
+  },
+  "maskQualification": "Masked counts are a conservative coverage bound, not an exact alpha matte or a claim that all excluded pixels are irrecoverable. Single observations are reported separately; no missing pixels are filled.",
+  "obscuredWitness": {
+    "texture": [
+      74,
+      40
+    ],
+    "observations": [
+      {
+        "capture": "EU_English",
+        "screen": [
+          152,
+          40
+        ],
+        "rgb5": [
+          28,
+          22,
+          1
+        ]
+      },
+      {
+        "capture": "EU_French",
+        "screen": [
+          194,
+          40
+        ],
+        "rgb5": [
+          6,
+          13,
+          22
+        ]
+      },
+      {
+        "capture": "EU_German",
+        "screen": [
+          194,
+          40
+        ],
+        "rgb5": [
+          20,
+          25,
+          29
+        ]
+      },
+      {
+        "capture": "EU_Italian",
+        "screen": [
+          194,
+          40
+        ],
+        "rgb5": [
+          20,
+          25,
+          29
+        ]
+      },
+      {
+        "capture": "EU_Spanish",
+        "screen": [
+          191,
+          40
+        ],
+        "rgb5": [
+          5,
+          12,
+          21
+        ]
+      },
+      {
+        "capture": "Japanese",
+        "screen": [
+          136,
+          40
+        ],
+        "rgb5": [
+          2,
+          4,
+          5
+        ]
+      },
+      {
+        "capture": "NA_English",
+        "screen": [
+          74,
+          40
+        ],
+        "rgb5": [
+          31,
+          25,
+          0
+        ]
+      }
+    ],
+    "qualification": "All seven available samples lie on visually identifiable regional logo artwork. Korean and Moby crops do not cover this texture coordinate. The flattened images provide no exposed background value here."
+  },
+  "fixedLogoComparison": {
+    "pixels": 41820,
+    "equalPixels": 33362,
+    "differentPixels": 8458,
+    "equalSkyBluePixels": 9492,
+    "equalWhitePixels": 3923
+  },
+  "separationLimit": "Screen-space equality cannot define logo alpha: the two North American captures share both fixed logo pixels and unchanged background colors, including white used by the logo outline and clouds. The PNGs contain opaque flattened displays, not layer masks.",
+  "outcome": "Do not add runtime upper-cloud motion from these inputs. A complete original Blue background layer and foreground alpha, or additional unobscured phases sufficient to prove both, are still needed."
+}

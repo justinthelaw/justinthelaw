@@ -99,6 +99,17 @@ export function createAudioBus({ document: doc }) {
     if (cue.loop && context.currentTime > origin + (loop + 1) * loopSeconds) {
       loop = Math.floor((context.currentTime - origin) / loopSeconds); noteIndex = 0;
     }
+    // A retained position can be past most of a sorted score. Seek those old
+    // notes without spending the 64-note scheduling budget, or the next pump
+    // could arrive after an otherwise schedulable note near the resume point.
+    const earliestBeat = (context.currentTime + .002 - origin) / seconds - loop * cue.beats;
+    let first = noteIndex, end = cue.notes.length;
+    while (first < end) {
+      const middle = Math.floor((first + end) / 2), note = cue.notes[middle];
+      if (note && note.beat < earliestBeat) first = middle + 1;
+      else end = middle;
+    }
+    noteIndex = first;
     let scheduled = 0;
     try {
       while (scheduled < 64) {

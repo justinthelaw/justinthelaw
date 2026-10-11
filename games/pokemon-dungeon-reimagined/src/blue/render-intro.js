@@ -153,6 +153,7 @@ export class IntroArtwork {
       {id:'post-exterior',width:256,height:192,path:'scenery/post-exterior.png'},
       {id:'town-aerial',width:288,height:312,path:'scenery/town-aerial.png'},
       {id:'title-background',width:256,height:192,path:'scenery/title.png'},
+      {id:'title-water',width:312,height:28,path:'scenery/title-water.png'},
       {id:'title-prompt',width:75,height:11,path:'scenery/title-prompt.png'},
       {id:'boot-cards',width:256,height:768,path:'scenery/boot-cards.png'},
     ];
@@ -175,11 +176,18 @@ export class IntroArtwork {
     else context.drawImage(image,Math.round(129-cameraX),Math.round(108-cameraY));
   }
 
-  /** Native title logo, sky and ocean at one observed phase. The captured mail
-   * was replaced only with unoccluded pixels from a second original frame.
-   * @param {CanvasRenderingContext2D} context */
-  titleBackdrop(context){
+  /** Native fixed logo/cloud phase with the separately corroborated Blue ocean.
+   * The nominal one-pixel/eight-tick rate is comparative. Phase 126 places the
+   * directly observed Moby columns at x1–255 and continues their mapping to x0.
+   * @param {CanvasRenderingContext2D} context @param {number} [elapsed] @param {boolean} [reducedMotion] */
+  titleBackdrop(context,elapsed=0,reducedMotion=false){
     const image=this.images.get('title-background');if(image)context.drawImage(image,0,0);
+    const water=this.images.get('title-water');if(!water)return;
+    const shift=reducedMotion?0:Math.floor(Math.max(0,elapsed)/(FRAME_MS*8));
+    const sourceX=(126+shift)%312,firstWidth=Math.min(256,312-sourceX);
+    // All colors are observed Blue pixels; x0 placement follows the same wrap.
+    context.drawImage(water,sourceX,0,firstWidth,28,0,164,firstWidth,28);
+    if(firstWidth<256)context.drawImage(water,0,0,256-firstWidth,28,firstWidth,164,256-firstWidth,28);
   }
 
   /** @param {CanvasRenderingContext2D} context */

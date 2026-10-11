@@ -281,6 +281,90 @@ The renderer advances one pixel per nominal frame for eleven frames, pauses
 while a menu covers it, and keeps a bounded 24-line presentation queue. The app
 owns the 240-frame expiry; the persisted message log is independent.
 
+## Blue display modes and SELECT map
+
+Nintendo's [English Blue manual, printed pp24–25](https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf)
+identifies the seven paired screen modes. Their exact ordering is retained in
+[`DSMapOption`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/include/game_options.h):
+
+| Mode | Upper screen | Lower map |
+| --- | --- | --- |
+| A | Team | Off |
+| B | Team | Clear |
+| C | Team | Shaded |
+| D | Message Log | Off |
+| E | Message Log | Clear |
+| F | Message Log | Shaded |
+| G | Map and Team | Off |
+
+`InitializeGameOptions` selects B. Fresh browser preferences now do the same.
+Existing exact v1 records migrate their explicit upper Team/Log/Map choices to
+A/D/G, preserving text speed, dungeon speed, grid and sound preferences. The old
+lower-map toggle was transient, so it cannot be recovered from saved preferences.
+The storage key is unchanged; migration does not rewrite an unreadable record.
+These are presentation preferences, separate from the adventure save.
+
+SELECT follows the Blue-aware branch of
+[`DungeonHandlePlayerInput`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_main.c).
+It leaves the upper mode unchanged, temporarily enables Clear for A/D, and keeps
+the existing Clear/Shaded variant for B/C/E/F. G ignores SELECT. The modal waits
+ten nominal frames before accepting A to toggle **all** monster markers, including
+the leader and partner. B or SELECT closes it, restores the original mode and
+marker flag, then waits two display frames before normal input resumes. Help,
+hidden tabs and lost focus pause these clocks. The world and object layers are
+hidden by source mask0x1E; the map and native HUD remain over a black backdrop.
+Entry clears only the live message window, preserving the saved Message Log.
+Opening, toggling and closing the map consume no turn, RNG or map-discovery work.
+
+The compact export parses the literal native
+[`zmappat.inc`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon/zmappat.inc)
+pointer table into 192 four-by-four masks: shaded, clear and upper-map banks.
+Each record's four quadrant encodings are checked for agreement. Native shaded
+floors use a transparent checker pattern; clear floors retain their edge lines
+with transparent interiors. The upper bank uses a solid window-color interior.
+The renderer uses source origins `(8,0)` on the lower display and `(16,4)` on the
+upper display, with the source top-row exclusions and clipping. Wall-edge bits
+are south/east/north/west in order. Existing discovered tiles, camera-local enemy
+visibility and persistent item knowledge feed this presentation without changing
+AI or targeting. Actor markers have priority over items and stairs; toggling
+monsters off lets known items or stairs under them appear.
+
+Five marker masks in the pinned
+[retail Blue capture](https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287134/)
+match all 60 opaque pixels after the documented RGB555 display expansion:
+red enemies at `(120,16)` and `(124,16)`, white leader at `(128,16)`, and yellow
+allies at `(132,16)` and `(136,16)`. Transparent corners and unsampled floor-bank
+pixels are not promoted to screenshot proof. The exporter records and rechecks
+this evidence in `native-reference/ui-pixel-corroboration.json` without importing
+or executing runtime game modules.
+
+The normal leader marker follows `FlashLeaderIcon`'s eight-frame blink bit; a new
+prepared player-input opportunity resets its phase, while menus and map toggles
+within that opportunity do not. Forced sleep/infatuation/Bide opportunities do
+not trigger the reset. SELECT uses the steady native player cell instead and
+freezes the separate blink counter. Reduced motion keeps the marker visible.
+
+The English manual's upper Map-and-Team illustration shows a rounded footer at
+half-size `(8,64,112,32)`, corresponding to native `(16,128,224,64)`. It contains
+two member rows, each with a yellow name, full **Level** label and current/max HP.
+The former browser Belly/Money row is absent; those details belong to the separate
+lower-screen main-menu summary pictured on printed p24. The renderer now uses
+the measured footer frame and 12-pixel rows, with name/level/HP columns at roughly
+x28/96/160. The untouched lower portion is blank for this two-member team.
+
+`native-reference/map-blue-manual.png` retains the original embedded 128×96
+illustration, and `map-footer-evidence.json` records its hash, PDF provenance and
+measurement limitations. Whole-pixel text origins and three-character HP padding
+are inferred from compressed half-size imagery; they are not native pixel proofs.
+The public comparative source retains stubs for the DS upper-display path in
+`unk_ds_only_feature.c` and `sprite.c`, so it cannot resolve those details.
+
+The footer retains the observed male blue frame. A corresponding female dungeon
+map capture has not yet been established. Pink overworld region-map labels and
+the comparative DS palette-copy path are insufficient to prove this footer's
+female palette. Gender behavior and the unchanged upper backdrop remain review
+gaps; no exact-complete-screen claim follows from the measured correction.
+
 ## Remaining visual acceptance
 
 Static pixel proofs cover the explicitly recorded samples, not the full game.

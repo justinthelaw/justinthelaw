@@ -8182,6 +8182,211 @@
       "limitations": "Compressed, horizontally stretched single-screen footage establishes sequence and broad timing, not frame timing, exact color channels or top-screen color."
     }
   },
+  "titleWater": {
+    "width": 312,
+    "height": 28,
+    "screenY": 164,
+    "destinationX": 0,
+    "visibleWidth": 256,
+    "initialPhase": 126,
+    "sourceTicksPerPixel": 8,
+    "verifiedPixels": 8736,
+    "verifiedObservations": 64080,
+    "minimumObservationsPerPixel": 4,
+    "excludedForeground": "Only the German localized PRESS START pixels occupying (87,164,90,2).",
+    "phaseBasis": "Exact cloud and ocean patch translations across captures repeat 312 pixels apart. Phases are relative to the NA wiki capture; the Moby crop at display x1 begins at texture phase 127 modulo 312.",
+    "firstColumnInference": "Display x1 through x255 exactly match texture columns 127 onward. Extending that same wrapped coordinate mapping places texture column 126 at display x0. All 28 colors in this column are directly observed in other Blue captures; their placement at x0 is inferred because the Moby capture has a black first column.",
+    "sourceRateQualification": "The comparative S02 scroll owner advances its wrapped background camera one pixel per eight nominal ticks; exact Blue rate, start phase and direction have not been frame-counted.",
+    "sourceManifestSha256": "e733b2b55aa8c183e3d7a206c0272180ee41eeb56022692e810aa148944970d3",
+    "observationCoverageHistogram": {
+      "4": 420,
+      "5": 1092,
+      "6": 140,
+      "7": 2670,
+      "8": 2316,
+      "9": 2098
+    },
+    "conflictingPixels": 0,
+    "unobservedPixels": 0,
+    "existingTitlePhaseMatchingPixels": 7140,
+    "existingTitlePhaseBounds": [
+      1,
+      164,
+      255,
+      28
+    ],
+    "captures": [
+      {
+        "id": "EU_English",
+        "path": "title/eu_english.png",
+        "url": "https://mysterydungeonwiki.com/images/4/44/Rescue_Team_-_Blue_Startup_EU_English_logo.png",
+        "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_EU_English_logo.png",
+        "width": 255,
+        "height": 192,
+        "bytes": 11083,
+        "sha256": "ccf216cbb75e0baf304fda20f16614c4ecc7665f8562d7516c351b81b6efd230",
+        "crop": [
+          0,
+          0,
+          255,
+          192
+        ],
+        "relativePhase": -78,
+        "excludedRects": []
+      },
+      {
+        "id": "EU_French",
+        "path": "title/eu_french.png",
+        "url": "https://mysterydungeonwiki.com/images/5/5b/Rescue_Team_-_Blue_Startup_EU_French_logo.png",
+        "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_EU_French_logo.png",
+        "width": 255,
+        "height": 192,
+        "bytes": 31601,
+        "sha256": "bcb9ba1603849047c6096c664659f76d7231bf6153ad6a87a03a0068c10a3e79",
+        "crop": [
+          0,
+          0,
+          255,
+          192
+        ],
+        "relativePhase": -120,
+        "excludedRects": []
+      },
+      {
+        "id": "EU_German",
+        "path": "title/eu_german.png",
+        "url": "https://mysterydungeonwiki.com/images/4/45/Rescue_Team_-_Blue_Startup_EU_German_logo.png",
+        "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_EU_German_logo.png",
+        "width": 255,
+        "height": 192,
+        "bytes": 40988,
+        "sha256": "c384aaa92e9679e923fa9ab293e3f28b537bced49bee13dda66d622d3a4650fc",
+        "crop": [
+          0,
+          0,
+          255,
+          192
+        ],
+        "relativePhase": -120,
+        "excludedRects": [
+          [
+            87,
+            164,
+            90,
+            2
+          ]
+        ]
+      },
+      {
+        "id": "EU_Italian",
+        "path": "title/eu_italian.png",
+        "url": "https://mysterydungeonwiki.com/images/f/f0/Rescue_Team_-_Blue_Startup_EU_Italian_logo.png",
+        "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_EU_Italian_logo.png",
+        "width": 255,
+        "height": 192,
+        "bytes": 41109,
+        "sha256": "dcfcfda88165b122296abe928039fc14c625437d02c38af512b2675b9c0daf04",
+        "crop": [
+          0,
+          0,
+          255,
+          192
+        ],
+        "relativePhase": -120,
+        "excludedRects": []
+      },
+      {
+        "id": "EU_Spanish",
+        "path": "title/eu_spanish.png",
+        "url": "https://mysterydungeonwiki.com/images/4/49/Rescue_Team_-_Blue_Startup_EU_Spanish_logo.png",
+        "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_EU_Spanish_logo.png",
+        "width": 255,
+        "height": 192,
+        "bytes": 42421,
+        "sha256": "49c609122b19fdb74e787d372ad2dde7296c9ec1b4bfd974fa88863862a47135",
+        "crop": [
+          0,
+          0,
+          255,
+          192
+        ],
+        "relativePhase": -117,
+        "excludedRects": []
+      },
+      {
+        "id": "Japanese",
+        "path": "title/japanese.png",
+        "url": "https://mysterydungeonwiki.com/images/4/4d/Rescue_Team_-_Blue_Startup_Japanese_logo.png",
+        "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_Japanese_logo.png",
+        "width": 255,
+        "height": 192,
+        "bytes": 9970,
+        "sha256": "0c3d348ab9be5ac1ad61821c52b467f31e7b7a4b8f039654263a2542c15a5454",
+        "crop": [
+          0,
+          0,
+          255,
+          192
+        ],
+        "relativePhase": -62,
+        "excludedRects": []
+      },
+      {
+        "id": "Korean",
+        "path": "title/korean.png",
+        "url": "https://mysterydungeonwiki.com/images/2/20/Rescue_Team_-_Blue_Startup_Korean_logo.png",
+        "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_Korean_logo.png",
+        "width": 255,
+        "height": 192,
+        "bytes": 8716,
+        "sha256": "377e02db79c83455a64fd74d78250b49301b70af73e6748e7c3d1c37f321ebe1",
+        "crop": [
+          0,
+          0,
+          255,
+          192
+        ],
+        "relativePhase": -181,
+        "excludedRects": []
+      },
+      {
+        "id": "NA_English",
+        "path": "sources/Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+        "url": "https://mysterydungeonwiki.com/images/4/45/Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+        "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+        "width": 255,
+        "height": 192,
+        "bytes": 12122,
+        "sha256": "0b91d5437ff548fe51e9f51ef92544277baa91ce893494f315b286dea40e35b3",
+        "crop": [
+          0,
+          0,
+          255,
+          192
+        ],
+        "relativePhase": 0,
+        "excludedRects": []
+      },
+      {
+        "id": "Moby",
+        "path": "sources/blue-title-public-preview.png",
+        "url": "https://cdn.mobygames.com/screenshots/15873909-pokemon-mystery-dungeon-blue-rescue-team-nintendo-ds-title-scree.png",
+        "sourcePage": "https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287133/",
+        "width": 256,
+        "height": 384,
+        "bytes": 22424,
+        "sha256": "e5c2d1abdad6c1a1de5aa050dd20348a34faa21f4e4f3009ae0f47548ef4ef6d",
+        "crop": [
+          1,
+          192,
+          255,
+          192
+        ],
+        "relativePhase": -185,
+        "excludedRects": []
+      }
+    ]
+  },
   "mapLabel": {
     "bounds": [
       56,
@@ -8275,7 +8480,16 @@
       "height": 192,
       "bytes": 13851,
       "sha256": "522fa22d712eb6af830291706b168fadeb74eda7fdee117307d9b848c9815e91",
-      "provenance": "Original complete256x192 Blue title frame. Captured letter rectangle(178,0,36,18) replaced by unoccluded pixels from the second original title capture at(177,0). No scaling or painted pixels; cloud/ocean phase is one observed frame."
+      "provenance": "Original complete256x192 Blue title frame. Captured letter rectangle(178,0,36,18) replaced by unoccluded pixels from the second original title capture at(177,0). No scaling or painted pixels. Upper cloud phase stays fixed; the separately corroborated ocean band scrolls."
+    },
+    {
+      "id": "title-water",
+      "path": "title-water.png",
+      "width": 312,
+      "height": 28,
+      "bytes": 413,
+      "sha256": "c8b5f405ebf539642b8c81ab79857bcf5087c53b3c3065c522bc918e0eac5620",
+      "provenance": "Original Blue 312x28 ocean strip reconstructed from nine published PNG captures. All 8,736 pixels have 4–9 agreeing observations; 64,080 comparisons and 7,140 existing-title-phase pixels match exactly after native color expansion. No Red sun/reflection art is used."
     },
     {
       "id": "title-prompt",

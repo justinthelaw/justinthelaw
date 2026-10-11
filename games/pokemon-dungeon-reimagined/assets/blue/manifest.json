@@ -22,8 +22,8 @@
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-ui-source.tar.gz",
-      "bytes": 430943,
-      "sha256": "1fd2b9e2099e929fd18cb809480144dd7ab4c50f6af59f6fa449fa9edec15773"
+      "bytes": 460395,
+      "sha256": "7e16960f4a14089ac6716871c3caa537af52e53d55194cfd4f2ce55675cc32aa"
     }
   ],
   "directions": [
@@ -2087,14 +2087,14 @@
   ],
   "nativeUi": {
     "modulePath": "src/blue/render-native-ui-data.js",
-    "bytes": 30423,
-    "sha256": "974616201f5c6a30c47ad39c76ed944449f08f51ebbb55c176e738d6c381f03c",
+    "bytes": 34350,
+    "sha256": "3378ee088cfecb596ef031746566f8774af39249ac02700322ee7c8d25f16fe9",
     "sourceManifestPath": "tools/pokemon-dungeon/art/blue/native-ui-sources.json",
-    "sourceManifestSha256": "2f21f4617d1c69f33bd5ae1a67dbb329f1bbc44f923a64ac2122c02b8d6ef24d",
+    "sourceManifestSha256": "195d9bbe528953cf12d263572ffd8f5b27595488bcf048b463960bcdd0696ab5",
     "archive": {
       "path": "native-ui-source.tar.gz",
-      "bytes": 430943,
-      "sha256": "1fd2b9e2099e929fd18cb809480144dd7ab4c50f6af59f6fa449fa9edec15773"
+      "bytes": 460395,
+      "sha256": "7e16960f4a14089ac6716871c3caa537af52e53d55194cfd4f2ce55675cc32aa"
     },
     "corroboratedFontPixels": 265,
     "images": [
@@ -2143,7 +2143,7 @@
   "authoringSources": [
     {
       "path": "tools/pokemon-dungeon/art/blue/export.mjs",
-      "sha256": "f7dcbbc60a9232c181d57a3fc1ebd9cc101c73b57669c56de679ac5509e4042c"
+      "sha256": "3ea35438cb826d026e1dfb9124a70718862d4610cae4a1a984e969582b4a595c"
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-export.mjs",
@@ -2159,11 +2159,15 @@
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-ui-export.mjs",
-      "sha256": "73b2b8926738073eaa5bbea89023c478a501e3ae249d8b328a7572db96816267"
+      "sha256": "41a4b1d53e5aba7614ab6879b9e215179c54b68baaced06f122e29066aaf02c6"
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-panel-export.mjs",
       "sha256": "8bd2dc15c95896ca8ec6043f17396f5389b17bac6f05bd11dbc8ed841e79e9ec"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-map-export.mjs",
+      "sha256": "75b39ca4f735cdcd1e0b1109f3206722e60305da274033cb9f1a5350f2f02b18"
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-status-export.mjs",
@@ -2171,7 +2175,7 @@
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-scenery-export.mjs",
-      "sha256": "dc98341580d8db5e3897b6d1ba64a62de7da5aa51ecfbfb46bf6547fb94ec3c4"
+      "sha256": "8aee0ed09fdf93dfb2e7a022c0b46ce12b762a12377cd7f1da20db3671c2c348"
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/native-ground-format.mjs",
@@ -2186,12 +2190,16 @@
       "sha256": "c910d7a911347ec4f3d27d1340d5c83cdef0e05ccc90257e90ba16bc7a6e932f"
     },
     {
+      "path": "tools/pokemon-dungeon/art/blue/native-title-format.mjs",
+      "sha256": "937ba44718422e492794bb60522105b6b4ec2e00e2dbe20246c8dc9a5251d467"
+    },
+    {
       "path": "tools/pokemon-dungeon/art/blue/capture-native.mjs",
       "sha256": "1c8dfa17b6ff8e2500de283a316c74d09654a88297e3df93bb30837e0366e5e3"
     },
     {
       "path": "tools/pokemon-dungeon/art/blue/capture-native-ui.mjs",
-      "sha256": "c7cb9dee0b613690a967b6deaf4b26dd3793eeec0667ab5da171afa1c02e8e53"
+      "sha256": "5ca8ab6d72d88c7bb0b21647f517db7376640f116868a50ff2da061d89920d4a"
     }
   ],
   "sceneryManifest": "scenery/manifest.json"

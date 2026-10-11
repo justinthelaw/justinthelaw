@@ -2,6 +2,7 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {readTarGzip,decodePng} from './native-format.mjs';
 import {exportNativePanels} from './native-panel-export.mjs';
+import {nativeMapData} from './native-map-export.mjs';
 
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 const stringify=value=>JSON.stringify(value).replace(/[\u007f-\uffff]/g,character=>'\\u'+character.charCodeAt(0).toString(16).padStart(4,'0'));
@@ -50,6 +51,7 @@ export async function exportNativeUi({emit}){
   const palettes=Array.from({length:8},(_,bank)=>Array.from({length:16},(_,index)=>hexColor([...fontPalette.subarray(bank*64+index*4,bank*64+index*4+3)])));
   // SetFontsBaseColor replaces palette index1 with the default blue window color.
   for(const palette of palettes)palette[1]=hexColor([32,72,104]);
+  const map=nativeMapData(files.get('data/dungeon/zmappat.inc').toString(),palettes[0][1]);
   const cursorPalette=Array.from({length:16},(_,index)=>hexColor([...spritePalette.subarray(index*4,index*4+3)]));
   const shadowBytes=literalBytes(sections(files.get('data/dungeon/etcfont.inc').toString()).get('etcfont')).subarray(4);
   const shadows=[{start:0,width:8},{start:1,width:16},{start:3,width:32}].map(({start,width})=>({width,rows:Array.from({length:8},(_,y)=>{let bits=0;for(let x=0;x<width;x++){const value=(shadowBytes[(start+(x>>3))*32+y*4+((x&7)>>1)]>>(4*(x&1)))&15;if(value)bits|=1<<x;}return bits>>>0;})}));
@@ -126,7 +128,19 @@ export async function exportNativeUi({emit}){
     return{id,label,x,y,width,height,pixels};
   });
   if(toolbarPixels!==3180)throw Error('Native Blue touch toolbar pixel inventory changed.');
+  const mapCapture=decodePng(await readFile(new URL('native-reference/dungeon-blue-moby.png',import.meta.url)));
+  const mapMarkers=[{pattern:2,positions:[[120,16],[124,16]]},{pattern:8,positions:[[128,16]]},{pattern:10,positions:[[132,16],[136,16]]}];
+  let mapMarkerPixels=0;
+  for(const{pattern,positions}of mapMarkers)for(const[left,top]of positions)for(let py=0;py<4;py++)for(let px=0;px<4;px++){
+    const index=parseInt(map.patterns[pattern][py*4+px],16);if(!index)continue;
+    const color=map.palette[index],offset=((192+top+py)*mapCapture.width+left+px)*4;
+    const expected=[1,3,5].map(start=>parseInt(color.slice(start,start+2),16));
+    if(expected.some((channel,component)=>rgba(mapCapture.data[offset+component])!==channel))throw Error(`Native minimap Blue marker mismatch at${left+px},${top+py}.`);
+    mapMarkerPixels++;
+  }
+  if(mapMarkerPixels!==60)throw Error('Native Blue minimap marker inventory changed.');
   const corroboration={schemaVersion:1,font:{reference:'ss02.png',origin:[28,140],lineAdvance:11,availableWidth:204,exactPixels:matched},dialogueBorder:{reference:'ss02.png',bounds:[16,136,224,40],exactPixels:borderPixels},portraitBorder:{reference:'ss02.png',imageBounds:[64,24,40,40],visibleBorderBounds:[60,20,48,48],exactPixels:portraitBorderPixels},hud:{reference:'ss01.png',exactPixels:hudPixels,excluded:'Dynamic palette index8 brightness is not asserted.'},teamMarker:{reference:'ss01.png',actorAnchor:[128,108],exactVisiblePixels:markerPixels},touchToolbar:{reference:'ss01.png',exactPixels:toolbarPixels,buttons:toolbar.map(({id,x,y,width,height})=>({id,bounds:[x,y,width,height]})),paletteNote:'Female pixels are directly captured; male border colors use the corresponding source font-palette bank. Four transparent corners per button expose the dungeon.'}};
+  corroboration.minimap={reference:'dungeon-blue-moby.png',screen:'bottom',exactOpaqueMarkerPixels:mapMarkerPixels,markers:mapMarkers,normalization:'RGB555 channels use the same native Blue expansion as the team-panel proof.',qualification:'Five complete opaque marker masks corroborate the 4-pixel grid, shapes and three colors. Clear/shaded floor banks and upper-map cells remain source-derived; transparent marker corners are not asserted.'};
   await emit(new URL('native-reference/ui-pixel-corroboration.json',import.meta.url),JSON.stringify(corroboration,null,2)+'\n');
   const data='/** Generated from pinned native image data by native-ui-export.mjs. */\n'+
     '/** @type {Record<string,{advance:number,rows:number[],shadow:number[]}>} */\nexport const NATIVE_GLYPHS='+stringify(glyphs)+';\n'+
@@ -140,6 +154,8 @@ export async function exportNativeUi({emit}){
     '/** @type {string[]} */\nexport const NATIVE_SHADOW_PALETTE='+JSON.stringify(shadowPalette)+';\n'+
     '/** @type {string[]} */\nexport const NATIVE_DAMAGE_TILES='+JSON.stringify(damageTiles)+';\n'+
     '/** @type {string[][]} */\nexport const NATIVE_DAMAGE_PALETTES='+JSON.stringify(damagePalettes)+';\n'+
+    '/** @type {string[]} */\nexport const NATIVE_MAP_PATTERNS='+JSON.stringify(map.patterns)+';\n'+
+    '/** @type {string[]} */\nexport const NATIVE_MAP_PALETTE='+JSON.stringify(map.palette)+';\n'+
     '/** @type {{id:string,label:string,x:number,y:number,width:number,height:number,pixels:string}[]} */\nexport const NATIVE_TOUCH_BUTTONS='+JSON.stringify(toolbar)+';\n';
   const modulePath='src/blue/render-native-ui-data.js';
   await emit(new URL(`../../../../games/pokemon-dungeon-reimagined/${modulePath}`,import.meta.url),data);

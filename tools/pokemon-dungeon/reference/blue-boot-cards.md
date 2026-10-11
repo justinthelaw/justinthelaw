@@ -83,9 +83,10 @@ it selects `opening` audio only when its pause-aware elapsed clock reaches
 the existing title transition. The asset loader adds one PNG and no new runtime
 metadata request.
 
-The native scenery profile remains v2, with 13 PNGs totaling 184,512 bytes and a
-127,981-byte manifest: 312,493 bytes in total. Manual browser acceptance of the
-integrated boot/audio transition remains separate from asset and static checks.
+The native scenery profile remains v2. The boot atlas contributes 9,151 bytes
+to the [current scenery inventory](blue-native-scenery.md). Manual browser
+acceptance of the integrated boot/audio transition remains separate from asset
+and static checks.
 
 Validation: the native scenery export check passed with all four 48,960-pixel
 comparisons. Static lint passed for 597 authored files and strict types passed

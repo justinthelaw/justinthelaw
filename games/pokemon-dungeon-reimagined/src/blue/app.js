@@ -5,6 +5,7 @@ import { createInput } from './input.js';
 import { canContinueDash } from './dash.js';
 import { createDungeonMenus } from './menus.js';
 import { DungeonCamera } from './dungeon-camera.js';
+import { FloorMap, displaySettings } from './map-mode.js';
 import { discoverCameraArea } from './mechanics-visibility.js';
 import { loadOnboarding, createQuiz, currentQuestion, nextQuestion, answerQuestion,
   finishQuiz, eligiblePartners, speciesName } from './onboarding.js';
@@ -77,6 +78,7 @@ function showFailure(error) {
   const retry = element('retry'); retry.hidden = false;
   retry.onclick = () => window.location.reload();
   application.setAttribute('aria-busy', 'false');
+  if (document.hasFocus()) retry.focus();
   console.error('Blue Rescue Team opening', error);
 }
 
@@ -158,15 +160,16 @@ async function main() {
   let fastDungeon = preferences.fastDungeon, gridVisible = preferences.grids;
   /** @type {'waiting'|'starting'|'running'} */ let startGate = 'waiting';
   /** @type {HTMLElement|null} */ let helpReturnFocus = null;
-  /** @type {'map'|'team'|'log'} */ let topScreen = preferences.topScreen;
-  let mapVisible = false;
+  let displayMode = preferences.displayMode;
+  const floorMap=new FloorMap();
+  /** @type {number|undefined} */let mapInputTurn;
   const currentDungeon = () => state?.dungeon ?? null;
   const dungeonCamera = new DungeonCamera();
   /** @type {{menu:Menu,index:number,revision:number,event?:Event}|null} */let pendingCameraChoice=null;
   /** @type {{menu:Menu,revision:number}|null} */let pendingCameraCancel=null;
 
   function resetDungeonCamera(){
-    dungeonCamera.reset();pendingCameraChoice=null;pendingCameraCancel=null;
+    dungeonCamera.reset();floorMap.reset();mapInputTurn=undefined;pendingCameraChoice=null;pendingCameraCancel=null;
     const dungeon=currentDungeon();if(dungeon)updateVisibility(dungeon);
   }
   function requestMenuCamera(){
@@ -196,6 +199,11 @@ async function main() {
       const pending=pendingCameraChoice;pendingCameraChoice=null;
       if(pending.menu===menu&&pending.revision===presentationRevision&&pending.index===selectedIndex)choose(pending.event);
     }
+  }
+  function mapPresentation(){
+    const dungeon=currentDungeon();
+    if(dungeon&&getDungeonTurnPhase(dungeon)==='input')mapInputTurn=dungeon.turn;
+    return{topScreen:displaySettings(displayMode).top,mapStyle:displaySettings(floorMap.active?floorMap.mode:displayMode).bottom,floorMapOpen:floorMap.active,mapMonsterDots:floorMap.showMonsters,mapInputTurn};
   }
 
   /** @param {string|null} message */
@@ -232,6 +240,7 @@ async function main() {
   /** @param {Menu|null} next */
   function showMenu(next) {
     pendingCameraChoice=null;pendingCameraCancel=null;
+    floorMap.reset();
     menu = next; selectedIndex = next?.initialSelection??0; dialoguePage = 0; notice = null;
     // Input owns the cue. Rendering a submenu must not replace its accept or
     // cancel sound on the source's single menu-effect channel.
@@ -334,6 +343,7 @@ async function main() {
     window.removeEventListener('focus', resumeForeground);
     document.removeEventListener('visibilitychange', resumeForeground);
     motionPreference.removeEventListener('change', updateMotionPreference);
+    document.removeEventListener('keydown', trapHelpFocus);
   }
   window.addEventListener('focus', resumeForeground);
   document.addEventListener('visibilitychange', resumeForeground);
@@ -349,7 +359,7 @@ async function main() {
   }
 
   function isDungeonSurface() {
-    return mode === 'play' && state?.phase === 'dungeon' && !menu && !notice && !fieldDialogue && !tutorials.length && !busy && !paused && !dungeonCamera.locked && helpPanel.hidden === true;
+    return mode === 'play' && state?.phase === 'dungeon' && !menu && !notice && !fieldDialogue && !tutorials.length && !busy && !paused && !dungeonCamera.locked && !floorMap.blocks(clock) && helpPanel.hidden === true;
   }
   function dungeonTurnLocked() {
     const dungeon = currentDungeon();
@@ -442,8 +452,8 @@ async function main() {
       { label: `Text: ${textSpeed === 0 ? 'Instant' : textSpeed === 14 ? 'Fast' : 'Normal'}`, run() {
         textSpeed = textSpeed === 28 ? 14 : textSpeed === 14 ? 0 : 28; persistOptions(); settingsMenu();
       } },
-      { label: `Upper screen: ${topScreen}`, run() {
-        topScreen = topScreen === 'team' ? 'map' : topScreen === 'map' ? 'log' : 'team'; persistOptions(); settingsMenu();
+      { label: `Display ${displaySettings(displayMode).letter}: ${displaySettings(displayMode).top==='map'?'Map and team':displaySettings(displayMode).top==='log'?'Log':'Team'} / ${displaySettings(displayMode).bottom==='off'?'No map':displaySettings(displayMode).bottom==='clear'?'Clear':'Shade'}`, run() {
+        displayMode=/** @type {import('./map-mode.js').DisplayMode} */((displayMode+1)%7);persistOptions();settingsMenu();
       } },
       { label: `Dungeon Speed: ${fastDungeon ? 'Fast' : 'Slow'}`, run() { fastDungeon = !fastDungeon; persistOptions(); settingsMenu(); } },
       { label: `Grids: ${gridVisible ? 'On' : 'Off'}`, run() { gridVisible = !gridVisible; persistOptions(); settingsMenu(); } },
@@ -458,7 +468,7 @@ async function main() {
   }
 
   function persistOptions() {
-    preferenceRepository.save({ version: 1, textSpeed, topScreen, fastDungeon, grids: gridVisible, muted: audio.status().muted });
+    preferenceRepository.save({ version: 2, textSpeed, displayMode, fastDungeon, grids: gridVisible, muted: audio.status().muted });
   }
 
   function showHelp() {
@@ -531,7 +541,7 @@ async function main() {
       scene: mode === 'play' ? 'quiz' : mode, reducedMotion, titleImmediate, gender: state?.gender,
       heroSpeciesId: state?.heroSpeciesId, partnerSpeciesId: state?.partnerSpeciesId,
       heroName: state?.heroName, partnerName: state?.partnerName,
-      dungeon: state?.dungeon, selectedIndex, topScreen, mapVisible,
+      dungeon: state?.dungeon, selectedIndex, ...mapPresentation(),
       cameraActorId:dungeonCamera.target,menuActorId:menu?.cameraMember,
       dungeonLightLevel:data.floors[(state?.dungeon?.floor??1)-1]?.generation.visibilityRange,
       events: view.events, eventStartedAt: view.eventStartedAt, eventDuration: view.eventDuration,
@@ -619,7 +629,7 @@ async function main() {
     game.dataset.scene = mode === 'play' ? state?.phase ?? 'opening' : mode;
     const naming = isNaming() && !notice && !menu;
     nameEntry.hidden = !naming;
-    screens.setAttribute('aria-label', naming
+    screens.setAttribute('aria-label', floorMap.active?'Floor map. Z toggles Pokémon markers. X, S or Shift closes the map.':naming
       ? 'Name entry. Arrows select keys, Z confirms, X deletes, Q or L and R move the text caret, and Enter selects END.'
       : 'Game screens. Use arrow keys and Z to play.');
     if (naming && state) {
@@ -713,6 +723,13 @@ async function main() {
     if (disposed || document.hidden) return;
     if (!helpPanel.hidden) { if (action === 'cancel' || action === 'menu') hideHelp(event); return; }
     if (busy || paused || startGate !== 'running') return;
+    if(floorMap.active){
+      const result=floorMap.handle(action,clock);
+      if(result==='closed'){input.clear();rebuild();}
+      else if(result==='toggle'){view.mapMonsterDots=floorMap.showMonsters;lastNarration=floorMap.showMonsters?'Pokémon markers shown.':'Pokémon markers hidden.';narration.textContent=lastNarration;}
+      return;
+    }
+    if(floorMap.blocks(clock))return;
     if(dungeonCamera.locked&&['north','south','west','east'].includes(action))return;
     if (dungeonTurnLocked()) return;
     if (isDungeonInput() && clock < eventUntil) return;
@@ -744,8 +761,9 @@ async function main() {
       selectChoice((selectedIndex + delta + labels.length) % labels.length);
       screens.focus(); audio.effect('cursor'); return;
     }
-    if (action === 'map' && state?.phase === 'dungeon' && !menu) {
-      mapVisible = !mapVisible; topScreen = mapVisible ? 'map' : 'team'; rebuild(); return;
+    if (action === 'map' && isDungeonInput() && clock>=eventUntil) {
+      if(floorMap.open(displayMode,clock)){clearLiveMessages();input.clear();rebuild();}
+      return;
     }
     if ((action === 'cancel' || action === 'menu') && mode === 'menu') {
       audio.effect('cancel');
@@ -779,6 +797,7 @@ async function main() {
   /** @param {Event} [event] */
   function choose(event) {
     if (busy || paused || disposed || !helpPanel.hidden || startGate !== 'running') return;
+    if(floorMap.blocks(clock))return;
     if(pendingCameraCancel)return;
     if(dungeonCamera.locked){if(menu)pendingCameraChoice={menu,index:selectedIndex,revision:presentationRevision,event};return;}
     if (dungeonTurnLocked()) return;
@@ -941,6 +960,9 @@ async function main() {
       forcedReadyAt = null;
       if (phase !== 'unprepared') return false;
       const result = prepareDungeonTurn(dungeon, data);
+      // Retain admission before held input can consume this opportunity in the
+      // same animation frame; renderer sampling must not lose the blink reset.
+      if(result.phase==='input')mapInputTurn=dungeon.turn;
       if (result.phase === 'forced') clearForcedInput();
       else if (result.phase === 'advanced') input.discardQueuedMovement();
       if (result.phase === 'forced') forcedReadyAt = clock + 60 * 1000 / 60;
@@ -983,14 +1005,16 @@ async function main() {
   });
   helpToggle.addEventListener('click', event => { if (helpPanel.hidden) showHelp(); else hideHelp(event); });
   element('help-close').addEventListener('click', hideHelp);
-  document.addEventListener('keydown', event => {
-    if (helpPanel.hidden || event.key !== 'Tab') return;
+  /** @param {KeyboardEvent} event */
+  function trapHelpFocus(event) {
+    if (disposed || game.hidden || helpPanel.hidden || event.key !== 'Tab') return;
     const buttons = [...helpPanel.querySelectorAll('button')];
     if (!buttons.length) return;
     const current = buttons.findIndex(button => button === document.activeElement);
     const next = (current + (event.shiftKey ? -1 : 1) + buttons.length) % buttons.length;
     event.preventDefault(); buttons[next]?.focus();
-  });
+  }
+  document.addEventListener('keydown', trapHelpFocus);
   element('save-screen').addEventListener('click', () => {
     bottomCanvas.toBlob(blob => {
       if (!blob || disposed) return;
@@ -1118,7 +1142,7 @@ async function main() {
       view.dialogue = speech;
     }
     view.choices = revealed || !speech ? labels : [];
-    view.selectedIndex = selectedIndex; view.topScreen = topScreen; view.mapVisible = mapVisible;
+    view.selectedIndex = selectedIndex;Object.assign(view,mapPresentation());
     if (mode === 'play' && state?.phase === 'dungeon') view.notice = liveMessages.length ? liveMessages.join('\n') : undefined;
     view.showGrid = isDungeonInput() && input.isFacing();
     view.gridLines = gridVisible;

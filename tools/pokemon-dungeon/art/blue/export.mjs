@@ -20,7 +20,19 @@ async function emit(url,bytes){
 
 const native=await exportNativeSprites({emit,output}),ornaments=await exportNativeOrnaments({emit,output}),nativeUi=await exportNativeUi({emit}),statusAtlas=await exportNativeStatuses({emit,output}),scenes=[];
 const authoringSources=[];
-for(const path of['export.mjs','native-export.mjs','native-format.mjs','native-ornament-export.mjs','native-ui-export.mjs','native-panel-export.mjs','native-status-export.mjs','native-scenery-export.mjs','native-ground-format.mjs','native-aura-format.mjs','native-boot-format.mjs','capture-native.mjs','capture-native-ui.mjs'])authoringSources.push({path:`tools/pokemon-dungeon/art/blue/${path}`,sha256:digest(await readFile(new URL(path,import.meta.url)))});
+const authoringPaths=[
+  'export.mjs','native-export.mjs','native-format.mjs','native-ornament-export.mjs',
+  'native-ui-export.mjs','native-panel-export.mjs','native-map-export.mjs',
+  'native-status-export.mjs','native-scenery-export.mjs','native-ground-format.mjs',
+  'native-aura-format.mjs','native-boot-format.mjs','native-title-format.mjs',
+  'capture-native.mjs','capture-native-ui.mjs',
+];
+for(const path of authoringPaths){
+  authoringSources.push({
+    path:`tools/pokemon-dungeon/art/blue/${path}`,
+    sha256:digest(await readFile(new URL(path,import.meta.url))),
+  });
+}
 const manifest={
   schemaVersion:2,profile:'blue-opening-rescue-team-native-v2',
   provenance:'Original Rescue Team world sprites and portraits from explicitly identified public image sources, with recorded native frame composition and timing. Selected sprites and display colors corroborated against Blue screenshots; remaining Red-derived data is comparative. No rights-holder reuse grant asserted.',

@@ -1,5 +1,5 @@
 /** Native Rescue Team UI tiles. Generated image data is synchronous and local. */
-import {NATIVE_UI_TILES,NATIVE_UI_PALETTES,NATIVE_CURSOR_TILES,NATIVE_CURSOR_PALETTE,NATIVE_SHADOWS,NATIVE_TEAM_SHADOWS,NATIVE_SHADOW_PALETTE,NATIVE_DAMAGE_TILES,NATIVE_DAMAGE_PALETTES,NATIVE_TOUCH_BUTTONS,NATIVE_ICONS} from './render-native-ui-data.js';
+import {NATIVE_UI_TILES,NATIVE_UI_PALETTES,NATIVE_CURSOR_TILES,NATIVE_CURSOR_PALETTE,NATIVE_SHADOWS,NATIVE_TEAM_SHADOWS,NATIVE_SHADOW_PALETTE,NATIVE_DAMAGE_TILES,NATIVE_DAMAGE_PALETTES,NATIVE_TOUCH_BUTTONS,NATIVE_ICONS,NATIVE_MAP_PATTERNS,NATIVE_MAP_PALETTE} from './render-native-ui-data.js';
 
 /** @type {Map<string,HTMLCanvasElement>} */
 const ATLASES=new Map();
@@ -108,6 +108,22 @@ export function nativeTouchToolbar(context,pink=false){
 
 /** Independent copies keep caller hit-testing from mutating source geometry. */
 export function touchToolbarBounds(){return NATIVE_TOUCH_BUTTONS.map(({id,label,x,y,width,height})=>({id,label,x,y,width,height}));}
+
+/** Native4x4 minimap cells: bank0 shaded,64 clear,128 upper-screen map.
+ * @param {CanvasRenderingContext2D} context @param {number} pattern @param {number} x @param {number} y */
+export function nativeMapCell(context,pattern,x,y){
+  if(!Number.isInteger(pattern)||pattern<0||pattern>=NATIVE_MAP_PATTERNS.length)return;
+  let image=ATLASES.get('map');
+  if(!image){
+    image=document.createElement('canvas');image.width=NATIVE_MAP_PATTERNS.length*4;image.height=4;
+    const pixels=image.getContext('2d');if(!pixels)throw Error('A 2D canvas is required for native map cells.');
+    NATIVE_MAP_PATTERNS.forEach((cell,index)=>Array.from(cell).forEach((value,pixel)=>{
+      const color=parseInt(value,16);if(color){pixels.fillStyle=NATIVE_MAP_PALETTE[color]??'#000000';pixels.fillRect(index*4+pixel%4,Math.floor(pixel/4),1,1);}
+    }));
+    ATLASES.set('map',image);
+  }
+  context.drawImage(image,pattern*4,0,4,4,Math.round(x),Math.round(y),4,4);
+}
 
 /** Native8×8 menu arrow; color parameter is retained for caller compatibility.
  * @param {CanvasRenderingContext2D} context @param {number} x @param {number} y @param {string} [_color] */

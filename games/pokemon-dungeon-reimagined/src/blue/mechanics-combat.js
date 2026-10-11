@@ -1,5 +1,5 @@
 import { calculateNormalDamage } from '../domain/rules/damage.js';
-import { isPhysicalType } from '../domain/rules/type-context.js';
+import { combineTypeMatchups, isPhysicalType, lookupTypeMatchup } from '../domain/rules/type-context.js';
 import { actors, actorAt, canStep, clamp, distance, draw, inSight, message, open, team, DIRECTIONS, VECTORS } from './mechanics-common.js';
 
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
@@ -10,10 +10,15 @@ import { actors, actorAt, canStep, clamp, distance, draw, inSight, message, open
 /** @typedef {import('./mechanics-types.js').GameEvent} GameEvent */
 /** @typedef {import('./mechanics-types.js').Effect} Effect */
 /** @typedef {import('../domain/rules/type-context.js').ElementType} ElementType */
+/** @typedef {{giveExp?:boolean,deferredExp?:number[],nominalDamage?:boolean,cause?:'recoil'}} DamageOptions */
 const ACCURACY = [84,89,94,102,110,115,140,153,179,204,256,320,384,409,422,435,448,460,473,486,512];
 const EVASION = [512,486,473,460,448,435,422,409,384,345,256,204,179,153,128,102,89,76,64,51,38];
 const ACTIVE_STATUSES=new Set(['sleep','paralysis','poisoned','burn','cringe','confused','confusion','infatuated','leech-seed','focus-energy','whiffer','bide','enraged','reflect']);
 const STATUS_CLASSES=[['poison','burn','paralysis'],['cringe','confusion','infatuated'],['focusEnergy','whiffer'],['bide','enraged']];
+/** Native direct-HP callers use these exact amounts, not CalcDamage.
+ * @type {Readonly<Record<string,number|string>>} */
+const DIRECT_HP_AMOUNTS=Object.freeze({'move-seismic-toss':'user.level','move-dragon-rage':65,'move-endeavor':'max(0,target.currentHP-user.currentHP)'});
+const RECOIL_MOVES=new Set(['move-take-down','move-submission','move-double-edge']);
 const NEGATIVE_STATUSES=['sleep','poison','burn','paralysis','cringe','confusion','infatuated','leechSeed','whiffer','slow'];
 export const STATUS_KEYS=Object.freeze([...NEGATIVE_STATUSES,'focusEnergy','bide','enraged','reflect']);
 /** Scoped native visualFlags bits, used only to deduplicate activation text.
@@ -26,6 +31,8 @@ function defeated(state) { return state.status==='defeated'; }
  * and the level-one Tiny Woods encounters have complete admitted handlers.
  * @param {MoveData} move */
 export function supportsMove(move) {
+  if(move.id==='move-bonemerang'&&move.chainedHitsRaw!==2)return false;
+  if((Object.hasOwn(DIRECT_HP_AMOUNTS,move.id)||RECOIL_MOVES.has(move.id))&&move.chainedHitsRaw!==1)return false;
   /** @param {Effect} effect @returns {boolean} */
   function supports(effect) {
     if(effect.op==='normal-damage')return effect.multiplier===undefined||move.id==='move-low-kick';
@@ -33,7 +40,8 @@ export function supportsMove(move) {
     if(effect.op==='secondary')return !!effect.effect&&supports(effect.effect);
     if(effect.op==='speed-stage')return (effect.delta??0)<0;
     if(effect.op==='floor-sport')return move.id==='move-water-sport';
-    if(effect.op==='recoil')return move.id==='move-struggle';
+    if(effect.op==='reduce-hp')return Object.hasOwn(DIRECT_HP_AMOUNTS,move.id)&&effect.amount===DIRECT_HP_AMOUNTS[move.id];
+    if(effect.op==='recoil')return move.id==='move-struggle'||RECOIL_MOVES.has(move.id)&&effect.basis==='user-max-hp'&&effect.fraction?.[0]===1&&effect.fraction?.[1]===8&&effect.minimum===1&&effect.requires==='successful-nonzero-damage'&&effect.blockedBy==='rock-head';
     return ['stat-stage','drain','exclude-user','pp-cost'].includes(effect.op);
   }
   return move.effects.every(supports);
@@ -95,24 +103,30 @@ function hits(state,actor,target,base,data) {
 }
 /** @param {DungeonState} state @param {Actor} actor @param {number} amount @param {GameEvent[]} events */
 export function heal(state,actor,amount,events) { const restored=Math.min(amount,actor.maxHp-actor.hp);actor.hp+=restored;if(restored>0){events.push({type:'heal',actorId:actor.id,amount:restored});message(state,events,`${actor.name} recovered ${restored} HP.`);} }
-/** @param {DungeonState} state @param {Actor} target @param {number} amount @param {OpeningData} data @param {GameEvent[]} events @param {Actor|null} [source] */
-export function damage(state,target,amount,data,events,source=null) {
+/** @param {DungeonState} state @param {Actor} target @param {number} amount @param {OpeningData} data @param {GameEvent[]} events @param {Actor|null} [source] @param {DamageOptions} [options] */
+export function damage(state,target,amount,data,events,source=null,options={}) {
   if(target.hp<=0)return;
   // Native final modifiers/rounding can produce zero. Its dedicated branch
   // reports no damage and does not run the damage-number/hit reaction path.
   if(amount<=0){message(state,events,`${target.name} took no damage!`);return;}
   const loss=Math.min(target.hp,Math.max(0,amount));target.hp-=loss;
-  events.push({type:'damage',actorId:source?.id,targetId:target.id,amount:loss});
-  message(state,events,`${target.name} took ${loss} damage!`);
+  const displayed=options.nominalDamage?amount:loss;
+  events.push({type:'damage',actorId:source?.id,targetId:target.id,amount:displayed});
+  message(state,events,options.cause==='recoil'?`${target.name} took ${displayed} damage from recoil!`:`${target.name} took ${displayed} damage!`);
   if(target.status.bide)target.bideDamage=Math.min(999,target.bideDamage+amount);
   if(source&&target.status.enraged&&loss>0)target.stages.attack=clamp((target.stages.attack??10)+1,0,20);
   if(target.hp>0)return;
-  events.push({type:'defeat',actorId:target.id});message(state,events,`${target.name} fainted!`);
+  events.push({type:'defeat',actorId:target.id});message(state,events,options.cause==='recoil'?`${target.name} fainted from recoil!`:`${target.name} fainted!`);
   if(team(target)){state.status='defeated';return;}
   if(target.heldItem){state.items.push({id:`item-${state.nextId++}`,x:target.x,y:target.y,...target.heldItem});target.heldItem=null;}
-  if(!source||!team(source))return;
+  if(options.giveExp===false||!source||!team(source))return;
   const species=data.species[target.speciesId];
   const exp=Math.max(1,Math.floor((species?.experienceYield??0)*(target.level+9)/10/(target.experienceMarked?1:2)));
+  if(options.deferredExp){options.deferredExp.push(exp);return;}
+  gainExperience(state,exp,data,events);
+}
+/** @param {DungeonState} state @param {number} exp @param {OpeningData} data @param {GameEvent[]} events */
+function gainExperience(state,exp,data,events) {
   message(state,events,`The team gained ${exp} Exp. Points.`);
   for(const member of [state.hero,state.partner]){if(member.hp>0&&member.level<100){member.exp=Math.min(9999999,member.exp+exp);gainLevels(state,member,data,events);}}
 }
@@ -190,6 +204,90 @@ function damageAmount(state,actor,target,move,data,events) {
   if(result.earlyReason===null)announceDamageAbilities(state,actor,move,data,events);
   return result.damage;
 }
+/** Damage handling samples contact flags before a move's secondary/recoil owner;
+ * TriggerTargetAbilityEffect applies them only after that owner returns.
+ * @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {MoveData} move @param {OpeningData} data */
+function sampleContactReactions(state,actor,target,move,data) {
+  const contact=distance(actor,target)===1&&isPhysicalType(element(move.type))&&!target.status.sleep&&!target.status.bide&&!target.status.enraged;
+  const staticReaction=contact&&ability(data,target,'Static')&&draw(state,100)<12;
+  const charmReaction=contact&&ability(data,target,'Cute Charm')&&draw(state,100)<12;
+  return {staticReaction,charmReaction};
+}
+/** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {{staticReaction:boolean,charmReaction:boolean}} reactions @param {OpeningData} data @param {GameEvent[]} events */
+function triggerContactReactions(state,actor,target,reactions,data,events) {
+  if(reactions.staticReaction){message(state,events,`${target.name}'s Static activated!`);inflict(state,target,actor,'paralysis',data,events);}
+  if(reactions.charmReaction){message(state,events,`${target.name}'s Cute Charm activated!`);inflict(state,target,actor,'infatuated',data,events);}
+}
+/** sub_806F370's three admitted move callers bypass numerical modifiers and
+ * accuracy 2. Only Wonder Guard checks type matchups; it never scales damage.
+ * Endeavor passes giveExp=false, unlike Seismic Toss and Dragon Rage.
+ * @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {MoveData} move @param {OpeningData} data @param {GameEvent[]} events */
+function resolveDirectHp(state,actor,target,move,data,events) {
+  let amount=move.id==='move-seismic-toss'?actor.level:move.id==='move-dragon-rage'?65:Math.max(0,target.hp-actor.hp);
+  if(ability(data,target,'Wonder Guard')){
+    const [first,second]=types(data,target),moveType=element(move.type);
+    if(combineTypeMatchups(lookupTypeMatchup(moveType,first,false),lookupTypeMatchup(moveType,second,false))!=='super')amount=0;
+  }
+  if(amount>0&&!team(target))target.experienceMarked=true;
+  damage(state,target,amount,data,events,actor,{giveExp:move.id!=='move-endeavor',nominalDamage:true});
+  if(amount>0&&target.hp>0&&!defeated(state)){
+    const reactions=sampleContactReactions(state,actor,target,move,data);
+    triggerContactReactions(state,actor,target,reactions,data,events);
+  }
+}
+/** Shared one-hit resolution. The caller owns accuracy 1, target selection and
+ * hit count; the numerical draws still precede accuracy 2, as in the source.
+ * @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {MoveData} move @param {OpeningData} data @param {GameEvent[]} events */
+function resolveDamagingHit(state,actor,target,move,data,events) {
+  let amount=damageAmount(state,actor,target,move,data,events);
+  if(!hits(state,actor,target,move.accuracyAfterDamage,data)){message(state,events,`${actor.name}'s attack missed!`);return;}
+  if(move.id==='move-false-swipe')amount=Math.min(amount,Math.max(0,target.hp-1));
+  if(amount>0&&move.id!=='regular-attack'&&!team(target))target.experienceMarked=true;
+  /** @type {number[]|undefined} */
+  const deferredExp=RECOIL_MOVES.has(move.id)?[]:undefined;
+  damage(state,target,amount,data,events,actor,deferredExp?{deferredExp,nominalDamage:true}:{});
+  if(amount>0&&move.effects.some(effect=>effect.op==='drain')){if(!team(actor))actor.experienceMarked=true;heal(state,actor,Math.max(1,Math.floor(amount/2)),events);}
+  /** @type {{staticReaction:boolean,charmReaction:boolean}|null} */
+  let reactions=null;
+  if(amount>0&&target.hp>0&&!defeated(state)){
+    // Contact checks precede move-specific secondary effects. Their
+    // effects apply afterward, using the original defender's state.
+    reactions=sampleContactReactions(state,actor,target,move,data);
+    for(const effect of move.effects){if(effect.op==='secondary'&&effect.effect&&draw(state,100)<(effect.chancePercent??0)&&!ability(data,target,'Shield Dust'))applyEffect(state,actor,target,effect.effect,data,events);}
+    // Native TriggerTargetAbilityEffect announces the sampled reaction
+    // immediately before the status helper, after move secondary effects.
+    if(!RECOIL_MOVES.has(move.id))triggerContactReactions(state,actor,target,reactions,data,events);
+  }
+  if(amount>0&&RECOIL_MOVES.has(move.id)&&actor.hp>0){
+    // Native RollSecondaryEffect(user, 0) checks validity without an RNG draw.
+    // Recoil still follows a target KO, before queued contact abilities fire.
+    if(!ability(data,actor,'Rock Head'))damage(state,actor,Math.max(1,Math.floor(actor.maxHp/8)),data,events,actor,{giveExp:false,nominalDamage:true,cause:'recoil'});
+    if(reactions&&actor.hp>0&&!defeated(state))triggerContactReactions(state,actor,target,reactions,data,events);
+    // AddExpPoints queues the KO award; EnemyEvolution applies it after the
+    // move. A level-up must not increase HP/max HP before recoil resolves.
+    if(deferredExp&&actor.hp>0&&!defeated(state))for(const exp of deferredExp)gainExperience(state,exp,data,events);
+  }
+  if(amount>0&&move.id==='move-struggle'&&actor.hp>0&&!defeated(state))damage(state,actor,Math.max(1,Math.floor(actor.maxHp/4)),data,events);
+}
+/** Native fixed two-pass straight-line execution. PP and the use message are
+ * owned once by attack. Each pass rescans from the user and independently enters
+ * accuracy 1 -> numerical damage draws -> accuracy 2 -> impact/reactions.
+ * @param {DungeonState} state @param {Actor} actor @param {MoveData} move @param {OpeningData} data @param {GameEvent[]} events */
+function resolveBonemerang(state,actor,move,data,events) {
+  let foundTarget=false;
+  for(let pass=0;pass<move.chainedHitsRaw;pass++){
+    // Native CannotAttack is checked before each pass. These are its blockers
+    // currently admitted by the opening; Bide/Rage are not attack blockers.
+    if(actor.hp<=0||defeated(state)||actor.status.sleep||actor.status.paralysis||actor.status.cringe||actor.status.infatuated)break;
+    const target=moveTargets(state,actor,move)[0];
+    if(pass>0)events.push({type:'attack',actorId:actor.id,targetId:target?.id,moveId:move.id});
+    if(!target)continue;
+    foundTarget=true;
+    if(!hits(state,actor,target,move.accuracyBeforeEffect,data)){message(state,events,`${target.name} avoided the move!`);continue;}
+    resolveDamagingHit(state,actor,target,move,data,events);
+  }
+  if(!foundTarget)message(state,events,'There was no target.');
+}
 /** An action consumes PP once; all targets and hits belong to that same turn.
  * @param {DungeonState} state @param {Actor} actor @param {number|'struggle'|null} slot @param {OpeningData} data @param {GameEvent[]} events */
 export function attack(state,actor,slot,data,events) {
@@ -202,34 +300,18 @@ export function attack(state,actor,slot,data,events) {
   events.push({type:'attack',actorId:actor.id,targetId:targets[0]?.id,moveId:move.id});
   message(state,events,move.id!=='regular-attack'?`${actor.name} used ${move.name}!`:`${actor.name} attacked!`);
   if(move.id==='move-water-sport'){state.waterSport=11+draw(state,2);message(state,events,'Fire-type moves were weakened!');return;}
+  if(move.id==='move-bonemerang'){resolveBonemerang(state,actor,move,data,events);return;}
   if(!targets.length){message(state,events,'There was no target.');return;}
   for(const target of targets){
     if(actor.hp<=0||defeated(state))break;
     if(target.hp<=0)continue;
     if(!hits(state,actor,target,move.accuracyBeforeEffect,data)){message(state,events,`${target.name} avoided the move!`);continue;}
+    if(Object.hasOwn(DIRECT_HP_AMOUNTS,move.id)){resolveDirectHp(state,actor,target,move,data,events);continue;}
     const damaging=move.effects.some(effect=>effect.op==='normal-damage');
     if(damaging){
       const count=move.hitCount.min_hits===null?1:move.hitCount.min_hits+draw(state,(move.hitCount.max_hits??move.hitCount.min_hits)-move.hitCount.min_hits+1);
       for(let hit=0;hit<count&&target.hp>0&&actor.hp>0&&!defeated(state);hit++){
-        let amount=damageAmount(state,actor,target,move,data,events);
-        if(!hits(state,actor,target,move.accuracyAfterDamage,data)){message(state,events,`${actor.name}'s attack missed!`);continue;}
-        if(move.id==='move-false-swipe')amount=Math.min(amount,Math.max(0,target.hp-1));
-        if(amount>0&&move.id!=='regular-attack'&&!team(target))target.experienceMarked=true;
-        damage(state,target,amount,data,events,actor);
-        if(amount>0&&move.effects.some(effect=>effect.op==='drain')){if(!team(actor))actor.experienceMarked=true;heal(state,actor,Math.max(1,Math.floor(amount/2)),events);}
-        if(amount>0&&target.hp>0&&!defeated(state)){
-          // Contact checks precede move-specific secondary effects. Their
-          // effects apply afterward, using the original defender's state.
-          const contact=distance(actor,target)===1&&isPhysicalType(element(move.type))&&!target.status.sleep&&!target.status.bide&&!target.status.enraged;
-          const staticReaction=contact&&ability(data,target,'Static')&&draw(state,100)<12;
-          const charmReaction=contact&&ability(data,target,'Cute Charm')&&draw(state,100)<12;
-          for(const effect of move.effects){if(effect.op==='secondary'&&effect.effect&&draw(state,100)<(effect.chancePercent??0)&&!ability(data,target,'Shield Dust'))applyEffect(state,actor,target,effect.effect,data,events);}
-          // Native TriggerTargetAbilityEffect announces the sampled reaction
-          // immediately before the status helper, after move secondary effects.
-          if(staticReaction){message(state,events,`${target.name}'s Static activated!`);inflict(state,target,actor,'paralysis',data,events);}
-          if(charmReaction){message(state,events,`${target.name}'s Cute Charm activated!`);inflict(state,target,actor,'infatuated',data,events);}
-        }
-        if(amount>0&&move.id==='move-struggle'&&actor.hp>0&&!defeated(state))damage(state,actor,Math.max(1,Math.floor(actor.maxHp/4)),data,events);
+        resolveDamagingHit(state,actor,target,move,data,events);
       }
     }else{
       // ACCURACY_2 belongs to damaging moves only. The original status handlers

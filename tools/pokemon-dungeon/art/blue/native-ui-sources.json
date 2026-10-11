@@ -7,8 +7,8 @@
   "rights": "Original Pokémon / Chunsoft / Nintendo artwork and public decompilation data. Provenance is retained; no rights-holder reuse grant is asserted.",
   "archive": {
     "path": "native-ui-source.tar.gz",
-    "bytes": 430943,
-    "sha256": "1fd2b9e2099e929fd18cb809480144dd7ab4c50f6af59f6fa449fa9edec15773"
+    "bytes": 460395,
+    "sha256": "7e16960f4a14089ac6716871c3caa537af52e53d55194cfd4f2ce55675cc32aa"
   },
   "files": [
     {
@@ -256,6 +256,42 @@
       "bytes": 278,
       "sha256": "46f20055083fb0cffde883139ec5fd4c19c61e190a95879dc7b58c20221ef3a4",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/constants/colors.h"
+    },
+    {
+      "path": "data/dungeon/zmappat.inc",
+      "bytes": 358588,
+      "sha256": "75b5514682ff2b0776c75c42ae281e387d791beee311661652d03fe754f1e4d9",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon/zmappat.inc"
+    },
+    {
+      "path": "src/dungeon_map.c",
+      "bytes": 19123,
+      "sha256": "2d8f245f9d0cfc846121d33355d04e2ce6102fa000d73c0622e78396cd37abd5",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_map.c"
+    },
+    {
+      "path": "src/dungeon_main.c",
+      "bytes": 57164,
+      "sha256": "7daf903b44586acefe989f7a5804f541ff5d9decff48891faede157f62fe87fb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_main.c"
+    },
+    {
+      "path": "src/dungeon_message.c",
+      "bytes": 22583,
+      "sha256": "f5bb170991f3da8be452f25dbb8949ba09524f666ff7a40fc073bc9c460bdaee",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_message.c"
+    },
+    {
+      "path": "src/bg_control.c",
+      "bytes": 2743,
+      "sha256": "d5dac1cf4ea61c8bc74a967d2b231d8208ea9f0656b30b4891a6ca85ba09f6e7",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/bg_control.c"
+    },
+    {
+      "path": "include/game_options.h",
+      "bytes": 1762,
+      "sha256": "e963113f49681a9403eb3a2dad3cae6599d80882ba485115eb6363d587c6b311",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/game_options.h"
     },
     {
       "path": "src/data/ax/magnemite.h",
@@ -665,7 +701,7 @@
     {
       "path": "native-reference/dungeon-blue-moby.png",
       "url": "https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287134/",
-      "use": "Original Blue capture; team row geometry, male palette and world sprite corroboration.",
+      "use": "Original Blue capture; team row geometry, male palette, world sprites and native minimap marker corroboration.",
       "sha256": "5b7c8a97621a1d887c3f8364ab84533266855d8984e5cf23065914202886ab19"
     },
     {

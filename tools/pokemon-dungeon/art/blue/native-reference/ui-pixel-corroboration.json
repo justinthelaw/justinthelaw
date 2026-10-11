@@ -100,5 +100,49 @@
       }
     ],
     "paletteNote": "Female pixels are directly captured; male border colors use the corresponding source font-palette bank. Four transparent corners per button expose the dungeon."
+  },
+  "minimap": {
+    "reference": "dungeon-blue-moby.png",
+    "screen": "bottom",
+    "exactOpaqueMarkerPixels": 60,
+    "markers": [
+      {
+        "pattern": 2,
+        "positions": [
+          [
+            120,
+            16
+          ],
+          [
+            124,
+            16
+          ]
+        ]
+      },
+      {
+        "pattern": 8,
+        "positions": [
+          [
+            128,
+            16
+          ]
+        ]
+      },
+      {
+        "pattern": 10,
+        "positions": [
+          [
+            132,
+            16
+          ],
+          [
+            136,
+            16
+          ]
+        ]
+      }
+    ],
+    "normalization": "RGB555 channels use the same native Blue expansion as the team-panel proof.",
+    "qualification": "Five complete opaque marker masks corroborate the 4-pixel grid, shapes and three colors. Clear/shaded floor banks and upper-map cells remain source-derived; transparent marker corners are not asserted."
   }
 }
