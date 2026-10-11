@@ -38,7 +38,7 @@ assert.deepEqual(new Set(assets.records.map(record => record.speciesId)), expect
 assert.equal(assets.schemaVersion, 2);
 assert.equal(assets.profile, 'blue-opening-rescue-team-native-v2');
 const directions = ['s', 'se', 'e', 'ne', 'n', 'nw', 'w', 'sw'];
-const requiredClips = ['idle', 'walk', 'attack-physical', 'hit-light', 'defeat', 'rest-sleep', 'celebrate', 'interact'];
+const requiredClips = ['idle', 'walk', 'fly', 'attack-physical', 'hit-light', 'rest-sleep', 'bide-hold', 'story-sleep'];
 const integer = (value, minimum, maximum) => Number.isInteger(value) && value >= minimum && value <= maximum;
 async function verifiedBytes(filename, size, hash) {
   assert(distribution.files.includes(filename), `Missing runtime resource: ${filename}`);
@@ -100,7 +100,7 @@ for (const record of assets.records) {
   assert(Array.isArray(metadata.effectOffsetIndices) && metadata.effectOffsetIndices.length === metadata.poses.length);
   assert(metadata.effectOffsetIndices.every(index => integer(index, 0, metadata.effectOffsetSets.length - 1)));
   verifyAnimationTables(metadata, record);
-  for (const name of requiredClips) assert(metadata.clips[name], `Missing native animation alias: ${record.speciesId}/${name}`);
+  assert.deepEqual(Object.keys(metadata.clips).sort(), [...requiredClips].sort(), `Unexpected native animation aliases: ${record.speciesId}`);
   for (const clip of Object.values(metadata.clips)) assert(integer(clip.animation, 0, metadata.animations.length - 1) && typeof clip.loop === 'boolean');
 }
 for (const scene of assets.scenes ?? []) {

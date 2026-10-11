@@ -34,7 +34,7 @@ import {pokeFlightSamples,pokeDropSamples,pokeLossPosition} from './battle-item-
 /** @typedef {{start:number,end:number}} EndTrack */
 /** Compact source recipe; no actor/world copies and no save/carry ownership.
  * @typedef {{at:number,actorId:string,pose:PoseTrack,poses:number,effects:number,projectiles:number,numbers:number,backgrounds:number,rawHolds:number,patchEnd:number,cueEnd:number,ends?:Map<EndTrack,number>}} FaintCheckpoint */
-/** @typedef {{index:number,renderTime:number,dungeonTime:number}} FaintPublication */
+/** @typedef {{index:number,renderTime:number}} FaintPublication */
 
 const TICK_MS=1000/60;
 // These admitted effect22 routes have STOP direct-cast sounds for every learner.
@@ -749,7 +749,6 @@ export class BattlePresentation {
     const checkpoint=next&&next.at<=requested?next:undefined;
     const tick=checkpoint?.at??requested;
     const rawPauseMs=checkpoint?this.rawPauseBefore+checkpoint.rawHolds*TICK_MS:this.finishedRawPauseMs??this.rawPauseBefore+timing.heldMs;
-    const renderTime=checkpoint?this.startedAt+(checkpoint.at+checkpoint.rawHolds)*TICK_MS:now;
     // Share this exact value with the renderer: an equivalent subtraction can
     // round one binary64 step backward during a same-tick raw upload hold.
     const dungeonTime=Math.max(minimumDungeonTime,checkpoint?this.startedAt-this.rawPauseBefore+tick*TICK_MS:now-rawPauseMs);
@@ -827,7 +826,7 @@ export class BattlePresentation {
     const frame={dungeon,actors,effects,projectiles,number,active,camera,hypnosis};
     if(checkpoint){
       if(actors.length>MAX_ACTORS||effects.length>24||dungeon.items.length>MAX_ITEMS)throw new RangeError('Faint publication exceeds the drawing bound.');
-      const publication=Object.freeze({index:this.faintCheckpointIndex,renderTime,dungeonTime});
+      const publication=Object.freeze({index:this.faintCheckpointIndex,renderTime:this.startedAt+(checkpoint.at+checkpoint.rawHolds)*TICK_MS});
       this.faintPublication={frame:freezeFaintFrame(frame),publication,rawPauseMs,dungeonTime};
       return{...this.faintPublication,cues,completed:false};
     }

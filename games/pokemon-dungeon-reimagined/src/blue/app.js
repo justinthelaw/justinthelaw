@@ -352,7 +352,7 @@ async function main() {
     view.battle=result.frame;dungeonRawPauseMs=result.rawPauseMs;battleDungeonTime=result.dungeonTime;battleAtFaint=Boolean(result.publication);
     if(result.publication){
       const publication=result.publication,dungeon=owner.dungeon;
-      faintPublication={owner,index:publication.index,dungeon,tiles:dungeon.tiles,floor:dungeon.floor,transition,revision:presentationRevision,renderTime:publication.renderTime,dungeonTime:publication.dungeonTime,submittedFrame:null,view:null};
+      faintPublication={owner,index:publication.index,dungeon,tiles:dungeon.tiles,floor:dungeon.floor,transition,revision:presentationRevision,renderTime:publication.renderTime,dungeonTime:result.dungeonTime,submittedFrame:null,view:null};
     }
     if(ownedCamera&&battle===owner&&owner.dungeon===currentDungeon()&&battleSettlement?.transition===transition){
       dungeonCamera.adopt(owner.dungeon,result.frame.camera,clock);view.cameraActorId=dungeonCamera.target;
@@ -448,7 +448,7 @@ async function main() {
     }
     void audio.activate(event).then(() => { if (!disposed) updateSoundButton(); });
     updateSoundButton();
-    if (gameInput && (faintPublication||dungeonTurnLocked())) return false;
+    if (gameInput && dungeonTurnLocked()) return false;
     return true;
   }
 

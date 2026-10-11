@@ -788,6 +788,54 @@ audio output or exact Blue parity. Reduced-motion manual checks have not been
 performed through the available ordinary browser controls. Earlier
 completed rescue runs remain separate from this local composition.
 
+## Published rescue completion, 2026-10-11 12:59 UTC
+
+The same 149-file snapshot matches every published runtime blob in `c62e846`.
+Ordinary manual play took Fern and Ember through all three floors, Caterpie's
+clearing, the Butterfree reunion, all three berry rewards and the departure.
+Adventure Log displayed 211 dungeon turns on the save also used for the earlier
+defeat/retry checks. Return to top menu followed by Continue restored the
+completed rescue with Adventure Log and Return to top menu as its only choices.
+Browser warning/error logs were empty. The 17 observations and three additional
+native captures are in `published-playthrough.json` beside the earlier evidence.
+Game Static, Lint, Playwright and CodeQL all succeeded for this published commit;
+the sole normal CI watcher exited successfully after its discovery window.
+
+These observations retain the timing, sound and reduced-motion qualifications
+above; they do not establish exact cartridge parity.
+
+## Renderer-pruning review, 2026-10-11 13:56 UTC
+
+The next pruning composition preserves every native character frame and image,
+removes unused rendering options and aliases, and retains all timer/motion
+records. Its final 149-file runtime totals 2,822,140 bytes. The full scoped check
+passed with 103 lint inputs and 67 strict sources. Independent composition and
+wording-addendum receipts are under
+`.work/blue-pruning-composition-independent-20261011-1326/`.
+
+Manual play on a fresh origin observed the unskipped opening reach the title,
+eight quiz questions, a hasty Torchic result, Treecko selection, partner naming
+as Sprig, awakening and hero naming as Flare. Normal, happy, worried and shocked
+portraits and the sleeping hero rendered. B1F began with both at level five and
+30/30 HP. A shared reference to paws was then removed from the authored script;
+the fourteen-byte correction was source-reviewed, not replayed from startup.
+
+After Quicksave and loading the corrected final snapshot, Continue preserved
+the initial position and HP. Setting Scratch kept all 22 PP. Movement produced
+a two-damage enemy response; Scratch then dealt 19 damage, defeated Sunkern and
+awarded 16 EXP to each teammate. Scratch decreased once to 21/22, while Growl
+remained 20/20. Post-combat Quicksave/Continue preserved the enemy removal,
+positions, Flare's 29/30 HP, Sprig's 30/30 HP and the selected move's PP.
+The separate completed Fern/Ember save also resumed at the rescue ending, with
+only Adventure Log and Return to top menu. Browser warning/error logs were empty.
+
+Both frozen snapshots, the two manual ledgers and six native captures remain in
+`.work/blue-opening-review-20261011-1328/`. The initial snapshot covers character
+creation; `snapshot-final.json` covers the corrected build's combat and save
+checks. The specialist's unavailable browser attempt is separately marked
+unverified. This was a bounded B1F review, not another full three-floor run;
+the earlier published rescue completion and all fidelity qualifications remain.
+
 ## Fidelity limits
 
 - Dialogue and score remain authored substitutes. Native image reconstruction

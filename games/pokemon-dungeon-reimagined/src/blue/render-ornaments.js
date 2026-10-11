@@ -41,8 +41,8 @@ export class OrnamentBank {
     const entry=this.images.get(id);if(!entry)return;
     const code=entry.metadata.scriptAnimationMap[animation];if(code===undefined||code<0)return;
     const variant=code&255,sequence=entry.metadata.animations[Math.floor(variant/8)]?.[variant%8];if(!sequence?.length)return;
-    let ticks=Math.max(0,time)*60/1000;const duration=sequence.reduce((sum,frame)=>sum+frame[1],0);
-    if(code&0x800)ticks%=duration;
+    let ticks=Math.max(0,time)*60/1000;
+    if(code&0x800)ticks%=sequence.reduce((sum,frame)=>sum+frame[1],0);
     let index=0;while(index<sequence.length-1&&ticks>=(sequence[index]?.[1]??0)){ticks-=sequence[index]?.[1]??0;index++;}
     const frame=sequence[index];if(!frame)return;
     const pose=entry.metadata.poses[frame[0]];if(!pose)return;

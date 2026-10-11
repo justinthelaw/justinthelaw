@@ -23,7 +23,7 @@ export const STORY = Object.freeze({
     { speaker: 'partner', text: 'Hey! Can you hear me? Please wake up!' },
     { speaker: 'partner', text: 'You are awake! What a relief. I found you lying here.' },
     { speaker: 'partner', text: 'I have never seen you around here before. Where did you come from?' },
-    { speaker: 'hero', text: 'I was a human... But these paws... This body...!', quiet: true },
+    { speaker: 'hero', text: 'I was a human... But this body...!', quiet: true },
     { speaker: 'partner', text: 'A human? But you look just like a {species}!', pose: 'surprise', emotion: 'worried' },
     { speaker: 'hero', text: 'I really have turned into a Pokémon! How could this happen?', pose: 'surprise', emotion: 'shocked', quiet: true },
     { speaker: 'partner', text: 'That is an unusual story. Well, what is your name?', emotion: 'worried' },

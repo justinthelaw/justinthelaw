@@ -13,7 +13,7 @@ const ASSET_ROOT=new URL('../../assets/blue/',import.meta.url),MAX_ATLASES=12,MA
 /** @typedef {{speciesId:string,emotion:string,x:number,y:number,width:number,height:number}} Portrait */
 /** @typedef {{schemaVersion:2,width:number,height:number,cell:number,records:Portrait[]}} PortraitMetadata */
 /** @typedef {{image:ImageBitmap,metadata:NativeMetadata,used:number}} Atlas */
-/** @typedef {{direction?:string,clip?:string,animation?:number,time?:number,ticks?:number,frame?:number}} PoseOptions */
+/** @typedef {{direction?:string,clip?:string,animation?:number,time?:number,ticks?:number}} PoseOptions */
 
 /** One shared source-frame selection for body, shadow and attachments.
  * @param {Atlas} entry @param {PoseOptions} options */
@@ -28,7 +28,6 @@ function selectedPose(entry,options){
   let ticks=Math.max(0,options.ticks??(options.time??0)*60/1000);if(!Number.isFinite(ticks))return undefined;
   if(options.animation===undefined&&clip.loop)ticks%=duration;
   let index=0;while(index<sequence.length-1&&ticks>=(sequence[index]?.[1]??0)){ticks-=sequence[index]?.[1]??0;index++;}
-  if(options.frame!==undefined)index=Math.max(0,Math.min(sequence.length-1,Math.floor(options.frame)));
   const frame=sequence[index],pose=frame?metadata.poses[frame[0]]:undefined;
   return frame&&pose?{frame,pose}:undefined;
 }
@@ -132,12 +131,12 @@ export class SpriteBank {
   /** Native shadows occupy their own background priority, independently of
    * effect layers that may pass behind the body but in front of its shadow.
    * @param {CanvasRenderingContext2D} context @param {string} id @param {number} x @param {number} y
-   * @param {PoseOptions & {scale?:number,dungeon?:boolean,teamShadow?:boolean}} [options] */
+   * @param {PoseOptions & {dungeon?:boolean,teamShadow?:boolean}} [options] */
   drawShadow(context,id,x,y,options={}){
     const entry=this.images.get(id);if(!entry)return;
     const selected=selectedPose(entry,options);if(!selected)return;
-    const scale=options.scale??1,{frame}=selected;
-    nativeShadow(context,entry.metadata.shadowSize,x+frame[4]*scale,y+frame[5]*scale,scale,Boolean(options.dungeon&&options.teamShadow));
+    const {frame}=selected;
+    nativeShadow(context,entry.metadata.shadowSize,x+frame[4],y+frame[5],1,Boolean(options.dungeon&&options.teamShadow));
   }
 
   /** @param {string} id */
@@ -159,36 +158,31 @@ export class SpriteBank {
   }
 
   /** @param {CanvasRenderingContext2D} context @param {string} id @param {number} x @param {number} y
-   * @param {PoseOptions & {scale?:number,shadow?:boolean,alpha?:number,dungeon?:boolean,teamShadow?:boolean,lift?:number}} [options]
+   * @param {PoseOptions & {shadow?:boolean,alpha?:number,dungeon?:boolean,teamShadow?:boolean,lift?:number}} [options]
    * @returns {{x:number,y:number}|undefined} Native status attachment for the drawn pose. */
   draw(context,id,x,y,options={}){
     const entry=this.images.get(id);if(!entry)return;entry.used=++this.clock;
     const selected=selectedPose(entry,options);if(!selected)return;
     const metadata=entry.metadata,{frame,pose}=selected;
-    const scale=options.scale??1;
     context.save();context.globalAlpha=options.alpha??1;
     if(options.shadow!==false){
-      const sx=x+frame[4]*scale,sy=y+frame[5]*scale;
-      nativeShadow(context,metadata.shadowSize,sx,sy,scale,Boolean(options.dungeon&&options.teamShadow));
+      const sx=x+frame[4],sy=y+frame[5];
+      nativeShadow(context,metadata.shadowSize,sx,sy,1,Boolean(options.dungeon&&options.teamShadow));
     }
-    context.drawImage(entry.image,pose[0],pose[1]+(options.dungeon?metadata.dungeonOffsetY??0:0),pose[2],pose[3],Math.round(x+(pose[4]+frame[2])*scale),Math.round(y+(pose[5]+frame[3]-(options.lift??0))*scale),Math.round(pose[2]*scale),Math.round(pose[3]*scale));
+    context.drawImage(entry.image,pose[0],pose[1]+(options.dungeon?metadata.dungeonOffsetY??0:0),pose[2],pose[3],Math.round(x+(pose[4]+frame[2])),Math.round(y+(pose[5]+frame[3]-(options.lift??0))),pose[2],pose[3]);
     context.restore();
     const attachment=metadata.statusOffsets?.[frame[0]];
-    if(attachment&&(attachment[0]!==99||attachment[1]!==99))return{x:Math.round(x+(attachment[0]+frame[2])*scale),y:Math.round(y+(attachment[1]+frame[3]-(options.lift??0))*scale)};
+    if(attachment&&(attachment[0]!==99||attachment[1]!==99))return{x:Math.round(x+(attachment[0]+frame[2])),y:Math.round(y+(attachment[1]+frame[3]-(options.lift??0)))};
   }
 
-  /** @param {CanvasRenderingContext2D} context @param {string} id @param {number} x @param {number} y @param {number} [size]
-   * @param {{flip?:boolean,face?:boolean,emotion?:string}} [options] */
-  portrait(context,id,x,y,size=40,options={}){
-    if(options.face===false){
-      context.fillStyle='#bea653';context.fillRect(x,y,size,size);context.fillStyle='#f1dd9f';context.fillRect(x+1,y+size-10,size-2,9);
-      this.draw(context,id,x+size/2,y+size-5,{direction:'s',clip:'idle',frame:0,shadow:false});return;
-    }
-    const emotion=options.emotion==='surprise'?'shocked':options.emotion==='hurt'?'pain':options.emotion==='determined'?'special':options.emotion??'normal';
+  /** @param {CanvasRenderingContext2D} context @param {string} id @param {number} x @param {number} y
+   * @param {{flip?:boolean,emotion?:string}} [options] */
+  portrait(context,id,x,y,options={}){
+    const emotion=options.emotion??'normal';
     const portrait=this.portraitRects.get(`${id}:${emotion}`)??this.portraitRects.get(`${id}:normal`);
     if(!this.portraits||!portrait)return;
-    context.save();context.translate(Math.round(x)+(options.flip?size:0),Math.round(y));if(options.flip)context.scale(-1,1);
-    context.drawImage(this.portraits,portrait.x,portrait.y,40,40,0,0,size,size);context.restore();
+    context.save();context.translate(Math.round(x)+(options.flip?40:0),Math.round(y));if(options.flip)context.scale(-1,1);
+    context.drawImage(this.portraits,portrait.x,portrait.y,40,40,0,0,40,40);context.restore();
   }
 
   dispose(){

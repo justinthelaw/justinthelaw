@@ -305,3 +305,32 @@ reviewed final-faint publication adds 13,684 bytes, giving a net increase of
 with 318,822 bytes below the cap. The source application and protected-file
 readback are in `blue-pruning-composition-20261011-1203` under `.work/`;
 validation and manual results are recorded in the opening review.
+
+## Renderer options and clip aliases
+
+This batch saves 4,766 runtime bytes from `c62e846`: 296 from
+lifecycle/dialogue/ornament cleanup, 447 from unused portrait options, 295 from
+unused sprite scale/frame options, 100 from the unreachable Baton Pass condition
+and comment, 3,614 from unused clip aliases, and 14 from a shared awakening
+phrase that incorrectly described Torchic as having paws. The removed clip labels are
+`defeat`, `celebrate`, `interact` and `wake`; their underlying artwork remains.
+Alpha handling, faint blinking and the final-faint publication behavior remain
+unchanged, as do saved data and current move support. Restore the native Baton
+Pass self-exclusion before enabling that move or an unguarded copied-move path.
+
+All 23 actor PNGs, seven source archives, 5,916 poses, 541 animations, 4,328
+sequences and 29,589 seven-field frames remain exact. The 89 portraits are
+unchanged. Full source records and their validation remain in the authoring
+package; no sprite pixels, attachment offsets or timing rows were removed.
+
+All 60 runtime timers and 101 motion records stay because their proposed
+projection would add 6,299 authoring bytes to save 6,017 runtime bytes.
+
+The exported runtime contains 149 files / 2,822,140 bytes, leaving 323,588 bytes
+below the 3 MiB cap. The full Node 24.21 static check exited zero with 103 lint
+inputs and 67 strict sources. Applied/export/check receipts are under
+`.work/blue-pruning-composition-20261011-1310/`; independent composition admission
+is `.work/blue-pruning-composition-independent-20261011-1326/admission.json`, both
+in the authoring package. Its fourteen-byte wording addendum is recorded in
+`final-release.json`; the repeated full check is `final-check.log`.
+Manual observations remain separate in the opening review.

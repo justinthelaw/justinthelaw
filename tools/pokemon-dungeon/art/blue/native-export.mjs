@@ -15,7 +15,7 @@ function namedTable(map,prefix){const entry=[...map].find(([key])=>key.startsWit
 
 function nativeClips(count){
   const alias=(animation,loop)=>({animation:animation<count?animation:7,loop});
-  return{idle:alias(7,true),walk:alias(0,true),fly:alias(0,true),'attack-physical':alias(1,false),'hit-light':alias(6,false),defeat:alias(6,false),'rest-sleep':alias(5,true),'bide-hold':alias(11,true),celebrate:alias(16,false),interact:alias(17,false),'story-sleep':alias(count>13?13:5,true),wake:alias(count>14?14:7,false)};
+  return{idle:alias(7,true),walk:alias(0,true),fly:alias(0,true),'attack-physical':alias(1,false),'hit-light':alias(6,false),'rest-sleep':alias(5,true),'bide-hold':alias(11,true),'story-sleep':alias(count>13?13:5,true)};
 }
 
 export function composeNativeAsset(files,species,monsterData,options={}){

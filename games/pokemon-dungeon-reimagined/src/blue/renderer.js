@@ -95,19 +95,17 @@ function drawDialogue(context,sprites,dialogue,time,pink=false,placement='left',
   const body=preserveBreaks?dialogue.text:dialogue.text.replaceAll('\n',' ');
   const prefix=dialogue.speaker?`${dialogue.speaker}: `:'';
   const lines=wrapText(prefix+body,204);
-  // The common window is 224x40 at(16,136). A legacy caller's longer page is
-  // allowed one extra row instead of silently losing text during migration.
-  const height=Math.max(3,lines.length)*11+7,top=176-height;
-  panel(context,16,top,224,height,{pink,kind:'dialogue'});
+  // Every caller supplies a page of at most three native text rows.
+  panel(context,16,136,224,40,{pink,kind:'dialogue'});
   if(dialogue.portraitSpeciesId){
-    const px=placement==='right'?192:placement==='top-right'?152:placement==='top-left'?64:24,py=placement.startsWith('top-')?24:Math.min(80,top-48);
+    const px=placement==='right'?192:placement==='top-right'?152:placement==='top-left'?64:24,py=placement.startsWith('top-')?24:80;
     panel(context,px-4,py-4,48,48,{pink,kind:'portrait'});
-    sprites.portrait(context,dialogue.portraitSpeciesId,px,py,40,{flip:placement==='right'||placement==='top-right',emotion:dialogue.portraitEmotion});
+    sprites.portrait(context,dialogue.portraitSpeciesId,px,py,{flip:placement==='right'||placement==='top-right',emotion:dialogue.portraitEmotion});
   }
   const complete=Array.from(body),prefixLength=Array.from(prefix).length,limit=prefixLength+(dialogue.visibleChars??complete.length);
   let offset=0;
   lines.forEach((line,index)=>{
-    const letters=Array.from(line),visible=letters.slice(0,Math.max(0,limit-offset)).join(''),y=top+4+index*11;
+    const letters=Array.from(line),visible=letters.slice(0,Math.max(0,limit-offset)).join(''),y=140+index*11;
     if(index===0&&prefix){
       text(context,dialogue.speaker??'',28,y,{color:'#fbfb00'});
       text(context,': ',28+textWidth(dialogue.speaker??''),y);
@@ -115,7 +113,7 @@ function drawDialogue(context,sprites,dialogue,time,pink=false,placement='left',
     }else text(context,visible,28,y);
     offset+=letters.length+1;
   });
-  if((dialogue.visibleChars??complete.length)>=complete.length&&(Math.floor(time*60/1000)&8)!==0)dialogueArrow(context,120,top+height-5);
+  if((dialogue.visibleChars??complete.length)>=complete.length&&(Math.floor(time*60/1000)&8)!==0)dialogueArrow(context,120,171);
 }
 
 /** @param {CanvasRenderingContext2D} context @param {View} view @returns {ChoiceBounds[]} */
@@ -265,9 +263,9 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
         artwork.menuLogo(top);artwork.menu(bottom);
       }else if(['quiz','gender','result','partner','name'].includes(view.scene)){
         aura.draw(bottom,time,{reducedMotion:view.reducedMotion,mode:'cycle'});
-        if(view.scene==='result'&&view.storyLine===2){panel(bottom,100,60,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,hero,104,64,40,{flip:true,emotion:'happy'});}
+        if(view.scene==='result'&&view.storyLine===2){panel(bottom,100,60,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,hero,104,64,{flip:true,emotion:'happy'});}
         if(view.scene==='partner'){
-          const current=view.partnerChoices?.[view.selectedIndex??0]??partner;panel(bottom,116,44,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,current,120,48,40,{flip:true,emotion:'normal'});
+          const current=view.partnerChoices?.[view.selectedIndex??0]??partner;panel(bottom,116,44,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,current,120,48,{flip:true,emotion:'normal'});
         }
         if(view.scene==='name')choiceBounds=renderNaming(bottom,view,time);
       }else if(view.scene==='dungeon'){

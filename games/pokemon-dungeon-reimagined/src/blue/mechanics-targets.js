@@ -15,11 +15,11 @@ import { actors, actorAt, canStep, inSight, open, team, VECTORS } from './mechan
 const NATIVE_DIRECTIONS = Object.freeze(['s', 'se', 'e', 'ne', 'n', 'nw', 'w', 'sw']);
 
 /** Comparative SetNewTarget applies the confusion override before its target
- * category, but Baton Pass always excludes its user. The selected roster has
- * no neutral shopkeepers, rescue targets, invisibility or Nontraitor IQ.
+ * category. The selected roster has no neutral shopkeepers, rescue targets,
+ * invisibility or Nontraitor IQ.
  * @param {Actor} actor @param {Actor} target @param {MoveData} move */
 function admitsTarget(actor, target, move) {
-  if (target.hp <= 0 || move.id === 'move-baton-pass' && target.id === actor.id) return false;
+  if (target.hp <= 0) return false;
   if (actor.status.confusion) return true;
   const allied = team(actor) === team(target), self = actor.id === target.id;
   switch (move.target) {
