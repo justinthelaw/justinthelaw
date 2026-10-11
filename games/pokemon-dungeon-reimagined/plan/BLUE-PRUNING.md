@@ -237,3 +237,31 @@ target artwork and finite Rapid Spin/Synthesis sounds, contains 149 files and
 103 lint inputs and 67 strict sources. The final composition receipt is
 `blue-pruning-composition-20261011-1000/release-1045.json`; the matching frozen
 browser snapshot is `blue-opening-review-20261011-1045`, both under `.work/`.
+
+## Unused numerical branches and Team glyphs
+
+The opening's sole damage caller always supplied neutral form/item values and
+clear weather. Removing those five inputs and their dormant branches saves
+2,441 runtime bytes. Active integer operations, rounding, tables, ability
+adjustments, returned facts and all RNG call sites retain their order. The
+required `let` to `const` correction accounts for the two-byte difference from
+the original estimate. Removing a stale JSDoc clause saves another 22 bytes.
+Save validators, held-item acceptance, full growth/learnsets and the existing
+unsupported-weather boundary remain unchanged.
+
+The Team menu uses yellow HP hearts for both opening members. Four unused red
+glyphs and their color parameter leave the runtime, saving 847 bytes; the
+exporter shrinks by 49 bytes. All six retained icon records and other UI exports
+are exact. Red glyph source masks remain in the offline archive. Battle heart
+effects, actor status icons and audio are separate and unchanged by this cut.
+
+The two reviewed leaves save 3,288 runtime bytes, or 3,310 including the comment
+correction. Their ignored evidence is `blue-numerical-neutral-prune-implementation-20261011-1059`
+and `blue-team-heart-prune-implementation-20261011-1059` under `.work/`.
+
+Composed with the separately admitted common effect 22 sound, the export is
+149 files / 2,815,590 bytes, leaving 330,138 bytes below the cap. The sound adds
+10,791 bytes, so this batch's net change from `0fb50c5` is +7,481 bytes. The
+full Node 24.21 static check passes. The composition receipt and immutable
+browser snapshot are `blue-pruning-composition-20261011-1109/release.json` and
+`blue-opening-review-20261011-1111/snapshot.json` under `.work/`.

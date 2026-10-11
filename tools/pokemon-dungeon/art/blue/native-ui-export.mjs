@@ -38,7 +38,7 @@ export async function exportNativeUi({emit}){
     glyphs[character]={advance:record.advance,rows,shadow};
   }
   const icons={};
-  const iconCodes=[['set',0x8741],['star',0x8742],...['red','yellow'].flatMap((color,bank)=>['tiny','small','medium','large'].map((size,index)=>[`heart-${color}-${size}`,0x8746+bank*4+index]))];
+  const iconCodes=[['set',0x8741],['star',0x8742],...['tiny','small','medium','large'].map((size,index)=>[`heart-yellow-${size}`,0x874a+index])];
   for(const[id,code]of iconCodes){
     const record=characters.get(code),bytes=literalBytes(source.get(record.label));let pixels='';
     for(let y=0;y<11;y++)for(let x=0;x<12;x++)pixels+=((bytes[y*6+(x>>1)]>>(4*(x&1)))&15).toString(16);

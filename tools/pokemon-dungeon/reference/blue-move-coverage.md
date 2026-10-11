@@ -57,6 +57,11 @@ below are relative to
 Existing numerical helpers should be reused without importing the old campaign
 state graph.
 
+The current opening helpers omit dormant weather modifiers whose sole caller
+always supplied clear weather. A future weather admission must explicitly
+restore and review those modifiers and their input wiring. The native weather
+facts and original proposals below remain source evidence, not current support.
+
 | Group | Rejected moves covered | Smallest required behavior and source owners |
 | --- | --- | --- |
 | Direct HP and recoil | Seismic Toss, Dragon Rage, Endeavor; Take Down, Submission, Double-Edge | Preserve each direct-HP caller's flags instead of routing through ordinary damage. Recoil is max-HP/8 with Rock Head protection, distinct from Struggle's max-HP/4. `move_orb_actions_2.c:sub_8059A2C,sub_8058E5C,DoubleEdgeMoveAction`; `move_orb_actions_4.c:DragonRageMoveAction`; `move_orb_actions_1.c:EndeavorMoveAction`. |

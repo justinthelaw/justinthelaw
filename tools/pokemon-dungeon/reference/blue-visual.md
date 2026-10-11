@@ -265,8 +265,9 @@ use **yellow** hearts because they have ordinary nonnegative recruited IDs;
 [`sub_806A538`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_misc.c)
 reserves red hearts for negative or guest sentinel IDs. Four heart sizes use
 glyphs0x874A–0x874D and compare HP to q,2q,3q where q=floor(maxHP/4), preserving
-the source's rounding order. The red0x8746–0x8749 masks are retained with their
-palette indices as source data, rather than incorrectly assigned to the leader.
+the source's rounding order. The red0x8746–0x8749 masks and palette indices remain
+in the offline native UI source archive. The runtime emits only the four yellow
+HP tiers and the set/star icons; its heart helper has no unused color parameter.
 
 The Team selector now follows the source camera route in
 [`TryPointCameraToMonster`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_misc.c):

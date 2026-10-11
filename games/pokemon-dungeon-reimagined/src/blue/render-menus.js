@@ -81,7 +81,7 @@ export function dungeonMenu(context,view){
       text(context,member.name,41,y,{color:view.disabledChoices?.[index]?'#fb8259':'#fbfb00',maxWidth:72});
       // Both opening members have nonnegative recruited IDs. Red hearts are
       // reserved for newly recruited/guest sentinel IDs, not for the leader.
-      nativeHeart(context,'yellow',tier,113,y);
+      nativeHeart(context,tier,113,y);
       if(index===(view.selectedIndex??0))cursor(context,24,y+1);
       return{index,x:24,y:y-1,width:112,height:rowHeight};
     });

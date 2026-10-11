@@ -28,11 +28,28 @@ import {pokeFlightSamples,pokeDropSamples,pokeLossPosition} from './battle-item-
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
 /** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[],hidden?:boolean}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809',audible:boolean}|{clearNotice:true}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621',audible:boolean}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 
 const TICK_MS=1000/60;
+// These admitted effect22 routes have STOP direct-cast sounds for every learner.
+// Cross Chop keeps its qualified authored cast fallback for351; other cues stay live.
+const EFFECT22_SILENT_CASTS=new Set([
+  'move-absorb','move-bite','move-body-slam',
+  'move-bone-club','move-bone-rush','move-bonemerang',
+  'move-confusion','move-double-edge','move-double-slap',
+  'move-double-team','move-dynamic-punch','move-fury-swipes',
+  'move-giga-drain','move-growl','move-helping-hand',
+  'move-mega-drain','move-metal-claw','move-poison-powder',
+  'move-quick-attack','move-rage','move-rapid-spin',
+  'move-reflect','move-seismic-toss','move-sleep-powder',
+  'move-smokescreen','move-submission','move-swagger',
+  'move-sweet-scent','move-swift','move-thunder',
+  'move-thunder-shock','move-thunder-wave','move-thunderbolt',
+  'move-withdraw',
+]);
+
 // Conservative current producer bound:74 target/hit pieces*32 +198 levels*6
 // +13 opportunity wrappers*32 +37 residual calls*16 +12 item actions*16
 // +12 admitted initial-sleep wakes*8 +64 setup =4916. A conservative365
@@ -119,7 +136,7 @@ export class BattlePresentation {
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
     /** Native sound receipts are private presentation evidence, never saves.
-     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'} name @param {number} at @param {number} [order] */
+     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'} name @param {number} at @param {number} [order] */
     const sound=(name,at,order=ordinal++)=>{
       if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
       this.cues.push({sound:name,at,ordinal:order,audible:true});
@@ -178,6 +195,7 @@ export class BattlePresentation {
       // Carried tracks and repeated draws never enter this creation path.
       if(id===7||id===15)sound(id===7?'heal':'heart',start);
       else if(id===83||id===271)sound(id===83?'se678':'se809',start);
+      else if(id===22)sound('se621',start);
       return info.blocksWait===false?at:Math.min(end,at+waitLimit);
     };
     const drainEffects=()=>{
@@ -405,8 +423,8 @@ export class BattlePresentation {
         if(route)moves.set(record.actor.id,route);
         const start=cursor;messageAt=start;
         const visible=displayedActor(record.actor);
-        // These two native effect routes replace only their authored cast cue.
-        cue(event.type==='presentation'?{type:'attack',actorId:record.actor.id,moveId:record.moveId}:event,start,order,visible&&record.moveId!=='move-rapid-spin'&&record.moveId!=='move-synthesis');
+        // Selected native effect sounds replace only the STOP direct-cast cue.
+        cue(event.type==='presentation'?{type:'attack',actorId:record.actor.id,moveId:record.moveId}:event,start,order,visible&&!EFFECT22_SILENT_CASTS.has(record.moveId)&&record.moveId!=='move-synthesis');
         if(!visible)continue;
         if(route?.preparation&&record.first){
           if(record.moveId==='move-hypnosis'&&assets.hypnosisReady()){

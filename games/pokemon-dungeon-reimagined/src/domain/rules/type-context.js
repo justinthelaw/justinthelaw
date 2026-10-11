@@ -2,9 +2,8 @@ import { mulQ, Q16, requireBooleans, requireInteger } from './fixed-point.js';
 
 /** @typedef {'None'|'Normal'|'Fire'|'Water'|'Grass'|'Electric'|'Ice'|'Fighting'|'Poison'|'Ground'|'Flying'|'Psychic'|'Bug'|'Rock'|'Ghost'|'Dragon'|'Dark'|'Steel'} ElementType */
 /** @typedef {'little'|'resist'|'neutral'|'super'} MatchupClass */
-/** @typedef {'clear'|'sunny'|'rain'|'cloudy'|'fog'|'snow'|'hail'|'sandstorm'} Weather */
 /** @typedef {Readonly<{wonderGuard:boolean,thickFat:boolean,flashFire:boolean,levitate:boolean,torrent:boolean,overgrow:boolean,swarm:boolean,blaze:boolean}>} TypeAbilities */
-/** @typedef {Readonly<{moveType:ElementType,attackerTypes:readonly [ElementType,ElementType],defenderTypes:readonly [ElementType,ElementType],defenderExposed:boolean,abilities:TypeAbilities,attackerHp:number,attackerMaxHp:number,weather:Weather,mudSport:boolean,waterSport:boolean,charging:boolean}>} TypeContext */
+/** @typedef {Readonly<{moveType:ElementType,attackerTypes:readonly [ElementType,ElementType],defenderTypes:readonly [ElementType,ElementType],defenderExposed:boolean,abilities:TypeAbilities,attackerHp:number,attackerMaxHp:number,mudSport:boolean,waterSport:boolean,charging:boolean}>} TypeContext */
 /** @typedef {Readonly<{modifierQ16:number,typeFactorQ16:number,typeMatchup:MatchupClass,matchup:MatchupClass,slotMatchups:readonly [MatchupClass,MatchupClass],nullifiedBy:'wonderGuard'|'flashFire'|'levitate'|null}>} TypeModifier */
 
 /** @type {readonly ElementType[]} */
@@ -88,9 +87,6 @@ export function validateTypeContext(context) {
   validateTypes(context.defenderTypes);
   requireInteger(context.attackerMaxHp, 1, 32767, 'maximum HP');
   requireInteger(context.attackerHp, 1, context.attackerMaxHp, 'attacker HP');
-  if (!['clear', 'sunny', 'rain', 'cloudy', 'fog', 'snow', 'hail', 'sandstorm'].includes(context.weather)) {
-    throw new RangeError('Unknown apparent weather.');
-  }
 }
 
 /** Pure type/context pipeline. Ability predicates are resolved active-ability facts;
@@ -127,16 +123,7 @@ export function buildTypeContextModifier(context) {
   if (lowHpAbility && context.attackerHp <= Math.floor(context.attackerMaxHp / 4)) modifierQ16 = mulQ(modifierQ16, 131072, 16);
   // None represents absence, so it must not itself create a same-type bonus.
   if (moveType !== 'None' && modifierQ16 !== 0 && context.attackerTypes.includes(moveType)) modifierQ16 = mulQ(modifierQ16, 98304, 16);
-  if (context.weather === 'sunny') {
-    if (moveType === 'Fire') modifierQ16 = mulQ(modifierQ16, 98304, 16);
-    if (moveType === 'Water') modifierQ16 = mulQ(modifierQ16, 32768, 16);
-  }
-  if (context.weather === 'rain') {
-    if (moveType === 'Water') modifierQ16 = mulQ(modifierQ16, 98304, 16);
-    if (moveType === 'Fire') modifierQ16 = mulQ(modifierQ16, 32768, 16);
-  }
-  if (context.weather === 'cloudy' && moveType !== 'Normal') modifierQ16 = mulQ(modifierQ16, 49152, 16);
-  if (moveType === 'Electric' && (context.mudSport || context.weather === 'fog')) modifierQ16 = mulQ(modifierQ16, 32768, 16);
+  if (moveType === 'Electric' && context.mudSport) modifierQ16 = mulQ(modifierQ16, 32768, 16);
   if (moveType === 'Fire' && context.waterSport) modifierQ16 = mulQ(modifierQ16, 32768, 16);
   if (moveType === 'Electric' && context.charging) modifierQ16 = mulQ(modifierQ16, 131072, 16);
   return { modifierQ16, typeFactorQ16, typeMatchup, matchup, slotMatchups: [first, second], nullifiedBy };

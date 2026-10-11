@@ -160,11 +160,11 @@ export function nativeMoveIcon(context,kind,x,y,scale=1){
 }
 
 /** Original size encodes HP tier; yellow is used by ordinary roster members.
- * @param {CanvasRenderingContext2D} context @param {'red'|'yellow'} color @param {number} tier
+ * @param {CanvasRenderingContext2D} context @param {number} tier
  * @param {number} x @param {number} y */
-export function nativeHeart(context,color,tier,x,y){
+export function nativeHeart(context,tier,x,y){
   const size=['tiny','small','medium','large'][Math.max(0,Math.min(3,Math.floor(tier)))];
-  drawNativeIcon(context,`heart-${color}-${size}`,x,y,1);
+  drawNativeIcon(context,`heart-yellow-${size}`,x,y,1);
 }
 
 /** @param {CanvasRenderingContext2D} context @param {string} kind @param {number} x @param {number} y @param {number} scale */

@@ -3,17 +3,14 @@ import { buildTypeContextModifier, isPhysicalType, neutralTypeModifier, validate
 
 /** @typedef {import('./type-context.js').TypeContext} TypeContext */
 /** @typedef {import('./type-context.js').TypeModifier} TypeModifier */
-/** @typedef {'none'|'normal'|'attack'|'defense'|'speed'} DeoxysForm */
-/** Only relevant, already-usable held items; resolve sticky/suppression predicates upstream.
- * @typedef {'none'|'powerBand'|'specialBand'|'munchBelt'|'defScarf'|'zincBand'|'scopeLens'|'patsyBand'} DamageItem */
 /** @typedef {Readonly<{guts:boolean,attackerNegativeStatus:boolean,hugePower:boolean,purePower:boolean,hustle:boolean,plus:boolean,minus:boolean,sameSidePlus:boolean,sameSideMinus:boolean,intimidate:boolean,marvelScale:boolean,defenderNegativeStatus:boolean}>} StatAbilities */
-/** @typedef {Readonly<{rawOffense:number,rawDefense:number,movePower:number,offenseStage:number,defenseStage:number,offensiveMultiplierQ8:number,defensiveMultiplierQ8:number,flashFireBoost:number,attackerForm:DeoxysForm,defenderForm:DeoxysForm,skullBash:boolean,attackerItem:DamageItem,defenderItem:DamageItem,abilities:StatAbilities}>} StatContext */
+/** @typedef {Readonly<{rawOffense:number,rawDefense:number,movePower:number,offenseStage:number,defenseStage:number,offensiveMultiplierQ8:number,defensiveMultiplierQ8:number,flashFireBoost:number,skullBash:boolean,abilities:StatAbilities}>} StatContext */
 /** @typedef {Readonly<{moveChance:number,focusEnergy:boolean,typeAdvantageMaster:boolean,battleArmor:boolean,shellArmor:boolean}>} CriticalContext */
 /** criticalRoll is null precisely when armor skips that draw.
  * @typedef {Readonly<{sharedPowerRoll:number,criticalRoll:number|null,varianceRoll:number}>} DamageRolls */
 /** Full numerical/context facts; no actor, data catalog, RNG or scene dependencies.
  * rolls is null precisely for early one-damage branches. targetEffectsApply gates
- * offensive Flash Fire stage, defensive held bonus and screens, as in R arg_10.
+ * offensive Flash Fire stage and screens, as in R arg_10.
  * @typedef {Readonly<{type:TypeContext,stats:StatContext,critical:CriticalContext,teamMember:boolean,leader:boolean,integerBelly:number,level:number,regularAttack:boolean,targetEffectsApply:boolean,reflect:boolean,lightScreen:boolean,moveEffectMultiplierQ8:number,rolls:DamageRolls|null}>} NormalDamageInput */
 /** @typedef {Readonly<{offenseStage:number,defenseStage:number,offenseBeforeAbilities:number,defenseBeforeAbilities:number,offense:number,defense:number,wildRawOffense:number|null,levelContributionQ16:number,differenceQ16:number,baseQ16:number,contextModifierQ16:number,finalModifierQ16:number,damageQ16:number,criticalChance:number|null,criticalRolled:boolean}>} DamageFacts */
 /** These facts are derived event evidence, never authoritative campaign state.
@@ -44,12 +41,6 @@ function validateStats(stats) {
   requireInteger(stats.offensiveMultiplierQ8, 0, 2147483647, 'offensive multiplier');
   requireInteger(stats.defensiveMultiplierQ8, 0, 2147483647, 'defensive multiplier');
   requireInteger(stats.flashFireBoost, 0, 2, 'Flash Fire boost');
-  for (const form of [stats.attackerForm, stats.defenderForm]) {
-    if (!['none', 'normal', 'attack', 'defense', 'speed'].includes(form)) throw new RangeError('Unknown apparent Deoxys form.');
-  }
-  for (const item of [stats.attackerItem, stats.defenderItem]) {
-    if (!['none', 'powerBand', 'specialBand', 'munchBelt', 'defScarf', 'zincBand', 'scopeLens', 'patsyBand'].includes(item)) throw new RangeError('Unknown numerical held item.');
-  }
 }
 
 /** Accumulate integer ratios, divide once per stat. R Guts intentionally has no physical guard.
@@ -75,15 +66,10 @@ function adjustAbilities(offense, defense, physical, abilities, powerRoll) {
 /** @param {NormalDamageInput} input @param {boolean} physical @param {number} powerRoll */
 function prepareStats(input, physical, powerRoll) {
   const s = input.stats;
-  const offenseFormDelta = s.attackerForm === 'attack' ? 2 : s.attackerForm === 'defense' || s.attackerForm === 'speed' ? -2 : 0;
-  const defenseFormDelta = s.defenderForm === 'defense' ? 2 : s.defenderForm === 'attack' || s.defenderForm === 'speed' ? -2 : 0;
-  const offenseStage = clamp(s.offenseStage + offenseFormDelta + (input.targetEffectsApply && input.type.moveType === 'Fire' ? s.flashFireBoost : 0), 0, 20);
-  const defenseStage = clamp(s.defenseStage + defenseFormDelta + Number(physical && s.skullBash), 0, 20);
+  const offenseStage = clamp(s.offenseStage + (input.targetEffectsApply && input.type.moveType === 'Fire' ? s.flashFireBoost : 0), 0, 20);
+  const defenseStage = clamp(s.defenseStage + Number(physical && s.skullBash), 0, 20);
   let offense = integerPartQ8(mulQ(mulQ((s.rawOffense + s.movePower) * Q8, stageFactor(ATTACK_STAGE_Q8, offenseStage), 8), s.offensiveMultiplierQ8, 8));
-  let defense = integerPartQ8(mulQ(mulQ(s.rawDefense * Q8, stageFactor(DEFENSE_STAGE_Q8, defenseStage), 8), s.defensiveMultiplierQ8, 8));
-  if ((physical && s.attackerItem === 'powerBand') || (!physical && s.attackerItem === 'specialBand')) offense += 12;
-  if (s.attackerItem === 'munchBelt') offense += 8;
-  if (input.targetEffectsApply && ((physical && s.defenderItem === 'defScarf') || (!physical && s.defenderItem === 'zincBand'))) defense += 8;
+  const defense = integerPartQ8(mulQ(mulQ(s.rawDefense * Q8, stageFactor(DEFENSE_STAGE_Q8, defenseStage), 8), s.defensiveMultiplierQ8, 8));
   offense = clamp(offense, 0, 999);
   const adjusted = adjustAbilities(offense, defense, physical, s.abilities, powerRoll);
   return { offenseStage, defenseStage, offenseBeforeAbilities: offense, defenseBeforeAbilities: defense, ...adjusted };
@@ -94,8 +80,6 @@ function criticalChance(input, type) {
   const critical = input.critical;
   if (critical.focusEnergy) return 999;
   let chance = input.teamMember ? critical.moveChance : 0;
-  if (input.stats.attackerItem === 'scopeLens') chance += 40;
-  if (input.stats.defenderItem === 'patsyBand') chance += 40;
   if (type.matchup === 'super' && critical.typeAdvantageMaster) chance = 40;
   return chance;
 }

@@ -721,6 +721,46 @@ and error logs were empty. Native combat capture SHA-256 is
 This is targeted loading, combat and save-continuity evidence; the earlier full
 Caterpie/reunion run remains separately identified above.
 
+Signed checkpoint `0fb50c5d51bbd8742a8e42f9b513208ed249d343` passes Game Static
+Checks, Lint, Playwright and CodeQL. Its exact runtime matches the frozen 10:45
+snapshot. The subsequent manual continuation completed B2F and B3F, Caterpie's
+clearing, Butterfree's reunion, all three berry rewards and the departure.
+Caterpie's crying, normal and inspired portraits, Butterfree normal and Coal's
+happy expression rendered from the reduced atlas. Adventure Log records Coal
+and Brook with 76 dungeon turns. Return to top menu followed by Continue restores
+the completed ending directly. Browser warning/error logs were empty.
+Reunion capture SHA-256 is
+`19a3382726c2cbf9ebd61ea1b2ba0dc9ea99b30b56ea58d03e7c4519ad591995`;
+completed-save capture is
+`7e0978298ab98ca1570c6fc6b045c30299fe481802b1dca8f8e191399fde9d30`.
+
+The following local composition removes dormant form/item/weather numerical
+branches and unused red Team HP glyphs while preserving all live calculations,
+save acceptance, retained icon pixels and source archives. Common effect 22 now
+requests its finite source-derived sound for 35 admitted move routes, including
+Confusion's cast. A separate twelve-request allowance preserves earlier audio
+budgets. Only the 34 all-STOP direct-cast routes suppress their authored cast
+cue; Cross Chop's distinct native 351 route remains qualified. Playback owners,
+existing samples/cues and the inherited private-four limitation are unchanged.
+
+Its full Node 24.21 check passes with 103 lint inputs, 67 strict sources and all
+factual, numerical, asset, provenance and export checks. The 149-file runtime is
+2,815,590 bytes, with 330,138 bytes below the cap. The 11:11 snapshot freezes this
+composition for separate manual review. No final-faint publication change is
+included; that known timing qualification remains.
+
+Manual review of the 11:11 snapshot resumed the existing Fern/Ember save from
+the 09:19 build. Both Team-menu yellow hearts and the leader/set-move markers
+rendered correctly. Growl completed without a target, spent one PP from 19 to
+18, and returned control with no browser warnings or errors. The B2F transition
+preserved the party; a regular enemy attack dealt one damage to Fern, and the
+selected Tackle shortcut dealt 19 damage and defeated Pidgey. The log awards
+12 EXP to each teammate. Quicksave/Continue restored B2F, Fern's 29/30 HP, Ember's
+30/30 HP, selected Tackle at 21/22 PP and Growl at 18/20 PP. Browser logs stayed
+empty. Native post-Continue capture SHA-256 is
+`272e92cb5efb112c9439aae69847f33f7c2401c81773bc6eaedf0627d5ead15c`.
+These are play and save observations, not acoustic or frame-accurate acceptance.
+
 ## Fidelity limits
 
 - Dialogue and score remain authored substitutes. Native image reconstruction

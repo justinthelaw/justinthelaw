@@ -235,10 +235,10 @@ its separate SE3/global-envelope proposal has not been admitted.
 
 ## Selected healing and heart PCM — 2026-10-11
 
-`audio/blue-pcm-effects.json` pins 40 public source files at the comparative
-commit above, six sample payloads and six finite control tracks. The original
+`audio/blue-pcm-effects.json` pins 45 public source files at the comparative
+commit above, seven sample payloads and seven finite control tracks. The original
 healing/heart subset described here retains its three sample payloads and all
-control tuples; Poké pickup, item loss, Rapid Spin and Synthesis are described below. Run
+control tuples; the later pickup, loss, move and effect 22 additions are described below. Run
 `node scripts/export-blue-pcm-effects.mjs --check` from the authoring package
 to verify the generated data; add `--source-root PATH` to compare all pinned
 source bytes. The exporter uses Node built-ins and never imports or executes
@@ -270,7 +270,7 @@ owner. A new SE5 cue replaces attached notes and future notes. FINE detaches
 release tails: 606 can leave two, which later SE5 replacement preserves until
 their finite ends. Pause, mute, blur, visibility loss, denial, retired epochs,
 context replacement and disposal stop all voices including detached tails.
-There are at most 13 newly scheduled PCM sources plus two detached tails, six
+There are at most 13 newly scheduled PCM sources plus two detached tails, seven
 cached buffers and one stereo merger after the later cue admissions below. Every source shares the existing 32-voice
 ceiling with authored music/effects and SE2. Recognized overload is consumed
 without an authored fallback. No new timer, worklet, network fetch, playback
@@ -284,7 +284,7 @@ keeps its effect 7 sound. Offscreen/hidden effects and missing effect metadata
 emit none. Carry and redraw do not recreate receipts; explicit finish consumes
 them silently. Collapsed/reduced-motion batches admit at most four cues in this
 other-private bucket and discard excess receipts without deferred replay.
-Pickup, throw and Rapid Spin/Synthesis have separate limits described below. Visual waits, HP/status
+Pickup, throw, Rapid Spin/Synthesis and effect 22 have separate limits below. Visual waits, HP/status
 patches, result messages, numbers, canonical mechanics and saves are unchanged.
 
 606 sets native global reverb 60. 614's header 0 leaves that state unchanged; it
@@ -524,7 +524,7 @@ silent. Artwork retirement does not stop a PCM cue.
 
 Both use bank 026 voice 1, envelope 255/249/0/0, and full wave 096: 5,910 samples,
 loop [4,209,5,910), one interpolation guard and 18,157 Hz base rate. The new buffer
-uses 23,640 decoded Float32 bytes; all six total 133,580. Source sample/sequence
+uses 23,640 decoded Float32 bytes; the pre-621 six-buffer subset totals 133,580. Source sample/sequence
 URLs and hashes remain in `audio/blue-pcm-effects.json`. Public source
 availability is not a publisher reuse grant, and original Blue identity is
 unverified.
@@ -534,8 +534,9 @@ unverified.
 rows and 38 rate rows. Its MODT0 pitch term is exactly 16*modM before signed
 coarse/fine splitting; the source-owned phase continues across notes with zero
 LFO delay. The four earlier cue tuples and five sample literals remain exact.
-The finite data caps are 59/45 rows per note and 52,200 module bytes; actual data
-is 52,109 bytes. Note maximum 13, envelope-end maximum 82 and live 15-PCM/shared 32
+The finite data row caps remain 59/45 per note. Before the effect 22 addition
+below, the module was 52,109 bytes under its 52,200-byte allowance. Note maximum
+13, envelope-end maximum 82 and live 15-PCM/shared 32
 source ceilings are unchanged. Four future sources for 809 are allocation,
 not four simultaneous sounding notes; its new-note interval peak is one.
 
@@ -557,10 +558,64 @@ hits() still consumes its existing draw before the whiffer miss. This is a
 static saved-state counterexample, not a naturally acquired party, played seed
 or cartridge replay claim. No synthetic stop hides this existing limitation.
 
-Only Rapid Spin/Synthesis suppress their authored cast-entry attack request.
-Their native direct-cast entries are STOP; the authored body remains live for
-other moves. Rapid Spin's later authored damage sound is a separate qualified
-fallback for held native impacts 607–610 and remains unchanged. Preparation 22 /
-sound 621 stays separate and unimplemented by this admission. Native global
+This admission suppressed Rapid Spin/Synthesis authored cast-entry requests.
+The separate effect 22 admission below extends that exact STOP-only policy;
+the authored body remains live for other consumers. Rapid Spin's later authored damage sound is a separate qualified
+fallback for held native impacts 607–610 and remains unchanged. Effect 22 /
+sound 621 is admitted separately below. Native global
 five-channel competition/reverb/mixing, Blue clock/sample identity, browser
 resampling/request phase and audition remain qualified.
+
+## Common effect 22 finite PCM — 2026-10-11
+
+Fresh admitted effect 22 handles request `se621` / `effect-move-preparation`
+once on their first source update. The common join covers 34 first-pass
+preparations and Psyduck's single-pass Confusion cast: 35 move IDs and 58
+reachable species/move pairs. No selected move owns both slots. The first-pass
+gate, one chosen-move opportunity per actor and ten-wild-slot bound permit at
+most 12 requests per ActionResult. Their separate twelve-request bucket preserves
+pickup 12, throw 2, Rapid Spin/Synthesis 2 and other-private 4 budgets and order.
+
+Sequence 621 (`EFF_INVOKE_1`) uses SE5, bank 028 voice 12, wave 117 and envelope
+255/0/255/165. Its source has tempo 130, MOD 30/MODT 2 and one N18 note at tick 3,
+key 60, velocity 127. The finite tuple starts at frame 4, reaches FINE/release 25
+and nominal envelope zero 35, with 28 stereo rows and one rate row at 18,157 Hz.
+The existing fresh-track LFO phase and zero-delay continuation rules apply.
+
+The complete nonlooping wave has 6,656 signed-8 samples, no guard or padding,
+and SHA256 `cd38d082062d42fd4f62db0d87ef4beddadf09863f28cc4a8a4d1375007a4ceb`.
+At declared playbackRate 1 its buffer exhausts around cue frame 25.895, before
+the conservative envelope stop. Existing AudioBufferSourceNode natural-end
+cleanup owns that earlier release; no new timer, callback or estimated stop is
+added. Exact native sample-boundary phase and browser resampling remain open.
+
+Seven decoded buffers total 160,204 Float32 bytes. The generated module has
+61,384 bytes under an explicit 61,400-byte cap; it contains 28 notes, 429 stereo
+rows and 169 frequency rows. The prior six sample literals and six cue tuples
+remain exact. Row bounds remain 59/45, cue notes 13, envelope end 82 and live
+PCM/shared source ceilings 15/32. The largest old detached batch remains two
+heal records; 621 adds only one source and cannot accumulate tail batches.
+
+Sound creation follows existing actor-display and metadata admission, with no
+Canvas/attachment visibility gate. Rejected creation, carry and redraw add no
+request; explicit finish is silent. Artwork removal does not stop audio. Normal
+reduced-motion batches deliver requests in source order; subsequent SE5 requests
+replace attached notes. Rapid Spin's 678 follows 621 by 15 source frames, before
+FINE 25. Other routes retain their own natural-end or detached-tail behavior.
+Mute, pause, denial, blur/visibility loss, epoch retirement and disposal keep
+the existing hard stops and one-time receipt consumption. The inherited
+other-private-four suppression of a later 606 remains qualified.
+
+Only the 34 all-STOP move IDs in `EFFECT22_SILENT_CASTS` suppress their authored
+cast-entry request. They resolve STOP across 57 retained species/move pairs.
+Machop's Cross Chop is the one other pair: its native direct-cast sound is 351,
+so its current authored cast fallback remains explicitly qualified, with no
+new 351 join. Synthesis's earlier suppression remains. Damage, impact, item,
+miss, faint and level feedback are unchanged; Confusion's separate preparation
+222/background sound is outside this admission.
+
+Source URLs and 45 exact native file hashes remain in `blue-pcm-effects.json`.
+Header 188 sets native reverb 60, while this player remains dry. Public source
+availability is not a reuse grant. Original Blue sample/driver/clock identity,
+native competition/mix/reverb, browser request phase and listening acceptance
+remain unverified. No game/native code or audio rendering establishes them here.

@@ -26,7 +26,7 @@ const EFFECTS = Object.freeze({
   attack: 'effect-attack', regularAttack: 'effect-regular-attack', hit: 'effect-hit', heal: 'effect-heal', heart: 'effect-heart',
   berryResult: 'effect-pickup',
   se356: 'effect-throw-spin', se711: 'effect-item-loss',
-  se678: 'effect-rapid-spin', se809: 'effect-synthesis',
+  se678: 'effect-rapid-spin', se809: 'effect-synthesis', se621: 'effect-move-preparation',
   se330: 'effect-pickup-team', se331: 'effect-pickup-other', se332: 'effect-pickup-money',
   stairs: 'effect-stairs', rescue: 'effect-rescue-found',
   reward: 'effect-reward', levelUp: 'effect-level-up', faint: 'effect-faint',

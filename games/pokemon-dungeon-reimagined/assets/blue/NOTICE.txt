@@ -106,3 +106,8 @@ Rapid Spin and Synthesis additionally use public source wave 096 at the same
 pinned commit, with the full loop and interpolation guard. Its sample hash and
 finite controls are retained in blue-pcm-effects.json. These remain comparative
 Red data; original Blue identity, playback and reuse permission are unverified.
+
+The common effect 22 preparation/cast sound additionally uses public source
+wave 117 at that same commit. Its complete nonlooping sample and finite controls
+are recorded in blue-pcm-effects.json. Original Blue playback, native mixing
+and a rights-holder reuse grant remain unverified.

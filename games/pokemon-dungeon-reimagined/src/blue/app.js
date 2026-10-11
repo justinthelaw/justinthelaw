@@ -261,7 +261,7 @@ async function main() {
     const announcement=events.filter(event=>event.type==='message'&&event.text).map(event=>event.text).join(' ');
     if(announcement&&announcement!==lastNarration){narration.textContent=announcement;lastNarration=announcement;}
     if(silent)return;
-    let effectSounds=0,pickupSounds=0,throwSounds=0,moveSounds=0;
+    let effectSounds=0,pickupSounds=0,throwSounds=0,moveSounds=0,preparationSounds=0;
     for(const cue of cues){
       if('clearNotice' in cue||!cue.audible)continue;
       if('sound' in cue){
@@ -278,6 +278,10 @@ async function main() {
           // One first cast/target per party actor; no wild or copied-move owner.
           // Preserve the existing private-four budget in an instant batch.
           if(moveSounds++<2)audio.effect(cue.sound);
+        }else if(cue.sound==='se621'){
+          // One fresh effect22 per chosen move: two party and ten wild slots.
+          // Confusion uses cast22; first-pass preparation covers the other routes.
+          if(preparationSounds++<12)audio.effect(cue.sound);
         }else if(effectSounds++<4)audio.effect(cue.sound);
         continue;
       }

@@ -65,6 +65,13 @@ facts. **This is not a claim of exact Nintendo DS parity or a completed game.**
   Save admission validates bounded shapes, IDs, learned moves, species stats,
   numeric resources, map occupancy, RNG and a path to the stairs.
 
+The private damage helper is specialized to this opening's sole caller.
+Permanently neutral form, stat-item and clear-weather inputs and their dormant
+branches are removed. Fixed-point operations, ability ratios, stage/type tables,
+rounding, RNG calls and returned facts retain their order and values for every
+admitted input. Full growth/learnset data and save acceptance are unchanged;
+weather-changing moves still have the unsupported boundary described below.
+
 ## Remaining fidelity gaps
 
 - Browser xoshiro randomness is independent of the DS generator and call
