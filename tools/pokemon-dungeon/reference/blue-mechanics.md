@@ -16,10 +16,12 @@ facts. **This is not a claim of exact Nintendo DS parity or a completed game.**
   `src/dungeon_items.c`, `src/dungeon_turn_effects.c`,
   `src/dungeon_wild_mon_spawn.c`, `src/dungeon_move_util.c`,
   `src/data/ground/ground_data_d01p01_station.h` and `d01p02_station.h`.
-- Existing `content/onboarding`, `content/species`, `content/dungeons` and
-  `content/effects` retain their original Blue/shared/Red source qualifications.
-  `export-blue-opening.mjs` projects factual JSON without executing game code.
-  `content/blue-opening.json` records the SHA-256 of every input JSON resource.
+- The scoped `tools/pokemon-dungeon/content/blue-source.json` and
+  `content/blue-onboarding/` inputs retain the selected records' original
+  Blue/shared/Red qualifications and retired donor hashes.
+  `export-blue-opening.mjs` projects factual JSON without executing game code;
+  `content/blue-opening.json` records its live input hashes. See
+  [the independent factual checks](blue-facts.md).
 - [Tiny Woods corroboration](https://bulbapedia.bulbagarden.net/wiki/Tiny_Woods)
   distinguishes the original game's three floors, enemies and berry reward
   from Rescue Team DX. DX's levels, encounters and reward are not used.

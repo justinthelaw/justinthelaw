@@ -1,16 +1,15 @@
 import { copyPlainData } from './state/plain.js';
 
 /** Browser engineering choice, NOT the original DS generator or call schedule.
- * xoshiro128** 1.1 transition/jump: Blackman & Vigna, 2018, public domain.
- * See vendor/random/NOTICE.txt and plan/STATE-FOUNDATION.md for provenance.
+ * xoshiro128** 1.1 transition: Blackman & Vigna, 2018, public domain.
+ * See vendor/random/NOTICE.txt for the source and permission notice.
  * No module seed, clock, browser entropy or mutable singleton is used.
- * @typedef {import('../contracts.js').RandomWords} RandomWords
- * @typedef {import('../contracts.js').RandomState} RandomState
- * @typedef {import('../contracts.js').DomainRandomStreams} DomainRandomStreams
+ * @typedef {import('./shared-types.js').RandomWords} RandomWords
+ * @typedef {import('./shared-types.js').RandomState} RandomState
  */
 const ALGORITHM = 'xoshiro128ss-v1';
 const UINT32_RANGE = 0x100000000;
-const JUMP = [0x8764000b, 0xf542d2d3, 0x6fa035c3, 0x77f2db5b];
+
 const RANDOM_DATA_LIMITS = Object.freeze({
   maxDepth: 3, maxNodes: 12, maxArrayLength: 4, maxObjectKeys: 3,
   maxStringLength: 32, maxTextLength: 128,
@@ -80,89 +79,4 @@ export function nextRandom(input) {
   if (state.draws >= Number.MAX_SAFE_INTEGER) throw new RangeError('Random stream draw count is exhausted.');
   const result = step(state.words);
   return Object.freeze({ value: result.value, state: freezeState(result.words, state.draws + 1) });
-}
-
-/** Uniform integer in [0, upperExclusive), using rejection rather than rounding.
- * An engineering safety bound prevents malformed/adversarial saved streams
- * from monopolizing a command. Failure leaves the supplied state untouched.
- * @param {RandomState} input
- * @param {number} upperExclusive
- */
-export function randomInteger(input, upperExclusive) {
-  if (!Number.isSafeInteger(upperExclusive) || upperExclusive < 1 || upperExclusive > UINT32_RANGE) {
-    throw new RangeError('Random integer bound must be between 1 and 2^32.');
-  }
-  const acceptedRange = Math.floor(UINT32_RANGE / upperExclusive) * upperExclusive;
-  let state = input;
-  for (let attempt = 0; attempt < 128; attempt++) {
-    const result = nextRandom(state);
-    state = result.state;
-    if (result.value < acceptedRange) return Object.freeze({ value: result.value % upperExclusive, state });
-  }
-  throw new RangeError('Random draw safety budget exceeded.');
-}
-
-/** The reference jump separates starting states by 2^64 transitions. This
- * performs initialization only; jump work does not count as gameplay draws.
- * @param {RandomWords} seed
- * @returns {RandomWords}
- */
-function jump(seed) {
-  let words = seed;
-  let a = 0;
-  let b = 0;
-  let c = 0;
-  let d = 0;
-  for (const polynomial of JUMP) {
-    for (let bit = 0; bit < 32; bit++) {
-      if ((polynomial & (1 << bit)) !== 0) {
-        a = (a ^ words[0]) >>> 0;
-        b = (b ^ words[1]) >>> 0;
-        c = (c ^ words[2]) >>> 0;
-        d = (d ^ words[3]) >>> 0;
-      }
-      words = step(words).words;
-    }
-  }
-  return [a, b, c, d];
-}
-
-/** Saved domain streams only. Job/reward routing and lifetime are not decided
- * here; no gameplay draw sites or floor reseeding are implemented by P07-A.
- * @param {RandomWords} seed
- * @returns {DomainRandomStreams}
- */
-export function createDomainStreams(seed) {
-  const layout = createRandomState(seed);
-  const encountersItems = createRandomState(jump(layout.words));
-  const combatRecruitment = createRandomState(jump(encountersItems.words));
-  return Object.freeze({ layout, encountersItems, combatRecruitment });
-}
-
-/** Four root-owned campaign streams. The previous three seeds remain unchanged.
- * @param {RandomWords} seed
- * @returns {import('../contracts.js').CampaignRandomStreams}
- */
-export function createCampaignStreams(seed) {
-  const original = createDomainStreams(seed);
-  const jobsRewards = createRandomState(jump(original.combatRecruitment.words));
-  return Object.freeze({ ...original, jobsRewards });
-}
-
-/** No derivation, seeding or repair is performed during validation.
- * @param {unknown} input
- * @returns {import('../contracts.js').CampaignRandomStreams}
- */
-export function validateCampaignStreams(input) {
-  const value = copyPlainData(input);
-  if (!value || typeof value !== 'object' || Array.isArray(value) ||
-      Object.keys(value).sort().join(',') !== 'combatRecruitment,encountersItems,jobsRewards,layout') {
-    throw new TypeError('Campaign requires exactly four random streams.');
-  }
-  return Object.freeze({
-    layout: validateRandomState(value.layout),
-    encountersItems: validateRandomState(value.encountersItems),
-    combatRecruitment: validateRandomState(value.combatRecruitment),
-    jobsRewards: validateRandomState(value.jobsRewards),
-  });
 }

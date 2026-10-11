@@ -38,7 +38,7 @@ Old saves do not contain enough removed-slot history to reconstruct that order.
 ## AI prerequisite
 
 Actual impact categories must not replace native AI intent. The existing
-`tools/pokemon-dungeon/content/steel/ai-facts.json` includes the native AI flags,
+`tools/pokemon-dungeon/content/blue-source.json` retains the selected native AI flags,
 but this patch does not export or activate them:
 
 | Move | Actual flags | AI flags |

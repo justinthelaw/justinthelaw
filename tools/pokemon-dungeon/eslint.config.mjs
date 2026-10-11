@@ -6,13 +6,12 @@ export default [
   {
     ignores: [
       '**/node_modules/**', '**/.work/**', '**/.cache/**',
-      '**/vendor/**', '**/plan/**', '**/art/manifests/**',
+      '**/vendor/**', '**/plan/**',
     ],
   },
   {
     files: [
       'games/pokemon-dungeon-reimagined/src/**/*.js',
-      'games/pokemon-dungeon-reimagined/content/**/*.js',
       'tools/pokemon-dungeon/**/*.{js,mjs}',
     ],
     ...js.configs.recommended,
@@ -40,8 +39,6 @@ export default [
   {
     files: [
       'games/pokemon-dungeon-reimagined/src/**/*.js',
-      'games/pokemon-dungeon-reimagined/content/**/*.js',
-      'tools/pokemon-dungeon/art-preview/**/*.js',
     ],
     languageOptions: {
       globals: readonly(
@@ -52,9 +49,5 @@ export default [
         'DOMException', 'FileReader', 'Blob', 'location', 'AudioContext',
       ),
     },
-  },
-  {
-    files: ['games/pokemon-dungeon-reimagined/src/rendering/**/*.js'],
-    languageOptions: { globals: readonly('crypto', 'createImageBitmap') },
   },
 ];

@@ -33,12 +33,16 @@ comparative rather than independently pixel-corroborated.
 
 Move-specific actor animation numbers and species overrides are parsed from the
 same pinned public source. The selected native battle-effect artwork comes
-from five indexed EFO image files, retaining original palettes, flips, per-part
-depth, frame data and attachment positions. Source hashes and URLs are recorded
-in art/blue/native-battle-sources.json; decoding evidence is retained beside it.
-The closed 15-effect bank loads with dungeon artwork and follows the separate
-pause-aware battle timeline. Effect-specific Blue pixels and complete driver
-timing remain unverified. Further effect studies are outside the distribution.
+from explicitly selected indexed EFO image files, retaining original palettes,
+flips, per-part depth, frame data and attachment positions. Source hashes and
+URLs are recorded in art/blue/native-battle-sources.json and
+art/blue/native-battle-initial-sources.json; decoding evidence is retained beside
+them. The closed 15-effect and initial 10-effect banks load with dungeon artwork
+under one aggregate 4 MiB decoded budget and follow the separate pause-aware
+battle timeline. Adjacent Ember retains the comparative source's post-launch
+attachment convergence and separate depth anchor. Effect-specific Blue pixels
+and complete driver timing remain unverified. Later-level effects and the
+Hypnosis background study remain outside the distribution.
 No game music or commercial script is copied.
 
 Each species retains statusOffsets as native attachment set0. The remaining

@@ -125,8 +125,9 @@ Pay Day's money quantity/placement remains before learning draws. Covet's
 zero-draw transfer gate is unchanged. Seismic Toss, Dragon Rage and Endeavor
 retain their direct-HP amounts, no accuracy-2/numerical-damage draw, the scoped
 Wonder Guard check and their original give-EXP flags. Bide release has a
-separate end-turn receipt boundary; its still-missing contact join is recorded
-in the remaining move-coverage audit.
+separate end-turn receipt boundary and now samples/activates contact before
+that receipt settles EXP. Its zero-energy path retains accuracy 1 without an
+EXP mark, damage number or hit reaction.
 
 ## Transient presentation and learning joins
 
@@ -175,7 +176,10 @@ unchanged functions; 473-source strict types, focused lint, whitespace and
 pre-commit checks passed. No game module, automated battle or playthrough was
 executed.
 
-False Swipe's pre-clamped nominal damage, Bide contact, and Mud-Slap/Dynamic
-Punch's guaranteed-secondary draw metadata remain separate pending corrections.
+The subsequent [nominal damage and secondary gate corrections](blue-move-coverage.md#nominal-damage-and-secondary-gate-corrections)
+retain False Swipe's nominal amount through accuracy 2, restore its one-HP
+survival after subtraction, join Bide contact and record Mud-Slap/Dynamic
+Punch's source zero-chance sentinel explicitly. Their static review is separate
+from the unchanged-function comparison above.
 Browser PP/learning UI timing, AI, PRNG and full Blue binary parity remain
 qualified; this refactor establishes the bounded comparative execution order.

@@ -1,7 +1,7 @@
 # Opening battle visuals
 
-The selected browser renderer uses native actor motions and a closed bank of
-15 battle effects from the pinned comparative Red tables. A separate timeline
+The selected browser renderer uses native actor motions and two closed banks of
+25 battle effects from the pinned comparative Red tables. A separate timeline
 plays already committed presentation evidence; it never repeats gameplay,
 draws randomness, or writes visual state into saves. This is source-derived
 choreography with explicit Blue and coverage qualifications below.
@@ -41,7 +41,7 @@ archive: `efob000`, `efob053`, `efob054`,
 `efob119` and `efob121`, with their literal pose/animation tables and palettes.
 No ROM, game import, battle simulation or scripted playback is used.
 
-The selected atlas is 512×532, 21,890 encoded bytes and 1,089,536 decoded
+The existing basic atlas is 512×532, 21,890 encoded bytes and 1,089,536 decoded
 bytes. Its 24,848-byte metadata preserves 197 pose variants, 149 unique images
 and 15 effects. Nondirectional effects store one sequence; Growl stores eight.
 The PNG is byte-identical to the reviewed study image. Static validation checks
@@ -49,6 +49,22 @@ the complete source inventory, source hashes, palette domains, source OAM bounds
 layer rectangles, attachment-set IDs, frame references and duration sums. Limits
 are 256KiB encoded image, 128KiB metadata and 2MiB decoded image; the selected
 distribution's independent 3MiB limit is unchanged.
+
+A second initial bank retains effects 7,15,21,128,150,225,287,312,402 and 425. Its
+seven indexed inputs (`efob000`, `efob020`, `efob023`, `efob051`, `efob073`,
+`efob081`, `efob113`) and their native tables/palettes are pinned by
+`native-battle-initial-sources.json` and a 92,918-byte offline archive. The atlas
+is 512×771: 31,183 PNG bytes, 41,257 metadata bytes and 1,579,008 decoded bytes.
+Absorb and Hypnosis travel retain all eight directional sequences. The original
+basic PNG, metadata and pose evidence are byte-identical to their prior outputs.
+
+The initial images cover healing, infatuation, shared cast, Absorb, Water Sport,
+Hypnosis travel, Leer, Helping Hand, special-attack up and attack up. Image
+availability does not imply that every producer callback is already joined.
+Healing/full-HP and successful infatuation entry now have explicit receipts below.
+The two selected banks total 2,668,544 decoded bytes under an aggregate 4MiB effect
+limit. Per-bank limits stay unchanged. Each effect ID belongs to exactly one
+bank, and every sampled layer keeps that bank's local pose rectangle.
 
 The selected effects cover shared damage impacts, preparation, sleep entry,
 Scratch impact, Ember launch/travel/impact, Thundershock impact, directional Growl,
@@ -80,7 +96,7 @@ pool, index and signed-coordinate pair.
 
 The literal effect wait flag is retained as `sourceWaitFlag`; `blocksWait` is
 its validated inverse. Sleep effect 37 has flag 1: it starts a 28-tick visual
-tail without blocking its own handle wait. The other 14 selected effects have
+tail without blocking its own handle wait. The other 24 selected effects have
 flag 0. A native TRUE global drain still includes the sleep tail. This distinction
 comes from `sub_800E9A8` and `sub_800E9FC` in the pinned
 [effect_main.c](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_main.c).
@@ -103,25 +119,76 @@ Continue, failure and disposal clear the transient owner. Reduced motion finishe
 an active owner without replaying pending audio; newly begun reduced-motion
 actions keep their normal semantic sounds.
 
-The effect bank loads lazily with the dungeon species. It validates bounded JSON
-and PNG dimensions before decoding, shares one pending load, aborts sibling
-requests on failure and closes rejected or disposed bitmaps. Drawing preserves
-separate effect depth layers and source per-pose attachments. No browser timer
-or gameplay callback is owned by the image bank.
+The effect banks load lazily with the dungeon species. One pending load validates
+bounded JSON, PNG dimensions, unique effect ownership and aggregate image memory
+before decoding. It aborts sibling requests and closes partial, rejected or
+disposed bitmaps; it publishes only a complete validated collection. Drawing
+preserves separate effect depth layers and source per-pose attachments. The
+timeline marks native generic-entity helpers explicitly, because the same image
+can also use a move-target depth/sentinel route. No browser timer or gameplay
+callback is owned by an image bank.
+
+Adjacent Ember uses the already-produced accepted or empty endpoint receipt.
+After the native launch frame, the compiler samples the current actor pose's
+attachment, which may already be idle; it does not assume the cast motion is
+still active. An Ember cast that reaches its natural end records the fresh idle
+boundary within that presentation owner, so Cyndaquil's southwest launch uses
+the first idle pose. Retired casts cannot supply that boundary. Broader untracked
+idle continuity still uses the shared foreground clock and remains qualified.
+For eight visible frames it applies the source signed16 recurrence
+`x=trunc(x*5/6)` and `y=trunc((y+9)*5/6)-9`, including intermediate signed stores.
+Raw 99 coordinates are transformed before the draw guard. Attachment set−1 stays
+visually unoffset. Sorting uses unoffset world feet Y, divided toward zero by 2,
+plus 1 for S/SE/E/W/SW or 0 for NE/N/NW; the attachment and each frame's image offset
+do not move that anchor. The source owners are
+[sub_8056564/sub_80566F8](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_move_util.c),
+[sub_800E3AC](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_main.c), and
+[sub_800569C](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/sprite.c).
+The fresh idle transition is owned by
+[UpdateMonsterSprite](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_mon_sprite_render.c).
+The first draw is C+1 and the last C+8; the handle wait retires at C+8 while the last
+framebuffer sample survives until C+9. No target scan, turn, clock or RNG operation
+is repeated by this geometry projection.
 
 Native persistent status symbols are already separate. For example, paralysis
 has an application effect but no persistent status icon in the admitted source.
+
+## Healing and infatuation application
+
+Positive requested healing now emits its application even at full HP. The
+presentation updates HP before the generic helper drains and plays effect 7,
+then refreshes the low-HP warning, emits one result message and requests a
+positive number only when HP was restored. A number-slot wait cannot delay the
+preceding message. The warning holds only one pre-heal HP value per actor;
+pause, finish, hiding and scene retirement retain the existing bounded lifecycle.
+Canonical HP and saves are never altered by this display hold.
+
+Successful infatuation adds generic effect 15 after the status duration draw.
+Cute Charm uses this entry directly; Attract retains its separate earlier
+move-target effect. The generic entry captures its attachment and unoffset
+depth once, after the drain, with native invalid-99 fallback to the feet.
+Both new application tracks retain the last pose on the terminator frame;
+the next source call removes the handle. Creation-to-return is 72 ticks for
+healing and 54 for infatuation. Other effect lifetimes remain separately
+qualified and adjacent Ember's travel wait is unchanged.
+
+These joins follow `HealTargetHP`, `InfatuateStatusTarget`, `sub_8041550`,
+`sub_800DD0C` and `RunAxAnimationFrame` in the pinned comparative source.
+The existing authored heal sound now starts on the effect's first frame.
+Native DirectSound effects 606/614 and exact Blue playback remain unimplemented.
 
 ## Remaining qualifications
 
 Blue effect-pixel comparisons and complete driver timing remain open. Native
 cosmetic animation-start jitter is deterministically zero; it does not consume
-the gameplay RNG. The selected overlay bank is incomplete: the separate ignored
-`next-inventory` study identifies 21 additional reachable sprite effects and the
-Hypnosis background plane. Those files are outside the selected distribution.
-No-target projectile traces, Attract's sine trajectory and the broader
-Far-Off Pals route need separate source/producer coverage. They are distinct
-from the implemented actor motions and rotation routines.
+the gameplay RNG. The selected overlay banks are incomplete: 11 later-level
+sprite effects and Hypnosis background 222 remain outside the distribution.
+Hypnosis travel 225 is separate sprite artwork and does not replace its BG2 plane.
+The source's brightness/blend control and Blue framing need their own admission.
+The current Ember endpoint and attachment route is closed to adjacent Ember;
+other travel geometry, Attract's sine trajectory and Far-Off Pals camera behavior
+remain separate source/producer work. These gaps are distinct from the implemented
+actor motions and rotation routines.
 
 Static checks validate source, types, paths, images and provenance without
 executing game code. Manual browser/Blue comparisons remain separate evidence.

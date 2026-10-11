@@ -7,8 +7,10 @@ import { cameraSight } from './mechanics-visibility.js';
 import { dropItem, ITEM_NAMES, moneyPile } from './mechanics-items.js';
 import { captureActor, captureItems } from './battle-events.js';
 import { DEFAULT_IQ, IQ_SKILLS, TACTICS, hasIq, tacticFor, considersLineMove, considersLineTarget, canTalk, talkToPartner } from './mechanics-policy.js';
-import { attack, beginTurn, finishTurn, heal, moveSlot, moveTargets, supportsMove, STATUS_KEYS, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
+import { attack, beginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, supportsMove, STATUS_KEYS, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
 import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, message, moveActor, nextStep, open, recordAction, recordSync, team, wakeInitialSleep, DIRECTIONS, VECTORS } from './mechanics-common.js';
+
+export { resetSecondaryGates } from './mechanics-combat.js';
 
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
 /** @typedef {import('./mechanics-types.js').Actor} Actor */
@@ -22,7 +24,7 @@ import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, 
 
 const DATA_URL = new URL('../../content/blue-opening.json', import.meta.url);
 const WIDTH=56, HEIGHT=32;
-const GENERATION_CONTEXT=Object.freeze({floorType:/** @type {const} */('normal'),missionSuppressesHouse:true,missionAddsEnemy:false,canChangeLeader:false,teamSize:2,enemyLimit:10,required:[],fixedEncounter:null,receivedTeam:null,specialPopulation:null,ownedRewardItemIds:[]});
+const GENERATION_CONTEXT=Object.freeze({floorType:/** @type {const} */('normal'),missionSuppressesHouse:true});
 
 /** One compact, local factual resource; no full-campaign catalogs are loaded.
  * @param {AbortSignal} [signal] @returns {Promise<OpeningData>} */
@@ -61,7 +63,7 @@ export function createDungeon(options,data) {
 }
 /** @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events */
 function generateFloor(state,data,events) {
-  clearQueuedMovement(state);
+  clearQueuedMovement(state);resetSecondaryGates(state);
   const floor=data.floors[state.floor-1];if(!floor)throw new Error('Tiny Woods ends after B3F.');
   const rng=new Draws(state.rng);let geometry=buildLayout(floor.generation,rng,0);
   for(let attempt=0;attempt<12;attempt++) {

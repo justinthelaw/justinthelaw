@@ -6,9 +6,6 @@ import {TILE} from './render-terrain.js';
 /** @typedef {import('./render-native-sprites.js').PoseOptions} PoseOptions */
 /** @typedef {import('./render-battle-effects.js').EffectLayerSample} EffectLayerSample */
 
-// These source helpers use sub_8041550's explicit entity-depth+1 and sentinel
-// fallback. Move preparation/cast/target stages use effect_main's depth route.
-const GENERIC_EFFECTS=new Set([8,9,10,11,37,399,404,423]);
 const BACK_DIRECTIONS=new Set(['ne','n','nw']);
 const depth=(/** @type {number} */value)=>Math.max(0,Math.min(255,value));
 
@@ -25,7 +22,9 @@ export function drawBattleActors(context,sprites,statuses,effects,state,battle,c
   /** @type {BattleActor[]} */
   const tracks=battle?.actors??[state.hero,state.partner,...state.enemies].map(actor=>({actor,x:actor.x,y:actor.y,direction:actor.direction,clip:actor.status.sleep?'rest-sleep':actor.status.bide?'bide-hold':'idle',elapsedTicks:time*60/1000,visible:actor.hp>0}));
   if(tracks.length>12||(battle?.effects.length??0)>24)throw new RangeError('Battle presentation exceeds the opening drawing bound.');
-  statuses.beginFrame(state,time,{reducedMotion:options.reducedMotion});
+  /** @type {Map<string,number>} */const statusHp=new Map();
+  for(const track of tracks)if(track.statusHp!==undefined)statusHp.set(track.actor.id,track.statusHp);
+  statuses.beginFrame(state,time,{reducedMotion:options.reducedMotion,statusHp});
   /** @type {Map<string,{track:BattleActor,x:number,y:number,pose:PoseOptions,visible:boolean}>} */
   const actors=new Map();
   /** @type {({kind:'actor',depth:number,order:number,id:string}|{kind:'effect',depth:number,order:number,layer:EffectLayerSample,x:number,y:number})[]} */
@@ -41,7 +40,7 @@ export function drawBattleActors(context,sprites,statuses,effects,state,battle,c
   }
   if(!options.reducedMotion)for(const effect of battle?.effects??[]){
     const sample=effects.sample(effect.id,effect.direction,effect.elapsedTicks);if(!sample)continue;
-    const generic=GENERIC_EFFECTS.has(effect.id),member=effect.actorId?actors.get(effect.actorId):undefined;
+    const generic=effect.generic===true,member=effect.actorId?actors.get(effect.actorId):undefined;
     let x,y,feetY;
     if(effect.x!==undefined&&effect.y!==undefined){x=effect.x-cameraX;y=effect.y-cameraY;feetY=y;}
     else if(member){
@@ -53,7 +52,11 @@ export function drawBattleActors(context,sprites,statuses,effects,state,battle,c
       else if(!generic)continue;
     }else continue;
     if(!Number.isFinite(x)||!Number.isFinite(y))throw new RangeError('Invalid battle effect position.');
-    const base=Math.trunc(feetY/2)+(generic?1:sample.directional&&BACK_DIRECTIONS.has(effect.direction)?-3:3);
+    const sourceDepth=effect.depthY!==undefined||effect.depthAdd!==undefined;
+    if(sourceDepth&&(!Number.isFinite(effect.depthY)||effect.depthAdd!==0&&effect.depthAdd!==1))throw new RangeError('Invalid native projectile depth.');
+    // Travel depth uses unoffset feet and the source 0/1 direction table;
+    // neither attachment convergence nor effect frame offsets move this anchor.
+    const base=sourceDepth?Math.trunc(((effect.depthY??0)-cameraY)/2)+(effect.depthAdd??0):Math.trunc(feetY/2)+(generic?1:sample.directional&&BACK_DIRECTIONS.has(effect.direction)?-3:3);
     for(const layer of sample.layers)drawing.push({kind:'effect',depth:depth(base+layer.depthOffset),order:drawing.length,layer,x,y});
   }
   drawing.sort((left,right)=>left.depth-right.depth||left.order-right.order);

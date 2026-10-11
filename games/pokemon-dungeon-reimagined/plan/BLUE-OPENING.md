@@ -8,8 +8,8 @@ selection, awakening, Tiny Woods and Caterpie's reunion with Butterfree. Stop
 after the rescue and its reward. Town, team formation, Thunderwave Cave and all
 later chapters are outside this version.
 
-This instruction supersedes the historical full-campaign and 3D requirements in
-PLAN.md, FULL-GAME-GOAL.md and the previous handoff. The reference is the original
+This instruction supersedes the historical full-campaign and 3D requirements.
+Justin additionally requested removing unused code on 2026-10-11. The reference is the original
 Blue Rescue Team, not DX or Explorers. The active runtime is `src/blue/`, with two
 256 × 192 Canvas 2D displays and local assets. It does not initialize Three.js or
 the historical v24 campaign/save graph. Existing saves retain their original
@@ -37,9 +37,10 @@ Dialogue and score remain authored adaptations. Record script, soundtrack and
 unverified Blue behavior as open fidelity gaps; sampled pixel matches and static
 checks do not establish perfect replication.
 
-Keep historical implementation/evidence recoverable. Do not alter old save
-schemas or overwrite old browser saves. Existing static audits remain applicable
-to retained source. Manual, user-directed browser inspection and gameplay are
+Keep retired implementation/evidence recoverable through Git history and the
+Trash ledger. Do not alter old save schemas or overwrite old browser saves.
+Remove unused campaign code, assets and validators; retain the selected opening's
+source, factual, provenance and budget checks. Manual browser inspection and gameplay are
 permitted; D05's prohibition on automated game-source tests/playthroughs remains.
 Website tests continue to use inert game fixtures. Commit/push authority covers
 PR #397's selected branch; merging, deploying or mutating issue/PR metadata still
@@ -51,6 +52,6 @@ requires the applicable explicit authorization.
 - [Nintendo DS display specifications](https://www.nintendo.co.jp/en/ds/spec/index.html)
 - [Original Blue title screenshot](https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287133/)
 - [Comparative Red source](https://github.com/pret/pmd-red/tree/013475aa04f5be3191e5527c186d9bfceae7cae0)
-- Existing `content/onboarding`, species, dungeon and effect catalogs retain
-  their per-record source qualifications. Red evidence is comparative unless
-  corroborated for Blue.
+- `tools/pokemon-dungeon/content/blue-source.json` and `content/blue-onboarding/`
+  retain selected factual records, their qualifications and retired donor hashes.
+  Red evidence is comparative unless corroborated for Blue.

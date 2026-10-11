@@ -78,9 +78,9 @@ function validatePng(data){
 
 /** Supported UpdateStatusIconFlags routes only. Low HP is strict and applies
  * to the team; stat-down concerns battle stages, not movement speed.
- * @param {Actor} actor */
-function statusMask(actor){
-  if(actor.hp<=0)return 0;
+ * @param {Actor} actor @param {number} [hp] */
+function statusMask(actor,hp=actor.hp){
+  if(hp<=0)return 0;
   let mask=0;
   if(actor.status.sleep)mask|=1<<26;
   if(actor.status.burn)mask|=1<<1;
@@ -89,7 +89,7 @@ function statusMask(actor){
   if(actor.status.whiffer)mask|=1<<17;
   if(actor.status.reflect)mask|=1<<8;
   if(actor.status.focusEnergy)mask|=1<<19;
-  if((actor.id==='hero'||actor.id==='partner')&&actor.hp<Math.floor(actor.maxHp/4))mask|=1<<13;
+  if((actor.id==='hero'||actor.id==='partner')&&hp<Math.floor(actor.maxHp/4))mask|=1<<13;
   if(Object.values(actor.stages).some(stage=>stage<10))mask|=1<<27;
   return mask;
 }
@@ -137,19 +137,22 @@ export class StatusSprites {
   /** Update every active actor, even when it is outside the displayed room.
    * Selection catches up arithmetically, with at most nine bits per actor.
    * @param {DungeonState} state @param {number} time
-   * @param {{reducedMotion?:boolean}} [options] */
+   * @param {{reducedMotion?:boolean,statusHp?:ReadonlyMap<string,number>}} [options] */
   beginFrame(state,time,options={}){
     if(this.disposed)return;
     if(!Number.isFinite(time)||time<0)throw new RangeError('Invalid status animation clock.');
     if(this.tiles!==state.tiles||time<this.lastTime){this.cycles.clear();this.tiles=state.tiles;this.startedAt=time;}
     this.lastTime=time;this.tick=Math.max(0,Math.floor((time-this.startedAt)*60/1000));
     this.reducedMotion=Boolean(options.reducedMotion);
+    // Healing refreshes the stored low-HP warning after its application.
+    // Other status inputs retain the existing path; no saved masks are added.
+    if(options.statusHp&&options.statusHp.size>12)throw new RangeError('Status display exceeds the actor bound.');
     const seen=new Set();
     for(const actor of [state.hero,state.partner,...state.enemies.slice(0,10)]){
       if(actor.hp<=0)continue;seen.add(actor.id);
       let cycle=this.cycles.get(actor.id);
       if(!cycle){cycle={selectedBit:null,nextTick:this.tick};this.cycles.set(actor.id,cycle);}
-      const mask=statusMask(actor);
+      const mask=statusMask(actor,options.statusHp?.get(actor.id));
       if(mask===0){cycle.selectedBit=null;cycle.nextTick=this.tick;continue;}
       const active=BITS.filter(bit=>(mask&(1<<bit))!==0);
       if(cycle.selectedBit===null){cycle.selectedBit=active[0]??null;cycle.nextTick=this.tick+SELECTION_FRAMES;continue;}

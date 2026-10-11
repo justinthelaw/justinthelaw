@@ -14,7 +14,7 @@ import { loadOnboarding, createQuiz, currentQuestion, nextQuestion, answerQuesti
 import { NAMING_END_KEY, NAMING_KEYS, createNamingState, namingLabels, moveNamingSelection,
   moveNamingCaret, deleteNamingCharacter, activateNamingKey, replaceNamingText, namingError, sanitizeNamingText } from './naming.js';
 import { loadOpeningData, createDungeon, performAction, retryDungeon, validateDungeon,
-  getDungeonTurnPhase, prepareDungeonTurn, completeForcedTurn, updateVisibility } from './mechanics.js';
+  getDungeonTurnPhase, prepareDungeonTurn, completeForcedTurn, updateVisibility, resetSecondaryGates } from './mechanics.js';
 import { createSaveRepository, validateOpeningSave } from './save.js';
 import { createPreferencesRepository } from './preferences.js';
 import { STORY, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolateStory } from './story.js';
@@ -255,7 +255,8 @@ async function main() {
     for(const cue of cues){
       if(!cue.audible)continue;
       const event=cue.event;
-      if(event.presentation?.kind==='miss')audio.effect('miss');
+      if(event.presentation?.kind==='no-damage')audio.effect(event.presentation.target.id==='hero'||event.presentation.target.id==='partner'?'noDamageTeam':'noDamageOther');
+      else if(event.presentation?.kind==='miss')audio.effect('miss');
       else if(event.type==='attack')audio.effect('attack');
       else if(event.type==='damage')audio.effect('hit');
       else if(event.type==='heal')audio.effect('heal');
@@ -884,6 +885,8 @@ async function main() {
           // write failed. A reload has already admitted stored state at boot.
           mode = 'play'; selectedIndex = 0; dialoguePage = 0;
           const phase = state.phase, line = state.line;
+          // Native restore omits unk158; live-menu Continue must match.
+          if (phase === 'dungeon' && state.dungeon) resetSecondaryGates(state.dungeon);
           void setPhase(phase, line);
         } else if (selectedIndex === 1) showMenu({ title: 'Delete opening save?', detail: 'This deletes only this opening adventure. Your older campaign saves are preserved.', choices: [
           { label: 'No', run: () => showMenu(null) },

@@ -2,14 +2,22 @@
 
 The browser opening uses the project's original synthesized score. It does not
 contain the Nintendo DS soundtrack, PCM samples or sound banks. Five menu roles
-now use four source-derived short PSG effects, explicitly qualified as Red
-Rescue Team comparative evidence until Blue playback is corroborated.
+use four source-derived short PSG effects; two no-damage roles use two more.
+These are Red Rescue Team comparative evidence until Blue playback is corroborated.
 The scoped bank in `src/blue/audio-bank.js` contains 11 themes and 21 effects;
-its editable source is `tools/pokemon-dungeon/audio/original-score.json`.
+its editable source is `tools/pokemon-dungeon/audio/blue-original-score.json`.
 The original opening composition lasts 18.9 seconds and plays once. It begins
 after the silent 8.9-second boot sequence; the cinematic lasts 19.0 seconds.
 These separate clocks are a qualified approximation, not an exact audio/video
 match. The reunion theme loops for the entire scene.
+
+From `tools/pokemon-dungeon`, run `node scripts/export-blue-original-audio.mjs`
+to regenerate the selected bank, or add `--check` to verify it without writing.
+This offline exporter reads only the opening's JSON. It checks the 32 selected
+cues, all nine used oscillator patches, ordered notes and the existing voice
+reservation bound. JSON token spelling is preserved, including the current
+intro tempo and reunion loop settings. Later-campaign music IDs, dungeon-index
+tables and scene-request catalogs are not part of this source or export.
 
 ## Reference cues
 
@@ -116,10 +124,57 @@ The SE2 player has priority checking disabled, so a new menu request replaces
 its old cue, including scheduled future notes. General menus retain the four-frame
 throttle; dungeon menu wrappers bypass it.
 
-`audio-menu.js` owns at most four scheduled oscillators and two cached pulse
+`audio-menu.js` owns at most four scheduled oscillators and three cached pulse
 waveforms. Its voices share the existing 32-voice ceiling with the authored
 synthesizer. Pause, mute, interruption, denial, epoch replacement and disposal
 stop and disconnect both players; retired effects never replay on activation.
 Web Audio band-limiting, a quiet browser gain and the existing output compressor
 remain presentation choices. Their waveform phase, analog filtering, DS clock,
 overall mix and exact Blue parity are not established by these comparative facts.
+
+## Source-derived no-damage effects — 2026-10-11
+
+`audio/blue-battle-effects.json` pins 21 public source files for two short PSG
+effects. The same exporter verifies their hashes with `--source-root PATH` and
+adds bounded `BATTLE_EFFECTS` data beside the unchanged menu tuples. The original
+authored score is unchanged. No PCM, music or ROM data is added.
+
+| Public audio API | Native ID / source name | Keys | Frequency divisors |
+| --- | --- | --- | --- |
+| `audio.effect('noDamageTeam')` | 342 / `MISS_PLAYER_M` | 74, 70, 66, 62 | 224, 282, 355, 447 |
+| `audio.effect('noDamageOther')` | 343 / `MISS_ENEMY_M` | 65, 61, 57, 53 | 376, 473, 596, 751 |
+
+The public sequences are [342](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_342.s)
+and [343](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_343.s).
+Both use bank 027 voice 61, 12.5% pulse duty, volume 78, velocity 120 and center
+pan. Native volume truncation gives envelope 9; attack and release are immediate.
+The player uses the source integer divisors, with frequency `131072 / divisor`.
+
+The four three-tick notes start at sequence ticks 1, 4, 7 and 10. Unlike menu
+effects, tempo 140 advances against the driver's threshold of 150. Its initial
+150-tempo processing tick installs the new tempo. Integer frame conversion puts
+the starts at 2, 5, 8 and 11 and the ends at 5, 8, 11 and 14, relative to that
+initial driver tick. These frame offsets are exported; the runtime does not
+approximate them with a fractional tick duration. Both tracks' remaining span
+to tick 384 is silent and creates no browser timer or input wait. Request phase,
+DS clock, waveform and mix remain unverified.
+
+The two battle roles share the existing SE2 instance with menu sounds. A new
+request replaces its predecessor's scheduled notes. They add one cached duty
+shape, retain the four-oscillator and shared 32-voice bounds, and bypass the
+general menu throttle. Native IDs are admitted explicitly; they have no fake
+authored score entry or synthesized fallback when the voice budget is full.
+Existing pause, mute, interruption, epoch and disposal paths retire these notes.
+
+For raw zero damage, [the native owner](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_damage.c#L313)
+plays the target-team-specific sound only when both attacker and target display.
+Otherwise it waits 30 frames without that sound. The caller now uses a distinct
+no-damage receipt on its existing message, with no damage number, MISS, HP patch
+or hit reaction. The message precedes the conditional wait. General message-popup and
+visibility qualifications still apply.
+
+The same native sounds also serve other paths with different predicates:
+accuracy 1 chooses by whether the attacker is the leader; accuracy 2 chooses by
+target team and may display MISS, without the offscreen 30-frame wait. The new
+roles do not change those existing authored miss routes. Static source, data and
+type checks do not establish browser audition or exact Blue audio parity.

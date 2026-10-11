@@ -63,8 +63,17 @@ if (spriteManifest.statusAtlas) {
   files.add('assets/blue/status-icons.png'); files.add('assets/blue/status-icons.json');
 }
 if (spriteManifest.battleEffects) {
-  if (spriteManifest.battleEffects.activation !== 'selected' || spriteManifest.battleEffects.path !== 'battle-effects.png' || spriteManifest.battleEffects.metadataPath !== 'battle-effects.json') throw new Error('Invalid battle effect atlas selection');
-  files.add('assets/blue/battle-effects.png'); files.add('assets/blue/battle-effects.json');
+  const selected = spriteManifest.battleEffects;
+  if (selected.activation !== 'selected' || selected.maxDecodedBytes !== 4 * 1024 * 1024 || !Array.isArray(selected.banks) || selected.banks.length !== 2) throw new Error('Invalid battle effect bank selection');
+  const expected = new Map([['basic', 'battle-effects'], ['initial', 'battle-effects-initial']]);
+  let decodedBytes = 0;
+  for (const bank of selected.banks) {
+    const stem = expected.get(bank.id);
+    if (!stem || bank.activation !== 'selected' || bank.path !== `${stem}.png` || bank.metadataPath !== `${stem}.json` || bank.width !== 512 || !Number.isInteger(bank.height) || bank.height < 1 || bank.height > 1024) throw new Error('Invalid battle effect bank resource');
+    expected.delete(bank.id); decodedBytes += bank.width * bank.height * 4;
+    files.add(`assets/blue/${bank.path}`); files.add(`assets/blue/${bank.metadataPath}`);
+  }
+  if (expected.size || decodedBytes > selected.maxDecodedBytes) throw new Error('Battle effect bank coverage or aggregate memory exceeds its bound');
 }
 if (spriteManifest.portraitAtlas) {
   if (spriteManifest.portraitAtlas.path !== 'portraits.png') throw new Error('Invalid portrait atlas path');

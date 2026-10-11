@@ -327,6 +327,97 @@ passed across the 72 changed paths. Website `flight-check` remains unavailable
 locally because its dependencies are absent after the previously recorded
 package-policy installation failure; exact-commit hosted checks remain required.
 
+## Initial battle bank and raw-zero follow-up
+
+The signed `882cdd14c25b7d79445a637f3dcd97d2c92f0c35` checkpoint passed
+all four exact-head hosted workflows: lint, game static checks, Playwright and
+CodeQL. Its CI ledger is preserved under `.work/ci-882cdd14/`.
+
+Further manual play in the frozen 03:54 snapshot completed the B2F Sunkern
+encounter, its held-money drop and Volt's level-six Tail Whip learning. The
+leader's first money pickup displayed its tutorial. On B3F, Exeggcute's initial
+sleep symbol persisted during the adjacent walk, then disappeared before the
+next action. Its following Hypnosis caused blocked leader turns; the message
+log showed two three-damage attacks and Cinder's wake-up at 24/30 HP. Subsequent
+Scratch commands removed Exeggcute, and Cinder reached level six at 28/33 HP.
+These observations establish this manually played route, not exact DS timing.
+The native initial-sleep capture has SHA-256
+`c51c7a5917166a1ac41cafb35cb5a9779349eb4f0efe897f8f3925192c3c697b`.
+
+The next local revision adds ten initial effects in a separate bounded bank.
+Its 512 × 771 image and metadata total 72,440 encoded bytes; the existing
+15-effect bank remains byte-identical. Both banks total 2,668,544 decoded bytes
+under the 4 MiB aggregate effect limit. Source-pinned Ember travel now samples
+the actual post-launch actor pose, retains signed coordinate recurrence and
+keeps its separate depth position. A corrected Cyndaquil southwest idle age
+prevents a stale attachment pose at that launch boundary.
+
+False Swipe now retains nominal damage and its post-subtraction survival clamp.
+Bide joins direct-damage contact before EXP; a successful zero-energy release
+retains accuracy 1 without marking EXP. Mud-Slap and Dynamic Punch explicitly
+retain the native zero-chance secondary sentinel. No additional late move is
+admitted. Raw zero damage carries one captured source/target message receipt:
+visible pairs select native sound 342/343 by target team, while other pairs
+wait 30 frames. There is no damage number, MISS, hit reaction or HP patch.
+Independent source/AST review accepted the audio and consume-once join; no
+browser audition or exact Blue audio claim is made.
+
+The complete authoring check passed for the 04:22 UTC export: 143 selected
+resources totaling 3,041,696 bytes, 617-file static lint, 473-source strict types,
+all retained historical audits and the selected factual/art/audio checks.
+No game module was executed by those checks.
+
+A matching 04:28 UTC frozen snapshot records every runtime hash. Quicksave in
+the 03:54 build returned to its title menu before navigation. Startup and
+Continue in the new snapshot restored the same B3F corridor, party positions
+and level-six HP: Cinder 33/33, Volt 28/28. Browser warning/error logs were
+empty. Its built-in native-resolution capture, `native-initial-bank-continue.png`,
+has SHA-256 `51d3354d949019e8f611f592f91bb246c77a58557c945f49bf48ccd853b831e4`.
+This verifies startup, save restoration and resource loading; it does not
+establish full animation or auditory parity.
+
+## Scoped code removal — 2026-10-11
+
+Justin explicitly requested further code removal to the opening/menu/character
+creation/Tiny Woods boundary. The [pruning record](BLUE-PRUNING.md) lists the
+retained graph, removed cohorts and recovery evidence. The actual tree now has
+62 typed game sources, compared with 473 before retirement; 96 authored files
+remain in lint. The selected export is 143 resources totaling 3,034,160 bytes.
+
+The full pruned `npm run check` passed under Node 24.21.0, including source lint,
+strict types, all selected export comparisons, independently pinned quiz and
+factual invariants, native provenance, geometry and memory budgets. The old
+full-campaign checks are removed with their owning code. The root README and
+browser storage were unchanged. The matching browser startup/save check is recorded below; exact-head hosted
+checks remain separate publication evidence.
+
+A frozen 04:52 UTC snapshot matches every selected runtime hash. Manual startup,
+opening skip, title and Continue restored Butterfree's first reunion line with
+Caterpie, Cinder and Volt, matching the earlier 04:28 saved scene. The browser
+warning/error log was empty. Only after confirming that match was the older
+test tab closed. Help and the built-in screen capture retained the restored
+scene in `native-pruned-reunion.png`, SHA-256
+`4dfe3e4d77c834b0bcda2764433e449bcce3d051f746e1a5d5a34bb7633e077c`.
+This confirms pruned startup/save/resource loading; the preceding three-floor
+manual route used earlier frozen builds, and this scene does not exercise the
+new later-level or healing branches.
+
+The pruned build then completed the reunion, showed the Oran/Pecha/Rawst Berry
+reward, and reached the rescue-complete screen after Butterfree and Caterpie
+left. No later chapter was entered. Its native completion capture is
+`native-pruned-complete.png`, SHA-256 `ea9865572402b1435bdf2f6afdb7de13af9267c10d3211d193cb71eed1968277`.
+
+The same local revision includes the independently reviewed Metal Claw user
+secondary gate. Its native history is transient and omitted by native quicksave:
+new actors, floor entry and Continue reset it; ordinary browser autosave retains
+live identities. The correction changes no save schema. Healing now presents HP
+before effect 7, refreshes its low-HP warning afterward, then emits one result
+message before the positive number. Full-HP recovery still plays the application.
+Successful infatuation adds its separate generic 15 entry with a fixed attachment.
+These two application effects retain their final held frame before handle
+removal. Source-derived timing remains qualified for direct Blue corroboration;
+native PCM sounds 606/614 are not yet implemented.
+
 ## Fidelity limits
 
 - Dialogue and score remain authored substitutes. Native image reconstruction

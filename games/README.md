@@ -10,8 +10,8 @@
 
 - Play opens a viewport-filling same-origin iframe; Back to games restores
   focus to the card's Play button.
-- The latest 2026-10-10 instruction replaces the historical 3D/full-campaign
-  target. Follow [the opening plan](pokemon-dungeon-reimagined/plan/BLUE-OPENING.md).
+- The 2026-10-10 scope and 2026-10-11 pruning instruction replace the historical
+  3D/full-campaign target. Follow [the opening plan](pokemon-dungeon-reimagined/plan/BLUE-OPENING.md).
 - The new runtime uses two 256 × 192 Canvas 2D screens, an isolated save journal,
   local native Rescue Team images/UI, an authored score, source-derived menu
   effects and sourced game rules.
@@ -47,8 +47,8 @@
   without a manifest retain complete-directory copying.
 - Blue's distribution is generated from its actual module closure and scoped
   resources by `tools/pokemon-dungeon/scripts/export-blue-distribution.mjs`.
-- Retained historical campaign source, art studies, vendor files and plans are
-  not part of the selected opening distribution.
+- Unused historical campaign source, 3D assets, vendor files, tools and plans
+  are retired; Git history and the local Trash ledger preserve recovery.
 - Authoring tools, dependencies, caches and captured review evidence stay in
   `tools/pokemon-dungeon/`, outside the game's exported resources.
 - Older campaign saves are left untouched. The opening uses a distinct key and
@@ -71,7 +71,8 @@
 | Reference | Purpose |
 | --- | --- |
 | [Opening plan](pokemon-dungeon-reimagined/plan/BLUE-OPENING.md) | Current scope, authority and acceptance |
-| [Progress](pokemon-dungeon-reimagined/plan/PROGRESS.md) | Implementation and verification evidence |
+| [Review evidence](pokemon-dungeon-reimagined/plan/BLUE-OPENING-REVIEW.md) | Implementation and verification evidence |
+| [Pruning record](pokemon-dungeon-reimagined/plan/BLUE-PRUNING.md) | Removed code, retained scope and recovery |
 | [Arcade configuration](../src/config/arcade.ts) | Card, preview and game entry point |
 | [Player](../src/components/arcade/GamePlayer.tsx) | Iframe, touch controls and focus restoration |
 | [Exporter](../scripts/export-games.mjs) | Safe scoped static distribution |

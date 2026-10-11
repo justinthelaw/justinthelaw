@@ -92,9 +92,17 @@ changed to use the passed nominal amount. Comparative
 [dungeon_damage.c:347-402](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_damage.c#L347)
 formats and displays `dmgStruct.dmg` before subtracting/clamping target HP.
 The browser's HP loss, fainting, Bide accumulation, EXP and random draws remain
-unchanged. Healing still displays the capped amount actually restored. The
-older False Swipe caller already clamps its input; that separate numerical
-limitation remains recorded in the move-coverage audit.
+unchanged. Healing still displays the capped amount actually restored. A later
+reviewed correction retains False Swipe's nominal input and carries a survival
+message to the HP-patch boundary before the ten-frame hit wait.
+
+Raw zero damage now adds captured attacker/target evidence to its existing
+message. The presentation owner emits that message once, then plays the native
+target-team sound when both actors display or waits 30 frames otherwise
+(`dungeon_damage.c:313-329`). It does not allocate a number, MISS, hit reaction
+or HP patch. Current zero-capable callers all provide a real attacker; the
+positive source-less residual callers keep their existing behavior. The receipt
+reuses one message, so the conservative event bound is unchanged.
 
 Strict types and focused lint pass. These are source-only checks, not a browser
 playthrough or a claim of complete Nintendo DS binary/timing equivalence.

@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "edition": "Red Rescue Team comparative",
+  "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+  "qualification": "Two short no-damage PSG control sequences. Blue playback, DS clock, waveform phase and mix are unverified. No commercial music, PCM samples or ROM are included.",
+  "sources": [
+    {
+      "path": "src/dungeon_damage.c",
+      "sha256": "27d89918523feda4cd0edbb362248a3ef6064bc51099311eb6b02ffc2287bc90"
+    },
+    {
+      "path": "src/dungeon_8041AD0.c",
+      "sha256": "09abd0f9942cae38b34e61676a20cb61cc4b451e09786ad5a57ad10ac610d0f6"
+    },
+    {
+      "path": "src/dungeon_move.c",
+      "sha256": "ca23d7410da08a3e617c787d7ddc970448f54ac2af2b3327f838ead94f4ab695"
+    },
+    {
+      "path": "src/dungeon_util.c",
+      "sha256": "700a2c7c7f52b71cc463e5e7cb4b7b5c4ec69b7cfd5e4c57dd185e696470b126"
+    },
+    {
+      "path": "src/dungeon_vram.c",
+      "sha256": "4d16ee6ee294ea233f35eaad43d154c7418aa1083d1a6dd61ba80a3e4df4e075"
+    },
+    {
+      "path": "src/dungeon_message.c",
+      "sha256": "f5bb170991f3da8be452f25dbb8949ba09524f666ff7a40fc073bc9c460bdaee"
+    },
+    {
+      "path": "src/dungeon_strings.c",
+      "sha256": "f1a5a00a79ccc0863d7e82936e06740d6e74bfdedc0172e71275a4088b38653e"
+    },
+    {
+      "path": "src/dungeon_music.c",
+      "sha256": "f95d69b029602aab24d3b29ff8f5e910a8a9b819539c450c051c0503ea1469e6"
+    },
+    {
+      "path": "src/music.c",
+      "sha256": "b5ed75652e3c6dfc94076a0448980bf6010d48488d47c4909f30620574b081b0"
+    },
+    {
+      "path": "src/music_util.c",
+      "sha256": "478a6dc1cde3ce8cf0169e6e887f5eafe9f18dd8451a98133b544c49b290989f"
+    },
+    {
+      "path": "src/m4a.c",
+      "sha256": "024533db60947651009bcd7d213f29214e3786396859f9ef73d45f0fb52725c5"
+    },
+    {
+      "path": "src/m4a_1.s",
+      "sha256": "41fa2269304f2a0981b1692b194d94b408f4f6e6aea9eef25a2433c59cbd77ef"
+    },
+    {
+      "path": "src/m4a_tables.c",
+      "sha256": "8f9e8af38613fc257dcfb751c250cf07e22eaea3ef1abff14bb45a388bc4c862"
+    },
+    {
+      "path": "sound/song_table.inc",
+      "sha256": "1a94b2f972cb17db5cfa7cc6f236729483483806a912af0296ae390e5a841fc6"
+    },
+    {
+      "path": "sound/music_player_table.inc",
+      "sha256": "f89fdb522c3a1490095b68c7bd8dc4add0e4e966963c622282db21b612d87569"
+    },
+    {
+      "path": "sound/songs/seq_342.s",
+      "sha256": "57ac4bc0a5fbb85683276d9eaab7e5daafa4aaaeb5b2a3ea188850b730403e7a"
+    },
+    {
+      "path": "sound/songs/seq_343.s",
+      "sha256": "996478b1cfe4e14fa93c05ab4912276098435727ff5d08ba4792ea5196b670d6"
+    },
+    {
+      "path": "sound/voicegroups/bank_027.s",
+      "sha256": "facc5bfdbc7b22e70b689e4933101c9542c6028d6639c99c03b4231a02c85fb3"
+    },
+    {
+      "path": "src/sound_names.c",
+      "sha256": "6f59e467437cb0f6993afc26abb9fcf1768ff3cf5aa170073a19b56708b6524a"
+    },
+    {
+      "path": "MPlayDef.s",
+      "sha256": "efc01b7608ed0f4beed7d6c3a6811da5bfb8db350c8a57bd24dcef2d96fcf635"
+    },
+    {
+      "path": "VoiceDef.s",
+      "sha256": "e94881bd29a5dd051bcec51da0fe39bac2efd839c7eca2fa67e2a585ac65fbf7"
+    }
+  ],
+  "clock": {
+    "cpuHz": 16777216,
+    "cyclesPerFrame": 280896
+  },
+  "tempo": {
+    "initialIncrement": 150,
+    "threshold": 150,
+    "frameOrigin": "First driver tick after MPlayStart; the sequence installs its tempo during this tick."
+  },
+  "cues": [
+    {
+      "id": "effect-no-damage-team",
+      "sequence": 342,
+      "sourceName": "MISS_PLAYER_M",
+      "player": "SE2",
+      "voice": 61,
+      "duty": 0.125,
+      "volume": 78,
+      "pan": 0,
+      "envelope": [
+        0,
+        0,
+        15,
+        0
+      ],
+      "tempoIncrement": 140,
+      "trackTicks": 384,
+      "notes": [
+        [
+          1,
+          74,
+          3,
+          120
+        ],
+        [
+          4,
+          70,
+          3,
+          120
+        ],
+        [
+          7,
+          66,
+          3,
+          120
+        ],
+        [
+          10,
+          62,
+          3,
+          120
+        ]
+      ]
+    },
+    {
+      "id": "effect-no-damage-other",
+      "sequence": 343,
+      "sourceName": "MISS_ENEMY_M",
+      "player": "SE2",
+      "voice": 61,
+      "duty": 0.125,
+      "volume": 78,
+      "pan": 0,
+      "envelope": [
+        0,
+        0,
+        15,
+        0
+      ],
+      "tempoIncrement": 140,
+      "trackTicks": 384,
+      "notes": [
+        [
+          1,
+          65,
+          3,
+          120
+        ],
+        [
+          4,
+          61,
+          3,
+          120
+        ],
+        [
+          7,
+          57,
+          3,
+          120
+        ],
+        [
+          10,
+          53,
+          3,
+          120
+        ]
+      ]
+    }
+  ]
+}

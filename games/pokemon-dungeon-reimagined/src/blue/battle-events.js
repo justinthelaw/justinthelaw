@@ -15,8 +15,11 @@
  * | {kind:'empty-target',actorId:string,moveId:'move-ember',from:import('./mechanics-types.js').Point,to:import('./mechanics-types.js').Point,stop:'empty'|'wall'|'actor'|'outside'}
  * | {kind:'move',actor:Actor}
  * | {kind:'damage',before:Actor,after:Actor,amount:number,effectiveness:0|1|2|3,cause:'move'|'residual'|'recoil'|'hunger'}
+ * | {kind:'survival',actorId:string}
+ * | {kind:'no-damage',actor:Actor,target:Actor}
  * | {kind:'miss',target:Actor,actorId?:string,accuracy?:1|2}
  * | {kind:'heal',before:Actor,after:Actor}
+ * | {kind:'heal-result',actor:Actor,amount:number}
  * | {kind:'effect',before:Actor,after:Actor,effectId?:number}
  * | {kind:'sync',actors:Actor[],items?:GroundItem[],money?:number,afterWalk?:boolean}
  * | {kind:'faint',actor:Actor}} BattleEvent

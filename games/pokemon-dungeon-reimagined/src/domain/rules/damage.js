@@ -153,13 +153,3 @@ export function calculateNormalDamage(input) {
     facts: { ...stats, wildRawOffense, levelContributionQ16, differenceQ16, baseQ16, contextModifierQ16: type.modifierQ16, finalModifierQ16, damageQ16, criticalChance: chance, criticalRolled: !armored },
   };
 }
-
-/** Fixed damage only. Direct HP changes (e.g. Dragon Rage65/Sonicboom55) require
- * their own effect route; status effects must never enter this function.
- * @param {Readonly<{baseAmount:number,type:TypeContext}>} input @returns {DamageResult} */
-export function calculateFixedDamage(input) {
-  requireInteger(input.baseAmount, -2147483648, 2147483647, 'fixed base amount');
-  const type = buildTypeContextModifier(input.type);
-  const damage = roundFinalQ16(mulQ(integerToQ16(clamp(input.baseAmount, 1, 999)), type.modifierQ16, 16));
-  return { kind: 'fixedDamage', damage, critical: false, type, earlyReason: null, facts: null };
-}

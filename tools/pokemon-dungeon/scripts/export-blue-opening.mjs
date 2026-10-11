@@ -1,21 +1,22 @@
-import { readFile, readdir, writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 
 // Read factual JSON only. This authoring projection never executes game modules.
 const root = new URL('../../../games/pokemon-dungeon-reimagined/content/', import.meta.url);
 const sourceFiles = new Map();
-async function json(file) {
-  const bytes = await readFile(new URL(file, root));
-  sourceFiles.set(file, createHash('sha256').update(bytes).digest('hex'));
-  return JSON.parse(bytes.toString('utf8'));
+const sourceBytes = await readFile(new URL('../content/blue-source.json', import.meta.url));
+sourceFiles.set('tools/pokemon-dungeon/content/blue-source.json', createHash('sha256').update(sourceBytes).digest('hex'));
+const source = JSON.parse(sourceBytes.toString('utf8'));
+if (source.schemaVersion !== 1 || source.scope !== 'Original Blue Rescue Team opening through Tiny Woods only') throw new Error('Unsupported opening factual source.');
+const { starterProfiles: starterDoc, species: speciesRows, profiles: profileRows,
+  levels: levelRows, learnsets: learnRows, identities, actions: actionRows,
+  bodies: bodyRows, floors: floorRows, generations: generationRows,
+  encounters: encounterRows, timers: timerRows, ai } = source;
+for (const [rows, count] of [[speciesRows, 22], [profileRows, 22], [levelRows, 22],
+  [learnRows, 22], [actionRows, 115], [bodyRows, 22], [floorRows, 3],
+  [generationRows, 3], [encounterRows, 2]]) {
+  if (!Array.isArray(rows) || rows.length !== count || new Set(rows.map(row => row.id)).size !== count) throw new Error('Opening factual source coverage changed.');
 }
-async function records(directory, prefix) {
-  const files = (await readdir(new URL(`${directory}/`, root))).filter(file => file.startsWith(prefix) && file.endsWith('.json')).sort();
-  return (await Promise.all(files.map(file => json(`${directory}/${file}`)))).flatMap(doc => doc.records);
-}
-const [starterDoc, speciesRows, profileRows, levelRows, learnRows, identities, actionRows, bodyRows, floorRows, generationRows, encounterRows, timerRows] = await Promise.all([
-  json('onboarding/profiles.json'), records('species', 'species'), records('species', 'profiles-'), records('species', 'levels-'), records('species', 'learnsets'), json('species/identities.json'), records('effects', 'actions-'), records('effects', 'species-parameters-'), records('dungeons', 'floors-'), records('dungeons', 'generation-'), records('dungeons', 'encounters-'), records('effects', 'timers-'),
-]);
 const map = rows => new Map(rows.map(row => [row.id, row]));
 const profiles = map(profileRows), levels = map(levelRows), learns = map(learnRows), names = map(speciesRows), bodies = new Map(bodyRows.map(row => [row.speciesId, row]));
 const spawnBytes = await readFile(new URL('../content/blue-wild-spawns.json', import.meta.url));
@@ -27,19 +28,33 @@ if (spawnRows.size !== 4 || [...spawnRows.keys()].sort().join(',') !== 'pokemon-
 for (const [id, row] of spawnRows) {
   if (row.internalId !== profiles.get(id)?.internalId || row.bodySize !== 1 || !Number.isInteger(row.chanceAsleep) || row.chanceAsleep < 0 || row.chanceAsleep > 100) throw new Error(`Invalid wild-spawn row: ${id}`);
 }
+const secondaryGateBytes = await readFile(new URL('../content/blue-secondary-gates.json', import.meta.url));
+sourceFiles.set('tools/pokemon-dungeon/content/blue-secondary-gates.json', createHash('sha256').update(secondaryGateBytes).digest('hex'));
+const secondaryGateFacts = JSON.parse(secondaryGateBytes.toString('utf8'));
+if (secondaryGateFacts.schemaVersion !== 1 || secondaryGateFacts.sourceCommit !== '013475aa04f5be3191e5527c186d9bfceae7cae0') throw new Error('Unsupported opening secondary-gate facts.');
+const secondaryGates = new Map(secondaryGateFacts.records.map(row => [row.moveId, row]));
+if (secondaryGates.size !== 2 || secondaryGateFacts.records.length !== 2) throw new Error('Opening secondary-gate coverage changed.');
+for (const [id, internalId, handler] of [['move-mud-slap', 213, 'MudSlapMoveAction'], ['move-dynamic-punch', 246, 'DynamicPunchMoveAction']]) {
+  const row = secondaryGates.get(id);
+  if (!row || row.internalId !== internalId || row.handler !== handler || row.gate !== 'sub_805727C' || row.chanceArgument !== 0) throw new Error(`Invalid secondary-gate row: ${id}`);
+}
 const starterIds = starterDoc.records.map(row => row.speciesId);
 const speciesIds = [...new Set([...starterIds, 'pokemon-010', 'pokemon-012', 'pokemon-016', 'pokemon-102', 'pokemon-191', 'pokemon-265'])];
 const moves = new Map();
 const moveNames = new Map(identities.moves.map(row => [row.originalId, row]));
 const actionMap = new Map(actionRows.map(row => [row.internalId, row]));
-const aiBytes = await readFile(new URL('../content/steel/ai-facts.json', import.meta.url));
-sourceFiles.set('tools/pokemon-dungeon/content/steel/ai-facts.json', createHash('sha256').update(aiBytes).digest('hex'));
-const ai = JSON.parse(aiBytes.toString('utf8'));
 const aiMap = new Map(ai.actions.map(row => [row.actionId, row]));
 function projectMove(id, name, internalId) {
   const action = actionMap.get(internalId);
   if (!action) throw new Error(`Missing move ${internalId}`);
-  return { id, name, internalId, ...action.numeric, range: action.target.rangeCode, target: action.target.categoryCode, cutsCorners: action.target.wallCornerRules?.cutsCorners === true, effects: action.effects, hitCount: action.hitCount, aiWeight: aiMap.get(internalId)?.weight ?? 15 };
+  const gate = secondaryGates.get(id);
+  let effects = action.effects;
+  if (gate) {
+    const secondary = effects.filter(effect => effect.op === 'secondary');
+    if (internalId !== gate.internalId || secondary.length !== 1 || secondary[0].chancePercent !== 100) throw new Error(`Secondary-gate projection mismatch: ${id}`);
+    effects = effects.map(effect => effect.op === 'secondary' ? { ...effect, gate: 'secondary-effect-common', secondaryChanceRaw: gate.chanceArgument } : effect);
+  }
+  return { id, name, internalId, ...action.numeric, range: action.target.rangeCode, target: action.target.categoryCode, cutsCorners: action.target.wallCornerRules?.cutsCorners === true, effects, hitCount: action.hitCount, aiWeight: aiMap.get(internalId)?.weight ?? 15 };
 }
 const species = Object.fromEntries(speciesIds.map(id => {
   const p = profiles.get(id), level = levels.get(p.levelResourceId), learn = learns.get(p.learnsetResourceId);

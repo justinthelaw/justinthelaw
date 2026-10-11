@@ -1,8 +1,8 @@
-import { MENU_EFFECTS, MENU_EFFECT_GAIN, MENU_EFFECT_TICK_SECONDS } from './audio-menu-data.js';
+import { MENU_EFFECTS, BATTLE_EFFECTS, MENU_EFFECT_GAIN, MENU_EFFECT_TICK_SECONDS } from './audio-menu-data.js';
 
 /** @typedef {{source:OscillatorNode,gain:GainNode}} PulseVoice */
 
-/** Source-derived short PSG effects, with browser band-limiting and mix gain.
+/** Shared SE2 menu/battle PSG effects, with browser band-limiting and mix gain.
  * No PCM, music, timers, callbacks into game state, or unbounded queues.
  * @param {AudioContext} context @param {GainNode} destination
  */
@@ -40,18 +40,19 @@ export function createMenuEffects(context,destination){
    * @param {string} id @param {number} when @param {number} availableVoices
    */
   function play(id,when,availableVoices){
-    const cue=MENU_EFFECTS[id];if(!cue)return false;
+    const cue=MENU_EFFECTS[id]??BATTLE_EFFECTS[id];if(!cue)return false;
     stop();
     if(!Number.isFinite(when)||cue.notes.length>availableVoices)return true;
     try{
       const shape=wave(cue.duty);
-      for(const [tick,gate,divisor,envelope] of cue.notes){
+      // Menu ticks equal frames; battle tempo ticks are quantized at export.
+      for(const [frame,gate,divisor,envelope] of cue.notes){
         const source=context.createOscillator();
         /** @type {GainNode|undefined} */let gain;
         /** @type {PulseVoice|undefined} */let voice;
         try{
           gain=context.createGain();voice={source,gain};voices.add(voice);
-          const start=when+tick*MENU_EFFECT_TICK_SECONDS,end=start+gate*MENU_EFFECT_TICK_SECONDS;
+          const start=when+frame*MENU_EFFECT_TICK_SECONDS,end=start+gate*MENU_EFFECT_TICK_SECONDS;
           source.setPeriodicWave(shape);source.frequency.setValueAtTime(131072/divisor,start);
           gain.gain.setValueAtTime(0,context.currentTime);
           gain.gain.setValueAtTime(MENU_EFFECT_GAIN*envelope/15,start);

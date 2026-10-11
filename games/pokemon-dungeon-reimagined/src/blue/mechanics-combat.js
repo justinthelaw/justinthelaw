@@ -17,7 +17,7 @@ export { moveTargets } from './mechanics-targets.js';
 /** @typedef {import('../domain/rules/type-context.js').ElementType} ElementType */
 /** One synchronous chosen move owns its awards and terminal evidence; no save fields.
  * @typedef {{awards:Map<string,number>,partnerFainted:boolean,leaderFainted:boolean}} MoveExecution */
-/** @typedef {{giveExp?:boolean,execution?:MoveExecution,cause?:'move'|'residual'|'recoil'|'hunger',effectiveness?:0|1|2|3}} DamageOptions */
+/** @typedef {{giveExp?:boolean,falseSwipe?:boolean,execution?:MoveExecution,cause?:'move'|'residual'|'recoil'|'hunger',effectiveness?:0|1|2|3}} DamageOptions */
 const ACCURACY = [84,89,94,102,110,115,140,153,179,204,256,320,384,409,422,435,448,460,473,486,512];
 const EVASION = [512,486,473,460,448,435,422,409,384,345,256,204,179,153,128,102,89,76,64,51,38];
 const ACTIVE_STATUSES=new Set(['sleep','paralysis','poisoned','burn','cringe','confused','confusion','infatuated','leech-seed','focus-energy','whiffer','bide','enraged','reflect']);
@@ -28,11 +28,20 @@ const DIRECT_HP_AMOUNTS=Object.freeze({'move-seismic-toss':'user.level','move-dr
 const RECOIL_MOVES=new Set(['move-take-down','move-submission','move-double-edge']);
 const ITEM_MOVES=new Set(['move-pay-day','move-covet']);
 const VARIABLE_HIT_MOVES=new Set(['move-barrage','move-bone-rush','move-double-slap','move-fury-swipes']);
+const ZERO_DRAW_SECONDARY_MOVES=new Set(['move-mud-slap','move-dynamic-punch']);
+/** Native unk158 survives live actions but is omitted from quicksaves.
+ * Actor identity makes a deserialized/new actor start at zero.
+ * @type {WeakSet<Actor>} */
+const secondaryGateReady=new WeakSet();
 const NEGATIVE_STATUSES=['sleep','poison','burn','paralysis','cringe','confusion','infatuated','leechSeed','whiffer','slow'];
 export const STATUS_KEYS=Object.freeze([...NEGATIVE_STATUSES,'focusEnergy','bide','enraged','reflect']);
 /** Scoped native visualFlags bits, used only to deduplicate activation text.
  * @type {Readonly<Record<string,number>>} */
 export const ABILITY_VISUAL_FLAGS=Object.freeze({Guts:0x01,Overgrow:0x02,Blaze:0x20,Torrent:0x80});
+/** New floors and explicit Continue recreate native entity gate state.
+ * Ordinary saves/preferences retain these live actor identities.
+ * @param {DungeonState} state */
+export function resetSecondaryGates(state) { for(const actor of [state.hero,state.partner,...state.enemies])secondaryGateReady.delete(actor); }
 /** Read afresh after an effect that can end the dungeon. @param {DungeonState} state */
 function defeated(state) { return state.status==='defeated'; }
 /** Explicit handler coverage prevents a later learned move from consuming PP
@@ -49,7 +58,12 @@ export function supportsMove(move) {
   function supports(effect) {
     if(effect.op==='normal-damage')return effect.multiplier===undefined||move.id==='move-low-kick';
     if(effect.op==='apply-status')return ACTIVE_STATUSES.has(effect.status??'');
-    if(effect.op==='secondary')return !!effect.effect&&supports(effect.effect)&&(move.id!=='move-covet'||effect.chancePercent===100&&effect.requires==='nonzero-damage'&&effect.gate==='secondary-effect-common');
+    if(effect.op==='secondary'){
+      if(!effect.effect||!supports(effect.effect))return false;
+      if(effect.secondaryChanceRaw!==undefined&&(!ZERO_DRAW_SECONDARY_MOVES.has(move.id)||effect.secondaryChanceRaw!==0))return false;
+      if(ZERO_DRAW_SECONDARY_MOVES.has(move.id)&&!(effect.chancePercent===100&&effect.secondaryChanceRaw===0&&effect.gate==='secondary-effect-common'))return false;
+      return move.id!=='move-covet'||effect.chancePercent===100&&effect.requires==='nonzero-damage'&&effect.gate==='secondary-effect-common';
+    }
     if(effect.op==='speed-stage')return (effect.delta??0)<0;
     if(effect.op==='floor-sport')return move.id==='move-water-sport';
     if(effect.op==='drop-money')return move.id==='move-pay-day'&&effect.amount===null&&conditions(effect.requires,['target-defeated','target-not-recruited']);
@@ -131,22 +145,35 @@ function flushExperience(state,actor,execution,data,events) {
   }
 }
 /** @param {DungeonState} state @param {Actor} actor @param {number} amount @param {GameEvent[]} events */
-export function heal(state,actor,amount,events) { const before=captureActor(actor);const restored=Math.min(amount,actor.maxHp-actor.hp);actor.hp+=restored;if(restored>0){events.push({type:'heal',actorId:actor.id,amount:restored,presentation:{kind:'heal',before,after:captureActor(actor)}});message(state,events,`${actor.name} recovered ${restored} HP.`);} }
+export function heal(state,actor,amount,events) {
+  const before=captureActor(actor),restored=Math.min(amount,actor.maxHp-actor.hp);actor.hp+=restored;
+  // Every admitted caller requests positive HP restoration and no max-HP rise.
+  // HealTargetHP still invokes its effect and message when HP was already full.
+  if(amount>0){
+    const after=captureActor(actor);
+    events.push({type:'heal',actorId:actor.id,amount:restored,presentation:{kind:'heal',before,after}});
+    const text=restored===0?`${actor.name}'s HP remained unchanged.`:actor.hp===actor.maxHp?`${actor.name} was fully healed!`:`${actor.name} recovered ${restored} HP!`;
+    message(state,events,text,{kind:'heal-result',actor:after,amount:restored});
+  }
+}
 /** @param {DungeonState} state @param {Actor} target @param {number} amount @param {OpeningData} data @param {GameEvent[]} events @param {Actor|null} [source] @param {DamageOptions} [options] */
 export function damage(state,target,amount,data,events,source=null,options={}) {
   if(target.hp<=0)return;
   flushQueuedMovement(state,events);wakeInitialSleep(state,target,events);
   // Native final modifiers/rounding can produce zero. Its dedicated branch
   // reports no damage and does not run the damage-number/hit reaction path.
-  if(amount<=0){message(state,events,`${target.name} took no damage!`);return;}
+  if(amount<=0){message(state,events,`${target.name} took no damage!`,source?{kind:'no-damage',actor:captureActor(source),target:captureActor(target)}:undefined);return;}
   const before=captureActor(target);
   const loss=Math.min(target.hp,Math.max(0,amount));target.hp-=loss;
+  const survived=options.falseSwipe===true&&target.hp===0;
+  if(survived)target.hp=1;
   // Native damage numbers/messages use nominal damage before the HP clamp.
   const displayed=amount;
   events.push({type:'damage',actorId:source?.id,targetId:target.id,amount:displayed,presentation:{kind:'damage',before,after:captureActor(target),amount:displayed,effectiveness:options.effectiveness??2,cause:options.cause??(source?'move':'residual')}});
   message(state,events,options.cause==='recoil'?`${target.name} took ${displayed} damage from recoil!`:`${target.name} took ${displayed} damage!`);
+  if(survived)message(state,events,'False Swipe prevented fainting!',{kind:'survival',actorId:target.id});
   if(target.status.bide)target.bideDamage=Math.min(999,target.bideDamage+amount);
-  if(source&&target.hp>0&&target.status.enraged&&loss>0){const previous=captureActor(target);target.stages.attack=clamp((target.stages.attack??10)+1,0,20);recordEffect(events,previous,target,425);}
+  if(source&&target.hp>0&&target.status.enraged){const previous=captureActor(target);target.stages.attack=clamp((target.stages.attack??10)+1,0,20);recordEffect(events,previous,target,425);}
   if(target.hp>0)return;
   events.push({type:'defeat',actorId:target.id,presentation:{kind:'faint',actor:captureActor(target)}});message(state,events,options.cause==='recoil'?`${target.name} fainted from recoil!`:`${target.name} fainted!`);
   // The native drop precedes HandleFaint, including the original partner.
@@ -205,7 +232,7 @@ function inflict(state,actor,target,status,data,events) {
   if(status==='poisoned')target.periodic.poison=0;
   if(status==='burn')target.periodic.burn=0;
   if(status==='bide')target.bideDamage=0;
-  recordEffect(events,before,target,status==='sleep'?37:status==='paralysis'?423:undefined);
+  recordEffect(events,before,target,status==='sleep'?37:status==='paralysis'?423:status==='infatuated'?15:undefined);
   message(state,events,`${target.name} ${status==='sleep'?'fell asleep!':`became ${status.replaceAll('-',' ')}!`}`);events.push({type:'status',actorId:target.id,text:normalized});
 }
 /** Native stat-effect selectors; missing exported artwork is left to presentation.
@@ -303,11 +330,10 @@ function takeHeldItem(state,actor,target,data,events) {
  * @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {MoveData} move @param {OpeningData} data @param {GameEvent[]} events @param {MoveExecution} execution */
 function resolveDamagingHit(state,actor,target,move,data,events,execution) {
   /** @type {{effectiveness:0|1|2|3}} */const visual={effectiveness:2};
-  let amount=damageAmount(state,actor,target,move,data,events,visual);
+  const amount=damageAmount(state,actor,target,move,data,events,visual);
   if(!hits(state,actor,target,move.accuracyAfterDamage,data)){message(state,events,`${actor.name}'s attack missed!`,{kind:'miss',actorId:actor.id,accuracy:2,target:captureActor(target)});return;}
-  if(move.id==='move-false-swipe')amount=Math.min(amount,Math.max(0,target.hp-1));
   if(amount>0&&move.id!=='regular-attack'&&!team(target))target.experienceMarked=true;
-  damage(state,target,amount,data,events,actor,{execution,effectiveness:visual.effectiveness});
+  damage(state,target,amount,data,events,actor,{execution,falseSwipe:move.id==='move-false-swipe',effectiveness:visual.effectiveness});
   /** @type {{staticReaction:boolean,charmReaction:boolean}|null} */
   let reactions=null;
   if(amount>0&&target.hp>0&&moveEntityValid(actor)&&!moveFloorOver(state,execution)){
@@ -318,9 +344,22 @@ function resolveDamagingHit(state,actor,target,move,data,events,execution) {
   // Absorb's nominal-damage healing occurs inside its handler, before the
   // queued contact effects and before any whole-move EXP or level-up healing.
   if(amount>0&&moveEntityValid(actor)&&move.effects.some(effect=>effect.op==='drain')){if(!team(actor))actor.experienceMarked=true;heal(state,actor,Math.max(1,Math.floor(amount/2)),events);}
+  if(amount>0&&move.id==='move-metal-claw'&&actor.hp>0&&secondaryGateReady.has(actor)&&!moveFloorOver(state,execution)){
+    // sub_805727C(user, user, 10) checks the user's native unk158/HP.
+    // Neither a defeated defender nor its Shield Dust blocks this self effect.
+    const secondary=move.effects.find(effect=>effect.op==='secondary');
+    if(secondary?.effect&&draw(state,100)<(secondary.chancePercent??0)){
+      applyEffect(state,actor,actor,secondary.effect,data,events);actor.experienceMarked=true;
+    }
+  }
   if(amount>0&&target.hp>0&&moveEntityValid(actor)&&!moveFloorOver(state,execution)){
     if(move.id==='move-covet')takeHeldItem(state,actor,target,data,events);
-    else for(const effect of move.effects){if(effect.op==='secondary'&&effect.effect&&draw(state,100)<(effect.chancePercent??0)&&!ability(data,target,'Shield Dust'))applyEffect(state,actor,target,effect.effect,data,events);}
+    else if(move.id!=='move-metal-claw')for(const effect of move.effects){
+      if(effect.op!=='secondary'||!effect.effect)continue;
+      // Only projected native chance-zero callers bypass the percentage draw.
+      const succeeds=effect.secondaryChanceRaw===0||draw(state,100)<(effect.chancePercent??0);
+      if(succeeds&&!ability(data,target,'Shield Dust'))applyEffect(state,actor,target,effect.effect,data,events);
+    }
   }
   if(amount>0&&RECOIL_MOVES.has(move.id)&&moveEntityValid(actor)){
     // Native RollSecondaryEffect(user, 0) checks validity without an RNG draw.
@@ -376,6 +415,8 @@ export function attack(state,actor,slot,data,events) {
       events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:move.id,target:captureActor(target),phase:'visit'}});
       wakeInitialSleep(state,target,events);
       if(!hits(state,actor,target,move.accuracyBeforeEffect,data)){message(state,events,`${target.name} avoided the move!`,{kind:'miss',actorId:actor.id,accuracy:1,target:captureActor(target)});continue;}
+      // Native unk158 is set after accuracy 1, before the handler.
+      secondaryGateReady.add(target);
       if(move.id==='move-water-sport'){
         // AccuracyCalc draws even for an always-hit self target, before this
         // handler's duration draw. Keep the existing duration/end-beat owner.
@@ -453,12 +494,17 @@ export function finishTurn(state,actor,data,events) {
     message(state,events,`${actor.name} released its stored energy!`);
     if(target){events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:release.id,target:captureActor(target),phase:'visit'}});wakeInitialSleep(state,target,events);}
     let missed=false;
-    if(!target||amount===0||(missed=!hits(state,actor,target,release.accuracyBeforeEffect,data))){message(state,events,'But it had no effect.',missed&&target?{kind:'miss',actorId:actor.id,accuracy:1,target:captureActor(target)}:undefined);return;}
-    if(!team(target))target.experienceMarked=true;
-    // Native Bide release belongs to end effects; its action wrapper applies
-    // queued EXP afterward. Contact support remains a separate documented gap.
+    if(!target||(missed=!hits(state,actor,target,release.accuracyBeforeEffect,data))){message(state,events,'But it had no effect.',missed&&target?{kind:'miss',actorId:actor.id,accuracy:1,target:captureActor(target)}:undefined);return;}
+    secondaryGateReady.add(target);
+    if(amount>0&&!team(target))target.experienceMarked=true;
+    // Native Bide release uses Fighting direct damage with contact enabled.
+    // Its outer target owner activates flags before end-turn queued EXP.
     const execution=createMoveExecution();
     damage(state,target,amount,data,events,actor,{execution});
+    if(amount>0&&target.hp>0&&moveEntityValid(actor)&&!moveFloorOver(state,execution)){
+      const reactions=sampleContactReactions(state,actor,target,release,data);
+      triggerContactReactions(state,actor,target,reactions,data,events);
+    }
     flushExperience(state,actor,execution,data,events);
   } finally {
     recordSync(state,events,[actor]);

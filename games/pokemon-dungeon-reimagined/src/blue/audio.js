@@ -28,6 +28,7 @@ const EFFECTS = Object.freeze({
   stairs: 'effect-stairs', floor: 'effect-floor-enter', rescue: 'effect-rescue-found',
   reward: 'effect-reward', levelUp: 'effect-level-up', faint: 'effect-faint',
   hunger: 'effect-hunger', spark: 'effect-story-spark',
+  noDamageTeam: 'effect-no-damage-team', noDamageOther: 'effect-no-damage-other',
 });
 /** Scoped authored score and comparative native menu effects. The caller owns the current scene;
  * this manager never imports game state, allocates WebGL, or changes a save.

@@ -7,6 +7,8 @@ const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
 const SHAPES=[[[8,8],[16,16],[32,32],[64,64]],[[16,8],[32,8],[32,16],[64,32]],[[8,16],[8,32],[16,32],[32,64]]];
 const FILE_IDS=[0,53,54,119,121];
 const EFFECTS=[[8,'impact-immune'],[9,'impact-resist'],[10,'impact-neutral'],[11,'impact-super'],[22,'preparation'],[37,'sleep-entry'],[138,'scratch-impact'],[144,'ember-launch'],[236,'thundershock-impact'],[274,'growl'],[317,'ember-impact'],[137,'ember-travel'],[399,'defense-down'],[404,'attack-down'],[423,'paralysis-entry']];
+const INITIAL_FILES=[0,20,23,51,73,81,113];
+const INITIAL_EFFECTS=[[7,'hp-heal'],[15,'infatuation-entry'],[21,'shared-cast'],[128,'absorb-cast'],[150,'water-sport-cast'],[225,'hypnosis-travel'],[287,'leer-cast'],[312,'helping-hand-target'],[402,'special-attack-up'],[425,'attack-up']];
 const arrays=(source,kind)=>new Map([...source.matchAll(new RegExp(`(?:static )?const ${kind} (\\w+)\\[\\] = \\{([\\s\\S]*?)\\n\\};`,'g'))].map(match=>[match[1],match[2]]));
 const names=body=>body.match(/\bgUnknown_[A-Za-z0-9_]+\b/g)??[];
 function get(map,key){const value=map.get(key);if(value===undefined)throw Error(`Missing native effect input: ${key}`);return value;}
@@ -64,12 +66,14 @@ function trim(raw,left,top){
 }
 
 /** Produce only the admitted effect images; full source tables stay pinned. */
-export function composeBattleEffects(inputs){
+export function composeBattleEffects(inputs,bank='basic'){
+  if(bank!=='basic'&&bank!=='initial')throw Error('Unknown native battle bank.');
+  const selectedFiles=bank==='basic'?FILE_IDS:INITIAL_FILES,selectedEffects=bank==='basic'?EFFECTS:INITIAL_EFFECTS;
   const paletteBanks=Array.from({length:14},(_,index)=>palette(get(inputs,`graphics/ax/pal/${index}.pal`)));
   const source=get(inputs,'src/effect_data.c').toString(),body=source.match(/gUnknown_80B9CC4\[448\] = \{([\s\S]*?)\n\};/)?.[1];
   if(!body)throw Error('Native effect-selection table is absent.');
   const facts=new Map([...body.matchAll(/\[(\d+)\] = \{([^\n]+)\}/g)].map(match=>[Number(match[1]),nativeFields(match[2])]));
-  const files=new Map(FILE_IDS.map(id=>[id,decodeFile(inputs,id)])),variants=[],lookup=new Map();
+  const files=new Map(selectedFiles.map(id=>[id,decodeFile(inputs,id)])),variants=[],lookup=new Map();
   function compose(file,index,selectedPalette){
     const key=`${file.id}:${index}:${selectedPalette}`;if(lookup.has(key))return lookup.get(key);
     const draws=[];
@@ -98,7 +102,7 @@ export function composeBattleEffects(inputs){
     const record={sourceFile:file.name,sourcePose:index,palette:selectedPalette,...combined,layers,parts:draws.map(({left,top,paletteIndex,tile,flipX,flipY,depthOffset,sourceOrder,art})=>({x:left,y:top,width:art.width,height:art.height,paletteIndex,tile,flipX,flipY,depthOffset,sourceOrder}))};
     lookup.set(key,variants.length);variants.push(record);return variants.length-1;
   }
-  const effects=EFFECTS.map(([id,name])=>{
+  const effects=selectedEffects.map(([id,name])=>{
     const fact=get(facts,id);if(![1,3].includes(fact.animType)||![0,1].includes(fact.unk20))throw Error('Unsupported selected effect family or wait flag.');
     const file=get(files,fact.effectId),directional=file.animations.length%8===0;
     const sequences=Array.from({length:directional?8:1},(_,direction)=>{
@@ -116,7 +120,7 @@ export function composeBattleEffects(inputs){
   })}));
   const atlas=new Raster(512,y+rowHeight);if(atlas.height>1024)throw Error('Native battle atlas exceeds its decoded-image budget.');
   for(const record of unique.values())blit(atlas,record.art,record.x,record.y);
-  const metadata={schemaVersion:1,width:atlas.width,height:atlas.height,sourceEdition:'Red Rescue Team comparative',qualification:'Selected native artwork for the source-derived battle timeline. Blue effect pixels and complete driver timing remain unverified.',directions:DIRECTIONS,poses,effects};
+  const metadata={schemaVersion:1,width:atlas.width,height:atlas.height,sourceEdition:'Red Rescue Team comparative',qualification:bank==='basic'?'Selected native artwork for the source-derived battle timeline. Blue effect pixels and complete driver timing remain unverified.':'Selected initial-move native artwork. Blue effect pixels and complete driver timing remain unverified; the Hypnosis background plane is not included.',directions:DIRECTIONS,poses,effects};
   const evidence={schemaVersion:1,sourceEdition:metadata.sourceEdition,uniqueImages:unique.size,paletteRule:'Brightness31 before Blue channel expansion; encoded OAM palette when flags2 bit0x400 is set, otherwise the selected effect palette. Bank14 is effect-owned, banks0–13 use native AX palettes.',layerRule:'Separate source depth offsets, with first source piece foremost within equal depth. The battle renderer interleaves each layer with actor depth.',waitFlags:effects.map(({id,sourceWaitFlag,blocksWait})=>({id,sourceWaitFlag,blocksWait})),waitRule:'Literal effect_data.unk20 becomes effect_main.unk54. A nonzero flag makes sub_800E9A8 return false immediately; TRUE global drains still include the artwork tail.',poses:variants.map(({art,layers,...rest})=>({...rest,width:art.width,height:art.height,rgbaSha256:battleDigest(art.data),layers:layers.map(({art,...layer})=>({...layer,width:art.width,height:art.height,rgbaSha256:battleDigest(art.data)}))}))};
   return{atlas,metadata,evidence};
 }

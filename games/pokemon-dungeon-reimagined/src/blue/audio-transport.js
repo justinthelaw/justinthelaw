@@ -1,5 +1,5 @@
 /** Adapted from this project's original src/audio/audio-bus.js for the scoped Blue opening. */
-import { musicCue, effectCue } from './audio-catalog.js';
+import { musicCue, effectCue, isKnownEffect } from './audio-catalog.js';
 import { DEFAULT_AUDIO_PREFERENCES, normalizeAudioPreferences } from './audio-preferences.js';
 import { createSynth, MAX_VOICES } from './audio-synth.js';
 import { createMenuEffects } from './audio-menu.js';
@@ -222,7 +222,7 @@ export function createAudioBus({ document: doc }) {
     if (disposed || !frame || frame.epoch !== epoch || !Number.isSafeInteger(frame.revision) || frame.revision < 0 || frame.revision < revision || frame.musicCue !== null && (typeof frame.musicCue !== 'string' || !musicCue(frame.musicCue)) || !Array.isArray(frame.effects) || frame.effects.length > MAX_FRAME_EFFECTS) return false;
     let cursor = 0;
     for (const effect of frame.effects) {
-      if (!effect || !Number.isSafeInteger(effect.eventId) || effect.eventId <= cursor || typeof effect.cueId !== 'string' || !effectCue(effect.cueId)) return false;
+      if (!effect || !Number.isSafeInteger(effect.eventId) || effect.eventId <= cursor || typeof effect.cueId !== 'string' || !isKnownEffect(effect.cueId)) return false;
       cursor = effect.eventId;
     }
     // Commit the whole admitted frame before WebAudio can fail. Playback uses
@@ -237,9 +237,9 @@ export function createAudioBus({ document: doc }) {
       for (const effect of frame.effects) {
         if (effect.eventId <= priorEvent) continue;
         if (!audible() || !context || !synth || preferences.effects === 0 || admitted >= MAX_NEW_EFFECT_CUES) continue;
-        const cue = effectCue(effect.cueId); if (!cue) continue;
         admitted++;
-        if (menuEffects?.play(cue.id, context.currentTime + .01, MAX_VOICES - synth.count())) continue;
+        if (menuEffects?.play(effect.cueId, context.currentTime + .01, MAX_VOICES - synth.count())) continue;
+        const cue = effectCue(effect.cueId); if (!cue) continue;
         for (const note of cue.notes) synth.schedule(note, cue, context.currentTime + .01 + note.beat * 60 / cue.bpm, 'effects');
       }
     } catch (error) { deny(error); }

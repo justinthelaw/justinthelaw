@@ -6,3 +6,7 @@ export const MENU_EFFECT_THROTTLE_SECONDS = 4 * MENU_EFFECT_TICK_SECONDS;
 /** Each note is [start tick, gate ticks, frequency divisor, four-bit envelope]. */
 /** @type {Readonly<Record<string,{duty:number,notes:[number,number,number,number][]}>>} */
 export const MENU_EFFECTS = {"effect-ui-cursor":{"duty":0.5,"notes":[[0,2,126,6]]},"effect-ui-confirm":{"duty":0.5,"notes":[[0,2,89,7]]},"effect-ui-cancel":{"duty":0.25,"notes":[[0,2,563,6],[3,2,669,6],[5,1,335,5],[6,1,335,1]]},"effect-ui-open":{"duty":0.5,"notes":[[0,1,100,7]]},"effect-ui-denied":{"duty":0.25,"notes":[[0,2,563,6],[3,2,669,6],[5,1,335,5],[6,1,335,1]]}};
+export const BATTLE_EFFECT_SOURCE_SHA256 = '376b4852b9a7db428cc92ebddc1666ac0066ea2ada7a92f51f79160a29efc817';
+/** Native SE2 battle notes are [start frame, gate frames, frequency divisor, envelope]. */
+/** @type {Readonly<Record<string,{duty:number,notes:[number,number,number,number][]}>>} */
+export const BATTLE_EFFECTS = {"effect-no-damage-team":{"duty":0.125,"notes":[[2,3,224,9],[5,3,282,9],[8,3,355,9],[11,3,447,9]]},"effect-no-damage-other":{"duty":0.125,"notes":[[2,3,376,9],[5,3,473,9],[8,3,596,9],[11,3,751,9]]}};

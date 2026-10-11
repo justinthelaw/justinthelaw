@@ -223,7 +223,7 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
     /** @param {string[]} ids */loadSpecies(ids){return sprites.loadSpecies(ids);},
     loadBattleAssets(){return effects.load();},
     /** @returns {import('./battle-presentation.js').BattleAssets} */
-    battleAssets(){return{animationInfo:(id,animation,direction)=>sprites.animationInfo(id,animation,direction),effectInfo:(id,direction)=>effects.effectInfo(id,direction),moveEffects};},
+    battleAssets(){return{animationInfo:(id,animation,direction)=>sprites.animationInfo(id,animation,direction),effectInfo:(id,direction)=>effects.effectInfo(id,direction),moveEffects,attachmentOffset:(id,pose,setId)=>sprites.attachmentOffset(id,pose,setId)};},
     getChoiceBounds(){return choiceBounds.map(bound=>({...bound}));},
     getToolbarBounds(){return toolbarVisible?touchToolbarBounds():[];},
     /** @param {View} source @param {number} time */

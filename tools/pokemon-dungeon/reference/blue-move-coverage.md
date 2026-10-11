@@ -316,24 +316,46 @@ these bounded corrections, Water Sport's self accuracy draw and explicit
 terminal receipt rules after the frozen 0122 build. Independent source review passed;
 the 24 rejected move IDs remain unchanged.
 
-## Remaining bounded audits
+## Nominal damage and secondary gate corrections
 
-- **False Swipe nominal damage:** the existing caller clamps its amount to
-  `target.hp - 1` before entering shared damage. Native `dungeon_damage.c:347-357`
-  displays nominal damage first, then applies False Swipe's one-HP survival
-  clamp at `410-413`. The shared nominal-display correction therefore preserves
-  this older caller limitation; audit its damage/reaction joins separately.
-- **Bide release contact:** the end-turn browser release calls shared damage
-  without the direct-HP contact sample/activation join. Native `Bide2MoveAction`
+- **False Swipe nominal damage:** the caller now retains nominal damage through
+  accuracy 2 and shared damage. Native `dungeon_damage.c:347-357` displays that
+  amount before its one-HP survival clamp at `410-413`. The survival receipt
+  places its message after the HP patch and before the ten-frame hit wait.
+  A positive hit at one HP still presents damage and retains Bide, Rage and
+  contact behavior; it cannot faint, drop an item or award EXP.
+- **Bide release contact:** the end-turn release now joins direct-HP contact
+  sampling/activation before its separate EXP settlement. Native `Bide2MoveAction`
   (`move_orb_actions_1.c:658-672`) passes the Fighting move type and reaction
   flag into `sub_806F370_Async`; living adjacent targets can sample contact
   abilities in `dungeon_damage.c:144-211`, before the outer target owner
-  activates them at `dungeon_move.c:1305-1308`. Its end-turn EXP boundary and
-  this missing contact behavior are distinct audits.
+  activates them at `dungeon_move.c:1305-1308`. Zero accumulated energy still
+  reaches accuracy 1 when a target exists; successful zero damage produces no
+  damage number, hit reaction or EXP mark.
 - **Guaranteed-secondary draw ownership:** Mud-Slap
   (`move_orb_actions_3.c:254-265`) and Dynamic Punch (`485-499`) call
   `sub_805727C` with chance zero. That source gate succeeds without a percentage
-  draw after its validity/Shield Dust checks. Their current generic browser
-  100-percent branch draws once; Covet already has a dedicated zero-draw join.
-  Correct these two through explicit source-backed gate metadata rather than
-  assuming every 100-percent effect uses the native zero sentinel.
+  draw after its validity/Shield Dust checks. Explicit `secondaryChanceRaw: 0`
+  facts now preserve that behavior for these two IDs. Covet keeps its dedicated
+  zero-draw join; other 100-percent catalog labels retain their existing draw
+  ownership. Move admission remains unchanged at 24 unsupported IDs.
+
+## Metal Claw user secondary
+
+Metal Claw's native secondary gate receives the user twice. Its ten-percent
+draw can follow a wild target's knockout and is not blocked by the defender's
+Shield Dust. The user must be alive, the floor must remain active, and its
+native `unk158` targeting flag must already be set. Successful accuracy 1 sets
+that flag on the recipient before the handler, including Bide's release.
+The selected catalog has no other admitted user-recipient secondary.
+
+A transient weak actor set now owns that history. Native initialization clears
+the flag, and `dungeon_serializer.c:ReadMonster` zero-initializes it while
+`WriteMonster` omits it. New objects therefore start clear; floor entry and
+same-object dungeon Continue explicitly reset it. Ordinary autosave and
+preferences retain live actor identities. No saved field or migration is added.
+The successful gate applies the existing stat helper and marks user EXP,
+including an already capped Attack stage, before contact activation and whole-move
+EXP settlement. Damage, accuracy, target selection and other secondary draws
+remain unchanged. Future revival, cloning or new target owners need a fresh
+lifetime review. This is comparative source behavior, not Blue binary parity.

@@ -356,5 +356,3 @@ export function buildLayout(p, rng, budget) {
     map.externalSecondary = [0, 1, 3, 4, 6, 8, 10, 11].includes(family);
     return map;
 }
-/** Source fallback, never the normal implementation for another family. @returns {Geometry} */
-export function fallbackLayout() { const map = blankGeometry(); addRoom(map, { x: 2, z: 2, width: 52, height: 28 }); map.forceHouse = true; return map; }

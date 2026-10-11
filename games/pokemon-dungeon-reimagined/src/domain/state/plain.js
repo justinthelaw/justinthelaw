@@ -1,7 +1,5 @@
-/** Bounded detached plain-data boundary. Campaign checks are separate.
- * No campaign defaults or source-dependent game rules live in this module.
- * @typedef {import('../../contracts.js').JsonValue} JsonValue
- * @typedef {import('../../contracts.js').ReadonlyJson} ReadonlyJson
+/** Bounded detached plain-data validation for the opening's random state.
+ * @typedef {import('../shared-types.js').JsonValue} JsonValue
  * @typedef {{maxDepth: number, maxNodes: number, maxArrayLength: number, maxObjectKeys: number, maxStringLength: number, maxTextLength: number}} PlainDataLimits
  */
 
@@ -93,21 +91,4 @@ export function copyPlainData(input, limits = PLAIN_DATA_LIMITS) {
     return result;
   }
   return copy(input, 0);
-}
-
-/** Detached deeply immutable view. This never freezes or retains the input.
- * @param {unknown} input
- * @param {Readonly<PlainDataLimits>} [limits]
- * @returns {ReadonlyJson}
- */
-export function snapshotPlainData(input, limits = PLAIN_DATA_LIMITS) {
-  /** @param {JsonValue} value @returns {ReadonlyJson} */
-  function freeze(value) {
-    if (value !== null && typeof value === 'object') {
-      for (const child of Object.values(value)) freeze(child);
-      Object.freeze(value);
-    }
-    return value;
-  }
-  return freeze(copyPlainData(input, limits));
 }

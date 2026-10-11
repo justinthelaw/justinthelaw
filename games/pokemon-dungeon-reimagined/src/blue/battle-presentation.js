@@ -12,15 +12,16 @@ import {captureWorld} from './battle-events.js';
 /** @typedef {import('./battle-events.js').BattleWorld} BattleWorld */
 /** @typedef {[number,number,number,number,number,number,number]} NativeFrame */
 /** @typedef {{animation:number,preparation:number,cast:number,target:number,travel:number,attachmentSet:number,travelSpeed:number}} MoveEffects */
-/** @typedef {{animationInfo:(speciesId:string,animation:number,direction:string)=>{frames:readonly NativeFrame[],totalTicks:number}|undefined,effectInfo:(id:number,direction:string)=>{ticks:number,attachmentSet:number,loop:boolean,blocksWait:boolean}|undefined,moveEffects:(moveId:string,speciesId:string)=>MoveEffects|undefined}} BattleAssets */
-/** @typedef {{actor:Actor,x:number,y:number,direction:string,animation?:number,clip:string,elapsedTicks:number,visible:boolean}} BattleActor */
-/** @typedef {{id:number,actorId?:string,x?:number,y?:number,direction:string,elapsedTicks:number,attachmentSet?:number}} BattleEffect */
+/** @typedef {{animationInfo:(speciesId:string,animation:number,direction:string)=>{frames:readonly NativeFrame[],totalTicks:number}|undefined,effectInfo:(id:number,direction:string)=>{ticks:number,attachmentSet:number,loop:boolean,blocksWait:boolean}|undefined,moveEffects:(moveId:string,speciesId:string)=>MoveEffects|undefined,attachmentOffset:(speciesId:string,pose:import('./render-native-sprites.js').PoseOptions,setId:number)=>{x:number,y:number,valid:boolean}|undefined}} BattleAssets */
+/** @typedef {{actor:Actor,x:number,y:number,direction:string,animation?:number,clip:string,elapsedTicks:number,visible:boolean,statusHp?:number}} BattleActor */
+/** @typedef {{id:number,actorId?:string,x?:number,y?:number,direction:string,elapsedTicks:number,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1}} BattleEffect */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,elapsedTicks:number}} BattleNumber */
 /** @typedef {{kind:import('./mechanics-types.js').ItemKind,x:number,y:number}} BattleProjectile */
 /** @typedef {{dungeon:DungeonState,actors:BattleActor[],effects:BattleEffect[],projectiles:BattleProjectile[],number:BattleNumber|null,active:boolean}} BattleFrame */
-/** @typedef {{at:number,ordinal:number,actors?:Actor[],items?:import('./mechanics-types.js').GroundItem[],explored?:boolean[],money?:number,hide?:string,message?:string}} Patch */
-/** @typedef {{actorId:string,start:number,end:number,animation?:number,clip:string,direction:string,from?:{x:number,y:number},to?:{x:number,y:number},moveEnd?:number,walkEpoch?:number,walkCycle?:number,repeatTicks?:number,rotate?:98|99}} PoseTrack */
-/** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number}}} EffectTrack */
+/** @typedef {{at:number,ordinal:number,actors?:Actor[],items?:import('./mechanics-types.js').GroundItem[],explored?:boolean[],money?:number,hide?:string,message?:string,statusHp?:{actorId:string,hp:number},clearStatusHp?:string}} Patch */
+/** @typedef {{actorId:string,start:number,end:number,idleAt?:number,animation?:number,clip:string,direction:string,from?:{x:number,y:number},to?:{x:number,y:number},moveEnd?:number,walkEpoch?:number,walkCycle?:number,repeatTicks?:number,rotate?:98|99}} PoseTrack */
+/** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
+/** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[]}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
 /** @typedef {{event:GameEvent,audible:boolean}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
@@ -63,6 +64,8 @@ export class BattlePresentation {
     /** @type {Map<string,Actor>} */this.actors=new Map((floorChanged?this.after.actors:before.actors).map(actor=>[actor.id,actor]));
     this.items=floorChanged?this.after.items:before.items;this.money=before.money;this.log=[...before.log];
     this.explored=floorChanged?this.after.explored:before.explored;
+    /** Pre-heal HP is retained only for the low-HP warning during its helper. */
+    /** @type {Map<string,number>} */this.statusHp=new Map();
     // A new menu/learning receipt can follow a fainted team member. Native
     // HandleFaint's visibility survives that result boundary.
     /** @type {Set<string>} */this.hidden=new Set([...this.actors.values()].filter(actor=>actor.hp<=0).map(actor=>actor.id));
@@ -78,6 +81,7 @@ export class BattlePresentation {
     /** @type {Map<string,{actor:Actor,segments:{from:{x:number,y:number},to:{x:number,y:number}}[]}>} */const walking=new Map();
     /** @type {{event:GameEvent,ordinal:number}[]} */let afterWalk=[];
     /** @type {Map<string,MoveEffects>} */const moves=new Map();
+    /** @type {Map<string,number>} */const damageHpAt=new Map();
     const hiddenActors=new Set(this.before.actors.filter(actor=>actor.hp<=0).map(actor=>actor.id));
     const floorChanged=this.before.tiles!==this.dungeon.tiles||this.before.floor!==this.dungeon.floor;
     // Source-event ordinals order semantic cues. Emission ordinals order
@@ -110,14 +114,27 @@ export class BattlePresentation {
     /** sub_8042768 checks native isVisible before viewport admission.
      * @param {Actor} actor */
     const displayedActor=actor=>!hiddenActors.has(actor.id)&&displayed(actor);
-    /** @param {number} id @param {Actor} actor @param {number} at @param {number|undefined} [attachmentSet] @param {string} [direction] @param {number} [waitLimit] */
-    const effect=(id,actor,at,attachmentSet,direction=actor.direction,waitLimit=Infinity)=>{
+    /** @param {number} id @param {Actor} actor @param {number} at @param {number|undefined} [attachmentSet] @param {string} [direction] @param {number} [waitLimit] @param {boolean} [generic] @param {boolean} [fixed] @param {boolean} [terminalHold] */
+    const effect=(id,actor,at,attachmentSet,direction=actor.direction,waitLimit=Infinity,generic=false,fixed=false,terminalHold=false)=>{
       if(!displayedActor(actor))return at;
       const info=assets.effectInfo(id,direction);if(!info)return at;
       // Effect creation initializes an unloaded pose. Its first source frame
       // loads on the next tick; the terminator is visited after its last tick.
-      const start=at+1,end=start+info.ticks;
-      this.effects.push({id,actorId:actor.id,start,end,direction,attachmentSet:attachmentSet??info.attachmentSet});
+      // These newly joined application helpers retain the terminator draw;
+      // sub_800DD0C removes their handle on the following source frame.
+      const start=at+1,end=start+info.ticks+(terminalHold?1:0);
+      /** @type {EffectTrack} */const track={id,actorId:actor.id,start,end,direction,attachmentSet:attachmentSet??info.attachmentSet,generic,...(terminalHold?{frameTicks:info.ticks}:{})};
+      if(fixed){
+        // sub_8041550 captures attachment and unoffset depth once, after its
+        // TRUE drain. These two newly joined helpers use that static anchor.
+        const pose=sampledActor(actor,this.poses,at,Math.floor((this.startedAt+at*TICK_MS)/TICK_MS));
+        const offset=assets.attachmentOffset(actor.speciesId,{direction:pose.direction,animation:pose.animation,clip:pose.clip,ticks:pose.elapsedTicks},track.attachmentSet??-1);
+        if(!offset||!Number.isInteger(offset.x)||!Number.isInteger(offset.y))throw new RangeError('Native application attachment is unavailable.');
+        const valid=offset.x!==99&&offset.y!==99,feetX=pose.x*24+12,feetY=pose.y*24+16;
+        const position={x:feetX+(valid?offset.x:0),y:feetY+(valid?offset.y:0)};
+        track.from=position;track.to=position;track.depthY=feetY;track.depthAdd=1;
+      }
+      this.effects.push(track);
       return info.blocksWait===false?at:Math.min(end,at+waitLimit);
     };
     const drainEffects=()=>{
@@ -198,9 +215,9 @@ export class BattlePresentation {
       return cursor;
     };
     /** Replay only the visual segment already chosen by the producer. No wall
-     * or recipient scan occurs here. @param {MoveEffects} route @param {Actor} caster
+     * or recipient scan occurs here. @param {string} moveId @param {MoveEffects} route @param {Actor} caster
      * @param {{x:number,y:number}} from @param {{x:number,y:number}} to */
-    const travel=(route,caster,from,to)=>{
+    const travel=(moveId,route,caster,from,to)=>{
       if(!route.travel||route.travelSpeed<=0)return;
       const distance=Math.max(Math.abs(to.x-from.x),Math.abs(to.y-from.y));
       if(!Number.isInteger(distance)||distance>10)throw new RangeError('A move projectile exceeds its recorded range.');
@@ -208,6 +225,7 @@ export class BattlePresentation {
       // independently of the later per-cell camera visibility checks.
       cursor++;
       const info=assets.effectInfo(route.travel,caster.direction);
+      const samples=info&&moveId==='move-ember'&&distance===1?emberTrajectory(assets,caster,this.poses,cursor,Math.floor((this.startedAt+cursor*TICK_MS)/TICK_MS),route,from,to):undefined;
       const dx=Math.sign(to.x-from.x),dy=Math.sign(to.y-from.y),duration=24/route.travelSpeed;
       let elapsedOffset=0;
       for(let step=1;step<=distance;step++){
@@ -215,7 +233,7 @@ export class BattlePresentation {
         const previous={x:next.x-dx,y:next.y-dy};
         // The first loop RunFrame loads the new pose. Its last draw is at
         // +21px for Ember; deletion follows that eighth frame, before drain.
-        if(info)this.effects.push({id:route.travel,start:cursor+1,end:cursor+duration+1,waitEnd:cursor+duration,direction:caster.direction,elapsedOffset,from:{x:previous.x*24+12,y:previous.y*24+16},to:{x:next.x*24+12,y:next.y*24+16}});
+        if(info)this.effects.push({id:route.travel,start:cursor+1,end:cursor+duration+1,waitEnd:cursor+duration,direction:caster.direction,elapsedOffset,from:{x:previous.x*24+12,y:previous.y*24+16},to:{x:next.x*24+12,y:next.y*24+16},...(samples?{samples}:{})});
         cursor+=duration;elapsedOffset+=duration;
       }
       drainEffects();
@@ -278,7 +296,8 @@ export class BattlePresentation {
             const launches=Boolean(route?.cast&&castAt!==null&&castAt<=Math.min(120,releaseAt));
             const castDelay=launches&&(releaseAt===castAt||releaseAt===(castAt??0)+1)?1:0;
             const release=Math.min(releaseAt+castDelay,120+(launches?1:0));
-            pose({actorId:record.actor.id,start:cursor+1,end:cursor+info.totalTicks+2,clip:'attack-physical',animation,direction:record.actor.direction});
+            pose({actorId:record.actor.id,start:cursor+1,end:cursor+info.totalTicks+2,clip:'attack-physical',animation,direction:record.actor.direction,
+              ...(record.moveId==='move-ember'&&animation===3?{idleAt:cursor+info.totalTicks+2}:{})});
             if(route?.cast&&castAt!==null&&launches)effect(route.cast,record.actor,cursor+castAt+1,route.attachmentSet);
             cursor+=release;
           }
@@ -290,7 +309,7 @@ export class BattlePresentation {
         const route=moves.get(record.actorId);
         if(route?.travel&&route.travelSpeed>0){
           const caster=this.latestActor(record.actorId,cursor);
-          if(caster)travel(route,caster,caster,record.target);
+          if(caster)travel(record.moveId,route,caster,caster,record.target);
         }
         if(displayedActor(record.target)){
           cursor+=4;
@@ -304,7 +323,7 @@ export class BattlePresentation {
         const route=caster?assets.moveEffects(record.moveId,caster.speciesId):undefined;
         if(Math.max(Math.abs(record.to.x-record.from.x),Math.abs(record.to.y-record.from.y))!==1)throw new RangeError('An empty Ember endpoint must be adjacent.');
         if(caster&&route){
-          travel(route,caster,record.from,record.to);
+          travel(record.moveId,route,caster,record.from,record.to);
           if(visibleTile(record.to)){
             cursor++; // Empty adjacent impact uses one frame, not a target's4.
             if(route.target)emptyImpact(route.target,record.to);
@@ -320,13 +339,25 @@ export class BattlePresentation {
         const start=cursor;
         if(reaction){
           const id=[8,9,10,11][record.effectiveness]??10;
-          cursor=effect(id,record.before,cursor,3,record.before.direction,100);
+          cursor=effect(id,record.before,cursor,3,record.before.direction,100,true);
           const repeatTicks=(assets.animationInfo(record.before.speciesId,6,record.before.direction)?.totalTicks??10)+1;
           pose({actorId:record.before.id,start:start+1,end:cursor+10,clip:'hit-light',animation:6,repeatTicks,direction:record.before.direction});
         }
-        patchActors([record.after],cursor);
+        patchActors([record.after],cursor);damageHpAt.set(record.after.id,cursor);
         if(reaction)cursor+=10;
         continue;
+      }
+      if(record?.kind==='survival'){
+        // Native survival text follows the HP clamp, before the hit wait.
+        cue(event,damageHpAt.get(record.actorId)??cursor,order);messageAt=cursor;continue;
+      }
+      if(record?.kind==='no-damage'){
+        flushWalk();
+        const visible=displayedActor(record.actor)&&displayedActor(record.target);
+        // The raw-zero branch announces once, then either sounds its native
+        // team/other cue or waits30 frames. It never enters the hit/MISS path.
+        cue(event,cursor,order,visible);if(!visible)cursor+=30;
+        messageAt=cursor;continue;
       }
       if(record?.kind==='miss'){
         flushWalk();const attacker=record.actorId?this.latestActor(record.actorId,cursor):undefined;
@@ -334,14 +365,30 @@ export class BattlePresentation {
         if(visible)number(record.target,9999,true,true);messageAt=cursor;cue(event,cursor,order,visible);continue;
       }
       if(record?.kind==='heal'){
-        flushWalk();const visible=displayedActor(record.before);
-        if(visible)number(record.before,event.amount??Math.max(0,record.after.hp-record.before.hp),true);
-        messageAt=cursor;cue(event,cursor,order,visible);patchActors([record.after],cursor);continue;
+        flushWalk();patchActors([record.after],cursor);
+        addPatch({at:cursor,ordinal:order,statusHp:{actorId:record.before.id,hp:record.before.hp}});
+        const visible=displayedActor(record.after);
+        // Native HP changes before the application helper drains old effects.
+        // Its sound begins on the new effect's first frame, before result text.
+        if(visible)drainEffects();
+        const start=cursor;
+        cursor=effect(7,record.after,cursor,undefined,record.after.direction,100,true,true,true);
+        cue(event,cursor>start?start+1:start,order,visible&&cursor>start);
+        messageAt=cursor;continue;
+      }
+      if(record?.kind==='heal-result'){
+        // Native UpdateStatusIconFlags follows the helper, before result text.
+        addPatch({at:cursor,ordinal:order,clearStatusHp:record.actor.id});
+        // HealTargetHP reports the result before requesting the singleton
+        // positive number. A prior number must not delay the message itself.
+        cue(event,cursor,order);
+        if(record.amount>0&&displayedActor(record.actor))number(record.actor,record.amount,true);
+        messageAt=cursor;continue;
       }
       if(record?.kind==='effect'){
         flushWalk();patchActors([record.before],cursor);
         if(displayedActor(record.before))drainEffects();
-        if(record.effectId!==undefined)cursor=effect(record.effectId,record.before,cursor,undefined,record.before.direction,100);
+        if(record.effectId!==undefined)cursor=effect(record.effectId,record.before,cursor,undefined,record.before.direction,100,true,record.effectId===15,record.effectId===15);
         if(Boolean(record.before.status.sleep)!==Boolean(record.after.status.sleep))retirePose(record.after.id,cursor);
         patchActors([record.after],cursor);messageAt=cursor;cue(event,cursor,order);continue;
       }
@@ -419,7 +466,8 @@ export class BattlePresentation {
     const tick=Math.floor(Math.max(0,(now-this.startedAt)/TICK_MS));
     return {
       poses:this.poses.filter(track=>track.end>tick).map(track=>({...track,start:track.start-tick,end:track.end-tick,
-        ...(track.moveEnd!==undefined?{moveEnd:track.moveEnd-tick}:{}),...(track.walkEpoch!==undefined?{walkEpoch:track.walkEpoch-tick}:{})})),
+        ...(track.moveEnd!==undefined?{moveEnd:track.moveEnd-tick}:{}),...(track.walkEpoch!==undefined?{walkEpoch:track.walkEpoch-tick}:{}),
+        ...(track.idleAt!==undefined?{idleAt:track.idleAt-tick}:{})})),
       effects:this.effects.filter(track=>track.end>tick).map(track=>({...track,start:track.start-tick,end:track.end-tick,
         ...(track.waitEnd!==undefined?{waitEnd:track.waitEnd-tick}:{})})),
       number:this.carryNumber(now),
@@ -440,9 +488,15 @@ export class BattlePresentation {
         if(this.hidden.has(actor.id)&&actor.id!=='hero'&&actor.id!=='partner')continue;
         this.actors.set(actor.id,actor);
       }
+      if(patch.statusHp){
+        if(!this.statusHp.has(patch.statusHp.actorId)&&this.statusHp.size>=MAX_ACTORS)throw new RangeError('Healing warning display exceeds the actor bound.');
+        this.statusHp.set(patch.statusHp.actorId,patch.statusHp.hp);
+      }
+      if(patch.clearStatusHp)this.statusHp.delete(patch.clearStatusHp);
       if(patch.items)this.items=patch.items;if(patch.money!==undefined)this.money=patch.money;
       if(patch.explored)this.explored=patch.explored;
       if(patch.hide){
+        this.statusHp.delete(patch.hide);
         this.hidden.add(patch.hide);
         // A removed wild actor has no sprite or number left. Team failures
         // retain their hidden entity for the leader/partner loss routes.
@@ -453,29 +507,18 @@ export class BattlePresentation {
     /** @type {PresentationCue[]} */const cues=[];
     while(this.cueIndex<this.cues.length){const cue=this.cues[this.cueIndex];if(!cue||cue.at>tick)break;this.cueIndex++;cues.push({event:cue.event,audible:cue.audible});}
     const completed=!this.completed&&tick>=this.endTick;this.completed||=completed;
-    if(finish){this.poses=[];this.effects=[];this.numbers=[];this.projectiles=[];}
+    if(finish){this.poses=[];this.effects=[];this.numbers=[];this.projectiles=[];this.statusHp.clear();}
     /** @type {BattleActor[]} */const actors=[];
-    for(const actor of this.actors.values()){
-      let x=actor.x,y=actor.y,direction=actor.direction,clip=actor.status.sleep?'rest-sleep':actor.status.bide?'bide-hold':'idle';
-      /** @type {number|undefined} */let animation;
-      // Untracked idle/sleep animations keep the app's shared foreground
-      // clock; a completed turn must not freeze every actor on frame zero.
-      let elapsedTicks=Math.floor(now/TICK_MS);
-      const track=lastMatching(this.poses,candidate=>candidate.actorId===actor.id&&candidate.start<=tick&&tick<candidate.end);
-      if(track){
-        direction=/** @type {import('./mechanics-types.js').Direction} */(track.direction);clip=track.clip;animation=track.animation;elapsedTicks=tick-track.start;
-        if(track.from&&track.to){const end=track.moveEnd??track.end,fraction=Math.min(1,(tick-track.start)/(end-track.start));x=track.from.x+(track.to.x-track.from.x)*fraction;y=track.from.y+(track.to.y-track.from.y)*fraction;}
-        if(track.walkEpoch!==undefined&&track.walkCycle!==undefined)elapsedTicks=Math.max(0,tick-track.walkEpoch)%track.walkCycle;
-        if(track.repeatTicks!==undefined)elapsedTicks%=track.repeatTicks;
-        if(track.rotate){const step=Math.floor(elapsedTicks/2)+(track.rotate===99?1:0);direction=rotate(direction,track.rotate===99?-step:step);animation=0;elapsedTicks%=2;}
-      }
-      actors.push({actor,x,y,direction,animation,clip,elapsedTicks,visible:!this.hidden.has(actor.id)});
-    }
+    for(const actor of this.actors.values())actors.push({...sampledActor(actor,this.poses,tick,Math.floor(now/TICK_MS),!this.hidden.has(actor.id)),statusHp:this.statusHp.get(actor.id)});
     /** @type {BattleEffect[]} */const effects=[];
     for(const track of this.effects)if(track.start<=tick&&tick<track.end){
-      const fraction=(tick-track.start)/(track.end-track.start);
-      effects.push({id:track.id,actorId:track.actorId,direction:track.direction,elapsedTicks:tick-track.start+(track.elapsedOffset??0),attachmentSet:track.attachmentSet,
-        ...(track.from&&track.to?{x:track.from.x+(track.to.x-track.from.x)*fraction,y:track.from.y+(track.to.y-track.from.y)*fraction}:{})});
+      const fraction=(tick-track.start)/(track.end-track.start),position=track.samples?.[Math.floor(tick-track.start)];
+      if(track.samples&&!position)throw new RangeError('A native travel sample is missing.');
+      if(position&&!position.visible)continue;
+      const age=tick-track.start+(track.elapsedOffset??0);
+      const elapsedTicks=track.frameTicks===undefined?age:Math.min(age,track.frameTicks-1);
+      effects.push({id:track.id,actorId:track.actorId,direction:track.direction,elapsedTicks,attachmentSet:track.attachmentSet,generic:track.generic,depthY:track.depthY,depthAdd:track.depthAdd,
+        ...(position?{x:position.x,y:position.y,depthY:position.depthY,depthAdd:position.depthAdd}:track.from&&track.to?{x:track.from.x+(track.to.x-track.from.x)*fraction,y:track.from.y+(track.to.y-track.from.y)*fraction}:{})});
     }
     const hero=this.actors.get('hero')??this.dungeon.hero,partner=this.actors.get('partner')??this.dungeon.partner;
     const active=tick<this.endTick;
@@ -489,6 +532,61 @@ export class BattlePresentation {
     });
     return {frame:{dungeon,actors,effects,projectiles,number,active},cues,completed};
   }
+}
+
+/** One pose projection for both drawing and source attachment sampling.
+ * @param {Actor} actor @param {PoseTrack[]} poses @param {number} tick
+ * @param {number} globalTick @param {boolean} [visible] @returns {BattleActor} */
+function sampledActor(actor,poses,tick,globalTick,visible=true){
+  let x=actor.x,y=actor.y,direction=actor.direction,clip=actor.status.sleep?'rest-sleep':actor.status.bide?'bide-hold':'idle';
+  /** @type {number|undefined} */let animation;
+  // Untracked idle/sleep animations keep the app's shared foreground
+  // clock; a completed turn must not freeze every actor on frame zero.
+  let elapsedTicks=globalTick;
+  const track=lastMatching(poses,candidate=>candidate.actorId===actor.id&&candidate.start<=tick&&tick<candidate.end);
+  if(track){
+    direction=/** @type {import('./mechanics-types.js').Direction} */(track.direction);clip=track.clip;animation=track.animation;elapsedTicks=tick-track.start;
+    if(track.from&&track.to){const end=track.moveEnd??track.end,fraction=Math.min(1,(tick-track.start)/(end-track.start));x=track.from.x+(track.to.x-track.from.x)*fraction;y=track.from.y+(track.to.y-track.from.y)*fraction;}
+    if(track.walkEpoch!==undefined&&track.walkCycle!==undefined)elapsedTicks=Math.max(0,tick-track.walkEpoch)%track.walkCycle;
+    if(track.repeatTicks!==undefined)elapsedTicks%=track.repeatTicks;
+    if(track.rotate){const step=Math.floor(elapsedTicks/2)+(track.rotate===99?1:0);direction=rotate(direction,track.rotate===99?-step:step);animation=0;elapsedTicks%=2;}
+  }else if(clip==='idle'){
+    const ended=lastMatching(poses,candidate=>candidate.actorId===actor.id&&candidate.start<=tick);
+    // An Ember cast that actually reaches its native end starts fresh idle.
+    // This source boundary is local to the retained presentation evidence;
+    // untracked idle continuity still uses the shared foreground clock.
+    if(ended?.idleAt!==undefined&&ended.end===ended.idleAt&&ended.idleAt<=tick&&ended.direction===direction)elapsedTicks=tick-ended.idleAt;
+  }
+  return{actor,x,y,direction,animation,clip,elapsedTicks,visible};
+}
+
+/** Closed adjacent Ember geometry: integer source attachment recurrence before
+ * each of its eight visible frames. No target scan, clock or RNG is owned here.
+ * @param {BattleAssets} assets @param {Actor} caster @param {PoseTrack[]} poses
+ * @param {number} tick @param {number} globalTick @param {MoveEffects} route
+ * @param {{x:number,y:number}} from @param {{x:number,y:number}} to
+ * @returns {readonly TravelSample[]} */
+function emberTrajectory(assets,caster,poses,tick,globalTick,route,from,to){
+  if(route.travel!==137||route.travelSpeed!==3||Math.max(Math.abs(to.x-from.x),Math.abs(to.y-from.y))!==1)throw new RangeError('Unsupported native Ember geometry.');
+  const pose=sampledActor(caster,poses,tick,globalTick);
+  const attachment=assets.attachmentOffset(caster.speciesId,{direction:pose.direction,animation:pose.animation,clip:pose.clip,ticks:pose.elapsedTicks},route.attachmentSet);
+  if(!attachment||!Number.isInteger(attachment.x)||!Number.isInteger(attachment.y)||attachment.x< -32768||attachment.x>32767||attachment.y< -32768||attachment.y>32767)throw new RangeError('Native Ember attachment is unavailable.');
+  const dx=Math.sign(to.x-from.x),dy=Math.sign(to.y-from.y),attached=route.attachmentSet!==-1;
+  /** @type {0|1} */const depthAdd=['ne','n','nw'].includes(caster.direction)?0:1;
+  const short=(/** @type {number} */value)=>(value<<16)>>16;
+  let offsetX=attachment.x,offsetY=attachment.y;
+  /** @type {TravelSample[]} */const samples=[];
+  for(let frame=0;frame<8;frame++){
+    // sub_800E3AC stores each compound assignment into signed 16-bit and C divides
+    // toward zero. For a 24px endpoint its fixed divisor is 24/4=6.
+    offsetX=short(Math.trunc(short(offsetX*5)/6));
+    offsetY=short(offsetY+9);offsetY=short(offsetY*5);offsetY=short(Math.trunc(offsetY/6));offsetY=short(offsetY-9);
+    const x=from.x*24+12+dx*3*frame,depthY=from.y*24+16+dy*3*frame;
+    // A raw 99 pair is transformed before this guard. Set -1 ignores pos2;
+    // no creation-time validity flag may suppress the whole trajectory.
+    samples.push(Object.freeze({x:x+(attached?offsetX:0),y:depthY+(attached?offsetY:0),depthY,depthAdd,visible:!attached||offsetX!==99&&offsetY!==99}));
+  }
+  return Object.freeze(samples);
 }
 
 /** @param {number} dx @param {number} dy @returns {import('./mechanics-types.js').Direction} */

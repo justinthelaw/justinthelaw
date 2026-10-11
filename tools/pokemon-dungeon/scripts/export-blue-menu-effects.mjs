@@ -5,8 +5,10 @@ import path from 'node:path';
 
 // Authoring facts only. Never import or execute browser game modules.
 const input = new URL('../audio/blue-menu-effects.json', import.meta.url);
+const battleInput = new URL('../audio/blue-battle-effects.json', import.meta.url);
 const output = new URL('../../../games/pokemon-dungeon-reimagined/src/blue/audio-menu-data.js', import.meta.url);
 const bytes = await readFile(input), data = JSON.parse(bytes);
+const battleBytes = await readFile(battleInput), battle = JSON.parse(battleBytes);
 assert.equal(data.schemaVersion, 1);
 assert.equal(data.sourceCommit, '013475aa04f5be3191e5527c186d9bfceae7cae0');
 assert.equal(data.edition, 'Red Rescue Team comparative');
@@ -14,13 +16,25 @@ assert.equal(data.clock.cpuHz, 16777216); assert.equal(data.clock.cyclesPerFrame
 assert.equal(data.frequencyBase.length, 12); assert(data.frequencyBase.every(value => Number.isInteger(value) && value < 0));
 assert.equal(data.cues.length, 4); assert.equal(data.generalMenuThrottleFrames, 4);
 assert(data.browserGain > 0 && data.browserGain <= .3);
+assert.equal(battle.schemaVersion, 1); assert.equal(battle.sourceCommit, data.sourceCommit);
+assert.equal(battle.edition, data.edition); assert.deepEqual(battle.clock, data.clock);
+assert.equal(battle.tempo.initialIncrement, 150); assert.equal(battle.tempo.threshold, 150);
+assert.equal(battle.cues.length, 2);
 const sourceArgument = process.argv.indexOf('--source-root');
 if (sourceArgument >= 0) {
   const sourceRoot = process.argv[sourceArgument + 1]; assert(sourceRoot, 'Provide --source-root PATH');
-  for (const record of data.sources) {
+  for (const record of [...data.sources, ...battle.sources]) {
     assert(!record.path.startsWith('/') && !record.path.split('/').includes('..'));
     assert.equal(createHash('sha256').update(await readFile(path.join(sourceRoot, record.path))).digest('hex'), record.sha256, record.path);
   }
+}
+// Center pan, track volume scale64 and native channel/envelope truncation.
+function pulseFacts(key, velocity, volume) {
+  const octave = Math.floor((key - 36) / 12), semitone = (key - 36) % 12;
+  const register = (data.frequencyBase[semitone] >> octave) + 2048;
+  const right = (velocity * volume) >> 7;
+  const left = (127 * velocity * Math.floor(volume * 127 / 128)) >> 14;
+  return [2048 - register, Math.min(15, Math.floor((right + left) / 16))];
 }
 const cues = {};
 for (const cue of data.cues) {
@@ -38,17 +52,36 @@ for (const cue of data.cues) {
   }
   const notes = [...starts.values()].sort((left, right) => left[0] - right[0]);
   cues[cue.id] = { duty: cue.duty, notes: notes.map(([tick, key, gate, velocity], index) => {
-    const octave = Math.floor((key - 36) / 12), semitone = (key - 36) % 12;
-    const register = (data.frequencyBase[semitone] >> octave) + 2048;
-    // Center pan, track volume scale64 and native channel/envelope truncation.
-    const right = (velocity * cue.volume) >> 7;
-    const left = (127 * velocity * Math.floor(cue.volume * 127 / 128)) >> 14;
-    const envelope = Math.min(15, Math.floor((right + left) / 16));
     const nextTick = notes[index + 1]?.[0] ?? Infinity;
-    return [tick, Math.min(gate, nextTick - tick), 2048 - register, envelope];
+    return [tick, Math.min(gate, nextTick - tick), ...pulseFacts(key, velocity, cue.volume)];
   }) };
 }
 for (const [alias, target] of Object.entries(data.aliases)) { assert(cues[target]); cues[alias] = cues[target]; }
+const battleCues = {};
+const expectedBattle = [
+  ['effect-no-damage-team', 342, 'MISS_PLAYER_M', [74, 70, 66, 62]],
+  ['effect-no-damage-other', 343, 'MISS_ENEMY_M', [65, 61, 57, 53]],
+];
+for (const [index, cue] of battle.cues.entries()) {
+  const [id, sequence, sourceName, keys] = expectedBattle[index];
+  assert.equal(cue.id, id); assert.equal(cue.sequence, sequence); assert.equal(cue.sourceName, sourceName);
+  assert.equal(cue.player, 'SE2'); assert.equal(cue.voice, 61); assert.equal(cue.duty, .125);
+  assert.equal(cue.volume, 78); assert.equal(cue.pan, 0); assert.deepEqual(cue.envelope, [0, 0, 15, 0]);
+  assert.equal(cue.tempoIncrement, 140); assert.equal(cue.trackTicks, 384); assert.equal(cue.notes.length, 4);
+  assert.deepEqual(cue.notes.map(note => note[0]), [1, 4, 7, 10]);
+  assert.deepEqual(cue.notes.map(note => note[1]), keys);
+  // MPlayStart's initial150 tick installs140. The next source tick lands at
+  // ceil(150/140) frames, not a fractional tick or the menu's one-frame rate.
+  const frame = tick => Math.floor((tick * battle.tempo.threshold + cue.tempoIncrement - 1) / cue.tempoIncrement);
+  battleCues[id] = { duty: cue.duty, notes: cue.notes.map(note => {
+    assert(note.length === 4 && note.every(Number.isInteger));
+    const [tick, key, gate, velocity] = note;
+    assert.equal(gate, 3); assert.equal(velocity, 120);
+    const start = frame(tick), end = frame(tick + gate);
+    assert(start >= 2 && end <= 14 && end > start);
+    return [start, end - start, ...pulseFacts(key, velocity, cue.volume)];
+  }) };
+}
 const generated = `/** Generated from pinned comparative Rescue Team menu-effect facts; no music or PCM samples. */\n` +
   `export const MENU_EFFECT_SOURCE_SHA256 = '${createHash('sha256').update(bytes).digest('hex')}';\n` +
   `export const MENU_EFFECT_GAIN = ${data.browserGain};\n` +
@@ -56,7 +89,11 @@ const generated = `/** Generated from pinned comparative Rescue Team menu-effect
   `export const MENU_EFFECT_THROTTLE_SECONDS = ${data.generalMenuThrottleFrames} * MENU_EFFECT_TICK_SECONDS;\n` +
   `/** Each note is [start tick, gate ticks, frequency divisor, four-bit envelope]. */\n` +
   `/** @type {Readonly<Record<string,{duty:number,notes:[number,number,number,number][]}>>} */\n` +
-  `export const MENU_EFFECTS = ${JSON.stringify(cues)};\n`;
+  `export const MENU_EFFECTS = ${JSON.stringify(cues)};\n` +
+  `export const BATTLE_EFFECT_SOURCE_SHA256 = '${createHash('sha256').update(battleBytes).digest('hex')}';\n` +
+  `/** Native SE2 battle notes are [start frame, gate frames, frequency divisor, envelope]. */\n` +
+  `/** @type {Readonly<Record<string,{duty:number,notes:[number,number,number,number][]}>>} */\n` +
+  `export const BATTLE_EFFECTS = ${JSON.stringify(battleCues)};\n`;
 if (process.argv.includes('--check')) assert.equal(await readFile(output, 'utf8'), generated, 'Regenerate the menu-effect data.');
 else await writeFile(output, generated);
-console.log(`Comparative menu effects: four sequences, five roles, at most four bounded pulse notes; static source/data only${sourceArgument >= 0 ? ', source hashes verified' : ''}.`);
+console.log(`Comparative SE2 effects: four menu and two no-damage sequences, seven roles, at most four bounded pulse notes; static source/data only${sourceArgument >= 0 ? ', source hashes verified' : ''}.`);

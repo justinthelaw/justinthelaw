@@ -3,6 +3,8 @@
   "entry": "src/blue/app.js",
   "files": [
     "assets/blue/NOTICE.txt",
+    "assets/blue/battle-effects-initial.json",
+    "assets/blue/battle-effects-initial.png",
     "assets/blue/battle-effects.json",
     "assets/blue/battle-effects.png",
     "assets/blue/manifest.json",
@@ -144,6 +146,6 @@
     "src/domain/rules/type-context.js",
     "src/domain/state/plain.js"
   ],
-  "totalBytes": 2957823,
+  "totalBytes": 3034160,
   "scope": "Opening cinematic and menu through Tiny Woods and Caterpie rescue only"
 }

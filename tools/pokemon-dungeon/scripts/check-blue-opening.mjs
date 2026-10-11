@@ -10,7 +10,7 @@ const readJson = async filename => JSON.parse(await readFile(path.join(root, fil
 const distribution = await readJson('distribution.json');
 const assets = await readJson('assets/blue/manifest.json');
 const data = await readJson('content/blue-opening.json');
-const profiles = await readJson('content/onboarding/profiles.json');
+const profiles = JSON.parse(await readFile(new URL('../content/blue-source.json', import.meta.url), 'utf8')).starterProfiles;
 const expectedStarters = profiles.records.map(record => record.speciesId).sort();
 assert.deepEqual([...data.starterIds].sort(), expectedStarters, 'All 16 original starter profiles must be retained');
 assert.equal(data.floors.length, 3, 'The playable dungeon has exactly three ordinary floors');
@@ -160,14 +160,27 @@ assert.equal(assets.nativeMotions.openingFactsSha256,
   createHash('sha256').update(await readFile(path.join(root, 'content/blue-opening.json'))).digest('hex'));
 await verifiedBytes(assets.nativeMotions.modulePath, assets.nativeMotions.bytes, assets.nativeMotions.sha256);
 assert.equal(assets.battleEffects.activation, 'selected');
-assert.equal(assets.battleEffects.path, 'battle-effects.png');
-assert.equal(assets.battleEffects.metadataPath, 'battle-effects.json');
-await verifiedPng('assets/blue', assets.battleEffects);
-assert(assets.battleEffects.width * assets.battleEffects.height * 4 <= 2 * 1024 * 1024, 'Battle effect atlas exceeds its decoded-memory budget');
-const battleMetadata = await verifiedMetadata(assets.battleEffects);
-assert.equal(battleMetadata.width, assets.battleEffects.width);
-assert.equal(battleMetadata.height, assets.battleEffects.height);
-verifyNativeBattleMetadata(battleMetadata);
+assert.equal(assets.battleEffects.maxDecodedBytes, 4 * 1024 * 1024);
+assert.deepEqual(assets.battleEffects.banks.map(bank => bank.id), ['basic', 'initial']);
+let battleDecodedBytes = 0;
+const battleIds = new Set();
+for (const bank of assets.battleEffects.banks) {
+  const stem = bank.id === 'basic' ? 'battle-effects' : 'battle-effects-initial';
+  assert.equal(bank.activation, 'selected');
+  assert.equal(bank.path, `${stem}.png`); assert.equal(bank.metadataPath, `${stem}.json`);
+  await verifiedPng('assets/blue', bank);
+  assert(bank.bytes <= 256 * 1024 && bank.metadataBytes <= 128 * 1024, 'Battle bank exceeds its encoded byte budget');
+  assert(bank.width * bank.height * 4 <= 2 * 1024 * 1024, 'Battle effect atlas exceeds its decoded-memory budget');
+  battleDecodedBytes += bank.width * bank.height * 4;
+  const battleMetadata = await verifiedMetadata(bank);
+  assert.equal(battleMetadata.width, bank.width); assert.equal(battleMetadata.height, bank.height);
+  verifyNativeBattleMetadata(battleMetadata, bank.id);
+  for (const effect of battleMetadata.effects) {
+    assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
+  }
+}
+assert.equal(battleIds.size, 25);
+assert(battleDecodedBytes <= assets.battleEffects.maxDecodedBytes, 'Battle effects exceed the aggregate decoded budget');
 if (assets.statusAtlas) {
   await verifiedPng('assets/blue', assets.statusAtlas);
   const metadata = await verifiedMetadata(assets.statusAtlas);
