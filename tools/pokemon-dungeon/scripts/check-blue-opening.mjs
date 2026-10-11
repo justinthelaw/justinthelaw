@@ -85,15 +85,13 @@ for (const record of assets.records) {
   await verifiedPng('assets/blue', record);
   assert(record.width * record.height * 4 <= 1024 * 1024, 'Species atlas exceeds its decoded-memory budget');
   const metadata = await verifiedMetadata(record);
-  assert.equal(metadata.schemaVersion, 2); assert.equal(metadata.speciesId, record.speciesId);
+  assert.equal(metadata.schemaVersion, 3); assert.equal(metadata.speciesId, record.speciesId);
   assert.equal(metadata.width, record.width); assert.equal(metadata.height, record.height);
   assert(integer(metadata.dungeonOffsetY, 1, record.height - 1));
   for (const [, y, , height] of metadata.poses) assert(y + height <= metadata.dungeonOffsetY && y + height + metadata.dungeonOffsetY <= record.height,
     `Native field/dungeon palette copies overlap or escape atlas: ${record.speciesId}`);
-  assert.deepEqual(metadata.directions, directions);
   assert(Array.isArray(metadata.statusOffsets) && metadata.statusOffsets.length === metadata.poses.length);
   assert(metadata.statusOffsets.every(offset => Array.isArray(offset) && offset.length === 2 && offset.every(value => integer(value, -32767, 32767))));
-  assert.deepEqual(metadata.effectOffsetSetIds, [1, 2, 3]);
   assert(Array.isArray(metadata.effectOffsetSets) && integer(metadata.effectOffsetSets.length, 1, metadata.poses.length));
   for (const sets of metadata.effectOffsetSets) {
     assert(Array.isArray(sets) && sets.length === 3);
@@ -135,6 +133,17 @@ if (assets.portraitAtlas) {
     assert(integer(record.x, 0, portrait.width - 40) && integer(record.y, 0, portrait.height - 40));
   }
   for (const species of [...data.starterIds, 'pokemon-010', 'pokemon-012', 'pokemon-279']) assert(seen.has(`${species}:normal`));
+  // Independent native opening/retry/rescue bound; source-only emotions stay
+  // in the full authoring archive. Keep every existing normal fallback.
+  const openingPortraits = new Set(data.starterIds.flatMap(species =>
+    ['normal', 'happy', 'worried', 'shocked'].map(emotion => `${species}:${emotion}`)));
+  for (const dex of [1, 4, 7, 25, 152, 155, 158, 252, 255, 258]) {
+    const species = `pokemon-${String(dex).padStart(3, '0')}`;
+    for (const emotion of ['joyous', 'special']) openingPortraits.add(`${species}:${emotion}`);
+  }
+  for (const id of ['pokemon-010:normal', 'pokemon-010:inspired', 'pokemon-010:teary-eyed', 'pokemon-012:normal', 'pokemon-279:normal']) openingPortraits.add(id);
+  assert.equal(openingPortraits.size, 89); assert.deepEqual(seen, openingPortraits, 'Opening portrait scope differs from the native source bound');
+  assert.equal(portrait.width, 320); assert.equal(portrait.height, 480);
 }
 const sceneryRuntime = await readJson('assets/blue/scenery/manifest.json');
 const sceneryProof = JSON.parse(await readFile(new URL('../art/blue/native-scenery-metadata.json', import.meta.url), 'utf8'));
@@ -194,12 +203,12 @@ for (const bank of assets.battleEffects.banks) {
   battleDecodedBytes += bank.width * bank.height * 4;
   const battleMetadata = await verifiedMetadata(bank);
   assert.equal(battleMetadata.width, bank.width); assert.equal(battleMetadata.height, bank.height);
-  verifyNativeBattleMetadata(battleMetadata, bank.id);
+  verifyNativeBattleMetadata(battleMetadata, bank.id, 'runtime');
   for (const effect of battleMetadata.effects) {
     assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
   }
 }
-assert.equal(battleIds.size, 26);
+assert.equal(battleIds.size, 27);
 const hypnosis = assets.battleEffects.hypnosis;
 assert.equal(hypnosis.activation, 'selected-hypnosis-only'); assert.equal(hypnosis.effectId, 222);
 assert.equal(hypnosis.path, 'hypnosis-background.png'); assert.equal(hypnosis.width, 416); assert.equal(hypnosis.height, 32);

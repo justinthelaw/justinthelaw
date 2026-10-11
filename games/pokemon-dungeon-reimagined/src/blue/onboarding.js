@@ -4,8 +4,8 @@
  * the repository's original English adaptation, not a commercial-script dump.
  */
 
-/** @typedef {{index:number, optionId:string, text:string, scores:Record<string,number>, followUp:string|null}} QuizOption */
-/** @typedef {{id:string, originalIndex:number, categoryId:string, selectable:boolean, prompt:string, options:QuizOption[]}} QuizQuestion */
+/** @typedef {{text:string, scores:Record<string,number>, followUp:string|null}} QuizOption */
+/** @typedef {{id:string, categoryId:string, selectable:boolean, prompt:string, options:QuizOption[]}} QuizQuestion */
 /** @typedef {{natureId:string,description:string,maleSpeciesId:string,femaleSpeciesId:string}} NatureResult */
 /** @typedef {{questions:QuizQuestion[],results:NatureResult[],natureOrder:string[],partnerOrder:string[],pairs:{heroSpeciesId:string,partnerSpeciesId:string}[]}} OnboardingData */
 /** @typedef {{scores:Record<string,number>,usedCategories:string[],answered:number,questionId:string|null,followUp:boolean}} QuizState */

@@ -149,7 +149,12 @@ export async function exportNativeSprites({emit,output}){
       packed.set(key,hash);blit(atlas,image,rectangle[0],rectangle[1]+field.atlas.height);
     }
     metadata.dungeonOffsetY=field.atlas.height;metadata.height=atlas.height;
-    const bytes=atlas.png(),metadataText=JSON.stringify(metadata)+'\n',path=`${species.speciesId}.png`,metadataPath=`${species.speciesId}.json`;
+    // Keep source descriptors checked offline; browser playback uses fixed
+    // direction and attachment conventions with the same retained frame data.
+    if(JSON.stringify(metadata.directions)!==JSON.stringify(DIRECTIONS)||JSON.stringify(metadata.effectOffsetSetIds)!=='[1,2,3]'||metadata.sourceEdition!==manifest.spriteSource.edition)throw Error('Native actor source descriptors changed.');
+    const runtimeMetadata={...metadata,schemaVersion:3};
+    delete runtimeMetadata.directions;delete runtimeMetadata.effectOffsetSetIds;delete runtimeMetadata.sourceEdition;
+    const bytes=atlas.png(),metadataText=JSON.stringify(runtimeMetadata)+'\n',path=`${species.speciesId}.png`,metadataPath=`${species.speciesId}.json`;
     if(Buffer.byteLength(metadataText)>128*1024)throw Error('Native species metadata exceeds its encoded byte budget.');
     attachmentEvidence.push({speciesId:species.speciesId,sourceHeader:`src/data/ax/${species.name}.h`,sets:field.attachmentSets});
     // Direct image evidence: complete opaque poses in the original Blue press capture.
@@ -178,18 +183,38 @@ export async function exportNativeSprites({emit,output}){
     }
     records.push({speciesId:species.speciesId,path,width:atlas.width,height:atlas.height,bytes:bytes.length,sha256:digest(bytes),metadataPath,metadataBytes:Buffer.byteLength(metadataText),metadataSha256:digest(metadataText),sourceEdition:'Red Rescue Team',sourceHeader:`src/data/ax/${species.name}.h`});
   }
-  const cell=40,columns=8,portraitRecords=[],portraitAtlas=new Raster(cell*columns,Math.ceil(manifest.portraitSource.files.length/columns)*cell);
-  for(const[index,record]of manifest.portraitSource.files.entries()){
+  // Original opening/retry/Tiny Woods portrait union. Retain every normal
+  // fallback, including cinematic Pelipper; complete source images stay offline.
+  const portraitHeroes=[1,4,7,25,52,54,66,104,133,152,155,158,252,255,258,300].map(id=>`pokemon-${String(id).padStart(3,'0')}`);
+  const portraitPartners=[1,4,7,25,152,155,158,252,255,258].map(id=>`pokemon-${String(id).padStart(3,'0')}`);
+  const otherPortraits=['pokemon-010:inspired','pokemon-010:normal','pokemon-010:teary-eyed','pokemon-012:normal','pokemon-279:normal'];
+  const sourceEmotions=['angry','crying','happy','inspired','joyous','normal','pain','sad','shocked','shouting','special','teary-eyed','worried'];
+  const sourcePortraitKeys=new Set([...portraitHeroes.flatMap(id=>sourceEmotions.map(emotion=>`${id}:${emotion}`)),...otherPortraits]);
+  const portraitKeys=new Set([...portraitHeroes.flatMap(id=>['normal','happy','worried','shocked'].map(emotion=>`${id}:${emotion}`)),
+    ...portraitPartners.flatMap(id=>['joyous','special'].map(emotion=>`${id}:${emotion}`)),...otherPortraits]);
+  if(manifest.portraitSource.files.length!==213||sourcePortraitKeys.size!==213||portraitKeys.size!==89)throw Error('Native opening portrait inventory changed.');
+  const inspiredEvidence=decodePng(await readFile(new URL('native-reference/ss04.png',import.meta.url)));
+  const cell=40,columns=8,portraitRecords=[],portraitAtlas=new Raster(cell*columns,Math.ceil(portraitKeys.size/columns)*cell);
+  // Verify/decode all 213 source records before discarding any runtime cell.
+  for(const record of manifest.portraitSource.files){
+    const key=`${record.speciesId}:${record.emotion}`;
+    if(!sourcePortraitKeys.delete(key))throw Error('Native portrait source coverage changed.');
     const original=decodePng(get(portraitFiles,record.path));
     if(original.width!==40||original.height!==40)throw Error('Native portraits must be 40 by 40 pixels.');
     for(let offset=0;offset<original.data.length;offset+=4)for(let channel=0;channel<3;channel++)original.data[offset+channel]=blueChannel(original.data[offset+channel]);
-    const x=index%columns*cell,y=Math.floor(index/columns)*cell;blit(portraitAtlas,original,x,y);
     if(record.speciesId==='pokemon-012'&&record.emotion==='normal')for(let py=0;py<40;py++)for(let px=0;px<40;px++){
       const sourceIndex=(py*40+px)*4,targetIndex=((208+24+py)*evidence.width+8+64+px)*4;
       if(!original.data.subarray(sourceIndex,sourceIndex+4).equals(evidence.data.subarray(targetIndex,targetIndex+4)))throw Error('Native Blue Butterfree portrait corroboration failed.');
     }
+    if(record.speciesId==='pokemon-025'&&record.emotion==='inspired')for(let py=0;py<40;py++)for(let px=0;px<40;px++){
+      const sourceIndex=(py*40+px)*4,targetIndex=((208+80+py)*inspiredEvidence.width+8+24+px)*4;
+      if(!original.data.subarray(sourceIndex,sourceIndex+4).equals(inspiredEvidence.data.subarray(targetIndex,targetIndex+4)))throw Error('Native Blue Pikachu portrait corroboration failed.');
+    }
+    if(!portraitKeys.delete(key))continue;
+    const index=portraitRecords.length,x=index%columns*cell,y=Math.floor(index/columns)*cell;blit(portraitAtlas,original,x,y);
     portraitRecords.push({speciesId:record.speciesId,emotion:record.emotion,x,y,width:40,height:40});
   }
+  if(sourcePortraitKeys.size||portraitKeys.size||portraitRecords.length!==89)throw Error('Native opening portrait coverage is incomplete.');
   const portraitBytes=portraitAtlas.png(),portraitText=JSON.stringify({schemaVersion:2,width:portraitAtlas.width,height:portraitAtlas.height,cell,records:portraitRecords})+'\n';
   await emit(new URL('portraits.png',output),portraitBytes);await emit(new URL('portraits.json',output),portraitText);
   await emit(new URL('contact.png',import.meta.url),contact.png());

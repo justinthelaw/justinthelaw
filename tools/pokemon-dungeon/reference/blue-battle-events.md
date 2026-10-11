@@ -58,7 +58,11 @@ only pose/effect/number tails, not events or additional gameplay opportunities.
 | Item actions/pickups | 12 | 16 | 192 |
 | Initial-sleep wakes | 12 | 8 | 96 |
 | Setup, arrivals and floor messages | 1 | 64 | 64 |
-| **Total** | | | **4,916** |
+| Camera boundaries | | | 365 |
+| Leader money-throw route | 1 | 64 | 64 |
+| Seed-source faint unlink | 12 | 1 | 12 |
+| Party Rapid Spin cleanup | 2 | 2 | 4 |
+| **Total** | | | **5,361** |
 
 There are at most twelve actor opportunities: two team members and ten live
 wild slots. A swap spends the partner's opportunity; Bide release replaces a
@@ -84,6 +88,12 @@ can retain both poison and burn, so both are counted. Initial sleep can end once
 per actor; the bound includes legacy admitted team sentinels as well as ten wild
 slots. Berry/pickup branches fit within sixteen records including any drop and
 item snapshots. These bounds must be revisited when activating more mechanics.
+
+Seed-source unlink adds one silent sync per actual KO, containing at most twelve
+changed actors. Successful Rapid Spin adds at most one cure message and one sync
+per party opportunity. Neither adds an effect track, random draw or frame wait.
+Money flight geometry remains separately bounded at sixty flight and twenty-five
+landing samples; samples do not allocate an event per frame.
 
 ## Separate nominal damage display correction
 

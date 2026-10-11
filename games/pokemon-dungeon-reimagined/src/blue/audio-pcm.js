@@ -2,7 +2,7 @@ import {PCM_EFFECTS,PCM_SAMPLES,PCM_FRAME_SECONDS,PCM_EFFECT_GAIN} from './audio
 
 /** @typedef {{source:AudioBufferSourceNode,left:GainNode,right:GainNode,end:number,fine:number}} PcmVoice */
 const MAX_PCM_VOICES=15;
-/** Four finite SE5 cues. No native reverb, song interpreter, timer or game callback.
+/** Finite SE5 cues. No native reverb, song interpreter, timer or game callback.
  * The caller creates this owner only inside the existing trusted activation.
  * @param {AudioContext} context @param {GainNode} destination */
 export function createPcmEffects(context,destination){

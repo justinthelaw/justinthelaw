@@ -10,7 +10,10 @@ Required inputs are `content/blue-source.json`, the five
 `content/blue-onboarding/{algorithm,questions,results,partners,sources}.json`
 documents, `content/blue-wild-spawns.json`, `content/blue-secondary-gates.json`,
 and `content/rule-runtime/type-matchups.json`, relative to the authoring package.
-The four shipped quiz documents are checked byte-for-byte against their inputs.
+The four shipped quiz documents contain only character-creation fields. The
+exporter checks their exact bytes; this checker independently compares every
+projected value against the fully validated source catalogs. Source citations,
+hashes, redundant indices and later-game Friend Area metadata remain offline.
 
 The quiz proof retains the reviewed factual fingerprints for all 56 questions
 and 140 answer score maps, the 13-nature order and all 26 gender outcomes,
@@ -39,11 +42,17 @@ recoverable in Git history (pre-pruning checkpoint
 `882cdd14c25b7d79445a637f3dcd97d2c92f0c35`).
 
 The checker pins the canonical selected-record digest
-`7afe6f9373b1e1a5ab3063ea0f7e270420c2d9cf206b7d3f737a34ef90cb7e52`
+`d8c13d77871528f7c9daec7152db8c8acb98111b67847c42c4aff4415e6e3b4f`
 and the donor-attribution digest separately. Do not automatically refresh these
 pins from a new projection. A factual correction needs source review and a
 deliberate pin update. Object key order does not affect the canonical digest;
 array order remains significant.
+
+The reviewed Rapid Spin correction replaces a stale trap-removal claim with
+its positive-damage, user-validity gate and chosen-move status-class cleanup.
+Its six pinned native source owners are recorded on action 096. All 114 other
+actions and the historical donor hashes remain unchanged; this deliberate
+correction accounts for the selected-record digest update.
 
 Additional independent joins check content-addressed growth and learnset IDs,
 100 strictly increasing EXP rows, the native cumulative numeric-table hashes,
@@ -61,7 +70,7 @@ does not certify the executing battle implementation or replace manual play.
 
 ## Runtime projection
 
-The reviewed authoring bundle remains unchanged at 22 complete profiles,
+The reviewed authoring bundle retains 22 complete profiles,
 115 actions and 60 timers. The browser projects 20 combat profiles and 101
 moves: all 16 starters retain every level1–100 growth row and learned move;
 the four Tiny Woods wilds retain level1 moves and the first two growth rows.

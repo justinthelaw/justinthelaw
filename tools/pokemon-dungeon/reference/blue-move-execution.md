@@ -159,7 +159,7 @@ stays rejected. The app only shows this learning-before-defeat path while still
 in the dungeon phase; a completed defeat save or a legacy first request for a
 fainted actor retains the prior defeat route.
 
-The 4,916-event conservative bound in `blue-battle-events.md` still covers these
+The 5,361-event conservative bound in `blue-battle-events.md` covers these
 joins. Empty-target/face records fit the action/setup allowance, and the summed
 recipient message/sync fits the hit/level allowances. No events are truncated.
 
@@ -195,13 +195,44 @@ The source is [SynthesisMoveAction](https://github.com/pret/pmd-red/blob/013475a
 and its retained weather table.
 
 Chikorita learns it at level 22 and Bulbasaur at level 39. Failed rescues preserve
-EXP and moves. This correction leaves 23 unavailable move IDs across 32
-species/level entries. This is source/static evidence, not a manually played higher-level
+EXP and moves. This is source/static evidence, not a manually played higher-level
 acceptance. Default playable IQ lacks Status Checker, so no quarter-HP AI gate
 is added. The browser's existing foe-proximity rule for autonomous self moves
 remains qualified.
 
 The separate cast uses selected effect 271 and the existing terminator-hold
-support before healing's TRUE drain. Sound 809 remains unselected. The shared
-heal sound and native image records do not establish complete Blue audiovisual
-or AI identity.
+support before healing's TRUE drain. Separately reviewed sound 809 starts on
+the fresh cast handle's first source update. A later heal sound 606 interrupts
+it when delivered to the shared PCM owner; the existing instant-batch quota
+can suppress that later request, as documented in `blue-audio.md`. The sounds
+and native image records do not establish complete Blue audiovisual or AI identity.
+
+## Rapid Spin in prolonged Tiny Woods retries
+
+Squirtle learns Rapid Spin at level 23. Its exact admitted record uses ordinary
+damage, followed by status cleanup after that chosen move's raw-hit passes and
+contact activation, before EXP. Positive damage sets a transient success flag;
+the chance-zero user-validity gate adds no random draw and still succeeds after
+a target KO. No target, either accuracy failure or zero damage leaves the flag
+unset. A successful cleanup does not require a surviving target or active floor.
+The source owners are [RapidSpinMoveAction](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/move_orb_actions_1.c#L961)
+and [TryUseChosenMove](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_move_util.c#L457).
+
+The opening represents Leech Seed within the two native cleared status classes.
+Its cleanup clears that active status and source binding while preserving the
+periodic counter. The shared HP-zero owner also follows
+[sub_8078084](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/move_orb_effects_2.c#L293):
+a fainting seed source silently clears linked active statuses, preserving their
+binding and countdown. This happens before terminal returns and prevents an
+extra cure line when Rapid Spin defeats its own seed source. Original-partner
+validity remains distinct from HP and floor completion; sync cannot reveal a
+hidden fainted actor.
+
+No frozen/Destiny Bond status, trap, weather, save field or general status engine
+is added. Historical donor attribution stays intact while action 096's stale
+trap-removal claim is corrected with explicit native pins. All other move records,
+RNG call sites and save owners remain unchanged. The correction leaves 22
+unavailable move IDs across 31 species/level entries. Its target artwork and
+terminator hold and sound 678 are separately reviewed. Native message visibility,
+original Blue audio identity and complete Blue handler/clock parity remain
+qualified. Higher-level casting has not been established by manual play.

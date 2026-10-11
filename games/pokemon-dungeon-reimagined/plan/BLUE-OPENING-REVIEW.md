@@ -686,6 +686,41 @@ logs were empty. The native post-Continue capture has SHA-256
 This targeted check covers compact asset loading and ordinary play. Higher-level
 Synthesis has source review only; full animation/audio identity remains unverified.
 
+The next composition removes runtime-only provenance, redundant actor
+descriptors, character-creation source metadata and 124 unused portrait
+expressions. All quiz choices/results and partner pairs remain; every retained
+portrait crop matches its source. The full 213-portrait archive and source
+evidence stay in the authoring package. The runtime atlas has 89 portraits.
+
+Rapid Spin now uses the reviewed successful-damage cure path and shared faint
+unlinking before deferred EXP. Its source-derived target effect retains the
+terminator frame. Finite sounds 678/809 join Rapid Spin/Synthesis at the fresh
+effect's first update, preserving the existing PCM player and all earlier sound
+tuples. The separate two-request limit preserves earlier cue budgets; the
+existing other-private quota can still suppress a later healing sound in an
+instant batch. Original Blue audio identity and high-level manual casting remain
+unverified. There are 22 unavailable learned move IDs across 31 entries.
+
+The full Node 24.21 check passes with 103 lint inputs, 67 strict sources and all
+factual, provenance, asset and export checks. The final 149-file distribution is
+2,808,109 bytes: 186,196 bytes smaller than `25a4cce`, with 337,619 bytes below
+the cap. The 10:45 snapshot freezes these exact bytes.
+
+Manual review started from the preceding 10:11 composition, completed the title
+and eight quiz questions, selected hardy/Boy Charmander and partner Squirtle,
+named Brook before awakening and Coal during awakening, and entered Tiny Woods.
+Both were level 5 with 30/30 HP. Quicksave returned to the file menu. Loading the
+final 10:45 snapshot on the same origin and choosing Continue restored the same
+B1F position and party values.
+
+On the final snapshot, movement and Scratch completed normally. The message
+log records 16 damage, Sunkern's defeat and 16 EXP for each teammate. Scratch
+fell from 22 to 21 PP; Growl stayed 20/20. Controls returned and browser warning
+and error logs were empty. Native combat capture SHA-256 is
+`6e3aaaad760f8677295bc889df84a541d543955b6ddd96cf1b3fe3dba4ac31e8`.
+This is targeted loading, combat and save-continuity evidence; the earlier full
+Caterpie/reunion run remains separately identified above.
+
 ## Fidelity limits
 
 - Dialogue and score remain authored substitutes. Native image reconstruction

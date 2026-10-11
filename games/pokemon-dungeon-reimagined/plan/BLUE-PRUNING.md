@@ -191,3 +191,49 @@ Synthesis's separately reviewed mechanics/artwork and corrected NOTICE bring
 the net reduction to 83,106 bytes. The full scoped check passes at 149 files /
 2,994,305 bytes, with 151,423 bytes below the 3 MiB cap. The ignored composition
 ledger is `tools/pokemon-dungeon/.work/blue-pruning-composition-20261011-0913/`.
+
+## Character and sprite descriptors
+
+Three further projections remove 105,014 runtime bytes before the separate
+Rapid Spin correction and documentation changes:
+
+- Character creation keeps all 56 questions, 140 options, scores, follow-ups,
+  nature results and 129 ordered partner pairs. Source evidence, redundant
+  indices and later-game Friend Area metadata stay in the complete authoring
+  catalogs. Compact runtime JSON and unused type/comment removal save 98,255
+  bytes; the quiz and story executable ASTs are identical.
+- Battle effects keep every drawing and timing field while source names,
+  file/animation IDs, palettes and wait flags stay in the existing source
+  records and evidence. Full checks precede schema 3 emission; runtime saving
+  is 3,919 bytes without a new ledger or changed playback method.
+- Actor schema 3 omits only repeated direction, attachment-order and edition
+  descriptors, saving 2,840 bytes. All 23 PNGs, 29,589 seven-field animation
+  frames, attachment pools, clips and species identities remain exact. The
+  full authoring record checks the omitted descriptors before projection.
+
+Existing source hashes, factual checks, image bounds and save guards remain.
+The composition ledger is
+`tools/pokemon-dungeon/.work/blue-pruning-composition-20261011-1000/`.
+
+## Opening portrait selection
+
+The atlas now retains 89 portraits and omits 124 unused non-normal emotions.
+The original opening/retry/rescue scripts and current browser calls require
+88 records; retaining Pelipper normal also preserves every existing normal
+fallback. All 213 source images, their archive and both Blue pixel comparisons
+stay offline. The source exporter and independent coverage check require this
+exact selection before publication.
+
+The two runtime assets shrink by 110,782 bytes, and nominal decoded RGBA falls
+by 768,000 bytes. Every retained crop is identical; runtime portrait lookup,
+aliases, lifecycle and other JavaScript are unchanged. The ignored design and
+implementation packets are `blue-portrait-scope-audit-20261011-1015` and
+`blue-portrait-implementation-20261011-1023` under the authoring `.work/` directory.
+
+The combined export, including the separately reviewed Rapid Spin mechanics,
+target artwork and finite Rapid Spin/Synthesis sounds, contains 149 files and
+2,808,109 bytes. That is 186,196 bytes below checkpoint `25a4cce` and leaves
+337,619 bytes under the 3 MiB cap. The full Node 24.21 static check passes with
+103 lint inputs and 67 strict sources. The final composition receipt is
+`blue-pruning-composition-20261011-1000/release-1045.json`; the matching frozen
+browser snapshot is `blue-opening-review-20261011-1045`, both under `.work/`.

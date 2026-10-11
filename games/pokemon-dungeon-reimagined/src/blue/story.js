@@ -1,6 +1,5 @@
 /** Original English scene adaptation, retaining the opening's event order.
- * Source-qualified story beats: content/onboarding/initialization.json and
- * Nintendo's Blue Rescue Team manual. Commercial dialogue is not reproduced.
+ * Commercial dialogue is not reproduced.
  */
 /** @typedef {'narrator'|'hero'|'partner'|'butterfree'|'caterpie'} Speaker */
 /** @typedef {{speaker:Speaker,text:string,scene?:string,pose?:string,emotion?:string,quiet?:boolean,offscreen?:boolean}} StoryLine */

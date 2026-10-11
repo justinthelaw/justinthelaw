@@ -261,7 +261,7 @@ async function main() {
     const announcement=events.filter(event=>event.type==='message'&&event.text).map(event=>event.text).join(' ');
     if(announcement&&announcement!==lastNarration){narration.textContent=announcement;lastNarration=announcement;}
     if(silent)return;
-    let effectSounds=0,pickupSounds=0,throwSounds=0;
+    let effectSounds=0,pickupSounds=0,throwSounds=0,moveSounds=0;
     for(const cue of cues){
       if('clearNotice' in cue||!cue.audible)continue;
       if('sound' in cue){
@@ -274,6 +274,10 @@ async function main() {
           // One leader-only money throw emits at most one spin and one loss.
           // Its cues cannot displace existing effects in an instant batch.
           if(throwSounds++<2)audio.effect(cue.sound);
+        }else if(cue.sound==='se678'||cue.sound==='se809'){
+          // One first cast/target per party actor; no wild or copied-move owner.
+          // Preserve the existing private-four budget in an instant batch.
+          if(moveSounds++<2)audio.effect(cue.sound);
         }else if(effectSounds++<4)audio.effect(cue.sound);
         continue;
       }

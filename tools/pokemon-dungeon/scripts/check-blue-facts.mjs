@@ -27,7 +27,6 @@ const documents = Object.fromEntries(await Promise.all(names.map(async name => {
   const input = await read(`content/blue-onboarding/${name}.json`);
   assert.deepEqual(pick(input.data, ['schemaVersion', 'catalogId', 'edition', 'kind']),
     { schemaVersion: 1, catalogId: 'original-blue-onboarding', edition: 'blue-rescue-team-qualified-facts', kind: name });
-  if (name !== 'sources') assert((await readFile(new URL(`../../games/pokemon-dungeon-reimagined/content/onboarding/${name}.json`, root))).equals(input.bytes), `Stale quiz resource: ${name}`);
   return [name, input.data];
 })));
 const { algorithm, questions, results, partners, sources } = documents;
@@ -48,7 +47,7 @@ assert.deepEqual(sources.factualHashes, quizPins);
 assert.equal(hashFacts(algorithm), '77b6063b7613d4aacd577b4cee16d9ca36722ec5c362e14940b00d8de9186bf8');
 assert.equal(sources.blueprintHashes.algorithm, hashFacts(algorithm));
 const factFields = ['starterProfiles', 'species', 'profiles', 'levels', 'learnsets', 'identities', 'actions', 'bodies', 'floors', 'generations', 'encounters', 'timers', 'ai'];
-assert.equal(hashFacts(pick(source, factFields)), '7afe6f9373b1e1a5ab3063ea0f7e270420c2d9cf206b7d3f737a34ef90cb7e52', 'Selected donor facts changed; review their source before changing this pin');
+assert.equal(hashFacts(pick(source, factFields)), 'd8c13d77871528f7c9daec7152db8c8acb98111b67847c42c4aff4415e6e3b4f', 'Reviewed opening facts changed; review their source before changing this pin');
 assert.equal(Object.keys(source.donorFiles).length, 28);
 assert.equal(hashFacts(source.donorFiles), 'b6cbdf102a347d0327c561778704eba54fc1556f601491cfecd33705d45ba684', 'Historical donor attribution changed');
 for (const [file, sha256] of Object.entries(source.donorFiles)) {
@@ -139,6 +138,21 @@ assert.deepEqual(pick(results.gender, ['sourceValues', 'changesScores', 'changes
 const species = unique(source.species), profiles = unique(source.profiles), levels = unique(source.levels), learns = unique(source.learnsets);
 const moves = unique(source.identities.moves, 'originalId'), actions = unique(source.actions, 'internalId');
 const types = unique(source.identities.types, 'originalId'), abilities = unique(source.identities.abilities, 'originalId');
+// Rapid Spin clears native status classes after this chosen move's hit passes.
+// Trap removal was a stale donor claim, not an opening engine capability.
+const rapidSpin = actions.get(96);
+assert.equal(rapidSpin.moveId, 'move-rapid-spin');
+assert.deepEqual(pick(rapidSpin.numeric, ['type', 'power', 'pp', 'accuracyBeforeEffect', 'accuracyAfterDamage', 'criticalPercent', 'chainedHitsRaw']),
+  { type: 'normal', power: 4, pp: 17, accuracyBeforeEffect: 125, accuracyAfterDamage: 90, criticalPercent: 12, chainedHitsRaw: 1 });
+assert.deepEqual(pick(rapidSpin.target, ['rangeCode', 'categoryCode', 'rawFlags']), { rangeCode: 0, categoryCode: 0, rawFlags: 0 });
+assert.equal(rapidSpin.target.wallCornerRules.cutsCorners, false);
+assert.equal(source.ai.actions.find(row => row.actionId === 96).weight, 30);
+assert.deepEqual(rapidSpin.effects, [{ op: 'normal-damage' }, { op: 'post-hit-rapid-spin', phase: 'after-chosen-move', requires: 'successful-nonzero-damage', gate: 'RollSecondaryEffect(user,0)', cureStatusClasses: ['frozen', 'leech-seed'] }]);
+assert.equal(rapidSpin.sourceReview.sourceCommit, '013475aa04f5be3191e5527c186d9bfceae7cae0');
+assert.deepEqual(Object.keys(rapidSpin.sourceReview.sources).sort(), ['src/dungeon_damage.c', 'src/dungeon_misc.c', 'src/dungeon_move_util.c', 'src/move_orb_actions_1.c', 'src/move_orb_effects_2.c', 'src/move_orb_effects_5.c']);
+for (const [file, evidence] of Object.entries(rapidSpin.sourceReview.sources)) {
+  assert.equal(evidence.url, `https://github.com/pret/pmd-red/blob/${rapidSpin.sourceReview.sourceCommit}/${file}`); hash(evidence.sha256);
+}
 // Synthesis's one admitted healing action uses the clear Tiny Woods profile.
 // These source facts do not execute the runtime admission or healing handler.
 const synthesis = actions.get(94);
@@ -226,4 +240,22 @@ assert.deepEqual(chart.types, ['None', 'Normal', 'Fire', 'Water', 'Grass', 'Elec
 assert.deepEqual(chart.classes, ['little', 'resist', 'neutral', 'super']); assert.equal(chart.cells.length, 18);
 for (const row of chart.cells) { assert.equal(row.length, 18); assert(row.every(value => chart.classes.includes(value))); }
 assert.equal(hashFacts(chart.cells), 'f89db28bece3867d49171cac70ce11ac2dfdad938aa29a10b81b4aa9d7a1fe30');
+// Independently compare the emitted runtime fields with the fully checked
+// authoring catalogs above; do not import the projection implementation.
+const runtimeOnboarding = {
+  algorithm: { natureOrder: algorithm.natureOrder },
+  partners: { orderedPool: partners.orderedPool,
+    pairs: partners.pairs.map(pair => pick(pair, ['heroSpeciesId', 'partnerSpeciesId'])) },
+  questions: { records: questions.records.map(question => ({
+    ...pick(question, ['id', 'categoryId', 'selectable', 'prompt']),
+    options: question.options.map(option => pick(option, ['text', 'scores', 'followUp'])),
+  })) },
+  results: { records: results.records.map(result => pick(result, ['natureId', 'description', 'maleSpeciesId', 'femaleSpeciesId'])) },
+};
+for (const [name, body] of Object.entries(runtimeOnboarding)) {
+  const bytes = await readFile(new URL(`../../games/pokemon-dungeon-reimagined/content/onboarding/${name}.json`, root));
+  assert.deepEqual(JSON.parse(bytes.toString('utf8')),
+    { schemaVersion: 2, ...pick(documents[name], ['catalogId', 'edition', 'kind']), ...body },
+    `Opening character projection differs from reviewed source: ${name}`);
+}
 console.log('Blue JSON facts checked: 56 questions, eight main questions with category exclusion, follow-up/tie policies, 26 gender outcomes, 129 partner pairs, 16 starting loadouts, 22 profiles, 115 actions, three floors and 324 type cells. No game execution.');

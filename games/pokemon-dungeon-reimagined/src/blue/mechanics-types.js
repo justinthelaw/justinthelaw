@@ -6,7 +6,7 @@
  * @typedef {'item-catcher'|'course-checker'|'dedicated-traveler'|'item-master'|'exclusive-move-user'} IqSkill
  * @typedef {{x:number,y:number}} Point
  * @typedef {{hp:number,attack:number,specialAttack:number,defense:number,specialDefense:number}} Stats
- * @typedef {{op:string,stat?:string,delta?:number,recipient?:string,status?:string,chancePercent?:number,secondaryChanceRaw?:number,effect?:Effect,finalMultiplier?:number,fraction?:number[],minimum?:number,multiplier?:unknown,amountByWeather?:Readonly<Record<string,number>>,amount?:number|string|null,basis?:string,requires?:string|string[],blockedBy?:string|string[],gate?:string}} Effect
+ * @typedef {{op:string,stat?:string,delta?:number,recipient?:string,status?:string,chancePercent?:number,secondaryChanceRaw?:number,effect?:Effect,finalMultiplier?:number,fraction?:number[],minimum?:number,multiplier?:unknown,amountByWeather?:Readonly<Record<string,number>>,amount?:number|string|null,basis?:string,requires?:string|string[],blockedBy?:string|string[],gate?:string,phase?:string,cureStatusClasses?:string[]}} Effect
  * @typedef {{id:string,name:string,type:string,power:number,pp:number,accuracyBeforeEffect:number,accuracyAfterDamage:number,criticalPercent:number,chainedHitsRaw:number,range:number,target:number,cutsCorners:boolean,effects:Effect[],aiWeight:number}} MoveData
  * @typedef {{name:string,chanceAsleep?:number,types:string[],abilities:string[],regenerationRate:number,experienceYield:number,lowKickMultiplier:number,baseStats:number[],growth:number[][],learnset:[number,string][]}} SpeciesData
  * @typedef {{number:number,label:string,generation:import('../domain/generation/types.js').Parameters,encounters:{speciesId:string,level:number,threshold:number}[]}} FloorData

@@ -1,14 +1,14 @@
 import {nativeBattleInitialInputs} from './native-battle-initial-inputs.mjs';
 import {battleDigest} from './native-battle-inputs.mjs';
 import {composeBattleEffects} from './native-effect-format.mjs';
-import {verifyNativeBattleMetadata} from './native-battle-effects-export.mjs';
+import {verifyNativeBattleMetadata,projectNativeBattleMetadata} from './native-battle-effects-export.mjs';
 
 /** Selected opening move effects; the Hypnosis background has its own owner. */
 export async function exportNativeInitialBattleEffects({emit,output}){
   const {files,manifest,manifestBytes}=await nativeBattleInitialInputs();
   const {atlas,metadata,evidence}=composeBattleEffects(files,'initial');
   verifyNativeBattleMetadata(metadata,'initial');
-  const imageBytes=atlas.png(),metadataBytes=Buffer.from(JSON.stringify(metadata)+'\n');
+  const imageBytes=atlas.png(),metadataBytes=Buffer.from(JSON.stringify(projectNativeBattleMetadata(metadata))+'\n');
   if(imageBytes.length>256*1024||metadataBytes.length>128*1024)throw Error('Initial battle artwork exceeds its encoded byte budget.');
   await emit(new URL('battle-effects-initial.png',output),imageBytes);
   await emit(new URL('battle-effects-initial.json',output),metadataBytes);

@@ -125,11 +125,13 @@ waypoints do not establish an exact commercial script or complete frame parity.
 
 ## Offline assets, memory and provenance
 
-`art/blue/export.mjs` produces 23 native species atlases, 213 native 40×40 portrait
+`art/blue/export.mjs` produces 23 native species atlases, 89 selected 40×40 portrait
 emotions, two title ornaments and a compact synchronous native UI data module.
 The original Red sprite PNG fragments, palettes and source AX tables are pinned
 in offline archives. The portrait PNGs have Rescue Team-specific wiki names,
-per-image URLs, timestamps and hashes. No Explorers glyph or sprite is silently
+per-image URLs, timestamps and hashes. All 213 portrait source images remain
+offline; the selected atlas covers the original opening, retry and rescue
+scripts plus every existing normal fallback. No Explorers glyph or sprite is silently
 substituted for a Rescue Team asset.
 
 Field and dungeon sprite palettes occupy two halves of each atlas. The latter
@@ -139,7 +141,10 @@ atlases and 8 MiB of decoded species pixels, with abortable local fetches and
 disposed ImageBitmaps. During a transition it can briefly retain the complete
 23-species inventory, totaling 11,657,216 decoded bytes, before eviction. The
 largest dual-palette species image is 929,792 decoded bytes; the largest 12 fit
-within the steady-state budget. The portrait atlas adds 1,382,400 decoded bytes.
+within the steady-state budget. The portrait atlas adds 614,400 decoded bytes:
+320×480 pixels, with 71,976 PNG bytes and 7,675 metadata bytes. Omitting unused
+emotions saves 110,782 download bytes and 768,000 decoded RGBA bytes without
+changing retained portrait pixels or runtime rendering code.
 Generated text tints have a 16-entry cache; UI tile caches have a fixed small
 palette inventory and explicit disposal hooks.
 

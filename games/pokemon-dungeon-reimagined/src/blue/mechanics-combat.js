@@ -16,7 +16,7 @@ export { moveTargets } from './mechanics-targets.js';
 /** @typedef {import('./mechanics-types.js').Effect} Effect */
 /** @typedef {import('../domain/rules/type-context.js').ElementType} ElementType */
 /** One synchronous chosen move owns its awards and terminal evidence; no save fields.
- * @typedef {{awards:Map<string,number>,partnerFainted:boolean,leaderFainted:boolean}} MoveExecution */
+ * @typedef {{awards:Map<string,number>,partnerFainted:boolean,leaderFainted:boolean,rapidSpinSucceeded?:boolean}} MoveExecution */
 /** @typedef {{giveExp?:boolean,falseSwipe?:boolean,execution?:MoveExecution,cause?:'move'|'residual'|'recoil'|'hunger'|'item',effectiveness?:0|1|2|3}} DamageOptions */
 const ACCURACY = [84,89,94,102,110,115,140,153,179,204,256,320,384,409,422,435,448,460,473,486,512];
 const EVASION = [512,486,473,460,448,435,422,409,384,345,256,204,179,153,128,102,89,76,64,51,38];
@@ -59,6 +59,14 @@ function defeated(state) { return state.status==='defeated'; }
  * and the level-one Tiny Woods encounters have complete admitted handlers.
  * @param {MoveData} move */
 export function supportsMove(move) {
+  if(move.id==='move-rapid-spin'){
+    const [normal,cleanup]=move.effects;
+    return move.type==='normal'&&move.power===4&&move.pp===17&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===90&&move.criticalPercent===12&&
+      move.chainedHitsRaw===1&&move.range===0&&move.target===0&&move.cutsCorners===false&&move.aiWeight===30&&move.effects.length===2&&
+      normal?.op==='normal-damage'&&Object.keys(normal).length===1&&cleanup?.op==='post-hit-rapid-spin'&&Object.keys(cleanup).length===5&&
+      cleanup.phase==='after-chosen-move'&&cleanup.requires==='successful-nonzero-damage'&&cleanup.gate==='RollSecondaryEffect(user,0)'&&
+      cleanup.cureStatusClasses?.length===2&&cleanup.cureStatusClasses[0]==='frozen'&&cleanup.cureStatusClasses[1]==='leech-seed';
+  }
   if(move.id==='move-synthesis'){
     const effect=move.effects[0];
     return move.chainedHitsRaw===1&&move.range===7&&move.target===3&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===125&&
@@ -171,6 +179,17 @@ export function heal(state,actor,amount,events) {
     message(state,events,text,{kind:'heal-result',actor:after,amount:restored});
   }
 }
+/** HandleFaint silently unlinks seed recipients before removing the source.
+ * The source itself and the original HP-zero partner are still valid here.
+ * Preserve the dormant source binding/countdown; Rapid Spin clears its slot.
+ * @param {DungeonState} state @param {Actor} source @param {GameEvent[]} events */
+function unlinkFaintedLeechSource(state,source,events) {
+  /** @type {Actor[]} */const changed=[];
+  for(const actor of [state.hero,state.partner,...state.enemies]){
+    if((actor===source||moveEntityValid(actor))&&actor.status.leechSeed&&actor.leechSource===source.id){delete actor.status.leechSeed;changed.push(actor);}
+  }
+  if(changed.length)recordSync(state,events,changed);
+}
 /** @param {DungeonState} state @param {Actor} target @param {number} amount @param {OpeningData} data @param {GameEvent[]} events @param {Actor|null} [source] @param {DamageOptions} [options] */
 export function damage(state,target,amount,data,events,source=null,options={}) {
   if(target.hp<=0)return;
@@ -194,6 +213,7 @@ export function damage(state,target,amount,data,events,source=null,options={}) {
   // The native drop precedes HandleFaint, including the original partner.
   // Only the leader retains its held slot for the dungeon-exit owner.
   if(target.id!=='hero'&&target.heldItem){dropItem(state,target.heldItem,target,events);target.heldItem=null;recordSync(state,events,[target],true);}
+  unlinkFaintedLeechSource(state,target,events);
   if(team(target)){
     state.status='defeated';
     if(options.execution){if(target.id==='partner')options.execution.partnerFainted=true;else options.execution.leaderFainted=true;}
@@ -356,6 +376,8 @@ function resolveDamagingHit(state,actor,target,move,data,events,execution) {
     // effects apply afterward, using the original defender's state.
     reactions=sampleContactReactions(state,actor,target,move,data);
   }
+  // Rapid Spin's chance-zero user gate still succeeds after a target KO.
+  if(amount>0&&move.id==='move-rapid-spin'&&moveEntityValid(actor))execution.rapidSpinSucceeded=true;
   // Absorb's nominal-damage healing occurs inside its handler, before the
   // queued contact effects and before any whole-move EXP or level-up healing.
   if(amount>0&&moveEntityValid(actor)&&move.effects.some(effect=>effect.op==='drain')){if(!team(actor))actor.experienceMarked=true;heal(state,actor,Math.max(1,Math.floor(amount/2)),events);}
@@ -455,6 +477,13 @@ export function attack(state,actor,slot,data,events) {
     }
   }
   if(!foundTarget)message(state,events,'There was no target.');
+  // Chosen-move cleanup follows contact activation, even after floor loss.
+  // Frozen/Destiny Bond classes are absent from the opening's saved statuses.
+  if(execution.rapidSpinSucceeded&&moveEntityValid(actor)){
+    if(actor.status.leechSeed)message(state,events,`${actor.name}'s Leech Seed wore off.`);
+    delete actor.status.leechSeed;actor.leechSource=null;
+    recordSync(state,events,[actor]);
+  }
   flushExperience(state,actor,execution,data,events);
 }
 /** Native beginning-of-opportunity timers and HP accumulator, followed by source

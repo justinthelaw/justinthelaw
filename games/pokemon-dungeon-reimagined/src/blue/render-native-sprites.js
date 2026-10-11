@@ -9,7 +9,7 @@ const ASSET_ROOT=new URL('../../assets/blue/',import.meta.url),MAX_ATLASES=12,MA
 /** @typedef {[number,number,number,number,number,number]} NativePose */
 /** @typedef {[number,number,number,number,number,number,number]} NativeFrame */
 /** @typedef {{animation:number,loop:boolean}} NativeClip */
-/** @typedef {{schemaVersion:2,speciesId:string,width:number,height:number,dungeonOffsetY?:number,directions:string[],poses:NativePose[],statusOffsets?:[number,number][],effectOffsetSetIds?:number[],effectOffsetSets?:[number,number][][],effectOffsetIndices?:number[],animations:NativeFrame[][][],clips:Record<string,NativeClip>,shadowSize:number,sourceEdition:string}} NativeMetadata */
+/** @typedef {{schemaVersion:3,speciesId:string,width:number,height:number,dungeonOffsetY?:number,poses:NativePose[],statusOffsets?:[number,number][],effectOffsetSets?:[number,number][][],effectOffsetIndices?:number[],animations:NativeFrame[][][],clips:Record<string,NativeClip>,shadowSize:number}} NativeMetadata */
 /** @typedef {{speciesId:string,emotion:string,x:number,y:number,width:number,height:number}} Portrait */
 /** @typedef {{schemaVersion:2,width:number,height:number,cell:number,records:Portrait[]}} PortraitMetadata */
 /** @typedef {{image:ImageBitmap,metadata:NativeMetadata,used:number}} Atlas */
@@ -35,13 +35,13 @@ function selectedPose(entry,options){
 
 /** @param {NativeMetadata} metadata @param {string} speciesId */
 function validateMetadata(metadata,speciesId){
-  if(metadata.schemaVersion!==2||metadata.speciesId!==speciesId||!Number.isInteger(metadata.width)||!Number.isInteger(metadata.height)||metadata.width<1||metadata.height<1||metadata.width>1024||metadata.height>2048||metadata.width*metadata.height*4>2*1024*1024||metadata.directions?.join(',')!==DIRECTIONS.join(','))throw Error('Native character metadata has invalid dimensions or directions.');
+  if(metadata.schemaVersion!==3||metadata.speciesId!==speciesId||!Number.isInteger(metadata.width)||!Number.isInteger(metadata.height)||metadata.width<1||metadata.height<1||metadata.width>1024||metadata.height>2048||metadata.width*metadata.height*4>2*1024*1024)throw Error('Native character metadata has invalid identity or dimensions.');
   if(!Array.isArray(metadata.poses)||metadata.poses.length<1||metadata.poses.length>1024||!Array.isArray(metadata.animations)||metadata.animations.length<8||metadata.animations.length>32)throw Error('Native character metadata has invalid pose tables.');
   for(const pose of metadata.poses)if(pose.length!==6||pose.some(value=>!Number.isInteger(value))||pose[0]<0||pose[1]<0||pose[2]<1||pose[3]<1||pose[0]+pose[2]>metadata.width||pose[1]+pose[3]>metadata.height)throw Error('Native pose exceeds its atlas.');
   if(metadata.statusOffsets!==undefined&&(!Array.isArray(metadata.statusOffsets)||metadata.statusOffsets.length!==metadata.poses.length||metadata.statusOffsets.some(offset=>offset.length!==2||offset.some(value=>!Number.isInteger(value)||Math.abs(value)>32767))))throw Error('Native status attachment positions are invalid.');
-  if(metadata.effectOffsetSets!==undefined||metadata.effectOffsetIndices!==undefined||metadata.effectOffsetSetIds!==undefined){
+  if(metadata.effectOffsetSets!==undefined||metadata.effectOffsetIndices!==undefined){
     const sets=metadata.effectOffsetSets,indices=metadata.effectOffsetIndices;
-    if(!metadata.statusOffsets||metadata.effectOffsetSetIds?.join(',')!=='1,2,3'||!Array.isArray(sets)||sets.length<1||sets.length>metadata.poses.length||sets.some(set=>!Array.isArray(set)||set.length!==3||set.some(pair=>!Array.isArray(pair)||pair.length!==2||pair.some(value=>!Number.isInteger(value)||value< -32768||value>32767)))||!Array.isArray(indices)||indices.length!==metadata.poses.length||indices.some(index=>!Number.isInteger(index)||index<0||index>=sets.length))throw Error('Native effect attachment pools are invalid.');
+    if(!metadata.statusOffsets||!Array.isArray(sets)||sets.length<1||sets.length>metadata.poses.length||sets.some(set=>!Array.isArray(set)||set.length!==3||set.some(pair=>!Array.isArray(pair)||pair.length!==2||pair.some(value=>!Number.isInteger(value)||value< -32768||value>32767)))||!Array.isArray(indices)||indices.length!==metadata.poses.length||indices.some(index=>!Number.isInteger(index)||index<0||index>=sets.length))throw Error('Native effect attachment pools are invalid.');
   }
   const dungeonOffsetY=metadata.dungeonOffsetY;
   if(dungeonOffsetY!==undefined&&(!Number.isInteger(dungeonOffsetY)||dungeonOffsetY<1||dungeonOffsetY*2!==metadata.height||metadata.poses.some(pose=>pose[1]+pose[3]>dungeonOffsetY)))throw Error('Native battle palette exceeds its atlas.');

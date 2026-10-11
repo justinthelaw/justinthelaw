@@ -37,3 +37,26 @@ display color expansion. The source screenshots and URL/hash inventory are in
 `art/blue/native-reference`; checks are recorded in
 `portrait-pixel-corroboration.json`. Portrait positions do not receive the world
 camera's (1,12) offset.
+
+## Runtime selection
+
+The browser ships 89 portraits while all 213 source images and both Blue pixel
+proofs remain offline. Every hero retains normal, happy, worried and shocked;
+the ten partner-pool species additionally retain joyous and special. Caterpie
+retains its three portraits, Butterfree normal remains, and Pelipper normal is
+kept so every existing fallback survives. No saved field or user input supplies
+another emotion. Runtime portrait lookup and its aliases are unchanged.
+
+The original awakening, retry, rescue and reunion scripts contain 38 portrait
+commands covering the same 88 requested records. The extra raw sprite −2 command
+explicitly clears the portrait. Twelve called/common helpers add no portrait;
+ordinary dungeon Talk, level-up and tutorial messages pass none. Native role
+lookups preserve the sixteen-hero/ten-partner identities across retries.
+
+The exporter verifies and decodes the complete source inventory, including the
+omitted Pikachu-inspired image, before emitting the selected atlas. An independent
+checker requires the exact 89-key coverage and all nineteen normal fallbacks.
+All 142,400 retained crop pixels match the prior atlas. The new 320×480 atlas uses
+71,976 PNG bytes and 7,675 metadata bytes, saving 110,782 encoded bytes and
+768,000 decoded RGBA bytes. This is source and pixel-preservation evidence, not
+complete Blue script or timing parity.

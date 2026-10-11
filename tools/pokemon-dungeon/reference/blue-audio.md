@@ -5,7 +5,7 @@ source-derived effects. It does not contain the Nintendo DS soundtrack. Five
 menu roles use four short PSG effects; regular attack uses one, and accuracy
 misses/raw-zero damage share two more. Actual ground pickups add two PSG cues
 and one PCM cue. The finite throw-spin and item-loss catalogs add one PSG
-and one PCM cue. Healing, heart, Poké pickup and item loss use five public
+and one PCM cue. Healing, heart, Poké pickup, item loss, Rapid Spin and Synthesis use six public
 signed-8 PCM samples and finite control data.
 These are Red Rescue Team comparative evidence until Blue playback is corroborated.
 The scoped bank in `src/blue/audio-bank.js` contains 11 themes and 8 effects;
@@ -235,10 +235,10 @@ its separate SE3/global-envelope proposal has not been admitted.
 
 ## Selected healing and heart PCM — 2026-10-11
 
-`audio/blue-pcm-effects.json` pins 36 public source files at the comparative
-commit above, five sample payloads and four finite control tracks. The original
+`audio/blue-pcm-effects.json` pins 40 public source files at the comparative
+commit above, six sample payloads and six finite control tracks. The original
 healing/heart subset described here retains its three sample payloads and all
-control tuples; the additional Poké pickup and item loss are described below. Run
+control tuples; Poké pickup, item loss, Rapid Spin and Synthesis are described below. Run
 `node scripts/export-blue-pcm-effects.mjs --check` from the authoring package
 to verify the generated data; add `--source-root PATH` to compare all pinned
 source bytes. The exporter uses Node built-ins and never imports or executes
@@ -270,8 +270,8 @@ owner. A new SE5 cue replaces attached notes and future notes. FINE detaches
 release tails: 606 can leave two, which later SE5 replacement preserves until
 their finite ends. Pause, mute, blur, visibility loss, denial, retired epochs,
 context replacement and disposal stop all voices including detached tails.
-There are at most 13 newly scheduled PCM sources plus two detached tails, five
-cached buffers and one stereo merger after the pickup and item-loss admissions below. Every source shares the existing 32-voice
+There are at most 13 newly scheduled PCM sources plus two detached tails, six
+cached buffers and one stereo merger after the later cue admissions below. Every source shares the existing 32-voice
 ceiling with authored music/effects and SE2. Recognized overload is consumed
 without an authored fallback. No new timer, worklet, network fetch, playback
 queue or gameplay callback is introduced.
@@ -282,8 +282,9 @@ second tone. Heart coverage includes Attract's target effect, Charm/Covet
 preparation and the separate successful infatuation application. Full-HP healing
 keeps its effect 7 sound. Offscreen/hidden effects and missing effect metadata
 emit none. Carry and redraw do not recreate receipts; explicit finish consumes
-them silently. Collapsed/reduced-motion batches admit at most four private native sound cues
-and discard excess receipts without deferred replay. Visual waits, HP/status
+them silently. Collapsed/reduced-motion batches admit at most four cues in this
+other-private bucket and discard excess receipts without deferred replay.
+Pickup, throw and Rapid Spin/Synthesis have separate limits described below. Visual waits, HP/status
 patches, result messages, numbers, canonical mechanics and saves are unchanged.
 
 606 sets native global reverb 60. 614's header 0 leaves that state unchanged; it
@@ -472,11 +473,11 @@ existing PCM tuple/player grammar; no runtime interpreter is added.
 The new [wave116](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/wave/wave_116.s)
 has 13,629 nonlooping signed-8 samples, no guard, base rate 18,157 Hz and SHA256
 `08444c2f94defc1aa4d46f8667aa228430f69867a1125b6e5435d6f13230eead`.
-Five cached buffers total 109,940 decoded Float32 bytes. The complete encoded
-payload is 36,656 base64 characters; the generated PCM module is 41,043 bytes
-under its explicitly readmitted 41,100-byte limit. Aggregate controls are 21
-notes, 247 stereo rows and 41 frequency rows; per-note limits are 17/12. Previous
-samples and control tuples remain token-exact.
+Before the Rapid Spin/Synthesis addition below, five cached buffers totaled
+109,940 decoded Float32 bytes. That subset had 36,656 base64 characters and a
+41,043-byte generated module under its then-current 41,100-byte limit. Its
+controls were 21 notes, 247 stereo rows and 41 frequency rows, with per-note
+limits of 17/12. Those samples and control tuples remain token-exact.
 
 Wave 116 retains its complete source payload. A finite gate bounds playback
 position, but the [Web Audio playback contract](https://www.w3.org/TR/webaudio-1.0/#playback-AudioBufferSourceNode)
@@ -511,3 +512,55 @@ reverb 0 preserves native global state, while browser PCM remains dry. The
 comparative 280896/16777216-second clock, pulse phase/band-limiting, native
 mixing/reverb, browser resampling, Blue identity and audition remain qualified.
 No engine, timer, queue, dependency or arbitrary reverb is added.
+
+## Rapid Spin and Synthesis finite PCM — 2026-10-11
+
+Fresh displayed effect 83 and 271 handles request comparative sounds 678 and 809
+on their first source update. The public roles are `se678`/`se809`, backed by
+`effect-rapid-spin`/`effect-synthesis`. The joins follow handle admission, not
+Canvas drawing or sampled attachment visibility. Missing/offscreen/hidden
+handles emit nothing; carry and redraw cannot retrigger. Explicit finish is
+silent. Artwork retirement does not stop a PCM cue.
+
+Both use bank 026 voice 1, envelope 255/249/0/0, and full wave 096: 5,910 samples,
+loop [4,209,5,910), one interpolation guard and 18,157 Hz base rate. The new buffer
+uses 23,640 decoded Float32 bytes; all six total 133,580. Source sample/sequence
+URLs and hashes remain in `audio/blue-pcm-effects.json`. Public source
+availability is not a publisher reuse grant, and original Blue identity is
+unverified.
+
+678 has two notes at frames [5,65)/[6,66), FINE 69, 112 stereo rows and 89 rate rows.
+809 has four consecutive notes at [1,11)/[11,20)/[20,30)/[30,40), FINE 40, 42 stereo
+rows and 38 rate rows. Its MODT0 pitch term is exactly 16*modM before signed
+coarse/fine splitting; the source-owned phase continues across notes with zero
+LFO delay. The four earlier cue tuples and five sample literals remain exact.
+The finite data caps are 59/45 rows per note and 52,200 module bytes; actual data
+is 52,109 bytes. Note maximum 13, envelope-end maximum 82 and live 15-PCM/shared 32
+source ceilings are unchanged. Four future sources for 809 are allocation,
+not four simultaneous sounding notes; its new-note interval peak is one.
+
+SE5 replacement stays shared. At Synthesis handle creation H, 809 requests at
+H+1 and the later healing 606 at H+37. Every 606 request delivered to the PCM
+owner stops still-attached 809 before admission; a denied replacement does not
+restore it or trigger an authored substitute. Existing detached healing tails
+remain eligible under the unchanged player. No new engine, timer, save field,
+queue, reverb model or audio-stop callback is added.
+
+The new roles have their own two-request limit per delivered ActionResult
+batch. Only party learners can produce them, with one chosen-move opportunity
+and one selected cast/target each. Existing pickup 12, throw 2 and other-private 4
+limits retain their order and budgets. The inherited private-four limit can
+still consume a healing 606 receipt in an instant batch; then no delivered 606
+exists to interrupt 809. In particular, an admitted-save Cubone Bone Rush /
+whiffer 127 path can supply four visible misses before Chikorita's Synthesis;
+hits() still consumes its existing draw before the whiffer miss. This is a
+static saved-state counterexample, not a naturally acquired party, played seed
+or cartridge replay claim. No synthetic stop hides this existing limitation.
+
+Only Rapid Spin/Synthesis suppress their authored cast-entry attack request.
+Their native direct-cast entries are STOP; the authored body remains live for
+other moves. Rapid Spin's later authored damage sound is a separate qualified
+fallback for held native impacts 607–610 and remains unchanged. Preparation 22 /
+sound 621 stays separate and unimplemented by this admission. Native global
+five-channel competition/reverb/mixing, Blue clock/sample identity, browser
+resampling/request phase and audition remain qualified.

@@ -37,13 +37,13 @@ from explicitly selected indexed EFO image files, retaining original palettes,
 flips, per-part depth, frame data and attachment positions. Source hashes and
 URLs are recorded in art/blue/native-battle-sources.json and
 art/blue/native-battle-initial-sources.json; decoding evidence is retained beside
-them. The selected 15-effect and 11-effect banks load with dungeon artwork
+them. The selected 16-effect and 11-effect banks load with dungeon artwork
 under one aggregate 4 MiB decoded budget and follow the separate pause-aware
 battle timeline. Adjacent Ember retains the comparative source's post-launch
 attachment convergence and separate depth anchor. Effect-specific Blue pixels
-and complete driver timing remain unverified. Synthesis is included because it
-can be learned after repeated failed Tiny Woods rescues; its sound 809 is not
-selected. Hypnosis alone
+and complete driver timing remain unverified. Synthesis and Rapid Spin are
+included because they can be learned after repeated failed Tiny Woods rescues;
+their comparative sounds 809 and 678 are included as described below. Hypnosis alone
 adds the comparative efbg005 background plane from the same source pin, with
 its source manifest/archive in art/blue/native-hypnosis-sources.json. The
 screen-relative 256x192 crop at 0,0 is an explicit comparative assumption;
@@ -54,7 +54,9 @@ No game music or commercial script is copied.
 
 Each species retains statusOffsets as native attachment set0. The remaining
 sets1-3 are losslessly pooled by effectOffsetIndices into effectOffsetSets; their
-order is explicitly recorded by effectOffsetSetIds. Source sentinel99 is retained.
+fixed order is checked in full offline authoring metadata. Runtime records omit
+only repeated direction, attachment-order and edition descriptors; all frame and
+attachment values, including source sentinel99, are retained.
 
 Field and dungeon sprite palettes remain separate: dungeon brightness uses the
 source31/256 conversion before DS channel expansion. Native scenery has separate
@@ -99,3 +101,8 @@ facts, not verified Blue playback or a publisher reuse grant.
 Item-loss audio additionally uses public source wave116 at the same commit.
 Its full sample hash and finite controls are pinned in blue-pcm-effects.json;
 Blue identity and playback remain unverified.
+
+Rapid Spin and Synthesis additionally use public source wave 096 at the same
+pinned commit, with the full loop and interpolation guard. Its sample hash and
+finite controls are retained in blue-pcm-effects.json. These remain comparative
+Red data; original Blue identity, playback and reuse permission are unverified.

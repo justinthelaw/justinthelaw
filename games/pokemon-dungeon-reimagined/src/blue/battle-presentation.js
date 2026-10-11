@@ -28,7 +28,7 @@ import {pokeFlightSamples,pokeDropSamples,pokeLossPosition} from './battle-item-
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
 /** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[],hidden?:boolean}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711',audible:boolean}|{clearNotice:true}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809',audible:boolean}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 
@@ -38,8 +38,9 @@ const TICK_MS=1000/60;
 // +12 admitted initial-sleep wakes*8 +64 setup =4916. A conservative365
 // camera-boundary allowance gives5281, still below8192. Native wild admission is
 // narrower. The leader-only money route adds at most64 pieces, including its
-// one direct-damage call and wake receipts:5345 <8192. Geometry uses at most
-// 60 flight +25 landing samples, without creating an event per frame.
+// one direct-damage call and wake receipts:5345. Seed-source faint unlink and
+// two party Rapid Spin cleanups add at most 16 receipts:5361 <8192. Geometry uses
+// at most 60 flight +25 landing samples, without creating an event per frame.
 // This rejection boundary never truncates an admitted event stream.
 const MAX_EVENTS=8192,MAX_ACTORS=12,MAX_ITEMS=64;
 
@@ -118,7 +119,7 @@ export class BattlePresentation {
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
     /** Native sound receipts are private presentation evidence, never saves.
-     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'} name @param {number} at @param {number} [order] */
+     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'} name @param {number} at @param {number} [order] */
     const sound=(name,at,order=ordinal++)=>{
       if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
       this.cues.push({sound:name,at,ordinal:order,audible:true});
@@ -176,6 +177,7 @@ export class BattlePresentation {
       // The native effect owner requests sound once on its first source frame.
       // Carried tracks and repeated draws never enter this creation path.
       if(id===7||id===15)sound(id===7?'heal':'heart',start);
+      else if(id===83||id===271)sound(id===83?'se678':'se809',start);
       return info.blocksWait===false?at:Math.min(end,at+waitLimit);
     };
     const drainEffects=()=>{
@@ -403,7 +405,8 @@ export class BattlePresentation {
         if(route)moves.set(record.actor.id,route);
         const start=cursor;messageAt=start;
         const visible=displayedActor(record.actor);
-        cue(event.type==='presentation'?{type:'attack',actorId:record.actor.id,moveId:record.moveId}:event,start,order,visible);
+        // These two native effect routes replace only their authored cast cue.
+        cue(event.type==='presentation'?{type:'attack',actorId:record.actor.id,moveId:record.moveId}:event,start,order,visible&&record.moveId!=='move-rapid-spin'&&record.moveId!=='move-synthesis');
         if(!visible)continue;
         if(route?.preparation&&record.first){
           if(record.moveId==='move-hypnosis'&&assets.hypnosisReady()){
@@ -454,7 +457,8 @@ export class BattlePresentation {
         requestCamera(record.target,'look');
         if(displayedActor(record.target)){
           cursor+=4;
-          if(route?.target)cursor=effect(route.target,record.target,cursor,undefined,'s');
+          // Rapid Spin retains the terminator draw before its target wait returns.
+          if(route?.target)cursor=effect(route.target,record.target,cursor,undefined,'s',Infinity,false,false,record.moveId==='move-rapid-spin'&&route.target===83);
         }
         messageAt=cursor;continue;
       }
