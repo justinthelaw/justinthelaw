@@ -17,6 +17,22 @@ Three.js runtime, plans and art studies.
 
 ## Current candidate readiness — 2026-10-11
 
+### Heal Bell follow-up
+
+The candidate-4 manual acceptance below belongs to checkpoint `7b843bc` and
+passed the complete bounded opening through rescue, reward and completed-save
+Continue. The later Heal Bell slice admits Skitty's level-37
+room-allies cure, its native-qualified effect route and the reviewed status
+cleanup documented in
+`tools/pokemon-dungeon/reference/blue-heal-bell.md`. Heal Bell has not been
+manually cast. The regenerated distribution contains 149 files totaling
+2,816,222 bytes. The complete Node 24 static check passed. A separate candidate-5
+iframe check restored the older Volt/Shell B1F save, loaded both battle banks,
+retained selected Thundershock at 17/17 and Growl at 20/20, and downloaded the
+native screen without browser warnings or errors. This verifies bank loading
+and save compatibility, not a late-level Heal Bell cast. Evidence is in
+`tools/pokemon-dungeon/.work/blue-ready-20261011/heal-bell-browser/manual.json`.
+
 The candidate checkpoint recorded in
 `tools/pokemon-dungeon/.work/blue-ready-20261011/candidate-4-snapshot.json`
 passes the complete Node 24 authoring check: 103 lint inputs, 67 strict source
@@ -58,7 +74,7 @@ distribution. These checks do not import or execute game modules.
   `b085c7f577de7d6a3e7564d1e01943b4dae7b4f26f03b7e0d4a6e0deabb58f13`.
 
 For ordinary first-attempt Tiny Woods, every reachable learned move has a
-handler. Repeated losses retain EXP and can reach 18 rejected move IDs across 23
+handler. Repeated losses retain EXP and can reach 17 rejected move IDs across 22
 learnset rows; those paths remain visibly unavailable and are outside normal
 first-attempt acceptance. Exact parity also remains blocked by authored dialogue
 and effects, unresolved Blue-specific title/menu layers and timing, unverified

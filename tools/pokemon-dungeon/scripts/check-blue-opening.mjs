@@ -39,6 +39,7 @@ const admittedMoves = new Set(['regular-attack', 'move-struggle', 'bide-release'
 assert.equal(admittedMoves.size, 101); assert.deepEqual(Object.keys(data.moves).sort(), [...admittedMoves].sort());
 assert.deepEqual(data.moves['move-charm'], {id:'move-charm',name:'Charm',type:'normal',power:2,pp:22,accuracyBeforeEffect:75,accuracyAfterDamage:100,criticalPercent:12,chainedHitsRaw:1,range:0,target:0,cutsCorners:false,effects:[{op:'stat-multiplier',stat:'attack',factor:[1,2],minimum:[2,256],recipient:'target'}],aiWeight:15});
 assert.deepEqual(data.moves['move-screech'], {id:'move-screech',name:'Screech',type:'normal',power:2,pp:22,accuracyBeforeEffect:100,accuracyAfterDamage:88,criticalPercent:12,chainedHitsRaw:1,range:8,target:0,cutsCorners:true,effects:[{op:'stat-multiplier',stat:'defense',factor:[1,4],minimum:[2,256],recipient:'target'}],aiWeight:15});
+assert.deepEqual(data.moves['move-heal-bell'], {id:'move-heal-bell',name:'Heal Bell',type:'normal',power:2,pp:12,accuracyBeforeEffect:125,accuracyAfterDamage:125,criticalPercent:12,chainedHitsRaw:1,range:3,target:1,cutsCorners:false,effects:[{op:'cure-negative-statuses'}],aiWeight:15});
 const expectedSprites = new Set([...data.starterIds, ...data.floors.flatMap(floor => floor.encounters.map(row => row.speciesId)),
   'pokemon-010', 'pokemon-012', 'pokemon-279']);
 assert.deepEqual(new Set(assets.records.map(record => record.speciesId)), expectedSprites, 'Opening sprite coverage must match the selected roster');
@@ -215,7 +216,7 @@ for (const bank of assets.battleEffects.banks) {
     assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
   }
 }
-assert.equal(battleIds.size, 30);
+assert.equal(battleIds.size, 31);
 const hypnosis = assets.battleEffects.hypnosis;
 assert.equal(hypnosis.activation, 'selected-hypnosis-only'); assert.equal(hypnosis.effectId, 222);
 assert.equal(hypnosis.path, 'hypnosis-background.png'); assert.equal(hypnosis.width, 416); assert.equal(hypnosis.height, 32);

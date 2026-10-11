@@ -59,6 +59,12 @@ function defeated(state) { return state.status==='defeated'; }
  * and the level-one Tiny Woods encounters have complete admitted handlers.
  * @param {MoveData} move */
 export function supportsMove(move) {
+  if(move.id==='move-heal-bell'){
+    const effect=move.effects[0];
+    return move.type==='normal'&&move.power===2&&move.pp===12&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===125&&
+      move.criticalPercent===12&&move.aiWeight===15&&move.chainedHitsRaw===1&&move.range===3&&move.target===1&&move.cutsCorners===false&&
+      move.effects.length===1&&effect?.op==='cure-negative-statuses'&&Object.keys(effect).length===1;
+  }
   if(move.id==='move-charm'||move.id==='move-screech'){
     const effect=move.effects[0],charm=move.id==='move-charm';
     return move.type==='normal'&&move.power===2&&move.pp===22&&move.accuracyBeforeEffect===(charm?75:100)&&
@@ -300,6 +306,34 @@ const STAT_EFFECTS={attack:[404,425],specialAttack:[403,402],defense:[399,398],a
 function recordEffect(events,before,actor,effectId) {
   events.push({type:'presentation',presentation:{kind:'effect',before,after:captureActor(actor),...(effectId===undefined?{}:{effectId})}});
 }
+/** Heal Bell's native status owner clears admitted negative classes first,
+ * then the independent negative-speed counters. Sealed moves and unrepresented
+ * status classes remain outside this opening state rather than being invented.
+ * @param {DungeonState} state @param {Actor} target @param {GameEvent[]} events */
+function cureNegativeStatuses(state,target,events){
+  const hadNegative=NEGATIVE_STATUSES.some(key=>!!target.status[key]);
+  /** @type {string[]} */const cured=[];
+  /** @param {string} key @param {string} text @param {()=>void} [cleanup] */
+  const cure=(key,text,cleanup)=>{if(!target.status[key])return;delete target.status[key];cleanup?.();cured.push(key);message(state,events,text);recordSync(state,events,[target]);events.push({type:'status',actorId:target.id,text:`cured-${key}`});};
+  cure('sleep',`${target.name} woke up!`);
+  cure('poison',`${target.name} recovered from poison!`);
+  cure('burn',`${target.name} recovered from a burn!`);
+  cure('paralysis',`${target.name} recovered from paralysis!`);
+  cure('confusion',`${target.name} recovered from confusion!`);
+  cure('infatuated',`${target.name} got over its infatuation!`);
+  cure('cringe',`${target.name} is no longer cringing!`);
+  cure('leechSeed',`${target.name}'s Leech Seed wore off.`,()=>{target.leechSource=null;});
+  // EndLeechSeedClassStatus releases unk8 even when the class is inactive.
+  if(hadNegative&&target.leechSource!==null){target.leechSource=null;recordSync(state,events,[target]);}
+  cure('whiffer',`${target.name} recovered from its Whiffer status!`);
+  // Native enters the class-ending block only when MonsterHasNegativeStatus
+  // was true, then SendMoveEndMessage clears the whole represented class.
+  if(hadNegative)cure('focusEnergy',`${target.name} lost its Focus Energy status!`);
+  // Native leaves the inactive class countdown fields intact.
+  cure('slow',`${target.name} returned to normal speed!`);
+  if(!cured.length){message(state,events,'But nothing happened.');return;}
+  const postCure=captureActor(target);recordEffect(events,postCure,target,21);recordSync(state,events,[target]);
+}
 /** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {Effect} effect @param {OpeningData} data @param {GameEvent[]} events */
 function applyEffect(state,actor,target,effect,data,events) {
   const recipient=effect.recipient==='user'?actor:target;
@@ -509,7 +543,9 @@ export function attack(state,actor,slot,data,events) {
         // return success even when an immunity or stat cap prevents a change.
         if(move.id!=='regular-attack'&&!team(target))target.experienceMarked=true;
         if(move.effects.some(effect=>effect.op==='exclude-user')&&target.id===actor.id)continue;
-        if(move.id==='move-foresight'){
+        if(move.id==='move-heal-bell'){
+          cureNegativeStatuses(state,target,events);
+        }else if(move.id==='move-foresight'){
           // The closed roster has no Ghost type, type changes or Safeguard.
           // sub_8041DD8 selects effect 14 for non-Ghost targets, even when
           // no boosted evasion needed resetting. Effect 122 is Ghost-only.

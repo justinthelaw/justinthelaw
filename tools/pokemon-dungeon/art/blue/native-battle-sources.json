@@ -7,8 +7,8 @@
   "rights": "Original Pokémon / Chunsoft / Nintendo imagery and data. Provenance does not assert a rights-holder reuse grant.",
   "archive": {
     "path": "native-battle-source.tar.gz",
-    "bytes": 162717,
-    "sha256": "d76c94d9b879ed2d10ffd0268b3812f09746719bb2bfeb9d7fbc61845f084ea5"
+    "bytes": 161521,
+    "sha256": "01e31c3f2f9be50ec74da1787e616b88db54009f2264cba2b926c38c7844f9a7"
   },
   "files": [
     {
@@ -210,6 +210,24 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob000.pal"
     },
     {
+      "path": "src/data/effects/efob007.c",
+      "bytes": 56394,
+      "sha256": "101ec8ef28d3b6c6a3358f8bf06d1a619722b149bffd7d762609fc347d406681",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob007.c"
+    },
+    {
+      "path": "data/effects/efob007.png",
+      "bytes": 1428,
+      "sha256": "a65a9bd27352e065b2142c83c328879bcfb96740e1a7226106414fa709b12ef1",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob007.png"
+    },
+    {
+      "path": "data/effects/efob007.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob007.pal"
+    },
+    {
       "path": "src/data/effects/efob053.c",
       "bytes": 23510,
       "sha256": "d0953a0f9bd75369bdcf802a99fe8fc08df8b87b32ea5908090ab4708367236c",
@@ -244,6 +262,24 @@
       "bytes": 194,
       "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob054.pal"
+    },
+    {
+      "path": "src/data/effects/efob058.c",
+      "bytes": 3924,
+      "sha256": "484a18b6704845afa5ea0843bb0e275ce7f7d5a207fed06482b8244867f4d8e6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob058.c"
+    },
+    {
+      "path": "data/effects/efob058.png",
+      "bytes": 1054,
+      "sha256": "4ffcecb00a16125c7c9fb7fbc86dd6b8411bef510b9aa703b140f59a9c6885d6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob058.png"
+    },
+    {
+      "path": "data/effects/efob058.pal",
+      "bytes": 177,
+      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob058.pal"
     },
     {
       "path": "src/data/effects/efob119.c",
@@ -298,24 +334,6 @@
       "bytes": 184,
       "sha256": "78f8dd91863686276d743b7d411e0ef6ea1e7126971fc2b15d88da0d8a837f32",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob135.pal"
-    },
-    {
-      "path": "src/data/effects/efob058.c",
-      "bytes": 3924,
-      "sha256": "484a18b6704845afa5ea0843bb0e275ce7f7d5a207fed06482b8244867f4d8e6",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob058.c"
-    },
-    {
-      "path": "data/effects/efob058.png",
-      "bytes": 1054,
-      "sha256": "4ffcecb00a16125c7c9fb7fbc86dd6b8411bef510b9aa703b140f59a9c6885d6",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob058.png"
-    },
-    {
-      "path": "data/effects/efob058.pal",
-      "bytes": 177,
-      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob058.pal"
     }
   ],
   "speciesSource": {

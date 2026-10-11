@@ -10,7 +10,7 @@ if(execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim()
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 const paths=['src/effect_data.c','src/effect_main.c','src/effect_sub_1.c','src/effect_anim_file.c','src/code_8040094_1.c','src/sprite.c','src/bg_palette_buffer.c','src/dungeon_8041AD0.c','src/dungeon_move.c','src/dungeon_move_util.c','src/dungeon_damage.c','src/move_orb_effects_1.c','include/structs/axdata.h','include/structs/sprite_oam.h','include/constants/direction.h','include/constants/move_id.h'];
 for(let index=0;index<14;index++)paths.push(`graphics/ax/pal/${index}.pal`);
-for(const id of [0,53,54,119,121,135]){const name=`efob${String(id).padStart(3,'0')}`;paths.push(`src/data/effects/${name}.c`,`data/effects/${name}.png`,`data/effects/${name}.pal`);}
+for(const id of [0,7,53,54,58,119,121,135]){const name=`efob${String(id).padStart(3,'0')}`;paths.push(`src/data/effects/${name}.c`,`data/effects/${name}.png`,`data/effects/${name}.pal`);}
 const files=new Map(),records=[];
 for(const path of paths){
   // Git's exact blob avoids checkout-specific CRLF conversion in palette files.

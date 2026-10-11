@@ -608,7 +608,10 @@ export class BattlePresentation {
       if(record?.kind==='effect'){
         flushWalk();patchActors([record.before],cursor);
         if(displayedActor(record.before))drainEffects();
-        if(record.effectId!==undefined)cursor=effect(record.effectId,record.before,cursor,undefined,record.before.direction,100,true,record.effectId===15||record.effectId===14,record.effectId===15||record.effectId===14);
+        if(record.effectId!==undefined){
+          const fixed=record.effectId===15||record.effectId===14||record.effectId===21;
+          cursor=effect(record.effectId,record.before,cursor,record.effectId===21?3:undefined,record.before.direction,100,true,fixed,record.effectId===15||record.effectId===14);
+        }
         if(Boolean(record.before.status.sleep)!==Boolean(record.after.status.sleep))retirePose(record.after.id,cursor);
         patchActors([record.after],cursor);messageAt=cursor;cue(event,cursor,order);continue;
       }
