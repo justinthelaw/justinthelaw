@@ -901,6 +901,30 @@ Ledgers, snapshot hashes and images remain in
 `tools/pokemon-dungeon/.work/blue-parity-20261011/`. The new late-level moves
 have source/art review, not manual casts or exact sound/timing acceptance.
 
+## Give Up ownership review, 2026-10-11 18:52 UTC
+
+Codex reported a Give Up soft lock on `d0963a3`. Independent source review and
+ordinary browser play disproved that report: the rejected wait still created a
+zero-length presentation, which immediately settled into the defeat screen.
+The native capture and the source trace remain in the review ledger.
+
+Give Up now delegates directly to the app's phase owner. It saves defeated
+status and the defeat phase together, clears transient presentation state, and
+avoids a synthetic wait/presentation. No turn, PP, combat or retry rule changes.
+On an immutable candidate, No returned to the submenu; Yes opened defeat;
+reload and Continue restored defeat; Return to top menu and Continue also
+restored it. Try again returned Volt and Shell to B1F, with selected
+Thundershock restored to 17/17 and Growl at 20/20. Browser warnings/errors were
+empty. The restored-defeat PNG has SHA-256
+`d986e0c3af4c6f20f9f2a28cbfe91c830d9876b8e19d8f5277be823348d4581a`.
+
+Node 24 static checks passed: 103 lint inputs, 67 strict source files, factual,
+asset, provenance and distribution checks. The runtime has 149 files totaling
+2,778,635 bytes. Evidence is under
+`tools/pokemon-dungeon/.work/blue-parity-20261011/give-up/`; the test tab and
+server are closed, and both disposable runtime copies and duplicate downloads
+were moved to Trash with verified hashes and restore paths.
+
 ## Fidelity limits
 
 - Dialogue and some sound effects remain authored substitutes. Background music

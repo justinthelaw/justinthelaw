@@ -396,7 +396,7 @@ async function main() {
 
   const dungeonMenus = createDungeonMenus({
     state: currentDungeon, data, show: showMenu, act: act, commit: commitNow,
-    title: returnToMenu, help: showHelp, settings: settingsMenu,
+    giveUp: giveUpDungeon, title: returnToMenu, help: showHelp, settings: settingsMenu,
   });
 
   /** The opening waits at frame zero until one deliberate game gesture. Its
@@ -1049,6 +1049,15 @@ async function main() {
       } catch (error) { fail(error); }
     } else if (phase === 'clearing') { audio.effect('rescue'); void setPhase('reunion'); }
     else if (phase === 'reunion') { state.rewarded = true; void setPhase('complete'); }
+  }
+
+  function giveUpDungeon() {
+    const dungeon = currentDungeon();
+    if (!dungeon || mode !== 'play' || state?.phase !== 'dungeon' || disposed || paused || busy || faintPublication || battle?.busy()) return;
+    dungeon.status = 'defeated';
+    // Giving up has no simulation turn to present. Save its terminal phase
+    // together with the status and retire the current menu/presentation.
+    void setPhase('defeated');
   }
 
   /** @param {DungeonAction} action @param {boolean} [running] @returns {boolean} */

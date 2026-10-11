@@ -6,7 +6,7 @@ import { VECTORS } from './mechanics-common.js';
 /** @typedef {import('./mechanics-types.js').DungeonAction} DungeonAction */
 /** @typedef {{label:string,run:(event?:Event)=>void,disabled?:boolean}} MenuChoice */
 /** @typedef {{title:string,choices:MenuChoice[],detail?:string,cancel?:()=>void,cameraMember?:'hero'|'partner',cameraChoices?:('hero'|'partner')[],initialSelection?:number}} Menu */
-/** @typedef {{state:()=>DungeonState|null,data:OpeningData,show:(menu:Menu|null)=>void,act:(action:DungeonAction)=>void,commit:()=>void,title:()=>void,help:()=>void,settings:()=>void}} MenuHost */
+/** @typedef {{state:()=>DungeonState|null,data:OpeningData,show:(menu:Menu|null)=>void,act:(action:DungeonAction)=>void,commit:()=>void,giveUp:()=>void,title:()=>void,help:()=>void,settings:()=>void}} MenuHost */
 
 /** Dungeon menus only describe available actions; the mechanics owner decides
  * whether an action takes a turn. No inventory beyond the two held slots.
@@ -195,11 +195,7 @@ export function createDungeonMenus(host) {
   function giveUp() {
     show('Give up this rescue?', [
       { label: 'No', run: saveOrGiveUp },
-      { label: 'Yes', run() {
-        const state = host.state(); if (!state) return;
-        state.status = 'defeated'; host.commit(); close();
-        host.act({ type: 'wait' });
-      } },
+      { label: 'Yes', run: host.giveUp },
     ], 'You will have to start Tiny Woods again.', saveOrGiveUp);
   }
 
