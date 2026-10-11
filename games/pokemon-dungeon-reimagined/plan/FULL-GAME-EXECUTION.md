@@ -19,6 +19,21 @@ tools, existing Next.js static export and fixture-based Playwright integration.
 contracts and linked appendices. The new goal supersedes old visual decisions
 and stale public-launcher state, not original content coverage requirements.
 
+## Current execution order — 2026-10-09
+
+1. Complete [the browser stability handoff](CODEX-HANDOFF-2026-10-09.md):
+   reproduce on a WebGL 2 capable browser, finish focus repair, review/profile
+   the structural-cache candidate and close current-head verification.
+2. Continue the genuine Sinister construction frontier in
+   [the recovery plan](RECOVERY-2026-10-08-DIALOGUE.md).
+3. Complete Tasks 2–8 below against the full scope, preserving existing owners.
+
+Tasks 3–5 already have substantial selected implementation through MAIN(5,9).
+Their unchecked boxes represent remaining full-scope closure and acceptance,
+not permission to discard or reimplement canonical state, saving or rendering.
+PR #392 is merged; continue draft #397 on `feat/pokemon-campaign-recovery`.
+The old MVP publication is not approval to merge this unfinished campaign.
+
 ## Global Constraints
 
 - Target the original Nintendo DS Blue Rescue Team; preserve its full main
@@ -29,7 +44,8 @@ and stale public-launcher state, not original content coverage requirements.
 - No automated tests import or execute game source or perform playthroughs.
   Website integration tests replace game responses with inert fixtures.
 - Keep the root README unchanged and authoring dependencies outside `games/`.
-- Preserve unrelated work. Do not merge or publish an unfinished runtime.
+- Preserve unrelated work. The opening MVP is already published; keep further
+  unfinished runtime on the active development branch without new merge/deploy.
 - Unavailable Codex Code Review does not block independent review and CI.
 
 ## Review Focus

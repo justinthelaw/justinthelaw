@@ -13,17 +13,22 @@ Blue main story, ending and return, branching postgame, optional content,
 roster and systems. A startup screen, art viewer, short dungeon demo, green
 website CI, or a list of content names does not satisfy the goal.
 
-## Confirmed starting point
+## Current continuation checkpoint — 2026-10-09
 
-| Area | State at main `c7270c8` |
+Use [the Codex handoff](CODEX-HANDOFF-2026-10-09.md) for current branch,
+responsiveness defects, environment requirements and verification status.
+
+| Area | Current state |
 | --- | --- |
-| Website | Full-page launcher, mobile key bridge, desktop iframe focus |
-| Game | Loading/error lifecycle and background-only Three.js scene |
-| Gameplay | No movement, combat, campaign, town, progression or ending |
-| Persistence | No campaign save/load implementation |
-| Domain | Reviewed identity, bounded JSON and seeded RNG primitives only |
-| Content | Authoring identity inventories; numerical/runtime catalogs incomplete |
-| Art | Three rejected rigid-mesh character candidates and one cavern study |
+| Repository | PR #392 merged; active draft PR #397 on `feat/pokemon-campaign-recovery`, based on main `ff21bb9` |
+| Selected gameplay | v24 opening through MAIN(5,9), including Tiny Woods, Thunderwave, Mt. Steel, town/jobs/Friend Areas and escort/second-work |
+| Persistence / presentation | Canonical save/backup/import/export and pixel/3D/audio owners implemented for the selected opening; manual acceptance remains open |
+| Later campaign | Sinister prerequisites recovered; actual route activation and all later main/postgame completion remain open |
+| Current work | Browser freeze/focus diagnosis, candidate immutable structural-cache optimization, failing-first website regressions and handoff |
+| Acceptance | Full-game, actual gameplay, latency/device and visual acceptance remain open |
+
+The old `c7270c8` startup-only state is historical. Do not rebuild already
+implemented opening/state/save/rendering owners from that obsolete baseline.
 
 ## Current visual authority
 
@@ -80,8 +85,8 @@ check a row merely because a document or menu entry exists.
 
 ## Execution and verification policy
 
-- Use `feat/pokemon-full-campaign`, based on current main `c7270c8`, preserving
-  the unrelated historical implementation checkout and local-only history.
+- Reuse PR #397 and `feat/pokemon-campaign-recovery` from its latest remote
+  head. Preserve all published recovery work and unrelated local changes.
 - Resume dependency-ready packages in PLAN, record decisions and concrete
   results in PROGRESS, and maintain fine-grained content/asset coverage.
 - Keep the PR a draft while any full-game completion gate remains open.

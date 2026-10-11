@@ -1,0 +1,46 @@
+{
+  "scope": "unselected-sinister-native-geometry-proposal",
+  "repository": "https://github.com/pret/pmd-red",
+  "commit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "qualification": "Comparative Red source only; native56x32 geometry, not Blue binary parity or the browser observer crosswalk.",
+  "nativeFiles": [
+    {
+      "path": "src/dungeon_generation.c",
+      "sha256": "62b3f027fdcc44431fe2aa71a77a4e5b95a9cc5da3e36d8c5bc39664f304055c"
+    },
+    {
+      "path": "src/dungeon_map_access.c",
+      "sha256": "65dea90a651fcbb15b70b142bde9bad0d352b24ed658dd563bc9f8cddfb02707"
+    },
+    {
+      "path": "src/run_dungeon.c",
+      "sha256": "6cc792aa349add7f72cd04694d703c1612cacef8681ef7fae840f392908a5d90"
+    },
+    {
+      "path": "include/structs/map.h",
+      "sha256": "00f156a0c34ec79c1e99a44610f5f29216342fe080961c5065c9c9b7c5f589f0"
+    },
+    {
+      "path": "include/structs/str_dungeon.h",
+      "sha256": "aabd46208d12aa63947556e52cad423d76d52ba821887ef34707803497ac887c"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "src/domain/state/plain.js",
+      "sha256": "53ab7032a78d3c1b9686b3304a9fda124cee6dba93b14dc3a395c22adc3f27c8"
+    },
+    {
+      "path": "src/domain/state/validate.js",
+      "sha256": "ca15f34af6dc77c95f9f641df5dff64bb5b528cede2d3f851030f7e13fd04501"
+    },
+    {
+      "path": "src/domain/state/relations.js",
+      "sha256": "391470b35438f47c0f79b5fd8a13cf4ff010ddb30c80edc77b6dd7e027481c56"
+    },
+    {
+      "path": "src/domain/ids.js",
+      "sha256": "542d2e4c0bab0f41ba64e433c0d9dcef88e46812797af0c18dd8294b11f697ee"
+    }
+  ]
+}

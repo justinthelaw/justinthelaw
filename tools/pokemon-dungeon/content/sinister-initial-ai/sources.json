@@ -1,0 +1,297 @@
+{
+  "scope": "unselected-sinister-native-ai-proposal",
+  "baseCommit": "2bc25c0e0c5916aa105d08ed9a27065d6baaba33",
+  "nativeCommit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "nativeTree": "3a0dcb371062a672e6c291e6e0bda4314499e985",
+  "qualification": "pinned-red-comparative-qualified-browser-RNG-and-geometry-not-blue-binary-or-native-instruction-parity",
+  "sourceFiles": [
+    {
+      "path": "data/monster/monster_data.json",
+      "blob": "cdcce326580ce11e4ed1c1ece945370c57aa4b7b",
+      "sha256": "024f8d2b42582e4d017e3d408b1229b369396d9321ab11c1b7737d19b52bce2e"
+    },
+    {
+      "path": "include/constants/ability.h",
+      "blob": "fb0452a145dae22519c3e9cc7885849767c79fab",
+      "sha256": "38b37a0170331a0464119b6b30546f87a972afbcc5b96d5e870521fa1c5f5967"
+    },
+    {
+      "path": "include/constants/direction.h",
+      "blob": "c2a1d19f632b0dc8817177f5a27f72b64ae4e4b4",
+      "sha256": "209f6a841294ad9e896434902033946261c489dd3e1f322e2936a7f2d841c71f"
+    },
+    {
+      "path": "include/constants/dungeon.h",
+      "blob": "48e4a9256fc2e5a35fa6e2ea4e2d0d02ff658f93",
+      "sha256": "dbcc8c729ba4df3b8e9edbb67ef5464a3b59d87ba0293f509f0467ccb2f2f8c7"
+    },
+    {
+      "path": "include/constants/dungeon_action.h",
+      "blob": "edd1d28b1014a8ee39f6cab0cb7c8d7b2c45398f",
+      "sha256": "58b306690c1d70a019959ce5558b4cacf22a4b1f4ba5b062e5a955020e84caa0"
+    },
+    {
+      "path": "include/constants/global.h",
+      "blob": "54251c20c212922b1bfcd96558c78eadc83f99cf",
+      "sha256": "f2fa0f4d85c9f90c72fadf9a8bcffa5b28b112daf93a804f91b23fc918f608b5"
+    },
+    {
+      "path": "include/constants/iq_skill.h",
+      "blob": "7a2bdd8fb4a0ab987bb5b6d66f4e3645a42fd7cb",
+      "sha256": "7442ac7a05dddd30f064abc3920d0efed19593039ee4b2b997c90e7d255bf1de"
+    },
+    {
+      "path": "include/constants/status.h",
+      "blob": "7085276f1593f2bc10e0940a4c345b8007b708f0",
+      "sha256": "25335d6d2ba4b02009b1a39fa368b68cd62aa12eb05f147bfd0baf37fef797bc"
+    },
+    {
+      "path": "include/constants/tactic.h",
+      "blob": "541d906b5e456a99ebc35aa4a986ea47f391adac",
+      "sha256": "ce437107a2ccb6f60f67aa44103a26d0c21df3e7670fada25c835565a6a5ce3f"
+    },
+    {
+      "path": "include/constants/targeting.h",
+      "blob": "cce44ee4e4e3b87885a81544863363e6523d1fa0",
+      "sha256": "d163073cceb36322ba73ad457000126b87194f1a33ee8c0dadaafaa174d31ae6"
+    },
+    {
+      "path": "include/dungeon_range.h",
+      "blob": "61dc46c528b029594b6a546fdb61e6065bce93bf",
+      "sha256": "792443a2476c496511b7078b8f54fa2090fe5fc21e9087ef65f6dd404a7743a5"
+    },
+    {
+      "path": "include/items.h",
+      "blob": "53105cc26ac939e341d6d15e1c5930e8bf6c5069",
+      "sha256": "4cf80c488631b8adacd21e8d8eff57ba07c408ec2ef59763cea430075e3e3c5d"
+    },
+    {
+      "path": "include/structs/dungeon_entity.h",
+      "blob": "d2b9d6cdcb8412272bb501de92efca801c7069a6",
+      "sha256": "e28d3f1281547a1651ba4a9f5a16b4fef01f87f82802b776867971371c4649ad"
+    },
+    {
+      "path": "include/structs/map.h",
+      "blob": "9e9916ebb6c6649729493797dbe7fe83ab9205bb",
+      "sha256": "00f156a0c34ec79c1e99a44610f5f29216342fe080961c5065c9c9b7c5f589f0"
+    },
+    {
+      "path": "include/structs/str_dungeon.h",
+      "blob": "0781df2807d8cb3b22c51a126ef7ff8e95553f0f",
+      "sha256": "aabd46208d12aa63947556e52cad423d76d52ba821887ef34707803497ac887c"
+    },
+    {
+      "path": "include/structs/str_position.h",
+      "blob": "59926792436b503b5dff91bc235a773a160d9a34",
+      "sha256": "f38b510df670f85043eebb691e710992eb13e5f1b0d2bcf9a0aec81ac017eaa6"
+    },
+    {
+      "path": "src/dungeon_action.c",
+      "blob": "d58648ee53e4a863d6e826055367a95706684c8f",
+      "sha256": "baae77a24e8bed5c6d67f27a8b538d597bca1cb31ab2e6dceb2a2b8aa71fbd0b"
+    },
+    {
+      "path": "src/dungeon_ai_leader.c",
+      "blob": "db1d3a3dfbf7e699ba3f267a8f846bd7ed2f7d0c",
+      "sha256": "ff2ad426a6177d3a591f9957d088ae87b3f548938a9f9d897b8209abe6e10bda"
+    },
+    {
+      "path": "src/dungeon_ai_movement.c",
+      "blob": "dbf0e8617a907c91ec77d6fa89c02d8b68d26b42",
+      "sha256": "7bedc85d8c1d114490db5931ba21167b97b3b987e94687f464af730b87b737ba"
+    },
+    {
+      "path": "src/dungeon_data.c",
+      "blob": "19b3967abd568a9377a09dc8ee3ada3bf840f765",
+      "sha256": "ca56c6807cb1a2918e9fee4bf4f8410fbde21ad52e3bcbfdffaa6d5766af66b4"
+    },
+    {
+      "path": "src/dungeon_generation.c",
+      "blob": "b022ec38762d85fcb7784341ed8366de94e6c296",
+      "sha256": "62b3f027fdcc44431fe2aa71a77a4e5b95a9cc5da3e36d8c5bc39664f304055c"
+    },
+    {
+      "path": "src/dungeon_items.c",
+      "blob": "3e14e5132208f2c2fafb1e06a7691fc7201e1270",
+      "sha256": "c8ebcbae06bd7d151750e5a9b3f7cbf65939d7a0422d69e587ecfe53a7c46790"
+    },
+    {
+      "path": "src/dungeon_logic.c",
+      "blob": "4f7fb462ccc2ad2aae25cc693b2e2ea146e5ba6d",
+      "sha256": "662b79a226f4e76a5b7c4e84553477e1e310c28e2483c80b702f4bbe35d9ced9"
+    },
+    {
+      "path": "src/dungeon_map_access.c",
+      "blob": "4a9a72ad4c8892694b62e96aac4f7fea782a6039",
+      "sha256": "65dea90a651fcbb15b70b142bde9bad0d352b24ed658dd563bc9f8cddfb02707"
+    },
+    {
+      "path": "src/dungeon_misc.c",
+      "blob": "f2a3889ad86ba2cc5c6dd47f6cd0f8cf2fe045b9",
+      "sha256": "9f5de68c48737bb3b9aadd0b92a9ae2069a53349383d125174e7b2aeca04d90d"
+    },
+    {
+      "path": "src/dungeon_mon_spawn.c",
+      "blob": "2be58a4af326352e7480720e67015568d6c17a18",
+      "sha256": "96f868db765eecfca6730929bee5c00debb913d5f4ec0699b74000f589922ab3"
+    },
+    {
+      "path": "src/dungeon_mon_sprite_render.c",
+      "blob": "342f8f0860ae4c3b4b313ca7cbf8d7c12628dae0",
+      "sha256": "a0d8ed04930f3edae3a93eca3ec47d3512efc94c06ce3f16821a9930b07a43c7"
+    },
+    {
+      "path": "src/dungeon_move_util.c",
+      "blob": "b6a572284064ef22845238398904febe97b8d8ba",
+      "sha256": "0b69f36c9e8c497acdfef2c06566fe84ccb4549390d53293dc24347e57af9d53"
+    },
+    {
+      "path": "src/dungeon_pos_data.c",
+      "blob": "59e0e28e06430e9a51f9e1f13d8bd264013659f0",
+      "sha256": "53de480e4f3c8ba403a7565e4b42c0198d74875b10eaf076dc26454db580a202"
+    },
+    {
+      "path": "src/dungeon_random.c",
+      "blob": "c19a58a19da2b065a14743ac5a6e33e90b2bee46",
+      "sha256": "6f272ba5b0546774c1276b9ace5818e31e67a40eac492c38df34205a9a1ee8f9"
+    },
+    {
+      "path": "src/dungeon_range.c",
+      "blob": "ca1c19840bc1dfb74288f6e93c631aba9d14890e",
+      "sha256": "4cf668f24108cde6be39bc79abf2718c21243e9e5ed2f3e44436e0a7f1b6bfa7"
+    },
+    {
+      "path": "src/dungeon_serializer.c",
+      "blob": "7df55f22ec369a54d53420c420902e47b970dfa2",
+      "sha256": "66f6cb6089931740f4e197da6feb257022c13f0563477bda07576083addd2d40"
+    },
+    {
+      "path": "src/dungeon_util.c",
+      "blob": "fcbe9497c21e31e96d1d7d8815fa77a152f0bff6",
+      "sha256": "700a2c7c7f52b71cc463e5e7cb4b7b5c4ec69b7cfd5e4c57dd185e696470b126"
+    },
+    {
+      "path": "src/pokemon.c",
+      "blob": "3c5ab6eec362d6fccea49d1254cbb07682f1b172",
+      "sha256": "ca46804becf408ad3a3a8cad21d7ac16309b2e43fd80bf4945a29951b66aa58b"
+    },
+    {
+      "path": "src/position_util.c",
+      "blob": "130083cabae2dc3b5b047d7bae9298de390c7d54",
+      "sha256": "cb8c80b2b482bd4e7dab501c1c919f00e92f344bff9a625fc534d140baba2e72"
+    },
+    {
+      "path": "src/run_dungeon.c",
+      "blob": "f6108c7247373254a80d8cb8acf9ff9ff92c88db",
+      "sha256": "6cc792aa349add7f72cd04694d703c1612cacef8681ef7fae840f392908a5d90"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/contracts/campaign.js",
+      "blob": "c2e61b5aa928ad75271b4d063acf2436c67a93cc",
+      "sha256": "7103d94f33959233a70e8d7dd5da840ac22baf5538a958217f5bc45e8714f13a"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/state/plain.js",
+      "blob": "68cd799edbafd56417c17345cbad3110aa636176",
+      "sha256": "53ab7032a78d3c1b9686b3304a9fda124cee6dba93b14dc3a395c22adc3f27c8"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/rng.js",
+      "blob": "fcc8b6599532a9bbe8eee8f9171bae1b5cdd302f",
+      "sha256": "c378f44cefa8aef718efbb3e09258ff6b1f8c93eb0bfaded47e6fe40b7f26826"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/escort-dungeon-rng.js",
+      "blob": "38c19c7edfdf571a469e58cd2bc5478b2aa307f5",
+      "sha256": "330b5b26871090636508b0bb8c964069c84b69f0245243cb25994f115e8fd1d3"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/support.js",
+      "blob": "5f65c61523415f07ffe7c4e0a8799bbcae9b1285",
+      "sha256": "710b9f10cfb8f622f4be832da5c47db8937c7638844a959e9762a64bb37a1d1f"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/navigation.js",
+      "blob": "d87415ba0fcb122a1d7db0fad114583b0ff75b2c",
+      "sha256": "2d6609f6376a63fce9f7fbf38af6265b36425cd06b6d3947b0bb7819f293a413"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/navigation-types.js",
+      "blob": "fd4ac5c23fef7bbfec90a0769b161065dcded7fb",
+      "sha256": "56a94b2fea05e72ea16288ae252801be2a85167eb41caa3321a99166ed41d885"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species.js",
+      "blob": "c02da3e0528d916c9ad998ad969f4bc7b3149fb0",
+      "sha256": "e9a60a773248fcee136d6e1289677f8a0962403d199ff2dc05dc4c53885ec462"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/effects.js",
+      "blob": "72f3485fb18dc330694ad2760a2a534b6fc8609a",
+      "sha256": "badf1e38ee3698d5ee17e97cf1f9b5d481c1fcdf9b8e5edb92bd5fdf8ad67fa1"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/effects-types.js",
+      "blob": "80c8a8b5d0f1bb437cc5c7443f0b58d1e1dbe259",
+      "sha256": "6f66d4ec96052f349c8397c39f15a4ee8d7e38b73b40865d0c061f5258c09689"
+    }
+  ],
+  "catalogs": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/navigation/facts.json",
+      "blob": "da60385cab41c7281292320e5e78edc400a7513d",
+      "sha256": "0c31108920e4fcc352d5e6be9f211acfb851fa2e7a8a62842627bb8ff8beeec4"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/navigation/manifest.json",
+      "blob": "5395938829b3a24ca5ee105d123f1078e3744fc6",
+      "sha256": "6d01abcea548861649dcbe24e37e27926b69c069e3c746cb1beb837969d466a8"
+    },
+    {
+      "path": "games/pokemon-dungeon-reimagined/content/species/identities.json",
+      "blob": "b2421d71b7d2697dc4a154f9b2afc94521c042d7",
+      "sha256": "278d7717c1e2dcf0db63cbdaff74dd8bdafe08c350450ed28c76ed2151cda224"
+    }
+  ],
+  "bounds": {
+    "teamSlots": 4,
+    "wildSlots": 128,
+    "activeSlots": 132,
+    "roomSlots": 32,
+    "junctionPrefix": 32,
+    "roomExitAttempts": 10,
+    "maxDraws": 11,
+    "maxMovementProbes": 13,
+    "clearBranchOutputEvents": 0,
+    "maxGridWidth": 128,
+    "maxGridHeight": 128,
+    "maxPlainNodes": 400000,
+    "maxProposalNodes": 402
+  },
+  "drawCaps": [
+    8,
+    100,
+    "current-active-junction-count-1..32"
+  ],
+  "recovery": {
+    "originalSourcesSha256": "fcf07dcf4da9abbe95f76a555c72b914a81948adf10efc94d05970f31ca99ae2",
+    "integrationBaseCommit": "efe20598c424cb09873dbc1def9aad9f7fe97d44",
+    "campaignContract": {
+      "path": "games/pokemon-dungeon-reimagined/src/contracts/campaign.js",
+      "sha256": "08f456d0ee956b5b53500c38be0e9e0bbe32582626b9b65fea45609fee2541d9",
+      "additiveSource": " * } | {\n *     kind: 'early-campaign';\n *     cursor: import('./early-campaign-scenes.js').EarlyCampaignSceneCursor;\n *     actors: Record<string,ActorSlotRef>;\n"
+    },
+    "leafPins": [
+      {
+        "path": "games/pokemon-dungeon-reimagined/src/contracts/sinister-ai.js",
+        "sha256": "c36c4f14c2988797de603f0cc54649b164ee703f318c44b62213afafe2b4182f"
+      },
+      {
+        "path": "games/pokemon-dungeon-reimagined/src/domain/gameplay/sinister-initial-ai.js",
+        "sha256": "255b3be261af570c0ece7888f106f2343c7d20928f47a5faa346d7714e436a4b"
+      }
+    ]
+  }
+}

@@ -1,5 +1,134 @@
 # Pokémon Dungeon Reimagined progress and decisions
 
+## Local browser continuation — 2026-10-09
+
+- Cloned PR #397 at `2b5c883` into the requested local checkout and resumed
+  `feat/pokemon-campaign-recovery`. Chrome on macOS successfully renders the
+  actual WebGL2 game. Observed quiz, partner selection, browser-save creation
+  and awakening dialogue with working keyboard progression. This is a limited
+  browser observation, not a full playthrough or human/device acceptance.
+- Implemented the website overlay focus repair and retained the failing-first
+  inert fixtures. Actions reacquire the exact document, wait for host Enter/
+  Space release and cancel stale activations. Independent review caught and
+  corrected child-only key release ownership and delayed initial-load focus
+  theft; new inert fixtures cover both.
+- Inspected hosted baseline failures from runs `38001364529` and
+  `38002077938`: toolbar blur and premature overlay activation fail before the
+  repair. Current-change hosted checks are pending the scoped checkpoint push.
+- Independent source review found no defect in the deeply frozen structural
+  cache. Added bounded ordinary-save receipts to avoid re-decoding identical
+  envelopes produced by the repository's own successful writes. Public load,
+  import, changed bytes, new snapshot validation and CAS remain intact. See
+  [SAVE-RECEIPTS.md](SAVE-RECEIPTS.md); independent persistence review passed.
+- The current `.nvmrc` selects Node24.21.0, superseding the older handoff's
+  24.19.0 environment note. Node24.21.0 and npm12.2.0 are installed locally.
+  Both pinned dependency installs fail under Socket Security Policy because
+  pinned packages are recently published. No registry policy was bypassed or
+  lockfile weakened. Local complete lint/types/flight-check remain pending;
+  syntax-only checks and `git diff --check` pass.
+- Downloaded the existing Pages preview for head `f2389c4`, build
+  `3e55a6666894e5a4aba6c28945d33f911cb6880f`, separately from the working tree.
+  This baseline artifact is not evidence for new changes. A new current-head
+  export and direct/iframe review remain required.
+- Selected campaign scope still ends at MAIN(5,9). Sinister construction and
+  the later full campaign, assets, physical devices and release gates remain
+  open. PR #397 remains draft; no merge or production deployment performed.
+
+### Measured dungeon stall and local verification
+
+- Recorded actual Chrome/macOS Tiny Woods gameplay at the baseline runtime
+  `2b5c883`. A 46.425-second native DevTools trace reports a 16.625-second
+  interaction and five production main-thread tasks of 3.492–14.592 seconds.
+  CPU sampling attributes 38.740 seconds to `instanceId`; 99.87% of its samples
+  are at the predictable invalid-identity TypeError. Rendering accounts for
+  roughly 0.237 seconds of sampled ancestry. These sampled and exact timings
+  use different accounting and must not be added together.
+- Removed the redundant successful visitorless union traversal and rejected
+  known nonstring instance mismatches through the original failure owner before
+  constructing an exception. Strings retain the complete unchanged identity
+  validator. Independent review and eleven parser-only negative controls pass;
+  historical schemas and codec remain unchanged. See
+  [STRUCTURAL-PREFLIGHT.md](STRUCTURAL-PREFLIGHT.md).
+- Exported the baseline dungeon save, then loaded that browser save under the
+  repaired source and observed directional movement. The Mac locked before
+  after-profiling, further gameplay or production-route acceptance. No measured
+  improvement or freeze-resolution claim is made yet.
+- Local trace, data-only analysis and exported-save evidence live beside the
+  checkout in `../justinthelaw-evidence/2026-10-09/`. The baseline dungeon trace
+  hash is `d24498bdb1ede24fe613da3c37c84ca870ad401be8d25d28fbe117ff3c49b118`;
+  the exported save hash is
+  `2c6be1d4fdf0a8e2eb3e9477be0e0df8b1372b5e2872268c3048e6b3861738c9`.
+- Pinned the isolated authoring Acorn dependency to permitted8.18.0 after the
+  security policy rejected8.19.0. Independently verified its registry tarball
+  integrity and compatibility with every locked consumer. A clean install of
+  the updated lock succeeds. All other authoring pins and root pins remain
+  unchanged; all4546 installed dependency files match the clean lock install.
+- Full game lint passes537 authored files and exact TypeScript6.0.3 passes421
+  files. All nine sourceful native audits pass, including construction and
+  geometry. Pre-commit checks pass; pre-push hygiene passes, while website
+  ESLint/build/fixtures still require the blocked root dependency install or
+  current-head hosted CI.
+- Every authoring check stage completed, including419-profile/386-species
+  raster coverage,5028 runtime pages,12 environment kits, vendor and audio
+  audits. The initial asset source-path check correctly rejected the bootstrap
+  dependency symlink; using an ordinary installed package fixed it. Vendor
+  verification also caught its separate parser pin, which now consistently
+  records8.18.0. Regeneration changes only provenance's parser version; all six
+  other vendor files are byte-identical to the prior checkpoint. These static
+  checks do not approve visuals, sound or full gameplay.
+- The push of `e093c21` failed: both available GitHub interfaces have read-only
+  repository access. Local commits are preserved. The user has been asked for
+  write authentication and a Mac unlock; no remote update, merge or deployment
+  has occurred during this continuation.
+
+## Dialogue recovery and campaign continuation — 2026-10-08
+
+- [PR #396](https://github.com/justinthelaw/justinthelaw/pull/396) merged as
+  `ff21bb9c0228ff872455908ffbad4bd5760467de`. All seven checks passed;
+  [Pages deployment](https://github.com/justinthelaw/justinthelaw/actions/runs/37859868912)
+  succeeded. The panel had focused Enable sound before Continue/Enter Tiny
+  Woods; trusted Enter was consumed there and controller A/Z generated a click
+  the audio permission control must reject. Default focus now selects the real
+  form/action, preserving explicit sound focus and guarded callbacks.
+- The available browser stops before onboarding with WebGL2 unavailable.
+  This establishes no gameplay/device acceptance. Local lint/build/export pass;
+  local website browser installation stops on a truncated pinned Chromium ZIP.
+  Hosted website fixtures, static game checks, hooks and CodeQL passed on #396.
+- Recovered the actual Sinister run/pre-cache receipt, initial AI, early
+  scene/cursor/schema and end-effect leaves from preserved in-flight packages.
+  Their historical source bodies remain authenticated; recovery onto current
+  main permits only exact reversible accepted additions. Fresh source audits
+  use pinned comparative Red commit `6bcbec4f906938c0243aa2026bcbd41b577bab85`.
+- Added source roster address mapping over413 native capacity partitions and129
+  original pairs, a finite35-profile/27-ability domain retaining real contact
+  abilities, and a full64-entry cache with exact miss receipts,424 EXP ranks
+  and independent mutable PP/counter precursors. Cache hits draw no move RNG;
+  full cache misses sample without inserting or applying pre-cache Blowback.
+- Independent reviews corrected prospective revision exhaustion and a fixed
+  Team Meanies role mismatch. Both scene and ability owners now require the
+  same canonical BossBinding/encounter in actual wild scheduler slots; native
+  bossFlag, behavior and generation still need genuine construction receipts.
+  The completed scoped recovery, roster/domain, scene and cache packages pass
+  independent SPEC/QUALITY review; source/AST checks never execute game code.
+- Full current authoring check and both hook stages pass. Six sourceful audits
+  also pass on a fresh shallow staged-tree clone with only the reachable recovery
+  base fetched; unavailable donor commits are unnecessary. The live exported
+  dialogue view returns HTTP200 and matches the merged repair byte for byte.
+- Added an unselected native-memory/reset/allocation prefix with literal4/16/20
+  capacities, source scalar layouts, symbolic pointers and unreused canonical
+  ActorIds. Review corrected duplicate acquisition IDs and retained full original
+  predecessor input budgets. This supplies neither full actors nor live routing.
+- The selected owner still ends at MAIN(5,9), with three actual dungeon routes.
+  Concrete native memory/actor/geometry construction, complete raw validation,
+  source tile/end/contact/terminal adapters, routing and subsequent main/postgame
+  systems remain implementation work. Available Red source contains the core
+  construction and turn algorithms; an absent source tree is no longer a blocker.
+  Its expressly uncertain original Blue AvoidEnemies and possible DS tile checks
+  retain their comparative qualification. No full-game/parity claim is made.
+- Continue [RECOVERY-2026-10-08-DIALOGUE.md](RECOVERY-2026-10-08-DIALOGUE.md) and
+  [FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md). Keep these unfinished campaign
+  prerequisites separate from the authorized published startup repair.
+
 ## Opening MVP publication and startup repair — 2026-10-08
 
 - The first repair deployed as `2075b6a`: all seven PR #394 checks and the
@@ -1892,3 +2021,116 @@ website fixtures. Hosted current-head checks must close those gates.
 Full-game continuation remains required under FULL-GAME-EXECUTION. Selected
 play still ends at MAIN(5,9); recovered later scene/preparation leaves are
 implementation prerequisites rather than playable campaign acceptance.
+
+## Browser stability handoff — 2026-10-09
+
+Justin requested a committed plan and PR comment for a follow-on Codex with a
+working browser/development environment, then an immediate stop. Continue
+[CODEX-HANDOFF-2026-10-09.md](CODEX-HANDOFF-2026-10-09.md) on draft PR #397.
+The previous #392/current-branch and startup-only plan claims are corrected.
+
+- Two failing-first focus regressions were published at `7c119cf`; a further
+  interrupted-activation case is included in this checkpoint. No production
+  overlay focus fix has been made. Complete and verify that work next.
+- A candidate positive structural cache for exact deeply frozen input graphs
+  removes duplicate copy/shape preflight while preserving every semantic raw
+  callback. See [its scope/evidence](ESCORT-SHAPE-PREFLIGHT-CACHE.md).
+- The candidate passed parser-only negative controls, game lint/types,
+  historical pins and focused escort checks. Full rerun was interrupted for
+  handoff; independent review, hosted final-head CI and measured performance
+  remain open. Earlier baseline authoring checks passed in full.
+- Local website lint/types/build passed; browser tests could not start because
+  pinned Chromium downloads were truncated. Live cloud startup fails at WebGL 2
+  initialization. No actual freeze reproduction, gameplay pass or latency
+  improvement is claimed. The hosted test-first run is `38001364529`.
+- Selected gameplay still stops at MAIN(5,9). Full Sinister/later main/postgame,
+  original-scope systems/content and device/visual/save acceptance remain open.
+
+## Native geometry construction prerequisite — 2026-10-09
+
+- Package/sub-batch: unselected Sinister native geometry operations. Adds the
+  actual main-tile reset projection, ordered junction finalization and list
+  rebuild, room bounds and four neighbor-mask algorithms. Preserves full
+  32-entry junction tails and inactive-room pixel bytes rather than constructing
+  final-looking geometry from an actor's current position.
+- Approval/dependencies: authorized full-campaign continuation; pinned
+  comparative Red source and existing plain-data/identity/freeze helpers.
+  Browser focus/cache work remains the current activation priority.
+- Base and resulting commit: working from PR #397 branch
+  `feat/pokemon-campaign-recovery`; resulting commit recorded by the integrating
+  owner. No existing save schema, historical pin or selected route is changed.
+- Owned paths changed: `src/contracts/sinister-native-geometry.js`,
+  `src/domain/gameplay/sinister-native-geometry.js`, this progress record,
+  `tools/pokemon-dungeon/content/sinister-native-geometry/`, its source audit,
+  the authoring package script and the sourceful game-static CI call.
+- Public interfaces: `prepareSinisterNativeGeometry(input, authority)` returns
+  one detached, deeply frozen before/after proposal for an exact named native
+  call. Matching authority does not itself prove source history or admission.
+- Research: exact `6bcbec4f906938c0243aa2026bcbd41b577bab85` native sources;
+  five file hashes and four unchanged runtime dependency hashes recorded in
+  [the contract](../../../tools/pokemon-dungeon/content/sinister-native-geometry/CONTRACT.md).
+  Room254 traversal, native56x32 wall limits, signed16 room sentinels and u32
+  pixel conversion remain explicit comparative facts, not Blue binary claims.
+- Static checks: `node --check` passed both new runtime/contract files and the
+  source audit; `git diff --check` passed. A source-only Python/Git SHA256 pass
+  confirmed all five native and four unchanged dependency fingerprints.
+  Source lint/type/full AST audit follow dependency installation; the initial
+  lint attempt stopped before checking because `eslint` was not installed and
+  the pinned install is blocked by the environment's dependency policy.
+- Independent review: scoped source review found no actionable mismatch across
+  all four operations, preserved partial/retained geometry and detached proposal
+  boundary; independently verified the five native/four dependency hashes and
+  syntax checks. Strict lint/types/full AST audit remain blocked as above.
+- Manual evidence: not performed; no game/native module was executed.
+- Coverage IDs advanced: none. This is a constructor prerequisite, not P11,
+  P23, v25 admission, campaign or human acceptance completion.
+- Remaining gaps/next exact package: actual layout and partial tile write
+  journals; qualified browser/native observer crosswalk; temporary actor,
+  Hidden Power and initial AI; final resources/sleep/ordered refresh; complete
+  raw admission and current-caller composition. Existing memory allocation and
+  geometry proposals must be joined to genuine private construction history
+  before live selection. Later route, turn/contact/terminal and full-campaign
+  gates remain open.
+
+## Private Sinister construction prefix — 2026-10-09
+
+- Package/sub-batch: one private fresh-run constructor now derives source
+  mapping, run conversion/preseed and slot-memory receipts from the complete
+  admitted predecessor, and creates genuine whole-Dungeon zero geometry.
+  One owned first-floor continuation allocates a map, advances the native
+  preseed and records the existing source slot-reset projection atomically.
+- Approval/dependencies: authorized continuation from the preceding reviewed
+  prerequisites. Ten existing runtime dependencies, including the reviewed
+  geometry implementation, remain unchanged.
+- Base/result: starts at `e093c2184710a4448e9f53d6be546935752f86b9`;
+  integrating owner records the resulting commit.
+- Owned paths: new `src/domain/gameplay/sinister-construction.js`, its contract,
+  `tools/pokemon-dungeon/content/sinister-construction/`, source audit, four
+  exact inherited consumer allowances, package/CI command and this record.
+- Public interface: `createSinisterConstruction(predecessor,catalogs,authority)`
+  returns `getSnapshot`, `beginFirstFloor` and `dispose`. The exact immutable
+  current snapshot is the continuation token; there is no raw journal import,
+  arbitrary observer replacement, old-session retagging or live route consumer.
+- Research/source: the pinned comparative Red RunDungeon zeroing and floor
+  seed boundary; existing admitted source mapping/run/native-slot owners.
+  See [the precise constructor scope](../../../tools/pokemon-dungeon/content/sinister-construction/CONTRACT.md).
+- Static checks: all three new JavaScript files pass `node --check` and diff
+  hygiene. Source-only Python/Git verification confirms ten unchanged runtime
+  fingerprints, one native fingerprint and four complete inherited audits
+  after removing only the exact named consumer additions. Full source AST,
+  lint and strict type checks await dependency-policy resolution.
+- Independent review: scoped review passed predecessor admission, actual
+  transaction/session/map authority, retained stream origin, current-token
+  lifecycle and atomic swap, genuine zero geometry and explicit prefix stop.
+  The reviewer independently confirmed all native/runtime hashes, reconstructed
+  all four inherited audits byte-for-byte to `e093c21`, and passed syntax/diff
+  checks. Strict lint/types/full source-AST execution remains pending.
+- Manual evidence: not performed; no game/native module executed.
+- Coverage IDs advanced: none; no whole constructor or v25 activation claim.
+- Remaining gaps/next exact package: the actual source-ordered browser RNG
+  qualification, Deoxys/cache/layout history and partial tile writes, then
+  temporary actor resets/placement/Hidden Power and initial AI. The existing
+  slot reset combines a projection of separated source writes, so this package
+  records `floor-prefix-ready`, not a fictitious contiguous native PC. Final
+  party/resources/sleep/refresh, raw admission, route/turn/terminal and full
+  campaign/device/visual acceptance remain open.

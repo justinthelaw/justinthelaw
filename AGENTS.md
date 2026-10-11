@@ -2,6 +2,16 @@
 
 Instructions for AI coding agents operating in this repository.
 
+## Current Pokémon task — 2026-10-10
+
+Justin has replaced the historical 3D/full-campaign goal with the original DS
+opening through Tiny Woods and Caterpie's rescue only, on PR #397. Follow
+`games/pokemon-dungeon-reimagined/plan/BLUE-OPENING.md` before the historical
+requirements below. The selected runtime uses two 256 × 192 Canvas 2D displays
+and a separate save namespace. Preserve existing saves and evidence; later
+campaign resources are excluded from the scoped distribution. Exact asset and
+behavior parity requires evidence, not a completion claim based on code volume.
+
 ## Project Overview
 
 Next.js static site for GitHub Pages with an in-browser AI chatbot powered by
@@ -189,9 +199,10 @@ may pause animation and stub the external resume iframe; disclose that in the PR
 `/arcade/` is a separate page with a Home link and a single scrolling column of
 cards. Each card centers its preview with padding, places a short description
 below it, and puts Play at the bottom right. The first card launches the
-Pokémon development checkpoint and describes its implemented opening through
-Mt. Steel and escort jobs, with later chapters explicitly unfinished.
-Its picture is the existing P06 3D art study, not a gameplay capture. The other
+Pokémon development checkpoint and describes its opening through Tiny Woods
+and Caterpie's rescue, with later chapters outside the selected scope.
+Its picture is a native-resolution browser gameplay capture from Tiny Woods,
+displayed at its full 4:3 aspect ratio with crisp pixel scaling. The other
 two cards say "Coming soon" with lavender and apricot pixel characters.
 Placeholders animate; reduced-motion preferences keep them still.
 The sprites are original 32-pixel designs rendered with crisp SVG edges,
@@ -236,6 +247,13 @@ other typing surfaces and host-page typing retain protection. The game owns
 submission, validation and scene guards; the bridge only emits the bounded key
 pair to the captured input recipient. Website fixture tests cover this contract
 without importing or executing game source.
+
+Overlay input restores the exact captured iframe document before delivery.
+Enter/Space action activation waits for the host key release; interruption,
+navigation or recipient changes cancel it. A release arriving in the current
+child document clears host ownership without replaying the cancelled action.
+Initial loads preserve deliberate overlay focus, and subsequent iframe loads
+preserve host focus so a held activation cannot leak into a replacement game.
 
 For a screenshot or GIF, set
 `preview: { src: "/arcade/my-game.gif", alt: "Description of the game" }` and put

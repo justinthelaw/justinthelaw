@@ -328,7 +328,7 @@ test("should reject malformed absolute request targets without stopping the serv
 });
 
 test("should load the arcade picture and fixture player under the exported base path", async ({ page }) => {
-  const gameTitle = "Pokemon Mystery Dungeon Blue Rescue Team - Reimagined";
+  const gameTitle = "Pokémon Mystery Dungeon: Blue Rescue Team";
   let requestedEntryPoint = "";
   // Exercise exported website integration without running real game source.
   await page.route("**/games/pokemon-dungeon-reimagined/**", (route) => {
@@ -344,9 +344,9 @@ test("should load the arcade picture and fixture player under the exported base 
     expect(reloaded?.status()).toBe(200);
     await expect(page.getByRole("article")).toHaveCount(3);
     const firstCard = page.getByRole("article").first();
-    const preview = firstCard.getByRole("img", { name: /art study|development/i });
+    const preview = firstCard.getByRole("img", { name: /Psyduck and Charmander exploring Tiny Woods/i });
     await expect.poll(() => preview.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
-    expect(new URL((await preview.getAttribute("src"))!, page.url()).pathname).toBe(new URL("arcade/blue-rescue-team-preview.jpg", previewServer.origin).pathname);
+    expect(new URL((await preview.getAttribute("src"))!, page.url()).pathname).toBe(new URL("arcade/blue-rescue-team-preview.png", previewServer.origin).pathname);
     const play = firstCard.getByRole("button", { name: `Play ${gameTitle}`, exact: true });
     await expect(play).toBeEnabled();
     await expect(page.locator("iframe")).toHaveCount(0);

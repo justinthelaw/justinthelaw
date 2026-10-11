@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+  "rights": "Published original commercial game imagery. Attribution does not provide or claim a publisher reuse license. No ROM is read, downloaded or built.",
+  "records": [
+    {
+      "id": "pokemon-company",
+      "path": "boot/pokemon-company.png",
+      "bytes": 2411,
+      "sha256": "b6cedd741924c27f42c3ac3bf5db4ff7c0677bd31a4863ac6e2c731619a171a2",
+      "width": 255,
+      "height": 192,
+      "url": "https://mysterydungeonwiki.com/images/8/87/Rescue_Team_-_The_Pok%C3%A9mon_Company_Logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_The_Pok\u00e9mon_Company_Logo.png",
+      "comparativePage": 0,
+      "comparativeOffset": [
+        7,
+        16
+      ]
+    },
+    {
+      "id": "nintendo",
+      "path": "boot/nintendo.png",
+      "bytes": 2118,
+      "sha256": "efd635b354217c6bfcdd5936cbae1c76e3df6daca69abe81b16d3c3cc1a978ab",
+      "width": 255,
+      "height": 192,
+      "url": "https://mysterydungeonwiki.com/images/4/49/Rescue_Team_-_North_American_Blue_Rescue_Team_Nintendo_Logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_North_American_Blue_Rescue_Team_Nintendo_Logo.png",
+      "comparativePage": 1,
+      "comparativeOffset": [
+        7,
+        16
+      ]
+    },
+    {
+      "id": "chunsoft",
+      "path": "boot/chunsoft.png",
+      "bytes": 3221,
+      "sha256": "d4e5271f4aa29b47fb99d6d87e06d2927474ad3504a2b75ab2b00d8cd187800f",
+      "width": 255,
+      "height": 192,
+      "url": "https://mysterydungeonwiki.com/images/6/64/Rescue_Team_-_Chunsoft_Logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Chunsoft_Logo.png",
+      "comparativePage": 2,
+      "comparativeOffset": [
+        7,
+        16
+      ]
+    },
+    {
+      "id": "copyright",
+      "path": "boot/copyright.png",
+      "bytes": 1479,
+      "sha256": "718b27415f56ab9432e07929bcf1121c67d800f1667b33b6a6eaaa078418bddd",
+      "width": 255,
+      "height": 192,
+      "url": "https://mysterydungeonwiki.com/images/f/f9/Rescue_Team_-_North_American_and_European_Copyright.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_North_American_and_European_Copyright.png",
+      "comparativePage": 3,
+      "comparativeOffset": [
+        7,
+        25
+      ]
+    }
+  ],
+  "comparativeMapInputs": [
+    {
+      "path": "boot/S04.bpl",
+      "bytes": 424,
+      "sha256": "dcc2406c8cebef3365aa977db8652e993c6f0f818e91417629939e3b1aa69563",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S04.bpl"
+    },
+    {
+      "path": "boot/S04c.bpc",
+      "bytes": 12892,
+      "sha256": "32cc00f463e6cd61992fa8e13c8c46601deb12f50697231c26c0913ee98d467c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S04c.bpc"
+    },
+    {
+      "path": "boot/S04m.bma",
+      "bytes": 276,
+      "sha256": "1a96a541d3d102e2d997ccbe785b13e2a2924d0812b681e462d1fc007f924beb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S04m.bma"
+    }
+  ],
+  "corroboration": {
+    "method": "Compare all255x192 pixels after reducing each color channel to its original five-bit value. The native240x160 Red pages translate by(+7,+16), except copyright by(+7,+25).",
+    "matchingPixelsPerCard": 48960,
+    "blueCopyrightOffsetDifferenceY": 9,
+    "captureWidthQualification": "Published screenshots omit one column. Runtime places each255px image at x1; the missing blank column uses the matching source background, white for the first two cards and black for the last two. No logo or text pixel is invented."
+  },
+  "directBlueVideo": {
+    "url": "https://www.youtube.com/watch?v=4iTyZkVX9DI",
+    "method": "Manual normal-browser inspection by the root reviewer.",
+    "observations": {
+      "1": "The Pok\u00e9mon Company black lettering on white.",
+      "3": "Red Nintendo wordmark on white.",
+      "5": "Blue/yellow CHUNSOFT logo and website on black.",
+      "7": "Separate copyright card with2006,1995\u20132006 and1993\u20132006 lines.",
+      "8": "Copyright remains fully visible.",
+      "9": "Black frame.",
+      "10": "Post Office interior during fade-in; client at bottom edge."
+    },
+    "limitations": "Compressed, horizontally stretched single-screen footage establishes sequence and broad timing, not frame timing, exact color channels or top-screen color."
+  },
+  "scope": "Only the four in-game company/copyright pages. Platform firmware and health-warning screens remain excluded."
+}

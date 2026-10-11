@@ -72,7 +72,7 @@ before(advance,'markSinisterTerminalReturn(context,catalogs)','owners.resume(con
 has(body('sinister-turn-work','markSinisterTerminalReturn'),['a.pendingExperience','getGrowthAtLevel',"t.phase = 'return'", "saveSinisterCheckpoint(context,'terminal',null,catalogs)"]);
 has(body('sinister-advance','consumeSinisterTerminal'),["t.phase !== 'return'",'t.frameFingerprint !== fingerprint(s.scheduler.continuation)','w.terminal = null']);
 // Only the new unselected responsibility may consume its prospective sources.
-const allowed = new Set(names.map(name => `src/${name}.js`));
+const allowed = new Set([...names.map(name => `src/${name}.js`),'src/domain/state/early-campaign-scene-schema.js','src/domain/gameplay/early-campaign-scene-state.js']);
 async function scan(dir) {
   for (const row of await readdir(new URL(dir,game),{withFileTypes:true})) {
     const path = `${dir}${row.name}`;
@@ -80,7 +80,7 @@ async function scan(dir) {
     if (!row.name.endsWith('.js')) continue;
     const text = await read(path),ast = parse(text,{ecmaVersion:'latest',sourceType:'module'});
     for (const node of ast.body) if (node.type === 'ImportDeclaration' || node.type === 'ExportNamedDeclaration' || node.type === 'ExportAllDeclaration') {
-      if (/sinister-(?:turn-work|turn-proof|work-schema|work-revision|engine|advance)\.js$/.test(node.source?.value ?? '')) assert.ok(allowed.has(path) || path === 'src/domain/gameplay/damage-resolution.js' && node.source.value === '../state/sinister-work-revision.js',`Selected/foreign consumer ${path}`);
+      if (/sinister-(?:turn-work|turn-proof|work-schema|work-revision|engine|advance)\.js$/.test(node.source?.value ?? '')) assert.ok(allowed.has(path) || path === 'src/domain/gameplay/damage-resolution.js' && node.source.value === '../state/sinister-work-revision.js' || path === 'content/state/sinister-ability-domain.js' && node.source.value === '../../src/domain/state/sinister-work-revision.js',`Selected/foreign consumer ${path}`);
     }
   }
 }

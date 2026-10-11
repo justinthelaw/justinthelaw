@@ -1,0 +1,2206 @@
+{
+  "schemaVersion": 2,
+  "profile": "blue-opening-rescue-team-native-v2",
+  "provenance": "Original Rescue Team world sprites and portraits from explicitly identified public image sources, with recorded native frame composition and timing. Selected sprites and display colors corroborated against Blue screenshots; remaining Red-derived data is comparative. No rights-holder reuse grant asserted.",
+  "sourceManifestSha256": "d9082e81e417d2559449705a5d7215232eee70de2b29e2dfc47804806ea60687",
+  "sourceManifestPath": "tools/pokemon-dungeon/art/blue/native-sources.json",
+  "sourceArchives": [
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-sprite-source.tar.gz",
+      "bytes": 596829,
+      "sha256": "3d8c59b43064ca8d76bc1554d988468a0b5c0b53d503889d266cb3892f6d2eb8"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-portrait-source.tar.gz",
+      "bytes": 308563,
+      "sha256": "b78aad0ae144b5a1421e1dd691fb454ca6704b82e68a67b335809dd09913f42e"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-ornament-source.tar.gz",
+      "bytes": 10485,
+      "sha256": "91505c1e2809271d4f0fe815d219d0504309c008d235b82f468af706a6c0e99a"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-ui-source.tar.gz",
+      "bytes": 460395,
+      "sha256": "7e16960f4a14089ac6716871c3caa537af52e53d55194cfd4f2ce55675cc32aa"
+    }
+  ],
+  "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+  ],
+  "records": [
+    {
+      "speciesId": "pokemon-001",
+      "path": "pokemon-001.png",
+      "width": 512,
+      "height": 240,
+      "bytes": 29545,
+      "sha256": "86951d30799a86ec5053ede1fa1b2cea50c3794a302507c93a0de932b8453b76",
+      "metadataPath": "pokemon-001.json",
+      "metadataBytes": 35228,
+      "metadataSha256": "cafcacc9dbd68dd6791182f822435314647b785017064542633201834ba88868",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/bulbasaur.h"
+    },
+    {
+      "speciesId": "pokemon-004",
+      "path": "pokemon-004.png",
+      "width": 512,
+      "height": 320,
+      "bytes": 33574,
+      "sha256": "19e767fa3c0815cd6cad1d3b6ac86f52ad421290372680c78421ed5e6a882884",
+      "metadataPath": "pokemon-004.json",
+      "metadataBytes": 36795,
+      "metadataSha256": "87201927d4e8cdda05e26d486ab632108c3d51832d1b7a9b56513be9a2390e7f",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/charmander.h"
+    },
+    {
+      "speciesId": "pokemon-007",
+      "path": "pokemon-007.png",
+      "width": 512,
+      "height": 238,
+      "bytes": 25559,
+      "sha256": "bf8d84bb73551983d1f0bccd91eda34aa9de6109a41b3dba7b33c73c40624dd0",
+      "metadataPath": "pokemon-007.json",
+      "metadataBytes": 35626,
+      "metadataSha256": "b1294d2ea04e2860b3998f75451573285c588509562fdaf89994349bf0f77830",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/squirtle.h"
+    },
+    {
+      "speciesId": "pokemon-010",
+      "path": "pokemon-010.png",
+      "width": 512,
+      "height": 172,
+      "bytes": 15086,
+      "sha256": "8a3ef5450785af7a5bd66e2f3aecace0b7f0f569b3db05e666c644a58dbe129d",
+      "metadataPath": "pokemon-010.json",
+      "metadataBytes": 24811,
+      "metadataSha256": "85505eb251962224ffd25a32758325f72f87b1a5aee26027d255b1ca3f907f48",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/caterpie.h"
+    },
+    {
+      "speciesId": "pokemon-012",
+      "path": "pokemon-012.png",
+      "width": 512,
+      "height": 172,
+      "bytes": 21580,
+      "sha256": "4b0af0bb74f12ad545a36796cacf38cc4b97c34e6f9571cdf9aa34960309b5e1",
+      "metadataPath": "pokemon-012.json",
+      "metadataBytes": 30726,
+      "metadataSha256": "ca790edad2a4fe9fd305f1bf8e9b61e039bf92ad20465c03fdd9e6509006c3f2",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/butterfree.h"
+    },
+    {
+      "speciesId": "pokemon-016",
+      "path": "pokemon-016.png",
+      "width": 512,
+      "height": 150,
+      "bytes": 14626,
+      "sha256": "1aee5322434da81d59d81e1739a0d22fab0c82f4d6489474b45e4b124da1cca3",
+      "metadataPath": "pokemon-016.json",
+      "metadataBytes": 26888,
+      "metadataSha256": "355e0a3a2e0e737ec9b2d585d72a3bd0f555d063f62f67b3fdcf421d9166867e",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/pidgey.h"
+    },
+    {
+      "speciesId": "pokemon-025",
+      "path": "pokemon-025.png",
+      "width": 512,
+      "height": 454,
+      "bytes": 42072,
+      "sha256": "d9a7953fb70853f0ca16e23cbbd688cadb78889f814120d54e4781feab1c87b9",
+      "metadataPath": "pokemon-025.json",
+      "metadataBytes": 37597,
+      "metadataSha256": "7ebe21f3acef64b6de73b60432710591a6301e681604fc3aac193d8399627f92",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/pikachu.h"
+    },
+    {
+      "speciesId": "pokemon-052",
+      "path": "pokemon-052.png",
+      "width": 512,
+      "height": 308,
+      "bytes": 37075,
+      "sha256": "bbf0ce3141bc5c36392810401607bac98f03b1ba08e670041b57682b61ec29a3",
+      "metadataPath": "pokemon-052.json",
+      "metadataBytes": 36632,
+      "metadataSha256": "8be2d45c3922907d63016b31b8d742879260ebcd33c82f1d37b103dce0600551",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/meowth.h"
+    },
+    {
+      "speciesId": "pokemon-054",
+      "path": "pokemon-054.png",
+      "width": 512,
+      "height": 320,
+      "bytes": 36910,
+      "sha256": "1321dfcb04c18bf09fa99e8e1cee304a243e38e29ddc39ce6fbfefa3aea3bc3a",
+      "metadataPath": "pokemon-054.json",
+      "metadataBytes": 37369,
+      "metadataSha256": "fab4e2a453bc77751ecd687d9f34458bb51bad22bd69717c11e10432f52ccabb",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/psyduck.h"
+    },
+    {
+      "speciesId": "pokemon-066",
+      "path": "pokemon-066.png",
+      "width": 512,
+      "height": 272,
+      "bytes": 31204,
+      "sha256": "f25bf680474ad0ed871dd74aa9b63e8ca9ad2d5a7d97b1d11eaba244742dbeef",
+      "metadataPath": "pokemon-066.json",
+      "metadataBytes": 36155,
+      "metadataSha256": "9d18abe1b679c8822d2963eaabcea6c01380063514ce3b9efb2442c7001b3ec5",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/machop.h"
+    },
+    {
+      "speciesId": "pokemon-102",
+      "path": "pokemon-102.png",
+      "width": 512,
+      "height": 188,
+      "bytes": 19187,
+      "sha256": "48f4cfea6ed0eb2ea026f8275a99c21e6bac6bc5570ab884aef2e467888b1531",
+      "metadataPath": "pokemon-102.json",
+      "metadataBytes": 25570,
+      "metadataSha256": "4053897c3d890bd2960f3deb856b0eef38473d770a6990d9bf5c42d0203c0046",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/exeggcute.h"
+    },
+    {
+      "speciesId": "pokemon-104",
+      "path": "pokemon-104.png",
+      "width": 512,
+      "height": 278,
+      "bytes": 34106,
+      "sha256": "e31549696aa68f174a823160be8b4ab17b1d589d91a091290c3f61f35394fc8c",
+      "metadataPath": "pokemon-104.json",
+      "metadataBytes": 34957,
+      "metadataSha256": "f70305ecaa2a14071dc2122137a4c6e108d85f1db4dbebf03d6352c2eaa455e6",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/cubone.h"
+    },
+    {
+      "speciesId": "pokemon-133",
+      "path": "pokemon-133.png",
+      "width": 512,
+      "height": 256,
+      "bytes": 29684,
+      "sha256": "516babffad4e1660193ce4ee010ec1e93680b12010e266e3c5ee2057a1c6aec6",
+      "metadataPath": "pokemon-133.json",
+      "metadataBytes": 35860,
+      "metadataSha256": "28ba77f7d3068d4294e1d932b13a28c07401a82537068d722afdcd09bc31e07b",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/eevee.h"
+    },
+    {
+      "speciesId": "pokemon-152",
+      "path": "pokemon-152.png",
+      "width": 512,
+      "height": 376,
+      "bytes": 31441,
+      "sha256": "5b120a6d4c5259e7b2ed06051bd8d429e8191ca4bb3fe3a95dca3c06c17b1a04",
+      "metadataPath": "pokemon-152.json",
+      "metadataBytes": 35895,
+      "metadataSha256": "357dd31a23b4db07721310fd85fb7bc9b5c610e30b894637c7c7dec6491c3bba",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/chikorita.h"
+    },
+    {
+      "speciesId": "pokemon-155",
+      "path": "pokemon-155.png",
+      "width": 512,
+      "height": 258,
+      "bytes": 30176,
+      "sha256": "bf284c28407564d812ad1cda7926f5d2f6482439530f83b701bb9489998bd972",
+      "metadataPath": "pokemon-155.json",
+      "metadataBytes": 35688,
+      "metadataSha256": "e1ca125c690438ade257d799fba5ce77179a1a488cdb573d6d13d7de90e73ebc",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/cyndaquil.h"
+    },
+    {
+      "speciesId": "pokemon-158",
+      "path": "pokemon-158.png",
+      "width": 512,
+      "height": 270,
+      "bytes": 35528,
+      "sha256": "d9ed779b04e5772baedc7793442a75fa7b57f2013c2cd095ea4019520b3ea79e",
+      "metadataPath": "pokemon-158.json",
+      "metadataBytes": 37508,
+      "metadataSha256": "b1d970598e689537b238bbc29d86e11e9d193506374fb8147a05d04201d8d8b5",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/totodile.h"
+    },
+    {
+      "speciesId": "pokemon-191",
+      "path": "pokemon-191.png",
+      "width": 512,
+      "height": 106,
+      "bytes": 9083,
+      "sha256": "d20e238cef119d8baa70c485617f58253b7542a0f9384973766aef5172dd02ba",
+      "metadataPath": "pokemon-191.json",
+      "metadataBytes": 24058,
+      "metadataSha256": "a2e696897595c0b332548ac613b6e7d87d2b89849910f03e9bf4c17f6b485d3d",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/sunkern.h"
+    },
+    {
+      "speciesId": "pokemon-252",
+      "path": "pokemon-252.png",
+      "width": 512,
+      "height": 314,
+      "bytes": 32671,
+      "sha256": "a16413b8e2e26bc39315c7502bcfe72a85404bd01e566a7f048212e4744196cd",
+      "metadataPath": "pokemon-252.json",
+      "metadataBytes": 35532,
+      "metadataSha256": "8c2165817afd09746ff0849f9790950fd7a669a09b317fb55d8dc3e388944f3f",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/treecko.h"
+    },
+    {
+      "speciesId": "pokemon-255",
+      "path": "pokemon-255.png",
+      "width": 512,
+      "height": 200,
+      "bytes": 22976,
+      "sha256": "d57b4ad46b9f7a084345d4974b09ab4f7dcc4ff80dd0d2b2df04aa86b12a33d4",
+      "metadataPath": "pokemon-255.json",
+      "metadataBytes": 36557,
+      "metadataSha256": "928795f821b0c090328542fd469ef75c9f88a55d0ec80d25cb0b6b892c5b85f8",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/torchic.h"
+    },
+    {
+      "speciesId": "pokemon-258",
+      "path": "pokemon-258.png",
+      "width": 512,
+      "height": 192,
+      "bytes": 19075,
+      "sha256": "cc4e3701757f7ddf51e6ff7fed77164850c7dd1b952c37fb39b80ef2d5bcfcdb",
+      "metadataPath": "pokemon-258.json",
+      "metadataBytes": 37320,
+      "metadataSha256": "f5749372ad7f9b9b1298c970b00f6d22955760013a3e135b03150ff3b7703858",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/mudkip.h"
+    },
+    {
+      "speciesId": "pokemon-265",
+      "path": "pokemon-265.png",
+      "width": 512,
+      "height": 108,
+      "bytes": 13222,
+      "sha256": "217b6229a487acd16102c4b418ef6724de201b451fcf045eff3e75e9708a686c",
+      "metadataPath": "pokemon-265.json",
+      "metadataBytes": 23462,
+      "metadataSha256": "6b0e6bb670fed06e2fe9b59d3c73caaaaa042752b01f8d843ca30afc84035760",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/wurmple.h"
+    },
+    {
+      "speciesId": "pokemon-279",
+      "path": "pokemon-279.png",
+      "width": 512,
+      "height": 220,
+      "bytes": 26010,
+      "sha256": "c16f5dfc69164070d11efb7c176101415fb1eb23950fe537ebdb90b1afd3e46f",
+      "metadataPath": "pokemon-279.json",
+      "metadataBytes": 32872,
+      "metadataSha256": "f9faf1100f81eaf5cb2d4a4ad13c832739538977d3761fe95329340766f7f76c",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/pelipper.h"
+    },
+    {
+      "speciesId": "pokemon-300",
+      "path": "pokemon-300.png",
+      "width": 512,
+      "height": 280,
+      "bytes": 31594,
+      "sha256": "27e7752b62e3a651f3dfea4540e19d3e9a867155ef26e93159f97c432ef6c1c2",
+      "metadataPath": "pokemon-300.json",
+      "metadataBytes": 36287,
+      "metadataSha256": "52f6f7ca1b9e79468b52f5125dfd333b9e9bc9fa872935b51d3917751a19c4ae",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ax/skitty.h"
+    }
+  ],
+  "portraitAtlas": {
+    "path": "portraits.png",
+    "width": 320,
+    "height": 1080,
+    "cell": 40,
+    "columns": 8,
+    "bytes": 172104,
+    "sha256": "78f342d01f0c59c46e1ab9bc34fc79d99b3c1da06f75a385dfce03d403d1e66b",
+    "metadataPath": "portraits.json",
+    "metadataBytes": 18329,
+    "metadataSha256": "bfc135f3a20f8fa7db11a9faca7b5266879612b423d43b1b168a83e47b70ddb6",
+    "records": [
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "angry",
+        "x": 0,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "crying",
+        "x": 40,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "happy",
+        "x": 80,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "inspired",
+        "x": 120,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "joyous",
+        "x": 160,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "normal",
+        "x": 200,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "pain",
+        "x": 240,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "sad",
+        "x": 280,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "shocked",
+        "x": 0,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "shouting",
+        "x": 40,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "special",
+        "x": 80,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "teary-eyed",
+        "x": 120,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-001",
+        "emotion": "worried",
+        "x": 160,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "angry",
+        "x": 200,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "crying",
+        "x": 240,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "happy",
+        "x": 280,
+        "y": 40,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "inspired",
+        "x": 0,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "joyous",
+        "x": 40,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "normal",
+        "x": 80,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "pain",
+        "x": 120,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "sad",
+        "x": 160,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "shocked",
+        "x": 200,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "shouting",
+        "x": 240,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "special",
+        "x": 280,
+        "y": 80,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "teary-eyed",
+        "x": 0,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-004",
+        "emotion": "worried",
+        "x": 40,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "angry",
+        "x": 80,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "crying",
+        "x": 120,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "happy",
+        "x": 160,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "inspired",
+        "x": 200,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "joyous",
+        "x": 240,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "normal",
+        "x": 280,
+        "y": 120,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "pain",
+        "x": 0,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "sad",
+        "x": 40,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "shocked",
+        "x": 80,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "shouting",
+        "x": 120,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "special",
+        "x": 160,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "teary-eyed",
+        "x": 200,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-007",
+        "emotion": "worried",
+        "x": 240,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-010",
+        "emotion": "inspired",
+        "x": 280,
+        "y": 160,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-010",
+        "emotion": "normal",
+        "x": 0,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-010",
+        "emotion": "teary-eyed",
+        "x": 40,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-012",
+        "emotion": "normal",
+        "x": 80,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "angry",
+        "x": 120,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "crying",
+        "x": 160,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "happy",
+        "x": 200,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "inspired",
+        "x": 240,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "joyous",
+        "x": 280,
+        "y": 200,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "normal",
+        "x": 0,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "pain",
+        "x": 40,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "sad",
+        "x": 80,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "shocked",
+        "x": 120,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "shouting",
+        "x": 160,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "special",
+        "x": 200,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "teary-eyed",
+        "x": 240,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-025",
+        "emotion": "worried",
+        "x": 280,
+        "y": 240,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "angry",
+        "x": 0,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "crying",
+        "x": 40,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "happy",
+        "x": 80,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "inspired",
+        "x": 120,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "joyous",
+        "x": 160,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "normal",
+        "x": 200,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "pain",
+        "x": 240,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "sad",
+        "x": 280,
+        "y": 280,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "shocked",
+        "x": 0,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "shouting",
+        "x": 40,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "special",
+        "x": 80,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "teary-eyed",
+        "x": 120,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-052",
+        "emotion": "worried",
+        "x": 160,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "angry",
+        "x": 200,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "crying",
+        "x": 240,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "happy",
+        "x": 280,
+        "y": 320,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "inspired",
+        "x": 0,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "joyous",
+        "x": 40,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "normal",
+        "x": 80,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "pain",
+        "x": 120,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "sad",
+        "x": 160,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "shocked",
+        "x": 200,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "shouting",
+        "x": 240,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "special",
+        "x": 280,
+        "y": 360,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "teary-eyed",
+        "x": 0,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-054",
+        "emotion": "worried",
+        "x": 40,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "angry",
+        "x": 80,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "crying",
+        "x": 120,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "happy",
+        "x": 160,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "inspired",
+        "x": 200,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "joyous",
+        "x": 240,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "normal",
+        "x": 280,
+        "y": 400,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "pain",
+        "x": 0,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "sad",
+        "x": 40,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "shocked",
+        "x": 80,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "shouting",
+        "x": 120,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "special",
+        "x": 160,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "teary-eyed",
+        "x": 200,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-066",
+        "emotion": "worried",
+        "x": 240,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "angry",
+        "x": 280,
+        "y": 440,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "crying",
+        "x": 0,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "happy",
+        "x": 40,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "inspired",
+        "x": 80,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "joyous",
+        "x": 120,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "normal",
+        "x": 160,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "pain",
+        "x": 200,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "sad",
+        "x": 240,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "shocked",
+        "x": 280,
+        "y": 480,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "shouting",
+        "x": 0,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "special",
+        "x": 40,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "teary-eyed",
+        "x": 80,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-104",
+        "emotion": "worried",
+        "x": 120,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "angry",
+        "x": 160,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "crying",
+        "x": 200,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "happy",
+        "x": 240,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "inspired",
+        "x": 280,
+        "y": 520,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "joyous",
+        "x": 0,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "normal",
+        "x": 40,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "pain",
+        "x": 80,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "sad",
+        "x": 120,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "shocked",
+        "x": 160,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "shouting",
+        "x": 200,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "special",
+        "x": 240,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "teary-eyed",
+        "x": 280,
+        "y": 560,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-133",
+        "emotion": "worried",
+        "x": 0,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "angry",
+        "x": 40,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "crying",
+        "x": 80,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "happy",
+        "x": 120,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "inspired",
+        "x": 160,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "joyous",
+        "x": 200,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "normal",
+        "x": 240,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "pain",
+        "x": 280,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "sad",
+        "x": 0,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "shocked",
+        "x": 40,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "shouting",
+        "x": 80,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "special",
+        "x": 120,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "teary-eyed",
+        "x": 160,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-152",
+        "emotion": "worried",
+        "x": 200,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "angry",
+        "x": 240,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "crying",
+        "x": 280,
+        "y": 640,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "happy",
+        "x": 0,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "inspired",
+        "x": 40,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "joyous",
+        "x": 80,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "normal",
+        "x": 120,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "pain",
+        "x": 160,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "sad",
+        "x": 200,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "shocked",
+        "x": 240,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "shouting",
+        "x": 280,
+        "y": 680,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "special",
+        "x": 0,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "teary-eyed",
+        "x": 40,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-155",
+        "emotion": "worried",
+        "x": 80,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "angry",
+        "x": 120,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "crying",
+        "x": 160,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "happy",
+        "x": 200,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "inspired",
+        "x": 240,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "joyous",
+        "x": 280,
+        "y": 720,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "normal",
+        "x": 0,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "pain",
+        "x": 40,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "sad",
+        "x": 80,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "shocked",
+        "x": 120,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "shouting",
+        "x": 160,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "special",
+        "x": 200,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "teary-eyed",
+        "x": 240,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-158",
+        "emotion": "worried",
+        "x": 280,
+        "y": 760,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "angry",
+        "x": 0,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "crying",
+        "x": 40,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "happy",
+        "x": 80,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "inspired",
+        "x": 120,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "joyous",
+        "x": 160,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "normal",
+        "x": 200,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "pain",
+        "x": 240,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "sad",
+        "x": 280,
+        "y": 800,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "shocked",
+        "x": 0,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "shouting",
+        "x": 40,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "special",
+        "x": 80,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "teary-eyed",
+        "x": 120,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-252",
+        "emotion": "worried",
+        "x": 160,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "angry",
+        "x": 200,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "crying",
+        "x": 240,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "happy",
+        "x": 280,
+        "y": 840,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "inspired",
+        "x": 0,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "joyous",
+        "x": 40,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "normal",
+        "x": 80,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "pain",
+        "x": 120,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "sad",
+        "x": 160,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "shocked",
+        "x": 200,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "shouting",
+        "x": 240,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "special",
+        "x": 280,
+        "y": 880,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "teary-eyed",
+        "x": 0,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-255",
+        "emotion": "worried",
+        "x": 40,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "angry",
+        "x": 80,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "crying",
+        "x": 120,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "happy",
+        "x": 160,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "inspired",
+        "x": 200,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "joyous",
+        "x": 240,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "normal",
+        "x": 280,
+        "y": 920,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "pain",
+        "x": 0,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "sad",
+        "x": 40,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "shocked",
+        "x": 80,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "shouting",
+        "x": 120,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "special",
+        "x": 160,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "teary-eyed",
+        "x": 200,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-258",
+        "emotion": "worried",
+        "x": 240,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-279",
+        "emotion": "normal",
+        "x": 280,
+        "y": 960,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "angry",
+        "x": 0,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "crying",
+        "x": 40,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "happy",
+        "x": 80,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "inspired",
+        "x": 120,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "joyous",
+        "x": 160,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "normal",
+        "x": 200,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "pain",
+        "x": 240,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "sad",
+        "x": 280,
+        "y": 1000,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "shocked",
+        "x": 0,
+        "y": 1040,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "shouting",
+        "x": 40,
+        "y": 1040,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "special",
+        "x": 80,
+        "y": 1040,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "teary-eyed",
+        "x": 120,
+        "y": 1040,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "speciesId": "pokemon-300",
+        "emotion": "worried",
+        "x": 160,
+        "y": 1040,
+        "width": 40,
+        "height": 40
+      }
+    ],
+    "provenance": "Original 40x40 Rescue Team portraits, with source display color conversion; see authoring native-sources.json."
+  },
+  "scenes": [],
+  "ornaments": [
+    {
+      "id": "title-bird",
+      "path": "title-bird.png",
+      "width": 512,
+      "height": 116,
+      "bytes": 7744,
+      "sha256": "b0c9289b29cd0679c00b88e2738872bb5bb7ee2d9cff22eeba8dabbbef62b9e5",
+      "metadataPath": "title-bird.json",
+      "metadataBytes": 2197,
+      "metadataSha256": "04c0ce1f9a63330bdaa5cea91c3f816242ab8120a33da988a72297eb05224703",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ornament/titleop1.h"
+    },
+    {
+      "id": "title-letter",
+      "path": "title-letter.png",
+      "width": 512,
+      "height": 23,
+      "bytes": 361,
+      "sha256": "37d77fa2acf96c3af1dddd418574db876a6b7bc923a9685ad021a04d9b888fc1",
+      "metadataPath": "title-letter.json",
+      "metadataBytes": 674,
+      "metadataSha256": "4294fc9f5456e3fcbaa98dc38543fe6ce88594cf484cb5da9995e2eac1dd0757",
+      "sourceEdition": "Red Rescue Team",
+      "sourceHeader": "src/data/ornament/titleop2.h"
+    }
+  ],
+  "nativeUi": {
+    "modulePath": "src/blue/render-native-ui-data.js",
+    "bytes": 34350,
+    "sha256": "3378ee088cfecb596ef031746566f8774af39249ac02700322ee7c8d25f16fe9",
+    "sourceManifestPath": "tools/pokemon-dungeon/art/blue/native-ui-sources.json",
+    "sourceManifestSha256": "195d9bbe528953cf12d263572ffd8f5b27595488bcf048b463960bcdd0696ab5",
+    "archive": {
+      "path": "native-ui-source.tar.gz",
+      "bytes": 460395,
+      "sha256": "7e16960f4a14089ac6716871c3caa537af52e53d55194cfd4f2ce55675cc32aa"
+    },
+    "corroboratedFontPixels": 265,
+    "images": [
+      {
+        "id": "team-panels",
+        "path": "team-panels.png",
+        "width": 256,
+        "height": 144,
+        "bytes": 1721,
+        "sha256": "a431d980c5471664cc4f910a9dbfa67f7bae6972a02ebd936d2f510e986b04b7",
+        "provenance": "Original Blue team-row captures; 2170/2304 occupied pedestal positions exposed across five native sprite masks; the remaining 134 positions use the observed gray-to-gold palette correspondence. Center panel stripes reconstructed from unobscured pixels."
+      },
+      {
+        "id": "menu-delivery",
+        "path": "menu-delivery.png",
+        "width": 256,
+        "height": 192,
+        "bytes": 25299,
+        "sha256": "96c0edf1c89aacdd1b8a7a1ec5275c207295ec36408ed2263b5e871828b27447",
+        "provenance": "Public Rescue Team illustration retained in Explorers of Sky; 31040 background pixels corroborated against a Blue Korean-localization capture after source brightness conversion. This does not establish English-retail menu text or all three random illustrations."
+      },
+      {
+        "id": "menu-mailbox",
+        "path": "menu-mailbox.png",
+        "width": 256,
+        "height": 192,
+        "bytes": 24168,
+        "sha256": "5e1c0b2730ee89a20780ac9cc11cd1922bcaa679dbdd76c09fd3ee9660da10fe",
+        "provenance": "Public Rescue Team illustration retained in Explorers of Sky; scene identity corroborated by original English Blue gameplay video RrglH3dOqrg at0:05. Palette uses the source brightness conversion proven on Delivery; compressed video does not establish pixel-byte parity."
+      }
+    ]
+  },
+  "statusAtlas": {
+    "path": "status-icons.png",
+    "width": 256,
+    "height": 144,
+    "bytes": 4526,
+    "sha256": "f870bcfe11556eb87470a28cae60f44d8fb22f5e48427c86585be0e6ae7a2a92",
+    "metadataPath": "status-icons.json",
+    "metadataBytes": 997,
+    "metadataSha256": "7a0424a1d14a9cea52e1bd7ca9b3355f41475d92bdede1ca72075706f5fe10c2",
+    "sourceManifestPath": "tools/pokemon-dungeon/art/blue/native-status/sources.json",
+    "sourceManifestSha256": "01554a17d9999d363a7dfe7cb6261ca38eb2f70ea717284e40d6d52d8a581037",
+    "sourceEdition": "Red Rescue Team comparative"
+  },
+  "authoringSources": [
+    {
+      "path": "tools/pokemon-dungeon/art/blue/export.mjs",
+      "sha256": "3ea35438cb826d026e1dfb9124a70718862d4610cae4a1a984e969582b4a595c"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-export.mjs",
+      "sha256": "ff0b5f53d4e25cd7de3609c9f75aafa6ff577346c5d98d584491f2f0ef678026"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-format.mjs",
+      "sha256": "3512bb91412f154e877ab9889d5177602962869cae0eb6991c4424c907a2c7fd"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-ornament-export.mjs",
+      "sha256": "c7d3e75dbffa35f6d396ff382deb66105706c11fb7333dbf688439d800dfe8de"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-ui-export.mjs",
+      "sha256": "41a4b1d53e5aba7614ab6879b9e215179c54b68baaced06f122e29066aaf02c6"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-panel-export.mjs",
+      "sha256": "8bd2dc15c95896ca8ec6043f17396f5389b17bac6f05bd11dbc8ed841e79e9ec"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-map-export.mjs",
+      "sha256": "75b39ca4f735cdcd1e0b1109f3206722e60305da274033cb9f1a5350f2f02b18"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-status-export.mjs",
+      "sha256": "1c13900bcb5aac838955958b2e64362a478523f7fc1639ac7fe15ffe4558ccc4"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-scenery-export.mjs",
+      "sha256": "8aee0ed09fdf93dfb2e7a022c0b46ce12b762a12377cd7f1da20db3671c2c348"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-ground-format.mjs",
+      "sha256": "012304759d1fcf91a3e2824c7029fa7b3d3853c8b92ab886f6475c55852853c3"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-aura-format.mjs",
+      "sha256": "ac30f92456ca5c075c8660648d5594391a68906453fa3496c02552aa94da9985"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-boot-format.mjs",
+      "sha256": "c910d7a911347ec4f3d27d1340d5c83cdef0e05ccc90257e90ba16bc7a6e932f"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-title-format.mjs",
+      "sha256": "937ba44718422e492794bb60522105b6b4ec2e00e2dbe20246c8dc9a5251d467"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/capture-native.mjs",
+      "sha256": "1c8dfa17b6ff8e2500de283a316c74d09654a88297e3df93bb30837e0366e5e3"
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/capture-native-ui.mjs",
+      "sha256": "5ca8ab6d72d88c7bb0b21647f517db7376640f116868a50ff2da061d89920d4a"
+    }
+  ],
+  "sceneryManifest": "scenery/manifest.json"
+}

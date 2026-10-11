@@ -46,9 +46,10 @@
 - Artifact upload changes no Pages environment, branch, deployment permissions,
   or live website. The existing
   [Deploy workflow](../../../.github/workflows/deploy.yml) is unchanged.
-- Keep PR #392 unmerged. The [integration release gates](INTEGRATION.md) and
-  current user instructions govern whether this development checkpoint may be
-  published separately from the future complete game.
+- PR #392 was merged for the explicitly authorized opening MVP. Current full
+  continuation PR #397 remains draft and unmerged. Follow
+  [the current handoff](CODEX-HANDOFF-2026-10-09.md),
+  [integration release gates](INTEGRATION.md) and current user authorization.
 - Before an authorized run, verify **Settings → Pages** uses **GitHub Actions**
   as its build/deployment source and the **github-pages** environment's deployment
   branch policy permits the selected branch. These settings cannot be inferred

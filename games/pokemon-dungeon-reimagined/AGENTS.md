@@ -1,5 +1,42 @@
 # Pokémon Dungeon Reimagined
 
+## Current scope — 2026-10-10
+
+Follow [BLUE-OPENING.md](plan/BLUE-OPENING.md). Justin explicitly replaced the
+full campaign and 3D direction with the original DS opening through Tiny Woods
+and Caterpie's reunion with Butterfree. `src/blue/` owns the scoped 2D runtime;
+old v24 saves remain untouched. The historical constraints below apply only
+where compatible with this later instruction. Keep original asset provenance,
+the static-check/manual-gameplay boundary, and honest fidelity qualifications.
+The exact-visual request supersedes the historical authored-art-only constraint
+for publicly published individual Rescue Team images and image-data sources.
+Keep their pinned source URLs, hashes and attribution; do not claim a reuse grant
+from public availability. No ROM or copied commercial narrative is included.
+
+## Current handoff — 2026-10-09
+
+Resume `plan/CODEX-HANDOFF-2026-10-09.md` on draft PR #397, branch
+`feat/pokemon-campaign-recovery`. PR #392 is merged. Prior startup-only and
+"only main remains" notes are historical. Complete overlay focus regressions
+and independently review/profile the immutable shape-cache candidate before
+widening campaign activation. Actual WebGL 2 gameplay/device acceptance remains
+open; static checks and inert website fixtures are not that evidence.
+
+## Previous recovery checkpoint
+
+Dialogue confirmation repair PR #396 is merged as `ff21bb9` and deployed.
+Default panel focus must select real non-audio fields/actions; preserve explicit
+sound focus, trusted audio permission and stale callback ownership.
+
+Full-campaign continuation is tracked in
+`plan/RECOVERY-2026-10-08-DIALOGUE.md`. Source-recovered Sinister prerequisites
+and new roster/ability/cache64 owners remain unselected development work. Do not
+mistake recovered narrative or a conditional private-authority proof for a full
+raw factory. Actual memory/actor construction, turn/terminal adapters, later
+routes and whole-game acceptance remain open. Sourceful CI audits fetch the
+exact available recovery base and pinned comparative Red Git snapshot; they
+read source/AST/JSON only, with no native or game execution under D05.
+
 ## Current status: opening implemented; full campaign acceptance pending
 
 Justin's later 2026-10-08 instruction "Push to main, delete all other branches"

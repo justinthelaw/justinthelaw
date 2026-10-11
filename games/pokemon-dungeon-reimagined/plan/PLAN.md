@@ -1,19 +1,28 @@
 # Pokémon Dungeon Reimagined: implementation handoff
 
-**Current authority (2026-10-05):** deliver the complete Blue campaign and
-postgame described in [FULL-GAME-GOAL.md](FULL-GAME-GOAL.md). Latest visual
-direction is faithful directional pixel characters in textured, illuminated
-real 3D, superseding D03 B and earlier inferred P06 acceptance. The three new
-pixel studies and tools-only viewer are Task 1 foundations, never full gameplay.
-The [execution plan](FULL-GAME-EXECUTION.md) preserves all completion gates.
+**Current authority (2026-10-10):** [BLUE-OPENING.md](BLUE-OPENING.md) supersedes
+the full-campaign and 3D target below. PR #397 now delivers only the DS-style
+opening through Tiny Woods and Caterpie's rescue. The remainder is historical
+planning and source evidence, not the current completion scope.
 
-**Status: implementation authorized on 2026-10-04 after planning PR #387 merged. The unmerged foundation work includes reviewed P03-A/P04-A interfaces, a P05 startup shell and P06 art candidates. P01 remains incomplete; see PROGRESS.md and COVERAGE.csv for evidence and remaining gates.**
+**Current authority (2026-10-09):** follow
+[CODEX-HANDOFF-2026-10-09.md](CODEX-HANDOFF-2026-10-09.md) first, then
+[FULL-GAME-GOAL.md](FULL-GAME-GOAL.md) and
+[FULL-GAME-EXECUTION.md](FULL-GAME-EXECUTION.md). Deliver the complete Blue
+campaign/postgame, with faithful directional pixel characters in textured real
+3D. First resolve actual browser stability and verify the selected opening.
+
+**Status:** PR #392 is merged; continue draft #397 on
+`feat/pokemon-campaign-recovery` from its current remote head. The selected v24
+opening through MAIN(5,9) is implemented. Sinister and later routes, full-game
+acceptance, real-browser latency/device checks and final visual review remain
+open. The historical foundation descriptions below are not current task status.
 
 **Goal:** recreate the scope of the original Nintendo DS Blue Rescue Team adventure as a polished third-person 3D game served from Justin's arcade on GitHub Pages, with the entire main campaign, postgame, optional content, original rule systems, and a documented account of deliberate adaptations.
 
 **Architecture:** a standalone, locally hosted browser game in `games/pokemon-dungeon-reimagined/`, with separate content, simulation, presentation, UI/input, audio, and persistence modules. The existing Next.js site exports that directory unchanged and opens its entry point in the existing arcade iframe. Simulation owns gameplay state; the renderer consumes presentation snapshots and cannot change game rules.
 
-**Selected stack:** browser ES modules, JavaScript with JSDoc and an independent static type check, locally pinned Three.js/WebGL 2, local glTF/GLB and compressed texture/audio assets, HTML/CSS menus, browser storage through one adapter. Tooling, the local engine and the startup shell now exist; gameplay, production menus and persistence remain planned. No website React dependency, runtime CDN, server, Unreal runtime, account service, or game test runner.
+**Selected stack:** browser ES modules, JavaScript with JSDoc and an independent static type check, locally pinned Three.js/WebGL 2, local glTF/GLB and compressed texture/audio assets, HTML/CSS menus, browser storage through one adapter. The selected opening implements gameplay, menus, saving, pixel rendering and audio; complete campaign/system/device acceptance remains open. No website React dependency, runtime CDN, server, Unreal runtime, account service, or game test runner.
 
 **Spec:** this plan's approved requirements and the linked appendices constitute the specification. Instructions in AGENTS.md and later explicit user decisions take precedence. Justin's implementation-start instruction permits execution in the dependency order below; package acceptance, visual review and release authorization remain separate.
 
@@ -39,9 +48,9 @@ The [execution plan](FULL-GAME-EXECUTION.md) preserves all completion gates.
 
 Recommended review order for Justin: read sections 2-6, the milestone table in section 10, and the resolved decisions in section 12; then inspect the campaign and rendering appendices. The remaining work packages are the detailed handoff for the implementing model.
 
-## 2. Current foundation scope
+## 2. Historical foundation scope
 
-### Present on the unmerged implementation branch
+### Original foundation record (superseded status)
 
 - The planning baseline merged in PR #387, followed by Justin's implementation-start authorization; root/game AGENTS and the parent `games/README.md` retain the game/website boundary and release hold.
 - This plan, source research, domain appendices, coverage and progress ledgers, including the source-qualified P01 profiles and their unresolved fields.
@@ -52,11 +61,11 @@ Recommended review order for Justin: read sections 2-6, the milestone table in s
 - The approved Blue baseline, with two historical loading illustrations and their prompts/provenance. The latest directional-pixel/real-3D visual direction supersedes B; both illustrations are retained evidence.
 - Recorded static checks and independent reviews, with their exact scope and limitations in PROGRESS.md. These do not complete P01, M1 or gameplay acceptance.
 
-### Remaining work and gates
+### Historical gates and current interpretation
 
 - Resolve source blockers before implementing dependent rules/content; complete the full campaign, systems, roster and production assets through the packages below.
 - Obtain P05 manual acceptance and finish P06 clip/rig/device acceptance; retain P10 and all later visual and whole-game gates. The later explicit pixel direction supersedes the old inferred P06 acceptance.
-- Keep the arcade card and public screenshot unchanged until P36/P37. Intermediate runtime work remains unmerged; merge and deployment require full-scope acceptance and explicit authorization.
+- The opening MVP card is already live under separate authorization. Retain its development label; replace its art study only with real gameplay capture. Keep PR #397 unmerged until applicable acceptance and explicit approval.
 - Keep root website package files and root README unchanged. Game authoring dependencies and the independent static-check workflow remain scoped to the documented tooling boundary.
 
 Early unreviewed implementation drafts were removed during the historical planning stage. They are not accepted architecture, code, assets, validation evidence, or a starting point the next model should silently revive.
@@ -85,10 +94,10 @@ An item can be researched, specified, implemented, statically reviewed, manually
 ## 4. Global constraints
 
 1. Use the original Nintendo DS Blue Rescue Team as the product baseline, as explicitly selected by the user (D01 resolved). Red Rescue Team is a comparative research source only; do not add edition selection or import Red-only rules. DX and Explorers facts require explicit exclusion unless the user approves an adaptation.
-2. Entry point: `games/pokemon-dungeon-reimagined/index.html`, currently a startup-only shell. The user allowed a folder, superseding the requested single `pokemon_dungeon_reimagined.html` file.
+2. Entry point: `games/pokemon-dungeon-reimagined/index.html`, now the selected opening runtime. The user allowed a folder, superseding the requested single `pokemon_dungeon_reimagined.html` file.
 3. All runtime URLs are relative and resolve under `/justinthelaw/games/pokemon-dungeon-reimagined/`; no hard-coded root assets, CDN scripts, external fonts, or API-dependent content.
 4. Keep the existing site architecture, system fonts, live GitHub bio, controls, tooltips, arcade width, margins and navigation intact.
-5. Preserve the first card as Coming soon until the eventual release gate. Replace only that card, using a real gameplay capture, not concept art passed off as gameplay.
+5. Preserve the live first card's opening-development label. Its current image is an art study; replace it only with a verified real campaign capture. Keep the other two cards Coming soon.
 6. Game and website code must be DRY, SOLID, and idiomatic for their respective frameworks. Avoid a monolithic simulation/UI/renderer class.
 7. Do not write or run tests against game source. No unit, integration, snapshot, automated gameplay, simulation replay test, or test-only game hook is permitted. Static syntax, lint, type, schema/provenance/size checks and code review are permitted. Manual gameplay/visual acceptance is approved under D05 and must remain distinct from automated website tests.
 8. Website tests remain meaningful and thorough. Intercept every game iframe navigation with inert fixtures before it is triggered; test export copying with temporary fixture files. Never let a website test boot real game code.
@@ -97,7 +106,7 @@ An item can be researched, specified, implemented, statically reviewed, manually
 11. Every source-derived claim and external asset has provenance. Keep third-party notices and licenses. Create newly written dialogue preserving the original events, plus original art/audio, instead of extracting commercial game resources or copying a complete script.
 12. Current pre-push policy rejects added files over 1,024 KiB. Optimize and partition assets; do not weaken that policy without an explicit reviewed decision.
 13. Preserve canonical save data across retries, migrations and failed imports. No automatic reset on validation failure.
-14. Planning-document-only changes may merge only with explicit user authorization. Every intermediate package containing runtime files remains review-only and unmerged until P37 full-scope release authorization; no interim runtime belongs on `main`. A disabled arcade card does not prevent access to a directly served game URL, because the exporter publishes the entire `games/` tree.
+14. The opening MVP was separately authorized and published through PR #392. Further full-game work remains on draft PR #397 until applicable acceptance and explicit merge/deployment approval. The exporter publishes the entire `games/` tree, so a disabled arcade card does not prevent direct access.
 
 ## 5. Authority order and uncertainty handling
 
@@ -138,7 +147,7 @@ P04-A pins Three.js **0.186.1** in the independent tooling package and includes 
 
 ## 7. Architecture and file ownership
 
-The startup shell (`index.html`, `styles.css`, `src/bootstrap.js`, `src/shell/`), `assets/initial-scene.json`, `vendor/three/`, game AGENTS and `plan/` documentation now exist. Other gameplay/content layers below remain planned. P06 authoring sources, candidate exports and the disposable preview remain outside the game tree under `tools/pokemon-dungeon/`. Do not create empty implementations merely to make this tree look complete.
+The startup shell, canonical domain, saving, input, content, pixel renderer, UI and audio now serve the selected v24 opening. The following ownership table is an architectural guide; consult the current files and handoff for implemented interfaces and remaining scope. P06 authoring sources, candidate exports and the disposable preview remain outside the game tree under `tools/pokemon-dungeon/`. Do not create empty implementations merely to make this tree look complete.
 
 | Path within `games/pokemon-dungeon-reimagined/` | Responsibility | Allowed dependencies |
 | --- | --- | --- |
@@ -330,7 +339,7 @@ All product choices in this register are resolved. Justin subsequently authorize
 | D04 | **Resolved: browser equivalents** | Browser rescue codes/files, Blue extra-mode equivalents and archived event expeditions; preserve content/progression. Cartridge interoperability is not a required gate and may only be claimed where verified | P21, P31 |
 | D05 | **Resolved: manual acceptance allowed** | Human play/visual review is allowed after implementation starts; all automated game-source tests remain excluded | Every gameplay/visual gate |
 | D06 | **Resolved: omit standalone practice** | No separate Groudon practice mode; preserve the campaign battle and capture actual campaign gameplay for the arcade | P18, P35-P36 |
-| D07 | **Established full-release hold** | Keep interim runtime off `main`; keep public card Coming soon until full-scope P36/P37 gates and explicit release authorization | P36-P37 |
+| D07 | **Full-release hold with published opening exception** | The opening MVP is live under separate approval. Keep draft #397 unmerged pending applicable full-scope acceptance and explicit approval; retain honest development copy | P36-P37 |
 | D08 | **Resolved: JavaScript with JSDoc** | Directly served ES modules with strict independent static type checks and game-scoped lint/schema tools | P04 |
 
 The fixed browser-save recommendation is one current campaign with primary/backup recovery, automatic checkpoints after completed canonical state transactions, and manual save/export. SYSTEMS S03 owns exact trigger and recovery behavior; strict cartridge single-use quicksave is not a separate pending choice.
@@ -423,7 +432,7 @@ non-gameplay inputs. No unresolved P01 rule becomes an executable default.
 
 **Acceptance:** static review covers every startup/lifecycle branch; approved manual capture shows direct-page and iframe loading/error states. No white screen or uncontrolled network fallback is accepted.
 
-**Current bounded result:** the startup shell and its reviewed lifecycle interface exist. Direct-page, iframe and device observations remain pending; no gameplay or save operations are implemented.
+**Current bounded result:** the startup shell now composes the selected opening gameplay and save owners. Actual direct-page/iframe/device acceptance remains open; use the current handoff for browser blockers and evidence.
 
 ### P06 - Visual target proof before mass production
 

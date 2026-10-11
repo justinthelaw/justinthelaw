@@ -1,0 +1,53 @@
+{
+  "scope": "unselected-sinister-private-construction-prefix",
+  "baseCommit": "e093c2184710a4448e9f53d6be546935752f86b9",
+  "nativeCommit": "6bcbec4f906938c0243aa2026bcbd41b577bab85",
+  "dependencies": [
+    {
+      "path": "src/domain/gameplay/sinister-roster-mapping.js",
+      "sha256": "4894c4860eaaa464445dd18c0a3d40ab61005f0bd448c5bd4a157b66e4c02435"
+    },
+    {
+      "path": "src/domain/gameplay/sinister-run-preparation.js",
+      "sha256": "e34d70b6574c643a2e59143e863ce806dba093648244f7b094e2eb1827141519"
+    },
+    {
+      "path": "src/domain/gameplay/sinister-native-slots.js",
+      "sha256": "73ddefcbd2a7b5829bca27af9b944a3194d61b48ab5dcc60006a6840fe242fa1"
+    },
+    {
+      "path": "src/domain/gameplay/native-escort-entry.js",
+      "sha256": "4a8fd9553925c61ff9746da9d2330617a5a14c9fc364457b493de3f61955422e"
+    },
+    {
+      "path": "src/domain/gameplay/escort-entry-owner.js",
+      "sha256": "820d81be0b42c09f0dc188fa1300b2afedb4dcd63b831c55719cee3c8002c23b"
+    },
+    {
+      "path": "src/domain/state/plain.js",
+      "sha256": "53ab7032a78d3c1b9686b3304a9fda124cee6dba93b14dc3a395c22adc3f27c8"
+    },
+    {
+      "path": "src/domain/state/validate.js",
+      "sha256": "ca15f34af6dc77c95f9f641df5dff64bb5b528cede2d3f851030f7e13fd04501"
+    },
+    {
+      "path": "src/domain/state/relations.js",
+      "sha256": "391470b35438f47c0f79b5fd8a13cf4ff010ddb30c80edc77b6dd7e027481c56"
+    },
+    {
+      "path": "src/domain/ids.js",
+      "sha256": "542d2e4c0bab0f41ba64e433c0d9dcef88e46812797af0c18dd8294b11f697ee"
+    },
+    {
+      "path": "src/domain/gameplay/sinister-native-geometry.js",
+      "sha256": "2b3c6a4e391d91d35b69060ffa469f6a9e2d33e98b86a4f3e61f833a83e9a200"
+    }
+  ],
+  "nativeFiles": [
+    {
+      "path": "src/run_dungeon.c",
+      "sha256": "6cc792aa349add7f72cd04694d703c1612cacef8681ef7fae840f392908a5d90"
+    }
+  ]
+}

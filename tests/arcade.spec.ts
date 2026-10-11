@@ -3,7 +3,7 @@ import { DERIVED_CONFIG } from "../src/config/site";
 
 const arcadeTitle = `${DERIVED_CONFIG.possessiveName} Arcade`;
 const portalName = `Open ${DERIVED_CONFIG.possessiveName} arcade`;
-const pokemonTitle = "Pokemon Mystery Dungeon Blue Rescue Team - Reimagined";
+const pokemonTitle = "Pokémon Mystery Dungeon: Blue Rescue Team";
 const gameFixture = "<!doctype html><html><body>Website game fixture</body></html>";
 
 test.beforeEach(async ({ page }) => {
@@ -26,7 +26,7 @@ test("should offer the Pokemon development game in the first arcade card", async
   const play = firstCard.getByRole("button", { name: `Play ${pokemonTitle}`, exact: true });
   await expect(play).toBeEnabled({ timeout: 1500 });
   await expect(firstCard).toContainText(/development/i);
-  const picture = firstCard.getByRole("img", { name: /art study|development/i });
+  const picture = firstCard.getByRole("img", { name: /Psyduck and Charmander exploring Tiny Woods/i });
   await expect(picture).toBeVisible();
   await expect.poll(() => picture.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   const previewPath = await picture.getAttribute("src");
@@ -117,6 +117,9 @@ test("should keep the joystick still and animate both remaining pixel blobs", as
     elements.every((element) => element.getAnimations().some((animation) => animation.playState === "running")),
   );
   expect(running).toBe(true);
+  // WebKit may suspend offscreen animation painting on mobile. Measure the
+  // visible character, as a user would see it after reaching its card.
+  await bodies.first().scrollIntoViewIfNeeded();
   const firstY = await bodies.first().evaluate((element) => element.getBoundingClientRect().y);
   await expect.poll(() => bodies.first().evaluate((element) => element.getBoundingClientRect().y)).not.toBe(firstY);
 });
