@@ -7,12 +7,16 @@ import {text,textWidth,panel,cursor,nativeMenuFrame,nativeMoveIcon,nativeHeart,w
 
 /** @param {CanvasRenderingContext2D} context @param {View} view
  * @param {number} x @param {number} y @param {number} width @param {number} [rowHeight]
+ * @param {{shadowColor?:string,clip?:[number,number,number,number]}} [style]
  * @returns {ChoiceBounds[]} */
-function rows(context,view,x,y,width,rowHeight=12){
+function rows(context,view,x,y,width,rowHeight=12,style={}){
   return(view.choices??[]).map((label,index)=>{
     const top=y+index*rowHeight;
     if(index===(view.selectedIndex??0))cursor(context,x-8,top+1);
-    text(context,label,x,top,{maxWidth:width,color:view.disabledChoices?.[index]?'#929292':'#fbfbfb'});
+    // Window glyphs clip to their content area; the separate cursor does not.
+    if(style.clip){context.save();context.beginPath();context.rect(...style.clip);context.clip();}
+    text(context,label,x,top,{maxWidth:width,color:view.disabledChoices?.[index]?'#929292':'#fbfbfb',shadowColor:style.shadowColor});
+    if(style.clip)context.restore();
     return{index,x:x-8,y:top-1,width:width+8,height:rowHeight};
   });
 }
@@ -20,21 +24,27 @@ function rows(context,view,x,y,width,rowHeight=12){
 /** @param {CanvasRenderingContext2D} context @param {View} view @returns {ChoiceBounds[]} */
 export function fileMenu(context,view){
   const labels=view.choices??[],pink=view.gender==='female';
+  const rootMenu=view.menuTitle==='Blue Rescue Team'&&!view.dialogue,top=rootMenu?16:8;
   if(!labels.length)return[];
   const width=Math.min(224,8*Math.ceil(Math.max(80,...labels.map(label=>textWidth(label)+8))/8));
   const height=8*Math.ceil(labels.length*12/8);
-  panel(context,16,8,width+16,height+16,{pink});
-  if(view.menuTitle==='Blue Rescue Team'&&!view.dialogue){
+  panel(context,16,top,width+16,height+16,{pink});
+  if(rootMenu){
     /** @type {Record<string,string>} */const help={
-      'New Game':'Begin the personality quiz and a new rescue.',
+      'New Game':'Start an entirely new adventure.',
       'Continue':'Resume your saved rescue.',
       'Adventure Log':'Review your rescue progress.',
       'Delete Save Data':'Delete this opening adventure\'s save.',
     };
     const description=help[labels[view.selectedIndex??0]??''];
-    if(description){panel(context,16,128,224,40,{pink});wrapText(description,200).slice(0,2).forEach((line,index)=>text(context,line,32,138+index*12));}
+    if(description){
+      panel(context,16,128,224,40,{pink});
+      context.save();context.beginPath();context.rect(24,136,208,24);context.clip();
+      wrapText(description,200).slice(0,2).forEach((line,index)=>text(context,line,32,138+index*12,{shadowColor:'#414141'}));
+      context.restore();
+    }
   }
-  return rows(context,view,32,18,width-8);
+  return rows(context,view,32,top+10,width-8,12,rootMenu?{shadowColor:'#414141',clip:[24,top+8,width,height]}:{});
 }
 
 /** @param {CanvasRenderingContext2D} context @param {View} view @returns {ChoiceBounds[]|null} */

@@ -22,7 +22,8 @@
  * | {kind:'heal',before:Actor,after:Actor}
  * | {kind:'heal-result',actor:Actor,amount:number}
  * | {kind:'effect',before:Actor,after:Actor,effectId?:number}
- * | {kind:'sync',actors:Actor[],items?:GroundItem[],money?:number,afterWalk?:boolean}
+ * | {kind:'pickup',sequence:330|331|332,afterWalk:boolean}
+ * | {kind:'sync',actors:Actor[],items?:GroundItem[],money?:number,afterWalk?:boolean,berryResult?:true}
  * | {kind:'faint',actor:Actor}} BattleEvent
  */
 

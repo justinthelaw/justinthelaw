@@ -196,15 +196,46 @@ using the native brightness conversion and clipped x0 column. This is background
 evidence, not proof of English-retail menu text. The parent agent's direct review
 of [English Blue footage at 0:05](https://www.youtube.com/watch?v=RrglH3dOqrg&t=5s)
 corroborates the mailbox scene's identity; compressed video does not prove its
-pixel bytes. Mailbox is the selected default. The third original illustration
-and the English upper-display menu logo are still missing.
+pixel bytes. Mailbox remains the selected default. A separate [North American English Blue
+capture](https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_NA_Menu_%26_Controls.png)
+now corroborates all 36,352 Delivery pixels outside its two menu windows after
+the same display normalization. The wiki does not identify the original capture
+source; its edition attribution remains a qualification.
 
-File-menu choices occupy the upper-left frame and show short authored selection
-help in a 224×40 window at (16,128). The source normal-window templates and
+The upper file-menu display uses the North American English logo, matching the
+edition already selected for the title. Its 21,624 foreground pixels come from
+the existing title capture through a consistent 64-color mapping. The menu
+capture supplies the foreground mask and solid blue backdrop; all 49,152 output
+pixels match its normalized upper display. This mask is needed because title
+clouds share some logo colors. Lower-screen menu text is not baked into the new
+bitmap. European English has a different, smaller logo and is not substituted.
+The bounded artwork loader disposes this bitmap with its other images.
+
+The third illustration, Charmander and Bulbasaur watching Pelipper, is visible
+in Nintendo's [English Blue manual, printed p16](https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf#page=9).
+A complete native Blue raster has not been established: the public wiki image
+is a resampled 240×180 copy, and the retained Red sheet supplies only 240×160.
+Neither becomes a runtime asset. Comparative Red
+[`LoadTitleScreen`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/main_loops.c#L306)
+selects one of three illustrations once per outer menu load. Blue selection
+behavior and the complete third image remain gaps; this checkpoint does not
+replace them with a two-image randomizer.
+
+File-menu choices occupy the upper-left frame and show selection help in a
+224×40 window at (16,128). The source normal-window templates and
 `menu_input.c` establish eight-pixel borders, first-entry y2, and 12-pixel rows.
-The selected main frame (16,8) follows the approximate English-video placement;
-the localized capture uses y16. These positions are not described as a common
-binary coordinate across all Blue versions.
+The North American English capture directly establishes the root main frame
+at (16,16), 96×40 for its two choices, and first text at (32,26). The root menu
+now uses that y origin with its existing variable height. The source font masks
+also match 1,241 label/help pixels with white ink and gray `#414141` shadows.
+Root-menu glyphs clip to the source content rectangles; the cursor remains a
+separate unclipped layer. Two Adventure Log shadow pixels at y48 fall outside
+the initial window's y24–47 content area. Other confirmation and Adventure Log
+placements and their existing black shadows are unchanged. The lower help
+frame remains (16,128), 224×40. The screenshot proves this placement rather
+than a common coordinate across all Blue versions. New Game uses the directly
+visible caption, "Start an entirely new adventure." Other help text remains
+authored.
 
 The dungeon main menu follows the five-entry window from
 [`dungeon_main.c`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_main.c)

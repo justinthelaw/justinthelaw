@@ -14,9 +14,9 @@ assert.equal(data.sourceCommit,'013475aa04f5be3191e5527c186d9bfceae7cae0');
 assert.deepEqual(data.clock,{cpuHz:16777216,cyclesPerFrame:280896,initialTempo:150,threshold:150});
 assert.equal(data.browserGain,.22);assert.equal(data.nativeMaster,14);
 const fixed=Object.fromEntries(['samples','cues','scale','frequencyBase','voices'].map(key=>[key,data[key]]));
-assert.equal(sha(JSON.stringify(fixed)),'96f0413fb59e507649e6cd8f48a809d72ec094ced8efc9b140b385ab6e74c84d','Selected PCM source facts changed; review and repin them.');
-assert.equal(data.sources.length,24);
-assert.equal(sha(JSON.stringify(data.sources)),'32e5cf68bb12b39b60d65f9ac49503dcff3bea2355982d5338a5e2c0b45e9bcb','Pinned PCM source ledger changed.');
+assert.equal(sha(JSON.stringify(fixed)),'37d42c2c735cf02ac27abd7f2d244aed8a5cf2f0848315d91c74aabe91aaf2fd','Selected PCM source facts changed; review and repin them.');
+assert.equal(data.sources.length,33);
+assert.equal(sha(JSON.stringify(data.sources)),'4e7ce5e7d4ae061a7c32b6a124c406217ce77ead309b7e02febb59028268e5a9','Pinned PCM source ledger changed.');
 const sourceArgument=process.argv.indexOf('--source-root');
 if(sourceArgument>=0){
   const sourceRoot=process.argv[sourceArgument+1];assert(sourceRoot,'Provide --source-root PATH');
@@ -40,7 +40,7 @@ const samples=data.samples.map(sample=>{
   literalBytes+=raw.length;decodedBytes+=sample.sampleCount*4;
   return [sample.id,sample.sampleCount,sample.loopStart,Boolean(sample.status),sample.base64];
 });
-assert.equal(literalBytes,11082);assert.equal(decodedBytes,44320);
+assert.equal(literalBytes,13858);assert.equal(decodedBytes,55424);
 
 function frequency(key,bend,range){
   const pitch=bend*range*4,effective=Math.max(0,key+(pitch>>8)),fine=pitch&255;
@@ -83,17 +83,19 @@ for(const cue of data.cues){
       const rate=frequency(note.key,control.bend,control.range);
       if(rates.at(-1)?.[1]!==rate)rates.push([at,rate]);
     }
-    assert(end>start&&end<=82);assert(levels.length<=15&&rates.length<=6);
+    assert(end>start&&end<=82);assert(levels.length<=16&&rates.length<=6);
     noteCount++;levelCount+=levels.length;rateCount+=rates.length;
     return [voice.wave,start,end,rates,levels];
   });
   assert(notes.length<=13);
   cues[cue.id]=[fineFrame,notes];
 }
-assert.equal(noteCount,18);assert.equal(levelCount,210);assert.equal(rateCount,27);
+assert.equal(noteCount,20);assert.equal(levelCount,230);assert.equal(rateCount,29);
 assert.equal(cues['effect-heal'][0],72);assert.equal(cues['effect-heart'][0],43);
 assert.deepEqual(cues['effect-heal'][1].map(note=>note[1]),[4,12,19,23,27,30,34,38,42,45,49,57,64]);
 assert.deepEqual(cues['effect-heart'][1].map(note=>note[1]),[2,8,22,30,35]);
+assert.equal(cues['effect-pickup-money'][0],18);
+assert.deepEqual(cues['effect-pickup-money'][1].map(note=>[note[0],note[1],note[2],note[3]]),[[127,1,5,[[1,24236]]],[127,3,18,[[3,18157]]]]);
 const generated=`/** Generated selected public Red PCM facts; Blue identity, resampling, global reverb and mix remain qualified. */\n`+
   `export const PCM_SOURCE_SHA256='${sha(bytes)}';\n`+
   `export const PCM_FRAME_SECONDS=280896/16777216;\nexport const PCM_EFFECT_GAIN=${data.browserGain};\n`+
@@ -104,7 +106,7 @@ const generated=`/** Generated selected public Red PCM facts; Blue identity, res
   `/** Note: [sample id, start frame, zero-envelope frame, frequency steps, integer left/right levels]. Cue: [FINE frame, notes]. */\n`+
   `/** @type {Readonly<Record<string,readonly [number,readonly PcmNote[]]>>} */\n`+
   `export const PCM_EFFECTS=${JSON.stringify(cues)};\n`;
-assert(Buffer.byteLength(generated)<=19000,'Selected PCM data exceeds its admission allowance.');
+assert(Buffer.byteLength(generated)<=22500,'Selected PCM data exceeds its admission allowance.');
 if(process.argv.includes('--check'))assert.equal(await readFile(output,'utf8'),generated,'Regenerate selected PCM data.');
 else await writeFile(output,generated);
-console.log(`Selected PCM: 3 samples, 18 notes, 210 stereo rows, 27 frequency rows, ${Buffer.byteLength(generated)} runtime bytes; static source/data only${sourceArgument>=0?', source hashes verified':''}.`);
+console.log(`Selected PCM: 4 samples, 20 notes, 230 stereo rows, 29 frequency rows, ${Buffer.byteLength(generated)} runtime bytes; static source/data only${sourceArgument>=0?', source hashes verified':''}.`);

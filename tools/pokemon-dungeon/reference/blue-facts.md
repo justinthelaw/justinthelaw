@@ -58,3 +58,27 @@ the selected damage rules. Its source is
 The JSON check verifies its pinned cells and original type identities. Ghost
 handling, abilities and dual-type composition are separate rules; this check
 does not certify the executing battle implementation or replace manual play.
+
+## Runtime projection
+
+The reviewed authoring bundle remains unchanged at 22 complete profiles,
+115 actions and 60 timers. The browser projects 20 combat profiles and 101
+moves: all 16 starters retain every level1–100 growth row and learned move;
+the four Tiny Woods wilds retain level1 moves and the first two growth rows.
+The second row preserves the exact next-level EXP rejection boundary in saved
+wild validation, even though enemies are admitted only at level1. Hero/partner
+EXP and learning survive failed rescues unchanged.
+
+Caterpie and Butterfree remain in story names, actor/portrait artwork and all
+23 sprite atlases; their unused combat profiles are omitted. Fourteen moves
+used only by later wild/NPC levels leave the runtime projection and generated
+motion dictionary. The retained move effects, PP, numeric parameters and motion
+overrides are unchanged. Item routes still use their existing fixed inventory.
+
+Unused runtime `hitCount`, `ginsengCap`, species `id` and duplicate `starting`
+records are omitted. Combat uses the unchanged native `chainedHitsRaw` field.
+Move numeric IDs remain in the raw authoring identities and three explicit
+action-only IDs, where the motion exporter reads them. The opening checker now
+compares projected level-five stats/PP against the independently pinned starting
+profiles rather than requiring a duplicated runtime copy. No save schema,
+validator, runtime algorithm, random call or preference migration changes.

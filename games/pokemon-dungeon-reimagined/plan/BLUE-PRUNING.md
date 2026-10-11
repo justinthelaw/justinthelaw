@@ -13,13 +13,15 @@ unselected runtime or validation dependency.
   the bounded PCM player/data and Hypnosis renderer/data bring the set to 66.
 - `distribution.json` defines the playable resource closure. Historical
   campaign assets, catalogs, Three.js and authoring code are excluded and removed.
-- The selected factual source retains complete growth and learnsets for its
-  22 species because failed rescues preserve experience. Three Tiny Woods
-  floors, 115 action records, quiz data and independent rule facts remain.
+- Runtime facts retain complete growth and learnsets for all 16 playable
+  species because failed rescues preserve experience. Four wild species retain
+  level-one moves and the next-level EXP validation threshold. The runtime has
+  three floors and 101 actions; the reviewed authoring source keeps all 22
+  profiles and 115 actions, alongside quiz data and independent rule facts.
 - Native art inputs, reconstruction code, source hashes and pixel evidence
   remain under `tools/pokemon-dungeon/art/blue/`. The raster writer and RNG
   attribution notice are retained. Current Blue reference notes remain.
-- The selected authored score has 11 themes, 10 effects and 659 notes. Native
+- The selected authored score has 11 themes, 9 effects and 657 notes. Native
   short-effect inputs remain separate. No soundtrack-equivalence claim is made.
 
 ## Removed work
@@ -61,7 +63,10 @@ native-menu catalog admission preserves all 24 accepted effect IDs.
 Another closed-caller pass removes five unrequested roles and their 12 notes,
 plus the private manager's unused volume wrapper. That saves 2,314 runtime bytes.
 All 19 remaining requested roles, quiet defaults, live normalization and native
-playback owners remain. The current authored bank has 10 effects and 659 notes.
+playback owners remain. That checkpoint has 10 authored effects and 659 notes.
+The later native miss route removes its two-note authored substitute, leaving
+nine effects and 657 notes at that checkpoint. Ground-pickup admission later
+removes the two-note authored money cue, leaving eight effects and 655 notes.
 
 Strict types passed against the actual 62-file pruned tree. The selected export
 contains 143 resources totaling 3,034,160 bytes at this checkpoint. Static checks and the separate matching browser review are recorded in
@@ -94,3 +99,47 @@ unused naming import from three Blue modules, saving another 995 bytes.
 All 70 remaining statements are AST-identical. The active naming editor,
 move-support predicate, save adapters and reachable move handlers remain.
 Its ignored proof packet is `tools/pokemon-dungeon/.work/blue-dead-code-audit-20261011-0514/`.
+
+## Runtime fact projection
+
+A further pass removes 41,760 runtime bytes: 39,241 from unused combat facts
+and 2,519 from 14 unreachable motion records. Caterpie and Butterfree keep their
+story sprites, portraits and names; their unused combat profiles are removed.
+Unused identifiers, hit-count metadata and duplicated starting profiles leave
+the runtime projection while the reviewed authoring source stays unchanged.
+
+All 16 full playable growth tables and learnsets, four wild level-one loadouts,
+101 retained move/motion records and 60 timers remain exact. The wild tables
+keep two growth rows because save admission uses the second EXP threshold.
+The save validator, actor creation, learning and other runtime algorithms are
+unchanged. Independent review also checked native item and evolution exceptions.
+
+The composed data and regular/miss audio revision passes the full Node 24.21
+check with 102 lint inputs and 66 strict sources. Its 148 runtime files total
+3,026,451 bytes, leaving 119,277 bytes below the cap. The ignored source proof
+is `tools/pokemon-dungeon/.work/blue-runtime-facts-prune-20261011-0601/`.
+
+Unused generated-score metadata removes another 1,466 runtime bytes, including
+an explicit author-credit addition to the retained source header. All 657 note
+tokens, 20 cue playback bodies and nine instrument definitions remain exact;
+the complete editable attribution and shipped NOTICE are unchanged. The full
+scoped check passes with 148 files totaling 3,024,985 bytes and 120,743 bytes
+below the cap. No playback owner or browser dependency changes.
+
+Startup also stops preloading three default playable species before they are
+chosen, removing 112 runtime bytes and deferring four to six asset requests.
+The initial Pelipper and random client remain; every play and Continue
+transition still awaits its selected species assets. The unused Delivery menu
+illustration is retained because the original game has multiple in-scope
+file-menu backgrounds. The composed Hypnosis attachment and North American
+file-menu revision passes the full scoped check with 149 runtime files totaling
+3,038,939 bytes, leaving 106,789 bytes below the cap.
+
+The transient geometry pass removes inert shop, house, door, reward and
+secondary-structure fields and their constant guards. It saves 1,041 runtime
+bytes and 488 type-only bytes, avoiding 14,336 cell-property initializations
+per generated layout. Two independent AST projections preserve all 40 RNG
+call sites and their control flow, exact three-profile admission, retry and
+save projection. The full scoped check passes at 149 files and 3,037,898 bytes.
+This proves equivalence to the selected browser generator, not cartridge RNG
+identity or a measured heap/time improvement.

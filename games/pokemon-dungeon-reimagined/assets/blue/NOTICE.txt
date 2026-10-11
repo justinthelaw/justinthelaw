@@ -74,3 +74,17 @@ Check without writing:
 Pinned input archives and readable URL/hash manifests live in art/blue.
 No ROM download, ROM extraction, runtime CDN or runtime network asset source is
 required. The output manifest records exact bytes, dimensions and metadata hashes.
+
+The North American English Blue file-menu upper logo is reconstructed from the
+already-pinned title capture using the menu capture's foreground mask, solid
+backdrop and observed 64-color mapping. All 49,152 upper-screen pixels agree.
+The hosting wiki does not identify the original screenshot source; this is not
+a claim of verified retail binary extraction or publisher reuse permission.
+See native-reference/menu-blue-na.png and panel-pixel-corroboration.json in the
+offline authoring sources. The European English menu uses a different logo.
+
+Selected short audio effects use public pret/pmd-red source at commit
+013475aa04f5be3191e5527c186d9bfceae7cae0, including wave127 for Poké pickup.
+Source URLs, hashes and qualification remain in tools/pokemon-dungeon/audio/
+blue-pcm-effects.json and reference/blue-audio.md. These are comparative Red
+facts, not verified Blue playback or a publisher reuse grant.

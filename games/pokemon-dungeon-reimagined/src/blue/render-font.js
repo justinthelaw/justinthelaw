@@ -43,12 +43,12 @@ function glyphAtlas(color,shadow){
 }
 
 /** @param {CanvasRenderingContext2D} context @param {string} value @param {number} x @param {number} y
- * @param {{color?:string,shadow?:boolean,scale?:number,align?:'left'|'center'|'right',maxWidth?:number}} [options] */
+ * @param {{color?:string,shadow?:boolean,shadowColor?:string,scale?:number,align?:'left'|'center'|'right',maxWidth?:number}} [options] */
 export function text(context,value,x,y,options={}){
   const scale=options.scale??1;
   let left=Math.round(x-(options.align==='center'?textWidth(value,scale)/2:options.align==='right'?textWidth(value,scale):0));
   const top=Math.round(y),start=left,image=glyphAtlas(options.color??'#fbfbfb',false);
-  const shadow=options.shadow===false?null:glyphAtlas('#000000',true);
+  const shadow=options.shadow===false?null:glyphAtlas(options.shadowColor??'#000000',true);
   for(const character of Array.from(value)){
     const glyph=characterGlyph(character),advance=character==='★'?8:glyph?.advance??6;
     if(options.maxWidth!==undefined&&left-start+advance*scale>options.maxWidth)break;

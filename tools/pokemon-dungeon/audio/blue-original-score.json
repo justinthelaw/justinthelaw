@@ -4636,30 +4636,6 @@
       ]
     },
     {
-      "id": "effect-miss",
-      "title": "A passing swish",
-      "role": "miss",
-      "bpm": 180,
-      "beats": 1.7,
-      "loop": false,
-      "notes": [
-        {
-          "beat": 0.0,
-          "length": 0.25,
-          "pitch": 79,
-          "patch": "spark",
-          "velocity": 0.65
-        },
-        {
-          "beat": 0.35,
-          "length": 0.25,
-          "pitch": 67,
-          "patch": "spark",
-          "velocity": 0.65
-        }
-      ]
-    },
-    {
       "id": "effect-pickup",
       "title": "A light pocket chime",
       "role": "pickup",
@@ -4678,30 +4654,6 @@
           "beat": 0.35,
           "length": 0.55,
           "pitch": 79,
-          "patch": "bell",
-          "velocity": 0.65
-        }
-      ]
-    },
-    {
-      "id": "effect-money",
-      "title": "A pair of bright coins",
-      "role": "money",
-      "bpm": 180,
-      "beats": 1.7,
-      "loop": false,
-      "notes": [
-        {
-          "beat": 0.0,
-          "length": 0.55,
-          "pitch": 81,
-          "patch": "bell",
-          "velocity": 0.65
-        },
-        {
-          "beat": 0.35,
-          "length": 0.55,
-          "pitch": 86,
           "patch": "bell",
           "velocity": 0.65
         }

@@ -11,7 +11,7 @@ The authoring owner parses `gUnknown_80BDBC4` and its scoped species overrides
 from [effect_data.c](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_data.c).
 It follows [sub_800EA44](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_main.c):
 the first matching species override takes precedence over the move default.
-All 115 moves in the current opening factual projection receive source records.
+All 101 moves in the current opening factual projection receive source records.
 The generated module is factual data, not an executed copy of the original code.
 
 | Move | Actor animation | Relevant scoped override |
@@ -129,14 +129,17 @@ timeline marks native generic-entity helpers explicitly, because the same image
 can also use a move-target depth/sentinel route. No browser timer or gameplay
 callback is owned by an image bank.
 
-Adjacent Ember uses the already-produced accepted or empty endpoint receipt.
+Adjacent Ember and Exeggcute's adjacent Hypnosis use the already-produced
+accepted or empty endpoint receipt.
 After the native launch frame, the compiler samples the current actor pose's
 attachment, which may already be idle; it does not assume the cast motion is
-still active. An Ember cast that reaches its natural end records the fresh idle
-boundary within that presentation owner, so Cyndaquil's southwest launch uses
-the first idle pose. Retired casts cannot supply that boundary. Broader untracked
+still active. An admitted cast that reaches its natural end records the fresh idle
+boundary within that presentation owner, so Cyndaquil's southwest launch and
+Hypnosis delayed by an actual pre-travel LOOK drain use the source idle age.
+Retired casts cannot supply that boundary. Broader untracked
 idle continuity still uses the shared foreground clock and remains qualified.
-For eight visible frames it applies the source signed16 recurrence
+Both moves have 3px-per-frame travel without sine wobble. For eight visible frames
+the compiler applies the source signed16 recurrence
 `x=trunc(x*5/6)` and `y=trunc((y+9)*5/6)-9`, including intermediate signed stores.
 Raw 99 coordinates are transformed before the draw guard. Attachment set−1 stays
 visually unoffset. Sorting uses unoffset world feet Y, divided toward zero by 2,
@@ -148,8 +151,14 @@ do not move that anchor. The source owners are
 The fresh idle transition is owned by
 [UpdateMonsterSprite](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_mon_sprite_render.c).
 The first draw is C+1 and the last C+8; the handle wait retires at C+8 while the last
-framebuffer sample survives until C+9. No target scan, turn, clock or RNG operation
-is repeated by this geometry projection.
+framebuffer sample survives until C+9.
+
+Exeggcute's animation 3 releases on source tick 15 of 27; ordinary Hypnosis
+captures set 0 after the next frame, while the cast is still active. Only the
+source actor attachment is sampled: the destination is tile feet, never a
+target pose. The 225 join is closed to Hypnosis/Exeggcute/one cell and reuses
+Ember's unchanged recurrence. It adds no wait, drain, image, cue or gameplay
+operation. No target scan, turn, clock or RNG operation is repeated.
 
 Native persistent status symbols are already separate. For example, paralysis
 has an application effect but no persistent status icon in the admitted source.
@@ -222,8 +231,9 @@ The independent hardware arithmetic source is
 with routing/lifetime from the pinned comparative Red effect/dungeon drivers.
 The 256x192 crop at origin 0,0 is an explicit comparative assumption: Blue's
 reader, framing and final effect pixels have not been independently verified.
-Exact raw-preload display pixels, travel 225 attachment and sound 769 remain
-qualified or unselected. This addition does not establish exact Blue parity.
+Exact raw-preload display pixels and background 769 and travel 772 sounds remain
+qualified or unselected. The adjacent 225 source attachment route is described
+above; it does not establish exact Blue parity.
 
 Only a transient empty Hypnosis endpoint receipt is added to mechanics, using
 the existing impact scan. Combat calculations, PP, random calls, HP receipts and
@@ -238,8 +248,9 @@ cosmetic animation-start jitter is deterministically zero; it does not consume
 the gameplay RNG. The selected overlay banks are incomplete: 11 later-level
 sprite effects remain outside the distribution. Hypnosis now has the separate
 BG2 owner above; its direct Blue framing and pixel comparison remain open.
-The current Ember endpoint and attachment route is closed to adjacent Ember;
-other travel geometry and Attract's sine trajectory remain separate work.
+The source attachment routes are closed to adjacent Ember and Exeggcute's
+adjacent Hypnosis; other travel geometry and Attract's sine trajectory remain
+separate work.
 Far-Off Pals now has the bounded LOOK/SELF route described in
 [visual evidence](blue-visual.md); direct Blue timing remains qualified.
 These gaps are distinct from the implemented

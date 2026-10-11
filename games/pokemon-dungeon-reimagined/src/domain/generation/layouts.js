@@ -125,12 +125,8 @@ function carveCells(map, grid, xs, zs, rng) {
             g.bounds = { x: left + 2 + rng.int(Math.max(0, rw - w)), z: top + 2 + rng.int(Math.max(0, rh - h)), width: w, height: h };
             g.roomIndex = addRoom(map, g.bounds);
             const room = map.rooms[g.roomIndex];
-            if (room)
-                room.gridPosition = { x: g.x, z: g.z };
             if (room) {
                 rng.int(100); // The rejected secondary-structure choice still consumes a draw.
-                room.secondary = false;
-                room.imperfect = false;
             }
         }
         else {
@@ -308,6 +304,5 @@ export function buildLayout(p, rng) {
     randomConnections(grid, columns, rows, p.floorConnectivity, p.allowDeadEnds !== 0, rng);
     connectStranded(grid, columns);
     joinCells(map, grid, xs, zs, rng, true);
-    map.externalSecondary = true;
     return map;
 }

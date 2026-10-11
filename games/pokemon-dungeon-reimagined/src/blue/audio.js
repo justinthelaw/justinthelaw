@@ -23,11 +23,14 @@ const SCENES = Object.freeze({
 const EFFECTS = Object.freeze({
   cursor: 'effect-ui-cursor', confirm: 'effect-ui-confirm', cancel: 'effect-ui-cancel',
   open: 'effect-ui-open', denied: 'effect-ui-denied',
-  attack: 'effect-attack', hit: 'effect-hit', miss: 'effect-miss', heal: 'effect-heal', heart: 'effect-heart',
-  pickup: 'effect-pickup', money: 'effect-money',
+  attack: 'effect-attack', regularAttack: 'effect-regular-attack', hit: 'effect-hit', heal: 'effect-heal', heart: 'effect-heart',
+  berryResult: 'effect-pickup',
+  se330: 'effect-pickup-team', se331: 'effect-pickup-other', se332: 'effect-pickup-money',
   stairs: 'effect-stairs', rescue: 'effect-rescue-found',
   reward: 'effect-reward', levelUp: 'effect-level-up', faint: 'effect-faint',
-  noDamageTeam: 'effect-no-damage-team', noDamageOther: 'effect-no-damage-other',
+  // Explicit native sequence roles: accuracy1 uses attacker leader status;
+  // accuracy2 and raw zero use target team status. The data IDs stay stable.
+  se342: 'effect-no-damage-team', se343: 'effect-no-damage-other',
 });
 /** Scoped authored score and comparative native SE2/SE5 effects. The caller owns the current scene;
  * this manager never imports game state, allocates WebGL, or changes a save.

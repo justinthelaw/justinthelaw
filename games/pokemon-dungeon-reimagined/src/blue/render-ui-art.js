@@ -1,7 +1,7 @@
-/** Three bounded local images: native team rows and corroborated menu scenes. */
+/** Four bounded local images: native team rows, menu scenes and the NA logo. */
 const ROOT=new URL('../../assets/blue/',import.meta.url),LIMIT=64*1024;
 /** @type {Readonly<Record<string,readonly [number,number]>>} */
-const IMAGES=Object.freeze({'team-panels.png':[256,144],'menu-delivery.png':[256,192],'menu-mailbox.png':[256,192]});
+const IMAGES=Object.freeze({'team-panels.png':[256,144],'menu-delivery.png':[256,192],'menu-mailbox.png':[256,192],'menu-logo.png':[256,192]});
 
 export class UiArtwork {
   constructor(){
@@ -33,5 +33,7 @@ export class UiArtwork {
   /** The default scene is corroborated in original English Blue footage.
    * @param {CanvasRenderingContext2D} context @param {'mailbox'|'delivery'} [variant] */
   menu(context,variant='mailbox'){const image=this.images.get(`menu-${variant}.png`);if(image)context.drawImage(image,0,0);}
+  /** @param {CanvasRenderingContext2D} context */
+  menuLogo(context){const image=this.images.get('menu-logo.png');if(image)context.drawImage(image,0,0);}
   dispose(){if(this.disposed)return;this.disposed=true;this.controller.abort();for(const image of this.images.values())image.close();this.images.clear();}
 }

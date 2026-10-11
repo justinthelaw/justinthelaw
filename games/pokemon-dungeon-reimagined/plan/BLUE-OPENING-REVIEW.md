@@ -444,7 +444,7 @@ Further pruning removes six authored cues shadowed by native players, five
 unrequested audio roles and an uncalled volume wrapper. Retained music and note
 tokens remain exact. That scoped check passes with 99 lint inputs,
 64 strict sources and 145 runtime files totaling 3,054,255 bytes. The authored
-bank now has 11 themes, 10 effects and 659 notes. A separate source correction
+bank at that checkpoint has 11 themes, 10 effects and 659 notes. A separate source correction
 applies the driver's fixed-type pitch rounding to menu voices 60/64; ordinary
 no-damage voice 61 remains unchanged. Manual Static activation exposed an
 authored wording bug, now corrected through a status-message table with the
@@ -475,6 +475,93 @@ Sunkern with Tackle, explored a dead-end corridor and returned with the run
 control. A later Pidgey defeat raised Flash to level six and taught Tail Whip;
 the visible party HP was 22/30 and 24/28. The offscreen automatic LOOK shift,
 Cute Charm heart and direct audio audition remain unverified.
+
+The signed checkpoint `f65427b0153aedb3b8aff317d30013c5c86a187d` passed
+Game Static Checks, Lint, Playwright and CodeQL on its exact head. The 05:57
+frozen build restored the same B1F room, party positions, stats and tactic;
+the browser warning/error log was empty. Its native Continue capture has
+SHA-256 `d185affcf86cb4bb233ea369f9ce58e70d2dd0eec08696b3c8c8031fca9e1e29`.
+Further manual play observed Cute Charm's infatuation message, both Poké
+pickups, the money tutorial, running stops before items/stairs, Mochi reaching
+level six, and the B2F transition with HP 27/33 and 28/28. The transient heart
+frames and audio were not sampled.
+
+The next composed check adds native comparative regular-attack 351 and distinct
+accuracy-miss sound routing while removing the authored miss cue. It also
+removes 41,760 bytes of unreachable runtime facts and motion records. Full
+playable growth/learnsets and existing save/runtime algorithms remain exact;
+wild data retains the level-two EXP rejection boundary. The full Node 24.21.0
+check passes with 102 lint inputs, 66 strict sources and 148 runtime files
+totaling 3,026,451 bytes. The authored score has nine effects and 657 notes.
+
+Before admitting that pruning, an older derived play note naming Pidgey's Gust
+was checked against the original CUA images and accessibility text. Those
+captures show eight damage but do not name the move. The unsupported move-name
+inference was corrected with provenance; it is not replaced by an observed
+Tackle claim. Independent frozen-source review confirms that level-one Pidgey
+cannot obtain Gust in this runtime. The original captures remain in the ignored
+`blue-gust-note-review-20261011-0611` evidence packet.
+
+The 06:16 snapshot restored the older B2F save with the same corridor, party
+positions, Go after foes tactic and level-six HP 28/33 and 25/28. Its browser
+warning/error log was empty. The native capture has SHA-256
+`a0045f201c62636751f35263950963e87c8322337d06a849473af4d1807ad397`.
+The subsequent metadata-only audio cleanup passes the full scoped check with
+the same 102 lint inputs and 66 strict sources; 148 runtime files now total
+3,024,985 bytes. Playback tokens, native players and source attribution remain
+unchanged. This establishes saved-run compatibility for the observed state,
+not exhaustive save or audio parity.
+
+Further manual B2F play with that snapshot directly captured automatic LOOK:
+while the hero ran north, the camera followed Flash using Thundershock beside
+the stairs, showing Flash's cyan HP 27/28. It then returned to Mochi and restored
+input. The ordinary browser capture has SHA-256
+`bab21af18588dff78f229516dfa0ac131171207e8e25b7cdb57cf5eb46d90beb`.
+This verifies one automatic camera sequence, not exact native clock parity.
+The run was quicksaved beside the B2F stairs with both level-six members at
+full HP, 33/33 and 28/28, and Go after foes retained.
+
+The next static-passing composition adds the source-derived adjacent Exeggcute
+Hypnosis attachment and depth, removes unused startup species preloads, and
+matches the North American file-menu logo and fresh-menu geometry. New Game's
+help caption is directly transcribed from the reference. All 102 lint inputs,
+66 strict sources and factual/asset/export checks pass; 149 runtime files total
+3,038,939 bytes. The missing third menu illustration and its Blue selection
+behavior remain qualified. The 06:50 frozen snapshot preserves this composition
+for separate manual review.
+
+The 06:50 build passed fresh-origin menu inspection and restored the existing
+B2F save. The fresh lower-screen capture has SHA-256
+`d96f85bdf0b835bc48574060b79cbe5cad648c5d9d5f19ec8fc3aed61b635f67`.
+Manual play then entered B3F, showed its recovery tutorial, and encountered
+Exeggcute. A directly captured Hypnosis frame shows the background blending the
+world and actors with the bottom HUD/map/message hidden; the next observation
+shows the normal HUD restored and Mochi awake. That ordinary browser frame has
+SHA-256 `3dde8e556a67a5bde0118277ebcdc248a957015b1cb84d1010112e5522f6ddf2`.
+It does not capture the complete effect225 trajectory, exact sleep duration or
+audio. The run was quicksaved beside an uncollected berry with Mochi at 31/33 HP
+and Flash newly level seven at 31/31. Browser warning/error logs remained empty.
+
+The integrated geometry and ground-pickup revision passes the full Node 24
+scoped check: 102 lint inputs, 66 strict sources, 149 runtime files and
+3,043,310 bytes, leaving 102,418 bytes below the cap. Ground pickups use explicit
+330/331/332 receipts while berry results retain their prior authored cue. The
+per-result twelve-actor bound supports a separate twelve-pickup delivery cap;
+other private cues retain four per batch and all owners share 32 live voices.
+The authored money cue is removed, leaving eight effects and 655 notes.
+
+Manual review of the 07:03 composition restored the B3F save, picked up an Oran
+Berry after walking, displayed its first-use tutorial and held-item update,
+then ate it through the item menu. HP rose from 31/33 to 33/33, the held slot
+cleared and normal controls returned. Browser warning/error logs were empty.
+This checks the observed item flow and presentation lifecycle, not audio output.
+
+A fresh 06:50-build quiz completed eight main questions and selected hardy/Boy
+Charmander. Choosing Mudkip and naming the partner Ripple reached the awakening
+with both selected sprites loaded after the default preloads were removed.
+The native capture has SHA-256 `edae0c4da08e9987a45f37c12f3c152055c6622a22dd56ffb6d7edb9df9ad4f7`.
+Browser warning/error logs were empty. This check ends at awakening; the
+earlier Mochi run covers hero naming and the full creation sequence.
 
 ## Fidelity limits
 

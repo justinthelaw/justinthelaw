@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "edition": "Red Rescue Team comparative",
   "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
-  "qualification": "Two short no-damage PSG control sequences. Blue playback, DS clock, waveform phase and mix are unverified. No commercial music, PCM samples or ROM are included.",
+  "qualification": "Five short SE2 PSG control sequences for raw zero, accuracy misses, regular attack and actual ground pickups. Blue playback, DS clock, waveform phase and mix are unverified. No commercial music, PCM samples or ROM are included.",
   "sources": [
     {
       "path": "src/dungeon_damage.c",
@@ -87,6 +87,74 @@
     {
       "path": "VoiceDef.s",
       "sha256": "e94881bd29a5dd051bcec51da0fe39bac2efd839c7eca2fa67e2a585ac65fbf7"
+    },
+    {
+      "path": "sound/songs/seq_351.s",
+      "sha256": "f51e4d9de3a5bff41ef7ac2bbdd66c5780fccc40d71a32b2e15f8646d4a5d2c4"
+    },
+    {
+      "path": "src/effect_data.c",
+      "sha256": "f3eff2ec8090d826c202ce3e20895dd221dbd96535fb30511e322b2eecf5101d"
+    },
+    {
+      "path": "src/effect_main.c",
+      "sha256": "2ad643959a61569bb1560ad039ffc3b51a970a0c59db9c62d0b9544946aed971"
+    },
+    {
+      "path": "src/code_8040094_1.c",
+      "sha256": "e62aad6a3cbd89a3f0f7158dd8b9051e6c2c79dc47cd77b16afdffb9d829b033"
+    },
+    {
+      "path": "src/dungeon_move_util.c",
+      "sha256": "0b69f36c9e8c497acdfef2c06566fe84ccb4549390d53293dc24347e57af9d53"
+    },
+    {
+      "path": "src/dungeon_ai_items.c",
+      "bytes": 23025,
+      "sha256": "069797841b534ad0e86237ede2da72809dcb3df7e01e365f4e067fb6880a315c",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_ai_items.c"
+    },
+    {
+      "path": "src/dungeon_items.c",
+      "bytes": 28903,
+      "sha256": "c8ebcbae06bd7d151750e5a9b3f7cbf65939d7a0422d69e587ecfe53a7c46790",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_items.c"
+    },
+    {
+      "path": "src/dungeon_entity_movement.c",
+      "bytes": 15983,
+      "sha256": "923110a9bd0e71dde3b4e7c11eb0f083521f8edc9bf9215e134541c369a05dac",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_entity_movement.c"
+    },
+    {
+      "path": "src/dungeon_main.c",
+      "bytes": 57164,
+      "sha256": "7daf903b44586acefe989f7a5804f541ff5d9decff48891faede157f62fe87fb",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_main.c"
+    },
+    {
+      "path": "src/dungeon_action_handler.c",
+      "bytes": 27064,
+      "sha256": "a4f5b28543274a4bc47513dd61e4c7d0b2ba84c4836291ff72658c443348007c",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_action_handler.c"
+    },
+    {
+      "path": "sound/songs/seq_330.s",
+      "bytes": 1062,
+      "sha256": "3e7467e81e2878caad0fb4a14699decd772e44e3117448f079e94368f51806a3",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_330.s"
+    },
+    {
+      "path": "sound/songs/seq_331.s",
+      "bytes": 1062,
+      "sha256": "8c08f31a1dafdc6947d06e8f7c04d06bc66af7cee9ebd8ae16bc8e5127d04d39",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_331.s"
+    },
+    {
+      "path": "include/gba/m4a_internal.h",
+      "bytes": 12407,
+      "sha256": "988f7b1f395dcf419271ce857ca6fb0954bea3b5104ca40852726fb1cbbc7deb",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/include/gba/m4a_internal.h"
     }
   ],
   "clock": {
@@ -185,6 +253,389 @@
           3,
           120
         ]
+      ]
+    }
+  ],
+  "regularAttack": {
+    "id": "effect-regular-attack",
+    "sequence": 351,
+    "sourceName": "EFF_ANIM_2",
+    "player": "SE2",
+    "voice": 60,
+    "duty": 0.5,
+    "pan": 0,
+    "envelope": [
+      0,
+      0,
+      15,
+      0
+    ],
+    "tempoIncrement": 280,
+    "trackTicks": 16,
+    "volumeChanges": [
+      [
+        0,
+        52
+      ],
+      [
+        0,
+        56
+      ],
+      [
+        3,
+        69
+      ],
+      [
+        4,
+        73
+      ],
+      [
+        6,
+        80
+      ],
+      [
+        9,
+        66
+      ],
+      [
+        10,
+        62
+      ],
+      [
+        11,
+        52
+      ],
+      [
+        12,
+        34
+      ],
+      [
+        13,
+        7
+      ]
+    ],
+    "notes": [
+      [
+        1,
+        82,
+        1,
+        4
+      ],
+      [
+        2,
+        82,
+        1,
+        112
+      ],
+      [
+        3,
+        80,
+        1,
+        116
+      ],
+      [
+        4,
+        78,
+        1,
+        116
+      ],
+      [
+        5,
+        75,
+        1,
+        120
+      ],
+      [
+        6,
+        70,
+        1,
+        127
+      ],
+      [
+        7,
+        66,
+        1,
+        127
+      ],
+      [
+        9,
+        69,
+        1,
+        127
+      ],
+      [
+        10,
+        71,
+        1,
+        127
+      ],
+      [
+        11,
+        74,
+        1,
+        127
+      ],
+      [
+        11,
+        76,
+        1,
+        127
+      ],
+      [
+        12,
+        78,
+        1,
+        127
+      ],
+      [
+        14,
+        80,
+        1,
+        127
+      ],
+      [
+        15,
+        83,
+        1,
+        127
+      ]
+    ]
+  },
+  "pickups": [
+    {
+      "id": "effect-pickup-team",
+      "sequence": 330,
+      "sourceName": "ITEM_M",
+      "player": "SE2",
+      "voice": 60,
+      "duty": 0.5,
+      "envelope": [
+        0,
+        0,
+        15,
+        0
+      ],
+      "priority": 127,
+      "reverb": 0,
+      "tempoIncrement": 180,
+      "trackTicks": 25,
+      "controls": [
+        {
+          "tick": 0,
+          "command": "KEYSH",
+          "value": 0
+        },
+        {
+          "tick": 0,
+          "command": "TEMPO",
+          "value": 90
+        },
+        {
+          "tick": 0,
+          "command": "VOICE",
+          "value": 60
+        },
+        {
+          "tick": 0,
+          "command": "VOL",
+          "value": 70
+        },
+        {
+          "tick": 0,
+          "command": "PAN",
+          "value": 0
+        },
+        {
+          "tick": 1,
+          "command": "MOD",
+          "value": 100
+        },
+        {
+          "tick": 1,
+          "command": "MODT",
+          "value": 1
+        },
+        {
+          "tick": 1,
+          "command": "BEND",
+          "value": 0
+        }
+      ],
+      "notes": [
+        {
+          "tick": 2,
+          "gate": 3,
+          "key": 67,
+          "velocity": 52,
+          "voice": 60
+        },
+        {
+          "tick": 5,
+          "gate": 3,
+          "key": 74,
+          "velocity": 88,
+          "voice": 60
+        },
+        {
+          "tick": 8,
+          "gate": 3,
+          "key": 78,
+          "velocity": 92,
+          "voice": 60
+        },
+        {
+          "tick": 11,
+          "gate": 3,
+          "key": 81,
+          "velocity": 120,
+          "voice": 60
+        },
+        {
+          "tick": 14,
+          "gate": 2,
+          "key": 86,
+          "velocity": 120,
+          "voice": 60
+        },
+        {
+          "tick": 17,
+          "gate": 2,
+          "key": 86,
+          "velocity": 60,
+          "voice": 60
+        },
+        {
+          "tick": 20,
+          "gate": 2,
+          "key": 86,
+          "velocity": 40,
+          "voice": 60
+        },
+        {
+          "tick": 23,
+          "gate": 2,
+          "key": 86,
+          "velocity": 20,
+          "voice": 60
+        }
+      ]
+    },
+    {
+      "id": "effect-pickup-other",
+      "sequence": 331,
+      "sourceName": "ITEM_M_03",
+      "player": "SE2",
+      "voice": 60,
+      "duty": 0.5,
+      "envelope": [
+        0,
+        0,
+        15,
+        0
+      ],
+      "priority": 127,
+      "reverb": 0,
+      "tempoIncrement": 140,
+      "trackTicks": 25,
+      "controls": [
+        {
+          "tick": 0,
+          "command": "KEYSH",
+          "value": 0
+        },
+        {
+          "tick": 0,
+          "command": "TEMPO",
+          "value": 70
+        },
+        {
+          "tick": 0,
+          "command": "VOICE",
+          "value": 60
+        },
+        {
+          "tick": 0,
+          "command": "VOL",
+          "value": 78
+        },
+        {
+          "tick": 0,
+          "command": "PAN",
+          "value": 0
+        },
+        {
+          "tick": 1,
+          "command": "MOD",
+          "value": 100
+        },
+        {
+          "tick": 1,
+          "command": "MODT",
+          "value": 1
+        },
+        {
+          "tick": 1,
+          "command": "BEND",
+          "value": 0
+        }
+      ],
+      "notes": [
+        {
+          "tick": 2,
+          "gate": 3,
+          "key": 75,
+          "velocity": 52,
+          "voice": 60
+        },
+        {
+          "tick": 5,
+          "gate": 3,
+          "key": 71,
+          "velocity": 88,
+          "voice": 60
+        },
+        {
+          "tick": 8,
+          "gate": 3,
+          "key": 69,
+          "velocity": 92,
+          "voice": 60
+        },
+        {
+          "tick": 11,
+          "gate": 3,
+          "key": 67,
+          "velocity": 120,
+          "voice": 60
+        },
+        {
+          "tick": 14,
+          "gate": 2,
+          "key": 68,
+          "velocity": 120,
+          "voice": 60
+        },
+        {
+          "tick": 17,
+          "gate": 2,
+          "key": 68,
+          "velocity": 52,
+          "voice": 60
+        },
+        {
+          "tick": 20,
+          "gate": 2,
+          "key": 68,
+          "velocity": 32,
+          "voice": 60
+        },
+        {
+          "tick": 23,
+          "gate": 2,
+          "key": 68,
+          "velocity": 12,
+          "voice": 60
+        }
       ]
     }
   ]

@@ -4,7 +4,7 @@
   "commit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
   "sourceEdition": "Red Rescue Team literal UI data, with directly captured Blue toolbar and team-panel imagery; public Rescue Team menu illustrations retained in Explorers of Sky",
   "blueStatus": "Selected native font, window, HUD, toolbar and team-row pixels are corroborated against Blue captures. Menu-background and layout proof levels are recorded separately; source-derived comparative data is not silently promoted to Blue pixel parity.",
-  "rights": "Original Pokémon / Chunsoft / Nintendo artwork and public decompilation data. Provenance is retained; no rights-holder reuse grant is asserted.",
+  "rights": "Original Pok\u00e9mon / Chunsoft / Nintendo artwork and public decompilation data. Provenance is retained; no rights-holder reuse grant is asserted.",
   "archive": {
     "path": "native-ui-source.tar.gz",
     "bytes": 460395,
@@ -727,6 +727,19 @@
       "url": "https://mysterydungeonwiki.com/images/6/64/Rescue_Team_-_Main_Menu_Comparison_Korean.png",
       "use": "Blue Korean-localization screenshot; background pixel evidence only, not English-retail UI proof.",
       "sha256": "f10798a61876df359c84a79c42fac67b58f99867d28051b7d348bf3c5b80e336"
+    },
+    {
+      "path": "native-reference/menu-blue-na.png",
+      "url": "https://mysterydungeonwiki.com/images/2/26/Rescue_Team_-_Blue_NA_Menu_%26_Controls.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_NA_Menu_%26_Controls.png",
+      "use": "North American English Blue file-menu screenshot. Original capture provenance is missing on the hosting wiki. The full lower background corroborates the existing Delivery pixels outside its two windows; upper logo geometry is independently corroborated against the existing NA title capture.",
+      "sha256": "39265e9904f19ab2239ce9382a160ec6f73f383b35cd9338a47882629147dad8"
+    },
+    {
+      "path": "native-scenery/sources/Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+      "url": "https://mysterydungeonwiki.com/images/4/45/Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+      "use": "Existing North American English Blue title capture: supplies the upper file-menu logo pixels through a consistent, observed 64-color mapping. The menu capture supplies the foreground mask and solid backdrop.",
+      "sha256": "0b91d5437ff548fe51e9f51ef92544277baa91ce893494f315b286dea40e35b3"
     }
   ]
 }

@@ -26,7 +26,7 @@ import {captureWorld} from './battle-events.js';
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
 /** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[]}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart',audible:boolean}|{clearNotice:true}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343',audible:boolean}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 
@@ -110,6 +110,12 @@ export class BattlePresentation {
       this.cues.push({event,at,ordinal:order,audible});
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
+    /** Native sound receipts are private presentation evidence, never saves.
+     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'} name @param {number} at @param {number} [order] */
+    const sound=(name,at,order=ordinal++)=>{
+      if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
+      this.cues.push({sound:name,at,ordinal:order,audible:true});
+    };
     /** @param {Actor[]} actors @param {number} at */
     const patchActors=(actors,at)=>addPatch({at,ordinal:ordinal++,actors});
     /** Tiny Woods is fully lit; this is only the native camera tile window,
@@ -159,10 +165,7 @@ export class BattlePresentation {
       this.effects.push(track);
       // The native effect owner requests sound once on its first source frame.
       // Carried tracks and repeated draws never enter this creation path.
-      if(id===7||id===15){
-        if(++soundCount>MAX_EVENTS)throw new RangeError('Effect sound receipts exceed the opening bound.');
-        this.cues.push({sound:id===7?'heal':'heart',at:start,ordinal:ordinal++,audible:true});
-      }
+      if(id===7||id===15)sound(id===7?'heal':'heart',start);
       return info.blocksWait===false?at:Math.min(end,at+waitLimit);
     };
     const drainEffects=()=>{
@@ -208,6 +211,8 @@ export class BattlePresentation {
     /** @param {GameEvent} event @param {number} order */
     const sync=(event,order)=>{
       const record=event.presentation;
+      // Native pickup sound precedes its result message, without a display gate.
+      if(record?.kind==='pickup'){sound(record.sequence===332?'se332':record.sequence===330?'se330':'se331',cursor,order);return;}
       if(record?.kind==='sync'){
         for(const actor of record.actors){
           const active=lastMatching(this.poses,track=>track.actorId===actor.id&&track.start<=cursor&&track.end>cursor);
@@ -274,14 +279,14 @@ export class BattlePresentation {
       // independently of the later per-cell camera visibility checks.
       cursor++;
       const info=assets.effectInfo(route.travel,caster.direction);
-      const samples=info&&moveId==='move-ember'&&distance===1?emberTrajectory(assets,caster,this.poses,cursor,Math.floor((this.startedAt-this.rawPauseBefore+cursor*TICK_MS)/TICK_MS),route,from,to):undefined;
+      const samples=info&&distance===1&&(moveId==='move-ember'||moveId==='move-hypnosis'&&caster.speciesId==='pokemon-102')?adjacentTrajectory(moveId,assets,caster,this.poses,cursor,Math.floor((this.startedAt-this.rawPauseBefore+cursor*TICK_MS)/TICK_MS),route,from,to):undefined;
       const dx=Math.sign(to.x-from.x),dy=Math.sign(to.y-from.y),duration=24/route.travelSpeed;
       let elapsedOffset=0;
       for(let step=1;step<=distance;step++){
         const next={x:from.x+dx*step,y:from.y+dy*step};if(!visibleTile(next))continue;
         const previous={x:next.x-dx,y:next.y-dy};
         // The first loop RunFrame loads the new pose. Its last draw is at
-        // +21px for Ember; deletion follows that eighth frame, before drain.
+        // +21px for these 3px projectiles; deletion follows that eighth frame.
         if(info)this.effects.push({id:route.travel,start:cursor+1,end:cursor+duration+1,waitEnd:cursor+duration,direction:caster.direction,elapsedOffset,from:{x:previous.x*24+12,y:previous.y*24+16},to:{x:next.x*24+12,y:next.y*24+16},...(samples?{samples}:{})});
         cursor+=duration;elapsedOffset+=duration;
       }
@@ -302,7 +307,7 @@ export class BattlePresentation {
       const order=ordinal++,record=event.presentation;
       if(floorChanged){cue(event,0,order);continue;}
       if(record?.kind==='flush'){flushWalk();messageAt=cursor;continue;}
-      if(record?.kind==='sync'&&record.afterWalk&&walking.size){afterWalk.push({event,ordinal:order});continue;}
+      if((record?.kind==='sync'||record?.kind==='pickup')&&record.afterWalk&&walking.size){afterWalk.push({event,ordinal:order});continue;}
       if(record?.kind==='action'){
         finishAttackTails();drainEffects();
         if(record.action==='other'){flushWalk();if(record.cameraActor)requestCamera(record.cameraActor,'look');cursor++;}
@@ -358,7 +363,7 @@ export class BattlePresentation {
             const castDelay=launches&&(releaseAt===castAt||releaseAt===(castAt??0)+1)?1:0;
             const release=Math.min(releaseAt+castDelay,120+(launches?1:0));
             pose({actorId:record.actor.id,start:cursor+1,end:cursor+info.totalTicks+2,clip:'attack-physical',animation,direction:record.actor.direction,
-              ...(record.moveId==='move-ember'&&animation===3?{idleAt:cursor+info.totalTicks+2}:{})});
+              ...((record.moveId==='move-ember'||record.moveId==='move-hypnosis'&&record.actor.speciesId==='pokemon-102')&&animation===3?{idleAt:cursor+info.totalTicks+2}:{})});
             if(route?.cast&&castAt!==null&&launches)effect(route.cast,record.actor,cursor+castAt+1,route.attachmentSet);
             cursor+=release;
           }
@@ -424,8 +429,20 @@ export class BattlePresentation {
       }
       if(record?.kind==='miss'){
         flushWalk();const attacker=record.actorId?this.latestActor(record.actorId,cursor):undefined;
-        const visible=displayedActor(record.target)&&(record.accuracy!==2||Boolean(attacker&&displayedActor(attacker)));
-        if(visible)number(record.target,9999,true,true);messageAt=cursor;cue(event,cursor,order,visible);continue;
+        const attackerVisible=Boolean(attacker&&displayedActor(attacker)),targetVisible=displayedActor(record.target);
+        if(record.accuracy===2){
+          const visible=attackerVisible&&targetVisible;
+          if(visible)number(record.target,9999,true,true);
+          cue(event,cursor,order,false);
+          if(visible)sound(record.target.id==='hero'||record.target.id==='partner'?'se342':'se343',cursor);
+        }else{
+          // Accuracy1 sounds by the attacker, then announces before waiting
+          // for the target's singleton MISS number. The partner uses343 here.
+          if(attackerVisible)sound(attacker?.id==='hero'?'se342':'se343',cursor,order);
+          cue(event,cursor,ordinal++,false);
+          if(targetVisible)number(record.target,9999,true,true);
+        }
+        messageAt=cursor;continue;
       }
       if(record?.kind==='heal'){
         flushWalk();patchActors([record.after],cursor);
@@ -475,7 +492,7 @@ export class BattlePresentation {
         this.projectiles.push({kind:event.text,start:cursor,end:cursor+duration,from:{x:event.from.x*24+12,y:event.from.y*24+12},to:{x:event.to.x*24+12,y:event.to.y*24+12}});
         cue(event,cursor,order);cursor+=duration;messageAt=cursor;continue;
       }
-      if(record?.kind==='sync'){sync(event,order);continue;}
+      if(record?.kind==='sync'||record?.kind==='pickup'){sync(event,order);continue;}
       if(event.type==='message'){cue(event,messageAt,order);continue;}
       cue(event,cursor,order);messageAt=cursor;
     }
@@ -645,7 +662,7 @@ function sampledActor(actor,poses,tick,globalTick,visible=true){
     if(track.rotate){const step=Math.floor(elapsedTicks/2)+(track.rotate===99?1:0);direction=rotate(direction,track.rotate===99?-step:step);animation=0;elapsedTicks%=2;}
   }else if(clip==='idle'){
     const ended=lastMatching(poses,candidate=>candidate.actorId===actor.id&&candidate.start<=tick);
-    // An Ember cast that actually reaches its native end starts fresh idle.
+    // An admitted cast that reaches its native end starts fresh idle.
     // This source boundary is local to the retained presentation evidence;
     // untracked idle continuity still uses the shared foreground clock.
     if(ended?.idleAt!==undefined&&ended.end===ended.idleAt&&ended.idleAt<=tick&&ended.direction===direction)elapsedTicks=tick-ended.idleAt;
@@ -653,17 +670,17 @@ function sampledActor(actor,poses,tick,globalTick,visible=true){
   return{actor,x,y,direction,animation,clip,elapsedTicks,visible};
 }
 
-/** Closed adjacent Ember geometry: integer source attachment recurrence before
+/** Closed adjacent Ember/Exeggcute Hypnosis: source attachment recurrence before
  * each of its eight visible frames. No target scan, clock or RNG is owned here.
- * @param {BattleAssets} assets @param {Actor} caster @param {PoseTrack[]} poses
+ * @param {string} moveId @param {BattleAssets} assets @param {Actor} caster @param {PoseTrack[]} poses
  * @param {number} tick @param {number} globalTick @param {MoveEffects} route
  * @param {{x:number,y:number}} from @param {{x:number,y:number}} to
  * @returns {readonly TravelSample[]} */
-function emberTrajectory(assets,caster,poses,tick,globalTick,route,from,to){
-  if(route.travel!==137||route.travelSpeed!==3||Math.max(Math.abs(to.x-from.x),Math.abs(to.y-from.y))!==1)throw new RangeError('Unsupported native Ember geometry.');
+function adjacentTrajectory(moveId,assets,caster,poses,tick,globalTick,route,from,to){
+  if(!(moveId==='move-ember'&&route.travel===137||moveId==='move-hypnosis'&&caster.speciesId==='pokemon-102'&&route.travel===225)||route.travelSpeed!==3||Math.max(Math.abs(to.x-from.x),Math.abs(to.y-from.y))!==1)throw new RangeError('Unsupported native adjacent projectile geometry.');
   const pose=sampledActor(caster,poses,tick,globalTick);
   const attachment=assets.attachmentOffset(caster.speciesId,{direction:pose.direction,animation:pose.animation,clip:pose.clip,ticks:pose.elapsedTicks},route.attachmentSet);
-  if(!attachment||!Number.isInteger(attachment.x)||!Number.isInteger(attachment.y)||attachment.x< -32768||attachment.x>32767||attachment.y< -32768||attachment.y>32767)throw new RangeError('Native Ember attachment is unavailable.');
+  if(!attachment||!Number.isInteger(attachment.x)||!Number.isInteger(attachment.y)||attachment.x< -32768||attachment.x>32767||attachment.y< -32768||attachment.y>32767)throw new RangeError('Native adjacent projectile attachment is unavailable.');
   const dx=Math.sign(to.x-from.x),dy=Math.sign(to.y-from.y),attached=route.attachmentSet!==-1;
   /** @type {0|1} */const depthAdd=['ne','n','nw'].includes(caster.direction)?0:1;
   const short=(/** @type {number} */value)=>(value<<16)>>16;

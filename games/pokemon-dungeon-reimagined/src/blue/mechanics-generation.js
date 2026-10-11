@@ -41,7 +41,7 @@ function flags(candidates,count,rng) {
  * source offsets in the same room first and never uses a random neighbor.
  * @param {Geometry} map @param {import('../domain/generation/types.js').Parameters} p @param {Draws} rng */
 export function openingSpawns(map,p,rng) {
-  const candidates=positions(map,t=>ordinary(t)&&t.room!==null&&!t.shop&&!t.junction&&!t.unbreakable).map(t=>({x:t.x,y:t.z}));
+  const candidates=positions(map,t=>ordinary(t)&&t.room!==null&&!t.junction).map(t=>({x:t.x,y:t.z}));
   rng.int(100); // Native itemless-Monster-House draw exists even at chance zero.
   const stairs=candidates[rng.int(candidates.length)];
   if(!stairs)throw new Error('No Tiny Woods stair spawn.');

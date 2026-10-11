@@ -93,15 +93,67 @@ export async function exportNativePanels({emit,files,glyphs}){
   for(let y=0;y<192;y++)for(let x=0;x<256;x++){
     const index=(y*256+x)*4;put(mailbox,x,y,x===0?[0,0,0]:[...mailboxSource.data.subarray(index,index+3)].map(value=>blueChannel(Math.floor(value*31/256)*8)));
   }
+  const english=decodePng(await readFile(new URL('native-reference/menu-blue-na.png',import.meta.url)));
+  const title=decodePng(await readFile(new URL('native-scenery/sources/Rescue_Team_-_Blue_Startup_NA_English_logo.png',import.meta.url)));
+  if(english.width!==256||english.height!==384||title.width!==255||title.height!==192)throw Error('Native NA menu/title capture dimensions changed.');
+  // The title supplies each logo sample. The independent menu capture supplies
+  // its foreground mask and a consistent palette translation; clouds in the
+  // title share some logo colors, so palette membership alone is not a mask.
+  const backdrop=color(english,0,0),logoPalette=new Map(),logo=new Raster(256,192);
+  if(backdrop.join(',')!=='0,105,219')throw Error('Native NA menu backdrop changed.');
+  let logoPixels=0,englishBackgroundPixels=0;
+  for(let y=0;y<192;y++)for(let x=0;x<256;x++){
+    const expected=color(english,x,y);
+    if(expected.join(',')!==backdrop.join(',')){
+      if(x>=title.width)throw Error('Native NA menu logo escapes its title source.');
+      const key=color(title,x,y).join(','),value=expected.join(',');
+      if(logoPalette.has(key)&&logoPalette.get(key)!==value)throw Error('Native NA menu logo palette is ambiguous.');
+      logoPalette.set(key,value);logoPixels++;
+    }
+    if(x>=16&&x<112&&y>=16&&y<56||x>=16&&x<240&&y>=128&&y<168)continue;
+    if(color(english,x,y+192).join(',')!==color(menu,x,y).join(','))throw Error(`English Blue file-menu background differs at ${x},${y}.`);
+    englishBackgroundPixels++;
+  }
+  if(logoPixels!==21624||logoPalette.size!==64||englishBackgroundPixels!==36352)throw Error('Native NA menu pixel coverage changed.');
+  for(let y=0;y<192;y++)for(let x=0;x<256;x++){
+    const expected=color(english,x,y),foreground=expected.join(',')!==backdrop.join(',');
+    const rgb=foreground?logoPalette.get(color(title,x,y).join(',')).split(',').map(Number):backdrop;
+    put(logo,x,y,rgb);
+    if(rgb.join(',')!==expected.join(','))throw Error('Reconstructed NA upper menu differs from its capture.');
+  }
+  const englishText=[];
+  for(const[value,left,top,clip,expectedCount]of[
+    ['New Game',32,26,[24,24,80,24],236],
+    ['Adventure Log',32,38,[24,24,80,24],317],
+    ['Start an entirely new adventure.',32,138,[24,136,208,24],688],
+  ]){
+    const pixels=new Map();let x=left;
+    for(const character of value){
+      const glyph=glyphs[character];
+      for(let y=0;y<11;y++)for(let column=0;column<12;column++)if((glyph.shadow[y]>>column)&1)pixels.set(`${x+column},${top+y}`,[65,65,65]);
+      for(let y=0;y<11;y++)for(let column=0;column<12;column++)if((glyph.rows[y]>>column)&1)pixels.set(`${x+column},${top+y}`,[251,251,251]);
+      x+=glyph.advance;
+    }
+    let matching=0;
+    for(const[position,rgb]of pixels){
+      const[px,py]=position.split(',').map(Number);
+      if(px<clip[0]||px>=clip[0]+clip[2]||py<clip[1]||py>=clip[1]+clip[3])continue;
+      if(rgb.join(',')!==color(english,px,py+192).join(','))throw Error(`Native English file-menu glyph differs: ${value}.`);
+      matching++;
+    }
+    if(matching!==expectedCount)throw Error('Native English file-menu glyph coverage changed.');
+    englishText.push({text:value,origin:[left,top],clip,matchingPixels:matching,shadow:[65,65,65]});
+  }
   const records=[];
   for(const[id,path,image,provenance]of[
     ['team-panels','team-panels.png',rows,'Original Blue team-row captures; 2170/2304 occupied pedestal positions exposed across five native sprite masks; the remaining 134 positions use the observed gray-to-gold palette correspondence. Center panel stripes reconstructed from unobscured pixels.'],
     ['menu-delivery','menu-delivery.png',menu,'Public Rescue Team illustration retained in Explorers of Sky; 31040 background pixels corroborated against a Blue Korean-localization capture after source brightness conversion. This does not establish English-retail menu text or all three random illustrations.'],
+    ['menu-logo','menu-logo.png',logo,'NA English Blue upper menu: all 49,152 pixels reconstructed from the existing NA title logo, a consistent 64-color mapping, the captured foreground mask and solid backdrop. Wiki capture provenance is incomplete; EU English uses a different logo.'],
     ['menu-mailbox','menu-mailbox.png',mailbox,'Public Rescue Team illustration retained in Explorers of Sky; scene identity corroborated by original English Blue gameplay video RrglH3dOqrg at0:05. Palette uses the source brightness conversion proven on Delivery; compressed video does not establish pixel-byte parity.'],
   ]){
     const bytes=image.png();await emit(new URL(path,output),bytes);records.push({id,path,width:image.width,height:image.height,bytes:bytes.length,sha256:digest(bytes),provenance});
   }
-  const proof={schemaVersion:1,normalization:'RGB555 capture channels are expanded through the native Blue 5-to-6-bit display mapping; this also removes sub-quantum press-capture noise.',teamRows:{width:256,height:48,emptyExactPixels:12288,occupiedPedestal:{width:48,height:48,exposedPositions:2304-inferred,inferredPositions:inferred,paletteMappings:mappings},spriteMasks:references.map(({speciesId,poseIndex,matched,anchor})=>({speciesId,poseIndex,opaquePixels:matched,anchor})),panelCenter:'Horizontal stripe inferred between x56 and x247 from unobscured x240; rounded edges x48..55 and248..255 are direct source pixels.',retailText,layoutQualification:'The selected English retail layout follows Moby287134 name x56 and level/item x60, also corroborated at half size by the official English manual p25. Press ss01 uses x72/x76 instead. A pre-release/build difference is a possibility, not an established explanation.'},fileMenu:{reference:'menu-blue-localized.png',original:'menu-delivery-source.png',editionQualification:'Korean localization of Blue; background only. Source illustration is publicly retained in Explorers of Sky.',exactUnobscuredPixels:backgroundPixels,clippedColumn:0,excludedUiRectangles:[[16,16,104,88],[16,128,224,40]],mailbox:{original:'menu-mailbox-source.png',video:'https://www.youtube.com/watch?v=RrglH3dOqrg&t=5s',proofLevel:'English Blue scene identity; pixel bytes and palette are source-qualified, not measured from compressed video.'}}};
+  const proof={schemaVersion:1,normalization:'RGB555 capture channels are expanded through the native Blue 5-to-6-bit display mapping; this also removes sub-quantum press-capture noise.',teamRows:{width:256,height:48,emptyExactPixels:12288,occupiedPedestal:{width:48,height:48,exposedPositions:2304-inferred,inferredPositions:inferred,paletteMappings:mappings},spriteMasks:references.map(({speciesId,poseIndex,matched,anchor})=>({speciesId,poseIndex,opaquePixels:matched,anchor})),panelCenter:'Horizontal stripe inferred between x56 and x247 from unobscured x240; rounded edges x48..55 and248..255 are direct source pixels.',retailText,layoutQualification:'The selected English retail layout follows Moby287134 name x56 and level/item x60, also corroborated at half size by the official English manual p25. Press ss01 uses x72/x76 instead. A pre-release/build difference is a possibility, not an established explanation.'},fileMenu:{reference:'menu-blue-localized.png',original:'menu-delivery-source.png',editionQualification:'Korean localization of Blue; background only. Source illustration is publicly retained in Explorers of Sky.',exactUnobscuredPixels:backgroundPixels,clippedColumn:0,english:{reference:'menu-blue-na.png',edition:'North American English Blue; original capture provenance missing on hosting wiki',exactUnobscuredPixels:englishBackgroundPixels,excludedUiRectangles:[[16,16,96,40],[16,128,224,40]],mainMenuFrame:[16,16,96,40],rootTextOrigin:[32,26],text:englishText,upperLogo:{titleSource:'native-scenery/sources/Rescue_Team_-_Blue_Startup_NA_English_logo.png',foregroundPixels:logoPixels,framePixels:49152,foregroundBounds:[8,4,240,147],backdrop,paletteMapping:Object.fromEntries(logoPalette),maskSource:'Non-backdrop positions in the independent NA menu capture; no menu text is copied into the runtime bitmap'}},excludedUiRectangles:[[16,16,104,88],[16,128,224,40]],mailbox:{original:'menu-mailbox-source.png',video:'https://www.youtube.com/watch?v=RrglH3dOqrg&t=5s',proofLevel:'English Blue scene identity; pixel bytes and palette are source-qualified, not measured from compressed video.'}}};
   await emit(new URL('native-reference/panel-pixel-corroboration.json',import.meta.url),JSON.stringify(proof,null,2)+'\n');
   return records;
 }

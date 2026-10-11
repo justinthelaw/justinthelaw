@@ -261,24 +261,26 @@ async function main() {
     const announcement=events.filter(event=>event.type==='message'&&event.text).map(event=>event.text).join(' ');
     if(announcement&&announcement!==lastNarration){narration.textContent=announcement;lastNarration=announcement;}
     if(silent)return;
-    let effectSounds=0;
+    let effectSounds=0,pickupSounds=0;
     for(const cue of cues){
       if('clearNotice' in cue||!cue.audible)continue;
       if('sound' in cue){
-        // Instant/reduced-motion receipts are consumed, with at most four new
-        // PCM cue allocations per presentation and no delayed replay queue.
-        if(effectSounds++<4)audio.effect(cue.sound);
+        // One result has at most 12 pickup opportunities: hero, partner, 10 wild.
+        // Keep their source order and the existing four-cue limit for others.
+        // Excess receipts are consumed without any delayed replay queue.
+        if(cue.sound==='se330'||cue.sound==='se331'||cue.sound==='se332'){
+          if(pickupSounds++<12)audio.effect(cue.sound);
+        }else if(effectSounds++<4)audio.effect(cue.sound);
         continue;
       }
       const event=cue.event;
-      if(event.presentation?.kind==='no-damage')audio.effect(event.presentation.target.id==='hero'||event.presentation.target.id==='partner'?'noDamageTeam':'noDamageOther');
-      else if(event.presentation?.kind==='miss')audio.effect('miss');
-      else if(event.type==='attack')audio.effect('attack');
+      if(event.presentation?.kind==='no-damage')audio.effect(event.presentation.target.id==='hero'||event.presentation.target.id==='partner'?'se342':'se343');
+      else if(event.type==='attack')audio.effect(event.moveId==='regular-attack'?'regularAttack':'attack');
       else if(event.type==='damage')audio.effect('hit');
       else if(event.type==='level')audio.effect('levelUp');
       else if(event.type==='defeat')audio.effect('faint');
       else if(event.type==='floor')audio.effect('stairs');
-      else if(event.type==='item')audio.effect(event.text==='poke'?'money':'pickup');
+      else if(event.type==='item'&&event.presentation?.kind==='sync'&&event.presentation.berryResult)audio.effect('berryResult');
     }
   }
 

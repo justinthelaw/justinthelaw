@@ -14,10 +14,24 @@ const profiles = JSON.parse(await readFile(new URL('../content/blue-source.json'
 const expectedStarters = profiles.records.map(record => record.speciesId).sort();
 assert.deepEqual([...data.starterIds].sort(), expectedStarters, 'All 16 original starter profiles must be retained');
 assert.equal(data.floors.length, 3, 'The playable dungeon has exactly three ordinary floors');
+const wildIds = ['pokemon-016', 'pokemon-102', 'pokemon-191', 'pokemon-265'];
+assert.deepEqual(Object.keys(data.species).sort(), [...expectedStarters, ...wildIds].sort());
 for (const profile of profiles.records) {
-  assert.deepEqual(data.species[profile.speciesId].starting, profile.firstPlayable,
-    `Opening stats and moves differ: ${profile.speciesId}`);
+  const species = data.species[profile.speciesId], start = profile.firstPlayable;
+  assert.equal(species.growth.length, 100);
+  const values = species.baseStats.map((base, stat) => base + species.growth.slice(0, 5).reduce((sum, row) => sum + row[stat + 1], 0));
+  assert.deepEqual(values, ['hp', 'attack', 'specialAttack', 'defense', 'specialDefense'].map(key => start.stats[key]),
+    `Opening stat facts differ: ${profile.speciesId}`);
+  assert.equal(species.growth[4][0], start.cumulativeExp);
+  assert.deepEqual(species.learnset.filter(([level]) => level <= 5).slice(0, 4).map(([, id]) => [id, data.moves[id].pp]),
+    start.moves.map(move => [move.moveId, move.currentPP]), `Opening move facts differ: ${profile.speciesId}`);
 }
+for (const id of wildIds) {
+  assert.equal(data.species[id].growth.length, 2, 'Retain the level2 EXP validation boundary');
+  assert(data.species[id].learnset.every(([level]) => level === 1));
+}
+const admittedMoves = new Set(['regular-attack', 'move-struggle', 'bide-release', ...Object.values(data.species).flatMap(species => species.learnset.map(([, id]) => id))]);
+assert.equal(admittedMoves.size, 101); assert.deepEqual(Object.keys(data.moves).sort(), [...admittedMoves].sort());
 const expectedSprites = new Set([...data.starterIds, ...data.floors.flatMap(floor => floor.encounters.map(row => row.speciesId)),
   'pokemon-010', 'pokemon-012', 'pokemon-279']);
 assert.deepEqual(new Set(assets.records.map(record => record.speciesId)), expectedSprites, 'Opening sprite coverage must match the selected roster');

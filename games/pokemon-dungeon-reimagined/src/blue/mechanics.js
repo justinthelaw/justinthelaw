@@ -124,8 +124,8 @@ export function itemName(kind) { return ITEM_NAMES[kind]; }
 /** @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events @param {boolean} [fromMovement] */
 function pickup(state,actor,events,fromMovement=false) {
   const item=state.items.find(i=>i.x===actor.x&&i.y===actor.y);if(!item)return false;
-  if(item.kind==='poke'&&team(actor)){if(!fromMovement){recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);}state.money+=item.amount;message(state,events,`${actor.name} picked up ${item.amount} Poké.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
-  else if(!actor.heldItem){if(!fromMovement){recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);}actor.heldItem={kind:item.kind,amount:item.amount};message(state,events,`${actor.name} picked up ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
+  if(item.kind==='poke'&&team(actor)){if(!fromMovement){recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);}events.push({type:'presentation',presentation:{kind:'pickup',sequence:332,afterWalk:fromMovement}});state.money+=item.amount;message(state,events,`${actor.name} picked up ${item.amount} Poké.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
+  else if(!actor.heldItem){if(!fromMovement){recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);}events.push({type:'presentation',presentation:{kind:'pickup',sequence:team(actor)?330:331,afterWalk:fromMovement}});actor.heldItem={kind:item.kind,amount:item.amount};message(state,events,`${actor.name} picked up ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
   else {if(actor.id==='hero')message(state,events,`${actor.name} stepped on ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);return false;}
   state.items=state.items.filter(i=>i.id!==item.id);events.push({type:'item',actorId:actor.id,text:item.kind,presentation:{kind:'sync',actors:[captureActor(actor)],items:captureItems(state),money:state.money,...(fromMovement?{afterWalk:true}:{})}});
   const tutorial=`item-${item.kind}`;
@@ -149,7 +149,7 @@ function berryEffect(state,actor,item,events) {
   if(item.kind==='oran-berry')heal(state,actor,100,events);
   if(item.kind==='pecha-berry'){delete actor.status.poison;message(state,events,`${actor.name} is free of poison.`);}
   if(item.kind==='rawst-berry'){delete actor.status.burn;message(state,events,`${actor.name} is free of burns.`);}
-  actor.belly=Math.min(actor.maxBelly,actor.belly+5);events.push({type:'item',actorId:actor.id,text:item.kind,presentation:{kind:'sync',actors:[captureActor(actor)]}});
+  actor.belly=Math.min(actor.maxBelly,actor.belly+5);events.push({type:'item',actorId:actor.id,text:item.kind,presentation:{kind:'sync',actors:[captureActor(actor)],berryResult:true}});
 }
 /** Ordinary Tiny Woods berry projectile: all sixteen original starters can
  * throw. No trajectory equipment or special airborne targets occur here.

@@ -39,7 +39,7 @@ for (const [id, internalId, handler] of [['move-mud-slap', 213, 'MudSlapMoveActi
   if (!row || row.internalId !== internalId || row.handler !== handler || row.gate !== 'sub_805727C' || row.chanceArgument !== 0) throw new Error(`Invalid secondary-gate row: ${id}`);
 }
 const starterIds = starterDoc.records.map(row => row.speciesId);
-const speciesIds = [...new Set([...starterIds, 'pokemon-010', 'pokemon-012', 'pokemon-016', 'pokemon-102', 'pokemon-191', 'pokemon-265'])];
+const speciesIds = [...new Set([...starterIds, 'pokemon-016', 'pokemon-102', 'pokemon-191', 'pokemon-265'])];
 const moves = new Map();
 const moveNames = new Map(identities.moves.map(row => [row.originalId, row]));
 const actionMap = new Map(actionRows.map(row => [row.internalId, row]));
@@ -54,17 +54,20 @@ function projectMove(id, name, internalId) {
     if (internalId !== gate.internalId || secondary.length !== 1 || secondary[0].chancePercent !== 100) throw new Error(`Secondary-gate projection mismatch: ${id}`);
     effects = effects.map(effect => effect.op === 'secondary' ? { ...effect, gate: 'secondary-effect-common', secondaryChanceRaw: gate.chanceArgument } : effect);
   }
-  return { id, name, internalId, ...action.numeric, range: action.target.rangeCode, target: action.target.categoryCode, cutsCorners: action.target.wallCornerRules?.cutsCorners === true, effects, hitCount: action.hitCount, aiWeight: aiMap.get(internalId)?.weight ?? 15 };
+  const numeric = { ...action.numeric }; delete numeric.ginsengCap;
+  return { id, name, ...numeric, range: action.target.rangeCode, target: action.target.categoryCode, cutsCorners: action.target.wallCornerRules?.cutsCorners === true, effects, aiWeight: aiMap.get(internalId)?.weight ?? 15 };
 }
 const species = Object.fromEntries(speciesIds.map(id => {
   const p = profiles.get(id), level = levels.get(p.levelResourceId), learn = learns.get(p.learnsetResourceId);
-  const learnset = learn.levelUp.map(([at, internalId]) => {
+  const isStarter = starterIds.includes(id);
+  const levelUp = isStarter ? learn.levelUp : learn.levelUp.filter(([at]) => at <= 1);
+  const learnset = levelUp.map(([at, internalId]) => {
     const name = moveNames.get(internalId), action = actionMap.get(internalId);
     if (!name || !action) throw new Error(`Missing move ${internalId}`);
     moves.set(name.id, projectMove(name.id, name.name, internalId));
     return [at, name.id];
   });
-  return [id, { id, name: names.get(id).name, ...(spawnRows.has(id) ? { chanceAsleep: spawnRows.get(id).chanceAsleep } : {}), types: p.typeIds.map(n => identities.types.find(t => t.originalId === n)?.name ?? 'None'), abilities: p.abilityIds.filter(n => n !== null).map(n => identities.abilities.find(a => a.originalId === n)?.name), regenerationRate: p.regenerationRate, experienceYield: p.experienceYield, lowKickMultiplier: bodies.get(id).lowKickMultiplier[0], baseStats: level.baseStats, growth: level.rows, learnset, starting: starterDoc.records.find(row => row.speciesId === id)?.firstPlayable ?? null }];
+  return [id, { name: names.get(id).name, ...(spawnRows.has(id) ? { chanceAsleep: spawnRows.get(id).chanceAsleep } : {}), types: p.typeIds.map(n => identities.types.find(t => t.originalId === n)?.name ?? 'None'), abilities: p.abilityIds.filter(n => n !== null).map(n => identities.abilities.find(a => a.originalId === n)?.name), regenerationRate: p.regenerationRate, experienceYield: p.experienceYield, lowKickMultiplier: bodies.get(id).lowKickMultiplier[0], baseStats: level.baseStats, growth: isStarter ? level.rows : level.rows.slice(0, 2), learnset }];
 }));
 moves.set('regular-attack', { ...projectMove('regular-attack', 'Attack', 355), aiWeight: 100 });
 moves.set('move-struggle', projectMove('move-struggle', 'Struggle', 352));

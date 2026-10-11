@@ -10,6 +10,7 @@
     "assets/blue/hypnosis-background.png",
     "assets/blue/manifest.json",
     "assets/blue/menu-delivery.png",
+    "assets/blue/menu-logo.png",
     "assets/blue/menu-mailbox.png",
     "assets/blue/pokemon-001.json",
     "assets/blue/pokemon-001.png",
@@ -151,6 +152,6 @@
     "src/domain/rules/type-context.js",
     "src/domain/state/plain.js"
   ],
-  "totalBytes": 3067402,
+  "totalBytes": 3043310,
   "scope": "Opening cinematic and menu through Tiny Woods and Caterpie rescue only"
 }

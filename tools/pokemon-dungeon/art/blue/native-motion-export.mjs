@@ -12,8 +12,13 @@ export async function exportNativeMotions({emit}){
   const overrides=new Map([...overrideBody.matchAll(/\[(\d+)\] = \{([^\n]+)\}/g)].map(match=>[Number(match[1]),nativeFields(match[2])]));
   const speciesIds=new Map(species.map(record=>[`MONSTER_${record.name.toUpperCase()}`,record.speciesId]));
   const openingBytes=await readFile(new URL('../../../../games/pokemon-dungeon-reimagined/content/blue-opening.json',import.meta.url)),opening=JSON.parse(openingBytes),records={};
+  // Numerical IDs remain in the reviewed authoring source, not duplicated in
+  // the browser's move payload. The three action-only IDs have no name row.
+  const facts=JSON.parse(await readFile(new URL('../../content/blue-source.json',import.meta.url)));
+  const moveIds=new Map(facts.identities.moves.map(record=>[record.id,record.originalId]));
+  for(const[id,internalId]of[['regular-attack',355],['move-struggle',352],['bide-release',357]])moveIds.set(id,internalId);
   for(const move of Object.values(opening.moves)){
-    const record=moves.get(move.internalId);if(!record)throw Error(`Native motion is missing for ${move.id}.`);
+    const record=moves.get(moveIds.get(move.id));if(!record)throw Error(`Native motion is missing for ${move.id}.`);
     const selected={animation:record.unk10,overrides:{},preparation:record.unk0,cast:record.unk2,target:record.unk4,travel:record.unk6,attachmentSet:record.unk14,attachmentOverrides:{},travelSpeed:record.unk6===0?0:record.unkC===1?2:record.unkC===2?3:6};
     for(let index=0;index<record.unk1C;index++){
       const override=overrides.get(record.unk20+index);if(!override)throw Error('Native species-animation table is incomplete.');

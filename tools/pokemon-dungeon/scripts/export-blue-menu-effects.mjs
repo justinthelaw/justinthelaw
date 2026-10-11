@@ -93,7 +93,75 @@ for (const [index, cue] of battle.cues.entries()) {
     return [start, end - start, ...pulseFacts(key, velocity, cue.volume, cue.voice)];
   }) };
 }
-const generated = `/** Generated from pinned comparative Rescue Team menu-effect facts; no music or PCM samples. */\n` +
+const regular = battle.regularAttack;
+assert.equal(regular.id, 'effect-regular-attack'); assert.equal(regular.sequence, 351); assert.equal(regular.sourceName, 'EFF_ANIM_2');
+assert.equal(regular.player, 'SE2'); assert.equal(regular.voice, 60); assert.equal(regular.duty, .5);
+assert.equal(regular.pan, 0); assert.deepEqual(regular.envelope, [0, 0, 15, 0]);
+assert.equal(regular.tempoIncrement, 280); assert.equal(regular.trackTicks, 16);
+assert.deepEqual(regular.volumeChanges, [[0,52],[0,56],[3,69],[4,73],[6,80],[9,66],[10,62],[11,52],[12,34],[13,7]]);
+assert.deepEqual(regular.notes, [[1,82,1,4],[2,82,1,112],[3,80,1,116],[4,78,1,116],[5,75,1,120],[6,70,1,127],[7,66,1,127],[9,69,1,127],[10,71,1,127],[11,74,1,127],[11,76,1,127],[12,78,1,127],[14,80,1,127],[15,83,1,127]]);
+const regularFrame = tick => Math.floor((tick * battle.tempo.threshold + regular.tempoIncrement - 1) / regular.tempoIncrement);
+const regularNotes = [];
+for (const [index, note] of regular.notes.entries()) {
+  const [tick, key, gate, velocity] = note;
+  const start = regularFrame(tick), next = regular.notes[index + 1];
+  const end = Math.min(regularFrame(tick + gate), regularFrame(next?.[0] ?? regular.trackTicks), regularFrame(regular.trackTicks));
+  // All source ticks in a frame finish before CgbSound. A later same-frame
+  // note replaces this one; a gate ending in its start frame never sounds.
+  if (end <= start) continue;
+  let volume = 0;
+  for (const [at, value] of regular.volumeChanges) if (regularFrame(at) <= start) volume = value;
+  const [divisor, envelope] = pulseFacts(key, velocity, volume, regular.voice);
+  if (envelope > 0) regularNotes.push([start, end - start, divisor, envelope]);
+}
+assert.deepEqual(regularNotes, [[2,1,158,7],[3,1,210,8],[4,1,354,9],[5,1,298,8],[6,1,198,6]]);
+battleCues[regular.id] = { duty: regular.duty, notes: regularNotes };
+
+assert.equal(createHash('sha256').update(JSON.stringify(battle.pickups)).digest('hex'), '6c41873b9588c90ca3c47832cde60a966730effdece2ed20cb52e3965ac79708', 'Selected pickup controls changed; review and repin them.');
+const pickupExpected = [
+  [[2,3,334,5],[5,2,224,5],[7,3,178,2],[10,2,148,8],[12,2,112,13],[15,1,112,3],[20,1,112,1]],
+  [[3,3,210,5],[6,3,266,8],[9,3,298,2],[12,3,334,7],[15,3,316,14],[19,2,316,4]],
+];
+for (const [index, cue] of battle.pickups.entries()) {
+  const frame = tick => Math.ceil(tick * battle.tempo.threshold / cue.tempoIncrement);
+  const controls = new Map();
+  let volume = 0, depth = 0, phase = 0, modType = 0;
+  for (let tick = 0; tick < cue.trackTicks; tick++) {
+    for (const control of cue.controls) if (control.tick === tick) {
+      if (control.command === 'VOL') volume = control.value;
+      if (control.command === 'MOD') depth = control.value;
+      if (control.command === 'MODT') modType = control.value;
+    }
+    let mod = 0;
+    if (depth) {
+      // MPlayStart initializes LFOS22/phase0; these tracks do not reset LFO at notes.
+      phase = (phase + 22) & 255;
+      const triangle = phase < 64 ? phase : phase < 192 ? 128 - phase : phase - 256;
+      mod = Math.floor(triangle * depth / 64);
+    }
+    const scaled = modType === 1 ? volume * 2 * (mod + 128) >> 7 : volume * 2;
+    // Later source ticks in the same frame own the final TrkVolPit values.
+    controls.set(frame(tick), {right: scaled >> 1, left: 127 * scaled >> 8});
+  }
+  const notes = [];
+  for (const [noteIndex, note] of cue.notes.entries()) {
+    const start = frame(note.tick), next = cue.notes[noteIndex + 1];
+    const end = Math.min(frame(note.tick + note.gate), frame(next?.tick ?? cue.trackTicks));
+    const control = controls.get(start); assert(control);
+    const right = 128 * note.velocity * control.right >> 14;
+    const left = 127 * note.velocity * control.left >> 14;
+    const envelope = Math.min(15, (left + right) >> 4);
+    const [divisor] = pulseFacts(note.key, note.velocity, 1, cue.voice);
+    // Native sustain counter7 cannot expire within these <=3-frame gates,
+    // even with one extra global c15 step. The initial envelope remains held.
+    assert(end > start && end - start <= 3 && 7 - (end - start) - 1 >= 3);
+    if (envelope > 0) notes.push([start, end - start, divisor, envelope]);
+  }
+  assert.deepEqual(notes, pickupExpected[index]);
+  battleCues[cue.id] = {duty: cue.duty, notes};
+}
+
+const generated = `/** Generated from pinned comparative Rescue Team SE2 facts; no music or PCM samples. */\n` +
   `export const MENU_EFFECT_SOURCE_SHA256 = '${createHash('sha256').update(bytes).digest('hex')}';\n` +
   `export const MENU_EFFECT_GAIN = ${data.browserGain};\n` +
   `export const MENU_EFFECT_TICK_SECONDS = ${data.clock.cyclesPerFrame} / ${data.clock.cpuHz};\n` +
@@ -102,9 +170,9 @@ const generated = `/** Generated from pinned comparative Rescue Team menu-effect
   `/** @type {Readonly<Record<string,{duty:number,notes:[number,number,number,number][]}>>} */\n` +
   `export const MENU_EFFECTS = ${JSON.stringify(cues)};\n` +
   `export const BATTLE_EFFECT_SOURCE_SHA256 = '${createHash('sha256').update(battleBytes).digest('hex')}';\n` +
-  `/** Native SE2 battle notes are [start frame, gate frames, frequency divisor, envelope]. */\n` +
+  `/** Native SE2 battle/pickup notes are [start frame, gate frames, frequency divisor, envelope]. */\n` +
   `/** @type {Readonly<Record<string,{duty:number,notes:[number,number,number,number][]}>>} */\n` +
   `export const BATTLE_EFFECTS = ${JSON.stringify(battleCues)};\n`;
 if (process.argv.includes('--check')) assert.equal(await readFile(output, 'utf8'), generated, 'Regenerate the menu-effect data.');
 else await writeFile(output, generated);
-console.log(`Comparative SE2 effects: four menu and two no-damage sequences, seven roles, at most four bounded pulse notes; static source/data only${sourceArgument >= 0 ? ', source hashes verified' : ''}.`);
+console.log(`Comparative SE2 effects: four menu sequences, two miss/zero sequences, regular351 and pickups330/331, ten data IDs, at most seven bounded pulse notes; static source/data only${sourceArgument >= 0 ? ', source hashes verified' : ''}.`);

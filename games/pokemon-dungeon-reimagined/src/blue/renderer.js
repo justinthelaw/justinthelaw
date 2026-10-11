@@ -209,7 +209,7 @@ function dungeon(context,sprites,terrain,statuses,notice,map,effects,hypnosis,vi
 
 /** Fixed two-screen presentation; the owner supplies state and advances time.
  * @param {HTMLCanvasElement} topCanvas @param {HTMLCanvasElement} bottomCanvas
- * @param {{initialSpecies?:string[],reducedMotion?:boolean,introClientSpeciesId?:string,signal?:AbortSignal}} [options] */
+ * @param {{reducedMotion?:boolean,introClientSpeciesId?:string,signal?:AbortSignal}} [options] */
 export async function createRenderer(topCanvas,bottomCanvas,options={}){
   const top=contextFor(topCanvas),bottom=contextFor(bottomCanvas),sprites=new SpriteBank(),terrain=new Terrain(),intro=new IntroArtwork(),aura=new AuraBackdrop(),storyActors=new StoryActors(),artwork=new UiArtwork(),statuses=new StatusSprites(),notice=new DungeonNotice(),map=new NativeMap(),effects=new BattleEffects(),hypnosis=new HypnosisBackground();
   const introClient=options.introClientSpeciesId??INTRO_CLIENT_IDS[Math.floor(Math.random()*INTRO_CLIENT_IDS.length)]??'pokemon-025';
@@ -222,7 +222,7 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
   function dispose(){if(disposed)return;disposed=true;options.signal?.removeEventListener('abort',dispose);sprites.dispose();terrain.dispose();intro.dispose();aura.dispose();artwork.dispose();statuses.dispose();effects.dispose();hypnosis.dispose();notice.reset();map.reset();disposeFont();disposeNativeUi();choiceBounds=[];sight=[];sightTiles=null;toolbarVisible=false;fill(top,'#000000');fill(bottom,'#000000');}
   options.signal?.addEventListener('abort',dispose,{once:true});
   if(options.signal?.aborted){dispose();throw new DOMException('Loading was cancelled.','AbortError');}
-  try{await Promise.all([sprites.loadSpecies([...new Set([...(options.initialSpecies??['pokemon-025','pokemon-004','pokemon-007']),'pokemon-279',introClient])]),intro.load(),terrain.load(),aura.load(),artwork.load(),statuses.load()]);if(disposed)throw new DOMException('Loading was cancelled.','AbortError');}catch(error){dispose();throw error;}
+  try{await Promise.all([sprites.loadSpecies(['pokemon-279',introClient]),intro.load(),terrain.load(),aura.load(),artwork.load(),statuses.load()]);if(disposed)throw new DOMException('Loading was cancelled.','AbortError');}catch(error){dispose();throw error;}
   return {
     /** @param {string[]} ids */loadSpecies(ids){return sprites.loadSpecies(ids);},
     async loadBattleAssets(){await Promise.all([effects.load(),hypnosis.load()]);},
@@ -262,7 +262,7 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
         const promptTime=animated?elapsed-TITLE_PROMPT_MS:elapsed;
         if(promptReady&&(view.reducedMotion||Math.floor(promptTime/(1000/6))%2===1))intro.titlePrompt(bottom);
       }else if(view.scene==='menu'){
-        artwork.menu(bottom);
+        artwork.menuLogo(top);artwork.menu(bottom);
       }else if(['quiz','gender','result','partner','name'].includes(view.scene)){
         aura.draw(bottom,time,{reducedMotion:view.reducedMotion,mode:'cycle'});
         if(view.scene==='result'&&view.storyLine===2){panel(bottom,100,60,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,hero,104,64,40,{flip:true,emotion:'happy'});}

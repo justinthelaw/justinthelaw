@@ -155,6 +155,60 @@
       "bytes": 42614,
       "sha256": "487b31d259a9adf18483503bfa47042ff0434aad3fff60dabaeb6d9811220434",
       "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/move_orb_effects_2.c"
+    },
+    {
+      "path": "src/dungeon_ai_items.c",
+      "bytes": 23025,
+      "sha256": "069797841b534ad0e86237ede2da72809dcb3df7e01e365f4e067fb6880a315c",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_ai_items.c"
+    },
+    {
+      "path": "src/dungeon_items.c",
+      "bytes": 28903,
+      "sha256": "c8ebcbae06bd7d151750e5a9b3f7cbf65939d7a0422d69e587ecfe53a7c46790",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_items.c"
+    },
+    {
+      "path": "src/dungeon_entity_movement.c",
+      "bytes": 15983,
+      "sha256": "923110a9bd0e71dde3b4e7c11eb0f083521f8edc9bf9215e134541c369a05dac",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_entity_movement.c"
+    },
+    {
+      "path": "src/dungeon_main.c",
+      "bytes": 57164,
+      "sha256": "7daf903b44586acefe989f7a5804f541ff5d9decff48891faede157f62fe87fb",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_main.c"
+    },
+    {
+      "path": "src/dungeon_action_handler.c",
+      "bytes": 27064,
+      "sha256": "a4f5b28543274a4bc47513dd61e4c7d0b2ba84c4836291ff72658c443348007c",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_action_handler.c"
+    },
+    {
+      "path": "src/dungeon_message.c",
+      "bytes": 22583,
+      "sha256": "f5bb170991f3da8be452f25dbb8949ba09524f666ff7a40fc073bc9c460bdaee",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_message.c"
+    },
+    {
+      "path": "src/dungeon_music.c",
+      "bytes": 5005,
+      "sha256": "f95d69b029602aab24d3b29ff8f5e910a8a9b819539c450c051c0503ea1469e6",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_music.c"
+    },
+    {
+      "path": "sound/songs/seq_332.s",
+      "bytes": 742,
+      "sha256": "a837fb645c555b5245363ec780d27c7382caaa3eabdc4f4a04373b287fdf168c",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_332.s"
+    },
+    {
+      "path": "sound/wave/wave_127.s",
+      "bytes": 32131,
+      "sha256": "5cf714978152366f60de29cb1b18890586ce2fe5f87152a75e318c00f9a60a05",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/wave/wave_127.s"
     }
   ],
   "samples": [
@@ -205,6 +259,22 @@
       "base64Characters": 3360,
       "float32Bytes": 10068,
       "base64": "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"
+    },
+    {
+      "id": 127,
+      "type": 0,
+      "status": 0,
+      "frequencyQ10": 18592768,
+      "baseSampleRate": 18157,
+      "loopStart": 0,
+      "sampleCount": 2776,
+      "literalBytes": 2776,
+      "interpolationGuardBytes": 0,
+      "sampleSha256": "7aa26cf0e1e5cfebc234ca873890d76c664af21c85b8f666dcdd499e479b898f",
+      "literalSha256": "7aa26cf0e1e5cfebc234ca873890d76c664af21c85b8f666dcdd499e479b898f",
+      "base64Characters": 3704,
+      "float32Bytes": 11104,
+      "base64": "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"
     }
   ],
   "cues": [
@@ -489,6 +559,58 @@
       ],
       "priority": 127,
       "reverb": 0
+    },
+    {
+      "id": "effect-pickup-money",
+      "sequence": 332,
+      "name": "MOTION_MONEY",
+      "player": "SE5",
+      "fineTick": 24,
+      "notes": [
+        {
+          "tick": 1,
+          "gate": 5,
+          "key": 65,
+          "velocity": 32,
+          "voice": 36
+        },
+        {
+          "tick": 3,
+          "gate": 20,
+          "key": 60,
+          "velocity": 127,
+          "voice": 36
+        }
+      ],
+      "controls": [
+        {
+          "tick": 0,
+          "command": "KEYSH",
+          "value": 0
+        },
+        {
+          "tick": 0,
+          "command": "TEMPO",
+          "value": 100
+        },
+        {
+          "tick": 0,
+          "command": "VOICE",
+          "value": 36
+        },
+        {
+          "tick": 0,
+          "command": "VOL",
+          "value": 127
+        },
+        {
+          "tick": 0,
+          "command": "PAN",
+          "value": 0
+        }
+      ],
+      "priority": 127,
+      "reverb": 0
     }
   ],
   "scale": [
@@ -711,6 +833,16 @@
     "8": {
       "bank": 26,
       "wave": 103,
+      "envelope": [
+        255,
+        249,
+        0,
+        0
+      ]
+    },
+    "36": {
+      "bank": 26,
+      "wave": 127,
       "envelope": [
         255,
         249,
