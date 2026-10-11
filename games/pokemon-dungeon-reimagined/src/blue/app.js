@@ -6,6 +6,8 @@ import { canContinueDash } from './dash.js';
 import { createDungeonMenus } from './menus.js';
 import { DungeonCamera } from './dungeon-camera.js';
 import { FloorMap, displaySettings } from './map-mode.js';
+import { captureWorld } from './battle-events.js';
+import { BattlePresentation } from './battle-presentation.js';
 import { discoverCameraArea } from './mechanics-visibility.js';
 import { loadOnboarding, createQuiz, currentQuestion, nextQuestion, answerQuestion,
   finishQuiz, eligiblePartners, speciesName } from './onboarding.js';
@@ -25,6 +27,8 @@ import { STORY, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolateStory } from './st
 /** @typedef {import('./input.js').InputAction} InputAction */
 /** @typedef {import('./mechanics-types.js').DungeonAction} DungeonAction */
 /** @typedef {import('./mechanics-types.js').ActionResult} ActionResult */
+/** @typedef {import('./mechanics-types.js').GameEvent} GameEvent */
+/** @typedef {import('./battle-events.js').BattleWorld} BattleWorld */
 /** @typedef {import('./audio-types.js').AudioScene} AudioScene */
 /** @typedef {import('./naming.js').NamingState} NamingState */
 /** @typedef {{editor:NamingState,transition:number}} NameComposition */
@@ -153,6 +157,8 @@ async function main() {
   let busy = false, paused = document.hidden || !document.hasFocus(), disposed = false, transition = 0, frameId = 0;
   let saveTimer = 0, hasStored = stored.hasStored, saveFailed = false;
   let eventUntil = 0, presentationRevision = 0, lastRenderedRevision = -1, titleImmediate = false;
+  /** @type {BattlePresentation|null} */let battle=null;
+  /** @type {{dungeon:import('./mechanics-types.js').DungeonState,transition:number,newFloor:boolean,events:GameEvent[]}|null} */let battleSettlement=null;
   let nameComposing = false;
   /** @type {NameComposition|null} */ let nameComposition = null;
   /** @type {NameComposition|null} */ let completedNameComposition = null;
@@ -236,6 +242,56 @@ async function main() {
       liveMessageRemaining = 240 * 1000 / 60;
     }
   }
+
+  /** Semantic cues cross the presentation boundary once. Retiring a scene or
+   * changing reduced-motion preference cannot replay a sound callback.
+   * @param {import('./battle-presentation.js').PresentationCue[]} cues @param {boolean} [silent] */
+  function presentBattleCues(cues,silent=false){
+    const events=cues.map(cue=>cue.event);
+    enqueueLiveMessages({events,consumedTurn:false,status:currentDungeon()?.status??'playing'});
+    const announcement=events.filter(event=>event.type==='message'&&event.text).map(event=>event.text).join(' ');
+    if(announcement&&announcement!==lastNarration){narration.textContent=announcement;lastNarration=announcement;}
+    if(silent)return;
+    for(const cue of cues){
+      if(!cue.audible)continue;
+      const event=cue.event;
+      if(event.presentation?.kind==='miss')audio.effect('miss');
+      else if(event.type==='attack')audio.effect('attack');
+      else if(event.type==='damage')audio.effect('hit');
+      else if(event.type==='heal')audio.effect('heal');
+      else if(event.type==='level')audio.effect('levelUp');
+      else if(event.type==='defeat')audio.effect('faint');
+      else if(event.type==='floor')audio.effect('stairs');
+      else if(event.type==='item')audio.effect(event.text==='poke'?'money':'pickup');
+    }
+  }
+
+  /** Completion changes UI surfaces only after all source waits have finished.
+   * The dungeon was already committed; this callback never advances gameplay.
+   * @param {boolean} [finish] */
+  function advanceBattlePresentation(finish=false){
+    const owner=battle;if(!owner)return;
+    /** @type {ReturnType<BattlePresentation['advance']>} */let result;
+    try{result=owner.advance(clock,finish);}catch(error){fail(error);return;}
+    view.battle=result.frame;
+    presentBattleCues(result.cues,finish);
+    if(owner.completed&&!battleSettlement&&!owner.hasTail(clock)){battle=null;view.battle=undefined;}
+    if(!result.completed)return;
+    eventUntil=clock;
+    const settlement=battleSettlement;battleSettlement=null;
+    if(!settlement||disposed||settlement.dungeon!==currentDungeon()||settlement.transition!==transition||mode!=='play'||state?.phase!=='dungeon')return;
+    for(const event of settlement.events){
+      const lesson=event.type==='tutorial'&&event.text?ITEM_TUTORIALS[event.text]:undefined;
+      if(lesson)tutorials.push(lesson);
+      if(event.type==='talk'&&event.text){
+        const actor=event.actorId==='hero'?settlement.dungeon.hero:settlement.dungeon.partner;
+        fieldDialogue={text:event.text,speaker:actor.name,portraitSpeciesId:actor.speciesId};
+      }
+    }
+    rebuild();settleDungeon(settlement.newFloor);
+  }
+
+  function resetBattlePresentation(){battle=null;battleSettlement=null;view.battle=undefined;eventUntil=clock;}
 
   /** @param {Menu|null} next */
   function showMenu(next) {
@@ -336,7 +392,7 @@ async function main() {
     if (disposed) return;
     reducedMotion = motionPreference.matches;
     view.reducedMotion = reducedMotion;
-    if (reducedMotion) eventUntil = Math.min(eventUntil, clock);
+    if (reducedMotion) advanceBattlePresentation(true);
     lastRenderedRevision = -1;
   }
   function detachPresentationListeners() {
@@ -353,6 +409,7 @@ async function main() {
   function fail(error) {
     if (disposed) return;
     commitNow(); disposed = true; transition += 1;
+    resetBattlePresentation();
     detachPresentationListeners();
     input.dispose(); audio.dispose(); renderer.dispose(); window.cancelAnimationFrame(frameId);
     showFailure(error);
@@ -363,11 +420,11 @@ async function main() {
   }
   function dungeonTurnLocked() {
     const dungeon = currentDungeon();
-    return Boolean(dungeon && isDungeonSurface() && getDungeonTurnPhase(dungeon) !== 'input');
+    return Boolean(dungeon && isDungeonSurface() && (battle?.busy()||getDungeonTurnPhase(dungeon) !== 'input'));
   }
   function isDungeonInput() {
     const dungeon = currentDungeon();
-    return Boolean(dungeon && isDungeonSurface() && getDungeonTurnPhase(dungeon) === 'input');
+    return Boolean(dungeon && isDungeonSurface() && !battle?.busy() && getDungeonTurnPhase(dungeon) === 'input');
   }
   function clearForcedInput() {
     input.clear();
@@ -391,6 +448,7 @@ async function main() {
   /** @param {Phase} phase @param {number} [line] @param {boolean} [newFloor] */
   async function setPhase(phase, line = 0, newFloor = false) {
     if (!state || disposed) return;
+    resetBattlePresentation();
     resetDungeonCamera();
     clearLiveMessages();
     nameComposing = false; nameComposition = null; completedNameComposition = null;
@@ -412,10 +470,10 @@ async function main() {
       if (!disposed && token === transition) fail(new Error('Character artwork took too long to load. Reload to continue from the saved checkpoint.'));
     }, 20000);
     try {
-      await renderer.loadSpecies(ids);
+      await Promise.all([renderer.loadSpecies(ids),...(phase==='dungeon'?[renderer.loadBattleAssets()]:[])]);
       if (disposed || token !== transition) return;
       busy = false; lastFrame = 0; input.clear();
-      view.events = []; view.eventStartedAt = clock; eventUntil = clock;
+      eventUntil = clock;
       audio.setScene(musicFor(phase)); rebuild(); application.setAttribute('aria-busy', 'false');
       if (phase === 'dungeon') settleDungeon(newFloor);
     } catch (error) { if (!disposed && token === transition) fail(error); }
@@ -433,6 +491,7 @@ async function main() {
   }
 
   function returnToMenu() {
+    resetBattlePresentation();
     resetDungeonCamera();
     clearLiveMessages();
     commitNow(); mode = 'menu'; menu = null; notice = null; fieldDialogue = null; tutorials = [];
@@ -544,7 +603,7 @@ async function main() {
       dungeon: state?.dungeon, selectedIndex, ...mapPresentation(),
       cameraActorId:dungeonCamera.target,menuActorId:menu?.cameraMember,
       dungeonLightLevel:data.floors[(state?.dungeon?.floor??1)-1]?.generation.visibilityRange,
-      events: view.events, eventStartedAt: view.eventStartedAt, eventDuration: view.eventDuration,
+      battle:view.battle,
     };
     labels = []; speech = null; speechPages = [];
     let text = '', speaker = '', portraitSpeciesId = '', portraitEmotion = 'normal';
@@ -645,7 +704,8 @@ async function main() {
       }
       element('name-label').textContent = state.phase === 'hero-name' ? 'Your name' : "Your partner's name";
     }
-    const announcement = [speaker, text].filter(Boolean).join(': ');
+    const announcement = [speaker, text].filter(Boolean).join(': ')||
+      (next.scene==='dungeon'?(liveMessages.at(-1)??''):'');
     if (announcement !== lastNarration) { narration.textContent = announcement; lastNarration = announcement; }
   }
 
@@ -902,43 +962,28 @@ async function main() {
 
   /** @param {DungeonAction} action @param {boolean} [running] @returns {boolean} */
   function act(action, running = false) {
-    const dungeon = currentDungeon(); if (!dungeon || busy || disposed) return false;
+    const dungeon = currentDungeon(); if (!dungeon || busy || disposed || battle?.busy()) return false;
     try {
+      const before=captureWorld(dungeon);
       const result = performAction(dungeon, action, data);
-      presentDungeonResult(result, running);
+      presentDungeonResult(result,before,running);
       return result.consumedTurn;
     } catch (error) { fail(error); return false; }
   }
 
-  /** @param {ActionResult} result @param {boolean} [running] @param {boolean} [autonomous] */
-  function presentDungeonResult(result, running = false, autonomous = false) {
+  /** @param {ActionResult} result @param {BattleWorld} before @param {boolean} [running] */
+  function presentDungeonResult(result,before,running=false) {
     const dungeon = currentDungeon(); if (!dungeon || disposed) return;
-    enqueueLiveMessages(result);
-    view.events = result.events; view.eventStartedAt = clock;
-    // Comparative native walking spans 24 frames, or 12 with Fast selected.
-    // Running suppresses movement interpolation rather than shortening turns.
-    const onlyMovement = !result.events.some(event => ['attack', 'damage', 'throw'].includes(event.type));
-    view.eventDuration = running && onlyMovement ? 0 : (fastDungeon ? 12 : 24) * 1000 / 60;
-    const visibleAction = result.events.some(event => ['move', 'attack', 'damage', 'heal', 'defeat', 'throw', 'level'].includes(event.type));
-    eventUntil = clock + (result.consumedTurn && !reducedMotion && (!autonomous || visibleAction) ? view.eventDuration : 0);
-    for (const event of result.events.slice(0, 20)) {
-      if (event.type === 'attack') audio.effect('attack');
-      else if (event.type === 'damage') audio.effect('hit');
-      else if (event.type === 'heal') audio.effect('heal');
-      else if (event.type === 'level') audio.effect('levelUp');
-      else if (event.type === 'defeat') audio.effect('faint');
-      else if (event.type === 'floor') audio.effect('stairs');
-      else if (event.type === 'item') audio.effect(event.text === 'poke' ? 'money' : 'pickup');
-    }
-    for (const event of result.events) {
-      const lesson = event.type === 'tutorial' && event.text ? ITEM_TUTORIALS[event.text] : undefined;
-      if (lesson) tutorials.push(lesson);
-      if (event.type === 'talk' && event.text) {
-        const actor = event.actorId === 'hero' ? dungeon.hero : dungeon.partner;
-        fieldDialogue = { text: event.text, speaker: actor.name, portraitSpeciesId: actor.speciesId };
-      }
-    }
-    rebuild(); commitSoon(); settleDungeon(result.events.some(event => event.type === 'floor'));
+    // Persist only completed simulation, retaining the existing220ms batching.
+    // Failure/interruption/quicksave flush immediately; visual evidence is
+    // never saved and cannot repeat a committed turn on reload.
+    commitSoon();
+    const carry=battle?.carry(clock);
+    battle=new BattlePresentation(before,result,dungeon,renderer.battleAssets(),{now:clock,fast:fastDungeon,running,reducedMotion,carry});
+    battleSettlement={dungeon,transition,newFloor:result.events.some(event=>event.type==='floor'),events:result.events};
+    eventUntil=clock+battle.endTick*1000/60;
+    advanceBattlePresentation();
+    if(!disposed&&!busy&&state?.phase==='dungeon')rebuild();
   }
 
   /** One preparation or forced completion per eligible animation frame. Time
@@ -946,7 +991,7 @@ async function main() {
    * @returns {boolean} Whether this frame performed autonomous scheduler work.
    */
   function advanceDungeonClock() {
-    if (startGate !== 'running' || document.hidden || !document.hasFocus() || !isDungeonSurface() || clock < eventUntil) return false;
+    if (startGate !== 'running' || document.hidden || !document.hasFocus() || !isDungeonSurface() || battle?.busy() || clock < eventUntil) return false;
     const dungeon = currentDungeon(); if (!dungeon) return false;
     try {
       const phase = getDungeonTurnPhase(dungeon);
@@ -954,11 +999,13 @@ async function main() {
         if (forcedReadyAt === null) { clearForcedInput(); forcedReadyAt = clock + 60 * 1000 / 60; }
         if (clock < forcedReadyAt) return true;
         clearForcedInput(); forcedReadyAt = null;
-        presentDungeonResult(completeForcedTurn(dungeon, data), false, true); commitNow();
+        const before=captureWorld(dungeon);
+        presentDungeonResult(completeForcedTurn(dungeon,data),before);
         return true;
       }
       forcedReadyAt = null;
       if (phase !== 'unprepared') return false;
+      const before=captureWorld(dungeon);
       const result = prepareDungeonTurn(dungeon, data);
       // Retain admission before held input can consume this opportunity in the
       // same animation frame; renderer sampling must not lose the blink reset.
@@ -966,7 +1013,7 @@ async function main() {
       if (result.phase === 'forced') clearForcedInput();
       else if (result.phase === 'advanced') input.discardQueuedMovement();
       if (result.phase === 'forced') forcedReadyAt = clock + 60 * 1000 / 60;
-      if (result.changed) { presentDungeonResult(result, false, true); commitNow(); }
+      if (result.changed)presentDungeonResult(result,before);
       return result.phase === 'forced' || result.phase === 'advanced' || result.phase === 'blocked';
     } catch (error) { fail(error); return true; }
   }
@@ -974,8 +1021,17 @@ async function main() {
   /** @param {boolean} [newFloor] */
   function settleDungeon(newFloor = false) {
     const dungeon = currentDungeon(); if (!dungeon || !state) return;
+    if(battle?.busy())return;
     if (dungeon.status === 'rescued') { void setPhase('clearing'); return; }
-    if (dungeon.status === 'defeated') { void setPhase('defeated'); return; }
+    if (dungeon.status === 'defeated') {
+      // A surviving member can finish earlier queued EXP/learning after the
+      // leader is removed. Only this current dungeon-phase request precedes
+      // the loss screen; completed legacy defeat saves are not replayed.
+      const request=dungeon.pendingLearning[0];
+      const recipient=request?.actorId==='hero'?dungeon.hero:request?.actorId==='partner'?dungeon.partner:null;
+      if(recipient&&recipient.hp>0){dungeonMenus.learning();return;}
+      void setPhase('defeated');return;
+    }
     if (dungeon.pendingLearning.length) { dungeonMenus.learning(); return; }
     if (dungeon.status === 'stairs') {
       if (getDungeonTurnPhase(dungeon) === 'input') { audio.effect('open'); dungeonMenus.stairs(); }
@@ -1112,6 +1168,7 @@ async function main() {
   }
   window.addEventListener('pagehide', () => {
     commitNow(); disposed = true; transition += 1; input.dispose(); audio.dispose(); renderer.dispose();
+    resetBattlePresentation();
     detachPresentationListeners();
     window.cancelAnimationFrame(frameId);
     window.removeEventListener('arcade-controls-visibility', syncHostControls);
@@ -1132,6 +1189,8 @@ async function main() {
       mode = 'title'; titleImmediate = false; audio.setScene('title'); rebuild();
     }
     advanceMenuCamera();
+    advanceBattlePresentation();
+    if(disposed)return;
     const schedulerWorked = advanceDungeonClock();
     if (disposed) return;
     if (startGate === 'running' && !document.hidden && document.hasFocus() && !busy && !paused && helpPanel.hidden && !schedulerWorked && !dungeonTurnLocked()) input.update(now, isDungeonInput());

@@ -4,9 +4,11 @@ import { applyRoomFeatures } from '../domain/generation/features.js';
 import { Draws, finalizeGeometry, positions, ordinary, reachable } from '../domain/generation/support.js';
 import { openingSpawns, spawnScanOrder, arrivalPosition } from './mechanics-generation.js';
 import { cameraSight } from './mechanics-visibility.js';
+import { dropItem, ITEM_NAMES, moneyPile } from './mechanics-items.js';
+import { captureActor, captureItems } from './battle-events.js';
 import { DEFAULT_IQ, IQ_SKILLS, TACTICS, hasIq, tacticFor, considersLineMove, considersLineTarget, canTalk, talkToPartner } from './mechanics-policy.js';
 import { attack, beginTurn, finishTurn, heal, moveSlot, moveTargets, supportsMove, STATUS_KEYS, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
-import { actors, actorAt, canStep, directionFor, distance, draw, index, inSight, message, moveActor, nextStep, open, team, DIRECTIONS, VECTORS } from './mechanics-common.js';
+import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, message, moveActor, nextStep, open, recordAction, recordSync, team, wakeInitialSleep, DIRECTIONS, VECTORS } from './mechanics-common.js';
 
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
 /** @typedef {import('./mechanics-types.js').Actor} Actor */
@@ -20,8 +22,6 @@ import { actors, actorAt, canStep, directionFor, distance, draw, index, inSight,
 
 const DATA_URL = new URL('../../content/blue-opening.json', import.meta.url);
 const WIDTH=56, HEIGHT=32;
-const ITEM_NAMES={poke:'Poké','oran-berry':'Oran Berry','pecha-berry':'Pecha Berry','rawst-berry':'Rawst Berry'};
-const DROP_OFFSETS=[[0,0],[0,-1],[1,0],[0,1],[-1,0],[-1,-1],[1,-1],[-1,1],[1,1],[-2,-2],[-1,-2],[0,-2],[1,-2],[2,-2],[-2,-1],[2,-1],[-2,0],[2,0],[-2,1],[2,1],[-2,2],[-1,2],[0,2],[1,2],[2,2]];
 const GENERATION_CONTEXT=Object.freeze({floorType:/** @type {const} */('normal'),missionSuppressesHouse:true,missionAddsEnemy:false,canChangeLeader:false,teamSize:2,enemyLimit:10,required:[],fixedEncounter:null,receivedTeam:null,specialPopulation:null,ownedRewardItemIds:[]});
 
 /** One compact, local factual resource; no full-campaign catalogs are loaded.
@@ -31,7 +31,8 @@ export async function loadOpeningData(signal) {
   if(!response.ok)throw new Error(`Opening data could not load (${response.status}).`);
   const text=await response.text();if(text.length>500000)throw new Error('Opening data is too large.');
   const data=/** @type {OpeningData} */(JSON.parse(text));
-  if(data.version!==1||data.starterIds.length!==16||data.floors.length!==3||!data.moves['regular-attack'])throw new Error('Unsupported opening data.');
+  if(data.version!==1||data.starterIds.length!==16||data.floors.length!==3||!data.moves['regular-attack']||data.wildSpawn?.randomMovementChance!==0)throw new Error('Unsupported opening data.');
+  for(const floor of data.floors)for(const row of floor.encounters){const chance=data.species[row.speciesId]?.chanceAsleep;if(typeof chance!=='number'||!Number.isInteger(chance)||chance<0||chance>100)throw new Error('Missing opening wild sleep facts.');}
   return data;
 }
 /** @param {OpeningData} data @param {string} speciesId @param {string} id @param {string} name @param {number} level @returns {Actor} */
@@ -60,6 +61,7 @@ export function createDungeon(options,data) {
 }
 /** @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events */
 function generateFloor(state,data,events) {
+  clearQueuedMovement(state);
   const floor=data.floors[state.floor-1];if(!floor)throw new Error('Tiny Woods ends after B3F.');
   const rng=new Draws(state.rng);let geometry=buildLayout(floor.generation,rng,0);
   for(let attempt=0;attempt<12;attempt++) {
@@ -79,7 +81,7 @@ function generateFloor(state,data,events) {
   state.stairs=spawns.stairs;
   // Native realization places the team, then wild actors, then actual items.
   // An enemy flag covered by the partner does not relocate to a different tile.
-  for(const point of spawnScanOrder(state,spawns.enemies))spawnEnemy(state,data,point);
+  for(const point of spawnScanOrder(state,spawns.enemies))spawnEnemy(state,data,point,events);
   for(const point of spawnScanOrder(state,spawns.items)){
     draw(state,10000); // Item category selection, including a single-category pool.
     const itemRoll=draw(state,10000),kind=state.floor<3?'poke':itemRoll<=7500?'oran-berry':'pecha-berry';
@@ -88,16 +90,24 @@ function generateFloor(state,data,events) {
   }
   updateVisibility(state);events.push({type:'floor',amount:state.floor});message(state,events,`Tiny Woods B${state.floor}F`);
 }
-/** Tiny Woods uses the native money lookup with a 40-Poké upper bound. Drawing
- * an index in 0..99 and repeatedly halving it makes the eight outcomes nonuniform.
- * @param {DungeonState} state */
-function moneyPile(state) { let ordinal=draw(state,100);while(ordinal>7)ordinal=Math.floor(ordinal/2);return [4,6,10,14,22,26,34,38][ordinal]??4; }
-/** @param {DungeonState} state @param {OpeningData} data @param {Point|null} [initialPosition] */
-function spawnEnemy(state,data,initialPosition=null) {
+/** @param {DungeonState} state @param {OpeningData} data @param {Point|null} [initialPosition] @param {GameEvent[]} [events] */
+function spawnEnemy(state,data,initialPosition=null,events=[]) {
   if(state.enemies.filter(a=>a.hp>0).length>=10)return;
   const floor=data.floors[state.floor-1];if(!floor)return;const roll=draw(state,10000),row=floor.encounters.find(e=>roll<=e.threshold);if(!row)return;
   const p=initialPosition??arrivalPosition(state);if(!p||actorAt(state,p.x,p.y))return;
-  const actor=createActor(data,row.speciesId,`enemy-${state.nextId++}`,data.species[row.speciesId]?.name??'',row.level);actor.x=p.x;actor.y=p.y;actor.direction=DIRECTIONS[draw(state,8)]??'s';state.enemies.push(actor);
+  // Only ordinary arrivals execute the zero-percent movement-chance call.
+  // Initial floor materialization supplies moveRandomly=false without a draw.
+  if(initialPosition===null)draw(state,100);
+  const species=data.species[row.speciesId],chance=species?.chanceAsleep;
+  if(!species||typeof chance!=='number')throw new Error('Missing native wild sleep chance.');
+  const actor=createActor(data,row.speciesId,`enemy-${state.nextId++}`,species.name,row.level);
+  actor.x=p.x;actor.y=p.y;actor.direction=DIRECTIONS[draw(state,8)]??'s';
+  // SpawnWildMon samples after initialization, even for a zero chance. The
+  // preceding compact facing/AI and browser PRNG remain qualified adaptations.
+  if(draw(state,100)<chance)actor.status.sleep=127;
+  const vacant=state.enemies.findIndex(candidate=>candidate.hp<=0);
+  if(vacant<0)state.enemies.push(actor);else state.enemies[vacant]=actor;
+  recordSync(state,events,[actor]);
 }
 /** @param {DungeonState} state */
 export function updateVisibility(state) {
@@ -110,13 +120,13 @@ export function getVisibleActors(state) { return actors(state).filter(a=>team(a)
 export function getGroundItem(state) { return state.items.find(i=>i.x===state.hero.x&&i.y===state.hero.y)??null; }
 /** @param {HeldItem['kind']} kind */
 export function itemName(kind) { return ITEM_NAMES[kind]; }
-/** @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events */
-function pickup(state,actor,events) {
+/** @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events @param {boolean} [fromMovement] */
+function pickup(state,actor,events,fromMovement=false) {
   const item=state.items.find(i=>i.x===actor.x&&i.y===actor.y);if(!item)return false;
-  if(item.kind==='poke'&&team(actor)){state.money+=item.amount;message(state,events,`${actor.name} picked up ${item.amount} Poké.`);}
-  else if(!actor.heldItem){actor.heldItem={kind:item.kind,amount:item.amount};message(state,events,`${actor.name} picked up ${ITEM_NAMES[item.kind]}.`);}
-  else {if(actor.id==='hero')message(state,events,`${actor.name} stepped on ${ITEM_NAMES[item.kind]}.`);return false;}
-  state.items=state.items.filter(i=>i.id!==item.id);events.push({type:'item',actorId:actor.id,text:item.kind});
+  if(item.kind==='poke'&&team(actor)){if(!fromMovement){recordAction(events,actor.id,'other');flushQueuedMovement(state,events);}state.money+=item.amount;message(state,events,`${actor.name} picked up ${item.amount} Poké.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
+  else if(!actor.heldItem){if(!fromMovement){recordAction(events,actor.id,'other');flushQueuedMovement(state,events);}actor.heldItem={kind:item.kind,amount:item.amount};message(state,events,`${actor.name} picked up ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
+  else {if(actor.id==='hero')message(state,events,`${actor.name} stepped on ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);return false;}
+  state.items=state.items.filter(i=>i.id!==item.id);events.push({type:'item',actorId:actor.id,text:item.kind,presentation:{kind:'sync',actors:[captureActor(actor)],items:captureItems(state),money:state.money,...(fromMovement?{afterWalk:true}:{})}});
   const tutorial=`item-${item.kind}`;
   if(actor.id==='hero'&&['poke','oran-berry','pecha-berry'].includes(item.kind)&&!state.tutorials.includes(tutorial)){
     state.tutorials.push(tutorial);events.push({type:'tutorial',actorId:actor.id,text:item.kind});
@@ -126,6 +136,8 @@ function pickup(state,actor,events) {
 /** @param {DungeonState} state @param {Actor} actor @param {HeldItem} item @param {GameEvent[]} events */
 function eat(state,actor,item,events) {
   if(item.kind==='poke')return false;
+  recordAction(events,actor.id,'other');
+  flushQueuedMovement(state,events);
   message(state,events,`${actor.name} ate the ${ITEM_NAMES[item.kind]}.`);
   berryEffect(state,actor,item,events);return true;
 }
@@ -136,16 +148,19 @@ function berryEffect(state,actor,item,events) {
   if(item.kind==='oran-berry')heal(state,actor,100,events);
   if(item.kind==='pecha-berry'){delete actor.status.poison;message(state,events,`${actor.name} is free of poison.`);}
   if(item.kind==='rawst-berry'){delete actor.status.burn;message(state,events,`${actor.name} is free of burns.`);}
-  actor.belly=Math.min(actor.maxBelly,actor.belly+5);events.push({type:'item',actorId:actor.id,text:item.kind});
+  actor.belly=Math.min(actor.maxBelly,actor.belly+5);events.push({type:'item',actorId:actor.id,text:item.kind,presentation:{kind:'sync',actors:[captureActor(actor)]}});
 }
 /** Ordinary Tiny Woods berry projectile: all sixteen original starters can
  * throw. No trajectory equipment or special airborne targets occur here.
  * @param {DungeonState} state @param {import('./mechanics-types.js').GroundItem} item @param {GameEvent[]} events */
 function throwGroundBerry(state,item,events) {
-  state.items=state.items.filter(candidate=>candidate.id!==item.id);throwBerry(state,state.hero,item,events);
+  recordAction(events,state.hero.id,'other');
+  flushQueuedMovement(state,events);
+  state.items=state.items.filter(candidate=>candidate.id!==item.id);recordSync(state,events,[],true);throwBerry(state,state.hero,item,events);
 }
 /** @param {DungeonState} state @param {Actor} actor @param {import('./mechanics-types.js').GroundItem} item @param {GameEvent[]} events */
 function throwBerry(state,actor,item,events){
+  flushQueuedMovement(state,events);
   const origin={x:actor.x,y:actor.y},[dx,dy]=VECTORS[actor.direction];
   let endpoint={...origin};/** @type {Actor|undefined} */let target;
   message(state,events,`${actor.name} threw the ${ITEM_NAMES[item.kind]}.`);
@@ -159,36 +174,35 @@ function throwBerry(state,actor,item,events){
   if(target){
     if(draw(state,100)<90){
       message(state,events,`${ITEM_NAMES[item.kind]} hit ${target.name}.`);
-      if(target.status.sleep===127){delete target.status.sleep;message(state,events,`${target.name} woke up!`);}
+      wakeInitialSleep(state,target,events);
       berryEffect(state,target,item,events);return;
     }
     message(state,events,`${ITEM_NAMES[item.kind]} missed ${target.name}.`);
   }
-  // SpawnDroppedItem ignores actor occupancy and searches this exact 25-tile
-  // first-sentinel segment. A miss stops at its first actor instead of passing.
-  for(const [ox=0,oy=0] of DROP_OFFSETS){
-    const x=endpoint.x+ox,y=endpoint.y+oy;
-    if(!open(state,x,y)||state.stairs.x===x&&state.stairs.y===y||state.items.some(candidate=>candidate.x===x&&candidate.y===y))continue;
-    if(state.items.length>=64)break;
-    state.items.push({...item,x,y});message(state,events,`${ITEM_NAMES[item.kind]} fell on the ground.`);return;
-  }
-  message(state,events,`${ITEM_NAMES[item.kind]} was lost.`);
+  // A miss stops at its first actor instead of passing through.
+  dropItem(state,item,endpoint,events,item.id);recordSync(state,events,[],true);
 }
 /** @param {DungeonState} state @param {Actor} actor @param {OpeningData} data @param {GameEvent[]} events */
 function actAI(state,actor,data,events) {
-  if(actor.useHeldItem){
-    actor.useHeldItem=false;
-    if(actor.heldItem&&actor.heldItem.kind!=='poke'){eat(state,actor,actor.heldItem,events);actor.heldItem=null;}
-    else message(state,events,`${actor.name} had second thoughts.`);
-    return;
+  const eventStart=events.length;
+  try {
+    if(actor.useHeldItem){
+      actor.useHeldItem=false;
+      if(actor.heldItem&&actor.heldItem.kind!=='poke'){eat(state,actor,actor.heldItem,events);actor.heldItem=null;}
+      else {recordAction(events,actor.id,'other');message(state,events,`${actor.name} had second thoughts.`);}
+      return;
+    }
+    if(tryAiItem(state,actor,events))return;
+    const foes=actors(state).filter(a=>team(a)!==team(actor)&&inSight(state,actor,a)).sort((a,b)=>distance(actor,a)-distance(actor,b));
+    const target=foes[0];
+    const travelFirst=hasIq(actor,'dedicated-traveler');
+    if(travelFirst&&tryAiMovement(state,actor,target,events))return;
+    if(target&&tryAiAttack(state,actor,target,data,events))return;
+    if(!travelFirst)tryAiMovement(state,actor,target,events);
+  } finally {
+    if(!events.slice(eventStart).some(event=>event.presentation?.kind==='action'&&event.presentation.actorId===actor.id))recordAction(events,actor.id,'wait');
+    recordSync(state,events,[actor]);
   }
-  if(tryAiItem(state,actor,events))return;
-  const foes=actors(state).filter(a=>team(a)!==team(actor)&&inSight(state,actor,a)).sort((a,b)=>distance(actor,a)-distance(actor,b));
-  const target=foes[0];
-  const travelFirst=hasIq(actor,'dedicated-traveler');
-  if(travelFirst&&tryAiMovement(state,actor,target,events))return;
-  if(target&&tryAiAttack(state,actor,target,data,events))return;
-  if(!travelFirst)tryAiMovement(state,actor,target,events);
 }
 /** Native berry weights distinguish self-use from helping an ally and still
  * make the probability draw at 100 percent. Explicit Use bypasses these checks.
@@ -208,7 +222,7 @@ function tryAiItem(state,actor,events){
     if(ally.id===actor.id||team(ally)!==team(actor)||!considersLineTarget(state,actor,ally,10))continue;
     const direction=directionFor(ally.x-actor.x,ally.y-actor.y);if(directions.has(direction))continue;directions.add(direction);
     if(draw(state,100)>=weight(ally,true))continue;
-    actor.direction=direction;actor.heldItem=null;
+    recordAction(events,actor.id,'other');actor.direction=direction;flushQueuedMovement(state,events);actor.heldItem=null;recordSync(state,events,[actor]);
     throwBerry(state,actor,{...item,id:`item-${state.nextId++}`,x:actor.x,y:actor.y},events);return true;
   }
   return false;
@@ -284,28 +298,36 @@ export function getDungeonTurnPhase(state){
  * @param {DungeonState} state @param {OpeningData} data @returns {import('./mechanics-types.js').PreparationResult} */
 export function prepareDungeonTurn(state,data){
   /** @type {GameEvent[]} */const events=[];
-  const phase=getDungeonTurnPhase(state);
-  if(phase!=='unprepared')return {phase,changed:false,consumedTurn:false,events,status:state.status};
-  // Legacy floorTurn counted completed browser base passes. Preserve that
-  // known arrival countdown; no cartridge fractional-history is inferred.
-  state.baseBeat=((state.baseBeat??state.floorTurn%36)+1)%36;state.leaderPrepared=false;
-  if(state.baseBeat===0)spawnEnemy(state,data);
-  if(!scheduledOnBeat(state,state.hero)){
-    advanceOtherActors(state,data,events);finishBaseBeat(state);updateVisibility(state);
-    return {phase:getDungeonTurnPhase(state)==='blocked'?'blocked':'advanced',changed:true,consumedTurn:true,events,status:state.status};
+  try {
+    const phase=getDungeonTurnPhase(state);
+    if(phase!=='unprepared')return {phase,changed:false,consumedTurn:false,events,status:state.status};
+    // Legacy floorTurn counted completed browser base passes. Preserve that
+    // known arrival countdown; no cartridge fractional-history is inferred.
+    state.baseBeat=((state.baseBeat??state.floorTurn%36)+1)%36;state.leaderPrepared=false;
+    if(state.baseBeat===0)spawnEnemy(state,data,null,events);
+    if(!scheduledOnBeat(state,state.hero)){
+      advanceOtherActors(state,data,events);finishBaseBeat(state,events);updateVisibility(state);
+      return {phase:getDungeonTurnPhase(state)==='blocked'?'blocked':'advanced',changed:true,consumedTurn:true,events,status:state.status};
+    }
+    state.leaderPrepared=true;beginTurn(state,state.hero,data,events);updateVisibility(state);
+    const ready=getDungeonTurnPhase(state);
+    return {phase:ready==='unprepared'?'blocked':ready,changed:true,consumedTurn:false,events,status:state.status};
+  } finally {
+    flushQueuedMovement(state,events);
   }
-  state.leaderPrepared=true;beginTurn(state,state.hero,data,events);updateVisibility(state);
-  const ready=getDungeonTurnPhase(state);
-  return {phase:ready==='unprepared'?'blocked':ready,changed:true,consumedTurn:false,events,status:state.status};
 }
 /** Complete exactly one automatically blocked leader opportunity. The app
  * supplies the native 60-frame presentation delay; this owner has no clock.
  * @param {DungeonState} state @param {OpeningData} data @returns {ActionResult} */
 export function completeForcedTurn(state,data){
   /** @type {GameEvent[]} */const events=[];
-  if(getDungeonTurnPhase(state)!=='forced')return {consumedTurn:false,events,status:state.status};
-  state.turn++;state.floorTurn++;finishLeaderTurn(state,data,events);
-  return {consumedTurn:true,events,status:state.status};
+  try {
+    if(getDungeonTurnPhase(state)!=='forced')return {consumedTurn:false,events,status:state.status};
+    state.turn++;state.floorTurn++;recordAction(events,state.hero.id,'wait');finishLeaderTurn(state,data,events);
+    return {consumedTurn:true,events,status:state.status};
+  } finally {
+    flushQueuedMovement(state,events);
+  }
 }
 /** @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events */
 function advanceOtherActors(state,data,events){
@@ -316,13 +338,15 @@ function advanceOtherActors(state,data,events){
     if(actor.skipAction){actor.skipAction=false;continue;}
     const canAct=beginTurn(state,actor,data,events);
     if(!canAct&&actor.useHeldItem){actor.useHeldItem=false;message(state,events,`${actor.name} could not use the held item.`);}
-    if(canAct&&!defeated(state))actAI(state,actor,data,events);
+    if(canAct&&!defeated(state))actAI(state,actor,data,events);else recordAction(events,actor.id,'wait');
     finishTurn(state,actor,data,events);
   }
 }
-/** @param {DungeonState} state */
-function finishBaseBeat(state){
-  state.enemies=state.enemies.filter(actor=>actor.hp>0);
+/** @param {DungeonState} state @param {GameEvent[]} events */
+function finishBaseBeat(state,events){
+  // Array positions are native wild slots. Keep fainted vacancies for reuse;
+  // existing saves retain their recorded order without inventing lost slots.
+  flushQueuedMovement(state,events);
   if(!defeated(state)){
     if(state.waterSport>0)state.waterSport--;
     if(state.hero.x===state.stairs.x&&state.hero.y===state.stairs.y)state.status='stairs';
@@ -341,74 +365,86 @@ function finishLeaderTurn(state,data,events,swappedActor=null){
     if(state.floorTurn>=1000){state.status='defeated';message(state,events,'A mysterious force carried the team out of the dungeon.');}
   }
   if(swappedActor&&!defeated(state))finishTurn(state,swappedActor,data,events);
-  advanceOtherActors(state,data,events);finishBaseBeat(state);updateVisibility(state);
+  advanceOtherActors(state,data,events);finishBaseBeat(state,events);updateVisibility(state);
 }
 /** Menus/facing consume no dungeon time. Invalid commands do not consume RNG or
  * allow foes to act. Accepted actions form a single bounded synchronous turn.
  * @param {DungeonState} state @param {DungeonAction} action @param {OpeningData} data @returns {ActionResult} */
 export function performAction(state,action,data) {
-  /** @type {GameEvent[]} */const events=[];const result=/** @param {boolean} consumedTurn */consumedTurn=>({consumedTurn,events,status:state.status});
-  if(!action||!['move','face','moveSlot','attack','struggle','wait','stairs','cancelStairs','eatGround','eatHeld','usePartnerItem','throwGround','pickup','learnMove'].includes(action.type))return result(false);
-  if(state.status==='rescued'||state.status==='defeated')return result(false);
-  if(action.type==='learnMove'){
-    const request=state.pendingLearning[0],actor=actors(state).find(a=>a.id===action.actorId);
-    if(!request||request.actorId!==action.actorId||!actor||action.slot!==null&&(!Number.isInteger(action.slot)||action.slot<0||action.slot>3))return result(false);
-    if(action.slot!==null){actor.moves[action.slot]=moveSlot(data,request.moveId);message(state,events,`${actor.name} learned ${data.moves[request.moveId]?.name}!`);}state.pendingLearning.shift();return result(false);
-  }
-  if(state.pendingLearning.length)return result(false);
-  if(getDungeonTurnPhase(state)!=='input')return result(false);
-  if(action.type==='cancelStairs'){state.status='playing';return result(false);}
-  if(action.type==='stairs'){
-    if(state.hero.x!==state.stairs.x||state.hero.y!==state.stairs.y)return result(false);
-    if(state.floor===3){state.status='rescued';events.push({type:'rescue'});return result(false);}state.floor++;generateFloor(state,data,events);return result(false);
-  }
-  if(action.type==='move'||action.type==='face'){
-    if(!Number.isInteger(action.dx)||!Number.isInteger(action.dy)||Math.abs(action.dx)>1||Math.abs(action.dy)>1||action.dx===0&&action.dy===0)return result(false);
-    if(action.type==='face'){state.hero.direction=directionFor(action.dx,action.dy);return result(false);}
-    const target=actorAt(state,state.hero.x+action.dx,state.hero.y+action.dy);
-    if(!state.hero.status.confusion&&(!canStep(state,state.hero,action.dx,action.dy)||target&&!canSwapOpening(state.hero,target))){state.hero.direction=directionFor(action.dx,action.dy);return result(false);}
-  }
-  if(action.type==='moveSlot'&&(!Number.isInteger(action.slot)||!state.hero.moves[action.slot]))return result(false);
-  if(action.type==='struggle'&&(state.hero.moves.some(move=>move.pp>0)||!data.moves['move-struggle']))return result(false);
-  if(action.type==='moveSlot'){const move=data.moves[state.hero.moves[action.slot]?.id??''];if(!move||!supportsMove(move)){message(state,events,`${move?.name??'This move'} is not yet available in this browser remake.`);return result(false);}}
-  // The leader's shortcut rejects an exhausted selection while still inside
-  // its input loop. AI without PP Checker may spend its action on such a slot.
-  if(action.type==='moveSlot'){const move=state.hero.moves[action.slot];if(move&&move.pp<=0){message(state,events,`${move.name} has no PP left!`);return result(false);}}
-  const ground=getGroundItem(state);
-  if((action.type==='eatGround'||action.type==='throwGround')&&(!ground||ground.kind==='poke')||action.type==='eatHeld'&&(!state.hero.heldItem||state.hero.heldItem.kind==='poke')||action.type==='usePartnerItem'&&(!state.partner.heldItem||state.partner.heldItem.kind==='poke'||state.partner.hp<=0)||action.type==='pickup'&&(!ground||ground.kind!=='poke'&&state.hero.heldItem))return result(false);
-  const [frontX,frontY]=VECTORS[state.hero.direction];
-  const fieldTalk=action.type==='attack'&&canTalk(state.hero)&&canStep(state,state.hero,frontX,frontY)&&actorAt(state,state.hero.x+frontX,state.hero.y+frontY)?.id==='partner';
-  // Native leader input intercepts ACTION_TALK_FIELD and resets ACTION_NOTHING
-  // without leaving its input loop: no arrival, upkeep or other actor acts.
-  if(fieldTalk){events.push({type:'talk',actorId:'partner',text:talkToPartner(state,true,false)});return result(false);}
-  state.status='playing';state.turn++;state.floorTurn++;
-  /** @type {Actor|null} */let swappedActor=null;
-  if(!defeated(state)){
-    if(action.type==='move'){
-      const old={x:state.hero.x,y:state.hero.y};let dx=action.dx,dy=action.dy;
-      if(state.hero.status.confusion){const v=VECTORS[DIRECTIONS[draw(state,8)]??'s'];dx=v[0];dy=v[1];}
-      const target=actorAt(state,state.hero.x+dx,state.hero.y+dy);
-      if(canStep(state,state.hero,dx,dy)&&(!target||canSwapOpening(state.hero,target))){
-        moveActor(state,state.hero,state.hero.x+dx,state.hero.y+dy,events);
-        if(target){
-          moveActor(state,target,old.x,old.y,events);target.skipAction=true;
-          // Native sub_8044454 ticks the partner immediately even if it is
-          // unscheduled at its current speed. Its Walk is already selected.
-          beginTurn(state,target,data,events,false);target.useHeldItem=false;swappedActor=target;
-        }
-        if(action.skipPickup||action.runRequested&&target?.id==='partner'){const item=getGroundItem(state);if(item)message(state,events,`${state.hero.name} stepped on ${ITEM_NAMES[item.kind]}.`);}
-        else pickup(state,state.hero,events);
+  /** @type {GameEvent[]} */const events=[];
+  try {const result=/** @param {boolean} consumedTurn */consumedTurn=>({consumedTurn,events,status:state.status});
+    if(!action||!['move','face','moveSlot','attack','struggle','wait','stairs','cancelStairs','eatGround','eatHeld','usePartnerItem','throwGround','pickup','learnMove'].includes(action.type))return result(false);
+    if(state.status==='rescued')return result(false);
+    if(action.type==='learnMove'){
+      const request=state.pendingLearning[0],actor=actors(state).find(a=>a.id===action.actorId);
+      if(!request||request.actorId!==action.actorId||!actor||action.slot!==null&&(!Number.isInteger(action.slot)||action.slot<0||action.slot>3))return result(false);
+      if(action.slot!==null){actor.moves[action.slot]=moveSlot(data,request.moveId);message(state,events,`${actor.name} learned ${data.moves[request.moveId]?.name}!`);recordSync(state,events,[actor]);}state.pendingLearning.shift();return result(false);
+    }
+    // A surviving partner can finish native queued EXP/learning after a later
+    // hit removes the leader. Only the existing live first request is accepted.
+    if(state.status==='defeated')return result(false);
+    if(state.pendingLearning.length)return result(false);
+    if(getDungeonTurnPhase(state)!=='input')return result(false);
+    if(action.type==='cancelStairs'){state.status='playing';return result(false);}
+    if(action.type==='stairs'){
+      if(state.hero.x!==state.stairs.x||state.hero.y!==state.stairs.y)return result(false);
+      if(state.floor===3){state.status='rescued';events.push({type:'rescue'});return result(false);}state.floor++;generateFloor(state,data,events);return result(false);
+    }
+    if(action.type==='move'||action.type==='face'){
+      if(!Number.isInteger(action.dx)||!Number.isInteger(action.dy)||Math.abs(action.dx)>1||Math.abs(action.dy)>1||action.dx===0&&action.dy===0)return result(false);
+      if(action.type==='face'){state.hero.direction=directionFor(action.dx,action.dy);events.push({type:'presentation',presentation:{kind:'face',actor:captureActor(state.hero)}});return result(false);}
+      const target=actorAt(state,state.hero.x+action.dx,state.hero.y+action.dy);
+      if(!state.hero.status.confusion&&(!canStep(state,state.hero,action.dx,action.dy)||target&&!canSwapOpening(state.hero,target))){
+        const direction=directionFor(action.dx,action.dy),changed=state.hero.direction!==direction;state.hero.direction=direction;
+        if(changed)events.push({type:'presentation',presentation:{kind:'face',actor:captureActor(state.hero)}});
+        return result(false);
       }
-    }else if(action.type==='attack')attack(state,state.hero,null,data,events);
-    else if(action.type==='struggle')attack(state,state.hero,'struggle',data,events);
-    else if(action.type==='moveSlot')attack(state,state.hero,action.slot,data,events);
-    else if(action.type==='eatGround'&&ground){eat(state,state.hero,ground,events);state.items=state.items.filter(i=>i.id!==ground.id);}
-    else if(action.type==='eatHeld'&&state.hero.heldItem){eat(state,state.hero,state.hero.heldItem,events);state.hero.heldItem=null;}
-    else if(action.type==='usePartnerItem')state.partner.useHeldItem=true;
-    else if(action.type==='throwGround'&&ground)throwGroundBerry(state,ground,events);
-    else if(action.type==='pickup')pickup(state,state.hero,events);
+    }
+    if(action.type==='moveSlot'&&(!Number.isInteger(action.slot)||!state.hero.moves[action.slot]))return result(false);
+    if(action.type==='struggle'&&(state.hero.moves.some(move=>move.pp>0)||!data.moves['move-struggle']))return result(false);
+    if(action.type==='moveSlot'){const move=data.moves[state.hero.moves[action.slot]?.id??''];if(!move||!supportsMove(move)){message(state,events,`${move?.name??'This move'} is not yet available in this browser remake.`);return result(false);}}
+    // The leader's shortcut rejects an exhausted selection while still inside
+    // its input loop. AI without PP Checker may spend its action on such a slot.
+    if(action.type==='moveSlot'){const move=state.hero.moves[action.slot];if(move&&move.pp<=0){message(state,events,`${move.name} has no PP left!`);return result(false);}}
+    const ground=getGroundItem(state);
+    if((action.type==='eatGround'||action.type==='throwGround')&&(!ground||ground.kind==='poke')||action.type==='eatHeld'&&(!state.hero.heldItem||state.hero.heldItem.kind==='poke')||action.type==='usePartnerItem'&&(!state.partner.heldItem||state.partner.heldItem.kind==='poke'||state.partner.hp<=0)||action.type==='pickup'&&(!ground||ground.kind!=='poke'&&state.hero.heldItem))return result(false);
+    const [frontX,frontY]=VECTORS[state.hero.direction];
+    const fieldTalk=action.type==='attack'&&canTalk(state.hero)&&canStep(state,state.hero,frontX,frontY)&&actorAt(state,state.hero.x+frontX,state.hero.y+frontY)?.id==='partner';
+    // Native leader input intercepts ACTION_TALK_FIELD and resets ACTION_NOTHING
+    // without leaving its input loop: no arrival, upkeep or other actor acts.
+    if(fieldTalk){events.push({type:'talk',actorId:'partner',text:talkToPartner(state,true,false)});return result(false);}
+    state.status='playing';state.turn++;state.floorTurn++;
+    /** @type {Actor|null} */let swappedActor=null;
+    if(!defeated(state)){
+      if(action.type==='move'){
+        const old={x:state.hero.x,y:state.hero.y};let dx=action.dx,dy=action.dy;
+        if(state.hero.status.confusion){const v=VECTORS[DIRECTIONS[draw(state,8)]??'s'];dx=v[0];dy=v[1];}
+        const target=actorAt(state,state.hero.x+dx,state.hero.y+dy);
+        if(canStep(state,state.hero,dx,dy)&&(!target||canSwapOpening(state.hero,target))){
+          moveActor(state,state.hero,state.hero.x+dx,state.hero.y+dy,events);
+          if(target){
+            moveActor(state,target,old.x,old.y,events);target.skipAction=true;
+            // Native sub_8044454 ticks the partner immediately even if it is
+            // unscheduled at its current speed. Its Walk is already selected.
+            beginTurn(state,target,data,events,false);target.useHeldItem=false;swappedActor=target;
+          }
+          if(action.skipPickup||action.runRequested&&target?.id==='partner'){const item=getGroundItem(state);if(item)message(state,events,`${state.hero.name} stepped on ${ITEM_NAMES[item.kind]}.`,{kind:'sync',actors:[],afterWalk:true});}
+          else pickup(state,state.hero,events,true);
+        }
+      }else if(action.type==='attack')attack(state,state.hero,null,data,events);
+      else if(action.type==='struggle')attack(state,state.hero,'struggle',data,events);
+      else if(action.type==='moveSlot')attack(state,state.hero,action.slot,data,events);
+      else if(action.type==='eatGround'&&ground){eat(state,state.hero,ground,events);state.items=state.items.filter(i=>i.id!==ground.id);recordSync(state,events,[],true);}
+      else if(action.type==='eatHeld'&&state.hero.heldItem){eat(state,state.hero,state.hero.heldItem,events);state.hero.heldItem=null;recordSync(state,events,[state.hero]);}
+      else if(action.type==='usePartnerItem'){recordAction(events,state.hero.id,'other');state.partner.useHeldItem=true;recordSync(state,events,[state.partner]);}
+      else if(action.type==='throwGround'&&ground)throwGroundBerry(state,ground,events);
+      else if(action.type==='pickup')pickup(state,state.hero,events);
+    }
+    if(action.type==='wait'||action.type==='move'&&!events.some(event=>event.type==='move'&&event.actorId===state.hero.id))recordAction(events,state.hero.id,'wait');
+    finishLeaderTurn(state,data,events,swappedActor);return result(true);
+  } finally {
+    flushQueuedMovement(state,events);
   }
-  finishLeaderTurn(state,data,events,swappedActor);return result(true);
 }
 /** @param {DungeonState} state */
 function defeated(state) { return state.status==='defeated'; }

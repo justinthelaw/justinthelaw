@@ -45,6 +45,14 @@ Three.js runtime, plans and art studies.
   and [CodeQL](https://github.com/justinthelaw/justinthelaw/actions/runs/38096307813)
   all completed successfully. The pipeline watcher reached terminal success;
   no requested or active Codex review was present.
+- Signed checkpoint `7eab2dd885edcd56b103f3456b0a71ffdc67e6c3` likewise
+  matched local HEAD, upstream and the actual PR branch after publication.
+  [Lint](https://github.com/justinthelaw/justinthelaw/actions/runs/38098996494),
+  [Game Static Checks](https://github.com/justinthelaw/justinthelaw/actions/runs/38098996523),
+  [Playwright Tests](https://github.com/justinthelaw/justinthelaw/actions/runs/38098996595)
+  and [CodeQL](https://github.com/justinthelaw/justinthelaw/actions/runs/38098994660)
+  all passed. The watcher completed with exit zero and no requested review;
+  exact-head run/check results are retained in `.work/ci-7eab2dd/result.json`.
 - Independent prepared-turn review fixed missing partner swap upkeep/end effects,
   pointer releases suppressed during locked phases and dropped held movement
   across slow scheduling gaps. Sleep wake-up, Bide completion, prepared saves,
@@ -250,6 +258,75 @@ All 45 changed paths passed their applicable pre-commit checks. Manual startup,
 opening skip, title/menu and Continue on the 00:32 snapshot restored the completed
 Ivy/Spark rescue. This confirms that save boundary, not the newly added late moves.
 
+## Battle presentation follow-up
+
+The next revision separates committed mechanics from their visible sequence.
+Detached event snapshots carry movement, casts, target visits, HP changes,
+stat/status attempts, item changes and faints. Independent source review and
+AST normalization against the preserved spawn baseline found no gameplay or
+random-draw changes in the instrumentation. A separate reviewed correction
+displays nominal damage before the HP clamp; an explicit MISS flag prevents
+large damage values from being mistaken for the native miss marker.
+
+The selected native bank contains 15 effects, including Scratch, Ember,
+Thundershock, Growl, shared damage impacts and selected status applications.
+Its image is 21,890 encoded bytes and 1,089,536 decoded bytes. Per-pose
+attachments and separate depth layers preserve the original composition.
+The foreground presentation clock owns source waits, numeric overlays and
+remaining animation tails. Saves contain only the completed mechanics state;
+scene changes and reduced-motion transitions cannot replay an action or sound.
+These comparative Red source timings still require direct Blue corroboration.
+
+Pay Day and Covet now retain their reviewed held-item and drop order. The
+prolonged-retry inventory has 24 unsupported move IDs across 34 learnset
+entries. Target selection now preserves source facing order, room self-last
+ordering and relation filtering without changing the AI's existing intent.
+Wild actors reuse vacant slots, and newly generated actors use the four
+verified initial-sleep chances. Existing saves keep their recorded slot order.
+Movement flushes own proximity wake-up, including adjacency around corners;
+the existing compact wake-facing policy remains qualified.
+
+The two large runtime manifests use compact JSON. The scenery manifest's parsed
+data is identical to the previous checkpoint. The 3 MiB distribution cap and
+per-image memory limits remain unchanged. Manual evidence for this revision
+will be recorded separately from the completed Ivy/Spark run above.
+
+The 01:22 UTC frozen snapshot contains 141 resources totaling 2,947,217 bytes,
+with per-file hashes. Full authoring checks passed under Node 24.21.0:
+615-file static lint, 473-file strict types, retained historical audits and
+all selected asset/provenance/distribution checks. No game module was executed
+by those checks. Manual startup and Continue restored Cinder and Volt at the
+same Butterfree request before the first floor was generated.
+
+Manual B1F play in that snapshot confirmed Growl's directional effect and the
+Pidgey's lowered-attack symbol. Setting Scratch retained all 22 PP and did not
+advance the enemies. An enemy attack reduced Cinder from 30 to 28 HP. Scratch
+then displayed its slash, a nominal 18-damage number and the wild actor's removal;
+the following prepared opportunity restored Cinder to 29 HP. Browser logs had
+no warnings or errors. A raw debugger frame-capture request stalled for about
+136 minutes despite its requested timeout; the ordinary browser controls
+remained usable afterward. That tool stall is not a game-performance measurement.
+
+The 03:54 UTC frozen snapshot has 141 resources totaling 2,957,823 bytes. It adds
+the independently reviewed shared hit-pass owner, whole-move EXP, Water Sport
+accuracy draw, retained-partner terminal learning, empty adjacent Ember and
+same-heading face evidence. Separate save-journal receipt guards reject a stale
+tab's changed-data write; they do not provide atomic cross-process locking.
+Quicksave in the earlier build and Continue in this snapshot restored the same
+B1F positions, Cinder at 29/30 HP, Volt at 25/25 HP and the remaining Pidgey's
+lowered-attack status. Scratch remained set with 21/22 PP. Help paused the
+restored screen for its native capture:
+`native-battle-continue.png`, SHA-256
+`ea13e308cad5df3539e5bba2992276bd7a78baf4981d1fdb3a90420a6f00fa63`.
+This startup/save observation does not exercise the later-level move branches.
+The snapshot differs from 01:22 in eight runtime modules and adds 10,606 bytes;
+every copied runtime hash matches the candidate working tree.
+The full authoring check passed again for this candidate, including 615-file
+lint, 473-file strict types and all selected resource checks. Applicable hooks
+passed across the 72 changed paths. Website `flight-check` remains unavailable
+locally because its dependencies are absent after the previously recorded
+package-policy installation failure; exact-commit hosted checks remain required.
+
 ## Fidelity limits
 
 - Dialogue and score remain authored substitutes. Native image reconstruction
@@ -275,5 +352,11 @@ Ivy/Spark rescue. This confirms that save boundary, not the newly added late mov
 - [Mechanics evidence](../../../tools/pokemon-dungeon/reference/blue-mechanics.md)
 - [Boot-card evidence](../../../tools/pokemon-dungeon/reference/blue-boot-cards.md)
 - [Status artwork evidence](../../../tools/pokemon-dungeon/reference/blue-status-effects.md)
+- [Battle event evidence](../../../tools/pokemon-dungeon/reference/blue-battle-events.md)
+- [Battle visual evidence](../../../tools/pokemon-dungeon/reference/blue-battle-visuals.md)
+- [Move execution evidence](../../../tools/pokemon-dungeon/reference/blue-move-execution.md)
+- [Save journal evidence](../../../tools/pokemon-dungeon/reference/blue-save-journal.md)
+- [Target selection evidence](../../../tools/pokemon-dungeon/reference/blue-targeting.md)
+- [Wild spawn evidence](../../../tools/pokemon-dungeon/reference/blue-wild-spawns.md)
 - [Original Blue introduction video](https://www.youtube.com/watch?v=RrglH3dOqrg)
 - [Current scope](BLUE-OPENING.md)

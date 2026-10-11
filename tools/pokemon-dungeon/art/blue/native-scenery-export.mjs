@@ -220,7 +220,7 @@ export async function exportNativeScenery({ check = false } = {}) {
     mapLabel: { bounds: [56,152,184,32], textOrigin: [121,162], text: 'Tiny Woods' },
     records,
   };
-  await emit('manifest.json', Buffer.from(`${JSON.stringify(manifest, null, 2)}\n`));
+  await emit('manifest.json', Buffer.from(`${JSON.stringify(manifest)}\n`));
   return manifest;
 }
 

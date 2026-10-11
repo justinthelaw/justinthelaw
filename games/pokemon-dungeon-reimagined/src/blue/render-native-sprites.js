@@ -9,10 +9,29 @@ const ASSET_ROOT=new URL('../../assets/blue/',import.meta.url),MAX_ATLASES=12,MA
 /** @typedef {[number,number,number,number,number,number]} NativePose */
 /** @typedef {[number,number,number,number,number,number,number]} NativeFrame */
 /** @typedef {{animation:number,loop:boolean}} NativeClip */
-/** @typedef {{schemaVersion:2,speciesId:string,width:number,height:number,dungeonOffsetY?:number,directions:string[],poses:NativePose[],statusOffsets?:[number,number][],animations:NativeFrame[][][],clips:Record<string,NativeClip>,shadowSize:number,sourceEdition:string}} NativeMetadata */
+/** @typedef {{schemaVersion:2,speciesId:string,width:number,height:number,dungeonOffsetY?:number,directions:string[],poses:NativePose[],statusOffsets?:[number,number][],effectOffsetSetIds?:number[],effectOffsetSets?:[number,number][][],effectOffsetIndices?:number[],animations:NativeFrame[][][],clips:Record<string,NativeClip>,shadowSize:number,sourceEdition:string}} NativeMetadata */
 /** @typedef {{speciesId:string,emotion:string,x:number,y:number,width:number,height:number}} Portrait */
 /** @typedef {{schemaVersion:2,width:number,height:number,cell:number,records:Portrait[]}} PortraitMetadata */
 /** @typedef {{image:ImageBitmap,metadata:NativeMetadata,used:number}} Atlas */
+/** @typedef {{direction?:string,clip?:string,animation?:number,time?:number,ticks?:number,frame?:number}} PoseOptions */
+
+/** One shared source-frame selection for body, shadow and attachments.
+ * @param {Atlas} entry @param {PoseOptions} options */
+function selectedPose(entry,options){
+  const metadata=entry.metadata,clip=metadata.clips[options.clip??'idle']??metadata.clips.idle;
+  if(!clip)return undefined;
+  const animation=options.animation??clip.animation;
+  if(!Number.isInteger(animation)||animation<0||animation>=metadata.animations.length)return undefined;
+  const direction=Math.max(0,DIRECTIONS.indexOf(options.direction??'s')),sequence=metadata.animations[animation]?.[direction];
+  if(!sequence?.length)return undefined;
+  const duration=sequence.reduce((sum,frame)=>sum+frame[1],0);
+  let ticks=Math.max(0,options.ticks??(options.time??0)*60/1000);if(!Number.isFinite(ticks))return undefined;
+  if(options.animation===undefined&&clip.loop)ticks%=duration;
+  let index=0;while(index<sequence.length-1&&ticks>=(sequence[index]?.[1]??0)){ticks-=sequence[index]?.[1]??0;index++;}
+  if(options.frame!==undefined)index=Math.max(0,Math.min(sequence.length-1,Math.floor(options.frame)));
+  const frame=sequence[index],pose=frame?metadata.poses[frame[0]]:undefined;
+  return frame&&pose?{frame,pose}:undefined;
+}
 
 /** @param {NativeMetadata} metadata @param {string} speciesId */
 function validateMetadata(metadata,speciesId){
@@ -20,6 +39,10 @@ function validateMetadata(metadata,speciesId){
   if(!Array.isArray(metadata.poses)||metadata.poses.length<1||metadata.poses.length>1024||!Array.isArray(metadata.animations)||metadata.animations.length<8||metadata.animations.length>32)throw Error('Native character metadata has invalid pose tables.');
   for(const pose of metadata.poses)if(pose.length!==6||pose.some(value=>!Number.isInteger(value))||pose[0]<0||pose[1]<0||pose[2]<1||pose[3]<1||pose[0]+pose[2]>metadata.width||pose[1]+pose[3]>metadata.height)throw Error('Native pose exceeds its atlas.');
   if(metadata.statusOffsets!==undefined&&(!Array.isArray(metadata.statusOffsets)||metadata.statusOffsets.length!==metadata.poses.length||metadata.statusOffsets.some(offset=>offset.length!==2||offset.some(value=>!Number.isInteger(value)||Math.abs(value)>32767))))throw Error('Native status attachment positions are invalid.');
+  if(metadata.effectOffsetSets!==undefined||metadata.effectOffsetIndices!==undefined||metadata.effectOffsetSetIds!==undefined){
+    const sets=metadata.effectOffsetSets,indices=metadata.effectOffsetIndices;
+    if(!metadata.statusOffsets||metadata.effectOffsetSetIds?.join(',')!=='1,2,3'||!Array.isArray(sets)||sets.length<1||sets.length>metadata.poses.length||sets.some(set=>!Array.isArray(set)||set.length!==3||set.some(pair=>!Array.isArray(pair)||pair.length!==2||pair.some(value=>!Number.isInteger(value)||value< -32768||value>32767)))||!Array.isArray(indices)||indices.length!==metadata.poses.length||indices.some(index=>!Number.isInteger(index)||index<0||index>=sets.length))throw Error('Native effect attachment pools are invalid.');
+  }
   const dungeonOffsetY=metadata.dungeonOffsetY;
   if(dungeonOffsetY!==undefined&&(!Number.isInteger(dungeonOffsetY)||dungeonOffsetY<1||dungeonOffsetY*2!==metadata.height||metadata.poses.some(pose=>pose[1]+pose[3]>dungeonOffsetY)))throw Error('Native battle palette exceeds its atlas.');
   for(const animation of metadata.animations){
@@ -82,6 +105,41 @@ export class SpriteBank {
     try{await promise;}finally{this.portraitsPending=null;}
   }
 
+  /** Read-only native timing for the caller's battle plan; no draw or clock.
+   * @param {string} id @param {number} animation @param {string} direction */
+  animationInfo(id,animation,direction){
+    const entry=this.images.get(id),index=DIRECTIONS.indexOf(direction);
+    if(!entry||!Number.isInteger(animation)||animation<0||index<0)return undefined;
+    const sequence=entry.metadata.animations[animation]?.[index];if(!sequence)return undefined;
+    return{frames:Object.freeze(sequence.map(frame=>/** @type {NativeFrame} */(frame.slice()))),totalTicks:sequence.reduce((sum,frame)=>sum+frame[1],0)};
+  }
+
+  /** Includes the current frame offset. Sentinel99 remains distinguishable so
+   * each native caller can use its own hide/fallback rule.
+   * @param {string} id @param {PoseOptions} options @param {number} setId */
+  attachmentOffset(id,options,setId){
+    const entry=this.images.get(id);if(!entry)return undefined;
+    const selected=selectedPose(entry,options);if(!selected)return undefined;
+    if(setId===-1)return{x:0,y:0,valid:true};
+    if(!Number.isInteger(setId)||setId<0||setId>3)return undefined;
+    const {frame}=selected,metadata=entry.metadata,index=metadata.effectOffsetIndices?.[frame[0]];
+    const point=setId===0?metadata.statusOffsets?.[frame[0]]:index===undefined?undefined:metadata.effectOffsetSets?.[index]?.[setId-1];
+    if(!point)return undefined;
+    if(point[0]===99&&point[1]===99)return{x:99,y:99,valid:false};
+    return{x:point[0]+frame[2],y:point[1]+frame[3],valid:true};
+  }
+
+  /** Native shadows occupy their own background priority, independently of
+   * effect layers that may pass behind the body but in front of its shadow.
+   * @param {CanvasRenderingContext2D} context @param {string} id @param {number} x @param {number} y
+   * @param {PoseOptions & {scale?:number,dungeon?:boolean,teamShadow?:boolean}} [options] */
+  drawShadow(context,id,x,y,options={}){
+    const entry=this.images.get(id);if(!entry)return;
+    const selected=selectedPose(entry,options);if(!selected)return;
+    const scale=options.scale??1,{frame}=selected;
+    nativeShadow(context,entry.metadata.shadowSize,x+frame[4]*scale,y+frame[5]*scale,scale,Boolean(options.dungeon&&options.teamShadow));
+  }
+
   /** @param {string} id */
   async load(id){
     if(this.disposed)throw new DOMException('Renderer was disposed.','AbortError');
@@ -101,21 +159,12 @@ export class SpriteBank {
   }
 
   /** @param {CanvasRenderingContext2D} context @param {string} id @param {number} x @param {number} y
-   * @param {{direction?:string,clip?:string,time?:number,scale?:number,frame?:number,shadow?:boolean,alpha?:number,dungeon?:boolean,teamShadow?:boolean,lift?:number}} [options]
+   * @param {PoseOptions & {scale?:number,shadow?:boolean,alpha?:number,dungeon?:boolean,teamShadow?:boolean,lift?:number}} [options]
    * @returns {{x:number,y:number}|undefined} Native status attachment for the drawn pose. */
   draw(context,id,x,y,options={}){
     const entry=this.images.get(id);if(!entry)return;entry.used=++this.clock;
-    const metadata=entry.metadata,clip=metadata.clips[options.clip??'idle']??metadata.clips.idle;
-    if(!clip)return;
-    const direction=Math.max(0,DIRECTIONS.indexOf(options.direction??'s')),sequence=metadata.animations[clip.animation]?.[direction];
-    if(!sequence?.length)return;
-    const duration=sequence.reduce((sum,frame)=>sum+frame[1],0);
-    let ticks=Math.max(0,options.time??0)*60/1000;
-    if(clip.loop)ticks%=duration;
-    let index=0;while(index<sequence.length-1&&ticks>=(sequence[index]?.[1]??0)){ticks-=sequence[index]?.[1]??0;index++;}
-    if(options.frame!==undefined)index=Math.max(0,Math.min(sequence.length-1,Math.floor(options.frame)));
-    const frame=sequence[index];if(!frame)return;
-    const pose=metadata.poses[frame[0]];if(!pose)return;
+    const selected=selectedPose(entry,options);if(!selected)return;
+    const metadata=entry.metadata,{frame,pose}=selected;
     const scale=options.scale??1;
     context.save();context.globalAlpha=options.alpha??1;
     if(options.shadow!==false){

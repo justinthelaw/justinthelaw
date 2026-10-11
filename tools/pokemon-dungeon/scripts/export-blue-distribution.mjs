@@ -62,6 +62,10 @@ if (spriteManifest.statusAtlas) {
   if (spriteManifest.statusAtlas.path !== 'status-icons.png' || spriteManifest.statusAtlas.metadataPath !== 'status-icons.json') throw new Error('Invalid status atlas path');
   files.add('assets/blue/status-icons.png'); files.add('assets/blue/status-icons.json');
 }
+if (spriteManifest.battleEffects) {
+  if (spriteManifest.battleEffects.activation !== 'selected' || spriteManifest.battleEffects.path !== 'battle-effects.png' || spriteManifest.battleEffects.metadataPath !== 'battle-effects.json') throw new Error('Invalid battle effect atlas selection');
+  files.add('assets/blue/battle-effects.png'); files.add('assets/blue/battle-effects.json');
+}
 if (spriteManifest.portraitAtlas) {
   if (spriteManifest.portraitAtlas.path !== 'portraits.png') throw new Error('Invalid portrait atlas path');
   files.add('assets/blue/portraits.png');

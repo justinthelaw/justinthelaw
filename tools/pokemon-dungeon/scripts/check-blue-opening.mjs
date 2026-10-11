@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { verifyNativeBattleMetadata } from '../art/blue/native-battle-effects-export.mjs';
 
 const root = fileURLToPath(new URL('../../../games/pokemon-dungeon-reimagined/', import.meta.url));
 const readJson = async filename => JSON.parse(await readFile(path.join(root, filename), 'utf8'));
@@ -78,6 +79,14 @@ for (const record of assets.records) {
   assert.deepEqual(metadata.directions, directions);
   assert(Array.isArray(metadata.statusOffsets) && metadata.statusOffsets.length === metadata.poses.length);
   assert(metadata.statusOffsets.every(offset => Array.isArray(offset) && offset.length === 2 && offset.every(value => integer(value, -32767, 32767))));
+  assert.deepEqual(metadata.effectOffsetSetIds, [1, 2, 3]);
+  assert(Array.isArray(metadata.effectOffsetSets) && integer(metadata.effectOffsetSets.length, 1, metadata.poses.length));
+  for (const sets of metadata.effectOffsetSets) {
+    assert(Array.isArray(sets) && sets.length === 3);
+    assert(sets.every(offset => Array.isArray(offset) && offset.length === 2 && offset.every(value => integer(value, -32768, 32767))));
+  }
+  assert(Array.isArray(metadata.effectOffsetIndices) && metadata.effectOffsetIndices.length === metadata.poses.length);
+  assert(metadata.effectOffsetIndices.every(index => integer(index, 0, metadata.effectOffsetSets.length - 1)));
   verifyAnimationTables(metadata, record);
   for (const name of requiredClips) assert(metadata.clips[name], `Missing native animation alias: ${record.speciesId}/${name}`);
   for (const clip of Object.values(metadata.clips)) assert(integer(clip.animation, 0, metadata.animations.length - 1) && typeof clip.loop === 'boolean');
@@ -145,6 +154,20 @@ for (const [index, card] of scenery.boot.cards.entries()) {
 assert.equal(assets.nativeUi.modulePath, 'src/blue/render-native-ui-data.js');
 await verifiedBytes(assets.nativeUi.modulePath, assets.nativeUi.bytes, assets.nativeUi.sha256);
 for (const record of assets.nativeUi.images ?? []) await verifiedPng('assets/blue', record);
+assert.equal(assets.nativeMotions.modulePath, 'src/blue/render-move-motion-data.js');
+assert.equal(assets.nativeMotions.moveCount, Object.keys(data.moves).length);
+assert.equal(assets.nativeMotions.openingFactsSha256,
+  createHash('sha256').update(await readFile(path.join(root, 'content/blue-opening.json'))).digest('hex'));
+await verifiedBytes(assets.nativeMotions.modulePath, assets.nativeMotions.bytes, assets.nativeMotions.sha256);
+assert.equal(assets.battleEffects.activation, 'selected');
+assert.equal(assets.battleEffects.path, 'battle-effects.png');
+assert.equal(assets.battleEffects.metadataPath, 'battle-effects.json');
+await verifiedPng('assets/blue', assets.battleEffects);
+assert(assets.battleEffects.width * assets.battleEffects.height * 4 <= 2 * 1024 * 1024, 'Battle effect atlas exceeds its decoded-memory budget');
+const battleMetadata = await verifiedMetadata(assets.battleEffects);
+assert.equal(battleMetadata.width, assets.battleEffects.width);
+assert.equal(battleMetadata.height, assets.battleEffects.height);
+verifyNativeBattleMetadata(battleMetadata);
 if (assets.statusAtlas) {
   await verifiedPng('assets/blue', assets.statusAtlas);
   const metadata = await verifiedMetadata(assets.statusAtlas);

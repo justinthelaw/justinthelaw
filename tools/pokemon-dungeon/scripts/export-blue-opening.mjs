@@ -18,6 +18,15 @@ const [starterDoc, speciesRows, profileRows, levelRows, learnRows, identities, a
 ]);
 const map = rows => new Map(rows.map(row => [row.id, row]));
 const profiles = map(profileRows), levels = map(levelRows), learns = map(learnRows), names = map(speciesRows), bodies = new Map(bodyRows.map(row => [row.speciesId, row]));
+const spawnBytes = await readFile(new URL('../content/blue-wild-spawns.json', import.meta.url));
+sourceFiles.set('tools/pokemon-dungeon/content/blue-wild-spawns.json', createHash('sha256').update(spawnBytes).digest('hex'));
+const spawnFacts = JSON.parse(spawnBytes.toString('utf8'));
+if (spawnFacts.schemaVersion !== 1 || spawnFacts.dungeon.id !== 'tiny-woods' || spawnFacts.dungeon.randomMovementChance !== 0) throw new Error('Unsupported opening wild-spawn facts.');
+const spawnRows = new Map(spawnFacts.species.map(row => [row.speciesId, row]));
+if (spawnRows.size !== 4 || [...spawnRows.keys()].sort().join(',') !== 'pokemon-016,pokemon-102,pokemon-191,pokemon-265') throw new Error('Opening wild-spawn coverage changed.');
+for (const [id, row] of spawnRows) {
+  if (row.internalId !== profiles.get(id)?.internalId || row.bodySize !== 1 || !Number.isInteger(row.chanceAsleep) || row.chanceAsleep < 0 || row.chanceAsleep > 100) throw new Error(`Invalid wild-spawn row: ${id}`);
+}
 const starterIds = starterDoc.records.map(row => row.speciesId);
 const speciesIds = [...new Set([...starterIds, 'pokemon-010', 'pokemon-012', 'pokemon-016', 'pokemon-102', 'pokemon-191', 'pokemon-265'])];
 const moves = new Map();
@@ -40,10 +49,9 @@ const species = Object.fromEntries(speciesIds.map(id => {
     moves.set(name.id, projectMove(name.id, name.name, internalId));
     return [at, name.id];
   });
-  return [id, { id, name: names.get(id).name, types: p.typeIds.map(n => identities.types.find(t => t.originalId === n)?.name ?? 'None'), abilities: p.abilityIds.filter(n => n !== null).map(n => identities.abilities.find(a => a.originalId === n)?.name), regenerationRate: p.regenerationRate, experienceYield: p.experienceYield, lowKickMultiplier: bodies.get(id).lowKickMultiplier[0], baseStats: level.baseStats, growth: level.rows, learnset, starting: starterDoc.records.find(row => row.speciesId === id)?.firstPlayable ?? null }];
+  return [id, { id, name: names.get(id).name, ...(spawnRows.has(id) ? { chanceAsleep: spawnRows.get(id).chanceAsleep } : {}), types: p.typeIds.map(n => identities.types.find(t => t.originalId === n)?.name ?? 'None'), abilities: p.abilityIds.filter(n => n !== null).map(n => identities.abilities.find(a => a.originalId === n)?.name), regenerationRate: p.regenerationRate, experienceYield: p.experienceYield, lowKickMultiplier: bodies.get(id).lowKickMultiplier[0], baseStats: level.baseStats, growth: level.rows, learnset, starting: starterDoc.records.find(row => row.speciesId === id)?.firstPlayable ?? null }];
 }));
-const regular = actionMap.get(355);
-moves.set('regular-attack', { id: 'regular-attack', name: 'Attack', internalId: 355, ...regular.numeric, range: 0, target: 2, cutsCorners: false, effects: regular.effects, hitCount: regular.hitCount, aiWeight: 100 });
+moves.set('regular-attack', { ...projectMove('regular-attack', 'Attack', 355), aiWeight: 100 });
 moves.set('move-struggle', projectMove('move-struggle', 'Struggle', 352));
 moves.set('bide-release', projectMove('bide-release', 'Bide', 357));
 const generations = map(generationRows), encounters = map(encounterRows);
@@ -51,6 +59,7 @@ const floors = floorRows.filter(floor => floor.dungeonId === 'tiny-woods').sort(
 const output = {
   version: 1, edition: 'Blue Rescue Team original opening', qualification: 'Existing qualified Blue/shared facts with explicitly comparative Red rules. Browser RNG and compact AI do not claim cartridge sequence parity.',
   sources: Object.fromEntries([...sourceFiles].sort(([a], [b]) => a.localeCompare(b))),
+  wildSpawn: { randomMovementChance: spawnFacts.dungeon.randomMovementChance },
   starterIds, species, moves: Object.fromEntries([...moves].sort(([a], [b]) => a.localeCompare(b))), floors,
   timers: Object.fromEntries(timerRows.map(row => [row.id, { min: row.drawDomain.minInclusive, max: row.drawDomain.maxInclusive, indefinite: row.indefinite }])),
 };

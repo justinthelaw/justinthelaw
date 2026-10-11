@@ -226,10 +226,14 @@ export function nativeHud(context,state){
   context.fillStyle=colors[state.leader===false?5:4]??'#59fb59';context.fillRect(144,2,remaining,4);
 }
 
-/** Native8×8 floating-number glyphs, with a six-pixel advance.
- * @param {CanvasRenderingContext2D} context @param {number} amount @param {number} x @param {number} y @param {boolean} [heal] */
-export function nativeDamage(context,amount,x,y,heal=false){
-  const colors=NATIVE_DAMAGE_PALETTES[heal?1:0]??[],image=atlas(heal?'damage:heal':'damage:hurt',NATIVE_DAMAGE_TILES,colors);
+/** Native 8×8 floating-number glyphs, with a six-pixel advance. This API uses
+ * unsigned amounts, so MISS is explicit rather than the source's signed +9999.
+ * @param {CanvasRenderingContext2D} context @param {number} amount @param {number} x @param {number} y @param {boolean} [heal] @param {boolean} [miss] */
+export function nativeDamage(context,amount,x,y,heal=false,miss=false){
+  if(amount===0&&!miss)return;
+  const green=heal||miss,colors=NATIVE_DAMAGE_PALETTES[green?1:0]??[],image=atlas(green?'damage:heal':'damage:hurt',NATIVE_DAMAGE_TILES,colors);
+  // sub_803EF90 composes M,I,S,S in green with no leading sign.
+  if(miss){[13,14,15,15].forEach((glyph,index)=>drawTile(context,image,glyph,Math.round(x-12)+index*6,y));return;}
   const characters=String(Math.min(999,Math.max(0,Math.floor(amount)))),width=(characters.length+1)*6;
   let left=Math.round(x-width/2);drawTile(context,image,heal?10:11,left,y);left+=6;
   for(const character of characters){drawTile(context,image,Number(character),left,y);left+=6;}

@@ -1,4 +1,5 @@
 import { nextRandom } from '../domain/rng.js';
+import { captureActor, captureItems } from './battle-events.js';
 
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
 /** @typedef {import('./mechanics-types.js').Actor} Actor */
@@ -9,6 +10,9 @@ import { nextRandom } from '../domain/rng.js';
 export const DIRECTIONS = ['s', 'sw', 'w', 'nw', 'n', 'ne', 'e', 'se'];
 /** @type {Readonly<Record<Direction,readonly [number,number]>>} */
 export const VECTORS = { s:[0,1], sw:[-1,1], w:[-1,0], nw:[-1,-1], n:[0,-1], ne:[1,-1], e:[1,0], se:[1,1] };
+/** Synchronous move groups never survive a public action/save boundary.
+ * @type {WeakSet<DungeonState>} */
+const queuedMovement = new WeakSet();
 /** Source-style high-halfword scale. Browser PRNG sequence is explicitly adapted.
  * @param {DungeonState} state @param {number} cap */
 export function draw(state, cap) {
@@ -48,10 +52,62 @@ export function inSight(state,origin,target) {
 }
 /** @param {DungeonState} state @param {Point} actor @param {number} dx @param {number} dy */
 export function canStep(state,actor,dx,dy) { return open(state,actor.x+dx,actor.y+dy) && (!(dx&&dy) || open(state,actor.x+dx,actor.y)&&open(state,actor.x,actor.y+dy)); }
-/** @param {DungeonState} state @param {GameEvent[]} events @param {string} text */
-export function message(state,events,text) { state.log.push(text); if(state.log.length>80) state.log.splice(0,state.log.length-80); events.push({type:'message',text}); }
+/** @param {DungeonState} state @param {GameEvent[]} events @param {string} text @param {import('./battle-events.js').BattleEvent} [presentation] */
+export function message(state,events,text,presentation) { state.log.push(text); if(state.log.length>80) state.log.splice(0,state.log.length-80); events.push({type:'message',text,...(presentation?{presentation}:{})}); }
+/** Presentation-only boundaries never change the simulation.
+ * @param {GameEvent[]} events @param {string} actorId @param {'walk'|'wait'|'other'} action */
+export function recordAction(events,actorId,action) { events.push({type:'presentation',presentation:{kind:'action',actorId,action}}); }
+/** Upkeep on an unmoved actor is visible before the pending walk group. A
+ * moved/swapped actor's full snapshot includes its destination and must wait.
+ * @param {GameEvent[]} events @param {Actor[]} members */
+function snapshotsAfterWalk(events,members) {
+  for(let index=events.length-1;index>=0;index--){
+    const event=events[index];
+    if(event?.presentation?.kind==='flush')return false;
+    if(event?.type==='move'&&members.some(actor=>actor.id===event.actorId))return true;
+  }
+  return false;
+}
+/** Copy only the actors/items changed at this producer point. No RNG or saves.
+ * @param {DungeonState} state @param {GameEvent[]} events @param {Actor[]} members @param {boolean} [includeItems] @param {boolean} [afterWalk] */
+export function recordSync(state,events,members,includeItems=false,afterWalk=snapshotsAfterWalk(events,members)) {
+  events.push({type:'presentation',presentation:{kind:'sync',actors:members.map(captureActor),...(includeItems?{items:captureItems(state),money:state.money}:{}),...(afterWalk?{afterWalk:true}:{})}});
+}
 /** @param {DungeonState} state @param {Actor} actor @param {number} x @param {number} y @param {GameEvent[]} events */
-export function moveActor(state,actor,x,y,events) { const from={x:actor.x,y:actor.y}; actor.direction=directionFor(x-actor.x,y-actor.y); actor.x=x;actor.y=y;events.push({type:'move',actorId:actor.id,from,to:{x,y}}); }
+export function moveActor(state,actor,x,y,events) { recordAction(events,actor.id,'walk');const from={x:actor.x,y:actor.y}; actor.direction=directionFor(x-actor.x,y-actor.y); actor.x=x;actor.y=y;queuedMovement.add(state);events.push({type:'move',actorId:actor.id,from,to:{x,y},presentation:{kind:'move',actor:captureActor(actor)}}); }
+/** Native initial sleep is the 127 sentinel, independent of ordinary sleep.
+ * Targeted moves wake it before accuracy 1; successful item impacts also wake it.
+ * @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events @param {boolean} [announce] */
+export function wakeInitialSleep(state,actor,events,announce=true) {
+  if(actor.hp<=0||actor.status.sleep!==127)return false;
+  delete actor.status.sleep;
+  if(announce)message(state,events,`${actor.name} woke up!`);
+  events.push({type:'status',actorId:actor.id,text:'wake',presentation:{kind:'sync',actors:[captureActor(actor)]}});return true;
+}
+/** TryWakeSleepingWildPokemon uses adjacency even around blocked corners. The
+ * opening has no Sneak Scarf/Racket Band. Refresh facing through the existing
+ * compact team-target policy; this is not native AI/PRNG replay.
+ * @param {DungeonState} state @param {GameEvent[]} events */
+export function wakeNearbyWild(state,events) {
+  const members=[state.hero,state.partner].filter(actor=>actor.hp>0);
+  for(const actor of state.enemies){
+    if(actor.hp<=0||actor.status.sleep!==127||!members.some(member=>distance(actor,member)<=1))continue;
+    wakeInitialSleep(state,actor,events,false);
+    const target=members.filter(member=>inSight(state,actor,member)).sort((a,b)=>distance(actor,a)-distance(actor,b))[0];
+    if(target){actor.goal={x:target.x,y:target.y};actor.direction=directionFor(target.x-actor.x,target.y-actor.y);recordSync(state,events,[actor]);}
+  }
+}
+/** DisplayActions returns without a wake pass when no walking is queued. Walk
+ * and wait actions can accumulate; attacks/items/residual effects flush first.
+ * Terminal turns discard pending visual walking without further gameplay work.
+ * @param {DungeonState} state @param {GameEvent[]} events */
+export function flushQueuedMovement(state,events) {
+  if(!queuedMovement.delete(state))return;
+  events.push({type:'presentation',presentation:{kind:'flush'}});
+  if(state.status!=='defeated'&&state.status!=='rescued')wakeNearbyWild(state,events);
+}
+/** Floor creation has no inherited pending movement. @param {DungeonState} state */
+export function clearQueuedMovement(state) { queuedMovement.delete(state); }
 /** @param {DungeonState} state @param {Actor} actor @param {Point} goal @returns {Point|null} */
 export function nextStep(state,actor,goal) {
   const start=index(state,actor.x,actor.y), end=index(state,goal.x,goal.y);

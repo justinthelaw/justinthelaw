@@ -139,9 +139,9 @@ hit-count expression and numerical damage wrapper are unchanged.
 ## Direct HP and recoil implementation after the audit
 
 The six direct-HP/recoil moves have explicit handlers in the working tree,
-covering eight of the historical matrix's species/level entries. The remaining
-rejected inventory is **26 move IDs across 36 entries**; its earliest level is
-still Treecko's Pursuit at 16. These handlers are outside the immutable 00:20
+covering eight of the historical matrix's species/level entries. After this
+group the rejected inventory was **26 move IDs across 36 entries**; its earliest
+level remained Treecko's Pursuit at 16. These handlers are outside the immutable 00:20
 manual build. Independent source/AST review passed after correcting deferred
 EXP ordering; this is not manual move acceptance.
 
@@ -206,3 +206,134 @@ Independent review reproduced the unchanged-function/EXP/attack comparisons and
 closed the recoil-before-level-up finding. Focused pre-commit checks also passed.
 These results qualify source structure and the bounded comparative behavior;
 Blue binary equivalence and manual late-level move play remain unverified.
+
+## Pay Day and Covet implementation after the first checkpoint
+
+The item-effect group adds Meowth's level-18 Pay Day and Skitty's level-31 Covet,
+leaving **24 rejected move IDs across 34 species/level entries**. Both retain
+native front/enemy targeting (`0x00`) with blocked corners and the existing
+confusion override. The implementation is based on checkpoint
+`7eab2dd885edcd56b103f3456b0a71ffdc67e6c3`; independent source review passed
+after correcting the nonleader held-drop ordering.
+Neither late-level move has been manually played in the frozen opening review.
+
+Pay Day follows `move_orb_actions_3.c:370-389`. It uses ordinary damage, then
+`RollSecondaryEffect(user, 0)` checks the surviving user without a chance draw.
+Only a target removed by fainting produces money; recruitment is unavailable in
+this opening. The original partner retains a valid entity on defeat
+(`dungeon_misc.c:489-493`), so a confused hit that defeats the partner does not
+produce a pile. The money owner is called even if the later placement fails.
+`CreateItemWithStickyChance(ITEM_POKE, FORCE_STICKY_NEVER)` performs no sticky
+roll; `sub_8046CE4` performs one `DungeonRandInt(100)` draw and repeatedly halves
+its index until the money table is within the floor's bound. All three Tiny
+Woods floors use a bound of 40. The existing eight-value browser lookup and its
+nonuniform distribution are reused unchanged (`dungeon_items.c:59-85,708-722`;
+`dungeon_data.c:112-123`).
+
+The shared item owner now serves missed berries, fainted held items and Pay Day.
+Its 25 offsets exactly match the first sentinel segment of `gUnknown_80F4468`
+(`dungeon_pos_data.c:16-42`). It tries the origin, N/E/S/W, diagonals, then the
+outer ring; walls, stairs and occupied item tiles are excluded, while actor
+occupancy is ignored. It stops at the first eligible tile, including failure
+when the 64-item pool is full (`dungeon_items.c:451-529`;
+`structs/str_dungeon.h:23`). No placement RNG is added. A thrown berry preserves
+its existing ID; a newly placed drop allocates an ID only on success.
+
+Faint handling drops every nonleader's held item before awarding EXP and before
+`HandleFaint` (`dungeon_damage.c:653-745`), including the original partner. Only
+the hero retains its held slot for the dungeon-exit owner. The shared browser
+drop now precedes the team-defeat return, closing the prior partner omission.
+Pay Day creates its money afterward. The first
+drop can therefore occupy the defeated target's tile and move the money to the
+next eligible offset. The former browser faint path appended directly at the
+target tile without checking occupancy, stairs or the item cap; it now uses the
+shared source placement owner. The held slot is cleared even when placement is
+lost. Ground spawning never performs automatic pickup or wallet credit.
+
+Covet shares `ThiefAction` (`move_orb_actions_4.c:393-442`, dispatched from
+`dungeon_move.c:817-820`). After nonzero damage and contact sampling, the native
+secondary gate is `sub_805727C(user, target, 0)`: the factual catalog's 100-percent
+secondary label must not consume a percentage draw. The scoped implementation
+requires a surviving target on an active floor, then checks Shield Dust and
+Sticky Hold before empty user/occupied target slots. Alert Specs and held equipment
+updates are absent from the admitted opening item/actor surface. The separately
+reviewed wild-spawn owner supplies the native initial-sleep refresh after a
+successful transfer. Future equipment expansion must add its source joins before
+reusing this scoped handler.
+
+A successful Covet copies the whole held payload, clears the target's slot and
+marks the user for regular move EXP. It does not steal the item of a defeated
+target; faint handling has already dropped that item. Stolen Poké remains held
+with its quantity and does not credit the wallet. The transfer emits its message
+without the browser pickup/money audio event, then queued contact abilities
+activate. Existing no-Toolbox held-item commands remain unchanged.
+
+Both new moves use the local deferred EXP owner. Pay Day's money draw and item
+placement precede EXP/learning draws, while Covet's transfer/contact resolution
+precedes the award. Their damage numbers use nominal damage, as the first group
+does. No persistent field, save boundary, item kind, menu or old campaign owner
+is added.
+
+Static checks after the item/targeting join pass: all 609 authored files'
+lint/local-import audit, all 469 authored sources' strict types, and
+`git diff --check`. An AST comparison against `7eab2dd` confirms 33
+unchanged functions in `mechanics.js` and 22 unchanged combat functions before
+the separately reviewed targeting extraction; the
+money function, item-name/offset constants, berry trajectory/impact, old
+secondary-effect loop, recoil/contact calls and Struggle match their prior
+owners. The only berry join replaces its placement tail with the shared helper
+and passes the existing projectile ID explicitly. These are static source/JSON
+checks; no game module was imported or executed.
+
+Independent review checked native ThiefAction, the zero-chance secondary/Shield
+Dust gate, PayDayMoveAction, CreateItemWithStickyChance and SpawnDroppedItem.
+It closed the partner held-drop finding and found no remaining defect in this
+scoped path. Focused pre-commit checks passed. Blue binary equivalence, item-drop
+animation timing and manual late-level move play remain unverified.
+
+## Pass and EXP findings after item activation
+
+- **Variable multi-hit passes:** the former ordinary path checked accuracy 1
+  and selected its target outside the hit loop. Comparative native
+  `TryUseChosenMove` calls `sub_8057070` before the first target/accuracy pass
+  (`dungeon_move_util.c:392`); raw count zero draws the half-open range 2..6
+  (`1028-1034`). The browser previously drew its variable count after accuracy 1.
+  Each native pass rechecks `CannotAttack`, selects/sorts targets, then enters
+  complete move resolution (`392-449`). Battle-sequence review identified
+  this as a numerical/targeting audit, separate from visual instrumentation.
+  Bonemerang's explicit two-pass correction does not close the variable-hit path.
+- **Whole-move EXP timing:** before the pass refactor, only recoil/item handlers
+  deferred EXP. Ordinary and multi-target damage awarded/leveled per KO, potentially
+  changing later-hit HP, stats, learning and RNG order. Native `AddExpPoints`
+  only accumulates `expGainedInTurn` (`dungeon_leveling.c:49-65`).
+  `EnemyEvolution` at `dungeon_move_util.c:206` follows all chosen, linked and
+  mimic work; `dungeon_leveling.c:70-118` applies totals/levels. Audit the complete
+  move/linked-chain boundary before widening deferral. Presentation metadata
+  must not silently change this behavior.
+
+The separate [move-execution refactor](blue-move-execution.md) now implements
+these bounded corrections, Water Sport's self accuracy draw and explicit
+terminal receipt rules after the frozen 0122 build. Independent source review passed;
+the 24 rejected move IDs remain unchanged.
+
+## Remaining bounded audits
+
+- **False Swipe nominal damage:** the existing caller clamps its amount to
+  `target.hp - 1` before entering shared damage. Native `dungeon_damage.c:347-357`
+  displays nominal damage first, then applies False Swipe's one-HP survival
+  clamp at `410-413`. The shared nominal-display correction therefore preserves
+  this older caller limitation; audit its damage/reaction joins separately.
+- **Bide release contact:** the end-turn browser release calls shared damage
+  without the direct-HP contact sample/activation join. Native `Bide2MoveAction`
+  (`move_orb_actions_1.c:658-672`) passes the Fighting move type and reaction
+  flag into `sub_806F370_Async`; living adjacent targets can sample contact
+  abilities in `dungeon_damage.c:144-211`, before the outer target owner
+  activates them at `dungeon_move.c:1305-1308`. Its end-turn EXP boundary and
+  this missing contact behavior are distinct audits.
+- **Guaranteed-secondary draw ownership:** Mud-Slap
+  (`move_orb_actions_3.c:254-265`) and Dynamic Punch (`485-499`) call
+  `sub_805727C` with chance zero. That source gate succeeds without a percentage
+  draw after its validity/Shield Dust checks. Their current generic browser
+  100-percent branch draws once; Covet already has a dedicated zero-draw join.
+  Correct these two through explicit source-backed gate metadata rather than
+  assuming every 100-percent effect uses the native zero sentinel.

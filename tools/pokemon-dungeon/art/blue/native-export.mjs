@@ -15,7 +15,7 @@ function namedTable(map,prefix){const entry=[...map].find(([key])=>key.startsWit
 
 function nativeClips(count){
   const alias=(animation,loop)=>({animation:animation<count?animation:7,loop});
-  return{idle:alias(7,true),walk:alias(0,true),fly:alias(0,true),'attack-physical':alias(1,false),'hit-light':alias(6,false),defeat:alias(6,false),'rest-sleep':alias(5,true),celebrate:alias(16,false),interact:alias(17,false),'story-sleep':alias(count>13?13:5,true),wake:alias(count>14?14:7,false)};
+  return{idle:alias(7,true),walk:alias(0,true),fly:alias(0,true),'attack-physical':alias(1,false),'hit-light':alias(6,false),defeat:alias(6,false),'rest-sleep':alias(5,true),'bide-hold':alias(11,true),celebrate:alias(16,false),interact:alias(17,false),'story-sleep':alias(count>13?13:5,true),wake:alias(count>14?14:7,false)};
 }
 
 export function composeNativeAsset(files,species,monsterData,options={}){
@@ -25,12 +25,21 @@ export function composeNativeAsset(files,species,monsterData,options={}){
   const poseBodies=arrays(source,'ax_pose'),poseTable=namedTable(arrays(source,'ax_pose \\*const'),'sAxPoses');
   const animationBodies=arrays(source,'ax_anim'),animationTables=arrays(source,'ax_anim \\*const');
   const animationTable=namedTable(arrays(source,'ax_anim \\*const \\*const'),'sAxAnimations');
-  const statusOffsets=[];
+  const statusOffsets=[],attachmentSets=[],effectOffsetSets=[],effectOffsetIndices=[],attachmentPool=new Map();
   if(!options.ornament){
     const positionBody=[...arrays(source,'struct PositionSets').values()][0];
     if(!positionBody)throw Error('Native character is missing attachment positions.');
     for(const match of positionBody.matchAll(/\[(\d+)\]\s*=\s*\{\s*\.set\s*=\s*\{\s*\{\s*(-?\d+),\s*(-?\d+)\}/g))statusOffsets[Number(match[1])]=[Number(match[2]),Number(match[3])];
     if(statusOffsets.length!==poseTable.length||Object.keys(statusOffsets).length!==poseTable.length)throw Error('Native status attachment coverage differs from pose coverage.');
+    for(const match of positionBody.matchAll(/\[(\d+)\]\s*=\s*\{\s*\.set\s*=\s*\{([^\n]+)\}\s*\}/g)){
+      const index=Number(match[1]),sets=[...match[2].matchAll(/\{\s*(-?\d+),\s*(-?\d+)\s*\}/g)].map(pair=>pair.slice(1).map(Number));
+      if(sets.length!==4||sets.some(pair=>pair.some(value=>!Number.isInteger(value)||value< -32768||value>32767))||sets[0].join(',')!==statusOffsets[index]?.join(','))throw Error('Native four-set attachment data differs from existing status offsets.');
+      attachmentSets[index]=sets;
+      const remaining=sets.slice(1),key=JSON.stringify(remaining);
+      if(!attachmentPool.has(key)){attachmentPool.set(key,effectOffsetSets.length);effectOffsetSets.push(remaining);}
+      effectOffsetIndices[index]=attachmentPool.get(key);
+    }
+    if(attachmentSets.length!==poseTable.length||Object.keys(attachmentSets).length!==poseTable.length)throw Error('Native effect attachment coverage differs from pose coverage.');
   }
   const animations=animationTable.map(name=>{
     const directions=names(get(animationTables,name)).map(sequence=>[...get(animationBodies,sequence).matchAll(ANIM)].map(match=>{
@@ -99,8 +108,8 @@ export function composeNativeAsset(files,species,monsterData,options={}){
   for(const rectangle of unique.values())blit(atlas,rectangle.art,rectangle.x,rectangle.y);
   const monster=monsterData.find(record=>record.name.toLowerCase()===`MonsterName${species.name}`.toLowerCase());
   if(!monster&&!options.ornament)throw Error(`Missing native monster display metadata: ${species.name}`);
-  const metadata=options.ornament?{schemaVersion:2,id:species.id,width:atlas.width,height:atlas.height,poses:rectangles,animations,sourceEdition:'Red Rescue Team'}:{schemaVersion:2,speciesId:species.speciesId,width:atlas.width,height:atlas.height,directions:DIRECTIONS,poses:rectangles,statusOffsets,animations,clips:nativeClips(animations.length),shadowSize:monster.shadowSize,sourceEdition:'Red Rescue Team'};
-  return{atlas,metadata,composed};
+  const metadata=options.ornament?{schemaVersion:2,id:species.id,width:atlas.width,height:atlas.height,poses:rectangles,animations,sourceEdition:'Red Rescue Team'}:{schemaVersion:2,speciesId:species.speciesId,width:atlas.width,height:atlas.height,directions:DIRECTIONS,poses:rectangles,statusOffsets,effectOffsetSetIds:[1,2,3],effectOffsetSets,effectOffsetIndices,animations,clips:nativeClips(animations.length),shadowSize:monster.shadowSize,sourceEdition:'Red Rescue Team'};
+  return{atlas,metadata,composed,attachmentSets};
 }
 
 function blit(target,source,x,y){
@@ -127,7 +136,7 @@ export async function exportNativeSprites({emit,output}){
   if(digest(referenceBytes)!==manifest.blueEvidence.manifestSha256)throw Error('Blue reference manifest hash changed.');
   for(const reference of JSON.parse(referenceBytes).records){const bytes=await readFile(new URL(`native-reference/${reference.path}`,import.meta.url));if(digest(bytes)!==reference.sha256)throw Error(`Blue reference image changed: ${reference.path}`);}
   const[files,portraitFiles]=await Promise.all([loadArchive(manifest.spriteSource),loadArchive(manifest.portraitSource)]);
-  const monsters=JSON.parse(get(files,'data/monster/monster_data.json').toString()),records=[],contact=new Raster(manifest.spriteSource.species.length*36,4*36);
+  const monsters=JSON.parse(get(files,'data/monster/monster_data.json').toString()),records=[],attachmentEvidence=[],contact=new Raster(manifest.spriteSource.species.length*36,4*36);
   const evidence=decodePng(await readFile(new URL('native-reference/ss02.png',import.meta.url)));
   const dungeonEvidence=decodePng(await readFile(new URL('native-reference/ss01.png',import.meta.url)));
   for(const[speciesIndex,species]of manifest.spriteSource.species.entries()){
@@ -141,6 +150,8 @@ export async function exportNativeSprites({emit,output}){
     }
     metadata.dungeonOffsetY=field.atlas.height;metadata.height=atlas.height;
     const bytes=atlas.png(),metadataText=JSON.stringify(metadata)+'\n',path=`${species.speciesId}.png`,metadataPath=`${species.speciesId}.json`;
+    if(Buffer.byteLength(metadataText)>128*1024)throw Error('Native species metadata exceeds its encoded byte budget.');
+    attachmentEvidence.push({speciesId:species.speciesId,sourceHeader:`src/data/ax/${species.name}.h`,sets:field.attachmentSets});
     // Direct image evidence: complete opaque poses in the original Blue press capture.
     const matched={ 'pokemon-004':{pose:12,left:137,top:98},'pokemon-012':{pose:0,left:117,top:66},'pokemon-025':{pose:12,left:100,top:95} }[species.speciesId];
     if(matched){
@@ -182,5 +193,6 @@ export async function exportNativeSprites({emit,output}){
   const portraitBytes=portraitAtlas.png(),portraitText=JSON.stringify({schemaVersion:2,width:portraitAtlas.width,height:portraitAtlas.height,cell,records:portraitRecords})+'\n';
   await emit(new URL('portraits.png',output),portraitBytes);await emit(new URL('portraits.json',output),portraitText);
   await emit(new URL('contact.png',import.meta.url),contact.png());
+  await emit(new URL('native-attachment-evidence.json',import.meta.url),JSON.stringify({schemaVersion:1,sourceManifestSha256:digest(sourceBytes),layout:'Native set0 is the unchanged statusOffsets. Sets1–3 are pooled by effectOffsetIndices into effectOffsetSets; effectOffsetSetIds records their order. Sentinel99 stays literal. Frame offsets are applied separately by future playback.',records:attachmentEvidence})+'\n');
   return{records,portraitAtlas:{path:'portraits.png',width:portraitAtlas.width,height:portraitAtlas.height,cell,columns,bytes:portraitBytes.length,sha256:digest(portraitBytes),metadataPath:'portraits.json',metadataBytes:Buffer.byteLength(portraitText),metadataSha256:digest(portraitText),records:portraitRecords,provenance:'Original 40x40 Rescue Team portraits, with source display color conversion; see authoring native-sources.json.'},sourceManifestSha256:digest(sourceBytes),sourceArchives:[manifest.spriteSource.archive,manifest.portraitSource.archive]};
 }

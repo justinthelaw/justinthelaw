@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "id": "blue-opening-wild-spawn-facts",
+  "qualification": "Pinned original Red comparative facts; Blue binary parity and native AI/PRNG replay remain unverified.",
+  "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+  "sources": [
+    {
+      "path": "data/monster/monster_data.json",
+      "sha256": "024f8d2b42582e4d017e3d408b1229b369396d9321ab11c1b7737d19b52bce2e",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/monster/monster_data.json"
+    },
+    {
+      "path": "data/dungeon/dungeon_data.json",
+      "sha256": "3fbd20baee5576a4500cf02b839b47291022b53dc297a4a12ed3ad69f6ea8e2f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/dungeon/dungeon_data.json"
+    },
+    {
+      "path": "src/dungeon_mon_spawn.c",
+      "sha256": "96f868db765eecfca6730929bee5c00debb913d5f4ec0699b74000f589922ab3",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_mon_spawn.c"
+    },
+    {
+      "path": "src/dungeon_wild_mon_spawn.c",
+      "sha256": "46d4f652062cb6a1401f7aa4de895e312e36ad5092ad9157cebb5bd2f364362f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_wild_mon_spawn.c"
+    },
+    {
+      "path": "src/dungeon_util.c",
+      "sha256": "700a2c7c7f52b71cc463e5e7cb4b7b5c4ec69b7cfd5e4c57dd185e696470b126",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_util.c"
+    },
+    {
+      "path": "src/dungeon_monster_house.c",
+      "sha256": "24ce1f5e84b10993aa27b8488cb48c4b7bcd6d9bd567737acd3fcd0bc176a7a1",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_monster_house.c"
+    },
+    {
+      "path": "src/dungeon_entity_movement.c",
+      "sha256": "923110a9bd0e71dde3b4e7c11eb0f083521f8edc9bf9215e134541c369a05dac",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_entity_movement.c"
+    },
+    {
+      "path": "src/dungeon_action_execution.c",
+      "sha256": "a1c974ab7811d990f06cfe1a7376ddeb4c283b51bec092179cd88436d100dd11",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_action_execution.c"
+    },
+    {
+      "path": "src/move_orb_effects_5.c",
+      "sha256": "ec500ddc8a2ebcdf85451fb313781d3e8ae578686b9789cd0a900cd444e9b677",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/move_orb_effects_5.c"
+    }
+  ],
+  "dungeon": {
+    "id": "tiny-woods",
+    "randomMovementChance": 0
+  },
+  "species": [
+    {
+      "speciesId": "pokemon-016",
+      "internalId": 16,
+      "bodySize": 1,
+      "chanceAsleep": 8
+    },
+    {
+      "speciesId": "pokemon-102",
+      "internalId": 102,
+      "bodySize": 1,
+      "chanceAsleep": 40
+    },
+    {
+      "speciesId": "pokemon-191",
+      "internalId": 191,
+      "bodySize": 1,
+      "chanceAsleep": 5
+    },
+    {
+      "speciesId": "pokemon-265",
+      "internalId": 290,
+      "bodySize": 1,
+      "chanceAsleep": 5
+    }
+  ]
+}

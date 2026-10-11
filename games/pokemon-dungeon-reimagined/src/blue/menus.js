@@ -210,8 +210,11 @@ export function createDungeonMenus(host) {
 
   function learning() {
     const state = host.state(), request = state?.pendingLearning[0]; if (!state || !request) return;
-    cameraMember='hero';
-    const actor = request.actorId === 'hero' ? state.hero : state.partner;
+    const actor = request.actorId === 'hero' ? state.hero : request.actorId === 'partner' ? state.partner : null;
+    if(!actor||actor.hp<=0)return;
+    // Native LevelUp focuses its actual living recipient with the existing
+    // four-frame route, including a partner learning after leader removal.
+    cameraMember=request.actorId==='hero'?'hero':'partner';
     const name = host.data.moves[request.moveId]?.name ?? 'a move';
     show(`Learn ${name}?`, [
       { label: 'Forget a move', run() {

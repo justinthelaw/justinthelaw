@@ -31,6 +31,20 @@ source's palette, pose-attachment and animation tables. Source hashes live in
 art/blue/native-status/sources.json. Their Blue appearance and timing remain
 comparative rather than independently pixel-corroborated.
 
+Move-specific actor animation numbers and species overrides are parsed from the
+same pinned public source. The selected native battle-effect artwork comes
+from five indexed EFO image files, retaining original palettes, flips, per-part
+depth, frame data and attachment positions. Source hashes and URLs are recorded
+in art/blue/native-battle-sources.json; decoding evidence is retained beside it.
+The closed 15-effect bank loads with dungeon artwork and follows the separate
+pause-aware battle timeline. Effect-specific Blue pixels and complete driver
+timing remain unverified. Further effect studies are outside the distribution.
+No game music or commercial script is copied.
+
+Each species retains statusOffsets as native attachment set0. The remaining
+sets1-3 are losslessly pooled by effectOffsetIndices into effectOffsetSets; their
+order is explicitly recorded by effectOffsetSetIds. Source sentinel99 is retained.
+
 Field and dungeon sprite palettes remain separate: dungeon brightness uses the
 source31/256 conversion before DS channel expansion. Native scenery has separate
 per-image and map-data provenance in scenery/manifest.json. The four historical
