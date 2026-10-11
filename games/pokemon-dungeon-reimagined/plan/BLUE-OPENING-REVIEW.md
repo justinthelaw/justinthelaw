@@ -13,9 +13,9 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 8
+## Current candidate 11
 
-The static export contains **152 files totaling 2,898,536 bytes**, below the
+The static export contains **152 files totaling 2,926,450 bytes**, below the
 unchanged 3 MiB distribution cap. The game uses local resources only and has no
 runtime CDN dependency.
 
@@ -46,6 +46,25 @@ behavior. The four source-proven no-bitmap status helpers publish their result
 and icon snapshot without draining an unrelated cast tail. These are static source claims until a
 specific route is manually exercised.
 
+Whiffer's sound-only helper now uses its pinned four-note PCM sequence in
+numeric replacement group 6. Existing group 5 cues retain their own replacement
+and tail behavior; all seven prior sample/cue tuples remain byte-exact. Eight
+decoded buffers use 229,412 bytes, and both groups retain the shared 32-source
+ceiling. Reapplying Whiffer consumes the source's discarded duration draw and
+reports the existing status without replacing its timer or playing the helper
+sound again. Source checks verify all 48 PCM input pins. A focused manual
+Smokescreen trial verified fresh and duplicate applications, PP consumption and
+normal control recovery with no browser warnings or errors. Exact Blue audio
+and audition remain
+qualified in [audio evidence](../../../tools/pokemon-dungeon/reference/blue-audio.md).
+
+Held B+A now polls each eligible input opportunity, preserves modifier priority,
+and requires nonzero integer Belly. Plain A remains edge-triggered. Duplicate
+Sleep consumes the source duration draw and entry effect without replacing its
+old timer. Existing sound data is connected to reviewed direct move/species
+pairs, Ember casting and empty-adjacent Attract. An unreachable synthetic cast
+fallback was removed. Other sound routes remain qualified.
+
 ## Static and hosted evidence
 
 The composed Node 24.21.0 authoring checks cover lint, strict static types,
@@ -53,12 +72,12 @@ source facts, geometry, provenance, archive hashes, effect inventories, decoded
 and encoded limits, and distribution closure. They do not import or execute the
 game as a test.
 
-Exact published head `59185742b5ed6fe4f51fb768f345ebce78518ae6`
+Exact published head `11008c638843b8957092e7c887f2fa4f38a42b84`
 passed the hosted lint, Game Static Checks, Playwright and CodeQL workflows.
-The recorded Codex review result also passed. The watcher recorded its separate
-acknowledgement flag as false, so that flag is not additional approval evidence.
-The current candidate 8 working tree is later than that published head and must
-be assessed with its own final exact-head checks after publication.
+Codex completed its review and added a thumbs-up after the trigger and workflow
+creation timestamps. The normal watcher exited 2 on its false acknowledgment
+classification; independent provider checks established completion after late
+discovery, with no unresolved review threads. The current working tree is later than that published head and must be assessed with its own final exact-head checks after publication.
 
 Root's full local website lint/build/Playwright flight check remains blocked by
 Socket Security Policy E403 while installing recently published pinned website
@@ -79,8 +98,11 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 4 / `7b843bc` | Fresh naming and request ordering plus legacy `enter:1` migration, B1F/B2F combat, B3F rescue, reward and completed Continue | Full bounded opening accepted; predates current artwork/controller additions |
 | Candidate 5 | Older Volt/Shell save, both battle banks, selected moves and screenshot download | Bank/save compatibility only; Heal Bell not cast |
 | Candidate 6 | Mud Sport build: B1F Thundershock/EXP/save; independent Psyduck Water Sport cast and ten-turn expiry | Mud Sport was not cast; predates the three-bank candidate |
-| Candidate 7 | Volt/Shell B1F–B3F, combat, shared EXP, level-ups, berry pickup, paralysis, Caterpie reunion and all three rewards; Adventure Log records 234 turns | Root completed run; no newly learned level-7 move cast; other-party trials remain in progress |
+| Candidate 7 | Volt/Shell B1F–B3F, combat, shared EXP, level-ups, berry pickup, paralysis, Caterpie reunion and all three rewards; Adventure Log records 234 turns. Separate Machop/Charmander and Bulbasaur/Charmander runs also completed the rescue; the latter recorded 709 turns and all three berries with no browser warnings/errors | No newly learned level-7 move cast; Machop trial did not capture console logs |
 | Candidate 8 | Completed Volt/Shell Continue; older Psyduck/Charmander B1F restored; Water Sport 18/19 to 17/19 with result message and controls returned | Focused post-pruning checks; both browser logs clean |
+| Candidate 9 | Cyndaquil Smokescreen: duplicate Sunkern application, two fresh Wurmple applications, PP 9/10 to 6/10, control recovery and normal Quicksave | Warning/error log empty; no original-audio audition |
+| Candidate 10 / early 11 | Same-path preview holds advanced one turn; inert controls proved both keys and animation frames remained active | Stale preview-module reuse isolated with fresh URLs; no game-defect causality claimed |
+| Candidate 11, fresh module URLs | Held B+A for five seconds advanced 433 to 453 turns; held plain A for five seconds advanced 453 to 454; Quicksave and menus recovered | Browser log clean; standalone input check using unchanged runtime bytes |
 
 Prior portrait, native interface, touch layout, loss/retry, Give Up, item,
 status, PP, EXP and save observations remain in the preserved review history and

@@ -10,7 +10,7 @@ const EFFECTS = Object.freeze({
   attack: 'effect-attack', regularAttack: 'effect-regular-attack', hit: 'effect-hit', heal: 'effect-heal', heart: 'effect-heart',
   berryResult: 'effect-pickup',
   se356: 'effect-throw-spin', se711: 'effect-item-loss',
-  se678: 'effect-rapid-spin', se809: 'effect-synthesis', se621: 'effect-move-preparation',
+  se678: 'effect-rapid-spin', se809: 'effect-synthesis', se621: 'effect-move-preparation', se413: 'effect-whiffer',
   se330: 'effect-pickup-team', se331: 'effect-pickup-other', se332: 'effect-pickup-money',
   stairs: 'effect-stairs', rescue: 'effect-rescue-found',
   reward: 'effect-reward', levelUp: 'effect-level-up', faint: 'effect-faint',
@@ -18,7 +18,7 @@ const EFFECTS = Object.freeze({
   // accuracy2 and raw zero use target team status. The data IDs stay stable.
   se342: 'effect-no-damage-team', se343: 'effect-no-damage-other',
 });
-/** Scoped authored and comparative native SE2/SE5 effects. The caller owns the dungeon context;
+/** Scoped authored and comparative native PSG/PCM effects. The caller owns the dungeon context;
  * this manager never imports game state, allocates WebGL, or changes a save.
  * Call activate(event) directly within the iframe's native input handler. It
  * remains silent until that trusted gesture; synthesized host keys cannot unlock.

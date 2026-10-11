@@ -140,7 +140,8 @@ Paralysis publishes its message before effect 423. Focus Energy and Leech Seed
 use native null helpers, Rage's false ENRAGED helper returns without artwork,
 and Whiffer is sound-only. Those four paths publish their message and status
 snapshot without creating an undefined effect receipt or draining a cast tail.
-Whiffer sound 413 remains an audio gap. Sleep 37's helper wait completes
+Whiffer sound 413 now uses the separately owned finite PCM group described in
+[audio evidence](blue-audio.md). Sleep 37's helper wait completes
 immediately because of its source wait flag; its visual tail remains live.
 No gameplay RNG, PP, targeting or saved-state fields are owned by this visual
 projection. The redundant Hypnosis readiness adapter has been removed because

@@ -110,3 +110,9 @@ The common effect 22 preparation/cast sound additionally uses public source
 wave 117 at that same commit. Its complete nonlooping sample and finite controls
 are recorded in blue-pcm-effects.json. Original Blue playback, native mixing
 and a rights-holder reuse grant remain unverified.
+
+Whiffer sound 413 additionally uses public source wave 115 at the same pin.
+Its complete nonlooping sample and finite controls are recorded in
+blue-pcm-effects.json; numeric song-table group6 has separate replacement
+ownership. Blue identity, native mix/reverb and listening remain unverified.
+Background music remains intentionally absent.

@@ -92,9 +92,9 @@ copied abilities, factual mutation or helper callers requires a new source revie
   some status ordering remain incomplete. Learning choices are presented after the
   current browser turn, rather than through native suspended continuations.
 - Later moves attainable through extensive repeated tutorial grinding retain
-  factual learnsets, but distinct effects such as Charm, weather and
-  charging are not all implemented. `supportsMove` explicitly rejects these
-  actions without PP or turn loss; they must not silently become plain damage.
+  factual learnsets, but some weather-changing and charging effects are not
+  implemented. `supportsMove` explicitly rejects those actions without PP or
+  turn loss; they must not silently become plain damage.
 - The complete original menu/IQ/tactic surfaces, exact failure-item loss and
   all animation/message timing remain unverified or incomplete. The opening
   has no toolbox, so its held-item pages do not offer transfer or Place.
@@ -105,9 +105,9 @@ copied abilities, factual mutation or helper callers requires a new source revie
 
 ## Verification and next manual review
 
-- Own-file ESLint passed. The official independent typecheck passed after the
-  initial implementation; later concurrent app edits produced app-only errors.
-  Re-run the full check after integration.
+- Run the package lint, strict typecheck and opening static check together after
+  integration; dated audit sections below record only the checks that passed for
+  their specific changes.
 - `export-blue-opening.mjs --check` passed. Data-only comparison verified all
   16 starting stats, move order and PP. No tests imported/executed game source.
 - Manually inspect all starter menus, blocked diagonal movement, facing/menu
@@ -386,6 +386,21 @@ directions, matching the ordinary native held-D-pad input path
 Manual verification still owns those browser and presentation properties.
 The compact stage-zero/one scheduler is not proof of all native 24-slot speed,
 multiaction, weather or suspended-learning behavior.
+
+Held B+A is sampled at each eligible leader input opportunity before the
+pressed-A set-move shortcut, so B+A takes priority over L+A. It spends one wait
+per opportunity only while the integer part of Belly is nonzero; plain A remains
+edge-triggered and standalone Space waiting is unchanged. This follows
+`DungeonHandlePlayerInput` (`src/dungeon_main.c:176-191`) without admitting OS
+key-repeat as additional actions.
+
+For Sing, Hypnosis and Sleep Powder, `BasicSleepMoveAction` calculates the sleep
+duration before `SleepStatusTarget` checks whether the target is already asleep.
+A duplicate therefore consumes the native duration draw, leaves the existing
+sleep timer and class unchanged, requests the sleep entry effect, and reports
+that the target is already asleep. Accuracy still resolves before this handler;
+the discarded duration is not adjusted by Early Bird. See `src/dungeon_move.c:584-590`,
+`src/move_orb_actions_1.c:82-87` and `src/move_orb_effects_1.c:37-96`.
 
 ## Early ability activation announcements
 

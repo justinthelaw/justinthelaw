@@ -5,8 +5,8 @@ source-derived effects. It contains no background music or Nintendo DS soundtrac
 menu roles use four short PSG effects; regular attack uses one, and accuracy
 misses/raw-zero damage share two more. Actual ground pickups add two PSG cues
 and one PCM cue. The finite throw-spin and item-loss catalogs add one PSG
-and one PCM cue. Healing, heart, Poké pickup, item loss, Rapid Spin and Synthesis use six public
-signed-8 PCM samples and finite control data.
+and one PCM cue. Healing, heart, Poké pickup, item loss, Rapid Spin, Synthesis, preparation and
+Whiffer use eight public signed-8 PCM samples and finite control data.
 These are Red Rescue Team comparative evidence until Blue playback is corroborated.
 The scoped bank in `src/blue/audio-bank.js` contains 8 effects and no themes;
 its editable source is `tools/pokemon-dungeon/audio/blue-original-effects.json`.
@@ -95,8 +95,8 @@ selected by `DEMO_03` or the shortened `DEMO_04` route.
 Static arithmetic over the controlling `seq_040` track's 876 wait ticks and
 tempo changes gives a nominal 18.891713 seconds. The comparative GBA driver's
 frame accumulator and end detection put its end around 19 seconds; these are
-not verified DS driver timings. The browser's 19.0-second cinematic and
-18.9-second authored cue are qualified timing approximations. Only
+not verified DS driver timings. Before music removal, the browser's 19.0-second cinematic and 18.9-second
+authored cue were qualified timing approximations; only the cinematic remains. Only
 wait/tempo/control facts were inspected; no commercial note data is imported
 into the authored score.
 
@@ -106,21 +106,16 @@ into the authored score.
 transport and scoped bank, with no WebGL, network or game-state dependency.
 Construction is silent. A trusted native iframe input must activate audio;
 synthetic host-control events cannot unlock it. Hidden, blurred and removed
-pages stop audio. A new trusted gesture resumes the retained music position;
+pages stop audio. A new trusted gesture restores effect playback permission;
 old effects never replay. A resume promise retired by interruption cannot
 silence a newer trusted activation. Disposal invalidates pending callbacks and releases
 nodes and listeners. Bounds are one context, 32 voices and four new effects per
 presentation. See [Web Audio autoplay guidance](https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Autoplay)
 and [audio scheduling guidance](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices).
 
-On music resume or a delayed pump, binary search skips elapsed notes before
-the 64-note scheduling limit applies. Seven scoped loops contain 76 notes;
-scanning old notes against that limit previously delayed the remaining notes
-by another 80-millisecond pump. For example, Tiny Woods resumed at 14.43 seconds
-could drop its note at 14.454545 seconds, despite the transport's 25-millisecond
-lead. This correction changes only the audio cursor, not score data, effect
-consumption, voice bounds, game state or activation permission. Static score
-ordering and timing arithmetic support the fix; browser audition remains open.
+The effect-only transport has no music position, lookahead pump or looping
+score. Historical music timing research above is retained as evidence only;
+background music remains deliberately removed. Browser audition remains open.
 
 Exact commercial melodies, DS sample timbres, loop points, source fade timing,
 scene-to-cue timing, SFX playback and mix remain unverified. Static type, syntax,
@@ -284,7 +279,7 @@ their finite ends. Pause, mute, blur, visibility loss, denial, retired epochs,
 context replacement and disposal stop all voices including detached tails.
 There are at most 13 newly scheduled PCM sources plus two detached tails, seven
 cached buffers and one stereo merger after the later cue admissions below. Every source shares the existing 32-voice
-ceiling with authored music/effects and SE2. Recognized overload is consumed
+ceiling with authored effects and SE2. Recognized overload is consumed
 without an authored fallback. No new timer, worklet, network fetch, playback
 queue or gameplay callback is introduced.
 
@@ -631,3 +626,75 @@ Header 188 sets native reverb 60, while this player remains dry. Public source
 availability is not a reuse grant. Original Blue sample/driver/clock identity,
 native competition/mix/reverb, browser request phase and listening acceptance
 remain unverified. No game/native code or audio rendering establishes them here.
+
+## Whiffer sound-only PCM — 2026-10-11
+
+Fresh successful Whiffer application requests `se413` / `effect-whiffer` before
+its result message and icon sync, gated by the displayed target. The receipt
+creates no bitmap, drain or wait. Already-active Whiffer requests no sound; the
+separately reviewed mechanics correction retains its native duration draw and
+already-status message. Offscreen, retired and silent-finish receipts do not
+replay. Same-batch browser log/audio-call timing remains qualified.
+
+Sequence 413 (STATE_SWING) uses bank 026 voice 21, direct signed-8 PCM and
+envelope 255/255/0/0. Four two-tick notes start at ticks 1/4/7/10, keys
+73/69/65/61 and velocities 120/120/120/100. Tempo 140 gives starts 2/5/8/11,
+stops 4/7/10/13 and FINE 13 in the existing comparative frame conversion.
+There is no modulation, bend, loop or detached tail. The full nonlooping
+wave 115 has 17,302 samples, SHA256
+`4f6c757d523f300594272c401c574213884f1dfdd27d090171a92bc8fe53150c`.
+No sample prefix is trimmed on an assumed browser resampling margin.
+
+The song-table label SE6 encodes numeric group 6; at this source pin it indexes
+`gMPlayTable[6]`, named `gMPlayInfo_SE5`. Existing selected PCM uses numeric
+group 5, whose structure is named SE4. These two replacement domains remain
+separate in the reused finite renderer. Group 5 retains its 15 scheduled-source
+allowance and detached tails; group 6 allows four, for at most 19 PCM sources
+under the unchanged shared 32-source ceiling. All prior sample and cue tuples
+remain exact. Recognized overload is consumed without authored fallback.
+
+Only Charmander and Cyndaquil learn Smokescreen, and same-type partner exclusion
+allows at most one user per admitted party. A separate one-request bucket per
+delivered ActionResult preserves existing pickup 12, throw 2, move 2, preparation
+12 and other-private 4 limits. Existing activation, mute, pause, blur/visibility,
+denial, epoch and disposal owners stop all groups without delayed replay.
+
+The eight decoded buffers total 229,412 Float32 bytes; the finite data has
+32 notes, 440 stereo rows and 173 rate rows. Original source files and hashes
+remain in blue-pcm-effects.json. Reverb byte 0 leaves native global state
+unchanged; the browser remains dry. Native global PCM competition, integer
+mixing/reverb, Blue sample/clock identity, request phase, resampling and audition
+remain unverified. No music scheduler or SE3 noise substitute is added.
+
+## Existing native move-sound joins — 2026-10-11
+
+The first-attempt direct-cast joins reuse 351 for Scratch by Meowth, Psyduck,
+Totodile and Torchic, Vine Whip by Bulbasaur, and the universal Struggle fallback.
+Tail Whip by Squirtle, Pikachu, Psyduck and Cubone, plus Eevee's Sand-Attack,
+reuse 356. These routes have no preparation; their immutable cast receipt owns
+the request before the first actor frame. Charmander's Scratch 357, Treecko's
+Pound 354, Eevee/Skitty's Tail Whip 362 and all unreviewed casts retain their
+existing qualification. Source STOP 997 skips a direct request.
+
+Ember's fresh cast 144 requests the existing PCM 711 at its first source update;
+Attract's empty-adjacent target 15 requests the existing 614 at its first update.
+Their source-STOP direct slots no longer emit the authored attack cue. Ordinary
+actor/helper 15 keeps its existing heart request; travel 137/299 remains native
+silent. No sound is added per projectile cell, carry, draw or attachment pixel.
+No sample, sequence tuple, player, mixer, waveform, native-source input or
+background music is added.
+
+The two new artwork receipts carry a private move-origin tag. They share the
+existing two-request bucket with Rapid Spin 678/Synthesis 809: a party actor can
+choose only one of those four one-pass moves per action, and admitted level 1
+wild slots know none of them. Bide release and delayed/carry records do not add
+another such request. This leaves money throw 2, pickup 12, preparation 12,
+Whiffer 1 and other-private 4 unchanged, including their overload qualifications.
+Direct 351/356 use the existing semantic attack path, outside the item quota.
+The shared 32 voice ceiling, group replacement, FINE tails, trusted activation,
+pause/mute/visibility/disposal and consume-without-replay rules are unchanged.
+
+The complete source inventory is preserved in
+`tools/pokemon-dungeon/.work/first-attempt-audio-inventory/`. New native cue data
+and unsupported pulse/noise behavior remain separate work; source-derived Red
+requests, browser batching, output mix and audition remain qualified for Blue.

@@ -1,8 +1,8 @@
-import {PCM_EFFECTS,PCM_SAMPLES,PCM_FRAME_SECONDS,PCM_EFFECT_GAIN} from './audio-pcm-data.js';
+import {PCM_EFFECTS,PCM_EFFECT_GROUPS,PCM_SAMPLES,PCM_FRAME_SECONDS,PCM_EFFECT_GAIN} from './audio-pcm-data.js';
 
-/** @typedef {{source:AudioBufferSourceNode,left:GainNode,right:GainNode,end:number,fine:number}} PcmVoice */
-const MAX_PCM_VOICES=15;
-/** Finite SE5 cues. No native reverb, song interpreter, timer or game callback.
+/** @typedef {{source:AudioBufferSourceNode,left:GainNode,right:GainNode,end:number,fine:number,group:5|6}} PcmVoice */
+const MAX_PCM_VOICES=15,MAX_GROUP6_VOICES=4;
+/** Finite numeric group5/6 cues. No reverb, interpreter, timer or game callback.
  * The caller creates this owner only inside the existing trusted activation.
  * @param {AudioContext} context @param {GainNode} destination */
 export function createPcmEffects(context,destination){
@@ -35,9 +35,13 @@ export function createPcmEffects(context,destination){
     const cue=PCM_EFFECTS[id];if(!cue)return false;
     if(disposed)return true;
     prune();
-    for(const voice of voices)if(context.currentTime<voice.fine)retire(voice);
+    const group=PCM_EFFECT_GROUPS[id]??5;let retained=0;
+    // Replacement is local to the source song-table player. FINE tails remain.
+    for(const voice of voices)if(voice.group===group){
+      if(context.currentTime<voice.fine)retire(voice);else retained++;
+    }
     const [fine,notes]=cue;
-    if(!Number.isFinite(when)||when<context.currentTime||!Number.isSafeInteger(availableVoices)||availableVoices<0||voices.size+notes.length>Math.min(MAX_PCM_VOICES,availableVoices))return true;
+    if(!Number.isFinite(when)||when<context.currentTime||!Number.isSafeInteger(availableVoices)||availableVoices<0||retained+notes.length>(group===6?MAX_GROUP6_VOICES:MAX_PCM_VOICES)||voices.size+notes.length>availableVoices)return true;
     try{
       for(const [wave,start,end,rates,levels] of notes){
         const sample=buffers.get(wave);if(!sample)throw new RangeError('Selected PCM sample is unavailable.');
@@ -46,7 +50,7 @@ export function createPcmEffects(context,destination){
         /** @type {PcmVoice|undefined} */let voice;
         try{
           left=context.createGain();right=context.createGain();
-          voice={source,left,right,end:when+end*PCM_FRAME_SECONDS,fine:when+fine*PCM_FRAME_SECONDS};voices.add(voice);
+          voice={source,left,right,end:when+end*PCM_FRAME_SECONDS,fine:when+fine*PCM_FRAME_SECONDS,group};voices.add(voice);
           source.buffer=sample.buffer;source.loop=sample.loop;
           source.loopStart=sample.loopStart/18157;source.loopEnd=sample.buffer.length/18157;
           left.gain.setValueAtTime(0,context.currentTime);right.gain.setValueAtTime(0,context.currentTime);

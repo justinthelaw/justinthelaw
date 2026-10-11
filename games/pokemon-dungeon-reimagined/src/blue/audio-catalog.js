@@ -15,6 +15,6 @@ export const AUDIO_CATALOG = freeze(OPENING_AUDIO_BANK);
 const effects = new Map(AUDIO_CATALOG.effects.map(cue => [cue.id, cue]));
 /** @param {string} id @returns {Cue|null} */
 export function effectCue(id) { return effects.get(id) ?? null; }
-/** Native effects have bounded SE2/SE5 data independent of the authored bank.
+/** Native effects have bounded PSG/PCM data independent of the authored bank.
  * @param {string} id */
 export function isKnownEffect(id) { return effects.has(id) || Object.hasOwn(MENU_EFFECTS, id) || Object.hasOwn(BATTLE_EFFECTS, id) || Object.hasOwn(PCM_EFFECTS, id); }

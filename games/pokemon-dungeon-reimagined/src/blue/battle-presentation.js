@@ -29,7 +29,7 @@ import {nativeSin4096} from './battle-native-sine-data.js';
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
 /** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[],hidden?:boolean}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621',audible:boolean}|{clearNotice:true}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413',audible:boolean,moveOwned?:true}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 /** @typedef {{start:number,end:number}} EndTrack */
@@ -165,11 +165,11 @@ export class BattlePresentation {
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
     /** Native sound receipts are private presentation evidence, never saves.
-     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'} name @param {number} at @param {number} [order] */
-    const sound=(name,at,order=ordinal++)=>{
+     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] */
+    const sound=(name,at,order=ordinal++,moveOwned=false)=>{
       if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
       cueFrontier=Math.max(cueFrontier,at);
-      this.cues.push({sound:name,at,ordinal:order,audible:true});
+      this.cues.push({sound:name,at,ordinal:order,audible:true,...(moveOwned?{moveOwned:true}:{})});
     };
     /** @param {Actor[]} actors @param {number} at */
     const patchActors=(actors,at)=>addPatch({at,ordinal:ordinal++,actors});
@@ -226,6 +226,8 @@ export class BattlePresentation {
       if(id===7||id===15)sound(id===7?'heal':'heart',start);
       else if(id===83||id===271)sound(id===83?'se678':'se809',start);
       else if(id===22)sound('se621',start);
+      // The selected motion table routes144 only from Ember's cast.
+      else if(id===144)sound('se711',start,undefined,true);
       return info.blocksWait===false?at:Math.min(end,at+waitLimit);
     };
     const drainEffects=()=>{
@@ -358,6 +360,8 @@ export class BattlePresentation {
       const info=assets.effectInfo(id,'s');if(!info)return;
       const start=cursor+1,end=start+info.ticks,position={x:point.x*24+12,y:point.y*24+16};
       this.effects.push({id,start,end,direction:'s',from:position,to:position});
+      // Attract's empty-adjacent impact owns one fresh handle, even with no actor.
+      if(id===15)sound('heart',start,undefined,true);
       // sub_8041168 always runs one frame after effect creation, even for a
       // nonblocking effect. The selected Ember effect317 then waits to finish.
       cursor=info.blocksWait?end:start;
@@ -454,7 +458,7 @@ export class BattlePresentation {
         const start=cursor;messageAt=start;
         const visible=displayedActor(record.actor);
         // Selected native effect sounds replace only the STOP direct-cast cue.
-        cue(event.type==='presentation'?{type:'attack',actorId:record.actor.id,moveId:record.moveId}:event,start,order,visible&&!EFFECT22_SILENT_CASTS.has(record.moveId)&&record.moveId!=='move-synthesis');
+        cue(event,start,order,visible&&!EFFECT22_SILENT_CASTS.has(record.moveId)&&record.moveId!=='move-synthesis'&&record.moveId!=='move-ember'&&record.moveId!=='move-attract');
         if(!visible)continue;
         if(route?.preparation&&record.first){
           if(record.moveId==='move-hypnosis'){
@@ -606,6 +610,11 @@ export class BattlePresentation {
         cue(event,cursor,order);
         if(record.amount>0&&displayedActor(record.actor))number(record.actor,record.amount,true);
         messageAt=cursor;continue;
+      }
+      if(record?.kind==='whiffer-sound'){
+        // Native sound-only helper precedes result text/icon sync; no drain/wait.
+        if(displayedActor(record.target))sound('se413',cursor,order);
+        continue;
       }
       if(record?.kind==='effect'){
         flushWalk();patchActors([record.before],cursor);
@@ -785,7 +794,7 @@ export class BattlePresentation {
       if(patch.message){this.log.push(patch.message);if(this.log.length>80)this.log.shift();}
     }
     /** @type {PresentationCue[]} */const cues=[];
-    while(this.cueIndex<(checkpoint?.cueEnd??this.cues.length)){const cue=this.cues[this.cueIndex];if(!cue||cue.at>tick)break;this.cueIndex++;cues.push('clearNotice' in cue?{clearNotice:true}:'sound' in cue?{sound:cue.sound,audible:cue.audible}:{event:cue.event,audible:cue.audible});}
+    while(this.cueIndex<(checkpoint?.cueEnd??this.cues.length)){const cue=this.cues[this.cueIndex];if(!cue||cue.at>tick)break;this.cueIndex++;cues.push('clearNotice' in cue?{clearNotice:true}:'sound' in cue?{sound:cue.sound,audible:cue.audible,...(cue.moveOwned?{moveOwned:true}:{})}:{event:cue.event,audible:cue.audible});}
     const completed=!checkpoint&&!this.completed&&tick>=this.sourceEndTick;this.completed||=completed;
     if(finish){this.poses=[];this.effects=[];this.numbers=[];this.projectiles=[];this.backgrounds=[];this.statusHp.clear();}
     // A recipe fences creation as well as mutations. Only one frame is materialized.

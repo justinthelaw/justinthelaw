@@ -23,6 +23,7 @@
  * | {kind:'heal',before:Actor,after:Actor}
  * | {kind:'heal-result',actor:Actor,amount:number}
  * | {kind:'effect',before:Actor,after:Actor,effectId?:number}
+ * | {kind:'whiffer-sound',target:Actor}
  * | {kind:'poke-spin',actor:Actor}
  * | {kind:'poke-flight',from:import('./mechanics-types.js').Point,to:import('./mechanics-types.js').Point}
  * | {kind:'poke-impact',target:Actor}

@@ -1,5 +1,5 @@
 /** Browser input adapter. Simulation is never advanced by native key repeat. */
-/** @typedef {'confirm'|'cancel'|'menu'|'map'|'wait'|'setMove'|'caretLeft'|'caretRight'|'north'|'south'|'west'|'east'} InputAction */
+/** @typedef {'confirm'|'cancel'|'menu'|'map'|'wait'|'chordWait'|'setMove'|'caretLeft'|'caretRight'|'north'|'south'|'west'|'east'} InputAction */
 /** @typedef {{delayMs:number,accepted:boolean,stopRepeat?:boolean}} MoveResult */
 /** @typedef {{action:(action:InputAction,event?:Event)=>void,move:(dx:number,dy:number,faceOnly:boolean,run:boolean,continuedDash:boolean)=>MoveResult,activate:(event:Event)=>boolean,interrupt:()=>void}} InputHandlers */
 
@@ -28,13 +28,15 @@ export function createInput(doc, handlers) {
   let bUsed = false;
   let shiftUsed = false;
   let revision = 0;
+  /** @type {number|null} */ let heldWaitOpportunity = null;
   /** @type {string|null} */ let dashDirection = null;
 
   function clearPending() { pending.clear(); pendingRun = false; pendingFace = false; pendingDiagonal = false; }
   function clear() {
-    revision += 1; owners.clear(); held.clear(); clearPending(); nextMove = 0; moving = false; bUsed = false; shiftUsed = false; dashDirection = null;
+    revision += 1; owners.clear(); held.clear(); clearPending(); nextMove = 0; moving = false; bUsed = false; shiftUsed = false; dashDirection = null; heldWaitOpportunity = null;
   }
   function hasB() { return held.has('b') || held.has('x'); }
+  function hasA() { return held.has('a') || held.has('z'); }
   function hasDirection() { return [...held].some(key => DIRECTIONS[key]); }
   /** @param {EventTarget|null} target */
   function isTyping(target) {
@@ -118,7 +120,7 @@ export function createInput(doc, handlers) {
       if (key === 'shift') shiftUsed = false;
       if (key === 'a' || key === 'z') {
         if (hasB()) bUsed = true;
-        handlers.action(held.has('q') ? 'setMove' : hasB() ? 'wait' : 'confirm', event);
+        handlers.action(hasB() ? 'chordWait' : held.has('q') ? 'setMove' : 'confirm', event);
       } else if (key === 'enter' || key === 'escape') handlers.action('menu', event);
       else if (key === 'q' || key === 'l') handlers.action('caretLeft', event);
       else if (key === 'r') handlers.action('caretRight', event);
@@ -158,9 +160,13 @@ export function createInput(doc, handlers) {
       if (!hasDirection()) { nextMove = 0; moving = false; dashDirection = null; }
     },
     isFacing() { return held.has('c') || held.has('y'); },
-    /** @param {number} now @param {boolean} dungeonActive */
-    update(now, dungeonActive) {
-      if (disposed || doc.hidden || !nextMove || now < nextMove) return;
+    /** @param {number} now @param {boolean} dungeonActive @param {number|null} waitOpportunity */
+    update(now, dungeonActive, waitOpportunity = null) {
+      if (disposed || doc.hidden) return;
+      if (dungeonActive && waitOpportunity!==null && hasA() && hasB() && heldWaitOpportunity!==waitOpportunity) {
+        heldWaitOpportunity=waitOpportunity;bUsed=true;handlers.action('chordWait');return;
+      }
+      if (!nextMove || now < nextMove) return;
       let dx = 0, dy = 0;
       const queued = pending.size > 0;
       for (const key of queued ? new Set([...pending, ...held]) : held) {
@@ -220,7 +226,7 @@ export function createInput(doc, handlers) {
       }
       if (!hold(owner, key)) return;
       if (DIRECTIONS[key]) queueDirection(key);
-      else if (key === 'a') { if (hasB()) bUsed = true; handlers.action(hasB() ? 'wait' : 'confirm', event); }
+      else if (key === 'a') { if (hasB()) bUsed = true; handlers.action(hasB() ? 'chordWait' : 'confirm', event); }
       else if (key === 'menu') handlers.action('menu', event);
       else if (key === 'map') handlers.action('map', event);
       else if (key === 'wait') handlers.action('wait', event);

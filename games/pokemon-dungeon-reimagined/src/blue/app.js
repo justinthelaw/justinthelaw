@@ -32,6 +32,17 @@ import { STORY, STORY_TRANSITIONS, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolat
 /** @typedef {import('./naming.js').NamingState} NamingState */
 /** @typedef {{editor:NamingState,transition:number}} NameComposition */
 
+/** First-attempt native direct sounds; unreviewed species overrides stay unchanged.
+ * @type {Readonly<Record<string,'regularAttack'|'se356'>>} */
+const NATIVE_CAST_SOUNDS={
+  'move-scratch:pokemon-052':'regularAttack','move-scratch:pokemon-054':'regularAttack',
+  'move-scratch:pokemon-158':'regularAttack','move-scratch:pokemon-255':'regularAttack',
+  'move-vine-whip:pokemon-001':'regularAttack',
+  'move-tail-whip:pokemon-007':'se356','move-tail-whip:pokemon-025':'se356',
+  'move-tail-whip:pokemon-054':'se356','move-tail-whip:pokemon-104':'se356',
+  'move-sand-attack:pokemon-133':'se356',
+};
+
 /** @param {string} id */
 function element(id) {
   const value = document.getElementById(id);
@@ -275,7 +286,7 @@ async function main() {
     const announcement=events.filter(event=>event.type==='message'&&event.text).map(event=>event.text).join(' ');
     if(announcement&&announcement!==lastNarration){narration.textContent=announcement;lastNarration=announcement;}
     if(silent)return;
-    let effectSounds=0,pickupSounds=0,throwSounds=0,moveSounds=0,preparationSounds=0;
+    let effectSounds=0,pickupSounds=0,throwSounds=0,moveSounds=0,preparationSounds=0,whifferSounds=0;
     for(const cue of cues){
       if('clearNotice' in cue||!cue.audible)continue;
       if('sound' in cue){
@@ -284,24 +295,33 @@ async function main() {
         // Excess receipts are consumed without any delayed replay queue.
         if(cue.sound==='se330'||cue.sound==='se331'||cue.sound==='se332'){
           if(pickupSounds++<12)audio.effect(cue.sound);
-        }else if(cue.sound==='se356'||cue.sound==='se711'){
+        }else if(!cue.moveOwned&&(cue.sound==='se356'||cue.sound==='se711')){
           // One leader-only money throw emits at most one spin and one loss.
           // Its cues cannot displace existing effects in an instant batch.
           if(throwSounds++<2)audio.effect(cue.sound);
-        }else if(cue.sound==='se678'||cue.sound==='se809'){
-          // One first cast/target per party actor; no wild or copied-move owner.
-          // Preserve the existing private-four budget in an instant batch.
+        }else if(cue.moveOwned||cue.sound==='se678'||cue.sound==='se809'){
+          // Each party action selects one of Ember, empty Attract, Rapid Spin
+          // or Synthesis. Wild level1 slots and Bide release select none.
+          // Keep the same two requests, separate from money's spin/loss.
           if(moveSounds++<2)audio.effect(cue.sound);
         }else if(cue.sound==='se621'){
           // One fresh effect22 per chosen move: two party and ten wild slots.
           // Confusion uses cast22; first-pass preparation covers the other routes.
           if(preparationSounds++<12)audio.effect(cue.sound);
+        }else if(cue.sound==='se413'){
+          // Only one Fire-type Smokescreen learner can join the admitted pair.
+          if(whifferSounds++<1)audio.effect(cue.sound);
         }else if(effectSounds++<4)audio.effect(cue.sound);
         continue;
       }
       const event=cue.event;
       if(event.presentation?.kind==='no-damage')audio.effect(event.presentation.target.id==='hero'||event.presentation.target.id==='partner'?'se342':'se343');
-      else if(event.type==='attack')audio.effect(event.moveId==='regular-attack'?'regularAttack':'attack');
+      else if(event.type==='attack'){
+        const actor=event.presentation?.kind==='cast'?event.presentation.actor:undefined;
+        // These direct routes have no preparation; the captured cast timestamp
+        // already precedes their first actor frame. Struggle is universal351.
+        audio.effect(event.moveId==='regular-attack'||event.moveId==='move-struggle'?'regularAttack':NATIVE_CAST_SOUNDS[`${event.moveId}:${actor?.speciesId}`]??'attack');
+      }
       else if(event.type==='damage')audio.effect('hit');
       else if(event.type==='level')audio.effect('levelUp');
       else if(event.type==='defeat')audio.effect('faint');
@@ -890,6 +910,11 @@ async function main() {
     if(dungeonCamera.locked&&['north','south','west','east'].includes(action))return;
     if (dungeonTurnLocked()) return;
     if (isDungeonInput() && clock < eventUntil) return;
+    if(action==='chordWait'){
+      const dungeon=currentDungeon();
+      if(isDungeonInput()&&(!dungeon||Math.floor(dungeon.hero.belly)===0))return;
+      action='wait';
+    }
     if (mode === 'opening') { if (action === 'confirm' || action === 'menu' || action === 'cancel') { mode = 'title'; titleImmediate = true; rebuild(); input.clear(); } return; }
     if (mode === 'title') { if (action === 'confirm' || action === 'menu') { mode = 'menu'; rebuild(); input.clear(); } return; }
     if (isNaming() && !notice && !menu) {
@@ -1321,7 +1346,11 @@ async function main() {
     if(disposed)return;
     const schedulerWorked = advanceDungeonClock();
     if (disposed) return;
-    if (startGate === 'running' && !document.hidden && document.hasFocus() && !busy && !paused && helpPanel.hidden && !schedulerWorked && !dungeonTurnLocked()) input.update(now, isDungeonInput());
+    if (startGate === 'running' && !document.hidden && document.hasFocus() && !busy && !paused && helpPanel.hidden && !schedulerWorked && !dungeonTurnLocked()) {
+      const dungeonInput=isDungeonInput(),dungeon=currentDungeon();
+      const waitOpportunity=dungeonInput&&clock>=eventUntil&&dungeon&&Math.floor(dungeon.hero.belly)!==0?dungeon.turn:null;
+      input.update(now,dungeonInput,waitOpportunity);
+    }
     if (speech) {
       const count = Array.from(speech.text).length;
       speech.visibleChars = revealed || textSpeed === 0 ? count : Math.floor((clock - speechStarted) / textSpeed);

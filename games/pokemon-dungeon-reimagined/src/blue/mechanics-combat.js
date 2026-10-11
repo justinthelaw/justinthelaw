@@ -282,7 +282,24 @@ function gainLevels(state,actor,data,events) {
 /** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {string} status @param {OpeningData} data @param {GameEvent[]} events */
 function inflict(state,actor,target,status,data,events) {
   const normalized=status==='poisoned'?'poison':status==='leech-seed'?'leechSeed':status==='focus-energy'?'focusEnergy':status==='confused'?'confusion':status;
-  if(target.status[normalized])return;
+  if(target.status[normalized]){
+    if(status==='whiffer'){
+      const timer=data.timers.whiffer;
+      // Smokescreen advances its duration draw before the status owner discovers
+      // that Whiffer is already active. Later curer adjustment is draw-free,
+      // and the resulting value is discarded.
+      if(timer&&timer.max!==timer.min)draw(state,timer.max-timer.min+1);
+      message(state,events,`${target.name} is already a whiffer!`);
+    }else if(status==='sleep'){
+      const timer=data.timers.sleep;
+      // Basic sleep moves calculate a duration before SleepStatusTarget sees
+      // existing Sleep. The discarded duration never replaces the old timer.
+      if(timer&&timer.max!==timer.min)draw(state,timer.max-timer.min+1);
+      const before=captureActor(target);recordEffect(events,before,target,37);
+      message(state,events,`${target.name} is already asleep!`);
+    }
+    return;
+  }
   if(status==='sleep'&&(ability(data,target,'Insomnia')||ability(data,target,'Vital Spirit')))return;
   if(status==='paralysis'&&ability(data,target,'Limber'))return;
   if(status==='infatuated'&&ability(data,target,'Oblivious'))return;
@@ -314,6 +331,7 @@ function inflict(state,actor,target,status,data,events) {
   // These four source-proven helpers are no-op/sound-only: they neither create
   // nor drain a bitmap. Their icon snapshot follows the result message.
   if(NO_BITMAP_STATUS_HELPERS.has(status)){
+    if(status==='whiffer')events.push({type:'presentation',presentation:{kind:'whiffer-sound',target:before}});
     message(state,events,result);
     recordSync(state,events,[target]);
   }else{
