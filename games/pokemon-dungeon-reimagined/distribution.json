@@ -3,6 +3,8 @@
   "entry": "src/blue/app.js",
   "files": [
     "assets/blue/NOTICE.txt",
+    "assets/blue/battle-effects-extra.json",
+    "assets/blue/battle-effects-extra.png",
     "assets/blue/battle-effects-initial.json",
     "assets/blue/battle-effects-initial.png",
     "assets/blue/battle-effects.json",
@@ -101,6 +103,7 @@
     "src/blue/audio.js",
     "src/blue/battle-events.js",
     "src/blue/battle-item-flight.js",
+    "src/blue/battle-native-sine-data.js",
     "src/blue/battle-presentation.js",
     "src/blue/dash.js",
     "src/blue/dungeon-camera.js",
@@ -152,6 +155,6 @@
     "src/domain/rules/type-context.js",
     "src/domain/state/plain.js"
   ],
-  "totalBytes": 2829792,
+  "totalBytes": 2898536,
   "scope": "Opening cinematic and menu through Tiny Woods and Caterpie rescue only"
 }

@@ -9,7 +9,7 @@ export async function nativeBattleInputs(){
   const manifestBytes=await readFile(new URL('native-battle-sources.json',import.meta.url));
   if(manifestBytes.length>64*1024)throw Error('Native battle source manifest exceeds its byte budget.');
   const manifest=JSON.parse(manifestBytes),hash=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
-  if(manifest.schemaVersion!==1||manifest.repository!=='https://github.com/pret/pmd-red'||manifest.commit!=='013475aa04f5be3191e5527c186d9bfceae7cae0'||manifest.archive?.path!=='native-battle-source.tar.gz'||!Number.isInteger(manifest.archive.bytes)||manifest.archive.bytes<1||manifest.archive.bytes>512*1024||!hash(manifest.archive.sha256)||!Array.isArray(manifest.files)||manifest.files.length!==57||manifest.speciesSource?.manifestPath!=='native-sources.json'||!hash(manifest.speciesSource.manifestSha256))throw Error('Unsupported native battle source manifest.');
+  if(manifest.schemaVersion!==1||manifest.repository!=='https://github.com/pret/pmd-red'||manifest.commit!=='013475aa04f5be3191e5527c186d9bfceae7cae0'||manifest.archive?.path!=='native-battle-source.tar.gz'||!Number.isInteger(manifest.archive.bytes)||manifest.archive.bytes<1||manifest.archive.bytes>512*1024||!hash(manifest.archive.sha256)||!Array.isArray(manifest.files)||manifest.files.length!==113||manifest.speciesSource?.manifestPath!=='native-sources.json'||!hash(manifest.speciesSource.manifestSha256))throw Error('Unsupported native battle source manifest.');
   const archiveBytes=await readFile(new URL(manifest.archive.path,import.meta.url));
   if(archiveBytes.length!==manifest.archive.bytes||battleDigest(archiveBytes)!==manifest.archive.sha256)throw Error('Native battle source archive changed.');
   const files=readTarGzip(archiveBytes);

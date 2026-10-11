@@ -35,43 +35,31 @@ source route and the first matching species override.
 
 ## Selected effect artwork
 
-The ignored `tools/pokemon-dungeon/.work/native-battle-effects-study/` retains the
-reviewed static prototype and 15 contact sheets. Its five public indexed image
-inputs, plus Rapid Spin's separately reviewed `efob135`, are pinned by
-`native-battle-sources.json` and its offline source archive: `efob000`, `efob053`,
-`efob054`, `efob119`, `efob121` and `efob135`, with their literal tables and palettes.
-No ROM, game import, battle simulation or scripted playback is used.
+The selected indexed EFO inputs are pinned by the consolidated
+`native-battle-sources.json` and its 236,117-byte offline archive. The archive
+contains 113 exact source files for 27 EFO groups, including their literal tables,
+palettes, and the native sine lookup owners. No ROM, game import, battle simulation
+or scripted playback is used.
 
-The basic atlas is 512×754, 32,958 encoded bytes and 1,544,192 decoded bytes.
-Its 21,038-byte compact metadata contains 249 pose variants and 16 effects.
-All 197 earlier pose crops and fifteen effect records are preserved; an independent
-decoder reconstructed the 52 added Rapid Spin poses and complete atlas exactly.
-Nondirectional effects store one sequence; Growl stores eight. Static validation checks
+The deterministic exporter assigns all 56 effect records to three banks. `basic`
+is 512×275 (28,773 PNG bytes, 33,647 metadata bytes), `initial` is 512×1017
+(48,559 PNG bytes, 32,657 metadata bytes), and `extra` is 512×636 (55,654 PNG
+bytes, 23,111 metadata bytes). Height, width, and an ASCII SHA key give the stable
+packing order; images are neither rotated nor resampled. Static validation checks
 the complete source inventory, source hashes, palette domains, source OAM bounds,
-layer rectangles, attachment-set IDs, frame references and duration sums. Limits
-are 256KiB encoded image, 128KiB metadata and 2MiB decoded image; the selected
-distribution's independent 3MiB limit is unchanged.
+layer rectangles, attachment-set IDs, frame references, duration sums, and unique
+bank ownership. The three atlases use 3,948,544 decoded bytes. Including the
+separately owned 53,248-byte Hypnosis background, the aggregate is 4,001,792 bytes,
+192,512 bytes below the unchanged 4 MiB effect limit. Per-bank and distribution
+limits are unchanged.
 
-The second bank retains effects 7,15,21,128,150,225,287,312,402,425 and 271. Its
-eight indexed inputs (`efob000`, `efob020`, `efob023`, `efob051`, `efob073`,
-`efob081`, `efob113`, `efob125`) and their native tables/palettes are pinned by
-`native-battle-initial-sources.json` and a 95,175-byte offline archive. The atlas
-is 512×787: 31,716 PNG bytes, 30,151 metadata bytes and 1,611,776 decoded bytes.
-Absorb and Hypnosis travel retain all eight directional sequences. The original
-initial PNG and pose evidence remain byte-identical. Full schema 2 authoring
-metadata validates names, source files/animations, palettes and wait flags before
-emitting schema 3 runtime records without those unused fields. Source decoding
-rejects nonzero discarded shadow/flag tails; validators derive the same extent
-limits from retained drawing layers. No extra provenance ledger is introduced.
-
-The initial images cover healing, infatuation, shared cast, Absorb, Water Sport,
-Hypnosis travel, Leer, Helping Hand, special-attack up, attack up and Synthesis.
-Image availability does not imply that every producer callback is already joined.
-Healing/full-HP and successful infatuation entry now have explicit receipts below.
-The two selected banks total 3,155,968 decoded bytes. Including the 53,248-byte
-Hypnosis background, the aggregate is 3,209,216 bytes under the 4MiB effect
-limit. Per-bank limits stay unchanged. Each effect ID belongs to exactly one
-bank, and every sampled layer keeps that bank's local pose rectangle.
+The admitted records include the opening and conservative first-attempt move
+routes, stat receipts, burn and cringe entry helpers, Heal Bell, Mud Sport,
+Synthesis, and Rapid Spin. Artwork availability does not imply that every producer
+callback is joined; presentation ownership and remaining qualifications are
+recorded below. Full schema 2 authoring evidence validates source files,
+animations, palettes, wait flags, and every reconstructed pose before emitting
+schema 3 runtime records.
 
 The selected effects cover shared damage impacts, preparation, sleep entry,
 Scratch impact, Ember launch/travel/impact, Thundershock impact, directional Growl,
@@ -108,7 +96,7 @@ pool, index and signed-coordinate pair.
 The literal effect wait flag stays in full authoring metadata and pose/wait
 evidence; runtime `blocksWait` retains its validated inverse. Sleep effect 37
 has flag 1: it starts a 28-tick visual tail without blocking its own handle wait.
-The other 26 selected effects have
+The other 55 selected effects have
 flag 0. A native TRUE global drain still includes the sleep tail. This distinction
 comes from `sub_800E9A8` and `sub_800E9FC` in the pinned
 [effect_main.c](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_main.c).
@@ -124,6 +112,39 @@ starts on the fresh handle's first source update and can outlast the artwork;
 see `blue-audio.md` for its comparative-source and playback qualifications.
 
 ## Presentation ownership
+
+The conservative first-attempt ceiling of 2,310 additional EXP admits 30 move
+IDs across the sixteen heroes and four wild species. Static checks now require
+every nonzero preparation, cast, target and travel route for that roster in the
+selected banks, except the separately owned Hypnosis background 222. The new
+coverage includes Attract, Bite, Bubble, Disable, Focus Energy, Leech Seed,
+Mud-Slap, Rage, Razor Leaf, Sand-Attack, Smokescreen, Vine Whip and Water Gun;
+helper effects 76/323 and stat effects 394/397/398 are also present. All 33
+previously selected effect records preserve their frame geometry and RGBA
+pixels after repacking. This establishes source-qualified asset coverage, not
+manual acceptance of every move or full Blue animation identity.
+
+Projectile receipts distinguish the requested one-tile range from the actual
+stopped endpoint. Comparative `sub_80566F8` and `sub_800E3AC` establish speeds
+2/3/6, one to ten cells, and signed-short attachment decay with divisor six
+times the stopped distance. Invisible cells advance sine phase without advancing
+the effect or its attachment recurrence. Attract alone in this roster uses the
+pinned 1,024-entry quarter-wave table and native quadrant lookup. Empty impact
+artwork belongs only to the requested one-tile route; a line projectile stopped
+by an adjacent wall must not acquire that impact. Actual-target artwork samples
+its attachment once and retains the source's 99-coordinate suppression; generic
+application helpers use their separately sourced feet fallback.
+
+New burn and cringe entry effects apply only to successful status changes.
+Paralysis publishes its message before effect 423. Focus Energy and Leech Seed
+use native null helpers, Rage's false ENRAGED helper returns without artwork,
+and Whiffer is sound-only. Those four paths publish their message and status
+snapshot without creating an undefined effect receipt or draining a cast tail.
+Whiffer sound 413 remains an audio gap. Sleep 37's helper wait completes
+immediately because of its source wait flag; its visual tail remains live.
+No gameplay RNG, PP, targeting or saved-state fields are owned by this visual
+projection. The redundant Hypnosis readiness adapter has been removed because
+dungeon entry already awaits both the effect banks and background resources.
 
 `BattlePresentation` consumes immutable producer evidence in source order.
 Actor frame flags select cast and release points; target effects precede the
@@ -218,7 +239,7 @@ separate from its existing travel sprite 225. The offline exporter retains 54
 pinned source files in a 148,746-byte authoring archive. Every source plane is
 exactly periodic: 22 two-tick phases reduce to 13 opaque 32x32 patterns in a
 2,963-byte 416x32 PNG. The background adds 53,248 decoded bytes; all selected
-effect atlases total 3,209,216 bytes under the unchanged 4MiB aggregate bound.
+effect atlases now total 4,001,792 bytes under the unchanged 4MiB aggregate bound.
 Confusion and Psybeam share this source preparation ID but remain outside this
 background admission pending their separate timing review.
 

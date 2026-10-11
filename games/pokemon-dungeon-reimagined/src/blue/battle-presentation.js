@@ -7,6 +7,7 @@ import { cameraDiscovery } from './mechanics-visibility.js';
  * timing and effect routes without exported artwork remain qualified. */
 import {captureWorld} from './battle-events.js';
 import {pokeFlightSamples,pokeDropSamples,pokeLossPosition} from './battle-item-flight.js';
+import {nativeSin4096} from './battle-native-sine-data.js';
 
 /** @typedef {import('./mechanics-types.js').Actor} Actor */
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
@@ -15,7 +16,7 @@ import {pokeFlightSamples,pokeDropSamples,pokeLossPosition} from './battle-item-
 /** @typedef {import('./battle-events.js').BattleWorld} BattleWorld */
 /** @typedef {[number,number,number,number,number,number,number]} NativeFrame */
 /** @typedef {{animation:number,preparation:number,cast:number,target:number,travel:number,attachmentSet:number,travelSpeed:number}} MoveEffects */
-/** @typedef {{hypnosisReady:()=>boolean,animationInfo:(speciesId:string,animation:number,direction:string)=>{frames:readonly NativeFrame[],totalTicks:number}|undefined,effectInfo:(id:number,direction:string)=>{ticks:number,attachmentSet:number,loop:boolean,blocksWait:boolean}|undefined,moveEffects:(moveId:string,speciesId:string)=>MoveEffects|undefined,attachmentOffset:(speciesId:string,pose:import('./render-native-sprites.js').PoseOptions,setId:number)=>{x:number,y:number,valid:boolean}|undefined}} BattleAssets */
+/** @typedef {{animationInfo:(speciesId:string,animation:number,direction:string)=>{frames:readonly NativeFrame[],totalTicks:number}|undefined,effectInfo:(id:number,direction:string)=>{ticks:number,attachmentSet:number,loop:boolean,blocksWait:boolean}|undefined,moveEffects:(moveId:string,speciesId:string)=>MoveEffects|undefined,attachmentOffset:(speciesId:string,pose:import('./render-native-sprites.js').PoseOptions,setId:number)=>{x:number,y:number,valid:boolean}|undefined}} BattleAssets */
 /** @typedef {{actor:Actor,x:number,y:number,direction:string,animation?:number,clip:string,elapsedTicks:number,visible:boolean,statusHp?:number,bodyVisible?:boolean,shadowVisible?:boolean}} BattleActor */
 /** @typedef {{id:number,actorId?:string,x?:number,y?:number,direction:string,elapsedTicks:number,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1}} BattleEffect */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,elapsedTicks:number}} BattleNumber */
@@ -329,16 +330,16 @@ export class BattlePresentation {
     };
     /** Replay only the visual segment already chosen by the producer. No wall
      * or recipient scan occurs here. @param {string} moveId @param {MoveEffects} route @param {Actor} caster
-     * @param {{x:number,y:number}} from @param {{x:number,y:number}} to */
-    const travel=(moveId,route,caster,from,to)=>{
+     * @param {{x:number,y:number}} from @param {{x:number,y:number}} to @param {boolean} singleTile */
+    const travel=(moveId,route,caster,from,to,singleTile)=>{
       if(!route.travel||route.travelSpeed<=0)return;
       const distance=Math.max(Math.abs(to.x-from.x),Math.abs(to.y-from.y));
-      if(!Number.isInteger(distance)||distance>10)throw new RangeError('A move projectile exceeds its recorded range.');
+      if(!Number.isInteger(distance)||distance<1||distance>10)throw new RangeError('A move projectile endpoint exceeds its recorded one-to-ten-cell range.');
       // sub_8056564 advances once before creating a nonzero travel effect,
       // independently of the later per-cell camera visibility checks.
       cursor++;
       const info=assets.effectInfo(route.travel,caster.direction);
-      const samples=info&&distance===1&&(moveId==='move-ember'||moveId==='move-hypnosis'&&caster.speciesId==='pokemon-102'||moveId==='move-screech')?adjacentTrajectory(moveId,assets,caster,this.poses,cursor,Math.floor((this.startedAt-this.rawPauseBefore+cursor*TICK_MS)/TICK_MS),route,from,to):undefined;
+      const samples=info?nativeTravelSamples(assets,caster,this.poses,cursor,Math.floor((this.startedAt-this.rawPauseBefore+cursor*TICK_MS)/TICK_MS),moveId,route,from,to,singleTile,visibleTile):undefined;
       const dx=Math.sign(to.x-from.x),dy=Math.sign(to.y-from.y),duration=24/route.travelSpeed;
       let elapsedOffset=0;
       for(let step=1;step<=distance;step++){
@@ -346,7 +347,7 @@ export class BattlePresentation {
         const previous={x:next.x-dx,y:next.y-dy};
         // The first loop RunFrame loads the new pose. Its last draw is at
         // +21px for these 3px projectiles; deletion follows that eighth frame.
-        if(info)this.effects.push({id:route.travel,start:cursor+1,end:cursor+duration+1,waitEnd:cursor+duration,direction:caster.direction,elapsedOffset,from:{x:previous.x*24+12,y:previous.y*24+16},to:{x:next.x*24+12,y:next.y*24+16},...(samples?{samples}:{})});
+        if(info)this.effects.push({id:route.travel,start:cursor+1,end:cursor+duration+1,waitEnd:cursor+duration,direction:caster.direction,elapsedOffset,from:{x:previous.x*24+12,y:previous.y*24+16},to:{x:next.x*24+12,y:next.y*24+16},...(samples?{samples:samples[step-1]}:{})});
         cursor+=duration;elapsedOffset+=duration;
       }
       drainEffects();
@@ -456,7 +457,7 @@ export class BattlePresentation {
         cue(event.type==='presentation'?{type:'attack',actorId:record.actor.id,moveId:record.moveId}:event,start,order,visible&&!EFFECT22_SILENT_CASTS.has(record.moveId)&&record.moveId!=='move-synthesis');
         if(!visible)continue;
         if(route?.preparation&&record.first){
-          if(record.moveId==='move-hypnosis'&&assets.hypnosisReady()){
+          if(record.moveId==='move-hypnosis'){
             // BG upload owns one raw VBlank before the ordinary preparation
             // frame. It advances no actor/effect/camera dungeon-frame age.
             this.rawHolds.push(cursor);
@@ -499,14 +500,14 @@ export class BattlePresentation {
         const route=moves.get(record.actorId);
         if(route?.travel&&route.travelSpeed>0){
           const caster=this.latestActor(record.actorId,cursor);
-          if(caster)travel(record.moveId,route,caster,caster,record.target);
+          if(caster)travel(record.moveId,route,caster,caster,record.target,record.singleTile??true);
         }
         // Actual-target focus follows projectile travel, before its impact.
         requestCamera(record.target,'look');
         if(displayedActor(record.target)){
           cursor+=4;
           // Rapid Spin retains the terminator draw before its target wait returns.
-          if(route?.target)cursor=effect(route.target,record.target,cursor,undefined,'s',Infinity,false,false,record.moveId==='move-rapid-spin'&&route.target===83||record.moveId==='move-psych-up'&&route.target===205);
+          if(route?.target)cursor=effect(route.target,record.target,cursor,undefined,'s',Infinity,false,true,record.moveId==='move-rapid-spin'&&route.target===83||record.moveId==='move-psych-up'&&route.target===205);
         }
         messageAt=cursor;continue;
       }
@@ -514,10 +515,11 @@ export class BattlePresentation {
         flushWalk();
         const caster=this.latestActor(record.actorId,cursor);
         const route=caster?assets.moveEffects(record.moveId,caster.speciesId):undefined;
-        if(Math.max(Math.abs(record.to.x-record.from.x),Math.abs(record.to.y-record.from.y))!==1)throw new RangeError('An empty opening projectile endpoint must be adjacent.');
+        const distance=Math.max(Math.abs(record.to.x-record.from.x),Math.abs(record.to.y-record.from.y));
+        if(!Number.isInteger(distance)||distance<1||distance>10||record.singleTile&&distance!==1)throw new RangeError('An empty opening projectile endpoint exceeds its requested range.');
         if(caster&&route){
-          travel(record.moveId,route,caster,record.from,record.to);
-          if(visibleTile(record.to)){
+          travel(record.moveId,route,caster,record.from,record.to,record.singleTile);
+          if(record.singleTile&&visibleTile(record.to)){
             cursor++; // Empty adjacent impact uses one frame, not a target's4.
             if(route.target)emptyImpact(route.target,record.to);
           }
@@ -609,8 +611,7 @@ export class BattlePresentation {
         flushWalk();patchActors([record.before],cursor);
         if(displayedActor(record.before))drainEffects();
         if(record.effectId!==undefined){
-          const fixed=record.effectId===15||record.effectId===14||record.effectId===21;
-          cursor=effect(record.effectId,record.before,cursor,record.effectId===21?3:undefined,record.before.direction,100,true,fixed,record.effectId===15||record.effectId===14);
+          cursor=effect(record.effectId,record.before,cursor,record.effectId===21?3:undefined,record.before.direction,100,true,true,record.effectId===15||record.effectId===14);
         }
         if(Boolean(record.before.status.sleep)!==Boolean(record.after.status.sleep))retirePose(record.after.id,cursor);
         patchActors([record.after],cursor);messageAt=cursor;cue(event,cursor,order);continue;
@@ -879,36 +880,46 @@ function sampledActor(actor,poses,tick,globalTick,visible=true,terminalPose){
   return{actor,x,y,direction,animation,clip,elapsedTicks,visible,...(fainting?{bodyVisible:(globalTick&1)!==0,shadowVisible:false}:{})};
 }
 
-/** Closed adjacent Ember, Exeggcute Hypnosis and Screech: source attachment
- * recurrence before every visible travel frame. No target scan, clock or RNG is owned here.
- * @param {string} moveId @param {BattleAssets} assets @param {Actor} caster @param {PoseTrack[]} poses
- * @param {number} tick @param {number} globalTick @param {MoveEffects} route
- * @param {{x:number,y:number}} from @param {{x:number,y:number}} to
- * @returns {readonly TravelSample[]} */
-function adjacentTrajectory(moveId,assets,caster,poses,tick,globalTick,route,from,to){
-  const speed3=moveId==='move-ember'&&route.travel===137||moveId==='move-hypnosis'&&caster.speciesId==='pokemon-102'&&route.travel===225;
-  const screech=moveId==='move-screech'&&route.travel===52&&route.travelSpeed===2;
-  if(!(speed3&&route.travelSpeed===3||screech)||Math.max(Math.abs(to.x-from.x),Math.abs(to.y-from.y))!==1)throw new RangeError('Unsupported native adjacent projectile geometry.');
+/** Native projectile attachment recurrence and optional move wobble before
+ * every visible travel frame. Invisible cells advance wobble phase only.
+ * @param {BattleAssets} assets @param {Actor} caster @param {PoseTrack[]} poses
+ * @param {number} tick @param {number} globalTick @param {string} moveId @param {MoveEffects} route
+ * @param {{x:number,y:number}} from @param {{x:number,y:number}} to @param {boolean} singleTile
+ * @param {(point:{x:number,y:number})=>boolean} visible
+ * @returns {readonly (readonly TravelSample[])[]} */
+function nativeTravelSamples(assets,caster,poses,tick,globalTick,moveId,route,from,to,singleTile,visible){
+  const distance=Math.max(Math.abs(to.x-from.x),Math.abs(to.y-from.y));
+  if(![2,3,6].includes(route.travelSpeed)||!Number.isInteger(distance)||distance<1||distance>10)throw new RangeError('Unsupported native projectile geometry.');
   const pose=sampledActor(caster,poses,tick,globalTick);
   const attachment=assets.attachmentOffset(caster.speciesId,{direction:pose.direction,animation:pose.animation,clip:pose.clip,ticks:pose.elapsedTicks},route.attachmentSet);
-  if(!attachment||!Number.isInteger(attachment.x)||!Number.isInteger(attachment.y)||attachment.x< -32768||attachment.x>32767||attachment.y< -32768||attachment.y>32767)throw new RangeError('Native adjacent projectile attachment is unavailable.');
+  if(!attachment||!Number.isInteger(attachment.x)||!Number.isInteger(attachment.y)||attachment.x< -32768||attachment.x>32767||attachment.y< -32768||attachment.y>32767)throw new RangeError('Native projectile launch attachment is unavailable.');
   const dx=Math.sign(to.x-from.x),dy=Math.sign(to.y-from.y),attached=route.attachmentSet!==-1;
   /** @type {0|1} */const depthAdd=['ne','n','nw'].includes(caster.direction)?0:1;
   const short=(/** @type {number} */value)=>(value<<16)>>16;
-  let offsetX=attachment.x,offsetY=attachment.y;
-  /** @type {TravelSample[]} */const samples=[];
-  const frames=24/route.travelSpeed;
-  for(let frame=0;frame<frames;frame++){
-    // sub_800E3AC stores each compound assignment into signed 16-bit and C divides
-    // toward zero. For a 24px endpoint the divisor is 24/4=6.
-    offsetX=short(Math.trunc(short(offsetX*5)/6));
-    offsetY=short(offsetY+9);offsetY=short(offsetY*5);offsetY=short(Math.trunc(offsetY/6));offsetY=short(offsetY-9);
-    const x=from.x*24+12+dx*route.travelSpeed*frame,depthY=from.y*24+16+dy*route.travelSpeed*frame;
-    // A raw 99 pair is transformed before this guard. Set -1 ignores pos2;
-    // no creation-time validity flag may suppress the whole trajectory.
-    samples.push(Object.freeze({x:x+(attached?offsetX:0),y:depthY+(attached?offsetY:0),depthY,depthAdd,visible:!attached||offsetX!==99&&offsetY!==99}));
+  let offsetX=attachment.x,offsetY=attachment.y,phase=0;
+  /** @type {TravelSample[][]} */const samples=[];
+  const frames=24/route.travelSpeed,totalFrames=distance*frames,phaseStep=Math.trunc(0x80000/totalFrames);
+  const amplitude=singleTile?32:Math.min(totalFrames+8,64),divisor=distance*6;
+  for(let step=1;step<=distance;step++){
+    /** @type {TravelSample[]} */const tileSamples=[];samples.push(tileSamples);
+    const tile={x:from.x+dx*step,y:from.y+dy*step};
+    if(!visible(tile)){phase+=frames*phaseStep;continue;}
+    for(let frame=0;frame<frames;frame++){
+      // sub_800E3AC stores every compound assignment into signed 16-bit;
+      // the pre-scanned endpoint makes its divisor six times the tile distance.
+      offsetX=short(Math.trunc(short(offsetX*(divisor-1))/divisor));
+      offsetY=short(offsetY+9);offsetY=short(offsetY*(divisor-1));offsetY=short(Math.trunc(offsetY/divisor));offsetY=short(offsetY-9);
+      const baseX=(step-1)*24+route.travelSpeed*frame;
+      const baseY=from.y*24+16+dy*((step-1)*24+route.travelSpeed*frame);
+      const arc=moveId==='move-attract'?nativeSin4096(Math.trunc(phase/256))*amplitude:0;
+      const x=from.x*24+12+dx*baseX,depthY=baseY;
+      // A raw 99 pair is transformed before this guard. Set -1 ignores pos2;
+      // no creation-time validity flag may suppress the whole trajectory.
+      tileSamples.push(Object.freeze({x:x+(attached?offsetX:0),y:Math.trunc((baseY*256-arc)/256)+(attached?offsetY:0),depthY,depthAdd,visible:!attached||offsetX!==99&&offsetY!==99}));
+      phase+=phaseStep;
+    }
   }
-  return Object.freeze(samples);
+  return Object.freeze(samples.map(group=>Object.freeze(group)));
 }
 
 /** @param {number} dx @param {number} dy @returns {import('./mechanics-types.js').Direction} */

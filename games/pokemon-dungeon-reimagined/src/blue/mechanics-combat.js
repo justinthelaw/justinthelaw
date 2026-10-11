@@ -44,6 +44,8 @@ const ZERO_DRAW_SECONDARY_MOVES=new Set(['move-mud-slap','move-dynamic-punch']);
  * @type {WeakSet<Actor>} */
 const secondaryGateReady=new WeakSet();
 const NEGATIVE_STATUSES=['sleep','poison','burn','paralysis','cringe','confusion','infatuated','leechSeed','whiffer','slow'];
+const EMPTY_TARGET_PRESENTATION_MOVES=new Set(['move-attract','move-bubble','move-ember','move-hypnosis','move-leech-seed','move-mud-slap','move-razor-leaf','move-sand-attack','move-smokescreen','move-water-gun']);
+const NO_BITMAP_STATUS_HELPERS=new Set(['leech-seed','focus-energy','enraged','whiffer']);
 export const STATUS_KEYS=Object.freeze([...NEGATIVE_STATUSES,'focusEnergy','bide','enraged','reflect']);
 /** Scoped native visualFlags bits, used only to deduplicate activation text.
  * @type {Readonly<Record<string,number>>} */
@@ -305,8 +307,21 @@ function inflict(state,actor,target,status,data,events) {
   if(status==='poisoned')target.periodic.poison=0;
   if(status==='burn')target.periodic.burn=0;
   if(status==='bide')target.bideDamage=0;
-  recordEffect(events,before,target,status==='sleep'?37:status==='paralysis'?423:status==='infatuated'?15:undefined);
-  message(state,events,`${target.name} ${STATUS_MESSAGES[status]??'changed status!'}`);events.push({type:'status',actorId:target.id,text:normalized});
+  const effectId=status==='sleep'?37:status==='burn'?76:status==='cringe'?323:status==='paralysis'?423:status==='infatuated'?15:undefined;
+  const result=`${target.name} ${STATUS_MESSAGES[status]??'changed status!'}`;
+  // Paralysis requests its result message before PlayParalysisEffect. The
+  // other admitted bitmap helpers start their effect before result text.
+  // These four source-proven helpers are no-op/sound-only: they neither create
+  // nor drain a bitmap. Their icon snapshot follows the result message.
+  if(NO_BITMAP_STATUS_HELPERS.has(status)){
+    message(state,events,result);
+    recordSync(state,events,[target]);
+  }else{
+    if(status==='paralysis')message(state,events,result);
+    recordEffect(events,before,target,effectId);
+    if(status!=='paralysis')message(state,events,result);
+  }
+  events.push({type:'status',actorId:target.id,text:normalized});
 }
 /** Native stat-effect selectors; missing exported artwork is left to presentation.
  * @type {Readonly<Record<string,readonly [number,number]>>} */
@@ -525,14 +540,14 @@ export function attack(state,actor,slot,data,events) {
     // Line targeting has no pre-collected target at this source boundary.
     if(move.range!==5&&trace.firstTeamTarget)recordCamera(events,trace.firstTeamTarget,'look');
     if(!targets.length){
-      if((move.id==='move-ember'||move.id==='move-hypnosis')&&trace.to&&trace.stop)events.push({type:'presentation',presentation:{kind:'empty-target',actorId:actor.id,moveId:move.id,from:{x:actor.x,y:actor.y},to:{...trace.to},stop:trace.stop}});
+      if(EMPTY_TARGET_PRESENTATION_MOVES.has(move.id)&&trace.to&&trace.stop)events.push({type:'presentation',presentation:{kind:'empty-target',actorId:actor.id,moveId:/** @type {import('./battle-events.js').EmptyTargetMoveId} */(move.id),from:{x:actor.x,y:actor.y},to:{...trace.to},stop:trace.stop,singleTile:move.range!==5}});
       continue;
     }
     foundTarget=true;
     for(const target of targets){
       if(!moveEntityValid(actor)||moveFloorOver(state,execution))break;
       if(target.hp<=0)continue;
-      events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:move.id,target:captureActor(target),phase:'visit'}});
+      events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:move.id,target:captureActor(target),phase:'visit',singleTile:move.range!==5}});
       wakeInitialSleep(state,target,events);
       if(!hits(state,actor,target,move.accuracyBeforeEffect,data)){message(state,events,`${target.name} avoided the move!`,{kind:'miss',actorId:actor.id,accuracy:1,target:captureActor(target)});continue;}
       // Native unk158 is set after accuracy 1, before the handler.

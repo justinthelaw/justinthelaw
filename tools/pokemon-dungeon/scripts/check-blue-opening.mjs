@@ -4,13 +4,15 @@ import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { verifyNativeBattleMetadata } from '../art/blue/native-battle-effects-export.mjs';
+import { readTarGzip } from '../art/blue/native-format.mjs';
 
 const root = fileURLToPath(new URL('../../../games/pokemon-dungeon-reimagined/', import.meta.url));
 const readJson = async filename => JSON.parse(await readFile(path.join(root, filename), 'utf8'));
 const distribution = await readJson('distribution.json');
 const assets = await readJson('assets/blue/manifest.json');
 const data = await readJson('content/blue-opening.json');
-const profiles = JSON.parse(await readFile(new URL('../content/blue-source.json', import.meta.url), 'utf8')).starterProfiles;
+const blueSource = JSON.parse(await readFile(new URL('../content/blue-source.json', import.meta.url), 'utf8'));
+const profiles = blueSource.starterProfiles;
 const expectedStarters = profiles.records.map(record => record.speciesId).sort();
 const excludedStatDropGuards = new Set(['Clear Body', 'White Smoke', 'Hyper Cutter']);
 assert.deepEqual([...data.starterIds].sort(), expectedStarters, 'All 16 original starter profiles must be retained');
@@ -196,14 +198,37 @@ assert.equal(assets.nativeMotions.modulePath, 'src/blue/render-move-motion-data.
 assert.equal(assets.nativeMotions.moveCount, Object.keys(data.moves).length);
 assert.equal(assets.nativeMotions.openingFactsSha256,
   createHash('sha256').update(await readFile(path.join(root, 'content/blue-opening.json'))).digest('hex'));
-await verifiedBytes(assets.nativeMotions.modulePath, assets.nativeMotions.bytes, assets.nativeMotions.sha256);
+const motionBytes = await verifiedBytes(assets.nativeMotions.modulePath, assets.nativeMotions.bytes, assets.nativeMotions.sha256);
+const motionSource = motionBytes.toString();
+const motionMatch = motionSource.match(/export const MOVE_MOTION_FACTS=(\{[^\n]+\});/);
+assert(motionMatch, 'Generated native move facts must remain a static JSON literal');
+const motionFacts = JSON.parse(motionMatch[1]);
+const firstAttemptMoves = [
+  'move-absorb','move-attract','move-bite','move-bone-club','move-bubble','move-disable','move-ember','move-focus-energy','move-growl','move-helping-hand',
+  'move-hypnosis','move-leech-seed','move-leer','move-low-kick','move-mud-slap','move-pound','move-quick-attack','move-rage','move-razor-leaf','move-sand-attack',
+  'move-scratch','move-smokescreen','move-tackle','move-tail-whip','move-thunder-shock','move-thunder-wave','move-vine-whip','move-water-gun','move-water-sport','move-withdraw',
+];
+assert.equal(firstAttemptMoves.length, 30); assert.equal(new Set(firstAttemptMoves).size, 30);
+for (const moveId of firstAttemptMoves) assert(motionFacts[moveId], `Missing first-attempt native route: ${moveId}`);
+const sine = assets.nativeSine;
+assert.equal(sine.modulePath, 'src/blue/battle-native-sine-data.js');
+assert.deepEqual({entries:sine.entries,min:sine.min,max:sine.max,sourcePaths:sine.sourcePaths},
+  {entries:1024,min:0,max:255,sourcePaths:['src/data/math.h','src/math.c']});
+assert(/^[0-9a-f]{64}$/.test(sine.quarterWaveSha256) && /^[0-9a-f]{64}$/.test(sine.quadrantBodySha256));
+const sineBytes = await verifiedBytes(sine.modulePath, sine.bytes, sine.sha256), sineSource = sineBytes.toString();
+const sineBody = sineSource.match(/export const NATIVE_FAST_SINE=Object\.freeze\(\[([\s\S]*?)\n\]\);/)?.[1];
+assert(sineBody, 'Generated native sine table must remain a bounded literal array');
+const sineValues = [...sineBody.matchAll(/\b\d+\b/g)].map(match => Number(match[0]));
+assert.equal(sineValues.length, 1024); assert(sineValues.every((value,index) => value >= 0 && value <= 255 && (index === 0 || value >= sineValues[index - 1])));
+assert.equal(createHash('sha256').update(JSON.stringify(sineValues)).digest('hex'), sine.quarterWaveSha256);
+assert(sineSource.includes('switch(x&0xc00)') && !sineSource.includes('Math.sin'), 'Native sine must retain the source quadrant lookup without approximation');
 assert.equal(assets.battleEffects.activation, 'selected');
 assert.equal(assets.battleEffects.maxDecodedBytes, 4 * 1024 * 1024);
-assert.deepEqual(assets.battleEffects.banks.map(bank => bank.id), ['basic', 'initial']);
+assert.deepEqual(assets.battleEffects.banks.map(bank => bank.id), ['basic', 'initial', 'extra']);
 let battleDecodedBytes = 0;
 const battleIds = new Set();
 for (const bank of assets.battleEffects.banks) {
-  const stem = bank.id === 'basic' ? 'battle-effects' : 'battle-effects-initial';
+  const stem = bank.id === 'basic' ? 'battle-effects' : `battle-effects-${bank.id}`;
   assert.equal(bank.activation, 'selected');
   assert.equal(bank.path, `${stem}.png`); assert.equal(bank.metadataPath, `${stem}.json`);
   await verifiedPng('assets/blue', bank);
@@ -217,7 +242,18 @@ for (const bank of assets.battleEffects.banks) {
     assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
   }
 }
-assert.equal(battleIds.size, 33);
+assert.equal(battleIds.size, 56);
+const routeEffects = new Map();
+for (const moveId of firstAttemptMoves) {
+  const route = motionFacts[moveId], required = ['preparation','cast','target','travel'].map(key => route[key]).filter(Boolean);
+  routeEffects.set(moveId, required);
+  for (const effectId of required) assert(effectId === 222 || battleIds.has(effectId), `Missing first-attempt route effect ${effectId} for ${moveId}`);
+}
+assert.deepEqual([...routeEffects.entries()].filter(([,ids]) => ids.includes(222)).map(([id]) => id), ['move-hypnosis'],
+  'Hypnosis must be the sole first-attempt route using the dedicated background effect');
+assert(!battleIds.has(222), 'Hypnosis background effect 222 must remain outside the indexed EFO banks');
+for (const effectId of [15,37,76,323,423]) assert(battleIds.has(effectId), `Missing first-attempt status helper effect ${effectId}`);
+for (const effectId of [394,397,398]) assert(battleIds.has(effectId), `Missing first-attempt stat effect ${effectId}`);
 const hypnosis = assets.battleEffects.hypnosis;
 assert.equal(hypnosis.activation, 'selected-hypnosis-only'); assert.equal(hypnosis.effectId, 222);
 assert.equal(hypnosis.path, 'hypnosis-background.png'); assert.equal(hypnosis.width, 416); assert.equal(hypnosis.height, 32);
@@ -226,6 +262,32 @@ assert(hypnosis.bytes <= 4096); await verifiedPng('assets/blue', hypnosis);
 await verifiedBytes(hypnosis.modulePath, hypnosis.moduleBytes, hypnosis.moduleSha256);
 battleDecodedBytes += hypnosis.width * hypnosis.height * 4;
 assert(battleDecodedBytes <= assets.battleEffects.maxDecodedBytes, 'Battle effects exceed the aggregate decoded budget');
+const battleSourceManifest = JSON.parse(await readFile(new URL('../art/blue/native-battle-sources.json', import.meta.url), 'utf8'));
+assert.equal(battleSourceManifest.files.length, 113);
+for (const sourcePath of sine.sourcePaths) assert(battleSourceManifest.files.some(record => record.path === sourcePath && /^[0-9a-f]{64}$/.test(record.sha256)), `Missing pinned sine owner: ${sourcePath}`);
+assert(assets.battleEffects.banks.every(bank => bank.sourceManifestSha256 === assets.nativeMotions.sourceManifestSha256));
+const battleArchiveBytes = await readFile(new URL(`../art/blue/${battleSourceManifest.archive.path}`, import.meta.url));
+assert.equal(battleArchiveBytes.length, battleSourceManifest.archive.bytes);
+assert.equal(createHash('sha256').update(battleArchiveBytes).digest('hex'), battleSourceManifest.archive.sha256);
+const battleSources = readTarGzip(battleArchiveBytes), effectData = battleSources.get('src/effect_data.c')?.toString();
+const moveConstants = battleSources.get('include/constants/move_id.h')?.toString();
+assert(effectData && moveConstants, 'Pinned native move routes are absent');
+const sourceMoveIds = new Map([...moveConstants.matchAll(/^#define (MOVE_\w+) (0x[0-9A-Fa-f]+|\d+)/gm)].map(match => [Number(match[2]),match[1]]));
+const sourceRoutes = new Map([...effectData.matchAll(/^\s{4}\[(MOVE_\w+)\] = \{([^\n]+)\}/gm)].map(match => [match[1],match[2]]));
+const originalMoveIds = new Map(blueSource.identities.moves.map(record => [record.id,record.originalId]));
+const wobbleMoves = [];
+for (const moveId of firstAttemptMoves) {
+  const symbol = sourceMoveIds.get(originalMoveIds.get(moveId)), route = symbol && sourceRoutes.get(symbol);
+  assert(route, `Pinned native route is absent for ${moveId}`);
+  if (/\.useSineWobble = TRUE\b/.test(route)) wobbleMoves.push(moveId);
+  else assert(/\.useSineWobble = FALSE\b/.test(route), `Pinned sine-wobble flag is absent for ${moveId}`);
+}
+assert.deepEqual(wobbleMoves, ['move-attract'], 'Attract must be the sole first-attempt native sine-wobble route');
+const presentationSource = await readFile(path.join(root, 'src/blue/battle-presentation.js'), 'utf8');
+assert(presentationSource.includes("import {nativeSin4096} from './battle-native-sine-data.js'"));
+assert.equal((presentationSource.match(/nativeSin4096\(/g) ?? []).length, 1, 'Attract must have exactly one native sine call');
+assert(presentationSource.includes("moveId==='move-attract'?nativeSin4096(Math.trunc(phase/256))*amplitude:0"),
+  'Native sine wobble must remain source-qualified to Attract');
 if (assets.statusAtlas) {
   await verifiedPng('assets/blue', assets.statusAtlas);
   const metadata = await verifiedMetadata(assets.statusAtlas);

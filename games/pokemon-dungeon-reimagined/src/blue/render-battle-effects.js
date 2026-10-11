@@ -2,13 +2,14 @@
  * lifetime; this bank never starts timers or changes gameplay. */
 const ROOT=new URL('../../assets/blue/',import.meta.url);
 const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
-/** @typedef {'basic'|'initial'} BankId */
+/** @typedef {'basic'|'initial'|'extra'} BankId */
 /** @typedef {{id:BankId,path:string,ids:readonly number[]}} BankSpec */
 /** Selected opening effects; Hypnosis BG has its own owner.
  * @type {readonly BankSpec[]} */
 const BANKS=Object.freeze([
-  {id:'basic',path:'battle-effects',ids:[8,9,10,11,22,37,138,144,236,274,317,137,399,404,423,83,14,205,50,180,181]},
-  {id:'initial',path:'battle-effects-initial',ids:[7,15,21,128,150,225,287,312,402,425,271,52]},
+  {id:'basic',path:'battle-effects',ids:[15,28,29,52,65,128,138,194,215,225,271,299,323]},
+  {id:'initial',path:'battle-effects-initial',ids:[6,7,8,9,10,11,14,21,22,37,85,130,144,150,180,181,182,205,236,287,312,334,394,397,398,399,402,404,423,425,434]},
+  {id:'extra',path:'battle-effects-extra',ids:[50,76,83,96,137,269,270,274,288,296,317,333]},
 ]);
 const JSON_LIMIT=128*1024,PNG_LIMIT=256*1024,MAX_BANKS=3,MAX_DECODED_BYTES=4*1024*1024;
 

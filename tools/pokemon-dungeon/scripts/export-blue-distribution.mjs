@@ -65,8 +65,8 @@ if (spriteManifest.statusAtlas) {
 }
 if (spriteManifest.battleEffects) {
   const selected = spriteManifest.battleEffects;
-  if (selected.activation !== 'selected' || selected.maxDecodedBytes !== 4 * 1024 * 1024 || !Array.isArray(selected.banks) || selected.banks.length !== 2) throw new Error('Invalid battle effect bank selection');
-  const expected = new Map([['basic', 'battle-effects'], ['initial', 'battle-effects-initial']]);
+  if (selected.activation !== 'selected' || selected.maxDecodedBytes !== 4 * 1024 * 1024 || !Array.isArray(selected.banks) || selected.banks.length !== 3) throw new Error('Invalid battle effect bank selection');
+  const expected = new Map([['basic', 'battle-effects'], ['initial', 'battle-effects-initial'], ['extra', 'battle-effects-extra']]);
   let decodedBytes = 0;
   for (const bank of selected.banks) {
     const stem = expected.get(bank.id);

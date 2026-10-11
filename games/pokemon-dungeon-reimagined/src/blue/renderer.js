@@ -234,7 +234,7 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
     async loadBattleAssets(){await Promise.all([effects.load(),hypnosis.load()]);},
     clearBattleNotice(){notice.reset();},
     /** @returns {import('./battle-presentation.js').BattleAssets} */
-    battleAssets(){return{hypnosisReady:()=>hypnosis.ready(),animationInfo:(id,animation,direction)=>sprites.animationInfo(id,animation,direction),effectInfo:(id,direction)=>effects.effectInfo(id,direction),moveEffects,attachmentOffset:(id,pose,setId)=>sprites.attachmentOffset(id,pose,setId)};},
+    battleAssets(){return{animationInfo:(id,animation,direction)=>sprites.animationInfo(id,animation,direction),effectInfo:(id,direction)=>effects.effectInfo(id,direction),moveEffects,attachmentOffset:(id,pose,setId)=>sprites.attachmentOffset(id,pose,setId)};},
     getChoiceBounds(){return choiceBounds.map(bound=>({...bound}));},
     getToolbarBounds(){return toolbarVisible?touchToolbarBounds():[];},
     /** @param {View} source @param {number} time */
