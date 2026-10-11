@@ -1,0 +1,339 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/pret/pmd-red",
+  "commit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+  "sourceEdition": "Red Rescue Team comparative",
+  "effectId": 222,
+  "activation": "selected-hypnosis-only",
+  "archive": {
+    "path": "native-hypnosis-source.tar.gz",
+    "bytes": 148746,
+    "sha256": "423fd1e44b5694dfefe785ff1f2498616e98b07f0131c4091cecaf77234a239d"
+  },
+  "files": [
+    {
+      "path": "data/effects/efbg005_000.bin",
+      "bytes": 1782,
+      "sha256": "14d6cd6a77b2ea6394b7811cbc0a1219ee954eea27119d82ea49e58fc9bf2b0f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_000.bin"
+    },
+    {
+      "path": "data/effects/efbg005_001.bin",
+      "bytes": 1782,
+      "sha256": "70b3ec1f101bf2cd13bffd96cbeaf109882cb25e7b6fce6b683a2a89b922135f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_001.bin"
+    },
+    {
+      "path": "data/effects/efbg005_002.bin",
+      "bytes": 1782,
+      "sha256": "c6601e1e884643e9f453a27c8122f666e793ee2a23d2f6f3e94b20765555a24c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_002.bin"
+    },
+    {
+      "path": "data/effects/efbg005_003.bin",
+      "bytes": 1782,
+      "sha256": "d030e5766a7db0eeeb807c8fde149e72b556a62a9937a8a484f497212afc1a5e",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_003.bin"
+    },
+    {
+      "path": "data/effects/efbg005_004.bin",
+      "bytes": 1782,
+      "sha256": "0bfb3e9faa5458a62c778e5400b0a273a4c51a46f9d1a98f35fa16670fc05819",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_004.bin"
+    },
+    {
+      "path": "data/effects/efbg005_005.bin",
+      "bytes": 1782,
+      "sha256": "fcb9c743af1b21fa1b2a13128fb1161f496c4a6eee5504685a02b1280db860d9",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_005.bin"
+    },
+    {
+      "path": "data/effects/efbg005_006.bin",
+      "bytes": 1782,
+      "sha256": "e7ce94301d0db3889bd2d52f086a543bd19798b7d3dc5e6afdf938e751a4ca90",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_006.bin"
+    },
+    {
+      "path": "data/effects/efbg005_007.bin",
+      "bytes": 1782,
+      "sha256": "19dd9bfcbf747ab5ab4b41a834ccf4ff872808ad4409d34f08a87e2d81fd132d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_007.bin"
+    },
+    {
+      "path": "data/effects/efbg005_008.bin",
+      "bytes": 1782,
+      "sha256": "2a026154e9b793a510d0cc3201c66b7f1336ae653968d7b49ae5eee7d586f312",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_008.bin"
+    },
+    {
+      "path": "data/effects/efbg005_009.bin",
+      "bytes": 1782,
+      "sha256": "0919f2468e07cb621c9b73f4d6ea0174822388793267535f358d9c900db90cfb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_009.bin"
+    },
+    {
+      "path": "data/effects/efbg005_010.bin",
+      "bytes": 1782,
+      "sha256": "a26e01e919b3f3727bf138d464a7142c9e9019132c4717cfbf716d62bba8f23f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_010.bin"
+    },
+    {
+      "path": "data/effects/efbg005_011.bin",
+      "bytes": 1782,
+      "sha256": "14d6cd6a77b2ea6394b7811cbc0a1219ee954eea27119d82ea49e58fc9bf2b0f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_011.bin"
+    },
+    {
+      "path": "data/effects/efbg005_012.bin",
+      "bytes": 1782,
+      "sha256": "70b3ec1f101bf2cd13bffd96cbeaf109882cb25e7b6fce6b683a2a89b922135f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_012.bin"
+    },
+    {
+      "path": "data/effects/efbg005_013.bin",
+      "bytes": 1782,
+      "sha256": "c6601e1e884643e9f453a27c8122f666e793ee2a23d2f6f3e94b20765555a24c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_013.bin"
+    },
+    {
+      "path": "data/effects/efbg005_014.bin",
+      "bytes": 1782,
+      "sha256": "d030e5766a7db0eeeb807c8fde149e72b556a62a9937a8a484f497212afc1a5e",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_014.bin"
+    },
+    {
+      "path": "data/effects/efbg005_015.bin",
+      "bytes": 1782,
+      "sha256": "0bfb3e9faa5458a62c778e5400b0a273a4c51a46f9d1a98f35fa16670fc05819",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_015.bin"
+    },
+    {
+      "path": "data/effects/efbg005_016.bin",
+      "bytes": 1782,
+      "sha256": "fcb9c743af1b21fa1b2a13128fb1161f496c4a6eee5504685a02b1280db860d9",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_016.bin"
+    },
+    {
+      "path": "data/effects/efbg005_017.bin",
+      "bytes": 1782,
+      "sha256": "e7ce94301d0db3889bd2d52f086a543bd19798b7d3dc5e6afdf938e751a4ca90",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_017.bin"
+    },
+    {
+      "path": "data/effects/efbg005_018.bin",
+      "bytes": 1782,
+      "sha256": "19dd9bfcbf747ab5ab4b41a834ccf4ff872808ad4409d34f08a87e2d81fd132d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_018.bin"
+    },
+    {
+      "path": "data/effects/efbg005_019.bin",
+      "bytes": 1782,
+      "sha256": "2a026154e9b793a510d0cc3201c66b7f1336ae653968d7b49ae5eee7d586f312",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_019.bin"
+    },
+    {
+      "path": "data/effects/efbg005_020.bin",
+      "bytes": 1782,
+      "sha256": "0919f2468e07cb621c9b73f4d6ea0174822388793267535f358d9c900db90cfb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_020.bin"
+    },
+    {
+      "path": "data/effects/efbg005_021.bin",
+      "bytes": 1782,
+      "sha256": "a26e01e919b3f3727bf138d464a7142c9e9019132c4717cfbf716d62bba8f23f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005_021.bin"
+    },
+    {
+      "path": "data/effects/efbg005.pal",
+      "bytes": 1986,
+      "sha256": "a2c739290e8283a4850bde5b8caddafc619b77f2e9db289991c6b8eeffb08e41",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005.pal"
+    },
+    {
+      "path": "data/effects/efbg005.png",
+      "bytes": 1715,
+      "sha256": "dde2827ba96647aad824bcc6d052c3207eab291690a1e084be8bd465dbc8f341",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efbg005.png"
+    },
+    {
+      "path": "include/gba/io_reg.h",
+      "bytes": 33701,
+      "sha256": "668f0f92b377f3acf9365e201cc47c33ac91127eeac68618f225d1bd24785ea6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/gba/io_reg.h"
+    },
+    {
+      "path": "include/structs/axdata.h",
+      "bytes": 4870,
+      "sha256": "f17b638c30f191f84f29d7686ba6dd255b87bdf4fd2714b889a4391b54a9bfdf",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/structs/axdata.h"
+    },
+    {
+      "path": "include/structs/sprite_oam.h",
+      "bytes": 11906,
+      "sha256": "2be02a0e39a86e00e6014d07a61c73950316e5d02d4835c4f3e89e7429e2372c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/structs/sprite_oam.h"
+    },
+    {
+      "path": "src/bg_control.c",
+      "bytes": 2743,
+      "sha256": "d5dac1cf4ea61c8bc74a967d2b231d8208ea9f0656b30b4891a6ca85ba09f6e7",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/bg_control.c"
+    },
+    {
+      "path": "src/bg_palette_buffer.c",
+      "bytes": 2688,
+      "sha256": "1f5ab72be89f92c20afe227eb3b162fae842306a606a256cff2d8f0b8448d356",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/bg_palette_buffer.c"
+    },
+    {
+      "path": "src/code_8040094_1.c",
+      "bytes": 13501,
+      "sha256": "e62aad6a3cbd89a3f0f7158dd8b9051e6c2c79dc47cd77b16afdffb9d829b033",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/code_8040094_1.c"
+    },
+    {
+      "path": "src/cpu.c",
+      "bytes": 3026,
+      "sha256": "87c862ae2e498a09644af114b5ba9b6ac8487561814a9329cd1990ce6b3a4dbe",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/cpu.c"
+    },
+    {
+      "path": "src/data/effects/efbg005.c",
+      "bytes": 4515,
+      "sha256": "74665338160575401b1656a8decbdb550525525d6762860b35b588f7d6a1d1ff",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efbg005.c"
+    },
+    {
+      "path": "src/dungeon_8041AD0.c",
+      "bytes": 36684,
+      "sha256": "09abd0f9942cae38b34e61676a20cb61cc4b451e09786ad5a57ad10ac610d0f6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_8041AD0.c"
+    },
+    {
+      "path": "src/dungeon_items.c",
+      "bytes": 28903,
+      "sha256": "c8ebcbae06bd7d151750e5a9b3f7cbf65939d7a0422d69e587ecfe53a7c46790",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_items.c"
+    },
+    {
+      "path": "src/dungeon_map.c",
+      "bytes": 19123,
+      "sha256": "2d8f245f9d0cfc846121d33355d04e2ce6102fa000d73c0622e78396cd37abd5",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_map.c"
+    },
+    {
+      "path": "src/dungeon_message.c",
+      "bytes": 22583,
+      "sha256": "f5bb170991f3da8be452f25dbb8949ba09524f666ff7a40fc073bc9c460bdaee",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_message.c"
+    },
+    {
+      "path": "src/dungeon_misc.c",
+      "bytes": 55931,
+      "sha256": "9f5de68c48737bb3b9aadd0b92a9ae2069a53349383d125174e7b2aeca04d90d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_misc.c"
+    },
+    {
+      "path": "src/dungeon_mon_sprite_render.c",
+      "bytes": 16066,
+      "sha256": "a0d8ed04930f3edae3a93eca3ec47d3512efc94c06ce3f16821a9930b07a43c7",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_mon_sprite_render.c"
+    },
+    {
+      "path": "src/dungeon_move_util.c",
+      "bytes": 46263,
+      "sha256": "0b69f36c9e8c497acdfef2c06566fe84ccb4549390d53293dc24347e57af9d53",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_move_util.c"
+    },
+    {
+      "path": "src/dungeon_pokemon_sprites.c",
+      "bytes": 18521,
+      "sha256": "55a197e17c485234e41f8d4fbf88c2949f29b0545ba5d8c4e95ec697fcf7bf2c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_pokemon_sprites.c"
+    },
+    {
+      "path": "src/dungeon_tilemap.c",
+      "bytes": 20577,
+      "sha256": "28aac2bdf721aee8c5f42b6e85ac96f6e4e70771fd7a547fee0585d9dfd119bc",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_tilemap.c"
+    },
+    {
+      "path": "src/dungeon_vram.c",
+      "bytes": 25421,
+      "sha256": "4d16ee6ee294ea233f35eaad43d154c7418aa1083d1a6dd61ba80a3e4df4e075",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_vram.c"
+    },
+    {
+      "path": "src/effect_anim_file.c",
+      "bytes": 553,
+      "sha256": "a9a5cc718e109c5bf9e91ab74614a3ec879b6b0687598e862e41dc005eff8b26",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_anim_file.c"
+    },
+    {
+      "path": "src/effect_data.c",
+      "bytes": 603803,
+      "sha256": "f3eff2ec8090d826c202ce3e20895dd221dbd96535fb30511e322b2eecf5101d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_data.c"
+    },
+    {
+      "path": "src/effect_main.c",
+      "bytes": 29921,
+      "sha256": "2ad643959a61569bb1560ad039ffc3b51a970a0c59db9c62d0b9544946aed971",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_main.c"
+    },
+    {
+      "path": "src/effect_sub_1.c",
+      "bytes": 5427,
+      "sha256": "07d1a28db301dd2abe524dedcde89742153369026939ac5d2e1415f61c3ce710",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_sub_1.c"
+    },
+    {
+      "path": "src/effect_sub_2.c",
+      "bytes": 2260,
+      "sha256": "04b4b4676d35f5dfbe81ecaa968c5643fba7703f6528f8f6d695ee8805b06df8",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_sub_2.c"
+    },
+    {
+      "path": "src/graphics_memory.c",
+      "bytes": 7979,
+      "sha256": "ca848ea8df2f354599e50b281f52b38959043f6749abc7397619166b01ee4ebb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/graphics_memory.c"
+    },
+    {
+      "path": "src/reg_control.c",
+      "bytes": 9893,
+      "sha256": "a3a2665a61ce8dfca7b6d040be5e43ac8343cc73a6a5fc6ad33f77baeab813ae",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/reg_control.c"
+    },
+    {
+      "path": "src/sprite.c",
+      "bytes": 19685,
+      "sha256": "f7ae33c492686366b4c6b5508f76612a31bcc87e9c738569e54e82c774af87eb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/sprite.c"
+    },
+    {
+      "path": "src/text_1.c",
+      "bytes": 30429,
+      "sha256": "159bd11e9f13028eef8e071c8a8540aec393b91625a15d7aa8c9d6df8b00cae3",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/text_1.c"
+    },
+    {
+      "path": "src/text_2.c",
+      "bytes": 38997,
+      "sha256": "00c744ae8a09c3200cb0d16e88b319bb3c6af0908b2a52761a04e0f4e95f31d5",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/text_2.c"
+    },
+    {
+      "path": "src/text_3.c",
+      "bytes": 13955,
+      "sha256": "99cfcc0570e04cd6d006046aeb76b3582742787ce726abf532198d4247098e53",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/text_3.c"
+    },
+    {
+      "path": "src/window_buffer.c",
+      "bytes": 10834,
+      "sha256": "6430403027ca62bb06850195e9f930760232746b9f6ff256eca63f9c6b1d7da2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/window_buffer.c"
+    }
+  ]
+}

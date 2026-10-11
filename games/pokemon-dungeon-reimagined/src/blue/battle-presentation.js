@@ -1,3 +1,5 @@
+import { advanceCameraCounter, cameraChangeFrames } from './dungeon-camera.js';
+import { cameraDiscovery } from './mechanics-visibility.js';
 /** Playback of committed battle evidence. The comparative native sources are
  * dungeon_entity_movement.c, code_8040094_1.c, dungeon_damage.c and
  * dungeon_vram.c at the pinned Rescue Team reference. No gameplay is replayed.
@@ -12,25 +14,27 @@ import {captureWorld} from './battle-events.js';
 /** @typedef {import('./battle-events.js').BattleWorld} BattleWorld */
 /** @typedef {[number,number,number,number,number,number,number]} NativeFrame */
 /** @typedef {{animation:number,preparation:number,cast:number,target:number,travel:number,attachmentSet:number,travelSpeed:number}} MoveEffects */
-/** @typedef {{animationInfo:(speciesId:string,animation:number,direction:string)=>{frames:readonly NativeFrame[],totalTicks:number}|undefined,effectInfo:(id:number,direction:string)=>{ticks:number,attachmentSet:number,loop:boolean,blocksWait:boolean}|undefined,moveEffects:(moveId:string,speciesId:string)=>MoveEffects|undefined,attachmentOffset:(speciesId:string,pose:import('./render-native-sprites.js').PoseOptions,setId:number)=>{x:number,y:number,valid:boolean}|undefined}} BattleAssets */
+/** @typedef {{hypnosisReady:()=>boolean,animationInfo:(speciesId:string,animation:number,direction:string)=>{frames:readonly NativeFrame[],totalTicks:number}|undefined,effectInfo:(id:number,direction:string)=>{ticks:number,attachmentSet:number,loop:boolean,blocksWait:boolean}|undefined,moveEffects:(moveId:string,speciesId:string)=>MoveEffects|undefined,attachmentOffset:(speciesId:string,pose:import('./render-native-sprites.js').PoseOptions,setId:number)=>{x:number,y:number,valid:boolean}|undefined}} BattleAssets */
 /** @typedef {{actor:Actor,x:number,y:number,direction:string,animation?:number,clip:string,elapsedTicks:number,visible:boolean,statusHp?:number}} BattleActor */
 /** @typedef {{id:number,actorId?:string,x?:number,y?:number,direction:string,elapsedTicks:number,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1}} BattleEffect */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,elapsedTicks:number}} BattleNumber */
 /** @typedef {{kind:import('./mechanics-types.js').ItemKind,x:number,y:number}} BattleProjectile */
-/** @typedef {{dungeon:DungeonState,actors:BattleActor[],effects:BattleEffect[],projectiles:BattleProjectile[],number:BattleNumber|null,active:boolean}} BattleFrame */
-/** @typedef {{at:number,ordinal:number,actors?:Actor[],items?:import('./mechanics-types.js').GroundItem[],explored?:boolean[],money?:number,hide?:string,message?:string,statusHp?:{actorId:string,hp:number},clearStatusHp?:string}} Patch */
+/** @typedef {import('./dungeon-camera.js').CameraSnapshot} CameraSnapshot */
+/** @typedef {{dungeon:DungeonState,actors:BattleActor[],effects:BattleEffect[],projectiles:BattleProjectile[],number:BattleNumber|null,active:boolean,camera:CameraSnapshot,hypnosis:{elapsedTicks:number|null,hideHud:boolean,hideMap:boolean}|null}} BattleFrame */
+/** @typedef {{at:number,ordinal:number,actors?:Actor[],items?:import('./mechanics-types.js').GroundItem[],explored?:boolean[],discovered?:readonly number[],camera?:CameraSnapshot,money?:number,hide?:string,message?:string,statusHp?:{actorId:string,hp:number},clearStatusHp?:string}} Patch */
 /** @typedef {{actorId:string,start:number,end:number,idleAt?:number,animation?:number,clip:string,direction:string,from?:{x:number,y:number},to?:{x:number,y:number},moveEnd?:number,walkEpoch?:number,walkCycle?:number,repeatTicks?:number,rotate?:98|99}} PoseTrack */
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
 /** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[]}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart',audible:boolean}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 
 const TICK_MS=1000/60;
 // Conservative current producer bound:74 target/hit pieces*32 +198 levels*6
 // +13 opportunity wrappers*32 +37 residual calls*16 +12 item actions*16
-// +12 admitted initial-sleep wakes*8 +64 setup =4916. Native wild admission is
+// +12 admitted initial-sleep wakes*8 +64 setup =4916. A conservative365
+// camera-boundary allowance gives5281, still below8192. Native wild admission is
 // narrower. This rejection boundary never truncates an admitted event stream.
 const MAX_EVENTS=8192,MAX_ACTORS=12,MAX_ITEMS=64;
 
@@ -46,12 +50,22 @@ function firstFlag(frames,flag){
 export class BattlePresentation {
   /** @param {BattleWorld} before @param {ActionResult} result
    * @param {DungeonState} dungeon @param {BattleAssets} assets
-   * @param {{now:number,fast?:boolean,running?:boolean,reducedMotion?:boolean,carry?:BattleCarry}} options */
+   * @param {{now:number,rawPauseBefore?:number,fast?:boolean,running?:boolean,reducedMotion?:boolean,carry?:BattleCarry,camera?:CameraSnapshot,farOffPals?:boolean}} options */
   constructor(before,result,dungeon,assets,options){
     if(result.events.length>MAX_EVENTS||before.actors.length>MAX_ACTORS||before.items.length>MAX_ITEMS)throw new RangeError('Battle presentation evidence exceeds the opening bound.');
     this.dungeon=dungeon;this.before=before;this.after=captureWorld(dungeon);this.startedAt=options.now;
+    this.rawPauseBefore=options.rawPauseBefore??0;
+    /** @type {number|null} */this.finishedRawPauseMs=null;
+    /** @type {number[]} */this.rawHolds=[];
+    /** @type {{takeover:number,start:number,end:number}[]} */this.backgrounds=[];
     /** @type {Patch[]} */this.patches=[];
     const sameFloor=before.tiles===dungeon.tiles&&before.floor===dungeon.floor;
+    const initial=sameFloor?(options.camera??{target:'hero',counter:0}):{target:'hero',counter:99};
+    if(initial.target!=='hero'&&initial.target!=='partner')throw new RangeError('Invalid battle camera.');
+    /** @type {CameraSnapshot} */this.initialCamera={target:initial.target,counter:advanceCameraCounter(initial.counter,0)};
+    /** @type {CameraSnapshot} */this.camera={...this.initialCamera};
+    this.cameraTick=0;this.sourceEndTick=0;
+    /** @type {number[]} */this.discoveredTiles=[];
     const carry=sameFloor?options.carry:undefined;
     /** @type {PoseTrack[]} */this.poses=carry?.poses.map(track=>({...track}))??[];
     /** @type {EffectTrack[]} */this.effects=carry?.effects.map(track=>({...track}))??[];
@@ -63,7 +77,7 @@ export class BattlePresentation {
     const floorChanged=before.tiles!==dungeon.tiles||before.floor!==dungeon.floor;
     /** @type {Map<string,Actor>} */this.actors=new Map((floorChanged?this.after.actors:before.actors).map(actor=>[actor.id,actor]));
     this.items=floorChanged?this.after.items:before.items;this.money=before.money;this.log=[...before.log];
-    this.explored=floorChanged?this.after.explored:before.explored;
+    this.explored=[...(floorChanged?this.after.explored:before.explored)];
     /** Pre-heal HP is retained only for the low-HP warning during its helper. */
     /** @type {Map<string,number>} */this.statusHp=new Map();
     // A new menu/learning receipt can follow a fainted team member. Native
@@ -75,9 +89,11 @@ export class BattlePresentation {
   }
 
   /** @param {ActionResult} result @param {BattleAssets} assets
-   * @param {{fast?:boolean,running?:boolean,reducedMotion?:boolean}} options */
+   * @param {{fast?:boolean,running?:boolean,reducedMotion?:boolean,farOffPals?:boolean}} options */
   compile(result,assets,options){
-    let cursor=0,ordinal=0,patchSequence=0,messageAt=0;
+    let cursor=0,ordinal=0,patchSequence=0,messageAt=0,soundCount=0;
+    let camera={...this.initialCamera},cameraTick=0;
+    const discovered=[...this.after.explored];
     /** @type {Map<string,{actor:Actor,segments:{from:{x:number,y:number},to:{x:number,y:number}}[]}>} */const walking=new Map();
     /** @type {{event:GameEvent,ordinal:number}[]} */let afterWalk=[];
     /** @type {Map<string,MoveEffects>} */const moves=new Map();
@@ -97,9 +113,15 @@ export class BattlePresentation {
     /** @param {Actor[]} actors @param {number} at */
     const patchActors=(actors,at)=>addPatch({at,ordinal:ordinal++,actors});
     /** Tiny Woods is fully lit; this is only the native camera tile window,
-     * not AI sight or a replay of gameplay geometry. @param {{x:number,y:number}} point */
+     * not AI sight or a replay of gameplay geometry. */
+    const focusAtCursor=()=>{
+      const focus=this.latestActor(camera.target,cursor);
+      if(!focus)throw new RangeError('The camera member snapshot is missing.');
+      return sampledActor(focus,this.poses,cursor,Math.floor((this.startedAt-this.rawPauseBefore+cursor*TICK_MS)/TICK_MS));
+    };
+    /** @param {{x:number,y:number}} point */
     const visibleTile=point=>{
-      const focus=this.latestActor('hero',cursor)??this.dungeon.hero;
+      const focus=focusAtCursor();
       return Math.abs(point.x-focus.x)<=6&&Math.abs(point.y-focus.y)<=5;
     };
     /** The comparative source adds a32px sprite margin. The viewport itself
@@ -107,7 +129,7 @@ export class BattlePresentation {
      * @param {{x:number,y:number}} point */
     const displayed=point=>{
       if(!visibleTile(point))return false;
-      const focus=this.latestActor('hero',cursor)??this.dungeon.hero;
+      const focus=focusAtCursor();
       const x=(point.x-focus.x)*24+128,y=(point.y-focus.y)*24+108;
       return x>=-32&&x<=288&&y>=-32&&y<=224;
     };
@@ -127,7 +149,7 @@ export class BattlePresentation {
       if(fixed){
         // sub_8041550 captures attachment and unoffset depth once, after its
         // TRUE drain. These two newly joined helpers use that static anchor.
-        const pose=sampledActor(actor,this.poses,at,Math.floor((this.startedAt+at*TICK_MS)/TICK_MS));
+        const pose=sampledActor(actor,this.poses,at,Math.floor((this.startedAt-this.rawPauseBefore+at*TICK_MS)/TICK_MS));
         const offset=assets.attachmentOffset(actor.speciesId,{direction:pose.direction,animation:pose.animation,clip:pose.clip,ticks:pose.elapsedTicks},track.attachmentSet??-1);
         if(!offset||!Number.isInteger(offset.x)||!Number.isInteger(offset.y))throw new RangeError('Native application attachment is unavailable.');
         const valid=offset.x!==99&&offset.y!==99,feetX=pose.x*24+12,feetY=pose.y*24+16;
@@ -135,6 +157,12 @@ export class BattlePresentation {
         track.from=position;track.to=position;track.depthY=feetY;track.depthAdd=1;
       }
       this.effects.push(track);
+      // The native effect owner requests sound once on its first source frame.
+      // Carried tracks and repeated draws never enter this creation path.
+      if(id===7||id===15){
+        if(++soundCount>MAX_EVENTS)throw new RangeError('Effect sound receipts exceed the opening bound.');
+        this.cues.push({sound:id===7?'heal':'heart',at:start,ordinal:ordinal++,audible:true});
+      }
       return info.blocksWait===false?at:Math.min(end,at+waitLimit);
     };
     const drainEffects=()=>{
@@ -144,6 +172,27 @@ export class BattlePresentation {
       // A removed projectile may retain the screen drawn on that source tick;
       // its separate waitEnd never occupies a later effect drain.
       for(const track of this.effects)if(track.waitEnd===undefined||track.waitEnd>cursor)track.end=Math.min(track.end,cursor);
+    };
+    /** Explicit native requests share the menu owner's finite counter algebra.
+     * Only LOOK requests apply the preference/offscreen test; input and wind do not.
+     * @param {Actor} actor @param {'look'|'leader'|'input'} mode */
+    const requestCamera=(actor,mode)=>{
+      if(actor.id!=='hero'&&actor.id!=='partner'||actor.id==='hero'&&actor.hp<=0)return;
+      if(mode==='input'){
+        camera={target:camera.target,counter:0};cameraTick=cursor;
+        addPatch({at:cursor,ordinal:ordinal++,camera:{...camera}});
+      }
+      if(mode==='look'&&(options.farOffPals===false||displayedActor(actor)))return;
+      if(camera.target===actor.id)return;
+      drainEffects();
+      const counter=advanceCameraCounter(camera.counter,cursor-cameraTick);
+      cursor+=cameraChangeFrames(counter,true);
+      camera={target:actor.id,counter:0};cameraTick=cursor;
+      addPatch({at:cursor,ordinal:ordinal++,camera:{...camera}});
+      const delta=cameraDiscovery(this.dungeon,actor,discovered);
+      for(const index of delta)discovered[index]=true;
+      this.discoveredTiles.push(...delta);
+      if(delta.length)addPatch({at:cursor,ordinal:ordinal++,discovered:delta});
     };
     const finishAttackTails=()=>{
       /** @type {Map<string,PoseTrack>} */const current=new Map();
@@ -225,7 +274,7 @@ export class BattlePresentation {
       // independently of the later per-cell camera visibility checks.
       cursor++;
       const info=assets.effectInfo(route.travel,caster.direction);
-      const samples=info&&moveId==='move-ember'&&distance===1?emberTrajectory(assets,caster,this.poses,cursor,Math.floor((this.startedAt+cursor*TICK_MS)/TICK_MS),route,from,to):undefined;
+      const samples=info&&moveId==='move-ember'&&distance===1?emberTrajectory(assets,caster,this.poses,cursor,Math.floor((this.startedAt-this.rawPauseBefore+cursor*TICK_MS)/TICK_MS),route,from,to):undefined;
       const dx=Math.sign(to.x-from.x),dy=Math.sign(to.y-from.y),duration=24/route.travelSpeed;
       let elapsedOffset=0;
       for(let step=1;step<=distance;step++){
@@ -256,9 +305,10 @@ export class BattlePresentation {
       if(record?.kind==='sync'&&record.afterWalk&&walking.size){afterWalk.push({event,ordinal:order});continue;}
       if(record?.kind==='action'){
         finishAttackTails();drainEffects();
-        if(record.action==='other'){flushWalk();cursor++;}
+        if(record.action==='other'){flushWalk();if(record.cameraActor)requestCamera(record.cameraActor,'look');cursor++;}
         messageAt=cursor;continue;
       }
+      if(record?.kind==='camera'){flushWalk();requestCamera(record.actor,record.mode);messageAt=cursor;continue;}
       if(record?.kind==='face'){
         // Rotate-mode input explicitly selects the normal idle pose even if
         // the requested heading is unchanged (dungeon_main.c420–425).
@@ -278,7 +328,18 @@ export class BattlePresentation {
         const visible=displayedActor(record.actor);
         cue(event.type==='presentation'?{type:'attack',actorId:record.actor.id,moveId:record.moveId}:event,start,order,visible);
         if(!visible)continue;
-        if(route?.preparation&&record.first){cursor++;effect(route.preparation,record.actor,cursor);}
+        if(route?.preparation&&record.first){
+          if(record.moveId==='move-hypnosis'&&assets.hypnosisReady()){
+            // BG upload owns one raw VBlank before the ordinary preparation
+            // frame. It advances no actor/effect/camera dungeon-frame age.
+            this.rawHolds.push(cursor);
+            this.cues.push({clearNotice:true,at:cursor,ordinal:ordinal++});
+            const start=cursor+2,end=start+44;
+            this.backgrounds.push({takeover:cursor,start,end});
+            this.effects.push({id:222,start,end,direction:'s'});
+            cursor++;
+          }else{cursor++;effect(route.preparation,record.actor,cursor);}
+        }
         const animation=route?.animation;
         if(animation===98||animation===99){
           const duration=animation===99?16:18;
@@ -311,6 +372,8 @@ export class BattlePresentation {
           const caster=this.latestActor(record.actorId,cursor);
           if(caster)travel(record.moveId,route,caster,caster,record.target);
         }
+        // Actual-target focus follows projectile travel, before its impact.
+        requestCamera(record.target,'look');
         if(displayedActor(record.target)){
           cursor+=4;
           if(route?.target)cursor=effect(route.target,record.target,cursor,undefined,'s');
@@ -321,7 +384,7 @@ export class BattlePresentation {
         flushWalk();
         const caster=this.latestActor(record.actorId,cursor);
         const route=caster?assets.moveEffects(record.moveId,caster.speciesId):undefined;
-        if(Math.max(Math.abs(record.to.x-record.from.x),Math.abs(record.to.y-record.from.y))!==1)throw new RangeError('An empty Ember endpoint must be adjacent.');
+        if(Math.max(Math.abs(record.to.x-record.from.x),Math.abs(record.to.y-record.from.y))!==1)throw new RangeError('An empty opening projectile endpoint must be adjacent.');
         if(caster&&route){
           travel(record.moveId,route,caster,record.from,record.to);
           if(visibleTile(record.to)){
@@ -420,12 +483,18 @@ export class BattlePresentation {
     // Native attack motions1..4 finish their remaining tail before the next
     // actor. Other motions return to their source idle through sprite playback.
     finishAttackTails();
-    this.endTick=options.reducedMotion||floorChanged?0:cursor;
+    this.sourceEndTick=cursor;
+    this.endTick=options.reducedMotion||floorChanged?0:cursor+this.rawHolds.length;
     addPatch({at:cursor,ordinal:ordinal++,actors:this.after.actors,items:this.after.items,money:this.after.money,explored:this.after.explored});
     for(const actor of this.before.actors)if(!this.after.actors.some(candidate=>candidate.id===actor.id))addPatch({at:cursor,ordinal:ordinal++,hide:actor.id});
     this.patches.sort((left,right)=>left.at-right.at||left.ordinal-right.ordinal);
-    this.cues.sort((left,right)=>left.at-right.at||left.ordinal-right.ordinal);
+    // A source takeover follows its move-use message at the same boundary.
+    this.cues.sort((left,right)=>left.at-right.at||Number('clearNotice' in left)-Number('clearNotice' in right)||left.ordinal-right.ordinal);
   }
+
+  /** Canonical knowledge receipt; the app proves floor/transition ownership.
+   * @returns {readonly number[]} */
+  discovery(){return [...this.discoveredTiles];}
 
   /** Read a snapshot at compile time without replaying a gameplay operation.
    * @param {string} id @param {number} tick @returns {Actor|undefined} */
@@ -443,17 +512,30 @@ export class BattlePresentation {
    * before the final patch/cues/settlement have been consumed. @returns {boolean} */
   busy(){return !this.completed;}
 
+  /** Map foreground wall time to dungeon-frame time. Each recorded raw upload
+   * holds the existing frame once; no gameplay RNG or timer is involved.
+   * @param {number} now */
+  sourceTime(now){
+    const wall=Math.max(0,(now-this.startedAt)/TICK_MS);let held=0;
+    for(const at of this.rawHolds){
+      const start=at+held;if(wall<start)break;
+      if(wall<start+1)return{tick:Math.floor(at),heldMs:(held+wall-start)*TICK_MS};
+      held++;
+    }
+    return{tick:Math.floor(Math.max(0,wall-held)),heldMs:held*TICK_MS};
+  }
+
   /** Finished evidence can be released after its nonblocking number/pose tail.
    * @param {number} now */
   hasTail(now){
-    const tick=Math.floor(Math.max(0,(now-this.startedAt)/TICK_MS));
+    const tick=this.sourceTime(now).tick;
     return this.poses.some(track=>track.end>tick)||this.effects.some(track=>track.end>tick)||
       this.projectiles.some(track=>track.end>tick)||this.numbers.some(track=>track.end>tick);
   }
 
   /** @param {number} now @returns {BattleNumber|null} */
   carryNumber(now){
-    const tick=Math.floor(Math.max(0,(now-this.startedAt)/TICK_MS));
+    const tick=this.sourceTime(now).tick;
     const number=lastMatching(this.numbers,track=>track.start<=tick&&tick<track.end);
     return number?{actorId:number.actorId,amount:number.amount,heal:number.heal,miss:number.miss,elapsedTicks:tick-number.start}:null;
   }
@@ -463,7 +545,7 @@ export class BattlePresentation {
    * drain, rather than either dropping them or delaying input artificially.
    * @param {number} now @returns {BattleCarry} */
   carry(now){
-    const tick=Math.floor(Math.max(0,(now-this.startedAt)/TICK_MS));
+    const tick=this.sourceTime(now).tick;
     return {
       poses:this.poses.filter(track=>track.end>tick).map(track=>({...track,start:track.start-tick,end:track.end-tick,
         ...(track.moveEnd!==undefined?{moveEnd:track.moveEnd-tick}:{}),...(track.walkEpoch!==undefined?{walkEpoch:track.walkEpoch-tick}:{}),
@@ -477,10 +559,12 @@ export class BattlePresentation {
   /** Advances only bounded presentation records. Elapsed time is supplied by
    * app's foreground clock, never a timer or a gameplay catch-up loop.
    * @param {number} now @param {boolean} [finish]
-   * @returns {{frame:BattleFrame,cues:PresentationCue[],completed:boolean}} */
+   * @returns {{frame:BattleFrame,cues:PresentationCue[],completed:boolean,rawPauseMs:number}} */
   advance(now,finish=false){
     finish=finish||this.instant;
-    const tick=finish?Infinity:Math.max(this.lastTick,Math.floor(Math.max(0,(now-this.startedAt)/TICK_MS)));
+    const timing=this.sourceTime(now),rawPauseMs=this.finishedRawPauseMs??this.rawPauseBefore+timing.heldMs;
+    if(finish)this.finishedRawPauseMs=rawPauseMs;
+    const tick=finish?Infinity:Math.max(this.lastTick,timing.tick);
     this.lastTick=tick;
     while(this.patchIndex<this.patches.length){
       const patch=this.patches[this.patchIndex];if(!patch||patch.at>tick)break;this.patchIndex++;
@@ -494,7 +578,11 @@ export class BattlePresentation {
       }
       if(patch.clearStatusHp)this.statusHp.delete(patch.clearStatusHp);
       if(patch.items)this.items=patch.items;if(patch.money!==undefined)this.money=patch.money;
-      if(patch.explored)this.explored=patch.explored;
+      // Knowledge is monotonic within this bound floor. A later numerical walk
+      // snapshot must not erase an earlier camera discovery patch.
+      if(patch.explored)for(let index=0;index<patch.explored.length;index++)if(patch.explored[index])this.explored[index]=true;
+      for(const index of patch.discovered??[])this.explored[index]=true;
+      if(patch.camera){this.camera={...patch.camera};this.cameraTick=patch.at;}
       if(patch.hide){
         this.statusHp.delete(patch.hide);
         this.hidden.add(patch.hide);
@@ -505,11 +593,11 @@ export class BattlePresentation {
       if(patch.message){this.log.push(patch.message);if(this.log.length>80)this.log.shift();}
     }
     /** @type {PresentationCue[]} */const cues=[];
-    while(this.cueIndex<this.cues.length){const cue=this.cues[this.cueIndex];if(!cue||cue.at>tick)break;this.cueIndex++;cues.push({event:cue.event,audible:cue.audible});}
-    const completed=!this.completed&&tick>=this.endTick;this.completed||=completed;
-    if(finish){this.poses=[];this.effects=[];this.numbers=[];this.projectiles=[];this.statusHp.clear();}
+    while(this.cueIndex<this.cues.length){const cue=this.cues[this.cueIndex];if(!cue||cue.at>tick)break;this.cueIndex++;cues.push('clearNotice' in cue?{clearNotice:true}:'sound' in cue?{sound:cue.sound,audible:cue.audible}:{event:cue.event,audible:cue.audible});}
+    const completed=!this.completed&&tick>=this.sourceEndTick;this.completed||=completed;
+    if(finish){this.poses=[];this.effects=[];this.numbers=[];this.projectiles=[];this.backgrounds=[];this.statusHp.clear();}
     /** @type {BattleActor[]} */const actors=[];
-    for(const actor of this.actors.values())actors.push({...sampledActor(actor,this.poses,tick,Math.floor(now/TICK_MS),!this.hidden.has(actor.id)),statusHp:this.statusHp.get(actor.id)});
+    for(const actor of this.actors.values())actors.push({...sampledActor(actor,this.poses,tick,Math.floor((now-rawPauseMs)/TICK_MS),!this.hidden.has(actor.id)),statusHp:this.statusHp.get(actor.id)});
     /** @type {BattleEffect[]} */const effects=[];
     for(const track of this.effects)if(track.start<=tick&&tick<track.end){
       const fraction=(tick-track.start)/(track.end-track.start),position=track.samples?.[Math.floor(tick-track.start)];
@@ -521,7 +609,7 @@ export class BattlePresentation {
         ...(position?{x:position.x,y:position.y,depthY:position.depthY,depthAdd:position.depthAdd}:track.from&&track.to?{x:track.from.x+(track.to.x-track.from.x)*fraction,y:track.from.y+(track.to.y-track.from.y)*fraction}:{})});
     }
     const hero=this.actors.get('hero')??this.dungeon.hero,partner=this.actors.get('partner')??this.dungeon.partner;
-    const active=tick<this.endTick;
+    const active=tick<this.sourceEndTick;
     // Once gameplay input is available, menu changes (e.g. tactics and camera
     // discovery) read canonical state while nonblocking visual tails continue.
     const dungeon=active?{...this.dungeon,hero,partner,enemies:actors.filter(entry=>entry.actor.id!=='hero'&&entry.actor.id!=='partner'&&entry.visible).map(entry=>entry.actor),items:this.items,money:this.money,log:this.log,explored:this.explored}:this.dungeon;
@@ -530,7 +618,12 @@ export class BattlePresentation {
       const fraction=(tick-track.start)/(track.end-track.start);
       return {kind:track.kind,x:track.from.x+(track.to.x-track.from.x)*fraction,y:track.from.y+(track.to.y-track.from.y)*fraction};
     });
-    return {frame:{dungeon,actors,effects,projectiles,number,active},cues,completed};
+    // finish uses Infinity only to consume records. The camera keeps finite
+    // source age and is rebased by the app after reduced-motion completion.
+    const camera={target:this.camera.target,counter:advanceCameraCounter(this.camera.counter,(finish?this.sourceEndTick:tick)-this.cameraTick)};
+    const background=lastMatching(this.backgrounds,entry=>entry.takeover<=tick&&tick<entry.end+1);
+    const hypnosis=background?{elapsedTicks:tick>=background.start&&tick<background.end?tick-background.start:null,hideHud:tick>background.takeover,hideMap:tick<background.end}:null;
+    return {frame:{dungeon,actors,effects,projectiles,number,active,camera,hypnosis},cues,completed,rawPauseMs};
   }
 }
 

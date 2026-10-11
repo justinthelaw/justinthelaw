@@ -79,8 +79,8 @@ facts. **This is not a claim of exact Nintendo DS parity or a completed game.**
   some status ordering remain incomplete. Learning choices are presented after the
   current browser turn, rather than through native suspended continuations.
 - Later moves attainable through extensive repeated tutorial grinding retain
-  factual learnsets, but distinct effects such as Pay Day, Charm, weather and
-  charging are not all implemented. `isMoveSupported` explicitly rejects these
+  factual learnsets, but distinct effects such as Charm, weather and
+  charging are not all implemented. `supportsMove` explicitly rejects these
   actions without PP or turn loss; they must not silently become plain damage.
 - The complete original menu/IQ/tactic surfaces, exact failure-item loss and
   all animation/message timing remain unverified or incomplete. The opening

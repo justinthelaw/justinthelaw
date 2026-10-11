@@ -15,6 +15,7 @@ import { cameraSight } from './mechanics-visibility.js';
 import { NativeMap } from './render-map.js';
 import { moveEffects } from './render-move-motion.js';
 import { BattleEffects } from './render-battle-effects.js';
+import { HypnosisBackground } from './render-hypnosis.js';
 import { drawBattleActors } from './render-battle.js';
 export { BOOT_DURATION_MS, OPENING_DURATION_MS, TITLE_READY_MS, TITLE_PROMPT_MS } from './render-intro.js';
 
@@ -23,7 +24,7 @@ export { BOOT_DURATION_MS, OPENING_DURATION_MS, TITLE_READY_MS, TITLE_PROMPT_MS 
 /** @typedef {'opening'|'title'|'menu'|'quiz'|'gender'|'result'|'partner'|'name'|'awakening'|'trouble'|'dungeon'|'clearing'|'reunion'|'complete'} Scene */
 /** @typedef {{speaker?:string,text:string,portraitSpeciesId?:string,portraitEmotion?:string,visibleChars?:number}} Dialogue */
 /** @typedef {{index:number,x:number,y:number,width:number,height:number}} ChoiceBounds */
-/** @typedef {{scene:Scene,gender?:'male'|'female',dialogue?:Dialogue|null,choices?:string[],disabledChoices?:boolean[],selectedIndex?:number,choiceColumns?:number,heroSpeciesId?:string,partnerSpeciesId?:string,heroName?:string,partnerName?:string,dungeon?:DungeonState|null,battle?:import('./battle-presentation.js').BattleFrame,cameraActorId?:'hero'|'partner',menuActorId?:'hero'|'partner',dungeonLightLevel?:number,menuTitle?:string,notice?:string,titleSubtitle?:string,titleImmediate?:boolean,nameValue?:string,nameTarget?:'hero'|'partner',naming?:import('./naming.js').NamingState,quizProgress?:number,partnerChoices?:string[],storyPhase?:string,storyLine?:number,storyPose?:string,topScreen?:'map'|'team'|'log',mapStyle?:import('./map-mode.js').MapStyle,floorMapOpen?:boolean,mapMonsterDots?:boolean,mapInputTurn?:number,showGrid?:boolean,gridLines?:boolean,showToolbar?:boolean,reducedMotion?:boolean,blackout?:boolean,fade?:number,openingProgress?:number}} View */
+/** @typedef {{scene:Scene,gender?:'male'|'female',dialogue?:Dialogue|null,choices?:string[],disabledChoices?:boolean[],selectedIndex?:number,choiceColumns?:number,heroSpeciesId?:string,partnerSpeciesId?:string,heroName?:string,partnerName?:string,dungeonClock?:number,dungeon?:DungeonState|null,battle?:import('./battle-presentation.js').BattleFrame,cameraActorId?:'hero'|'partner',menuActorId?:'hero'|'partner',dungeonLightLevel?:number,menuTitle?:string,notice?:string,titleSubtitle?:string,titleImmediate?:boolean,nameValue?:string,nameTarget?:'hero'|'partner',naming?:import('./naming.js').NamingState,quizProgress?:number,partnerChoices?:string[],storyPhase?:string,storyLine?:number,storyPose?:string,topScreen?:'map'|'team'|'log',mapStyle?:import('./map-mode.js').MapStyle,floorMapOpen?:boolean,mapMonsterDots?:boolean,mapInputTurn?:number,showGrid?:boolean,gridLines?:boolean,showToolbar?:boolean,reducedMotion?:boolean,blackout?:boolean,fade?:number,openingProgress?:number}} View */
 
 const WIDTH = 256, HEIGHT = 192;
 const AURA_SCENES = new Set(['quiz', 'gender', 'result', 'partner', 'name']);
@@ -174,8 +175,8 @@ function drawFacingGuide(context,state,cameraX,cameraY,lines){
   }
 }
 
-/** @param {CanvasRenderingContext2D} context @param {SpriteBank} sprites @param {Terrain} terrain @param {StatusSprites} statuses @param {DungeonNotice} notice @param {NativeMap} map @param {BattleEffects} effects @param {View} view @param {number} time */
-function dungeon(context,sprites,terrain,statuses,notice,map,effects,view,time){
+/** @param {CanvasRenderingContext2D} context @param {SpriteBank} sprites @param {Terrain} terrain @param {StatusSprites} statuses @param {DungeonNotice} notice @param {NativeMap} map @param {BattleEffects} effects @param {HypnosisBackground} hypnosis @param {View} view @param {number} time */
+function dungeon(context,sprites,terrain,statuses,notice,map,effects,hypnosis,view,time){
   const state=view.dungeon;if(!state)return;
   const focus=state[view.cameraActorId??'hero'],fullyLit=view.dungeonLightLevel===0;
   if(view.floorMapOpen){
@@ -187,19 +188,22 @@ function dungeon(context,sprites,terrain,statuses,notice,map,effects,view,time){
   const focusTrack=view.battle?.actors.find(track=>track.actor.id===focus.id);
   const focusX=focusTrack?.x??focus.x,focusY=focusTrack?.y??focus.y;
   const cameraX=Math.round(focusX*TILE+12-128),cameraY=Math.round(focusY*TILE+16-108);
-  terrain.dungeon(context,state,cameraX,cameraY,{fullyLit});
+  const background=view.battle?.hypnosis,world=background?.elapsedTicks!==null&&background?.elapsedTicks!==undefined?hypnosis.world():context;
+  terrain.dungeon(world,state,cameraX,cameraY,{fullyLit});
   if(fullyLit||state.visible[state.stairs.y*state.width+state.stairs.x]){
     const x=state.stairs.x*TILE-cameraX,y=state.stairs.y*TILE-cameraY;
-    terrain.stairs(context,x,y);
+    terrain.stairs(world,x,y);
   }
-  for(const item of state.items)if(fullyLit||state.visible[item.y*state.width+item.x])terrain.item(context,item.kind,item.x*TILE+12-cameraX,item.y*TILE+12-cameraY);
-  drawBattleActors(context,sprites,statuses,effects,state,view.battle,cameraX,cameraY,time,{fullyLit,reducedMotion:Boolean(view.reducedMotion)});
-  if(!view.reducedMotion&&view.battle)for(const projectile of view.battle.projectiles)terrain.item(context,projectile.kind,projectile.x-cameraX,projectile.y-cameraY);
-  if(view.showGrid)drawFacingGuide(context,state,cameraX,cameraY,view.gridLines!==false);
-  if(!view.menuTitle&&(view.mapStyle==='clear'||view.mapStyle==='shade'))map.draw(context,state,{style:view.mapStyle,reducedMotion:view.reducedMotion});
+  for(const item of state.items)if(fullyLit||state.visible[item.y*state.width+item.x])terrain.item(world,item.kind,item.x*TILE+12-cameraX,item.y*TILE+12-cameraY);
+  drawBattleActors(world,sprites,statuses,effects,state,view.battle,cameraX,cameraY,time,{fullyLit,reducedMotion:Boolean(view.reducedMotion)});
+  if(!view.reducedMotion&&view.battle)for(const projectile of view.battle.projectiles)terrain.item(world,projectile.kind,projectile.x-cameraX,projectile.y-cameraY);
+  if(view.showGrid)drawFacingGuide(world,state,cameraX,cameraY,view.gridLines!==false);
+  if(!background?.hideMap&&!view.menuTitle&&(view.mapStyle==='clear'||view.mapStyle==='shade'))map.draw(context,state,{style:view.mapStyle,reducedMotion:view.reducedMotion});
   const number=view.battle?.number;
-  if(number&&!view.reducedMotion){const track=view.battle?.actors.find(candidate=>candidate.actor.id===number.actorId);if(track)nativeDamage(context,number.amount,track.x*TILE+12-cameraX,track.y*TILE+16-cameraY-24-Math.floor(number.elapsedTicks*46/256),number.heal,number.miss);}
-  nativeHud(context,{floor:state.floor,level:focus.level,hp:focus.hp,maxHp:focus.maxHp,belly:focus.belly,leader:focus===state.hero,pink:view.gender==='female',time});
+  if(number&&!view.reducedMotion){const track=view.battle?.actors.find(candidate=>candidate.actor.id===number.actorId);if(track)nativeDamage(world,number.amount,track.x*TILE+12-cameraX,track.y*TILE+16-cameraY-24-Math.floor(number.elapsedTicks*46/256),number.heal,number.miss);}
+  if(background?.elapsedTicks!==null&&background?.elapsedTicks!==undefined)hypnosis.draw(context,background.elapsedTicks);
+  if(!background?.hideHud)nativeHud(context,{floor:state.floor,level:focus.level,hp:focus.hp,maxHp:focus.maxHp,belly:focus.belly,leader:focus===state.hero,pink:view.gender==='female',time});
+  if(background?.hideMap){notice.reset();return;}
   notice.draw(context,view.notice??'',time,{pink:view.gender==='female',visible:!view.dialogue&&!view.choices?.length,reducedMotion:view.reducedMotion});
 }
 
@@ -207,7 +211,7 @@ function dungeon(context,sprites,terrain,statuses,notice,map,effects,view,time){
  * @param {HTMLCanvasElement} topCanvas @param {HTMLCanvasElement} bottomCanvas
  * @param {{initialSpecies?:string[],reducedMotion?:boolean,introClientSpeciesId?:string,signal?:AbortSignal}} [options] */
 export async function createRenderer(topCanvas,bottomCanvas,options={}){
-  const top=contextFor(topCanvas),bottom=contextFor(bottomCanvas),sprites=new SpriteBank(),terrain=new Terrain(),intro=new IntroArtwork(),aura=new AuraBackdrop(),storyActors=new StoryActors(),artwork=new UiArtwork(),statuses=new StatusSprites(),notice=new DungeonNotice(),map=new NativeMap(),effects=new BattleEffects();
+  const top=contextFor(topCanvas),bottom=contextFor(bottomCanvas),sprites=new SpriteBank(),terrain=new Terrain(),intro=new IntroArtwork(),aura=new AuraBackdrop(),storyActors=new StoryActors(),artwork=new UiArtwork(),statuses=new StatusSprites(),notice=new DungeonNotice(),map=new NativeMap(),effects=new BattleEffects(),hypnosis=new HypnosisBackground();
   const introClient=options.introClientSpeciesId??INTRO_CLIENT_IDS[Math.floor(Math.random()*INTRO_CLIENT_IDS.length)]??'pokemon-025';
   /** @type {ChoiceBounds[]} */let choiceBounds=[];
   let toolbarVisible=false;
@@ -215,15 +219,16 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
   let waitingDialogue='',waitingSince=0;
   /** @type {boolean[]} */let sight=[];
   /** @type {number[]|null} */let sightTiles=null;let sightKey='';
-  function dispose(){if(disposed)return;disposed=true;options.signal?.removeEventListener('abort',dispose);sprites.dispose();terrain.dispose();intro.dispose();aura.dispose();artwork.dispose();statuses.dispose();effects.dispose();notice.reset();map.reset();disposeFont();disposeNativeUi();choiceBounds=[];sight=[];sightTiles=null;toolbarVisible=false;fill(top,'#000000');fill(bottom,'#000000');}
+  function dispose(){if(disposed)return;disposed=true;options.signal?.removeEventListener('abort',dispose);sprites.dispose();terrain.dispose();intro.dispose();aura.dispose();artwork.dispose();statuses.dispose();effects.dispose();hypnosis.dispose();notice.reset();map.reset();disposeFont();disposeNativeUi();choiceBounds=[];sight=[];sightTiles=null;toolbarVisible=false;fill(top,'#000000');fill(bottom,'#000000');}
   options.signal?.addEventListener('abort',dispose,{once:true});
   if(options.signal?.aborted){dispose();throw new DOMException('Loading was cancelled.','AbortError');}
   try{await Promise.all([sprites.loadSpecies([...new Set([...(options.initialSpecies??['pokemon-025','pokemon-004','pokemon-007']),'pokemon-279',introClient])]),intro.load(),terrain.load(),aura.load(),artwork.load(),statuses.load()]);if(disposed)throw new DOMException('Loading was cancelled.','AbortError');}catch(error){dispose();throw error;}
   return {
     /** @param {string[]} ids */loadSpecies(ids){return sprites.loadSpecies(ids);},
-    loadBattleAssets(){return effects.load();},
+    async loadBattleAssets(){await Promise.all([effects.load(),hypnosis.load()]);},
+    clearBattleNotice(){notice.reset();},
     /** @returns {import('./battle-presentation.js').BattleAssets} */
-    battleAssets(){return{animationInfo:(id,animation,direction)=>sprites.animationInfo(id,animation,direction),effectInfo:(id,direction)=>effects.effectInfo(id,direction),moveEffects,attachmentOffset:(id,pose,setId)=>sprites.attachmentOffset(id,pose,setId)};},
+    battleAssets(){return{hypnosisReady:()=>hypnosis.ready(),animationInfo:(id,animation,direction)=>sprites.animationInfo(id,animation,direction),effectInfo:(id,direction)=>effects.effectInfo(id,direction),moveEffects,attachmentOffset:(id,pose,setId)=>sprites.attachmentOffset(id,pose,setId)};},
     getChoiceBounds(){return choiceBounds.map(bound=>({...bound}));},
     getToolbarBounds(){return toolbarVisible?touchToolbarBounds():[];},
     /** @param {View} source @param {number} time */
@@ -237,11 +242,11 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
         const state=view.dungeon,focus=state[view.cameraActorId??'hero'],key=`${focus.id}:${focus.x}:${focus.y}:${focus.hp>0}`;
         if(sightTiles!==state.tiles||sightKey!==key){
           if(sight.length!==state.width*state.height)sight=Array(state.width*state.height).fill(false);
-          cameraSight(state,focus,sight);sightTiles=state.tiles;sightKey=key;
+          cameraSight(state,focus,sight,true);sightTiles=state.tiles;sightKey=key;
         }
         // A transient projection keeps camera sight out of saved/AI state.
         view.dungeon={...state,visible:sight};
-        map.beginFrame(state,time,!view.floorMapOpen&&(view.topScreen==='map'||!view.menuTitle&&(view.mapStyle==='clear'||view.mapStyle==='shade')),view.mapInputTurn);
+        map.beginFrame(state,view.dungeonClock??time,!view.floorMapOpen&&(view.topScreen==='map'||!view.menuTitle&&(view.mapStyle==='clear'||view.mapStyle==='shade')),view.mapInputTurn);
       }
       if(previousScene!==view.scene){if(AURA_SCENES.has(view.scene)&&!AURA_SCENES.has(previousScene??''))aura.reset(time);titleAnimated=view.scene==='title'&&previousScene==='opening'&&!view.titleImmediate;previousScene=view.scene;sceneStart=time;}
       const elapsed=time-sceneStart,animationTime=view.reducedMotion?0:elapsed;
@@ -266,7 +271,8 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
         }
         if(view.scene==='name')choiceBounds=renderNaming(bottom,view,time);
       }else if(view.scene==='dungeon'){
-        topDungeon(top,sprites,artwork,map,view,time);dungeon(bottom,sprites,terrain,statuses,notice,map,effects,view,time);
+        const dungeonTime=view.dungeonClock??time;
+        topDungeon(top,sprites,artwork,map,view,dungeonTime);dungeon(bottom,sprites,terrain,statuses,notice,map,effects,hypnosis,view,dungeonTime);
         toolbarVisible=Boolean(view.showToolbar&&!view.dialogue&&!view.choices?.length);
         if(toolbarVisible)nativeTouchToolbar(bottom,view.gender==='female');
       }else{

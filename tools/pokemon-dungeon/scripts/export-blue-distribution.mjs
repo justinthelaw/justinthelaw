@@ -73,6 +73,10 @@ if (spriteManifest.battleEffects) {
     expected.delete(bank.id); decodedBytes += bank.width * bank.height * 4;
     files.add(`assets/blue/${bank.path}`); files.add(`assets/blue/${bank.metadataPath}`);
   }
+  const background = selected.hypnosis;
+  if (background?.activation !== 'selected-hypnosis-only' || background.effectId !== 222 || background.path !== 'hypnosis-background.png' || background.width !== 416 || background.height !== 32 || background.modulePath !== 'src/blue/render-hypnosis-data.js') throw new Error('Invalid Hypnosis background selection');
+  decodedBytes += background.width * background.height * 4;
+  files.add(`assets/blue/${background.path}`);
   if (expected.size || decodedBytes > selected.maxDecodedBytes) throw new Error('Battle effect bank coverage or aggregate memory exceeds its bound');
 }
 if (spriteManifest.portraitAtlas) {

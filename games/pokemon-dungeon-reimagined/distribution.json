@@ -7,6 +7,7 @@
     "assets/blue/battle-effects-initial.png",
     "assets/blue/battle-effects.json",
     "assets/blue/battle-effects.png",
+    "assets/blue/hypnosis-background.png",
     "assets/blue/manifest.json",
     "assets/blue/menu-delivery.png",
     "assets/blue/menu-mailbox.png",
@@ -92,6 +93,8 @@
     "src/blue/audio-catalog.js",
     "src/blue/audio-menu-data.js",
     "src/blue/audio-menu.js",
+    "src/blue/audio-pcm-data.js",
+    "src/blue/audio-pcm.js",
     "src/blue/audio-preferences.js",
     "src/blue/audio-synth.js",
     "src/blue/audio-transport.js",
@@ -118,6 +121,8 @@
     "src/blue/render-battle-effects.js",
     "src/blue/render-battle.js",
     "src/blue/render-font.js",
+    "src/blue/render-hypnosis-data.js",
+    "src/blue/render-hypnosis.js",
     "src/blue/render-intro.js",
     "src/blue/render-map.js",
     "src/blue/render-menus.js",
@@ -146,6 +151,6 @@
     "src/domain/rules/type-context.js",
     "src/domain/state/plain.js"
   ],
-  "totalBytes": 3034160,
+  "totalBytes": 3067402,
   "scope": "Opening cinematic and menu through Tiny Woods and Caterpie rescue only"
 }

@@ -1,10 +1,11 @@
 # Blue Rescue Team opening audio
 
-The browser opening uses the project's original synthesized score. It does not
-contain the Nintendo DS soundtrack, PCM samples or sound banks. Five menu roles
-use four source-derived short PSG effects; two no-damage roles use two more.
+The browser opening uses the project's original synthesized score and selected
+source-derived effects. It does not contain the Nintendo DS soundtrack. Five
+menu roles use four short PSG effects; two no-damage roles use two more. Healing
+and heart effects use three public signed-8 PCM samples and finite control data.
 These are Red Rescue Team comparative evidence until Blue playback is corroborated.
-The scoped bank in `src/blue/audio-bank.js` contains 11 themes and 21 effects;
+The scoped bank in `src/blue/audio-bank.js` contains 11 themes and 10 effects;
 its editable source is `tools/pokemon-dungeon/audio/blue-original-score.json`.
 The original opening composition lasts 18.9 seconds and plays once. It begins
 after the silent 8.9-second boot sequence; the cinematic lasts 19.0 seconds.
@@ -13,7 +14,7 @@ match. The reunion theme loops for the entire scene.
 
 From `tools/pokemon-dungeon`, run `node scripts/export-blue-original-audio.mjs`
 to regenerate the selected bank, or add `--check` to verify it without writing.
-This offline exporter reads only the opening's JSON. It checks the 32 selected
+This offline exporter reads only the opening's JSON. It checks the 21 selected
 cues, all nine used oscillator patches, ordered notes and the existing voice
 reservation bound. JSON token spelling is preserved, including the current
 intro tempo and reunion loop settings. Later-campaign music IDs, dungeon-index
@@ -53,7 +54,8 @@ execution. Pin: `pret/pmd-red@013475aa04f5be3191e5527c186d9bfceae7cae0`.
 - [Sound names](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/sound_names.c)
   and [music roles](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/include/constants/bg_music.h)
   cross-reference event and music identifiers. They were used for role research,
-  not to copy melodies, sample bytes, or commercial sound effects.
+  not to supply the authored music. Separate, selected short-effect admissions
+  below now include public PCM literals with their source hashes and limits.
 
 The `DEMO_03` route runs post office inside, outside, town, then title station
 224/group 3. The first three scenes all request `MUS_INTRO`; `StartNewBGM` in
@@ -101,7 +103,7 @@ No claim of an exact DS audio reproduction is supported by this implementation.
 
 ## Source-derived menu effects — 2026-10-10
 
-`audio/blue-menu-effects.json` pins 13 source files at the comparative commit
+`audio/blue-menu-effects.json` pins 14 source files at the comparative commit
 above. `export-blue-menu-effects.mjs --source-root PATH --check` verifies those
 source bytes and regenerates only numerical short-effect facts. It never imports
 or executes game code. The original Blue sound-effects archive at
@@ -136,8 +138,8 @@ overall mix and exact Blue parity are not established by these comparative facts
 
 `audio/blue-battle-effects.json` pins 21 public source files for two short PSG
 effects. The same exporter verifies their hashes with `--source-root PATH` and
-adds bounded `BATTLE_EFFECTS` data beside the unchanged menu tuples. The original
-authored score is unchanged. No PCM, music or ROM data is added.
+adds bounded `BATTLE_EFFECTS` data beside the unchanged menu tuples. The retained
+authored notes are unchanged by these native additions. No PCM, music or ROM data is added.
 
 | Public audio API | Native ID / source name | Keys | Frequency divisors |
 | --- | --- | --- | --- |
@@ -178,3 +180,108 @@ accuracy 1 chooses by whether the attacker is the leader; accuracy 2 chooses by
 target team and may display MISS, without the offscreen 30-frame wait. The new
 roles do not change those existing authored miss routes. Static source, data and
 type checks do not establish browser audition or exact Blue audio parity.
+
+## Selected healing and heart PCM — 2026-10-11
+
+`audio/blue-pcm-effects.json` pins 24 public source files at the comparative
+commit above, three sample payloads and two finite control tracks. Run
+`node scripts/export-blue-pcm-effects.mjs --check` from the authoring package
+to verify the generated data; add `--source-root PATH` to compare all pinned
+source bytes. The exporter uses Node built-ins and never imports or executes
+game/native code or renders audio. Public availability is not a publisher reuse
+grant, and no ROM or soundtrack archive was acquired for this admission.
+
+| API | Native sequence | Voice/sample | Notes | Track end | Final envelope zero |
+| --- | --- | --- | ---: | ---: | ---: |
+| `audio.effect('heal')` | 606 HITPOINT_RECOVER | bank028 voice5 / wave094 | 13 | frame 72 | frame 82 |
+| `audio.effect('heart')` | 614 EFF_HEART | bank026 voices7,8 / waves102,103 | 5 | frame 43 | frame 43 |
+
+The samples contain 11,080 signed-8 values plus two native interpolation guard
+bytes: wave094 has 6,256 samples and loops [4,448,6,256), wave102 has 2,307 and
+does not loop, and wave103 has 2,517 and loops [860,2,517). Their source base rate
+is 18,157 Hz. The encoded payload is 14,780 base64 characters; the three decoded
+mono buffers occupy 44,320 Float32 bytes. Buffers are allocated only after the
+existing trusted gesture creates the AudioContext and are reused per context.
+
+The generated data preserves the source integer pitch calculation, stepped
+pitch bends, pan-modulation triangle, frame-based envelopes and integer stereo
+levels. It contains 210 stereo rows and 27 frequency rows. Tempo 120 in 606 is
+quantized against the native threshold 150 after the initial processing tick;
+614 uses tempo 150. Both retain the comparative 280896/16777216-second clock.
+Web Audio performs resampling, so exact GBA/DS sample interpolation and phase
+are not established. The browser gain and output compressor remain mix choices.
+
+Both cues share one SE5 PCM owner, separate from the unchanged SE2 menu/no-damage
+owner. A new SE5 cue replaces attached notes and future notes. FINE detaches
+release tails: 606 can leave two, which later SE5 replacement preserves until
+their finite ends. Pause, mute, blur, visibility loss, denial, retired epochs,
+context replacement and disposal stop all voices including detached tails.
+There are at most 13 newly scheduled PCM sources plus two detached tails, three
+cached buffers and one stereo merger. Every source shares the existing 32-voice
+ceiling with authored music/effects and SE2. Recognized overload is consumed
+without an authored fallback. No new timer, worklet, network fetch, playback
+queue or gameplay callback is introduced.
+
+Fresh displayed effect 7/15 creation emits one private sound receipt at its first
+source frame. The app consumes it once; semantic heal events no longer play a
+second tone. Heart coverage includes Attract's target effect, Charm/Covet
+preparation and the separate successful infatuation application. Full-HP healing
+keeps its effect 7 sound. Offscreen/hidden effects and missing effect metadata
+emit none. Carry and redraw do not recreate receipts; explicit finish consumes
+them silently. Collapsed/reduced-motion batches admit at most four new PCM cues
+and discard excess receipts without deferred replay. Visual waits, HP/status
+patches, result messages, numbers, canonical mechanics and saves are unchanged.
+
+606 sets native global reverb 60. 614's header 0 leaves that state unchanged; it
+does not request a dry reset. The native owner combines earlier PCM buffer
+contents, including other music and effects. This bounded player is dry and
+adds no invented delay or convolution. Native five-channel PCM competition,
+global integer mixing/overflow, reverb, Blue sample identity, browser scheduling
+phase and human audition remain explicit fidelity gaps. Static source/data/type
+checks establish neither listening acceptance nor exact Nintendo DS audio.
+
+## Retired shadowed authored cues — 2026-10-11
+
+The authored cursor, confirm, cancel, open, denied and healing cue bodies are
+removed after native SE2/SE5 admission. Five menu roles use four native sequences;
+denied aliases cancel. Native playback consumes recognized overload and failure
+never falls through to an authored replacement. Menu IDs now have explicit
+`MENU_EFFECTS` catalog admission; healing already has `PCM_EFFECTS` admission.
+
+That shadowed-cue retirement left 11 themes, 15 effects, nine used patches and
+671 notes before the later unrequested-role cleanup below. Removing these six bodies removes 15 unreachable notes. Every retained
+cue, patch and numeric note token is unchanged, including the original intro
+and reunion clocks. All nine patches still have live uses. Native sample/control
+data, four menu tuples, SE2 replacement, SE5 tails and shared voice limits are
+unchanged. Source/AST evidence establishes reachability and data preservation,
+not listening acceptance or exact Nintendo DS audio.
+
+## Fixed-type square frequency correction — 2026-10-11
+
+The pinned driver initializes 8-bit DirectSound/PWM mode, setting the high
+SOUNDBIAS bits to 0x40. `CgbSound` applies `(register + 1) & 0x7fe` to fixed-type
+square voices in that mode. Bank 027 voices 60/64 are `ASquareWave1` (type 0x09);
+voice 61 is ordinary `SquareWave1` (type 0x01). The exporter now records that
+distinction and applies the source rounding only to the fixed-type voices.
+
+The corrected menu divisors are confirm 88 and cancel/denied 562,668,334,334.
+Cursor 126 and open 100 were already aligned. No-damage divisors remain
+224,282,355,447 and 376,473,596,751, including their odd values. The earlier
+pre-rounding menu tuples are superseded comparative-source evidence. Notes,
+gates, velocities, envelope levels, aliasing, throttle and player lifecycle
+are unchanged. Source/table checks establish this Red register correction;
+Blue clock, waveform, output mix and listening acceptance remain qualified.
+
+## Removed unrequested roles and wrapper — 2026-10-11
+
+The closed opening runtime never requests the step, status, floor-entry, hunger
+or story-spark roles. The app is the sole caller of `audio.effect`; its dynamic
+private effect sound is restricted to heal or heart. These five role mappings,
+type members and authored cue bodies are removed. The remaining bank contains
+11 themes, 10 authored effects, nine live patches and 659 unchanged notes.
+
+The private manager's uncalled `setVolumes` wrapper and return member are also
+removed. The manager remains local to the app closure; no host bridge, global
+object, re-export or documented external setter exposes it. Default levels,
+normalization, transport preferences, mute, activation, status and lifecycle
+logic are unchanged. This removal adds no new sound routing or playback claim.

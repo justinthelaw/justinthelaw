@@ -3,7 +3,6 @@
  * Factual scoring/order comes from the qualified onboarding catalog. Text is
  * the repository's original English adaptation, not a commercial-script dump.
  */
-import { sanitizeNamingText } from './naming.js';
 
 /** @typedef {{index:number, optionId:string, text:string, scores:Record<string,number>, followUp:string|null}} QuizOption */
 /** @typedef {{id:string, originalIndex:number, categoryId:string, selectable:boolean, prompt:string, options:QuizOption[]}} QuizQuestion */
@@ -144,13 +143,3 @@ export function eligiblePartners(data, heroSpeciesId) {
     .map(pair => pair.partnerSpeciesId));
   return data.partnerOrder.filter(id => eligible.has(id));
 }
-
-/** Preserve printable legacy names and the native naming keypad symbols.
- * @param {string} value
- */
-export function sanitizeName(value) {
-  return sanitizeNamingText(value);
-}
-
-/** The original name field holds ten characters. @param {string} value @param {string} fallback */
-export function normalizeName(value, fallback) { return sanitizeName(value).trim() || fallback; }

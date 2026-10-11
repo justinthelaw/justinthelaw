@@ -22,15 +22,14 @@ const SCENES = Object.freeze({
 /** @type {Readonly<Record<AudioEffect,string>>} */
 const EFFECTS = Object.freeze({
   cursor: 'effect-ui-cursor', confirm: 'effect-ui-confirm', cancel: 'effect-ui-cancel',
-  open: 'effect-ui-open', denied: 'effect-ui-denied', step: 'effect-step',
-  attack: 'effect-attack', hit: 'effect-hit', miss: 'effect-miss', heal: 'effect-heal',
-  status: 'effect-status', pickup: 'effect-pickup', money: 'effect-money',
-  stairs: 'effect-stairs', floor: 'effect-floor-enter', rescue: 'effect-rescue-found',
+  open: 'effect-ui-open', denied: 'effect-ui-denied',
+  attack: 'effect-attack', hit: 'effect-hit', miss: 'effect-miss', heal: 'effect-heal', heart: 'effect-heart',
+  pickup: 'effect-pickup', money: 'effect-money',
+  stairs: 'effect-stairs', rescue: 'effect-rescue-found',
   reward: 'effect-reward', levelUp: 'effect-level-up', faint: 'effect-faint',
-  hunger: 'effect-hunger', spark: 'effect-story-spark',
   noDamageTeam: 'effect-no-damage-team', noDamageOther: 'effect-no-damage-other',
 });
-/** Scoped authored score and comparative native menu effects. The caller owns the current scene;
+/** Scoped authored score and comparative native SE2/SE5 effects. The caller owns the current scene;
  * this manager never imports game state, allocates WebGL, or changes a save.
  * Call activate(event) directly within the iframe's native input handler. It
  * remains silent until that trusted gesture; synthesized host keys cannot unlock.
@@ -80,24 +79,8 @@ export function createOpeningAudio(doc) {
     bus.setPreferences(preferences);
     return true;
   }
-  /** Finite volume updates are detached/clamped; omitted fields are retained.
-   * @param {Partial<Pick<AudioPreferences,'master'|'music'|'effects'>>} volumes
-   */
-  function setVolumes(volumes) {
-    if (disposed || !volumes || typeof volumes !== 'object') return false;
-    for (const key of /** @type {const} */ (['master', 'music', 'effects'])) {
-      if (Object.hasOwn(volumes, key) && (typeof volumes[key] !== 'number' || !Number.isFinite(volumes[key]))) return false;
-    }
-    preferences = normalizeAudioPreferences({ ...preferences,
-      master: volumes.master ?? preferences.master,
-      music: volumes.music ?? preferences.music,
-      effects: volumes.effects ?? preferences.effects,
-    });
-    bus.setPreferences(preferences);
-    return true;
-  }
   return Object.freeze({
-    activate: bus.activate, setScene, effect, setMuted, setVolumes, pause: bus.pause,
+    activate: bus.activate, setScene, effect, setMuted, pause: bus.pause,
     status: () => Object.freeze({ ...bus.status(), ...preferences, scene }),
     dispose() { if (disposed) return; disposed = true; bus.dispose(); },
   });

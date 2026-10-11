@@ -9,7 +9,7 @@ assert.deepEqual(Object.keys(data),['revision','authorship','patches','music','e
 assert.equal(data.revision,'blue-opening-original-audio-v1');
 assert.equal(data.authorship.source,'tools/pokemon-dungeon/audio/blue-original-score.json');
 const musicIds=['file-select','theres-trouble','welcome-to-the-world-of-pokemon','intro','title-screen','dungeon-fail','dungeon-complete','heartwarming','a-successful-rescue','in-the-depths-of-the-pit','tiny-woods'].map(id=>`music-${id}`);
-const effectIds=['ui-cursor','ui-confirm','ui-cancel','ui-open','ui-denied','step','attack','hit','miss','heal','status','pickup','money','stairs','floor-enter','rescue-found','reward','level-up','faint','hunger','story-spark'].map(id=>`effect-${id}`);
+const effectIds=['attack','hit','miss','pickup','money','stairs','rescue-found','reward','level-up','faint'].map(id=>`effect-${id}`);
 assert.deepEqual(data.music.map(cue=>cue.id),musicIds);
 assert.deepEqual(data.effects.map(cue=>cue.id),effectIds);
 assert.equal(Object.keys(data.patches).length,9);
@@ -55,4 +55,4 @@ const generated='/** Original project score. Generated from tools/pokemon-dungeo
 assert(Buffer.byteLength(generated)<64*1024,'Opening score exceeds its 64KiB budget.');
 if(process.argv.includes('--check'))assert.equal(await readFile(output,'utf8'),generated,'Regenerate the scoped original score.');
 else await writeFile(output,generated);
-console.log(`Blue original score: 11 themes, 21 effects, 9 used patches, ${notes} notes; music reservation peak ${maxMusicVoices}/16; ${Buffer.byteLength(generated)} runtime bytes. Static JSON/source only.`);
+console.log(`Blue original score: 11 themes, 10 effects, 9 used patches, ${notes} notes; music reservation peak ${maxMusicVoices}/16; ${Buffer.byteLength(generated)} runtime bytes. Static JSON/source only.`);

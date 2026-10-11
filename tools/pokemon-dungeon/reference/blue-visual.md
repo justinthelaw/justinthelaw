@@ -241,6 +241,31 @@ browser confirmation waiting for the four-frame change is canceled by menu
 replacement, Help or lost focus; native per-frame hardware input timing is not
 claimed. No camera operation advances a gameplay turn or random stream.
 
+Far-Off Pals now offers LOOK and SELF. The [official Blue manual, printed
+p28](https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf)
+corroborates LOOK's purpose: viewing distant partners' battles. Its default and
+timing remain comparative Red behavior. Explicit action and target receipts
+request focus before the corresponding battle presentation; straight-line moves
+use their actual target receipt after travel. SELF suppresses those automatic
+requests. Input return, wind and manual Team selection retain their own routes.
+
+One camera owner shares its target and 0–100 frame counter with the battle
+timeline. A changed automatic target drains current effects, counts those frames
+toward the 60-frame threshold, then waits four frames before snapping and
+discovering the captured surroundings. An unchanged target adds no wait. Input
+return resets the counter; its completed camera return precedes forced-turn
+waiting and ordinary-input minimap blink reset. Fresh or unprepared restored
+floors start at 99; saved input/forced boundaries normalize to zero without
+replaying upkeep. Historical camera age is absent from saves.
+
+Camera discoveries form a deduplicated union of at most 1,792 floor tiles.
+The app checks floor and transition identity before committing that union;
+presentation reveals each part at its snap. Help, blur and asset waits freeze
+the shared clock. Completed visual tails cannot replace a later menu target.
+Preference version 3 preserves the existing key and v1/v2 values while adding
+LOOK/SELF; adventure saves remain unchanged. Native level-up/summary focus,
+conditional message waits and exact Blue viewport/frame phase remain qualified.
+
 All three scoped floor records have visibilityRange0 and trapDensity0. In
 [`dungeon_tilemap.c`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_tilemap.c),
 zero light range disables the world dimming window; it does not expose the whole
@@ -252,13 +277,13 @@ target supplies the HUD's HP, level and Belly; a nonleader uses the native secon
 digit bank and cyan HP bar.
 
 [`DiscoverMinimap`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_map_access.c)
-updates persistent map knowledge only for the leader's normal movement or an
-explicit camera selection. The former automatic union of both members' sight
+updates persistent map knowledge for the leader's normal movement or an actual
+camera selection, including admitted LOOK requests. The former automatic union of both members' sight
 has been removed. Existing explored tiles in older opening saves are retained;
 the renderer cannot reconstruct which were previously over-revealed. Native
 `UpdateTrapsVisibility` rebuilds the tile display rather than revealing traps;
-Tiny Woods has none to mutate. All consumers of `state.visible`/`explored` were
-audited as presentation or the unused actor-list export. AI and targeting still
+Tiny Woods has none to mutate. The remaining consumers of
+`state.visible`/`explored` belong to presentation. AI and targeting still
 use the unchanged `inSight` helper directly. Native sprite-phase randomization
 on camera refresh is not copied into the gameplay RNG.
 

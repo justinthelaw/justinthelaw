@@ -55,6 +55,10 @@
     {
       "path": "VoiceDef.s",
       "sha256": "e94881bd29a5dd051bcec51da0fe39bac2efd839c7eca2fa67e2a585ac65fbf7"
+    },
+    {
+      "path": "include/gba/m4a_internal.h",
+      "sha256": "988f7b1f395dcf419271ce857ca6fb0954bea3b5104ca40852726fb1cbbc7deb"
     }
   ],
   "clock": {
@@ -91,7 +95,8 @@
           2,
           100
         ]
-      ]
+      ],
+      "voice": 60
     },
     {
       "id": "effect-ui-confirm",
@@ -112,7 +117,8 @@
           2,
           80
         ]
-      ]
+      ],
+      "voice": 60
     },
     {
       "id": "effect-ui-cancel",
@@ -145,7 +151,8 @@
           1,
           20
         ]
-      ]
+      ],
+      "voice": 64
     },
     {
       "id": "effect-ui-open",
@@ -160,10 +167,53 @@
           1,
           116
         ]
-      ]
+      ],
+      "voice": 60
     }
   ],
   "aliases": {
     "effect-ui-denied": "effect-ui-cancel"
-  }
+  },
+  "pulseHardware": {
+    "directSoundBits": 8,
+    "soundBiasHighBits": 64,
+    "fixedTypeMask": 8,
+    "fixedRegisterAdd": 1,
+    "fixedRegisterMask": 2046
+  },
+  "voices": [
+    {
+      "id": 60,
+      "type": 9,
+      "duty": 0.5,
+      "envelope": [
+        0,
+        0,
+        15,
+        0
+      ]
+    },
+    {
+      "id": 61,
+      "type": 1,
+      "duty": 0.125,
+      "envelope": [
+        0,
+        0,
+        15,
+        0
+      ]
+    },
+    {
+      "id": 64,
+      "type": 9,
+      "duty": 0.25,
+      "envelope": [
+        0,
+        0,
+        15,
+        0
+      ]
+    }
+  ]
 }

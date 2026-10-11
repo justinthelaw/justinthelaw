@@ -3,7 +3,7 @@ import { combineTypeMatchups, isPhysicalType, lookupTypeMatchup } from '../domai
 import { dropItem, ITEM_NAMES, moneyPile } from './mechanics-items.js';
 import { moveTargets } from './mechanics-targets.js';
 import { captureActor } from './battle-events.js';
-import { actors, clamp, distance, draw, flushQueuedMovement, message, recordAction, recordSync, team, wakeInitialSleep, wakeNearbyWild, DIRECTIONS } from './mechanics-common.js';
+import { actors, clamp, distance, draw, flushQueuedMovement, message, recordAction, recordCamera, recordSync, team, wakeInitialSleep, wakeNearbyWild, DIRECTIONS } from './mechanics-common.js';
 
 export { moveTargets } from './mechanics-targets.js';
 
@@ -20,7 +20,17 @@ export { moveTargets } from './mechanics-targets.js';
 /** @typedef {{giveExp?:boolean,falseSwipe?:boolean,execution?:MoveExecution,cause?:'move'|'residual'|'recoil'|'hunger',effectiveness?:0|1|2|3}} DamageOptions */
 const ACCURACY = [84,89,94,102,110,115,140,153,179,204,256,320,384,409,422,435,448,460,473,486,512];
 const EVASION = [512,486,473,460,448,435,422,409,384,345,256,204,179,153,128,102,89,76,64,51,38];
-const ACTIVE_STATUSES=new Set(['sleep','paralysis','poisoned','burn','cringe','confused','confusion','infatuated','leech-seed','focus-energy','whiffer','bide','enraged','reflect']);
+/** Authored application messages; internal status keys are not prose.
+ * @type {Readonly<Record<string,string>>} */
+const STATUS_MESSAGES=Object.freeze({
+  sleep:'fell asleep!',paralysis:'became paralyzed!',poisoned:'was poisoned!',
+  burn:'was burned!',cringe:'began cringing!',confused:'became confused!',
+  confusion:'became confused!',infatuated:'became infatuated!',
+  'leech-seed':'was seeded!','focus-energy':'began focusing energy!',
+  whiffer:'began whiffing!',bide:'began storing energy!',
+  enraged:'became enraged!',reflect:'was protected by Reflect!',
+});
+const ACTIVE_STATUSES=new Set(Object.keys(STATUS_MESSAGES));
 const STATUS_CLASSES=[['poison','burn','paralysis'],['cringe','confusion','infatuated'],['focusEnergy','whiffer'],['bide','enraged']];
 /** Native direct-HP callers use these exact amounts, not CalcDamage.
  * @type {Readonly<Record<string,number|string>>} */
@@ -233,7 +243,7 @@ function inflict(state,actor,target,status,data,events) {
   if(status==='burn')target.periodic.burn=0;
   if(status==='bide')target.bideDamage=0;
   recordEffect(events,before,target,status==='sleep'?37:status==='paralysis'?423:status==='infatuated'?15:undefined);
-  message(state,events,`${target.name} ${status==='sleep'?'fell asleep!':`became ${status.replaceAll('-',' ')}!`}`);events.push({type:'status',actorId:target.id,text:normalized});
+  message(state,events,`${target.name} ${STATUS_MESSAGES[status]??'changed status!'}`);events.push({type:'status',actorId:target.id,text:normalized});
 }
 /** Native stat-effect selectors; missing exported artwork is left to presentation.
  * @type {Readonly<Record<string,readonly [number,number]>>} */
@@ -382,7 +392,7 @@ function resolveDamagingHit(state,actor,target,move,data,events,execution) {
  * ordinary misses do not cancel later passes. PP/use text belong to the action.
  * @param {DungeonState} state @param {Actor} actor @param {number|'struggle'|null} slot @param {OpeningData} data @param {GameEvent[]} events */
 export function attack(state,actor,slot,data,events) {
-  recordAction(events,actor.id,'other');
+  recordAction(events,actor.id,'other',actor);
   flushQueuedMovement(state,events);
   if(actor.status.sleep||actor.status.paralysis||actor.status.cringe||actor.status.infatuated){message(state,events,`${actor.name} can't attack!`);return;}
   const learned=typeof slot==='number'?actor.moves[slot]:null,move=data.moves[slot==='struggle'?'move-struggle':learned?.id??'regular-attack'];if(!move)return;
@@ -396,16 +406,19 @@ export function attack(state,actor,slot,data,events) {
     // CannotAttack runs per pass, not between members of one area target list.
     // The opening excludes frozen/wrapped/paused/runaway status classes.
     if(!moveEntityValid(actor)||moveFloorOver(state,execution)||actor.status.sleep||actor.status.paralysis||actor.status.cringe||actor.status.infatuated)break;
-    /** @type {import('./mechanics-targets.js').MoveTrace|undefined} */
-    const trace=move.id==='move-ember'&&move.range===8?{}:undefined;
+    /** @type {import('./mechanics-targets.js').MoveTrace} */
+    const trace={};
     const targets=moveTargets(state,actor,move,trace);
     // Native direct/front scans stop before a later empty cast. Line projectiles
     // trace after casting and can still execute their later empty pass.
     if(pass>0&&!targets.length&&move.range!==5)break;
     events.push({type:'attack',actorId:actor.id,targetId:targets[0]?.id,moveId:move.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:move.id,first:pass===0}});
     if(pass===0)message(state,events,move.id!=='regular-attack'?`${actor.name} used ${move.name}!`:`${actor.name} attacked!`);
+    // The native first-team request follows cast handling, before travel.
+    // Line targeting has no pre-collected target at this source boundary.
+    if(move.range!==5&&trace.firstTeamTarget)recordCamera(events,trace.firstTeamTarget,'look');
     if(!targets.length){
-      if(trace?.to&&trace.stop)events.push({type:'presentation',presentation:{kind:'empty-target',actorId:actor.id,moveId:'move-ember',from:{x:actor.x,y:actor.y},to:{...trace.to},stop:trace.stop}});
+      if((move.id==='move-ember'||move.id==='move-hypnosis')&&trace.to&&trace.stop)events.push({type:'presentation',presentation:{kind:'empty-target',actorId:actor.id,moveId:move.id,from:{x:actor.x,y:actor.y},to:{...trace.to},stop:trace.stop}});
       continue;
     }
     foundTarget=true;
@@ -489,9 +502,11 @@ export function finishTurn(state,actor,data,events) {
     recordAction(events,actor.id,'other');
     flushQueuedMovement(state,events);
     if(actor.status.confusion)actor.direction=DIRECTIONS[draw(state,8)]??'s';
-    const target=moveTargets(state,actor,release)[0];
+    /** @type {import('./mechanics-targets.js').MoveTrace} */const trace={};
+    const target=moveTargets(state,actor,release,trace)[0];
     events.push({type:'attack',actorId:actor.id,targetId:target?.id,moveId:release.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:release.id,first:true}});
     message(state,events,`${actor.name} released its stored energy!`);
+    if(release.range!==5&&trace.firstTeamTarget)recordCamera(events,trace.firstTeamTarget,'look');
     if(target){events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:release.id,target:captureActor(target),phase:'visit'}});wakeInitialSleep(state,target,events);}
     let missed=false;
     if(!target||(missed=!hits(state,actor,target,release.accuracyBeforeEffect,data))){message(state,events,'But it had no effect.',missed&&target?{kind:'miss',actorId:actor.id,accuracy:1,target:captureActor(target)}:undefined);return;}

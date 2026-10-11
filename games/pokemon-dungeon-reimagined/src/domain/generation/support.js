@@ -44,8 +44,6 @@ export function addRoom(map, bounds, kind = 'ordinary') {
     carve(map, bounds, index);
     return index;
 }
-/** @param {import('./types.js').Bounds} b */
-export function center(b) { return { x: b.x + Math.floor(b.width / 2), z: b.z + Math.floor(b.height / 2) }; }
 /** @param {import('./types.js').Geometry} map @param {import('./types.js').Position} start @param {import('./types.js').Position} end */
 export function corridor(map, start, end) {
     let x = start.x, z = start.z;

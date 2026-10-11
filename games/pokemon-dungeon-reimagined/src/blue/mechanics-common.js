@@ -39,8 +39,6 @@ export function actorAt(state,x,y) {
 }
 /** @param {Actor} actor */
 export function team(actor) { return actor.id === 'hero' || actor.id === 'partner'; }
-/** @param {DungeonState} state @param {Point} a @param {Point} b */
-export function sameRoom(state,a,b) { const room=state.roomIds[index(state,a.x,a.y)]; return room!==undefined && room>=0 && room===state.roomIds[index(state,b.x,b.y)]; }
 /** Original room effects include the room's one-tile border. A corridor uses
  * the floor's default two-tile sight radius, independently of melee geometry.
  * @param {DungeonState} state @param {Point} origin @param {Point} target */
@@ -55,8 +53,12 @@ export function canStep(state,actor,dx,dy) { return open(state,actor.x+dx,actor.
 /** @param {DungeonState} state @param {GameEvent[]} events @param {string} text @param {import('./battle-events.js').BattleEvent} [presentation] */
 export function message(state,events,text,presentation) { state.log.push(text); if(state.log.length>80) state.log.splice(0,state.log.length-80); events.push({type:'message',text,...(presentation?{presentation}:{})}); }
 /** Presentation-only boundaries never change the simulation.
- * @param {GameEvent[]} events @param {string} actorId @param {'walk'|'wait'|'other'} action */
-export function recordAction(events,actorId,action) { events.push({type:'presentation',presentation:{kind:'action',actorId,action}}); }
+ * cameraActor marks the ordinary action-wrapper hook; Bide end effects omit it.
+ * @param {GameEvent[]} events @param {string} actorId @param {'walk'|'wait'|'other'} action @param {Actor} [cameraActor] */
+export function recordAction(events,actorId,action,cameraActor) { events.push({type:'presentation',presentation:{kind:'action',actorId,action,...(cameraActor&&team(cameraActor)?{cameraActor:captureActor(cameraActor)}:{})}}); }
+/** Explicit native camera boundary; no automatic request belongs to a wild actor.
+ * @param {GameEvent[]} events @param {Actor} actor @param {'look'|'leader'|'input'} mode */
+export function recordCamera(events,actor,mode){if(team(actor))events.push({type:'presentation',presentation:{kind:'camera',actor:captureActor(actor),mode}});}
 /** Upkeep on an unmoved actor is visible before the pending walk group. A
  * moved/swapped actor's full snapshot includes its destination and must wait.
  * @param {GameEvent[]} events @param {Actor[]} members */

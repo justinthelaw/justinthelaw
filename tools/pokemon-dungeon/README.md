@@ -37,7 +37,10 @@ Website tests use inert game fixtures.
   shared raster writer. Source attribution does not assert a reuse license.
 - `audio/blue-original-score.json` owns the selected authored score.
   `audio/blue-menu-effects.json` and `audio/blue-battle-effects.json` own the
-  source-derived short effects. No original soundtrack parity is claimed.
+  source-derived short PSG effects. `audio/blue-pcm-effects.json` owns only the
+  healing and heart sample/control facts; their offline exporter uses Node
+  built-ins. Red PCM is comparative, with global reverb, browser mixing and
+  exact Blue playback still qualified. No original soundtrack parity is claimed.
 - `scripts/` contains only the selected exporters and static checkers.
   `reference/blue-*.md` records source decisions and remaining fidelity gaps.
 - `.work/` holds ignored review packets, frozen browser builds and release

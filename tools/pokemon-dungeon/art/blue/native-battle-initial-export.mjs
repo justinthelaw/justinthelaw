@@ -3,7 +3,7 @@ import {battleDigest} from './native-battle-inputs.mjs';
 import {composeBattleEffects} from './native-effect-format.mjs';
 import {verifyNativeBattleMetadata} from './native-battle-effects-export.mjs';
 
-/** Static image/data export. Later-level effects and Hypnosis BG stay excluded. */
+/** Static image/data export. Later-level sprite effects stay excluded; the BG has its own owner. */
 export async function exportNativeInitialBattleEffects({emit,output}){
   const {files,manifest,manifestBytes}=await nativeBattleInitialInputs();
   const {atlas,metadata,evidence}=composeBattleEffects(files,'initial');

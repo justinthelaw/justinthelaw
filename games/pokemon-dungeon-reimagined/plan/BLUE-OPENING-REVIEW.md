@@ -416,7 +416,65 @@ message before the positive number. Full-HP recovery still plays the application
 Successful infatuation adds its separate generic 15 entry with a fixed attachment.
 These two application effects retain their final held frame before handle
 removal. Source-derived timing remains qualified for direct Blue corroboration;
-native PCM sounds 606/614 are not yet implemented.
+the subsequent PCM admission is recorded below.
+
+The signed pruning checkpoint `ac3967bddf7ddeea624c7dc1b5b316f69820f935`
+passed Game Static Checks, Lint, Playwright and CodeQL on its exact head.
+The later LOOK/SELF camera change has passed independent source/lifecycle
+review and hash admission. Its shared camera counter, captured-position
+discovery, input return and preference migration preserve the adventure save
+schema and numerical turn owners. The isolated review covered 62 strict sources,
+14 lint inputs, 79 unchanged functions and 12 metadata-only changes. The combined
+LOOK and specialized Tiny Woods generator passed the full scoped check under
+Node 24.21.0: 96 lint inputs, 62 strict sources and all factual/asset/export
+checks. Its 143 resources total 3,034,606 bytes. Manual camera acceptance remains
+pending at this entry.
+
+The next integrated check adds source-derived healing and heart PCM cues and
+the five-function cleanup. It passes under Node 24.21.0 with 99 lint inputs,
+64 strict sources and all scoped factual/asset/export checks. The distribution
+contains 145 resources totaling 3,057,848 bytes. Independent review verified
+24 native source pins, three samples, 18 notes, 210 stereo rows, 27 pitch rows,
+SE5 replacement/release-tail ownership and the shared 32-voice limit. Fresh
+displayed effects own the cues; canonical mechanics, saves and visual waits
+are unchanged. Playback remains dry and comparative; native global mixing,
+reverb, Blue sample identity and manual listening remain unverified.
+
+Further pruning removes six authored cues shadowed by native players, five
+unrequested audio roles and an uncalled volume wrapper. Retained music and note
+tokens remain exact. That scoped check passes with 99 lint inputs,
+64 strict sources and 145 runtime files totaling 3,054,255 bytes. The authored
+bank now has 11 themes, 10 effects and 659 notes. A separate source correction
+applies the driver's fixed-type pitch rounding to menu voices 60/64; ordinary
+no-damage voice 61 remains unchanged. Manual Static activation exposed an
+authored wording bug, now corrected through a status-message table with the
+same admitted status keys and unchanged numerical/effect ordering.
+
+The next integrated revision adds the selected Hypnosis background: 13 native
+patterns, a bounded 53,248-byte decoded bank, DS channel blending and the BG0
+left-edge guard. Its one-frame raw preload hold pauses the source clock;
+the existing effect drain owns completion. Notice clearing, HUD suppression,
+resource disposal and empty-target travel receipts passed independent source
+review. The full Node 24.21.0 check passes with 102 lint inputs, 66 strict
+sources and 148 runtime files totaling 3,067,402 bytes, leaving 78,326 bytes
+under the distribution limit. Blue framing/preload phase, travel attachment,
+sound 769 and intermediate canvas colors remain qualified. This check executes
+neither game source nor native game code.
+
+The 05:13 frozen manual run completed the eight-question quiz and its invasion
+follow-up, produced hasty/female Skitty, selected Pikachu and named the partner
+Flash before naming the hero Mochi during awakening. Its native scene capture
+`native-mochi-awakening.png` has SHA-256
+`b57e37257f34655321c8537f9e47da7368d7b31f27747a713ef91bc8b5241e46`.
+B1F generated with level-five HP 30/30 and 25/25. Quicksave and Continue into
+the 05:27 audio snapshot restored the same room and party; SELF persisted and
+was manually switched back to LOOK. Team focus showed Flash's cyan HP bar and
+returned to the leader. Ordinary combat exercised Absorb recovery, a full-HP
+recovery request, misses, Static and a front-line swap. Mochi defeated both
+Sunkern with Tackle, explored a dead-end corridor and returned with the run
+control. A later Pidgey defeat raised Flash to level six and taught Tail Whip;
+the visible party HP was 22/30 and 24/28. The offscreen automatic LOOK shift,
+Cute Charm heart and direct audio audition remain unverified.
 
 ## Fidelity limits
 

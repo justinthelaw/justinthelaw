@@ -180,6 +180,13 @@ for (const bank of assets.battleEffects.banks) {
   }
 }
 assert.equal(battleIds.size, 25);
+const hypnosis = assets.battleEffects.hypnosis;
+assert.equal(hypnosis.activation, 'selected-hypnosis-only'); assert.equal(hypnosis.effectId, 222);
+assert.equal(hypnosis.path, 'hypnosis-background.png'); assert.equal(hypnosis.width, 416); assert.equal(hypnosis.height, 32);
+assert.equal(hypnosis.modulePath, 'src/blue/render-hypnosis-data.js'); assert.equal(hypnosis.guard.column, 0);
+assert(hypnosis.bytes <= 4096); await verifiedPng('assets/blue', hypnosis);
+await verifiedBytes(hypnosis.modulePath, hypnosis.moduleBytes, hypnosis.moduleSha256);
+battleDecodedBytes += hypnosis.width * hypnosis.height * 4;
 assert(battleDecodedBytes <= assets.battleEffects.maxDecodedBytes, 'Battle effects exceed the aggregate decoded budget');
 if (assets.statusAtlas) {
   await verifiedPng('assets/blue', assets.statusAtlas);

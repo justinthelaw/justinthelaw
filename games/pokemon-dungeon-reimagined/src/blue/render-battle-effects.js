@@ -4,7 +4,7 @@ const ROOT=new URL('../../assets/blue/',import.meta.url);
 const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
 /** @typedef {'basic'|'initial'} BankId */
 /** @typedef {{id:BankId,path:string,ids:readonly number[],files:readonly string[]}} BankSpec */
-/** The later-level and Hypnosis background studies are not admitted here.
+/** Later-level sprite effects are excluded; Hypnosis BG has its own owner.
  * @type {readonly BankSpec[]} */
 const BANKS=Object.freeze([
   {id:'basic',path:'battle-effects',ids:[8,9,10,11,22,37,138,144,236,274,317,137,399,404,423],files:['efob000','efob053','efob054','efob119','efob121']},
@@ -63,7 +63,7 @@ async function bytes(path,limit,signal){
   const data=new Uint8Array(total);let offset=0;for(const chunk of chunks){data.set(chunk,offset);offset+=chunk.byteLength;}return data;
 }
 
-/** @param {Uint8Array} data @param {EffectMetadata} expected */
+/** @param {Uint8Array} data @param {{width:number,height:number}} expected */
 function pngHeader(data,expected){
   if(data.byteLength<33||[137,80,78,71,13,10,26,10].some((value,index)=>data[index]!==value)||String.fromCharCode(...data.subarray(12,16))!=='IHDR')throw Error('Native battle artwork is not a PNG.');
   const header=new DataView(data.buffer,data.byteOffset,data.byteLength);
@@ -89,7 +89,7 @@ export class BattleEffects {
           const data=metadata(JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(json)),bank);pngHeader(png,data);
           return{bank,data,png};
         }));
-        let decodedBytes=0;
+        let decodedBytes=53248; // Reserved closed Hypnosis background atlas.
         const ids=new Set();
         for(const entry of entries){
           decodedBytes+=entry.data.width*entry.data.height*4;
@@ -148,3 +148,5 @@ export class BattleEffects {
   }
   dispose(){if(this.disposed)return;this.disposed=true;this.controller.abort();for(const bank of this.banks.values())bank.image.close();this.banks.clear();this.records.clear();}
 }
+
+export {bytes as battleBytes,pngHeader as battlePngHeader};

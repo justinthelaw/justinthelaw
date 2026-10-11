@@ -8,5 +8,4 @@
 /** @typedef {{index:number,bounds:Bounds,kind:'ordinary'|'monster-house'|'shop'|'reward-chamber',hidden:boolean,secondary:boolean,imperfect:boolean,maze:boolean,merged:boolean,gridPosition:Position|null}} Room */
 /** @typedef {{x:number,z:number,valid:boolean,room:boolean,bounds:Bounds|null,roomIndex:number|null,edges:Set<number>,absorbed:boolean}} GridCell */
 /** @typedef {{cells:Cell[][],rooms:Room[],entry:Position|null,exit:Position|null,fixedRoleAnchors:Position[],reward:Position|null,keyDoor:Position|null,forceHouse:boolean,externalSecondary:boolean,protectedBounds:Bounds|null}} Geometry */
-/** Only context fields read by applyRoomFeatures. @typedef {{floorType:'normal'|'fixed'|'rescue',missionSuppressesHouse:boolean}} GenerationContext */
 export {};

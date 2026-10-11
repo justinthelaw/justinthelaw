@@ -15,6 +15,12 @@ assert.equal(data.edition, 'Red Rescue Team comparative');
 assert.equal(data.clock.cpuHz, 16777216); assert.equal(data.clock.cyclesPerFrame, 280896);
 assert.equal(data.frequencyBase.length, 12); assert(data.frequencyBase.every(value => Number.isInteger(value) && value < 0));
 assert.equal(data.cues.length, 4); assert.equal(data.generalMenuThrottleFrames, 4);
+assert.deepEqual(data.pulseHardware, {directSoundBits:8,soundBiasHighBits:64,fixedTypeMask:8,fixedRegisterAdd:1,fixedRegisterMask:2046});
+assert.deepEqual(data.voices, [
+  {id:60,type:9,duty:.5,envelope:[0,0,15,0]},
+  {id:61,type:1,duty:.125,envelope:[0,0,15,0]},
+  {id:64,type:9,duty:.25,envelope:[0,0,15,0]},
+]);
 assert(data.browserGain > 0 && data.browserGain <= .3);
 assert.equal(battle.schemaVersion, 1); assert.equal(battle.sourceCommit, data.sourceCommit);
 assert.equal(battle.edition, data.edition); assert.deepEqual(battle.clock, data.clock);
@@ -29,9 +35,13 @@ if (sourceArgument >= 0) {
   }
 }
 // Center pan, track volume scale64 and native channel/envelope truncation.
-function pulseFacts(key, velocity, volume) {
+function pulseFacts(key, velocity, volume, voiceId) {
+  const voice = data.voices.find(record => record.id === voiceId); assert(voice);
   const octave = Math.floor((key - 36) / 12), semitone = (key - 36) % 12;
-  const register = (data.frequencyBase[semitone] >> octave) + 2048;
+  let register = (data.frequencyBase[semitone] >> octave) + 2048;
+  // CgbSound rounds fixed-type square channels for the initialized 8-bit PWM.
+  // Ordinary voice61 must retain its unrounded no-damage divisors.
+  if (voice.type & data.pulseHardware.fixedTypeMask) register = (register + data.pulseHardware.fixedRegisterAdd) & data.pulseHardware.fixedRegisterMask;
   const right = (velocity * volume) >> 7;
   const left = (127 * velocity * Math.floor(volume * 127 / 128)) >> 14;
   return [2048 - register, Math.min(15, Math.floor((right + left) / 16))];
@@ -39,6 +49,7 @@ function pulseFacts(key, velocity, volume) {
 const cues = {};
 for (const cue of data.cues) {
   assert(/^effect-ui-(cursor|confirm|cancel|open)$/.test(cue.id));
+  assert.equal(cue.voice, cue.sequence === 303 ? 64 : 60);
   assert([.25, .5].includes(cue.duty));
   assert(Number.isInteger(cue.volume) && cue.volume > 0 && cue.volume <= 127);
   assert(cue.notes.length >= 1 && cue.notes.length <= 4);
@@ -53,7 +64,7 @@ for (const cue of data.cues) {
   const notes = [...starts.values()].sort((left, right) => left[0] - right[0]);
   cues[cue.id] = { duty: cue.duty, notes: notes.map(([tick, key, gate, velocity], index) => {
     const nextTick = notes[index + 1]?.[0] ?? Infinity;
-    return [tick, Math.min(gate, nextTick - tick), ...pulseFacts(key, velocity, cue.volume)];
+    return [tick, Math.min(gate, nextTick - tick), ...pulseFacts(key, velocity, cue.volume, cue.voice)];
   }) };
 }
 for (const [alias, target] of Object.entries(data.aliases)) { assert(cues[target]); cues[alias] = cues[target]; }
@@ -79,7 +90,7 @@ for (const [index, cue] of battle.cues.entries()) {
     assert.equal(gate, 3); assert.equal(velocity, 120);
     const start = frame(tick), end = frame(tick + gate);
     assert(start >= 2 && end <= 14 && end > start);
-    return [start, end - start, ...pulseFacts(key, velocity, cue.volume)];
+    return [start, end - start, ...pulseFacts(key, velocity, cue.volume, cue.voice)];
   }) };
 }
 const generated = `/** Generated from pinned comparative Rescue Team menu-effect facts; no music or PCM samples. */\n` +

@@ -9,5 +9,5 @@
 /** @typedef {'locked'|'ready'|'paused'|'unsupported'|'denied'|'disposed'} AudioState */
 /** @typedef {{readonly state:AudioState,readonly reason:string|null,readonly epoch:string|null,readonly voices:number}} AudioStatus */
 /** @typedef {'opening'|'title'|'menu'|'quiz'|'awakening'|'trouble'|'dungeon'|'clearing'|'reunion'|'failure'|'complete'|'silent'} AudioScene */
-/** @typedef {'cursor'|'confirm'|'cancel'|'open'|'denied'|'step'|'attack'|'hit'|'miss'|'heal'|'status'|'pickup'|'money'|'stairs'|'floor'|'rescue'|'reward'|'levelUp'|'faint'|'hunger'|'spark'|'noDamageTeam'|'noDamageOther'} AudioEffect */
+/** @typedef {'cursor'|'confirm'|'cancel'|'open'|'denied'|'attack'|'hit'|'miss'|'heal'|'heart'|'pickup'|'money'|'stairs'|'rescue'|'reward'|'levelUp'|'faint'|'noDamageTeam'|'noDamageOther'} AudioEffect */
 export {};

@@ -1,7 +1,8 @@
 # Opening battle visuals
 
 The selected browser renderer uses native actor motions and two closed banks of
-25 battle effects from the pinned comparative Red tables. A separate timeline
+25 sprite effects and the Hypnosis background from the pinned comparative Red
+tables. A separate timeline
 plays already committed presentation evidence; it never repeats gameplay,
 draws randomness, or writes visual state into saves. This is source-derived
 choreography with explicit Blue and coverage qualifications below.
@@ -174,20 +175,74 @@ qualified and adjacent Ember's travel wait is unchanged.
 
 These joins follow `HealTargetHP`, `InfatuateStatusTarget`, `sub_8041550`,
 `sub_800DD0C` and `RunAxAnimationFrame` in the pinned comparative source.
-The existing authored heal sound now starts on the effect's first frame.
-Native DirectSound effects 606/614 and exact Blue playback remain unimplemented.
+Fresh displayed effects 7/15 now own one sound receipt at their first frame.
+The bounded [PCM player](blue-audio.md) uses comparative native sequences
+606/614, including full-HP healing and the heart's move/status routes. Carry,
+redraw and silent completion cannot replay a receipt. Native global reverb,
+mixing and exact Blue playback remain qualified.
+
+## Hypnosis background ownership
+
+Hypnosis alone adds effect 222 (`efbg005`) as a screen-relative background,
+separate from its existing travel sprite 225. The offline exporter retains 54
+pinned source files in a 148,746-byte authoring archive. Every source plane is
+exactly periodic: 22 two-tick phases reduce to 13 opaque 32x32 patterns in a
+2,963-byte 416x32 PNG. The background adds 53,248 decoded bytes; all selected
+effect atlases total 2,721,792 bytes under the unchanged 4MiB aggregate bound.
+Confusion and Psybeam share this source preparation ID but remain outside this
+background admission pending their separate timing review.
+
+The timeline distinguishes the raw preload frame from ordinary dungeon frames.
+Its wall/source mapping holds actor, effect and camera age for that one frame,
+then retains the existing nonblocking preparation and TRUE global drain.
+Source palette brightness is 15 on the first/last phase and 31 between them;
+44 visible dungeon ticks end with a separate terminator. The HUD remains hidden
+through that terminator and returns on the following dungeon frame. Minimap and
+live-message windows follow their own background ownership; one ordered receipt
+clears the live strings and notice cache without removing message history.
+The existing LOOK request can drain the background before travel when it
+actually changes the offscreen camera. It is not duplicated or bypassed.
+
+The lower world is composed into one bounded scratch surface before the BG2
+plane. Native priority makes the plane foremost over terrain and ordinary OBJ
+pixels, including floating numbers. Eligible channels use the DS 6-bit 10/10
+mix with rounding, then 6-to-8 expansion; Canvas source-over would differ.
+The cleared BG0 retains its one-pixel guard at screen x=0, which is not an
+eligible second target; the foreground pattern remains unblended there. Its
+native font tile has eight `30000000` rows. In the independently anchored Blue
+lower-display crop `(8,208,256,192)`, x=0 is black for all 192 rows, while the
+opposite display edge varies with the scene. The first/last display rows each
+have one black pixel; the adjacent outer screenshot rows are entirely black.
+This distinguishes the selected display column from the surrounding screenshot
+frame. These normal-screen pixels corroborate the guard, while Blue Hypnosis
+priority and preload behavior remain separately qualified.
+
+The independent hardware arithmetic source is
+[melonDS GPU_ColorOp.h](https://github.com/melonDS-emu/melonDS/blob/906e9ebb27da8c6a715cd7abab4abfe8a8d29427/src/GPU_ColorOp.h),
+with routing/lifetime from the pinned comparative Red effect/dungeon drivers.
+The 256x192 crop at origin 0,0 is an explicit comparative assumption: Blue's
+reader, framing and final effect pixels have not been independently verified.
+Exact raw-preload display pixels, travel 225 attachment and sound 769 remain
+qualified or unselected. This addition does not establish exact Blue parity.
+
+Only a transient empty Hypnosis endpoint receipt is added to mechanics, using
+the existing impact scan. Combat calculations, PP, random calls, HP receipts and
+saved state are unchanged. Pause freezes the owner; reduced-motion completion
+consumes receipts once without replay, and scene retirement/disposal releases
+its resources. No register-like tint persists after cancellation.
 
 ## Remaining qualifications
 
 Blue effect-pixel comparisons and complete driver timing remain open. Native
 cosmetic animation-start jitter is deterministically zero; it does not consume
 the gameplay RNG. The selected overlay banks are incomplete: 11 later-level
-sprite effects and Hypnosis background 222 remain outside the distribution.
-Hypnosis travel 225 is separate sprite artwork and does not replace its BG2 plane.
-The source's brightness/blend control and Blue framing need their own admission.
+sprite effects remain outside the distribution. Hypnosis now has the separate
+BG2 owner above; its direct Blue framing and pixel comparison remain open.
 The current Ember endpoint and attachment route is closed to adjacent Ember;
-other travel geometry, Attract's sine trajectory and Far-Off Pals camera behavior
-remain separate source/producer work. These gaps are distinct from the implemented
+other travel geometry and Attract's sine trajectory remain separate work.
+Far-Off Pals now has the bounded LOOK/SELF route described in
+[visual evidence](blue-visual.md); direct Blue timing remains qualified.
+These gaps are distinct from the implemented
 actor motions and rotation routines.
 
 Static checks validate source, types, paths, images and provenance without

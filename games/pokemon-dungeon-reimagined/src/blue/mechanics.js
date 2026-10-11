@@ -1,6 +1,6 @@
 import { createRandomState, validateRandomState } from '../domain/rng.js';
-import { buildLayout } from '../domain/generation/layouts.js';
-import { applyRoomFeatures } from '../domain/generation/features.js';
+import { buildLayout, isTinyWoodsParameters } from '../domain/generation/layouts.js';
+import { addTinyWoodsHallways } from '../domain/generation/features.js';
 import { Draws, finalizeGeometry, positions, ordinary, reachable } from '../domain/generation/support.js';
 import { openingSpawns, spawnScanOrder, arrivalPosition } from './mechanics-generation.js';
 import { cameraSight } from './mechanics-visibility.js';
@@ -8,7 +8,7 @@ import { dropItem, ITEM_NAMES, moneyPile } from './mechanics-items.js';
 import { captureActor, captureItems } from './battle-events.js';
 import { DEFAULT_IQ, IQ_SKILLS, TACTICS, hasIq, tacticFor, considersLineMove, considersLineTarget, canTalk, talkToPartner } from './mechanics-policy.js';
 import { attack, beginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, supportsMove, STATUS_KEYS, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
-import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, message, moveActor, nextStep, open, recordAction, recordSync, team, wakeInitialSleep, DIRECTIONS, VECTORS } from './mechanics-common.js';
+import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, message, moveActor, nextStep, open, recordAction, recordCamera, recordSync, team, wakeInitialSleep, DIRECTIONS, VECTORS } from './mechanics-common.js';
 
 export { resetSecondaryGates } from './mechanics-combat.js';
 
@@ -24,7 +24,6 @@ export { resetSecondaryGates } from './mechanics-combat.js';
 
 const DATA_URL = new URL('../../content/blue-opening.json', import.meta.url);
 const WIDTH=56, HEIGHT=32;
-const GENERATION_CONTEXT=Object.freeze({floorType:/** @type {const} */('normal'),missionSuppressesHouse:true});
 
 /** One compact, local factual resource; no full-campaign catalogs are loaded.
  * @param {AbortSignal} [signal] @returns {Promise<OpeningData>} */
@@ -34,6 +33,7 @@ export async function loadOpeningData(signal) {
   const text=await response.text();if(text.length>500000)throw new Error('Opening data is too large.');
   const data=/** @type {OpeningData} */(JSON.parse(text));
   if(data.version!==1||data.starterIds.length!==16||data.floors.length!==3||!data.moves['regular-attack']||data.wildSpawn?.randomMovementChance!==0)throw new Error('Unsupported opening data.');
+  for(const [index,floor] of data.floors.entries())if(floor.number!==index+1||!isTinyWoodsParameters(floor.generation,index+1))throw new Error('Unsupported Tiny Woods floor profile.');
   for(const floor of data.floors)for(const row of floor.encounters){const chance=data.species[row.speciesId]?.chanceAsleep;if(typeof chance!=='number'||!Number.isInteger(chance)||chance<0||chance>100)throw new Error('Missing opening wild sleep facts.');}
   return data;
 }
@@ -63,12 +63,13 @@ export function createDungeon(options,data) {
 }
 /** @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events */
 function generateFloor(state,data,events) {
-  clearQueuedMovement(state);resetSecondaryGates(state);
   const floor=data.floors[state.floor-1];if(!floor)throw new Error('Tiny Woods ends after B3F.');
-  const rng=new Draws(state.rng);let geometry=buildLayout(floor.generation,rng,0);
+  if(floor.number!==state.floor||!isTinyWoodsParameters(floor.generation,state.floor))throw new Error('Unsupported Tiny Woods floor profile.');
+  clearQueuedMovement(state);resetSecondaryGates(state);
+  const rng=new Draws(state.rng);let geometry=buildLayout(floor.generation,rng);
   for(let attempt=0;attempt<12;attempt++) {
-    if(attempt)geometry=buildLayout(floor.generation,rng,0);
-    applyRoomFeatures(geometry,floor.generation,GENERATION_CONTEXT,rng,'water',0,1);finalizeGeometry(geometry);
+    if(attempt)geometry=buildLayout(floor.generation,rng);
+    addTinyWoodsHallways(geometry,rng);finalizeGeometry(geometry);
     const candidates=positions(geometry,t=>ordinary(t)&&t.room!==null),first=candidates[0];
     const reached=first?reachable(geometry,first):new Set();
     if(first&&candidates.length>=30&&new Set(candidates.map(p=>geometry.cells[p.z]?.[p.x]?.room)).size>=2&&candidates.every(p=>reached.has(p.z*WIDTH+p.x)))break;
@@ -117,16 +118,14 @@ export function updateVisibility(state) {
   for(let index=0;index<state.visible.length;index++)if(state.visible[index])state.explored[index]=true;
 }
 /** @param {DungeonState} state */
-export function getVisibleActors(state) { return actors(state).filter(a=>team(a)||state.visible[index(state,a.x,a.y)]); }
-/** @param {DungeonState} state */
 export function getGroundItem(state) { return state.items.find(i=>i.x===state.hero.x&&i.y===state.hero.y)??null; }
 /** @param {HeldItem['kind']} kind */
 export function itemName(kind) { return ITEM_NAMES[kind]; }
 /** @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events @param {boolean} [fromMovement] */
 function pickup(state,actor,events,fromMovement=false) {
   const item=state.items.find(i=>i.x===actor.x&&i.y===actor.y);if(!item)return false;
-  if(item.kind==='poke'&&team(actor)){if(!fromMovement){recordAction(events,actor.id,'other');flushQueuedMovement(state,events);}state.money+=item.amount;message(state,events,`${actor.name} picked up ${item.amount} Poké.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
-  else if(!actor.heldItem){if(!fromMovement){recordAction(events,actor.id,'other');flushQueuedMovement(state,events);}actor.heldItem={kind:item.kind,amount:item.amount};message(state,events,`${actor.name} picked up ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
+  if(item.kind==='poke'&&team(actor)){if(!fromMovement){recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);}state.money+=item.amount;message(state,events,`${actor.name} picked up ${item.amount} Poké.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
+  else if(!actor.heldItem){if(!fromMovement){recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);}actor.heldItem={kind:item.kind,amount:item.amount};message(state,events,`${actor.name} picked up ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
   else {if(actor.id==='hero')message(state,events,`${actor.name} stepped on ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);return false;}
   state.items=state.items.filter(i=>i.id!==item.id);events.push({type:'item',actorId:actor.id,text:item.kind,presentation:{kind:'sync',actors:[captureActor(actor)],items:captureItems(state),money:state.money,...(fromMovement?{afterWalk:true}:{})}});
   const tutorial=`item-${item.kind}`;
@@ -138,7 +137,7 @@ function pickup(state,actor,events,fromMovement=false) {
 /** @param {DungeonState} state @param {Actor} actor @param {HeldItem} item @param {GameEvent[]} events */
 function eat(state,actor,item,events) {
   if(item.kind==='poke')return false;
-  recordAction(events,actor.id,'other');
+  recordAction(events,actor.id,'other',actor);
   flushQueuedMovement(state,events);
   message(state,events,`${actor.name} ate the ${ITEM_NAMES[item.kind]}.`);
   berryEffect(state,actor,item,events);return true;
@@ -156,7 +155,7 @@ function berryEffect(state,actor,item,events) {
  * throw. No trajectory equipment or special airborne targets occur here.
  * @param {DungeonState} state @param {import('./mechanics-types.js').GroundItem} item @param {GameEvent[]} events */
 function throwGroundBerry(state,item,events) {
-  recordAction(events,state.hero.id,'other');
+  recordAction(events,state.hero.id,'other',state.hero);
   flushQueuedMovement(state,events);
   state.items=state.items.filter(candidate=>candidate.id!==item.id);recordSync(state,events,[],true);throwBerry(state,state.hero,item,events);
 }
@@ -191,7 +190,7 @@ function actAI(state,actor,data,events) {
     if(actor.useHeldItem){
       actor.useHeldItem=false;
       if(actor.heldItem&&actor.heldItem.kind!=='poke'){eat(state,actor,actor.heldItem,events);actor.heldItem=null;}
-      else {recordAction(events,actor.id,'other');message(state,events,`${actor.name} had second thoughts.`);}
+      else {recordAction(events,actor.id,'other',actor);message(state,events,`${actor.name} had second thoughts.`);}
       return;
     }
     if(tryAiItem(state,actor,events))return;
@@ -224,7 +223,7 @@ function tryAiItem(state,actor,events){
     if(ally.id===actor.id||team(ally)!==team(actor)||!considersLineTarget(state,actor,ally,10))continue;
     const direction=directionFor(ally.x-actor.x,ally.y-actor.y);if(directions.has(direction))continue;directions.add(direction);
     if(draw(state,100)>=weight(ally,true))continue;
-    recordAction(events,actor.id,'other');actor.direction=direction;flushQueuedMovement(state,events);actor.heldItem=null;recordSync(state,events,[actor]);
+    recordAction(events,actor.id,'other',actor);actor.direction=direction;flushQueuedMovement(state,events);actor.heldItem=null;recordSync(state,events,[actor]);
     throwBerry(state,actor,{...item,id:`item-${state.nextId++}`,x:actor.x,y:actor.y},events);return true;
   }
   return false;
@@ -313,6 +312,7 @@ export function prepareDungeonTurn(state,data){
     }
     state.leaderPrepared=true;beginTurn(state,state.hero,data,events);updateVisibility(state);
     const ready=getDungeonTurnPhase(state);
+    if(ready==='input'||ready==='forced')recordCamera(events,state.hero,'input');
     return {phase:ready==='unprepared'?'blocked':ready,changed:true,consumedTurn:false,events,status:state.status};
   } finally {
     flushQueuedMovement(state,events);
@@ -361,6 +361,7 @@ function finishBaseBeat(state,events){
 function finishLeaderTurn(state,data,events,swappedActor=null){
   state.leaderPrepared=false;finishTurn(state,state.hero,data,events);
   if(!defeated(state)){
+    if([751,851,951].includes(state.floorTurn)||state.floorTurn>=1000)recordCamera(events,state.hero,'leader');
     if(state.floorTurn===751)message(state,events,'Something is approaching...');
     if(state.floorTurn===851)message(state,events,'Something is getting closer!');
     if(state.floorTurn===951)message(state,events,'It is right nearby!');
@@ -438,7 +439,7 @@ export function performAction(state,action,data) {
       else if(action.type==='moveSlot')attack(state,state.hero,action.slot,data,events);
       else if(action.type==='eatGround'&&ground){eat(state,state.hero,ground,events);state.items=state.items.filter(i=>i.id!==ground.id);recordSync(state,events,[],true);}
       else if(action.type==='eatHeld'&&state.hero.heldItem){eat(state,state.hero,state.hero.heldItem,events);state.hero.heldItem=null;recordSync(state,events,[state.hero]);}
-      else if(action.type==='usePartnerItem'){recordAction(events,state.hero.id,'other');state.partner.useHeldItem=true;recordSync(state,events,[state.partner]);}
+      else if(action.type==='usePartnerItem'){recordAction(events,state.hero.id,'other',state.hero);state.partner.useHeldItem=true;recordSync(state,events,[state.partner]);}
       else if(action.type==='throwGround'&&ground)throwGroundBerry(state,ground,events);
       else if(action.type==='pickup')pickup(state,state.hero,events);
     }
@@ -454,8 +455,6 @@ function defeated(state) { return state.status==='defeated'; }
 export function setMoveEnabled(state,actorId,slot,enabled) { const actor=[state.hero,state.partner].find(a=>a.id===actorId);if(actor&&Number.isInteger(slot)&&actor.moves[slot])actor.moves[slot].enabled=enabled; }
 /** @param {DungeonState} state @param {number} slot */
 export function setShortcut(state,slot) { if(!Number.isInteger(slot)||!state.hero.moves[slot])return;for(let i=0;i<state.hero.moves.length;i++){const move=state.hero.moves[i];if(move)move.set=i===slot;} }
-/** @param {OpeningData} data @param {string} moveId */
-export function isMoveSupported(data,moveId) { const move=data.moves[moveId];return !!move&&supportsMove(move); }
 /** Failure keeps earned EXP and levels. The initial level-five boost is never
  * repeated. The retry resumes Butterfree's still-unfinished rescue.
  * @param {DungeonState} state @param {OpeningData} data */

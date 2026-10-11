@@ -41,8 +41,13 @@ them. The closed 15-effect and initial 10-effect banks load with dungeon artwork
 under one aggregate 4 MiB decoded budget and follow the separate pause-aware
 battle timeline. Adjacent Ember retains the comparative source's post-launch
 attachment convergence and separate depth anchor. Effect-specific Blue pixels
-and complete driver timing remain unverified. Later-level effects and the
-Hypnosis background study remain outside the distribution.
+and complete driver timing remain unverified. Later-level sprite effects remain outside the distribution. Hypnosis alone
+adds the comparative efbg005 background plane from the same source pin, with
+its source manifest/archive in art/blue/native-hypnosis-sources.json. The
+screen-relative 256x192 crop at 0,0 is an explicit comparative assumption;
+Blue framing, travel 225 attachment and native sound 769 remain unverified or
+unselected. Its separate owner uses DS 6-bit 10/10 blending and source palette
+phases, without a Canvas opacity approximation.
 No game music or commercial script is copied.
 
 Each species retains statusOffsets as native attachment set0. The remaining
