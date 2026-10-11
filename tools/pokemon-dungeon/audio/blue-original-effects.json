@@ -1,0 +1,61 @@
+{
+  "revision": "blue-opening-effects-v1",
+  "authorship": {
+    "author": "Codex for this project",
+    "source": "tools/pokemon-dungeon/audio/blue-original-effects.json",
+    "method": "Original oscillator envelopes and short effect note patterns; no commercial music, samples, sound-effect assets or sequence data used",
+    "description": "Original sound effects authored for this project; no background music."
+  },
+  "patches": {
+    "bell": {"wave":"sine","attack":0.004,"release":0.15,"gain":0.11,"glide":0},
+    "reed": {"wave":"triangle","attack":0.025,"release":0.1,"gain":0.1,"glide":0},
+    "glass": {"wave":"sine","attack":0.008,"release":0.22,"gain":0.1,"glide":0},
+    "pluck": {"wave":"triangle","attack":0.004,"release":0.055,"gain":0.1,"glide":0},
+    "tap": {"wave":"triangle","attack":0.002,"release":0.02,"gain":0.12,"glide":-0.75},
+    "spark": {"wave":"sawtooth","attack":0.003,"release":0.05,"gain":0.025,"glide":-0.45}
+  },
+  "effects": [
+    {"id":"effect-attack","title":"A brief swing","role":"attack","bpm":180,"beats":1.7,"loop":false,"notes":[
+      {"beat":0.0,"length":0.25,"pitch":62,"patch":"spark","velocity":0.65},
+      {"beat":0.35,"length":0.25,"pitch":49,"patch":"spark","velocity":0.65}
+    ]},
+    {"id":"effect-hit","title":"A blunt contact","role":"hit","bpm":180,"beats":1.7,"loop":false,"notes":[
+      {"beat":0.0,"length":0.25,"pitch":42,"patch":"tap","velocity":0.65},
+      {"beat":0.35,"length":0.25,"pitch":30,"patch":"tap","velocity":0.65}
+    ]},
+    {"id":"effect-pickup","title":"A light pocket chime","role":"pickup","bpm":180,"beats":1.7,"loop":false,"notes":[
+      {"beat":0.0,"length":0.55,"pitch":72,"patch":"bell","velocity":0.65},
+      {"beat":0.35,"length":0.55,"pitch":79,"patch":"bell","velocity":0.65}
+    ]},
+    {"id":"effect-stairs","title":"Three upward stones","role":"stairs","bpm":156,"beats":2.05,"loop":false,"notes":[
+      {"beat":0.0,"length":0.55,"pitch":60,"patch":"pluck","velocity":0.65},
+      {"beat":0.35,"length":0.55,"pitch":65,"patch":"pluck","velocity":0.65},
+      {"beat":0.7,"length":0.55,"pitch":72,"patch":"pluck","velocity":0.65}
+    ]},
+    {"id":"effect-rescue-found","title":"Hands meet","role":"rescue-found","bpm":144,"beats":2.4,"loop":false,"notes":[
+      {"beat":0.0,"length":0.55,"pitch":60,"patch":"glass","velocity":0.65},
+      {"beat":0.35,"length":0.55,"pitch":65,"patch":"glass","velocity":0.65},
+      {"beat":0.7,"length":0.55,"pitch":72,"patch":"glass","velocity":0.65},
+      {"beat":1.0499999999999998,"length":0.55,"pitch":76,"patch":"glass","velocity":0.65}
+    ]},
+    {"id":"effect-reward","title":"A ribbon tied","role":"reward","bpm":168,"beats":2.4,"loop":false,"notes":[
+      {"beat":0.0,"length":0.55,"pitch":62,"patch":"bell","velocity":0.65},
+      {"beat":0.35,"length":0.55,"pitch":69,"patch":"bell","velocity":0.65},
+      {"beat":0.7,"length":0.55,"pitch":74,"patch":"bell","velocity":0.65},
+      {"beat":1.0499999999999998,"length":0.55,"pitch":81,"patch":"bell","velocity":0.65}
+    ]},
+    {"id":"effect-level-up","title":"A brighter step","role":"level-up","bpm":168,"beats":2.75,"loop":false,"notes":[
+      {"beat":0.0,"length":0.55,"pitch":65,"patch":"bell","velocity":0.65},
+      {"beat":0.35,"length":0.55,"pitch":72,"patch":"bell","velocity":0.65},
+      {"beat":0.7,"length":0.55,"pitch":76,"patch":"bell","velocity":0.65},
+      {"beat":1.0499999999999998,"length":0.55,"pitch":79,"patch":"bell","velocity":0.65},
+      {"beat":1.4,"length":0.55,"pitch":84,"patch":"bell","velocity":0.65}
+    ]},
+    {"id":"effect-faint","title":"A falling leaf","role":"faint","bpm":120,"beats":2.4,"loop":false,"notes":[
+      {"beat":0.0,"length":0.55,"pitch":64,"patch":"reed","velocity":0.65},
+      {"beat":0.35,"length":0.55,"pitch":60,"patch":"reed","velocity":0.65},
+      {"beat":0.7,"length":0.55,"pitch":55,"patch":"reed","velocity":0.65},
+      {"beat":1.0499999999999998,"length":0.55,"pitch":48,"patch":"reed","velocity":0.65}
+    ]}
+  ]
+}

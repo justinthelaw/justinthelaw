@@ -506,7 +506,7 @@ export class BattlePresentation {
         if(displayedActor(record.target)){
           cursor+=4;
           // Rapid Spin retains the terminator draw before its target wait returns.
-          if(route?.target)cursor=effect(route.target,record.target,cursor,undefined,'s',Infinity,false,false,record.moveId==='move-rapid-spin'&&route.target===83);
+          if(route?.target)cursor=effect(route.target,record.target,cursor,undefined,'s',Infinity,false,false,record.moveId==='move-rapid-spin'&&route.target===83||record.moveId==='move-psych-up'&&route.target===205);
         }
         messageAt=cursor;continue;
       }
@@ -608,7 +608,7 @@ export class BattlePresentation {
       if(record?.kind==='effect'){
         flushWalk();patchActors([record.before],cursor);
         if(displayedActor(record.before))drainEffects();
-        if(record.effectId!==undefined)cursor=effect(record.effectId,record.before,cursor,undefined,record.before.direction,100,true,record.effectId===15,record.effectId===15);
+        if(record.effectId!==undefined)cursor=effect(record.effectId,record.before,cursor,undefined,record.before.direction,100,true,record.effectId===15||record.effectId===14,record.effectId===15||record.effectId===14);
         if(Boolean(record.before.status.sleep)!==Boolean(record.after.status.sleep))retirePose(record.after.id,cursor);
         patchActors([record.after],cursor);messageAt=cursor;cue(event,cursor,order);continue;
       }

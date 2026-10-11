@@ -1,5 +1,9 @@
 # Opening move coverage after repeated retries
 
+Current follow-up: [Foresight and Psych Up](blue-stat-moves.md) add two bounded
+retry-reachable handlers, leaving 20 rejected learned move IDs across 28
+learnset rows. The checkpoint tables below are historical evidence.
+
 Static audit of checkpoint `049af6e219f10c54bb50fe648c34c6ff77eb6e64`,
 2026-10-10. Inputs were the JSON learnsets/effects and parsed JavaScript AST;
 no game module was imported or executed. The factual JSON SHA-256 was

@@ -33,9 +33,10 @@ Team sprites, portraits, scenery, font and UI tiles with pinned provenance and
 explicit Blue pixel comparisons. The current exact-visual instruction supersedes
 the historical authored-art-only preference for these public image/data sources.
 No ROM is included, and source attribution is not a publisher reuse license.
-Dialogue and score remain authored adaptations. Record script, soundtrack and
-unverified Blue behavior as open fidelity gaps; sampled pixel matches and static
-checks do not establish perfect replication.
+Dialogue remains an authored adaptation. Justin explicitly removed background
+music from the target on 2026-10-11; gameplay and UI sound effects remain.
+Record script, effect-audio and unverified Blue behavior as open fidelity gaps;
+sampled pixel matches and static checks do not establish perfect replication.
 
 Keep retired implementation/evidence recoverable through Git history and the
 Trash ledger. Do not alter old save schemas or overwrite old browser saves.

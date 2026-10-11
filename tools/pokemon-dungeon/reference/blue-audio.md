@@ -1,38 +1,50 @@
 # Blue Rescue Team opening audio
 
-The browser opening uses the project's original synthesized score and selected
-source-derived effects. It does not contain the Nintendo DS soundtrack. Five
+The browser opening uses original synthesized effects and selected
+source-derived effects. It contains no background music or Nintendo DS soundtrack. Five
 menu roles use four short PSG effects; regular attack uses one, and accuracy
 misses/raw-zero damage share two more. Actual ground pickups add two PSG cues
 and one PCM cue. The finite throw-spin and item-loss catalogs add one PSG
 and one PCM cue. Healing, heart, Poké pickup, item loss, Rapid Spin and Synthesis use six public
 signed-8 PCM samples and finite control data.
 These are Red Rescue Team comparative evidence until Blue playback is corroborated.
-The scoped bank in `src/blue/audio-bank.js` contains 11 themes and 8 effects;
-its editable source is `tools/pokemon-dungeon/audio/blue-original-score.json`.
-The original opening composition lasts 18.9 seconds and plays once. It begins
-after the silent 8.9-second boot sequence; the cinematic lasts 19.0 seconds.
-These separate clocks are a qualified approximation, not an exact audio/video
-match. The reunion theme loops for the entire scene.
+The scoped bank in `src/blue/audio-bank.js` contains 8 effects and no themes;
+its editable source is `tools/pokemon-dungeon/audio/blue-original-effects.json`.
 
-From `tools/pokemon-dungeon`, run `node scripts/export-blue-original-audio.mjs`
+From `tools/pokemon-dungeon`, run `node scripts/export-blue-original-effects.mjs`
 to regenerate the selected bank, or add `--check` to verify it without writing.
-This offline exporter reads only the opening's JSON. It checks the 19 selected
-cues, all nine used oscillator patches, ordered notes and the existing voice
-reservation bound. JSON token spelling is preserved, including the current
-intro tempo and reunion loop settings. Later-campaign music IDs, dungeon-index
-tables and scene-request catalogs are not part of this source or export.
+This offline exporter reads only the effects JSON. It checks 8 cues, all six
+used oscillator patches and ordered notes. JSON token spelling is preserved.
+Music IDs, music timing, loop data and scene-request catalogs are absent.
 
 The editable JSON retains the full original revision, authorship, titles and
 role labels. The generated runtime bank omits those unused metadata fields;
 its header names Codex for this project, links the canonical source path and
-keeps the authored-score qualification. Native NOTICE attribution is unchanged.
+keeps the authored-effect qualification. Native NOTICE attribution is unchanged.
 The exporter uses the existing Acorn authoring dependency only to locate JSON
 token spans. All patch and id/bpm/beats/loop/notes tokens are preserved exactly;
 the runtime imports no parser and gains no new code or dependency. Catalog,
-transport, synth, native effects, save data and frame revision counters are
-unchanged. Static closed-reader checks, including aliases/destructuring and
-serialization boundaries, support this removal; they are not an audio audition.
+native effects, save data and frame revision counters retain their existing
+effect behavior. Static checks are not an audio audition.
+
+## Background music removed — 2026-10-11
+
+All 11 authored themes and 629 music notes were removed at the user's request.
+The runtime bank fell from 47,240 to 3,210 bytes, saving 44,030 bytes. The
+editable authoring input fell from 101,370 to 3,990 bytes, saving 97,380 bytes.
+Three music-only oscillator patches (`air`, `bass`, `pulse`) were removed.
+
+The transport no longer imports a music catalog, creates a music gain node,
+tracks a selected cue or playback position, runs a lookahead timer, schedules
+loops, or restarts music after visibility recovery. Scene changes remain silent
+effect-presentation boundaries so existing app calls do not require an
+integration change. Activation, mute, pause, visibility/pagehide retirement,
+stop/dispose, effect revision consumption and all authored/native effect paths
+remain.
+
+The former mixed score JSON and exporter were moved to macOS Trash. Their
+hashes and restore locations are recorded in
+`tools/pokemon-dungeon/.work/blue-parity-20261011/stat-audio/music-retirement-ledger.md`.
 
 ## Reference cues
 

@@ -4,11 +4,11 @@
   "commit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
   "sourceEdition": "Red Rescue Team comparative",
   "qualification": "Published literal move-animation facts and indexed effect images. Blue effect pixels, complete choreography and driver timing remain unverified. No ROM or game code execution is used.",
-  "rights": "Original Pok\u00e9mon / Chunsoft / Nintendo imagery and data. Provenance does not assert a rights-holder reuse grant.",
+  "rights": "Original Pokémon / Chunsoft / Nintendo imagery and data. Provenance does not assert a rights-holder reuse grant.",
   "archive": {
     "path": "native-battle-source.tar.gz",
-    "bytes": 153551,
-    "sha256": "932380bbff017608f81ed917323b28360c901f7fc555cf6869ddf1f7ea6893d4"
+    "bytes": 162717,
+    "sha256": "d76c94d9b879ed2d10ffd0268b3812f09746719bb2bfeb9d7fbc61845f084ea5"
   },
   "files": [
     {
@@ -298,6 +298,24 @@
       "bytes": 184,
       "sha256": "78f8dd91863686276d743b7d411e0ef6ea1e7126971fc2b15d88da0d8a837f32",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob135.pal"
+    },
+    {
+      "path": "src/data/effects/efob058.c",
+      "bytes": 3924,
+      "sha256": "484a18b6704845afa5ea0843bb0e275ce7f7d5a207fed06482b8244867f4d8e6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob058.c"
+    },
+    {
+      "path": "data/effects/efob058.png",
+      "bytes": 1054,
+      "sha256": "4ffcecb00a16125c7c9fb7fbc86dd6b8411bef510b9aa703b140f59a9c6885d6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob058.png"
+    },
+    {
+      "path": "data/effects/efob058.pal",
+      "bytes": 177,
+      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob058.pal"
     }
   ],
   "speciesSource": {

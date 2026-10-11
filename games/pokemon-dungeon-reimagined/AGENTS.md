@@ -31,7 +31,9 @@ Justin explicitly requested removing unused code and assets on 2026-10-11.
   corroborated for Blue; do not silently use DX, Explorers or main-series rules.
   Keep source URLs, hashes, attribution and uncertainty with factual inputs.
   Public image availability is not a publisher reuse grant. No ROM is included;
-  dialogue and score remain authored adaptations with explicit fidelity gaps.
+  dialogue remains an authored adaptation with explicit fidelity gaps. Justin
+  requested removing all background music on 2026-10-11; retain gameplay/UI
+  effects and their source qualifications, without restoring a music scheduler.
 - Record current evidence in [BLUE-OPENING-REVIEW.md](plan/BLUE-OPENING-REVIEW.md)
   and scoped `tools/pokemon-dungeon/reference/blue-*.md` notes. Retire unwanted
   files to macOS Trash with a restore ledger. Git history retains the former

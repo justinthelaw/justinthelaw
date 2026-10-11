@@ -16,6 +16,8 @@ assert.deepEqual([...data.starterIds].sort(), expectedStarters, 'All 16 original
 assert.equal(data.floors.length, 3, 'The playable dungeon has exactly three ordinary floors');
 const wildIds = ['pokemon-016', 'pokemon-102', 'pokemon-191', 'pokemon-265'];
 assert.deepEqual(Object.keys(data.species).sort(), [...expectedStarters, ...wildIds].sort());
+assert(Object.values(data.species).every(species=>!species.types.includes('Ghost')),
+  'Foresight requires exposed-state support before admitting Ghost targets');
 for (const profile of profiles.records) {
   const species = data.species[profile.speciesId], start = profile.firstPlayable;
   assert.equal(species.growth.length, 100);
@@ -208,7 +210,7 @@ for (const bank of assets.battleEffects.banks) {
     assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
   }
 }
-assert.equal(battleIds.size, 27);
+assert.equal(battleIds.size, 29);
 const hypnosis = assets.battleEffects.hypnosis;
 assert.equal(hypnosis.activation, 'selected-hypnosis-only'); assert.equal(hypnosis.effectId, 222);
 assert.equal(hypnosis.path, 'hypnosis-background.png'); assert.equal(hypnosis.width, 416); assert.equal(hypnosis.height, 32);

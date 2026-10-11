@@ -836,9 +836,75 @@ checks. The specialist's unavailable browser attempt is separately marked
 unverified. This was a bounded B1F review, not another full three-floor run;
 the earlier published rescue completion and all fidelity qualifications remain.
 
+## Published rescue and recovery review, 2026-10-11 17:52 UTC
+
+Ordinary browser play continued the earlier Flare/Torchic and Sprig/Treecko
+adventure on the immutable `d040e1160edc8c56f30f2aec25b820e21f595cd8`
+distribution. A B1F Scratch KO awarded 16 EXP to each member; the pair then
+crossed B2F, fought Pidgey, and reached B3F. Two touch-direction inputs and the
+touch A control reached and confirmed the final stairs. The old preview server
+had stopped, so loading Caterpie's artwork failed. Restarting that server,
+choosing Try again, and using Continue restored the rescue scene without
+editing or replacing the save.
+
+The run completed Caterpie's rescue, Butterfree's reunion, the Oran/Pecha/Rawst
+reward and departure. Adventure Log reported 12 dungeon turns. Return to top
+menu and Continue restored the completed ending, with only Adventure Log and
+Return to top menu available. The console retained the diagnosed server-outage
+error; no new error appeared after recovery. This is functional evidence,
+not an exact audio, frame-timing, RNG or exhaustive-mechanics comparison.
+
+The action ledger and unmodified native screenshots are retained in
+`tools/pokemon-dungeon/.work/blue-parity-20261011/playthrough/`.
+`native-flare-reunion.png` has SHA-256
+`61dd7cf4b0d51039a85ac825e50333e83b8077076b46900638e4009830fc4562`;
+`native-flare-complete-continued.png` has SHA-256
+`546a3083a64e32d14a89ce54e345dbbfea50d0c4c83e05e7b5e39db11c94e96b`.
+
+## Music removal and stat moves, 2026-10-11 18:33 UTC
+
+Justin requested removing all background music while retaining gameplay/UI
+effects. The music catalog, scheduler, gain node, theme data and phase mapping
+are gone. The retained authored effect bank has eight cues, 26 notes and six
+patches, totaling 3,008 runtime bytes; existing menu and PCM facts are unchanged.
+Only the dungeon/general-menu distinction remains for sound-effect throttling.
+Retired score files have a hash/restore ledger in
+`.work/blue-parity-20261011/stat-audio/` and are recoverable from macOS Trash.
+
+[Foresight and Psych Up](../../../tools/pokemon-dungeon/reference/blue-stat-moves.md)
+now have bounded handlers for retry-reachable learnsets, leaving 20 unsupported
+learned IDs across 28 rows. They add no saved fields. Full helper tracing caught
+the non-Ghost Foresight route: effect 14 is required, not the Ghost-only 122.
+The appended 14/205 artwork preserves the existing effect/pose records and
+pixels; source, image, voice and distribution budget limits remain unchanged.
+
+The final candidate has 149 runtime files totaling 2,778,317 bytes. The complete
+static check passed under Node 24.21.0. Manual browser review exercised eight
+main quiz prompts plus the conditional alien-invasion follow-up, the female
+Hardy/Pikachu result, nine eligible partners, Squirtle selection, partner name
+Shell before awakening, hero name Volt afterward, and the rescue-refusal loop.
+The first candidate's dungeon entry exposed an outdated runtime effect
+allowlist; adding exactly IDs 14/205 fixed it. Its error is retained in the
+ledger rather than counted as a pass.
+
+Continue on the corrected immutable build recovered B1F, then movement picked
+up 26 Poké and displayed its tutorial. Setting Thundershock preserved 17/17 PP;
+using it once while muted with no target reduced it to 16/17. Re-enabling sound,
+Quicksave and Continue preserved the selected move and PP. The final candidate
+also restored the earlier completed Flare/Sprig rescue save with only the two
+ending actions. No new browser error appeared after the correction. The native
+PP capture has SHA-256
+`bae0c4eb7002eda75eaf9a2290812a77f8cb99cbc503fbd29e6df67fedefdb97`;
+the completed-save capture has SHA-256
+`18e359027abf686af1ec41d20e7ffcd396b950fe619aab38df392a86a15d98a5`.
+Ledgers, snapshot hashes and images remain in
+`tools/pokemon-dungeon/.work/blue-parity-20261011/`. The new late-level moves
+have source/art review, not manual casts or exact sound/timing acceptance.
+
 ## Fidelity limits
 
-- Dialogue and score remain authored substitutes. Native image reconstruction
+- Dialogue and some sound effects remain authored substitutes. Background music
+  is intentionally absent at Justin's request on 2026-10-11. Native image reconstruction
   and selected exact Blue pixel checks do not establish complete animation,
   script or soundtrack identity. The source manifest records asset attribution
   without asserting a rights-holder reuse grant.

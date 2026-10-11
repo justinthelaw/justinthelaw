@@ -1,4 +1,4 @@
-import { createRenderer, BOOT_DURATION_MS, OPENING_DURATION_MS } from './renderer.js';
+import { createRenderer, OPENING_DURATION_MS } from './renderer.js';
 import { paginateDialogue, textWidth } from './render-font.js';
 import { createOpeningAudio } from './audio.js';
 import { createInput } from './input.js';
@@ -29,7 +29,6 @@ import { STORY, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolateStory } from './st
 /** @typedef {import('./mechanics-types.js').ActionResult} ActionResult */
 /** @typedef {import('./mechanics-types.js').GameEvent} GameEvent */
 /** @typedef {import('./battle-events.js').BattleWorld} BattleWorld */
-/** @typedef {import('./audio-types.js').AudioScene} AudioScene */
 /** @typedef {import('./naming.js').NamingState} NamingState */
 /** @typedef {{editor:NamingState,transition:number}} NameComposition */
 
@@ -526,20 +525,6 @@ async function main() {
     for (const button of touchControls.querySelectorAll('.held')) button.classList.remove('held');
   }
 
-  /** @param {Phase} phase @returns {AudioScene} */
-  function musicFor(phase) {
-    if (['welcome', 'quiz', 'gender', 'result', 'partner', 'partner-confirm', 'partner-name', 'partner-name-confirm', 'departure'].includes(phase)) return 'quiz';
-    if (phase === 'awakening' && (state?.line ?? 0) < 3) return 'silent';
-    if (phase === 'named' && (state?.line ?? 0) >= 2) return 'silent';
-    if (['awakening', 'hero-name', 'hero-name-confirm', 'named'].includes(phase)) return 'awakening';
-    if (['trouble', 'help-choice', 'enter'].includes(phase)) return 'trouble';
-    if (phase === 'dungeon') return 'dungeon';
-    if (phase === 'clearing') return 'clearing';
-    if (phase === 'defeated') return 'failure';
-    if (phase === 'complete') return 'complete';
-    return 'reunion';
-  }
-
   /** @param {Phase} phase @param {number} [line] @param {boolean} [newFloor] */
   async function setPhase(phase, line = 0, newFloor = false) {
     if (!state || disposed) return;
@@ -572,7 +557,7 @@ async function main() {
       if (disposed || token !== transition) return;
       busy = false; lastFrame = 0; input.clear();
       eventUntil = clock;
-      audio.setScene(musicFor(phase)); rebuild(); application.setAttribute('aria-busy', 'false');
+      audio.setDungeon(phase==='dungeon'); rebuild(); application.setAttribute('aria-busy', 'false');
       if (phase === 'dungeon') settleDungeon(newFloor);
     } catch (error) { if (!disposed && token === transition) fail(error); }
     finally { window.clearTimeout(deadline); }
@@ -593,7 +578,7 @@ async function main() {
     resetDungeonCamera();
     clearLiveMessages();
     commitNow(); mode = 'menu'; menu = null; notice = null; fieldDialogue = null; tutorials = [];
-    selectedIndex = 0; dialoguePage = 0; forcedReadyAt = null; input.clear(); audio.setScene('menu'); rebuild();
+    selectedIndex = 0; dialoguePage = 0; forcedReadyAt = null; input.clear(); audio.setDungeon(false); rebuild();
   }
 
   function adventureLog() {
@@ -898,8 +883,8 @@ async function main() {
     if(dungeonCamera.locked&&['north','south','west','east'].includes(action))return;
     if (dungeonTurnLocked()) return;
     if (isDungeonInput() && clock < eventUntil) return;
-    if (mode === 'opening') { if (action === 'confirm' || action === 'menu' || action === 'cancel') { mode = 'title'; titleImmediate = true; audio.setScene('title'); rebuild(); input.clear(); } return; }
-    if (mode === 'title') { if (action === 'confirm' || action === 'menu') { mode = 'menu'; audio.setScene('menu'); rebuild(); input.clear(); } return; }
+    if (mode === 'opening') { if (action === 'confirm' || action === 'menu' || action === 'cancel') { mode = 'title'; titleImmediate = true; rebuild(); input.clear(); } return; }
+    if (mode === 'title') { if (action === 'confirm' || action === 'menu') { mode = 'menu'; rebuild(); input.clear(); } return; }
     if (isNaming() && !notice && !menu) {
       const editor = namingState(); if (!editor) return;
       if (action === 'north' || action === 'south' || action === 'west' || action === 'east') {
@@ -932,7 +917,7 @@ async function main() {
     }
     if ((action === 'cancel' || action === 'menu') && mode === 'menu') {
       audio.effect('cancel');
-      if (menu) showMenu(null); else { mode = 'title'; audio.setScene('title'); rebuild(); }
+      if (menu) showMenu(null); else { mode = 'title'; rebuild(); }
       return;
     }
     if ((action === 'cancel' || action === 'menu') && state?.phase === 'dungeon') {
@@ -1048,7 +1033,6 @@ async function main() {
     if (!script) return;
     if (state.line < script.length - 1) {
       state.line += 1; dialoguePage = 0;
-      audio.setScene(musicFor(phase));
       if (phase === 'reunion' && state.line === 5) { state.rewarded = true; audio.effect('reward'); }
       rebuild(); commitNow(); return;
     }
@@ -1298,9 +1282,8 @@ async function main() {
       liveMessageRemaining = Math.max(0, liveMessageRemaining - elapsed);
       if (liveMessageRemaining === 0) clearLiveMessages();
     }
-    if(mode==='opening')audio.setScene(clock-openingStarted>=BOOT_DURATION_MS?'opening':'silent');
     if (mode === 'opening' && clock - openingStarted >= OPENING_DURATION_MS) {
-      mode = 'title'; titleImmediate = false; audio.setScene('title'); rebuild();
+      mode = 'title'; titleImmediate = false; rebuild();
     }
     advanceMenuCamera();
     advanceBattlePresentation();
@@ -1357,7 +1340,7 @@ async function main() {
   controlsToggle.setAttribute('aria-pressed', String(!touchControls.hidden));
   controlsToggle.setAttribute('aria-expanded', String(!touchControls.hidden));
   startup.hidden = true; game.hidden = false; application.setAttribute('aria-busy', 'false');
-  openingStarted = clock; audio.setScene('silent'); updateSoundButton(); rebuild();
+  openingStarted = clock; updateSoundButton(); rebuild();
   // The host may deliberately own a pending overlay activation during loading.
   // Only refine focus already inside this document; never steal it from there.
   if (document.hasFocus()) screens.focus();

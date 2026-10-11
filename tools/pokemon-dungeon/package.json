@@ -13,8 +13,8 @@
     "lint": "node scripts/check-source.mjs",
     "typecheck": "node scripts/check-types.mjs",
     "check": "npm run lint && npm run typecheck && npm run blue:check",
-    "blue:export": "node scripts/export-blue-onboarding.mjs && node scripts/export-blue-opening.mjs && node art/blue/export.mjs && node scripts/export-blue-original-audio.mjs && node scripts/export-blue-menu-effects.mjs && node scripts/export-blue-pcm-effects.mjs && node scripts/export-blue-distribution.mjs",
-    "blue:check": "node scripts/export-blue-onboarding.mjs --check && node scripts/export-blue-opening.mjs --check && node art/blue/export.mjs --check && node scripts/export-blue-original-audio.mjs --check && node scripts/export-blue-menu-effects.mjs --check && node scripts/export-blue-pcm-effects.mjs --check && node scripts/export-blue-distribution.mjs --check && node scripts/check-blue-facts.mjs && node scripts/check-blue-rules.mjs && node scripts/check-blue-opening.mjs"
+    "blue:export": "node scripts/export-blue-onboarding.mjs && node scripts/export-blue-opening.mjs && node art/blue/export.mjs && node scripts/export-blue-original-effects.mjs && node scripts/export-blue-menu-effects.mjs && node scripts/export-blue-pcm-effects.mjs && node scripts/export-blue-distribution.mjs",
+    "blue:check": "node scripts/export-blue-onboarding.mjs --check && node scripts/export-blue-opening.mjs --check && node art/blue/export.mjs --check && node scripts/export-blue-original-effects.mjs --check && node scripts/export-blue-menu-effects.mjs --check && node scripts/export-blue-pcm-effects.mjs --check && node scripts/export-blue-distribution.mjs --check && node scripts/check-blue-facts.mjs && node scripts/check-blue-rules.mjs && node scripts/check-blue-opening.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

@@ -10,14 +10,11 @@ function freeze(value) {
   }
   return value;
 }
-/** Only local original note/envelope data; no downloads or decoding. */
+/** Only local original effect note/envelope data; no downloads or decoding. */
 export const AUDIO_CATALOG = freeze(OPENING_AUDIO_BANK);
-const music = new Map(AUDIO_CATALOG.music.map(cue => [cue.id, cue]));
 const effects = new Map(AUDIO_CATALOG.effects.map(cue => [cue.id, cue]));
 /** @param {string} id @returns {Cue|null} */
-export function musicCue(id) { return music.get(id) ?? null; }
-/** @param {string} id @returns {Cue|null} */
 export function effectCue(id) { return effects.get(id) ?? null; }
-/** Native effects have bounded SE2/SE5 data independent of the authored score.
+/** Native effects have bounded SE2/SE5 data independent of the authored bank.
  * @param {string} id */
 export function isKnownEffect(id) { return effects.has(id) || Object.hasOwn(MENU_EFFECTS, id) || Object.hasOwn(BATTLE_EFFECTS, id) || Object.hasOwn(PCM_EFFECTS, id); }

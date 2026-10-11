@@ -1,24 +1,8 @@
 import { createAudioBus } from './audio-transport.js';
 import { DEFAULT_AUDIO_PREFERENCES, normalizeAudioPreferences } from './audio-preferences.js';
 import { MENU_EFFECTS, MENU_EFFECT_THROTTLE_SECONDS } from './audio-menu-data.js';
-/** @typedef {import('./audio-types.js').AudioScene} AudioScene */
 /** @typedef {import('./audio-types.js').AudioEffect} AudioEffect */
 /** @typedef {import('./audio-types.js').AudioPreferences} AudioPreferences */
-/** @type {Readonly<Record<AudioScene,string|null>>} */
-const SCENES = Object.freeze({
-  opening: 'music-intro',
-  title: 'music-title-screen',
-  menu: 'music-file-select',
-  quiz: 'music-welcome-to-the-world-of-pokemon',
-  awakening: 'music-heartwarming',
-  trouble: 'music-theres-trouble',
-  dungeon: 'music-tiny-woods',
-  clearing: 'music-in-the-depths-of-the-pit',
-  reunion: 'music-a-successful-rescue',
-  failure: 'music-dungeon-fail',
-  complete: 'music-dungeon-complete',
-  silent: null,
-});
 /** @type {Readonly<Record<AudioEffect,string>>} */
 const EFFECTS = Object.freeze({
   cursor: 'effect-ui-cursor', confirm: 'effect-ui-confirm', cancel: 'effect-ui-cancel',
@@ -34,7 +18,7 @@ const EFFECTS = Object.freeze({
   // accuracy2 and raw zero use target team status. The data IDs stay stable.
   se342: 'effect-no-damage-team', se343: 'effect-no-damage-other',
 });
-/** Scoped authored score and comparative native SE2/SE5 effects. The caller owns the current scene;
+/** Scoped authored and comparative native SE2/SE5 effects. The caller owns the dungeon context;
  * this manager never imports game state, allocates WebGL, or changes a save.
  * Call activate(event) directly within the iframe's native input handler. It
  * remains silent until that trusted gesture; synthesized host keys cannot unlock.
@@ -43,24 +27,23 @@ const EFFECTS = Object.freeze({
 export function createOpeningAudio(doc) {
   const bus = createAudioBus({ document: doc });
   const epoch = 'blue-opening';
-  /** @type {AudioScene} */ let scene = 'silent';
+  let inDungeon = false;
   /** @type {AudioPreferences} */ let preferences = DEFAULT_AUDIO_PREFERENCES;
   let revision = 0, eventId = 0, disposed = false, lastGeneralMenuEffect = -Infinity;
   bus.beginEpoch(epoch);
   bus.setPreferences(preferences);
   /** @param {readonly {eventId:number,cueId:string}[]} [effects] */
   function present(effects = []) {
-    return bus.present({ epoch, revision: ++revision, musicCue: SCENES[scene], effects });
+    return bus.present({ epoch, revision: ++revision, effects });
   }
   present();
-  /** Repeat presentation of the same scene preserves its music position.
-   * Pass silent at the opening's black-screen narration or any silent transition.
-   * @param {AudioScene} next
+  /** Dungeon menus use their source timing; general menus throttle rapid cues.
+   * @param {boolean} next
    */
-  function setScene(next) {
-    if (disposed || !Object.hasOwn(SCENES, next)) return false;
-    if (scene === next) return true;
-    scene = next;
+  function setDungeon(next) {
+    if (disposed || typeof next !== 'boolean') return false;
+    if (inDungeon === next) return true;
+    inDungeon = next;
     return present();
   }
   /** Effects consumed while paused/muted are never replayed on activation.
@@ -68,7 +51,7 @@ export function createOpeningAudio(doc) {
    */
   function effect(name) {
     if (disposed || !Object.hasOwn(EFFECTS, name)) return false;
-    if (scene !== 'dungeon' && MENU_EFFECTS[EFFECTS[name]]) {
+    if (!inDungeon && MENU_EFFECTS[EFFECTS[name]]) {
       const now = (doc.defaultView?.performance.now() ?? Date.now()) / 1000;
       if (now - lastGeneralMenuEffect < MENU_EFFECT_THROTTLE_SECONDS) return true;
       lastGeneralMenuEffect = now;
@@ -85,8 +68,8 @@ export function createOpeningAudio(doc) {
     return true;
   }
   return Object.freeze({
-    activate: bus.activate, setScene, effect, setMuted, pause: bus.pause,
-    status: () => Object.freeze({ ...bus.status(), ...preferences, scene }),
+    activate: bus.activate, setDungeon, effect, setMuted, pause: bus.pause,
+    status: () => Object.freeze({ ...bus.status(), ...preferences }),
     dispose() { if (disposed) return; disposed = true; bus.dispose(); },
   });
 }

@@ -59,6 +59,20 @@ function defeated(state) { return state.status==='defeated'; }
  * and the level-one Tiny Woods encounters have complete admitted handlers.
  * @param {MoveData} move */
 export function supportsMove(move) {
+  if(move.id==='move-foresight'){
+    const [clampEvasion,expose]=move.effects;
+    return move.type==='normal'&&move.power===2&&move.pp===22&&move.accuracyBeforeEffect===100&&move.accuracyAfterDamage===100&&
+      move.criticalPercent===12&&move.aiWeight===15&&move.chainedHitsRaw===1&&move.range===0&&move.target===0&&move.cutsCorners===false&&move.effects.length===2&&
+      clampEvasion?.op==='clamp-evasion'&&Object.keys(clampEvasion).length===2&&clampEvasion.maxStage===10&&
+      expose?.op==='remove-type-immunity'&&Object.keys(expose).length===3&&expose.targetType==='ghost'&&
+      expose.incomingTypes?.length===2&&expose.incomingTypes[0]==='normal'&&expose.incomingTypes[1]==='fighting';
+  }
+  if(move.id==='move-psych-up'){
+    const effect=move.effects[0];
+    return move.type==='normal'&&move.power===2&&move.pp===17&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===125&&
+      move.criticalPercent===12&&move.aiWeight===15&&move.chainedHitsRaw===1&&move.range===0&&move.target===2&&move.cutsCorners===false&&move.effects.length===1&&
+      effect?.op==='copy-stat-modifiers'&&Object.keys(effect).length===3&&effect.fromActor==='target'&&effect.toActor==='user';
+  }
   if(move.id==='move-rapid-spin'){
     const [normal,cleanup]=move.effects;
     return move.type==='normal'&&move.power===4&&move.pp===17&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===90&&move.criticalPercent===12&&
@@ -472,7 +486,21 @@ export function attack(state,actor,slot,data,events) {
         // return success even when an immunity or stat cap prevents a change.
         if(move.id!=='regular-attack'&&!team(target))target.experienceMarked=true;
         if(move.effects.some(effect=>effect.op==='exclude-user')&&target.id===actor.id)continue;
-        for(const effect of move.effects)applyEffect(state,actor,target,effect,data,events);
+        if(move.id==='move-foresight'){
+          // The closed roster has no Ghost type, type changes or Safeguard.
+          // sub_8041DD8 selects effect 14 for non-Ghost targets, even when
+          // no boosted evasion needed resetting. Effect 122 is Ghost-only.
+          const before=captureActor(target),evasive=(target.stages.evasion??10)>10;
+          if(evasive)target.stages.evasion=10;
+          recordEffect(events,before,target,14);
+          if(evasive)message(state,events,`${target.name}'s Evasion returned to normal!`);
+          message(state,events,`${target.name} isn't a Ghost type!`);
+        }else if(move.id==='move-psych-up'){
+          // Admitted moves leave native offensive/defensive Q8 multipliers
+          // neutral. Extend this copy when admitting Charm or Screech.
+          actor.stages={...target.stages};recordSync(state,events,[actor]);
+          message(state,events,'It psyched itself up!');
+        }else for(const effect of move.effects)applyEffect(state,actor,target,effect,data,events);
       }
     }
   }
