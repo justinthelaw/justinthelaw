@@ -761,6 +761,33 @@ empty. Native post-Continue capture SHA-256 is
 `272e92cb5efb112c9439aae69847f33f7c2401c81773bc6eaedf0627d5ead15c`.
 These are play and save observations, not acoustic or frame-accurate acceptance.
 
+The 12:06 UTC composition adds the reviewed ability/render pruning
+and final-faint publication. Its frozen 149-file runtime totals 2,826,906 bytes;
+the full Node 24.21 static check exited zero with 103 lint inputs and 67 strict
+sources. These checks and observations belong to the frozen local build;
+hosted workflow results remain separate evidence.
+
+Manual review resumed Fern/Ember on B2F. Tackle dealt 15 damage, defeated Pidgey
+and awarded 12 EXP to each teammate; its PP decreased once from 21 to 20.
+Quicksave/Continue preserved the resulting position and move values. Growl
+interrupted by Help consumed one PP, from 18 to 17, and returned controls.
+Another Growl across a separate-tab operation consumed one PP, from 17 to 16;
+a definite hidden/blurred interval or pending-faint interruption was not
+established. Natural partner KO showed 0 HP with the status icon retained,
+then reached the normal defeat menu; Try again restored B1F with both teammates
+at 30/30 HP. Natural leader KO showed 0 HP with the status icon and damage
+number retained, then reached the normal loss menu. Return to top menu followed
+by Continue restored that defeated state; choosing Try again restored both to
+30/30 HP on B1F. Normal partner move and IQ settings were restored afterward.
+Browser warning/error logs were empty. The observation ledger
+and six captures with exact hashes are retained under
+`.work/blue-opening-review-20261011-1206/` in the authoring package.
+
+These observations do not measure the precise final frame, physical paint,
+audio output or exact Blue parity. Reduced-motion manual checks have not been
+performed through the available ordinary browser controls. Earlier
+completed rescue runs remain separate from this local composition.
+
 ## Fidelity limits
 
 - Dialogue and score remain authored substitutes. Native image reconstruction

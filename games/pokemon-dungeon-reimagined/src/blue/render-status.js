@@ -95,8 +95,7 @@ function statusMask(actor,hp=actor.hp){
 }
 
 export class StatusSprites {
-  /** @param {{signal?:AbortSignal}} [options] */
-  constructor(options={}){
+  constructor(){
     /** @type {ImageBitmap|null} */this.image=null;
     /** @type {Map<number,StatusRecord>} */this.records=new Map();
     /** @type {Map<string,StatusCycle>} */this.cycles=new Map();
@@ -104,10 +103,6 @@ export class StatusSprites {
     /** @type {number[]|null} */this.tiles=null;
     this.startedAt=0;this.lastTime=0;this.tick=0;this.reducedMotion=false;
     this.controller=new AbortController();this.disposed=false;
-    this.externalSignal=options.signal;
-    this.abort=()=>this.dispose();
-    if(this.externalSignal?.aborted)this.dispose();
-    else this.externalSignal?.addEventListener('abort',this.abort,{once:true});
   }
 
   async load(){
@@ -191,7 +186,6 @@ export class StatusSprites {
 
   dispose(){
     if(this.disposed)return;this.disposed=true;this.controller.abort();
-    this.externalSignal?.removeEventListener('abort',this.abort);
     this.image?.close();this.image=null;this.records.clear();this.reset();this.pending=null;
   }
 }

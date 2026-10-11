@@ -31,6 +31,10 @@ import {pokeFlightSamples,pokeDropSamples,pokeLossPosition} from './battle-item-
 /** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621',audible:boolean}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
+/** @typedef {{start:number,end:number}} EndTrack */
+/** Compact source recipe; no actor/world copies and no save/carry ownership.
+ * @typedef {{at:number,actorId:string,pose:PoseTrack,poses:number,effects:number,projectiles:number,numbers:number,backgrounds:number,rawHolds:number,patchEnd:number,cueEnd:number,ends?:Map<EndTrack,number>}} FaintCheckpoint */
+/** @typedef {{index:number,renderTime:number,dungeonTime:number}} FaintPublication */
 
 const TICK_MS=1000/60;
 // These admitted effect22 routes have STOP direct-cast sounds for every learner.
@@ -96,6 +100,9 @@ export class BattlePresentation {
     /** @type {ProjectileTrack[]} */this.projectiles=[];
     /** @type {BattleCue[]} */this.cues=[];
     this.patchIndex=0;this.cueIndex=0;this.completed=false;this.endTick=0;this.lastTick=0;
+    /** @type {FaintCheckpoint[]} */this.faintCheckpoints=[];
+    this.faintCheckpointIndex=0;
+    /** @type {{frame:BattleFrame,publication:FaintPublication,rawPauseMs:number,dungeonTime:number}|null} */this.faintPublication=null;
     this.instant=Boolean(options.reducedMotion||before.tiles!==dungeon.tiles||before.floor!==dungeon.floor);
     const floorChanged=before.tiles!==dungeon.tiles||before.floor!==dungeon.floor;
     /** @type {Map<string,Actor>} */this.actors=new Map((floorChanged?this.after.actors:before.actors).map(actor=>[actor.id,actor]));
@@ -115,6 +122,8 @@ export class BattlePresentation {
    * @param {{fast?:boolean,running?:boolean,reducedMotion?:boolean,farOffPals?:boolean}} options */
   compile(result,assets,options){
     let cursor=0,ordinal=0,patchSequence=0,messageAt=0,soundCount=0;
+    let patchFrontier=-Infinity,cueFrontier=-Infinity;
+    /** @type {FaintCheckpoint|null} */let unmatchedFaint=null;
     let camera={...this.initialCamera},cameraTick=0;
     const discovered=[...this.after.explored];
     /** @type {Map<string,{actor:Actor,segments:{from:{x:number,y:number},to:{x:number,y:number}}[]}>} */const walking=new Map();
@@ -128,10 +137,29 @@ export class BattlePresentation {
     // Source-event ordinals order semantic cues. Emission ordinals order
     // visual patches: a flushed walk must apply before its deferred pickup,
     // even though that pickup was recorded earlier than the flush itself.
-    /** @param {Patch} patch */const addPatch=patch=>this.patches.push({...patch,ordinal:patchSequence++});
+    /** @param {Patch} patch */const addPatch=patch=>{
+      patchFrontier=Math.max(patchFrontier,patch.at);
+      this.patches.push({...patch,ordinal:patchSequence++});
+    };
+    /** Retire normally, but preserve a preexisting track's last-draw lifetime.
+     * Interpolation uses walk moveEnd, fixed points or already-drained travel.
+     * @param {EndTrack} track @param {number} at @param {EndTrack[]} tracks
+     * @param {'poses'|'effects'|'numbers'} kind */
+    const clipEnd=(track,at,tracks,kind)=>{
+      const checkpoint=this.faintCheckpoints.at(-1),next=Math.min(track.end,at);
+      if(checkpoint&&next<=checkpoint.at&&checkpoint.at<track.end){
+        const index=tracks.indexOf(track);
+        if(index>=0&&index<checkpoint[kind]){
+          checkpoint.ends??=new Map();
+          if(!checkpoint.ends.has(track))checkpoint.ends.set(track,track.end);
+        }
+      }
+      track.end=next;
+    };
     /** @param {GameEvent} event @param {number} at @param {number} order @param {boolean} [audible] */
     const cue=(event,at,order,audible=true)=>{
       if(event.type==='presentation'&&event.presentation?.kind!=='miss')return;
+      cueFrontier=Math.max(cueFrontier,at);
       this.cues.push({event,at,ordinal:order,audible});
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
@@ -139,6 +167,7 @@ export class BattlePresentation {
      * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'} name @param {number} at @param {number} [order] */
     const sound=(name,at,order=ordinal++)=>{
       if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
+      cueFrontier=Math.max(cueFrontier,at);
       this.cues.push({sound:name,at,ordinal:order,audible:true});
     };
     /** @param {Actor[]} actors @param {number} at */
@@ -204,7 +233,7 @@ export class BattlePresentation {
       // The TRUE native drain clears remaining effects after its bounded wait.
       // A removed projectile may retain the screen drawn on that source tick;
       // its separate waitEnd never occupies a later effect drain.
-      for(const track of this.effects)if(track.waitEnd===undefined||track.waitEnd>cursor)track.end=Math.min(track.end,cursor);
+      for(const track of this.effects)if(track.waitEnd===undefined||track.waitEnd>cursor)clipEnd(track,cursor,this.effects,'effects');
     };
     /** Explicit native requests share the menu owner's finite counter algebra.
      * Only LOOK requests apply the preference/offscreen test; input and wind do not.
@@ -235,7 +264,7 @@ export class BattlePresentation {
     /** A source pose change supersedes the old animation, including its tail
      * wait. Do not resurrect a canceled cast through a historical track.
      * @param {string} actorId @param {number} at */
-    const retirePose=(actorId,at)=>{for(const track of this.poses)if(track.actorId===actorId&&track.start<=at&&track.end>at)track.end=at;};
+    const retirePose=(actorId,at)=>{for(const track of this.poses)if(track.actorId===actorId&&track.start<=at&&track.end>at)clipEnd(track,at,this.poses,'poses');};
     /** @param {PoseTrack} track */
     const pose=track=>{retirePose(track.actorId,track.start);this.poses.push(track);};
     /** @param {GameEvent} event @param {number} order */
@@ -414,7 +443,7 @@ export class BattlePresentation {
         if(record.actor.id!==pokeActorId)throw new RangeError('A money throw lost its actor owner.');
         // Restore requested normal facing on the next native draw. Future
         // tail requests must also retire when no visible flight frame elapsed.
-        for(const track of pokePoses)track.end=Math.min(track.end,cursor+1);
+        for(const track of pokePoses)clipEnd(track,cursor+1,this.poses,'poses');
         patchActors([record.actor],cursor);pokePoses=[];pokeActorId=null;messageAt=cursor;continue;
       }
       if(record?.kind==='cast'){
@@ -431,6 +460,7 @@ export class BattlePresentation {
             // BG upload owns one raw VBlank before the ordinary preparation
             // frame. It advances no actor/effect/camera dungeon-frame age.
             this.rawHolds.push(cursor);
+            cueFrontier=Math.max(cueFrontier,cursor);
             this.cues.push({clearNotice:true,at:cursor,ordinal:ordinal++});
             const start=cursor+2,end=start+44;
             this.backgrounds.push({takeover:cursor,start,end});
@@ -498,6 +528,7 @@ export class BattlePresentation {
         flushWalk();patchActors([record.before],cursor);
         const visible=displayedActor(record.before),reaction=visible&&(record.cause!=='hunger'||record.before.hp<=1);
         const knockout=reaction&&record.after.hp===0;
+        /** @type {PoseTrack|undefined} */let faintPose;
         if(visible&&record.cause!=='hunger')number(record.before,record.amount,false);
         messageAt=cursor;cue(event,cursor,order,visible&&record.cause!=='item');
         const start=cursor;
@@ -505,12 +536,23 @@ export class BattlePresentation {
           const id=[8,9,10,11][record.effectiveness]??10;
           cursor=effect(id,record.before,cursor,3,record.before.direction,100,true,record.cause==='item',record.cause==='item');
           const repeatTicks=(assets.animationInfo(record.before.speciesId,6,record.before.direction)?.totalTicks??10)+1;
-          pose({actorId:record.before.id,start:start+1,end:cursor+10+(knockout?30:0),clip:'hit-light',animation:6,repeatTicks,direction:record.before.direction,...(knockout?{faintAt:cursor+11}:{})});
+          const hit={actorId:record.before.id,start:start+1,end:cursor+10+(knockout?30:0),clip:'hit-light',animation:6,repeatTicks,direction:record.before.direction,...(knockout?{faintAt:cursor+11}:{})};
+          pose(hit);if(knockout)faintPose=hit;
         }
         if(knockout)addPatch({at:cursor,ordinal:ordinal++,statusHp:{actorId:record.before.id,hp:record.before.hp}});
         patchActors([record.after],cursor);damageHpAt.set(record.after.id,cursor);
         if(reaction)cursor+=10;
-        if(knockout)cursor+=30;
+        if(knockout){
+          cursor+=30;
+          if(!this.instant){
+            if(unmatchedFaint||!faintPose||faintPose.end!==cursor||patchFrontier>=cursor||cueFrontier>=cursor||this.faintCheckpoints.length>=MAX_EVENTS)throw new RangeError('Invalid faint publication frontier.');
+            const previous=this.faintCheckpoints.at(-1);
+            if(previous&&cursor-previous.at<40)throw new RangeError('Faint checkpoints lost their source wait.');
+            if((this.rawHolds.at(-1)??-1)>=cursor)throw new RangeError('A faint checkpoint crossed an unconsumed raw hold.');
+            unmatchedFaint={at:cursor,actorId:record.after.id,pose:faintPose,poses:this.poses.length,effects:this.effects.length,projectiles:this.projectiles.length,numbers:this.numbers.length,backgrounds:this.backgrounds.length,rawHolds:this.rawHolds.length,patchEnd:0,cueEnd:0};
+            this.faintCheckpoints.push(unmatchedFaint);
+          }
+        }
         continue;
       }
       if(record?.kind==='survival'){
@@ -571,12 +613,16 @@ export class BattlePresentation {
         patchActors([record.after],cursor);messageAt=cursor;cue(event,cursor,order);continue;
       }
       if(record?.kind==='faint'){
+        if(unmatchedFaint){
+          if(unmatchedFaint.actorId!==record.actor.id||unmatchedFaint.at!==cursor)throw new RangeError('A faint checkpoint lost its retirement.');
+          unmatchedFaint=null;
+        }
         flushWalk();retirePose(record.actor.id,cursor);addPatch({at:cursor,ordinal:order,actors:[record.actor],hide:record.actor.id});
         messageAt=cursor;cue(event,cursor,order,displayedActor(record.actor));hiddenActors.add(record.actor.id);
         if(record.actor.id!=='hero'&&record.actor.id!=='partner'){
           // HandleFaint deletes an ordinary wild entity. The global number
           // slot stops occupying time when that entity becomes invalid.
-          for(const track of this.numbers)if(track.actorId===record.actor.id)track.end=Math.min(track.end,cursor);
+          for(const track of this.numbers)if(track.actorId===record.actor.id)clipEnd(track,cursor,this.numbers,'numbers');
         }else if(record.actor.id==='hero'){
           // The native leader is hidden, then retained for60 frames before
           // the loss/message-log owner. The original partner returns earlier.
@@ -594,6 +640,7 @@ export class BattlePresentation {
       if(event.type==='message'){cue(event,messageAt,order);continue;}
       cue(event,cursor,order);messageAt=cursor;
     }
+    if(unmatchedFaint)throw new RangeError('An unmatched faint checkpoint reached settlement.');
     if(pokeActorId!==null)throw new RangeError('An unfinished money throw reached presentation settlement.');
     flushWalk();
     // Native attack motions1..4 finish their remaining tail before the next
@@ -606,6 +653,15 @@ export class BattlePresentation {
     this.patches.sort((left,right)=>left.at-right.at||left.ordinal-right.ordinal);
     // A source takeover follows its move-use message at the same boundary.
     this.cues.sort((left,right)=>left.at-right.at||Number('clearNotice' in left)-Number('clearNotice' in right)||left.ordinal-right.ordinal);
+    // Final strict-time prefixes include later-emitted, backdated damage text.
+    // Patch sequence and cue ordinals are separate; neither is a shared fence.
+    let patchEnd=0,cueEnd=0;
+    for(const checkpoint of this.faintCheckpoints){
+      while(patchEnd<this.patches.length&&(this.patches[patchEnd]?.at??Infinity)<checkpoint.at)patchEnd++;
+      while(cueEnd<this.cues.length&&(this.cues[cueEnd]?.at??Infinity)<checkpoint.at)cueEnd++;
+      checkpoint.patchEnd=patchEnd;checkpoint.cueEnd=cueEnd;
+      if((checkpoint.ends?.size??0)>checkpoint.poses+checkpoint.effects+checkpoint.numbers)throw new RangeError('Faint endpoint preservation exceeds its source records.');
+    }
   }
 
   /** Canonical knowledge receipt; the app proves floor/transition ownership.
@@ -661,6 +717,7 @@ export class BattlePresentation {
    * drain, rather than either dropping them or delaying input artificially.
    * @param {number} now @returns {BattleCarry} */
   carry(now){
+    if(this.faintPublication)throw new RangeError('A faint publication cannot enter carry.');
     const tick=this.sourceTime(now).tick;
     return {
       poses:this.poses.filter(track=>track.end>tick).map(track=>({...track,start:track.start-tick,end:track.end-tick,
@@ -672,17 +729,33 @@ export class BattlePresentation {
     };
   }
 
+  /** Release one submitted or explicitly cancelled checkpoint, never its cues.
+   * The app owns eligibility/RAF/identity validation. @param {number} index */
+  releaseFaintPublication(index){
+    if(this.faintPublication?.publication.index!==index||this.faintCheckpointIndex!==index)return false;
+    this.faintCheckpointIndex++;this.faintPublication=null;return true;
+  }
+
   /** Advances only bounded presentation records. Elapsed time is supplied by
    * app's foreground clock, never a timer or a gameplay catch-up loop.
-   * @param {number} now @param {boolean} [finish]
-   * @returns {{frame:BattleFrame,cues:PresentationCue[],completed:boolean,rawPauseMs:number}} */
-  advance(now,finish=false){
+   * @param {number} now @param {boolean} [finish] @param {number} [minimumDungeonTime]
+   * @returns {{frame:BattleFrame,cues:PresentationCue[],completed:boolean,rawPauseMs:number,dungeonTime:number,publication?:FaintPublication}} */
+  advance(now,finish=false,minimumDungeonTime=-Infinity){
     finish=finish||this.instant;
-    const timing=this.sourceTime(now),rawPauseMs=this.finishedRawPauseMs??this.rawPauseBefore+timing.heldMs;
+    if(finish){this.faintPublication=null;this.faintCheckpointIndex=this.faintCheckpoints.length;}
+    else if(this.faintPublication)return{...this.faintPublication,cues:[],completed:false};
+    const timing=this.sourceTime(now),requested=finish?Infinity:Math.max(this.lastTick,timing.tick);
+    const next=finish?undefined:this.faintCheckpoints[this.faintCheckpointIndex];
+    const checkpoint=next&&next.at<=requested?next:undefined;
+    const tick=checkpoint?.at??requested;
+    const rawPauseMs=checkpoint?this.rawPauseBefore+checkpoint.rawHolds*TICK_MS:this.finishedRawPauseMs??this.rawPauseBefore+timing.heldMs;
+    const renderTime=checkpoint?this.startedAt+(checkpoint.at+checkpoint.rawHolds)*TICK_MS:now;
+    // Share this exact value with the renderer: an equivalent subtraction can
+    // round one binary64 step backward during a same-tick raw upload hold.
+    const dungeonTime=Math.max(minimumDungeonTime,checkpoint?this.startedAt-this.rawPauseBefore+tick*TICK_MS:now-rawPauseMs);
     if(finish)this.finishedRawPauseMs=rawPauseMs;
-    const tick=finish?Infinity:Math.max(this.lastTick,timing.tick);
     this.lastTick=tick;
-    while(this.patchIndex<this.patches.length){
+    while(this.patchIndex<(checkpoint?.patchEnd??this.patches.length)){
       const patch=this.patches[this.patchIndex];if(!patch||patch.at>tick)break;this.patchIndex++;
       for(const actor of patch.actors??[]){
         if(this.hidden.has(actor.id)&&actor.id!=='hero'&&actor.id!=='partner')continue;
@@ -709,13 +782,20 @@ export class BattlePresentation {
       if(patch.message){this.log.push(patch.message);if(this.log.length>80)this.log.shift();}
     }
     /** @type {PresentationCue[]} */const cues=[];
-    while(this.cueIndex<this.cues.length){const cue=this.cues[this.cueIndex];if(!cue||cue.at>tick)break;this.cueIndex++;cues.push('clearNotice' in cue?{clearNotice:true}:'sound' in cue?{sound:cue.sound,audible:cue.audible}:{event:cue.event,audible:cue.audible});}
-    const completed=!this.completed&&tick>=this.sourceEndTick;this.completed||=completed;
+    while(this.cueIndex<(checkpoint?.cueEnd??this.cues.length)){const cue=this.cues[this.cueIndex];if(!cue||cue.at>tick)break;this.cueIndex++;cues.push('clearNotice' in cue?{clearNotice:true}:'sound' in cue?{sound:cue.sound,audible:cue.audible}:{event:cue.event,audible:cue.audible});}
+    const completed=!checkpoint&&!this.completed&&tick>=this.sourceEndTick;this.completed||=completed;
     if(finish){this.poses=[];this.effects=[];this.numbers=[];this.projectiles=[];this.backgrounds=[];this.statusHp.clear();}
+    // A recipe fences creation as well as mutations. Only one frame is materialized.
+    const poses=checkpoint?checkpointTracks(this.poses,checkpoint.poses,checkpoint):this.poses;
+    const effectTracks=checkpoint?checkpointTracks(this.effects,checkpoint.effects,checkpoint):this.effects;
+    const numberTracks=checkpoint?checkpointTracks(this.numbers,checkpoint.numbers,checkpoint):this.numbers;
+    const projectileTracks=checkpoint?this.projectiles.slice(0,checkpoint.projectiles):this.projectiles;
+    const backgrounds=checkpoint?this.backgrounds.slice(0,checkpoint.backgrounds):this.backgrounds;
+    const terminalPose=checkpoint?poses[this.poses.indexOf(checkpoint.pose)]:undefined;
     /** @type {BattleActor[]} */const actors=[];
-    for(const actor of this.actors.values())actors.push({...sampledActor(actor,this.poses,tick,Math.floor((now-rawPauseMs)/TICK_MS),!this.hidden.has(actor.id)),statusHp:this.statusHp.get(actor.id)});
+    for(const actor of this.actors.values())actors.push({...sampledActor(actor,poses,tick,Math.floor(dungeonTime/TICK_MS),!this.hidden.has(actor.id),terminalPose),statusHp:this.statusHp.get(actor.id)});
     /** @type {BattleEffect[]} */const effects=[];
-    for(const track of this.effects)if(!track.hidden&&track.start<=tick&&tick<track.end){
+    for(const track of effectTracks)if(!track.hidden&&track.start<=tick&&tick<track.end){
       const fraction=(tick-track.start)/(track.end-track.start),position=track.samples?.[Math.floor(tick-track.start)];
       if(track.samples&&!position)throw new RangeError('A native travel sample is missing.');
       if(position&&!position.visible)continue;
@@ -725,12 +805,13 @@ export class BattlePresentation {
         ...(position?{x:position.x,y:position.y,depthY:position.depthY,depthAdd:position.depthAdd}:track.from&&track.to?{x:track.from.x+(track.to.x-track.from.x)*fraction,y:track.from.y+(track.to.y-track.from.y)*fraction}:{})});
     }
     const hero=this.actors.get('hero')??this.dungeon.hero,partner=this.actors.get('partner')??this.dungeon.partner;
-    const active=tick<this.sourceEndTick;
+    const active=Boolean(checkpoint)||tick<this.sourceEndTick;
     // Once gameplay input is available, menu changes (e.g. tactics and camera
     // discovery) read canonical state while nonblocking visual tails continue.
     const dungeon=active?{...this.dungeon,hero,partner,enemies:actors.filter(entry=>entry.actor.id!=='hero'&&entry.actor.id!=='partner'&&entry.visible).map(entry=>entry.actor),items:this.items,money:this.money,log:this.log,explored:this.explored}:this.dungeon;
-    const number=finish?null:this.carryNumber(now);
-    /** @type {BattleProjectile[]} */const projectiles=this.projectiles.filter(track=>track.start<=tick&&tick<track.end).map(track=>{
+    const heldNumber=checkpoint?lastMatching(numberTracks,track=>track.start<=tick&&tick<track.end):undefined;
+    const number=finish?null:checkpoint?(heldNumber?{actorId:heldNumber.actorId,amount:heldNumber.amount,heal:heldNumber.heal,miss:heldNumber.miss,elapsedTicks:tick-heldNumber.start}:null):this.carryNumber(now);
+    /** @type {BattleProjectile[]} */const projectiles=projectileTracks.filter(track=>track.start<=tick&&tick<track.end).map(track=>{
       if('samples' in track){
         const sample=track.samples[Math.floor(tick-track.start)];if(!sample)throw new RangeError('A money projectile sample is missing.');
         return {kind:track.kind,native:true,...sample};
@@ -741,22 +822,42 @@ export class BattlePresentation {
     // finish uses Infinity only to consume records. The camera keeps finite
     // source age and is rebased by the app after reduced-motion completion.
     const camera={target:this.camera.target,counter:advanceCameraCounter(this.camera.counter,(finish?this.sourceEndTick:tick)-this.cameraTick)};
-    const background=lastMatching(this.backgrounds,entry=>entry.takeover<=tick&&tick<entry.end+1);
+    const background=lastMatching(backgrounds,entry=>entry.takeover<=tick&&tick<entry.end+1);
     const hypnosis=background?{elapsedTicks:tick>=background.start&&tick<background.end?tick-background.start:null,hideHud:tick>background.takeover,hideMap:tick<background.end}:null;
-    return {frame:{dungeon,actors,effects,projectiles,number,active,camera,hypnosis},cues,completed,rawPauseMs};
+    const frame={dungeon,actors,effects,projectiles,number,active,camera,hypnosis};
+    if(checkpoint){
+      if(actors.length>MAX_ACTORS||effects.length>24||dungeon.items.length>MAX_ITEMS)throw new RangeError('Faint publication exceeds the drawing bound.');
+      const publication=Object.freeze({index:this.faintCheckpointIndex,renderTime,dungeonTime});
+      this.faintPublication={frame:freezeFaintFrame(frame),publication,rawPauseMs,dungeonTime};
+      return{...this.faintPublication,cues,completed:false};
+    }
+    return {frame,cues,completed,rawPauseMs,dungeonTime};
   }
+}
+
+/** @template {EndTrack} T @param {T[]} tracks @param {number} limit @param {FaintCheckpoint} checkpoint @returns {T[]} */
+function checkpointTracks(tracks,limit,checkpoint){return tracks.slice(0,limit).map(track=>{const end=checkpoint.ends?.get(track);return end===undefined?track:{...track,end};});}
+
+/** Freeze only one publication's owned projections; terrain identity stays shared.
+ * Captured actors/items already own frozen numerical records. @param {BattleFrame} frame */
+function freezeFaintFrame(frame){
+  const dungeon={...frame.dungeon,enemies:[...frame.dungeon.enemies],items:[...frame.dungeon.items],log:[...frame.dungeon.log],explored:[...frame.dungeon.explored],visible:[...frame.dungeon.visible]};
+  for(const values of [dungeon.enemies,dungeon.items,dungeon.log,dungeon.explored,dungeon.visible])Object.freeze(values);
+  for(const values of [frame.actors,frame.effects,frame.projectiles]){for(const value of values)Object.freeze(value);Object.freeze(values);}
+  if(frame.number)Object.freeze(frame.number);if(frame.hypnosis)Object.freeze(frame.hypnosis);Object.freeze(frame.camera);
+  frame.dungeon=Object.freeze(dungeon);return Object.freeze(frame);
 }
 
 /** One pose projection for both drawing and source attachment sampling.
  * @param {Actor} actor @param {PoseTrack[]} poses @param {number} tick
- * @param {number} globalTick @param {boolean} [visible] @returns {BattleActor} */
-function sampledActor(actor,poses,tick,globalTick,visible=true){
+ * @param {number} globalTick @param {boolean} [visible] @param {PoseTrack} [terminalPose] @returns {BattleActor} */
+function sampledActor(actor,poses,tick,globalTick,visible=true,terminalPose){
   let x=actor.x,y=actor.y,direction=actor.direction,clip=actor.status.sleep?'rest-sleep':actor.status.bide?'bide-hold':'idle';
   /** @type {number|undefined} */let animation;
   // Untracked idle/sleep animations keep the app's shared foreground
   // clock; a completed turn must not freeze every actor on frame zero.
   let elapsedTicks=globalTick;
-  const track=lastMatching(poses,candidate=>candidate.actorId===actor.id&&candidate.start<=tick&&tick<candidate.end);
+  const track=lastMatching(poses,candidate=>candidate.actorId===actor.id&&candidate.start<=tick&&(tick<candidate.end||candidate===terminalPose&&tick===candidate.end));
   if(track){
     direction=/** @type {import('./mechanics-types.js').Direction} */(track.direction);clip=track.clip;animation=track.animation;elapsedTicks=tick-track.start;
     if(track.from&&track.to){const end=track.moveEnd??track.end,fraction=Math.min(1,(tick-track.start)/(end-track.start));x=track.from.x+(track.to.x-track.from.x)*fraction;y=track.from.y+(track.to.y-track.from.y)*fraction;}

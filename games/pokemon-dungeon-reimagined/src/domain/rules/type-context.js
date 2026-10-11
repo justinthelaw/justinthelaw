@@ -2,7 +2,7 @@ import { mulQ, Q16, requireBooleans, requireInteger } from './fixed-point.js';
 
 /** @typedef {'None'|'Normal'|'Fire'|'Water'|'Grass'|'Electric'|'Ice'|'Fighting'|'Poison'|'Ground'|'Flying'|'Psychic'|'Bug'|'Rock'|'Ghost'|'Dragon'|'Dark'|'Steel'} ElementType */
 /** @typedef {'little'|'resist'|'neutral'|'super'} MatchupClass */
-/** @typedef {Readonly<{wonderGuard:boolean,thickFat:boolean,flashFire:boolean,levitate:boolean,torrent:boolean,overgrow:boolean,swarm:boolean,blaze:boolean}>} TypeAbilities */
+/** @typedef {Readonly<{wonderGuard:boolean,torrent:boolean,overgrow:boolean,blaze:boolean}>} TypeAbilities */
 /** @typedef {Readonly<{moveType:ElementType,attackerTypes:readonly [ElementType,ElementType],defenderTypes:readonly [ElementType,ElementType],defenderExposed:boolean,abilities:TypeAbilities,attackerHp:number,attackerMaxHp:number,mudSport:boolean,waterSport:boolean,charging:boolean}>} TypeContext */
 /** @typedef {Readonly<{modifierQ16:number,typeFactorQ16:number,typeMatchup:MatchupClass,matchup:MatchupClass,slotMatchups:readonly [MatchupClass,MatchupClass],nullifiedBy:'wonderGuard'|'flashFire'|'levitate'|null}>} TypeModifier */
 
@@ -81,7 +81,7 @@ export function combineTypeMatchups(first, second) {
 /** @param {TypeContext} context @returns {void} */
 export function validateTypeContext(context) {
   const a = context.abilities;
-  requireBooleans([context.defenderExposed, context.mudSport, context.waterSport, context.charging, a.wonderGuard, a.thickFat, a.flashFire, a.levitate, a.torrent, a.overgrow, a.swarm, a.blaze]);
+  requireBooleans([context.defenderExposed, context.mudSport, context.waterSport, context.charging, a.wonderGuard, a.torrent, a.overgrow, a.blaze]);
   validateType(context.moveType);
   validateTypes(context.attackerTypes);
   validateTypes(context.defenderTypes);
@@ -90,7 +90,7 @@ export function validateTypeContext(context) {
 }
 
 /** Pure type/context pipeline. Ability predicates are resolved active-ability facts;
- * caller retains actor validation and Flash Fire once-per-turn mutation.
+ * caller retains actor validation and ability announcements.
  * @param {TypeContext} context @returns {TypeModifier} */
 export function buildTypeContextModifier(context) {
   validateTypeContext(context);
@@ -100,26 +100,15 @@ export function buildTypeContextModifier(context) {
   const typeMatchup = combineTypeMatchups(first, second);
   const typeFactorQ16 = mulQ(TYPE_FACTORS_Q16[first], TYPE_FACTORS_Q16[second], 16);
   let modifierQ16 = typeFactorQ16;
-  let matchup = typeMatchup;
+  const matchup = typeMatchup;
   /** @type {TypeModifier['nullifiedBy']} */
   let nullifiedBy = null;
   if (abilities.wonderGuard && moveType !== 'None' && matchup !== 'super') {
     modifierQ16 = 0;
     nullifiedBy = 'wonderGuard';
   }
-  if (abilities.thickFat && (moveType === 'Fire' || moveType === 'Ice')) modifierQ16 = mulQ(modifierQ16, 32768, 16);
-  if (abilities.flashFire && moveType === 'Fire') {
-    modifierQ16 = 0;
-    matchup = 'little';
-    nullifiedBy = 'flashFire';
-  }
-  if (abilities.levitate && moveType === 'Ground') {
-    modifierQ16 = 0;
-    matchup = 'little';
-    nullifiedBy = 'levitate';
-  }
   const lowHpAbility = (moveType === 'Water' && abilities.torrent) || (moveType === 'Grass' && abilities.overgrow)
-    || (moveType === 'Bug' && abilities.swarm) || (moveType === 'Fire' && abilities.blaze);
+    || (moveType === 'Fire' && abilities.blaze);
   if (lowHpAbility && context.attackerHp <= Math.floor(context.attackerMaxHp / 4)) modifierQ16 = mulQ(modifierQ16, 131072, 16);
   // None represents absence, so it must not itself create a same-type bonus.
   if (moveType !== 'None' && modifierQ16 !== 0 && context.attackerTypes.includes(moveType)) modifierQ16 = mulQ(modifierQ16, 98304, 16);

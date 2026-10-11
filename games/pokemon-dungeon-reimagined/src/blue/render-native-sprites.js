@@ -24,7 +24,7 @@ function selectedPose(entry,options){
   if(!Number.isInteger(animation)||animation<0||animation>=metadata.animations.length)return undefined;
   const direction=Math.max(0,DIRECTIONS.indexOf(options.direction??'s')),sequence=metadata.animations[animation]?.[direction];
   if(!sequence?.length)return undefined;
-  const duration=sequence.reduce((sum,frame)=>sum+frame[1],0);
+  const duration=options.animation===undefined&&clip.loop?sequence.reduce((sum,frame)=>sum+frame[1],0):0;
   let ticks=Math.max(0,options.ticks??(options.time??0)*60/1000);if(!Number.isFinite(ticks))return undefined;
   if(options.animation===undefined&&clip.loop)ticks%=duration;
   let index=0;while(index<sequence.length-1&&ticks>=(sequence[index]?.[1]??0)){ticks-=sequence[index]?.[1]??0;index++;}

@@ -67,10 +67,16 @@ facts. **This is not a claim of exact Nintendo DS parity or a completed game.**
 
 The private damage helper is specialized to this opening's sole caller.
 Permanently neutral form, stat-item and clear-weather inputs and their dormant
-branches are removed. Fixed-point operations, ability ratios, stage/type tables,
-rounding, RNG calls and returned facts retain their order and values for every
-admitted input. Full growth/learnset data and save acceptance are unchanged;
-weather-changing moves still have the unsupported boundary described below.
+branches are removed. The closed twenty-species roster also excludes eight
+numerical abilities: Huge Power, Pure Power, Hustle, Intimidate, Thick Fat,
+Flash Fire, Levitate and Swarm. Their branches and six constant-false stat
+inputs are removed. Fixed-point operations, active ability ratios, stage/type
+tables, rounding, RNG calls and returned facts retain their order and values
+for every admitted input. The shared power roll is still drawn and validated;
+armor, contact effects and ability-announcement ownership remain unchanged.
+Full growth/learnset data and save acceptance are unchanged; weather-changing
+moves still have the unsupported boundary described below. Expanding the roster,
+copied abilities, factual mutation or helper callers requires a new source review.
 
 ## Remaining fidelity gaps
 
@@ -520,6 +526,10 @@ The same source review also corrects the shared visible-KO hold: every admitted
 visible damage reaction ending at HP zero keeps its hit animation during the
 thirty-frame blink, suppresses the shadow and retains status-icon display until
 faint. Canonical/HUD HP is zero; no save field or simulation wait is added.
-Non-KO, False Swipe and offscreen paths stay unchanged. The shared global blink
-phase and the existing retirement of the final retained +40 image remain
-explicit projection qualifications.
+Non-KO, False Swipe and offscreen paths stay unchanged. A visible KO now retains
+the final +40 projection through one eligible browser rendering opportunity
+before retirement and settlement. The app releases it on a later eligible RAF;
+interruption cancels it without replay. This adds no native wait or save field.
+The shared global blink phase, physical display timing and exact Blue parity
+remain qualified. The projection and clock contract is described in
+[battle visual evidence](blue-battle-visuals.md#final-faint-publication).

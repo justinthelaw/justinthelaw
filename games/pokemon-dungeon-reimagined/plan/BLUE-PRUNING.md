@@ -10,7 +10,7 @@ unselected runtime or validation dependency.
 - `src/blue/` owns the selected browser game. Eight small shared numerical,
   generation, random-state and validation modules remain in `src/domain/`,
   with two scoped type files. The first retirement left 62 typed sources;
-  the bounded PCM player/data and Hypnosis renderer/data bring the set to 66.
+  the current scoped package checks 67 typed sources.
 - `distribution.json` defines the playable resource closure. Historical
   campaign assets, catalogs, Three.js and authoring code are excluded and removed.
 - Runtime facts retain complete growth and learnsets for all 16 playable
@@ -21,7 +21,7 @@ unselected runtime or validation dependency.
 - Native art inputs, reconstruction code, source hashes and pixel evidence
   remain under `tools/pokemon-dungeon/art/blue/`. The raster writer and RNG
   attribution notice are retained. Current Blue reference notes remain.
-- The selected authored score has 11 themes, 9 effects and 657 notes. Native
+- The selected authored score has 11 themes, 8 effects and 655 notes. Native
   short-effect inputs remain separate. No soundtrack-equivalence claim is made.
 
 ## Removed work
@@ -265,3 +265,43 @@ Composed with the separately admitted common effect 22 sound, the export is
 full Node 24.21 static check passes. The composition receipt and immutable
 browser snapshot are `blue-pruning-composition-20261011-1109/release.json` and
 `blue-opening-review-20261011-1111/snapshot.json` under `.work/`.
+
+## Closed roster and rendering helpers
+
+The selected roster has no Huge Power, Pure Power, Hustle, Intimidate, Thick Fat,
+Flash Fire, Levitate or Swarm. Removing their unreachable numerical branches
+and six constant-false stat inputs saves 2,066 runtime bytes. The proof closes
+the actual mutable factual object, all callers and save admission; it does not
+assume that JSDoc makes data immutable. Full growth/learnsets and source facts
+remain. Every random draw, including the now-unused shared power roll, remains
+sampled and validated in the original order. Armor guards, active Guts/type
+ratios, fixed-point stages, integer checks, returned facts, contact effects and
+ability announcements also remain. A stale JSDoc correction saves 12 bytes.
+
+StatusSprites has one caller, which supplies no constructor options. Removing
+its unused external abort adapter saves 333 bytes; renderer disposal and the
+internal fetch controller retain cancellation ownership. Conditioning the
+native sprite duration sum on its existing looping consumer adds 43 bytes and
+avoids unused reductions for explicit/nonlooping animation. This pair saves
+290 bytes, with no asset, image-memory or request-count change. No measured
+browser speed improvement is claimed.
+
+The bounded final audit finds all 63 shipped modules reachable, with four live
+type-only sources. The authoring package's standalone capture/evidence tools
+remain necessary. Delivery is an in-scope original menu variant awaiting its
+selection behavior, so its artwork stays. No further substantial safe subsystem
+removal was found. The audit is `blue-final-scope-closure-20261011-1153` under
+`.work/`.
+
+The offline battle recapture list now includes Rapid Spin's efob135 source,
+image and palette. All 48 recaptured members match the retained archive and
+pinned Git bytes. Its compressed container has different ordering/padding;
+the existing archive is preserved. This four-byte authoring correction changes
+no runtime resource.
+
+These cuts save 2,368 runtime bytes including the comment. The separately
+reviewed final-faint publication adds 13,684 bytes, giving a net increase of
+11,316 from `f937290`. The composed runtime contains 149 files / 2,826,906 bytes,
+with 318,822 bytes below the cap. The source application and protected-file
+readback are in `blue-pruning-composition-20261011-1203` under `.work/`;
+validation and manual results are recorded in the opening review.

@@ -158,7 +158,15 @@ async function main() {
   let saveTimer = 0, hasStored = stored.hasStored, saveFailed = false;
   let eventUntil = 0, presentationRevision = 0, lastRenderedRevision = -1, titleImmediate = false;
   /** @type {BattlePresentation|null} */let battle=null;
-  let dungeonRawPauseMs=0;
+  let dungeonRawPauseMs=0,battleDungeonTime=0,frameSerial=0;
+  let battleAtFaint=false;
+  /** Activated only by a KO publication. Follow the rendered tiles, since an
+   * owner reset can retain the old dungeon scene while its successor loads.
+   * @type {{tiles:import('./mechanics-types.js').DungeonState['tiles'],time:number}|null} */
+  let faintClock=null;
+  /** One transient publication, never a save field or queued gameplay action.
+   * @type {{owner:BattlePresentation,index:number,dungeon:import('./mechanics-types.js').DungeonState,tiles:import('./mechanics-types.js').DungeonState['tiles'],floor:number,transition:number,revision:number,renderTime:number,dungeonTime:number,submittedFrame:number|null,view:View|null}|null} */
+  let faintPublication=null;
   /** @type {{dungeon:import('./mechanics-types.js').DungeonState,transition:number,newFloor:boolean,events:GameEvent[],preparedPhase?:'input'|'forced'}|null} */let battleSettlement=null;
   let nameComposing = false;
   /** @type {NameComposition|null} */ let nameComposition = null;
@@ -181,6 +189,7 @@ async function main() {
     const dungeon=currentDungeon();if(dungeon)updateVisibility(dungeon);
   }
   function requestMenuCamera(){
+    if(faintPublication)return;
     const dungeon=currentDungeon();
     if(mode!=='play'||state?.phase!=='dungeon'||!dungeon){dungeonCamera.reset();pendingCameraChoice=null;pendingCameraCancel=null;return;}
     // Automatic focus belongs to the battle, not an implicit flag0 hero request.
@@ -191,11 +200,13 @@ async function main() {
   }
   /** @param {number} index */
   function selectChoice(index){
+    if(faintPublication)return;
     if(pendingCameraCancel)return;
     if(index!==selectedIndex)pendingCameraChoice=null;
     selectedIndex=index;view.selectedIndex=index;requestMenuCamera();
   }
   function advanceMenuCamera(){
+    if(faintPublication)return;
     const dungeon=currentDungeon();if(mode!=='play'||state?.phase!=='dungeon'||!dungeon||battle?.busy())return;
     dungeonCamera.snapshot(dungeon,clock);
     requestMenuCamera();
@@ -296,15 +307,53 @@ async function main() {
     }
   }
 
+  /** @param {import('./mechanics-types.js').DungeonState['tiles']|undefined} tiles */
+  function minimumDungeonTime(tiles){return faintClock&&faintClock.tiles===tiles?faintClock.time:-Infinity;}
+  /** Normal advancement shares the foreground clock gate, even after a
+   * cancelled publication has cleared its slot. Explicit finish bypasses it. */
+  function foregroundEligible(){return startGate==='running'&&!document.hidden&&document.hasFocus()&&!paused&&!busy&&helpPanel.hidden;}
+  /** @param {NonNullable<typeof faintPublication>} publication */
+  function currentFaintPublication(publication){
+    return !disposed&&battle===publication.owner&&currentDungeon()===publication.dungeon&&publication.dungeon.tiles===publication.tiles&&publication.dungeon.floor===publication.floor&&transition===publication.transition&&presentationRevision===publication.revision&&mode==='play'&&state?.phase==='dungeon';
+  }
+  /** Interruption cancels the opportunity; it never claims a paint or replays it. */
+  function cancelFaintPublication(){
+    const publication=faintPublication;faintPublication=null;
+    if(publication)publication.owner.releaseFaintPublication(publication.index);
+  }
+  /** Called once at the start of a RAF, before camera, scheduler or input. */
+  function acknowledgeFaintPublication(){
+    const publication=faintPublication;if(!publication)return;
+    if(!currentFaintPublication(publication)||!foregroundEligible()){cancelFaintPublication();return;}
+    if(publication.submittedFrame===null||publication.submittedFrame>=frameSerial)return;
+    if(!publication.owner.releaseFaintPublication(publication.index)){cancelFaintPublication();fail(new Error('A faint publication lost its owner.'));return;}
+    faintPublication=null;
+  }
+  /** @param {NonNullable<typeof faintPublication>} publication @returns {View} */
+  function faintPublicationView(publication){
+    if(publication.view)return publication.view;
+    if(!view.battle||view.scene!=='dungeon')throw new Error('A faint publication lost its dungeon view.');
+    /** @type {View} */const snapshot={...view,dungeon:view.battle.dungeon,choices:[],disabledChoices:[],showToolbar:false,showGrid:false,dungeonClock:publication.dungeonTime,cameraActorId:view.battle.camera.target,
+      ...(view.dialogue?{dialogue:Object.freeze({...view.dialogue})}:{})};
+    Object.freeze(snapshot.choices);Object.freeze(snapshot.disabledChoices);
+    publication.view=Object.freeze(snapshot);return publication.view;
+  }
+
   /** Completion changes UI surfaces only after all source waits have finished.
    * The dungeon was already committed; this callback never advances gameplay.
    * @param {boolean} [finish] */
   function advanceBattlePresentation(finish=false){
+    if(finish)cancelFaintPublication();
+    else if(!foregroundEligible()||faintPublication)return;
     const owner=battle;if(!owner)return;
     const ownedCamera=!owner.completed;
     /** @type {ReturnType<BattlePresentation['advance']>} */let result;
-    try{result=owner.advance(clock,finish);}catch(error){fail(error);return;}
-    view.battle=result.frame;dungeonRawPauseMs=result.rawPauseMs;
+    try{result=owner.advance(clock,finish,minimumDungeonTime(owner.dungeon.tiles));}catch(error){fail(error);return;}
+    view.battle=result.frame;dungeonRawPauseMs=result.rawPauseMs;battleDungeonTime=result.dungeonTime;battleAtFaint=Boolean(result.publication);
+    if(result.publication){
+      const publication=result.publication,dungeon=owner.dungeon;
+      faintPublication={owner,index:publication.index,dungeon,tiles:dungeon.tiles,floor:dungeon.floor,transition,revision:presentationRevision,renderTime:publication.renderTime,dungeonTime:publication.dungeonTime,submittedFrame:null,view:null};
+    }
     if(ownedCamera&&battle===owner&&owner.dungeon===currentDungeon()&&battleSettlement?.transition===transition){
       dungeonCamera.adopt(owner.dungeon,result.frame.camera,clock);view.cameraActorId=dungeonCamera.target;
     }
@@ -330,10 +379,11 @@ async function main() {
     rebuild();settleDungeon(settlement.newFloor);
   }
 
-  function resetBattlePresentation(){dungeonRawPauseMs=0;battle=null;battleSettlement=null;view.battle=undefined;eventUntil=clock;}
+  function resetBattlePresentation(){cancelFaintPublication();dungeonRawPauseMs=0;battleDungeonTime=0;battleAtFaint=false;battle=null;battleSettlement=null;view.battle=undefined;eventUntil=clock;}
 
   /** @param {Menu|null} next */
   function showMenu(next) {
+    if(faintPublication)return;
     const previous=menu;
     pendingCameraChoice=null;pendingCameraCancel=null;
     floorMap.reset();
@@ -398,7 +448,7 @@ async function main() {
     }
     void audio.activate(event).then(() => { if (!disposed) updateSoundButton(); });
     updateSoundButton();
-    if (gameInput && dungeonTurnLocked()) return false;
+    if (gameInput && (faintPublication||dungeonTurnLocked())) return false;
     return true;
   }
 
@@ -416,6 +466,7 @@ async function main() {
       return { delayMs: Math.max(0, eventUntil - clock), accepted: faceOnly || accepted, stopRepeat: run && !faceOnly && !accepted };
     },
     interrupt() {
+      cancelFaintPublication();
       pendingCameraChoice=null;pendingCameraCancel=null;
       paused = true; lastFrame = 0; audio.pause(); updateSoundButton(); commitNow();
       for (const button of touchControls.querySelectorAll('.held')) button.classList.remove('held');
@@ -425,6 +476,7 @@ async function main() {
   function resumeForeground() {
     if (disposed) return;
     paused = document.hidden || !document.hasFocus();
+    if(paused)cancelFaintPublication();
     lastFrame = 0;
     // Audio keeps its own trusted-gesture gate. Regaining visual focus neither
     // synthesizes input nor replays a held key or an interrupted sound.
@@ -461,12 +513,13 @@ async function main() {
     return mode === 'play' && state?.phase === 'dungeon' && !menu && !notice && !fieldDialogue && !tutorials.length && !busy && !paused && !dungeonCamera.locked && !floorMap.blocks(clock) && helpPanel.hidden === true;
   }
   function dungeonTurnLocked() {
+    if(faintPublication)return true;
     const dungeon = currentDungeon();
     return Boolean(dungeon && isDungeonSurface() && (battle?.busy()||getDungeonTurnPhase(dungeon) !== 'input'));
   }
   function isDungeonInput() {
     const dungeon = currentDungeon();
-    return Boolean(dungeon && isDungeonSurface() && !battle?.busy() && getDungeonTurnPhase(dungeon) === 'input');
+    return Boolean(dungeon && isDungeonSurface() && !faintPublication && !battle?.busy() && getDungeonTurnPhase(dungeon) === 'input');
   }
   function clearForcedInput() {
     input.clear();
@@ -577,6 +630,7 @@ async function main() {
   }
 
   function showHelp() {
+    cancelFaintPublication();
     pendingCameraChoice=null;pendingCameraCancel=null;
     helpReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     input.clear(); paused = true; lastFrame = 0; audio.pause(); updateSoundButton();
@@ -642,6 +696,7 @@ async function main() {
 
   /** Rebuild semantic UI only after an action or phase transition, never per frame. */
   function rebuild() {
+    if(faintPublication)return;
     /** @type {View} */ const next = {
       scene: mode === 'play' ? 'quiz' : mode, reducedMotion, titleImmediate, gender: state?.gender,
       heroSpeciesId: state?.heroSpeciesId, partnerSpeciesId: state?.partnerSpeciesId,
@@ -755,10 +810,11 @@ async function main() {
     if (announcement !== lastNarration) { narration.textContent = announcement; lastNarration = announcement; }
   }
 
-  function syncChoices() {
-    const bounds = renderer.getChoiceBounds();
-    const toolbar = renderer.getToolbarBounds();
-    const signature = bounds.map(bound => `${bound.index}:${labels[bound.index]}:${Boolean(view.disabledChoices?.[bound.index])}:${bound.x}:${bound.y}:${bound.width}:${bound.height}`).join('|') +
+  /** @param {View} [source] @param {string[]} [choiceLabels] @param {boolean} [blocked] */
+  function syncChoices(source=view,choiceLabels=labels,blocked=false) {
+    const bounds = blocked?[]:renderer.getChoiceBounds();
+    const toolbar = blocked?[]:renderer.getToolbarBounds();
+    const signature = (blocked?'faint|':'') + bounds.map(bound => `${bound.index}:${choiceLabels[bound.index]}:${Boolean(source.disabledChoices?.[bound.index])}:${bound.x}:${bound.y}:${bound.width}:${bound.height}`).join('|') +
       '#' + toolbar.map(bound => `${bound.id}:${bound.x}:${bound.y}:${bound.width}:${bound.height}`).join('|');
     if (signature !== uiSignature) {
       const namingFocusOwner = isNaming() && !notice && !menu && choiceButtons.contains(document.activeElement) ? state?.naming : null;
@@ -768,18 +824,18 @@ async function main() {
       for (const bound of bounds) {
         const button = document.createElement('button');
         button.type = 'button'; button.className = 'game-choice';
-        button.disabled = Boolean(view.disabledChoices?.[bound.index]);
-        button.textContent = labels[bound.index] ?? ''; button.setAttribute('aria-label', labels[bound.index] ?? 'Choose');
+        button.disabled = Boolean(source.disabledChoices?.[bound.index]);
+        button.textContent = choiceLabels[bound.index] ?? ''; button.setAttribute('aria-label', choiceLabels[bound.index] ?? 'Choose');
         button.style.left = `${bound.x / 256 * 100}%`; button.style.top = `${bound.y / 192 * 100}%`;
         button.style.width = `${bound.width / 256 * 100}%`; button.style.height = `${bound.height / 192 * 100}%`;
         button.addEventListener('click', event => {
           event.stopPropagation();
-          if (currentRevision !== presentationRevision) return;
+          if (faintPublication || currentRevision !== presentationRevision) return;
           if (!activate(event)) return;
           selectChoice(bound.index); choose(event);
         });
         button.addEventListener('focus', () => {
-          if (currentRevision !== presentationRevision) return;
+          if (faintPublication || currentRevision !== presentationRevision) return;
           selectChoice(bound.index);
           if (isNaming() && state?.naming) { state.naming.selected = selectedIndex; commitSoon(); }
         });
@@ -807,7 +863,7 @@ async function main() {
         namingFocusTarget.focus({ preventScroll: true });
       }
     }
-    const hideAdvance = !speech || Boolean(view.choices?.length) || busy;
+    const hideAdvance = blocked || !speech || Boolean(source.choices?.length) || busy;
     if (advanceButton.hidden !== hideAdvance) advanceButton.hidden = hideAdvance;
   }
 
@@ -817,7 +873,7 @@ async function main() {
    */
   function handleToolbar(id, event) {
     if (!['throw', 'moves', 'items', 'team', 'menu'].includes(id)) return;
-    if (!activate(event) || !isDungeonInput() || clock < eventUntil) return;
+    if (faintPublication || !activate(event) || !isDungeonInput() || clock < eventUntil) return;
     screens.focus(); input.clear();
     if (id === 'throw') { act({ type: 'regularAttack' }); return; }
     audio.effect('open');
@@ -831,7 +887,7 @@ async function main() {
   function handleInput(action, event) {
     if (disposed || document.hidden) return;
     if (!helpPanel.hidden) { if (action === 'cancel' || action === 'menu') hideHelp(event); return; }
-    if (busy || paused || startGate !== 'running') return;
+    if (faintPublication || busy || paused || startGate !== 'running') return;
     if(floorMap.active){
       const result=floorMap.handle(action,clock);
       if(result==='closed'){input.clear();rebuild();}
@@ -905,7 +961,7 @@ async function main() {
 
   /** @param {Event} [event] */
   function choose(event) {
-    if (busy || paused || disposed || !helpPanel.hidden || startGate !== 'running') return;
+    if (faintPublication || busy || paused || disposed || !helpPanel.hidden || startGate !== 'running') return;
     if(floorMap.blocks(clock))return;
     if(pendingCameraCancel)return;
     if(dungeonCamera.locked){if(menu)pendingCameraChoice={menu,index:selectedIndex,revision:presentationRevision,event};return;}
@@ -1013,7 +1069,7 @@ async function main() {
 
   /** @param {DungeonAction} action @param {boolean} [running] @returns {boolean} */
   function act(action, running = false) {
-    const dungeon = currentDungeon(); if (!dungeon || busy || disposed || battle?.busy()) return false;
+    const dungeon = currentDungeon(); if (!dungeon || faintPublication || busy || disposed || battle?.busy()) return false;
     try {
       const before=captureWorld(dungeon);
       const result = performAction(dungeon, action, data);
@@ -1025,6 +1081,7 @@ async function main() {
   /** @param {ActionResult} result @param {BattleWorld} before @param {boolean} [running] @param {'input'|'forced'} [preparedPhase] */
   function presentDungeonResult(result,before,running=false,preparedPhase) {
     const dungeon = currentDungeon(); if (!dungeon || disposed) return;
+    if(faintPublication)throw new Error('A pending faint publication cannot be replaced by gameplay.');
     // Persist only completed simulation, retaining the existing220ms batching.
     // Failure/interruption/quicksave flush immediately; visual evidence is
     // never saved and cannot repeat a committed turn on reload.
@@ -1047,7 +1104,7 @@ async function main() {
    * @returns {boolean} Whether this frame performed autonomous scheduler work.
    */
   function advanceDungeonClock() {
-    if (startGate !== 'running' || document.hidden || !document.hasFocus() || !isDungeonSurface() || battle?.busy() || clock < eventUntil) return false;
+    if (faintPublication || startGate !== 'running' || document.hidden || !document.hasFocus() || !isDungeonSurface() || battle?.busy() || clock < eventUntil) return false;
     const dungeon = currentDungeon(); if (!dungeon) return false;
     try {
       const phase = getDungeonTurnPhase(dungeon);
@@ -1074,6 +1131,7 @@ async function main() {
 
   /** @param {boolean} [newFloor] */
   function settleDungeon(newFloor = false) {
+    if(faintPublication)return;
     const dungeon = currentDungeon(); if (!dungeon || !state) return;
     if(battle?.busy())return;
     if (dungeon.status === 'rescued') { void setPhase('clearing'); return; }
@@ -1231,9 +1289,11 @@ async function main() {
   /** @param {number} now */
   function frame(now) {
     if (disposed) return;
+    frameSerial++;acknowledgeFaintPublication();
+    if(disposed)return;
     const elapsed = lastFrame ? Math.min(50, Math.max(0, now - lastFrame)) : 0;
     lastFrame = now;
-    if (startGate === 'running' && !document.hidden && document.hasFocus() && !paused && !busy && helpPanel.hidden) clock += elapsed;
+    if (foregroundEligible()) clock += elapsed;
     if (liveMessageRemaining > 0 && !document.hidden && document.hasFocus() && isDungeonSurface()) {
       liveMessageRemaining = Math.max(0, liveMessageRemaining - elapsed);
       if (liveMessageRemaining === 0) clearLiveMessages();
@@ -1257,14 +1317,27 @@ async function main() {
     view.choices = revealed || !speech ? labels : [];
     view.selectedIndex = selectedIndex;Object.assign(view,mapPresentation());
     if (mode === 'play' && state?.phase === 'dungeon') view.notice = liveMessages.length ? liveMessages.join('\n') : undefined;
-    view.dungeonClock=clock-dungeonRawPauseMs;
+    view.dungeonClock=view.battle?battleDungeonTime:Math.max(minimumDungeonTime(view.dungeon?.tiles),clock-dungeonRawPauseMs);
     view.showGrid = isDungeonInput() && input.isFacing();
     view.gridLines = gridVisible;
     view.showToolbar = isDungeonInput() && clock >= eventUntil;
     view.fade = busy ? .5 : 0;
     if (!document.hidden && (startGate === 'running' && !paused && !busy && helpPanel.hidden || lastRenderedRevision !== presentationRevision)) {
-      try { renderer.render(view, clock); syncChoices(); lastRenderedRevision = presentationRevision; }
-      catch (error) { fail(error); return; }
+      try {
+        const publication=faintPublication;
+        const source=publication?faintPublicationView(publication):view;
+        renderer.render(source,publication?publication.renderTime:clock);
+        syncChoices(source,publication?[]:labels,Boolean(publication));
+        lastRenderedRevision=presentationRevision;
+        const renderedDungeon=source.battle?.dungeon??source.dungeon;
+        if(source.scene!=='dungeon'||!renderedDungeon)faintClock=null;
+        else if(source.battle&&battleAtFaint)faintClock={tiles:renderedDungeon.tiles,time:source.dungeonClock??clock};
+        else if(faintClock?.tiles===renderedDungeon.tiles)faintClock.time=source.dungeonClock??clock;
+        else faintClock=null;
+        // Canvas and semantic controls must both succeed before submission.
+        // A later eligible RAF, not a source-tick change, acknowledges it.
+        if(publication&&faintPublication===publication&&currentFaintPublication(publication)&&foregroundEligible()&&publication.submittedFrame===null)publication.submittedFrame=frameSerial;
+      }catch (error) { fail(error); return; }
     }
     frameId = window.requestAnimationFrame(frame);
   }

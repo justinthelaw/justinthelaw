@@ -262,6 +262,41 @@ saved state are unchanged. Pause freezes the owner; reduced-motion completion
 consumes receipts once without replay, and scene retirement/disposal releases
 its resources. No register-like tint persists after cancellation.
 
+## Final faint publication
+
+For a visible lethal reaction, the compiler retains the final C+40 image before
+the matching faint removes its actor/status membership. Separate strict-time
+patch and cue prefixes defer faint, item-drop, EXP and later same-tick work.
+Creation limits and sparse original endpoints keep later tracks out of that
+image. Only the matched hit pose gains its endpoint sample; other half-open
+tracks retain their existing rules. Canonical HP and saved state are already
+committed and never receive this transient projection.
+
+One immutable frame and its semantic controls submit together. The same owner
+releases only on a later eligible foreground RAF, so input and natural terminal
+settlement cannot replace the image in its submission callback. Help, blur,
+hidden state, scene retirement and disposal cancel the obligation without
+replaying it. Initial reduced motion and explicit finish retain their existing
+instant, silent settlement path. Ordinary source waits, random draws, audio
+receipts and save ownership remain unchanged.
+
+The compiler returns one exact dungeon time for actor sampling and rendering.
+After a KO image is rendered successfully, a same-tiles lower bound prevents
+binary64 rounding from moving the status/map/notice clock backward during a
+following raw upload hold. It survives owner replacement and no-battle menus,
+then retires when a different floor or non-dungeon scene is actually rendered.
+Before the first checkpoint, ordinary clock arithmetic is unchanged. No epsilon,
+extra source tick, fixed dwell or physical-paint acknowledgment is introduced.
+
+The bounded recipes use the existing event ceiling; only one whole frame is
+materialized. The corrected implementation and independent admission are under
+`.work/blue-faint-publication-implementation-v2-20261011-1157/` and
+`.work/blue-faint-implementation-independent-20261011-1153/`. Static source
+checks preserve native cursor assignments, gameplay/audio calls, timers and
+the source-time mapping. Manual observations remain separately recorded in
+the opening review. Interrupted frames are outside the rendering-opportunity
+promise, and splitting delivered cue batches retains the existing quota limits.
+
 ## Remaining qualifications
 
 Blue effect-pixel comparisons and complete driver timing remain open. Native

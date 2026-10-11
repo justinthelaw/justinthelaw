@@ -3,7 +3,7 @@ import { buildTypeContextModifier, isPhysicalType, neutralTypeModifier, validate
 
 /** @typedef {import('./type-context.js').TypeContext} TypeContext */
 /** @typedef {import('./type-context.js').TypeModifier} TypeModifier */
-/** @typedef {Readonly<{guts:boolean,attackerNegativeStatus:boolean,hugePower:boolean,purePower:boolean,hustle:boolean,plus:boolean,minus:boolean,sameSidePlus:boolean,sameSideMinus:boolean,intimidate:boolean,marvelScale:boolean,defenderNegativeStatus:boolean}>} StatAbilities */
+/** @typedef {Readonly<{guts:boolean,attackerNegativeStatus:boolean}>} StatAbilities */
 /** @typedef {Readonly<{rawOffense:number,rawDefense:number,movePower:number,offenseStage:number,defenseStage:number,offensiveMultiplierQ8:number,defensiveMultiplierQ8:number,flashFireBoost:number,skullBash:boolean,abilities:StatAbilities}>} StatContext */
 /** @typedef {Readonly<{moveChance:number,focusEnergy:boolean,typeAdvantageMaster:boolean,battleArmor:boolean,shellArmor:boolean}>} CriticalContext */
 /** criticalRoll is null precisely when armor skips that draw.
@@ -32,7 +32,7 @@ function stageFactor(table, stage) {
 /** @param {StatContext} stats @returns {void} */
 function validateStats(stats) {
   const a = stats.abilities;
-  requireBooleans([stats.skullBash, a.guts, a.attackerNegativeStatus, a.hugePower, a.purePower, a.hustle, a.plus, a.minus, a.sameSidePlus, a.sameSideMinus, a.intimidate, a.marvelScale, a.defenderNegativeStatus]);
+  requireBooleans([stats.skullBash, a.guts, a.attackerNegativeStatus]);
   requireInteger(stats.rawOffense, 0, 999, 'raw offense');
   requireInteger(stats.rawDefense, 0, 999, 'raw defense');
   requireInteger(stats.movePower, 0, 32767 - stats.rawOffense, 'boosted move power');
@@ -44,34 +44,29 @@ function validateStats(stats) {
 }
 
 /** Accumulate integer ratios, divide once per stat. R Guts intentionally has no physical guard.
- * @param {number} offense @param {number} defense @param {boolean} physical
- * @param {StatAbilities} abilities @param {number} powerRoll @returns {{offense:number,defense:number}} */
-function adjustAbilities(offense, defense, physical, abilities, powerRoll) {
+ * @param {number} offense @param {number} defense
+ * @param {StatAbilities} abilities @returns {{offense:number,defense:number}} */
+function adjustAbilities(offense, defense, abilities) {
   let numerator = 1;
-  let denominator = 1;
+  const denominator = 1;
   if (abilities.guts && abilities.attackerNegativeStatus) numerator *= 2;
-  if (physical && powerRoll < 33 && (abilities.hugePower || abilities.purePower)) { numerator *= 3; denominator *= 2; }
-  if (physical && abilities.hustle) { numerator *= 3; denominator *= 2; }
-  if (!physical && abilities.plus && abilities.sameSideMinus) { numerator *= 15; denominator *= 10; }
-  if (!physical && abilities.minus && abilities.sameSidePlus) { numerator *= 15; denominator *= 10; }
-  if (physical && abilities.intimidate) { numerator *= 4; denominator *= 5; }
   const adjustedOffense = Math.trunc(offense * numerator / denominator);
-  const adjustedDefense = physical && abilities.marvelScale && abilities.defenderNegativeStatus ? Math.trunc(defense * 3 / 2) : defense;
+  const adjustedDefense = defense;
   // These feed original integer conversion; invalid enlarged values fail, never wrap.
   requireInteger(adjustedOffense, 0, 32767, 'adjusted offense');
   requireInteger(adjustedDefense, 0, 32767, 'adjusted defense');
   return { offense: adjustedOffense, defense: adjustedDefense };
 }
 
-/** @param {NormalDamageInput} input @param {boolean} physical @param {number} powerRoll */
-function prepareStats(input, physical, powerRoll) {
+/** @param {NormalDamageInput} input @param {boolean} physical */
+function prepareStats(input, physical) {
   const s = input.stats;
   const offenseStage = clamp(s.offenseStage + (input.targetEffectsApply && input.type.moveType === 'Fire' ? s.flashFireBoost : 0), 0, 20);
   const defenseStage = clamp(s.defenseStage + Number(physical && s.skullBash), 0, 20);
   let offense = integerPartQ8(mulQ(mulQ((s.rawOffense + s.movePower) * Q8, stageFactor(ATTACK_STAGE_Q8, offenseStage), 8), s.offensiveMultiplierQ8, 8));
   const defense = integerPartQ8(mulQ(mulQ(s.rawDefense * Q8, stageFactor(DEFENSE_STAGE_Q8, defenseStage), 8), s.defensiveMultiplierQ8, 8));
   offense = clamp(offense, 0, 999);
-  const adjusted = adjustAbilities(offense, defense, physical, s.abilities, powerRoll);
+  const adjusted = adjustAbilities(offense, defense, s.abilities);
   return { offenseStage, defenseStage, offenseBeforeAbilities: offense, defenseBeforeAbilities: defense, ...adjusted };
 }
 
@@ -114,8 +109,8 @@ export function calculateNormalDamage(input) {
     requireInteger(rolls.criticalRoll, 0, 99, 'critical roll');
   }
   const physical = isPhysicalType(input.type.moveType);
-  const stats = prepareStats(input, physical, rolls.sharedPowerRoll);
-  const wildRawOffense = input.teamMember ? null : adjustAbilities(input.stats.rawOffense, 1, physical, input.stats.abilities, rolls.sharedPowerRoll).offense;
+  const stats = prepareStats(input, physical);
+  const wildRawOffense = input.teamMember ? null : adjustAbilities(input.stats.rawOffense, 1, input.stats.abilities).offense;
   const levelContributionQ16 = wildRawOffense === null ? mulQ(integerToQ16(input.level), 43690, 16) : divQ16(integerToQ16(wildRawOffense), integerToQ16(3));
   const differenceQ16 = divQ16(integerToQ16(stats.offense - stats.defense), integerToQ16(8)) + levelContributionQ16;
   const quadratic = mulQ(mulQ(differenceQ16, differenceQ16, 16), 3276, 16);
