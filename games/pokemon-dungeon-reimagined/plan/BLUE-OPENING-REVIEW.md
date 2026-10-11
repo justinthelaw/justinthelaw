@@ -17,6 +17,29 @@ Three.js runtime, plans and art studies.
 
 ## Current candidate readiness — 2026-10-11
 
+### Mud Sport follow-up
+
+The combined Mud Sport mechanics and uniform two-bank art repack passed the
+complete Node 24 static check. Its 149-file distribution totals 2,829,792 bytes;
+the two banks plus the 53,248-byte Hypnosis reserve use 3,379,200 decoded bytes,
+448,512 fewer than the prior two-bank layout. The source-qualified timer,
+damage, save and atlas contracts are documented in
+`tools/pokemon-dungeon/reference/blue-floor-sports.md`. Mud Sport's late-retry
+path has not been manually cast. Candidate-6 iframe review restored the older
+Volt/Shell B1F save, used Thundershock for 19 damage and a Sunkern defeat,
+awarded 16 EXP to each teammate, and retained 16/17 PP through Quicksave and
+Continue. An independent fresh Relaxed/Boy run produced Psyduck, reached B1F
+with Charmander, spent one Water Sport PP (19/19 to 18/19), and observed its
+expiry message after ten subsequent turns. Neither browser reported warnings
+or errors. Ledgers remain under `mud-sport-browser/` and
+`water-sport-browser/` in the current `.work/blue-ready-20261011/` packet.
+
+The first-attempt audit bounds progression at 2,310 additional EXP, covering
+30 moves at species-specific levels 10-12. Their handlers are present, but
+13 moves currently lack 18 native route effects; three additional stat-change
+effects are also absent. Complete effect/controller admission remains open.
+Handler coverage must not be presented as complete visual parity.
+
 ### Heal Bell follow-up
 
 The candidate-4 manual acceptance below belongs to checkpoint `7b843bc` and
@@ -74,7 +97,7 @@ distribution. These checks do not import or execute game modules.
   `b085c7f577de7d6a3e7564d1e01943b4dae7b4f26f03b7e0d4a6e0deabb58f13`.
 
 For ordinary first-attempt Tiny Woods, every reachable learned move has a
-handler. Repeated losses retain EXP and can reach 17 rejected move IDs across 22
+handler. Repeated losses retain EXP and can reach 16 rejected move IDs across 21
 learnset rows; those paths remain visibly unavailable and are outside normal
 first-attempt acceptance. Exact parity also remains blocked by authored dialogue
 and effects, unresolved Blue-specific title/menu layers and timing, unverified

@@ -58,7 +58,7 @@ export function createDungeon(options,data) {
   const heroData=data.species[options.heroSpeciesId],partnerData=data.species[options.partnerSpeciesId];
   if(!heroData||!partnerData||!['pokemon-001','pokemon-004','pokemon-007','pokemon-025','pokemon-152','pokemon-155','pokemon-158','pokemon-252','pokemon-255','pokemon-258'].includes(options.partnerSpeciesId)||heroData.types.some(t=>t!=='None'&&partnerData.types.includes(t)))throw new Error("This partner shares the hero's type.");
   /** @type {DungeonState} */
-  const state={version:1,floor:1,width:WIDTH,height:HEIGHT,tiles:[],roomIds:[],explored:[],visible:[],rooms:[],stairs:{x:0,y:0},hero:createActor(data,options.heroSpeciesId,'hero',options.heroName??heroData.name,5),partner:createActor(data,options.partnerSpeciesId,'partner',options.partnerName??partnerData.name,5),enemies:[],items:[],money:0,turn:0,floorTurn:0,baseBeat:0,leaderPrepared:false,log:[],status:'playing',rng:createRandomState(seedWords(options.seed)),waterSport:0,nextId:1,pendingLearning:[],tutorials:[],fidelityNotes:['Qualified original-game numerical facts; Blue binary parity is unverified.','Browser PRNG, bounded generation repair, autonomous movement and timing are adapted; cartridge replay parity is not claimed.']};
+  const state={version:1,floor:1,width:WIDTH,height:HEIGHT,tiles:[],roomIds:[],explored:[],visible:[],rooms:[],stairs:{x:0,y:0},hero:createActor(data,options.heroSpeciesId,'hero',options.heroName??heroData.name,5),partner:createActor(data,options.partnerSpeciesId,'partner',options.partnerName??partnerData.name,5),enemies:[],items:[],money:0,turn:0,floorTurn:0,baseBeat:0,leaderPrepared:false,log:[],status:'playing',rng:createRandomState(seedWords(options.seed)),mudSport:0,waterSport:0,nextId:1,pendingLearning:[],tutorials:[],fidelityNotes:['Qualified original-game numerical facts; Blue binary parity is unverified.','Browser PRNG, bounded generation repair, autonomous movement and timing are adapted; cartridge replay parity is not claimed.']};
   generateFloor(state,data,[]);return state;
 }
 /** @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events */
@@ -77,7 +77,7 @@ function generateFloor(state,data,events) {
   }
   const spawns=openingSpawns(geometry,floor.generation,rng);
   state.rng=rng.state;state.tiles=geometry.cells.flat().map(t=>ordinary(t)?1:0);state.roomIds=geometry.cells.flat().map(t=>t.room??-1);state.rooms=geometry.rooms.map(r=>({x:r.bounds.x,y:r.bounds.z,width:r.bounds.width,height:r.bounds.height}));
-  state.explored=Array(WIDTH*HEIGHT).fill(false);state.visible=Array(WIDTH*HEIGHT).fill(false);state.enemies=[];state.items=[];state.floorTurn=0;state.baseBeat=0;state.leaderPrepared=false;state.waterSport=0;state.status='playing';
+  state.explored=Array(WIDTH*HEIGHT).fill(false);state.visible=Array(WIDTH*HEIGHT).fill(false);state.enemies=[];state.items=[];state.floorTurn=0;state.baseBeat=0;state.leaderPrepared=false;state.mudSport=0;state.waterSport=0;state.status='playing';
   state.hero.x=spawns.hero.x;state.hero.y=spawns.hero.y;state.partner.x=spawns.partner.x;state.partner.y=spawns.partner.y;
   state.hero.direction=state.partner.direction='s';
   for(const actor of [state.hero,state.partner]){actor.status={};actor.periodic={poison:0,burn:0,leechSeed:0};actor.stages={attack:10,specialAttack:10,defense:10,specialDefense:10,accuracy:10,evasion:10};actor.physicalOffenseMultiplierQ8=256;actor.specialOffenseMultiplierQ8=256;actor.physicalDefenseMultiplierQ8=256;actor.specialDefenseMultiplierQ8=256;actor.goal=null;actor.leechSource=null;actor.bideDamage=0;actor.skipAction=false;actor.useHeldItem=false;actor.regen=0;actor.abilityVisualFlags=0;}
@@ -386,7 +386,8 @@ function finishBaseBeat(state,events){
   // existing saves retain their recorded order without inventing lost slots.
   flushQueuedMovement(state,events);
   if(!defeated(state)){
-    if(state.waterSport>0)state.waterSport--;
+    if((state.mudSport??0)>0){state.mudSport=(state.mudSport??0)-1;if(state.mudSport===0)message(state,events,"Mud Sport's effect faded.");}
+    if(state.waterSport>0&&!--state.waterSport)message(state,events,"Water Sport's effect faded.");
     if(state.hero.x===state.stairs.x&&state.hero.y===state.stairs.y)state.status='stairs';
   }
 }
@@ -506,9 +507,10 @@ export function validateDungeon(value,data) {
   const finite=/** @param {unknown} n @param {number} lo @param {number} hi */(n,lo,hi)=>typeof n==='number'&&Number.isFinite(n)&&n>=lo&&n<=hi;
   const exactKeys=/** @param {object} object @param {string} keys */(object,keys)=>Object.keys(object).sort().join(',')===keys.split(',').sort().join(',');
   const stateKeys='version,floor,width,height,tiles,roomIds,explored,visible,rooms,stairs,hero,partner,enemies,items,money,turn,floorTurn,log,status,rng,waterSport,nextId,pendingLearning,tutorials,fidelityNotes';
-  const hasBeat=Object.hasOwn(s,'baseBeat'),hasPrepared=Object.hasOwn(s,'leaderPrepared');
-  if(hasBeat!==hasPrepared||!exactKeys(s,hasBeat?`${stateKeys},baseBeat,leaderPrepared`:stateKeys)||hasBeat&&(!integer(s.baseBeat,0,35)||typeof s.leaderPrepared!=='boolean'))return false;
-  if(s.version!==1||s.width!==WIDTH||s.height!==HEIGHT||!integer(s.floor,1,3)||!['playing','stairs','rescued','defeated'].includes(s.status)||!integer(s.turn,0,10000000)||!integer(s.floorTurn,0,1000)||!integer(s.money,0,9999999)||!integer(s.nextId,1,10000000)||!integer(s.waterSport,0,128))return false;
+  const hasBeat=Object.hasOwn(s,'baseBeat'),hasPrepared=Object.hasOwn(s,'leaderPrepared'),hasMudSport=Object.hasOwn(s,'mudSport');
+  const optionalStateKeys=[...(hasBeat?['baseBeat','leaderPrepared']:[]),...(hasMudSport?['mudSport']:[])];
+  if(hasBeat!==hasPrepared||!exactKeys(s,[stateKeys,...optionalStateKeys].join(','))||hasBeat&&(!integer(s.baseBeat,0,35)||typeof s.leaderPrepared!=='boolean'))return false;
+  if(s.version!==1||s.width!==WIDTH||s.height!==HEIGHT||!integer(s.floor,1,3)||!['playing','stairs','rescued','defeated'].includes(s.status)||!integer(s.turn,0,10000000)||!integer(s.floorTurn,0,1000)||!integer(s.money,0,9999999)||!integer(s.nextId,1,10000000)||hasMudSport&&!integer(s.mudSport,0,128)||!integer(s.waterSport,0,128))return false;
   const size=WIDTH*HEIGHT;
   if(!Array.isArray(s.tiles)||s.tiles.length!==size||s.tiles.some(n=>n!==0&&n!==1)||!Array.isArray(s.roomIds)||s.roomIds.length!==size||s.roomIds.some(n=>!integer(n,-1,63)))return false;
   if(!Array.isArray(s.explored)||!Array.isArray(s.visible)||s.explored.length!==size||s.visible.length!==size||s.explored.some(v=>typeof v!=='boolean')||s.visible.some(v=>typeof v!=='boolean'))return false;

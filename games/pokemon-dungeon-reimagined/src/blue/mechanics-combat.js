@@ -59,6 +59,15 @@ function defeated(state) { return state.status==='defeated'; }
  * and the level-one Tiny Woods encounters have complete admitted handlers.
  * @param {MoveData} move */
 export function supportsMove(move) {
+  if(move.id==='move-mud-sport'){
+    const effect=move.effects[0];
+    return move.type==='ground'&&move.power===2&&move.pp===17&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===100&&
+      move.criticalPercent===12&&move.aiWeight===10&&move.chainedHitsRaw===1&&move.range===7&&move.target===3&&move.cutsCorners===false&&
+      move.effects.length===1&&effect?.op==='floor-sport'&&Object.keys(effect).length===5&&effect.sport==='move-dependent-mud-or-water'&&
+      effect.durationBounds?.length===2&&effect.durationBounds[0]===10&&effect.durationBounds[1]===12&&
+      effect.damageMultiplier?.length===2&&effect.damageMultiplier[0]===1&&effect.damageMultiplier[1]===2&&
+      effect.affectedType==='electric-for-mud-fire-for-water';
+  }
   if(move.id==='move-heal-bell'){
     const effect=move.effects[0];
     return move.type==='normal'&&move.power===2&&move.pp===12&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===125&&
@@ -374,7 +383,7 @@ function damageAmount(state,actor,target,move,data,events,visual) {
   if(move.id==='move-low-kick')multiplier=data.species[target.speciesId]?.lowKickMultiplier??256;
   const armored=ability(data,target,'Battle Armor')||ability(data,target,'Shell Armor');
   const result=calculateNormalDamage({
-    type:{moveType:element(move.type),attackerTypes:types(data,actor),defenderTypes:types(data,target),defenderExposed:false,abilities:{wonderGuard:false,torrent:ability(data,actor,'Torrent'),overgrow:ability(data,actor,'Overgrow'),blaze:ability(data,actor,'Blaze')},attackerHp:actor.hp,attackerMaxHp:actor.maxHp,mudSport:false,waterSport:state.waterSport>0,charging:false},
+    type:{moveType:element(move.type),attackerTypes:types(data,actor),defenderTypes:types(data,target),defenderExposed:false,abilities:{wonderGuard:false,torrent:ability(data,actor,'Torrent'),overgrow:ability(data,actor,'Overgrow'),blaze:ability(data,actor,'Blaze')},attackerHp:actor.hp,attackerMaxHp:actor.maxHp,mudSport:(state.mudSport??0)>0,waterSport:state.waterSport>0,charging:false},
     stats:{rawOffense:physical?a.attack:a.specialAttack,rawDefense:physical?t.defense:t.specialDefense,movePower:move.power,offenseStage:actor.stages[physical?'attack':'specialAttack']??10,defenseStage:target.stages[physical?'defense':'specialDefense']??10,offensiveMultiplierQ8:(physical?actor.physicalOffenseMultiplierQ8:actor.specialOffenseMultiplierQ8)??256,defensiveMultiplierQ8:(physical?target.physicalDefenseMultiplierQ8:target.specialDefenseMultiplierQ8)??256,flashFireBoost:0,skullBash:false,abilities:{guts:ability(data,actor,'Guts'),attackerNegativeStatus:NEGATIVE_STATUSES.some(key=>!!actor.status[key])}},
     critical:{moveChance:move.criticalPercent,focusEnergy:!!actor.status.focusEnergy,typeAdvantageMaster:false,battleArmor:armored,shellArmor:false},teamMember:team(actor),leader:actor.id==='hero',integerBelly:Math.floor(actor.belly),level:actor.level,regularAttack:regular,targetEffectsApply:true,reflect:!!target.status.reflect,lightScreen:false,moveEffectMultiplierQ8:multiplier,
     rolls:actor.id!=='hero'&&Math.floor(actor.belly)===0?null:{sharedPowerRoll:draw(state,100),criticalRoll:armored?null:draw(state,100),varianceRoll:draw(state,16384)},
@@ -528,10 +537,13 @@ export function attack(state,actor,slot,data,events) {
       if(!hits(state,actor,target,move.accuracyBeforeEffect,data)){message(state,events,`${target.name} avoided the move!`,{kind:'miss',actorId:actor.id,accuracy:1,target:captureActor(target)});continue;}
       // Native unk158 is set after accuracy 1, before the handler.
       secondaryGateReady.add(target);
-      if(move.id==='move-water-sport'){
+      if(move.id==='move-mud-sport'||move.id==='move-water-sport'){
         // AccuracyCalc draws even for an always-hit self target, before this
-        // handler's duration draw. Keep the existing duration/end-beat owner.
-        state.waterSport=11+draw(state,2);message(state,events,'Fire-type moves were weakened!');continue;
+        // shared handler's duration draw. Keep one duration/end-beat owner.
+        const duration=11+draw(state,2);
+        if(move.id==='move-mud-sport'){state.mudSport=duration;message(state,events,'Mud Sport came into effect!');}
+        else{state.waterSport=duration;message(state,events,'Fire-type moves were weakened!');}
+        continue;
       }
       // Exact Tiny Woods admission requires clear weather; no weather-changing
       // move is enabled. Reuse HealTargetHP's existing receipt and result owner.

@@ -7,8 +7,8 @@ export function verifyNativeBattleMetadata(data,bank='basic',format='source'){
   if(format!=='source'&&format!=='runtime')throw Error('Unknown native battle metadata format.');
   const source=format==='source';
   if(bank!=='basic'&&bank!=='initial')throw Error('Unknown native battle bank.');
-  const ids=bank==='basic'?[8,9,10,11,22,37,138,144,236,274,317,137,399,404,423,83,14,205,50]:[7,15,21,128,150,225,287,312,402,425,271,52];
-  const files=bank==='basic'?['efob000','efob007','efob053','efob054','efob058','efob119','efob121','efob135']:['efob000','efob020','efob023','efob051','efob073','efob081','efob113','efob125'];
+  const ids=bank==='basic'?[8,9,10,11,22,37,138,144,236,274,317,137,399,404,423,83,14,205,50,180,181]:[7,15,21,128,150,225,287,312,402,425,271,52];
+  const files=bank==='basic'?['efob000','efob007','efob022','efob053','efob054','efob058','efob119','efob121','efob135']:['efob000','efob020','efob023','efob051','efob073','efob081','efob113','efob125'];
   if(data.schemaVersion!==(source?2:3)||data.width!==512||!integer(data.height,1,1024)||data.width*data.height*4>2*1024*1024||data.directions?.join(',')!=='s,se,e,ne,n,nw,w,sw'||!Array.isArray(data.poses)||!integer(data.poses.length,1,512)||!Array.isArray(data.effects)||data.effects.length!==ids.length)throw Error('Invalid selected native battle inventory.');
   for(const pose of data.poses){
     if(!Array.isArray(pose.layers)||!integer(pose.layers.length,1,4))throw Error('Native battle pose bounds are invalid.');

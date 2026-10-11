@@ -7,7 +7,7 @@ const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
 /** Selected opening effects; Hypnosis BG has its own owner.
  * @type {readonly BankSpec[]} */
 const BANKS=Object.freeze([
-  {id:'basic',path:'battle-effects',ids:[8,9,10,11,22,37,138,144,236,274,317,137,399,404,423,83,14,205,50]},
+  {id:'basic',path:'battle-effects',ids:[8,9,10,11,22,37,138,144,236,274,317,137,399,404,423,83,14,205,50,180,181]},
   {id:'initial',path:'battle-effects-initial',ids:[7,15,21,128,150,225,287,312,402,425,271,52]},
 ]);
 const JSON_LIMIT=128*1024,PNG_LIMIT=256*1024,MAX_BANKS=3,MAX_DECODED_BYTES=4*1024*1024;

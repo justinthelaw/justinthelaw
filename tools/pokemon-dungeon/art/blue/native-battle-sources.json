@@ -7,8 +7,8 @@
   "rights": "Original Pokémon / Chunsoft / Nintendo imagery and data. Provenance does not assert a rights-holder reuse grant.",
   "archive": {
     "path": "native-battle-source.tar.gz",
-    "bytes": 161521,
-    "sha256": "01e31c3f2f9be50ec74da1787e616b88db54009f2264cba2b926c38c7844f9a7"
+    "bytes": 162617,
+    "sha256": "73cc1a3d9908efce46938e8a49ae0e2bf50bcc115566c9a6b911182c239424ff"
   },
   "files": [
     {
@@ -226,6 +226,24 @@
       "bytes": 194,
       "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob007.pal"
+    },
+    {
+      "path": "src/data/effects/efob022.c",
+      "bytes": 11415,
+      "sha256": "5826128dd6edff0e3599046c1c327b623b5ccaaa059f10a27fa8dec9927898b6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob022.c"
+    },
+    {
+      "path": "data/effects/efob022.png",
+      "bytes": 275,
+      "sha256": "640a5c976ee6ab74430b258fb82c142b7559e8adb9eb8f0a17b0161733858e54",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob022.png"
+    },
+    {
+      "path": "data/effects/efob022.pal",
+      "bytes": 177,
+      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob022.pal"
     },
     {
       "path": "src/data/effects/efob053.c",
