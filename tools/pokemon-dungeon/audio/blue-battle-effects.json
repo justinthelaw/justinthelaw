@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "edition": "Red Rescue Team comparative",
   "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
-  "qualification": "Five short SE2 PSG control sequences for raw zero, accuracy misses, regular attack and actual ground pickups. Blue playback, DS clock, waveform phase and mix are unverified. No commercial music, PCM samples or ROM are included.",
+  "qualification": "Six short SE2 PSG control sequences for raw zero, accuracy misses, regular attack, actual ground pickups and the thrower spin. Blue playback, DS clock, waveform phase and mix are unverified. No commercial music, PCM samples or ROM are included.",
   "sources": [
     {
       "path": "src/dungeon_damage.c",
@@ -155,6 +155,12 @@
       "bytes": 12407,
       "sha256": "988f7b1f395dcf419271ce857ca6fb0954bea3b5104ca40852726fb1cbbc7deb",
       "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/include/gba/m4a_internal.h"
+    },
+    {
+      "path": "sound/songs/seq_356.s",
+      "bytes": 1419,
+      "sha256": "866cc291c44603b8eca00d747eee00a010a6a4d2e5e99de57d4a3095dddd3e0a",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_356.s"
     }
   ],
   "clock": {
@@ -638,5 +644,218 @@
         }
       ]
     }
-  ]
+  ],
+  "throwSpin": {
+    "id": "effect-throw-spin",
+    "sequence": 356,
+    "sourceName": "EFF_ANIM_12",
+    "player": "SE2",
+    "voice": 60,
+    "duty": 0.5,
+    "pan": 0,
+    "envelope": [
+      0,
+      0,
+      15,
+      0
+    ],
+    "priority": 100,
+    "reverb": 0,
+    "tempoIncrement": 200,
+    "trackTicks": 15,
+    "volumeChanges": [
+      [
+        1,
+        45
+      ],
+      [
+        2,
+        49
+      ],
+      [
+        3,
+        60
+      ],
+      [
+        4,
+        64
+      ],
+      [
+        6,
+        70
+      ],
+      [
+        9,
+        57
+      ],
+      [
+        10,
+        55
+      ],
+      [
+        11,
+        45
+      ],
+      [
+        12,
+        29
+      ],
+      [
+        13,
+        6
+      ]
+    ],
+    "notes": [
+      [
+        1,
+        72,
+        1,
+        112
+      ],
+      [
+        2,
+        77,
+        1,
+        116
+      ],
+      [
+        3,
+        82,
+        1,
+        116
+      ],
+      [
+        4,
+        85,
+        1,
+        120
+      ],
+      [
+        5,
+        88,
+        1,
+        127
+      ],
+      [
+        6,
+        90,
+        1,
+        127
+      ],
+      [
+        7,
+        85,
+        1,
+        127
+      ],
+      [
+        8,
+        82,
+        1,
+        127
+      ],
+      [
+        9,
+        78,
+        1,
+        127
+      ],
+      [
+        10,
+        76,
+        1,
+        127
+      ],
+      [
+        11,
+        72,
+        1,
+        127
+      ],
+      [
+        12,
+        69,
+        1,
+        127
+      ],
+      [
+        13,
+        65,
+        1,
+        127
+      ]
+    ],
+    "controls": [
+      {
+        "tick": 0,
+        "command": "KEYSH",
+        "value": 0
+      },
+      {
+        "tick": 0,
+        "command": "TEMPO",
+        "value": 100
+      },
+      {
+        "tick": 0,
+        "command": "VOICE",
+        "value": 60
+      },
+      {
+        "tick": 1,
+        "command": "VOL",
+        "value": 45
+      },
+      {
+        "tick": 1,
+        "command": "PAN",
+        "value": 0
+      },
+      {
+        "tick": 2,
+        "command": "VOL",
+        "value": 49
+      },
+      {
+        "tick": 3,
+        "command": "VOL",
+        "value": 60
+      },
+      {
+        "tick": 4,
+        "command": "VOL",
+        "value": 64
+      },
+      {
+        "tick": 6,
+        "command": "VOL",
+        "value": 70
+      },
+      {
+        "tick": 9,
+        "command": "VOL",
+        "value": 57
+      },
+      {
+        "tick": 10,
+        "command": "VOL",
+        "value": 55
+      },
+      {
+        "tick": 11,
+        "command": "VOL",
+        "value": 45
+      },
+      {
+        "tick": 12,
+        "command": "VOL",
+        "value": 29
+      },
+      {
+        "tick": 13,
+        "command": "VOL",
+        "value": 6
+      }
+    ]
+  }
 }

@@ -563,6 +563,89 @@ The native capture has SHA-256 `edae0c4da08e9987a45f37c12f3c152055c6622a22dd56ff
 Browser warning/error logs were empty. This check ends at awakening; the
 earlier Mochi run covers hero naming and the full creation sequence.
 
+The signed checkpoint `c90514bdca4e5d8edbd477d85fbaafe3e4e5fd4a` publishes
+that 149-file composition. Its signature, actual remote/upstream SHA and clean
+worktree were verified; both publication hook stages pass. Game Static Checks, Lint, Playwright and
+CodeQL all pass on that exact head.
+
+A subsequent four-file correction restores moved-nonleader pickup at the
+existing flush/wake boundary while retaining the early empty-held-slot AI gate.
+It shares the existing helper, adds only the source's full-slot arrival message,
+and preserves the twelve-actor result bound, RNG calls, saves and audio owners.
+The full scoped check passes at 149 files / 3,044,051 bytes. Blue identity,
+existing hero mutation order and wrapper presentation timing remain qualified
+in the mechanics reference. The 07:16 frozen build records this revision for
+manual continuation from the saved B3F exit.
+
+Manual 07:16-build continuation restored the same B3F exit state. The hero used
+the ordinary run modifier to step over an Oran Berry without collecting it,
+then moved away once. Flash walked onto that tile and acquired the berry at
+walking completion, before any further player turn. The ground item vanished,
+Flash's held slot updated, no leader tutorial appeared and controls returned.
+The ordinary browser frame has SHA-256
+`1711fe741a6c242151aea06dce263ce92f47b678c5fc567f17096bbcf6439db2`.
+Browser warning/error logs were empty. Full-slot partner money and enemy
+arrivals remain source-reviewed rather than manually sampled in this run.
+
+The same run then completed the three-floor rescue: Caterpie's clearing,
+Butterfree's reunion, the Oran/Pecha/Rawst reward and their departure. The final
+screen offers Adventure Log and Return to top menu, with no town or team
+formation transition. Reunion capture SHA-256 is
+`50bbcc64abe43abdaf59703e8c85da28b95b1120dcbce63f1b4358155b95fa45`;
+completion capture is `cdeb40e26518cf12e008b6d0d4e765a4bd971dab4f4f6673bdea60d79b13c306`.
+The ordinary browser warning/error log remained empty.
+
+Adventure Log correctly paginated the completed team/reward record and the
+214-turn total. Return to top menu followed by Continue restored completion
+directly, without replaying the reunion/reward or opening another dungeon floor.
+
+The Blue touch THROW shortcut now follows the original manual's no-set-item
+regular-attack fallback. It uses the existing combat owner through a distinct
+transient action, preserving A's free partner Talk branch and all input guards.
+Independent source/AST review admits the three-source change; the full scoped
+check passes with 149 runtime files totaling 3,044,194 bytes. Exact original
+Blue partner-facing footage remains unverified. The 07:43 snapshot freezes this
+revision for manual toolbar and fresh-floor checks.
+
+Manual continuation of the 07:43 build entered a fresh B1F with Flint
+(Charmander) and Ripple (Mudkip). A while facing Ripple opened partner Talk;
+THROW in the same direction performed a regular attack with no target.
+Facing an adjacent Pidgey and clicking THROW dealt nine damage. Growl stayed
+at 20/20 PP and Scratch at 22/22. The ordinary browser capture has SHA-256
+`928286bc2a3143a6fc1fa141338d641a6f19408bb10c738f865a3ad87423a621`.
+Quicksave returned to the file menu, and Continue restored the combat position.
+Browser warning/error logs were empty. This is manual behavior evidence;
+ground-Poké throwing and audio output were not tested in this snapshot.
+
+Ground Poké now uses its original no-Toolbox Throw path: whole-pile flight,
+catch eligibility, one-HP uncaught hits, wall/range landing and caught partner
+Use. It shares the existing damage, EXP and drop owners. The review also fixes
+the shared visible-KO pose, blinking body, hidden shadow and retained status
+icons, and corrects equal-depth projectile ordering. The final retained KO
+image, absolute blink phase and direct Blue clipping remain qualified in the
+mechanics reference.
+
+Finite spin/loss audio joins the existing players with a separate two-request
+allowance, preserving other cue budgets. Two further table-pruning passes remove
+1,349 runtime bytes. The full composed Node 24.21 check passes: 103 lint inputs,
+67 strict sources and all factual, asset, provenance and export checks. The
+distribution has 150 files totaling 3,077,411 bytes, leaving 68,317 bytes below
+the cap. The 08:21 snapshot freezes those exact runtime bytes.
+
+Manual review threw 26 Poké into a wall and recovered the intact pile, then
+threw it to Pidgey. The catch log records the full amount; its native capture
+has SHA-256 `425e2310f4db4c5600913c9f73b2271a599895a9cddf04fe2a8b68bc016488e5`.
+Pidgey's subsequent KO awarded EXP and dropped the same pile. Ripple caught it,
+offered Use/Info, had second thoughts on Use and retained all 26 Poké across
+Quicksave/Continue and the B2F transition.
+
+On B2F, throwing another 22 Poké at Ripple's occupied slot dealt exactly one
+HP (30/30 to 29/30) while preserving its original 26 Poké. The ordinary browser
+capture has SHA-256 `23f7abcbdc24c1ba10ce88689d53e546da392cd2195b69f0c1889edad1023d04`.
+Normal controls and Quicksave returned; browser warning/error logs were empty.
+Random misses, failed placement, exact frame phases and audio output remain
+source-reviewed rather than manually established by this run.
+
 ## Fidelity limits
 
 - Dialogue and score remain authored substitutes. Native image reconstruction

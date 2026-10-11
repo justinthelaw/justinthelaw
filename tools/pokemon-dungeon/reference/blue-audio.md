@@ -4,8 +4,9 @@ The browser opening uses the project's original synthesized score and selected
 source-derived effects. It does not contain the Nintendo DS soundtrack. Five
 menu roles use four short PSG effects; regular attack uses one, and accuracy
 misses/raw-zero damage share two more. Actual ground pickups add two PSG cues
-and one PCM cue. Healing, heart and Poké pickup use four public signed-8 PCM
-samples and finite control data.
+and one PCM cue. The finite throw-spin and item-loss catalogs add one PSG
+and one PCM cue. Healing, heart, Poké pickup and item loss use five public
+signed-8 PCM samples and finite control data.
 These are Red Rescue Team comparative evidence until Blue playback is corroborated.
 The scoped bank in `src/blue/audio-bank.js` contains 11 themes and 8 effects;
 its editable source is `tools/pokemon-dungeon/audio/blue-original-score.json`.
@@ -139,7 +140,7 @@ The SE2 player has priority checking disabled, so a new menu request replaces
 its old cue, including scheduled future notes. General menus retain the four-frame
 throttle; dungeon menu wrappers bypass it.
 
-`audio-menu.js` owns at most seven scheduled oscillators and three cached pulse
+`audio-menu.js` owns at most nine scheduled oscillators and three cached pulse
 waveforms. Its voices share the existing 32-voice ceiling with the authored
 synthesizer. Pause, mute, interruption, denial, epoch replacement and disposal
 stop and disconnect both players; retired effects never replay on activation.
@@ -149,8 +150,8 @@ overall mix and exact Blue parity are not established by these comparative facts
 
 ## Source-derived miss and raw-zero effects — 2026-10-11
 
-`audio/blue-battle-effects.json` pins 34 public source files for the two short
-miss/raw-zero PSG sequences, regular attack 351 and pickups 330/331. The same exporter verifies their hashes with `--source-root PATH` and
+`audio/blue-battle-effects.json` pins 35 public source files for the two short
+miss/raw-zero PSG sequences, regular attack 351, pickups 330/331 and spin 356. The same exporter verifies their hashes with `--source-root PATH` and
 adds bounded `BATTLE_EFFECTS` data beside the unchanged menu tuples. The retained
 authored notes are unchanged by these native additions. No PCM, music or ROM data is added.
 
@@ -176,7 +177,7 @@ DS clock, waveform and mix remain unverified.
 
 The two battle roles share the existing SE2 instance with menu sounds. A new
 request replaces its predecessor's scheduled notes. They add one cached duty
-shape and retain their four-note bound within SE2's seven-oscillator maximum and
+shape and retain their four-note bound within SE2's nine-oscillator maximum and
 the shared 32-voice ceiling. All battle roles bypass the
 general menu throttle. Native IDs are admitted explicitly; they have no fake
 authored score entry or synthesized fallback when the voice budget is full.
@@ -224,7 +225,7 @@ segments remain: frames 2/3/4/5/6, divisors 158/210/354/298/198 and envelopes 7/
 The fixed-type PWM correction applies to voice 60. FINE is tick 16/frame 9.
 
 Regular attack schedules five nodes, with one positive segment at a time.
-The unchanged shared SE2 owner now admits up to seven for the pickup cues below. It still replaces pending notes before a new cue, shares 32
+The unchanged shared SE2 owner now admits up to nine for the spin cue below. It still replaces pending notes before a new cue, shares 32
 voices with synth/SE5, preserves menu-only throttle and consumes recognized
 budget denial without an authored fallback. No new duty wave, timer, sample,
 AudioContext or dependency is added. Menu and 342/343 tuples are unchanged.
@@ -234,10 +235,10 @@ its separate SE3/global-envelope proposal has not been admitted.
 
 ## Selected healing and heart PCM — 2026-10-11
 
-`audio/blue-pcm-effects.json` pins 33 public source files at the comparative
-commit above, four sample payloads and three finite control tracks. The original
+`audio/blue-pcm-effects.json` pins 36 public source files at the comparative
+commit above, five sample payloads and four finite control tracks. The original
 healing/heart subset described here retains its three sample payloads and all
-control tuples; the additional Poké pickup is described below. Run
+control tuples; the additional Poké pickup and item loss are described below. Run
 `node scripts/export-blue-pcm-effects.mjs --check` from the authoring package
 to verify the generated data; add `--source-root PATH` to compare all pinned
 source bytes. The exporter uses Node built-ins and never imports or executes
@@ -247,7 +248,7 @@ grant, and no ROM or soundtrack archive was acquired for this admission.
 | API | Native sequence | Voice/sample | Notes | Track end | Final envelope zero |
 | --- | --- | --- | ---: | ---: | ---: |
 | `audio.effect('heal')` | 606 HITPOINT_RECOVER | bank028 voice5 / wave094 | 13 | frame 72 | frame 82 |
-| `audio.effect('heart')` | 614 EFF_HEART | bank026 voices7,8 / waves102,103 | 5 | frame 43 | frame 43 |
+| `audio.effect('heart')` | 614 EFF_HEART | bank 026 voices7,8 / waves102,103 | 5 | frame 43 | frame 43 |
 
 The samples contain 11,080 signed-8 values plus two native interpolation guard
 bytes: wave094 has 6,256 samples and loops [4,448,6,256), wave102 has 2,307 and
@@ -269,8 +270,8 @@ owner. A new SE5 cue replaces attached notes and future notes. FINE detaches
 release tails: 606 can leave two, which later SE5 replacement preserves until
 their finite ends. Pause, mute, blur, visibility loss, denial, retired epochs,
 context replacement and disposal stop all voices including detached tails.
-There are at most 13 newly scheduled PCM sources plus two detached tails, four
-cached buffers and one stereo merger after the pickup admission below. Every source shares the existing 32-voice
+There are at most 13 newly scheduled PCM sources plus two detached tails, five
+cached buffers and one stereo merger after the pickup and item-loss admissions below. Every source shares the existing 32-voice
 ceiling with authored music/effects and SE2. Recognized overload is consumed
 without an authored fallback. No new timer, worklet, network fetch, playback
 queue or gameplay callback is introduced.
@@ -407,15 +408,15 @@ notes create no node. Native register-write oscillator retriggers, Web Audio
 phase/band-limiting, request phase, mix and the Blue clock remain qualified.
 These cues reuse the existing 50% pulse wave; the three cached shapes, shared
 SE2 replacement and menu-only throttle are unchanged. SE2 now reserves at most
-seven finite oscillators within the existing shared 32-voice ceiling.
+nine finite oscillators within the existing shared 32-voice ceiling.
 
 332 adds the pinned public [wave127 literal](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/wave/wave_127.s):
 2,776 signed-8 samples, no loop or guard, source base rate 18,157 Hz and SHA256
 `7aa26cf0e1e5cfebc234ca873890d76c664af21c85b8f666dcdd499e479b898f`.
-The 3,704 base64 characters add 11,104 decoded Float32 bytes; all four buffers
-total 55,424 bytes. Tempo 200 quantizes starts to frames 1/3, source frequencies
+The 3,704 base64 characters add 11,104 decoded Float32 bytes; that four-buffer
+subset totals 55,424 bytes before the item-loss addition below. Tempo 200 quantizes starts to frames 1/3, source frequencies
 to 24,236/18,157 Hz and envelope zero to frames 5/18. There are 20 new stereo rows
-and two frequency rows; the complete PCM data has 20 notes, 230 stereo rows and
+and two frequency rows; the pickup/healing/heart subset retains 20 notes, 230 stereo rows and
 29 frequency rows. The nonloop sample naturally ends before the second gate;
 the existing source callback releases it, with its declared end as a finite
 upper bound. Header reverb 0 preserves native global reverb, not a dry reset.
@@ -433,3 +434,80 @@ No new player, timer, queue, dependency, arbitrary reverb or general sound-bank
 interpreter is added. Source/AST/data checks do not establish audition, native
 hardware mixing or exact Nintendo DS identity; the Blue corroboration limit
 above still applies.
+
+## Finite throw-spin and item-loss catalogs — 2026-10-11
+
+`audio.effect('se356')` maps to `effect-throw-spin` in the existing SE2 catalog;
+`audio.effect('se711')` maps to `effect-item-loss` in SE5. Their ground-Poké
+presentation receipt joins are a separate, jointly reviewed dependency. The
+data/API admission alone does not enable a missing Throw UI or establish a
+complete native throw sequence. No silent placeholder role is added for
+unimplemented SE3 sounds.
+
+[Sequence 356](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_356.s)
+is `EFF_ANIM_12`, bank 027 fixed-type voice 60, 50% pulse, envelope 0/0/15/0 and
+tempo 200. Its thirteen notes and ten volume writes coalesce to nine positive
+one-frame segments at frames 1–9, with divisors 250/188/118/100/88/140/178/198/298
+and envelope levels 4/5/7/7/8/8/6/6/3. FINE is frame 12. The offline exporter
+shares its finite coalescing helper with regular 351; every earlier tuple
+remains exact. Fixed-type PWM rounding is unchanged. SE2 priority checking
+is disabled, so source priority 100 introduces no queue or new priority owner.
+The admitted finite maximum becomes nine scheduled oscillators; only one
+segment is audible at a time. The same three cached pulse shapes and shared
+32-voice admission remain.
+
+The native throw owner first requires `ShouldDisplayEntity`, then uses
+`sub_80421C0`/`sub_8042768` for sound before eight two-frame direction changes.
+The future private receipt belongs at that spin boundary. No sound is inferred
+from a generic throw event or from message text.
+
+[Sequence 711](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_711.s)
+is `EFF_INVOKE_2`, SE5 bank 026 voice 22, envelope 255/255/0/0 and tempo 280. One
+note starts at frame 2, reaches zero envelope at 18 and FINE at 19, without a
+detached tail. Native pan modulation (LFOS 60, MOD 40/MODT 2), BENDR 36 and the
+stepped downward bends produce 17 stereo rows and 12 frequency rows. Its first
+rate is 13,602 Hz and last active rate is 3,476 Hz. These finite rows use the
+existing PCM tuple/player grammar; no runtime interpreter is added.
+
+The new [wave116](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/wave/wave_116.s)
+has 13,629 nonlooping signed-8 samples, no guard, base rate 18,157 Hz and SHA256
+`08444c2f94defc1aa4d46f8667aa228430f69867a1125b6e5435d6f13230eead`.
+Five cached buffers total 109,940 decoded Float32 bytes. The complete encoded
+payload is 36,656 base64 characters; the generated PCM module is 41,043 bytes
+under its explicitly readmitted 41,100-byte limit. Aggregate controls are 21
+notes, 247 stereo rows and 41 frequency rows; per-note limits are 17/12. Previous
+samples and control tuples remain token-exact.
+
+Wave 116 retains its complete source payload. A finite gate bounds playback
+position, but the [Web Audio playback contract](https://www.w3.org/TR/webaudio-1.0/#playback-AudioBufferSourceNode)
+leaves the resampling/interpolation neighborhood to the browser without a
+fixed support radius. A prefix plus an assumed guard cannot establish equal
+output across engines. No sample trim or engine-specific kernel assumption
+is part of this admission.
+
+Effect 144 owns 711 at its first update after failed nearby item placement.
+Its pixel helper has no actor-display gate; ordinary effect-system mode and
+sound gates remain. Out-of-map loss does not create this effect and must not
+select 711. The future receipt must be effect-owned and consumed once. Audio
+continues to its own finite end independently of visual-handle retirement.
+
+The SE5 player retains its 15-voice maximum, thirteen scheduled notes plus at
+most two detached healing tails, and the shared 32 ceiling. Native-before-
+authored admission, recognized overload consumption, replacement, mute,
+pause, blur/visibility loss, stale activation, epoch retirement and disposal
+are unchanged. PCM source differs only by its cue-count comment. The transport,
+synth and SE2 player are byte-identical. Both new roles bypass menu throttle.
+The composed ground-Poké owner uses a
+separate two-request throw counter per delivered batch, only for `se356` and
+`se711`. One ActionResult admits at most one ground-Poké throw, with at most
+one spin and one loss cue. Existing four-other and twelve-pickup counters
+retain their separate budgets. Source order and the silent-return guard are
+unchanged; excess requests are consumed without a deferred replay queue.
+
+333 catch, 336 launch and 607/609 impact remain SE3 noise gaps. They are neither
+PSG nor PCM substitutions. The authored berry-result and impact cues remain
+live for their existing routes; no score note or patch is removed here. Header
+reverb 0 preserves native global state, while browser PCM remains dry. The
+comparative 280896/16777216-second clock, pulse phase/band-limiting, native
+mixing/reverb, browser resampling, Blue identity and audition remain qualified.
+No engine, timer, queue, dependency or arbitrary reverb is added.

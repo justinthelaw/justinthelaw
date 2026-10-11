@@ -143,3 +143,24 @@ call sites and their control flow, exact three-profile admission, retry and
 save projection. The full scoped check passes at 149 files and 3,037,898 bytes.
 This proves equivalence to the selected browser generator, not cartridge RNG
 identity or a measured heap/time improvement.
+
+## Selected motion and mechanics tables
+
+Two further passes remove 1,349 runtime bytes without changing the file count.
+The first removes three unused mechanics entries and 30 Pelipper battle-motion
+properties, saving 541 bytes. Pelipper's opening sprites remain. Saved confusion
+and special-defense fields, shared hit-count logic and direct-damage ownership
+also remain; the Poké throw path needs the direct-damage helper.
+
+The second removes 52 motion properties for 26 species/action pairs outside
+the admitted learnsets, saving 808 bytes. All 233 reachable pairs preserve their
+animation and attachment results. Full learnsets remain, including later levels
+reachable through retries. Regular attack, Struggle and Bide release remain
+universal; saved Bide status is not species-restricted. The exporter requires
+widening this selection before enabling copied moves such as Assist or Mirror
+Move. Their current handlers are unavailable, so they cannot bypass the filter.
+
+Only three art-manifest scalars change with each motion export. No sprite,
+portrait, effect atlas, source archive or save schema is removed. The ignored
+proof packets are `blue-selected-table-prune-20261011-0808` and
+`blue-motion-learnset-prune-20261011-0815` under `tools/pokemon-dungeon/.work/`.

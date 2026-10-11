@@ -22,7 +22,9 @@ export async function exportNativeMotions({emit}){
     const selected={animation:record.unk10,overrides:{},preparation:record.unk0,cast:record.unk2,target:record.unk4,travel:record.unk6,attachmentSet:record.unk14,attachmentOverrides:{},travelSpeed:record.unk6===0?0:record.unkC===1?2:record.unkC===2?3:6};
     for(let index=0;index<record.unk1C;index++){
       const override=overrides.get(record.unk20+index);if(!override)throw Error('Native species-animation table is incomplete.');
-      const speciesId=speciesIds.get(override.species);if(speciesId&&!Object.hasOwn(selected.overrides,speciesId)){selected.overrides[speciesId]=override.unk2;selected.attachmentOverrides[speciesId]=override.unk4;}
+      // No admitted caller copies moves. Widen this closure before enabling
+      // Assist/Mirror Move; saved Bide keeps the action-only IDs universal.
+      const speciesId=speciesIds.get(override.species);if(speciesId&&Object.hasOwn(opening.species,speciesId)&&(['regular-attack','move-struggle','bide-release'].includes(move.id)||opening.species[speciesId].learnset.some(([,id])=>id===move.id))&&!Object.hasOwn(selected.overrides,speciesId)){selected.overrides[speciesId]=override.unk2;selected.attachmentOverrides[speciesId]=override.unk4;}
     }
     for(const animation of [selected.animation,...Object.values(selected.overrides)])if(!Number.isInteger(animation)||animation<0||animation>27&&animation!==98&&animation!==99)throw Error('Unknown native move motion selector.');
     for(const effect of [selected.preparation,selected.cast,selected.target,selected.travel])if(!Number.isInteger(effect)||effect<0||effect>=448)throw Error('Unknown native move effect route.');

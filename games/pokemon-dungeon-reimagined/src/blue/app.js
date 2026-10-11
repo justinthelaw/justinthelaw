@@ -261,7 +261,7 @@ async function main() {
     const announcement=events.filter(event=>event.type==='message'&&event.text).map(event=>event.text).join(' ');
     if(announcement&&announcement!==lastNarration){narration.textContent=announcement;lastNarration=announcement;}
     if(silent)return;
-    let effectSounds=0,pickupSounds=0;
+    let effectSounds=0,pickupSounds=0,throwSounds=0;
     for(const cue of cues){
       if('clearNotice' in cue||!cue.audible)continue;
       if('sound' in cue){
@@ -270,6 +270,10 @@ async function main() {
         // Excess receipts are consumed without any delayed replay queue.
         if(cue.sound==='se330'||cue.sound==='se331'||cue.sound==='se332'){
           if(pickupSounds++<12)audio.effect(cue.sound);
+        }else if(cue.sound==='se356'||cue.sound==='se711'){
+          // One leader-only money throw emits at most one spin and one loss.
+          // Its cues cannot displace existing effects in an instant batch.
+          if(throwSounds++<2)audio.effect(cue.sound);
         }else if(effectSounds++<4)audio.effect(cue.sound);
         continue;
       }
@@ -799,13 +803,16 @@ async function main() {
     if (advanceButton.hidden !== hideAdvance) advanceButton.hidden = hideAdvance;
   }
 
-  /** The initial dungeon has no Toolbox: its visible Throw shortcut is inert.
+  /** Original Blue falls back to a regular attack when no item is set.
+   * The admitted opening has no set-item state.
    * @param {string} id @param {Event} event
    */
   function handleToolbar(id, event) {
     if (!['throw', 'moves', 'items', 'team', 'menu'].includes(id)) return;
-    if (!activate(event) || !isDungeonInput() || clock < eventUntil || id === 'throw') return;
-    screens.focus(); input.clear(); audio.effect('open');
+    if (!activate(event) || !isDungeonInput() || clock < eventUntil) return;
+    screens.focus(); input.clear();
+    if (id === 'throw') { act({ type: 'regularAttack' }); return; }
+    audio.effect('open');
     if (id === 'moves') dungeonMenus.moves('hero');
     else if (id === 'items') dungeonMenus.items();
     else if (id === 'team') dungeonMenus.team();

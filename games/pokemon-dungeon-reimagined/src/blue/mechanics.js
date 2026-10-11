@@ -5,10 +5,10 @@ import { Draws, finalizeGeometry, positions, ordinary, reachable } from '../doma
 import { openingSpawns, spawnScanOrder, arrivalPosition } from './mechanics-generation.js';
 import { cameraSight } from './mechanics-visibility.js';
 import { dropItem, ITEM_NAMES, moneyPile } from './mechanics-items.js';
-import { captureActor, captureItems } from './battle-events.js';
+import { captureActor } from './battle-events.js';
 import { DEFAULT_IQ, IQ_SKILLS, TACTICS, hasIq, tacticFor, considersLineMove, considersLineTarget, canTalk, talkToPartner } from './mechanics-policy.js';
-import { attack, beginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, supportsMove, STATUS_KEYS, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
-import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, message, moveActor, nextStep, open, recordAction, recordCamera, recordSync, team, wakeInitialSleep, DIRECTIONS, VECTORS } from './mechanics-common.js';
+import { attack, damage, beginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, supportsMove, STATUS_KEYS, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
+import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, message, moveActor, nextStep, open, pickup, recordAction, recordCamera, recordSync, team, wakeInitialSleep, wakeNearbyWild, DIRECTIONS, VECTORS } from './mechanics-common.js';
 
 export { resetSecondaryGates } from './mechanics-combat.js';
 
@@ -121,19 +121,6 @@ export function updateVisibility(state) {
 export function getGroundItem(state) { return state.items.find(i=>i.x===state.hero.x&&i.y===state.hero.y)??null; }
 /** @param {HeldItem['kind']} kind */
 export function itemName(kind) { return ITEM_NAMES[kind]; }
-/** @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events @param {boolean} [fromMovement] */
-function pickup(state,actor,events,fromMovement=false) {
-  const item=state.items.find(i=>i.x===actor.x&&i.y===actor.y);if(!item)return false;
-  if(item.kind==='poke'&&team(actor)){if(!fromMovement){recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);}events.push({type:'presentation',presentation:{kind:'pickup',sequence:332,afterWalk:fromMovement}});state.money+=item.amount;message(state,events,`${actor.name} picked up ${item.amount} Poké.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
-  else if(!actor.heldItem){if(!fromMovement){recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);}events.push({type:'presentation',presentation:{kind:'pickup',sequence:team(actor)?330:331,afterWalk:fromMovement}});actor.heldItem={kind:item.kind,amount:item.amount};message(state,events,`${actor.name} picked up ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
-  else {if(actor.id==='hero')message(state,events,`${actor.name} stepped on ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);return false;}
-  state.items=state.items.filter(i=>i.id!==item.id);events.push({type:'item',actorId:actor.id,text:item.kind,presentation:{kind:'sync',actors:[captureActor(actor)],items:captureItems(state),money:state.money,...(fromMovement?{afterWalk:true}:{})}});
-  const tutorial=`item-${item.kind}`;
-  if(actor.id==='hero'&&['poke','oran-berry','pecha-berry'].includes(item.kind)&&!state.tutorials.includes(tutorial)){
-    state.tutorials.push(tutorial);events.push({type:'tutorial',actorId:actor.id,text:item.kind});
-  }
-  return true;
-}
 /** @param {DungeonState} state @param {Actor} actor @param {HeldItem} item @param {GameEvent[]} events */
 function eat(state,actor,item,events) {
   if(item.kind==='poke')return false;
@@ -150,6 +137,55 @@ function berryEffect(state,actor,item,events) {
   if(item.kind==='pecha-berry'){delete actor.status.poison;message(state,events,`${actor.name} is free of poison.`);}
   if(item.kind==='rawst-berry'){delete actor.status.burn;message(state,events,`${actor.name} is free of burns.`);}
   actor.belly=Math.min(actor.maxBelly,actor.belly+5);events.push({type:'item',actorId:actor.id,text:item.kind,presentation:{kind:'sync',actors:[captureActor(actor)],berryResult:true}});
+}
+/** Ordinary ground Poké keeps its complete value. The comparative native
+ * category6 route catches or deals one direct HP; it never uses berryEffect.
+ * Mechanics owns every scan, roll, catch and placement; receipts are detached.
+ * @param {DungeonState} state @param {import('./mechanics-types.js').GroundItem} item
+ * @param {OpeningData} data @param {GameEvent[]} events */
+function throwGroundPoke(state,item,data,events){
+  const actor=state.hero,origin={x:actor.x,y:actor.y},[dx,dy]=VECTORS[actor.direction];
+  recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);
+  state.items=state.items.filter(candidate=>candidate.id!==item.id);recordSync(state,events,[],true);
+  message(state,events,`${actor.name} threw ${item.amount} Poké.`,{kind:'poke-spin',actor:captureActor(actor)});
+  let endpoint={...origin},visualEndpoint={...origin};
+  /** @type {'range'|'wall'|'target'|'outside'} */let stop='range';
+  /** @type {Actor|undefined} */let target;
+  for(let step=1;step<=10;step++){
+    const next={x:origin.x+dx*step,y:origin.y+dy*step};
+    if(next.x<0||next.y<0||next.x>=WIDTH||next.y>=HEIGHT){stop='outside';break;}
+    visualEndpoint=next;
+    if(!open(state,next.x,next.y)){stop='wall';break;}
+    endpoint=next;target=actorAt(state,next.x,next.y);if(target){stop='target';break;}
+  }
+  events.push({type:'presentation',presentation:{kind:'poke-flight',from:Object.freeze(origin),to:Object.freeze(visualEndpoint)}});
+  try{
+    if(stop==='outside'){message(state,events,'The item flew out of reach.');return;}
+    if(target){
+      if(draw(state,100)<90){
+        message(state,events,`${item.amount} Poké hit ${target.name}.`);
+        wakeInitialSleep(state,target,events);
+        const catches=!target.heldItem&&(!team(target)||hasIq(target,'item-catcher'))&&!['sleep','infatuated','bide'].some(status=>!!target.status[status]);
+        if(catches){
+          // Native SE333 is held pending its separate noise-player admission.
+          message(state,events,`${target.name} caught ${item.amount} Poké.`,{kind:'poke-catch'});
+          target.heldItem={kind:'poke',amount:item.amount};recordSync(state,events,[target]);
+          wakeNearbyWild(state,events);return;
+        }
+        events.push({type:'presentation',presentation:{kind:'poke-impact',target:captureActor(target)}});
+        // A successful uncaught hit consumes the whole pile. Preserve prior
+        // experienceMarked/usedMove: giving EXP does not mark an item as a move.
+        damage(state,target,1,data,events,actor,{cause:'item',giveExp:true});return;
+      }
+      message(state,events,`${item.amount} Poké missed ${target.name}.`);
+    }
+    dropItem(state,item,endpoint,events,item.id,result=>{
+      events.push({type:'presentation',presentation:{kind:'poke-drop',from:Object.freeze({...visualEndpoint}),origin:Object.freeze({...endpoint}),direction:actor.direction,landing:result.landing,placed:result.placed}});
+    });
+    recordSync(state,events,[],true);
+  }finally{
+    events.push({type:'presentation',presentation:{kind:'poke-end',actor:captureActor(actor)}});
+  }
 }
 /** Ordinary Tiny Woods berry projectile: all sixteen original starters can
  * throw. No trajectory equipment or special airborne targets occur here.
@@ -249,8 +285,8 @@ function tryAiAttack(state,actor,target,data,events){
 function tryAiMovement(state,actor,target,events){
   if(actor.status.confusion){const [dx,dy]=VECTORS[DIRECTIONS[draw(state,8)]??'s'];if(canStep(state,actor,dx,dy)&&!actorAt(state,actor.x+dx,actor.y+dy)){moveActor(state,actor,actor.x+dx,actor.y+dy,events);return true;}return false;}
   if(Math.floor(actor.belly)===0)return false;
-  // Native AI pickup is its own movement-phase action, not a side effect of
-  // moving onto a tile. This also preserves attack-before-pickup by default.
+  // Standing AI pickup requires an empty held slot before movement selection.
+  // Moved nonleaders separately interact when their queued walking flushes.
   if(!actor.heldItem&&state.items.some(item=>item.x===actor.x&&item.y===actor.y)&&pickup(state,actor,events))return true;
   const tactic=team(actor)?tacticFor(actor):'after-foes';
   const leader=team(actor)&&inSight(state,actor,state.hero)?state.hero:undefined;
@@ -376,7 +412,7 @@ function finishLeaderTurn(state,data,events,swappedActor=null){
 export function performAction(state,action,data) {
   /** @type {GameEvent[]} */const events=[];
   try {const result=/** @param {boolean} consumedTurn */consumedTurn=>({consumedTurn,events,status:state.status});
-    if(!action||!['move','face','moveSlot','attack','struggle','wait','stairs','cancelStairs','eatGround','eatHeld','usePartnerItem','throwGround','pickup','learnMove'].includes(action.type))return result(false);
+    if(!action||!['move','face','moveSlot','attack','regularAttack','struggle','wait','stairs','cancelStairs','eatGround','eatHeld','usePartnerItem','throwGround','pickup','learnMove'].includes(action.type))return result(false);
     if(state.status==='rescued')return result(false);
     if(action.type==='learnMove'){
       const request=state.pendingLearning[0],actor=actors(state).find(a=>a.id===action.actorId);
@@ -410,7 +446,7 @@ export function performAction(state,action,data) {
     // its input loop. AI without PP Checker may spend its action on such a slot.
     if(action.type==='moveSlot'){const move=state.hero.moves[action.slot];if(move&&move.pp<=0){message(state,events,`${move.name} has no PP left!`);return result(false);}}
     const ground=getGroundItem(state);
-    if((action.type==='eatGround'||action.type==='throwGround')&&(!ground||ground.kind==='poke')||action.type==='eatHeld'&&(!state.hero.heldItem||state.hero.heldItem.kind==='poke')||action.type==='usePartnerItem'&&(!state.partner.heldItem||state.partner.heldItem.kind==='poke'||state.partner.hp<=0)||action.type==='pickup'&&(!ground||ground.kind!=='poke'&&state.hero.heldItem))return result(false);
+    if(action.type==='throwGround'&&!ground||action.type==='eatGround'&&(!ground||ground.kind==='poke')||action.type==='eatHeld'&&(!state.hero.heldItem||state.hero.heldItem.kind==='poke')||action.type==='usePartnerItem'&&(!state.partner.heldItem||state.partner.hp<=0)||action.type==='pickup'&&(!ground||ground.kind!=='poke'&&state.hero.heldItem))return result(false);
     const [frontX,frontY]=VECTORS[state.hero.direction];
     const fieldTalk=action.type==='attack'&&canTalk(state.hero)&&canStep(state,state.hero,frontX,frontY)&&actorAt(state,state.hero.x+frontX,state.hero.y+frontY)?.id==='partner';
     // Native leader input intercepts ACTION_TALK_FIELD and resets ACTION_NOTHING
@@ -434,13 +470,13 @@ export function performAction(state,action,data) {
           if(action.skipPickup||action.runRequested&&target?.id==='partner'){const item=getGroundItem(state);if(item)message(state,events,`${state.hero.name} stepped on ${ITEM_NAMES[item.kind]}.`,{kind:'sync',actors:[],afterWalk:true});}
           else pickup(state,state.hero,events,true);
         }
-      }else if(action.type==='attack')attack(state,state.hero,null,data,events);
+      }else if(action.type==='attack'||action.type==='regularAttack')attack(state,state.hero,null,data,events);
       else if(action.type==='struggle')attack(state,state.hero,'struggle',data,events);
       else if(action.type==='moveSlot')attack(state,state.hero,action.slot,data,events);
       else if(action.type==='eatGround'&&ground){eat(state,state.hero,ground,events);state.items=state.items.filter(i=>i.id!==ground.id);recordSync(state,events,[],true);}
       else if(action.type==='eatHeld'&&state.hero.heldItem){eat(state,state.hero,state.hero.heldItem,events);state.hero.heldItem=null;recordSync(state,events,[state.hero]);}
       else if(action.type==='usePartnerItem'){recordAction(events,state.hero.id,'other',state.hero);state.partner.useHeldItem=true;recordSync(state,events,[state.partner]);}
-      else if(action.type==='throwGround'&&ground)throwGroundBerry(state,ground,events);
+      else if(action.type==='throwGround'&&ground){if(ground.kind==='poke')throwGroundPoke(state,ground,data,events);else throwGroundBerry(state,ground,events);}
       else if(action.type==='pickup')pickup(state,state.hero,events);
     }
     if(action.type==='wait'||action.type==='move'&&!events.some(event=>event.type==='move'&&event.actorId===state.hero.id))recordAction(events,state.hero.id,'wait');

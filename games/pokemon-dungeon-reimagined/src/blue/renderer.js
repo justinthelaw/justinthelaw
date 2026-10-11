@@ -195,8 +195,8 @@ function dungeon(context,sprites,terrain,statuses,notice,map,effects,hypnosis,vi
     terrain.stairs(world,x,y);
   }
   for(const item of state.items)if(fullyLit||state.visible[item.y*state.width+item.x])terrain.item(world,item.kind,item.x*TILE+12-cameraX,item.y*TILE+12-cameraY);
-  drawBattleActors(world,sprites,statuses,effects,state,view.battle,cameraX,cameraY,time,{fullyLit,reducedMotion:Boolean(view.reducedMotion)});
-  if(!view.reducedMotion&&view.battle)for(const projectile of view.battle.projectiles)terrain.item(world,projectile.kind,projectile.x-cameraX,projectile.y-cameraY);
+  drawBattleActors(world,sprites,terrain,statuses,effects,state,view.battle,cameraX,cameraY,time,{fullyLit,reducedMotion:Boolean(view.reducedMotion)});
+  if(!view.reducedMotion&&view.battle)for(const projectile of view.battle.projectiles)if(!projectile.native)terrain.item(world,projectile.kind,projectile.x-cameraX,projectile.y-cameraY);
   if(view.showGrid)drawFacingGuide(world,state,cameraX,cameraY,view.gridLines!==false);
   if(!background?.hideMap&&!view.menuTitle&&(view.mapStyle==='clear'||view.mapStyle==='shade'))map.draw(context,state,{style:view.mapStyle,reducedMotion:view.reducedMotion});
   const number=view.battle?.number;

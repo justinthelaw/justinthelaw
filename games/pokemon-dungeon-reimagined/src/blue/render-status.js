@@ -144,12 +144,12 @@ export class StatusSprites {
     if(this.tiles!==state.tiles||time<this.lastTime){this.cycles.clear();this.tiles=state.tiles;this.startedAt=time;}
     this.lastTime=time;this.tick=Math.max(0,Math.floor((time-this.startedAt)*60/1000));
     this.reducedMotion=Boolean(options.reducedMotion);
-    // Healing refreshes the stored low-HP warning after its application.
-    // Other status inputs retain the existing path; no saved masks are added.
+    // Healing and a visible KO retain the prior status HP until their native
+    // refresh/hide boundary. Canonical HP and HUD values never change here.
     if(options.statusHp&&options.statusHp.size>12)throw new RangeError('Status display exceeds the actor bound.');
     const seen=new Set();
     for(const actor of [state.hero,state.partner,...state.enemies.slice(0,10)]){
-      if(actor.hp<=0)continue;seen.add(actor.id);
+      if((options.statusHp?.get(actor.id)??actor.hp)<=0)continue;seen.add(actor.id);
       let cycle=this.cycles.get(actor.id);
       if(!cycle){cycle={selectedBit:null,nextTick:this.tick};this.cycles.set(actor.id,cycle);}
       const mask=statusMask(actor,options.statusHp?.get(actor.id));
@@ -167,9 +167,9 @@ export class StatusSprites {
 
   /** Attachment already includes the selected native pose/frame head offsets.
    * @param {CanvasRenderingContext2D} context @param {Actor} actor
-   * @param {{x:number,y:number}|undefined} attachment */
-  draw(context,actor,attachment){
-    if(this.disposed||!this.image||!attachment||actor.hp<=0||!Number.isFinite(attachment.x)||!Number.isFinite(attachment.y))return;
+   * @param {{x:number,y:number}|undefined} attachment @param {number} [displayedHp] */
+  draw(context,actor,attachment,displayedHp=actor.hp){
+    if(this.disposed||!this.image||!attachment||displayedHp<=0||!Number.isFinite(attachment.x)||!Number.isFinite(attachment.y))return;
     const bit=this.cycles.get(actor.id)?.selectedBit;if(bit===undefined||bit===null)return;
     const record=this.records.get(bit);if(!record)return;
     // Native phase0..3 uploads stagger the shared graphic strips. All strips

@@ -17,7 +17,7 @@ export { moveTargets } from './mechanics-targets.js';
 /** @typedef {import('../domain/rules/type-context.js').ElementType} ElementType */
 /** One synchronous chosen move owns its awards and terminal evidence; no save fields.
  * @typedef {{awards:Map<string,number>,partnerFainted:boolean,leaderFainted:boolean}} MoveExecution */
-/** @typedef {{giveExp?:boolean,falseSwipe?:boolean,execution?:MoveExecution,cause?:'move'|'residual'|'recoil'|'hunger',effectiveness?:0|1|2|3}} DamageOptions */
+/** @typedef {{giveExp?:boolean,falseSwipe?:boolean,execution?:MoveExecution,cause?:'move'|'residual'|'recoil'|'hunger'|'item',effectiveness?:0|1|2|3}} DamageOptions */
 const ACCURACY = [84,89,94,102,110,115,140,153,179,204,256,320,384,409,422,435,448,460,473,486,512];
 const EVASION = [512,486,473,460,448,435,422,409,384,345,256,204,179,153,128,102,89,76,64,51,38];
 /** Authored application messages; internal status keys are not prose.
@@ -25,7 +25,7 @@ const EVASION = [512,486,473,460,448,435,422,409,384,345,256,204,179,153,128,102
 const STATUS_MESSAGES=Object.freeze({
   sleep:'fell asleep!',paralysis:'became paralyzed!',poisoned:'was poisoned!',
   burn:'was burned!',cringe:'began cringing!',confused:'became confused!',
-  confusion:'became confused!',infatuated:'became infatuated!',
+  infatuated:'became infatuated!',
   'leech-seed':'was seeded!','focus-energy':'began focusing energy!',
   whiffer:'began whiffing!',bide:'began storing energy!',
   enraged:'became enraged!',reflect:'was protected by Reflect!',
@@ -37,7 +37,7 @@ const STATUS_CLASSES=[['poison','burn','paralysis'],['cringe','confusion','infat
 const DIRECT_HP_AMOUNTS=Object.freeze({'move-seismic-toss':'user.level','move-dragon-rage':65,'move-endeavor':'max(0,target.currentHP-user.currentHP)'});
 const RECOIL_MOVES=new Set(['move-take-down','move-submission','move-double-edge']);
 const ITEM_MOVES=new Set(['move-pay-day','move-covet']);
-const VARIABLE_HIT_MOVES=new Set(['move-barrage','move-bone-rush','move-double-slap','move-fury-swipes']);
+const VARIABLE_HIT_MOVES=new Set(['move-bone-rush','move-double-slap','move-fury-swipes']);
 const ZERO_DRAW_SECONDARY_MOVES=new Set(['move-mud-slap','move-dynamic-punch']);
 /** Native unk158 survives live actions but is omitted from quicksaves.
  * Actor identity makes a deserialized/new actor start at zero.
@@ -247,7 +247,7 @@ function inflict(state,actor,target,status,data,events) {
 }
 /** Native stat-effect selectors; missing exported artwork is left to presentation.
  * @type {Readonly<Record<string,readonly [number,number]>>} */
-const STAT_EFFECTS={attack:[404,425],specialAttack:[403,402],defense:[399,398],specialDefense:[401,400],accuracy:[397,396],evasion:[14,13]};
+const STAT_EFFECTS={attack:[404,425],specialAttack:[403,402],defense:[399,398],accuracy:[397,396],evasion:[14,13]};
 /** @param {GameEvent[]} events @param {Actor} before @param {Actor} actor @param {number} [effectId] */
 function recordEffect(events,before,actor,effectId) {
   events.push({type:'presentation',presentation:{kind:'effect',before,after:captureActor(actor),...(effectId===undefined?{}:{effectId})}});

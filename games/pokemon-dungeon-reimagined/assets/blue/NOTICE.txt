@@ -88,3 +88,7 @@ Selected short audio effects use public pret/pmd-red source at commit
 Source URLs, hashes and qualification remain in tools/pokemon-dungeon/audio/
 blue-pcm-effects.json and reference/blue-audio.md. These are comparative Red
 facts, not verified Blue playback or a publisher reuse grant.
+
+Item-loss audio additionally uses public source wave116 at the same commit.
+Its full sample hash and finite controls are pinned in blue-pcm-effects.json;
+Blue identity and playback remain unverified.

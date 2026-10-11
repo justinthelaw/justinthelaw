@@ -257,12 +257,11 @@ source separates these rules from the larger native movement implementation.
   ally use, so a partner can throw its berry toward the leader when indicated.
   Explicit Items -> partner -> Use bypasses the need/probability and Item
   Master toggle, while preserving the deferred-action flag.
-- `CanTakeItem` (`src/dungeon_ai_movement.c:106-141`) schedules AI pickup as
-  an action in the movement phase, provided its held slot is empty. Moving
-  onto an item does not also pick it up in the same AI action. Hero pickup
-  retains the separate leader movement behavior. Item Catcher is selectable,
-  but berries are never catchable; the available Tiny Woods projectiles do not
-  gain a false catch effect when that skill is enabled.
+- `CanTakeItem` (`src/dungeon_ai_movement.c:106-141`) schedules standing AI
+  pickup as a movement-phase action when its held slot is empty. A separate
+  `DisplayActions_Async` pass interacts with items after a nonleader walks onto
+  them. The restored late path is described below; the early held-slot gate
+  stays intact. Item Catcher is selectable, but berries remain uncatchable.
 - Optional `tactic` and `enabledIq` fields retain player choices across floors,
   retries and saves. Missing historical fields mean the native initial defaults
   because those opening controls did not previously exist. Admission accepts
@@ -421,3 +420,99 @@ The original ability-specific visual and sound effects are still absent.
 These messages use the existing browser combat-log visibility policy; exact
 native viewport-dependent popup suppression remains a presentation limitation.
 The source remains the pinned comparative Red revision, not Blue binary proof.
+
+## Item interaction after walking — 2026-10-11
+
+The complete comparative path is `ACTION_WALK` → `sub_8074FB0` →
+`sub_8075050` → `DisplayActions_Async` → `TryInteractWithTile` →
+`MonTryPickUpItem`. [The moved-actor pass](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_entity_movement.c#L245)
+runs after walking and waking, visits the leader first, then moved nonleaders
+in active slot order. Its nonleader call has no held-slot or visibility gate.
+[The item owner](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_ai_items.c#L429)
+handles team Poké before held slots. A partner can therefore collect money
+while holding a berry; an occupied ordinary or wild held slot instead produces
+the stepped-on-item message without sound or acquisition.
+
+The browser restores that nonleader pass at the existing movement flush. A
+local set identifies movement since the previous flush, then surviving partner
+and wild slots are visited once after the existing wake pass. The single pickup
+helper is shared with existing calls. Failed-slot arrival messages include
+nonleaders; the standing AI gate remains unchanged. Swapped partners retain
+their skip flag, preserving the twelve-pickup result bound. No new random draw,
+action, wait, saved field, callback or audio owner is introduced.
+
+This corrects the earlier inference that AI movement could not also collect an
+item. It does not establish Blue binary identity. The hero's existing canonical
+pickup still occurs before the wake pass, with deferred presentation. Existing
+nonwalking wrappers can place late receipts after their camera/cursor work;
+the correction adds no wait and does not claim exact native pre-wrapper timing.
+The source's separate DS/debug comment and broader end-effect scheduling remain
+qualified. Source pins, owner/AST comparisons and independent admission are
+preserved in the ignored `blue-late-pickup-implementation-20261011-0708` packet.
+
+## Blue touch THROW fallback — 2026-10-11
+
+The [original Blue manual, printed p12 / PDF page7](https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf#page=7)
+specifies a regular attack when the touch THROW icon has no set item. Opening
+Tiny Woods has no Toolbox or set-item state. The earlier inert toolbar behavior
+was an unsupported inference from that absence; Red's stubbed touch inputs do
+not establish the Blue fallback.
+
+The toolbar now emits a transient `regularAttack` action to the existing combat
+owner before menu-opening audio. Keyboard and virtual A retain their existing
+`attack` action and free partner Talk interception. The new tag adds no save
+field, move, damage rule, PP use, input queue or scheduler. Normal ally exclusion
+and confusion behavior remain with the existing target owner. All activation,
+phase, Help, camera, presentation, deadline and stale-click checks remain.
+
+The manual plus native action separation supports the direct-attack distinction;
+no original Blue footage of THROW facing a partner has been established. Ground
+Throw remains a separate item-menu action. The three-source correction and its
+independent whole-file AST proof are preserved in the ignored
+`blue-toolbar-fallback-implementation-20261011-0738` packet.
+
+## Ground Poké before the Toolbox
+
+Ground Poké offers Get/Throw/Info in the original no-Toolbox command branch.
+Normal held pages use unsigned indices 144–147, not the separate held index 129:
+leader-held Poké is Info only, while partner-held Poké permits Use and then the
+existing Second Thoughts action without consuming it. Berry commands remain
+Eat/Info for the leader and Use/Info for the partner. Nintendo's original Blue
+manual places the Toolbox after rescue-team formation; its general item list
+does not establish pre-Toolbox transfer commands.
+
+The [pinned comparative Red projectile owner](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_projectile_throw.c)
+uses ten ordinary straight tiles, one 90-percent hit draw at the first eligible
+actor, wall-entry animation before logical rollback, and whole-pile catch/drop.
+The [item action owner](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_item_action.c)
+lets an eligible empty-handed wild catch money; team members require Item
+Catcher. Initial sleep ends first. Timed sleep, infatuation and Bide block the
+catch in this opening; paralysis, confusion and cringe do not. An uncaught pile
+is consumed for one neutral direct HP, independent of value, without changing
+prior EXP marks or invoking contact abilities. The shared HP/EXP/faint/drop
+owners continue to apply.
+
+The [drop owner](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_items.c)
+chooses its first eligible offset even when the pool refuses spawning. Its hop
+uses 24 integer interpolation/sine steps plus one settle frame; a missing landing
+candidate produces no hop. Loss uses the source X-position macro on both coordinates plus
+the throw-direction offset. Native item impact8/neutral10/loss144 artwork is
+already shipped; the new route preserves their retained termination updates.
+Spin356 and loss711 have admitted finite audio roles; throw336, catch333 and
+impact607/609 remain held without authored fallback. Red clipping translated to
+Blue's viewport, cosmetic start phase and native PRNG replay remain qualified.
+
+The source/design packet and independent review are retained under ignored
+`.work/blue-item-menu-audit-20261011-0709/` and
+`.work/blue-poke-throw-independent-20261011-0734/`; implementation source hashes,
+whole-module preservation, literal native facts and event/lifecycle limits are
+retained in `.work/blue-poke-throw-implementation-20261011-0740/`. No game/native
+execution or automated playthrough is part of those checks.
+
+The same source review also corrects the shared visible-KO hold: every admitted
+visible damage reaction ending at HP zero keeps its hit animation during the
+thirty-frame blink, suppresses the shadow and retains status-icon display until
+faint. Canonical/HUD HP is zero; no save field or simulation wait is added.
+Non-KO, False Swipe and offscreen paths stay unchanged. The shared global blink
+phase and the existing retirement of the final retained +40 image remain
+explicit projection qualifications.

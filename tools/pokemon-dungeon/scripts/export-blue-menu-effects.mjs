@@ -100,20 +100,24 @@ assert.equal(regular.pan, 0); assert.deepEqual(regular.envelope, [0, 0, 15, 0]);
 assert.equal(regular.tempoIncrement, 280); assert.equal(regular.trackTicks, 16);
 assert.deepEqual(regular.volumeChanges, [[0,52],[0,56],[3,69],[4,73],[6,80],[9,66],[10,62],[11,52],[12,34],[13,7]]);
 assert.deepEqual(regular.notes, [[1,82,1,4],[2,82,1,112],[3,80,1,116],[4,78,1,116],[5,75,1,120],[6,70,1,127],[7,66,1,127],[9,69,1,127],[10,71,1,127],[11,74,1,127],[11,76,1,127],[12,78,1,127],[14,80,1,127],[15,83,1,127]]);
-const regularFrame = tick => Math.floor((tick * battle.tempo.threshold + regular.tempoIncrement - 1) / regular.tempoIncrement);
-const regularNotes = [];
-for (const [index, note] of regular.notes.entries()) {
-  const [tick, key, gate, velocity] = note;
-  const start = regularFrame(tick), next = regular.notes[index + 1];
-  const end = Math.min(regularFrame(tick + gate), regularFrame(next?.[0] ?? regular.trackTicks), regularFrame(regular.trackTicks));
-  // All source ticks in a frame finish before CgbSound. A later same-frame
-  // note replaces this one; a gate ending in its start frame never sounds.
-  if (end <= start) continue;
-  let volume = 0;
-  for (const [at, value] of regular.volumeChanges) if (regularFrame(at) <= start) volume = value;
-  const [divisor, envelope] = pulseFacts(key, velocity, volume, regular.voice);
-  if (envelope > 0) regularNotes.push([start, end - start, divisor, envelope]);
+function shortPulseNotes(cue) {
+  const frame = tick => Math.floor((tick * battle.tempo.threshold + cue.tempoIncrement - 1) / cue.tempoIncrement);
+  const notes = [];
+  for (const [index, note] of cue.notes.entries()) {
+    const [tick, key, gate, velocity] = note;
+    const start = frame(tick), next = cue.notes[index + 1];
+    const end = Math.min(frame(tick + gate), frame(next?.[0] ?? cue.trackTicks), frame(cue.trackTicks));
+    // All source ticks in a frame finish before CgbSound. A later same-frame
+    // note replaces this one; a gate ending in its start frame never sounds.
+    if (end <= start) continue;
+    let volume = 0;
+    for (const [at, value] of cue.volumeChanges) if (frame(at) <= start) volume = value;
+    const [divisor, envelope] = pulseFacts(key, velocity, volume, cue.voice);
+    if (envelope > 0) notes.push([start, end - start, divisor, envelope]);
+  }
+  return notes;
 }
+const regularNotes = shortPulseNotes(regular);
 assert.deepEqual(regularNotes, [[2,1,158,7],[3,1,210,8],[4,1,354,9],[5,1,298,8],[6,1,198,6]]);
 battleCues[regular.id] = { duty: regular.duty, notes: regularNotes };
 
@@ -161,6 +165,15 @@ for (const [index, cue] of battle.pickups.entries()) {
   battleCues[cue.id] = {duty: cue.duty, notes};
 }
 
+
+const spin = battle.throwSpin;
+assert.equal(createHash('sha256').update(JSON.stringify(spin)).digest('hex'), 'bfc11369823ba681b54fcde1b3285998b800f448e7b77284cb6ed1573b17be97', 'Selected spin controls changed; review and repin them.');
+assert.equal(spin.priority, 100);assert.equal(spin.player, 'SE2');
+const spinNotes = shortPulseNotes(spin);
+assert.deepEqual(spinNotes, [[1,1,250,4],[2,1,188,5],[3,1,118,7],[4,1,100,7],[5,1,88,8],[6,1,140,8],[7,1,178,6],[8,1,198,6],[9,1,298,3]]);
+battleCues[spin.id] = {duty: spin.duty, notes: spinNotes};
+assert(Object.values(battleCues).every(cue => cue.notes.length <= 9));
+
 const generated = `/** Generated from pinned comparative Rescue Team SE2 facts; no music or PCM samples. */\n` +
   `export const MENU_EFFECT_SOURCE_SHA256 = '${createHash('sha256').update(bytes).digest('hex')}';\n` +
   `export const MENU_EFFECT_GAIN = ${data.browserGain};\n` +
@@ -175,4 +188,4 @@ const generated = `/** Generated from pinned comparative Rescue Team SE2 facts; 
   `export const BATTLE_EFFECTS = ${JSON.stringify(battleCues)};\n`;
 if (process.argv.includes('--check')) assert.equal(await readFile(output, 'utf8'), generated, 'Regenerate the menu-effect data.');
 else await writeFile(output, generated);
-console.log(`Comparative SE2 effects: four menu sequences, two miss/zero sequences, regular351 and pickups330/331, ten data IDs, at most seven bounded pulse notes; static source/data only${sourceArgument >= 0 ? ', source hashes verified' : ''}.`);
+console.log(`Comparative SE2 effects: four menu sequences, two miss/zero sequences, regular351, pickups330/331 and spin356, eleven data IDs, at most nine bounded pulse notes; static source/data only${sourceArgument >= 0 ? ', source hashes verified' : ''}.`);

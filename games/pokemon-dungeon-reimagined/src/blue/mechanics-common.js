@@ -10,6 +10,7 @@ import { captureActor, captureItems } from './battle-events.js';
 export const DIRECTIONS = ['s', 'sw', 'w', 'nw', 'n', 'ne', 'e', 'se'];
 /** @type {Readonly<Record<Direction,readonly [number,number]>>} */
 export const VECTORS = { s:[0,1], sw:[-1,1], w:[-1,0], nw:[-1,-1], n:[0,-1], ne:[1,-1], e:[1,0], se:[1,1] };
+export const ITEM_NAMES={poke:'Poké','oran-berry':'Oran Berry','pecha-berry':'Pecha Berry','rawst-berry':'Rawst Berry'};
 /** Synchronous move groups never survive a public action/save boundary.
  * @type {WeakSet<DungeonState>} */
 const queuedMovement = new WeakSet();
@@ -105,11 +106,36 @@ export function wakeNearbyWild(state,events) {
  * @param {DungeonState} state @param {GameEvent[]} events */
 export function flushQueuedMovement(state,events) {
   if(!queuedMovement.delete(state))return;
+  // Native moved flags are local to this walk group. The previous marker
+  // bounds the scan; slot order below is independent of reverse scan order.
+  /** @type {Set<string>} */const moved=new Set();
+  for(let index=events.length-1;index>=0;index--){
+    const event=events[index];if(event?.presentation?.kind==='flush')break;
+    if(event?.type==='move'&&event.actorId)moved.add(event.actorId);
+  }
   events.push({type:'presentation',presentation:{kind:'flush'}});
-  if(state.status!=='defeated'&&state.status!=='rescued')wakeNearbyWild(state,events);
+  if(state.status!=='defeated'&&state.status!=='rescued'){
+    wakeNearbyWild(state,events);
+    // DisplayActions' late nonleader pass follows waking, including held-slot
+    // team money. Hero pickup retains its existing deferred presentation.
+    for(const actor of [state.partner,...state.enemies])if(actor.hp>0&&moved.has(actor.id))pickup(state,actor,events,true);
+  }
 }
 /** Floor creation has no inherited pending movement. @param {DungeonState} state */
 export function clearQueuedMovement(state) { queuedMovement.delete(state); }
+/** @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events @param {boolean} [fromMovement] */
+export function pickup(state,actor,events,fromMovement=false) {
+  const item=state.items.find(i=>i.x===actor.x&&i.y===actor.y);if(!item)return false;
+  if(item.kind==='poke'&&team(actor)){if(!fromMovement){recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);}events.push({type:'presentation',presentation:{kind:'pickup',sequence:332,afterWalk:fromMovement}});state.money+=item.amount;message(state,events,`${actor.name} picked up ${item.amount} Poké.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
+  else if(!actor.heldItem){if(!fromMovement){recordAction(events,actor.id,'other',actor);flushQueuedMovement(state,events);}events.push({type:'presentation',presentation:{kind:'pickup',sequence:team(actor)?330:331,afterWalk:fromMovement}});actor.heldItem={kind:item.kind,amount:item.amount};message(state,events,`${actor.name} picked up ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);}
+  else {if(actor.id==='hero'||fromMovement)message(state,events,`${actor.name} stepped on ${ITEM_NAMES[item.kind]}.`,fromMovement?{kind:'sync',actors:[],afterWalk:true}:undefined);return false;}
+  state.items=state.items.filter(i=>i.id!==item.id);events.push({type:'item',actorId:actor.id,text:item.kind,presentation:{kind:'sync',actors:[captureActor(actor)],items:captureItems(state),money:state.money,...(fromMovement?{afterWalk:true}:{})}});
+  const tutorial=`item-${item.kind}`;
+  if(actor.id==='hero'&&['poke','oran-berry','pecha-berry'].includes(item.kind)&&!state.tutorials.includes(tutorial)){
+    state.tutorials.push(tutorial);events.push({type:'tutorial',actorId:actor.id,text:item.kind});
+  }
+  return true;
+}
 /** @param {DungeonState} state @param {Actor} actor @param {Point} goal @returns {Point|null} */
 export function nextStep(state,actor,goal) {
   const start=index(state,actor.x,actor.y), end=index(state,goal.x,goal.y);

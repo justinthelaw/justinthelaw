@@ -112,15 +112,18 @@ export function createDungeonMenus(host) {
     }})),undefined,()=>member('partner'));
   }
 
+  /** @param {import('./mechanics-types.js').HeldItem} item */
+  const itemLabel=item=>item.kind==='poke'?`${item.amount} Poké`:itemName(item.kind);
+
   function items() {
     const state=host.state();if(!state)return;
     cameraMember='hero';
     const groundItem=getGroundItem(state);
     /** @type {MenuChoice[]} */const choices=[];
-    if(groundItem)choices.push({label:`Ground: ${itemName(groundItem.kind)}`,run:()=>ground(items)});
+    if(groundItem)choices.push({label:`Ground: ${itemLabel(groundItem)}`,run:()=>ground(items)});
     for(const actorId of /** @type {const} */(['hero','partner'])){
       const actor=state[actorId];
-      if(actor.heldItem)choices.push({label:`${actor.name}: ${itemName(actor.heldItem.kind)}`,run:()=>held(actorId)});
+      if(actor.heldItem)choices.push({label:`${actor.name}: ${itemLabel(actor.heldItem)}`,run:()=>held(actorId)});
     }
     if(!choices.length){info('You have no items.');return;}
     show('Items',choices,undefined,main);
@@ -145,9 +148,9 @@ export function createDungeonMenus(host) {
     const item=actor.heldItem;
     if(!item){items();return;}
     /** @type {MenuChoice[]} */const choices=[];
-    if(item.kind!=='poke')choices.push({label:actorId==='hero'?'Eat':'Use',run(){close();host.act({type:actorId==='hero'?'eatHeld':'usePartnerItem'});}});
+    if(actorId==='partner'||item.kind!=='poke')choices.push({label:actorId==='hero'?'Eat':'Use',run(){close();host.act({type:actorId==='hero'?'eatHeld':'usePartnerItem'});}});
     choices.push({label:'Info',run:()=>itemInfo(item.kind,()=>held(actorId))});
-    show(`${actor.name}: ${itemName(item.kind)}`,choices,undefined,items);
+    show(`${actor.name}: ${itemLabel(item)}`,choices,undefined,items);
   }
 
   /** @param {()=>void} [back] */
@@ -157,13 +160,13 @@ export function createDungeonMenus(host) {
     const item = getGroundItem(state);
     if (state.hero.x === state.stairs.x && state.hero.y === state.stairs.y) { stairs(); return; }
     if (!item) { info('There is nothing on the ground here.',back); return; }
-    const name=item.kind==='poke'?`${item.amount} Poké`:itemName(item.kind);
+    const name=itemLabel(item);
     const full=item.kind!=='poke'&&state.hero.heldItem!==null;
     /** @type {MenuChoice[]} */ const choices = [{ label: 'Get', disabled:full, run() {if(full)return;close();host.act({type:'pickup'});} }];
     if(item.kind!=='poke'){
       choices.push({label:'Eat',run(){close();host.act({type:'eatGround'});}});
-      choices.push({label:'Throw',run(){close();host.act({type:'throwGround'});}});
     }
+    choices.push({label:'Throw',run(){close();host.act({type:'throwGround'});}});
     choices.push({label:'Info',run:()=>itemInfo(item.kind,()=>ground(back))});
     show(name,choices,undefined,back);
   }

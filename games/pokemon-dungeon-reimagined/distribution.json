@@ -101,6 +101,7 @@
     "src/blue/audio-transport.js",
     "src/blue/audio.js",
     "src/blue/battle-events.js",
+    "src/blue/battle-item-flight.js",
     "src/blue/battle-presentation.js",
     "src/blue/dash.js",
     "src/blue/dungeon-camera.js",
@@ -152,6 +153,6 @@
     "src/domain/rules/type-context.js",
     "src/domain/state/plain.js"
   ],
-  "totalBytes": 3043310,
+  "totalBytes": 3077411,
   "scope": "Opening cinematic and menu through Tiny Woods and Caterpie rescue only"
 }

@@ -6,6 +6,7 @@ import { cameraDiscovery } from './mechanics-visibility.js';
  * Native cosmetic animation-start jitter is deliberately zero here; Blue binary
  * timing and effect routes without exported artwork remain qualified. */
 import {captureWorld} from './battle-events.js';
+import {pokeFlightSamples,pokeDropSamples,pokeLossPosition} from './battle-item-flight.js';
 
 /** @typedef {import('./mechanics-types.js').Actor} Actor */
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
@@ -15,18 +16,19 @@ import {captureWorld} from './battle-events.js';
 /** @typedef {[number,number,number,number,number,number,number]} NativeFrame */
 /** @typedef {{animation:number,preparation:number,cast:number,target:number,travel:number,attachmentSet:number,travelSpeed:number}} MoveEffects */
 /** @typedef {{hypnosisReady:()=>boolean,animationInfo:(speciesId:string,animation:number,direction:string)=>{frames:readonly NativeFrame[],totalTicks:number}|undefined,effectInfo:(id:number,direction:string)=>{ticks:number,attachmentSet:number,loop:boolean,blocksWait:boolean}|undefined,moveEffects:(moveId:string,speciesId:string)=>MoveEffects|undefined,attachmentOffset:(speciesId:string,pose:import('./render-native-sprites.js').PoseOptions,setId:number)=>{x:number,y:number,valid:boolean}|undefined}} BattleAssets */
-/** @typedef {{actor:Actor,x:number,y:number,direction:string,animation?:number,clip:string,elapsedTicks:number,visible:boolean,statusHp?:number}} BattleActor */
+/** @typedef {{actor:Actor,x:number,y:number,direction:string,animation?:number,clip:string,elapsedTicks:number,visible:boolean,statusHp?:number,bodyVisible?:boolean,shadowVisible?:boolean}} BattleActor */
 /** @typedef {{id:number,actorId?:string,x?:number,y?:number,direction:string,elapsedTicks:number,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1}} BattleEffect */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,elapsedTicks:number}} BattleNumber */
-/** @typedef {{kind:import('./mechanics-types.js').ItemKind,x:number,y:number}} BattleProjectile */
+/** @typedef {{kind:import('./mechanics-types.js').ItemKind,x:number,y:number,native?:true,visible?:boolean,shadow?:{x:number,y:number},depthY?:number,fixedDepth?:1}} BattleProjectile */
+/** @typedef {{kind:import('./mechanics-types.js').ItemKind,start:number,end:number}&({from:{x:number,y:number},to:{x:number,y:number}}|{samples:readonly import('./battle-item-flight.js').PokeSample[]})} ProjectileTrack */
 /** @typedef {import('./dungeon-camera.js').CameraSnapshot} CameraSnapshot */
 /** @typedef {{dungeon:DungeonState,actors:BattleActor[],effects:BattleEffect[],projectiles:BattleProjectile[],number:BattleNumber|null,active:boolean,camera:CameraSnapshot,hypnosis:{elapsedTicks:number|null,hideHud:boolean,hideMap:boolean}|null}} BattleFrame */
 /** @typedef {{at:number,ordinal:number,actors?:Actor[],items?:import('./mechanics-types.js').GroundItem[],explored?:boolean[],discovered?:readonly number[],camera?:CameraSnapshot,money?:number,hide?:string,message?:string,statusHp?:{actorId:string,hp:number},clearStatusHp?:string}} Patch */
-/** @typedef {{actorId:string,start:number,end:number,idleAt?:number,animation?:number,clip:string,direction:string,from?:{x:number,y:number},to?:{x:number,y:number},moveEnd?:number,walkEpoch?:number,walkCycle?:number,repeatTicks?:number,rotate?:98|99}} PoseTrack */
+/** @typedef {{actorId:string,start:number,end:number,idleAt?:number,animation?:number,clip:string,direction:string,from?:{x:number,y:number},to?:{x:number,y:number},moveEnd?:number,walkEpoch?:number,walkCycle?:number,repeatTicks?:number,rotate?:98|99,faintAt?:number}} PoseTrack */
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
-/** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[]}} EffectTrack */
+/** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[],hidden?:boolean}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343',audible:boolean}|{clearNotice:true}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711',audible:boolean}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 
@@ -35,7 +37,10 @@ const TICK_MS=1000/60;
 // +13 opportunity wrappers*32 +37 residual calls*16 +12 item actions*16
 // +12 admitted initial-sleep wakes*8 +64 setup =4916. A conservative365
 // camera-boundary allowance gives5281, still below8192. Native wild admission is
-// narrower. This rejection boundary never truncates an admitted event stream.
+// narrower. The leader-only money route adds at most64 pieces, including its
+// one direct-damage call and wake receipts:5345 <8192. Geometry uses at most
+// 60 flight +25 landing samples, without creating an event per frame.
+// This rejection boundary never truncates an admitted event stream.
 const MAX_EVENTS=8192,MAX_ACTORS=12,MAX_ITEMS=64;
 
 /** Source flag bits accumulate as frames are loaded. The first frame is loaded
@@ -70,7 +75,7 @@ export class BattlePresentation {
     /** @type {PoseTrack[]} */this.poses=carry?.poses.map(track=>({...track}))??[];
     /** @type {EffectTrack[]} */this.effects=carry?.effects.map(track=>({...track}))??[];
     /** @type {NumberTrack[]} */this.numbers=[];
-    /** @type {{kind:import('./mechanics-types.js').ItemKind,start:number,end:number,from:{x:number,y:number},to:{x:number,y:number}}[]} */this.projectiles=[];
+    /** @type {ProjectileTrack[]} */this.projectiles=[];
     /** @type {BattleCue[]} */this.cues=[];
     this.patchIndex=0;this.cueIndex=0;this.completed=false;this.endTick=0;this.lastTick=0;
     this.instant=Boolean(options.reducedMotion||before.tiles!==dungeon.tiles||before.floor!==dungeon.floor);
@@ -78,7 +83,7 @@ export class BattlePresentation {
     /** @type {Map<string,Actor>} */this.actors=new Map((floorChanged?this.after.actors:before.actors).map(actor=>[actor.id,actor]));
     this.items=floorChanged?this.after.items:before.items;this.money=before.money;this.log=[...before.log];
     this.explored=[...(floorChanged?this.after.explored:before.explored)];
-    /** Pre-heal HP is retained only for the low-HP warning during its helper. */
+    /** Display HP retains native status flags through healing and visible KO waits. */
     /** @type {Map<string,number>} */this.statusHp=new Map();
     // A new menu/learning receipt can follow a fainted team member. Native
     // HandleFaint's visibility survives that result boundary.
@@ -99,6 +104,8 @@ export class BattlePresentation {
     /** @type {Map<string,MoveEffects>} */const moves=new Map();
     /** @type {Map<string,number>} */const damageHpAt=new Map();
     const hiddenActors=new Set(this.before.actors.filter(actor=>actor.hp<=0).map(actor=>actor.id));
+    /** @type {string|null} */let pokeActorId=null;
+    /** @type {PoseTrack[]} */let pokePoses=[];
     const floorChanged=this.before.tiles!==this.dungeon.tiles||this.before.floor!==this.dungeon.floor;
     // Source-event ordinals order semantic cues. Emission ordinals order
     // visual patches: a flushed walk must apply before its deferred pickup,
@@ -111,7 +118,7 @@ export class BattlePresentation {
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
     /** Native sound receipts are private presentation evidence, never saves.
-     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'} name @param {number} at @param {number} [order] */
+     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'} name @param {number} at @param {number} [order] */
     const sound=(name,at,order=ordinal++)=>{
       if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
       this.cues.push({sound:name,at,ordinal:order,audible:true});
@@ -153,14 +160,17 @@ export class BattlePresentation {
       const start=at+1,end=start+info.ticks+(terminalHold?1:0);
       /** @type {EffectTrack} */const track={id,actorId:actor.id,start,end,direction,attachmentSet:attachmentSet??info.attachmentSet,generic,...(terminalHold?{frameTicks:info.ticks}:{})};
       if(fixed){
-        // sub_8041550 captures attachment and unoffset depth once, after its
-        // TRUE drain. These two newly joined helpers use that static anchor.
+        // Capture the current attachment and unoffset depth once. Each
+        // caller owns its distinct preload/drain; this capture adds no wait.
         const pose=sampledActor(actor,this.poses,at,Math.floor((this.startedAt-this.rawPauseBefore+at*TICK_MS)/TICK_MS));
         const offset=assets.attachmentOffset(actor.speciesId,{direction:pose.direction,animation:pose.animation,clip:pose.clip,ticks:pose.elapsedTicks},track.attachmentSet??-1);
         if(!offset||!Number.isInteger(offset.x)||!Number.isInteger(offset.y))throw new RangeError('Native application attachment is unavailable.');
         const valid=offset.x!==99&&offset.y!==99,feetX=pose.x*24+12,feetY=pose.y*24+16;
         const position={x:feetX+(valid?offset.x:0),y:feetY+(valid?offset.y:0)};
         track.from=position;track.to=position;track.depthY=feetY;track.depthAdd=1;
+        // Thrown item impact keeps the native 99 attachment suppression.
+        // Generic HP effects instead retain their source feet fallback.
+        if(!valid&&!generic)track.hidden=true;
       }
       this.effects.push(track);
       // The native effect owner requests sound once on its first source frame.
@@ -303,6 +313,17 @@ export class BattlePresentation {
       cursor=info.blocksWait?end:start;
     };
 
+    /** The actor camera is sampled once; money never requests target focus. */
+    const itemCamera=()=>{const focus=focusAtCursor();return{x:Math.round(focus.x*24+12-128),y:Math.round(focus.y*24+16-108)};};
+    /** Preserve every source-visible frame, including the final drawn frame
+     * before the next ordinary update removes the manually queued OBJ.
+     * @param {readonly import('./battle-item-flight.js').PokeSample[]} samples */
+    const itemTrack=samples=>{
+      if(samples.length>60)throw new RangeError('Money geometry exceeds its frame bound.');
+      if(samples.length)this.projectiles.push({kind:'poke',start:cursor+1,end:cursor+samples.length+1,samples});
+      cursor+=samples.length;messageAt=cursor;
+    };
+
     for(const event of result.events){
       const order=ordinal++,record=event.presentation;
       if(floorChanged){cue(event,0,order);continue;}
@@ -324,6 +345,57 @@ export class BattlePresentation {
         let walk=walking.get(event.actorId);
         if(!walk){walk={actor:record.actor,segments:[]};walking.set(event.actorId,walk);}
         walk.actor=record.actor;walk.segments.push({from:{...event.from},to:{...event.to}});continue;
+      }
+      if(record?.kind==='poke-spin'){
+        if(pokeActorId!==null)throw new RangeError('Overlapping money throw receipts.');
+        pokeActorId=record.actor.id;patchActors([record.actor],cursor);
+        const visible=displayedActor(record.actor);
+        if(visible){
+          sound('se356',cursor);
+          /** @type {PoseTrack} */const spin={actorId:record.actor.id,start:cursor+1,end:cursor+17,animation:0,clip:'walk',direction:record.actor.direction,rotate:99};
+          /** @type {PoseTrack} */const original={actorId:record.actor.id,start:cursor+15,end:cursor+18,animation:0,clip:'walk',direction:record.actor.direction};
+          // unk166=4 requests action.direction−1 on the second ordinary
+          // source frame after the spin. Message waits share that clock.
+          /** @type {PoseTrack} */const tail={actorId:record.actor.id,start:cursor+18,end:Infinity,animation:0,clip:'walk',direction:rotate(record.actor.direction,-1)};
+          pokePoses=[spin,original,tail];for(const track of pokePoses)pose(track);cursor+=16;
+        }
+        // Native category sound336 is held; no authored throw substitute.
+        messageAt=cursor;cue(event,cursor,order,visible);continue;
+      }
+      if(record?.kind==='poke-flight'){
+        if(pokeActorId===null)throw new RangeError('A money flight lacks its action receipt.');
+        itemTrack(pokeFlightSamples(record.from,record.to,itemCamera()));continue;
+      }
+      if(record?.kind==='poke-impact'){
+        patchActors([record.target],cursor);
+        if(displayedActor(record.target)){
+          cursor+=4;
+          // Native impact8 owns SE607, still held without a noise-player join.
+          cursor=effect(8,record.target,cursor,3,record.target.direction,1000,false,true,true);
+        }
+        messageAt=cursor;continue;
+      }
+      if(record?.kind==='poke-catch'){
+        // SE333 is held. Catch returns without an impact, damage or extra wait.
+        messageAt=cursor;cue(event,cursor,order);continue;
+      }
+      if(record?.kind==='poke-drop'){
+        itemTrack(pokeDropSamples(record.from,record.landing,itemCamera(),visibleTile(record.origin)));
+        if(!record.placed){
+          const info=assets.effectInfo(144,'s');if(!info)throw new RangeError('Money loss artwork is unavailable.');
+          const position=pokeLossPosition(record.origin,record.landing,record.direction),start=cursor+1,end=start+info.ticks+1;
+          this.effects.push({id:144,start,end,direction:'s',frameTicks:info.ticks,from:position,to:position});
+          // Pixel-loss effects have no actor-display gate or four-frame preload.
+          sound('se711',start);cursor=Math.min(end,cursor+100);
+        }
+        messageAt=cursor;continue;
+      }
+      if(record?.kind==='poke-end'){
+        if(record.actor.id!==pokeActorId)throw new RangeError('A money throw lost its actor owner.');
+        // Restore requested normal facing on the next native draw. Future
+        // tail requests must also retire when no visible flight frame elapsed.
+        for(const track of pokePoses)track.end=Math.min(track.end,cursor+1);
+        patchActors([record.actor],cursor);pokePoses=[];pokeActorId=null;messageAt=cursor;continue;
       }
       if(record?.kind==='cast'){
         flushWalk();finishAttackTails();drainEffects();patchActors([record.actor],cursor);
@@ -402,17 +474,20 @@ export class BattlePresentation {
       if(record?.kind==='damage'){
         flushWalk();patchActors([record.before],cursor);
         const visible=displayedActor(record.before),reaction=visible&&(record.cause!=='hunger'||record.before.hp<=1);
+        const knockout=reaction&&record.after.hp===0;
         if(visible&&record.cause!=='hunger')number(record.before,record.amount,false);
-        messageAt=cursor;cue(event,cursor,order,visible);
+        messageAt=cursor;cue(event,cursor,order,visible&&record.cause!=='item');
         const start=cursor;
         if(reaction){
           const id=[8,9,10,11][record.effectiveness]??10;
-          cursor=effect(id,record.before,cursor,3,record.before.direction,100,true);
+          cursor=effect(id,record.before,cursor,3,record.before.direction,100,true,record.cause==='item',record.cause==='item');
           const repeatTicks=(assets.animationInfo(record.before.speciesId,6,record.before.direction)?.totalTicks??10)+1;
-          pose({actorId:record.before.id,start:start+1,end:cursor+10,clip:'hit-light',animation:6,repeatTicks,direction:record.before.direction});
+          pose({actorId:record.before.id,start:start+1,end:cursor+10+(knockout?30:0),clip:'hit-light',animation:6,repeatTicks,direction:record.before.direction,...(knockout?{faintAt:cursor+11}:{})});
         }
+        if(knockout)addPatch({at:cursor,ordinal:ordinal++,statusHp:{actorId:record.before.id,hp:record.before.hp}});
         patchActors([record.after],cursor);damageHpAt.set(record.after.id,cursor);
         if(reaction)cursor+=10;
+        if(knockout)cursor+=30;
         continue;
       }
       if(record?.kind==='survival'){
@@ -496,6 +571,7 @@ export class BattlePresentation {
       if(event.type==='message'){cue(event,messageAt,order);continue;}
       cue(event,cursor,order);messageAt=cursor;
     }
+    if(pokeActorId!==null)throw new RangeError('An unfinished money throw reached presentation settlement.');
     flushWalk();
     // Native attack motions1..4 finish their remaining tail before the next
     // actor. Other motions return to their source idle through sprite playback.
@@ -616,7 +692,7 @@ export class BattlePresentation {
     /** @type {BattleActor[]} */const actors=[];
     for(const actor of this.actors.values())actors.push({...sampledActor(actor,this.poses,tick,Math.floor((now-rawPauseMs)/TICK_MS),!this.hidden.has(actor.id)),statusHp:this.statusHp.get(actor.id)});
     /** @type {BattleEffect[]} */const effects=[];
-    for(const track of this.effects)if(track.start<=tick&&tick<track.end){
+    for(const track of this.effects)if(!track.hidden&&track.start<=tick&&tick<track.end){
       const fraction=(tick-track.start)/(track.end-track.start),position=track.samples?.[Math.floor(tick-track.start)];
       if(track.samples&&!position)throw new RangeError('A native travel sample is missing.');
       if(position&&!position.visible)continue;
@@ -631,7 +707,11 @@ export class BattlePresentation {
     // discovery) read canonical state while nonblocking visual tails continue.
     const dungeon=active?{...this.dungeon,hero,partner,enemies:actors.filter(entry=>entry.actor.id!=='hero'&&entry.actor.id!=='partner'&&entry.visible).map(entry=>entry.actor),items:this.items,money:this.money,log:this.log,explored:this.explored}:this.dungeon;
     const number=finish?null:this.carryNumber(now);
-    const projectiles=this.projectiles.filter(track=>track.start<=tick&&tick<track.end).map(track=>{
+    /** @type {BattleProjectile[]} */const projectiles=this.projectiles.filter(track=>track.start<=tick&&tick<track.end).map(track=>{
+      if('samples' in track){
+        const sample=track.samples[Math.floor(tick-track.start)];if(!sample)throw new RangeError('A money projectile sample is missing.');
+        return {kind:track.kind,native:true,...sample};
+      }
       const fraction=(tick-track.start)/(track.end-track.start);
       return {kind:track.kind,x:track.from.x+(track.to.x-track.from.x)*fraction,y:track.from.y+(track.to.y-track.from.y)*fraction};
     });
@@ -667,7 +747,10 @@ function sampledActor(actor,poses,tick,globalTick,visible=true){
     // untracked idle continuity still uses the shared foreground clock.
     if(ended?.idleAt!==undefined&&ended.end===ended.idleAt&&ended.idleAt<=tick&&ended.direction===direction)elapsedTicks=tick-ended.idleAt;
   }
-  return{actor,x,y,direction,animation,clip,elapsedTicks,visible};
+  // Native body blink uses the shared dungeon clock. Shadow suppression is
+  // independent, and status sprites keep their pre-HP-change display snapshot.
+  const fainting=track?.faintAt!==undefined&&tick>=track.faintAt;
+  return{actor,x,y,direction,animation,clip,elapsedTicks,visible,...(fainting?{bodyVisible:(globalTick&1)!==0,shadowVisible:false}:{})};
 }
 
 /** Closed adjacent Ember/Exeggcute Hypnosis: source attachment recurrence before

@@ -15,13 +15,19 @@
  * | {kind:'target',actorId:string,moveId:string,target:Actor,phase?:'visit'|'repeat-hit'}
  * | {kind:'empty-target',actorId:string,moveId:'move-ember'|'move-hypnosis',from:import('./mechanics-types.js').Point,to:import('./mechanics-types.js').Point,stop:'empty'|'wall'|'actor'|'outside'}
  * | {kind:'move',actor:Actor}
- * | {kind:'damage',before:Actor,after:Actor,amount:number,effectiveness:0|1|2|3,cause:'move'|'residual'|'recoil'|'hunger'}
+ * | {kind:'damage',before:Actor,after:Actor,amount:number,effectiveness:0|1|2|3,cause:'move'|'residual'|'recoil'|'hunger'|'item'}
  * | {kind:'survival',actorId:string}
  * | {kind:'no-damage',actor:Actor,target:Actor}
  * | {kind:'miss',target:Actor,actorId?:string,accuracy?:1|2}
  * | {kind:'heal',before:Actor,after:Actor}
  * | {kind:'heal-result',actor:Actor,amount:number}
  * | {kind:'effect',before:Actor,after:Actor,effectId?:number}
+ * | {kind:'poke-spin',actor:Actor}
+ * | {kind:'poke-flight',from:import('./mechanics-types.js').Point,to:import('./mechanics-types.js').Point}
+ * | {kind:'poke-impact',target:Actor}
+ * | {kind:'poke-catch'}
+ * | {kind:'poke-drop',from:import('./mechanics-types.js').Point,origin:import('./mechanics-types.js').Point,direction:import('./mechanics-types.js').Direction,landing:import('./mechanics-types.js').Point|null,placed:boolean}
+ * | {kind:'poke-end',actor:Actor}
  * | {kind:'pickup',sequence:330|331|332,afterWalk:boolean}
  * | {kind:'sync',actors:Actor[],items?:GroundItem[],money?:number,afterWalk?:boolean,berryResult?:true}
  * | {kind:'faint',actor:Actor}} BattleEvent
