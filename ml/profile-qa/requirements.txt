@@ -3,7 +3,7 @@ bitsandbytes>=0.50.2
 datasets>=5.1.0
 # Upgrade deferred: Hub 2.1.1 conflicts with tokenizers 0.23.2 (<2.0); retain the native compatible Hub 1 resolution.
 # Revisit when tokenizers supports Hub 2: https://pypi.org/pypi/tokenizers/0.23.2/json
-huggingface-hub>=1.33.0
+huggingface-hub>=2.1.1
 onnx>=1.23.2
 onnxruntime>=1.30.0
 onnxscript>=0.7.2
