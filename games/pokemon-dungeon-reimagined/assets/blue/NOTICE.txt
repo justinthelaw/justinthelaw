@@ -37,11 +37,13 @@ from explicitly selected indexed EFO image files, retaining original palettes,
 flips, per-part depth, frame data and attachment positions. Source hashes and
 URLs are recorded in art/blue/native-battle-sources.json and
 art/blue/native-battle-initial-sources.json; decoding evidence is retained beside
-them. The closed 15-effect and initial 10-effect banks load with dungeon artwork
+them. The selected 15-effect and 11-effect banks load with dungeon artwork
 under one aggregate 4 MiB decoded budget and follow the separate pause-aware
 battle timeline. Adjacent Ember retains the comparative source's post-launch
 attachment convergence and separate depth anchor. Effect-specific Blue pixels
-and complete driver timing remain unverified. Later-level sprite effects remain outside the distribution. Hypnosis alone
+and complete driver timing remain unverified. Synthesis is included because it
+can be learned after repeated failed Tiny Woods rescues; its sound 809 is not
+selected. Hypnosis alone
 adds the comparative efbg005 background plane from the same source pin, with
 its source manifest/archive in art/blue/native-hypnosis-sources.json. The
 screen-relative 256x192 crop at 0,0 is an explicit comparative assumption;
@@ -56,7 +58,9 @@ order is explicitly recorded by effectOffsetSetIds. Source sentinel99 is retaine
 
 Field and dungeon sprite palettes remain separate: dungeon brightness uses the
 source31/256 conversion before DS channel expansion. Native scenery has separate
-per-image and map-data provenance in scenery/manifest.json. The four historical
+per-image and map-data provenance in the offline authoring file
+art/blue/native-scenery-metadata.json. The runtime scenery manifest contains only
+the terrain lookup and personality-background playback data. The four historical
 original scene paintings remain recoverable locally but are excluded from the
 runtime manifest and release distribution.
 
@@ -64,7 +68,8 @@ The four company/copyright cards are original Blue captures from Mystery
 Dungeon Franchise Wiki. Each is corroborated against pinned native logo data;
 Blue's copyright placement and the documented missing blank column are handled
 by the boot exporter. URLs, source hashes and pixel evidence are recorded in
-art/blue/native-scenery/boot-sources.json and scenery/manifest.json.
+art/blue/native-scenery/boot-sources.json and
+art/blue/native-scenery-metadata.json.
 
 Reproduce offline using the repository's required Node 24.21.0 toolchain:
   node tools/pokemon-dungeon/art/blue/export.mjs
@@ -73,7 +78,9 @@ Check without writing:
 
 Pinned input archives and readable URL/hash manifests live in art/blue.
 No ROM download, ROM extraction, runtime CDN or runtime network asset source is
-required. The output manifest records exact bytes, dimensions and metadata hashes.
+required. The repository build manifests record exact bytes, dimensions and
+metadata hashes; the unused main asset manifest is excluded from the browser
+distribution.
 
 The North American English Blue file-menu upper logo is reconstructed from the
 already-pinned title capture using the menu capture's foreground mask, solid

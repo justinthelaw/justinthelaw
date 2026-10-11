@@ -4,20 +4,20 @@ const ROOT=new URL('../../assets/blue/',import.meta.url);
 const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
 /** @typedef {'basic'|'initial'} BankId */
 /** @typedef {{id:BankId,path:string,ids:readonly number[],files:readonly string[]}} BankSpec */
-/** Later-level sprite effects are excluded; Hypnosis BG has its own owner.
+/** Selected opening effects; Hypnosis BG has its own owner.
  * @type {readonly BankSpec[]} */
 const BANKS=Object.freeze([
   {id:'basic',path:'battle-effects',ids:[8,9,10,11,22,37,138,144,236,274,317,137,399,404,423],files:['efob000','efob053','efob054','efob119','efob121']},
-  {id:'initial',path:'battle-effects-initial',ids:[7,15,21,128,150,225,287,312,402,425],files:['efob000','efob020','efob023','efob051','efob073','efob081','efob113']},
+  {id:'initial',path:'battle-effects-initial',ids:[7,15,21,128,150,225,287,312,402,425,271],files:['efob000','efob020','efob023','efob051','efob073','efob081','efob113','efob125']},
 ]);
 const JSON_LIMIT=128*1024,PNG_LIMIT=256*1024,MAX_BANKS=3,MAX_DECODED_BYTES=4*1024*1024;
 
-/** @typedef {[number,number,number,number,number,number,number]} EffectFrame */
+/** @typedef {[number,number,number,number]} EffectFrame */
 /** @typedef {{depthOffset:number,rect:[number,number,number,number,number,number]}} EffectLayer */
-/** @typedef {{bounds:[number,number,number,number],layers:EffectLayer[]}} EffectPose */
+/** @typedef {{layers:EffectLayer[]}} EffectPose */
 /** @typedef {{sourceAnimation:number,ticks:number,frames:EffectFrame[]}} EffectSequence */
 /** @typedef {{id:number,name:string,file:string,sourceAnimation:number,directional:boolean,palette:number,attachmentSet:number,loop:boolean,sourceWaitFlag:0|1,blocksWait:boolean,sequences:EffectSequence[]}} EffectRecord */
-/** @typedef {{schemaVersion:1,width:number,height:number,directions:string[],poses:EffectPose[],effects:EffectRecord[]}} EffectMetadata */
+/** @typedef {{schemaVersion:2,width:number,height:number,directions:string[],poses:EffectPose[],effects:EffectRecord[]}} EffectMetadata */
 /** @typedef {{bank:BankId,depthOffset:number,source:[number,number,number,number],offset:[number,number]}} EffectLayerSample */
 /** @typedef {{image:ImageBitmap,poses:EffectPose[]}} LoadedBank */
 /** @typedef {{bank:BankId,record:EffectRecord}} EffectBinding */
@@ -27,22 +27,25 @@ const integer=(/** @type {number} */value,/** @type {number} */min,/** @type {nu
 function metadata(value,bank){
   if(!value||typeof value!=='object')throw Error('Native battle artwork metadata is missing.');
   const data=/** @type {EffectMetadata} */(value);
-  if(data.schemaVersion!==1||data.width!==512||!integer(data.height,1,1024)||data.width*data.height*4>2*1024*1024||data.directions?.join(',')!==DIRECTIONS.join(',')||!Array.isArray(data.poses)||!integer(data.poses.length,1,512)||!Array.isArray(data.effects)||data.effects.length!==bank.ids.length)throw Error('Unsupported native battle artwork.');
+  if(data.schemaVersion!==2||data.width!==512||!integer(data.height,1,1024)||data.width*data.height*4>2*1024*1024||data.directions?.join(',')!==DIRECTIONS.join(',')||!Array.isArray(data.poses)||!integer(data.poses.length,1,512)||!Array.isArray(data.effects)||data.effects.length!==bank.ids.length)throw Error('Unsupported native battle artwork.');
   for(const pose of data.poses){
-    if(!pose||!Array.isArray(pose.bounds)||pose.bounds.length!==4||!pose.bounds.slice(0,2).every(value=>integer(value,-256,256))||!pose.bounds.slice(2).every(value=>integer(value,1,256))||!Array.isArray(pose.layers)||!integer(pose.layers.length,1,4))throw Error('Native effect pose geometry is invalid.');
-    let previous=-129;
+    if(!pose||!Array.isArray(pose.layers)||!integer(pose.layers.length,1,4))throw Error('Native effect pose geometry is invalid.');
+    let previous=-129,left=Infinity,top=Infinity,right=-Infinity,bottom=-Infinity;
     for(const layer of pose.layers){
       const rect=layer?.rect;
       if(!layer||!integer(layer.depthOffset,-128,127)||layer.depthOffset<=previous||!Array.isArray(rect)||rect.length!==6||!rect.every(Number.isInteger)||rect[0]<0||rect[1]<0||!integer(rect[2],1,256)||!integer(rect[3],1,256)||rect[0]+rect[2]>data.width||rect[1]+rect[3]>data.height||!rect.slice(4).every(value=>integer(value,-256,256)))throw Error('Native effect layer exceeds its atlas.');
       previous=layer.depthOffset;
+      left=Math.min(left,rect[4]);top=Math.min(top,rect[5]);
+      right=Math.max(right,rect[4]+rect[2]);bottom=Math.max(bottom,rect[5]+rect[3]);
     }
+    if(!integer(left,-256,256)||!integer(top,-256,256)||!integer(right-left,1,256)||!integer(bottom-top,1,256))throw Error('Native effect pose geometry is invalid.');
   }
   const remaining=new Set(bank.ids);
   for(const record of data.effects){
     if(!record||!remaining.delete(record.id)||typeof record.name!=='string'||!/^[a-z-]+$/.test(record.name)||!bank.files.includes(record.file)||!integer(record.sourceAnimation,0,63)||typeof record.directional!=='boolean'||!integer(record.palette,0,14)||!integer(record.attachmentSet,-1,3)||typeof record.loop!=='boolean'||record.sourceWaitFlag!==(record.id===37?1:0)||typeof record.blocksWait!=='boolean'||record.blocksWait!==(record.sourceWaitFlag===0)||!Array.isArray(record.sequences)||record.sequences.length!==(record.directional?8:1))throw Error('Native effect selection is invalid.');
     for(const[index,sequence]of record.sequences.entries()){
       if(!sequence||sequence.sourceAnimation!==record.sourceAnimation+(record.directional?index:0)||!integer(sequence.ticks,1,32640)||!Array.isArray(sequence.frames)||!integer(sequence.frames.length,1,128))throw Error('Native effect sequence is invalid.');
-      for(const frame of sequence.frames)if(!Array.isArray(frame)||frame.length!==7||!frame.every(Number.isInteger)||!integer(frame[0],0,data.poses.length-1)||!integer(frame[1],1,255)||!frame.slice(2,6).every(value=>integer(value,-32768,32767))||!integer(frame[6],0,255))throw Error('Native effect frame exceeds its bounds.');
+      for(const frame of sequence.frames)if(!Array.isArray(frame)||frame.length!==4||!frame.every(Number.isInteger)||!integer(frame[0],0,data.poses.length-1)||!integer(frame[1],1,255)||!frame.slice(2).every(value=>integer(value,-32768,32767)))throw Error('Native effect frame exceeds its bounds.');
       if(sequence.ticks!==sequence.frames.reduce((sum,frame)=>sum+frame[1],0))throw Error('Native effect duration differs from its frames.');
     }
   }

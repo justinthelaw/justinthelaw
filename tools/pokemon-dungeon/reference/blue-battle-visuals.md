@@ -1,7 +1,7 @@
 # Opening battle visuals
 
 The selected browser renderer uses native actor motions and two closed banks of
-25 sprite effects and the Hypnosis background from the pinned comparative Red
+26 sprite effects and the Hypnosis background from the pinned comparative Red
 tables. A separate timeline
 plays already committed presentation evidence; it never repeats gameplay,
 draws randomness, or writes visual state into saves. This is source-derived
@@ -43,7 +43,7 @@ archive: `efob000`, `efob053`, `efob054`,
 No ROM, game import, battle simulation or scripted playback is used.
 
 The existing basic atlas is 512×532, 21,890 encoded bytes and 1,089,536 decoded
-bytes. Its 24,848-byte metadata preserves 197 pose variants, 149 unique images
+bytes. Its 18,914-byte compact metadata preserves 197 pose variants, 149 unique images
 and 15 effects. Nondirectional effects store one sequence; Growl stores eight.
 The PNG is byte-identical to the reviewed study image. Static validation checks
 the complete source inventory, source hashes, palette domains, source OAM bounds,
@@ -51,19 +51,22 @@ layer rectangles, attachment-set IDs, frame references and duration sums. Limits
 are 256KiB encoded image, 128KiB metadata and 2MiB decoded image; the selected
 distribution's independent 3MiB limit is unchanged.
 
-A second initial bank retains effects 7,15,21,128,150,225,287,312,402 and 425. Its
-seven indexed inputs (`efob000`, `efob020`, `efob023`, `efob051`, `efob073`,
-`efob081`, `efob113`) and their native tables/palettes are pinned by
-`native-battle-initial-sources.json` and a 92,918-byte offline archive. The atlas
-is 512×771: 31,183 PNG bytes, 41,257 metadata bytes and 1,579,008 decoded bytes.
+The second bank retains effects 7,15,21,128,150,225,287,312,402,425 and 271. Its
+eight indexed inputs (`efob000`, `efob020`, `efob023`, `efob051`, `efob073`,
+`efob081`, `efob113`, `efob125`) and their native tables/palettes are pinned by
+`native-battle-initial-sources.json` and a 95,175-byte offline archive. The atlas
+is 512×787: 31,716 PNG bytes, 31,663 metadata bytes and 1,611,776 decoded bytes.
 Absorb and Hypnosis travel retain all eight directional sequences. The original
-basic PNG, metadata and pose evidence are byte-identical to their prior outputs.
+basic PNG and pose evidence remain byte-identical. Compact schema 2 removes only
+zero shadow/flag tails and duplicated pose bounds; validators derive the same
+extent limits from the retained drawing layers.
 
 The initial images cover healing, infatuation, shared cast, Absorb, Water Sport,
-Hypnosis travel, Leer, Helping Hand, special-attack up and attack up. Image
-availability does not imply that every producer callback is already joined.
+Hypnosis travel, Leer, Helping Hand, special-attack up, attack up and Synthesis.
+Image availability does not imply that every producer callback is already joined.
 Healing/full-HP and successful infatuation entry now have explicit receipts below.
-The two selected banks total 2,668,544 decoded bytes under an aggregate 4MiB effect
+The two selected banks total 2,701,312 decoded bytes. Including the 53,248-byte
+Hypnosis background, the aggregate is 2,754,560 bytes under the 4MiB effect
 limit. Per-bank limits stay unchanged. Each effect ID belongs to exactly one
 bank, and every sampled layer keeps that bank's local pose rectangle.
 
@@ -97,7 +100,7 @@ pool, index and signed-coordinate pair.
 
 The literal effect wait flag is retained as `sourceWaitFlag`; `blocksWait` is
 its validated inverse. Sleep effect 37 has flag 1: it starts a 28-tick visual
-tail without blocking its own handle wait. The other 24 selected effects have
+tail without blocking its own handle wait. The other 25 selected effects have
 flag 0. A native TRUE global drain still includes the sleep tail. This distinction
 comes from `sub_800E9A8` and `sub_800E9FC` in the pinned
 [effect_main.c](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_main.c).
@@ -197,7 +200,7 @@ separate from its existing travel sprite 225. The offline exporter retains 54
 pinned source files in a 148,746-byte authoring archive. Every source plane is
 exactly periodic: 22 two-tick phases reduce to 13 opaque 32x32 patterns in a
 2,963-byte 416x32 PNG. The background adds 53,248 decoded bytes; all selected
-effect atlases total 2,721,792 bytes under the unchanged 4MiB aggregate bound.
+effect atlases total 2,754,560 bytes under the unchanged 4MiB aggregate bound.
 Confusion and Psybeam share this source preparation ID but remain outside this
 background admission pending their separate timing review.
 
@@ -245,8 +248,8 @@ its resources. No register-like tint persists after cancellation.
 
 Blue effect-pixel comparisons and complete driver timing remain open. Native
 cosmetic animation-start jitter is deterministically zero; it does not consume
-the gameplay RNG. The selected overlay banks are incomplete: 11 later-level
-sprite effects remain outside the distribution. Hypnosis now has the separate
+the gameplay RNG. The selected overlay banks are incomplete: additional sprite
+effects remain outside the distribution. Hypnosis now has the separate
 BG2 owner above; its direct Blue framing and pixel comparison remain open.
 The source attachment routes are closed to adjacent Ember and Exeggcute's
 adjacent Hypnosis; other travel geometry and Attract's sine trajectory remain

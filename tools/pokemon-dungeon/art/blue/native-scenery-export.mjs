@@ -220,7 +220,14 @@ export async function exportNativeScenery({ check = false } = {}) {
     mapLabel: { bounds: [56,152,184,32], textOrigin: [121,162], text: 'Tiny Woods' },
     records,
   };
-  await emit('manifest.json', Buffer.from(`${JSON.stringify(manifest)}\n`));
+  // Runtime consumers need the terrain lookup and aura playback data only.
+  // Keep the remaining source/proof fields offline without duplicating arrays.
+  const {lookup,...terrainProof}=manifest.terrain;
+  const {provenance,...auraRuntime}=manifest.aura;
+  const runtime={schemaVersion:manifest.schemaVersion,profile:manifest.profile,terrain:{lookup},aura:auraRuntime};
+  const offlineMetadata={...manifest,terrain:terrainProof,aura:{provenance}};
+  await emit(new URL('native-scenery-metadata.json',import.meta.url).href,Buffer.from(`${JSON.stringify(offlineMetadata)}\n`));
+  await emit('manifest.json', Buffer.from(`${JSON.stringify(runtime)}\n`));
   return manifest;
 }
 

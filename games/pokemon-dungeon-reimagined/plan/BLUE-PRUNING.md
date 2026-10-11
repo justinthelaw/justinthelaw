@@ -164,3 +164,30 @@ Only three art-manifest scalars change with each motion export. No sprite,
 portrait, effect atlas, source archive or save schema is removed. The ignored
 proof packets are `blue-selected-table-prune-20261011-0808` and
 `blue-motion-learnset-prune-20261011-0815` under `tools/pokemon-dungeon/.work/`.
+
+## Compact runtime metadata
+
+Four further reductions remove 85,778 runtime bytes before the Synthesis
+correction and attribution updates:
+
+- Cinematic metadata removes 30 unused pose entries and zero frame tails.
+  All 59 frame draw records and both PNGs remain exact; runtime saving is
+  1,024 bytes.
+- Battle metadata removes zero shadow/flag tails and duplicated pose bounds.
+  All 599 frame prefixes, 546 pose unions and 595 layers retain their values.
+  Deriving the same extent checks gives a net saving of 16,508 bytes.
+- The unused 39,565-byte main asset manifest stays in the repository for build
+  inventory/provenance checks and leaves the browser distribution. All 13 fetch
+  sites were reviewed; NOTICE and the live scenery manifest remain.
+- Scenery metadata retains the 2,352-entry terrain lookup and all 65 aura palette
+  frames. The remaining provenance and inventory move into the offline
+  `tools/pokemon-dungeon/art/blue/native-scenery-metadata.json`, without duplicating
+  those arrays. Reassembly is exact and all 14 PNGs remain unchanged; runtime
+  saving is 28,681 bytes.
+
+The source exporters reject nonzero discarded frame fields. Actor animation
+flags, source archives, save schemas and runtime asset limits remain intact.
+Synthesis's separately reviewed mechanics/artwork and corrected NOTICE bring
+the net reduction to 83,106 bytes. The full scoped check passes at 149 files /
+2,994,305 bytes, with 151,423 bytes below the 3 MiB cap. The ignored composition
+ledger is `tools/pokemon-dungeon/.work/blue-pruning-composition-20261011-0913/`.

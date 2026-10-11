@@ -36,7 +36,8 @@ while (pending.length) {
 }
 const spriteManifest = JSON.parse(await readFile(path.join(game, 'assets/blue/manifest.json'), 'utf8'));
 if (!Array.isArray(spriteManifest.records) || spriteManifest.records.length > 64) throw new Error('Invalid opening sprite manifest');
-files.add('assets/blue/manifest.json'); files.add('assets/blue/NOTICE.txt');
+// Keep the build inventory/provenance in the repository, outside the runtime.
+files.add('assets/blue/NOTICE.txt');
 for (const record of spriteManifest.records) {
   if (!/^pokemon-\d{3}\.png$/.test(record.path) || record.path !== `${record.speciesId}.png`) throw new Error('Invalid opening sprite path');
   files.add(`assets/blue/${record.path}`);
@@ -87,7 +88,7 @@ if (spriteManifest.portraitAtlas) {
     files.add('assets/blue/portraits.json');
   }
 }
-const sceneryManifest = JSON.parse(await readFile(path.join(game, 'assets/blue/scenery/manifest.json'), 'utf8'));
+const sceneryManifest = JSON.parse(await readFile(new URL('../art/blue/native-scenery-metadata.json', import.meta.url), 'utf8'));
 if (sceneryManifest.schemaVersion !== 2 || sceneryManifest.profile !== 'blue-native-scenery-v2' || !Array.isArray(sceneryManifest.records) || sceneryManifest.records.length > 32) throw new Error('Invalid opening scenery manifest');
 files.add('assets/blue/scenery/manifest.json');
 for (const record of sceneryManifest.records) {

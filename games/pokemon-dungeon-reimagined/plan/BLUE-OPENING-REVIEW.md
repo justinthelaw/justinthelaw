@@ -646,6 +646,46 @@ Normal controls and Quicksave returned; browser warning/error logs were empty.
 Random misses, failed placement, exact frame phases and audio output remain
 source-reviewed rather than manually established by this run.
 
+The signed checkpoint `5b8ab3caa12a5edfde215dd9d5c9e86cf8863b04` passes Game
+Static Checks, Lint, Playwright and CodeQL. Manual continuation of its frozen
+08:21 runtime completed B2F and B3F, Caterpie's clearing, Butterfree's reunion,
+the three berry rewards and departure. Adventure Log records Flint and Ripple
+with 137 dungeon turns. Return to top menu followed by Continue restores the
+completed ending directly. Browser warning/error logs remained empty. Reunion
+capture SHA-256 is `8724515ef273f3ac7cfa074fd878e02342cd7a69cf99cf23ec62c78c42feab11`;
+completed-save capture is `336c5390b9e8ecd69033d52aaa22962339fc16f1c2d846c5effae6ab8039b0e0`.
+
+The next pruning composition removes unused cinematic pose entries and frame
+fields, duplicated battle bounds, unused effect-frame fields, the shipped build
+manifest and scenery provenance that belongs in the authoring tools. Complete
+source records and attribution remain. All retained frame/layer values and
+terrain/quiz data are independently compared; full scenery metadata reassembles
+exactly from the compact runtime and offline record.
+
+Synthesis now heals 50 HP on the admitted clear-weather Tiny Woods floors,
+using the existing HP owner. Its source-derived effect 271 joins the existing
+bank and retains the final source frame before healing's drain. No save field,
+weather system, audio player or later campaign path is added. This corrects one
+move reachable after prolonged retries; 23 learned move IDs remain unavailable.
+Sound 809, native autonomous self-move selection and original Blue timing remain
+qualified. No higher-level manual acceptance is claimed.
+
+The composed Node 24.21 check passes with 103 lint inputs, 67 strict sources and
+all factual, asset, provenance and export checks. Its 149 runtime files total
+2,994,305 bytes, 83,106 bytes below the preceding checkpoint and 151,423 bytes
+below the cap. The 09:19 snapshot freezes these bytes for manual browser review.
+
+Manual review of the 09:19 export reached the fresh menu, completed eight quiz
+questions, selected calm/Girl Bulbasaur and Charmander, and named the partner
+Ember before naming the hero Fern during awakening. It entered B1F with both
+characters at level 5 and 30/30 HP. Growl completed with no target, spent one PP
+(20 to 19), and returned controls; Tackle remained 22/22. Movement and
+Quicksave/Continue restored the same first-floor position. Browser warning/error
+logs were empty. The native post-Continue capture has SHA-256
+`d564c6175b2dcc844d847effca1bacedc42de72ea7f7144216bf889a669e140c`.
+This targeted check covers compact asset loading and ordinary play. Higher-level
+Synthesis has source review only; full animation/audio identity remains unverified.
+
 ## Fidelity limits
 
 - Dialogue and score remain authored substitutes. Native image reconstruction

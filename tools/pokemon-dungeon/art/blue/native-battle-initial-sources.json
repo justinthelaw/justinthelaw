@@ -11,17 +11,18 @@
     287,
     312,
     402,
-    425
+    425,
+    271
   ],
   "repository": "https://github.com/pret/pmd-red",
   "commit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
   "sourceEdition": "Red Rescue Team comparative",
-  "qualification": "Literal native sprite-effect image, palette, pose and frame data. Blue effect pixels/driver timing remain unverified. Later-level and background effects are outside this bank.",
+  "qualification": "Literal selected opening sprite-effect image, palette, pose and frame data, including Synthesis learned after repeated failed Tiny Woods attempts. Blue effect pixels/driver timing remain unverified. Background effects have a separate owner.",
   "rights": "Original Pokémon / Chunsoft / Nintendo imagery and data. Public provenance does not assert a rights-holder reuse grant.",
   "archive": {
     "path": "native-battle-initial-source.tar.gz",
-    "bytes": 92918,
-    "sha256": "3a736802f527838c6bf1d42b3869d434cae532ce3bf77ac93e7bdea5b230d4e5"
+    "bytes": 95175,
+    "sha256": "dcfbd92a8c7cf21172e88aea63b3318c340961957ef0e3441803bc38ac95f90f"
   },
   "files": [
     {
@@ -107,6 +108,18 @@
       "bytes": 1498,
       "sha256": "f41c7216dda46d610e540f4e71d86ac084023137a016c387ef9602937e3b129d",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob113.png"
+    },
+    {
+      "path": "data/effects/efob125.pal",
+      "bytes": 188,
+      "sha256": "e64be05fd583e7ecc1cd2315b0846dbfaf9c45bd06e306aada25eaa4ac14a5c7",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob125.pal"
+    },
+    {
+      "path": "data/effects/efob125.png",
+      "bytes": 871,
+      "sha256": "07a7d58ea798f24c7ec424c28ec7451a48f160a409b2ed860fe97e37a3a4b58d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob125.png"
     },
     {
       "path": "graphics/ax/pal/0.pal",
@@ -233,6 +246,12 @@
       "bytes": 15989,
       "sha256": "f428ba83e3fcfcd60e0708427516fa7f94e00f45e34878cf304234a1f1c022e4",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob113.c"
+    },
+    {
+      "path": "src/data/effects/efob125.c",
+      "bytes": 14982,
+      "sha256": "d39fab94356bd6f016b10b082c64dbe33dc33b2e650ab217948c4821c471851d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob125.c"
     },
     {
       "path": "src/effect_data.c",

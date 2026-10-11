@@ -58,7 +58,7 @@ async function verifiedMetadata(record) {
   assert(/^[a-z][a-z0-9-]*\.json$/.test(record.metadataPath), 'Invalid metadata path');
   return JSON.parse(await verifiedBytes(`assets/blue/${record.metadataPath}`, record.metadataBytes, record.metadataSha256));
 }
-function verifyAnimationTables(metadata, record) {
+function verifyAnimationTables(metadata, record, frameSize = 7) {
   assert(Array.isArray(metadata.poses) && integer(metadata.poses.length, 1, 1024));
   for (const pose of metadata.poses) {
     assert(Array.isArray(pose) && pose.length === 6 && pose.every(Number.isInteger));
@@ -72,9 +72,9 @@ function verifyAnimationTables(metadata, record) {
     for (const sequence of animation) {
       assert(Array.isArray(sequence) && integer(sequence.length, 1, 256));
       for (const frame of sequence) {
-        assert(Array.isArray(frame) && frame.length === 7 && frame.every(Number.isInteger));
+        assert(Array.isArray(frame) && frame.length === frameSize && frame.every(Number.isInteger));
         assert(integer(frame[0], 0, metadata.poses.length - 1) && integer(frame[1], 1, 65535));
-        assert(frame.slice(2, 6).every(value => integer(value, -32768, 32767)) && integer(frame[6], 0, 65535));
+        assert(frame.slice(2, frameSize === 4 ? 4 : 6).every(value => integer(value, -32768, 32767)) && (frameSize === 4 || integer(frame[6], 0, 65535)));
       }
     }
   }
@@ -114,9 +114,9 @@ assert.deepEqual(new Set((assets.ornaments ?? []).map(record => record.id)), new
 for (const record of assets.ornaments) {
   await verifiedPng('assets/blue', record);
   const metadata = await verifiedMetadata(record);
-  assert.equal(metadata.schemaVersion, 2); assert.equal(metadata.id, record.id);
+  assert.equal(metadata.schemaVersion, 3); assert.equal(metadata.id, record.id);
   assert.equal(metadata.width, record.width); assert.equal(metadata.height, record.height);
-  verifyAnimationTables(metadata, record);
+  verifyAnimationTables(metadata, record, 4);
   assert(Array.isArray(metadata.scriptAnimationMap) && metadata.scriptAnimationMap.every(value => integer(value, -1, 65535)));
 }
 if (assets.portraitAtlas) {
@@ -136,7 +136,13 @@ if (assets.portraitAtlas) {
   }
   for (const species of [...data.starterIds, 'pokemon-010', 'pokemon-012', 'pokemon-279']) assert(seen.has(`${species}:normal`));
 }
-const scenery = await readJson('assets/blue/scenery/manifest.json');
+const sceneryRuntime = await readJson('assets/blue/scenery/manifest.json');
+const sceneryProof = JSON.parse(await readFile(new URL('../art/blue/native-scenery-metadata.json', import.meta.url), 'utf8'));
+assert.deepEqual(Object.keys(sceneryRuntime).sort(), ['aura', 'profile', 'schemaVersion', 'terrain']);
+assert.equal(sceneryRuntime.schemaVersion, sceneryProof.schemaVersion); assert.equal(sceneryRuntime.profile, sceneryProof.profile);
+assert.deepEqual(Object.keys(sceneryRuntime.terrain), ['lookup']);
+assert.deepEqual(Object.keys(sceneryRuntime.aura).sort(), ['blendCoefficients', 'camera', 'displayCenter', 'height', 'layers', 'paletteFrameTicks', 'palettes', 'scrollPixelsPerTick', 'width']);
+const scenery = {...sceneryProof, terrain: {...sceneryProof.terrain, ...sceneryRuntime.terrain}, aura: {...sceneryProof.aura, ...sceneryRuntime.aura}};
 assert.equal(scenery.schemaVersion, 2); assert.equal(scenery.profile, 'blue-native-scenery-v2');
 assert.equal(scenery.terrain.tileSize, 24);
 assert.equal(scenery.terrain.columns, 25); assert.equal(scenery.terrain.cellCount, 250);
@@ -193,7 +199,7 @@ for (const bank of assets.battleEffects.banks) {
     assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
   }
 }
-assert.equal(battleIds.size, 25);
+assert.equal(battleIds.size, 26);
 const hypnosis = assets.battleEffects.hypnosis;
 assert.equal(hypnosis.activation, 'selected-hypnosis-only'); assert.equal(hypnosis.effectId, 222);
 assert.equal(hypnosis.path, 'hypnosis-background.png'); assert.equal(hypnosis.width, 416); assert.equal(hypnosis.height, 32);

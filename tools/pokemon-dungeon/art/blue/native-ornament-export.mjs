@@ -16,6 +16,14 @@ export async function exportNativeOrnaments({emit,output}){
   const records=[];
   for(const[id,name]of[['title-bird','titleop1'],['title-letter','titleop2']]){
     const result=composeNativeAsset(files,{id,name},[],{ornament:true,headerPath:`src/data/ornament/${name}.h`,palettePath:'graphics/ornament/pal/titleop.pal'});
+    const {animations,poses}=result.metadata,frames=animations.flat(2);
+    // The cinematic renderer needs no shadow offsets or AX flags. Reject
+    // changed source tails before dropping them, and retain every sequence.
+    if(frames.some(frame=>frame.slice(4).some(value=>value!==0)))throw Error('Native cinematic frame has unhandled shadow offsets or flags.');
+    const usedPoses=[...new Set(frames.map(frame=>frame[0]))].sort((a,b)=>a-b);
+    result.metadata.schemaVersion=3;
+    result.metadata.poses=usedPoses.map(index=>poses[index]);
+    result.metadata.animations=animations.map(animation=>animation.map(sequence=>sequence.map(frame=>[usedPoses.indexOf(frame[0]),...frame.slice(1,4)])));
     result.metadata.scriptAnimationMap=SCRIPT_ANIMATION_MAP;
     const path=`${id}.png`,metadataPath=`${id}.json`,png=result.atlas.png(),json=JSON.stringify(result.metadata)+'\n';
     await emit(new URL(path,output),png);await emit(new URL(metadataPath,output),json);

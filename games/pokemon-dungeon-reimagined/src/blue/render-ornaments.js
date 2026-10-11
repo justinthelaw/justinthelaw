@@ -1,8 +1,8 @@
 /** Original Rescue Team cinematic images; native sizes and source AX timing. */
 const ROOT=new URL('../../assets/blue/',import.meta.url);
 /** @typedef {[number,number,number,number,number,number]} Pose */
-/** @typedef {[number,number,number,number,number,number,number]} Frame */
-/** @typedef {{schemaVersion:2,id:string,width:number,height:number,poses:Pose[],animations:Frame[][][],scriptAnimationMap:number[]}} OrnamentMetadata */
+/** @typedef {[number,number,number,number]} Frame */
+/** @typedef {{schemaVersion:3,id:string,width:number,height:number,poses:Pose[],animations:Frame[][][],scriptAnimationMap:number[]}} OrnamentMetadata */
 
 export class OrnamentBank {
   constructor(){
@@ -16,13 +16,13 @@ export class OrnamentBank {
       const response=await fetch(new URL(`${id}.json`,ROOT),{signal:this.controller.signal});
       if(!response.ok)throw Error(`Could not load cinematic frame metadata (${response.status}).`);
       const metadata=/** @type {OrnamentMetadata} */(await response.json());
-      if(metadata.schemaVersion!==2||metadata.id!==id||!Number.isInteger(metadata.width)||!Number.isInteger(metadata.height)||metadata.width<1||metadata.height<1||metadata.width*metadata.height>512*512||!Array.isArray(metadata.poses)||!Array.isArray(metadata.animations)||!Array.isArray(metadata.scriptAnimationMap))throw Error('Invalid native cinematic metadata.');
+      if(metadata.schemaVersion!==3||metadata.id!==id||!Number.isInteger(metadata.width)||!Number.isInteger(metadata.height)||metadata.width<1||metadata.height<1||metadata.width*metadata.height>512*512||!Array.isArray(metadata.poses)||!Array.isArray(metadata.animations)||!Array.isArray(metadata.scriptAnimationMap))throw Error('Invalid native cinematic metadata.');
       for(const pose of metadata.poses)if(pose.length!==6||pose.some(value=>!Number.isInteger(value))||pose[0]<0||pose[1]<0||pose[2]<1||pose[3]<1||pose[0]+pose[2]>metadata.width||pose[1]+pose[3]>metadata.height)throw Error('Native cinematic pose exceeds its image.');
       for(const animation of metadata.animations){
         if(animation.length!==8)throw Error('Native cinematic variant table is incomplete.');
         for(const sequence of animation){
           if(sequence.length===0)throw Error('Native cinematic sequence is empty.');
-          for(const frame of sequence)if(frame.length!==7||frame.some(value=>!Number.isInteger(value))||frame[0]<0||frame[0]>=metadata.poses.length||frame[1]<1)throw Error('Invalid native cinematic frame.');
+          for(const frame of sequence)if(frame.length!==4||frame.some(value=>!Number.isInteger(value))||frame[0]<0||frame[0]>=metadata.poses.length||frame[1]<1)throw Error('Invalid native cinematic frame.');
         }
       }
       const png=await fetch(new URL(`${id}.png`,ROOT),{signal:this.controller.signal});if(!png.ok)throw Error(`Could not load cinematic artwork (${png.status}).`);

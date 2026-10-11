@@ -59,6 +59,11 @@ function defeated(state) { return state.status==='defeated'; }
  * and the level-one Tiny Woods encounters have complete admitted handlers.
  * @param {MoveData} move */
 export function supportsMove(move) {
+  if(move.id==='move-synthesis'){
+    const effect=move.effects[0];
+    return move.chainedHitsRaw===1&&move.range===7&&move.target===3&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===125&&
+      move.effects.length===1&&effect?.op==='heal'&&Object.keys(effect).length===2&&effect.amountByWeather?.clear===50;
+  }
   if(VARIABLE_HIT_MOVES.has(move.id)&&move.chainedHitsRaw!==0)return false;
   if(move.id==='move-bonemerang'&&move.chainedHitsRaw!==2)return false;
   if((Object.hasOwn(DIRECT_HP_AMOUNTS,move.id)||RECOIL_MOVES.has(move.id)||ITEM_MOVES.has(move.id))&&move.chainedHitsRaw!==1)return false;
@@ -435,6 +440,9 @@ export function attack(state,actor,slot,data,events) {
         // handler's duration draw. Keep the existing duration/end-beat owner.
         state.waterSport=11+draw(state,2);message(state,events,'Fire-type moves were weakened!');continue;
       }
+      // Exact Tiny Woods admission requires clear weather; no weather-changing
+      // move is enabled. Reuse HealTargetHP's existing receipt and result owner.
+      if(move.id==='move-synthesis'){heal(state,target,50,events);continue;}
       if(Object.hasOwn(DIRECT_HP_AMOUNTS,move.id)){resolveDirectHp(state,actor,target,move,data,events,execution);continue;}
       if(damaging)resolveDamagingHit(state,actor,target,move,data,events,execution);
       else{

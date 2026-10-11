@@ -183,3 +183,25 @@ Punch's source zero-chance sentinel explicitly. Their static review is separate
 from the unchanged-function comparison above.
 Browser PP/learning UI timing, AI, PRNG and full Blue binary parity remain
 qualified; this refactor establishes the bounded comparative execution order.
+
+## Synthesis in prolonged Tiny Woods retries
+
+Synthesis is admitted only for its single-hit self-target healing record. The
+three Tiny Woods profiles require clear weather, whose comparative native value
+is 50 HP. The existing healing owner handles clamping, full-HP results, effect 7,
+status display and result numbers; no weather or save state is added. Initial
+accuracy still draws once and the selected slot spends PP, with no damage draws.
+The source is [SynthesisMoveAction](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/move_orb_actions_1.c#L949)
+and its retained weather table.
+
+Chikorita learns it at level 22 and Bulbasaur at level 39. Failed rescues preserve
+EXP and moves. This correction leaves 23 unavailable move IDs across 32
+species/level entries. This is source/static evidence, not a manually played higher-level
+acceptance. Default playable IQ lacks Status Checker, so no quarter-HP AI gate
+is added. The browser's existing foe-proximity rule for autonomous self moves
+remains qualified.
+
+The separate cast uses selected effect 271 and the existing terminator-hold
+support before healing's TRUE drain. Sound 809 remains unselected. The shared
+heal sound and native image records do not establish complete Blue audiovisual
+or AI identity.

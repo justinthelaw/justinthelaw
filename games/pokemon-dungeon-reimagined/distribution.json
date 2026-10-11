@@ -8,7 +8,6 @@
     "assets/blue/battle-effects.json",
     "assets/blue/battle-effects.png",
     "assets/blue/hypnosis-background.png",
-    "assets/blue/manifest.json",
     "assets/blue/menu-delivery.png",
     "assets/blue/menu-logo.png",
     "assets/blue/menu-mailbox.png",
@@ -153,6 +152,6 @@
     "src/domain/rules/type-context.js",
     "src/domain/state/plain.js"
   ],
-  "totalBytes": 3077411,
+  "totalBytes": 2994305,
   "scope": "Opening cinematic and menu through Tiny Woods and Caterpie rescue only"
 }

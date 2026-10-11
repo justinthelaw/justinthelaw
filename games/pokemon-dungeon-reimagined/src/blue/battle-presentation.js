@@ -436,7 +436,8 @@ export class BattlePresentation {
             const release=Math.min(releaseAt+castDelay,120+(launches?1:0));
             pose({actorId:record.actor.id,start:cursor+1,end:cursor+info.totalTicks+2,clip:'attack-physical',animation,direction:record.actor.direction,
               ...((record.moveId==='move-ember'||record.moveId==='move-hypnosis'&&record.actor.speciesId==='pokemon-102')&&animation===3?{idleAt:cursor+info.totalTicks+2}:{})});
-            if(route?.cast&&castAt!==null&&launches)effect(route.cast,record.actor,cursor+castAt+1,route.attachmentSet);
+            // Synthesis retains its terminator draw before the healing TRUE drain.
+            if(route?.cast&&castAt!==null&&launches)effect(route.cast,record.actor,cursor+castAt+1,route.attachmentSet,record.actor.direction,Infinity,false,false,record.moveId==='move-synthesis'&&route.cast===271);
             cursor+=release;
           }
         }

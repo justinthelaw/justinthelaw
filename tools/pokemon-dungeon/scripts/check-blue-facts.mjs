@@ -139,6 +139,14 @@ assert.deepEqual(pick(results.gender, ['sourceValues', 'changesScores', 'changes
 const species = unique(source.species), profiles = unique(source.profiles), levels = unique(source.levels), learns = unique(source.learnsets);
 const moves = unique(source.identities.moves, 'originalId'), actions = unique(source.actions, 'internalId');
 const types = unique(source.identities.types, 'originalId'), abilities = unique(source.identities.abilities, 'originalId');
+// Synthesis's one admitted healing action uses the clear Tiny Woods profile.
+// These source facts do not execute the runtime admission or healing handler.
+const synthesis = actions.get(94);
+assert.equal(synthesis.moveId, 'move-synthesis');
+assert.deepEqual(pick(synthesis.numeric, ['pp', 'accuracyBeforeEffect', 'accuracyAfterDamage', 'chainedHitsRaw']),
+  { pp: 12, accuracyBeforeEffect: 125, accuracyAfterDamage: 125, chainedHitsRaw: 1 });
+assert.deepEqual(pick(synthesis.target, ['rangeCode', 'categoryCode']), { rangeCode: 7, categoryCode: 3 });
+assert.deepEqual(synthesis.effects, [{ op: 'heal', amountByWeather: { clear: 50, sunny: 80, sandstorm: 30, cloudy: 40, rain: 10, hail: 10, fog: 1, snow: 1 } }]);
 assert.deepEqual([...species.keys()].sort(), speciesIds); assert.deepEqual([...profiles.keys()].sort(), speciesIds);
 assert.equal(levels.size, 22); assert.equal(learns.size, 22); assert.equal(actions.size, 115);
 for (const level of levels.values()) {
@@ -202,6 +210,7 @@ const generations = unique(source.generations), encounters = unique(source.encou
 assert.deepEqual(source.floors.map(floor => floor.id), ['tiny-woods-floor-01', 'tiny-woods-floor-02', 'tiny-woods-floor-03']);
 for (const floor of source.floors) {
   assert.equal(floor.dungeonId, 'tiny-woods'); assert(generations.has(floor.generationId) && encounters.has(floor.encounterPoolId));
+  assert.equal(generations.get(floor.generationId).parameters.weather, 0, 'Synthesis is admitted only on clear Tiny Woods floors');
   const candidates = encounters.get(floor.encounterPoolId).rows.filter(row => row.entryRole === 'weighted-candidate');
   assert.deepEqual(candidates.map(row => [row.speciesId, row.level, row.selectionThreshold]), (floor.localFloor === 3 ? [[16, 2857], [102, 4286], [191, 7143], [265, 10000]] : [[16, 3333], [191, 6667], [265, 10000]]).map(([dex, threshold]) => [pokemon(dex), 1, threshold]));
 }

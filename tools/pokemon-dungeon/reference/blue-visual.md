@@ -103,7 +103,9 @@ Native Titleop1/Titleop2 composition and animation data supplies the large bird
 and letter. The smaller carrier uses the native Pelipper animation selected by
 the ground script. Scenery, tile assembly, map coordinates, title reconstruction
 and the aura background have their own pinned input inventory in
-`art/blue/native-scenery` and runtime `assets/blue/scenery/manifest.json`.
+`art/blue/native-scenery` and the offline `art/blue/native-scenery-metadata.json`.
+The runtime scenery manifest retains only the terrain lookup and aura playback
+fields. Static export and factual checks retain the complete source record.
 
 ## Field staging
 
