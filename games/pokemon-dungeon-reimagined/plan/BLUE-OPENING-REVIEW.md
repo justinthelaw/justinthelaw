@@ -15,6 +15,59 @@ Three.js runtime, plans and art studies.
 | Browser | Keyboard/touch input, interruption ownership, bounded sprite cache, no WebGL, startup cancellation, accessible menu mirrors and help, isolated alternating save checkpoints |
 | Export | Parsed module closure plus explicit asset manifest; approximately 2.84 MB instead of the retained 84 MB historical tree |
 
+## Current candidate readiness — 2026-10-11
+
+The candidate checkpoint recorded in
+`tools/pokemon-dungeon/.work/blue-ready-20261011/candidate-4-snapshot.json`
+passes the complete Node 24 authoring check: 103 lint inputs, 67 strict source
+files, factual/geometry/provenance checks and a 149-file, 2,804,625-byte static
+distribution. These checks do not import or execute game modules.
+
+- Charm and Screech now use source-qualified physical Q8 multipliers with
+  backward-compatible zero-or-four-field save admission. Psych Up copies the
+  four multiplier slots, damage consumes the appropriate physical/special slot,
+  and floor/retry reset restores neutral values. Screech's native travel effect
+  52 is present in the initial battle bank; independent static rereview found no
+  remaining ownership or trajectory regression. These are late-retry paths and
+  have not been manually cast in this candidate checkpoint.
+- Three input-locked, pause-aware ground gates restore source/video ordering:
+  Butterfree arrives before the partner replies, both rescuers leave before B1F,
+  and both settle beside Caterpie before the clearing reply. Historical
+  `help-choice:0` and `enter:0/1` checkpoints are admitted and normalized without
+  restoring the removed rescue choice. Reduced motion keeps the intervals with
+  settled actors. Original Blue footage corroborates the visible ordering, not
+  exact DS frame duration.
+- Hero naming and its confirmation now retain the Tiny Woods ground/map; partner
+  naming retains the personality-test aura. A separate fresh browser review
+  corroborated the partner aura, hero naming and confirmation backdrops,
+  Butterfree's completed approach before the partner question, and direct B1F
+  entry without a rescue choice. The embedded screenshot action
+  now creates its temporary download link in the same-origin parent document,
+  with a cross-origin fallback to the game document.
+- Root manual review admitted a legacy `enter:1` save and automatically reached
+  B1F with the saved level-five pair at full HP. The same iframe review confirmed
+  the screenshot download and continued through B2F combat: Scratch dealt 25,
+  consumed one PP and awarded 16 EXP to each teammate. It then completed B3F,
+  showed Caterpie's cry before the silent approach, settled both rescuers before
+  Brook's reply, completed the Butterfree reunion and displayed the Oran, Pecha
+  and Rawst Berry reward. The completion screen exposed only Adventure Log and
+  Return to top menu; Continue from that menu restored the completed rescue.
+  The bounded ledger is
+  `tools/pokemon-dungeon/.work/blue-ready-20261011/old-entry-migration/manual.json`;
+  its reward capture has SHA-256
+  `b085c7f577de7d6a3e7564d1e01943b4dae7b4f26f03b7e0d4a6e0deabb58f13`.
+
+For ordinary first-attempt Tiny Woods, every reachable learned move has a
+handler. Repeated losses retain EXP and can reach 18 rejected move IDs across 23
+learnset rows; those paths remain visibly unavailable and are outside normal
+first-attempt acceptance. Exact parity also remains blocked by authored dialogue
+and effects, unresolved Blue-specific title/menu layers and timing, unverified
+Blue binary AI/RNG/call order, and late-retry move paths outside the completed
+first-attempt rescue acceptance.
+Background music is an intentional scope waiver, not a remaining blocker. The
+current evidence supports a scoped browser adaptation, not literal perfect
+replication.
+
 ## Review evidence
 
 - The second checkpoint replaces the authored character/scenery/font substitutes
@@ -954,6 +1007,8 @@ were moved to Trash with verified hashes and restore paths.
 - [Battle event evidence](../../../tools/pokemon-dungeon/reference/blue-battle-events.md)
 - [Battle visual evidence](../../../tools/pokemon-dungeon/reference/blue-battle-visuals.md)
 - [Move execution evidence](../../../tools/pokemon-dungeon/reference/blue-move-execution.md)
+- [Ground-scene ordering evidence](../../../tools/pokemon-dungeon/reference/blue-ground-scenes.md)
+- [Charm and Screech multiplier evidence](../../../tools/pokemon-dungeon/reference/blue-stat-multipliers.md)
 - [Save journal evidence](../../../tools/pokemon-dungeon/reference/blue-save-journal.md)
 - [Target selection evidence](../../../tools/pokemon-dungeon/reference/blue-targeting.md)
 - [Wild spawn evidence](../../../tools/pokemon-dungeon/reference/blue-wild-spawns.md)

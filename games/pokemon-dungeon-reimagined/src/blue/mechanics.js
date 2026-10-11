@@ -43,7 +43,7 @@ function createActor(data,speciesId,id,name,level) {
   const sums=[...p.baseStats];for(const row of p.growth.slice(0,level))for(let i=0;i<5;i++)sums[i]=(sums[i]??0)+(row[i+1]??0);
   const stats={hp:sums[0]??1,attack:sums[1]??1,specialAttack:sums[2]??1,defense:sums[3]??1,specialDefense:sums[4]??1};
   const learned=p.learnset.filter(([at])=>at<=level).slice(0,4).map(([,move])=>moveSlot(data,move));
-  return {id,speciesId,name:Array.from(name).slice(0,10).join('')||p.name,x:0,y:0,direction:'s',level,hp:stats.hp,maxHp:stats.hp,belly:100,maxBelly:100,exp:p.growth[level-1]?.[0]??0,stats,moves:learned,status:{},periodic:{poison:0,burn:0,leechSeed:0},stages:{attack:10,specialAttack:10,defense:10,specialDefense:10,accuracy:10,evasion:10},heldItem:null,regen:0,usedMove:false,experienceMarked:false,goal:null,leechSource:null,bideDamage:0,skipAction:false,useHeldItem:false,tactic:'together',enabledIq:[...DEFAULT_IQ],abilityVisualFlags:0};
+  return {id,speciesId,name:Array.from(name).slice(0,10).join('')||p.name,x:0,y:0,direction:'s',level,hp:stats.hp,maxHp:stats.hp,belly:100,maxBelly:100,exp:p.growth[level-1]?.[0]??0,stats,moves:learned,status:{},periodic:{poison:0,burn:0,leechSeed:0},stages:{attack:10,specialAttack:10,defense:10,specialDefense:10,accuracy:10,evasion:10},heldItem:null,regen:0,usedMove:false,experienceMarked:false,goal:null,leechSource:null,bideDamage:0,skipAction:false,physicalOffenseMultiplierQ8:256,specialOffenseMultiplierQ8:256,physicalDefenseMultiplierQ8:256,specialDefenseMultiplierQ8:256,useHeldItem:false,tactic:'together',enabledIq:[...DEFAULT_IQ],abilityVisualFlags:0};
 }
 /** @param {number|[number,number,number,number]|undefined} seed @returns {[number,number,number,number]} */
 function seedWords(seed) {
@@ -80,7 +80,7 @@ function generateFloor(state,data,events) {
   state.explored=Array(WIDTH*HEIGHT).fill(false);state.visible=Array(WIDTH*HEIGHT).fill(false);state.enemies=[];state.items=[];state.floorTurn=0;state.baseBeat=0;state.leaderPrepared=false;state.waterSport=0;state.status='playing';
   state.hero.x=spawns.hero.x;state.hero.y=spawns.hero.y;state.partner.x=spawns.partner.x;state.partner.y=spawns.partner.y;
   state.hero.direction=state.partner.direction='s';
-  for(const actor of [state.hero,state.partner]){actor.status={};actor.periodic={poison:0,burn:0,leechSeed:0};actor.stages={attack:10,specialAttack:10,defense:10,specialDefense:10,accuracy:10,evasion:10};actor.goal=null;actor.leechSource=null;actor.bideDamage=0;actor.skipAction=false;actor.useHeldItem=false;actor.regen=0;actor.abilityVisualFlags=0;}
+  for(const actor of [state.hero,state.partner]){actor.status={};actor.periodic={poison:0,burn:0,leechSeed:0};actor.stages={attack:10,specialAttack:10,defense:10,specialDefense:10,accuracy:10,evasion:10};actor.physicalOffenseMultiplierQ8=256;actor.specialOffenseMultiplierQ8=256;actor.physicalDefenseMultiplierQ8=256;actor.specialDefenseMultiplierQ8=256;actor.goal=null;actor.leechSource=null;actor.bideDamage=0;actor.skipAction=false;actor.useHeldItem=false;actor.regen=0;actor.abilityVisualFlags=0;}
   state.stairs=spawns.stairs;
   // Native realization places the team, then wild actors, then actual items.
   // An enemy flag covered by the partner does not relocate to a different tile.
@@ -521,8 +521,12 @@ export function validateDungeon(value,data) {
   for(const a of [s.hero,s.partner,...s.enemies]){
     if(!a||typeof a!=='object'||!point(a)||typeof a.id!=='string'||a.id.length>40||ids.has(a.id)||typeof a.speciesId!=='string'||!Object.hasOwn(data.species,a.speciesId)||typeof a.name!=='string'||a.name.length<1||Array.from(a.name).length>10||!DIRECTIONS.includes(a.direction)||!integer(a.level,1,100)||!integer(a.maxHp,1,999)||!integer(a.hp,0,a.maxHp)||!integer(a.exp,0,9999999)||!finite(a.belly,0,100)||a.maxBelly!==100||!integer(a.regen,0,500)||!integer(a.bideDamage,0,999999)||typeof a.usedMove!=='boolean'||typeof a.experienceMarked!=='boolean'||typeof a.skipAction!=='boolean'||!held(a.heldItem)||a.goal!==null&&!point(a.goal)||a.leechSource!==null&&(typeof a.leechSource!=='string'||a.leechSource.length>40))return false;
     const actorKeys='id,speciesId,name,x,y,direction,level,hp,maxHp,belly,maxBelly,exp,stats,moves,status,periodic,stages,heldItem,regen,usedMove,experienceMarked,goal,leechSource,bideDamage,skipAction';
-    const optionalKeys=['useHeldItem','tactic','enabledIq','abilityVisualFlags'].filter(key=>Object.hasOwn(a,key));
+    const multiplierKeys=['physicalOffenseMultiplierQ8','specialOffenseMultiplierQ8','physicalDefenseMultiplierQ8','specialDefenseMultiplierQ8'];
+    const multiplierCount=multiplierKeys.filter(key=>Object.hasOwn(a,key)).length;
+    const optionalKeys=['useHeldItem','tactic','enabledIq','abilityVisualFlags',...multiplierKeys].filter(key=>Object.hasOwn(a,key));
     if(!exactKeys(a,[actorKeys,...optionalKeys].join(','))||Object.hasOwn(a,'useHeldItem')&&typeof a.useHeldItem!=='boolean')return false;
+    if(multiplierCount!==0&&multiplierCount!==4)return false;
+    if(multiplierCount===4&&(!integer(a.physicalOffenseMultiplierQ8,2,25597)||!integer(a.specialOffenseMultiplierQ8,2,25597)||!integer(a.physicalDefenseMultiplierQ8,2,25597)||!integer(a.specialDefenseMultiplierQ8,2,25597)))return false;
     if(Object.hasOwn(a,'tactic')&&!TACTICS.some(tactic=>tactic.id===a.tactic))return false;
     if(Object.hasOwn(a,'enabledIq')&&(!Array.isArray(a.enabledIq)||a.enabledIq.length>IQ_SKILLS.length||new Set(a.enabledIq).size!==a.enabledIq.length||a.enabledIq.some(id=>!IQ_SKILLS.some(skill=>skill.id===id))))return false;
     if(Object.hasOwn(a,'abilityVisualFlags')){

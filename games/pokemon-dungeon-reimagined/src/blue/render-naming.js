@@ -15,7 +15,7 @@ const KEY_ORIGIN = { x: 16, y: 96 };
 /** @type {NamingState|null} */ let currentEditor = null;
 let enteredAt = 0, selectedAt = 0, lastSelected = -1, selectionOffset = 1;
 
-/** Native 81-key naming screen. The renderer owns the animated aura behind it.
+/** Native 81-key naming screen. The renderer owns its phase's backdrop.
  * @param {CanvasRenderingContext2D} context @param {View} view @param {number} time
  * @returns {NamingChoice[]}
  */

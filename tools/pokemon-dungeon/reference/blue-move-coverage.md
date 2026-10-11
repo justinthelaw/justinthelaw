@@ -1,7 +1,8 @@
 # Opening move coverage after repeated retries
 
-Current follow-up: [Foresight and Psych Up](blue-stat-moves.md) add two bounded
-retry-reachable handlers, leaving 20 rejected learned move IDs across 28
+Current follow-up: [Foresight and Psych Up](blue-stat-moves.md) and
+[Charm and Screech stat multipliers](blue-stat-multipliers.md) add four bounded
+retry-reachable handlers, leaving 18 rejected learned move IDs across 23
 learnset rows. The checkpoint tables below are historical evidence.
 
 Static audit of checkpoint `049af6e219f10c54bb50fe648c34c6ff77eb6e64`,

@@ -59,6 +59,15 @@ function defeated(state) { return state.status==='defeated'; }
  * and the level-one Tiny Woods encounters have complete admitted handlers.
  * @param {MoveData} move */
 export function supportsMove(move) {
+  if(move.id==='move-charm'||move.id==='move-screech'){
+    const effect=move.effects[0],charm=move.id==='move-charm';
+    return move.type==='normal'&&move.power===2&&move.pp===22&&move.accuracyBeforeEffect===(charm?75:100)&&
+      move.accuracyAfterDamage===(charm?100:88)&&move.criticalPercent===12&&move.aiWeight===15&&move.chainedHitsRaw===1&&
+      move.range===(charm?0:8)&&move.target===0&&move.cutsCorners===!charm&&move.effects.length===1&&
+      effect?.op==='stat-multiplier'&&Object.keys(effect).length===5&&effect.stat===(charm?'attack':'defense')&&
+      effect.recipient==='target'&&effect.factor?.length===2&&effect.factor[0]===1&&effect.factor[1]===(charm?2:4)&&
+      Array.isArray(effect.minimum)&&effect.minimum.length===2&&effect.minimum[0]===2&&effect.minimum[1]===256;
+  }
   if(move.id==='move-foresight'){
     const [clampEvasion,expose]=move.effects;
     return move.type==='normal'&&move.power===2&&move.pp===22&&move.accuracyBeforeEffect===100&&move.accuracyAfterDamage===100&&
@@ -310,6 +319,20 @@ function applyEffect(state,actor,target,effect,data,events) {
     else{const before=captureActor(recipient);recipient.status.slow=7+draw(state,2);recordEffect(events,before,recipient,394);message(state,events,`${recipient.name}'s Movement Speed fell!`);}
   }
 }
+/** Native s24_8 multiplication rounds from bit seven before the Q8 shift.
+ * The selected stat-multiplier records clamp to 0.01, encoded as Q8 value 2.
+ * @param {number} value @param {number} factor */
+function multiplyQ8(value,factor){return Math.max(2,Math.floor((value*factor+128)/256));}
+/** Historical opening saves have none of these four fields. Upgrade the live
+ * actor coherently before the first multiplier mutation so its next save does
+ * not contain a partial shape. Validation continues to reject partial input.
+ * @param {Actor} actor */
+function initializeMultipliers(actor){
+  if(actor.physicalOffenseMultiplierQ8===undefined){
+    actor.physicalOffenseMultiplierQ8=256;actor.specialOffenseMultiplierQ8=256;
+    actor.physicalDefenseMultiplierQ8=256;actor.specialDefenseMultiplierQ8=256;
+  }
+}
 /** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {MoveData} move @param {OpeningData} data @param {GameEvent[]} events @param {{effectiveness:0|1|2|3}} [visual] */
 function damageAmount(state,actor,target,move,data,events,visual) {
   const physical=isPhysicalType(element(move.type)),a=actor.stats,t=target.stats,regular=move.id==='regular-attack';
@@ -318,7 +341,7 @@ function damageAmount(state,actor,target,move,data,events,visual) {
   const armored=ability(data,target,'Battle Armor')||ability(data,target,'Shell Armor');
   const result=calculateNormalDamage({
     type:{moveType:element(move.type),attackerTypes:types(data,actor),defenderTypes:types(data,target),defenderExposed:false,abilities:{wonderGuard:false,torrent:ability(data,actor,'Torrent'),overgrow:ability(data,actor,'Overgrow'),blaze:ability(data,actor,'Blaze')},attackerHp:actor.hp,attackerMaxHp:actor.maxHp,mudSport:false,waterSport:state.waterSport>0,charging:false},
-    stats:{rawOffense:physical?a.attack:a.specialAttack,rawDefense:physical?t.defense:t.specialDefense,movePower:move.power,offenseStage:actor.stages[physical?'attack':'specialAttack']??10,defenseStage:target.stages[physical?'defense':'specialDefense']??10,offensiveMultiplierQ8:256,defensiveMultiplierQ8:256,flashFireBoost:0,skullBash:false,abilities:{guts:ability(data,actor,'Guts'),attackerNegativeStatus:NEGATIVE_STATUSES.some(key=>!!actor.status[key])}},
+    stats:{rawOffense:physical?a.attack:a.specialAttack,rawDefense:physical?t.defense:t.specialDefense,movePower:move.power,offenseStage:actor.stages[physical?'attack':'specialAttack']??10,defenseStage:target.stages[physical?'defense':'specialDefense']??10,offensiveMultiplierQ8:(physical?actor.physicalOffenseMultiplierQ8:actor.specialOffenseMultiplierQ8)??256,defensiveMultiplierQ8:(physical?target.physicalDefenseMultiplierQ8:target.specialDefenseMultiplierQ8)??256,flashFireBoost:0,skullBash:false,abilities:{guts:ability(data,actor,'Guts'),attackerNegativeStatus:NEGATIVE_STATUSES.some(key=>!!actor.status[key])}},
     critical:{moveChance:move.criticalPercent,focusEnergy:!!actor.status.focusEnergy,typeAdvantageMaster:false,battleArmor:armored,shellArmor:false},teamMember:team(actor),leader:actor.id==='hero',integerBelly:Math.floor(actor.belly),level:actor.level,regularAttack:regular,targetEffectsApply:true,reflect:!!target.status.reflect,lightScreen:false,moveEffectMultiplierQ8:multiplier,
     rolls:actor.id!=='hero'&&Math.floor(actor.belly)===0?null:{sharedPowerRoll:draw(state,100),criticalRoll:armored?null:draw(state,100),varianceRoll:draw(state,16384)},
   });
@@ -496,10 +519,25 @@ export function attack(state,actor,slot,data,events) {
           if(evasive)message(state,events,`${target.name}'s Evasion returned to normal!`);
           message(state,events,`${target.name} isn't a Ghost type!`);
         }else if(move.id==='move-psych-up'){
-          // Admitted moves leave native offensive/defensive Q8 multipliers
-          // neutral. Extend this copy when admitting Charm or Screech.
-          actor.stages={...target.stages};recordSync(state,events,[actor]);
+          actor.stages={...target.stages};
+          actor.physicalOffenseMultiplierQ8=target.physicalOffenseMultiplierQ8??256;
+          actor.specialOffenseMultiplierQ8=target.specialOffenseMultiplierQ8??256;
+          actor.physicalDefenseMultiplierQ8=target.physicalDefenseMultiplierQ8??256;
+          actor.specialDefenseMultiplierQ8=target.specialDefenseMultiplierQ8??256;
+          recordSync(state,events,[actor]);
           message(state,events,'It psyched itself up!');
+        }else if(move.id==='move-charm'||move.id==='move-screech'){
+          // Mist, Twist Band, Clear Body, White Smoke and Hyper Cutter are all
+          // outside the selected roster/state/item surface.
+          const before=captureActor(target),stat=move.id==='move-charm'?'Attack':'Defense';
+          initializeMultipliers(target);
+          const old=(move.id==='move-charm'?target.physicalOffenseMultiplierQ8:target.physicalDefenseMultiplierQ8)??256;
+          if(move.id==='move-charm')target.physicalOffenseMultiplierQ8=multiplyQ8(old,128);
+          else target.physicalDefenseMultiplierQ8=multiplyQ8(old,64);
+          const current=move.id==='move-charm'?target.physicalOffenseMultiplierQ8:target.physicalDefenseMultiplierQ8;
+          // Native starts the down effect before multiplying and comparing.
+          recordEffect(events,before,target,move.id==='move-charm'?404:399);recordSync(state,events,[target]);
+          message(state,events,old===current?`${target.name}'s ${stat} remained unchanged!`:`${target.name}'s ${stat} fell!`);
         }else for(const effect of move.effects)applyEffect(state,actor,target,effect,data,events);
       }
     }

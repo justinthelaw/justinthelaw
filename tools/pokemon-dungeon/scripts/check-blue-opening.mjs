@@ -12,10 +12,13 @@ const assets = await readJson('assets/blue/manifest.json');
 const data = await readJson('content/blue-opening.json');
 const profiles = JSON.parse(await readFile(new URL('../content/blue-source.json', import.meta.url), 'utf8')).starterProfiles;
 const expectedStarters = profiles.records.map(record => record.speciesId).sort();
+const excludedStatDropGuards = new Set(['Clear Body', 'White Smoke', 'Hyper Cutter']);
 assert.deepEqual([...data.starterIds].sort(), expectedStarters, 'All 16 original starter profiles must be retained');
 assert.equal(data.floors.length, 3, 'The playable dungeon has exactly three ordinary floors');
 const wildIds = ['pokemon-016', 'pokemon-102', 'pokemon-191', 'pokemon-265'];
 assert.deepEqual(Object.keys(data.species).sort(), [...expectedStarters, ...wildIds].sort());
+assert(Object.values(data.species).every(species=>species.abilities.every(ability=>!excludedStatDropGuards.has(ability))),
+  'Charm/Screech omit ability guards that must remain unreachable in the selected roster');
 assert(Object.values(data.species).every(species=>!species.types.includes('Ghost')),
   'Foresight requires exposed-state support before admitting Ghost targets');
 for (const profile of profiles.records) {
@@ -34,6 +37,8 @@ for (const id of wildIds) {
 }
 const admittedMoves = new Set(['regular-attack', 'move-struggle', 'bide-release', ...Object.values(data.species).flatMap(species => species.learnset.map(([, id]) => id))]);
 assert.equal(admittedMoves.size, 101); assert.deepEqual(Object.keys(data.moves).sort(), [...admittedMoves].sort());
+assert.deepEqual(data.moves['move-charm'], {id:'move-charm',name:'Charm',type:'normal',power:2,pp:22,accuracyBeforeEffect:75,accuracyAfterDamage:100,criticalPercent:12,chainedHitsRaw:1,range:0,target:0,cutsCorners:false,effects:[{op:'stat-multiplier',stat:'attack',factor:[1,2],minimum:[2,256],recipient:'target'}],aiWeight:15});
+assert.deepEqual(data.moves['move-screech'], {id:'move-screech',name:'Screech',type:'normal',power:2,pp:22,accuracyBeforeEffect:100,accuracyAfterDamage:88,criticalPercent:12,chainedHitsRaw:1,range:8,target:0,cutsCorners:true,effects:[{op:'stat-multiplier',stat:'defense',factor:[1,4],minimum:[2,256],recipient:'target'}],aiWeight:15});
 const expectedSprites = new Set([...data.starterIds, ...data.floors.flatMap(floor => floor.encounters.map(row => row.speciesId)),
   'pokemon-010', 'pokemon-012', 'pokemon-279']);
 assert.deepEqual(new Set(assets.records.map(record => record.speciesId)), expectedSprites, 'Opening sprite coverage must match the selected roster');
@@ -210,7 +215,7 @@ for (const bank of assets.battleEffects.banks) {
     assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
   }
 }
-assert.equal(battleIds.size, 29);
+assert.equal(battleIds.size, 30);
 const hypnosis = assets.battleEffects.hypnosis;
 assert.equal(hypnosis.activation, 'selected-hypnosis-only'); assert.equal(hypnosis.effectId, 222);
 assert.equal(hypnosis.path, 'hypnosis-background.png'); assert.equal(hypnosis.width, 416); assert.equal(hypnosis.height, 32);

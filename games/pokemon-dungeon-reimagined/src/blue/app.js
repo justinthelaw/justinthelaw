@@ -17,7 +17,7 @@ import { loadOpeningData, createDungeon, performAction, retryDungeon, validateDu
   getDungeonTurnPhase, prepareDungeonTurn, completeForcedTurn, updateVisibility, resetSecondaryGates } from './mechanics.js';
 import { createSaveRepository, validateOpeningSave } from './save.js';
 import { createPreferencesRepository } from './preferences.js';
-import { STORY, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolateStory } from './story.js';
+import { STORY, STORY_TRANSITIONS, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolateStory } from './story.js';
 
 /** @typedef {import('./save.js').OpeningSave} OpeningSave */
 /** @typedef {import('./save.js').Phase} Phase */
@@ -121,7 +121,9 @@ async function main() {
     if (value.quiz.usedCategories.some(category => !onboarding.questions.some(question => question.categoryId === category))) return false;
     if (value.natureId && !onboarding.natureOrder.includes(value.natureId)) return false;
     const script = STORY[value.phase];
-    if (script ? value.line >= script.length : value.phase === 'result' ? value.line > 2 : value.line !== 0) return false;
+    // Former entry dialogue had two checkpoints. Admit either, then Continue
+    // normalizes it to the movement-only entry in setPhase without data loss.
+    if (script ? value.line >= script.length : value.phase === 'result' ? value.line > 2 : value.phase === 'enter' ? value.line > 1 : value.line !== 0) return false;
     if (value.phase === 'quiz' && (!value.quiz.questionId || value.quiz.answered >= 8)) return false;
     if (!['welcome', 'quiz'].includes(value.phase) && value.quiz.answered !== 8) return false;
     if (!['welcome', 'quiz', 'gender'].includes(value.phase)) {
@@ -152,6 +154,8 @@ async function main() {
   /** @type {string[]} */ let liveMessages = [];
   let liveMessageRemaining = 0;
   let selectedIndex = 0, dialoguePage = 0, speechStarted = 0, clock = 0, lastFrame = 0;
+  /** A ground-scene movement gate; reconstructed at its saved dialogue boundary.
+   * @type {number|null} */let storyTransitionStarted=null;
   let openingStarted = 0, textSpeed = preferences.textSpeed, revealed = false, uiSignature = '!unrendered', lastNarration = '';
   let busy = false, paused = document.hidden || !document.hasFocus(), disposed = false, transition = 0, frameId = 0;
   let saveTimer = 0, hasStored = stored.hasStored, saveFailed = false;
@@ -528,6 +532,10 @@ async function main() {
   /** @param {Phase} phase @param {number} [line] @param {boolean} [newFloor] */
   async function setPhase(phase, line = 0, newFloor = false) {
     if (!state || disposed) return;
+    // Accept former checkpoints without restoring the added rescue decision.
+    if(phase==='help-choice'){phase='enter';line=0;}
+    if(phase==='enter')line=0;
+    storyTransitionStarted=phase==='enter'||phase==='clearing'&&line===1||phase==='named'&&line===3?clock:null;
     resetBattlePresentation();
     // Native floor entry starts at99. A prepared browser checkpoint has already
     // crossed the input owner's reset; normalize that unsaved clock to0 only.
@@ -574,6 +582,7 @@ async function main() {
   }
 
   function returnToMenu() {
+    storyTransitionStarted=null;
     resetBattlePresentation();
     resetDungeonCamera();
     clearLiveMessages();
@@ -724,11 +733,8 @@ async function main() {
         const editor = namingState();
         if (editor) { next.naming = editor; next.nameValue = editor.text; selectedIndex = editor.selected; labels = namingLabels(editor); }
       } else if (phase === 'partner-name-confirm' || phase === 'hero-name-confirm') {
-        next.scene = 'quiz';
+        next.scene = phase === 'hero-name-confirm' ? 'awakening' : 'quiz';
         text = `Is ${state.nameDraft} the name you want?`; labels = ['Yes', 'No'];
-      } else if (phase === 'help-choice') {
-        next.scene = 'trouble'; text = 'Will you help rescue Caterpie?'; speaker = state.partnerName;
-        portraitSpeciesId = state.partnerSpeciesId; labels = ['Yes', 'No'];
       } else if (phase === 'dungeon') {
         next.scene = 'dungeon'; next.notice = liveMessages.length ? liveMessages.join('\n') : undefined;
       } else if (phase === 'defeated') {
@@ -741,7 +747,7 @@ async function main() {
         next.scene = phase === 'welcome' || phase === 'departure' ? 'quiz' : phase === 'enter' || phase === 'trouble' ? 'trouble' :
           phase === 'clearing' ? 'clearing' : phase === 'reunion' ? 'reunion' : 'awakening';
         const line = STORY[phase]?.[state.line];
-        if (line) {
+        if (line && !((phase==='clearing'&&state.line===1||phase==='named'&&state.line===3)&&storyTransitionStarted!==null)) {
           next.storyPose = line.pose;
           text = interpolateStory(line.text, { heroName: state.heroName, partnerName: state.partnerName, heroSpeciesName: speciesName(state.heroSpeciesId) });
           portraitEmotion = line.emotion ?? 'normal';
@@ -755,6 +761,7 @@ async function main() {
         }
       }
     }
+    if(storyTransitionStarted!==null)next.storyTransitionFrame=Math.floor((clock-storyTransitionStarted)*60/1000);
     if (menu) { labels = menu.choices.map(choice => choice.label); next.disabledChoices = menu.choices.map(choice => Boolean(choice.disabled)); next.menuTitle = menu.title; text = menu.detail ?? ''; speaker = ''; portraitSpeciesId = ''; }
     if (fieldDialogue) { text = fieldDialogue.text; speaker = fieldDialogue.speaker ?? ''; portraitSpeciesId = fieldDialogue.portraitSpeciesId ?? ''; portraitEmotion = fieldDialogue.portraitEmotion ?? 'normal'; labels = []; }
     if (tutorials.length) { text = tutorials[0] ?? ''; labels = []; speaker = ''; portraitSpeciesId = ''; }
@@ -872,7 +879,7 @@ async function main() {
   function handleInput(action, event) {
     if (disposed || document.hidden) return;
     if (!helpPanel.hidden) { if (action === 'cancel' || action === 'menu') hideHelp(event); return; }
-    if (faintPublication || busy || paused || startGate !== 'running') return;
+    if (faintPublication || busy || paused || storyTransitionStarted!==null || startGate !== 'running') return;
     if(floorMap.active){
       const result=floorMap.handle(action,clock);
       if(result==='closed'){input.clear();rebuild();}
@@ -946,7 +953,7 @@ async function main() {
 
   /** @param {Event} [event] */
   function choose(event) {
-    if (faintPublication || busy || paused || disposed || !helpPanel.hidden || startGate !== 'running') return;
+    if (faintPublication || busy || paused || disposed || storyTransitionStarted!==null || !helpPanel.hidden || startGate !== 'running') return;
     if(floorMap.blocks(clock))return;
     if(pendingCameraCancel)return;
     if(dungeonCamera.locked){if(menu)pendingCameraChoice={menu,index:selectedIndex,revision:presentationRevision,event};return;}
@@ -1014,9 +1021,6 @@ async function main() {
       if (selectedIndex === 1) void setPhase(phase === 'hero-name-confirm' ? 'hero-name' : 'partner-name');
       else if (phase === 'partner-name-confirm') { state.partnerName = state.nameDraft; void setPhase('departure'); }
       else { state.heroName = state.nameDraft; void setPhase('named'); }
-    } else if (phase === 'help-choice') {
-      if (selectedIndex === 0) void setPhase('enter');
-      else { notice = `${state.partnerName}: Caterpie is frightened and alone. Please, let us help him together.`; dialoguePage = 0; rebuild(); }
     } else if (phase === 'dungeon') {
       if (clock >= eventUntil) act({ type: 'attack' });
     } else if (phase === 'defeated') {
@@ -1033,6 +1037,7 @@ async function main() {
     if (!script) return;
     if (state.line < script.length - 1) {
       state.line += 1; dialoguePage = 0;
+      if(phase==='clearing'&&state.line===1||phase==='named'&&state.line===3){storyTransitionStarted=clock;input.clear();}
       if (phase === 'reunion' && state.line === 5) { state.rewarded = true; audio.effect('reward'); }
       rebuild(); commitNow(); return;
     }
@@ -1040,15 +1045,25 @@ async function main() {
     else if (phase === 'departure') void setPhase('awakening');
     else if (phase === 'awakening') { state.nameDraft = state.heroName; void setPhase('hero-name'); }
     else if (phase === 'named') void setPhase('trouble');
-    else if (phase === 'trouble') void setPhase('help-choice');
-    else if (phase === 'enter') {
-      try {
-        state.dungeon = createDungeon({ heroSpeciesId: state.heroSpeciesId, partnerSpeciesId: state.partnerSpeciesId,
-          heroName: state.heroName, partnerName: state.partnerName }, data);
-        void setPhase('dungeon', 0, true);
-      } catch (error) { fail(error); }
-    } else if (phase === 'clearing') { audio.effect('rescue'); void setPhase('reunion'); }
+    else if (phase === 'trouble') void setPhase('enter');
+    else if (phase === 'clearing') { audio.effect('rescue'); void setPhase('reunion'); }
     else if (phase === 'reunion') { state.rewarded = true; void setPhase('complete'); }
+  }
+
+  function advanceStoryTransition() {
+    if(storyTransitionStarted===null||!state||!foregroundEligible())return;
+    const phase=state.phase;
+    if(phase!=='enter'&&phase!=='clearing'&&phase!=='named')return;
+    const elapsed=Math.floor((clock-storyTransitionStarted)*60/1000);
+    view.storyTransitionFrame=elapsed;
+    if(elapsed<STORY_TRANSITIONS[phase].frames)return;
+    storyTransitionStarted=null;input.clear();
+    if(phase!=='enter'){rebuild();return;}
+    try {
+      state.dungeon=createDungeon({heroSpeciesId:state.heroSpeciesId,partnerSpeciesId:state.partnerSpeciesId,
+        heroName:state.heroName,partnerName:state.partnerName},data);
+      void setPhase('dungeon',0,true);
+    }catch(error){fail(error);}
   }
 
   function giveUpDungeon() {
@@ -1180,9 +1195,14 @@ async function main() {
     bottomCanvas.toBlob(blob => {
       if (!blob || disposed) return;
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
+      // The website owns downloads when this game is embedded in its page.
+      // Cross-origin hosts keep the download local to the game document.
+      let owner=document;
+      try{if(window.parent!==window&&window.parent.document.body)owner=window.parent.document;}catch{ /* The host is a different origin. */ }
+      const link = owner.createElement('a');
       link.href = url; link.download = 'blue-rescue-team-screen.png';
-      link.click(); window.setTimeout(() => URL.revokeObjectURL(url), 10000);
+      owner.body.append(link);link.click();link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 10000);
     }, 'image/png');
   });
   soundButton.addEventListener('click', event => {
@@ -1287,6 +1307,8 @@ async function main() {
     const elapsed = lastFrame ? Math.min(50, Math.max(0, now - lastFrame)) : 0;
     lastFrame = now;
     if (foregroundEligible()) clock += elapsed;
+    advanceStoryTransition();
+    if(disposed)return;
     if (liveMessageRemaining > 0 && !document.hidden && document.hasFocus() && isDungeonSurface()) {
       liveMessageRemaining = Math.max(0, liveMessageRemaining - elapsed);
       if (liveMessageRemaining === 0) clearLiveMessages();

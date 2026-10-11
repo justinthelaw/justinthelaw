@@ -4,6 +4,15 @@
 /** @typedef {'narrator'|'hero'|'partner'|'butterfree'|'caterpie'} Speaker */
 /** @typedef {{speaker:Speaker,text:string,scene?:string,pose?:string,emotion?:string,quiet?:boolean,offscreen?:boolean}} StoryLine */
 
+/** Comparative ground-script waits and coordinate walks, in nominal 60 Hz
+ * frames. The browser keeps both departure walks visible before loading B1F.
+ * These transient clocks never become save fields. */
+export const STORY_TRANSITIONS=Object.freeze({
+  named:Object.freeze({frames:172}),
+  enter:Object.freeze({wait:10,frames:120}),
+  clearing:Object.freeze({wait:30,walk:88,frames:148}),
+});
+
 /** @type {Readonly<Record<string,readonly StoryLine[]>>} */
 export const STORY = Object.freeze({
   welcome: [
@@ -40,11 +49,7 @@ export const STORY = Object.freeze({
     { speaker: 'partner', text: 'They attacked you? Pokémon would not normally do that.', emotion: 'shocked' },
     { speaker: 'butterfree', text: 'They seem frightened and angry. I cannot get past them... My poor child is all alone!' },
     { speaker: 'partner', text: 'The natural disasters must have upset them. We cannot leave Caterpie down there.' },
-    { speaker: 'partner', text: '{hero}, will you come with me? We have to help!' },
-  ],
-  enter: [
-    { speaker: 'partner', text: 'Thank you! Stay close, {hero}. We will find Caterpie together.' },
-    { speaker: 'butterfree', text: 'Please bring my child back safely!' },
+    { speaker: 'partner', text: 'Come on, {hero}. We have to help Caterpie!' },
   ],
   clearing: [
     { speaker: 'caterpie', text: 'Mommy... Where are you? I want to go home...', emotion: 'teary-eyed' },

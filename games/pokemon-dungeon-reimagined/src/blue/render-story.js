@@ -1,4 +1,5 @@
 import { text } from './render-font.js';
+import { STORY_TRANSITIONS } from './story.js';
 
 /** @typedef {import('./renderer.js').View} View */
 /** @typedef {import('./render-sprites.js').SpriteBank} SpriteBank */
@@ -21,12 +22,12 @@ function direction(dx,dy){
  * Timing here is nominal 60 Hz, not a claim about the DS animation driver.
  * @param {[number,number][]} path @param {number} elapsed */
 function followPath(path,elapsed){
-  let frames=Math.max(0,elapsed/FRAME_MS);
+  let frames=Math.max(0,Math.floor(elapsed/FRAME_MS));
   for(let index=1;index<path.length;index++){
     const previous=path[index-1],next=path[index];if(!previous||!next)continue;
     const dx=next[0]-previous[0],dy=next[1]-previous[1],length=Math.max(Math.abs(dx),Math.abs(dy));
-    if(frames<length)return{x:previous[0]+dx*frames/length,y:previous[1]+dy*frames/length,direction:direction(dx,dy),moving:true};
-    frames-=length;
+    if(frames<length+1){const progress=Math.min(frames,length);return{x:previous[0]+dx*progress/length,y:previous[1]+dy*progress/length,direction:direction(dx,dy),moving:true};}
+    frames-=length+1;
   }
   const last=path.at(-1)??[0,0];
   return{x:last[0],y:last[1],direction:/** @type {Direction} */('s'),moving:false};
@@ -37,8 +38,6 @@ function followPath(path,elapsed){
 export class StoryActors {
   constructor(){
     this.phase='';this.beat='';this.beatStart=0;
-    /** @type {number|null} */this.arrivalStart=null;
-    /** @type {number|null} */this.walkStart=null;
     /** @type {number|null} */this.departureStart=null;
     /** @type {number|null} */this.wakeStart=null;
     /** @type {number|null} */this.giftStart=null;
@@ -49,8 +48,7 @@ export class StoryActors {
   draw(context,sprites,view,time){
     const phase=view.storyPhase??view.scene,line=view.storyLine??0,reduced=Boolean(view.reducedMotion);
     if(this.phase!==phase){
-      if(phase==='awakening'){this.arrivalStart=null;this.walkStart=null;this.departureStart=null;this.wakeStart=null;}
-      if(phase==='clearing')this.walkStart=null;
+      if(phase==='awakening'){this.departureStart=null;this.wakeStart=null;}
       if(phase==='reunion'){this.departureStart=null;this.giftStart=null;this.giftReturnStart=null;}
       this.phase=phase;
     }
@@ -71,9 +69,9 @@ export class StoryActors {
       hero.direction=!reduced&&awakeFor>=200&&awakeFor<400?'w':'e';
     }
 
-    if(named&&line>=2){
-      this.arrivalStart??=time;
-      const arrival=followPath(BUTTERFREE_APPROACH,reduced?Infinity:time-this.arrivalStart);
+    if(named&&line>=3){
+      const frames=reduced?STORY_TRANSITIONS.named.frames:view.storyTransitionFrame??STORY_TRANSITIONS.named.frames;
+      const arrival=followPath(BUTTERFREE_APPROACH,frames*FRAME_MS);
       actors.push({speciesId:'pokemon-012',...arrival,clip:arrival.moving?'walk':'idle'});
       hero.direction=arrival.x<100?'w':'n';partner.direction=arrival.x<100?'nw':'n';
     }else if(view.scene==='trouble'){
@@ -82,10 +80,25 @@ export class StoryActors {
       actors.push({speciesId:'pokemon-012',x:128,y:80,direction:facing});
     }
 
+    if(phase==='enter'){
+      const tick=reduced?STORY_TRANSITIONS.enter.frames:Math.max(0,(view.storyTransitionFrame??0)-STORY_TRANSITIONS.enter.wait);
+      for(const [actor,start,first,handoff] of /** @type {const} */([[hero,112,36,1],[partner,144,44,0]])){
+        let remaining=Math.max(0,tick-handoff),travel=0;
+        for(const distance of [first,56,56]){
+          const frames=Math.ceil(distance/1.5)+1;
+          travel+=Math.min(distance,Math.max(0,remaining)*1.5);
+          if(remaining<frames)break;
+          remaining-=frames;
+        }
+        actor.x=start-travel;actor.direction='w';
+        actor.clip=tick>handoff&&travel<first+112?'walk':'idle';actor.time=reduced?0:tick*FRAME_MS;
+      }
+    }
+
     if(clearing){
-      if(line>=1)this.walkStart??=time;
-      const elapsed=this.walkStart===null?0:reduced?88*FRAME_MS:Math.max(0,time-this.walkStart);
-      const progress=this.walkStart===null?0:Math.min(1,elapsed/(88*FRAME_MS));
+      const frames=line<1?0:reduced?STORY_TRANSITIONS.clearing.walk:
+        view.storyTransitionFrame===undefined?STORY_TRANSITIONS.clearing.walk:Math.max(0,view.storyTransitionFrame-STORY_TRANSITIONS.clearing.wait);
+      const elapsed=frames*FRAME_MS,progress=Math.min(1,frames/STORY_TRANSITIONS.clearing.walk);
       hero.y=204-88*progress;partner.y=204-88*progress;
       hero.clip=partner.clip=progress>0&&progress<1?'walk':'idle';
       hero.time=partner.time=elapsed;

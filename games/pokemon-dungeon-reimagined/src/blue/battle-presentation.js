@@ -338,7 +338,7 @@ export class BattlePresentation {
       // independently of the later per-cell camera visibility checks.
       cursor++;
       const info=assets.effectInfo(route.travel,caster.direction);
-      const samples=info&&distance===1&&(moveId==='move-ember'||moveId==='move-hypnosis'&&caster.speciesId==='pokemon-102')?adjacentTrajectory(moveId,assets,caster,this.poses,cursor,Math.floor((this.startedAt-this.rawPauseBefore+cursor*TICK_MS)/TICK_MS),route,from,to):undefined;
+      const samples=info&&distance===1&&(moveId==='move-ember'||moveId==='move-hypnosis'&&caster.speciesId==='pokemon-102'||moveId==='move-screech')?adjacentTrajectory(moveId,assets,caster,this.poses,cursor,Math.floor((this.startedAt-this.rawPauseBefore+cursor*TICK_MS)/TICK_MS),route,from,to):undefined;
       const dx=Math.sign(to.x-from.x),dy=Math.sign(to.y-from.y),duration=24/route.travelSpeed;
       let elapsedOffset=0;
       for(let step=1;step<=distance;step++){
@@ -486,7 +486,7 @@ export class BattlePresentation {
             const castDelay=launches&&(releaseAt===castAt||releaseAt===(castAt??0)+1)?1:0;
             const release=Math.min(releaseAt+castDelay,120+(launches?1:0));
             pose({actorId:record.actor.id,start:cursor+1,end:cursor+info.totalTicks+2,clip:'attack-physical',animation,direction:record.actor.direction,
-              ...((record.moveId==='move-ember'||record.moveId==='move-hypnosis'&&record.actor.speciesId==='pokemon-102')&&animation===3?{idleAt:cursor+info.totalTicks+2}:{})});
+              ...((record.moveId==='move-ember'||record.moveId==='move-hypnosis'&&record.actor.speciesId==='pokemon-102'||record.moveId==='move-screech')&&animation===3?{idleAt:cursor+info.totalTicks+2}:{})});
             // Synthesis retains its terminator draw before the healing TRUE drain.
             if(route?.cast&&castAt!==null&&launches)effect(route.cast,record.actor,cursor+castAt+1,route.attachmentSet,record.actor.direction,Infinity,false,false,record.moveId==='move-synthesis'&&route.cast===271);
             cursor+=release;
@@ -876,14 +876,16 @@ function sampledActor(actor,poses,tick,globalTick,visible=true,terminalPose){
   return{actor,x,y,direction,animation,clip,elapsedTicks,visible,...(fainting?{bodyVisible:(globalTick&1)!==0,shadowVisible:false}:{})};
 }
 
-/** Closed adjacent Ember/Exeggcute Hypnosis: source attachment recurrence before
- * each of its eight visible frames. No target scan, clock or RNG is owned here.
+/** Closed adjacent Ember, Exeggcute Hypnosis and Screech: source attachment
+ * recurrence before every visible travel frame. No target scan, clock or RNG is owned here.
  * @param {string} moveId @param {BattleAssets} assets @param {Actor} caster @param {PoseTrack[]} poses
  * @param {number} tick @param {number} globalTick @param {MoveEffects} route
  * @param {{x:number,y:number}} from @param {{x:number,y:number}} to
  * @returns {readonly TravelSample[]} */
 function adjacentTrajectory(moveId,assets,caster,poses,tick,globalTick,route,from,to){
-  if(!(moveId==='move-ember'&&route.travel===137||moveId==='move-hypnosis'&&caster.speciesId==='pokemon-102'&&route.travel===225)||route.travelSpeed!==3||Math.max(Math.abs(to.x-from.x),Math.abs(to.y-from.y))!==1)throw new RangeError('Unsupported native adjacent projectile geometry.');
+  const speed3=moveId==='move-ember'&&route.travel===137||moveId==='move-hypnosis'&&caster.speciesId==='pokemon-102'&&route.travel===225;
+  const screech=moveId==='move-screech'&&route.travel===52&&route.travelSpeed===2;
+  if(!(speed3&&route.travelSpeed===3||screech)||Math.max(Math.abs(to.x-from.x),Math.abs(to.y-from.y))!==1)throw new RangeError('Unsupported native adjacent projectile geometry.');
   const pose=sampledActor(caster,poses,tick,globalTick);
   const attachment=assets.attachmentOffset(caster.speciesId,{direction:pose.direction,animation:pose.animation,clip:pose.clip,ticks:pose.elapsedTicks},route.attachmentSet);
   if(!attachment||!Number.isInteger(attachment.x)||!Number.isInteger(attachment.y)||attachment.x< -32768||attachment.x>32767||attachment.y< -32768||attachment.y>32767)throw new RangeError('Native adjacent projectile attachment is unavailable.');
@@ -892,12 +894,13 @@ function adjacentTrajectory(moveId,assets,caster,poses,tick,globalTick,route,fro
   const short=(/** @type {number} */value)=>(value<<16)>>16;
   let offsetX=attachment.x,offsetY=attachment.y;
   /** @type {TravelSample[]} */const samples=[];
-  for(let frame=0;frame<8;frame++){
+  const frames=24/route.travelSpeed;
+  for(let frame=0;frame<frames;frame++){
     // sub_800E3AC stores each compound assignment into signed 16-bit and C divides
-    // toward zero. For a 24px endpoint its fixed divisor is 24/4=6.
+    // toward zero. For a 24px endpoint the divisor is 24/4=6.
     offsetX=short(Math.trunc(short(offsetX*5)/6));
     offsetY=short(offsetY+9);offsetY=short(offsetY*5);offsetY=short(Math.trunc(offsetY/6));offsetY=short(offsetY-9);
-    const x=from.x*24+12+dx*3*frame,depthY=from.y*24+16+dy*3*frame;
+    const x=from.x*24+12+dx*route.travelSpeed*frame,depthY=from.y*24+16+dy*route.travelSpeed*frame;
     // A raw 99 pair is transformed before this guard. Set -1 ignores pos2;
     // no creation-time validity flag may suppress the whole trajectory.
     samples.push(Object.freeze({x:x+(attached?offsetX:0),y:depthY+(attached?offsetY:0),depthY,depthAdd,visible:!attached||offsetX!==99&&offsetY!==99}));

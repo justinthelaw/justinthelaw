@@ -24,7 +24,7 @@ export { BOOT_DURATION_MS, OPENING_DURATION_MS, TITLE_READY_MS, TITLE_PROMPT_MS 
 /** @typedef {'opening'|'title'|'menu'|'quiz'|'gender'|'result'|'partner'|'name'|'awakening'|'trouble'|'dungeon'|'clearing'|'reunion'|'complete'} Scene */
 /** @typedef {{speaker?:string,text:string,portraitSpeciesId?:string,portraitEmotion?:string,visibleChars?:number}} Dialogue */
 /** @typedef {{index:number,x:number,y:number,width:number,height:number}} ChoiceBounds */
-/** @typedef {{scene:Scene,gender?:'male'|'female',dialogue?:Dialogue|null,choices?:string[],disabledChoices?:boolean[],selectedIndex?:number,choiceColumns?:number,heroSpeciesId?:string,partnerSpeciesId?:string,heroName?:string,partnerName?:string,dungeonClock?:number,dungeon?:DungeonState|null,battle?:import('./battle-presentation.js').BattleFrame,cameraActorId?:'hero'|'partner',menuActorId?:'hero'|'partner',dungeonLightLevel?:number,menuTitle?:string,notice?:string,titleSubtitle?:string,titleImmediate?:boolean,nameValue?:string,nameTarget?:'hero'|'partner',naming?:import('./naming.js').NamingState,quizProgress?:number,partnerChoices?:string[],storyPhase?:string,storyLine?:number,storyPose?:string,topScreen?:'map'|'team'|'log',mapStyle?:import('./map-mode.js').MapStyle,floorMapOpen?:boolean,mapMonsterDots?:boolean,mapInputTurn?:number,showGrid?:boolean,gridLines?:boolean,showToolbar?:boolean,reducedMotion?:boolean,blackout?:boolean,fade?:number,openingProgress?:number}} View */
+/** @typedef {{scene:Scene,gender?:'male'|'female',dialogue?:Dialogue|null,choices?:string[],disabledChoices?:boolean[],selectedIndex?:number,choiceColumns?:number,heroSpeciesId?:string,partnerSpeciesId?:string,heroName?:string,partnerName?:string,dungeonClock?:number,dungeon?:DungeonState|null,battle?:import('./battle-presentation.js').BattleFrame,cameraActorId?:'hero'|'partner',menuActorId?:'hero'|'partner',dungeonLightLevel?:number,menuTitle?:string,notice?:string,titleSubtitle?:string,titleImmediate?:boolean,nameValue?:string,nameTarget?:'hero'|'partner',naming?:import('./naming.js').NamingState,quizProgress?:number,partnerChoices?:string[],storyPhase?:string,storyLine?:number,storyPose?:string,storyTransitionFrame?:number,topScreen?:'map'|'team'|'log',mapStyle?:import('./map-mode.js').MapStyle,floorMapOpen?:boolean,mapMonsterDots?:boolean,mapInputTurn?:number,showGrid?:boolean,gridLines?:boolean,showToolbar?:boolean,reducedMotion?:boolean,blackout?:boolean,fade?:number,openingProgress?:number}} View */
 
 const WIDTH = 256, HEIGHT = 192;
 const AURA_SCENES = new Set(['quiz', 'gender', 'result', 'partner', 'name']);
@@ -217,6 +217,14 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
   let waitingDialogue='',waitingSince=0;
   /** @type {boolean[]} */let sight=[];
   /** @type {number[]|null} */let sightTiles=null;let sightKey='';
+  /** The hero is named in the ground scene; only the pre-adventure partner
+   * naming screen uses the personality-test background.
+   * @param {View} view @param {number} time @param {number} animationTime */
+  function groundScene(view,time,animationTime){
+    terrain.regionMap(top);panel(top,56,152,184,32,{pink:view.gender==='female'});text(top,'Tiny Woods',121,162);
+    terrain.clearing(bottom,animationTime,{clearing:view.scene==='clearing',reducedMotion:view.reducedMotion});
+    storyActors.draw(bottom,sprites,view,time);
+  }
   function dispose(){if(disposed)return;disposed=true;options.signal?.removeEventListener('abort',dispose);sprites.dispose();terrain.dispose();intro.dispose();aura.dispose();artwork.dispose();statuses.dispose();effects.dispose();hypnosis.dispose();notice.reset();map.reset();disposeFont();disposeNativeUi();choiceBounds=[];sight=[];sightTiles=null;toolbarVisible=false;fill(top,'#000000');fill(bottom,'#000000');}
   options.signal?.addEventListener('abort',dispose,{once:true});
   if(options.signal?.aborted){dispose();throw new DOMException('Loading was cancelled.','AbortError');}
@@ -262,7 +270,8 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
       }else if(view.scene==='menu'){
         artwork.menuLogo(top);artwork.menu(bottom);
       }else if(['quiz','gender','result','partner','name'].includes(view.scene)){
-        aura.draw(bottom,time,{reducedMotion:view.reducedMotion,mode:'cycle'});
+        if(view.scene==='name'&&view.nameTarget==='hero')groundScene(view,time,animationTime);
+        else aura.draw(bottom,time,{reducedMotion:view.reducedMotion,mode:'cycle'});
         if(view.scene==='result'&&view.storyLine===2){panel(bottom,100,60,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,hero,104,64,{flip:true,emotion:'happy'});}
         if(view.scene==='partner'){
           const current=view.partnerChoices?.[view.selectedIndex??0]??partner;panel(bottom,116,44,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,current,120,48,{flip:true,emotion:'normal'});
@@ -274,9 +283,7 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
         toolbarVisible=Boolean(view.showToolbar&&!view.dialogue&&!view.choices?.length);
         if(toolbarVisible)nativeTouchToolbar(bottom,view.gender==='female');
       }else{
-        terrain.regionMap(top);panel(top,56,152,184,32,{pink:view.gender==='female'});text(top,'Tiny Woods',121,162);
-        terrain.clearing(bottom,animationTime,{clearing:view.scene==='clearing',reducedMotion:view.reducedMotion});
-        storyActors.draw(bottom,sprites,view,time);
+        groundScene(view,time,animationTime);
         if(view.scene==='complete'){panel(bottom,26,12,204,28);text(bottom,'Caterpie was rescued!',128,20,{align:'center',color:'#fbfb00'});}
       }
       if(view.blackout){fill(top,'#000000');fill(bottom,'#000000');}
