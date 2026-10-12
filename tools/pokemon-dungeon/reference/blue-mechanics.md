@@ -105,8 +105,15 @@ copied abilities, factual mutation or helper callers requires a new source revie
   partner's Course Checker toggle; execution still hits the first actual actor
   on that ray. Wild Status Checker uses the represented active status fields.
   These are bounded comparative Red-source corrections, not proof of Blue
-  binary equivalence. No-visible-foe scheduling, Struggle, movement and the
-  full native IQ decision tree remain qualified. Water Sport and Helping Hand
+  binary equivalence. Ordinary nonconfused actors without Dedicated Traveler
+  now enter the existing chooser without a visible foe when every enabled slot
+  belongs to these 24 exact move IDs. This consumes the real opportunity pool
+  and can resolve a two-tile target beyond the browser's room sight border;
+  it does not substitute a discarded random draw. Empty enabled sets, global
+  PP exhaustion, Exclusive Move User and wild IQ guards retain their owners.
+  An enabled later move outside that set preserves the qualified scheduling
+  path. Confusion, Dedicated Traveler, broader Struggle/movement behavior and
+  the full native IQ decision tree remain qualified. Water Sport and Helping Hand
   belong only to hero species in this roster, so dormant room-target AI is
   omitted; their player actions remain available. Hero-only Attract, Disable,
   Low Kick and Bone Club are also absent from autonomous policy, and the dead

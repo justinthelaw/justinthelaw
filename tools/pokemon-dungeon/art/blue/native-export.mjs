@@ -4,6 +4,17 @@ import { Raster } from '../pixel/raster.mjs';
 import { blueChannel, decodePng, readTarGzip } from './native-format.mjs';
 
 const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
+const TEAM_RUNTIME_SPECIES=new Set([1,4,7,25,52,54,66,104,133,152,155,158,252,255,258,300].map(id=>`pokemon-${String(id).padStart(3,'0')}`));
+const WILD_RUNTIME_SPECIES=new Set([16,102,191,265].map(id=>`pokemon-${String(id).padStart(3,'0')}`));
+const GROUND_RUNTIME_SPECIES=new Set([10,12,279].map(id=>`pokemon-${String(id).padStart(3,'0')}`));
+/** Runtime tails retain hero story animation13, dungeon status animation11,
+ * and literal ground/cinematic idle-walk animation7 respectively. */
+export function nativeRuntimeAnimationCount(speciesId){
+  if(TEAM_RUNTIME_SPECIES.has(speciesId))return 14;
+  if(WILD_RUNTIME_SPECIES.has(speciesId))return 12;
+  if(GROUND_RUNTIME_SPECIES.has(speciesId))return 8;
+  throw Error(`Native actor lacks a scoped runtime route: ${speciesId}`);
+}
 const SHAPES={ST_OAM_SQUARE:[[8,8],[16,16],[32,32],[64,64]],ST_OAM_H_RECTANGLE:[[16,8],[32,8],[32,16],[64,32]],ST_OAM_V_RECTANGLE:[[8,16],[8,32],[16,32],[32,64]]};
 const POSE=/AX_POSE\(\s*(-?\d+),\s*OAM1\(\s*(\d+),\s*(ST_OAM_\w+)\s*,\s*(\d+)\),\s*OAM2\(\s*(\d+),\s*ST_OAM_SIZE_(\d),\s*FLIP\((\d),\s*(\d)\),\s*(\d+),\s*(\d+)\),\s*OAM3\((\d+),\s*(\d+),\s*(\d+)\)\)/g;
 const ANIM=/\{\s*\.frames\s*=\s*(\d+),\s*\.unkFlags\s*=\s*(\d+),\s*\.poseId\s*=\s*(\d+),\s*\.offset\s*=\s*\{(-?\d+),\s*(-?\d+)\},\s*\.shadow\s*=\s*\{(-?\d+),\s*(-?\d+)\}\s*\}/g;
@@ -152,7 +163,10 @@ export async function exportNativeSprites({emit,output}){
     // Keep source descriptors checked offline; browser playback uses fixed
     // direction and attachment conventions with the same retained frame data.
     if(JSON.stringify(metadata.directions)!==JSON.stringify(DIRECTIONS)||JSON.stringify(metadata.effectOffsetSetIds)!=='[1,2,3]'||metadata.sourceEdition!==manifest.spriteSource.edition)throw Error('Native actor source descriptors changed.');
-    const runtimeMetadata={...metadata,schemaVersion:3};
+    const runtimeAnimationCount=nativeRuntimeAnimationCount(species.speciesId);
+    if(metadata.animations.length<runtimeAnimationCount)throw Error('Native actor lacks its retained runtime animation tail.');
+    const runtimeMetadata={...metadata,schemaVersion:3,animations:metadata.animations.slice(0,runtimeAnimationCount),clips:nativeClips(runtimeAnimationCount)};
+    for(const clip of Object.values(runtimeMetadata.clips))if(clip.animation<0||clip.animation>=runtimeMetadata.animations.length)throw Error('Native actor clip exceeds its retained runtime animation tail.');
     delete runtimeMetadata.directions;delete runtimeMetadata.effectOffsetSetIds;delete runtimeMetadata.sourceEdition;
     const bytes=atlas.png(),metadataText=JSON.stringify(runtimeMetadata)+'\n',path=`${species.speciesId}.png`,metadataPath=`${species.speciesId}.json`;
     if(Buffer.byteLength(metadataText)>128*1024)throw Error('Native species metadata exceeds its encoded byte budget.');

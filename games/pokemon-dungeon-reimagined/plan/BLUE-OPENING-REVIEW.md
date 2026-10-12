@@ -13,14 +13,15 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 16
+## Current candidate 18
 
-Candidate 16 contains **152 files totaling 2,964,103 bytes**, below the
-unchanged 3 MiB distribution cap. It builds on the checked deletion-only
-candidate-15 source and adds the bounded Tackle 344 cue. Its website shell uses
-33 hardlinked files from the verified `a59d065` Pages artifact; all declared
-game resources are independently copied. The game uses local resources only
-and has no runtime CDN dependency.
+Candidate 18 contains **152 files totaling 2,765,483 bytes**, below the
+unchanged 3 MiB distribution cap. It composes the published candidate-16 source
+with the independently reviewed no-visible-foe AI correction and a narrow
+actor-animation metadata tail deletion. Its frozen website shell uses 33
+hardlinked files from the verified `37d6473` Pages artifact; all declared game
+resources are independently copied. The game uses local resources only and has
+no runtime CDN dependency.
 
 The native battle presentation contains **56 distinct indexed effects in three
 banks**. Their decoded atlases use 3,948,544 bytes. Including the separately
@@ -101,22 +102,27 @@ required target draw even for one candidate, Course Checker boundaries and the
 captured regular fallback. Independent deletion-only review then removed four
 unreachable hero-only AI branches: Attract, Disable, Low Kick and Bone Club.
 The current source retains 13 reachable tuple-zero front/self branches and seven
-reachable adjacent-class branches. The broader native movement/IQ tree and
-no-visible-foe scheduling remain qualified. The frozen manual candidate still
-uses pre-pruning mechanics SHA-256
-`120baa72eb96d1e0fa022cdc3fb5c81a0913c814904746e5f8ae02deee32c4d0`;
-current mechanics SHA-256 is
-`b03c629e0ef01d2c4661215e780713f688aacc26abc7c063a9e99cd78302dcfa`.
-These corrections postdate the immutable candidate 12 browser run. The
-post-pruning static suite passed; its manual continuation remains pending.
+reachable adjacent-class branches. Candidate 18 adds the source-qualified no-visible-foe scheduling branch for the
+24 exact supported resolver IDs while preserving ordinary follow, heal and
+stairs behavior. Candidate 17 manually continued Flare/Bud's preserved B1F save
+through no-visible-foe walking/follow/heal, stairs, B2F combat, Quicksave,
+Adventure Log and Continue with empty browser logs. It did not expose the
+unseen two-target branch or complete a rescue. Candidate 18 adds only actor
+metadata pruning beyond that mechanics after-image. Its post-pruning browser
+continuation restored the same B2F save, rendered Growl, walk/follow and HP
+recovery with current actor metadata, then Quicksaved and continued at 21
+turns with empty logs. This is bounded evidence rather than all-23-actor UI
+coverage or a full-rescue run. The broader native movement/IQ tree remains
+qualified.
 Original Blue seed history, the complete RNG call schedule and cartridge replay remain unproved.
 
 ## Static and hosted evidence
 
-Candidate 16's Node 24.21.0 authoring checks passed and cover lint, strict
-static types, source facts, geometry, provenance, archive hashes, effect
-inventories, decoded and encoded limits, distribution closure and all 59 PCM
-source pins. They do not import or execute the game as a test. Candidate 15's
+Candidate 18's Node 24.21.0 authoring checks passed at 152 files and
+2,765,483 bytes. They cover lint, strict static types, source facts, geometry,
+provenance, archive hashes, retained actor clip bounds, effect inventories,
+decoded and encoded limits, distribution closure and all 59 PCM source pins.
+They do not import or execute the game as a test. Candidate 15's
 fresh browser run completed all three floors, rescue, reunion, all three berry
 rewards, Adventure Log at 227 turns, Return to top menu and completed Continue.
 Both party members reached level 6; warning/error logs were empty. The current
@@ -130,7 +136,7 @@ Log, Continue and controls recovered with no warning/error logs. Only Bulbasaur
 of the nine source-reviewed bindings was cast, and no physical audio was
 auditioned.
 
-Exact published head `37d647392ce3f31b56fccc780437b035525b9f37`
+Exact published head `2376b788d1b03a454fc1e1b8e0939de5b4ef38d4`
 passed hosted lint, Game Static Checks, Playwright and CodeQL. Its exact-head
 Codex review completed with no new findings. The sole watcher exited 1 only
 because the two repaired `a59d065` threads remain outdated but unresolved; no
@@ -169,10 +175,12 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 14 | Reproduced the published loss of sound activation after host Show/Hide, then verified the local repair: pointer Show/Hide, host A, Return and Space toggles retained Sound On and continued play; explicit mute remained off; unrelated Back-button focus required a new trusted child click, after which host-control retention worked again | PASS for same-origin host-control focus ownership; browser log clean. OS/window backgrounding was not observed, and no physical audio output was auditioned |
 | Candidate 15 | Fresh Hardy-boy Charmander Ember and Squirtle Shell completed all three floors, rescue/reunion, all three berry rewards, Adventure Log at 227 turns, Return to top menu and completed Continue; both reached level 6; Tail Whip/Tackle, changing adjacent wild targets and Scratch menu use were observed | PASS for the immutable pre-pruning mechanics `120baa72…`; warning/error log empty. No loss/retry, Bubble or Water Sport cast, physical audio audition or original-Blue parity claim |
 | Candidate 16 | Fresh Hardy-boy Charmander Flare/Bulbasaur Bud B1F smoke: six manual waits produced regular hit/miss, two Growls and Bulbasaur Tackle for 18 damage/KO; Sound On, Help pause/trusted recovery, PP/EXP, Quicksave, six-turn Adventure Log and Continue passed | PASS for one bounded Tackle binding and control recovery; warning/error log empty. The other eight bindings remain source-reviewed, no physical audio was auditioned, and candidate 15 remains the separate complete run |
+| Candidate 17 | Continued Flare/Bud from the preserved six-turn B1F save: no-visible-foe walking/follow/heal, stairs, B2F regular attack for 7 damage/KO, 8 EXP for both actors, menus, Quicksave, 17-turn Adventure Log and Continue | PASS for the isolated no-foe mechanics after-image; warning/error log empty. No hidden RNG measurement, unseen two-target branch, or full rescue claim |
+| Candidate 18 | Restored the same Flare/Bud B2F save at 17 turns with pruned actor metadata; hero Growl animated and consumed PP with no target, then three eastward steps, partner follow, HP recovery, Quicksave, 21-turn Adventure Log and Continue passed | PASS for the current trimmed metadata and bounded continuation; warning/error log empty. No all-23-actor UI coverage, hidden RNG measurement, physical audio audition or full-rescue claim |
 
-A separate fresh candidate 12 native-family tester remains unfinished and is
-waiting for approval. It is not completion evidence and is not claimed by this
-table.
+The separate candidate-12 fresh trial is retired as invalid acceptance evidence
+because it used hidden reads. Its preserved partial evidence does not extend the
+manual claims in this table; candidate 15 supplies the valid fresh full run.
 
 Prior portrait, native interface, touch layout, loss/retry, Give Up, item,
 status, PP, EXP and save observations remain in the preserved review history and
@@ -205,19 +213,18 @@ browser viewport evidence, not physical iOS or Android acceptance.
   effect, dialogue and sound timing is not established for every route.
 - Background music is intentionally absent at Justin's request from 2026-10-11.
   This is an explicit scope waiver rather than an unresolved implementation bug.
-- Candidate 15 expands reachable front/self, two-tile and line AI targeting
-  from pinned comparative source. Both pre-pruning and current deletion-only
-  static suites passed; the complete fresh browser run uses the frozen
-  pre-pruning mechanics, whose later prune removed only unreachable literals. Native movement/IQ scheduling, original seed history, the complete
+- Candidate 18 retains the reviewed front/self, two-tile and line AI targeting
+  and adds the bounded no-visible-foe branch. Candidate 17 supplies focused
+  walking/follow/heal, stairs and B2F continuation evidence; the unseen
+  two-target branch remains source-only. Native movement/IQ scheduling, original seed history, the complete
   RNG call order, and Blue binary parity remain qualified. The native-family core and
   sampled captures do not prove cartridge replay identity.
 - Candidate 13 has a complete legacy-xoshiro continuation through rescue and
   visible two-recipient Hypnosis selection/recovery evidence. Candidate 14 adds
   focused host-control audio-activation evidence; true OS/window backgrounding
   and physical audio output remain unobserved. Leech Seed and
-  PCM 807 were not cast. Candidate 12's separate fresh
-  native-family tester remains pending after corrected failed hidden-read attempts
-  and is not completion evidence. Newly admitted
+  PCM 807 were not cast. The separate candidate-12 fresh trial is invalid
+  acceptance evidence because it used hidden reads. Newly admitted
   first-attempt visual and audio routes are not each manually cast or auditioned.
 - Candidate 16's Tackle 344 admission passed static source, preservation,
   lifetime and cap checks plus one focused Bulbasaur browser cast. The other

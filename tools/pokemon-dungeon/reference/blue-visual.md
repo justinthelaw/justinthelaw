@@ -141,7 +141,14 @@ atlases and 8 MiB of decoded species pixels, with abortable local fetches and
 disposed ImageBitmaps. During a transition it can briefly retain the complete
 23-species inventory, totaling 11,657,216 decoded bytes, before eviction. The
 largest dual-palette species image is 929,792 decoded bytes; the largest 12 fit
-within the steady-state budget. The portrait atlas adds 614,400 decoded bytes:
+within the steady-state budget. Candidate 18 removes only unreachable tails
+from the 23 actor animation arrays: 29,589 source rows become 19,232 retained
+rows, saving 199,380 encoded JSON bytes. All 23 PNGs, retained frame rows, pose
+numbers, attachments, status offsets, atlas dimensions and runtime consumers
+remain byte- or value-identical. The generator and static checks reject any
+retained clip index or alias outside the shortened arrays. This is scoped to the
+opening, Tiny Woods, rescue and retained retry states; it does not claim the
+removed native animations are globally unused. The portrait atlas adds 614,400 decoded bytes:
 320×480 pixels, with 71,976 PNG bytes and 7,675 metadata bytes. Omitting unused
 emotions saves 110,782 download bytes and 768,000 decoded RGBA bytes without
 changing retained portrait pixels or runtime rendering code.

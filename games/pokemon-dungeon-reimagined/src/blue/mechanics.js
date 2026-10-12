@@ -237,7 +237,8 @@ function actAI(state,actor,data,events) {
     const target=foes[0];
     const travelFirst=hasIq(actor,'dedicated-traveler');
     if(travelFirst&&tryAiMovement(state,actor,target,events))return;
-    if(target&&tryAiAttack(state,actor,target,data,events))return;
+    const closedNoFoe=!target&&canChooseWithoutVisibleFoe(actor);
+    if((target||closedNoFoe)&&tryAiAttack(state,actor,target,data,events))return;
     if(!travelFirst)tryAiMovement(state,actor,target,events);
   } finally {
     if(!events.slice(eventStart).some(event=>event.presentation?.kind==='action'&&event.presentation.actorId===actor.id))recordAction(events,actor.id,'wait');
@@ -295,6 +296,15 @@ const AI_FRONT_MOVE_IDS=new Set(['move-tackle','move-vine-whip','move-scratch','
 const AI_TWO_TILE_MOVE_IDS=new Set(['move-growl','move-quick-attack']);
 /** @type {ReadonlySet<string>} */
 const AI_LINE_MOVE_IDS=new Set(['move-bubble','move-razor-leaf']);
+/** A no-visible-foe chooser call is closed only when every enabled slot uses
+ * one of the source-matched opening resolvers below. Empty enabled sets are
+ * intentional: native can still weight the regular attack opportunity.
+ * Confusion and Dedicated Traveler retain their current scheduling boundary.
+ * @param {Actor} actor */
+function canChooseWithoutVisibleFoe(actor){
+  if(actor.status.confusion||hasIq(actor,'dedicated-traveler'))return false;
+  return actor.moves.filter(move=>move.enabled).every(move=>AI_ADJACENT_MOVE_IDS.has(move.id)||AI_FRONT_MOVE_IDS.has(move.id)||AI_TWO_TILE_MOVE_IDS.has(move.id)||AI_LINE_MOVE_IDS.has(move.id));
+}
 /** @type {readonly import('./mechanics-types.js').Direction[]} */
 const AI_NATIVE_DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
 /** Opening-represented CanUseOnTargetWithStatusChecker cases for these tuples.
@@ -364,16 +374,16 @@ function aiLineMoveTarget(state,actor){
   }
   return candidates.length?candidates[draw(state,candidates.length)]:undefined;
 }
-/** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {OpeningData} data @param {GameEvent[]} events */
+/** @param {DungeonState} state @param {Actor} actor @param {Actor|undefined} target @param {OpeningData} data @param {GameEvent[]} events */
 function tryAiAttack(state,actor,target,data,events){
   const regularDirection=aiRegularDirection(state,actor);
-  actor.direction=directionFor(target.x-actor.x,target.y-actor.y);
+  if(target)actor.direction=directionFor(target.x-actor.x,target.y-actor.y);
   const struggle=data.moves['move-struggle'];
   const exhausted=actor.moves.every(m=>m.pp===0);
   if(exhausted&&struggle&&moveTargets(state,actor,struggle).some(a=>team(a)!==team(actor))){attack(state,actor,'struggle',data,events);return true;}
   // Default party IQ has no PP Checker and may select an exhausted slot.
   // Wild Tiny Woods profiles do have it, along with Status Checker.
-  const eligible=exhausted?[]:actor.moves.map((m,slot)=>({m,slot,data:data.moves[m.id]})).filter(x=>x.data&&supportsMove(x.data)&&x.m.enabled&&(team(actor)||x.m.pp>0)&&(AI_ADJACENT_MOVE_IDS.has(x.m.id)||AI_FRONT_MOVE_IDS.has(x.m.id)||AI_TWO_TILE_MOVE_IDS.has(x.m.id)||AI_LINE_MOVE_IDS.has(x.m.id)||((x.data.range===5||x.data.range===8)?considersLineMove(state,actor,target,x.data):moveTargets(state,actor,x.data).some(a=>team(a)!==team(actor)||x.data?.range===7&&distance(actor,target)<=2))));
+  const eligible=exhausted?[]:actor.moves.map((m,slot)=>({m,slot,data:data.moves[m.id]})).filter(x=>x.data&&supportsMove(x.data)&&x.m.enabled&&(team(actor)||x.m.pp>0)&&(AI_ADJACENT_MOVE_IDS.has(x.m.id)||AI_FRONT_MOVE_IDS.has(x.m.id)||AI_TWO_TILE_MOVE_IDS.has(x.m.id)||AI_LINE_MOVE_IDS.has(x.m.id)||(target&&((x.data.range===5||x.data.range===8)?considersLineMove(state,actor,target,x.data):moveTargets(state,actor,x.data).some(a=>team(a)!==team(actor)||x.data?.range===7&&distance(actor,target)<=2)))));
   const regular=data.moves['regular-attack'],regularEligible=!hasIq(actor,'exclusive-move-user')&&!!regular;
   const useRegular=()=>{if(!regularEligible||!regularDirection)return false;actor.direction=regularDirection;attack(state,actor,null,data,events);return true;};
   let total=!exhausted&&regularEligible?([100,20,30,40,50][actor.moves.filter(m=>m.enabled).length]??50):0;

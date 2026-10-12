@@ -1,5 +1,6 @@
 import {readFile} from 'node:fs/promises';
 import {nativeBattleInputs,nativeFields,battleDigest} from './native-battle-inputs.mjs';
+import {nativeRuntimeAnimationCount} from './native-export.mjs';
 
 /** Export factual source-selected animation numbers, without game execution. */
 export async function exportNativeMotions({emit}){
@@ -27,6 +28,12 @@ export async function exportNativeMotions({emit}){
       const speciesId=speciesIds.get(override.species);if(speciesId&&Object.hasOwn(opening.species,speciesId)&&(['regular-attack','move-struggle','bide-release'].includes(move.id)||opening.species[speciesId].learnset.some(([,id])=>id===move.id))&&!Object.hasOwn(selected.overrides,speciesId)){selected.overrides[speciesId]=override.unk2;selected.attachmentOverrides[speciesId]=override.unk4;}
     }
     for(const animation of [selected.animation,...Object.values(selected.overrides)])if(!Number.isInteger(animation)||animation<0||animation>27&&animation!==98&&animation!==99)throw Error('Unknown native move motion selector.');
+    for(const speciesRecord of species){
+      const speciesId=speciesIds.get(`MONSTER_${speciesRecord.name.toUpperCase()}`),learnset=speciesId?opening.species[speciesId]?.learnset:undefined;
+      if(!speciesId||!learnset||!(['regular-attack','move-struggle','bide-release'].includes(move.id)||learnset.some(([,learnedMove])=>learnedMove===move.id)))continue;
+      const animation=selected.overrides[speciesId]??selected.animation;
+      if(animation!==98&&animation!==99&&animation>=nativeRuntimeAnimationCount(speciesId))throw Error(`Native move motion exceeds the retained runtime tail: ${move.id}/${speciesId}`);
+    }
     for(const effect of [selected.preparation,selected.cast,selected.target,selected.travel])if(!Number.isInteger(effect)||effect<0||effect>=448)throw Error('Unknown native move effect route.');
     for(const attachment of [selected.attachmentSet,...Object.values(selected.attachmentOverrides)])if(!Number.isInteger(attachment)||attachment< -1||attachment>3)throw Error('Unknown native move attachment set.');
     records[move.id]=selected;
