@@ -28,7 +28,7 @@ updates:
           - "*"
 
   - package-ecosystem: pip
-    directory: "/ml/profile-qa"
+    directory: "/llm"
     schedule:
       interval: weekly
     groups:

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "develop",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "description": "Repository delivery, dependency upgrades, cleanup, and independent review workflows for coding agents.",
+  "author": {
+    "name": "justinthelaw",
+    "url": "https://github.com/justinthelaw"
+  },
+  "homepage": "https://github.com/justinthelaw/justinthelaw/tree/main/plugins/develop",
+  "repository": "https://github.com/justinthelaw/justinthelaw.git",
+  "keywords": [
+    "development",
+    "repositories",
+    "upgrades",
+    "review",
+    "superpowers"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Develop",
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png",
+        "brandColor": "#C99554",
+        "shortDescription": "Build, upgrade, and review",
+        "longDescription": "Use reusable skills for repository changes, dependency upgrades, Windows, Linux, and macOS cleanup, and independent review. Install Superpowers separately. Review completion requires a runtime that can create a fresh reviewer agent.",
+        "developerName": "justinthelaw",
+        "category": "Developer Tools",
+        "capabilities": ["Read", "Write"],
+        "websiteURL": "https://github.com/justinthelaw/justinthelaw/tree/main/plugins/develop",
+        "defaultPrompt": [
+          "develop iterate: fix this repository's failing build.",
+          "develop upgrade: upgrade this repository's dependencies.",
+          "develop clean: inspect disk and memory usage."
+        ]
+      }
+    }
+  }
+}

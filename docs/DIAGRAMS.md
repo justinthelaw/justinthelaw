@@ -1,136 +1,118 @@
-# Diagrams
+# Architecture and flows
 
-System flows for the static portfolio, browser chatbot, and optional local
-training pipeline. See [Customization](CUSTOMIZATION.md#configuration-map) for
-configuration and the [pipeline guide](../ml/profile-qa/README.md) for commands.
+The portfolio is a static website. Inference runs in the visitor's browser;
+training and model publishing are separate local operations under `llm/`.
+See [Customization](CUSTOMIZATION.md) for configuration fields.
 
-## Application Runtime
+## Website runtime
 
 ```mermaid
 flowchart TD
-  config["SITE_CONFIG.githubBioFallback"] --> page["Static out/ → src/pages/index.tsx"]
-  visitor["Visitor browser"] --> page
-  page --> profile["GitHubProfile: configured fallback"]
-  profile -->|"Hydration refresh"| github["GitHub REST API"]
-  github -->|"Success: replace; failure: keep fallback"| profile
-  page --> resume["ResumeViewer → Google Drive PDF"]
-  page --> chat["Client-only ChatContainer"]
-  chat --> hooks["Chat hooks + Zustand store"]
-  hooks --> consent["Model-download consent"]
-  consent --> service["AIService → Web Worker"]
-  service --> loader["modelLoader.ts → Hugging Face files"]
-  service --> context["contextProvider.ts: retrieval + budget trimming"]
-  facts["public-profile.json"] --> sections["PROFILE_SECTIONS + PROFILE_SUBJECT"]
-  sections --> context
-  service --> stream["Typed WorkerStatus stream"]
-  stream --> hooks
-  hooks --> chat
+  export["Static export: out/"] --> pages["Pages-router UI"]
+  pages --> profile["GitHubProfile"]
+  fallback["Configured bio fallback"] --> profile
+  profile -->|Hydration refresh| github["GitHub REST API"]
+  pages --> resume["Google Drive resume iframe"]
+  pages --> chat["Client-only chat"]
+  pages --> arcade["Arcade cards"]
+  chat --> hooks["Chat hooks and Zustand"]
+  hooks -->|Download consent| service["AIService"]
+  service --> worker["AI Web Worker"]
+  worker -->|Model files| hub["Hugging Face"]
+  facts["public-profile.json"] --> context["Context selection and budget"]
+  context --> worker
+  worker -->|Typed responses| hooks
+  arcade -->|Play| player["Same-origin game iframe"]
 ```
 
-Facts live only in `src/config/public-profile.json`; browser and Python consumers
-load it directly. Prompts/generation use `src/config/prompts.ts`; model/dtype/
-context settings use `src/config/models.ts` (`int8`, then `uint8`). Inference
-stays in `src/services/ai/worker.ts`, off the main thread.
+The profile renders its configured fallback until a successful hydration fetch.
+Chat history lives in the in-memory Zustand store. Downloaded model files run
+through Transformers.js in `src/services/ai/worker.ts`; there is no inference
+server or browser-side training.
 
-## Arcade Player
-
-| Boundary | Responsibility |
-| --- | --- |
-| `src/config/arcade.ts` → `ArcadeGames.tsx` | Cards; Play selects a game without navigating |
-| `GamePlayer.tsx` | Page-filling Radix dialog; creates iframe after Play; Back restores focus |
-| `GameControls.tsx` → `useGameControls.ts` | Touch overlay, pointer-owned keys, same-origin iframe keyboard events |
-| Native desktop keyboard → iframe | Focused game handles its keys |
-| Game iframe → runtime | Exported browser build; Pokémon covers the DS opening through Tiny Woods and Caterpie's rescue |
-
-Website tests substitute inert HTML to check loading, paths, focus, layout, and
-input events. They never execute game source or establish gameplay fidelity.
-
-## Chat Generation Flow
+## Chat generation
 
 ```mermaid
 sequenceDiagram
-  participant UI as Chat UI
-  participant Store as Zustand
+  participant UI as Chat hooks and store
   participant Service as AIService
   participant Worker as AI worker
-  participant Context as contextProvider
+  participant Context as Context provider
   participant Model as Transformers.js
-  UI->>Store: Add user question
-  UI->>Service: Generate with recent turns
+  UI->>UI: Store question and select recent turns
+  UI->>Service: generate(input, turns)
   Service->>Worker: WorkerAction.GENERATE
-  Worker->>Context: Clean input; select sections/history within budget
+  Worker->>Context: Clean input and budget facts/history
   Context-->>Worker: Formatted prompt
-  Worker->>Model: Generate with configured params
+  Worker->>Model: Generate with configured parameters
   Model-->>Worker: Stream text
   Worker-->>Service: WorkerStatus.STREAM
-  Service-->>Store: Update response
-  Store-->>UI: Render answer
+  Service-->>UI: Notify subscribers
   Worker-->>Service: WorkerStatus.DONE
+  Service-->>UI: Finalize answer in history
 ```
 
-## Static Export and Base Path
+Canonical facts and identity come from `src/config/public-profile.json`.
+`models.ts` controls context/dtype settings; `prompts.ts` controls messages and
+generation parameters. Automatic model loading tries `int8`, then `uint8`.
+
+## Arcade boundary
+
+| Owner | Responsibility |
+| --- | --- |
+| `src/config/arcade.ts` and `ArcadeGames.tsx` | Cards and selected game state |
+| `GamePlayer.tsx` | Full-viewport dialog, iframe lifecycle, return focus |
+| `GameControls.tsx` and `useGameControls.ts` | Touch overlay and bounded same-origin keyboard events |
+| Focused iframe | Native desktop keyboard input |
+| `games/<game>/` | Game simulation and its declared static distribution |
+
+Cards remain mounted behind the player. The bridge preserves typing protection,
+key ownership, cancellation, and focus across loads. Website tests use inert
+HTML/key recorders; they do not execute game source or prove gameplay fidelity.
+See [website instructions](../src/AGENTS.md#input-bridge) for the input contract.
+
+## Static build and deployment
 
 ```mermaid
-flowchart LR
-  config["SITE_CONFIG.repository"] --> derived["DERIVED_CONFIG: basePath + assetPrefix"]
-  derived --> next["next.config.mjs"]
-  next --> build["npm run build → out/"]
-  build --> actions["GitHub Pages Actions"]
-  build --> manual["npm run deploy → gh-pages"]
-  build --> preview["npm start"]
+flowchart TD
+  config["SITE_CONFIG.repository"] --> derived["DERIVED_CONFIG"]
+  derived --> next["Next.js static export"]
+  games["games/ distributions"] --> copy["postbuild: export-games.mjs"]
+  next --> copy
+  copy --> output["out/"]
+  output --> preview["npm start"]
+  output --> actions["Pages Actions artifact"]
+  output --> manual["Manual gh-pages publish"]
   actions --> pages["GitHub Pages"]
   manual --> pages
 ```
 
-- Production base path derives from `SITE_CONFIG.repository.name`; never
-  hardcode repository or asset paths in components.
-- Build before `npm start`; the preview infers the exported base path and
-  redirects `/` to it.
-- CI uses Pages Actions; manual deployment uses `gh-pages -d out`.
-- No API routes, server actions, or server-side data loading.
+Production paths derive from the configured repository; user/organization site
+repositories use the domain root. `trailingSlash: true` exports routes such as
+`out/arcade/index.html`. Preview serves an existing build and infers its prefix.
+Publishing requires authorization; building alone does not deploy.
 
-## Fine-Tuning Pipeline
+## Local model pipeline
 
 ```mermaid
 flowchart TD
-  facts["public-profile.json → public_profile.py"] --> data["synthetic_data.py"]
-  facts --> eval["evaluate.py"]
-  data --> train["train_lora.py"]
-  train --> eval
+  facts["public-profile.json"] --> data["Synthetic dataset"]
+  data --> train["LoRA or QLoRA training"]
   base["Pinned Teapot base revision"] --> train
-  train --> checkpoint["PEFT checkpoint: revision + adapter config"]
-  checkpoint --> eval
-  checkpoint --> merge["merge_adapter.py"]
-  base --> eval
-  base --> merge
-  eval --> reports["Predictions + dataset/prompt/model/scoring/generation provenance"]
-  reports --> gate["Promotion gate"]
-  gate --> merge
-  merge --> lineage["Portable lineage + model digests"]
-  lineage --> export["export_onnx.py → native_t5_onnx.py"]
-  export --> fp["FP encoder + merged decoder: dynamic shapes, initial/cached decoding"]
-  fp --> quantized["Quantization bound to FP digest"]
-  quantized --> browser["Embedded-tensor int8/uint8 browser files + digest"]
-  browser --> artifacts["prepare_hf_artifacts.py"]
-  lineage --> artifacts
-  checkpoint --> artifacts
-  reports --> artifacts
-  date["Explicit release date"] --> artifacts
-  artifacts --> publish["publish.py → Hugging Face"]
-  publish --> app["src/config/models.ts → browser worker"]
+  train --> checkpoint["Adapter and lineage"]
+  checkpoint --> evaluate["Evaluation and predictions"]
+  data --> evaluate
+  checkpoint --> merge["Merge adapter"]
+  merge --> export["Native T5 ONNX export"]
+  export --> quantize["Quantize and embed tensors"]
+  evaluate --> gate["Promotion evidence"]
+  quantize --> gate
+  gate --> package["Prepare artifacts and model card"]
+  package --> publish["Authorized Hugging Face publish"]
+  publish --> config["Browser model configuration"]
 ```
 
-Train only when prompt/context edits are insufficient. The browser neither
-trains nor calls an inference server.
-
-| Stage | Guardrail |
-| --- | --- |
-| Configuration | `ml/profile-qa/profile_qa/config.py` holds model IDs, 1024-token budget and LoRA defaults |
-| Dataset | Generated files stay under ignored `ml/profile-qa/data/` |
-| Training | Fixed `teapotai/teapotllm` base; checkpoints retain the verified revision |
-| Evaluation/packaging | Bind dataset, exact prompts, split, base/model digests, generation and scoring contracts; recompute metrics from predictions using one promoted model representation |
-| Export | Native `torch.export` T5 path verifies lineage and content; quantization binds to its FP input; reject all external tensor data, regardless of sidecar name |
-| App promotion | Pass the [promotion gate](../ml/profile-qa/README.md#promotion-gate) before changing `MODEL_ID`; keep `MODEL_CONTEXT_LIMIT` accurate |
-
-Update the affected diagram when flow changes. Keep this file diagram-first;
-put exact commands and detailed safeguards in the pipeline guide.
+The pipeline binds evaluation to dataset, prompts, generation/scoring contracts,
+model representation, and digests. Export verifies lineage; quantization binds
+to the floating-point input; browser artifacts reject external tensor data.
+Use [llm/AGENTS.md](../llm/AGENTS.md) for commands and the complete promotion gate.

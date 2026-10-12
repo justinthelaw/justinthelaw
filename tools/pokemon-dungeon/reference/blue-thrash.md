@@ -40,9 +40,9 @@ overlap a later empty pass. Other moves' current drain behavior is unchanged.
 No new endpoint, target or projectile receipt is needed.
 
 All three battle PNGs/metadata, their source archives and pose evidence, the
-motion module and Cubone's PNG/metadata remain byte-identical. The 56 selected
-effects use 3,948,544 decoded atlas bytes; with the 53,248-byte Hypnosis plane,
-4,001,792 stays below the unchanged 4 MiB bound. The 8,192 event cap also stays:
+motion module and Cubone's PNG/metadata were byte-identical at this admission.
+Later effect additions/repacking supersede its 56-effect inventory; current
+totals are in [battle visuals](blue-battle-visuals.md). The 8,192 event cap stays:
 Thrash contributes at most three single-target/empty cast pieces within the
 existing twelve-piece allowance for one party action. It creates no new queue,
 status, linked action or asynchronous gameplay work.
@@ -52,7 +52,7 @@ Swagger's cast and Rage's target. Its full wave 095 and finite controls use the
 existing SE5/group 5 player; later Thrash passes do not repeat it. Thrash's
 source-STOP direct cast suppresses the old authored attack fallback. Generic
 impact and global Blue-driver/mix qualifications remain in the separate
-[audio reference](blue-audio.md#shared-effect-6-sound-605). No player, quota or
+[audio reference](blue-audio.md#pcm-sequences-and-joins). No player, quota or
 background-music expansion is introduced.
 
 Mechanics commit the bounded action once. Existing pause/visibility/faint

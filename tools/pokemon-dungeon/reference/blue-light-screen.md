@@ -23,8 +23,9 @@ for its new effect, while Reflect returns with that effect still running. The
 
 Effect 319 uses file 6, animation 0, palette 10 and sequence 851. Effect 369 uses
 file 0, animation 17, palette 10 and sequence 890. The yellow shield is the existing
-status strip rendered with palette 3 and bit 10. All 62 earlier effects and nine
-status rows retain their prior pixels and timing.
+status strip rendered with palette 3 and bit 10. Earlier effect/status pixels
+and timing were preserved at admission; current inventories belong to
+[battle visuals](blue-battle-visuals.md) and [status indicators](blue-status-effects.md).
 
 Sequence 851 has two notes ending at PCM frame 32 and reuses wave 110. Sequence
 890 has one wave-44 note starting at frame 2 and ending at frame 24, including

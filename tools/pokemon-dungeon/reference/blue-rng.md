@@ -39,8 +39,8 @@ Blue Rescue Team RNG schedule or cartridge-seed replay.
 - Quicksave preserves the selected algorithm record. The version-two journal isolates it
   from cached older builds and copies a valid prior opening checkpoint while
   preserving its original bytes. See [save ownership](blue-save-journal.md).
-  Candidate 12's manual migration and stale-tab checks passed; a fresh
-  new-adventure rescue trial remains in progress.
+  Historical migration, stale-tab and rescue observations are recorded in
+  [the opening review](../../../games/pokemon-dungeon-reimagined/plan/BLUE-OPENING-REVIEW.md).
 - The browser does not reproduce Blue's frame/input global RNG, original seed
   history, complete initialization/gameplay call schedule, tutorial retry seed
   provenance or verified quicksave internals. Connectivity repair and compact

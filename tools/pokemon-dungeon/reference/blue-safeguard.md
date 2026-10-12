@@ -31,7 +31,8 @@ This covers the retained roster's default IQ and ordinary visible actors.
 
 One visible cast owns existing SE2 sound 356 and effect 238 (34 native ticks),
 whose first visible creation requests SE5 sequence 776 once. Recipient fanout
-does not duplicate either sound. The status uses red shield bit 9/palette 4.
+does not duplicate either sound. Red shield bit 9/palette 4 is exported, but
+current `statusMask()` does not select it; see [the indicator gap](blue-status-effects.md).
 Sequence 776 has three notes through source tick 72; wave 125 contains 17,648
 literal bytes with no interpolation guard and decodes to 70,592 Float32 bytes.
 Existing voice limits can reject competing requests.

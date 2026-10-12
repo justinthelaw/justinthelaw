@@ -24,8 +24,9 @@ Original Blue timing and mix identity remain qualified.
   no decoded sample, and retains the existing dynamic player caps.
 
 Old saves omit `status.counter` and remain valid. New saves persist its optional
-timer; Reflect and Counter cannot coexist. Mini Counter, Mirror Coat, Protect,
-Detect, and the broader campaign reflect family remain outside this owner.
+timer; Reflect and Counter cannot coexist. Mini Counter, Mirror Coat,
+Detect and the broader campaign reflect family remain outside this owner.
+[Protect](blue-protect.md) and [Safeguard](blue-safeguard.md) have separate admissions.
 
 ## Deferred experience
 

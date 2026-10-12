@@ -21,15 +21,15 @@ Mud timer does not suppress recasting, and the move's native AI flags contain no
 reused.
 
 Mud Sport uses actor animation 12, cast effect 180 and target effect 181. Both
-effects use attachment set 3. The two existing banks are packed by one uniform,
+effects use attachment set 3. Selected banks are packed by one uniform,
 deterministic post-dedup rule: height descending, width descending, then the
 ASCII `width:height:rgbaSha256` key. The implementation is documented in the
 [packer source](../art/blue/native-effect-format.mjs) and the generated
 [runtime metadata](../../../games/pokemon-dungeon-reimagined/assets/blue/battle-effects.json).
 Pose/effect ordering and layer geometry remain stable; extracted RGBA bytes for
 every previously referenced layer were preserved while only atlas coordinates
-changed. The two banks plus the Hypnosis reserve use 3,379,200 decoded bytes,
-448,512 fewer than the prior two-bank layout.
+changed. Current decoded/encoded totals belong to [battle visuals](blue-battle-visuals.md);
+the historical two-bank size comparison is superseded.
 
 These mechanics and effects are qualified from pinned Red source at
 `013475aa04f5be3191e5527c186d9bfceae7cae0`; exact Blue-binary scheduling is not

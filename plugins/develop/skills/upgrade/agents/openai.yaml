@@ -1,0 +1,6 @@
+interface:
+  icon_small: "./assets/icon.png"
+  icon_large: "./assets/icon.png"
+  display_name: "Develop: Upgrade"
+  short_description: "Upgrade dependencies with migration evidence"
+  default_prompt: "Use $upgrade from the develop plugin to upgrade my active repositories."
