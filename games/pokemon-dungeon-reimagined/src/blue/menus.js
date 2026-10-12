@@ -5,8 +5,9 @@ import { VECTORS } from './mechanics-common.js';
 /** @typedef {import('./mechanics-types.js').OpeningData} OpeningData */
 /** @typedef {import('./mechanics-types.js').DungeonAction} DungeonAction */
 /** @typedef {{label:string,run:(event?:Event)=>void,disabled?:boolean}} MenuChoice */
-/** @typedef {{title:string,choices:MenuChoice[],detail?:string,cancel?:()=>void,cameraMember?:'hero'|'partner',cameraChoices?:('hero'|'partner')[],initialSelection?:number}} Menu */
-/** @typedef {{state:()=>DungeonState|null,data:OpeningData,show:(menu:Menu|null)=>void,act:(action:DungeonAction)=>void,commit:()=>void,giveUp:()=>void,title:()=>void,help:()=>void,settings:()=>void}} MenuHost */
+/** @typedef {{team:string,name:string,location:string,playTime:string,adventures:string,helper:string}} SavedProgress */
+/** @typedef {{title:string,choices:MenuChoice[],detail?:string,cancel?:()=>void,cameraMember?:'hero'|'partner',cameraChoices?:('hero'|'partner')[],initialSelection?:number,savedProgress?:SavedProgress}} Menu */
+/** @typedef {{state:()=>DungeonState|null,data:OpeningData,show:(menu:Menu|null)=>void,act:(action:DungeonAction)=>void,commit:()=>void,quicksave:()=>void,giveUp:()=>void,title:()=>void,help:()=>void,settings:()=>void}} MenuHost */
 
 /** Dungeon menus only describe available actions; the mechanics owner decides
  * whether an action takes a turn. No inventory beyond the two held slots.
@@ -187,7 +188,7 @@ export function createDungeonMenus(host) {
 
   function quicksave() {
     show('Quicksave and return?', [
-      { label: 'Yes', run() { host.commit(); host.title(); } },
+      { label: 'Yes', run() { host.quicksave(); host.title(); } },
       { label: 'No', run: saveOrGiveUp },
     ], 'Your adventure will continue from this point.', saveOrGiveUp);
   }

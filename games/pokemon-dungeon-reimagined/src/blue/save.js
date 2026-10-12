@@ -5,7 +5,9 @@ import { isNamingText, validateNamingState } from './naming.js';
 /** @typedef {import('./onboarding.js').QuizState} QuizState */
 /** @typedef {import('./mechanics.js').DungeonState} DungeonState */
 /** @typedef {'welcome'|'quiz'|'gender'|'result'|'partner'|'partner-confirm'|'partner-name'|'partner-name-confirm'|'departure'|'awakening'|'hero-name'|'hero-name-confirm'|'named'|'trouble'|'help-choice'|'enter'|'dungeon'|'clearing'|'reunion'|'complete'|'defeated'} Phase */
-/** @typedef {{version:1,phase:Phase,line:number,quiz:QuizState,gender:'male'|'female',natureId:string,heroSpeciesId:string,partnerSpeciesId:string,heroName:string,partnerName:string,nameDraft:string,naming?:import('./naming.js').NamingState,dungeon:DungeonState|null,tutorialSeen:number[],rewarded:boolean}} OpeningSave */
+/** @typedef {'checkpoint'|'quicksave'|'completed'|'unknown'} SaveKind */
+/** @typedef {{playFrames:number|null,adventures:number|null,saveKind:SaveKind}} ProgressMetadata */
+/** @typedef {{version:1|2,phase:Phase,line:number,quiz:QuizState,gender:'male'|'female',natureId:string,heroSpeciesId:string,partnerSpeciesId:string,heroName:string,partnerName:string,nameDraft:string,naming?:import('./naming.js').NamingState,dungeon:DungeonState|null,tutorialSeen:number[],rewarded:boolean,progress?:ProgressMetadata}} OpeningSave */
 /** @typedef {{state:OpeningSave|null,warning:string|null,hasStored:boolean}} LoadResult */
 /** @typedef {{slot:0|1,revision:number,payload:string,state:OpeningSave}} SaveRecord */
 /** @typedef {[string|null,string|null,string|null]} SaveReceipt */
@@ -60,7 +62,7 @@ function sameReceipt(left, right) {
  * @returns {value is OpeningSave}
  */
 export function validateOpeningSave(value, validateDungeon, speciesIds) {
-  if (!object(value) || value.version !== 1 || typeof value.phase !== 'string' || !PHASES.has(value.phase) ||
+  if (!object(value) || value.version !== 1 && value.version !== 2 || typeof value.phase !== 'string' || !PHASES.has(value.phase) ||
       !integer(value.line, 100) || !object(value.quiz) || !object(value.quiz.scores) ||
       !integer(value.quiz.answered, 8) || !Array.isArray(value.quiz.usedCategories) ||
       value.quiz.usedCategories.length > 8 || value.quiz.usedCategories.some(id => typeof id !== 'string') ||
@@ -79,6 +81,13 @@ export function validateOpeningSave(value, validateDungeon, speciesIds) {
   for (const field of ['heroSpeciesId', 'partnerSpeciesId']) {
     if (typeof value[field] !== 'string' || !speciesIds.has(value[field])) return false;
   }
+  if (value.version === 2) {
+    if (!object(value.progress) || Object.keys(value.progress).length !== 3 ||
+        !Object.hasOwn(value.progress, 'playFrames') || !Object.hasOwn(value.progress, 'adventures') || !Object.hasOwn(value.progress, 'saveKind') ||
+        !(value.progress.playFrames === null || integer(value.progress.playFrames, 9999 * 60 * 60 * 60 + 59 * 60 * 60 + 59 * 60 + 59)) ||
+        !(value.progress.adventures === null || integer(value.progress.adventures, 99999)) ||
+        typeof value.progress.saveKind !== 'string' || !['checkpoint', 'quicksave', 'completed', 'unknown'].includes(value.progress.saveKind)) return false;
+  } else if (Object.hasOwn(value, 'progress')) return false;
   if (value.dungeon !== null && !validateDungeon(value.dungeon)) return false;
   if (['dungeon', 'clearing', 'reunion', 'complete', 'defeated'].includes(value.phase) && value.dungeon === null) return false;
   return true;

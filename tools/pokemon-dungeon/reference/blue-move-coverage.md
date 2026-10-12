@@ -4,8 +4,10 @@ Current follow-up: [Foresight and Psych Up](blue-stat-moves.md) and
 [Charm and Screech stat multipliers](blue-stat-multipliers.md) add four bounded
 retry-reachable handlers. [Heal Bell](blue-heal-bell.md) adds its source-qualified
 status cure and presentation route. [Mud Sport and Water Sport](blue-floor-sports.md)
-add the bounded floor-timer and damage context, leaving 16 rejected learned move
-IDs across 21 learnset rows. The checkpoint tables below are historical evidence.
+add the bounded floor-timer and damage context. The current runtime also admits
+Squirtle's exact level-40 Skull Bash charge owner, leaving **15 rejected learned
+move IDs across 20 learnset rows**. The checkpoint tables below are historical
+evidence and retain their checkpoint-qualified counts.
 
 Static audit of checkpoint `049af6e219f10c54bb50fe648c34c6ff77eb6e64`,
 2026-10-10. Inputs were the JSON learnsets/effects and parsed JavaScript AST;

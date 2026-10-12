@@ -7,10 +7,13 @@
 - read-only migration source: `pokemon.blue-rescue-opening.v1.0` and `.v1.1`.
 
 Historical campaign keys are never accessed. The v1 opening slots are never
-changed or removed. The opening payload remains `version: 1`; its validator,
-checksum, payload fields and revision limit are unchanged. Migrating a legacy
-checkpoint copies its serialized payload exactly, so a legacy
-`xoshiro128ss-v1` RNG state and its sequence remain unchanged.
+changed or removed. Opening payload version 1 remains readable only without progress metadata.
+Version 2 requires exactly `playFrames`, `adventures` and `saveKind`; unknown
+extra progress keys make the checksum-valid payload unsupported instead of
+silently rewritable. First write promotes v1 with null time/count and unknown
+kind, preserving missing history rather than deriving it from turns, floor,
+level or EXP. The read-only v1 journal and legacy `xoshiro128ss-v1` sequence
+remain unchanged.
 
 ## Selection and migration
 
@@ -57,6 +60,32 @@ beside a valid v2 slot remains a recoverable partial migration.
 Export parses only the retained verified v2 payload. Later live-state mutations
 cannot change the exported checkpoint.
 
+## Continue metadata and card ownership
+
+New adventures start play time at zero and increment it from the existing
+eligible foreground animation-frame delta only while playing. Hidden,
+unfocused, paused, Help, loading and root-menu time do not advance it. The
+source ceiling is `9999:59:59`. Adventures starts at zero, increments on first
+Tiny Woods entry and each fresh retry, caps at 99,999, and does not change on
+floor transitions or Continue. Save kind distinguishes browser checkpoint,
+quicksave, completed and unknown legacy state. Ordinary autosaves do not infer
+quicksave provenance from the current phase.
+
+The dedicated card renders Team, leader Name, Location, Play time, Adventures
+and the friend-rescue Helper in source order. Pre-team formation uses `？？？？`;
+the opening helper is `-----`, not the ordinary partner. A separate prompt and
+Yes/No window starts on No. No/B return to root and Yes alone resumes; the
+quicksave prompt is selected only from saved kind. Complete location takes
+precedence over the retained dungeon object. Card geometry follows comparative
+Red `load_screen.c` window cells; direct Blue placement, pixels, wording and
+default-No identity remain qualified.
+
+Payload v2 also forms a forward-writer barrier: cached older code rejects its
+exact numeric version, and a tab that loaded v1 before promotion fails the
+existing exact-receipt check after v2 is written. Envelope revisions, opaque
+unsupported handling, deletion markers and cross-process limitations are
+unchanged.
+
 ## Limits and evidence
 
 These are bounded optimistic checks, not cross-process transaction isolation.
@@ -65,6 +94,19 @@ provides no atomic compare-and-swap or lock across agent clusters. Another
 process can change storage between a check and a write; simultaneous writers or
 changes that restore identical bytes remain unproved. There is no lock key,
 Web Lock, storage listener or asynchronous transaction layer.
+
+Candidate 25's full pinned Node 24.21.0 aggregate suite passed at 151 files
+and 2,803,390 bytes. A fresh website-iframe check observed `0:02:05` and zero
+Adventures before Tiny Woods, retained those values through No/root/Continue,
+then observed `0:05:00`/1 after first entry and `0:05:52`/2 after Give Up and
+Try again. The B1F Adventure Log remained at zero turns, independently of play
+time. A separate preserved Mimi/Shell 91-turn completed save displayed `Tiny
+Woods cleared` instead of its retained B3F object, resumed the completed
+Caterpie state, retained all three berries in Adventure Log, and preserved the
+cleared card through another top-menu Continue. Browser warning/error logs were
+empty. These checks did not measure Help clock exclusion precisely, establish a
+floor-transition count, produce fresh completed metadata or complete a
+candidate-25 rescue.
 
 Candidate 12 passed syntax, strict types, lint and static flow review. An
 ordinary browser migration check copied a 454-turn legacy adventure, saved

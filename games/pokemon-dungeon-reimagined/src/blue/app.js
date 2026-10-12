@@ -168,7 +168,7 @@ async function main() {
   /** Live message presentation is independent of the persisted Message Log. */
   /** @type {string[]} */ let liveMessages = [];
   let liveMessageRemaining = 0;
-  let selectedIndex = 0, dialoguePage = 0, speechStarted = 0, clock = 0, lastFrame = 0;
+  let selectedIndex = 0, dialoguePage = 0, speechStarted = 0, clock = 0, lastFrame = 0, progressFrameRemainder = 0;
   /** A ground-scene movement gate; reconstructed at its saved dialogue boundary.
    * @type {number|null} */let storyTransitionStarted=null;
   let openingStarted = 0, textSpeed = preferences.textSpeed, revealed = false, uiSignature = '!unrendered', lastNarration = '';
@@ -252,9 +252,20 @@ async function main() {
   }
   setWarning(stored.warning);
 
+  function ensureProgress() {
+    if (!state) return null;
+    if (state.version === 1) {
+      state.version = 2;
+      state.progress = { playFrames: null, adventures: null, saveKind: 'unknown' };
+    }
+    return state.progress ?? null;
+  }
+  /** @param {'checkpoint'|'quicksave'|'completed'|'unknown'} kind */
+  function setSaveKind(kind) { const progress = ensureProgress(); if (progress) progress.saveKind = kind; }
   function commitNow() {
     window.clearTimeout(saveTimer); saveTimer = 0;
     if (!state) return;
+    ensureProgress();
     const result = repository.save(state);
     if (result) { saveFailed = true; setWarning(result); }
     else { hasStored = true; if (saveFailed) setWarning(null); saveFailed = false; }
@@ -433,7 +444,7 @@ async function main() {
 
   const dungeonMenus = createDungeonMenus({
     state: currentDungeon, data, show: showMenu, act: act, commit: commitNow,
-    giveUp: giveUpDungeon, title: returnToMenu, help: showHelp, settings: settingsMenu,
+    quicksave() { setSaveKind('quicksave'); commitNow(); }, giveUp: giveUpDungeon, title: returnToMenu, help: showHelp, settings: settingsMenu,
   });
 
   /** The opening waits at frame zero until one deliberate game gesture. Its
@@ -580,7 +591,7 @@ async function main() {
     nameComposing = false; nameComposition = null; completedNameComposition = null;
     if ((phase === 'partner-name' || phase === 'hero-name') &&
         (state.phase !== phase || !state.naming || state.naming.text !== state.nameDraft)) state.naming = createNamingState(state.nameDraft);
-    state.phase = phase; state.line = line; dialoguePage = 0; selectedIndex = 0;
+    state.phase = phase; state.line = line; if (phase === 'complete') setSaveKind('completed'); dialoguePage = 0; selectedIndex = 0;
     menu = null; notice = null; fieldDialogue = null; tutorials = []; forcedReadyAt = null; input.clear();
     const token = ++transition; busy = true; lastFrame = 0;
     // Keep the last complete scene on screen while its successor's art loads.
@@ -607,13 +618,49 @@ async function main() {
   }
 
   function beginNewGame() {
+    progressFrameRemainder = 0;
     state = {
-      version: 1, phase: 'welcome', line: 0, quiz: createQuiz(onboarding),
+      version: 2, phase: 'welcome', line: 0, quiz: createQuiz(onboarding),
       gender: 'male', natureId: '', heroSpeciesId: 'pokemon-025', partnerSpeciesId: 'pokemon-004',
       heroName: 'Pikachu', partnerName: 'Charmander', nameDraft: '', dungeon: null,
-      tutorialSeen: [], rewarded: false,
+      tutorialSeen: [], rewarded: false, progress: { playFrames: 0, adventures: 0, saveKind: 'checkpoint' },
     };
     mode = 'play'; void setPhase('welcome');
+  }
+
+  function progressCard() {
+    if (!state) return null;
+    const progress = state.version === 2 ? state.progress : null;
+    const frames = progress?.playFrames;
+    const hours = typeof frames === 'number' ? Math.floor(frames / 216000) : null;
+    const minutes = typeof frames === 'number' ? Math.floor(frames / 3600) % 60 : null;
+    const seconds = typeof frames === 'number' ? Math.floor(frames / 60) % 60 : null;
+    const location = state.phase === 'complete' ? 'Tiny Woods cleared' : state.dungeon ? `Tiny Woods B${state.dungeon.floor}F` : 'Before Tiny Woods';
+    return { team: '？？？？', name: state.heroName || '???', location,
+      playTime: hours === null ? 'Unknown' : `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
+      adventures: progress?.adventures === null || progress?.adventures === undefined ? 'Unknown' : String(progress.adventures),
+      helper: '-----' };
+  }
+
+  function resumeSavedAdventure() {
+    if (!state) return;
+    // Promotion makes cached v1 readers reject the payload; exact receipt
+    // ownership blocks a tab that loaded v1 before this write.
+    setSaveKind('checkpoint');
+    mode = 'play'; selectedIndex = 0; dialoguePage = 0;
+    const phase = state.phase, line = state.line;
+    if (phase === 'dungeon' && state.dungeon) resetSecondaryGates(state.dungeon);
+    void setPhase(phase, line);
+  }
+  function confirmContinue() {
+    if (!state) return;
+    const kind = state.version === 2 ? state.progress?.saveKind : 'unknown';
+    const savedProgress=progressCard(); if(!savedProgress)return;
+    showMenu({ title: kind === 'quicksave' ? 'Resuming from quicksave. Is that OK?' : 'Resuming saved adventure. Is that OK?',
+      savedProgress, initialSelection: 1, cancel: () => showMenu(null), choices: [
+        { label: 'Yes', run: resumeSavedAdventure },
+        { label: 'No', run: () => showMenu(null) },
+      ] });
   }
 
   function returnToMenu() {
@@ -797,7 +844,7 @@ async function main() {
       }
     }
     if(storyTransitionStarted!==null)next.storyTransitionFrame=Math.floor((clock-storyTransitionStarted)*60/1000);
-    if (menu) { labels = menu.choices.map(choice => choice.label); next.disabledChoices = menu.choices.map(choice => Boolean(choice.disabled)); next.menuTitle = menu.title; text = menu.detail ?? ''; speaker = ''; portraitSpeciesId = ''; }
+    if (menu) { labels = menu.choices.map(choice => choice.label); next.disabledChoices = menu.choices.map(choice => Boolean(choice.disabled)); next.menuTitle = menu.title; next.savedProgress=menu.savedProgress; text = menu.savedProgress ? '' : menu.detail ?? ''; speaker = ''; portraitSpeciesId = ''; }
     if (fieldDialogue) { text = fieldDialogue.text; speaker = fieldDialogue.speaker ?? ''; portraitSpeciesId = fieldDialogue.portraitSpeciesId ?? ''; portraitEmotion = fieldDialogue.portraitEmotion ?? 'normal'; labels = []; }
     if (tutorials.length) { text = tutorials[0] ?? ''; labels = []; speaker = ''; portraitSpeciesId = ''; }
     if (notice) { text = notice; labels = []; speaker = ''; portraitSpeciesId = ''; }
@@ -832,7 +879,11 @@ async function main() {
       }
       element('name-label').textContent = state.phase === 'hero-name' ? 'Your name' : "Your partner's name";
     }
-    const announcement = [speaker, text].filter(Boolean).join(': ')||
+    const savedProgressAnnouncement=next.savedProgress?[next.menuTitle,
+      `Team: ${next.savedProgress.team}`,`Name: ${next.savedProgress.name}`,
+      `Location: ${next.savedProgress.location}`,`Play time: ${next.savedProgress.playTime}`,
+      `Adventures: ${next.savedProgress.adventures}`,`Helper: ${next.savedProgress.helper}`].filter(Boolean).join('. '):'';
+    const announcement = savedProgressAnnouncement||[speaker, text].filter(Boolean).join(': ')||
       (next.scene==='dungeon'?(liveMessages.at(-1)??''):'');
     if (announcement !== lastNarration) { narration.textContent = announcement; lastNarration = announcement; }
   }
@@ -1017,13 +1068,9 @@ async function main() {
     if (mode === 'menu') {
       if (state) {
         if (selectedIndex === 0) {
-          // Keep the live adventure even when storage was denied or its last
-          // write failed. A reload has already admitted stored state at boot.
-          mode = 'play'; selectedIndex = 0; dialoguePage = 0;
-          const phase = state.phase, line = state.line;
-          // Native restore omits unk158; live-menu Continue must match.
-          if (phase === 'dungeon' && state.dungeon) resetSecondaryGates(state.dungeon);
-          void setPhase(phase, line);
+          // The progress card is informational; only Yes resumes. No and B
+          // return to the root menu, with No selected initially.
+          confirmContinue();
         } else if (selectedIndex === 1) showMenu({ title: 'Delete opening save?', detail: 'This deletes only this opening adventure. Your older campaign saves are preserved.', choices: [
           { label: 'No', run: () => showMenu(null) },
           { label: 'Yes, delete', run() { if (repository.remove()) { state = null; hasStored = false; showMenu(null); } else setWarning('The saved adventure could not be deleted.'); } },
@@ -1065,7 +1112,7 @@ async function main() {
       if (clock >= eventUntil) act({ type: 'attack' });
     } else if (phase === 'defeated') {
       if (selectedIndex === 1) returnToMenu();
-      else if (state.dungeon) { retryDungeon(state.dungeon, data); void setPhase('dungeon', 0, true); }
+      else if (state.dungeon) { const progress=ensureProgress(); if(progress && progress.adventures!==null)progress.adventures=Math.min(99999,progress.adventures+1); setSaveKind('checkpoint'); retryDungeon(state.dungeon, data); void setPhase('dungeon', 0, true); }
     } else if (phase === 'complete') {
       if (selectedIndex === 0) adventureLog(); else returnToMenu();
     } else advanceStory();
@@ -1102,6 +1149,7 @@ async function main() {
     try {
       state.dungeon=createDungeon({heroSpeciesId:state.heroSpeciesId,partnerSpeciesId:state.partnerSpeciesId,
         heroName:state.heroName,partnerName:state.partnerName},data);
+      const progress=ensureProgress(); if(progress && progress.adventures!==null)progress.adventures=Math.min(99999,progress.adventures+1); setSaveKind('checkpoint');
       void setPhase('dungeon',0,true);
     }catch(error){fail(error);}
   }
@@ -1346,7 +1394,12 @@ async function main() {
     if(disposed)return;
     const elapsed = lastFrame ? Math.min(50, Math.max(0, now - lastFrame)) : 0;
     lastFrame = now;
-    if (foregroundEligible()) clock += elapsed;
+    const foreground = foregroundEligible();
+    if (foreground) clock += elapsed;
+    if (foreground && mode === 'play' && state) {
+      const progress=ensureProgress();
+      if(progress && progress.playFrames!==null){progressFrameRemainder+=elapsed*60/1000;const frames=Math.floor(progressFrameRemainder);if(frames){progress.playFrames=Math.min(9999*60*60*60+59*60*60+59*60+59,progress.playFrames+frames);progressFrameRemainder-=frames;}}
+    }
     advanceStoryTransition();
     if(disposed)return;
     if (liveMessageRemaining > 0 && !document.hidden && document.hasFocus() && isDungeonSurface()) {

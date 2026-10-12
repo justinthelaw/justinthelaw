@@ -13,19 +13,21 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 24
+## Current candidate 25
 
-Candidate 24 contains **151 files totaling 2,797,841 bytes**, below the
-unchanged 3 MiB distribution cap. It adds the independently reviewed Skull Bash
-v7 charge owner, an up-front autonomous paralysis/cringe attack-selection gate,
-and the bounded nonleader confusion chooser/walk leaf. The combined change adds
-4,612 runtime bytes across four runtime files; the fifth changed source file is
-type-only. It preserves candidate 23's target-sight and defense-down owners.
+Candidate 25 contains **151 files totaling 2,803,390 bytes**, below the
+unchanged 3 MiB distribution cap. It adds the independently reviewed Continue
+progress card and confirmation owner. The dedicated card displays Team, leader
+Name, Location, Play time, Adventures and Helper, followed by a visible
+quicksave/ordinary prompt and Yes/No with No selected initially. It bypasses
+dialogue pagination and supplies the same prompt and six fields through a
+separate accessibility announcement.
 
-Candidate 23 supplies the latest complete static and bounded manual baseline.
-Candidate 24's full pinned Node 24.21.0 aggregate check and bounded browser
-review passed. All resources remain local with no
-runtime CDN dependency.
+New adventures persist genuine foreground play frames, fresh-entry adventure
+count and checkpoint/quicksave/completed kind. Legacy payload history remains
+explicitly Unknown rather than reconstructed. Candidate 24 supplies the latest
+complete mechanics baseline. Candidate 25's full pinned Node 24.21.0 aggregate
+suite and all three bounded Continue browser checks passed. All resources remain local with no runtime CDN dependency.
 
 The native battle presentation contains **56 distinct indexed effects in three
 banks**. Their decoded atlases use 3,948,544 bytes. Including the separately
@@ -118,6 +120,16 @@ uses native direction order for nonleader confused walking. Confused item use,
 leader walking, Bide release direction, unsupported no-foe resolvers and exact
 Blue RNG-stream identity remain outside this contract.
 
+The Continue payload version is now 2 and requires exactly the three metadata
+keys; payload v1 remains readable only without them. First write promotes a
+legacy adventure with null time/count and unknown kind. This makes cached older
+readers reject the newer checksum-valid payload, while exact journal receipts
+block an already-open older writer after promotion. The two-slot journal,
+handled marker, untouched v1 migration source and older campaign keys retain
+their owners. Play time uses the existing eligible foreground RAF delta, capped
+at the source `9999:59:59`; Adventures increments only on first Tiny Woods entry
+and fresh retry, never on stairs or Continue.
+
 New adventures use the source-qualified native-family dungeon LCG core and
 fresh-floor preseed progression. Historical xoshiro saves retain their exact
 payload and sequence. The version-two journal isolates current snapshots from
@@ -159,7 +171,8 @@ Node 24.21.0 static suite also passed at 151 files and 2,791,623 bytes.
 Candidate 23's full pinned Node 24.21.0 static suite passed at 151 files and
 2,793,229 bytes; the canonical SE2 exporter also verified all 45 native source
 pins. Candidate 24's full pinned Node 24.21.0 aggregate suite also passed at 151
-files and 2,797,841 bytes. Candidate 15's
+files and 2,797,841 bytes. Candidate 25's full pinned Node 24.21.0 aggregate suite passed at 151 files
+totaling 2,803,390 bytes. Candidate 15's
 fresh browser run completed all three floors, rescue, reunion, all three berry
 rewards, Adventure Log at 227 turns, Return to top menu and completed Continue.
 Both party members reached level 6; warning/error logs were empty. Candidate 15's
@@ -173,10 +186,10 @@ Log, Continue and controls recovered with no warning/error logs. Only Bulbasaur
 of the nine source-reviewed bindings was cast, and no physical audio was
 auditioned.
 
-Exact published head `01f452283a95acbc2d6c1b1919ac4436dcdd7f88`
+Exact published head `1d6e1bc4d87e31cf321ca4605fbbdf6bd71a56e6`
 passed hosted lint, Game Static Checks, Playwright and CodeQL. Its requested
 exact-head Codex review returned a qualifying thumbs-up, and its Pages artifact
-was verified against all 151 declared runtime files totaling 2,793,229 bytes.
+was verified against all 151 declared runtime files totaling 2,797,841 bytes.
 The watcher exited 1 only because three review threads remain unresolved pending
 the separate approval workflow.
 The earlier `88bf722` evidence remains preserved under
@@ -226,6 +239,9 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 23 | Restored Psyduck/Charmander from the in-game B1F 12-turn log, descended to B2F and used Tail Whip on adjacent Wurmple: Defense fell and PP22→21. Help/Return, Quicksave, 19-turn Adventure Log and Continue passed | PASS for one Psyduck defense-down route and controls/save recovery; warning/error log empty. No physical audition, all-producer coverage, dedicated sight geometry measurement or full-rescue claim |
 
 | Candidate 24 | Restored Flint/Volt B1F at four turns. With partner moves temporarily disabled and Exclusive Move-User enabled, Sunkern attacked Volt, Static paralyzed it, and the enemy moved after the party withdrew without another attack or recovery message. Restored partner settings, Quicksaved at eight turns and verified Continue, moves and IQ selections | PASS for one naturally paralyzed enemy movement opportunity and save/settings recovery; warning/error log empty. No hidden RNG measurement, cringe/confusion gameplay, level-40 Skull Bash cast/saved charge, physical audio or full-rescue claim |
+| Candidate 25, legacy Continue | Restored the preserved Flint/Volt B1F eight-turn quicksave. The card showed Unknown legacy history; default No plus Z returned to root, X cancelled, and explicit Up held 220 ms plus Z resumed. A new Quicksave selected its specific prompt, which persisted after reload; Help/Sound and the eight-turn Adventure Log remained available | PASS for bounded card visibility, default/cancel/Yes routing, legacy Unknown fallback, reload and controls; warning/error log empty. No fresh metadata accumulation, completed-card, exact Blue geometry/pixels or full-rescue claim |
+| Candidate 25, fresh metadata | Fresh website iframe: Hardy-boy Charmander Cinder/Treecko Fern completed quiz, naming, awakening and Butterfree request through B1F. Reopen during departure showed Before Tiny Woods, `0:02:05`, Adventures 0; No/root/Continue preserved both. First-entry Quicksave showed `0:05:00`, count 1. Give Up/Yes, Try again and Quicksave showed `0:05:52`, count 2; both remained level 5 at 30 HP, Help/Sound and B1F zero-turn Adventure Log worked | PASS for fresh timing persistence, entry/retry increments, zero-turn independence, confirmation/reopen and controls; warning/error log empty. No full rescue, floor-transition count, precise Help-clock exclusion or physical-device claim |
+| Candidate 25, completed legacy save | Restored the preserved Mimi/Shell completed 91-turn save. The card showed `Tiny Woods cleared`, not the retained B3F dungeon location, with Unknown legacy history. Yes resumed the completed Caterpie state; Adventure Log retained all three berries and 91 turns. Return to top menu and Continue retained the cleared location; Help/Sound remained available | PASS for completed-location precedence, completed resume and repeated top-menu Continue; warning/error log empty. This reused an earlier completed save and does not establish a candidate-25 full rescue or fresh completed metadata |
 
 The separate candidate-12 fresh trial is retired as invalid acceptance evidence
 because it used hidden reads. Its preserved partial evidence does not extend the

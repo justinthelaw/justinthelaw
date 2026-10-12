@@ -24,6 +24,18 @@ function rows(context,view,x,y,width,rowHeight=12,style={}){
 /** @param {CanvasRenderingContext2D} context @param {View} view @returns {ChoiceBounds[]} */
 export function fileMenu(context,view){
   const labels=view.choices??[],pink=view.gender==='female';
+  if(view.savedProgress){
+    // Comparative Red load_screen.c windows: main (2,2,26x11), prompt
+    // (2,15,19x3), and Yes/No (23,15,5x3), in eight-pixel cells.
+    // Direct Blue card placement remains unverified.
+    panel(context,16,16,224,96,{pink});
+    const fields=[['Team:',view.savedProgress.team],['Name:',view.savedProgress.name],['Location:',view.savedProgress.location],['Play time:',view.savedProgress.playTime],['Adventures:',view.savedProgress.adventures],['Helper:',view.savedProgress.helper]];
+    fields.forEach(([label,value],index)=>{const y=24+index*12;text(context,label??'',24,y);text(context,value??'',80,y,{maxWidth:144});});
+    panel(context,16,120,160,40,{pink});
+    wrapText(view.menuTitle??'',144).slice(0,2).forEach((line,index)=>text(context,line,24,128+index*12,{maxWidth:144}));
+    panel(context,184,120,56,40,{pink});
+    return rows(context,view,200,128,32,12);
+  }
   const rootMenu=view.menuTitle==='Blue Rescue Team'&&!view.dialogue,top=rootMenu?16:8;
   if(!labels.length)return[];
   const width=Math.min(224,8*Math.ceil(Math.max(80,...labels.map(label=>textWidth(label)+8))/8));
