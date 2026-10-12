@@ -7,8 +7,8 @@ const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
 const SHAPES=[[[8,8],[16,16],[32,32],[64,64]],[[16,8],[32,8],[32,16],[64,32]],[[8,16],[8,32],[16,32],[32,64]]];
 export const BATTLE_BANKS=Object.freeze({
   basic:{path:'battle-effects',files:[23,51,54,56,59,81,102,114,125,131],effects:[15,28,29,52,65,128,138,194,215,225,271,299,323]},
-  initial:{path:'battle-effects-initial',files:[0,8,20,22,58,73,113,119],effects:[6,7,8,9,10,11,14,21,22,37,59,85,130,144,150,180,181,182,205,236,287,312,334,394,397,398,399,402,404,423,425,434]},
-  extra:{path:'battle-effects-extra',files:[7,13,29,53,108,121,122,135,137],effects:[50,76,83,96,137,269,270,274,288,296,316,317,333]},
+  initial:{path:'battle-effects-initial',files:[0,8,20,22,58,73,113,119],effects:[6,7,8,9,10,11,14,21,22,37,59,85,130,144,150,180,181,182,205,221,236,287,312,334,394,397,398,399,402,404,423,425,434]},
+  extra:{path:'battle-effects-extra',files:[7,13,29,53,105,108,121,122,135,137],effects:[50,76,83,96,137,246,247,269,270,274,288,296,316,317,333]},
 });
 const arrays=(source,kind)=>new Map([...source.matchAll(new RegExp(`(?:static )?const ${kind} (\\w+)\\[\\] = \\{([\\s\\S]*?)\\n\\};`,'g'))].map(match=>[match[1],match[2]]));
 const names=body=>body.match(/\bgUnknown_[A-Za-z0-9_]+\b/g)??[];

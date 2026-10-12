@@ -1131,3 +1131,18 @@ full wave 095 and bank-qualified 028:9 append. This is comparative Red control/d
 admission, not Blue sound identity, hardware-clock/mixer parity or physical
 audition. Collapsed batches and global-budget rejection retain their explicit
 limits. Background music remains absent.
+
+## Solar Beam 768, 785 and 784
+
+Visible effect 221 requests 768 on its first source update. A charged release
+requests 785 from effect 247, then effect 246 requests 784 after the ordinary
+24-frame preparation interval. Hidden, absent, carried and Continue paths do
+not recreate those receipts. The opening roster permits at most one of the two
+Solar learners in a party, so a private two-receipt result bucket covers one
+release without displacing the existing move-owned bucket.
+
+The catalog now contains 23 cues, 18 samples and 104 notes. Cue 784 alone owns
+the reviewed 14-note exception; cue 785 alone owns end 107 and FINE 138. Group
+5 remains 15, group 6 remains 5 and the shared ceiling remains 32. The paced
+route clears any two detached 605 tails before 784. A synthetic collapse to six
+frames or less can still reject 784 at 16 sources; no capacity limit is relaxed.

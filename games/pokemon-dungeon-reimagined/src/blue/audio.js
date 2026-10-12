@@ -11,6 +11,7 @@ const EFFECTS = Object.freeze({
   berryResult: 'effect-pickup',
   se356: 'effect-throw-spin', se711: 'effect-item-loss',
   se362: 'effect-tail-whip', se906: 'effect-defense-down', se605: 'effect-strength-up',
+  se768: 'effect-solar-beam-cast', se784: 'effect-solar-beam-travel', se785: 'effect-solar-beam-preparation',
   se678: 'effect-rapid-spin', se809: 'effect-synthesis', se621: 'effect-move-preparation', se413: 'effect-whiffer',
   se407: 'effect-sleep-helper', se745: 'effect-vine-whip', se825: 'effect-razor-leaf',
   se807: 'effect-leech-seed-travel',

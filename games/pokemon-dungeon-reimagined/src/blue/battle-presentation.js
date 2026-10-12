@@ -29,7 +29,7 @@ import {nativeSin4096} from './battle-native-sine-data.js';
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
 /** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[],hidden?:boolean}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'|'se605',audible:boolean,moveOwned?:true}|{clearNotice:true}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'|'se605'|'se768'|'se784'|'se785',audible:boolean,moveOwned?:true}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 /** @typedef {{start:number,end:number}} EndTrack */
@@ -165,7 +165,7 @@ export class BattlePresentation {
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
     /** Native sound receipts are private presentation evidence, never saves.
-     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'|'se605'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] */
+     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'|'se605'|'se768'|'se784'|'se785'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] */
     const sound=(name,at,order=ordinal++,moveOwned=false)=>{
       if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
       cueFrontier=Math.max(cueFrontier,at);
@@ -235,6 +235,8 @@ export class BattlePresentation {
       else if(id===85||id===236)sound(id===85?'se680':'se774',start);
       else if(id===423||id===434)sound(id===423?'se927':'se938',start);
       else if(id===399)sound('se906',start,undefined,true);
+      else if(id===221)sound('se768',start);
+      else if(id===247)sound('se785',start);
       return info.blocksWait===false?at:Math.min(end,at+waitLimit);
     };
     const drainEffects=()=>{
@@ -350,7 +352,7 @@ export class BattlePresentation {
       const info=assets.effectInfo(route.travel,caster.direction);
       const samples=info?nativeTravelSamples(assets,caster,this.poses,cursor,Math.floor((this.startedAt-this.rawPauseBefore+cursor*TICK_MS)/TICK_MS),moveId,route,from,to,singleTile,visibleTile):undefined;
       const dx=Math.sign(to.x-from.x),dy=Math.sign(to.y-from.y),duration=24/route.travelSpeed;
-      let elapsedOffset=0;
+      let elapsedOffset=0,solarStarted=false;
       for(let step=1;step<=distance;step++){
         const next={x:from.x+dx*step,y:from.y+dy*step};if(!visibleTile(next))continue;
         const previous={x:next.x-dx,y:next.y-dy};
@@ -358,6 +360,7 @@ export class BattlePresentation {
         // +21px for these 3px projectiles; deletion follows that eighth frame.
         // One native handle spans every cell; invisible cells do not update it.
         if(info&&(route.travel===288||route.travel===269)&&elapsedOffset===0)sound(route.travel===288?'se825':'se807',cursor+1,undefined,true);
+        if(info&&route.travel===246&&!solarStarted){sound('se784',cursor+1);solarStarted=true;}
         if(info)this.effects.push({id:route.travel,start:cursor+1,end:cursor+duration+1,waitEnd:cursor+duration,direction:caster.direction,elapsedOffset,from:{x:previous.x*24+12,y:previous.y*24+16},to:{x:next.x*24+12,y:next.y*24+16},...(samples?{samples:samples[step-1]}:{})});
         cursor+=duration;elapsedOffset+=duration;
       }
@@ -466,12 +469,12 @@ export class BattlePresentation {
         if(record.moveId!=='move-thrash'||record.first)drainEffects();
         patchActors([record.actor],cursor);
         const selectedRoute=assets.moveEffects(record.moveId,record.actor.speciesId);
-        const route=record.moveId==='move-skull-bash'&&record.phase==='release'&&selectedRoute?{...selectedRoute,animation:1,cast:0,target:0,travel:0}:selectedRoute;
+        const route=record.moveId==='move-skull-bash'&&record.phase==='release'&&selectedRoute?{...selectedRoute,animation:1,cast:0,target:0,travel:0}:record.moveId==='move-solar-beam'&&record.phase==='solar-release'?{animation:11,preparation:247,cast:0,target:0,travel:246,attachmentSet:0,travelSpeed:2}:selectedRoute;
         if(route)moves.set(record.actor.id,route);
         const start=cursor;messageAt=start;
         const visible=displayedActor(record.actor);
         // Selected native effect sounds replace only the STOP direct-cast cue.
-        cue(event,start,order,visible&&!EFFECT22_SILENT_CASTS.has(record.moveId)&&record.moveId!=='move-synthesis'&&record.moveId!=='move-ember'&&record.moveId!=='move-attract'&&record.moveId!=='move-leech-seed'&&record.moveId!=='move-bubble'&&record.moveId!=='move-water-sport'&&record.moveId!=='move-disable'&&record.moveId!=='move-thrash');
+        cue(event,start,order,visible&&!EFFECT22_SILENT_CASTS.has(record.moveId)&&record.moveId!=='move-synthesis'&&record.moveId!=='move-ember'&&record.moveId!=='move-attract'&&record.moveId!=='move-leech-seed'&&record.moveId!=='move-bubble'&&record.moveId!=='move-water-sport'&&record.moveId!=='move-disable'&&record.moveId!=='move-thrash'&&record.moveId!=='move-solar-beam');
         if(!visible)continue;
         if(route?.preparation&&record.first){
           if(record.moveId==='move-hypnosis'){
@@ -531,7 +534,8 @@ export class BattlePresentation {
       if(record?.kind==='empty-target'){
         flushWalk();
         const caster=this.latestActor(record.actorId,cursor);
-        const route=caster?assets.moveEffects(record.moveId,caster.speciesId):undefined;
+        const selectedRoute=caster?assets.moveEffects(record.moveId,caster.speciesId):undefined;
+        const route=record.moveId==='move-solar-beam'&&record.phase==='solar-release'?{animation:11,preparation:247,cast:0,target:0,travel:246,attachmentSet:0,travelSpeed:2}:selectedRoute;
         const distance=Math.max(Math.abs(record.to.x-record.from.x),Math.abs(record.to.y-record.from.y));
         if(!Number.isInteger(distance)||distance<1||distance>10||record.singleTile&&distance!==1)throw new RangeError('An empty opening projectile endpoint exceeds its requested range.');
         if(caster&&route){

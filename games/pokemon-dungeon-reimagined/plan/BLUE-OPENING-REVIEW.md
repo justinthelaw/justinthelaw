@@ -13,29 +13,27 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 28
+## Current candidate 29
 
-Candidate 28 contains **151 files totaling 2,946,992 bytes**, below the
+Candidate 29 contains **151 files totaling 2,984,291 bytes**, below the
 unchanged 3 MiB distribution cap. All resources remain local. It retains the
 reviewed Continue progress card, shared dungeon-menu clock, level-37 Cubone
 Thrash and the source-matching Bide release direction.
 
-The new audio packet corrects native LFO register/byte arithmetic, changing only
-three Bubble frequency values among the 19 existing PCM cues. It adds sound 605
-at fresh effect 6 creation for Rage, Swagger and Thrash, with the complete source
-waveform and finite modulation controls. Thrash's unsupported direct cast sound
-is removed. Audio players, quotas, gameplay, saves and graphics stay unchanged. An unused
-cinematic duration export and obsolete boot-music instructions are removed.
-The full pinned Node 24.21.0 static suite and both source-backed audio exporters
-passed; ordinary browser continuation is tracked below.
+Candidate 29 adds the retained Solar Beam charge/release path, its three
+artwork records and three source-qualified sound cues. The runtime loader and
+static inventory check now agree on every bank's exact IDs, order and file path,
+including the two nonblocking effects. Six unreachable Freeze branches are
+removed; no admitted status or save key is lost. Candidate 27's Bubble LFO
+correction, shared sound 605 and cinematic cleanup remain in this build.
 
-The native battle presentation contains **58 distinct indexed effects in three
+The native battle presentation contains **61 distinct indexed effects in three
 banks**. Lossless sparse layer partitioning reduces their decoded atlases to
-1,974,272 bytes. Including the separately owned 53,248-byte Hypnosis background,
-aggregate decoded effect memory is **2,027,520 bytes**, leaving 2,166,784 bytes
-below the unchanged 4 MiB limit. All 56 prior effects retain exact reconstructed
-pixels, timing, geometry, depth and attachment routes; effects 59 and 316 add
-Whirlpool and Fire Spin.
+2,033,664 bytes. Including the separately owned 53,248-byte Hypnosis background,
+aggregate decoded effect memory is **2,086,912 bytes**, leaving 2,107,392 bytes
+below the unchanged 4 MiB limit. All 58 prior effects retain exact reconstructed
+pixels, timing, geometry, depth and attachment routes; effects 221, 246 and 247
+add Solar Beam.
 
 A conservative first-attempt bound allows at most 2,310 additional EXP and
 covers 30 distinct starting, wild and level 6–12 moves. Every nonzero native
@@ -45,7 +43,7 @@ a dedicated background resource. Static review also proves from pinned
 `effect_data.c` that Attract is the only first-attempt route using native sine
 wobble.
 
-The consolidated authoring archive retains 113 pinned source files. It preserves
+The consolidated authoring archive retains 116 pinned source files. It preserves
 all 96 entries from the two earlier battle archives byte for byte and adds the
 source owners for admitted EFO groups and native sine. The generated 1,024-entry
 quarter-wave table and four-quadrant wrapper contain no `Math.sin`
@@ -57,8 +55,8 @@ behavior. The four source-proven no-bitmap status helpers publish their result
 and icon snapshot without draining an unrelated cast tail. These are static source claims until a
 specific route is manually exercised.
 
-The current PCM catalog has **20 cues, 16 buffers, 342,476 decoded bytes,
-81 notes and 68 pinned source records**. Numeric groups 5 and 6 retain their
+The current PCM catalog has **23 cues, 18 buffers, 392,816 decoded bytes,
+104 notes and 73 pinned source records**. Numeric groups 5 and 6 retain their
 separate replacement/tail behavior, eager-source limits of 15 and 5, and shared
 32-source ceiling. The finite SE2 catalog includes menu, attack, pickup, miss,
 Tail Whip and defense-down cues without additional decoded PCM buffers.
@@ -87,16 +85,31 @@ zero adjacent scan and fallback. This removes one factual late move from the
 unsupported inventory. Candidate 26 additionally admits Cubone's exact
 level-37 Thrash row: three fixed passes each perform the blocker check, draw a
 new native-order facing and scan a fresh target, including an empty later pass;
-Thrash does not add Outrage's post-move confusion. **12 move IDs across 16
-learnset rows remain unsupported.**
+Thrash does not add Outrage's post-move confusion. Candidate 29 adds the two
+retained Solar Beam rows with a saved first-turn charge and current-front
+second-turn release. **11 move IDs across 14 learnset rows remain unsupported.**
 
 Candidate 28 additionally admits the retained Fire Spin and Whirlpool rows as one
-constriction class. Fresh application replaces represented Freeze, stores the
+constriction class. Successful nonzero damage reaches the common 10% secondary
+gate. The admitted browser state has no Freeze producer or save key; fresh application stores the
 move-specific effect identity and a source-qualified timer, while duplicate
 application does not refresh it. The actor cannot walk or swap; residual effect
 59/316 replays with fixed five-point damage every second opportunity. Heal Bell,
 Rapid Spin, floor creation, fainting and timer expiry own atomic cleanup. This is
 static source-backed coverage; no new browser route was manually exercised.
+
+Candidate 29 adds comparative effects 221/247/246 and sounds 768/785/784.
+Visible effect creation owns each receipt: fresh charge emits 768; release emits
+785, waits the ordinary 24-frame preparation interval, then emits 784 when its
+travel becomes visible. The opening party admits at most one Solar Beam learner,
+so the private Solar bucket is two receipts per result and does not consume the
+existing move-owned bucket. The 23-cue catalog has 18 samples and 104 notes;
+group 5 remains 15, group 6 remains 5 and the shared cap remains 32. Artificially
+collapsed timing within six frames of two detached 605 tails can reject 784;
+the ordinary route's 24-frame interval clears those tails. Candidate 28's prior
+rescue and combat evidence remains prior evidence. Candidate 29's bounded
+loading/combat check is recorded below; Solar Beam and physical audio remain
+unexercised.
 
 For autonomous actors, paralysis or cringe now rejects attack selection before
 weights or RNG and falls through to the existing movement owner. The bounded
@@ -237,6 +250,7 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 27, fresh creation | Exact pruned build in the website iframe: boot/title/menu, eight-question Docile-boy Bulbasaur outcome, Totodile partner, Sprout/Finn naming and awakening. Help/download/Return worked. Reopening showed Before Tiny Woods, play time `0:13:03`, Adventures 0; No returned to the menu | PASS for fresh creation, naming, checkpoint persistence and controls; warning/error logs empty. No full rescue or precise cinematic timing claim |
 | Candidate 27, downstream continuation | A smaller-model tester continued Cinder/Fern from B2F into B3F, then verified Quicksave and Continue at `0:29:19`, Adventures 2, both level 5 at 30 HP | PASS for bounded traversal and persistence on the frozen pre-prune audio build; rescue was not reached and console logs were not inspected. Its resumed checkpoint subsequently reached `0:29:50` |
 | Candidate 28, rescue continuation | The optimized 58-effect build restored Cinder/Fern B3F at `0:29:50`, Adventures 2 and 30 HP each. Visible corridor movement reached B3F stairs, the separate Caterpie clearing, reunion and all three berry rewards. Adventure Log showed 95 dungeon turns. Completed Continue showed Tiny Woods cleared, `0:42:03`, Adventures 2, and Yes resumed the finished rescue | PASS for the new asset-loader build, B3F-to-rescue continuation, rewards, genuine numeric completed-save metadata, Help/download/Return and controls; warning/error logs empty. No fresh full run, Fire Spin/Whirlpool cast, combat-effect or physical-audio claim |
+| Candidate 29, bounded combat | Restored Sprout/Finn B1F with Tackle 21/22 and Growl 18/20, descended to B2F, defeated two visible Sunkern with Tackle, and verified PP 19/22. The final combat log showed 18 damage and 16 EXP each; Help/download/Return worked | PASS for runtime asset admission, old-save loading, stairs, combat, PP and controls; warning/error log empty. No Solar Beam cast, physical audio, full fresh run or new Quicksave/Continue claim |
 
 The separate candidate-12 fresh trial is retired as invalid acceptance evidence
 because it used hidden reads. Its preserved partial evidence does not extend the
@@ -297,8 +311,8 @@ browser viewport evidence, not physical iOS or Android acceptance.
 - Heal Bell, Charm and Screech are later retry paths and have not been manually
   cast in the current candidate. Their source and save contracts are statically
   reviewed.
-- Repeated failed rescues retain EXP and can expose **15 later move IDs across 20
-  learnset rows** after admitting Squirtle's exact level-40 Skull Bash row. Those
+- Repeated failed rescues retain EXP and can expose **11 later move IDs across 14
+  learnset rows** after admitting the retained Solar Beam rows. Those
   unsupported late routes remain visibly unavailable
   without consuming a turn or PP. They are outside first-attempt acceptance.
 - Blue-specific title/menu layers and some exact pixels/timings remain

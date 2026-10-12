@@ -7,7 +7,7 @@ import { cameraSight } from './mechanics-visibility.js';
 import { dropItem, ITEM_NAMES, moneyPile } from './mechanics-items.js';
 import { captureActor } from './battle-events.js';
 import { DEFAULT_IQ, IQ_SKILLS, TACTICS, hasIq, tacticFor, considersLineMove, considersLineTarget, canTalk, talkToPartner } from './mechanics-policy.js';
-import { attack, damage, beginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, supportsMove, skullBashOpportunity, STATUS_KEYS, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
+import { attack, damage, beginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, supportsMove, chargeOpportunity, clearCharge, STATUS_KEYS, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
 import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, targetSight, message, moveActor, nextStep, open, pickup, recordAction, recordCamera, recordSync, team, wakeInitialSleep, wakeNearbyWild, DIRECTIONS, VECTORS } from './mechanics-common.js';
 
 export { resetSecondaryGates } from './mechanics-combat.js';
@@ -83,7 +83,7 @@ function generateFloor(state,data,events) {
   state.explored=Array(WIDTH*HEIGHT).fill(false);state.visible=Array(WIDTH*HEIGHT).fill(false);state.enemies=[];state.items=[];state.floorTurn=0;state.baseBeat=0;state.leaderPrepared=false;state.mudSport=0;state.waterSport=0;state.status='playing';
   state.hero.x=spawns.hero.x;state.hero.y=spawns.hero.y;state.partner.x=spawns.partner.x;state.partner.y=spawns.partner.y;
   state.hero.direction=state.partner.direction='s';
-  for(const actor of [state.hero,state.partner]){delete actor.skullBashSlot;delete actor.constrictionTurns;delete actor.constrictionCountdown;delete actor.constrictionEffectId;actor.status={};actor.periodic={poison:0,burn:0,leechSeed:0};actor.stages={attack:10,specialAttack:10,defense:10,specialDefense:10,accuracy:10,evasion:10};actor.physicalOffenseMultiplierQ8=256;actor.specialOffenseMultiplierQ8=256;actor.physicalDefenseMultiplierQ8=256;actor.specialDefenseMultiplierQ8=256;actor.goal=null;actor.leechSource=null;actor.bideDamage=0;actor.skipAction=false;actor.useHeldItem=false;actor.regen=0;actor.abilityVisualFlags=0;}
+  for(const actor of [state.hero,state.partner]){clearCharge(actor);delete actor.constrictionTurns;delete actor.constrictionCountdown;delete actor.constrictionEffectId;actor.status={};actor.periodic={poison:0,burn:0,leechSeed:0};actor.stages={attack:10,specialAttack:10,defense:10,specialDefense:10,accuracy:10,evasion:10};actor.physicalOffenseMultiplierQ8=256;actor.specialOffenseMultiplierQ8=256;actor.physicalDefenseMultiplierQ8=256;actor.specialDefenseMultiplierQ8=256;actor.goal=null;actor.leechSource=null;actor.bideDamage=0;actor.skipAction=false;actor.useHeldItem=false;actor.regen=0;actor.abilityVisualFlags=0;}
   state.stairs=spawns.stairs;
   // Native realization places the team, then wild actors, then actual items.
   // An enemy flag covered by the partner does not relocate to a different tile.
@@ -224,7 +224,7 @@ function throwBerry(state,actor,item,events){
 }
 /** @param {DungeonState} state @param {Actor} actor @param {OpeningData} data @param {GameEvent[]} events */
 function actAI(state,actor,data,events) {
-  const eventStart=events.length,chargedAtStart=actor.skullBashSlot!==undefined;
+  const eventStart=events.length,chargedAtStart=actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined;
   try {
     if(actor.useHeldItem){
       actor.useHeldItem=false;
@@ -238,12 +238,12 @@ function actAI(state,actor,data,events) {
     const travelFirst=hasIq(actor,'dedicated-traveler');
     if(travelFirst&&(tryAiMovement(state,actor,target,events)||actor.status.confusion))return;
     const closedNoFoe=!target&&canChooseWithoutVisibleFoe(actor);
-    if((target||closedNoFoe||actor.skullBashSlot!==undefined)&&tryAiAttack(state,actor,target,data,events))return;
+    if((target||closedNoFoe||actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined)&&tryAiAttack(state,actor,target,data,events))return;
     if(!travelFirst)tryAiMovement(state,actor,target,events);
   } finally {
     // ExecuteEntityDungeonAction clears every pre-existing Skull Bash charge
     // after the selected action. A charge created by this action survives.
-    if(chargedAtStart)delete actor.skullBashSlot;
+    if(chargedAtStart)clearCharge(actor);
     if(!events.slice(eventStart).some(event=>event.presentation?.kind==='action'&&event.presentation.actorId===actor.id))recordAction(events,actor.id,'wait');
     recordSync(state,events,[actor]);
   }
@@ -281,7 +281,7 @@ function aiRegularDirection(state,actor){
     // Browser indices run opposite to native South, Southeast, East, ... .
     const direction=DIRECTIONS[(start-offset+DIRECTIONS.length)%DIRECTIONS.length]??'s',[dx,dy]=VECTORS[direction];
     const candidate=actorAt(state,actor.x+dx,actor.y+dy);
-    if(candidate&&team(candidate)!==team(actor)&&canStep(state,actor,dx,dy)&&(team(actor)||!candidate.status.freeze))return direction;
+    if(candidate&&team(candidate)!==team(actor)&&canStep(state,actor,dx,dy))return direction;
   }
   return undefined;
 }
@@ -290,6 +290,7 @@ function aiRegularDirection(state,actor){
  * and consumes a target-choice draw even when there is only one candidate.
  * Opening team actors lack Status Checker; Tiny Woods wild actors have it.
  * @type {ReadonlySet<string>} */
+const AI_SELF_MOVE_IDS=new Set(['move-solar-beam']);
 const AI_ADJACENT_MOVE_IDS=new Set(['move-ember','move-hypnosis','move-leech-seed','move-mud-slap','move-sand-attack','move-smokescreen','move-water-gun']);
 /** Native AI tuple zero uses adjacent enemy targeting even when the player
  * range later applies Focus Energy, Rage or Withdraw to the user.
@@ -306,14 +307,13 @@ const AI_LINE_MOVE_IDS=new Set(['move-bubble','move-razor-leaf']);
  * @param {Actor} actor */
 function canChooseWithoutVisibleFoe(actor){
   if(hasIq(actor,'dedicated-traveler'))return false;
-  return actor.moves.filter(move=>move.enabled).every(move=>AI_ADJACENT_MOVE_IDS.has(move.id)||AI_FRONT_MOVE_IDS.has(move.id)||AI_TWO_TILE_MOVE_IDS.has(move.id)||AI_LINE_MOVE_IDS.has(move.id));
+  return actor.moves.filter(move=>move.enabled).every(move=>AI_SELF_MOVE_IDS.has(move.id)||AI_ADJACENT_MOVE_IDS.has(move.id)||AI_FRONT_MOVE_IDS.has(move.id)||AI_TWO_TILE_MOVE_IDS.has(move.id)||AI_LINE_MOVE_IDS.has(move.id));
 }
 /** @type {readonly import('./mechanics-types.js').Direction[]} */
 const AI_NATIVE_DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
 /** Opening-represented CanUseOnTargetWithStatusChecker cases for these tuples.
  * @param {Actor} target @param {string} moveId */
 function aiStatusCheckerRejects(target,moveId){
-  if(target.status.freeze&&moveId!=='move-ember')return true;
   if(moveId==='move-hypnosis')return !!target.status.sleep;
   if(moveId==='move-leech-seed')return !!target.status.leechSeed;
   if(moveId==='move-sand-attack')return (target.stages.accuracy??10)<=0;
@@ -329,7 +329,7 @@ function aiAdjacentMoveTarget(state,actor,moveId){
     const direction=directionFor(candidate.x-actor.x,candidate.y-actor.y);
     if(directions.has(direction))continue;
     // Status Checker belongs to every opening wild profile, but not to the
-    // default-IQ team. Ember is the sole scoped move that can hit Freeze.
+    // default-IQ team.
     if(!team(actor)&&aiStatusCheckerRejects(candidate,moveId))continue;
     directions.add(direction);candidates.push(candidate);
   }
@@ -379,12 +379,13 @@ function aiLineMoveTarget(state,actor){
 }
 /** @param {DungeonState} state @param {Actor} actor @param {Actor|undefined} target @param {OpeningData} data @param {GameEvent[]} events */
 function tryAiAttack(state,actor,target,data,events){
+  const initialDirection=actor.direction;
   if(actor.status.paralysis||actor.status.cringe)return false;
   if(actor.status.confusion&&draw(state,100)<70)return false;
   const regularDirection=aiRegularDirection(state,actor);
-  if(actor.skullBashSlot!==undefined){
+  if(actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined){
     // The common chooser gates precede exact stored-slot forcing.
-    attack(state,actor,actor.skullBashSlot,data,events);return true;
+    attack(state,actor,actor.skullBashSlot??actor.solarBeamSlot??null,data,events);return true;
   }
   if(target)actor.direction=directionFor(target.x-actor.x,target.y-actor.y);
   const struggle=data.moves['move-struggle'];
@@ -392,7 +393,7 @@ function tryAiAttack(state,actor,target,data,events){
   if(exhausted&&struggle&&moveTargets(state,actor,struggle).some(a=>team(a)!==team(actor))){attack(state,actor,'struggle',data,events);return true;}
   // Default party IQ has no PP Checker and may select an exhausted slot.
   // Wild Tiny Woods profiles do have it, along with Status Checker.
-  const eligible=exhausted?[]:actor.moves.map((m,slot)=>({m,slot,data:data.moves[m.id]})).filter(x=>x.data&&supportsMove(x.data)&&x.m.enabled&&(team(actor)||x.m.pp>0)&&(AI_ADJACENT_MOVE_IDS.has(x.m.id)||AI_FRONT_MOVE_IDS.has(x.m.id)||AI_TWO_TILE_MOVE_IDS.has(x.m.id)||AI_LINE_MOVE_IDS.has(x.m.id)||(target&&((x.data.range===5||x.data.range===8)?considersLineMove(state,actor,target,x.data):moveTargets(state,actor,x.data).some(a=>team(a)!==team(actor)||x.data?.range===7&&distance(actor,target)<=2)))));
+  const eligible=exhausted?[]:actor.moves.map((m,slot)=>({m,slot,data:data.moves[m.id]})).filter(x=>x.data&&supportsMove(x.data)&&x.m.enabled&&(team(actor)||x.m.pp>0)&&(AI_SELF_MOVE_IDS.has(x.m.id)||AI_ADJACENT_MOVE_IDS.has(x.m.id)||AI_FRONT_MOVE_IDS.has(x.m.id)||AI_TWO_TILE_MOVE_IDS.has(x.m.id)||AI_LINE_MOVE_IDS.has(x.m.id)||(target&&((x.data.range===5||x.data.range===8)?considersLineMove(state,actor,target,x.data):moveTargets(state,actor,x.data).some(a=>team(a)!==team(actor)||x.data?.range===7&&distance(actor,target)<=2)))));
   const regular=data.moves['regular-attack'],regularEligible=!hasIq(actor,'exclusive-move-user')&&!!regular;
   const useRegular=()=>{if(!regularEligible||!regularDirection)return false;actor.direction=regularDirection;attack(state,actor,null,data,events);return true;};
   let total=!exhausted&&regularEligible?([100,20,30,40,50][actor.moves.filter(m=>m.enabled).length]??50):0;
@@ -404,6 +405,7 @@ function tryAiAttack(state,actor,target,data,events){
   for(const candidate of eligible){
     selected-=candidate.data?.aiWeight??0;
     if(selected<=0){
+      if(AI_SELF_MOVE_IDS.has(candidate.m.id)){actor.direction=initialDirection;draw(state,1);}
       if(AI_ADJACENT_MOVE_IDS.has(candidate.m.id)){
         const moveTarget=aiAdjacentMoveTarget(state,actor,candidate.m.id);
         if(!moveTarget)return useRegular();
@@ -521,7 +523,7 @@ function scheduledOnBeat(state,actor){return !(actor.status.slow||actor.status.p
 export function getDungeonTurnPhase(state){
   if(state.status==='rescued'||state.status==='defeated'||state.hero.hp<=0||state.pendingLearning.length)return 'blocked';
   if(!state.leaderPrepared)return 'unprepared';
-  return state.hero.status.sleep||state.hero.status.infatuated||state.hero.status.bide||state.hero.skullBashSlot!==undefined?'forced':'input';
+  return state.hero.status.sleep||state.hero.status.infatuated||state.hero.status.bide||(state.hero.skullBashSlot!==undefined||state.hero.solarBeamSlot!==undefined)?'forced':'input';
 }
 /** Start at most one normal-speed base beat. A skipped leader has no upkeep,
  * input, hunger or wind; the other scheduled actors still receive their turn.
@@ -540,7 +542,7 @@ export function prepareDungeonTurn(state,data){
       advanceOtherActors(state,data,events);finishBaseBeat(state,events);updateVisibility(state);
       return {phase:getDungeonTurnPhase(state)==='blocked'?'blocked':'advanced',changed:true,consumedTurn:true,events,status:state.status};
     }
-    state.leaderPrepared=true;beginTurn(state,state.hero,data,events);skullBashOpportunity(state,state.hero,events);updateVisibility(state);
+    state.leaderPrepared=true;beginTurn(state,state.hero,data,events);chargeOpportunity(state,state.hero,events);updateVisibility(state);
     const ready=getDungeonTurnPhase(state);
     if(ready==='input'||ready==='forced')recordCamera(events,state.hero,'input');
     return {phase:ready==='unprepared'?'blocked':ready,changed:true,consumedTurn:false,events,status:state.status};
@@ -555,7 +557,7 @@ export function completeForcedTurn(state,data){
   /** @type {GameEvent[]} */const events=[];
   try {
     if(getDungeonTurnPhase(state)!=='forced')return {consumedTurn:false,events,status:state.status};
-    state.turn++;state.floorTurn++;const skull=skullBashOpportunity(state,state.hero,events);if(typeof skull==='number')attack(state,state.hero,skull,data,events);else {recordAction(events,state.hero.id,'wait');if(skull==='preserve'){delete state.hero.skullBashSlot;recordSync(state,events,[state.hero]);}}finishLeaderTurn(state,data,events);
+    state.turn++;state.floorTurn++;const charge=chargeOpportunity(state,state.hero,events);if(charge&&typeof charge==='object')attack(state,state.hero,charge.slot,data,events);else {recordAction(events,state.hero.id,'wait');if(charge==='preserve'){clearCharge(state.hero);recordSync(state,events,[state.hero]);}}finishLeaderTurn(state,data,events);
     return {consumedTurn:true,events,status:state.status};
   } finally {
     flushQueuedMovement(state,events);
@@ -572,8 +574,8 @@ function advanceOtherActors(state,data,events){
     if(!canAct&&actor.useHeldItem){actor.useHeldItem=false;message(state,events,`${actor.name} could not use the held item.`);}
     // RunMonsterAI's early blockers select Pass Turn. The later universal
     // action-execution gate then clears a two-turn charge via CannotAttack.
-    if(canAct&&!defeated(state)&&!actor.status.freeze)actAI(state,actor,data,events);
-    else {recordAction(events,actor.id,'wait');if(actor.skullBashSlot!==undefined){delete actor.skullBashSlot;recordSync(state,events,[actor]);}}
+    if(canAct&&!defeated(state))actAI(state,actor,data,events);
+    else {recordAction(events,actor.id,'wait');if(actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined){clearCharge(actor);recordSync(state,events,[actor]);}}
     finishTurn(state,actor,data,events);
   }
 }
@@ -615,7 +617,7 @@ export function performAction(state,action,data) {
     if(action.type==='learnMove'){
       const request=state.pendingLearning[0],actor=actors(state).find(a=>a.id===action.actorId);
       if(!request||request.actorId!==action.actorId||!actor||action.slot!==null&&(!Number.isInteger(action.slot)||action.slot<0||action.slot>3))return result(false);
-      if(action.slot!==null){if(actor.skullBashSlot===action.slot&&request.moveId!=='move-skull-bash')delete actor.skullBashSlot;actor.moves[action.slot]=moveSlot(data,request.moveId);message(state,events,`${actor.name} learned ${data.moves[request.moveId]?.name}!`);recordSync(state,events,[actor]);}state.pendingLearning.shift();return result(false);
+      if(action.slot!==null){if(actor.skullBashSlot===action.slot&&request.moveId!=='move-skull-bash'||actor.solarBeamSlot===action.slot&&request.moveId!=='move-solar-beam')clearCharge(actor);actor.moves[action.slot]=moveSlot(data,request.moveId);message(state,events,`${actor.name} learned ${data.moves[request.moveId]?.name}!`);recordSync(state,events,[actor]);}state.pendingLearning.shift();return result(false);
     }
     // A surviving partner can finish native queued EXP/learning after a later
     // hit removes the leader. Only the existing live first request is accepted.
@@ -728,10 +730,10 @@ export function validateDungeon(value,data) {
     const multiplierCount=multiplierKeys.filter(key=>Object.hasOwn(a,key)).length;
     const constrictionKeys=['constrictionTurns','constrictionCountdown','constrictionEffectId'];
     const constrictionCount=constrictionKeys.filter(key=>Object.hasOwn(a,key)).length;
-    const optionalKeys=['skullBashSlot',...constrictionKeys,'useHeldItem','tactic','enabledIq','abilityVisualFlags',...multiplierKeys].filter(key=>Object.hasOwn(a,key));
+    const optionalKeys=['skullBashSlot','solarBeamSlot',...constrictionKeys,'useHeldItem','tactic','enabledIq','abilityVisualFlags',...multiplierKeys].filter(key=>Object.hasOwn(a,key));
     if(!exactKeys(a,[actorKeys,...optionalKeys].join(','))||Object.hasOwn(a,'useHeldItem')&&typeof a.useHeldItem!=='boolean')return false;
     if(multiplierCount!==0&&multiplierCount!==4||constrictionCount!==0&&constrictionCount!==3)return false;
-    if(constrictionCount===3&&(a.hp<=0||!!a.status?.freeze||!integer(a.constrictionTurns,1,128)||!integer(a.constrictionCountdown,0,2)||![59,316].includes(a.constrictionEffectId??0)))return false;
+    if(constrictionCount===3&&(a.hp<=0||!integer(a.constrictionTurns,1,128)||!integer(a.constrictionCountdown,0,2)||![59,316].includes(a.constrictionEffectId??0)))return false;
     if(multiplierCount===4&&(!integer(a.physicalOffenseMultiplierQ8,2,25597)||!integer(a.specialOffenseMultiplierQ8,2,25597)||!integer(a.physicalDefenseMultiplierQ8,2,25597)||!integer(a.specialDefenseMultiplierQ8,2,25597)))return false;
     if(Object.hasOwn(a,'tactic')&&!TACTICS.some(tactic=>tactic.id===a.tactic))return false;
     if(Object.hasOwn(a,'enabledIq')&&(!Array.isArray(a.enabledIq)||a.enabledIq.length>IQ_SKILLS.length||new Set(a.enabledIq).size!==a.enabledIq.length||a.enabledIq.some(id=>!IQ_SKILLS.some(skill=>skill.id===id))))return false;
@@ -749,6 +751,7 @@ export function validateDungeon(value,data) {
     if(!a.periodic||Object.keys(a.periodic).sort().join(',')!=='burn,leechSeed,poison'||!Object.values(a.periodic).every(n=>integer(n,0,20)))return false;
     if(!a.stages||Object.keys(a.stages).sort().join(',')!=='accuracy,attack,defense,evasion,specialAttack,specialDefense'||!Object.values(a.stages).every(n=>integer(n,0,20)))return false;
     if(Object.hasOwn(a,'skullBashSlot')&&(!Array.isArray(a.moves)||a.hp<=0||!!a.status?.bide||!!a.status?.enraged||!integer(a.skullBashSlot,0,3)||a.moves[/** @type {number} */(a.skullBashSlot)]?.id!=='move-skull-bash'))return false;
+    if(Object.hasOwn(a,'solarBeamSlot')&&(!Array.isArray(a.moves)||Object.hasOwn(a,'skullBashSlot')||a.hp<=0||!!a.status?.bide||!!a.status?.enraged||!integer(a.solarBeamSlot,0,3)||a.moves[/** @type {number} */(a.solarBeamSlot)]?.id!=='move-solar-beam'))return false;
     if(!Array.isArray(a.moves)||a.moves.length<1||a.moves.length>4||new Set(a.moves.map(m=>m?.id)).size!==a.moves.length||a.moves.filter(m=>m?.set).length>1||a.moves.some(m=>!m||!learned.has(m.id)||!data.moves[m.id]||m.name!==data.moves[m.id]?.name||m.maxPp!==data.moves[m.id]?.pp||!integer(m.pp,0,m.maxPp)||typeof m.enabled!=='boolean'||typeof m.set!=='boolean'))return false;
   }
   if(s.hero.id!=='hero'||s.partner.id!=='partner'||s.enemies.some(a=>!/^enemy-\d+$/.test(a.id)||a.level!==1||!['pokemon-016','pokemon-102','pokemon-191','pokemon-265'].includes(a.speciesId))||!data.starterIds.includes(s.hero.speciesId)||!['pokemon-001','pokemon-004','pokemon-007','pokemon-025','pokemon-152','pokemon-155','pokemon-158','pokemon-252','pokemon-255','pokemon-258'].includes(s.partner.speciesId))return false;

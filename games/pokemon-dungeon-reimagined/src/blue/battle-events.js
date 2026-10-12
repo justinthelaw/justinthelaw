@@ -6,15 +6,15 @@
 /** @typedef {import('./mechanics-types.js').GroundItem} GroundItem */
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
 /** @typedef {{actors:Actor[],items:GroundItem[],money:number,log:string[],explored:boolean[],floor:number,tiles:number[]}} BattleWorld */
-/** @typedef {'move-attract'|'move-bubble'|'move-ember'|'move-hypnosis'|'move-leech-seed'|'move-mud-slap'|'move-razor-leaf'|'move-sand-attack'|'move-smokescreen'|'move-water-gun'} EmptyTargetMoveId */
+/** @typedef {'move-solar-beam'|'move-attract'|'move-bubble'|'move-ember'|'move-hypnosis'|'move-leech-seed'|'move-mud-slap'|'move-razor-leaf'|'move-sand-attack'|'move-smokescreen'|'move-water-gun'} EmptyTargetMoveId */
 /**
  * @typedef {{kind:'action',actorId:string,action:'walk'|'wait'|'other',cameraActor?:Actor}
  * | {kind:'camera',actor:Actor,mode:'look'|'leader'|'input'}
  * | {kind:'flush'}
  * | {kind:'face',actor:Actor}
- * | {kind:'cast',actor:Actor,moveId:string,first:boolean,phase?:'release'}
+ * | {kind:'cast',actor:Actor,moveId:string,first:boolean,phase?:'release'|'solar-release'}
  * | {kind:'target',actorId:string,moveId:string,target:Actor,phase?:'visit'|'repeat-hit',singleTile?:boolean}
- * | {kind:'empty-target',actorId:string,moveId:EmptyTargetMoveId,from:import('./mechanics-types.js').Point,to:import('./mechanics-types.js').Point,stop:'empty'|'wall'|'actor'|'outside',singleTile:boolean}
+ * | {kind:'empty-target',actorId:string,moveId:EmptyTargetMoveId,from:import('./mechanics-types.js').Point,to:import('./mechanics-types.js').Point,stop:'empty'|'wall'|'actor'|'outside',singleTile:boolean,phase?:'solar-release'}
  * | {kind:'move',actor:Actor}
  * | {kind:'damage',before:Actor,after:Actor,amount:number,effectiveness:0|1|2|3,cause:'move'|'residual'|'recoil'|'hunger'|'item'|'constriction'}
  * | {kind:'survival',actorId:string}

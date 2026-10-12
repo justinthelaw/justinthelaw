@@ -301,7 +301,7 @@ async function main() {
     const announcement=events.filter(event=>event.type==='message'&&event.text).map(event=>event.text).join(' ');
     if(announcement&&announcement!==lastNarration){narration.textContent=announcement;lastNarration=announcement;}
     if(silent)return;
-    let effectSounds=0,pickupSounds=0,throwSounds=0,moveSounds=0,preparationSounds=0,whifferSounds=0,sleepSounds=0,paralysisSounds=0;
+    let effectSounds=0,pickupSounds=0,throwSounds=0,moveSounds=0,preparationSounds=0,whifferSounds=0,sleepSounds=0,paralysisSounds=0,solarSounds=0;
     for(const cue of cues){
       if('clearNotice' in cue||!cue.audible)continue;
       if('sound' in cue){
@@ -330,6 +330,10 @@ async function main() {
           // At most one Bulbasaur's 8 adjacent targets, one Skitty Sing target
           // and ten wild Hypnosis targets; duplicate Sleep emits once too.
           if(sleepSounds++<19)audio.effect(cue.sound);
+        }else if(cue.sound==='se768'||cue.sound==='se784'||cue.sound==='se785'){
+          // The opening roster admits at most one Solar Beam learner. A fresh
+          // charge emits one cue; its later release emits preparation+travel.
+          if(solarSounds++<2)audio.effect(cue.sound);
         }else if(cue.sound==='se680'||cue.sound==='se774'||cue.sound==='se927'||cue.sound==='se938'){
           // Full retry roster: one Pikachu's eight Thunderbolt targets, one
           // Disable pair and bounded Static applications give at most 29 requests.

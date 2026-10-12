@@ -46,6 +46,8 @@ assert.deepEqual(data.moves['move-mud-sport'], {id:'move-mud-sport',name:'Mud Sp
 assert.deepEqual(data.moves['move-fire-spin'], {id:'move-fire-spin',name:'Fire Spin',type:'fire',power:4,pp:19,accuracyBeforeEffect:125,accuracyAfterDamage:73,criticalPercent:12,chainedHitsRaw:1,range:0,target:0,cutsCorners:false,effects:[{op:'normal-damage'},{op:'secondary',chancePercent:10,requires:'successful-nonzero-damage',effect:{op:'apply-status',status:'constriction',recipient:'target'},gate:'secondary-effect-common'}],aiWeight:15});
 assert.deepEqual(data.moves['move-whirlpool'], {id:'move-whirlpool',name:'Whirlpool',type:'water',power:2,pp:17,accuracyBeforeEffect:125,accuracyAfterDamage:78,criticalPercent:12,chainedHitsRaw:1,range:0,target:0,cutsCorners:false,effects:[{op:'normal-damage',multiplierByTargetStatus:{diving:2,otherwise:1}},{op:'secondary',chancePercent:10,requires:'successful-nonzero-damage',effect:{op:'apply-status',status:'constriction',recipient:'target'},gate:'secondary-effect-common'}],aiWeight:30});
 assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-fire-spin'||move==='move-whirlpool').map(([level,move])=>[id,level,move])), [['pokemon-004',49,'move-fire-spin'],['pokemon-255',25,'move-fire-spin'],['pokemon-258',33,'move-whirlpool']]);
+assert.deepEqual(data.moves['move-solar-beam'], {id:'move-solar-beam',name:'Solarbeam',type:'grass',power:24,pp:9,accuracyBeforeEffect:125,accuracyAfterDamage:100,criticalPercent:12,chainedHitsRaw:1,range:7,target:4,cutsCorners:false,effects:[{op:'charge',status:'solarbeam',turns:1,skipWeather:'sunny'},{op:'normal-damage',multiplier:2,weatherMultiplier:{hail:.5,rain:.5,sandstorm:.5,otherwise:1}}],aiWeight:15});
+assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-solar-beam').map(([level])=>[id,level])), [['pokemon-001',46],['pokemon-152',50]]);
 assert.deepEqual(data.moves['move-thrash'], {id:'move-thrash',name:'Thrash',type:'normal',power:18,pp:12,accuracyBeforeEffect:125,accuracyAfterDamage:78,criticalPercent:12,chainedHitsRaw:3,range:0,target:2,cutsCorners:false,effects:[{op:'choose-random-facing',phase:'before-each-hit'},{op:'normal-damage'}],aiWeight:15});
 assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-thrash').map(([level])=>[id,level])), [['pokemon-104',37]]);
 const expectedSprites = new Set([...data.starterIds, ...data.floors.flatMap(floor => floor.encounters.map(row => row.speciesId)),
@@ -232,6 +234,7 @@ assert.equal(assets.battleEffects.maxDecodedBytes, 4 * 1024 * 1024);
 assert.deepEqual(assets.battleEffects.banks.map(bank => bank.id), ['basic', 'initial', 'extra']);
 let battleDecodedBytes = 0;
 const battleIds = new Set();
+const battleMetadataByBank = new Map();
 for (const bank of assets.battleEffects.banks) {
   const stem = bank.id === 'basic' ? 'battle-effects' : `battle-effects-${bank.id}`;
   assert.equal(bank.activation, 'selected');
@@ -241,13 +244,14 @@ for (const bank of assets.battleEffects.banks) {
   assert(bank.width * bank.height * 4 <= 2 * 1024 * 1024, 'Battle effect atlas exceeds its decoded-memory budget');
   battleDecodedBytes += bank.width * bank.height * 4;
   const battleMetadata = await verifiedMetadata(bank);
+  battleMetadataByBank.set(bank.id,battleMetadata);
   assert.equal(battleMetadata.width, bank.width); assert.equal(battleMetadata.height, bank.height);
   verifyNativeBattleMetadata(battleMetadata, bank.id, 'runtime');
   for (const effect of battleMetadata.effects) {
     assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
   }
 }
-assert.equal(battleIds.size, 58);
+assert.equal(battleIds.size, 61);
 const routeEffects = new Map();
 for (const moveId of firstAttemptMoves) {
   const route = motionFacts[moveId], required = ['preparation','cast','target','travel'].map(key => route[key]).filter(Boolean);
@@ -259,6 +263,7 @@ assert.deepEqual([...routeEffects.entries()].filter(([,ids]) => ids.includes(222
 assert(!battleIds.has(222), 'Hypnosis background effect 222 must remain outside the indexed EFO banks');
 for (const effectId of [15,37,76,323,423]) assert(battleIds.has(effectId), `Missing first-attempt status helper effect ${effectId}`);
 for (const effectId of [59,316]) assert(battleIds.has(effectId), `Missing admitted constriction effect ${effectId}`);
+for (const effectId of [221,246,247]) assert(battleIds.has(effectId), `Missing admitted Solar Beam effect ${effectId}`);
 for (const effectId of [394,397,398]) assert(battleIds.has(effectId), `Missing first-attempt stat effect ${effectId}`);
 const hypnosis = assets.battleEffects.hypnosis;
 assert.equal(hypnosis.activation, 'selected-hypnosis-only'); assert.equal(hypnosis.effectId, 222);
@@ -269,7 +274,7 @@ await verifiedBytes(hypnosis.modulePath, hypnosis.moduleBytes, hypnosis.moduleSh
 battleDecodedBytes += hypnosis.width * hypnosis.height * 4;
 assert(battleDecodedBytes <= assets.battleEffects.maxDecodedBytes, 'Battle effects exceed the aggregate decoded budget');
 const battleSourceManifest = JSON.parse(await readFile(new URL('../art/blue/native-battle-sources.json', import.meta.url), 'utf8'));
-assert.equal(battleSourceManifest.files.length, 113);
+assert.equal(battleSourceManifest.files.length, 116);
 for (const sourcePath of sine.sourcePaths) assert(battleSourceManifest.files.some(record => record.path === sourcePath && /^[0-9a-f]{64}$/.test(record.sha256)), `Missing pinned sine owner: ${sourcePath}`);
 assert(assets.battleEffects.banks.every(bank => bank.sourceManifestSha256 === assets.nativeMotions.sourceManifestSha256));
 const battleArchiveBytes = await readFile(new URL(`../art/blue/${battleSourceManifest.archive.path}`, import.meta.url));
@@ -290,10 +295,32 @@ for (const moveId of firstAttemptMoves) {
 }
 assert.deepEqual(wobbleMoves, ['move-attract'], 'Attract must be the sole first-attempt native sine-wobble route');
 const presentationSource = await readFile(path.join(root, 'src/blue/battle-presentation.js'), 'utf8');
+const effectLoaderSource = await readFile(path.join(root, 'src/blue/render-battle-effects.js'), 'utf8');
+const loaderBankMatch = effectLoaderSource.match(/const BANKS=Object\.freeze\(\[([\s\S]*?)\n\]\);/);
+assert(loaderBankMatch, 'Runtime battle-effect bank contract is absent');
+const loaderBanks = [...loaderBankMatch[1].matchAll(/\{id:'([^']+)',path:'([^']+)',ids:\[([^\]]*)\]\}/g)].map(match => ({id:match[1],path:match[2],ids:match[3].split(',').map(Number)}));
+assert.deepEqual(loaderBanks.map(bank=>bank.id), ['basic','initial','extra'], 'Runtime battle-effect bank order changed');
+const loaderIds = loaderBanks.flatMap(bank=>bank.ids);
+assert.equal(loaderIds.length,new Set(loaderIds).size,'Runtime battle-effect bank IDs overlap');
+for(const bank of loaderBanks){
+  const expectedPath=bank.id==='basic'?'battle-effects':`battle-effects-${bank.id}`;
+  assert.equal(bank.path,expectedPath,`Runtime path changed for ${bank.id}`);
+  assert.deepEqual(bank.ids,battleMetadataByBank.get(bank.id)?.effects.map(effect=>effect.id),`Runtime IDs or order differ for ${bank.id}`);
+}
+assert.deepEqual([...loaderIds].sort((a,b)=>a-b), [...battleIds].sort((a,b)=>a-b), 'Runtime battle-effect bank IDs differ from generated metadata');
+const metadataNonblocking=[...battleMetadataByBank.values()].flatMap(bank=>bank.effects).filter(effect=>!effect.blocksWait).map(effect=>effect.id).sort((a,b)=>a-b);
+assert.deepEqual(metadataNonblocking,[37,247],'Generated nonblocking battle-effect set changed');
+assert(effectLoaderSource.includes("record.blocksWait!==(![37,247].includes(record.id))"), 'Runtime loader must admit the exact nonblocking effects');
 assert(presentationSource.includes("import {nativeSin4096} from './battle-native-sine-data.js'"));
 assert.equal((presentationSource.match(/nativeSin4096\(/g) ?? []).length, 1, 'Attract must have exactly one native sine call');
 assert(presentationSource.includes("moveId==='move-attract'?nativeSin4096(Math.trunc(phase/256))*amplitude:0"),
   'Native sine wobble must remain source-qualified to Attract');
+for (const binding of ["id===221)sound('se768',start)","id===247)sound('se785',start)","route.travel===246&&!solarStarted){sound('se784',cursor+1)"])
+  assert(presentationSource.includes(binding), `Missing Solar presentation sound owner: ${binding}`);
+assert(presentationSource.includes("record.moveId!=='move-solar-beam'"), 'Solar Beam must suppress the authored direct-cast fallback');
+const appSource = await readFile(path.join(root, 'src/blue/app.js'), 'utf8');
+assert(appSource.includes("cue.sound==='se768'||cue.sound==='se784'||cue.sound==='se785'"));
+assert(appSource.includes('if(solarSounds++<2)'), 'Solar Beam must retain its two-receipt result bound');
 if (assets.statusAtlas) {
   await verifiedPng('assets/blue', assets.statusAtlas);
   const metadata = await verifiedMetadata(assets.statusAtlas);

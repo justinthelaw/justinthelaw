@@ -13,10 +13,23 @@ assert.equal(data.edition,'Red Rescue Team comparative');
 assert.equal(data.sourceCommit,'013475aa04f5be3191e5527c186d9bfceae7cae0');
 assert.deepEqual(data.clock,{cpuHz:16777216,cyclesPerFrame:280896,initialTempo:150,threshold:150});
 assert.equal(data.browserGain,.22);assert.equal(data.nativeMaster,14);
-const fixed=Object.fromEntries(['samples','cues','scale','frequencyBase','voices'].map(key=>[key,data[key]]));
-assert.equal(sha(JSON.stringify(fixed)),"390f18e76b41ea124954f467c8fcb7b21c1e09b4b806189fa6f209a6ef5dbfe9",'Selected PCM source facts changed; review and repin them.');
-assert.equal(data.sources.length,68);
-assert.equal(sha(JSON.stringify(data.sources)),"f137bab8df8d7fc3285c4ad305ec5c0cd3b330870c659d4a3ed304b10a61b2ea",'Pinned PCM source ledger changed.');
+const solarSequences=new Set([768,784,785]);
+const solarVoiceKeys=new Set(['026:4','026:16','026:21','026:22']);
+const solarSourcePaths=new Set(['sound/songs/seq_768.s','sound/songs/seq_784.s','sound/songs/seq_785.s','sound/wave/wave_099.s','sound/wave/wave_110.s']);
+const originalFacts={
+  samples:data.samples.slice(0,16),
+  cues:data.cues.filter(cue=>!solarSequences.has(cue.sequence)),
+  scale:data.scale,frequencyBase:data.frequencyBase,
+  voices:Object.fromEntries(Object.entries(data.voices).filter(([key])=>!solarVoiceKeys.has(key)))
+};
+assert.equal(sha(JSON.stringify(originalFacts)),"390f18e76b41ea124954f467c8fcb7b21c1e09b4b806189fa6f209a6ef5dbfe9",'Prior PCM source facts changed; review and repin them.');
+assert.equal(data.sources.length,73);
+assert.equal(sha(JSON.stringify(data.sources.slice(0,68))),"f137bab8df8d7fc3285c4ad305ec5c0cd3b330870c659d4a3ed304b10a61b2ea",'Pinned prior PCM source ledger changed.');
+assert.deepEqual(data.sources.slice(68).map(source=>source.path).sort(),[...solarSourcePaths].sort());
+assert.deepEqual(data.cues.filter(cue=>solarSequences.has(cue.sequence)).map(({id,sequence})=>[id,sequence]),[
+  ['effect-solar-beam-cast',768],['effect-solar-beam-travel',784],['effect-solar-beam-preparation',785]
+]);
+assert.deepEqual([...Object.keys(data.voices).filter(key=>solarVoiceKeys.has(key))].sort(),[...solarVoiceKeys].sort());
 const sourceArgument=process.argv.indexOf('--source-root');
 if(sourceArgument>=0){
   const sourceRoot=process.argv[sourceArgument+1];assert(sourceRoot,'Provide --source-root PATH');
@@ -40,7 +53,7 @@ const samples=data.samples.map(sample=>{
   literalBytes+=raw.length;decodedBytes+=sample.sampleCount*4;
   return [sample.id,sample.sampleCount,sample.loopStart,Boolean(sample.status),sample.base64];
 });
-assert.equal(literalBytes,85626);assert.equal(decodedBytes,342476);
+assert.equal(literalBytes,98212);assert.equal(decodedBytes,392816);
 
 // MODT0 adds16*modM before signed coarse/fine pitch splitting.
 // The selected older cues have no pitch modulation, so their tuples stay exact.
@@ -54,7 +67,7 @@ function frequency(key,bend,range,mod=0){
 const cues={},groups={};let noteCount=0,levelCount=0,rateCount=0;
 for(const cue of data.cues){
   const group6=cue.sequence===407||cue.sequence===413||cue.sequence===927||cue.sequence===938;
-  const qualifiedVoice=[680,774,927,938,605].includes(cue.sequence);
+  const qualifiedVoice=[680,774,927,938,605,768,784,785].includes(cue.sequence);
   assert.equal(cue.bank,cue.sequence===605?28:qualifiedVoice?26:undefined);
   assert.equal(cue.player,group6?'SE6':'SE5');assert.equal(cue.priority,127);
   if(group6)groups[cue.id]=6;
@@ -101,14 +114,21 @@ for(const cue of data.cues){
       const rate=frequency(note.key,control.bend,control.range,control.pitchMod);
       if(rates.at(-1)?.[1]!==rate)rates.push([at,rate]);
     }
-    assert(end>start&&end<=82);assert(levels.length<=59&&rates.length<=45);
+    const endLimit=cue.sequence===785?107:82;
+    assert(end>start&&end<=endLimit);
+    if(end>82)assert.equal(cue.sequence,785,'Only named Solar preparation cue may end after frame 82.');
+    assert(levels.length<=59&&rates.length<=45);
     noteCount++;levelCount+=levels.length;rateCount+=rates.length;
     return [voice.wave,start,end,rates,levels];
   });
-  assert(notes.length<=13);if(group6)assert(notes.length<=5);
+  const noteLimit=cue.sequence===784?14:13;
+  assert(notes.length<=noteLimit);
+  if(notes.length>13)assert.equal(cue.sequence,784,'Only named Solar travel cue may use 14 notes.');
+  if(cue.sequence===785)assert.equal(fineFrame,138,'Solar preparation FINE exception changed.');
+  if(group6)assert(notes.length<=5);
   cues[cue.id]=[fineFrame,notes];
 }
-assert.equal(noteCount,81);assert.equal(levelCount,835);assert.equal(rateCount,414);
+assert.equal(noteCount,104);assert.equal(levelCount,968);assert.equal(rateCount,457);
 assert.deepEqual(groups,{'effect-whiffer':6,'effect-sleep-helper':6,'effect-paralysis':6,'effect-disable-target':6});
 assert.deepEqual(cues['effect-whiffer'],[13,[[115,2,4,[[2,38473]],[[2,109,111],[3,108,110],[4,0,0]]],[115,5,7,[[5,30536]],[[5,109,111],[6,108,110],[7,0,0]]],[115,8,10,[[8,24236]],[[8,109,111],[9,108,110],[10,0,0]]],[115,11,13,[[11,19236]],[[11,90,92],[13,0,0]]]]]);
 assert.equal(cues['effect-heal'][0],72);assert.equal(cues['effect-heart'][0],43);
@@ -145,7 +165,7 @@ const generated=`/** Generated selected public Red PCM facts; Blue identity, res
   `/** Numeric song-table replacement domain; omitted legacy cues use group5. */\n`+
   `/** @type {Readonly<Record<string,5|6>>} */\nexport const PCM_EFFECT_GROUPS=${JSON.stringify(groups)};\n`;
 // Exact 605 catalog admission; all shared/live/note/row/end limits stay fixed.
-assert.equal(Buffer.byteLength(generated),130502,'Selected PCM catalog byte admission changed.');
+assert.equal(Buffer.byteLength(generated),149624,'Selected PCM catalog byte admission changed.');
 if(process.argv.includes('--check'))assert.equal(await readFile(output,'utf8'),generated,'Regenerate selected PCM data.');
 else await writeFile(output,generated);
-console.log(`Selected PCM: 16 samples, 81 notes, 835 stereo rows, 414 frequency rows, ${Buffer.byteLength(generated)} runtime bytes; static source/data only${sourceArgument>=0?', source hashes verified':''}.`);
+console.log(`Selected PCM: 18 samples, 104 notes, 968 stereo rows, 457 frequency rows, ${Buffer.byteLength(generated)} runtime bytes; static source/data only${sourceArgument>=0?', source hashes verified':''}.`);

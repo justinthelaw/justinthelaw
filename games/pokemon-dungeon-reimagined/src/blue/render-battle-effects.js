@@ -8,8 +8,8 @@ const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
  * @type {readonly BankSpec[]} */
 const BANKS=Object.freeze([
   {id:'basic',path:'battle-effects',ids:[15,28,29,52,65,128,138,194,215,225,271,299,323]},
-  {id:'initial',path:'battle-effects-initial',ids:[6,7,8,9,10,11,14,21,22,37,59,85,130,144,150,180,181,182,205,236,287,312,334,394,397,398,399,402,404,423,425,434]},
-  {id:'extra',path:'battle-effects-extra',ids:[50,76,83,96,137,269,270,274,288,296,316,317,333]},
+  {id:'initial',path:'battle-effects-initial',ids:[6,7,8,9,10,11,14,21,22,37,59,85,130,144,150,180,181,182,205,221,236,287,312,334,394,397,398,399,402,404,423,425,434]},
+  {id:'extra',path:'battle-effects-extra',ids:[50,76,83,96,137,246,247,269,270,274,288,296,316,317,333]},
 ]);
 const JSON_LIMIT=128*1024,PNG_LIMIT=256*1024,MAX_BANKS=3,MAX_DECODED_BYTES=4*1024*1024;
 
@@ -47,7 +47,7 @@ function metadata(value,bank){
   }
   const remaining=new Set(bank.ids);
   for(const record of data.effects){
-    if(!record||!remaining.delete(record.id)||typeof record.directional!=='boolean'||!integer(record.attachmentSet,-1,3)||typeof record.loop!=='boolean'||typeof record.blocksWait!=='boolean'||record.blocksWait!==(record.id!==37)||!Array.isArray(record.sequences)||record.sequences.length!==(record.directional?8:1))throw Error('Native effect selection is invalid.');
+    if(!record||!remaining.delete(record.id)||typeof record.directional!=='boolean'||!integer(record.attachmentSet,-1,3)||typeof record.loop!=='boolean'||typeof record.blocksWait!=='boolean'||record.blocksWait!==(![37,247].includes(record.id))||!Array.isArray(record.sequences)||record.sequences.length!==(record.directional?8:1))throw Error('Native effect selection is invalid.');
     for(const sequence of record.sequences){
       if(!sequence||!integer(sequence.ticks,1,32640)||!Array.isArray(sequence.frames)||!integer(sequence.frames.length,1,128))throw Error('Native effect sequence is invalid.');
       for(const frame of sequence.frames)if(!Array.isArray(frame)||frame.length!==4||!frame.every(Number.isInteger)||!integer(frame[0],0,data.poses.length-1)||!integer(frame[1],1,255)||!frame.slice(2).every(value=>integer(value,-32768,32767)))throw Error('Native effect frame exceeds its bounds.');
