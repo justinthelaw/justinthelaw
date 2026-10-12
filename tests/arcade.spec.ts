@@ -173,8 +173,7 @@ test("should fill the viewport with a configured local game and restore Play foc
   await expect(play).toBeFocused();
 });
 
-test("should align icon-only corner controls with social buttons at every responsive tier", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "chromium", "Responsive icon sizing only needs one browser");
+test("should align icon-only corner controls with social buttons at every responsive tier", async ({ page }) => {
   for (const width of [320, 375, 640, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");

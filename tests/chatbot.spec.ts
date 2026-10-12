@@ -555,48 +555,74 @@ test.describe("Chatbot UI Tests", () => {
     );
   });
 
-  test("should toggle warning tooltip by click on mobile", async ({
-    page,
-  }, testInfo) => {
-    test.skip(
-      !testInfo.project.name.includes("Mobile"),
-      "Click toggle is mobile/touch behavior.",
-    );
+  test.describe("touch warning interaction", () => {
+    test.use({ hasTouch: true });
 
-    const promptBudget = getPromptBudget();
-    const overage = 9;
-    const expectedMessage = `Message trimmed: ${overage} characters`;
+    test("should toggle warning tooltip with touch input", async ({
+      page,
+    }) => {
+      const promptBudget = getPromptBudget();
+      const overage = 9;
+      const expectedMessage = `Message trimmed: ${overage} characters`;
 
-    await openChat(page);
-    await page
-      .getByTestId("chat-input")
-      .fill("x".repeat(promptBudget.inputCharacterLimit + overage));
+      await openChat(page);
+      expect(await page.evaluate(() => window.matchMedia("(hover: none), (pointer: coarse)").matches)).toBe(true);
+      await page
+        .getByTestId("chat-input")
+        .fill("x".repeat(promptBudget.inputCharacterLimit + overage));
 
-    const inputLimitWarning = page.getByTestId("chat-input-limit-warning");
-    const inputTooltip = page.getByTestId("chat-input-limit-warning-tooltip");
+      const inputLimitWarning = page.getByTestId("chat-input-limit-warning");
+      const inputTooltip = page.getByTestId("chat-input-limit-warning-tooltip");
 
-    await expect(inputTooltip).toBeHidden();
-    await inputLimitWarning.click();
-    await expect(inputTooltip).toBeVisible();
-    await expect(inputTooltip).toHaveText(expectedMessage);
+      await expect(inputTooltip).toBeHidden();
+      await inputLimitWarning.tap();
+      await expect(inputTooltip).toBeVisible();
+      await expect(inputTooltip).toHaveText(expectedMessage);
 
-    const tooltipBox = await inputTooltip.boundingBox();
-    const viewportSize = page.viewportSize();
+      const tooltipBox = await inputTooltip.boundingBox();
+      const viewportSize = page.viewportSize();
 
-    expect(tooltipBox).not.toBeNull();
-    expect(viewportSize).not.toBeNull();
-    expect(tooltipBox!.x).toBeGreaterThanOrEqual(0);
-    expect(tooltipBox!.x + tooltipBox!.width).toBeLessThanOrEqual(
-      viewportSize!.width + 1,
-    );
-    expect(tooltipBox!.y).toBeGreaterThanOrEqual(0);
-    expect(tooltipBox!.y + tooltipBox!.height).toBeLessThanOrEqual(
-      viewportSize!.height + 1,
-    );
+      expect(tooltipBox).not.toBeNull();
+      expect(viewportSize).not.toBeNull();
+      expect(tooltipBox!.x).toBeGreaterThanOrEqual(0);
+      expect(tooltipBox!.x + tooltipBox!.width).toBeLessThanOrEqual(
+        viewportSize!.width + 1,
+      );
+      expect(tooltipBox!.y).toBeGreaterThanOrEqual(0);
+      expect(tooltipBox!.y + tooltipBox!.height).toBeLessThanOrEqual(
+        viewportSize!.height + 1,
+      );
 
-    await page.mouse.click(4, 4);
-    await expect(inputTooltip).toBeHidden();
-    await expect(page.getByTestId("chat-input")).toBeVisible();
+      await inputLimitWarning.tap();
+      await expect(inputTooltip).toBeHidden();
+      await inputLimitWarning.tap();
+      await expect(inputTooltip).toBeVisible();
+      await page.touchscreen.tap(4, 4);
+      await expect(inputTooltip).toBeHidden();
+      await expect(page.getByTestId("chat-input")).toBeVisible();
+
+      await inputLimitWarning.tap();
+      await expect(inputTooltip).toBeVisible();
+      await page.keyboard.press("Escape");
+      await expect(inputTooltip).toBeHidden();
+      await inputLimitWarning.focus();
+      await expect(inputLimitWarning).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(inputTooltip).toBeVisible();
+      await page.keyboard.press("Space");
+      await expect(inputTooltip).toBeHidden();
+
+      await inputLimitWarning.tap();
+      await expect(inputTooltip).toBeVisible();
+      await inputLimitWarning.dispatchEvent("pointerdown", { pointerType: "touch", pointerId: 7 });
+      await inputLimitWarning.dispatchEvent("pointercancel", { pointerType: "touch", pointerId: 7 });
+      await expect(inputTooltip).toBeHidden();
+      await inputLimitWarning.focus();
+      await page.keyboard.press("Enter");
+      await expect(inputTooltip).toBeVisible();
+      await page.keyboard.press("Space");
+      await expect(inputTooltip).toBeHidden();
+    });
   });
 
   test("should send recent turns to the worker for follow-up prompts", async ({

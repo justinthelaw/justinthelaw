@@ -2,82 +2,51 @@
 
 ## Local Setup
 
-### Web App
-
 ```bash
 nvm install
 nvm use
-npm install --global npm@12.1.0
+npm install --global npm@12.2.0
 npm install
 npm run dev
 ```
 
-The repository pins Node.js in `.nvmrc`, npm in `package.json`, and Python in
-`.python-version`. Install Python with `uv python install` before creating the
-profile-QA virtual environment.
+Run from the repository root. Node.js, npm, and Python are pinned in `.nvmrc`,
+`package.json`, and `.python-version`. Run `uv python install` before creating
+the [profile-QA environments](../ml/profile-qa/README.md#prerequisites).
 
-Upgrade deferred: TypeScript 7.0.2 is outside the supported parser peer range
-`>=4.8.4 <6.1.0`; retain TypeScript 6.0.3. Revisit when the
-[typescript-eslint parser](https://registry.npmjs.org/@typescript-eslint/typescript-estree/8.71.0)
-adds TypeScript 7 support.
+## Static Preview and Validation
 
-Node 24.21.0 remains the newest active LTS runtime. Node 26 and its types stay
-deferred until the [Node 26 LTS transition](https://github.com/nodejs/Release#release-schedule)
-on October 28 and a runtime lane review.
-
-Dependency audit and retained transitive constraints are recorded in
-[the September 29 ledger](dependency-upgrades/2026-09-29.md).
-
-### Production-Style Static Preview
-
-```bash
-npm run build
-npm start
-```
-
-## Validation
-
-Run this before pushing:
-
-```bash
-npm run flight-check
-```
-
-`npm run test` expects a built static export in `out/`. Run `npm run build`
-first when running Playwright outside `flight-check`.
-
-## Pre-commit
-
-Install hooks once per clone:
-
-```bash
-pre-commit install --hook-type pre-commit --hook-type pre-push
-```
-
-Run pre-commit-stage hooks manually:
-
-```bash
-pre-commit run --all-files
-```
-
-Run local pre-push hooks manually:
-
-```bash
-pre-commit run --all-files --hook-stage pre-push
-```
-
-Pre-commit stage hooks cover formatting and repo hygiene: markdown, YAML,
-GitHub Actions workflow lint, shell script checks, whitespace, smart quotes,
-merge conflicts, private keys, and large files. The local app ESLint hook runs
-at pre-push.
-
-## Contributor Docs
-
-| Document | Purpose |
+| Command | Purpose |
 | --- | --- |
-| [Architecture and pipeline diagrams](DIAGRAMS.md) | System map and fine-tuning handoff |
-| [Customization](CUSTOMIZATION.md) | Site personalization |
-| [Contributing](CONTRIBUTING.md) | Contribution workflow |
+| `npm run build && npm start` | Serve the static export at its GitHub Pages base path |
+| `npm run flight-check` | Required before pushing: clean, lint, build, test |
+| `npm run build && npm run test` | Standalone Playwright run; build `out/` first |
+
+Playwright starts a fresh production preview in both local and CI runs. Stop any
+server on port 3000 first; `out/` must match the source being tested.
+
+Install and run the [contribution hooks](CONTRIBUTING.md#validation).
+
+## Deferred Upgrades
+
+- Keep website TypeScript 6.0.3: 7.0.2 exceeds the
+  [typescript-eslint parser's](https://registry.npmjs.org/@typescript-eslint/typescript-estree/8.71.1)
+  supported range, `>=4.8.4 <6.1.0`. The isolated game package uses TypeScript
+  7.0.2 through `tsc --project tsconfig.json`.
+- Keep Node 24.21.0 and Node 24 types. Revisit Node 26 after its
+  [October 28 LTS transition](https://github.com/nodejs/Release#release-schedule)
+  and a runtime lane review.
+- Keep Python 3.14.8: ONNX Runtime lacks a Python 3.15 wheel.
+- See the [September 29 dependency ledger](dependency-upgrades/2026-09-29.md)
+  for audit evidence and retained transitive constraints.
+
+## Guides
+
+| Guide | Purpose |
+| --- | --- |
+| [Diagrams](DIAGRAMS.md) | Architecture and training pipeline |
+| [Customization](CUSTOMIZATION.md) | Site configuration |
+| [Contributing](CONTRIBUTING.md) | Checks and pull requests |
 | [Security](SECURITY.md) | Vulnerability reporting |
-| [Support](SUPPORT.md) | Help and issue guidance |
+| [Support](SUPPORT.md) | Bugs and feature requests |
 | [Code of Conduct](CODE_OF_CONDUCT.md) | Community expectations |

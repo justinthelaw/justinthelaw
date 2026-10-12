@@ -96,7 +96,7 @@ test("should reject a linked export destination", async () => {
     await mkdir(outside);
     await writeFile(path.join(source, "index.html"), "Inert fixture");
     await writeFile(path.join(source, "distribution.json"), JSON.stringify({ version: 1, files: ["index.html"] }));
-    await symlink(outside, path.join(repositoryRoot, "out"), "dir");
+    await symlink(outside, path.join(repositoryRoot, "out"), process.platform === "win32" ? "junction" : "dir");
     await expect(exportGames(repositoryRoot)).rejects.toThrow("symbolic links");
     expect(await readdir(outside)).toEqual([]);
   } finally {

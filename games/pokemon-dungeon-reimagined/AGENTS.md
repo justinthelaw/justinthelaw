@@ -1,51 +1,45 @@
 # Blue Rescue Team opening
 
-Follow [BLUE-OPENING.md](plan/BLUE-OPENING.md). The goal is the original Nintendo
-DS opening, title/menu, personality test, partner creation, awakening and three
-Tiny Woods floors through Caterpie's reunion with Butterfree. Stop after the
-rescue reward. Town, team formation and later dungeons are outside this version.
-Justin explicitly requested removing unused code and assets on 2026-10-11.
+Follow [BLUE-OPENING.md](plan/BLUE-OPENING.md): original DS title/menu,
+personality test, partner creation, awakening, and three Tiny Woods floors
+through Caterpie's reunion and rescue reward. Town, team formation, later
+dungeons, and 3D/campaign code are excluded. PR #397 is merged.
 
-On 2026-10-12, Justin prioritized a review-ready, viable opening release
-("at least a 95% viable product") over waiting for literal cartridge parity.
-Finish the playable rescue, required checks and blocking review fixes; document
-remaining fidelity and retry-move limits. Keep further weather/move expansion
-outside this checkpoint. The percentage is a release target, not a measured
-fidelity score. Mark the PR ready for the owner's review; do not merge it.
+The owner's 2026-10-12 "95% viable product" target prioritized a playable,
+review-ready opening, required checks, and blocking fixes. It is not a measured
+fidelity score. Document remaining fidelity and retry-move limits; keep further
+weather/move expansion outside this checkpoint.
 
-- `index.html` selects `src/blue/`, using two 256 × 192 Canvas 2D displays.
-  Keep code, data, images, fonts and audio local with relative URLs. Preserve
-  the existing GitHub Pages iframe integration and browser controls.
-- Keep mechanics, rendering, input, audio and persistence separate. The small
-  `src/domain/` helpers supply only the selected numerical rules, generation,
-  random state and plain-data validation. Do not restore the campaign graph,
-  Three.js or later-game abstractions to implement an opening feature.
-- Authoring packages, caches, exports and evidence belong in
-  `tools/pokemon-dungeon/`. `distribution.json` is the explicit runtime closure.
-  Retain the 3 MiB distribution cap, per-image limits and effect-bank bounds.
-- Use JavaScript ES modules with JSDoc and strict independent static checks.
-  Run the pinned Node 24 authoring package's `npm run check` after changes.
-  Website validation remains separate; report any unavailable required check.
-- D05: no tests may import or execute game source, no native game execution,
-  and no automated playthroughs. Static syntax, lint, types, JSON, source,
-  provenance, PNG and size checks are permitted. Manual browser play and
-  visual inspection are permitted. Website tests use inert game fixtures.
-- Preserve the opening's save schema, two-slot journal and stale-write guards.
-  Existing historical browser saves keep their separate keys; removing unused
-  source must never clear browser data. Keep transient presentation evidence
-  outside saves and prevent paused or retired callbacks from replaying actions.
-- The reference is original Blue Rescue Team. Red source is comparative unless
-  corroborated for Blue; do not silently use DX, Explorers or main-series rules.
-  Keep source URLs, hashes, attribution and uncertainty with factual inputs.
-  Public image availability is not a publisher reuse grant. No ROM is included;
-  dialogue remains an authored adaptation with explicit fidelity gaps. Justin
-  requested removing all background music on 2026-10-11; retain gameplay/UI
-  effects and their source qualifications, without restoring a music scheduler.
-- Record current evidence in [BLUE-OPENING-REVIEW.md](plan/BLUE-OPENING-REVIEW.md)
-  and scoped `tools/pokemon-dungeon/reference/blue-*.md` notes. Retire unwanted
-  files to macOS Trash with a restore ledger. Git history retains the former
-  campaign; obsolete plans and validators are not current acceptance gates.
-- Work on PR #397's `feat/pokemon-campaign-recovery` branch. Signed commits and
-  ordinary pushes are authorized. Do not merge, deploy, or mutate issue/PR
-  metadata without separate authority. Preserve unrelated work and leave the
-  repository root README unchanged.
+- `index.html` selects `src/blue/`: two 256×192 Canvas 2D displays, local
+  code/data/images/fonts/audio, and relative URLs. Preserve Pages iframe and
+  browser-control integration.
+- Separate mechanics, rendering, input, audio, and persistence. `src/domain/`
+  holds only selected numerical rules, generation, random state, and plain-data
+  validation. Do not restore the campaign graph, Three.js, or later-game
+  abstractions for opening features.
+- Authoring, caches, exports, and evidence belong in `tools/pokemon-dungeon/`.
+  `distribution.json` defines runtime closure; keep its 3 MiB cap, per-image
+  limits, and effect-bank bounds.
+- Use JavaScript ES modules/JSDoc and strict independent checks. Run the pinned
+  Node 24 authoring package's `npm run check` after changes; website validation
+  is separate. Report unavailable required checks.
+- D05 forbids tests importing/executing game source, native game execution, and
+  automated playthroughs. Static syntax/lint/types/JSON/source/provenance/PNG/
+  size checks and manual browser/visual review are allowed. Website tests use
+  inert game fixtures.
+- Preserve the save schema, two-slot journal, stale-write guards, and separate
+  historical save keys. Pruning must never clear browser data. Keep transient
+  presentation evidence outside saves; paused/retired callbacks must not replay.
+- Use original Blue sources; Red is comparative unless corroborated. Do not
+  silently substitute DX, Explorers, or main-series rules. Preserve URLs,
+  hashes, attribution, and uncertainty. Public availability is not a reuse
+  grant. Include no ROM; dialogue is an authored adaptation with fidelity gaps.
+  The owner removed background music on 2026-10-11: retain qualified gameplay/UI
+  effects without restoring a music scheduler.
+- Record evidence in [BLUE-OPENING-REVIEW.md](plan/BLUE-OPENING-REVIEW.md) and
+  `tools/pokemon-dungeon/reference/blue-*.md`. Retire unwanted local files to
+  macOS Trash with a restore ledger. Git history retains the former campaign;
+  obsolete plans/validators are not acceptance gates.
+- Use signed commits and preserve unrelated work. Merging, deploying, and
+  issue/PR metadata changes require explicit authorization. Keep root README
+  changes within the user's requested scope.

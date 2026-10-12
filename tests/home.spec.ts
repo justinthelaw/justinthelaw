@@ -126,11 +126,7 @@ test.describe('Homepage E2E Tests', () => {
 
   test("should keep the larger desktop chatbot anchored bottom-right", async ({
     page,
-  }, testInfo) => {
-    test.skip(
-      testInfo.project.name.startsWith("Mobile"),
-      "Desktop layout applies at the lg breakpoint",
-    );
+  }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
     await page.getByTestId("ai-chatbot-button").click();
@@ -259,11 +255,7 @@ test.describe('Homepage E2E Tests', () => {
 
   test('should render larger social controls at every responsive tier', async ({
     page,
-  }, testInfo) => {
-    test.skip(
-      testInfo.project.name !== 'chromium',
-      'One browser is sufficient for responsive CSS sizing',
-    );
+  }) => {
 
     const sizeTiers = [
       { viewportWidth: 375, previousControlRem: 2, previousIconRem: 1.5 },

@@ -1,64 +1,52 @@
 # Blue Rescue Team opening tools
 
-This package authors and statically checks the browser game from its opening
-through Tiny Woods and Caterpie's reunion. The runtime lives in
-`games/pokemon-dungeon-reimagined/`; later campaign code and 3D tooling are retired.
+Authoring and static checks for `games/pokemon-dungeon-reimagined/`, from the
+opening through Tiny Woods and Caterpie's reunion. Later campaign/3D tooling
+is retired.
 
 ## Commands
 
-Use the repository's pinned Node 24 and npm versions. Install this isolated
-package with `npm ci --ignore-scripts`.
+In this directory, use the repository's pinned Node 24/npm and install with
+`npm ci --ignore-scripts`.
 
 | Command | Purpose |
 | --- | --- |
-| `npm run check` | Lint, strict game-source types, factual checks and reproducible selected exports |
-| `npm run lint` | Static JavaScript syntax, lint and local runtime imports |
-| `npm run typecheck` | Strict JSDoc types for the scoped game source |
-| `npm run blue:export` | Regenerate character data, opening facts, native art, audio and the distribution manifest |
-| `npm run blue:check` | Compare all selected exports and validate their facts, provenance, geometry and budgets |
+| `npm run check` | Lint, strict source types, facts, reproducible selected exports |
+| `npm run lint` | Static JS syntax, lint, local runtime imports |
+| `npm run typecheck` | Strict game-source JSDoc types |
+| `npm run blue:export` | Regenerate characters, opening facts, native art, audio, distribution manifest |
+| `npm run blue:check` | Compare exports; validate facts, provenance, geometry, budgets |
 
-No check imports or executes game source, runs native game code, or performs an
-automated playthrough. Manual browser play and visual/audio review are separate.
-Website tests use inert game fixtures.
+Checks never import/execute game source, run native game code, or automate play.
+Manual browser/visual/audio review is separate; website tests use inert fixtures.
 
-## Inputs and outputs
+## Inputs and Outputs
 
-- `content/blue-source.json` retains selected factual records for the 16 heroes,
-  opening actors, moves and three Tiny Woods floors. Original donor hashes and
-  per-record qualifications remain as provenance. Full growth and learnsets are
-  retained because failed rescues preserve experience.
-- `content/blue-onboarding/` owns the personality algorithm, questions, results,
-  partner choices and their source ledger. The four playable documents export
-  into the game's `content/onboarding/` directory.
-- `content/blue-wild-spawns.json`, `content/blue-secondary-gates.json` and
-  `content/rule-runtime/type-matchups.json` retain small independent rule facts.
-- `art/blue/` holds pinned native image/data inputs, offline source archives,
-  reconstruction tools and pixel evidence. `art/pixel/raster.mjs` is the sole
-  shared raster writer. Source attribution does not assert a reuse license.
-- `audio/blue-original-effects.json` owns the authored gameplay/UI effects.
-  `audio/blue-menu-effects.json` and `audio/blue-battle-effects.json` own the
-  source-derived short PSG effects. `audio/blue-pcm-effects.json` owns the selected
-  sample/control facts; their offline exporter uses Node
-  built-ins. Red PCM is comparative, with global reverb, browser mixing and
-  exact Blue playback still qualified. The opening contains no background music.
-- `scripts/` contains only the selected exporters and static checkers.
-  `reference/blue-*.md` records source decisions and remaining fidelity gaps.
-- `.work/` holds ignored review packets, frozen browser builds and release
-  evidence. It is not copied into the game or required by CI.
+| Path | Contents and constraints |
+| --- | --- |
+| `content/blue-source.json` | 16 heroes, opening actors/moves, three Tiny Woods floors, donor hashes and qualifications; full growth/learnsets retained because failed rescues preserve experience |
+| `content/blue-onboarding/` | Personality algorithm, questions/results, partner choices and source ledger; four playable documents export to game `content/onboarding/` |
+| `content/blue-wild-spawns.json`, `content/blue-secondary-gates.json`, `content/rule-runtime/type-matchups.json` | Independent rule facts |
+| `art/blue/` | Pinned image/data inputs, offline archives, reconstruction tools, pixel evidence; attribution is not a reuse license |
+| `art/pixel/raster.mjs` | Shared raster writer |
+| `audio/blue-original-effects.json` | Authored gameplay/UI effects |
+| `audio/blue-menu-effects.json`, `audio/blue-battle-effects.json` | Source-derived short PSG effects |
+| `audio/blue-pcm-effects.json` | Sample/control facts; offline exporter uses Node built-ins. Red PCM is comparative; global reverb, browser mixing and exact Blue playback remain qualified |
+| `scripts/`, `reference/blue-*.md` | Selected exporters/checkers, source decisions, fidelity gaps |
+| `.work/` | Ignored packets, frozen builds and review evidence; excluded from runtime and CI requirements |
 
-`distribution.json` is the exact runtime module/resource closure. The selected
-export stays under 3 MiB; native images and effect banks also have independent
-encoded and decoded bounds. All runtime URLs remain local and relative.
+There is no background music. `distribution.json` defines the exact local,
+relative-URL runtime closure, capped at 3 MiB with separate encoded/decoded
+native-image and effect-bank bounds.
 
-## Review and recovery
+## Review and Recovery
 
-Read the [current scope](../../games/pokemon-dungeon-reimagined/plan/BLUE-OPENING.md),
-[manual/static evidence](../../games/pokemon-dungeon-reimagined/plan/BLUE-OPENING-REVIEW.md)
-and [factual validation notes](reference/blue-facts.md). Comparative Red evidence
-is qualified unless directly corroborated for Blue. Static checks alone do not
-establish exact Nintendo DS behavior, timing, audio or visual identity.
+See the [scope](../../games/pokemon-dungeon-reimagined/plan/BLUE-OPENING.md),
+[manual/static evidence](../../games/pokemon-dungeon-reimagined/plan/BLUE-OPENING-REVIEW.md),
+and [factual checks](reference/blue-facts.md). Red evidence needs Blue
+corroboration; static checks cannot establish exact DS behavior, timing, audio,
+or visual identity.
 
-The pre-pruning implementation is recoverable at Git commit
-`882cdd14c25b7d79445a637f3dcd97d2c92f0c35`. Retired local files were moved to macOS
-Trash with per-file hashes and restore paths recorded in the pruning ledger.
-Existing browser saves were neither read for pruning nor deleted.
+Pre-pruning code: `882cdd14c25b7d79445a637f3dcd97d2c92f0c35`. The pruning ledger
+records per-file hashes and macOS Trash restore paths. Pruning neither read nor
+deleted existing browser saves.
