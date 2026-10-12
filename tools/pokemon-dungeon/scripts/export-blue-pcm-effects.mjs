@@ -14,9 +14,9 @@ assert.equal(data.sourceCommit,'013475aa04f5be3191e5527c186d9bfceae7cae0');
 assert.deepEqual(data.clock,{cpuHz:16777216,cyclesPerFrame:280896,initialTempo:150,threshold:150});
 assert.equal(data.browserGain,.22);assert.equal(data.nativeMaster,14);
 const fixed=Object.fromEntries(['samples','cues','scale','frequencyBase','voices'].map(key=>[key,data[key]]));
-assert.equal(sha(JSON.stringify(fixed)),"d0b213abde9c449e9bfcf4f120e0b868276c6de9a7b4b1af086d2010c1045736",'Selected PCM source facts changed; review and repin them.');
-assert.equal(data.sources.length,66);
-assert.equal(sha(JSON.stringify(data.sources)),"8be32e16fae80e08b3aeea3922ed0ac08f9fd549985be9b597e8bd4274d4d098",'Pinned PCM source ledger changed.');
+assert.equal(sha(JSON.stringify(fixed)),"390f18e76b41ea124954f467c8fcb7b21c1e09b4b806189fa6f209a6ef5dbfe9",'Selected PCM source facts changed; review and repin them.');
+assert.equal(data.sources.length,68);
+assert.equal(sha(JSON.stringify(data.sources)),"f137bab8df8d7fc3285c4ad305ec5c0cd3b330870c659d4a3ed304b10a61b2ea",'Pinned PCM source ledger changed.');
 const sourceArgument=process.argv.indexOf('--source-root');
 if(sourceArgument>=0){
   const sourceRoot=process.argv[sourceArgument+1];assert(sourceRoot,'Provide --source-root PATH');
@@ -40,7 +40,7 @@ const samples=data.samples.map(sample=>{
   literalBytes+=raw.length;decodedBytes+=sample.sampleCount*4;
   return [sample.id,sample.sampleCount,sample.loopStart,Boolean(sample.status),sample.base64];
 });
-assert.equal(literalBytes,81442);assert.equal(decodedBytes,325744);
+assert.equal(literalBytes,85626);assert.equal(decodedBytes,342476);
 
 // MODT0 adds16*modM before signed coarse/fine pitch splitting.
 // The selected older cues have no pitch modulation, so their tuples stay exact.
@@ -54,8 +54,8 @@ function frequency(key,bend,range,mod=0){
 const cues={},groups={};let noteCount=0,levelCount=0,rateCount=0;
 for(const cue of data.cues){
   const group6=cue.sequence===407||cue.sequence===413||cue.sequence===927||cue.sequence===938;
-  const qualifiedVoice=[680,774,927,938].includes(cue.sequence);
-  assert.equal(cue.bank,qualifiedVoice?26:undefined);
+  const qualifiedVoice=[680,774,927,938,605].includes(cue.sequence);
+  assert.equal(cue.bank,cue.sequence===605?28:qualifiedVoice?26:undefined);
   assert.equal(cue.player,group6?'SE6':'SE5');assert.equal(cue.priority,127);
   if(group6)groups[cue.id]=6;
   const tempo=cue.controls.find(control=>control.command==='TEMPO').value*2;
@@ -66,11 +66,15 @@ for(const cue of data.cues){
     for(const control of cue.controls)if(control.tick===tick)state[control.command]=control.value;
     let mod=0;
     if(state.MOD&&state.LFOS){
-      phase=(phase+state.LFOS)&255;
-      const triangle=phase<64?phase:phase<192?128-phase:phase-256;
-      mod=Math.floor(triangle*state.MOD/64);
+      // STRB wraps stored phase but leaves the sum register intact. The
+      // native branch then stores its signed modulation result as one byte.
+      const sum=phase+state.LFOS;phase=sum&255;
+      const triangle=((sum-64)&128)?(sum<<24)>>24:128-sum;
+      mod=(Math.floor(triangle*state.MOD/64)<<24)>>24;
     }
-    const pan=Math.max(-128,Math.min(127,state.PAN*2+(state.MODT===2?mod:0))),volume=state.VOL*2;
+    // Native TrkVolPitSet applies MODT 1 before stereo-pan truncation.
+    if(state.MODT===1)assert.equal(cue.sequence,605);
+    const pan=Math.max(-128,Math.min(127,state.PAN*2+(state.MODT===2?mod:0))),volume=state.MODT===1?state.VOL*2*(mod+128)>>>7:state.VOL*2;
     changes.set(frame(tick),{right:(pan+128)*volume>>8,left:(127-pan)*volume>>8,bend:state.BEND,range:state.BENDR,pitchMod:state.MODT===0?mod:0});
   }
   const frames=[];let current=changes.get(0);
@@ -104,7 +108,7 @@ for(const cue of data.cues){
   assert(notes.length<=13);if(group6)assert(notes.length<=5);
   cues[cue.id]=[fineFrame,notes];
 }
-assert.equal(noteCount,71);assert.equal(levelCount,761);assert.equal(rateCount,373);
+assert.equal(noteCount,81);assert.equal(levelCount,835);assert.equal(rateCount,414);
 assert.deepEqual(groups,{'effect-whiffer':6,'effect-sleep-helper':6,'effect-paralysis':6,'effect-disable-target':6});
 assert.deepEqual(cues['effect-whiffer'],[13,[[115,2,4,[[2,38473]],[[2,109,111],[3,108,110],[4,0,0]]],[115,5,7,[[5,30536]],[[5,109,111],[6,108,110],[7,0,0]]],[115,8,10,[[8,24236]],[[8,109,111],[9,108,110],[10,0,0]]],[115,11,13,[[11,19236]],[[11,90,92],[13,0,0]]]]]);
 assert.equal(cues['effect-heal'][0],72);assert.equal(cues['effect-heart'][0],43);
@@ -120,13 +124,14 @@ assert.equal(sha(JSON.stringify(cues['effect-sleep-helper'])),'3066198c45df0c846
 assert.equal(sha(JSON.stringify(cues['effect-vine-whip'])),'e1b9839cf2523a328079509a8e40ff72946151bc3334eed10e0e868fbba3c360','Pinned 745 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-razor-leaf'])),'a7845d0de5b051ed24bd77370fd727375581dcbd67c93ac1a7d75c5b8f02e4f0','Pinned 825 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-leech-seed-travel'])),'ebb7f9f3155ca1fead75c17c0df9604f825c96c5615e8a9d621d47e63d0e76fe','Pinned 807 finite tuple changed.');
-assert.equal(sha(JSON.stringify(cues['effect-bubble-impact'])),'d47d7b38e04e5329abd9d7d0565aec57c0871a5f54b27d34574c9509c5ef88c7','Pinned 628 finite tuple changed.');
+assert.equal(sha(JSON.stringify(cues['effect-bubble-impact'])),'0a1d378249c60c0b1613e20f41f4769ae6b6540ebd628c817c6541dfdcd1a6ba','Pinned 628 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-water-sport'])),'99bc55e88f4eba3b77a5946f6dc1d8e1abeb6f6a232fd5fe12ac96e206f82e30','Pinned 717 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-tackle'])),'128f620476a460df9f2444c00ea2f79978025e4502b88fe884cd7e9d22356aa7','Pinned 344 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-disable-cast'])),'302c5693e50fff4baaa0861bae09edc6aa753dccc73c9de1c9f9290d621b4f1a','Pinned 680 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-thunder'])),'87fce4867b6a6cf7777f9046c50fd1846d357df1aade35faeac0636b166863ca','Pinned 774 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-paralysis'])),'b1bc0730b3af224fba5ab16889c09f3ed698711858bf6d7191413d57237971dd','Pinned 927 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-disable-target'])),'324e199e441b0416d244a8ab0b7f8df98308371ea4a599d1b98bff1eecdeb7e2','Pinned 938 finite tuple changed.');
+assert.equal(sha(JSON.stringify(cues['effect-strength-up'])),'3c4ac3dbf9ac2b18a9aaadafdbd53f8fb85e30caee60946508d7cf0f0d30309c','Pinned 605 finite tuple changed.');
 const generated=`/** Generated selected public Red PCM facts; Blue identity, resampling, global reverb and mix remain qualified. */\n`+
   `export const PCM_SOURCE_SHA256='${sha(bytes)}';\n`+
   `export const PCM_FRAME_SECONDS=280896/16777216;\nexport const PCM_EFFECT_GAIN=${data.browserGain};\n`+
@@ -139,8 +144,8 @@ const generated=`/** Generated selected public Red PCM facts; Blue identity, res
   `export const PCM_EFFECTS=${JSON.stringify(cues)};\n`+
   `/** Numeric song-table replacement domain; omitted legacy cues use group5. */\n`+
   `/** @type {Readonly<Record<string,5|6>>} */\nexport const PCM_EFFECT_GROUPS=${JSON.stringify(groups)};\n`;
-// Exact four-cue paralysis catalog admission; shared32 and row/end limits stay fixed.
-assert.equal(Buffer.byteLength(generated),123563,'Selected PCM catalog byte admission changed.');
+// Exact 605 catalog admission; all shared/live/note/row/end limits stay fixed.
+assert.equal(Buffer.byteLength(generated),130502,'Selected PCM catalog byte admission changed.');
 if(process.argv.includes('--check'))assert.equal(await readFile(output,'utf8'),generated,'Regenerate selected PCM data.');
 else await writeFile(output,generated);
-console.log(`Selected PCM: 15 samples, 71 notes, 761 stereo rows, 373 frequency rows, ${Buffer.byteLength(generated)} runtime bytes; static source/data only${sourceArgument>=0?', source hashes verified':''}.`);
+console.log(`Selected PCM: 16 samples, 81 notes, 835 stereo rows, 414 frequency rows, ${Buffer.byteLength(generated)} runtime bytes; static source/data only${sourceArgument>=0?', source hashes verified':''}.`);

@@ -13,25 +13,20 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 26
+## Current candidate 27
 
-Candidate 26 contains **151 files totaling 2,804,438 bytes**, below the
-unchanged 3 MiB distribution cap. It retains candidate 25's independently
-reviewed Continue progress card and restores Play time to the in-dungeon main
-menu through the same formatter. The menu snapshots the live foreground clock
-when it is built, uses the native-aligned label and value positions, and exposes
-the value through its non-dialogue accessibility announcement. It adds no timer
-or scheduler; the owned clock continues while the menu is open, while the
-displayed snapshot remains fixed until the next menu build.
+Candidate 27 contains **151 files totaling 2,811,901 bytes**, below the
+unchanged 3 MiB distribution cap. All resources remain local. It retains the
+reviewed Continue progress card, shared dungeon-menu clock, level-37 Cubone
+Thrash and the source-matching Bide release direction.
 
-New adventures persist genuine foreground play frames, fresh-entry adventure
-count and checkpoint/quicksave/completed kind. Legacy payload history remains
-explicitly Unknown rather than reconstructed. Candidate 26 also admits the
-reviewed level-37 Cubone Thrash route and removes an invented confused-facing
-draw from latent Bide release. Candidate 25's full pinned Node 24.21.0 aggregate
-suite and all three bounded Continue browser checks passed. Candidate 26's full
-pinned Node 24.21.0 aggregate suite and bounded menu-clock dungeon continuation
-also passed. All resources remain local with no runtime CDN dependency.
+The new audio packet corrects native LFO register/byte arithmetic, changing only
+three Bubble frequency values among the 19 existing PCM cues. It adds sound 605
+at fresh effect 6 creation for Rage, Swagger and Thrash, with the complete source
+waveform and finite modulation controls. Thrash's unsupported direct cast sound
+is removed. Audio players, quotas, gameplay, saves and graphics stay unchanged.
+The full pinned Node 24.21.0 static suite and both source-backed audio exporters
+passed; ordinary browser continuation is tracked below.
 
 The native battle presentation contains **56 distinct indexed effects in three
 banks**. Their decoded atlases use 3,948,544 bytes. Including the separately
@@ -60,53 +55,26 @@ behavior. The four source-proven no-bitmap status helpers publish their result
 and icon snapshot without draining an unrelated cast tail. These are static source claims until a
 specific route is manually exercised.
 
-Whiffer's sound-only helper now uses its pinned four-note PCM sequence in
-numeric replacement group 6. Existing group 5 cues retain their own replacement
-and tail behavior; all seven prior sample/cue tuples remain byte-exact. Nine
-decoded buffers use 235,996 bytes, and both groups retain the shared 32-source
-ceiling. Reapplying Whiffer consumes the source's discarded duration draw and
-reports the existing status without replacing its timer or playing the helper
-sound again. Candidate 14's pinned native-source check passed for all 53 then-admitted
-PCM input pins. The admitted source joins include Sleep helper 407, Vine Whip 745,
-Razor Leaf 825 and Leech Seed travel 807. Effect 807 adds one finite source wave;
-the earlier joins retain their existing decoded samples and playback bounds.
-A focused manual
-Smokescreen trial verified fresh and duplicate applications, PP consumption and
-normal control recovery with no browser warnings or errors. Exact Blue audio
-and audition remain
-qualified in [audio evidence](../../../tools/pokemon-dungeon/reference/blue-audio.md).
+The current PCM catalog has **20 cues, 16 buffers, 342,476 decoded bytes,
+81 notes and 68 pinned source records**. Numeric groups 5 and 6 retain their
+separate replacement/tail behavior, eager-source limits of 15 and 5, and shared
+32-source ceiling. The finite SE2 catalog includes menu, attack, pickup, miss,
+Tail Whip and defense-down cues without additional decoded PCM buffers.
 
-Held B+A now polls each eligible input opportunity, preserves modifier priority,
-and requires nonzero integer Belly. Plain A remains edge-triggered. Duplicate
-Sleep consumes the source duration draw and entry effect without replacing its
-old timer. Existing sound data is connected to reviewed direct move/species
-pairs, Ember casting and empty-adjacent Attract. An unreachable synthetic cast
-fallback was removed. Other sound routes remain qualified. Candidate 15 admits
-source-derived Bubble impact 628 and Water Sport 717 through the existing
-finite PCM player. The current catalog describes 11 buffers (255,596 decoded
-bytes), 53 notes and 57 pinned source records, and these additions passed the
-pre-pruning candidate's full static and 57-source PCM checks. Candidate 16 adds
-finite group-5 Tackle 344 for the nine verified opening species/move pairs. It
-appends only full nonlooping wave 098 and sequence 344, preserving all 11 prior
-sample tokens, 14 cue tuples and 57 source records. The catalog now contains 12
-buffers (268,740 decoded bytes), 55 notes and 59 pinned source records. Tackle's
-ordinary source animation tail exceeds FINE 13 by at least six ticks. Candidate
-19 adds the unchanged ten-pair paralysis family, bringing the catalog to **15
-buffers, 325,744 decoded bytes, 71 notes and 66 pinned source records**. Numeric
-group 6 raises its eager-source cap from four to five for the five real notes in
-fresh-paralysis cue 927; group 5 remains 15 and the shared live cap remains 32.
-The four new cues use a separate 29-request family counter. Collapsed browser
-batches, native/Blue mixing, phase, channel competition, resampling and physical
-audition remain qualified. Candidate 20 also admits comparative SE2 Tail Whip 362 only for
-Eevee and Skitty's source-overridden direct casts. It adds six bounded pulse
-notes and no decoded buffer; the other four retained Tail Whip learners keep
-their existing mapping. Candidate 23 admits comparative defense-down SE2 cue
-906 for the 15 reviewed species/level pairs using Leer, Tail Whip or Screech.
-The 15-note pulse cue joins the existing effect-399 receipt; native defense
-helpers request that effect before mutation and clamp reporting, including at
-the minimum stage. This adds no decoded PCM buffer and does not change player,
-quota, counter, phase or stat mechanics. Blue instrument identity, waveform
-phase, mixing and physical audition remain unverified.
+Bubble's corrected LFO follows the native unwrapped sum, signed-byte modulation
+and arithmetic shift. Sound 605 uses bank 028 voice 9, full wave 095 and ten
+notes ending by frame 45. The existing two-request move bucket covers all three
+effect-6 owners; carrying an effect or continuing a save cannot replay it.
+Blue waveform identity, global phase, channel competition, resampling, mixing,
+collapsed batches and physical audition remain qualified in
+[audio evidence](../../../tools/pokemon-dungeon/reference/blue-audio.md).
+Background music remains absent at the owner's request.
+
+Held B+A preserves modifier priority and requires nonzero integer Belly; plain
+A remains edge-triggered. Duplicate Sleep consumes the source duration draw and
+entry effect without replacing its timer. Duplicate Whiffer consumes its draw
+without replaying the helper or replacing the old timer. These source claims and
+prior bounded browser observations retain their detailed evidence below.
 
 Candidate 24 admits Squirtle's exact level-40 Skull Bash row. The first use
 spends PP once, records the charge and exact slot, and grants the effective
@@ -177,16 +145,13 @@ Original Blue seed history, the complete RNG call schedule and cartridge replay 
 
 ## Static and hosted evidence
 
-Candidate 26's full pinned Node 24.21.0 aggregate suite passed at 151 files
-totaling 2,804,438 bytes. Candidate 21's full Node 24.21.0 authoring checks passed at 151 files and
-2,790,982 bytes. They cover the aggregate source, export and distribution
-closure without importing or executing game source. Candidate 22's full pinned
-Node 24.21.0 static suite also passed at 151 files and 2,791,623 bytes.
-Candidate 23's full pinned Node 24.21.0 static suite passed at 151 files and
-2,793,229 bytes; the canonical SE2 exporter also verified all 45 native source
-pins. Candidate 24's full pinned Node 24.21.0 aggregate suite also passed at 151
-files and 2,797,841 bytes. Candidate 25's full pinned Node 24.21.0 aggregate suite passed at 151 files
-totaling 2,803,390 bytes. Candidate 15's
+Candidate 27's full pinned Node 24.21.0 static suite passed at 151 files and
+2,811,901 bytes. It covers syntax, lint, strict types, factual inputs, provenance,
+asset geometry and export closure without importing or executing game source.
+The PCM and SE2 exporters also passed against the pinned native source checkout.
+Earlier checkpoint counts and detailed logs remain in Git and the local evidence
+ledgers; they do not substitute for a current validation result.
+Candidate 15's
 fresh browser run completed all three floors, rescue, reunion, all three berry
 rewards, Adventure Log at 227 turns, Return to top menu and completed Continue.
 Both party members reached level 6; warning/error logs were empty. Candidate 15's

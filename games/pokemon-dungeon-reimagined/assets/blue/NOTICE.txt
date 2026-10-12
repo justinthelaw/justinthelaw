@@ -151,3 +151,8 @@ Physical defense-down 906 adds finite public Red SE2 controls for the
 existing bank 027 voice 64, with no new sample. Original source hashes remain
 in blue-battle-effects.json. Blue waveform identity, phase, mix and audition
 remain unverified; the comparative clock and bounded playback are qualified.
+
+Native effect 6 sound 605 uses the complete public Red wave 095 and finite
+bank 028 voice 9 sequence controls at the same pinned source commit. The
+editable source/pins remain in tools/pokemon-dungeon/audio/blue-pcm-effects.json.
+Blue identity, global phase, browser resampling/mix and audition remain qualified.

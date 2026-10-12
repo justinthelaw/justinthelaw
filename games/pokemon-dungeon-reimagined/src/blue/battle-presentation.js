@@ -29,7 +29,7 @@ import {nativeSin4096} from './battle-native-sine-data.js';
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
 /** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[],hidden?:boolean}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906',audible:boolean,moveOwned?:true}|{clearNotice:true}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'|'se605',audible:boolean,moveOwned?:true}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 /** @typedef {{start:number,end:number}} EndTrack */
@@ -165,7 +165,7 @@ export class BattlePresentation {
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
     /** Native sound receipts are private presentation evidence, never saves.
-     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] */
+     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'|'se605'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] */
     const sound=(name,at,order=ordinal++,moveOwned=false)=>{
       if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
       cueFrontier=Math.max(cueFrontier,at);
@@ -226,6 +226,8 @@ export class BattlePresentation {
       if(id===7||id===15)sound(id===7?'heal':'heart',start);
       else if(id===83||id===271)sound(id===83?'se678':'se809',start);
       else if(id===22)sound('se621',start);
+      // Shared effect 6: Thrash preparation, Swagger cast and Rage target.
+      else if(id===6)sound('se605',start,undefined,true);
       // The selected motion table routes144 only from Ember's cast.
       else if(id===144)sound('se711',start,undefined,true);
       else if(id===194)sound('se745',start,undefined,true);
@@ -469,7 +471,7 @@ export class BattlePresentation {
         const start=cursor;messageAt=start;
         const visible=displayedActor(record.actor);
         // Selected native effect sounds replace only the STOP direct-cast cue.
-        cue(event,start,order,visible&&!EFFECT22_SILENT_CASTS.has(record.moveId)&&record.moveId!=='move-synthesis'&&record.moveId!=='move-ember'&&record.moveId!=='move-attract'&&record.moveId!=='move-leech-seed'&&record.moveId!=='move-bubble'&&record.moveId!=='move-water-sport'&&record.moveId!=='move-disable');
+        cue(event,start,order,visible&&!EFFECT22_SILENT_CASTS.has(record.moveId)&&record.moveId!=='move-synthesis'&&record.moveId!=='move-ember'&&record.moveId!=='move-attract'&&record.moveId!=='move-leech-seed'&&record.moveId!=='move-bubble'&&record.moveId!=='move-water-sport'&&record.moveId!=='move-disable'&&record.moveId!=='move-thrash');
         if(!visible)continue;
         if(route?.preparation&&record.first){
           if(record.moveId==='move-hypnosis'){

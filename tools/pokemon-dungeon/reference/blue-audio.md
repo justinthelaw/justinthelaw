@@ -810,7 +810,8 @@ At tempo 152, cue 628 has three notes at [2,8), [8,14), [14,20), FINE 20.
 At tempo 280, cue 717 has four at [2,9), [9,19), [20,44), [20,46), FINE 47.
 All use priority 127, instantaneous attack and existing integer pitch/envelope
 arithmetic, with no detached tails. Simultaneous notes remain separate sources.
-Wave 108 can naturally exhaust near the latter two gate ends, so the existing
+With the corrected native LFO byte arithmetic below, wave 108 can naturally
+exhaust during the first note before its nominal gate end; the existing
 nonlooping buffer/onended owner remains authoritative. No padding, loop or
 exact browser/native exhaustion-time claim is added. Wave 120 keeps its loop.
 
@@ -1040,3 +1041,93 @@ are untouched. Red remains comparative; Blue bank identity, oscillator phase,
 band-limiting, mix/resampling and physical audition remain unverified. Stalled
 or reduced-motion batches can collapse timestamps, and the app still publishes
 batch messages before its audio loop. Music remains intentionally absent.
+
+## Native LFO register and byte arithmetic correction
+
+The pinned MPlayMain assembly stores its running phase as a byte while retaining
+the unwrapped addition in the register used by one triangle branch. It then
+stores modulation as a signed byte. The earlier offline expression wrapped the
+phase before both branches and missed that distinction at sufficiently high
+LFO speeds. The exporter now follows the exact register/byte order in
+`src/m4a_1.s:1045–1069`; no runtime player code changes.
+
+A finite scan of all 19 admitted PCM cues finds only Bubble impact 628 affected.
+Its LFOS 100/MOD 40 reaches sums 344, 332 and 320 at ticks/frames 6, 11 and 16.
+Signed native modM is 121, −128 and −120, replacing 25, 32 and 40. Exactly three
+frequency rows change: note 0/frame 6 becomes 28,114 Hz; note 1/frame 11 becomes
+11,438 Hz; note 2/frame 16 becomes 11,778 Hz. Notes, gates, FINE, stereo levels,
+samples, source facts/pins, all 18 other cue tuples and every resource/voice cap
+are unchanged. The generated catalog remains exactly 123,563 bytes.
+
+Nominal piecewise consumption for the first note becomes 1,927.82 samples versus
+the full nonlooping buffer's 1,842; the existing AudioBufferSource natural ending
+therefore remains authoritative before the envelope's scheduled stop. The later
+two notes consume about 1,697.51 and 1,693.79 samples. These calculations do not
+assert identical browser/native interpolation or physical exhaustion timestamps.
+No sample is padded, truncated or looped to conceal the correction.
+
+The 12 admitted SE2 sequence sources do not reach this arithmetic discrepancy:
+330/331 use default LFOS 22 with MOD 100; the others do not enable modulation.
+Their existing tuples remain unchanged. This source-only correction was found
+while auditing the still-separate sound 605 admission; it is not an audio
+rendering or audition result. Blue global phase, resampling and mix remain
+qualified.
+
+## Shared effect 6 sound 605
+
+Fresh effect 6 handles now request 605 once at their first source update: Thrash's
+first preparation, Swagger's cast, and Rage's target. The common effect helper
+admits the request after displayed-actor/metadata creation and before attachment
+or drawing. Hidden or absent handles request nothing; carried tracks, subsequent
+frames, saved statuses and Continue do not replay. Later Thrash passes do not
+recreate its first preparation. Swagger casts even at an empty front tile; Rage
+creates its self-target effect before the status handler, including duplicate
+Rage. Existing visual clocks, waits, damage/RNG and status-result ownership stay
+unchanged.
+
+The complete selected producer closure is Cubone 37 Thrash, Meowth 45 Swagger,
+and Totodile 7, Charmander 19 and Cubone 29 Rage. Each chosen party action creates at
+most one effect 6 and selects none of the other moveOwned sound routes. No wild
+level 1 slot, Bide release, regular attack, Struggle or helper record creates 6.
+Two valid party actions therefore fit the existing two-request move bucket,
+including two different Rage learners. The same result can request 621 from
+Rage/Swagger preparation in its existing separate bucket. No quota is increased.
+Thrash's three authored cast sounds are suppressed because its native direct
+slot is STOP; Rage/Swagger were already in the source-STOP preparation set.
+Other authored attack/impact roles remain live.
+
+Sequence 605 is numeric SE5/group 5, priority 127, bank 028 voice 9, DirectSound
+wave 095, envelope 255/235/0/127. It has ten notes at constant tempo 144, FINE
+frame 39 and zero envelopes by 45; two release tails detach at FINE. The complete
+4,183-sample waveform and its source loop 613/guard byte are retained. It adds
+4,184 literal bytes, 5,580 base64 characters and 16,732 decoded Float32 bytes.
+Existing phase-zero per-source playback, group replacement, detached-tail and
+hard-stop lifecycles remain unchanged. A delivered 605 replaces attached 621 or
+other group 5 notes; its FINE tails survive a later request only until their
+finite ends. Group 6, SE2 and the shared 32 live-source cap stay unchanged.
+
+The runtime player and tuple format already support the required finite stereo
+levels. Only offline arithmetic gains native MODT 1 tremolo: TrkVolPitSet scales
+track volume using `x = (x * (modM + 128)) >>> 7` before stereo pan/velocity/envelope truncation. LFO
+phase follows the corrected native register/byte arithmetic above and continues
+across nonzero MOD/LFOS and MODT changes; 605 switches from
+MODT 1 to MODT 2 pan at tick 10. The exporter permits this new MODT 1 admission only
+for 605. Its signed bend and existing frequency interpolation remain unchanged.
+For all nine MODT 1 ticks, the intermediate volume is 60–265; the subsequent
+volML/volMR values are 29–131 and 30–132. Across all modes the final stores are
+29–179 and 0–132. Each fits its native unsigned byte, so no clamp or omitted
+byte truncation changes these selected values. The pre-shift product stays
+7,740–34,020, within unsigned 32-bit arithmetic.
+
+The new cue has 74 stereo rows and 41 rate rows, maxima 9/8 per note, within the
+unchanged 59/45-row and end 82 limits; ten notes fit the unchanged 13-note catalog
+and 15 eager group 5-source bounds. Recognition under overload consumes a request
+without fallback or deferred replay.
+
+The exact catalog admission is 130,502 runtime bytes: 16 buffers / 342,476 decoded
+bytes, 81 notes, 835 stereo rows and 414 rates. After the separate LFO byte correction, all 19 prior cue tuples, 15 prior
+sample strings, 16 prior voice records and 66 source pins are unchanged; only 605,
+full wave 095 and bank-qualified 028:9 append. This is comparative Red control/data
+admission, not Blue sound identity, hardware-clock/mixer parity or physical
+audition. Collapsed batches and global-budget rejection retain their explicit
+limits. Background music remains absent.

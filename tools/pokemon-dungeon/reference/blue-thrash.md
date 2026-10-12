@@ -47,12 +47,13 @@ Thrash contributes at most three single-target/empty cast pieces within the
 existing twelve-piece allowance for one party action. It creates no new queue,
 status, linked action or asynchronous gameplay work.
 
-Audio remains qualified. Native preparation sound 605 is SE5/group 5, bank 028
-voice 9, wave 095, with bend and modulation controls. It is not in the admitted
-PCM catalog. Existing authored attack/impact feedback remains; it does not
-reproduce 605 or the original mix. No audio tuple, player, quota or music changes
-are part of this handler. The separate [audio reference](blue-audio.md) retains
-the other native impact/Blue-driver gaps.
+The first preparation now uses the source-qualified native 605 cue shared with
+Swagger's cast and Rage's target. Its full wave 095 and finite controls use the
+existing SE5/group 5 player; later Thrash passes do not repeat it. Thrash's
+source-STOP direct cast suppresses the old authored attack fallback. Generic
+impact and global Blue-driver/mix qualifications remain in the separate
+[audio reference](blue-audio.md#shared-effect-6-sound-605). No player, quota or
+background-music expansion is introduced.
 
 Mechanics commit the bounded action once. Existing pause/visibility/faint
 publication, reduced-motion, carry and disposal owners consume presentation
