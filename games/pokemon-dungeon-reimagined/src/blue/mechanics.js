@@ -474,6 +474,13 @@ function tryAiMovement(state,actor,target,events){
       }
     }
   }
+  const wildDirect=!team(actor)&&target&&team(target)&&inSight(state,actor,target)&&
+    ['pokemon-016','pokemon-102','pokemon-191','pokemon-265'].includes(actor.speciesId)&&!actor.status.confusion&&distance(actor,target)>0&&
+    [state.hero,state.partner].filter(candidate=>candidate.hp>0&&inSight(state,actor,candidate)).every(candidate=>candidate.id===target.id||distance(actor,candidate)>distance(actor,target));
+  if(wildDirect){
+    const direct=directionFor(target.x-actor.x,target.y-actor.y),[dx,dy]=VECTORS[direct];
+    if(canStep(state,actor,dx,dy)&&!actorAt(state,actor.x+dx,actor.y+dy)){moveActor(state,actor,actor.x+dx,actor.y+dy,events);return true;}
+  }
   // Together's visible-leader target takes the native direct direction before
   // the adapted route finder when that first step is ordinary, empty terrain.
   if(tactic==='together'&&current===leader&&leader&&distance(actor,leader)>0){

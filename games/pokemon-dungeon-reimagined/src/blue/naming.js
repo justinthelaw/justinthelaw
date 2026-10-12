@@ -8,9 +8,9 @@
 /** @typedef {'north'|'south'|'west'|'east'} NamingDirection */
 /** @typedef {{index:number,up:number,down:number,left:number,right:number,x:number,y:number,kind:'character'|'mode'|'delete'|'end',character:string}} NamingKey */
 
-export const NAMING_LIMIT = 10;
+const NAMING_LIMIT = 10;
 export const NAMING_END_KEY = 2;
-export const NAMING_INITIAL_KEY = 3;
+const NAMING_INITIAL_KEY = 3;
 const SYMBOLS = '\u22ef\u2018\u2019\u201c\u201d\u2642\u2640';
 /** @type {Readonly<Record<NamingDirection,'up'|'down'|'left'|'right'>>} */
 const NAVIGATION = Object.freeze({ north: 'up', south: 'down', west: 'left', east: 'right' });
@@ -109,7 +109,7 @@ export const NAMING_KEYS = Object.freeze(LAYOUT.map(([up,down,left,right,x,y,val
 
 /** Preserve the previous printable alphabet and add the native keypad symbols.
  * @param {string} character */
-export function isNamingCharacter(character) {
+function isNamingCharacter(character) {
   const code=character.codePointAt(0)??0;
   return code>=32&&code<=126||character==='é'||SYMBOLS.includes(character)&&character.length===1;
 }

@@ -150,6 +150,18 @@ copied abilities, factual mutation or helper callers requires a new source revie
   and every case requiring alternate ±45-degree turns keep the existing BFS
   fallback unchanged. This source-qualified branch does not establish broader
   native or Blue pathfinding parity.
+  Candidate 22 admits the same successful-direct-step fact for the four Tiny
+  Woods wild species only when the existing visible-target owner yields one
+  uniquely closest active team actor. The branch repeats visibility, excludes
+  equal-distance target ties, requires a noncoincident target and a legal empty
+  sign-clamped direct tile, and adds no RNG draw. This corresponds to the
+  comparative fixed-enemy target scan, Chebyshev distance,
+  `GetDirectionTowardsPosition` and the first successful `DecideMovement`
+  direction. Failed visibility, uniqueness, terrain or occupancy guards fall
+  through byte-for-byte to the signed BFS path. Equal-distance and remembered
+  targets, decoys, special mobility, run-away/terrified behavior, blocked or
+  occupied tiles, alternate-direction choice, the surrounding attack scheduler
+  and broader native/Blue pathfinding remain qualified.
   The scheduler implements the admitted normal/slowed speed rows and forced
   leader passes described below; the full native phase/speed repertoire and
   some status ordering remain incomplete. Learning choices are presented after the

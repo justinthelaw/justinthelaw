@@ -13,21 +13,19 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 21
+## Current candidate 22
 
-Candidate 21 contains **151 files totaling 2,790,982 bytes**, below the
-unchanged 3 MiB distribution cap. It builds on signed `a863da8` with three
-independently reviewed corrections: the successful-scan subset of corridor
-junction wandering, finite Tail Whip 362 for Eevee/Skitty, and a legal empty
-direct step toward the visible leader for the Together tactic. Blocked movement
-and broader native AI remain qualified. No new sound player, sample, quota or
-save field is introduced.
+Candidate 22 contains **151 files totaling 2,791,623 bytes**, below the
+unchanged 3 MiB distribution cap. It builds on signed candidate 21 with the
+independently reviewed direct-step subset for Tiny Woods wild actors and removes
+four unused exports without changing their retained owners. The wild branch is
+limited to a unique closest visible team target and a legal, empty direct tile;
+every rejected guard falls through to the signed movement path. Broader target
+selection, visibility, fallback pathfinding and Blue behavior remain qualified.
 
-The frozen candidate-21 game bytes exactly match the current runtime. Its 33
-website shell files come from the verified `a863da8` Pages artifact. Candidate
-20 supplies the fresh iframe/Tail Whip check; candidate 21 supplies a preserved-
-save direct-follow continuation through five turns. All resources remain local
-with no runtime CDN dependency.
+Candidate 21 supplies the current complete static, hosted and manual baseline.
+Candidate 22's full pinned Node 24.21.0 static check passed. All
+resources remain local with no runtime CDN dependency.
 
 The native battle presentation contains **56 distinct indexed effects in three
 banks**. Their decoded atlases use 3,948,544 bytes. Including the separately
@@ -135,8 +133,8 @@ Original Blue seed history, the complete RNG call schedule and cartridge replay 
 
 Candidate 21's full Node 24.21.0 authoring checks passed at 151 files and
 2,790,982 bytes. They cover the aggregate source, export and distribution
-closure without importing or executing game source. Candidate 20's preceding
-full static suite also passed at 151 files and 2,790,511 bytes. Candidate 15's
+closure without importing or executing game source. Candidate 22's full pinned Node 24.21.0 static suite also passed at 151 files
+and 2,791,623 bytes. Candidate 15's
 fresh browser run completed all three floors, rescue, reunion, all three berry
 rewards, Adventure Log at 227 turns, Return to top menu and completed Continue.
 Both party members reached level 6; warning/error logs were empty. Candidate 15's
@@ -150,13 +148,12 @@ Log, Continue and controls recovered with no warning/error logs. Only Bulbasaur
 of the nine source-reviewed bindings was cast, and no physical audio was
 auditioned.
 
-Exact published head `a863da8a0407fdbd6f2f5a70a060f7b79e7f2d68`
+Exact published head `901951e237aae66b79de6a1df86908b9a9ba1d89`
 passed hosted lint, Game Static Checks, Playwright and CodeQL. Its requested
-exact-head Codex review returned a qualifying thumbs-up. The verified Pages
-artifact contains all 151 declared runtime files totaling 2,788,229 bytes and
-is the website-shell baseline for candidate 20. The watcher exited 1 only
-because three earlier review threads remain unresolved; their resolution stays
-under the separately required publication approval workflow.
+exact-head Codex review returned a qualifying thumbs-up, and its Pages artifact
+was verified against all 151 declared runtime files totaling 2,790,982 bytes.
+The watcher disconnected without a known exit result; three review threads
+remain unresolved pending the separate approval workflow.
 The earlier `88bf722` evidence remains preserved under
 `tools/pokemon-dungeon/.work/ci-88bf722/`.
 
@@ -197,6 +194,9 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 20 | Fresh Hasty-girl Skitty Mimi/Squirtle Shell reached B1F; Skitty Tail Whip changed PP 22→21 and lowered Sunkern's Defense, Shell Tackle dealt 19 damage/KO, both gained 16 EXP, then two east moves, Help/Sound, Quicksave at three turns and Continue passed | PASS for one Skitty Tail Whip binding and bounded controls/save; warning/error log empty. Eevee, physical audio, junction movement measurement and a full rescue were not exercised. The run exposed the adapted BFS diagonal detour later addressed by candidate 21 |
 
 | Candidate 21 | Restored Mimi/Shell B1F at three turns. Two eastward moves made Shell take the direct southeast/east steps and finish immediately west of Mimi on the same row; HP stayed 30/30, Help/Sound, Quicksave, five-turn Adventure Log and Continue passed | PASS for two legal empty Together direct steps and save recovery; warning/error log empty. Standalone fresh-module continuation; candidate20 supplies the iframe/cast evidence. No blocked-path, hidden junction/RNG, physical audio or full-rescue claim |
+| Candidate 21, full continuation | Continued the preserved five-turn Mimi/Shell B1F save through all three floors, Caterpie clearing, reunion, all three berry rewards, a 91-turn Adventure Log, return to menu and completed Continue; Mimi remained level 5 at 30 HP and Shell reached level 6 at 33 HP | PASS for the current `901951e` runtime from B1F save through completion; warning/error log empty and no failure occurred. This standalone continuation is not one fresh immutable run from SHA onboarding through rescue |
+
+| Candidate 22 | Restored Flare/Bud B2F from 21 turns, played 22 ordinary room/corridor movement turns, recovered Flare from 26 to 30 HP, then Quicksave, 43-turn Adventure Log and Continue passed | PASS for bounded movement, following and save recovery; warning/error log empty. No visible wild pursuit occurred, so the new wild direct-step branch remains source-static-qualified rather than manually demonstrated. The downstream browser surface was unavailable; root performed this check |
 
 The separate candidate-12 fresh trial is retired as invalid acceptance evidence
 because it used hidden reads. Its preserved partial evidence does not extend the

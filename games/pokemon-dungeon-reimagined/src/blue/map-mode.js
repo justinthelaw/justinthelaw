@@ -2,7 +2,7 @@
 /** @typedef {0|1|2|3|4|5|6} DisplayMode */
 /** @typedef {'off'|'clear'|'shade'} MapStyle */
 /** @type {readonly {letter:string,top:'team'|'log'|'map',bottom:MapStyle}[]} */
-export const DISPLAY_MODES=Object.freeze([
+const DISPLAY_MODES=Object.freeze([
   {letter:'A',top:'team',bottom:'off'},
   {letter:'B',top:'team',bottom:'clear'},
   {letter:'C',top:'team',bottom:'shade'},
