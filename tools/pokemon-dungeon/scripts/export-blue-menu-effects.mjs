@@ -20,6 +20,7 @@ assert.deepEqual(data.voices, [
   {id:60,type:9,duty:.5,envelope:[0,0,15,0]},
   {id:61,type:1,duty:.125,envelope:[0,0,15,0]},
   {id:64,type:9,duty:.25,envelope:[0,0,15,0]},
+  {id:77,type:9,duty:.5,envelope:[0,7,0,0]},
 ]);
 assert(data.browserGain > 0 && data.browserGain <= .3);
 assert.equal(battle.schemaVersion, 1); assert.equal(battle.sourceCommit, data.sourceCommit);
@@ -172,6 +173,15 @@ assert.equal(spin.priority, 100);assert.equal(spin.player, 'SE2');
 const spinNotes = shortPulseNotes(spin);
 assert.deepEqual(spinNotes, [[1,1,250,4],[2,1,188,5],[3,1,118,7],[4,1,100,7],[5,1,88,8],[6,1,140,8],[7,1,178,6],[8,1,198,6],[9,1,298,3]]);
 battleCues[spin.id] = {duty: spin.duty, notes: spinNotes};
+const tailWhip = battle.tailWhip;
+assert.equal(createHash('sha256').update(JSON.stringify(tailWhip)).digest('hex'), '331bd3b6c18854c00220cfd6d777568139bd68e3866a3287cdaa9768b843cd12', 'Selected Tail Whip controls changed; review and repin them.');
+assert.equal(tailWhip.priority, 100);assert.equal(tailWhip.player, 'SE2');
+assert.equal(tailWhip.voice, 77);assert.deepEqual(tailWhip.envelope, [0,7,0,0]);
+const tailWhipNotes = shortPulseNotes(tailWhip);
+assert.deepEqual(tailWhipNotes, [[0,4,88,9],[4,3,78,9],[7,3,88,7],[10,3,78,7],[13,4,88,2],[17,3,78,2]]);
+// Decay7 remains held through <=4 frames, including one extra global c15 step.
+assert(tailWhipNotes.every(note => note[1] <= 4 && 7 - note[1] - 1 > 0));
+battleCues[tailWhip.id] = {duty: tailWhip.duty, notes: tailWhipNotes};
 assert(Object.values(battleCues).every(cue => cue.notes.length <= 9));
 
 const generated = `/** Generated from pinned comparative Rescue Team SE2 facts; no music or PCM samples. */\n` +
@@ -188,4 +198,4 @@ const generated = `/** Generated from pinned comparative Rescue Team SE2 facts; 
   `export const BATTLE_EFFECTS = ${JSON.stringify(battleCues)};\n`;
 if (process.argv.includes('--check')) assert.equal(await readFile(output, 'utf8'), generated, 'Regenerate the menu-effect data.');
 else await writeFile(output, generated);
-console.log(`Comparative SE2 effects: four menu sequences, two miss/zero sequences, regular351, pickups330/331 and spin356, eleven data IDs, at most nine bounded pulse notes; static source/data only${sourceArgument >= 0 ? ', source hashes verified' : ''}.`);
+console.log(`Comparative SE2 effects: four menu sequences, two miss/zero sequences, regular351, pickups330/331, spin356 and Tail Whip362, twelve data IDs, at most nine bounded pulse notes; static source/data only${sourceArgument >= 0 ? ', source hashes verified' : ''}.`);

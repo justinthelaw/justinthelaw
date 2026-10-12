@@ -956,3 +956,40 @@ several source timestamps into one audio time; ordering/replacement is retained,
 not a physical audibility guarantee. The app still publishes batch messages
 before its audio loop. Global native competition, reverb/mix/phase, browser
 resampling and physical audition remain qualified comparative Red evidence.
+
+## Eevee and Skitty Tail Whip 362
+
+The existing visible semantic cast now selects `se362` / `effect-tail-whip`
+only for Eevee and Skitty's Tail Whip. Native overrides 1632 and 1635 select
+362/motion 4; the four other retained learners keep their existing 356 mappings.
+The full learned/save scope is Squirtle 4, Pikachu 6, Psyduck 5, Cubone 5,
+Eevee 1 and Skitty 3. No global move-only replacement, private receipt, quota,
+handler, save mutation, actor timing or target-result change is added.
+
+Sequence 362 is numeric SE2, bank 027 voice 77, fixed square type 9, 50% duty,
+envelope 0/7/0/0, priority 100, tempo 140 and centered VOL 80. Its six N03 notes
+become [0,4,88,9], [4,3,78,9], [7,3,88,7], [10,3,78,7], [13,4,88,2] and
+[17,3,78,2], using [start frame, gate frames, divisor, envelope]. FINE/end is
+frame 20. The existing fixed-type PWM rounding and integer volume arithmetic
+are unchanged. Decay counter 7 cannot expire during any four-frame gate even
+with one extra c15 step; no envelope or phase owner is invented. No new sample,
+decoded buffer or waveform duty is needed. All old voice/cue tokens remain exact.
+
+All 16 affected directional motion-4 sequences have no early release flag 1:
+Eevee has 72 payload ticks and Skitty 29, both beyond the sound's end at 20.
+Native motion-tail handling and the current cast owner finish that motion even
+for no-target uses. Later target/miss/stat-result requests therefore begin after
+362 has finished under ordinary source pacing. Missing defense-down sound 906
+is still a separate gap; this change does not claim complete Tail Whip audio.
+
+The existing SE2 owner, all player functions, menu-only throttle, shared 32
+sources, maximum nine positive pulse notes and every private counter stay
+unchanged. The generated pulse module is 2,072 bytes, adding exactly 111 data
+bytes and retaining all four menu sequences and six old battle cues. Only the
+two reviewed species mappings replace the authored attack fallback; that body
+remains live for other moves and is not removed. Generic SE3 impact remains held.
+
+Stalled/reduced-motion batches can still collapse audio timestamps; source-order
+replacement is not an audition or physical phase guarantee. This is comparative
+Red evidence, with Blue bank identity, native global competition, browser
+band-limiting/resampling, mix and audition still unverified. Music stays absent.

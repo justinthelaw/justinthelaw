@@ -127,6 +127,29 @@ copied abilities, factual mutation or helper callers requires a new source revie
   Low Kick and Bone Club are also absent from autonomous policy, and the dead
   Helping Hand target fallback is removed. Save role/learnset validation and
   the partner/wild-only turn loop preserve this boundary through retries.
+  Candidate 20 adds one narrow corridor-junction branch for the browser's
+  binary normal-floor/wall topology. It admits only the five native
+  `IsAtJunction` masks when the first scan is proven to have a terrain-legal,
+  unoccupied branch other than the direction opposite the actor's pre-draw
+  facing. Each admitted call consumes the native eight-way start draw, even
+  with one choice, and scans in native signed direction order. Blocked
+  junctions and the sole-free-opposite case return before drawing and retain
+  adapted movement because their native second stage owns waiting/ally-skip
+  behavior outside this patch. Pinned `dungeon_logic.c:916-1044`,
+  `dungeon_ai_movement.c:623-653` and `dungeon_pos_data.c:577` support this
+  bounded branch. Liquid/special mobility, room movement, pursuit, confusion,
+  following/BFS, non-junction wandering and broader Blue movement behavior
+  remain qualified.
+  Candidate 21 narrows one further Together case. After the existing tactic,
+  visibility, confusion, belly and higher-priority action gates choose the
+  visible leader, an ordinary partner takes the exact direction toward that
+  leader when its destination is legal and empty. Comparative
+  `TargetLeader`/`ChooseTargetPosition`/`DecideMovement` source selects this
+  direct step before room routing, alternate turns, RNG, remembered targets or
+  waiting ownership. Blocked or occupied direct tiles, adjacency, other tactics
+  and every case requiring alternate ±45-degree turns keep the existing BFS
+  fallback unchanged. This source-qualified branch does not establish broader
+  native or Blue pathfinding parity.
   The scheduler implements the admitted normal/slowed speed rows and forced
   leader passes described below; the full native phase/speed repertoire and
   some status ordering remain incomplete. Learning choices are presented after the

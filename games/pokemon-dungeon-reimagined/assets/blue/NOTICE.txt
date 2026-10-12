@@ -141,3 +141,8 @@ Paralysis-family sounds 680/774/927/938 use the complete public Red waves
 100/101/130 and original finite controls at the same pinned commit. Their
 bank-qualified voice evidence and source hashes remain in blue-pcm-effects.json.
 Blue identity, global phase/mix and physical audition remain unverified.
+
+Tail Whip 362 uses public Red sequence controls and bank 027 voice 77,
+with no PCM sample. Source hashes remain in blue-menu-effects.json and
+blue-battle-effects.json. Blue identity, waveform phase and audition remain
+unverified; the comparative source clock and mix are qualified.

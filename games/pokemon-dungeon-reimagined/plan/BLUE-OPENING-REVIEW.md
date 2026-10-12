@@ -13,16 +13,21 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 19
+## Current candidate 21
 
-Candidate 19 contains **151 files totaling 2,788,229 bytes**, below the
-unchanged 3 MiB distribution cap. It builds on published candidate 18, admits
-the independently reviewed ten-pair paralysis PCM family, removes one unused
-barrel resource and adds a source-only explanation of the preserved native
-`<= 0` scheduling boundary. The last two changes net one runtime byte and do
-not change game logic. Its frozen browser snapshot contains 152 files totaling
-2,788,228 bytes because it intentionally predates that neutral pruning/comment
-follow-up. The game uses local resources only and has no runtime CDN dependency.
+Candidate 21 contains **151 files totaling 2,790,982 bytes**, below the
+unchanged 3 MiB distribution cap. It builds on signed `a863da8` with three
+independently reviewed corrections: the successful-scan subset of corridor
+junction wandering, finite Tail Whip 362 for Eevee/Skitty, and a legal empty
+direct step toward the visible leader for the Together tactic. Blocked movement
+and broader native AI remain qualified. No new sound player, sample, quota or
+save field is introduced.
+
+The frozen candidate-21 game bytes exactly match the current runtime. Its 33
+website shell files come from the verified `a863da8` Pages artifact. Candidate
+20 supplies the fresh iframe/Tail Whip check; candidate 21 supplies a preserved-
+save direct-follow continuation through five turns. All resources remain local
+with no runtime CDN dependency.
 
 The native battle presentation contains **56 distinct indexed effects in three
 banks**. Their decoded atlases use 3,948,544 bytes. Including the separately
@@ -88,7 +93,11 @@ group 6 raises its eager-source cap from four to five for the five real notes in
 fresh-paralysis cue 927; group 5 remains 15 and the shared live cap remains 32.
 The four new cues use a separate 29-request family counter. Collapsed browser
 batches, native/Blue mixing, phase, channel competition, resampling and physical
-audition remain qualified.
+audition remain qualified. Candidate 20 also admits comparative SE2 Tail Whip 362 only for
+Eevee and Skitty's source-overridden direct casts. It adds six bounded pulse
+notes and no decoded buffer; the other four retained Tail Whip learners keep
+their existing mapping. Defense-down 906 remains a separate unadmitted gap, and
+Blue instrument identity, waveform phase, mixing and audition remain unverified.
 
 New adventures use the source-qualified native-family dungeon LCG core and
 fresh-floor preseed progression. Historical xoshiro saves retain their exact
@@ -124,14 +133,13 @@ Original Blue seed history, the complete RNG call schedule and cartridge replay 
 
 ## Static and hosted evidence
 
-Candidate 19's Node 24.21.0 authoring checks passed at 151 files and
-2,788,229 bytes. They cover lint, strict static types, source facts, geometry,
-provenance, archive hashes, retained actor clip bounds, effect inventories,
-decoded and encoded limits, distribution closure and all 66 PCM source pins.
-They do not import or execute the game as a test. Candidate 15's
+Candidate 21's full Node 24.21.0 authoring checks passed at 151 files and
+2,790,982 bytes. They cover the aggregate source, export and distribution
+closure without importing or executing game source. Candidate 20's preceding
+full static suite also passed at 151 files and 2,790,511 bytes. Candidate 15's
 fresh browser run completed all three floors, rescue, reunion, all three berry
 rewards, Adventure Log at 227 turns, Return to top menu and completed Continue.
-Both party members reached level 6; warning/error logs were empty. The current
+Both party members reached level 6; warning/error logs were empty. Candidate 15's
 deletion-only prune passed the full static suite at 152 files/2,958,889 bytes;
 the completed browser run uses frozen pre-pruning mechanics `120baa72…`.
 Bubble and Water Sport were not cast, and no physical audio was auditioned.
@@ -142,10 +150,12 @@ Log, Continue and controls recovered with no warning/error logs. Only Bulbasaur
 of the nine source-reviewed bindings was cast, and no physical audio was
 auditioned.
 
-Exact published head `67d881c` passed hosted lint, Game Static Checks,
-Playwright and CodeQL. The strict exact-head Codex terminal gate is absent, so
-this is not recorded as a completed clean review. Three review threads remain
-unresolved, including a disputed native-weight finding; their resolution stays
+Exact published head `a863da8a0407fdbd6f2f5a70a060f7b79e7f2d68`
+passed hosted lint, Game Static Checks, Playwright and CodeQL. Its requested
+exact-head Codex review returned a qualifying thumbs-up. The verified Pages
+artifact contains all 151 declared runtime files totaling 2,788,229 bytes and
+is the website-shell baseline for candidate 20. The watcher exited 1 only
+because three earlier review threads remain unresolved; their resolution stays
 under the separately required publication approval workflow.
 The earlier `88bf722` evidence remains preserved under
 `tools/pokemon-dungeon/.work/ci-88bf722/`.
@@ -184,6 +194,9 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 18 | Restored the same Flare/Bud B2F save at 17 turns with pruned actor metadata; hero Growl animated and consumed PP with no target, then three eastward steps, partner follow, HP recovery, Quicksave, 21-turn Adventure Log and Continue passed | PASS for the current trimmed metadata and bounded continuation; warning/error log empty. No all-23-actor UI coverage, hidden RNG measurement, physical audio audition or full-rescue claim |
 
 | Candidate 19 | Fresh website-embedded Hasty-boy Torchic Flint/Pikachu Volt: B1F contact naturally activated Static and paralyzed Wurmple; Thundershock dealt 21 damage/KO, both actors gained 15 EXP, and PP changed 17/17 to 16/17. Sound On, Help pause/trusted recovery, Quicksave, four-turn Adventure Log and Continue passed | PASS for visible result messages, PP and save continuation; warning/error log empty. Frozen 152-file sound snapshot precedes the neutral render prune/comment; no exact effect-frame, audio audition, Disable cast or full-rescue claim |
+| Candidate 20 | Fresh Hasty-girl Skitty Mimi/Squirtle Shell reached B1F; Skitty Tail Whip changed PP 22→21 and lowered Sunkern's Defense, Shell Tackle dealt 19 damage/KO, both gained 16 EXP, then two east moves, Help/Sound, Quicksave at three turns and Continue passed | PASS for one Skitty Tail Whip binding and bounded controls/save; warning/error log empty. Eevee, physical audio, junction movement measurement and a full rescue were not exercised. The run exposed the adapted BFS diagonal detour later addressed by candidate 21 |
+
+| Candidate 21 | Restored Mimi/Shell B1F at three turns. Two eastward moves made Shell take the direct southeast/east steps and finish immediately west of Mimi on the same row; HP stayed 30/30, Help/Sound, Quicksave, five-turn Adventure Log and Continue passed | PASS for two legal empty Together direct steps and save recovery; warning/error log empty. Standalone fresh-module continuation; candidate20 supplies the iframe/cast evidence. No blocked-path, hidden junction/RNG, physical audio or full-rescue claim |
 
 The separate candidate-12 fresh trial is retired as invalid acceptance evidence
 because it used hidden reads. Its preserved partial evidence does not extend the

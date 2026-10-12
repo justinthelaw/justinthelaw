@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "edition": "Red Rescue Team comparative",
   "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
-  "qualification": "Six short SE2 PSG control sequences for raw zero, accuracy misses, regular attack, actual ground pickups and the thrower spin. Blue playback, DS clock, waveform phase and mix are unverified. No commercial music, PCM samples or ROM are included.",
+  "qualification": "Seven short SE2 PSG control sequences for raw zero, accuracy misses, regular attack, actual ground pickups, the thrower spin and selected Tail Whip casts. Blue playback, DS clock, waveform phase and mix are unverified. No commercial music, PCM samples or ROM are included.",
   "sources": [
     {
       "path": "src/dungeon_damage.c",
@@ -161,6 +161,10 @@
       "bytes": 1419,
       "sha256": "866cc291c44603b8eca00d747eee00a010a6a4d2e5e99de57d4a3095dddd3e0a",
       "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_356.s"
+    },
+    {
+      "path": "sound/songs/seq_362.s",
+      "sha256": "6d029a31168264fb5ed98add909098d77078183f50e67f728da258577b07ec71"
     }
   ],
   "clock": {
@@ -855,6 +859,96 @@
         "tick": 13,
         "command": "VOL",
         "value": 6
+      }
+    ]
+  },
+  "tailWhip": {
+    "id": "effect-tail-whip",
+    "sequence": 362,
+    "sourceName": "EFF_ANIM_4_WAG_TAIL",
+    "player": "SE2",
+    "voice": 77,
+    "duty": 0.5,
+    "pan": 0,
+    "envelope": [
+      0,
+      7,
+      0,
+      0
+    ],
+    "priority": 100,
+    "reverb": 0,
+    "tempoIncrement": 140,
+    "trackTicks": 18,
+    "volumeChanges": [
+      [
+        0,
+        80
+      ]
+    ],
+    "notes": [
+      [
+        0,
+        90,
+        3,
+        127
+      ],
+      [
+        3,
+        92,
+        3,
+        127
+      ],
+      [
+        6,
+        90,
+        3,
+        100
+      ],
+      [
+        9,
+        92,
+        3,
+        100
+      ],
+      [
+        12,
+        90,
+        3,
+        32
+      ],
+      [
+        15,
+        92,
+        3,
+        32
+      ]
+    ],
+    "controls": [
+      {
+        "tick": 0,
+        "command": "KEYSH",
+        "value": 0
+      },
+      {
+        "tick": 0,
+        "command": "TEMPO",
+        "value": 70
+      },
+      {
+        "tick": 0,
+        "command": "VOICE",
+        "value": 77
+      },
+      {
+        "tick": 0,
+        "command": "VOL",
+        "value": 80
+      },
+      {
+        "tick": 0,
+        "command": "PAN",
+        "value": 0
       }
     ]
   }

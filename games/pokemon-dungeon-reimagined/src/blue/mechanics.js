@@ -420,6 +420,35 @@ function tryAiAttack(state,actor,target,data,events){
   }
   return useRegular();
 }
+/** Source-qualified subset of native corridor-junction wandering. Enter only
+ * when a legal unoccupied non-opposite branch proves the first native scan must
+ * walk; fallback waiting/ally-skip owners remain outside this partial repair.
+ * Browser direction indices rotate opposite native indices.
+ * @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events
+ * @returns {boolean|null} true when a junction walk was handled, otherwise null */
+function tryJunctionWander(state,actor,events){
+  if((state.roomIds[index(state,actor.x,actor.y)]??-1)>=0)return null;
+  const nativeIndex=/** @param {number} browserIndex */browserIndex=>(8-browserIndex)&7;
+  let mask=0;
+  for(let browserIndex=0;browserIndex<DIRECTIONS.length;browserIndex++){
+    const [dx,dy]=VECTORS[DIRECTIONS[browserIndex]??'s'];
+    if(canStep(state,actor,dx,dy))mask|=1<<nativeIndex(browserIndex);
+  }
+  if(![0x54,0x51,0x45,0x15,0x55].includes(mask))return null;
+  const prior=DIRECTIONS.indexOf(actor.direction),opposite=(prior+4)&7;
+  const available=/** @param {number} browserIndex */browserIndex=>{
+    const [dx,dy]=VECTORS[DIRECTIONS[browserIndex]??'s'];
+    return browserIndex!==opposite&&canStep(state,actor,dx,dy)&&!actorAt(state,actor.x+dx,actor.y+dy);
+  };
+  if(!DIRECTIONS.some((_,browserIndex)=>available(browserIndex)))return null;
+  const origin=nativeIndex(draw(state,8));
+  for(const increment of [0,-1,1,-2,2,-3,3,4]){
+    const browserIndex=(origin+increment+8)&7;if(!available(browserIndex))continue;
+    const [dx,dy]=VECTORS[DIRECTIONS[browserIndex]??'s'];
+    moveActor(state,actor,actor.x+dx,actor.y+dy,events);return true;
+  }
+  throw new Error('A proven corridor-junction branch was not selected.');
+}
 /** Tactics determine the actual movement target and distance policy. The
  * existing bounded path search/wandering is still not native route replay.
  * @param {DungeonState} state @param {Actor} actor @param {Actor|undefined} target @param {GameEvent[]} events */
@@ -445,9 +474,16 @@ function tryAiMovement(state,actor,target,events){
       }
     }
   }
+  // Together's visible-leader target takes the native direct direction before
+  // the adapted route finder when that first step is ordinary, empty terrain.
+  if(tactic==='together'&&current===leader&&leader&&distance(actor,leader)>0){
+    const direct=directionFor(leader.x-actor.x,leader.y-actor.y),[dx,dy]=VECTORS[direct];
+    if(canStep(state,actor,dx,dy)&&!actorAt(state,actor.x+dx,actor.y+dy)){moveActor(state,actor,actor.x+dx,actor.y+dy,events);return true;}
+  }
   const goal=current??actor.goal;
   if(goal&&distance(actor,goal)>0){const p=nextStep(state,actor,goal);if(p&&!actorAt(state,p.x,p.y)){moveActor(state,actor,p.x,p.y,events);return true;}return false;}
   actor.goal=null;
+  if(tryJunctionWander(state,actor,events))return true;
   const possible=DIRECTIONS.map(d=>VECTORS[d]).filter(([dx,dy])=>canStep(state,actor,dx,dy)&&!actorAt(state,actor.x+dx,actor.y+dy));
   const forward=VECTORS[actor.direction],direction=possible.find(([dx,dy])=>dx===forward[0]&&dy===forward[1])??possible[draw(state,possible.length)];
   if(direction){moveActor(state,actor,actor.x+direction[0],actor.y+direction[1],events);return true;}
