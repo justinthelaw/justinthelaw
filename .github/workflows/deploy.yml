@@ -29,6 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
+        # Bundled runtime fixes await upstream; see docs/dependency-upgrades/2026-10-12.md.
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Detect Package Manager
@@ -54,7 +55,8 @@ jobs:
           fi
 
       - name: Setup Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        # Bundled runtime fixes await upstream; see docs/dependency-upgrades/2026-10-12.md.
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
           cache: ${{ steps.detect-package-manager.outputs.manager }}
@@ -64,17 +66,10 @@ jobs:
         run: npm install --global npm@12.2.0
 
       - name: Setup Pages
+        # Bundled runtime fixes await upstream; see docs/dependency-upgrades/2026-10-12.md.
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
         with:
           static_site_generator: next
-
-      - name: Restore Cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: .next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
 
       - name: Install Dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
@@ -91,10 +86,20 @@ jobs:
       - name: Run Playwright Tests
         run: ${{ steps.detect-package-manager.outputs.runner }} playwright test
 
+      - name: Archive Pages artifact
+        run: |
+          tar --dereference --hard-dereference --directory out \
+            -cvf "$RUNNER_TEMP/artifact.tar" \
+            --exclude=.git --exclude=.github --exclude='.[^/]*' .
+
       - name: Upload Artifact
-        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        # Bundled runtime fixes await upstream; see docs/dependency-upgrades/2026-10-12.md.
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          path: out
+          name: github-pages
+          path: ${{ runner.temp }}/artifact.tar
+          retention-days: 1
+          if-no-files-found: error
 
   deploy:
     permissions:
@@ -108,4 +113,5 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
+        # Bundled runtime fixes await upstream; see docs/dependency-upgrades/2026-10-12.md.
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

@@ -11,15 +11,15 @@
   },
   "scripts": {
     "lint": "node scripts/check-source.mjs",
-    "typecheck": "node scripts/check-types.mjs",
+    "typecheck": "tsc --project tsconfig.json",
     "check": "npm run lint && npm run typecheck && npm run blue:check",
     "blue:export": "node scripts/export-blue-onboarding.mjs && node scripts/export-blue-opening.mjs && node art/blue/export.mjs && node scripts/export-blue-original-effects.mjs && node scripts/export-blue-menu-effects.mjs && node scripts/export-blue-pcm-effects.mjs && node scripts/export-blue-distribution.mjs",
     "blue:check": "node scripts/export-blue-onboarding.mjs --check && node scripts/export-blue-opening.mjs --check && node art/blue/export.mjs --check && node scripts/export-blue-original-effects.mjs --check && node scripts/export-blue-menu-effects.mjs --check && node scripts/export-blue-pcm-effects.mjs --check && node scripts/export-blue-distribution.mjs --check && node scripts/check-png-codec.mjs && node scripts/check-blue-facts.mjs && node scripts/check-blue-rules.mjs && node scripts/check-blue-opening.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "acorn": "8.18.0",
+    "acorn": "8.19.0",
     "eslint": "10.12.0",
-    "typescript": "6.0.3"
+    "typescript": "7.0.2"
   }
 }

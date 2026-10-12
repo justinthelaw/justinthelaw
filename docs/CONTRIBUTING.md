@@ -1,74 +1,29 @@
 # Contributing
 
-Thanks for contributing to Justin's projects.
+Keep changes focused, update affected docs, and run local checks before opening
+a pull request. See [Development](DEVELOPMENT.md) for setup.
 
-## Ground Rules
+## Toolchain
 
-| Rule | Detail |
-| --- | --- |
-| Scope | Keep changes scoped and easy to review |
-| Pull requests | Prefer small pull requests with clear intent |
-| Documentation | Add or update docs when behavior changes |
-| Validation | Run local checks before opening a pull request |
-
-## Development Setup
-
-| Step | Command |
-| --- | --- |
-| Select Node.js | `nvm install && nvm use` |
-| Select npm | `npm install --global npm@12.1.0` |
-| Install dependencies | `npm install` |
-| Run development server | `npm run dev` |
-
-Run commands from the repository root. Keep `@types/node` on the Node.js 24
-line selected by `.nvmrc`; Dependabot excludes major type updates until the
-runtime is upgraded. Use stable upstream tags for pre-commit hooks.
-
-Development and CI use the pinned npm 12.1.0. The minimum npm engine is 11.19.0
-so Dependabot can resolve lockfile updates with its bundled npm while preserving
-`engine-strict` and the Node.js 24 requirement.
+Use Node.js 24 from `.nvmrc` and npm 12.2.0 from `package.json`.
+`@types/node` stays on Node 24; Dependabot excludes major type updates until the
+runtime changes. The npm engine minimum is 11.19.0 for Dependabot's bundled
+resolver; keep `engine-strict`. Use stable upstream pre-commit tags.
 
 ## Validation
 
-Run this before pushing:
-
-```bash
-npm run flight-check
-```
-
-Standalone Playwright tests need a built `out/` directory. Use
-`npm run build && npm run test` if you are not running `flight-check`.
-
-## Pre-commit
-
-Install hooks once per clone:
-
-```bash
-pre-commit install --hook-type pre-commit --hook-type pre-push
-```
-
-Run pre-commit-stage hooks manually:
-
-```bash
-pre-commit run --all-files
-```
-
-Run local pre-push hooks manually:
-
-```bash
-pre-commit run --all-files --hook-stage pre-push
-```
-
-Hooks cover markdown, YAML, GitHub Actions workflows, shell scripts,
-whitespace, smart quotes, merge conflicts, private keys, large files, and
-pre-push app linting.
-
-## Pull Request Expectations
-
-| Expectation | Detail |
+| Command | Purpose |
 | --- | --- |
-| Title | Use a short, descriptive title |
-| Summary | Describe what changed and why |
-| Issues | Link issues with `Fixes #<id>` when applicable |
-| UI changes | Include screenshots |
-| Checks | Confirm local checks in the PR checklist |
+| `npm run flight-check` | Required before pushing: clean, lint, build, test |
+| `npm run build && npm run test` | Standalone Playwright run; requires `out/` |
+| `pre-commit install --hook-type pre-commit --hook-type pre-push` | Install hooks once per clone |
+| `pre-commit run --all-files` | Run pre-commit checks |
+| `pre-commit run --all-files --hook-stage pre-push` | Run pre-push checks, including app lint |
+
+Hooks check Markdown, YAML, workflows, shell scripts, whitespace, smart quotes,
+merge conflicts, private keys, and large files.
+
+## Pull Requests
+
+Use a short title, explain what changed and why, link applicable issues with
+`Fixes #<id>`, include UI screenshots, and record checks in the PR checklist.

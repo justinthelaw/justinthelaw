@@ -1,34 +1,21 @@
 # Local NVIDIA Profile-QA Pipeline
 
-This directory contains the local-only training and promotion pipeline for a
-browser profile Q&A model targeting a 1024-token prompt budget. Generated data,
-checkpoints, merged weights, ONNX exports, and reports are ignored by git.
+Local-only training and promotion for a browser Q&A model with a 1024-token
+prompt budget. Generated data, checkpoints, merged weights, ONNX files, and
+reports are git-ignored. See the [system flow](../../docs/DIAGRAMS.md).
 
-For the end-to-end app and promotion handoff, see
-[docs/DIAGRAMS.md](../../docs/DIAGRAMS.md).
+Facts live only in `src/config/public-profile.json`, loaded by
+`src/config/site.ts` and `profile_qa/public_profile.py`. Keep generic section IDs
+ordered `identity`, `current_role`, `experience`, `projects`, `education`,
+`recommendations`, `skills`, `interests`; experience outranks education, and
+recommendations precede hobbies/personality. Names/employers belong in facts
+and keywords. Keep browser priorities/keywords with evaluation `terms`.
 
-The profile ontology is intentionally generic for fork reuse: section IDs should
-stay in resume categories such as `identity`, `current_role`, `experience`,
-`projects`, `education`, `recommendations`, `skills`, and `interests`. Keep
-that order temporal and practical: experience outranks education, and
-recommendations sit just below education but above hobbies/interests or
-personality-trait sections. Put person-specific names, employers, schools, and
-projects in fact text and keywords.
-
-The single checked-in profile source is `src/config/public-profile.json`.
-`src/config/site.ts` imports it for browser retrieval, and
-`profile_qa/public_profile.py` loads the same file for dataset generation. Keep
-browser section priorities and retrieval keywords alongside each fact's
-deterministic evaluation `terms`; do not copy facts into either consumer.
-The identity section's `subject` metadata drives both browser prompt identity
-and the names and pronouns rendered into training prompts. Fact-specific
-question and history wording is centralized in `profile_qa/synthetic_data.py`;
-update its matching QA entry when a customized fact makes an employer, school,
-product, or role reference inaccurate.
-Every grouped QA entry must select a named `termGroup` for each evidence fact.
-Use the minimum terms that every question variant requires for a complete
-answer; dataset generation rejects missing selectors and broad
-`all_evidence_terms` scoring.
+`identity.subject` supplies browser/training names and pronouns. Update matching
+QA templates in `profile_qa/synthetic_data.py` when changed facts invalidate
+employer, school, product, or role references. Each grouped QA entry must select
+a named `termGroup` per evidence fact with the minimum terms every variant
+requires; missing selectors and broad `all_evidence_terms` scoring are rejected.
 
 ## Prerequisites
 
@@ -36,8 +23,7 @@ answer; dataset generation rejects missing selectors and broad
 | --- | --- |
 | NVIDIA access | Run from a host shell with visible `/dev/nvidia*` devices or a container with NVIDIA device passthrough |
 | CUDA | CUDA-enabled PyTorch wheels are sufficient for v1; `nvcc` is optional unless a dependency needs CUDA extension compilation |
-| Python | Python 3.14.7 is pinned in the repository `.python-version` |
-| Python dependencies | Install with the commands below |
+| Python | Use the version pinned in the repository `.python-version` |
 
 ```bash
 uv python install
@@ -49,8 +35,8 @@ uv pip sync --python ml/profile-qa/.venv-export --require-hashes \
 . ml/profile-qa/.venv/bin/activate
 ```
 
-After changing either requirements manifest, refresh its reproducible Python
-3.14 hash lock with the CI-pinned uv version in `.github/workflows/ml.test.yml`:
+Refresh changed manifests with Python 3.14 and the uv version pinned in
+`.github/workflows/ml.test.yml`:
 
 ```bash
 uv pip compile --python-version 3.14 --generate-hashes \
@@ -61,17 +47,14 @@ uv pip compile --python-version 3.14 --generate-hashes \
   ml/profile-qa/requirements-export.txt
 ```
 
-Commit each changed manifest together with its regenerated lock, including
-Dependabot updates: CI installs the lock, not the manifest. Training requires
-Accelerate 1.15 or newer to exclude the checkpoint path traversal vulnerability
+Commit manifests with regenerated hash locks; CI installs locks, checks their
+consistency, recreates both environments, and audits both graphs without
+exceptions. Training needs Accelerate ≥1.15 to exclude
 [PYSEC-2026-3804](https://github.com/pypa/advisory-database/blob/main/vulns/accelerate/PYSEC-2026-3804.yaml).
 
-Training and export both use current Transformers 5 and Hub 1 releases. The
-smaller export environment uses the native `torch.export`-based ONNX path and
-ONNX Runtime, without Optimum. Export only the verified local merged model from
-this pipeline.
-CI checks manifest-to-lock consistency, recreates both environments with hashes,
-and audits both dependency graphs without vulnerability exceptions.
+Training/export use the locked Transformers and Hub versions. The smaller
+export environment uses native `torch.export` and ONNX Runtime, without Optimum;
+export only this pipeline's verified local merged model.
 
 ## Commands
 
@@ -104,70 +87,46 @@ PYTHONPATH=ml/profile-qa python -m profile_qa.publish --repo-id justinthelaw/tea
 PYTHONPATH=ml/profile-qa python -m profile_qa.publish --repo-type dataset --repo-id justinthelaw/profile-qa-synthetic-public-v1 --artifact-dir ml/profile-qa/hf/dataset
 ```
 
-The training, continuation, merge, and export commands are Teapot-only. Training
-always starts from `teapotai/teapotllm` and persists the pinned base revision in
-every PEFT checkpoint and final adapter. Continuation, resume, evaluation,
-generation, merge, and packaging reject adapters whose PEFT metadata omits that
-revision or names a different base model or revision. Export expects the merged
-model directory produced by `profile_qa.merge_adapter`. The native exporter in
-`profile_qa/native_t5_onnx.py` creates `encoder_model.onnx` and
-`decoder_model_merged.onnx` with dynamic shapes and initial/cached decoding for
-the T5 browser runtime. Artifact preparation
-labels the model card with `pipeline_tag: text2text-generation`, matching the
-Transformers.js task used by the deployed browser worker.
+## Artifact Safeguards
 
-Evaluation reports record the canonical published-dataset SHA-256, exact
-formatted-prompt digest, split, pinned base revision, local adapter or
-merged-model digest, generation settings and implementation digest, and a schema
-plus normalized-token digest of the scoring implementation. Artifact preparation
-recomputes every published metric from the report's saved per-record predictions
-with that current scorer. Merge records the pinned revision plus adapter and
-merged-model SHA-256 values; export verifies those values and carries the lineage
-plus a content digest through the full-precision, quantized, and browser artifact
-stages. Each quantized marker also names the exact full-precision artifact digest
-it consumed. Published artifact markers derive their source-lineage digest from
-the sanitized public projection, so the private local checkpoint path neither
-leaves the merge workspace nor influences that digest. Artifact preparation
-accepts only the exact publishable report-provenance schema; its validation and
-test reports must identify the same adapter or merged representation, and their
-canonical dataset, live prompt context, base revision, checkpoint label, and
-model digests must match the selected inputs. The browser marker must also match
-the actual browser files.
-
-Before either payload directory is replaced, preparation verifies that promoted
-test macro improves on the baseline by at least 15%, and that promoted validation
-and test reports both meet the 95% refusal and 80% multi-turn thresholds. It also
-rejects an output path that overlaps the dataset, reports, lineage, browser
-artifact, or selected adapter checkpoint, so validation never deletes its own
-release inputs.
-
-The merge output must be disjoint from the selected adapter checkpoint. The
-merge command rejects equal, ancestor, descendant, and symlinked output paths,
-then replaces a valid disjoint output tree so stale files cannot enter its
-content digest.
-
-The export `--skip-export` and `--skip-quantize` recovery flags only reuse stage
-directories whose lineage marker and content digest still validate. Quantized
-directories from a prior full-precision export are rejected even when both
-exports share the same merged-model lineage. Regenerate legacy or modified
-export directories instead of relabeling them.
-
-Artifact preparation derives the promoted checkpoint from that verified lineage
-and reads its latest train loss and best validation eval loss from the
-checkpoint's `trainer_state.json`. Model-card LoRA rank, alpha, dropout, and
-target modules come from the digest-validated `adapter_config.json`; hardware,
-optimizer, training quantization, and batch-size claims are omitted because the
-checkpoint does not preserve trustworthy values for them. Pass the intended
-release date explicitly in ISO `YYYY-MM-DD` format. Missing, mismatched, stale,
-or malformed provenance stops preparation before an existing model payload is
-replaced. To reuse generated
-outputs, first write a provenance-bound bundle with `--save-predictions-json`.
-`--predictions-json` accepts only that bundle format and verifies its model,
-canonical dataset, split, formatted prompts, and exact record IDs before
-scoring; generation settings and implementation must also match, so plain or
-stale prediction mappings are rejected. Per-module rank or alpha patterns,
-DoRA/RS-LoRA, trained bias values, and saved extra modules fail closed rather
-than being flattened into an inaccurate simple-LoRA model-card claim.
+- Teapot only: train from `teapotai/teapotllm` and persist its pinned revision in
+  every PEFT checkpoint/final adapter. Continuation, resume, evaluation,
+  generation, merge, and packaging reject missing/different base metadata.
+- Merge only to a disjoint output tree: equal, ancestor, descendant, and
+  symlinked paths are rejected. Valid output trees are replaced to exclude
+  stale files. Export consumes this verified local merge.
+- `profile_qa/native_t5_onnx.py` produces `encoder_model.onnx` and
+  `decoder_model_merged.onnx` with dynamic shapes and initial/cached T5 decoding.
+  Model cards use `pipeline_tag: text2text-generation`, matching the worker.
+- Reports bind the canonical published-dataset SHA-256, exact formatted prompts,
+  split, base revision, adapter/merged-model digest, generation settings and
+  implementation digest, plus scoring schema/normalized-token digest. Packaging
+  recomputes metrics from saved per-record predictions with the current scorer.
+- Merge records revision and adapter/model hashes. Export verifies lineage and
+  content at FP, quantized, and browser stages; quantization also records its
+  exact FP input digest. Public source-lineage digests use sanitized portable
+  labels, excluding private checkpoint paths from both payload and digest.
+- Packaging accepts only the publishable provenance schema. Validation/test
+  reports must identify the same adapter or merged representation and match the
+  selected dataset, live prompts, revision, checkpoint label, and model digests.
+  Browser markers must match the actual files.
+- Before replacing either payload, packaging requires ≥15% test-macro improvement
+  over baseline and ≥95% refusal/≥80% multi-turn scores on both validation and
+  test. Output must not overlap the dataset, reports, lineage, browser artifact,
+  or selected checkpoint.
+- Recovery flags `--skip-export`/`--skip-quantize` require valid stage lineage
+  and content digests. Quantized outputs from another FP export are rejected,
+  even with the same merged lineage. Regenerate stale/legacy files; never relabel.
+- Packaging derives latest train/best validation loss from the lineage-selected
+  checkpoint's `trainer_state.json`, and LoRA rank/alpha/dropout/targets from its
+  digest-validated `adapter_config.json`. Omit unverified hardware, optimizer,
+  quantization, and batch-size claims. Per-module rank/alpha, DoRA/RS-LoRA,
+  trained bias, and saved extra modules fail closed rather than misstate LoRA.
+- Supply ISO `--release-date YYYY-MM-DD`. Missing, mismatched, stale, or malformed
+  provenance stops preparation before payload replacement.
+- Reuse predictions through a `--save-predictions-json` bundle.
+  `--predictions-json` verifies model, canonical dataset, split, exact record IDs,
+  prompts, generation settings, and implementation. Plain/stale mappings fail.
 
 For targeted continuation from an existing LoRA adapter:
 
@@ -181,10 +140,9 @@ PYTHONPATH=ml/profile-qa python -m profile_qa.train_lora \
   --lr-scheduler-type constant_with_warmup
 ```
 
-If Teapot cannot pass the 1024-token promotion gate, keep the lineage on
-`teapotai/teapotllm` and fix the Teapot path directly: improve the public-profile
-dataset, adjust LoRA hyperparameters, continue from a stronger adapter checkpoint,
-or repair export/browser packaging issues. Do not switch base models.
+If Teapot fails the 1024-token gate, improve the dataset, LoRA settings,
+checkpoint, or export/browser packaging. Keep `teapotai/teapotllm`; do not
+switch base models.
 
 ## Promotion Gate
 
@@ -205,18 +163,15 @@ until all of these are true:
 
 ## Tests
 
-The Python tests cover deterministic generation, schema validation, split
-isolation, evidence references, no private-data leakage in non-refusal examples,
-and GPU health-check behavior. With ML dependencies installed, offline tiny T5
-tests also compare encoder and initial/cached decoder outputs with PyTorch,
-verify browser cache names and dynamic shapes, and exercise quantization,
-embedded weights, and artifact lineage:
+Tests cover deterministic generation, schemas, split isolation, evidence,
+non-refusal privacy, and GPU health. With ML dependencies, offline tiny-T5 tests
+compare PyTorch/ONNX encoder and initial/cached decoder outputs, browser cache
+names, dynamic shapes, quantization, embedded weights, and lineage:
 
 ```bash
 PYTHONPATH=ml/profile-qa python -m pytest ml/profile-qa/tests
 ```
 
-Pull requests, the weekly schedule, and manual workflow dispatch run the
-lightweight suite and locked training/export checks. The training environment
-runs the full suite; the exporter environment runs the native export contract
-tests. Neither requires a model download or GPU training run.
+PRs, weekly runs, and manual dispatch run lightweight tests plus locked
+environments: the full suite in training and native-export contracts in export.
+Neither needs model downloads or GPU training.

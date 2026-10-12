@@ -1,185 +1,110 @@
 # Customization Guide
 
-Make this static portfolio your own. The browser chatbot answers from reusable
-public profile sections, so configuration should stay factual, public, and easy
-to reuse in the optional training pipeline.
-
-For a system map, see [DIAGRAMS.md](DIAGRAMS.md).
+Configure the portfolio and browser chatbot with public, factual information.
+See [Development](DEVELOPMENT.md) for setup and [Diagrams](DIAGRAMS.md) for flow.
 
 ## Quick Setup
 
-- [ ] Fork this repo to your GitHub account
-- [ ] Rename to `[your-username]` (recommended)
-- [ ] Set GitHub Pages source to GitHub Actions for CI deploys
-- [ ] Set `name` and `fullName` for the page UI
-- [ ] Set `githubUsername` to your username
-- [ ] Set `githubBioFallback` to a short, durable profile summary
-- [ ] Set `repository.owner` and `repository.name`
-- [ ] Set `seo.imageUrl` to a public, absolute HTTPS image URL
-- [ ] Set `resumeFileId` (from Google Drive share link)
-- [ ] Update `socialLinks` (empty string hides a link)
-- [ ] Set `identity.subject` and summarize public facts in `src/config/public-profile.json`
-- [ ] Install `npm` based on your development environment
-- [ ] `npm install`
-- [ ] `npm run dev` (test at localhost:3000)
-- [ ] `uv tool install pre-commit` (or `pipx install pre-commit`)
-- [ ] `pre-commit install`
-- [ ] `pre-commit run --all-files`
-- [ ] `npm run flight-check`
-- [ ] `npm run deploy`
+1. Fork the repo, optionally rename it to your username, and select GitHub
+   Actions as the Pages source.
+2. In `src/config/site.ts`, set `name`, `fullName`, `githubUsername`,
+   `githubBioFallback`, `repository.owner`, `repository.name`, `seo.imageUrl`,
+   `resumeFileId`, and `socialLinks`.
+3. Set `identity.subject` and public facts in `src/config/public-profile.json`.
+4. Install the pinned toolchain, run `npm install` and `npm run dev`, then check
+   `localhost:3000`.
+5. Install pre-commit with `uv tool install pre-commit` or
+   `pipx install pre-commit`; install and run the
+   [hooks](CONTRIBUTING.md#validation), then `npm run flight-check`.
+6. Push to `main` for Pages Actions deployment. Alternatively, `npm run deploy`
+   publishes `out/` to `gh-pages` manually.
 
-`SITE_CONFIG.repository.name` controls the production GitHub Pages `basePath`.
-For this repository, that means `/justinthelaw`; forks should not hardcode it.
-
-The `main` branch deploys through `.github/workflows/deploy.yml` using GitHub
-Pages Actions. `npm run deploy` is the manual path and publishes `out/` to a
-`gh-pages` branch.
-
-`SITE_CONFIG.githubBioFallback` is included in the static export so crawlers and
-visitors always receive a profile summary. After hydration, the browser still
-refreshes it from GitHub and keeps the configured text if that request fails.
-
-`SITE_CONFIG.seo.imageUrl` is reused for the browser favicon, the Open Graph
-`og:image`, and the Twitter card `twitter:image`. Use a publicly reachable image
-that works both as a small icon and as the preview image when the site is shared.
+`SITE_CONFIG.repository.name` determines the production `basePath`
+(`/justinthelaw` here); never hardcode it. The exported `githubBioFallback`
+is visible to crawlers and visitors; hydration refreshes it from GitHub and
+keeps the fallback on failure. Use a public absolute HTTPS `seo.imageUrl`
+suitable for the favicon, Open Graph, and Twitter preview.
 
 ## Configuration Map
 
-| File                             | Purpose                                                          |
-| -------------------------------- | ---------------------------------------------------------------- |
-| `src/config/site.ts`             | Personal info, resume, links, and derived site settings          |
-| `src/config/public-profile.json` | Chatbot identity, facts, retrieval metadata, and scoring terms   |
-| `src/config/models.ts`           | AI model ID and browser dtype policy                             |
-| `src/config/prompts.ts`          | Chatbot messages and generation settings                         |
-| `src/config/arcade.ts`           | Arcade cards, games, screenshots, and GIFs                       |
-| `next.config.mjs`                | Static export, GitHub Pages `basePath`, and asset prefix         |
-| `ml/profile-qa/`                 | Local training, eval, ONNX export, and publishing                |
+| File | Controls |
+| --- | --- |
+| `src/config/site.ts` | Identity, resume, links, derived site settings |
+| `src/config/public-profile.json` | Shared chatbot facts, identity, retrieval and scoring metadata |
+| `src/config/models.ts` | Model ID, download size, context limit, dtype policy |
+| `src/config/prompts.ts` | Messages and generation settings |
+| `src/config/arcade.ts` | Game cards and previews |
+| `next.config.mjs` | Static export, base path, asset prefix |
+| `ml/profile-qa/` | Local training, evaluation, ONNX export, publishing |
 
-The default browser model is
-`justinthelaw/teapot-profile-qa-browser-1024`, a browser ONNX profile-QA model
-published with `int8` and `uint8` variants. Each active dtype is about 820 MB,
-so the chat asks visitors before starting the download and warns that a browser
-compatibility fallback can transfer a second dtype of similar size. Keep this
-disclosure accurate when changing artifacts.
+## Resume and Social Links
 
-## Resume
-
-Upload your PDF to Google Drive, share it as "Anyone with the link", copy the
-file ID from `drive.google.com/file/d/[FILE_ID]/view`, and paste it into
+Upload the resume PDF to Google Drive, share it as "Anyone with the link", and
+copy the ID from `drive.google.com/file/d/[FILE_ID]/view` into
 `SITE_CONFIG.resumeFileId`.
+
+An empty `SITE_CONFIG.socialLinks` value hides that link. To add one, set its
+URL, add a 48×48px PNG in `public/`, and add a `LinkIconButton` in
+`src/pages/index.tsx`.
 
 ## Arcade
 
-The top-right 🕹️ joystick opens `/arcade/`. Its box and font use the shared
-28/32/36px icon sizes. Edit `ARCADE_GAMES` in
-`src/config/arcade.ts` to change the cards. Each entry has a stable `id`, `title`,
-`description`, and `blobVariant` (`blue`, `lavender`, or `apricot`). The original
-pixel characters bob with squash and stretch; reduced-motion preferences keep
-them still.
+The top-right joystick opens `/arcade/`; it uses shared 28/32/36px icon sizes.
+Edit `ARCADE_GAMES` in `src/config/arcade.ts`:
 
-To publish a game, put its static browser build in the repository's future
-`games/` folder, for example `games/my-game/index.html` plus its JavaScript, CSS,
-and assets. `npm run build` copies the entire folder into `out/games/`. Use
-relative asset URLs inside each game so it works under the GitHub Pages base path.
-
-Replace the card's title and description and add
-`entryPoint: "/games/my-game/index.html"`. Play loads the entire game in an iframe
-in a page-filling modal, with a Back to games control and Play focus restoration.
-Without `entryPoint`, Play stays
-disabled. Add `preview: { src: "/arcade/game.gif", alt: "Description of the game" }`
-for a screenshot or GIF in `public/arcade/`; the component adds the configured
-GitHub Pages base path. An absolute HTTPS image URL also works. Without a
-preview, the card keeps its pixel blob placeholder.
-
-The first Pokémon card is an in-development preview of the startup shell;
-its picture is a 3D art study and its campaign is not playable yet.
-Touch devices show semitransparent emulator controls; desktop devices start
-with native keyboard input. Show/Hide controls switches the overlay manually.
-The bridge sends these keys to the focused same-origin game iframe:
-
-| Control | Keyboard key |
+| Field | Value |
 | --- | --- |
-| D-pad | Arrow keys; diagonals hold two arrows |
+| `id`, `title`, `description` | Stable identifier and short card text |
+| `blobVariant` | `blue`, `lavender`, or `apricot`; animated unless reduced motion is preferred |
+| `entryPoint` | For example, `/games/my-game/index.html`; omitted means Play is disabled |
+| `preview` | For example, `{ src: "/arcade/game.gif", alt: "Description of the game" }`; omitted keeps the pixel blob |
+
+Put a static game build in `games/my-game/`, with local relative asset URLs.
+`npm run build` copies it to `out/games/`: `distribution.json` limits export to
+its declared files; games without a manifest use the complete-tree fallback.
+Place preview images/GIFs in `public/arcade/`; local preview and entry-point
+URLs receive the configured base path. Absolute HTTPS preview URLs also work.
+
+Play opens a page-filling iframe modal; Back to games restores Play focus.
+The Pokémon adaptation covers the original DS opening through Tiny Woods and
+Caterpie's rescue. Its preview is a native browser gameplay capture; later
+chapters are outside scope, and exact cartridge fidelity is not claimed.
+
+Touch devices show emulator controls; desktop input uses the focused iframe.
+Show/Hide controls toggles the overlay. It emits keys to the same-origin game,
+which must implement them:
+
+| Control | Keys |
+| --- | --- |
+| D-pad | Arrows; two held arrows for diagonals |
 | A / B | Z / X |
 | Start / Select / Menu | Enter / Shift / Escape |
 
-The game must implement those keys. The launcher does not supply gameplay.
-
-Static export uses trailing slashes so `/arcade/` resolves to
-`out/arcade/index.html` on GitHub Pages, including direct visits and reloads.
+Trailing-slash export produces `out/arcade/index.html`, supporting direct
+`/arcade/` visits and reloads on Pages.
 
 ## Chatbot Context
 
-Edit `src/config/public-profile.json`. This is the only checked-in source for
-chatbot facts used by both browser retrieval and Python dataset generation.
-Keep section IDs generic so forks can reuse the retrieval behavior:
+Edit only `src/config/public-profile.json` for facts. `src/config/site.ts`
+imports it as `PROFILE_SECTIONS`; `ml/profile-qa/profile_qa/public_profile.py`
+loads it for training. `PERSONAL_CONTEXT` remains a derived compatibility value.
 
-```json
-[
-  {
-    "id": "identity",
-    "title": "Identity",
-    "subject": {
-      "name": "Your Full Name",
-      "shortName": "Your Name",
-      "subjectPronoun": "they",
-      "objectPronoun": "them",
-      "possessivePronoun": "their"
-    },
-    "priority": 100,
-    "alwaysInclude": true,
-    "keywords": ["name", "location", "identity"],
-    "facts": [
-      {
-        "id": "identity_location",
-        "text": "Your Name is based in Your Location.",
-        "keywords": ["your name", "your location"],
-        "terms": ["Your Name", "Your Location"]
-      }
-    ]
-  }
-]
-```
+| Field | Purpose |
+| --- | --- |
+| Identity `subject` | `name`, `shortName`, `subjectPronoun`, `objectPronoun`, `possessivePronoun`; shared by browser welcome/status/system prompts and synthetic questions, histories, refusals, and training instructions |
+| Section `id`, `title`, `priority`, `alwaysInclude`, `keywords` | Reusable categories and browser retrieval order |
+| Fact `id`, `text`, `keywords` | Public evidence and retrieval terms |
+| Fact `terms`, named `termGroups` | Deterministic evaluation; grouped QA selects one minimum-complete term group per evidence fact |
 
-`src/config/site.ts` imports this file as `PROFILE_SECTIONS`, and
-`ml/profile-qa/profile_qa/public_profile.py` loads the same JSON for synthetic
-data generation. The identity section's `subject` object supplies the browser
-welcome, inference-status, and system-prompt identity as well as the names and
-pronouns rendered into synthetic questions, conversation histories, refusal
-examples, and the training instruction. `PERSONAL_CONTEXT` is derived from
-these sections for compatibility. The browser prompt builder always includes
-identity facts, retrieves relevant sections from the latest question plus
-recent turns, and trims user input only after selected sections and history fit
-the active model budget.
+Keep section IDs generic and prioritize `current_role`, `experience`, `projects`,
+`education`, `recommendations`, `skills`, then `interests`. Experience outranks
+education; recommendations follow education and precede hobbies or personality.
+Put person-specific names and employers in fact text and keywords.
 
-Put reusable categories in section IDs and person-specific terms in fact text or
-fact keywords. Browser retrieval uses section `priority`, section `keywords`,
-and fact `keywords`; deterministic Python evaluation uses each fact's `terms`.
-Facts also define named `termGroups` for grouped questions. Each grouped QA
-entry selects one group per evidence fact containing the minimum terms every
-question variant requires. For example, an operator follow-up selects the
-workload problem without accepting a list of tools as a complete answer or
-requiring extra implementation details that the question did not request.
-Keep generic sections temporally prioritized: `current_role`, `experience`,
-`projects`, `education`, `recommendations`, `skills`, then `interests`.
-Experience should outrank education; recommendations should sit just below
-education and above hobbies/interests or personality-trait sections.
-
-## Social Links
-
-Hide a link by setting it to an empty string:
-
-```typescript
-socialLinks: {
-  huggingface: "", // Empty = hidden
-}
-```
-
-To add a new link:
-
-- [ ] Add URL to `SITE_CONFIG.socialLinks`
-- [ ] Add 48x48px PNG icon to `public/`
-- [ ] Add `<LinkIconButton>` in `src/pages/index.tsx`
+The prompt builder always includes identity, retrieves sections using the latest
+question and recent turns, and fits sections/history before trimming user input.
+Scoring groups must require what every question variant asks, not unrelated
+implementation details or a tool list in place of the workload problem.
 
 ## Browser Model
 
@@ -191,27 +116,20 @@ export const MODEL_DOWNLOAD_SIZE_MB = 820;
 export const MODEL_CONTEXT_LIMIT = 1024;
 ```
 
-Set `MODEL_DOWNLOAD_SIZE_MB` to the approximate transfer size of one active
-model dtype so the consent prompt remains accurate. A compatibility fallback
-can download a second dtype of similar size.
+The consent prompt must disclose the approximate download size of one dtype
+(currently 820 MB) and a possible similarly sized compatibility fallback.
+Automatic loading uses `int8`, then `uint8`; do not default to `q4` unless
+ONNX Runtime Web can reliably load it without external tensor sidecars.
 
-Use a model that is compatible with Transformers.js browser inference. If the
-model uses a different Transformers.js task, update
-`src/services/ai/modelLoader.ts` and `src/services/ai/worker.ts` to match.
-
-Automatic browser loading uses `int8` first with `uint8` fallback. Do not make
-`q4` the default unless ONNX Runtime Web can reliably load the artifact without
-external tensor sidecar files.
-
-Before changing the default browser model, satisfy the promotion gate in
-[ml/profile-qa/README.md](../ml/profile-qa/README.md#promotion-gate). At
-minimum, the promoted artifact must include browser-safe `int8` and `uint8`
-ONNX files with all tensor data embedded, and browser smoke coverage for
-desktop and mobile Chromium.
+Use a Transformers.js-compatible model. A task change also requires updating
+`src/services/ai/modelLoader.ts` and `src/services/ai/worker.ts`. Before changing
+the default, pass the [promotion gate](../ml/profile-qa/README.md#promotion-gate),
+including embedded-tensor `int8`/`uint8` artifacts and desktop/mobile Chromium
+smoke checks.
 
 ## AI Responses
 
-Edit `src/config/prompts.ts`:
+Edit `GENERATION_PARAMS` in `src/config/prompts.ts`:
 
 ```typescript
 export const GENERATION_PARAMS: GenerationParams = {
@@ -224,30 +142,23 @@ export const GENERATION_PARAMS: GenerationParams = {
 
 ## Fine-Tuning Handoff
 
-The optional local pipeline lives in `ml/profile-qa/`. Use it when a fork needs
-a custom browser model instead of only prompt/context changes.
+Use the optional [local pipeline](../ml/profile-qa/README.md) when context and
+prompt changes are insufficient:
 
-The canonical JSON owns the training subject identity, answers, evidence, and
-scoring terms. Natural language question and history templates are centralized in
-`ml/profile-qa/profile_qa/synthetic_data.py`. If a changed fact makes one of
-those prompts inaccurate—for example, it names an employer, school, product,
-or role that no longer applies—update the matching `FACT_QA`,
-`TARGETED_COMPLETENESS_QA`, `MULTI_HOP_QA`, or `FOLLOW_UP_QA` entry in that one
-file. Names and pronouns do not need a template edit; they render from
-`identity.subject` automatically.
-
-| Step | Action |
-| --- | --- |
-| 1 | Update identity, facts, retrieval metadata, scoring terms, and named `termGroups` in `src/config/public-profile.json` |
-| 2 | Update the centralized question/history entry in `synthetic_data.py` when changed factual wording makes it inaccurate |
-| 3 | Follow [ml/profile-qa/README.md](../ml/profile-qa/README.md) to generate data, train LoRA/QLoRA, evaluate, merge, export ONNX, prepare Hugging Face artifacts, and publish |
-| 4 | After promotion passes, update `MODEL_ID` and `MODEL_CONTEXT_LIMIT` in `src/config/models.ts` |
-| 5 | Run `npm run flight-check` |
+1. Update canonical identity, facts, retrieval metadata, `terms`, and `termGroups`.
+2. If a fact change invalidates question/history wording, update the matching
+   `FACT_QA`, `TARGETED_COMPLETENESS_QA`, `MULTI_HOP_QA`, or `FOLLOW_UP_QA` entry
+   in `ml/profile-qa/profile_qa/synthetic_data.py`. Names/pronouns render from
+   `identity.subject` automatically.
+3. Generate data, train LoRA/QLoRA, evaluate, merge, export ONNX, prepare artifacts,
+   and publish as described in the pipeline guide.
+4. After promotion passes, update `MODEL_ID` and `MODEL_CONTEXT_LIMIT`, then run
+   `npm run flight-check`.
 
 ## Troubleshooting
 
 | Issue | Check |
 | --- | --- |
-| Resume not displaying | Check Google Drive link is public |
-| Chatbot not responding | Check browser console and verify model ID |
-| Build failures | Run `npm run flight-check` for details |
+| Resume missing | Google Drive sharing is public |
+| Chat unresponsive | Browser console and model ID |
+| Build failure | `npm run flight-check` output |
