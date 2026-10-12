@@ -110,10 +110,14 @@ test("should publish actual overlay visibility after toggles and frame loads", a
   expect(await recordedKeys(page)).toEqual([]);
 });
 
-test("should focus the game for native desktop keyboard input", async ({ page }, testInfo) => {
-  test.skip(Boolean(testInfo.project.use.isMobile), "Desktop starts with native keyboard controls");
+test("should focus the game for native keyboard input with controls hidden", async ({ page }) => {
   await openPlayer(page);
-  await expect(page.getByRole("region", { name: "Game controls", exact: true })).toBeHidden();
+  await expect(page.locator(`iframe[title="${gameTitle} game"]`)).toBeFocused();
+  const controls = page.getByRole("region", { name: "Game controls", exact: true });
+  const prefersTouch = await page.evaluate(() => window.matchMedia("(pointer: coarse)").matches);
+  await expect(controls).toBeVisible({ visible: prefersTouch });
+  if (prefersTouch) await page.getByRole("button", { name: "Hide controls", exact: true }).click();
+  await expect(controls).toBeHidden();
   await page.keyboard.press("ArrowRight");
   await page.keyboard.press("z");
   await expect.poll(() => recordedKeys(page)).toEqual([
@@ -124,10 +128,9 @@ test("should focus the game for native desktop keyboard input", async ({ page },
   ]);
 });
 
-test("should restore native desktop keyboard input after hiding touch controls", async ({ page }, testInfo) => {
-  test.skip(Boolean(testInfo.project.use.isMobile), "Desktop keyboard must resume after pointer toggles");
+test("should restore native keyboard input after hiding touch controls", async ({ page }) => {
   await openPlayer(page);
-  await page.getByRole("button", { name: "Show controls", exact: true }).click();
+  await showControls(page);
   await page.getByRole("button", { name: "Hide controls", exact: true }).click();
   await expect(page.getByRole("region", { name: "Game controls", exact: true })).toBeHidden();
   await page.keyboard.press("ArrowRight");
@@ -391,8 +394,7 @@ test("should provide usable touch controls and bridge diagonal and action keys",
   }
 });
 
-test("should keep emulator controls usable in narrow portrait and short landscape layouts", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== "chromium", "Responsive control layout needs one browser");
+test("should keep emulator controls usable in narrow portrait and short landscape layouts", async ({ page }) => {
   for (const viewport of [{ width: 320, height: 568 }, { width: 844, height: 390 }]) {
     await page.setViewportSize(viewport);
     await openPlayer(page);
