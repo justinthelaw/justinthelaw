@@ -15,7 +15,7 @@ does not claim perfect cartridge replication or production deployment.
 
 ## Current candidate 27
 
-Candidate 27 contains **151 files totaling 2,811,901 bytes**, below the
+Candidate 27 contains **151 files totaling 2,811,766 bytes**, below the
 unchanged 3 MiB distribution cap. All resources remain local. It retains the
 reviewed Continue progress card, shared dungeon-menu clock, level-37 Cubone
 Thrash and the source-matching Bide release direction.
@@ -24,7 +24,8 @@ The new audio packet corrects native LFO register/byte arithmetic, changing only
 three Bubble frequency values among the 19 existing PCM cues. It adds sound 605
 at fresh effect 6 creation for Rage, Swagger and Thrash, with the complete source
 waveform and finite modulation controls. Thrash's unsupported direct cast sound
-is removed. Audio players, quotas, gameplay, saves and graphics stay unchanged.
+is removed. Audio players, quotas, gameplay, saves and graphics stay unchanged. An unused
+cinematic duration export and obsolete boot-music instructions are removed.
 The full pinned Node 24.21.0 static suite and both source-backed audio exporters
 passed; ordinary browser continuation is tracked below.
 
@@ -146,7 +147,7 @@ Original Blue seed history, the complete RNG call schedule and cartridge replay 
 ## Static and hosted evidence
 
 Candidate 27's full pinned Node 24.21.0 static suite passed at 151 files and
-2,811,901 bytes. It covers syntax, lint, strict types, factual inputs, provenance,
+2,811,766 bytes. It covers syntax, lint, strict types, factual inputs, provenance,
 asset geometry and export closure without importing or executing game source.
 The PCM and SE2 exporters also passed against the pinned native source checkout.
 Earlier checkpoint counts and detailed logs remain in Git and the local evidence

@@ -72,16 +72,12 @@ interval and preserves the sequence and intervening black intervals.
 `IntroArtwork.opening()` draws the boot sequence first and subtracts
 `BOOT_DURATION_MS` before sampling the existing cinematic. It requires no new
 caller method. `BOOT_DURATION_MS` is 8,900 ms; `OPENING_DURATION_MS` is 27,900 ms,
-including the existing qualified 19-second cinematic. `OPENING_MOVEMENT_MS`
-includes the boot prefix. Title readiness and prompt clocks remain relative to
-the title scene and are unchanged by this prefix.
+including the existing qualified 19-second cinematic. Title readiness and
+prompt clocks remain relative to the title scene and are unchanged by this prefix.
 
-The app must initialize its audio scene to `silent`. While its mode is `opening`,
-it selects `opening` audio only when its pause-aware elapsed clock reaches
-`BOOT_DURATION_MS`; otherwise it keeps `silent`. The existing idempotent
-`setScene` method preserves playback on later frames. Skipping continues through
-the existing title transition. The asset loader adds one PNG and no new runtime
-metadata request.
+The boot sequence schedules no sound. A deliberate in-game gesture unlocks
+gameplay and UI sound effects; background music remains absent. The asset loader adds one PNG
+and no new runtime metadata request.
 
 The native scenery profile remains v2. The boot atlas contributes 9,151 bytes
 to the [current scenery inventory](blue-native-scenery.md). Manual browser
