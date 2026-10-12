@@ -3,6 +3,23 @@
 Status: a browser implementation of the opening, with qualified original-game
 facts. **This is not a claim of exact Nintendo DS parity or a completed game.**
 
+## Beginning status timer order
+
+The admitted beginning-of-opportunity timers now follow native class order:
+sleep; burn/poison/paralysis; cringe/confusion/infatuation; Reflect/Light Screen/
+Counter; Leech Seed; Focus Energy/Whiffer; and movement-speed reduction. This
+prevents concurrent expiry messages from depending on status-property insertion
+order. Missing, zero and indefinite-127 timers retain their previous handling.
+Bide and Rage remain end-of-turn owners, and Freeze remains excluded.
+
+This is a source-reviewed ordering correction against
+[`TickStatusAndHealthRegen`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_turn_effects.c#L396)
+and the decrement-only
+[`sub_80838EC`](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_range.c#L342).
+The 16-key save-admission set is unchanged. No new expiry messages or RNG calls
+are added; the browser's existing message subset and wider status qualifications
+remain. Simultaneous expiry has not been manually exercised.
+
 ## Sources and boundaries
 
 - [Nintendo's Blue Rescue Team manual](https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf)
@@ -690,3 +707,21 @@ without another PP cost or target draw; an empty tile still consumes the charge.
 The optional slot is mutually exclusive with Skull Bash, Bide and Rage and is
 cleared by the shared native charge lifecycle. Rain Dance and other weather
 branches remain outside the opening scope.
+
+## Move-learning suspension
+
+The comparative [EXP owner](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_leveling.c)
+processes party recipients in order and blocks within a level's move-selection
+menu. The browser now saves a bounded continuation at that boundary: hero
+preparation, hero action/end effects, or another actor's preparation/action/end
+effects. The current award and completed level stay committed; resumption
+finishes that recipient's level loop before awarding the next recipient. It
+never repeats an action, status tick or selected-move draw.
+
+Old no-continuation saves retain their queued choices and drain them without
+inventing a scheduler history. New records bind the actor slot/identity, live
+status, preparation stage and consumed EXP cursor; terminal states clear the
+continuation. A thrown-money pause retires its pose in the original presentation
+result, leaving only a logical item return to resume. The implementation has
+independent static review; manual replacement-choice and exact Blue coroutine
+acceptance remain unverified.

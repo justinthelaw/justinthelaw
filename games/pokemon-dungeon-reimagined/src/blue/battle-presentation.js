@@ -29,7 +29,7 @@ import {nativeSin4096} from './battle-native-sine-data.js';
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
 /** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[],hidden?:boolean}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'|'se605'|'se768'|'se784'|'se785',audible:boolean,moveOwned?:true}|{clearNotice:true}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'|'se605'|'se768'|'se784'|'se785'|'se853'|'se851'|'se890'|'se708'|'se776',audible:boolean,moveOwned?:true,guardedTarget?:true}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 /** @typedef {{start:number,end:number}} EndTrack */
@@ -46,24 +46,17 @@ const EFFECT22_SILENT_CASTS=new Set([
   'move-confusion','move-double-edge','move-double-slap',
   'move-double-team','move-dynamic-punch','move-fury-swipes',
   'move-giga-drain','move-growl','move-helping-hand',
-  'move-mega-drain','move-metal-claw','move-poison-powder',
+  'move-mega-drain','move-metal-claw','move-poison-powder','move-pursuit',
   'move-quick-attack','move-rage','move-rapid-spin',
-  'move-reflect','move-seismic-toss','move-sleep-powder',
+  'move-reflect','move-light-screen','move-protect','move-seismic-toss','move-sleep-powder',
   'move-smokescreen','move-submission','move-swagger',
   'move-sweet-scent','move-swift','move-thunder',
   'move-thunder-shock','move-thunder-wave','move-thunderbolt',
   'move-withdraw',
 ]);
 
-// Conservative current producer bound:74 target/hit pieces*32 +198 levels*6
-// +13 opportunity wrappers*32 +37 residual calls*16 +12 item actions*16
-// +12 admitted initial-sleep wakes*8 +64 setup =4916. A conservative365
-// camera-boundary allowance gives5281, still below8192. Native wild admission is
-// narrower. The leader-only money route adds at most64 pieces, including its
-// one direct-damage call and wake receipts:5345. Seed-source faint unlink and
-// two party Rapid Spin cleanups add at most 16 receipts:5361 <8192. Geometry uses
-// at most 60 flight +25 landing samples, without creating an event per frame.
-// This rejection boundary never truncates an admitted event stream.
+// The retained opening producers remain below this fixed rejection boundary;
+// geometry animation samples do not create one event per rendered frame.
 const MAX_EVENTS=8192,MAX_ACTORS=12,MAX_ITEMS=64;
 
 /** Source flag bits accumulate as frames are loaded. The first frame is loaded
@@ -165,11 +158,11 @@ export class BattlePresentation {
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
     /** Native sound receipts are private presentation evidence, never saves.
-     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'|'se605'|'se768'|'se784'|'se785'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] */
-    const sound=(name,at,order=ordinal++,moveOwned=false)=>{
+     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'|'se605'|'se768'|'se784'|'se785'|'se853'|'se851'|'se890'|'se708'|'se776'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] @param {boolean} [guardedTarget] */
+    const sound=(name,at,order=ordinal++,moveOwned=false,guardedTarget=false)=>{
       if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
       cueFrontier=Math.max(cueFrontier,at);
-      this.cues.push({sound:name,at,ordinal:order,audible:true,...(moveOwned?{moveOwned:true}:{})});
+      this.cues.push({sound:name,at,ordinal:order,audible:true,...(moveOwned?{moveOwned:true}:{}),...(guardedTarget?{guardedTarget:true}:{})});
     };
     /** @param {Actor[]} actors @param {number} at */
     const patchActors=(actors,at)=>addPatch({at,ordinal:ordinal++,actors});
@@ -237,6 +230,11 @@ export class BattlePresentation {
       else if(id===399)sound('se906',start,undefined,true);
       else if(id===221)sound('se768',start);
       else if(id===247)sound('se785',start);
+      else if(id===321)sound('se853',start);
+      else if(id===319)sound('se851',start);
+      else if(id===369)sound('se890',start);
+      else if(id===140)sound('se708',start);
+      else if(id===238)sound('se776',start,undefined,true);
       return info.blocksWait===false?at:Math.min(end,at+waitLimit);
     };
     const drainEffects=()=>{
@@ -456,7 +454,7 @@ export class BattlePresentation {
         }
         messageAt=cursor;continue;
       }
-      if(record?.kind==='poke-end'){
+      if(record?.kind==='poke-end'||record?.kind==='poke-pause'){
         if(record.actor.id!==pokeActorId)throw new RangeError('A money throw lost its actor owner.');
         // Restore requested normal facing on the next native draw. Future
         // tail requests must also retire when no visible flight frame elapsed.
@@ -607,6 +605,14 @@ export class BattlePresentation {
         }
         messageAt=cursor;continue;
       }
+      if(record?.kind==='guarded-target'){
+        flushWalk();const attacker=this.latestActor(record.actorId,cursor);
+        const attackerVisible=Boolean(attacker&&displayedActor(attacker)),targetVisible=displayedActor(record.target);
+        if(attackerVisible)sound(attacker?.id==='hero'?'se342':'se343',cursor,order,false,true);
+        cue(event,cursor,ordinal++,false);
+        if(targetVisible)number(record.target,9999,true,true);
+        messageAt=cursor;continue;
+      }
       if(record?.kind==='heal'){
         flushWalk();patchActors([record.after],cursor);
         addPatch({at:cursor,ordinal:order,statusHp:{actorId:record.before.id,hp:record.before.hp}});
@@ -637,7 +643,8 @@ export class BattlePresentation {
         flushWalk();patchActors([record.before],cursor);
         if(displayedActor(record.before))drainEffects();
         if(record.effectId!==undefined){
-          cursor=effect(record.effectId,record.before,cursor,record.effectId===21?3:undefined,record.before.direction,100,true,true,record.effectId===15||record.effectId===14);
+          const beforeEffect=cursor,end=effect(record.effectId,record.before,cursor,record.effectId===21?3:undefined,record.before.direction,100,true,true,record.effectId===15||record.effectId===14||record.effectId===321||record.effectId===369);
+          cursor=record.waitForEffect===false?beforeEffect:end;
         }
         // Sleep's nonblocking effect 37 helper returns before its first draw. The
         // separate 407 request follows creation, before result text/status sync.
@@ -814,7 +821,7 @@ export class BattlePresentation {
       if(patch.message){this.log.push(patch.message);if(this.log.length>80)this.log.shift();}
     }
     /** @type {PresentationCue[]} */const cues=[];
-    while(this.cueIndex<(checkpoint?.cueEnd??this.cues.length)){const cue=this.cues[this.cueIndex];if(!cue||cue.at>tick)break;this.cueIndex++;cues.push('clearNotice' in cue?{clearNotice:true}:'sound' in cue?{sound:cue.sound,audible:cue.audible,...(cue.moveOwned?{moveOwned:true}:{})}:{event:cue.event,audible:cue.audible});}
+    while(this.cueIndex<(checkpoint?.cueEnd??this.cues.length)){const cue=this.cues[this.cueIndex];if(!cue||cue.at>tick)break;this.cueIndex++;cues.push('clearNotice' in cue?{clearNotice:true}:'sound' in cue?{sound:cue.sound,audible:cue.audible,...(cue.moveOwned?{moveOwned:true}:{}),...(cue.guardedTarget?{guardedTarget:true}:{})}:{event:cue.event,audible:cue.audible});}
     const completed=!checkpoint&&!this.completed&&tick>=this.sourceEndTick;this.completed||=completed;
     if(finish){this.poses=[];this.effects=[];this.numbers=[];this.projectiles=[];this.backgrounds=[];this.statusHp.clear();}
     // A recipe fences creation as well as mutations. Only one frame is materialized.

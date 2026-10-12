@@ -9,6 +9,23 @@ and one PCM cue. Healing, heart, Poké pickup, item loss, Rapid Spin, Synthesis,
 Whiffer, Sleep helper, Vine Whip and Razor Leaf use eight public signed-8 PCM
 samples and finite control data.
 These are Red Rescue Team comparative evidence until Blue playback is corroborated.
+The current PCM catalog has 28 cues and 20 decoded buffers totaling 494,812 bytes.
+[Safeguard](blue-safeguard.md) adds sequence 776 and wave 125; its visible cast
+owns one existing SE2 356 request and one effect-owned PCM request, independently
+of recipient count. Existing voice limits and source qualifications remain.
+[Pursuit's Counter effect](blue-counter.md) reuses wave 110 for its two-note
+sequence 853. Its normal blocking helpers outlast that cue, while competing
+sounds can still exhaust the existing group or shared voice limits; native mix
+parity and an all-audible guarantee remain unclaimed.
+[Light Screen and Reflect](blue-light-screen.md) share defense effect 369 and
+sequence 890; Light Screen's separate target effect 319 owns sequence 851.
+Sequence 851 reuses wave 110, while sequence 890 adds wave 44's 31,404-byte
+decoded buffer. Its release can outlast the shield animation. Request bounds
+and the existing dynamic voice limits do not guarantee audible delivery under
+contention.
+[Protect](blue-protect.md) adds sequence 708 over existing wave 99. Its guarded
+342/343 failure receipts have a separate source-bounded request path; native
+SE2 replacement and shared voice limits still apply.
 The scoped bank in `src/blue/audio-bank.js` contains 8 effects and no themes;
 its editable source is `tools/pokemon-dungeon/audio/blue-original-effects.json`.
 
@@ -1141,7 +1158,7 @@ not recreate those receipts. The opening roster permits at most one of the two
 Solar learners in a party, so a private two-receipt result bucket covers one
 release without displacing the existing move-owned bucket.
 
-The catalog now contains 23 cues, 18 samples and 104 notes. Cue 784 alone owns
+The Solar Beam checkpoint contains 23 cues, 18 samples and 104 notes. Cue 784 alone owns
 the reviewed 14-note exception; cue 785 alone owns end 107 and FINE 138. Group
 5 remains 15, group 6 remains 5 and the shared ceiling remains 32. The paced
 route clears any two detached 605 tails before 784. A synthetic collapse to six

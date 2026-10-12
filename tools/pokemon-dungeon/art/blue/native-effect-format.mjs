@@ -6,8 +6,8 @@ import {nativeFields,battleDigest} from './native-battle-inputs.mjs';
 const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
 const SHAPES=[[[8,8],[16,16],[32,32],[64,64]],[[16,8],[32,8],[32,16],[64,32]],[[8,16],[8,32],[16,32],[32,64]]];
 export const BATTLE_BANKS=Object.freeze({
-  basic:{path:'battle-effects',files:[23,51,54,56,59,81,102,114,125,131],effects:[15,28,29,52,65,128,138,194,215,225,271,299,323]},
-  initial:{path:'battle-effects-initial',files:[0,8,20,22,58,73,113,119],effects:[6,7,8,9,10,11,14,21,22,37,59,85,130,144,150,180,181,182,205,221,236,287,312,334,394,397,398,399,402,404,423,425,434]},
+  basic:{path:'battle-effects',files:[6,23,51,54,56,59,67,81,95,102,114,125,131],effects:[15,28,29,52,65,128,138,140,194,215,225,238,271,299,319,321,323]},
+  initial:{path:'battle-effects-initial',files:[0,8,20,22,58,73,113,119],effects:[6,7,8,9,10,11,14,21,22,37,59,85,130,144,150,180,181,182,205,221,236,287,312,334,369,394,397,398,399,402,404,423,425,434]},
   extra:{path:'battle-effects-extra',files:[7,13,29,53,105,108,121,122,135,137],effects:[50,76,83,96,137,246,247,269,270,274,288,296,316,317,333]},
 });
 const arrays=(source,kind)=>new Map([...source.matchAll(new RegExp(`(?:static )?const ${kind} (\\w+)\\[\\] = \\{([\\s\\S]*?)\\n\\};`,'g'))].map(match=>[match[1],match[2]]));
@@ -111,10 +111,10 @@ export function composeBattleEffects(inputs,bank='basic'){
       // The compact runtime keeps only displayed fields. Never discard a new
       // native secondary offset or flag without an explicit source admission.
       const frames=raw.map(([ticks,flags,pose,x,y,sx,sy])=>{
-        if(flags!==0||sx!==0||sy!==0)throw Error('Unsupported compact EFO frame tail.');
+        if((flags!==0&&!(file.id===6&&sourceAnimation===0&&flags===1))||sx!==0||sy!==0)throw Error('Unsupported compact EFO frame tail.');
         return[compose(file,pose,fact.unk8),ticks,x,y];
       });
-      return{sourceAnimation,ticks:frames.reduce((sum,frame)=>sum+frame[1],0),frames};
+      return{sourceAnimation,sourceFlags:[...new Set(raw.map(frame=>frame[1]))],ticks:frames.reduce((sum,frame)=>sum+frame[1],0),frames};
     });
     return{id,name,file:file.name,sourceAnimation:fact.animId,directional,palette:fact.unk8,attachmentSet:fact.unk1c,loop:Boolean(fact.loop),sourceWaitFlag:fact.unk20,blocksWait:fact.unk20===0,sequences};
   });

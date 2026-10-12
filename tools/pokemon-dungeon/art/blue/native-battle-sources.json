@@ -4,348 +4,120 @@
   "commit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
   "sourceEdition": "Red Rescue Team comparative",
   "qualification": "Published literal move-animation facts and indexed effect images. Blue effect pixels, complete choreography and driver timing remain unverified. No ROM or game code execution is used.",
-  "rights": "Original Pok\u00e9mon / Chunsoft / Nintendo imagery and data. Provenance does not assert a rights-holder reuse grant.",
+  "rights": "Original Pokémon / Chunsoft / Nintendo imagery and data. Provenance does not assert a rights-holder reuse grant.",
   "archive": {
     "path": "native-battle-source.tar.gz",
-    "bytes": 237680,
-    "sha256": "c932209a151eb8ffffa27dfb50f66b310345e73e104bd0762dd45d062895c42e"
+    "bytes": 240199,
+    "sha256": "b5fca54575738bc14eaafeb316e66fc5618d865b87cae819e7e06a0beff5edb2"
   },
   "files": [
     {
-      "path": "data/effects/efob000.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob000.pal"
+      "path": "src/effect_data.c",
+      "bytes": 603803,
+      "sha256": "f3eff2ec8090d826c202ce3e20895dd221dbd96535fb30511e322b2eecf5101d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_data.c"
     },
     {
-      "path": "data/effects/efob000.png",
-      "bytes": 2919,
-      "sha256": "d83094e5095dbf626d3b2f0604e32dcded6fe8b71ee30f96b1048ce478afe33f",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob000.png"
+      "path": "src/effect_main.c",
+      "bytes": 29921,
+      "sha256": "2ad643959a61569bb1560ad039ffc3b51a970a0c59db9c62d0b9544946aed971",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_main.c"
     },
     {
-      "path": "data/effects/efob007.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob007.pal"
+      "path": "src/effect_sub_1.c",
+      "bytes": 5427,
+      "sha256": "07d1a28db301dd2abe524dedcde89742153369026939ac5d2e1415f61c3ce710",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_sub_1.c"
     },
     {
-      "path": "data/effects/efob007.png",
-      "bytes": 1428,
-      "sha256": "a65a9bd27352e065b2142c83c328879bcfb96740e1a7226106414fa709b12ef1",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob007.png"
+      "path": "src/effect_anim_file.c",
+      "bytes": 553,
+      "sha256": "a9a5cc718e109c5bf9e91ab74614a3ec879b6b0687598e862e41dc005eff8b26",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_anim_file.c"
     },
     {
-      "path": "data/effects/efob008.pal",
-      "bytes": 113,
-      "sha256": "226f0ddc9a6d3b26b78e138333dfde67d39aa7ac95a257e9e53c766fb6035675",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob008.pal"
+      "path": "src/code_8040094_1.c",
+      "bytes": 13501,
+      "sha256": "e62aad6a3cbd89a3f0f7158dd8b9051e6c2c79dc47cd77b16afdffb9d829b033",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/code_8040094_1.c"
     },
     {
-      "path": "data/effects/efob008.png",
-      "bytes": 1655,
-      "sha256": "ff27b0cf7170e1dffefa09b5a7b93724577d8b2899ee3c29d49f6afbbe37242c",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob008.png"
+      "path": "src/sprite.c",
+      "bytes": 19685,
+      "sha256": "f7ae33c492686366b4c6b5508f76612a31bcc87e9c738569e54e82c774af87eb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/sprite.c"
     },
     {
-      "path": "data/effects/efob013.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob013.pal"
+      "path": "src/bg_palette_buffer.c",
+      "bytes": 2688,
+      "sha256": "1f5ab72be89f92c20afe227eb3b162fae842306a606a256cff2d8f0b8448d356",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/bg_palette_buffer.c"
     },
     {
-      "path": "data/effects/efob013.png",
-      "bytes": 970,
-      "sha256": "1aa3ce06f6e5233ca23454aca4f62139fca985775c591435a34e418519f32b0b",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob013.png"
+      "path": "src/dungeon_8041AD0.c",
+      "bytes": 36684,
+      "sha256": "09abd0f9942cae38b34e61676a20cb61cc4b451e09786ad5a57ad10ac610d0f6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_8041AD0.c"
     },
     {
-      "path": "data/effects/efob020.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob020.pal"
+      "path": "src/dungeon_move.c",
+      "bytes": 72662,
+      "sha256": "ca23d7410da08a3e617c787d7ddc970448f54ac2af2b3327f838ead94f4ab695",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_move.c"
     },
     {
-      "path": "data/effects/efob020.png",
-      "bytes": 916,
-      "sha256": "da8a98caad97c82f22005dfbeaa99dbd29e0ea48c87589b08c17ea114de453e2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob020.png"
+      "path": "src/dungeon_move_util.c",
+      "bytes": 46263,
+      "sha256": "0b69f36c9e8c497acdfef2c06566fe84ccb4549390d53293dc24347e57af9d53",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_move_util.c"
     },
     {
-      "path": "data/effects/efob022.pal",
-      "bytes": 177,
-      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob022.pal"
+      "path": "src/dungeon_damage.c",
+      "bytes": 59345,
+      "sha256": "27d89918523feda4cd0edbb362248a3ef6064bc51099311eb6b02ffc2287bc90",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_damage.c"
     },
     {
-      "path": "data/effects/efob022.png",
-      "bytes": 275,
-      "sha256": "640a5c976ee6ab74430b258fb82c142b7559e8adb9eb8f0a17b0161733858e54",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob022.png"
+      "path": "src/move_orb_effects_1.c",
+      "bytes": 50021,
+      "sha256": "ecf90f999159169a903422a173035958ba448d0a9b9a908ab78e227fa5ddbeb3",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/move_orb_effects_1.c"
     },
     {
-      "path": "data/effects/efob023.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob023.pal"
+      "path": "src/math.c",
+      "bytes": 18408,
+      "sha256": "1a68c538021e0b63d7fa407ca2cd897898f8d2eaa457b74564cd7723b7c18cd3",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/math.c"
     },
     {
-      "path": "data/effects/efob023.png",
-      "bytes": 603,
-      "sha256": "f6bc525cee7b5bd077686760525ec8681b8bd2086f8d4b10832878a58fab6371",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob023.png"
+      "path": "src/data/math.h",
+      "bytes": 11226,
+      "sha256": "7a4f48bb0d58c82efb503675ee206f5e3d5f604eb7069ce5effc4e847d554e91",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/math.h"
     },
     {
-      "path": "data/effects/efob029.pal",
-      "bytes": 196,
-      "sha256": "6972b11ff6ecff216dbdaab30b07ad08d1a898cbfc764061203e3ddd5c43ff4d",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob029.pal"
+      "path": "include/structs/axdata.h",
+      "bytes": 4870,
+      "sha256": "f17b638c30f191f84f29d7686ba6dd255b87bdf4fd2714b889a4391b54a9bfdf",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/structs/axdata.h"
     },
     {
-      "path": "data/effects/efob029.png",
-      "bytes": 1846,
-      "sha256": "97dc563cd1bc5cd160164adba431941434fd6e29becee57b8437570cb2eb7a9c",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob029.png"
+      "path": "include/structs/sprite_oam.h",
+      "bytes": 11906,
+      "sha256": "2be02a0e39a86e00e6014d07a61c73950316e5d02d4835c4f3e89e7429e2372c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/structs/sprite_oam.h"
     },
     {
-      "path": "data/effects/efob051.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob051.pal"
+      "path": "include/constants/direction.h",
+      "bytes": 1123,
+      "sha256": "209f6a841294ad9e896434902033946261c489dd3e1f322e2936a7f2d841c71f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/constants/direction.h"
     },
     {
-      "path": "data/effects/efob051.png",
-      "bytes": 1713,
-      "sha256": "cf333509e213f67926a18ccf1adeb3a084460f4b4fcc1b20bb427aa0068ba057",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob051.png"
-    },
-    {
-      "path": "data/effects/efob053.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob053.pal"
-    },
-    {
-      "path": "data/effects/efob053.png",
-      "bytes": 1293,
-      "sha256": "24697e660ea82a9f6da106f48be179495b5c1bb718847a7711d0338e6b7caf0d",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob053.png"
-    },
-    {
-      "path": "data/effects/efob054.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob054.pal"
-    },
-    {
-      "path": "data/effects/efob054.png",
-      "bytes": 791,
-      "sha256": "b3f8e24e238eeb44643cc41409b16aeadefbf45cb44f69399b62c6b887d85958",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob054.png"
-    },
-    {
-      "path": "data/effects/efob056.pal",
-      "bytes": 128,
-      "sha256": "95fd5dc4589195ef92561e9235c55bada2a1fb229ca850d602123392d9ebe448",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob056.pal"
-    },
-    {
-      "path": "data/effects/efob056.png",
-      "bytes": 1006,
-      "sha256": "eb8ce3d4b3b532d4b02f6afdd453b858ea540be41370416f1a517bb722863ae6",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob056.png"
-    },
-    {
-      "path": "data/effects/efob058.pal",
-      "bytes": 177,
-      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob058.pal"
-    },
-    {
-      "path": "data/effects/efob058.png",
-      "bytes": 1054,
-      "sha256": "4ffcecb00a16125c7c9fb7fbc86dd6b8411bef510b9aa703b140f59a9c6885d6",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob058.png"
-    },
-    {
-      "path": "data/effects/efob059.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob059.pal"
-    },
-    {
-      "path": "data/effects/efob059.png",
-      "bytes": 888,
-      "sha256": "f586c59ce9805d028a2dd93c8df8152cdad8b18ff2ec03578d065a2c82a7a7ad",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob059.png"
-    },
-    {
-      "path": "data/effects/efob073.pal",
-      "bytes": 177,
-      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob073.pal"
-    },
-    {
-      "path": "data/effects/efob073.png",
-      "bytes": 471,
-      "sha256": "85b2bbdb17df24f55a60637abe589c048787721bf68db7f577b0701073662714",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob073.png"
-    },
-    {
-      "path": "data/effects/efob081.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob081.pal"
-    },
-    {
-      "path": "data/effects/efob081.png",
-      "bytes": 1121,
-      "sha256": "3aba93ef19f1d8be83fb0726e24fde18a9a035e5bd5a59d864551e6db750ce26",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob081.png"
-    },
-    {
-      "path": "data/effects/efob102.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob102.pal"
-    },
-    {
-      "path": "data/effects/efob102.png",
-      "bytes": 1985,
-      "sha256": "ce81cbf0f057face5541072ac1edaf3726ab77f27ce9cee98ff46c832d2af8f6",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob102.png"
-    },
-    {
-      "path": "data/effects/efob105.pal",
-      "bytes": 213,
-      "sha256": "3c22e8809cebd6ea02f0cd7abc1dbdbebc708502e8d798077620890e1b36cc64",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob105.pal"
-    },
-    {
-      "path": "data/effects/efob105.png",
-      "bytes": 559,
-      "sha256": "c2c60412a818ca7fc5c1b0b6e91cc3d19970d04e30d1a0c2a7713ff953711dfb",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob105.png"
-    },
-    {
-      "path": "data/effects/efob108.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob108.pal"
-    },
-    {
-      "path": "data/effects/efob108.png",
-      "bytes": 1554,
-      "sha256": "c3eab405ea3c819e49161272cfbd2ba5593cd2965985c69ab360d8af992ce282",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob108.png"
-    },
-    {
-      "path": "data/effects/efob113.pal",
-      "bytes": 196,
-      "sha256": "6972b11ff6ecff216dbdaab30b07ad08d1a898cbfc764061203e3ddd5c43ff4d",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob113.pal"
-    },
-    {
-      "path": "data/effects/efob113.png",
-      "bytes": 1498,
-      "sha256": "f41c7216dda46d610e540f4e71d86ac084023137a016c387ef9602937e3b129d",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob113.png"
-    },
-    {
-      "path": "data/effects/efob114.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob114.pal"
-    },
-    {
-      "path": "data/effects/efob114.png",
-      "bytes": 741,
-      "sha256": "c38c26f2b94e2586ed4e8f0a48bf0601d1a5a04fcadfd9b3167e12bb81cc1670",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob114.png"
-    },
-    {
-      "path": "data/effects/efob119.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob119.pal"
-    },
-    {
-      "path": "data/effects/efob119.png",
-      "bytes": 849,
-      "sha256": "b10a719e56f2fac54d9945534ac7a23642710b4fca28416c25014b5000a4ca35",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob119.png"
-    },
-    {
-      "path": "data/effects/efob121.pal",
-      "bytes": 177,
-      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob121.pal"
-    },
-    {
-      "path": "data/effects/efob121.png",
-      "bytes": 508,
-      "sha256": "28f3440c8d6f31db8040e90098b851e9237206208e5b13dc72b498b58b586088",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob121.png"
-    },
-    {
-      "path": "data/effects/efob122.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob122.pal"
-    },
-    {
-      "path": "data/effects/efob122.png",
-      "bytes": 1385,
-      "sha256": "b8e02c7f172daa10b1a5ec75d8d7b1ba4ef06dc703e279599c2bf304569a09c3",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob122.png"
-    },
-    {
-      "path": "data/effects/efob125.pal",
-      "bytes": 188,
-      "sha256": "e64be05fd583e7ecc1cd2315b0846dbfaf9c45bd06e306aada25eaa4ac14a5c7",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob125.pal"
-    },
-    {
-      "path": "data/effects/efob125.png",
-      "bytes": 871,
-      "sha256": "07a7d58ea798f24c7ec424c28ec7451a48f160a409b2ed860fe97e37a3a4b58d",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob125.png"
-    },
-    {
-      "path": "data/effects/efob131.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob131.pal"
-    },
-    {
-      "path": "data/effects/efob131.png",
-      "bytes": 846,
-      "sha256": "3c3caa870b6ee8ffd9b9d724f3a3faa2e7f113a83a9b7f7a9c86aaf312632b5a",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob131.png"
-    },
-    {
-      "path": "data/effects/efob135.pal",
-      "bytes": 184,
-      "sha256": "78f8dd91863686276d743b7d411e0ef6ea1e7126971fc2b15d88da0d8a837f32",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob135.pal"
-    },
-    {
-      "path": "data/effects/efob135.png",
-      "bytes": 1445,
-      "sha256": "31a9a34ef55391e5edf8e793aa9eebc25bea82e360356381d886a191045e55ac",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob135.png"
-    },
-    {
-      "path": "data/effects/efob137.pal",
-      "bytes": 194,
-      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob137.pal"
-    },
-    {
-      "path": "data/effects/efob137.png",
-      "bytes": 300,
-      "sha256": "711cd9f90992c493316166eda642ef08a493d14e05ed9fd4acffe32a06580174",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob137.png"
+      "path": "include/constants/move_id.h",
+      "bytes": 12657,
+      "sha256": "0ed607d167ac42bafd4c47e26f8fcacc22038be5f2781f0e8603f4d7a8033f72",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/constants/move_id.h"
     },
     {
       "path": "graphics/ax/pal/0.pal",
@@ -358,30 +130,6 @@
       "bytes": 183,
       "sha256": "1dac6b05fac19c6c6e0126389aafa3a208e7b21fe831513687206cf19ccc2b74",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/1.pal"
-    },
-    {
-      "path": "graphics/ax/pal/10.pal",
-      "bytes": 190,
-      "sha256": "84d5f700a93bfa49e2f4f3bea071318af3ac2eb161746826dbd32b9fb7f786a1",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/10.pal"
-    },
-    {
-      "path": "graphics/ax/pal/11.pal",
-      "bytes": 191,
-      "sha256": "2963cf4a043ab0115dc00e556fec0da1799f04b192dcb43b5ac8e06b79d95d00",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/11.pal"
-    },
-    {
-      "path": "graphics/ax/pal/12.pal",
-      "bytes": 183,
-      "sha256": "a9ec84184170146337aea37e3c7981ae26d3cb9786389cfe6874f20518483fd6",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/12.pal"
-    },
-    {
-      "path": "graphics/ax/pal/13.pal",
-      "bytes": 117,
-      "sha256": "43c86bc907ed8083e891c9925a72aaa6f26feab62ca897979cb67b32816e4f7c",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/13.pal"
     },
     {
       "path": "graphics/ax/pal/2.pal",
@@ -432,40 +180,28 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/9.pal"
     },
     {
-      "path": "include/constants/direction.h",
-      "bytes": 1123,
-      "sha256": "209f6a841294ad9e896434902033946261c489dd3e1f322e2936a7f2d841c71f",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/constants/direction.h"
+      "path": "graphics/ax/pal/10.pal",
+      "bytes": 190,
+      "sha256": "84d5f700a93bfa49e2f4f3bea071318af3ac2eb161746826dbd32b9fb7f786a1",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/10.pal"
     },
     {
-      "path": "include/constants/move_id.h",
-      "bytes": 12657,
-      "sha256": "0ed607d167ac42bafd4c47e26f8fcacc22038be5f2781f0e8603f4d7a8033f72",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/constants/move_id.h"
+      "path": "graphics/ax/pal/11.pal",
+      "bytes": 191,
+      "sha256": "2963cf4a043ab0115dc00e556fec0da1799f04b192dcb43b5ac8e06b79d95d00",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/11.pal"
     },
     {
-      "path": "include/structs/axdata.h",
-      "bytes": 4870,
-      "sha256": "f17b638c30f191f84f29d7686ba6dd255b87bdf4fd2714b889a4391b54a9bfdf",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/structs/axdata.h"
+      "path": "graphics/ax/pal/12.pal",
+      "bytes": 183,
+      "sha256": "a9ec84184170146337aea37e3c7981ae26d3cb9786389cfe6874f20518483fd6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/12.pal"
     },
     {
-      "path": "include/structs/sprite_oam.h",
-      "bytes": 11906,
-      "sha256": "2be02a0e39a86e00e6014d07a61c73950316e5d02d4835c4f3e89e7429e2372c",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/include/structs/sprite_oam.h"
-    },
-    {
-      "path": "src/bg_palette_buffer.c",
-      "bytes": 2688,
-      "sha256": "1f5ab72be89f92c20afe227eb3b162fae842306a606a256cff2d8f0b8448d356",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/bg_palette_buffer.c"
-    },
-    {
-      "path": "src/code_8040094_1.c",
-      "bytes": 13501,
-      "sha256": "e62aad6a3cbd89a3f0f7158dd8b9051e6c2c79dc47cd77b16afdffb9d829b033",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/code_8040094_1.c"
+      "path": "graphics/ax/pal/13.pal",
+      "bytes": 117,
+      "sha256": "43c86bc907ed8083e891c9925a72aaa6f26feab62ca897979cb67b32816e4f7c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ax/pal/13.pal"
     },
     {
       "path": "src/data/effects/efob000.c",
@@ -474,10 +210,52 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob000.c"
     },
     {
+      "path": "data/effects/efob000.png",
+      "bytes": 2919,
+      "sha256": "d83094e5095dbf626d3b2f0604e32dcded6fe8b71ee30f96b1048ce478afe33f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob000.png"
+    },
+    {
+      "path": "data/effects/efob000.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob000.pal"
+    },
+    {
+      "path": "src/data/effects/efob006.c",
+      "bytes": 9040,
+      "sha256": "934e8b38779eb9dec5f7ea8df8983fdf37c79c30f6205befec3ef01df66ebb6e",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob006.c"
+    },
+    {
+      "path": "data/effects/efob006.png",
+      "bytes": 856,
+      "sha256": "767b02d9a822a92f220c00f12e0c7408dcf205739805f03a8e09a9360b37882f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob006.png"
+    },
+    {
+      "path": "data/effects/efob006.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob006.pal"
+    },
+    {
       "path": "src/data/effects/efob007.c",
       "bytes": 56394,
       "sha256": "101ec8ef28d3b6c6a3358f8bf06d1a619722b149bffd7d762609fc347d406681",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob007.c"
+    },
+    {
+      "path": "data/effects/efob007.png",
+      "bytes": 1428,
+      "sha256": "a65a9bd27352e065b2142c83c328879bcfb96740e1a7226106414fa709b12ef1",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob007.png"
+    },
+    {
+      "path": "data/effects/efob007.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob007.pal"
     },
     {
       "path": "src/data/effects/efob008.c",
@@ -486,10 +264,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob008.c"
     },
     {
+      "path": "data/effects/efob008.png",
+      "bytes": 1655,
+      "sha256": "ff27b0cf7170e1dffefa09b5a7b93724577d8b2899ee3c29d49f6afbbe37242c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob008.png"
+    },
+    {
+      "path": "data/effects/efob008.pal",
+      "bytes": 113,
+      "sha256": "226f0ddc9a6d3b26b78e138333dfde67d39aa7ac95a257e9e53c766fb6035675",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob008.pal"
+    },
+    {
       "path": "src/data/effects/efob013.c",
       "bytes": 85128,
       "sha256": "a3a5ca39e6a240abb2fb42ecd4054202237a62f74210418a8542c5f47ab7791a",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob013.c"
+    },
+    {
+      "path": "data/effects/efob013.png",
+      "bytes": 970,
+      "sha256": "1aa3ce06f6e5233ca23454aca4f62139fca985775c591435a34e418519f32b0b",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob013.png"
+    },
+    {
+      "path": "data/effects/efob013.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob013.pal"
     },
     {
       "path": "src/data/effects/efob020.c",
@@ -498,10 +300,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob020.c"
     },
     {
+      "path": "data/effects/efob020.png",
+      "bytes": 916,
+      "sha256": "da8a98caad97c82f22005dfbeaa99dbd29e0ea48c87589b08c17ea114de453e2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob020.png"
+    },
+    {
+      "path": "data/effects/efob020.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob020.pal"
+    },
+    {
       "path": "src/data/effects/efob022.c",
       "bytes": 11415,
       "sha256": "5826128dd6edff0e3599046c1c327b623b5ccaaa059f10a27fa8dec9927898b6",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob022.c"
+    },
+    {
+      "path": "data/effects/efob022.png",
+      "bytes": 275,
+      "sha256": "640a5c976ee6ab74430b258fb82c142b7559e8adb9eb8f0a17b0161733858e54",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob022.png"
+    },
+    {
+      "path": "data/effects/efob022.pal",
+      "bytes": 177,
+      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob022.pal"
     },
     {
       "path": "src/data/effects/efob023.c",
@@ -510,10 +336,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob023.c"
     },
     {
+      "path": "data/effects/efob023.png",
+      "bytes": 603,
+      "sha256": "f6bc525cee7b5bd077686760525ec8681b8bd2086f8d4b10832878a58fab6371",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob023.png"
+    },
+    {
+      "path": "data/effects/efob023.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob023.pal"
+    },
+    {
       "path": "src/data/effects/efob029.c",
       "bytes": 13091,
       "sha256": "cf4bcbb38b0fa96ad00793ae9cd40d15d7548f52d6db05e4048c0962dffc10c1",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob029.c"
+    },
+    {
+      "path": "data/effects/efob029.png",
+      "bytes": 1846,
+      "sha256": "97dc563cd1bc5cd160164adba431941434fd6e29becee57b8437570cb2eb7a9c",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob029.png"
+    },
+    {
+      "path": "data/effects/efob029.pal",
+      "bytes": 196,
+      "sha256": "6972b11ff6ecff216dbdaab30b07ad08d1a898cbfc764061203e3ddd5c43ff4d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob029.pal"
     },
     {
       "path": "src/data/effects/efob051.c",
@@ -522,10 +372,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob051.c"
     },
     {
+      "path": "data/effects/efob051.png",
+      "bytes": 1713,
+      "sha256": "cf333509e213f67926a18ccf1adeb3a084460f4b4fcc1b20bb427aa0068ba057",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob051.png"
+    },
+    {
+      "path": "data/effects/efob051.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob051.pal"
+    },
+    {
       "path": "src/data/effects/efob053.c",
       "bytes": 23510,
       "sha256": "d0953a0f9bd75369bdcf802a99fe8fc08df8b87b32ea5908090ab4708367236c",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob053.c"
+    },
+    {
+      "path": "data/effects/efob053.png",
+      "bytes": 1293,
+      "sha256": "24697e660ea82a9f6da106f48be179495b5c1bb718847a7711d0338e6b7caf0d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob053.png"
+    },
+    {
+      "path": "data/effects/efob053.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob053.pal"
     },
     {
       "path": "src/data/effects/efob054.c",
@@ -534,10 +408,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob054.c"
     },
     {
+      "path": "data/effects/efob054.png",
+      "bytes": 791,
+      "sha256": "b3f8e24e238eeb44643cc41409b16aeadefbf45cb44f69399b62c6b887d85958",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob054.png"
+    },
+    {
+      "path": "data/effects/efob054.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob054.pal"
+    },
+    {
       "path": "src/data/effects/efob056.c",
       "bytes": 9346,
       "sha256": "f002609d5518143a56b1885c5ec8c3a1aafa77e161ad9e6f6220aa86f47701cd",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob056.c"
+    },
+    {
+      "path": "data/effects/efob056.png",
+      "bytes": 1006,
+      "sha256": "eb8ce3d4b3b532d4b02f6afdd453b858ea540be41370416f1a517bb722863ae6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob056.png"
+    },
+    {
+      "path": "data/effects/efob056.pal",
+      "bytes": 128,
+      "sha256": "95fd5dc4589195ef92561e9235c55bada2a1fb229ca850d602123392d9ebe448",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob056.pal"
     },
     {
       "path": "src/data/effects/efob058.c",
@@ -546,10 +444,52 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob058.c"
     },
     {
+      "path": "data/effects/efob058.png",
+      "bytes": 1054,
+      "sha256": "4ffcecb00a16125c7c9fb7fbc86dd6b8411bef510b9aa703b140f59a9c6885d6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob058.png"
+    },
+    {
+      "path": "data/effects/efob058.pal",
+      "bytes": 177,
+      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob058.pal"
+    },
+    {
       "path": "src/data/effects/efob059.c",
       "bytes": 9569,
       "sha256": "167f957011be3b6578fdcc0aa4f00010424c1f20c99fb190393cfc43c4802f74",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob059.c"
+    },
+    {
+      "path": "data/effects/efob059.png",
+      "bytes": 888,
+      "sha256": "f586c59ce9805d028a2dd93c8df8152cdad8b18ff2ec03578d065a2c82a7a7ad",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob059.png"
+    },
+    {
+      "path": "data/effects/efob059.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob059.pal"
+    },
+    {
+      "path": "src/data/effects/efob067.c",
+      "bytes": 2738,
+      "sha256": "04068b617d063a4ae389a42a38e513799c116023be4ad4ae9ddda9ed0540b9fb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob067.c"
+    },
+    {
+      "path": "data/effects/efob067.png",
+      "bytes": 1518,
+      "sha256": "b77a73c3d5831cd1de81ae75d3b45abec463113eae8705af817a32daa80967fe",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob067.png"
+    },
+    {
+      "path": "data/effects/efob067.pal",
+      "bytes": 177,
+      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob067.pal"
     },
     {
       "path": "src/data/effects/efob073.c",
@@ -558,10 +498,52 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob073.c"
     },
     {
+      "path": "data/effects/efob073.png",
+      "bytes": 471,
+      "sha256": "85b2bbdb17df24f55a60637abe589c048787721bf68db7f577b0701073662714",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob073.png"
+    },
+    {
+      "path": "data/effects/efob073.pal",
+      "bytes": 177,
+      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob073.pal"
+    },
+    {
+      "path": "src/data/effects/efob095.c",
+      "bytes": 7047,
+      "sha256": "c6779e7b90b37901acf1646eae2c9804e3b8be9ee79117ddcfd50ccda6f78d20",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob095.c"
+    },
+    {
+      "path": "data/effects/efob095.png",
+      "bytes": 391,
+      "sha256": "7b6e59be842e4b2cc4d030ce4c2a82051a37351d453a4fee949565aa96b1190d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob095.png"
+    },
+    {
+      "path": "data/effects/efob095.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob095.pal"
+    },
+    {
       "path": "src/data/effects/efob081.c",
       "bytes": 66174,
       "sha256": "af0a6ae49b2d685f7659327e5154d65979df3b5d066cf7507168168cee864b65",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob081.c"
+    },
+    {
+      "path": "data/effects/efob081.png",
+      "bytes": 1121,
+      "sha256": "3aba93ef19f1d8be83fb0726e24fde18a9a035e5bd5a59d864551e6db750ce26",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob081.png"
+    },
+    {
+      "path": "data/effects/efob081.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob081.pal"
     },
     {
       "path": "src/data/effects/efob102.c",
@@ -570,10 +552,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob102.c"
     },
     {
+      "path": "data/effects/efob102.png",
+      "bytes": 1985,
+      "sha256": "ce81cbf0f057face5541072ac1edaf3726ab77f27ce9cee98ff46c832d2af8f6",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob102.png"
+    },
+    {
+      "path": "data/effects/efob102.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob102.pal"
+    },
+    {
       "path": "src/data/effects/efob105.c",
       "bytes": 7363,
       "sha256": "dc75348cde568067c45fab7d97eb44140a79ba374f098a551ea3a5e3bbcda115",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob105.c"
+    },
+    {
+      "path": "data/effects/efob105.png",
+      "bytes": 559,
+      "sha256": "c2c60412a818ca7fc5c1b0b6e91cc3d19970d04e30d1a0c2a7713ff953711dfb",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob105.png"
+    },
+    {
+      "path": "data/effects/efob105.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob105.pal"
     },
     {
       "path": "src/data/effects/efob108.c",
@@ -582,10 +588,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob108.c"
     },
     {
+      "path": "data/effects/efob108.png",
+      "bytes": 1554,
+      "sha256": "c3eab405ea3c819e49161272cfbd2ba5593cd2965985c69ab360d8af992ce282",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob108.png"
+    },
+    {
+      "path": "data/effects/efob108.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob108.pal"
+    },
+    {
       "path": "src/data/effects/efob113.c",
       "bytes": 15989,
       "sha256": "f428ba83e3fcfcd60e0708427516fa7f94e00f45e34878cf304234a1f1c022e4",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob113.c"
+    },
+    {
+      "path": "data/effects/efob113.png",
+      "bytes": 1498,
+      "sha256": "f41c7216dda46d610e540f4e71d86ac084023137a016c387ef9602937e3b129d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob113.png"
+    },
+    {
+      "path": "data/effects/efob113.pal",
+      "bytes": 196,
+      "sha256": "6972b11ff6ecff216dbdaab30b07ad08d1a898cbfc764061203e3ddd5c43ff4d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob113.pal"
     },
     {
       "path": "src/data/effects/efob114.c",
@@ -594,10 +624,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob114.c"
     },
     {
+      "path": "data/effects/efob114.png",
+      "bytes": 741,
+      "sha256": "c38c26f2b94e2586ed4e8f0a48bf0601d1a5a04fcadfd9b3167e12bb81cc1670",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob114.png"
+    },
+    {
+      "path": "data/effects/efob114.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob114.pal"
+    },
+    {
       "path": "src/data/effects/efob119.c",
       "bytes": 9119,
       "sha256": "4c6e4d2dbbbb6427d28fce33187dd3f8f0c8f1c38d31c861c89a6bc99e596365",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob119.c"
+    },
+    {
+      "path": "data/effects/efob119.png",
+      "bytes": 849,
+      "sha256": "b10a719e56f2fac54d9945534ac7a23642710b4fca28416c25014b5000a4ca35",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob119.png"
+    },
+    {
+      "path": "data/effects/efob119.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob119.pal"
     },
     {
       "path": "src/data/effects/efob121.c",
@@ -606,10 +660,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob121.c"
     },
     {
+      "path": "data/effects/efob121.png",
+      "bytes": 508,
+      "sha256": "28f3440c8d6f31db8040e90098b851e9237206208e5b13dc72b498b58b586088",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob121.png"
+    },
+    {
+      "path": "data/effects/efob121.pal",
+      "bytes": 177,
+      "sha256": "3cdb03e09cd87c824165d92b2ef8cf72e1c371336e4f1b22b2c0a43a1ad7c38f",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob121.pal"
+    },
+    {
       "path": "src/data/effects/efob122.c",
       "bytes": 35074,
       "sha256": "de6954893258975614ee74377fc9f20d741dd5eaf0bbaffad0d2c1e4f2e4e6da",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob122.c"
+    },
+    {
+      "path": "data/effects/efob122.png",
+      "bytes": 1385,
+      "sha256": "b8e02c7f172daa10b1a5ec75d8d7b1ba4ef06dc703e279599c2bf304569a09c3",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob122.png"
+    },
+    {
+      "path": "data/effects/efob122.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob122.pal"
     },
     {
       "path": "src/data/effects/efob125.c",
@@ -618,10 +696,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob125.c"
     },
     {
+      "path": "data/effects/efob125.png",
+      "bytes": 871,
+      "sha256": "07a7d58ea798f24c7ec424c28ec7451a48f160a409b2ed860fe97e37a3a4b58d",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob125.png"
+    },
+    {
+      "path": "data/effects/efob125.pal",
+      "bytes": 188,
+      "sha256": "e64be05fd583e7ecc1cd2315b0846dbfaf9c45bd06e306aada25eaa4ac14a5c7",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob125.pal"
+    },
+    {
       "path": "src/data/effects/efob131.c",
       "bytes": 3362,
       "sha256": "1a21d0ec73b8cec7383eaf9ef15a6349ff2d7355cbcafcfb6d5b198f19a4ac27",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob131.c"
+    },
+    {
+      "path": "data/effects/efob131.png",
+      "bytes": 846,
+      "sha256": "3c3caa870b6ee8ffd9b9d724f3a3faa2e7f113a83a9b7f7a9c86aaf312632b5a",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob131.png"
+    },
+    {
+      "path": "data/effects/efob131.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob131.pal"
     },
     {
       "path": "src/data/effects/efob135.c",
@@ -630,82 +732,34 @@
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob135.c"
     },
     {
+      "path": "data/effects/efob135.png",
+      "bytes": 1445,
+      "sha256": "31a9a34ef55391e5edf8e793aa9eebc25bea82e360356381d886a191045e55ac",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob135.png"
+    },
+    {
+      "path": "data/effects/efob135.pal",
+      "bytes": 184,
+      "sha256": "78f8dd91863686276d743b7d411e0ef6ea1e7126971fc2b15d88da0d8a837f32",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob135.pal"
+    },
+    {
       "path": "src/data/effects/efob137.c",
       "bytes": 3242,
       "sha256": "b60bd411307e97670fa017ea8cf1705dac37249349c756c4af34e357203efe84",
       "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/effects/efob137.c"
     },
     {
-      "path": "src/data/math.h",
-      "bytes": 11226,
-      "sha256": "7a4f48bb0d58c82efb503675ee206f5e3d5f604eb7069ce5effc4e847d554e91",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/math.h"
+      "path": "data/effects/efob137.png",
+      "bytes": 300,
+      "sha256": "711cd9f90992c493316166eda642ef08a493d14e05ed9fd4acffe32a06580174",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob137.png"
     },
     {
-      "path": "src/dungeon_8041AD0.c",
-      "bytes": 36684,
-      "sha256": "09abd0f9942cae38b34e61676a20cb61cc4b451e09786ad5a57ad10ac610d0f6",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_8041AD0.c"
-    },
-    {
-      "path": "src/dungeon_damage.c",
-      "bytes": 59345,
-      "sha256": "27d89918523feda4cd0edbb362248a3ef6064bc51099311eb6b02ffc2287bc90",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_damage.c"
-    },
-    {
-      "path": "src/dungeon_move.c",
-      "bytes": 72662,
-      "sha256": "ca23d7410da08a3e617c787d7ddc970448f54ac2af2b3327f838ead94f4ab695",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_move.c"
-    },
-    {
-      "path": "src/dungeon_move_util.c",
-      "bytes": 46263,
-      "sha256": "0b69f36c9e8c497acdfef2c06566fe84ccb4549390d53293dc24347e57af9d53",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_move_util.c"
-    },
-    {
-      "path": "src/effect_anim_file.c",
-      "bytes": 553,
-      "sha256": "a9a5cc718e109c5bf9e91ab74614a3ec879b6b0687598e862e41dc005eff8b26",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_anim_file.c"
-    },
-    {
-      "path": "src/effect_data.c",
-      "bytes": 603803,
-      "sha256": "f3eff2ec8090d826c202ce3e20895dd221dbd96535fb30511e322b2eecf5101d",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_data.c"
-    },
-    {
-      "path": "src/effect_main.c",
-      "bytes": 29921,
-      "sha256": "2ad643959a61569bb1560ad039ffc3b51a970a0c59db9c62d0b9544946aed971",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_main.c"
-    },
-    {
-      "path": "src/effect_sub_1.c",
-      "bytes": 5427,
-      "sha256": "07d1a28db301dd2abe524dedcde89742153369026939ac5d2e1415f61c3ce710",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/effect_sub_1.c"
-    },
-    {
-      "path": "src/math.c",
-      "bytes": 18408,
-      "sha256": "1a68c538021e0b63d7fa407ca2cd897898f8d2eaa457b74564cd7723b7c18cd3",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/math.c"
-    },
-    {
-      "path": "src/move_orb_effects_1.c",
-      "bytes": 50021,
-      "sha256": "ecf90f999159169a903422a173035958ba448d0a9b9a908ab78e227fa5ddbeb3",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/move_orb_effects_1.c"
-    },
-    {
-      "path": "src/sprite.c",
-      "bytes": 19685,
-      "sha256": "f7ae33c492686366b4c6b5508f76612a31bcc87e9c738569e54e82c774af87eb",
-      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/src/sprite.c"
+      "path": "data/effects/efob137.pal",
+      "bytes": 194,
+      "sha256": "e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2",
+      "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/effects/efob137.pal"
     }
   ],
   "speciesSource": {

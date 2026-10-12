@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import * as acorn from 'acorn';
 import { verifyNativeBattleMetadata } from '../art/blue/native-battle-effects-export.mjs';
 import { readTarGzip } from '../art/blue/native-format.mjs';
 
@@ -48,6 +49,8 @@ assert.deepEqual(data.moves['move-whirlpool'], {id:'move-whirlpool',name:'Whirlp
 assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-fire-spin'||move==='move-whirlpool').map(([level,move])=>[id,level,move])), [['pokemon-004',49,'move-fire-spin'],['pokemon-255',25,'move-fire-spin'],['pokemon-258',33,'move-whirlpool']]);
 assert.deepEqual(data.moves['move-solar-beam'], {id:'move-solar-beam',name:'Solarbeam',type:'grass',power:24,pp:9,accuracyBeforeEffect:125,accuracyAfterDamage:100,criticalPercent:12,chainedHitsRaw:1,range:7,target:4,cutsCorners:false,effects:[{op:'charge',status:'solarbeam',turns:1,skipWeather:'sunny'},{op:'normal-damage',multiplier:2,weatherMultiplier:{hail:.5,rain:.5,sandstorm:.5,otherwise:1}}],aiWeight:15});
 assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-solar-beam').map(([level])=>[id,level])), [['pokemon-001',46],['pokemon-152',50]]);
+assert.deepEqual(data.moves['move-pursuit'], {id:'move-pursuit',name:'Pursuit',type:'dark',power:8,pp:17,accuracyBeforeEffect:125,accuracyAfterDamage:100,criticalPercent:12,chainedHitsRaw:1,range:7,target:3,cutsCorners:false,effects:[{op:'apply-status',status:'counter',recipient:'resolved-target'}],aiWeight:30});
+assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-pursuit').map(([level])=>[id,level])), [['pokemon-252',16]]);
 assert.deepEqual(data.moves['move-thrash'], {id:'move-thrash',name:'Thrash',type:'normal',power:18,pp:12,accuracyBeforeEffect:125,accuracyAfterDamage:78,criticalPercent:12,chainedHitsRaw:3,range:0,target:2,cutsCorners:false,effects:[{op:'choose-random-facing',phase:'before-each-hit'},{op:'normal-damage'}],aiWeight:15});
 assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-thrash').map(([level])=>[id,level])), [['pokemon-104',37]]);
 const expectedSprites = new Set([...data.starterIds, ...data.floors.flatMap(floor => floor.encounters.map(row => row.speciesId)),
@@ -251,7 +254,7 @@ for (const bank of assets.battleEffects.banks) {
     assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
   }
 }
-assert.equal(battleIds.size, 61);
+assert.equal(battleIds.size, 66);
 const routeEffects = new Map();
 for (const moveId of firstAttemptMoves) {
   const route = motionFacts[moveId], required = ['preparation','cast','target','travel'].map(key => route[key]).filter(Boolean);
@@ -262,6 +265,9 @@ assert.deepEqual([...routeEffects.entries()].filter(([,ids]) => ids.includes(222
   'Hypnosis must be the sole first-attempt route using the dedicated background effect');
 assert(!battleIds.has(222), 'Hypnosis background effect 222 must remain outside the indexed EFO banks');
 for (const effectId of [15,37,76,323,423]) assert(battleIds.has(effectId), `Missing first-attempt status helper effect ${effectId}`);
+assert(battleIds.has(321), 'Missing admitted reflect-class effect 321');
+assert(battleIds.has(140), 'Missing proposed Protect effect 140');
+assert(battleIds.has(238), 'Missing proposed Safeguard effect 238');
 for (const effectId of [59,316]) assert(battleIds.has(effectId), `Missing admitted constriction effect ${effectId}`);
 for (const effectId of [221,246,247]) assert(battleIds.has(effectId), `Missing admitted Solar Beam effect ${effectId}`);
 for (const effectId of [394,397,398]) assert(battleIds.has(effectId), `Missing first-attempt stat effect ${effectId}`);
@@ -274,13 +280,19 @@ await verifiedBytes(hypnosis.modulePath, hypnosis.moduleBytes, hypnosis.moduleSh
 battleDecodedBytes += hypnosis.width * hypnosis.height * 4;
 assert(battleDecodedBytes <= assets.battleEffects.maxDecodedBytes, 'Battle effects exceed the aggregate decoded budget');
 const battleSourceManifest = JSON.parse(await readFile(new URL('../art/blue/native-battle-sources.json', import.meta.url), 'utf8'));
-assert.equal(battleSourceManifest.files.length, 116);
+assert.equal(battleSourceManifest.files.length, 125);
 for (const sourcePath of sine.sourcePaths) assert(battleSourceManifest.files.some(record => record.path === sourcePath && /^[0-9a-f]{64}$/.test(record.sha256)), `Missing pinned sine owner: ${sourcePath}`);
 assert(assets.battleEffects.banks.every(bank => bank.sourceManifestSha256 === assets.nativeMotions.sourceManifestSha256));
 const battleArchiveBytes = await readFile(new URL(`../art/blue/${battleSourceManifest.archive.path}`, import.meta.url));
 assert.equal(battleArchiveBytes.length, battleSourceManifest.archive.bytes);
 assert.equal(createHash('sha256').update(battleArchiveBytes).digest('hex'), battleSourceManifest.archive.sha256);
 const battleSources = readTarGzip(battleArchiveBytes), effectData = battleSources.get('src/effect_data.c')?.toString();
+const pursuitPalette=battleSources.get('data/effects/efob006.pal');
+assert(pursuitPalette&&pursuitPalette.length===194&&createHash('sha256').update(pursuitPalette).digest('hex')==='e914426642db070758846e130be2290840b3cab8eca64e20e072e8a5bf6e52a2');
+const pursuitRgb=pursuitPalette.toString().trim().split(/\r?\n/).slice(3).map(row=>row.split(/\s+/).map(Number).map(value=>{const five=Math.floor(value*31/256);return(five<<3)|(five>>3);}));
+assert.equal(createHash('sha256').update(JSON.stringify(pursuitRgb)).digest('hex'),'4a7017c17b31a18948604bcc37e206ce92114f23b38b2b2adbf3787435d4ee0c','Pursuit parsed RGB palette changed');
+const effectFormatSource=await readFile(new URL('../art/blue/native-effect-format.mjs',import.meta.url),'utf8');
+assert(effectFormatSource.includes("flags!==0&&!(file.id===6&&sourceAnimation===0&&flags===1)"),'Only efob006 animation zero may admit source flag one');
 const moveConstants = battleSources.get('include/constants/move_id.h')?.toString();
 assert(effectData && moveConstants, 'Pinned native move routes are absent');
 const sourceMoveIds = new Map([...moveConstants.matchAll(/^#define (MOVE_\w+) (0x[0-9A-Fa-f]+|\d+)/gm)].map(match => [Number(match[2]),match[1]]));
@@ -321,14 +333,55 @@ assert(presentationSource.includes("record.moveId!=='move-solar-beam'"), 'Solar 
 const appSource = await readFile(path.join(root, 'src/blue/app.js'), 'utf8');
 assert(appSource.includes("cue.sound==='se768'||cue.sound==='se784'||cue.sound==='se785'"));
 assert(appSource.includes('if(solarSounds++<2)'), 'Solar Beam must retain its two-receipt result bound');
+assert(presentationSource.includes("id===321)sound('se853',start)"), 'Effect 321 must own one se853 request at handle creation');
+assert(appSource.includes("cue.sound==='se853'"));
+const pcmFacts=JSON.parse(await readFile(new URL('../audio/blue-pcm-effects.json',import.meta.url),'utf8'));
+const counterCue=pcmFacts.cues.find(cue=>cue.sequence===853);
+assert.deepEqual(counterCue&&{id:counterCue.id,player:counterCue.player,bank:counterCue.bank,fineTick:counterCue.fineTick,notes:counterCue.notes},
+  {id:'effect-counter',player:'SE5',bank:26,fineTick:45,notes:[
+    {tick:0,gate:42,key:42,velocity:88,voice:16},{tick:0,gate:42,key:63,velocity:88,voice:16}
+  ]},'Pinned Counter cue route changed');
+assert.deepEqual(pcmFacts.voices['026:16'],{bank:26,wave:110,envelope:[255,249,0,0]});
+assert(pcmFacts.sources.some(source=>source.path==='sound/songs/seq_853.s'&&source.sha256==='e1a4e8c2f81051c9d54c34c27ad870b6e597adadcdd8c68c8ed94171bda089cb'));
+const protectCue=pcmFacts.cues.find(cue=>cue.sequence===708);
+assert(protectCue&&protectCue.id==='effect-protect'&&protectCue.player==='SE5'&&protectCue.bank===26&&protectCue.fineTick===178&&protectCue.notes.length===12);
+assert.deepEqual(pcmFacts.voices['026:4'],{bank:26,wave:99,envelope:[255,249,0,0]});
+assert(pcmFacts.sources.some(source=>source.path==='sound/songs/seq_708.s'&&source.sha256==='1dd00c00bc07cdf3b0f1557ce768b8348220037360bbc56134c11fc32830886a'));
+const safeguardCue=pcmFacts.cues.find(cue=>cue.sequence===776);
+assert.deepEqual(safeguardCue&&{id:safeguardCue.id,player:safeguardCue.player,bank:safeguardCue.bank,fineTick:safeguardCue.fineTick,notes:safeguardCue.notes},
+  {id:'effect-safeguard',player:'SE5',bank:26,fineTick:72,notes:[
+    {tick:2,gate:4,key:37,velocity:127,voice:34},{tick:6,gate:66,key:33,velocity:127,voice:34},{tick:6,gate:66,key:34,velocity:127,voice:34}
+  ]},'Pinned Safeguard cue route changed');
+assert.deepEqual(pcmFacts.voices['026:34'],{bank:26,wave:125,envelope:[255,249,0,0]});
+const safeguardSample=pcmFacts.samples.find(sample=>sample.id===125);
+assert(safeguardSample&&safeguardSample.status===0&&safeguardSample.sampleCount===17648&&safeguardSample.literalBytes===17648&&safeguardSample.interpolationGuardBytes===0&&safeguardSample.float32Bytes===70592);
+assert(pcmFacts.sources.some(source=>source.path==='sound/songs/seq_776.s'&&source.sha256==='666f4c704cbea66afe91e55af1f6c4b86a261be9e9e7181c02803e7d123bd143'));
+assert(pcmFacts.sources.some(source=>source.path==='sound/wave/wave_125.s'&&source.sha256==='eecafcf2b7f14a7603f865d0f5f110eb179120257ec22d90473be994e23d4f4c'));
+const audioSource=await readFile(path.join(root,'src/blue/audio.js'),'utf8');
+const audioTypesSource=await readFile(path.join(root,'src/blue/audio-types.js'),'utf8');
+assert(audioSource.includes("se853: 'effect-counter'"));assert(audioTypesSource.includes("|'se853'"));
 if (assets.statusAtlas) {
   await verifiedPng('assets/blue', assets.statusAtlas);
   const metadata = await verifiedMetadata(assets.statusAtlas);
-  assert.equal(metadata.schemaVersion, 1); assert.equal(metadata.records.length, 9);
+  // Parse the loader's curated factual table without importing game code.
+  // Each generated strip must match what the browser will actually admit.
+  const statusAst = acorn.parse(await readFile(path.join(root,'src/blue/render-status.js'),'utf8'),{ecmaVersion:'latest',sourceType:'module'});
+  const expectedNode = statusAst.body.filter(node=>node.type==='VariableDeclaration').flatMap(node=>node.declarations).find(node=>node.id.type==='Identifier'&&node.id.name==='EXPECTED')?.init;
+  assert.equal(expectedNode?.type,'CallExpression');
+  const expectedObject=expectedNode.arguments[0];assert.equal(expectedObject?.type,'ObjectExpression');
+  const expected = Object.fromEntries(expectedObject.properties.map(property=>{
+    assert.equal(property.type,'Property');assert.equal(property.value.type,'ArrayExpression');
+    const id=property.key.type==='Identifier'?property.key.name:property.key.value;
+    const values=property.value.elements.map(element=>{assert.equal(element?.type,'Literal');assert(Number.isInteger(element.value));return element.value;});
+    assert.equal(typeof id,'string');assert.equal(values.length,5);return [id,values];
+  }));
+  assert.equal(metadata.schemaVersion, 1); assert.equal(metadata.records.length, Object.keys(expected).length);
+  assert.equal(metadata.width,256);assert.equal(metadata.height,metadata.records.length*16);
   assert.equal(metadata.selectionFrames, 61); assert.equal(metadata.animationFrameTicks, 4);
   const ids = new Set();
   for (const record of metadata.records) {
     assert(!ids.has(record.id)); ids.add(record.id);
+    assert.deepEqual([record.bit,record.width,record.frames,record.phase,record.xShift],expected[record.id],`Status loader disagrees with generated artwork: ${record.id}`);
     assert(integer(record.width, 8, 32) && record.height === 16 && integer(record.frames, 1, 16));
     assert(integer(record.bit, 0, 27) && integer(record.phase, 0, 3));
     assert(record.x >= 0 && record.y >= 0 && record.x + record.width * record.frames <= metadata.width && record.y + record.height <= metadata.height);

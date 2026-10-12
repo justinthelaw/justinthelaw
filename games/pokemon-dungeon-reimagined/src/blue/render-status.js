@@ -1,7 +1,7 @@
 /** Native Rescue Team status symbols. Rendering consumes only local artwork
  * and the caller's pause-aware clock; it never changes gameplay or its RNG. */
 const ROOT=new URL('../../assets/blue/',import.meta.url);
-const WIDTH=256,HEIGHT=144,SELECTION_FRAMES=61,ANIMATION_TICKS=4;
+const WIDTH=256,SELECTION_FRAMES=61,ANIMATION_TICKS=4;
 const JSON_LIMIT=16*1024,PNG_LIMIT=256*1024;
 
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
@@ -20,17 +20,21 @@ const EXPECTED=Object.freeze({
   confusion:[4,32,4,1,0],
   whiffer:[17,16,9,1,0],
   reflect:[8,16,13,2,0],
+  'light-screen':[10,16,13,2,0],
+  protect:[11,16,13,2,0],
+  safeguard:[9,16,13,2,0],
   'focus-energy':[19,16,13,2,0],
   'low-hp':[13,8,8,1,0],
   'stat-down':[27,16,10,2,0],
 });
 const BITS=Object.values(EXPECTED).map(record=>record[0]).sort((a,b)=>a-b);
+const HEIGHT=BITS.length*16;
 
 /** @param {unknown} value @returns {StatusMetadata} */
 function metadata(value){
   if(!value||typeof value!=='object')throw Error('Status artwork metadata is missing.');
   const data=/** @type {StatusMetadata} */(value);
-  if(data.schemaVersion!==1||data.width!==WIDTH||data.height!==HEIGHT||data.selectionFrames!==SELECTION_FRAMES||data.animationFrameTicks!==ANIMATION_TICKS||!Array.isArray(data.records)||data.records.length!==9)throw Error('Unsupported native status artwork.');
+  if(data.schemaVersion!==1||data.width!==WIDTH||data.height!==HEIGHT||data.selectionFrames!==SELECTION_FRAMES||data.animationFrameTicks!==ANIMATION_TICKS||!Array.isArray(data.records)||data.records.length!==BITS.length)throw Error('Unsupported native status artwork.');
   const ids=new Set(),bits=new Set();
   /** @type {StatusRecord[]} */const validated=[];
   for(const record of data.records){
@@ -87,7 +91,8 @@ function statusMask(actor,hp=actor.hp){
   if(actor.status.poison)mask|=1<<2;
   if(actor.status.confusion)mask|=1<<4;
   if(actor.status.whiffer)mask|=1<<17;
-  if(actor.status.reflect)mask|=1<<8;
+  if(actor.status.reflect||actor.status.counter)mask|=1<<8;
+  if(actor.status.lightScreen)mask|=1<<10;
   if(actor.status.focusEnergy)mask|=1<<19;
   if((actor.id==='hero'||actor.id==='partner')&&hp<Math.floor(actor.maxHp/4))mask|=1<<13;
   if(Object.values(actor.stages).some(stage=>stage<10))mask|=1<<27;

@@ -10,7 +10,7 @@ const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 export async function exportNativeStatuses({emit,output}){
   const sourceBytes=await readFile(new URL('native-status/sources.json',import.meta.url));
   const source=JSON.parse(sourceBytes),native=JSON.parse(await readFile(new URL('native-sources.json',import.meta.url)));
-  if(source.schemaVersion!==1||source.records.length!==9||source.selectionFrames!==61||source.animationFrameTicks!==4)throw Error('Invalid status source inventory.');
+  if(source.schemaVersion!==1||source.records.length!==12||source.selectionFrames!==61||source.animationFrameTicks!==4)throw Error('Invalid status source inventory.');
   const archive=await readFile(new URL(native.spriteSource.archive.path,import.meta.url));
   if(digest(archive)!==native.spriteSource.archive.sha256)throw Error('Native palette source archive changed.');
   const files=readTarGzip(archive),atlas=new Raster(256,source.records.length*16),records=[];

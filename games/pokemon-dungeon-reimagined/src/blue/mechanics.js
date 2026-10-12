@@ -7,7 +7,7 @@ import { cameraSight } from './mechanics-visibility.js';
 import { dropItem, ITEM_NAMES, moneyPile } from './mechanics-items.js';
 import { captureActor } from './battle-events.js';
 import { DEFAULT_IQ, IQ_SKILLS, TACTICS, hasIq, tacticFor, considersLineMove, considersLineTarget, canTalk, talkToPartner } from './mechanics-policy.js';
-import { attack, damage, beginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, supportsMove, chargeOpportunity, clearCharge, STATUS_KEYS, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
+import { attack, damage, beginTurn, finishBeginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, resumeExperience, supportsMove, chargeOpportunity, clearCharge, STATUS_KEYS, REFLECT_CLASS_STATUSES, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
 import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, targetSight, message, moveActor, nextStep, open, pickup, recordAction, recordCamera, recordSync, team, wakeInitialSleep, wakeNearbyWild, DIRECTIONS, VECTORS } from './mechanics-common.js';
 
 export { resetSecondaryGates } from './mechanics-combat.js';
@@ -21,6 +21,7 @@ export { resetSecondaryGates } from './mechanics-combat.js';
 /** @typedef {import('./mechanics-types.js').GameEvent} GameEvent */
 /** @typedef {import('./mechanics-types.js').Point} Point */
 /** @typedef {import('./mechanics-types.js').HeldItem} HeldItem */
+/** @typedef {{experience:import('./mechanics-types.js').LearningExperience,moveTail?:'clear-charge'}} CombatPause */
 
 const DATA_URL = new URL('../../content/blue-opening.json', import.meta.url);
 const WIDTH=56, HEIGHT=32;
@@ -67,7 +68,7 @@ export function createDungeon(options,data) {
 function generateFloor(state,data,events) {
   const floor=data.floors[state.floor-1];if(!floor)throw new Error('Tiny Woods ends after B3F.');
   if(floor.number!==state.floor||!isTinyWoodsParameters(floor.generation,state.floor))throw new Error('Unsupported Tiny Woods floor profile.');
-  clearQueuedMovement(state);resetSecondaryGates(state);
+  clearQueuedMovement(state);resetSecondaryGates(state);delete state.pendingExperience;delete state.learningContinuation;
   state.rng=beginDungeonFloor(state.rng);
   const rng=new Draws(state.rng);let geometry=buildLayout(floor.generation,rng);
   for(let attempt=0;attempt<12;attempt++) {
@@ -162,6 +163,7 @@ function throwGroundPoke(state,item,data,events){
     endpoint=next;target=actorAt(state,next.x,next.y);if(target){stop='target';break;}
   }
   events.push({type:'presentation',presentation:{kind:'poke-flight',from:Object.freeze(origin),to:Object.freeze(visualEndpoint)}});
+  let paused=null;
   try{
     if(stop==='outside'){message(state,events,'The item flew out of reach.');return;}
     if(target){
@@ -178,7 +180,7 @@ function throwGroundPoke(state,item,data,events){
         events.push({type:'presentation',presentation:{kind:'poke-impact',target:captureActor(target)}});
         // A successful uncaught hit consumes the whole pile. Preserve prior
         // experienceMarked/usedMove: giving EXP does not mark an item as a move.
-        damage(state,target,1,data,events,actor,{cause:'item',giveExp:true});return;
+        const experience=damage(state,target,1,data,events,actor,{cause:'item',giveExp:true});paused=experience?{experience}:null;return paused;
       }
       message(state,events,`${item.amount} Poké missed ${target.name}.`);
     }
@@ -187,7 +189,7 @@ function throwGroundPoke(state,item,data,events){
     });
     recordSync(state,events,[],true);
   }finally{
-    events.push({type:'presentation',presentation:{kind:'poke-end',actor:captureActor(actor)}});
+    events.push({type:'presentation',presentation:{kind:paused?'poke-pause':'poke-end',actor:captureActor(actor)}});
   }
 }
 /** Ordinary Tiny Woods berry projectile: all sixteen original starters can
@@ -222,9 +224,10 @@ function throwBerry(state,actor,item,events){
   // A miss stops at its first actor instead of passing through.
   dropItem(state,item,endpoint,events,item.id);recordSync(state,events,[],true);
 }
-/** @param {DungeonState} state @param {Actor} actor @param {OpeningData} data @param {GameEvent[]} events */
+/** @param {DungeonState} state @param {Actor} actor @param {OpeningData} data @param {GameEvent[]} events @returns {boolean|CombatPause|undefined} */
 function actAI(state,actor,data,events) {
   const eventStart=events.length,chargedAtStart=actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined;
+  let paused=null;
   try {
     if(actor.useHeldItem){
       actor.useHeldItem=false;
@@ -238,12 +241,12 @@ function actAI(state,actor,data,events) {
     const travelFirst=hasIq(actor,'dedicated-traveler');
     if(travelFirst&&(tryAiMovement(state,actor,target,events)||actor.status.confusion))return;
     const closedNoFoe=!target&&canChooseWithoutVisibleFoe(actor);
-    if((target||closedNoFoe||actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined)&&tryAiAttack(state,actor,target,data,events))return;
+    if(target||closedNoFoe||actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined){const result=tryAiAttack(state,actor,target,data,events);if(result){if(typeof result==='object')paused=result;return result;}}
     if(!travelFirst)tryAiMovement(state,actor,target,events);
   } finally {
     // ExecuteEntityDungeonAction clears every pre-existing Skull Bash charge
     // after the selected action. A charge created by this action survives.
-    if(chargedAtStart)clearCharge(actor);
+    if(chargedAtStart&&!paused)clearCharge(actor);
     if(!events.slice(eventStart).some(event=>event.presentation?.kind==='action'&&event.presentation.actorId===actor.id))recordAction(events,actor.id,'wait');
     recordSync(state,events,[actor]);
   }
@@ -290,12 +293,14 @@ function aiRegularDirection(state,actor){
  * and consumes a target-choice draw even when there is only one candidate.
  * Opening team actors lack Status Checker; Tiny Woods wild actors have it.
  * @type {ReadonlySet<string>} */
-const AI_SELF_MOVE_IDS=new Set(['move-solar-beam']);
+const AI_SELF_MOVE_IDS=new Set(['move-solar-beam','move-protect']);
+// Safeguard's source AI tuple is room enemies (0x30); its actual effect is allies (0x31).
+const AI_ROOM_INTENT_MOVE_IDS=new Set(['move-safeguard']);
 const AI_ADJACENT_MOVE_IDS=new Set(['move-ember','move-hypnosis','move-leech-seed','move-mud-slap','move-sand-attack','move-smokescreen','move-water-gun']);
 /** Native AI tuple zero uses adjacent enemy targeting even when the player
  * range later applies Focus Energy, Rage or Withdraw to the user.
  * @type {ReadonlySet<string>} */
-const AI_FRONT_MOVE_IDS=new Set(['move-tackle','move-vine-whip','move-scratch','move-tail-whip','move-thunder-shock','move-thunder-wave','move-bite','move-leer','move-pound','move-absorb','move-focus-energy','move-rage','move-withdraw','move-skull-bash','move-fire-spin','move-whirlpool']);
+const AI_FRONT_MOVE_IDS=new Set(['move-tackle','move-vine-whip','move-scratch','move-tail-whip','move-thunder-shock','move-thunder-wave','move-bite','move-leer','move-pound','move-absorb','move-focus-energy','move-rage','move-withdraw','move-skull-bash','move-fire-spin','move-whirlpool','move-pursuit','move-light-screen']);
 /** @type {ReadonlySet<string>} */
 const AI_TWO_TILE_MOVE_IDS=new Set(['move-growl','move-quick-attack']);
 /** @type {ReadonlySet<string>} */
@@ -307,7 +312,7 @@ const AI_LINE_MOVE_IDS=new Set(['move-bubble','move-razor-leaf']);
  * @param {Actor} actor */
 function canChooseWithoutVisibleFoe(actor){
   if(hasIq(actor,'dedicated-traveler'))return false;
-  return actor.moves.filter(move=>move.enabled).every(move=>AI_SELF_MOVE_IDS.has(move.id)||AI_ADJACENT_MOVE_IDS.has(move.id)||AI_FRONT_MOVE_IDS.has(move.id)||AI_TWO_TILE_MOVE_IDS.has(move.id)||AI_LINE_MOVE_IDS.has(move.id));
+  return actor.moves.filter(move=>move.enabled).every(move=>AI_SELF_MOVE_IDS.has(move.id)||AI_ADJACENT_MOVE_IDS.has(move.id)||AI_FRONT_MOVE_IDS.has(move.id)||AI_TWO_TILE_MOVE_IDS.has(move.id)||AI_LINE_MOVE_IDS.has(move.id)||AI_ROOM_INTENT_MOVE_IDS.has(move.id));
 }
 /** @type {readonly import('./mechanics-types.js').Direction[]} */
 const AI_NATIVE_DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
@@ -377,6 +382,12 @@ function aiLineMoveTarget(state,actor){
   }
   return candidates.length?candidates[draw(state,candidates.length)]:undefined;
 }
+/** Native AI room-enemy intent only needs one eligible visible opponent;
+ * the actual 0x31 move later resolves its separate ally-room recipients.
+ * @param {DungeonState} state @param {Actor} actor */
+function aiRoomIntentHasTarget(state,actor){
+  return actors(state).some(candidate=>team(candidate)!==team(actor)&&inSight(state,actor,candidate));
+}
 /** @param {DungeonState} state @param {Actor} actor @param {Actor|undefined} target @param {OpeningData} data @param {GameEvent[]} events */
 function tryAiAttack(state,actor,target,data,events){
   const initialDirection=actor.direction;
@@ -385,17 +396,17 @@ function tryAiAttack(state,actor,target,data,events){
   const regularDirection=aiRegularDirection(state,actor);
   if(actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined){
     // The common chooser gates precede exact stored-slot forcing.
-    attack(state,actor,actor.skullBashSlot??actor.solarBeamSlot??null,data,events);return true;
+    return attack(state,actor,actor.skullBashSlot??actor.solarBeamSlot??null,data,events)??true;
   }
   if(target)actor.direction=directionFor(target.x-actor.x,target.y-actor.y);
   const struggle=data.moves['move-struggle'];
   const exhausted=actor.moves.every(m=>m.pp===0);
-  if(exhausted&&struggle&&moveTargets(state,actor,struggle).some(a=>team(a)!==team(actor))){attack(state,actor,'struggle',data,events);return true;}
+  if(exhausted&&struggle&&moveTargets(state,actor,struggle).some(a=>team(a)!==team(actor)))return attack(state,actor,'struggle',data,events)??true;
   // Default party IQ has no PP Checker and may select an exhausted slot.
   // Wild Tiny Woods profiles do have it, along with Status Checker.
-  const eligible=exhausted?[]:actor.moves.map((m,slot)=>({m,slot,data:data.moves[m.id]})).filter(x=>x.data&&supportsMove(x.data)&&x.m.enabled&&(team(actor)||x.m.pp>0)&&(AI_SELF_MOVE_IDS.has(x.m.id)||AI_ADJACENT_MOVE_IDS.has(x.m.id)||AI_FRONT_MOVE_IDS.has(x.m.id)||AI_TWO_TILE_MOVE_IDS.has(x.m.id)||AI_LINE_MOVE_IDS.has(x.m.id)||(target&&((x.data.range===5||x.data.range===8)?considersLineMove(state,actor,target,x.data):moveTargets(state,actor,x.data).some(a=>team(a)!==team(actor)||x.data?.range===7&&distance(actor,target)<=2)))));
+  const eligible=exhausted?[]:actor.moves.map((m,slot)=>({m,slot,data:data.moves[m.id]})).filter(x=>x.data&&supportsMove(x.data)&&x.m.enabled&&(team(actor)||x.m.pp>0)&&(AI_SELF_MOVE_IDS.has(x.m.id)||AI_ADJACENT_MOVE_IDS.has(x.m.id)||AI_FRONT_MOVE_IDS.has(x.m.id)||AI_TWO_TILE_MOVE_IDS.has(x.m.id)||AI_LINE_MOVE_IDS.has(x.m.id)||AI_ROOM_INTENT_MOVE_IDS.has(x.m.id)||(target&&((x.data.range===5||x.data.range===8)?considersLineMove(state,actor,target,x.data):moveTargets(state,actor,x.data).some(a=>team(a)!==team(actor)||x.data?.range===7&&distance(actor,target)<=2)))));
   const regular=data.moves['regular-attack'],regularEligible=!hasIq(actor,'exclusive-move-user')&&!!regular;
-  const useRegular=()=>{if(!regularEligible||!regularDirection)return false;actor.direction=regularDirection;attack(state,actor,null,data,events);return true;};
+  const useRegular=()=>{if(!regularEligible||!regularDirection)return false;actor.direction=regularDirection;return attack(state,actor,null,data,events)??true;};
   let total=!exhausted&&regularEligible?([100,20,30,40,50][actor.moves.filter(m=>m.enabled).length]??50):0;
   for(const candidate of eligible)total+=candidate.data?.aiWeight??0;
   if(total<=0)return false;
@@ -406,6 +417,10 @@ function tryAiAttack(state,actor,target,data,events){
     selected-=candidate.data?.aiWeight??0;
     if(selected<=0){
       if(AI_SELF_MOVE_IDS.has(candidate.m.id)){actor.direction=initialDirection;draw(state,1);}
+      if(AI_ROOM_INTENT_MOVE_IDS.has(candidate.m.id)){
+        if(!aiRoomIntentHasTarget(state,actor))return useRegular();
+        actor.direction=initialDirection;draw(state,1);
+      }
       if(AI_ADJACENT_MOVE_IDS.has(candidate.m.id)){
         const moveTarget=aiAdjacentMoveTarget(state,actor,candidate.m.id);
         if(!moveTarget)return useRegular();
@@ -426,7 +441,7 @@ function tryAiAttack(state,actor,target,data,events){
         if(!moveTarget)return useRegular();
         actor.direction=directionFor(moveTarget.x-actor.x,moveTarget.y-actor.y);
       }
-      attack(state,actor,candidate.slot,data,events);return true;
+      return attack(state,actor,candidate.slot,data,events)??true;
     }
   }
   return useRegular();
@@ -517,11 +532,15 @@ function canSwapOpening(actor,target){return team(target)&&actor.constrictionTur
  * gSpeedTurns gives stage one every base beat, stage zero every second beat.
  * @param {DungeonState} state @param {Actor} actor */
 function scheduledOnBeat(state,actor){return !(actor.status.slow||actor.status.paralysis)||(state.baseBeat??0)%2===0;}
+/** @param {DungeonState} state @param {import('./mechanics-types.js').LearningOwner} owner @param {import('./mechanics-types.js').LearningExperience} experience @param {Partial<import('./mechanics-types.js').LearningContinuation>} [tail] */
+function pauseLearning(state,owner,experience,tail={}){state.learningContinuation={version:1,owner,experience,...tail};}
+/** @param {DungeonState} state @returns {Actor[]} */
+function scheduledActors(state){return [state.partner,...state.enemies];}
 /** Pure admission for app/input ownership, including a restored prepared save.
  * Forced classes are checked AFTER upkeep, never from their old timer values.
  * @param {DungeonState} state @returns {import('./mechanics-types.js').DungeonTurnPhase} */
 export function getDungeonTurnPhase(state){
-  if(state.status==='rescued'||state.status==='defeated'||state.hero.hp<=0||state.pendingLearning.length)return 'blocked';
+  if(state.status==='rescued'||state.status==='defeated'||state.hero.hp<=0||state.pendingLearning.length||state.learningContinuation)return 'blocked';
   if(!state.leaderPrepared)return 'unprepared';
   return state.hero.status.sleep||state.hero.status.infatuated||state.hero.status.bide||(state.hero.skullBashSlot!==undefined||state.hero.solarBeamSlot!==undefined)?'forced':'input';
 }
@@ -539,10 +558,12 @@ export function prepareDungeonTurn(state,data){
     state.baseBeat=((state.baseBeat??state.floorTurn%36)+1)%36;state.leaderPrepared=false;
     if(state.baseBeat===0)spawnEnemy(state,data,null,events);
     if(!scheduledOnBeat(state,state.hero)){
-      advanceOtherActors(state,data,events);finishBaseBeat(state,events);updateVisibility(state);
+      if(!advanceOtherActors(state,data,events)){finishBaseBeat(state,events);updateVisibility(state);}
       return {phase:getDungeonTurnPhase(state)==='blocked'?'blocked':'advanced',changed:true,consumedTurn:true,events,status:state.status};
     }
-    state.leaderPrepared=true;beginTurn(state,state.hero,data,events);chargeOpportunity(state,state.hero,events);updateVisibility(state);
+    state.leaderPrepared=true;const begun=beginTurn(state,state.hero,data,events);
+    if(typeof begun==='object'){pauseLearning(state,'leader-prepared',begun.experience);return {phase:'blocked',changed:true,consumedTurn:false,events,status:state.status};}
+    chargeOpportunity(state,state.hero,events);updateVisibility(state);
     const ready=getDungeonTurnPhase(state);
     if(ready==='input'||ready==='forced')recordCamera(events,state.hero,'input');
     return {phase:ready==='unprepared'?'blocked':ready,changed:true,consumedTurn:false,events,status:state.status};
@@ -557,27 +578,33 @@ export function completeForcedTurn(state,data){
   /** @type {GameEvent[]} */const events=[];
   try {
     if(getDungeonTurnPhase(state)!=='forced')return {consumedTurn:false,events,status:state.status};
-    state.turn++;state.floorTurn++;const charge=chargeOpportunity(state,state.hero,events);if(charge&&typeof charge==='object')attack(state,state.hero,charge.slot,data,events);else {recordAction(events,state.hero.id,'wait');if(charge==='preserve'){clearCharge(state.hero);recordSync(state,events,[state.hero]);}}finishLeaderTurn(state,data,events);
+    state.turn++;state.floorTurn++;const charge=chargeOpportunity(state,state.hero,events);let paused;
+    if(charge&&typeof charge==='object')paused=attack(state,state.hero,charge.slot,data,events);else {recordAction(events,state.hero.id,'wait');if(charge==='preserve'){clearCharge(state.hero);recordSync(state,events,[state.hero]);}}
+    if(paused){pauseLearning(state,'leader-after-action',paused.experience,paused.moveTail?{moveTail:paused.moveTail}:{});}else finishLeaderTurn(state,data,events);
     return {consumedTurn:true,events,status:state.status};
   } finally {
     flushQueuedMovement(state,events);
   }
 }
 /** @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events */
-function advanceOtherActors(state,data,events){
-  for(const actor of [state.partner,...state.enemies]){
+function advanceOtherActors(state,data,events,startIndex=0){
+  const roster=scheduledActors(state);
+  for(let actorIndex=startIndex;actorIndex<roster.length;actorIndex++){
+    const actor=roster[actorIndex];if(!actor)continue;
     if(defeated(state))break;if(actor.hp<=0||!scheduledOnBeat(state,actor))continue;
     // A swapped teammate's scheduled opportunity is already spent. Native
     // clears that flag without a second upkeep/end-effect pass.
     if(actor.skipAction){actor.skipAction=false;continue;}
     const canAct=beginTurn(state,actor,data,events);
+    if(typeof canAct==='object'){pauseLearning(state,'actor-before-ai',canAct.experience,{actorId:actor.id,actorIndex,nextActorIndex:actorIndex+1});return true;}
     if(!canAct&&actor.useHeldItem){actor.useHeldItem=false;message(state,events,`${actor.name} could not use the held item.`);}
     // RunMonsterAI's early blockers select Pass Turn. The later universal
     // action-execution gate then clears a two-turn charge via CannotAttack.
-    if(canAct&&!defeated(state))actAI(state,actor,data,events);
+    if(canAct&&!defeated(state)){const paused=actAI(state,actor,data,events);if(paused&&typeof paused==='object'){pauseLearning(state,'actor-after-action',paused.experience,{actorId:actor.id,actorIndex,nextActorIndex:actorIndex+1,...(paused.moveTail?{moveTail:paused.moveTail}:{})});return true;}}
     else {recordAction(events,actor.id,'wait');if(actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined){clearCharge(actor);recordSync(state,events,[actor]);}}
-    finishTurn(state,actor,data,events);
+    const finished=finishTurn(state,actor,data,events);if(finished){pauseLearning(state,'actor-after-finish',finished.experience,{actorId:actor.id,actorIndex,nextActorIndex:actorIndex+1});return true;}
   }
+  return false;
 }
 /** @param {DungeonState} state @param {GameEvent[]} events */
 function finishBaseBeat(state,events){
@@ -595,16 +622,71 @@ function finishBaseBeat(state,events){
  * executing the leader's turn and retains its next-scheduled-slot skip flag.
  * @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events @param {Actor|null} [swappedActor] */
 function finishLeaderTurn(state,data,events,swappedActor=null){
-  state.leaderPrepared=false;finishTurn(state,state.hero,data,events);
+  state.leaderPrepared=false;const finished=finishTurn(state,state.hero,data,events);
+  if(finished){pauseLearning(state,'leader-after-finish',finished.experience);return true;}
+  return finishLeaderTail(state,data,events,swappedActor);
+}
+/** @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events @param {Actor|null} [swappedActor] */
+function finishLeaderTail(state,data,events,swappedActor=null){
   if(!defeated(state)){
     if([751,851,951].includes(state.floorTurn)||state.floorTurn>=1000)recordCamera(events,state.hero,'leader');
     if(state.floorTurn===751)message(state,events,'Something is approaching...');
     if(state.floorTurn===851)message(state,events,'Something is getting closer!');
     if(state.floorTurn===951)message(state,events,'It is right nearby!');
-    if(state.floorTurn>=1000){state.status='defeated';message(state,events,'A mysterious force carried the team out of the dungeon.');}
+    if(state.floorTurn>=1000){delete state.pendingExperience;delete state.learningContinuation;state.status='defeated';message(state,events,'A mysterious force carried the team out of the dungeon.');}
   }
-  if(swappedActor&&!defeated(state))finishTurn(state,swappedActor,data,events);
-  advanceOtherActors(state,data,events);finishBaseBeat(state,events);updateVisibility(state);
+  if(swappedActor&&!defeated(state)){
+    const finished=finishTurn(state,swappedActor,data,events);
+    if(finished){pauseLearning(state,'actor-after-finish',finished.experience,{actorId:swappedActor.id,actorIndex:0,nextActorIndex:0});return true;}
+  }
+  if(advanceOtherActors(state,data,events))return true;
+  finishBaseBeat(state,events);updateVisibility(state);return false;
+}
+
+/** Resume only work after an accepted learning choice. The caller presents
+ * this bounded result before asking settlement to inspect the next choice.
+ * @param {DungeonState} state @param {OpeningData} data @returns {ActionResult} */
+export function resumeDungeonContinuation(state,data){
+  /** @type {GameEvent[]} */const events=[];
+  try{
+    const continuation=state.learningContinuation;
+    if(!continuation||state.pendingLearning.length)return {consumedTurn:false,events,status:state.status};
+    const experience=resumeExperience(state,continuation.experience,data,events);
+    if(experience){continuation.experience=experience;return {consumedTurn:false,events,status:state.status};}
+    delete state.learningContinuation;
+    if(continuation.owner==='leader-prepared'){
+      finishBeginTurn(state,state.hero,events);chargeOpportunity(state,state.hero,events);updateVisibility(state);
+      const phase=getDungeonTurnPhase(state);if(phase==='input'||phase==='forced')recordCamera(events,state.hero,'input');
+      return {consumedTurn:false,events,status:state.status};
+    }
+    if(continuation.owner==='leader-after-action'){
+      if(continuation.moveTail==='clear-charge'){clearCharge(state.hero);recordSync(state,events,[state.hero]);}
+      // finish-poke has no second presentation receipt; poke-pause already
+      // retired its same-result pose before the learning menu.
+      finishLeaderTurn(state,data,events);return {consumedTurn:false,events,status:state.status};
+    }
+    if(continuation.owner==='leader-after-finish'){
+      finishLeaderTail(state,data,events);return {consumedTurn:false,events,status:state.status};
+    }
+    const roster=scheduledActors(state),actor=roster[continuation.actorIndex??-1];
+    if(!actor||actor.id!==continuation.actorId)throw new RangeError('Learning continuation actor changed.');
+    if(continuation.owner==='actor-before-ai'){
+      const canAct=finishBeginTurn(state,actor,events);
+      if(!canAct&&actor.useHeldItem){actor.useHeldItem=false;message(state,events,`${actor.name} could not use the held item.`);}
+      if(canAct&&!defeated(state)){
+        const paused=actAI(state,actor,data,events);
+        if(paused&&typeof paused==='object'){pauseLearning(state,'actor-after-action',paused.experience,{actorId:actor.id,actorIndex:continuation.actorIndex,nextActorIndex:continuation.nextActorIndex,...(paused.moveTail?{moveTail:paused.moveTail}:{})});return {consumedTurn:false,events,status:state.status};}
+      }else {recordAction(events,actor.id,'wait');if(actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined){clearCharge(actor);recordSync(state,events,[actor]);}}
+    }else if(continuation.owner==='actor-after-action'&&continuation.moveTail==='clear-charge'){
+      clearCharge(actor);recordSync(state,events,[actor]);
+    }
+    if(continuation.owner!=='actor-after-finish'){
+      const finished=finishTurn(state,actor,data,events);
+      if(finished){pauseLearning(state,'actor-after-finish',finished.experience,{actorId:actor.id,actorIndex:continuation.actorIndex,nextActorIndex:continuation.nextActorIndex});return {consumedTurn:false,events,status:state.status};}
+    }
+    if(!advanceOtherActors(state,data,events,continuation.nextActorIndex??0)){finishBaseBeat(state,events);updateVisibility(state);}
+    return {consumedTurn:false,events,status:state.status};
+  }finally{flushQueuedMovement(state,events);}
 }
 /** Menus/facing consume no dungeon time. Invalid commands do not consume RNG or
  * allow foes to act. Accepted actions form a single bounded synchronous turn.
@@ -627,7 +709,7 @@ export function performAction(state,action,data) {
     if(action.type==='cancelStairs'){state.status='playing';return result(false);}
     if(action.type==='stairs'){
       if(state.hero.x!==state.stairs.x||state.hero.y!==state.stairs.y)return result(false);
-      if(state.floor===3){state.status='rescued';events.push({type:'rescue'});return result(false);}state.floor++;generateFloor(state,data,events);return result(false);
+      if(state.floor===3){delete state.pendingExperience;delete state.learningContinuation;state.status='rescued';events.push({type:'rescue'});return result(false);}state.floor++;generateFloor(state,data,events);return result(false);
     }
     if(action.type==='move'||action.type==='face'){
       if(!Number.isInteger(action.dx)||!Number.isInteger(action.dy)||Math.abs(action.dx)>1||Math.abs(action.dy)>1||action.dx===0&&action.dy===0)return result(false);
@@ -653,7 +735,7 @@ export function performAction(state,action,data) {
     // without leaving its input loop: no arrival, upkeep or other actor acts.
     if(fieldTalk){events.push({type:'talk',actorId:'partner',text:talkToPartner(state,true,false)});return result(false);}
     state.status='playing';state.turn++;state.floorTurn++;
-    /** @type {Actor|null} */let swappedActor=null;
+    /** @type {Actor|null} */let swappedActor=null;let paused=null;
     if(!defeated(state)){
       if(action.type==='move'){
         const old={x:state.hero.x,y:state.hero.y};let dx=action.dx,dy=action.dy;
@@ -674,17 +756,24 @@ export function performAction(state,action,data) {
           else pickup(state,state.hero,events,true);
         }
         }
-      }else if(action.type==='attack'||action.type==='regularAttack')attack(state,state.hero,null,data,events);
-      else if(action.type==='struggle')attack(state,state.hero,'struggle',data,events);
-      else if(action.type==='moveSlot')attack(state,state.hero,action.slot,data,events);
+      }else if(action.type==='attack'||action.type==='regularAttack')paused=attack(state,state.hero,null,data,events)??null;
+      else if(action.type==='struggle')paused=attack(state,state.hero,'struggle',data,events)??null;
+      else if(action.type==='moveSlot')paused=attack(state,state.hero,action.slot,data,events)??null;
       else if(action.type==='eatGround'&&ground){eat(state,state.hero,ground,events);state.items=state.items.filter(i=>i.id!==ground.id);recordSync(state,events,[],true);}
       else if(action.type==='eatHeld'&&state.hero.heldItem){eat(state,state.hero,state.hero.heldItem,events);state.hero.heldItem=null;recordSync(state,events,[state.hero]);}
       else if(action.type==='usePartnerItem'){recordAction(events,state.hero.id,'other',state.hero);state.partner.useHeldItem=true;recordSync(state,events,[state.partner]);}
-      else if(action.type==='throwGround'&&ground){if(ground.kind==='poke')throwGroundPoke(state,ground,data,events);else throwGroundBerry(state,ground,events);}
+      else if(action.type==='throwGround'&&ground){if(ground.kind==='poke')paused=throwGroundPoke(state,ground,data,events)??null;else throwGroundBerry(state,ground,events);}
       else if(action.type==='pickup')pickup(state,state.hero,events);
     }
     if(action.type==='wait'||action.type==='move'&&!events.some(event=>event.type==='move'&&event.actorId===state.hero.id))recordAction(events,state.hero.id,'wait');
-    finishLeaderTurn(state,data,events,swappedActor);return result(true);
+    if(paused){
+      /** @type {Partial<import('./mechanics-types.js').LearningContinuation>} */
+      const tail={};
+      if(action.type==='throwGround')tail.itemTail='finish-poke';
+      else if('moveTail' in paused&&paused.moveTail==='clear-charge')tail.moveTail='clear-charge';
+      pauseLearning(state,'leader-after-action',paused.experience,tail);
+    }
+    else finishLeaderTurn(state,data,events,swappedActor);return result(true);
   } finally {
     flushQueuedMovement(state,events);
   }
@@ -698,7 +787,7 @@ export function setShortcut(state,slot) { if(!Number.isInteger(slot)||!state.her
 /** Failure keeps earned EXP and levels. The initial level-five boost is never
  * repeated. The retry resumes Butterfree's still-unfinished rescue.
  * @param {DungeonState} state @param {OpeningData} data */
-export function retryDungeon(state,data) { if(state.status!=='defeated')return;state.floor=1;state.money=0;state.pendingLearning=[];for(const actor of [state.hero,state.partner]){actor.hp=actor.maxHp;actor.belly=100;actor.heldItem=null;for(const move of actor.moves)move.pp=move.maxPp;}generateFloor(state,data,[]); }
+export function retryDungeon(state,data) { if(state.status!=='defeated')return;state.floor=1;state.money=0;state.pendingLearning=[];delete state.learningContinuation;for(const actor of [state.hero,state.partner]){actor.hp=actor.maxHp;actor.belly=100;actor.heldItem=null;for(const move of actor.moves)move.pp=move.maxPp;}generateFloor(state,data,[]); }
 
 /** Strict bounded admission at persistence boundaries, never on a frame/draw.
  * It rejects old campaign envelopes and malformed coordinates/identities.
@@ -710,9 +799,12 @@ export function validateDungeon(value,data) {
   const finite=/** @param {unknown} n @param {number} lo @param {number} hi */(n,lo,hi)=>typeof n==='number'&&Number.isFinite(n)&&n>=lo&&n<=hi;
   const exactKeys=/** @param {object} object @param {string} keys */(object,keys)=>Object.keys(object).sort().join(',')===keys.split(',').sort().join(',');
   const stateKeys='version,floor,width,height,tiles,roomIds,explored,visible,rooms,stairs,hero,partner,enemies,items,money,turn,floorTurn,log,status,rng,waterSport,nextId,pendingLearning,tutorials,fidelityNotes';
-  const hasBeat=Object.hasOwn(s,'baseBeat'),hasPrepared=Object.hasOwn(s,'leaderPrepared'),hasMudSport=Object.hasOwn(s,'mudSport');
-  const optionalStateKeys=[...(hasBeat?['baseBeat','leaderPrepared']:[]),...(hasMudSport?['mudSport']:[])];
+  const hasBeat=Object.hasOwn(s,'baseBeat'),hasPrepared=Object.hasOwn(s,'leaderPrepared'),hasMudSport=Object.hasOwn(s,'mudSport'),hasPendingExperience=Object.hasOwn(s,'pendingExperience'),hasContinuation=Object.hasOwn(s,'learningContinuation');
+  const optionalStateKeys=[...(hasBeat?['baseBeat','leaderPrepared']:[]),...(hasMudSport?['mudSport']:[]),...(hasPendingExperience?['pendingExperience']:[]),...(hasContinuation?['learningContinuation']:[])];
   if(hasBeat!==hasPrepared||!exactKeys(s,[stateKeys,...optionalStateKeys].join(','))||hasBeat&&(!integer(s.baseBeat,0,35)||typeof s.leaderPrepared!=='boolean'))return false;
+  // The only producer runs after leaderPrepared is cleared. The next actor's
+  // begin owner consumes this record before input or a learning continuation.
+  if(hasPendingExperience&&(s.leaderPrepared||hasContinuation||!['playing','stairs'].includes(s.status)||!s.pendingExperience||!exactKeys(s.pendingExperience,'hero,partner')||!integer(s.pendingExperience.hero,0,9999999)||!integer(s.pendingExperience.partner,0,9999999)||s.pendingExperience.hero===0&&s.pendingExperience.partner===0))return false;
   if(s.version!==1||s.width!==WIDTH||s.height!==HEIGHT||!integer(s.floor,1,3)||!['playing','stairs','rescued','defeated'].includes(s.status)||!integer(s.turn,0,10000000)||!integer(s.floorTurn,0,1000)||!integer(s.money,0,9999999)||!integer(s.nextId,1,10000000)||hasMudSport&&!integer(s.mudSport,0,128)||!integer(s.waterSport,0,128))return false;
   const size=WIDTH*HEIGHT;
   if(!Array.isArray(s.tiles)||s.tiles.length!==size||s.tiles.some(n=>n!==0&&n!==1)||!Array.isArray(s.roomIds)||s.roomIds.length!==size||s.roomIds.some(n=>!integer(n,-1,63)))return false;
@@ -747,7 +839,7 @@ export function validateDungeon(value,data) {
     const learned=new Set(p.learnset.filter(([level])=>level<=a.level).map(([,id])=>id));
     const expected=[...p.baseStats];for(const row of p.growth.slice(0,a.level))for(let i=0;i<5;i++)expected[i]=Math.min(i===0?999:255,(expected[i]??0)+(row[i+1]??0));
     if([a.stats.hp,a.stats.attack,a.stats.specialAttack,a.stats.defense,a.stats.specialDefense].some((n,i)=>n!==expected[i]))return false;
-    if(!a.status||typeof a.status!=='object'||Array.isArray(a.status)||Object.keys(a.status).length>STATUS_KEYS.length||!Object.entries(a.status).every(([k,n])=>statusKeys.has(k)&&integer(n,0,128)))return false;
+    if(!a.status||typeof a.status!=='object'||Array.isArray(a.status)||Object.keys(a.status).length>STATUS_KEYS.length||!Object.entries(a.status).every(([k,n])=>statusKeys.has(k)&&integer(n,0,128))||REFLECT_CLASS_STATUSES.filter(key=>!!a.status[key]).length>1||a.status.counter&&(a.speciesId!=='pokemon-252'||a.level<16)||a.status.lightScreen&&!((a.speciesId==='pokemon-025'&&a.level>=50)||(a.speciesId==='pokemon-152'&&a.level>=36))||a.status.protect&&!((a.speciesId==='pokemon-007'&&a.level>=28)||(a.speciesId==='pokemon-258'&&a.level>=37)))return false;
     if(!a.periodic||Object.keys(a.periodic).sort().join(',')!=='burn,leechSeed,poison'||!Object.values(a.periodic).every(n=>integer(n,0,20)))return false;
     if(!a.stages||Object.keys(a.stages).sort().join(',')!=='accuracy,attack,defense,evasion,specialAttack,specialDefense'||!Object.values(a.stages).every(n=>integer(n,0,20)))return false;
     if(Object.hasOwn(a,'skullBashSlot')&&(!Array.isArray(a.moves)||a.hp<=0||!!a.status?.bide||!!a.status?.enraged||!integer(a.skullBashSlot,0,3)||a.moves[/** @type {number} */(a.skullBashSlot)]?.id!=='move-skull-bash'))return false;
@@ -762,6 +854,25 @@ export function validateDungeon(value,data) {
     const actor=r.actorId==='hero'?s.hero:s.partner;
     return !data.species[actor.speciesId]?.learnset.some(([level,id])=>id===r.moveId&&level<=actor.level)||actor.moves.some(move=>move.id===r.moveId);
   }))return false;
+  if(hasContinuation){
+    const continuation=s.learningContinuation;
+    if(!hasBeat||!continuation||typeof continuation!=='object'||Array.isArray(continuation)||continuation.version!==1||!['playing','stairs'].includes(s.status)||s.pendingLearning.length>1)return false;
+    const owner=continuation.owner,leader=['leader-prepared','leader-after-action','leader-after-finish'].includes(owner),other=['actor-before-ai','actor-after-action','actor-after-finish'].includes(owner);
+    const preparedOwner=owner==='leader-prepared'||owner==='leader-after-action';if(s.leaderPrepared!==preparedOwner)return false;
+    if(!leader&&!other||!continuation.experience||!exactKeys(continuation.experience,'recipientIndex,remainingAwards')||!integer(continuation.experience.recipientIndex,0,1)||!continuation.experience.remainingAwards||!exactKeys(continuation.experience.remainingAwards,'hero,partner')||!integer(continuation.experience.remainingAwards.hero,0,9999999)||!integer(continuation.experience.remainingAwards.partner,0,9999999))return false;
+    const currentId=continuation.experience.recipientIndex===0?'hero':'partner';if(continuation.experience.remainingAwards[currentId]!==0||continuation.experience.recipientIndex===1&&continuation.experience.remainingAwards.hero!==0||s.pendingLearning.length===1&&s.pendingLearning[0]?.actorId!==currentId)return false;
+    const optional=['moveTail','itemTail','actorId','actorIndex','nextActorIndex'].filter(key=>Object.hasOwn(continuation,key));
+    if(!exactKeys(continuation,['version','owner','experience',...optional].join(','))||Object.hasOwn(continuation,'moveTail')&&continuation.moveTail!=='clear-charge'||Object.hasOwn(continuation,'itemTail')&&continuation.itemTail!=='finish-poke'||Object.hasOwn(continuation,'moveTail')&&Object.hasOwn(continuation,'itemTail'))return false;
+    if(leader){
+      if(s.hero.hp<=0||optional.some(key=>['actorId','actorIndex','nextActorIndex'].includes(key))||owner!=='leader-after-action'&&(Object.hasOwn(continuation,'moveTail')||Object.hasOwn(continuation,'itemTail')))return false;
+    }else{
+      const roster=[s.partner,...s.enemies],actorIndex=continuation.actorIndex,nextActorIndex=continuation.nextActorIndex;
+      const continuationActor=roster[/** @type {number} */(actorIndex)];
+      if(typeof continuation.actorId!=='string'||!integer(actorIndex,0,roster.length-1)||!integer(nextActorIndex,0,roster.length)||!continuationActor||continuationActor.id!==continuation.actorId||continuationActor.hp<=0||Object.hasOwn(continuation,'itemTail')||owner!=='actor-after-action'&&Object.hasOwn(continuation,'moveTail'))return false;
+      const swappedTail=owner==='actor-after-finish'&&continuation.actorIndex===0&&continuation.nextActorIndex===0&&continuation.actorId==='partner'&&s.partner.skipAction;
+      if(!swappedTail&&nextActorIndex!==/** @type {number} */(actorIndex)+1)return false;
+    }
+  }
   try{validateRandomState(s.rng);}catch{return false;}
   const route=nextStep(s,s.hero,s.stairs);if(s.hero.x!==s.stairs.x||s.hero.y!==s.stairs.y){if(!route){const openRoute={...s,enemies:[],partner:{...s.partner,hp:0}};if(!nextStep(openRoute,s.hero,s.stairs))return false;}}
   return true;

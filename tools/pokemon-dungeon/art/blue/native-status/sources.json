@@ -117,6 +117,36 @@
       "xShift": 0
     },
     {
+      "id": "light-screen",
+      "sourcePath": "graphics/status/shield.png",
+      "path": "shield.png",
+      "bytes": 531,
+      "sha256": "3f44ee1c760a30a189bb33e22c314ce9ef0ba8cfecd141dd12835f8de5c93e34",
+      "width": 16,
+      "height": 208,
+      "frameHeight": 16,
+      "frames": 13,
+      "palette": 3,
+      "bit": 10,
+      "phase": 2,
+      "xShift": 0
+    },
+    {
+      "id": "protect",
+      "sourcePath": "graphics/status/shield.png",
+      "path": "shield.png",
+      "bytes": 531,
+      "sha256": "3f44ee1c760a30a189bb33e22c314ce9ef0ba8cfecd141dd12835f8de5c93e34",
+      "width": 16,
+      "height": 208,
+      "frameHeight": 16,
+      "frames": 13,
+      "palette": 10,
+      "bit": 11,
+      "phase": 2,
+      "xShift": 0
+    },
+    {
       "id": "focus-energy",
       "sourcePath": "graphics/status/sword.png",
       "path": "sword.png",
@@ -158,6 +188,21 @@
       "frames": 10,
       "palette": 3,
       "bit": 27,
+      "phase": 2,
+      "xShift": 0
+    },
+    {
+      "id": "safeguard",
+      "sourcePath": "graphics/status/shield.png",
+      "path": "shield.png",
+      "bytes": 531,
+      "sha256": "3f44ee1c760a30a189bb33e22c314ce9ef0ba8cfecd141dd12835f8de5c93e34",
+      "width": 16,
+      "height": 208,
+      "frameHeight": 16,
+      "frames": 13,
+      "palette": 4,
+      "bit": 9,
       "phase": 2,
       "xShift": 0
     }

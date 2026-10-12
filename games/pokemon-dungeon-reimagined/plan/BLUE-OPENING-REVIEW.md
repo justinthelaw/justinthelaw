@@ -1,347 +1,151 @@
 # Blue Rescue Team opening review
 
-## Review boundary
+## Scope and readiness
 
-This branch adapts the original Blue Rescue Team opening through Caterpie's
-Tiny Woods rescue for PR #397. It includes title and save menus, personality
-quiz, partner and hero naming, the awakening and Butterfree request, three
-playable dungeon floors, rescue and reunion scenes, rewards, Adventure Log,
-loss/retry and completed-save Continue.
+PR #397 implements the original Blue Rescue Team opening through Caterpie's
+Tiny Woods rescue: title/save menus, personality quiz, partner and hero naming,
+awakening, Butterfree's request, three dungeon floors, reunion, three berry
+rewards, Adventure Log, loss/retry and completed-save Continue. Town, team
+formation, later dungeons and the historical Three.js runtime are excluded from
+the website export. Existing save namespaces and journal safeguards remain.
 
-The selected website export excludes later chapters, the historical Three.js
-runtime, plans and art studies. Historical source and saves remain recoverable.
-This document describes the current review candidate and its qualifications; it
-does not claim perfect cartridge replication or production deployment.
+The PR remains draft. The opening has completed manual browser runs, but exact
+cartridge parity and the current local changes' full release checks are not
+complete. Background music is intentionally absent at Justin's request;
+gameplay and UI effects remain. No production deployment is claimed.
 
-## Current candidate 31
+## Current local candidate 39
 
-Candidate 31 contains **151 files totaling 2,983,801 bytes**, below the
-unchanged 3 MiB distribution cap. All resources remain local. It retains the
-reviewed Continue progress card, shared dungeon-menu clock, level-37 Cubone
-Thrash and the source-matching Bide release direction.
+The distribution contains **151 local files / 2,997,009 bytes**, below the
+unchanged 3 MiB cap. Its **66 battle effects in three banks** occupy 2,553,856
+decoded bytes; including the separately owned Hypnosis background, effect memory
+is **2,607,104 bytes**, below 4 MiB. The PCM catalog contains **28 cues, 20
+buffers, 494,812 decoded bytes, 124 notes and 80 pinned source records**. Audio
+groups 5 and 6 retain limits of 15 and 5 sources, with a shared ceiling of 32.
 
-Candidate 31 fixes the reviewed Quicksave failure path. A failed verified write
-keeps the current dungeon and confirmation open, preserves the storage warning,
-and restores the prior save kind. A successful write returns to the title once,
-without a second unchecked commit. The menu's redundant title adapter is removed;
-ordinary completed/loss-screen title returns retain their existing save attempt.
-This change preserves the journal schema and ownership checks. Independent source
-review covers success, storage failure, stale receipts and legacy metadata;
-manual save-failure reproduction remains pending explicit test-save approval.
+Changes held locally after published `6dc8466262bd475c865c441478364934ca7edd16`:
 
-Candidate 30 removes ten unreachable ability checks, including two duration
-modifiers, saving 676 runtime bytes. None of the 20
-admitted battle species has the corresponding abilities. Restored-save role
-validation and species-derived ability lookup preserve that boundary after
-retries. Reachable type immunities, abilities, messages and RNG ordering remain
-unchanged; no save key or admitted gameplay behavior is removed.
+- [Safeguard](../../../tools/pokemon-dungeon/reference/blue-safeguard.md) adds
+  Chikorita's level-43 room protection, shared-class duration and per-status
+  guards, with its red shield, effect 238 and sequence 776. When all enabled
+  moves have represented no-foe resolvers, its AI keeps the normal opportunity
+  draw without a visible foe and checks targets afterward.
+- Lossless indexed PNG encoding saves 74,848 bytes across 46 images. All 49
+  shipped PNGs preserve exact dimensions and decoded RGBA pixels, independently
+  checked with two decoders. Runtime loaders and decoded-memory caps are unchanged.
+- [Protect](../../../tools/pokemon-dungeon/reference/blue-protect.md) now covers
+  Squirtle at level 28 and Mudkip at level 37. It retains the self-accuracy draw,
+  shared defensive-status class, expiry, blocked regular attacks and charged
+  releases, effect 140, its green shield and sequence 708. A typed guarded-target
+  result preserves target effects, failure sound, text and marker order without
+  rolling accuracy; its bounded sound path leaves global voice limits unchanged.
+- A saved move-learning continuation pauses at a four-move replacement choice
+  before later actors run. Six bounded scheduler stages resume the remaining
+  EXP recipient and actor work without replaying upkeep, actions or RNG draws.
+  Legacy queued choices remain valid. A damaging money throw retires its pose
+  within its original result; Continue never replays its visual cleanup.
 
-Candidate 29 adds the retained Solar Beam charge/release path, its three
-artwork records and three source-qualified sound cues. The runtime loader and
-static inventory check now agree on every bank's exact IDs, order and file path,
-including the two nonblocking effects. Six unreachable Freeze branches are
-removed; no admitted status or save key is lost. Candidate 27's Bubble LFO
-correction, shared sound 605 and cinematic cleanup remain in this build.
+- A fresh browser launch exposed a stale 144-pixel status-atlas height after
+  Light Screen added a tenth row. Atlas height and count now derive from the
+  curated symbol table; a static AST check compares that table to exported
+  artwork. Browser revalidation reached the title menu, fresh quiz, character naming
+  and awakening on frozen candidate 36; the longer run remains active.
+- A successful verified save deletion clears its stale warning. Failure and
+  stale-write safeguards are unchanged; testing has not deleted a browser save.
+- The website's Mobile Safari animation test scrolls the stable card ancestor
+  instead of its moving SVG body. Both animation assertions remain intact.
+- Treecko's level-16 [Pursuit](../../../tools/pokemon-dungeon/reference/blue-counter.md)
+  implements the Counter stance and physical rebound. EXP from an acting wild
+  fainting to Counter waits until the next eligible actor's beginning upkeep
+  finishes, before AI/input. The optional pending award survives active
+  playing/stairs saves and clears on defeat, rescue, floor change and retry.
+- Pikachu's level-50 and Chikorita's level-36
+  [Light Screen](../../../tools/pokemon-dungeon/reference/blue-light-screen.md)
+  share status application with Reflect and Counter. This removes redundant
+  Counter plumbing and corrects Reflect's effect drain and duplicate/expiry
+  messages. The defense effect follows ability announcements and precedes
+  accuracy 2; Light Screen waits while Reflect continues with it visible.
+- Beginning-of-opportunity timers use native status-class order, so simultaneous
+  expiry messages no longer depend on property insertion order. The same 16
+  saved status keys, indefinite timers, RNG behavior and separate Bide/Rage
+  end-of-turn handling remain. This adds no missing expiry messages.
 
-The native battle presentation contains **61 distinct indexed effects in three
-banks**. Lossless sparse layer partitioning reduces their decoded atlases to
-2,033,664 bytes. Including the separately owned 53,248-byte Hypnosis background,
-aggregate decoded effect memory is **2,086,912 bytes**, leaving 2,107,392 bytes
-below the unchanged 4 MiB limit. All 58 prior effects retain exact reconstructed
-pixels, timing, geometry, depth and attachment routes; effects 221, 246 and 247
-add Solar Beam.
+The retained runtime also includes source-qualified charge/release handling,
+move chains, constriction, actor targeting, status and item effects, first-entry
+and retry counters, Continue progress cards, shared play time and save-journal
+migration. Detailed rules and qualifications belong to the owning references
+below. The unsupported retry inventory is **7 move IDs across 8 learnset rows**;
+those choices remain visibly unavailable without consuming a turn or PP.
 
-A conservative first-attempt bound allows at most 2,310 additional EXP and
-covers 30 distinct starting, wild and level 6–12 moves. Every nonzero native
-preparation, cast, target and travel route for those moves is admitted, along
-with the reachable stat and status helper effects. Hypnosis effect 222 remains
-a dedicated background resource. Static review also proves from pinned
-`effect_data.c` that Attract is the only first-attempt route using native sine
-wobble.
+## Validation and publication
 
-The consolidated authoring archive retains 116 pinned source files. It preserves
-all 96 entries from the two earlier battle archives byte for byte and adds the
-source owners for admitted EFO groups and native sine. The generated 1,024-entry
-quarter-wave table and four-quadrant wrapper contain no `Math.sin`
-approximation.
+| Evidence | Result and boundary |
+| --- | --- |
+| Local candidate 39 | Pinned Node 24.21.0 full static suite passed: syntax, lint, strict types, factual/provenance inputs, lossless PNG round trips, assets and distribution closure. Full pre-commit checks passed. |
+| Audio sources | PCM and SE2 exporter checks passed against pinned comparative source. This does not establish Blue waveform/driver identity or physical sound output. |
+| Published `6dc8466` | Game Static Checks, lint and CodeQL passed. Playwright failed in Mobile Safari while waiting for the moving SVG to stabilize; the local stable-ancestor repair above has not run in hosted CI. |
+| Requested Codex review of `6dc8466` | Exact-head response reported no new findings. Four older unresolved threads remain: audio focus, music documentation, inclusive AI weighting and Quicksave. Source review supports the inclusive weighting; the other three have published fixes. Thread resolution is pending authorization. |
+| Retained Pages artifact at `58929350e955171a10fe1f6bb6337bcb94b329cf` | All 151 declared runtime files, project-site base paths and iframe integration were verified. It predates the current local candidate; no `6dc8466` Pages artifact is available. |
 
-The current controller follows source-qualified fixed target capture, travel,
-attachment recurrence, invisible-cell phase progression and empty-target
-behavior. The four source-proven no-bitmap status helpers publish their result
-and icon snapshot without draining an unrelated cast tail. These are static source claims until a
-specific route is manually exercised.
+The full local website flight check and publication are blocked. The required
+pre-push app ESLint check could not run because root dependencies are absent;
+the normal pinned installation returned Socket Security Policy E403 for recently
+published packages. An approved dependency installation or policy exception is
+pending. No dependency versions, security policy, hooks or checks were weakened.
+The website repair has syntax-only local validation until those dependencies
+are available.
 
-The current PCM catalog has **23 cues, 18 buffers, 392,816 decoded bytes,
-104 notes and 73 pinned source records**. Numeric groups 5 and 6 retain their
-separate replacement/tail behavior, eager-source limits of 15 and 5, and shared
-32-source ceiling. The finite SE2 catalog includes menu, attack, pickup, miss,
-Tail Whip and defense-down cues without additional decoded PCM buffers.
+No game or native module was executed by automated checks, and no automated
+playthrough was added. Manual browser observations and static source evidence
+are separate. The latest Counter, Light Screen, Protect, Safeguard and timer-order changes have not
+been manually exercised. Candidate 37 also reached its normal Start game screen in a separate loader
+smoke check with no browser warnings/errors. No adventure was created in that
+check, and its tab/server were closed. The new move-learning continuation has
+independent static review; its
+replacement-menu and resumed-turn behavior still need manual verification.
 
-Bubble's corrected LFO follows the native unwrapped sum, signed-byte modulation
-and arithmetic shift. Sound 605 uses bank 028 voice 9, full wave 095 and ten
-notes ending by frame 45. The existing two-request move bucket covers all three
-effect-6 owners; carrying an effect or continuing a save cannot replay it.
-Blue waveform identity, global phase, channel competition, resampling, mixing,
-collapsed batches and physical audition remain qualified in
-[audio evidence](../../../tools/pokemon-dungeon/reference/blue-audio.md).
-Background music remains absent at the owner's request.
+## Manual browser evidence
 
-Held B+A preserves modifier priority and requires nonzero integer Belly; plain
-A remains edge-triggered. Duplicate Sleep consumes the source duration draw and
-entry effect without replacing its timer. Duplicate Whiffer consumes its draw
-without replaying the helper or replacing the old timer. These source claims and
-prior bounded browser observations retain their detailed evidence below.
+Later edits do not expand what an earlier run proved. The table retains the
+most relevant release evidence; full earlier observations and limitations remain
+in the review history and local ledgers.
 
-Candidate 24 admits Squirtle's exact level-40 Skull Bash row. The first use
-spends PP once, records the charge and exact slot, and grants the effective
-physical Defense bonus; release uses the source-qualified second-turn route.
-Save validation, floor/faint/status/slot replacement and leader/autonomous
-action cleanup own the stored phase. Initial autonomous use follows the tuple-
-zero adjacent scan and fallback. This removes one factual late move from the
-unsupported inventory. Candidate 26 additionally admits Cubone's exact
-level-37 Thrash row: three fixed passes each perform the blocker check, draw a
-new native-order facing and scan a fresh target, including an empty later pass;
-Thrash does not add Outrage's post-move confusion. Candidate 29 adds the two
-retained Solar Beam rows with a saved first-turn charge and current-front
-second-turn release. **11 move IDs across 14 learnset rows remain unsupported.**
-
-Candidate 28 additionally admits the retained Fire Spin and Whirlpool rows as one
-constriction class. Successful nonzero damage reaches the common 10% secondary
-gate. The admitted browser state has no Freeze producer or save key; fresh application stores the
-move-specific effect identity and a source-qualified timer, while duplicate
-application does not refresh it. The actor cannot walk or swap; residual effect
-59/316 replays with fixed five-point damage every second opportunity. Heal Bell,
-Rapid Spin, floor creation, fainting and timer expiry own atomic cleanup. This is
-static source-backed coverage; no new browser route was manually exercised.
-
-Candidate 29 adds comparative effects 221/247/246 and sounds 768/785/784.
-Visible effect creation owns each receipt: fresh charge emits 768; release emits
-785, waits the ordinary 24-frame preparation interval, then emits 784 when its
-travel becomes visible. The opening party admits at most one Solar Beam learner,
-so the private Solar bucket is two receipts per result and does not consume the
-existing move-owned bucket. The 23-cue catalog has 18 samples and 104 notes;
-group 5 remains 15, group 6 remains 5 and the shared cap remains 32. Artificially
-collapsed timing within six frames of two detached 605 tails can reject 784;
-the ordinary route's 24-frame interval clears those tails. Candidate 28's prior
-rescue and combat evidence remains prior evidence. Candidate 29's bounded
-loading/combat check is recorded below; Solar Beam and physical audio remain
-unexercised.
-
-For autonomous actors, paralysis or cringe now rejects attack selection before
-weights or RNG and falls through to the existing movement owner. The bounded
-confusion leaf keeps item selection first, applies the comparative 70% chooser
-gate before charge/weights, randomizes admitted attack facing at execution, and
-uses native direction order for nonleader confused walking. Confused item use,
-leader walking, unsupported no-foe resolvers and exact Blue RNG-stream identity
-remain outside this contract. Candidate 26's Bide release now retains its
-existing facing instead of consuming an invented confused-direction draw, as
-the native end-turn release does not enter the action-table confusion helper.
-This is latent saved-state and future-producer correctness: the current opening
-cannot normally create a confused Bide user, and downstream RNG identity is not
-claimed.
-
-The Continue payload version is now 2 and requires exactly the three metadata
-keys; payload v1 remains readable only without them. First write promotes a
-legacy adventure with null time/count and unknown kind. This makes cached older
-readers reject the newer checksum-valid payload, while exact journal receipts
-block an already-open older writer after promotion. The two-slot journal,
-handled marker, untouched v1 migration source and older campaign keys retain
-their owners. Play time uses the existing eligible foreground RAF delta, capped
-at the source `9999:59:59`; Adventures increments only on first Tiny Woods entry
-and fresh retry, never on stairs or Continue.
-
-New adventures use the source-qualified native-family dungeon LCG core and
-fresh-floor preseed progression. Historical xoshiro saves retain their exact
-payload and sequence. The version-two journal isolates current snapshots from
-cached v1 readers, migrates a verified v1 payload without altering its raw
-slots, and retains a handled marker so explicit deletion cannot resurrect v1.
-AI self-status choices that require a foe use their source-qualified adjacency
-gate. Regular attack retains its weighted opportunity before target resolution
-and scans from the actor's captured facing in native direction order. The eight
-first-attempt adjacent corner-cut moves resolve targets only after selection in
-persisted actor-slot order, apply wild Status Checker, and consume the native
-target-choice draw even for one candidate. A failed final admission takes the
-captured regular fallback without a redraw. Candidate 15 extends the same
-post-selection contract to the reachable tuple-zero front/self, two-tile and
-line classes. It keeps native direction or actor-slot candidate order, the
-required target draw even for one candidate, Course Checker boundaries and the
-captured regular fallback. Independent deletion-only review then removed four
-unreachable hero-only AI branches: Attract, Disable, Low Kick and Bone Club.
-The current source retains 13 reachable tuple-zero front/self branches and seven
-reachable adjacent-class branches. Candidate 18 adds the source-qualified no-visible-foe scheduling branch for the
-24 exact supported resolver IDs while preserving ordinary follow, heal and
-stairs behavior. Candidate 17 manually continued Flare/Bud's preserved B1F save
-through no-visible-foe walking/follow/heal, stairs, B2F combat, Quicksave,
-Adventure Log and Continue with empty browser logs. It did not expose the
-unseen two-tile branch or complete a rescue. Candidate 18 adds only actor
-metadata pruning beyond that mechanics after-image. Its post-pruning browser
-continuation restored the same B2F save, rendered Growl, walk/follow and HP
-recovery with current actor metadata, then Quicksaved and continued at 21
-turns with empty logs. This is bounded evidence rather than all-23-actor UI
-coverage or a full-rescue run. The broader native movement/IQ tree remains
-qualified.
-Original Blue seed history, the complete RNG call schedule and cartridge replay remain unproved.
-
-## Static and hosted evidence
-
-Candidate 28's full pinned Node 24.21.0 static suite passed at 151 files and
-2,946,992 bytes. It covers syntax, lint, strict types, factual inputs, provenance,
-asset geometry and export closure without importing or executing game source.
-The PCM and SE2 exporters also passed against the pinned native source checkout.
-Earlier checkpoint counts and detailed logs remain in Git and the local evidence
-ledgers; they do not substitute for a current validation result.
-Candidate 15's
-fresh browser run completed all three floors, rescue, reunion, all three berry
-rewards, Adventure Log at 227 turns, Return to top menu and completed Continue.
-Both party members reached level 6; warning/error logs were empty. Candidate 15's
-deletion-only prune passed the full static suite at 152 files/2,958,889 bytes;
-the completed browser run uses frozen pre-pruning mechanics `120baa72…`.
-Bubble and Water Sport were not cast, and no physical audio was auditioned.
-Candidate 16's focused B1F check observed Bulbasaur Tackle deal 18 damage and
-KO after regular attacks and two Growls. Sound remained enabled; Help paused
-and a trusted Return restored audio ownership; Quicksave, six-turn Adventure
-Log, Continue and controls recovered with no warning/error logs. Only Bulbasaur
-of the nine source-reviewed bindings was cast, and no physical audio was
-auditioned.
-
-Exact published head `b7600228c40b9b1c9e4960c36d37b9f8a83b07a9`
-passed hosted lint, Game Static Checks, Playwright and CodeQL. Its requested
-exact-head Codex review returned a qualifying thumbs-up, and its Pages artifact
-was verified against all 151 declared runtime files totaling 2,803,390 bytes.
-The watcher session was lost and had no remaining holder, so its terminal exit
-is unknown; the individual hosted checks, review and artifact verification are
-recorded independently.
-The earlier `88bf722` evidence remains preserved under
-`tools/pokemon-dungeon/.work/ci-88bf722/`.
-
-Root's full local website lint/build/Playwright flight check remains blocked by
-Socket Security Policy E403 while installing recently published pinned website
-packages. Dependency versions, policy and checks were not weakened. Game
-static/export validation and prior hosted website checks are separate evidence.
-
-## Manual browser acceptance
-
-The table identifies immutable or explicitly recorded checkpoints. A later
-source change does not retroactively expand what an earlier browser run proved.
-
-| Checkpoint | Observed behavior | Qualification |
+| Checkpoint | Observed behavior | Limits |
 | --- | --- | --- |
-| Native opening snapshot | Title, menu, eight-category quiz, conditional follow-up, reload recovery, naming and Psyduck/Charmander selection | Opening only; no dungeon completion |
-| Native completion snapshot | Existing B3F save, Moves menu, final stairs, Caterpie clearing, reunion, three rewards and completed Continue | Frozen earlier runtime; browser log was clean |
-| `c62e846` | Ordinary three-floor rescue, Adventure Log, top-menu return and completed Continue | Published 149-file snapshot; timing/audio qualifications remain |
-| `d040e116…` | Scratch KO, PP/EXP, later rescue continuation and completed-save flow | Immutable published distribution |
-| Candidate 4 / `7b843bc` | Fresh naming and request ordering plus legacy `enter:1` migration, B1F/B2F combat, B3F rescue, reward and completed Continue | Full bounded opening accepted; predates current artwork/controller additions |
-| Candidate 5 | Older Volt/Shell save, both battle banks, selected moves and screenshot download | Bank/save compatibility only; Heal Bell not cast |
-| Candidate 6 | Mud Sport build: B1F Thundershock/EXP/save; independent Psyduck Water Sport cast and ten-turn expiry | Mud Sport was not cast; predates the three-bank candidate |
-| Candidate 7 | Volt/Shell B1F–B3F, combat, shared EXP, level-ups, berry pickup, paralysis, Caterpie reunion and all three rewards; Adventure Log records 234 turns. Separate Machop/Charmander and Bulbasaur/Charmander runs also completed the rescue; the latter recorded 709 turns and all three berries with no browser warnings/errors | No newly learned level-7 move cast; Machop trial did not capture console logs |
-| Candidate 8 | Completed Volt/Shell Continue; older Psyduck/Charmander B1F restored; Water Sport 18/19 to 17/19 with result message and controls returned | Focused post-pruning checks; both browser logs clean |
-| Candidate 9 | Cyndaquil Smokescreen: duplicate Sunkern application, two fresh Wurmple applications, PP 9/10 to 6/10, control recovery and normal Quicksave | Warning/error log empty; no original-audio audition |
-| Candidate 10 / early 11 | Same-path preview holds advanced one turn; inert controls proved both keys and animation frames remained active | Stale preview-module reuse isolated with fresh URLs; no game-defect causality claimed |
-| Candidate 11, fresh module URLs | Held B+A for five seconds advanced 433 to 453 turns; held plain A for five seconds advanced 453 to 454; Quicksave and menus recovered | Browser log clean; standalone input check using unchanged runtime bytes |
-| Candidate 12, migration | Current build migrated the visible 454-turn v1 xoshiro save, advanced and saved 455; the cached `88bf722` build then saved 456 in v1; current reload retained 455 | PASS for namespace isolation; both console logs clean. Corruption, unsupported revisions, quota failure and other interleavings remain static-only |
-| Candidate 12, stale tab | Two current tabs loaded 455; the first saved 456 and the second received the visible changed-data warning; reload retained 456 | PASS for sequential stale-write rejection; not cross-process atomicity or exhaustive interleaving evidence |
-| Candidate 13 | Continued the migrated 456-turn B1F save through B2F/B3F and rescue at 556 turns; Exeggcute selected Hypnosis first for Cyndaquil and then for the awake hero while its partner slept; both recovered, partner reached level 7, berry tutorial, Quicksave/Continue, all rewards and completed Continue passed | PASS for frozen legacy-xoshiro continuation; browser log clean. Leech Seed/PCM 807 was not cast; no hidden RNG-state claim |
-| Candidate 14 | Reproduced the published loss of sound activation after host Show/Hide, then verified the local repair: pointer Show/Hide, host A, Return and Space toggles retained Sound On and continued play; explicit mute remained off; unrelated Back-button focus required a new trusted child click, after which host-control retention worked again | PASS for same-origin host-control focus ownership; browser log clean. OS/window backgrounding was not observed, and no physical audio output was auditioned |
-| Candidate 15 | Fresh Hardy-boy Charmander Ember and Squirtle Shell completed all three floors, rescue/reunion, all three berry rewards, Adventure Log at 227 turns, Return to top menu and completed Continue; both reached level 6; Tail Whip/Tackle, changing adjacent wild targets and Scratch menu use were observed | PASS for the immutable pre-pruning mechanics `120baa72…`; warning/error log empty. No loss/retry, Bubble or Water Sport cast, physical audio audition or original-Blue parity claim |
-| Candidate 16 | Fresh Hardy-boy Charmander Flare/Bulbasaur Bud B1F smoke: six manual waits produced regular hit/miss, two Growls and Bulbasaur Tackle for 18 damage/KO; Sound On, Help pause/trusted recovery, PP/EXP, Quicksave, six-turn Adventure Log and Continue passed | PASS for one bounded Tackle binding and control recovery; warning/error log empty. The other eight bindings remain source-reviewed, no physical audio was auditioned, and candidate 15 remains the separate complete run |
-| Candidate 17 | Continued Flare/Bud from the preserved six-turn B1F save: no-visible-foe walking/follow/heal, stairs, B2F regular attack for 7 damage/KO, 8 EXP for both actors, menus, Quicksave, 17-turn Adventure Log and Continue | PASS for the isolated no-foe mechanics after-image; warning/error log empty. No hidden RNG measurement, unseen two-tile branch, or full rescue claim |
-| Candidate 18 | Restored the same Flare/Bud B2F save at 17 turns with pruned actor metadata; hero Growl animated and consumed PP with no target, then three eastward steps, partner follow, HP recovery, Quicksave, 21-turn Adventure Log and Continue passed | PASS for the current trimmed metadata and bounded continuation; warning/error log empty. No all-23-actor UI coverage, hidden RNG measurement, physical audio audition or full-rescue claim |
+| Candidate 36, active Rook/Bolt run | Fresh quiz, Machop/Pikachu naming, awakening, B1F combat and B2F. Bolt reached level 6 and learned Tail Whip; the move list shows 22/22 PP. Low Kick shortcut, facing controls, Poké pickup tutorial and stairs worked. | Still active; no replacement choice or rescue yet. Its immutable runtime predates Protect, Safeguard and the PNG optimization. |
+| Signed `e8e641dd9e5fbb0a37132beb6e96c9d6ef743d8d` | Fresh website-embedded boot/title, quiz, Squirtle/Treecko creation, all three floors, Caterpie reunion, all three berries and completed Continue. Root independently read the 40-turn Adventure Log; both warning/error logs were empty. | Both partners stayed level 5. No new learned move, physical audio audition or confirmed B2F knockout. |
+| Candidate 29, separate Sprout/Finn save | B1F save restored, B2F reached, two visible Sunkern defeated with Tackle; PP 21/22 to 19/22, final hit 18 damage and 16 EXP each. Help/download/Return worked; warning/error log empty. | No Solar Beam cast, full fresh run or new Quicksave/Continue claim. |
+| `901951e`, Mimi/Shell continuation | Preserved B1F save through all three floors, reunion, rewards, 91-turn Adventure Log and completed Continue; warning/error log empty. | A continuation, not a fresh immutable onboarding-to-rescue run. |
+| Candidate 15, frozen mechanics `120baa72…` | Fresh Charmander/Squirtle run through rescue and completed Continue in 227 turns; both reached level 6; warning/error log empty. | Predates later pruning, mechanics and media changes. |
+| Candidate 12 save checks | Legacy namespace isolation and sequential stale-write rejection were observed through ordinary UI; both logs clean. | No exhaustive interleavings, quota failure or corruption injection. The separate hidden-read trial is excluded from acceptance. |
+| Candidate 25–26 metadata | Fresh entry/retry count increments, completed-location precedence, play time persistence and unchanged count on stairs were observed. | Bounded runs; exact clock exclusion and physical-device acceptance remain unmeasured. |
 
-| Candidate 19 | Fresh website-embedded Hasty-boy Torchic Flint/Pikachu Volt: B1F contact naturally activated Static and paralyzed Wurmple; Thundershock dealt 21 damage/KO, both actors gained 15 EXP, and PP changed 17/17 to 16/17. Sound On, Help pause/trusted recovery, Quicksave, four-turn Adventure Log and Continue passed | PASS for visible result messages, PP and save continuation; warning/error log empty. Frozen 152-file sound snapshot precedes the neutral render prune/comment; no exact effect-frame, audio audition, Disable cast or full-rescue claim |
-| Candidate 20 | Fresh Hasty-girl Skitty Mimi/Squirtle Shell reached B1F; Skitty Tail Whip changed PP 22→21 and lowered Sunkern's Defense, Shell Tackle dealt 19 damage/KO, both gained 16 EXP, then two east moves, Help/Sound, Quicksave at three turns and Continue passed | PASS for one Skitty Tail Whip binding and bounded controls/save; warning/error log empty. Eevee, physical audio, junction movement measurement and a full rescue were not exercised. The run exposed the adapted BFS diagonal detour later addressed by candidate 21 |
+Earlier 390×844 and 844×390 viewport checks showed both 256×192 screens and touch
+controls fitting portrait and landscape. This is browser viewport evidence,
+not physical iOS/Android acceptance. Completed runs' tabs and servers are closed;
+the active candidate 36 trial and its automatic checkpoint remain open. Quicksave
+failure testing remains pending explicit test-save approval.
 
-| Candidate 21 | Restored Mimi/Shell B1F at three turns. Two eastward moves made Shell take the direct southeast/east steps and finish immediately west of Mimi on the same row; HP stayed 30/30, Help/Sound, Quicksave, five-turn Adventure Log and Continue passed | PASS for two legal empty Together direct steps and save recovery; warning/error log empty. Standalone fresh-module continuation; candidate20 supplies the iframe/cast evidence. No blocked-path, hidden junction/RNG, physical audio or full-rescue claim |
-| Candidate 21, full continuation | Continued the preserved five-turn Mimi/Shell B1F save through all three floors, Caterpie clearing, reunion, all three berry rewards, a 91-turn Adventure Log, return to menu and completed Continue; Mimi remained level 5 at 30 HP and Shell reached level 6 at 33 HP | PASS for the current `901951e` runtime from B1F save through completion; warning/error log empty and no failure occurred. This standalone continuation is not one fresh immutable run from SHA onboarding through rescue |
+## Remaining fidelity gaps
 
-| Candidate 22 | Restored Flare/Bud B2F from 21 turns, played 22 ordinary room/corridor movement turns, recovered Flare from 26 to 30 HP, then Quicksave, 43-turn Adventure Log and Continue passed | PASS for bounded movement, following and save recovery; warning/error log empty. No visible wild pursuit occurred, so the new wild direct-step branch remains source-static-qualified rather than manually demonstrated. The downstream browser surface was unavailable; root performed this check |
-
-| Candidate 23 | Restored Psyduck/Charmander from the in-game B1F 12-turn log, descended to B2F and used Tail Whip on adjacent Wurmple: Defense fell and PP22→21. Help/Return, Quicksave, 19-turn Adventure Log and Continue passed | PASS for one Psyduck defense-down route and controls/save recovery; warning/error log empty. No physical audition, all-producer coverage, dedicated sight geometry measurement or full-rescue claim |
-
-| Candidate 24 | Restored Flint/Volt B1F at four turns. With partner moves temporarily disabled and Exclusive Move-User enabled, Sunkern attacked Volt, Static paralyzed it, and the enemy moved after the party withdrew without another attack or recovery message. Restored partner settings, Quicksaved at eight turns and verified Continue, moves and IQ selections | PASS for one naturally paralyzed enemy movement opportunity and save/settings recovery; warning/error log empty. No hidden RNG measurement, cringe/confusion gameplay, level-40 Skull Bash cast/saved charge, physical audio or full-rescue claim |
-| Candidate 25, legacy Continue | Restored the preserved Flint/Volt B1F eight-turn quicksave. The card showed Unknown legacy history; default No plus Z returned to root, X cancelled, and explicit Up held 220 ms plus Z resumed. A new Quicksave selected its specific prompt, which persisted after reload; Help/Sound and the eight-turn Adventure Log remained available | PASS for bounded card visibility, default/cancel/Yes routing, legacy Unknown fallback, reload and controls; warning/error log empty. No fresh metadata accumulation, completed-card, exact Blue geometry/pixels or full-rescue claim |
-| Candidate 25, fresh metadata | Fresh website iframe: Hardy-boy Charmander Cinder/Treecko Fern completed quiz, naming, awakening and Butterfree request through B1F. Reopen during departure showed Before Tiny Woods, `0:02:05`, Adventures 0; No/root/Continue preserved both. First-entry Quicksave showed `0:05:00`, count 1. Give Up/Yes, Try again and Quicksave showed `0:05:52`, count 2; both remained level 5 at 30 HP, Help/Sound and B1F zero-turn Adventure Log worked | PASS for fresh timing persistence, entry/retry increments, zero-turn independence, confirmation/reopen and controls; warning/error log empty. No full rescue, floor-transition count, precise Help-clock exclusion or physical-device claim |
-| Candidate 25, completed legacy save | Restored the preserved Mimi/Shell completed 91-turn save. The card showed `Tiny Woods cleared`, not the retained B3F dungeon location, with Unknown legacy history. Yes resumed the completed Caterpie state; Adventure Log retained all three berries and 91 turns. Return to top menu and Continue retained the cleared location; Help/Sound remained available | PASS for completed-location precedence, completed resume and repeated top-menu Continue; warning/error log empty. This reused an earlier completed save and does not establish a candidate-25 full rescue or fresh completed metadata |
-| Candidate 26 | Restored Cinder/Fern at B1F with Adventures 2. The dungeon menu visibly and accessibly reported Play time from `0:05:54`; one step, Quicksave and Continue retained B1F at one turn, `0:06:51` and count 2. A separate continuation retained those values, showed `0:07:08`, used Help download/Return, descended to B2F without incrementing Adventures, took 9 damage from Pidgey Tackle, then Scratch dealt 17 damage/KO, consumed PP 22→21 and awarded 12 EXP each. Quicksave showed B2F, `0:10:01`, count 2 and a five-turn Adventure Log | PASS for the shared in-dungeon clock presentation, accessibility value, persistence, floor-transition count, bounded combat and controls; warning/error logs empty. Thrash, confused Bide, a full rescue and physical audio were not exercised |
-
-| Candidate 27, fresh creation | Exact pruned build in the website iframe: boot/title/menu, eight-question Docile-boy Bulbasaur outcome, Totodile partner, Sprout/Finn naming and awakening. Help/download/Return worked. Reopening showed Before Tiny Woods, play time `0:13:03`, Adventures 0; No returned to the menu | PASS for fresh creation, naming, checkpoint persistence and controls; warning/error logs empty. No full rescue or precise cinematic timing claim |
-| Candidate 27, downstream continuation | A smaller-model tester continued Cinder/Fern from B2F into B3F, then verified Quicksave and Continue at `0:29:19`, Adventures 2, both level 5 at 30 HP | PASS for bounded traversal and persistence on the frozen pre-prune audio build; rescue was not reached and console logs were not inspected. Its resumed checkpoint subsequently reached `0:29:50` |
-| Candidate 28, rescue continuation | The optimized 58-effect build restored Cinder/Fern B3F at `0:29:50`, Adventures 2 and 30 HP each. Visible corridor movement reached B3F stairs, the separate Caterpie clearing, reunion and all three berry rewards. Adventure Log showed 95 dungeon turns. Completed Continue showed Tiny Woods cleared, `0:42:03`, Adventures 2, and Yes resumed the finished rescue | PASS for the new asset-loader build, B3F-to-rescue continuation, rewards, genuine numeric completed-save metadata, Help/download/Return and controls; warning/error logs empty. No fresh full run, Fire Spin/Whirlpool cast, combat-effect or physical-audio claim |
-| Candidate 29, bounded combat | Restored Sprout/Finn B1F with Tackle 21/22 and Growl 18/20, descended to B2F, defeated two visible Sunkern with Tackle, and verified PP 19/22. The final combat log showed 18 damage and 16 EXP each; Help/download/Return worked | PASS for runtime asset admission, old-save loading, stairs, combat, PP and controls; warning/error log empty. No Solar Beam cast, physical audio, full fresh run or new Quicksave/Continue claim |
-| Candidate 29, fresh rescue | A smaller-model tester completed boot/title, quiz, Squirtle/Treecko creation, all three floors, Caterpie reunion, all three berries and completed Continue in the website iframe. Root independently read the Adventure Log: 40 dungeon turns. Continue showed Tiny Woods cleared, 0:11:58 then 0:12:30, Adventures 1 | PASS for a fresh full run on signed `e8e641d`; both browser warning/error logs empty. Both partners stayed level 5, no new learned move or physical audio was exercised, and a B2F knockout was not confirmed. Candidate 30 changes only proven-unreachable ability branches |
-
-The separate candidate-12 fresh trial is retired as invalid acceptance evidence
-because it used hidden reads. Its preserved partial evidence does not extend the
-manual claims in this table; candidate 15 supplies the valid fresh full run.
-
-Prior portrait, native interface, touch layout, loss/retry, Give Up, item,
-status, PP, EXP and save observations remain in the preserved review history and
-bounded `.work/blue-ready-20261011/` ledgers. The current review should cite a
-specific ledger or checkpoint when relying on one of those observations.
-
-The earlier responsive inspection at 390×844 and 844×390 showed both 256×192
-screens and expanded touch controls fitting portrait and landscape. This is
-browser viewport evidence, not physical iOS or Android acceptance.
-
-## Implemented scope
-
-- All 16 original personality outcomes, source-derived partner exclusions,
-  partner naming and hero naming.
-- Native opening scenery, title elements, windows, font data, portraits, actor
-  sprites, dungeon terrain, HUD, status icons and selected battle effects.
-- Three Tiny Woods floors with selected wild roster, source spawn/wind order,
-  moves and PP, damage, accuracy, critical hits, statuses, held items, IQ and
-  tactics, level/EXP growth, stairs, loss and retry.
-- Input-locked ground transitions for Butterfree's arrival, silent departure to
-  Tiny Woods and the Caterpie clearing approach.
-- Keyboard and touch controls, accessible menu mirrors and Help, interruption
-  ownership, bounded caches, screenshot capture and alternating save journals.
-- Backward admission for reviewed historical opening saves, including naming,
-  request, floor-entry and completed-rescue checkpoints.
-
-## Current limitations
-
-- Dialogue and some sound effects remain authored substitutes. Exact animation,
-  effect, dialogue and sound timing is not established for every route.
-- Background music is intentionally absent at Justin's request from 2026-10-11.
-  This is an explicit scope waiver rather than an unresolved implementation bug.
-- Candidate 18 retains the reviewed front/self, two-tile and line AI targeting
-  and adds the bounded no-visible-foe branch. Candidate 17 supplies focused
-  walking/follow/heal, stairs and B2F continuation evidence; the unseen
-  two-tile branch remains source-only. Native movement/IQ scheduling, original seed history, the complete
-  RNG call order, and Blue binary parity remain qualified. The native-family core and
-  sampled captures do not prove cartridge replay identity.
-- Candidate 13 has a complete legacy-xoshiro continuation through rescue and
-  visible two-recipient Hypnosis selection/recovery evidence. Candidate 14 adds
-  focused host-control audio-activation evidence; true OS/window backgrounding
-  and physical audio output remain unobserved. Leech Seed and
-  PCM 807 were not cast. The separate candidate-12 fresh trial is invalid
-  acceptance evidence because it used hidden reads. Newly admitted
-  first-attempt visual and audio routes are not each manually cast or auditioned.
-- Candidate 16's Tackle 344 admission passed static source, preservation,
-  lifetime and cap checks plus one focused Bulbasaur browser cast. The other
-  eight species bindings and physical audio output remain source-only.
-- Candidate 19's paralysis-family PCM admission passed static source, arithmetic,
-  lifecycle and cap checks. Its focused browser run observed Static/paralysis
-  and Thundershock result messages, PP, EXP and save continuation. Exact effect
-  frames, physical sound, Disable's 938-to-927 replacement and the private
-  29-request ceiling remain source-reviewed rather than manually verified.
-- Heal Bell, Charm and Screech are later retry paths and have not been manually
-  cast in the current candidate. Their source and save contracts are statically
-  reviewed.
-- Repeated failed rescues retain EXP and can expose **11 later move IDs across 14
-  learnset rows** after admitting the retained Solar Beam rows. Those
-  unsupported late routes remain visibly unavailable
-  without consuming a turn or PP. They are outside first-attempt acceptance.
-- Blue-specific title/menu layers and some exact pixels/timings remain
-  comparative or unresolved. Asset provenance does not assert a rights-holder
-  reuse grant.
-- Reduced-motion completion has not been manually reviewed through ordinary
-  browser controls. Physical-device acceptance and exact audio output have not
-  been measured.
-- The title save menu, browser storage, screenshot action and touch controls are
-  scoped browser adaptations. Later communication modes are excluded.
-- No automated game-source execution or automated playthrough was added. Static
-  checks and manual browser evidence remain separate.
+- Dialogue remains an authored adaptation. Some sound effects, exact animation
+  and dialogue timing, the third native menu illustration and moving title-cloud
+  layer remain unresolved or comparative.
+- Blue-specific audio waveforms, driver behavior, global phase, channel
+  competition, resampling and physical output are unproved. Native Red source
+  is comparative evidence unless separately corroborated for Blue.
+- The native-family RNG core is implemented, but original seed history, the
+  complete draw schedule, floor generation and broader movement/IQ scheduling
+  do not establish cartridge replay identity.
+- Seven unsupported retry moves and interactions introduced by them still
+  require implementation and review. The new learning continuation needs manual
+  acceptance at a naturally reached replacement choice.
+- New high-level routes, every first-attempt effect binding, reduced-motion
+  completion and physical audio/device behavior have not all been manually
+  exercised. Successful rescue runs establish their recorded paths only.
+- Browser saving, screenshot download, touch controls and the scoped menu are
+  browser adaptations. Later communication modes are excluded. Public asset
+  provenance does not assert a rights-holder reuse grant.
 
 ## Owning references
 
@@ -350,6 +154,8 @@ browser viewport evidence, not physical iOS or Android acceptance.
 - [Opening choreography](../../../tools/pokemon-dungeon/reference/blue-opening-choreography.md)
 - [Battle artwork and timing](../../../tools/pokemon-dungeon/reference/blue-battle-visuals.md)
 - [Battle event ownership](../../../tools/pokemon-dungeon/reference/blue-battle-events.md)
+- [Protect](../../../tools/pokemon-dungeon/reference/blue-protect.md)
+- [Safeguard](../../../tools/pokemon-dungeon/reference/blue-safeguard.md)
 - [Move coverage](../../../tools/pokemon-dungeon/reference/blue-move-coverage.md)
 - [Move execution](../../../tools/pokemon-dungeon/reference/blue-move-execution.md)
 - [Mechanics](../../../tools/pokemon-dungeon/reference/blue-mechanics.md)
@@ -364,6 +170,8 @@ browser viewport evidence, not physical iOS or Android acceptance.
 - [Ground scenes](../../../tools/pokemon-dungeon/reference/blue-ground-scenes.md)
 - [Original Blue introduction video](https://www.youtube.com/watch?v=RrglH3dOqrg)
 
-The cumulative pre-consolidation review is preserved at
-`tools/pokemon-dungeon/.work/blue-ready-20261011/review-doc-history/` with its
-SHA-256 ledger. Git head `5918574` retains the prior tracked version.
+The cumulative review immediately before this consolidation is preserved at
+`tools/pokemon-dungeon/.work/blue-ready-20261011/review-doc-history/candidate35-before-review-prune-20261012.md`
+with SHA-256 `1acf91c8507bd9dedea1a18c2a5bf95831dc4459c9c50eae5b6cf16d643f09f1`.
+Git head `6dc8466` retains the published predecessor; earlier consolidation
+records and bounded browser ledgers remain under the same `.work` evidence root.

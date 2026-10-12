@@ -17,21 +17,24 @@ export { moveTargets } from './mechanics-targets.js';
 /** @typedef {import('../domain/rules/type-context.js').ElementType} ElementType */
 /** One synchronous chosen move owns its awards and terminal evidence; no save fields.
  * @typedef {{awards:Map<string,number>,partnerFainted:boolean,leaderFainted:boolean,rapidSpinSucceeded?:boolean}} MoveExecution */
-/** @typedef {{giveExp?:boolean,falseSwipe?:boolean,execution?:MoveExecution,cause?:'move'|'residual'|'recoil'|'hunger'|'item'|'constriction',effectiveness?:0|1|2|3}} DamageOptions */
+/** @typedef {import('./mechanics-types.js').LearningExperience} LearningExperience */
+/** @typedef {{experience:LearningExperience,moveTail?:'clear-charge'}} CombatPause */
+/** @typedef {{giveExp?:boolean,falseSwipe?:boolean,execution?:MoveExecution,cause?:'move'|'residual'|'recoil'|'hunger'|'item'|'constriction'|'counterattack',effectiveness?:0|1|2|3}} DamageOptions */
 const ACCURACY = [84,89,94,102,110,115,140,153,179,204,256,320,384,409,422,435,448,460,473,486,512];
 const EVASION = [512,486,473,460,448,435,422,409,384,345,256,204,179,153,128,102,89,76,64,51,38];
 /** Authored application messages; internal status keys are not prose.
  * @type {Readonly<Record<string,string>>} */
 const STATUS_MESSAGES=Object.freeze({
-  sleep:'fell asleep!',paralysis:'became paralyzed!',poisoned:'was poisoned!',
+  sleep:'fell asleep!',paralysis:'became paralyzed!',poisoned:'was poisoned!',safeguard:'gained the protection of Safeguard!',
   burn:'was burned!',cringe:'began cringing!',confused:'became confused!',
   infatuated:'became infatuated!',
   'leech-seed':'was seeded!','focus-energy':'began focusing energy!',
   whiffer:'began whiffing!',bide:'began storing energy!',
-  enraged:'became enraged!',reflect:'was protected by Reflect!',
+  enraged:'became enraged!',reflect:'put up its reflect!','light-screen':'put up its light screen!',counter:'is set to counter!',protect:'protected itself!',
 });
 const ACTIVE_STATUSES=new Set(Object.keys(STATUS_MESSAGES));
-const STATUS_CLASSES=[['poison','burn','paralysis'],['cringe','confusion','infatuated'],['focusEnergy','whiffer'],['bide','enraged']];
+const REFLECT_CLASS_STATUSES=Object.freeze(['reflect','lightScreen','counter','protect','safeguard']);
+const STATUS_CLASSES=[['poison','burn','paralysis'],['cringe','confusion','infatuated'],['focusEnergy','whiffer'],['bide','enraged'],REFLECT_CLASS_STATUSES];
 /** Native direct-HP callers use these exact amounts, not CalcDamage.
  * @type {Readonly<Record<string,number|string>>} */
 const DIRECT_HP_AMOUNTS=Object.freeze({'move-seismic-toss':'user.level','move-dragon-rage':65,'move-endeavor':'max(0,target.currentHP-user.currentHP)'});
@@ -46,7 +49,15 @@ const secondaryGateReady=new WeakSet();
 const NEGATIVE_STATUSES=['sleep','poison','burn','paralysis','cringe','confusion','infatuated','leechSeed','whiffer','slow'];
 const EMPTY_TARGET_PRESENTATION_MOVES=new Set(['move-solar-beam','move-attract','move-bubble','move-ember','move-hypnosis','move-leech-seed','move-mud-slap','move-razor-leaf','move-sand-attack','move-smokescreen','move-water-gun']);
 const NO_BITMAP_STATUS_HELPERS=new Set(['leech-seed','focus-energy','enraged','whiffer']);
-export const STATUS_KEYS=Object.freeze([...NEGATIVE_STATUSES,'focusEnergy','bide','enraged','reflect']);
+const PROTECTABLE_TARGET_FLAGS=new Set([0,2,4,5]);
+// TickStatusAndHealthRegen visits native classes in this fixed order.
+// Bide/Rage remain end-of-turn owners; property insertion never orders expiry.
+const STATUS_TICK_ORDER=Object.freeze([
+  'sleep','poison','burn','paralysis','cringe','confusion','infatuated',
+  ...REFLECT_CLASS_STATUSES,'leechSeed','focusEnergy','whiffer','slow',
+]);
+export const STATUS_KEYS=Object.freeze([...STATUS_TICK_ORDER,'bide','enraged']);
+export { REFLECT_CLASS_STATUSES };
 /** Scoped native visualFlags bits, used only to deduplicate activation text.
  * @type {Readonly<Record<string,number>>} */
 export const ABILITY_VISUAL_FLAGS=Object.freeze({Guts:0x01,Overgrow:0x02,Blaze:0x20,Torrent:0x80});
@@ -61,6 +72,30 @@ function defeated(state) { return state.status==='defeated'; }
  * and the level-one Tiny Woods encounters have complete admitted handlers.
  * @param {MoveData} move */
 export function supportsMove(move) {
+  if(move.id==='move-safeguard'){
+    const effect=move.effects[0];
+    return move.type==='normal'&&move.power===2&&move.pp===15&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===125&&
+      move.criticalPercent===12&&move.aiWeight===10&&move.chainedHitsRaw===1&&move.range===3&&move.target===1&&move.cutsCorners===false&&
+      move.effects.length===1&&effect?.op==='apply-status'&&Object.keys(effect).length===3&&effect.status==='safeguard'&&effect.recipient==='resolved-target';
+  }
+  if(move.id==='move-protect'){
+    const effect=move.effects[0];
+    return move.type==='normal'&&move.power===2&&move.pp===10&&move.accuracyBeforeEffect===75&&move.accuracyAfterDamage===100&&
+      move.criticalPercent===12&&move.aiWeight===15&&move.chainedHitsRaw===1&&move.range===7&&move.target===3&&move.cutsCorners===false&&
+      move.effects.length===1&&effect?.op==='apply-status'&&Object.keys(effect).length===3&&effect.status==='protect'&&effect.recipient==='resolved-target';
+  }
+  if(move.id==='move-light-screen'){
+    const effect=move.effects[0];
+    return move.type==='psychic'&&move.power===2&&move.pp===14&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===125&&
+      move.criticalPercent===12&&move.aiWeight===15&&move.chainedHitsRaw===1&&move.range===7&&move.target===3&&move.cutsCorners===false&&
+      move.effects.length===1&&effect?.op==='apply-status'&&Object.keys(effect).length===3&&effect.status==='light-screen'&&effect.recipient==='resolved-target';
+  }
+  if(move.id==='move-pursuit'){
+    const effect=move.effects[0];
+    return move.type==='dark'&&move.power===8&&move.pp===17&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===100&&
+      move.criticalPercent===12&&move.aiWeight===30&&move.chainedHitsRaw===1&&move.range===7&&move.target===3&&move.cutsCorners===false&&
+      move.effects.length===1&&effect?.op==='apply-status'&&Object.keys(effect).length===3&&effect.status==='counter'&&effect.recipient==='resolved-target';
+  }
   if(move.id==='move-solar-beam'){
     const [charge,damage]=move.effects;
     const weather=damage?.weatherMultiplier;
@@ -195,14 +230,21 @@ function types(data,actor) { const p=data.species[actor.speciesId];return [eleme
 /** @param {OpeningData} data @param {string} id @returns {MoveSlot} */
 export function moveSlot(data,id) { const m=data.moves[id];if(!m)throw new Error(`Unknown move ${id}.`);return {id,name:m.name,pp:m.pp,maxPp:m.pp,enabled:true,set:false}; }
 /** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {number} base @param {OpeningData} data */
-function hits(state,actor,target,base,data) {
+function hits(state,actor,target,base,data,selfAlwaysHits=true) {
   const roll=draw(state,100);
-  if(actor.id===target.id)return true;
+  if(selfAlwaysHits&&actor.id===target.id)return true;
   if(actor.status.whiffer)return false;
   if(base>100)return true;
   const a=clamp((actor.stages.accuracy??10)+(ability(data,actor,'Compoundeyes')?2:0),0,20);
   const e=clamp(target.stages.evasion??10,0,20);
   return roll<Math.trunc(Math.trunc(base*(ACCURACY[a]??256)/256)*(EVASION[e]??256)/256);
+}
+/** Native UseMoveAgainstTargets checks Protect before accuracy 1 for eligible
+ * target classes. Only an unstarted charging move has the r4 exemption; those
+ * turns return before target iteration, while a charge release is protectable.
+ * @param {Actor} target @param {MoveData} move */
+function blockedByProtect(target,move){
+  return !!target.status.protect&&PROTECTABLE_TARGET_FLAGS.has(move.target);
 }
 /** @returns {MoveExecution} */
 function createMoveExecution() { return {awards:new Map(),partnerFainted:false,leaderFainted:false}; }
@@ -224,19 +266,60 @@ function queueExperience(state,execution,exp) {
     if(award>0)execution.awards.set(member.id,(execution.awards.get(member.id)??0)+award);
   }
 }
-/** EnemyEvolution runs after all passes/handlers, in active party slot order.
+/** EnemyEvolution consumes every queued party award in active slot order.
  * Partner forced loss suppresses every award. A surviving partner can still
  * receive an earlier award after a later confused hit removes the leader.
- * @param {DungeonState} state @param {Actor} actor @param {MoveExecution} execution @param {OpeningData} data @param {GameEvent[]} events */
-function flushExperience(state,actor,execution,data,events) {
-  if(!moveEntityValid(actor)||execution.partnerFainted||state.status==='rescued'||state.status==='defeated'&&!execution.leaderFainted)return;
-  for(const member of [state.hero,state.partner]){
-    const exp=execution.awards.get(member.id)??0;
-    if(member.hp<=0||member.level>=100||exp<=0)continue;
-    member.exp=Math.min(9999999,member.exp+exp);
-    message(state,events,`${member.name} gained ${exp} Exp. Points.`);
-    gainLevels(state,member,data,events);recordSync(state,events,[member]);
+ * @param {DungeonState} state @param {Map<string,number>} awards @param {OpeningData} data @param {GameEvent[]} events */
+function applyExperience(state,awards,data,events,start=0,resumeCurrent=false) {
+  const members=[state.hero,state.partner];
+  for(let index=start;index<members.length;index++){
+    const member=members[index];if(!member)continue;
+    const exp=awards.get(member.id)??0;
+    if(index!==start||!resumeCurrent){
+      if(member.hp<=0||member.level>=100||exp<=0){awards.set(member.id,0);continue;}
+      member.exp=Math.min(9999999,member.exp+exp);
+      awards.set(member.id,0);message(state,events,`${member.name} gained ${exp} Exp. Points.`);
+    }
+    if(member.hp<=0||member.level>=100)continue;
+    if(gainLevels(state,member,data,events)){
+      recordSync(state,events,[member]);
+      return {remainingAwards:{hero:awards.get('hero')??0,partner:awards.get('partner')??0},recipientIndex:/** @type {0|1} */(index)};
+    }
+    recordSync(state,events,[member]);
   }
+  return null;
+}
+/** A Counter KO can invalidate the acting wild before its caller reaches
+ * EnemyEvolution. Native keeps expGainedInTurn until the next valid actor's
+ * post-upkeep EnemyEvolution call; the optional plain record survives the
+ * browser boundary between the completed base beat and that opportunity.
+ * @param {DungeonState} state @param {MoveExecution} execution @param {OpeningData} data @param {GameEvent[]} events @param {Actor|null} actor */
+function flushExperience(state,execution,data,events,actor) {
+  if(execution.partnerFainted||state.status==='rescued'||state.status==='defeated'&&!execution.leaderFainted)return;
+  if(actor&&!moveEntityValid(actor)){
+    // The admitted deferred owner is the Counter-defeated acting wild. Keep
+    // the baseline forced-loss behavior for an invalid team actor.
+    if(!team(actor)&&['playing','stairs'].includes(state.status)){
+      const pending=state.pendingExperience??{hero:0,partner:0};
+      pending.hero=Math.min(9999999,pending.hero+(execution.awards.get('hero')??0));
+      pending.partner=Math.min(9999999,pending.partner+(execution.awards.get('partner')??0));
+      if(pending.hero>0||pending.partner>0)state.pendingExperience=pending;
+    }
+    return;
+  }
+  return applyExperience(state,execution.awards,data,events);
+}
+/** @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events */
+function flushPendingExperience(state,data,events){
+  const pending=state.pendingExperience;if(!pending)return;
+  delete state.pendingExperience;
+  return applyExperience(state,new Map([['hero',pending.hero],['partner',pending.partner]]),data,events);
+}
+/** Continue the exact recipient's level loop, then later party recipients.
+ * The current recipient's award was zeroed before suspension.
+ * @param {DungeonState} state @param {LearningExperience} experience @param {OpeningData} data @param {GameEvent[]} events */
+export function resumeExperience(state,experience,data,events){
+  return applyExperience(state,new Map([['hero',experience.remainingAwards.hero],['partner',experience.remainingAwards.partner]]),data,events,experience.recipientIndex,true);
 }
 /** @param {DungeonState} state @param {Actor} actor @param {number} amount @param {GameEvent[]} events */
 export function heal(state,actor,amount,events) {
@@ -278,7 +361,7 @@ export function damage(state,target,amount,data,events,source=null,options={}) {
   message(state,events,options.cause==='recoil'?`${target.name} took ${displayed} damage from recoil!`:`${target.name} took ${displayed} damage!`);
   if(survived)message(state,events,'False Swipe prevented fainting!',{kind:'survival',actorId:target.id});
   if(target.status.bide)target.bideDamage=Math.min(999,target.bideDamage+amount);
-  if(source&&target.hp>0&&target.status.enraged){const previous=captureActor(target);target.stages.attack=clamp((target.stages.attack??10)+1,0,20);recordEffect(events,previous,target,425);}
+  if(source&&options.cause!=='counterattack'&&target.hp>0&&target.status.enraged){const previous=captureActor(target);target.stages.attack=clamp((target.stages.attack??10)+1,0,20);recordEffect(events,previous,target,425);}
   if(target.hp>0)return;
   clearCharge(target);clearConstriction(target);events.push({type:'defeat',actorId:target.id,presentation:{kind:'faint',actor:captureActor(target)}});message(state,events,options.cause==='recoil'?`${target.name} fainted from recoil!`:options.cause==='constriction'?`${target.name} fainted from constriction!`:`${target.name} fainted!`);
   // The native drop precedes HandleFaint, including the original partner.
@@ -286,6 +369,7 @@ export function damage(state,target,amount,data,events,source=null,options={}) {
   if(target.id!=='hero'&&target.heldItem){dropItem(state,target.heldItem,target,events);target.heldItem=null;recordSync(state,events,[target],true);}
   unlinkFaintedLeechSource(state,target,events);
   if(team(target)){
+    delete state.pendingExperience;delete state.learningContinuation;
     state.status='defeated';
     if(options.execution){if(target.id==='partner')options.execution.partnerFainted=true;else options.execution.leaderFainted=true;}
     return;
@@ -297,7 +381,7 @@ export function damage(state,target,amount,data,events,source=null,options={}) {
   queueExperience(state,execution,exp);
   // All admitted move callers provide their shared receipt. Keep the exported
   // standalone damage helper's completed-call behavior for other consumers.
-  if(!options.execution)flushExperience(state,source,execution,data,events);
+  if(!options.execution)return flushExperience(state,execution,data,events,source);
 }
 /** @param {DungeonState} state @param {Actor} actor @param {OpeningData} data @param {GameEvent[]} events */
 function gainLevels(state,actor,data,events) {
@@ -307,28 +391,44 @@ function gainLevels(state,actor,data,events) {
     for(const [i,key] of /** @type {const} */([[2,'attack'],[3,'specialAttack'],[4,'defense'],[5,'specialDefense']]))actor.stats[key]=Math.min(255,actor.stats[key]+(row[i]??0));
     message(state,events,`${actor.name} grew to Level ${actor.level}!`);events.push({type:'level',actorId:actor.id,amount:actor.level,presentation:{kind:'sync',actors:[captureActor(actor)]}});
     /** @type {string[]} */const candidates=p.learnset.filter(([level])=>level===actor.level).map(([,id])=>id).filter(id=>!actor.moves.some(m=>m.id===id));
-    if(candidates.length){const id=candidates[draw(state,candidates.length)];if(id){if(actor.moves.length<4){actor.moves.push(moveSlot(data,id));message(state,events,`${actor.name} learned ${data.moves[id]?.name}!`);recordSync(state,events,[actor]);}else state.pendingLearning.push({actorId:actor.id,moveId:id});}}
+    if(candidates.length){const id=candidates[draw(state,candidates.length)];if(id){if(actor.moves.length<4){actor.moves.push(moveSlot(data,id));message(state,events,`${actor.name} learned ${data.moves[id]?.name}!`);recordSync(state,events,[actor]);}else {state.pendingLearning.push({actorId:actor.id,moveId:id});return true;}}}
   }
+  return false;
 }
-/** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {string} status @param {OpeningData} data @param {GameEvent[]} events */
-function inflict(state,actor,target,status,data,events) {
-  const normalized=status==='poisoned'?'poison':status==='leech-seed'?'leechSeed':status==='focus-energy'?'focusEnergy':status==='confused'?'confusion':status;
+/** Reflect-class move handlers are no-op helpers; cast presentation owns their effect.
+ * @param {DungeonState} state @param {Actor} target @param {'reflect'|'lightScreen'|'counter'|'protect'|'safeguard'} status @param {OpeningData} data @param {GameEvent[]} events */
+function inflictReflectClass(state,target,status,data,events){
+  if(target.status[status]){
+    message(state,events,status==='counter'?`${target.name} has been waiting to counterattack!`:status==='lightScreen'?`${target.name} is already protected by Light Screen.`:status==='protect'?`${target.name} is already protecting itself!`:status==='safeguard'?`${target.name} is already protected by Safeguard.`:`${target.name} is already protected by Reflect.`);return;
+  }
+  const timer=data.timers[status==='lightScreen'?'light-screen':status];if(!timer)return;
+  const duration=timer.min+(timer.max===timer.min?0:draw(state,timer.max-timer.min+1));
+  for(const key of REFLECT_CLASS_STATUSES)delete target.status[key];
+  target.status[status]=duration+1;
+  message(state,events,status==='counter'?`${target.name} is set to counter!`:status==='lightScreen'?`${target.name} put up its light screen!`:status==='protect'?`${target.name} protected itself!`:status==='safeguard'?`${target.name} gained the protection of Safeguard!`:`${target.name} put up its reflect!`);
+  recordSync(state,events,[target]);events.push({type:'status',actorId:target.id,text:status});
+}
+
+/** SafeguardIsActive belongs to individual status owners; secondary effects suppress its message.
+ * @param {DungeonState} state @param {Actor} target @param {GameEvent[]} events @param {boolean} displayMessage */
+function blockedBySafeguard(state,target,events,displayMessage){
+  if(!target.status.safeguard)return false;
+  if(displayMessage)message(state,events,`${target.name} is protected by Safeguard!`);
+  return true;
+}
+const SAFEGUARD_GUARDED_STATUSES=new Set(['sleep','infatuated','burn','poisoned','paralysis','cringe','confused','constriction','leech-seed','whiffer']);
+/** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {string} status @param {OpeningData} data @param {GameEvent[]} events @param {boolean} [displayMessage] */
+function inflict(state,actor,target,status,data,events,displayMessage=true) {
+  const normalized=status==='poisoned'?'poison':status==='leech-seed'?'leechSeed':status==='focus-energy'?'focusEnergy':status==='light-screen'?'lightScreen':status==='confused'?'confusion':status;
+  if(normalized==='reflect'||normalized==='lightScreen'||normalized==='protect'||normalized==='safeguard'){inflictReflectClass(state,target,normalized,data,events);return;}
+  let suppliedDuration;
+  // These effects calculate duration before entering the status helper.
+  if(status==='sleep'||status==='whiffer'){const timer=data.timers[status];if(timer)suppliedDuration=timer.min+(timer.max===timer.min?0:draw(state,timer.max-timer.min+1));}
+  if(status==='leech-seed'&&actor.id===target.id){message(state,events,`A leech seed can't be planted on the user!`);return;}
+  if(SAFEGUARD_GUARDED_STATUSES.has(status)&&blockedBySafeguard(state,target,events,displayMessage))return;
   if(target.status[normalized]){
-    if(status==='whiffer'){
-      const timer=data.timers.whiffer;
-      // Smokescreen advances its duration draw before the status owner discovers
-      // that Whiffer is already active. Later curer adjustment is draw-free,
-      // and the resulting value is discarded.
-      if(timer&&timer.max!==timer.min)draw(state,timer.max-timer.min+1);
-      message(state,events,`${target.name} is already a whiffer!`);
-    }else if(status==='sleep'){
-      const timer=data.timers.sleep;
-      // Basic sleep moves calculate a duration before SleepStatusTarget sees
-      // existing Sleep. The discarded duration never replaces the old timer.
-      if(timer&&timer.max!==timer.min)draw(state,timer.max-timer.min+1);
-      const before=captureActor(target);recordEffect(events,before,target,37);
-      message(state,events,`${target.name} is already asleep!`);
-    }
+    if(status==='whiffer')message(state,events,`${target.name} is already a whiffer!`);
+    else if(status==='sleep'){const before=captureActor(target);recordEffect(events,before,target,37);message(state,events,`${target.name} is already asleep!`);}
     return;
   }
   if(status==='burn'&&types(data,target).includes('Fire'))return;
@@ -337,7 +437,7 @@ function inflict(state,actor,target,status,data,events) {
   const timer=data.timers[status==='poisoned'?'poison':status==='confused'?'confusion':status];
   if(!timer){message(state,events,`${target.name} was unaffected.`);return;}
   const extra=status==='sleep'?0:1;
-  const duration=timer.min+(timer.max===timer.min?0:draw(state,timer.max-timer.min+1));
+  const duration=suppliedDuration??(timer.min+(timer.max===timer.min?0:draw(state,timer.max-timer.min+1)));
   const turns=timer.indefinite?128:duration+extra;
   const before=captureActor(target);
   // The original stores one status per class. A fresh paralysis replaces a
@@ -369,9 +469,9 @@ function inflict(state,actor,target,status,data,events) {
 /** Native stat-effect selectors; missing exported artwork is left to presentation.
  * @type {Readonly<Record<string,readonly [number,number]>>} */
 const STAT_EFFECTS={attack:[404,425],specialAttack:[403,402],defense:[399,398],accuracy:[397,396],evasion:[14,13]};
-/** @param {GameEvent[]} events @param {Actor} before @param {Actor} actor @param {number} [effectId] */
-function recordEffect(events,before,actor,effectId) {
-  events.push({type:'presentation',presentation:{kind:'effect',before,after:captureActor(actor),...(effectId===undefined?{}:{effectId})}});
+/** @param {GameEvent[]} events @param {Actor} before @param {Actor} actor @param {number} [effectId] @param {boolean} [waitForEffect] */
+function recordEffect(events,before,actor,effectId,waitForEffect) {
+  events.push({type:'presentation',presentation:{kind:'effect',before,after:captureActor(actor),...(effectId===undefined?{}:{effectId}),...(waitForEffect===undefined?{}:{waitForEffect})}});
 }
 /** @param {Actor} actor */
 function clearConstriction(actor){delete actor.constrictionTurns;delete actor.constrictionCountdown;delete actor.constrictionEffectId;}
@@ -381,6 +481,7 @@ function hasConstriction(actor){return actor.constrictionTurns!==undefined;}
  * Duplicate application does not refresh the timer or consume its duration draw.
  * @param {DungeonState} state @param {Actor} target @param {59|316} effectId @param {GameEvent[]} events */
 function inflictConstriction(state,target,effectId,events){
+  if(blockedBySafeguard(state,target,events,false))return;
   if(hasConstriction(target)){message(state,events,`${target.name} is already being squeezed!`);return;}
   target.constrictionTurns=4+draw(state,3);target.constrictionCountdown=0;target.constrictionEffectId=effectId;
   message(state,events,`${target.name} was squeezed!`);recordSync(state,events,[target]);events.push({type:'status',actorId:target.id,text:'constriction'});
@@ -415,7 +516,7 @@ function cureNegativeStatuses(state,target,events){
   const postCure=captureActor(target);recordEffect(events,postCure,target,21);recordSync(state,events,[target]);
 }
 /** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {Effect} effect @param {OpeningData} data @param {GameEvent[]} events */
-function applyEffect(state,actor,target,effect,data,events) {
+function applyEffect(state,actor,target,effect,data,events,displayMessage=true) {
   const recipient=effect.recipient==='user'?actor:target;
   if(effect.op==='stat-stage') {
     const stat=effect.stat==='special-attack'?'specialAttack':effect.stat==='special-defense'?'specialDefense':effect.stat;
@@ -425,8 +526,9 @@ function applyEffect(state,actor,target,effect,data,events) {
     const old=recipient.stages[stat]??10;recipient.stages[stat]=clamp(old+(effect.delta??0),0,20);
     recordEffect(events,before,recipient,STAT_EFFECTS[stat]?.[(effect.delta??0)>0?1:0]);
     message(state,events,old===recipient.stages[stat]?`${recipient.name}'s ${stat} can't go any further.`:`${recipient.name}'s ${stat} ${effect.delta&&effect.delta>0?'rose':'fell'}!`);
-  } else if(effect.op==='apply-status'&&effect.status)inflict(state,actor,recipient,effect.status,data,events);
+  } else if(effect.op==='apply-status'&&effect.status)inflict(state,actor,recipient,effect.status,data,events,displayMessage);
   else if(effect.op==='speed-stage'){
+    if(blockedBySafeguard(state,recipient,events,displayMessage))return;
     // All admitted actors have base stage one. LowerSpeed refuses a further
     // reduction at stage zero, without drawing or refreshing a duration.
     if(recipient.status.slow||recipient.status.paralysis)message(state,events,`${recipient.name}'s Movement Speed cannot fall further.`);
@@ -456,12 +558,16 @@ function damageAmount(state,actor,target,move,data,events,visual) {
   const result=calculateNormalDamage({
     type:{moveType:element(move.type),attackerTypes:types(data,actor),defenderTypes:types(data,target),defenderExposed:false,abilities:{wonderGuard:false,torrent:ability(data,actor,'Torrent'),overgrow:ability(data,actor,'Overgrow'),blaze:ability(data,actor,'Blaze')},attackerHp:actor.hp,attackerMaxHp:actor.maxHp,mudSport:(state.mudSport??0)>0,waterSport:state.waterSport>0,charging:false},
     stats:{rawOffense:physical?a.attack:a.specialAttack,rawDefense:physical?t.defense:t.specialDefense,movePower:move.power,offenseStage:actor.stages[physical?'attack':'specialAttack']??10,defenseStage:target.stages[physical?'defense':'specialDefense']??10,offensiveMultiplierQ8:(physical?actor.physicalOffenseMultiplierQ8:actor.specialOffenseMultiplierQ8)??256,defensiveMultiplierQ8:(physical?target.physicalDefenseMultiplierQ8:target.specialDefenseMultiplierQ8)??256,flashFireBoost:0,skullBash:physical&&target.skullBashSlot!==undefined,abilities:{guts:ability(data,actor,'Guts'),attackerNegativeStatus:NEGATIVE_STATUSES.some(key=>!!actor.status[key])}},
-    critical:{moveChance:move.criticalPercent,focusEnergy:!!actor.status.focusEnergy,typeAdvantageMaster:false,battleArmor:armored,shellArmor:false},teamMember:team(actor),leader:actor.id==='hero',integerBelly:Math.floor(actor.belly),level:actor.level,regularAttack:regular,targetEffectsApply:true,reflect:!!target.status.reflect,lightScreen:false,moveEffectMultiplierQ8:multiplier,
+    critical:{moveChance:move.criticalPercent,focusEnergy:!!actor.status.focusEnergy,typeAdvantageMaster:false,battleArmor:armored,shellArmor:false},teamMember:team(actor),leader:actor.id==='hero',integerBelly:Math.floor(actor.belly),level:actor.level,regularAttack:regular,targetEffectsApply:true,reflect:!!target.status.reflect,lightScreen:!!target.status.lightScreen,moveEffectMultiplierQ8:multiplier,
     rolls:actor.id!=='hero'&&Math.floor(actor.belly)===0?null:{sharedPowerRoll:draw(state,100),criticalRoll:armored?null:draw(state,100),varianceRoll:draw(state,16384)},
   });
   // Native early one-damage branches bypass both ability-flag evaluators.
   // Accuracy 1 / absent-target failures never reach this function at all.
-  if(result.earlyReason===null)announceDamageAbilities(state,actor,move,data,events);
+  if(result.earlyReason===null){
+    announceDamageAbilities(state,actor,move,data,events);
+    if(physical&&target.status.reflect)recordEffect(events,captureActor(target),target,369,false);
+    if(!physical&&target.status.lightScreen)recordEffect(events,captureActor(target),target,369,true);
+  }
   if(visual)visual.effectiveness=result.type.matchup==='little'?0:result.type.matchup==='resist'?1:result.type.matchup==='super'?3:2;
   return result.damage;
 }
@@ -479,6 +585,15 @@ function triggerContactReactions(state,actor,target,reactions,data,events) {
   if(reactions.staticReaction){message(state,events,`${target.name}'s Static activated!`);inflict(state,target,actor,'paralysis',data,events);}
   if(reactions.charmReaction){message(state,events,`${target.name}'s Cute Charm activated!`);inflict(state,target,actor,'infatuated',data,events);}
 }
+/** HandleDealingDamage_Async resolves the admitted Counter class after any
+ * successful direct physical damage owner and before its later reactions.
+ * @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {number} amount @param {ElementType} moveType @param {OpeningData} data @param {GameEvent[]} events @param {MoveExecution} execution @param {boolean} [giveExp] */
+function triggerCounter(state,actor,target,amount,moveType,data,events,execution,giveExp=true){
+  if(amount<=0||target.hp<=0||actor.hp<=0||distance(actor,target)!==1||!target.status.counter||
+    target.status.sleep||target.status.bide||target.status.enraged||target.skullBashSlot!==undefined||target.solarBeamSlot!==undefined||!isPhysicalType(moveType))return;
+  const before=captureActor(target);recordEffect(events,before,target,321);message(state,events,'Its power was rebounded back!');
+  damage(state,actor,amount,data,events,target,{execution,cause:'counterattack',giveExp});
+}
 /** sub_806F370's three admitted move callers bypass numerical modifiers and
  * accuracy 2. Only Wonder Guard checks type matchups; it never scales damage.
  * Endeavor passes giveExp=false, unlike Seismic Toss and Dragon Rage.
@@ -491,6 +606,7 @@ function resolveDirectHp(state,actor,target,move,data,events,execution) {
   }
   if(amount>0&&!team(target))target.experienceMarked=true;
   damage(state,target,amount,data,events,actor,{giveExp:move.id!=='move-endeavor',execution});
+  triggerCounter(state,actor,target,amount,element(move.type),data,events,execution,move.id!=='move-endeavor');
   if(amount>0&&target.hp>0&&moveEntityValid(actor)&&!moveFloorOver(state,execution)){
     const reactions=sampleContactReactions(state,actor,target,move,data);
     triggerContactReactions(state,actor,target,reactions,data,events);
@@ -520,6 +636,7 @@ function resolveDamagingHit(state,actor,target,move,data,events,execution) {
   if(!hits(state,actor,target,move.accuracyAfterDamage,data)){message(state,events,`${actor.name}'s attack missed!`,{kind:'miss',actorId:actor.id,accuracy:2,target:captureActor(target)});return;}
   if(amount>0&&move.id!=='regular-attack'&&!team(target))target.experienceMarked=true;
   damage(state,target,amount,data,events,actor,{execution,falseSwipe:move.id==='move-false-swipe',effectiveness:visual.effectiveness});
+  triggerCounter(state,actor,target,amount,element(move.type),data,events,execution);
   /** @type {{staticReaction:boolean,charmReaction:boolean}|null} */
   let reactions=null;
   if(amount>0&&target.hp>0&&moveEntityValid(actor)&&!moveFloorOver(state,execution)){
@@ -546,7 +663,7 @@ function resolveDamagingHit(state,actor,target,move,data,events,execution) {
       if(effect.op!=='secondary'||!effect.effect)continue;
       // Only projected native chance-zero callers bypass the percentage draw.
       const succeeds=effect.secondaryChanceRaw===0||draw(state,100)<(effect.chancePercent??0);
-      if(succeeds&&!ability(data,target,'Shield Dust')){if((move.id==='move-fire-spin'||move.id==='move-whirlpool')&&effect.effect.status==='constriction')inflictConstriction(state,target,move.id==='move-fire-spin'?316:59,events);else applyEffect(state,actor,target,effect.effect,data,events);}
+      if(succeeds&&!ability(data,target,'Shield Dust')){if((move.id==='move-fire-spin'||move.id==='move-whirlpool')&&effect.effect.status==='constriction')inflictConstriction(state,target,move.id==='move-fire-spin'?316:59,events);else applyEffect(state,actor,target,effect.effect,data,events,false);}
     }
   }
   if(amount>0&&RECOIL_MOVES.has(move.id)&&moveEntityValid(actor)){
@@ -568,7 +685,7 @@ function resolveDamagingHit(state,actor,target,move,data,events,execution) {
 /** The native raw hit count is selected before the first target/accuracy pass.
  * Every pass owns its blocker check, target scan, cast and target resolution;
  * ordinary misses do not cancel later passes. PP/use text belong to the action.
- * @param {DungeonState} state @param {Actor} actor @param {number|'struggle'|null} slot @param {OpeningData} data @param {GameEvent[]} events */
+ * @param {DungeonState} state @param {Actor} actor @param {number|'struggle'|null} slot @param {OpeningData} data @param {GameEvent[]} events @returns {CombatPause|undefined} */
 export function attack(state,actor,slot,data,events) {
   // Action execution randomizes in native direction order before wrapper/PP checks.
   if(actor.status.confusion)actor.direction=DIRECTIONS[(8-draw(state,8))&7]??'s';
@@ -619,9 +736,15 @@ export function attack(state,actor,slot,data,events) {
     for(const target of targets){
       if(!moveEntityValid(actor)||moveFloorOver(state,execution))break;
       if(target.hp<=0)continue;
-      events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:move.id,target:captureActor(target),phase:'visit',singleTile:activeMove.range!==5}});
       wakeInitialSleep(state,target,events);
-      if(!hits(state,actor,target,move.accuracyBeforeEffect,data)){message(state,events,`${target.name} avoided the move!`,{kind:'miss',actorId:actor.id,accuracy:1,target:captureActor(target)});continue;}
+      if(blockedByProtect(target,move)){
+        message(state,events,`${target.name} protected itself!`);
+        events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:move.id,target:captureActor(target),phase:'visit',singleTile:activeMove.range!==5}});
+        message(state,events,`${target.name} is unaffected!`,{kind:'guarded-target',actorId:actor.id,target:captureActor(target)});
+        continue;
+      }
+      events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:move.id,target:captureActor(target),phase:'visit',singleTile:activeMove.range!==5}});
+      if(!hits(state,actor,target,move.accuracyBeforeEffect,data,move.id!=='move-protect')){message(state,events,`${target.name} avoided the move!`,{kind:'miss',actorId:actor.id,accuracy:1,target:captureActor(target)});continue;}
       // Native unk158 is set after accuracy 1, before the handler.
       secondaryGateReady.add(target);
       if(move.id==='move-mud-sport'||move.id==='move-water-sport'){
@@ -673,7 +796,8 @@ export function attack(state,actor,slot,data,events) {
           // Native starts the down effect before multiplying and comparing.
           recordEffect(events,before,target,move.id==='move-charm'?404:399);recordSync(state,events,[target]);
           message(state,events,old===current?`${target.name}'s ${stat} remained unchanged!`:`${target.name}'s ${stat} fell!`);
-        }else for(const effect of move.effects)applyEffect(state,actor,target,effect,data,events);
+        }else if(move.id==='move-pursuit')inflictReflectClass(state,target,'counter',data,events);
+        else for(const effect of move.effects)applyEffect(state,actor,target,effect,data,events);
       }
     }
   }
@@ -686,7 +810,8 @@ export function attack(state,actor,slot,data,events) {
     clearConstriction(actor);delete actor.status.leechSeed;actor.leechSource=null;
     recordSync(state,events,[actor]);
   }
-  flushExperience(state,actor,execution,data,events);
+  const experience=flushExperience(state,execution,data,events,actor);
+  if(experience)return {experience,...(chargeRelease?{moveTail:/** @type {const} */('clear-charge')}:{})};
   if(chargeRelease){clearCharge(actor);recordSync(state,events,[actor]);}
 }
 /** The retained two-turn moves share native's one Bide-class slot. */
@@ -713,18 +838,30 @@ export function beginTurn(state,actor,data,events,reportBlocked=true) {
   if(actor.hp<=0)return false;
   try {
     if(team(actor)&&actor.belly>0&&!actor.status.poison){const rate=clamp(data.species[actor.speciesId]?.regenerationRate??100,30,500);actor.regen+=actor.maxHp;actor.hp=Math.min(actor.maxHp,actor.hp+Math.floor(actor.regen/rate));actor.regen%=rate;}
-    for(const key of Object.keys(actor.status)){if(key==='bide'||key==='enraged')continue;const value=actor.status[key]??0;if(value>0&&value!==127){actor.status[key]=value-1;if(actor.status[key]===0){delete actor.status[key];if(key==='leechSeed')actor.leechSource=null;
+    for(const key of STATUS_TICK_ORDER){const value=actor.status[key]??0;if(value>0&&value!==127){actor.status[key]=value-1;if(actor.status[key]===0){delete actor.status[key];if(key==='leechSeed')actor.leechSource=null;
       if(key==='sleep')message(state,events,`${actor.name} woke up!`);
       if(key==='infatuated')message(state,events,`${actor.name} is no longer infatuated.`);
       if(key==='paralysis')message(state,events,`${actor.name} recovered from paralysis.`);
       if(key==='slow')message(state,events,`${actor.name}'s Movement Speed returned to normal.`);
+      if(key==='reflect')message(state,events,`${actor.name}'s Reflect faded.`);
+      if(key==='lightScreen')message(state,events,`${actor.name}'s Light Screen faded.`);
+      if(key==='counter')message(state,events,`${actor.name}'s Counter effect faded.`);
+      if(key==='protect')message(state,events,`${actor.name}'s Protect wore off!`);
+      if(key==='safeguard')message(state,events,`${actor.name}'s Safeguard faded.`);
     }}}
-    if(actor.status.sleep||actor.status.infatuated){if(reportBlocked&&!(actor.status.sleep===127&&!team(actor)))message(state,events,`${actor.name} can't move!`);return false;}
-    if(actor.status.bide){if(reportBlocked)message(state,events,`${actor.name} is storing energy!`);return false;}
-    return true;
+    const experience=flushPendingExperience(state,data,events);if(experience)return {experience};
+    return finishBeginTurn(state,actor,events,reportBlocked);
   } finally {
     recordSync(state,events,[actor]);
   }
+}
+
+/** Resume after upkeep and deferred EXP without ticking either again.
+ * @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events @param {boolean} [reportBlocked] */
+export function finishBeginTurn(state,actor,events,reportBlocked=true){
+  if(actor.status.sleep||actor.status.infatuated){if(reportBlocked&&!(actor.status.sleep===127&&!team(actor)))message(state,events,`${actor.name} can't move!`);return false;}
+  if(actor.status.bide){if(reportBlocked)message(state,events,`${actor.name} is storing energy!`);return false;}
+  return true;
 }
 
 /** Residual damage and the Bide/Rage class belong after an actor's action.
@@ -778,11 +915,12 @@ export function finishTurn(state,actor,data,events) {
     // Its outer target owner activates flags before end-turn queued EXP.
     const execution=createMoveExecution();
     damage(state,target,amount,data,events,actor,{execution});
+    triggerCounter(state,actor,target,amount,element(release.type),data,events,execution);
     if(amount>0&&target.hp>0&&moveEntityValid(actor)&&!moveFloorOver(state,execution)){
       const reactions=sampleContactReactions(state,actor,target,release,data);
       triggerContactReactions(state,actor,target,reactions,data,events);
     }
-    flushExperience(state,actor,execution,data,events);
+    const experience=flushExperience(state,execution,data,events,actor);if(experience)return {experience};
   } finally {
     recordSync(state,events,[actor]);
   }

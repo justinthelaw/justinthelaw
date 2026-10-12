@@ -100,7 +100,7 @@ export async function exportNativeHypnosis({emit,output}){
   const expected=[0,1,2,3,4,5,6,7,8,9,10,11,1,2,3,4,5,6,7,8,9,12];
   if(patterns.length!==13||rawMaps.size!==11||phases.join(',')!==expected.join(','))throw Error('Hypnosis phase inventory changed.');
   const atlas=new Raster(416,32);patterns.forEach((pattern,index)=>atlas.paste(pattern,index*32,0));
-  const image=atlas.png();if(image.length>4096||digest(image)!=='768b3720331f0a9d3d884856ee329e4a0ed27a9a687f8531487c2fd957ffec9d')throw Error('Reviewed Hypnosis image bytes changed.');
+  const image=atlas.png({indexed:false});if(image.length>4096||digest(image)!=='768b3720331f0a9d3d884856ee329e4a0ed27a9a687f8531487c2fd957ffec9d')throw Error('Reviewed Hypnosis image bytes changed.');
   const modulePath='src/blue/render-hypnosis-data.js',moduleBytes=Buffer.from(`// Generated from pinned efbg005 headers/palette;22 phases, two source ticks each.\nexport const HYPNOSIS_PATTERNS=Object.freeze(${JSON.stringify(phases)});\n`);
   await emit(new URL('hypnosis-background.png',output),image);
   await emit(new URL(`../../${modulePath}`,output),moduleBytes);

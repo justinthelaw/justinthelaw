@@ -14,18 +14,36 @@ assert.equal(data.sourceCommit,'013475aa04f5be3191e5527c186d9bfceae7cae0');
 assert.deepEqual(data.clock,{cpuHz:16777216,cyclesPerFrame:280896,initialTempo:150,threshold:150});
 assert.equal(data.browserGain,.22);assert.equal(data.nativeMaster,14);
 const solarSequences=new Set([768,784,785]);
+const counterSequence=853;
+const lightScreenSequences=new Set([851,890]);
+const protectSequence=708;
+const safeguardSequence=776;
+const lightScreenVoiceKeys=new Set(['028:6']);
+const safeguardVoiceKeys=new Set(['026:34']);
 const solarVoiceKeys=new Set(['026:4','026:16','026:21','026:22']);
 const solarSourcePaths=new Set(['sound/songs/seq_768.s','sound/songs/seq_784.s','sound/songs/seq_785.s','sound/wave/wave_099.s','sound/wave/wave_110.s']);
 const originalFacts={
   samples:data.samples.slice(0,16),
-  cues:data.cues.filter(cue=>!solarSequences.has(cue.sequence)),
+  cues:data.cues.filter(cue=>!solarSequences.has(cue.sequence)&&cue.sequence!==counterSequence&&!lightScreenSequences.has(cue.sequence)&&cue.sequence!==protectSequence&&cue.sequence!==safeguardSequence),
   scale:data.scale,frequencyBase:data.frequencyBase,
-  voices:Object.fromEntries(Object.entries(data.voices).filter(([key])=>!solarVoiceKeys.has(key)))
+  voices:Object.fromEntries(Object.entries(data.voices).filter(([key])=>!solarVoiceKeys.has(key)&&!lightScreenVoiceKeys.has(key)&&!safeguardVoiceKeys.has(key)))
 };
 assert.equal(sha(JSON.stringify(originalFacts)),"390f18e76b41ea124954f467c8fcb7b21c1e09b4b806189fa6f209a6ef5dbfe9",'Prior PCM source facts changed; review and repin them.');
-assert.equal(data.sources.length,73);
+assert.equal(data.sources.length,80);
 assert.equal(sha(JSON.stringify(data.sources.slice(0,68))),"f137bab8df8d7fc3285c4ad305ec5c0cd3b330870c659d4a3ed304b10a61b2ea",'Pinned prior PCM source ledger changed.');
-assert.deepEqual(data.sources.slice(68).map(source=>source.path).sort(),[...solarSourcePaths].sort());
+assert.deepEqual(data.sources.slice(68,73).map(source=>source.path).sort(),[...solarSourcePaths].sort());
+assert.equal(data.sources[73].path,'sound/songs/seq_853.s');
+assert.deepEqual(data.sources.slice(74,77).map(source=>source.path),['sound/songs/seq_851.s','sound/songs/seq_890.s','sound/wave/wave_044.s']);
+assert.deepEqual(data.sources[77],{path:'sound/songs/seq_708.s',bytes:3346,sha256:'1dd00c00bc07cdf3b0f1557ce768b8348220037360bbc56134c11fc32830886a',url:`https://github.com/pret/pmd-red/blob/${data.sourceCommit}/sound/songs/seq_708.s`});
+assert.deepEqual(data.sources.slice(78).map(({path,bytes,sha256})=>[path,bytes,sha256]),[
+  ['sound/songs/seq_776.s',3364,'666f4c704cbea66afe91e55af1f6c4b86a261be9e9e7181c02803e7d123bd143'],
+  ['sound/wave/wave_125.s',203160,'eecafcf2b7f14a7603f865d0f5f110eb179120257ec22d90473be994e23d4f4c']
+]);
+assert.deepEqual(data.sources.slice(74,77).map(({bytes,sha256})=>[bytes,sha256]),[
+  [2335,'c33a195b1af12c2a1e9d844ba7de949c7dff34b5f35d9089c7eff0fdc9b43a5d'],
+  [1157,'5d1fa0978c451137195830269c1ca9cb20b1ecef0793c5ff3cbfa7d79620f7eb'],
+  [90489,'5364fcf27ad86ffc346d146abd46d90a68f07cb99d40a3c74d89f9ffeae5be2e']
+]);
 assert.deepEqual(data.cues.filter(cue=>solarSequences.has(cue.sequence)).map(({id,sequence})=>[id,sequence]),[
   ['effect-solar-beam-cast',768],['effect-solar-beam-travel',784],['effect-solar-beam-preparation',785]
 ]);
@@ -53,7 +71,13 @@ const samples=data.samples.map(sample=>{
   literalBytes+=raw.length;decodedBytes+=sample.sampleCount*4;
   return [sample.id,sample.sampleCount,sample.loopStart,Boolean(sample.status),sample.base64];
 });
-assert.equal(literalBytes,98212);assert.equal(decodedBytes,392816);
+assert.equal(literalBytes,123712);assert.equal(decodedBytes,494812);
+assert.equal(data.samples.length,20);
+assert.deepEqual(data.samples.at(-1)&&((({id,sampleCount,loopStart,literalBytes,sampleSha256,literalSha256})=>({id,sampleCount,loopStart,literalBytes,sampleSha256,literalSha256}))(data.samples.at(-1))),{
+  id:125,sampleCount:17648,loopStart:0,literalBytes:17648,
+  sampleSha256:'f8c1b345b37c8958d727eb9855f458301e1398cbfe12fd307651b36c31d09e0f',
+  literalSha256:'f8c1b345b37c8958d727eb9855f458301e1398cbfe12fd307651b36c31d09e0f'
+});
 
 // MODT0 adds16*modM before signed coarse/fine pitch splitting.
 // The selected older cues have no pitch modulation, so their tuples stay exact.
@@ -67,8 +91,8 @@ function frequency(key,bend,range,mod=0){
 const cues={},groups={};let noteCount=0,levelCount=0,rateCount=0;
 for(const cue of data.cues){
   const group6=cue.sequence===407||cue.sequence===413||cue.sequence===927||cue.sequence===938;
-  const qualifiedVoice=[680,774,927,938,605,768,784,785].includes(cue.sequence);
-  assert.equal(cue.bank,cue.sequence===605?28:qualifiedVoice?26:undefined);
+  const qualifiedVoice=[680,774,927,938,605,708,768,784,785,853,851,890,776].includes(cue.sequence);
+  assert.equal(cue.bank,[605,890].includes(cue.sequence)?28:qualifiedVoice?26:undefined);
   assert.equal(cue.player,group6?'SE6':'SE5');assert.equal(cue.priority,127);
   if(group6)groups[cue.id]=6;
   const tempo=cue.controls.find(control=>control.command==='TEMPO').value*2;
@@ -91,7 +115,8 @@ for(const cue of data.cues){
     changes.set(frame(tick),{right:(pan+128)*volume>>8,left:(127-pan)*volume>>8,bend:state.BEND,range:state.BENDR,pitchMod:state.MODT===0?mod:0});
   }
   const frames=[];let current=changes.get(0);
-  for(let at=0;at<fineFrame+11;at++){current=changes.get(at)??current;frames.push(current);}
+  const requiredFrames=Math.max(fineFrame+11,...cue.notes.map(note=>frame(note.tick+note.gate)+16));
+  for(let at=0;at<requiredFrames;at++){current=changes.get(at)??current;frames.push(current);}
   const notes=cue.notes.map(note=>{
     // Numeric VOICE evidence stays intact; only new cues qualify its source bank.
     assert(Number.isInteger(note.voice));
@@ -103,7 +128,7 @@ for(const cue of data.cues){
     }
     const start=frame(note.tick),release=frame(note.tick+note.gate);
     const rates=[],levels=[];let envelope=255,end=-1;
-    for(let at=start;at<release+12;at++){
+    for(let at=start;at<release+16;at++){
       if(at>=release)envelope=envelope*voice.envelope[3]>>8;
       else if(at>start&&voice.envelope[2]!==255)envelope=envelope*voice.envelope[1]>>8;
       const control=frames[at],master=15*envelope>>4;
@@ -128,7 +153,15 @@ for(const cue of data.cues){
   if(group6)assert(notes.length<=5);
   cues[cue.id]=[fineFrame,notes];
 }
-assert.equal(noteCount,104);assert.equal(levelCount,968);assert.equal(rateCount,457);
+assert.equal(noteCount,124);assert.equal(levelCount,1257);assert.equal(rateCount,647);
+assert.equal(cues['effect-safeguard'][0],50);
+assert.deepEqual(cues['effect-safeguard'][1].map(note=>note.slice(0,3)),[[125,2,5],[125,5,50],[125,5,50]]);
+assert.equal(cues['effect-protect'][0],79);
+assert.equal(cues['effect-protect'][1].length,12);
+assert.equal(cues['effect-light-screen-target'][0],33);
+assert.deepEqual(cues['effect-light-screen-target'][1].map(note=>note.slice(0,3)),[[110,0,32],[110,0,32]]);
+assert.equal(cues['effect-light-screen-hit'][0],10);
+assert.deepEqual(cues['effect-light-screen-hit'][1].map(note=>note.slice(0,3)),[[44,2,24]],'Sequence 890 finite release lifetime changed');
 assert.deepEqual(groups,{'effect-whiffer':6,'effect-sleep-helper':6,'effect-paralysis':6,'effect-disable-target':6});
 assert.deepEqual(cues['effect-whiffer'],[13,[[115,2,4,[[2,38473]],[[2,109,111],[3,108,110],[4,0,0]]],[115,5,7,[[5,30536]],[[5,109,111],[6,108,110],[7,0,0]]],[115,8,10,[[8,24236]],[[8,109,111],[9,108,110],[10,0,0]]],[115,11,13,[[11,19236]],[[11,90,92],[13,0,0]]]]]);
 assert.equal(cues['effect-heal'][0],72);assert.equal(cues['effect-heart'][0],43);
@@ -152,6 +185,7 @@ assert.equal(sha(JSON.stringify(cues['effect-thunder'])),'87fce4867b6a6cf7777f90
 assert.equal(sha(JSON.stringify(cues['effect-paralysis'])),'b1bc0730b3af224fba5ab16889c09f3ed698711858bf6d7191413d57237971dd','Pinned 927 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-disable-target'])),'324e199e441b0416d244a8ab0b7f8df98308371ea4a599d1b98bff1eecdeb7e2','Pinned 938 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-strength-up'])),'3c4ac3dbf9ac2b18a9aaadafdbd53f8fb85e30caee60946508d7cf0f0d30309c','Pinned 605 finite tuple changed.');
+assert.equal(sha(JSON.stringify(cues['effect-counter'])),'eb3480d13040a3d6b81285cd017869da52230d552144314fd5630665d5444a36','Pinned 853 finite tuple changed.');
 const generated=`/** Generated selected public Red PCM facts; Blue identity, resampling, global reverb and mix remain qualified. */\n`+
   `export const PCM_SOURCE_SHA256='${sha(bytes)}';\n`+
   `export const PCM_FRAME_SECONDS=280896/16777216;\nexport const PCM_EFFECT_GAIN=${data.browserGain};\n`+
@@ -164,8 +198,8 @@ const generated=`/** Generated selected public Red PCM facts; Blue identity, res
   `export const PCM_EFFECTS=${JSON.stringify(cues)};\n`+
   `/** Numeric song-table replacement domain; omitted legacy cues use group5. */\n`+
   `/** @type {Readonly<Record<string,5|6>>} */\nexport const PCM_EFFECT_GROUPS=${JSON.stringify(groups)};\n`;
-// Exact 605 catalog admission; all shared/live/note/row/end limits stay fixed.
-assert.equal(Buffer.byteLength(generated),149624,'Selected PCM catalog byte admission changed.');
+// Exact selected-cue catalog admission; shared/live/note/row/end limits stay fixed.
+assert.equal(Buffer.byteLength(generated),189062,'Selected PCM catalog byte projection changed.');
 if(process.argv.includes('--check'))assert.equal(await readFile(output,'utf8'),generated,'Regenerate selected PCM data.');
 else await writeFile(output,generated);
-console.log(`Selected PCM: 18 samples, 104 notes, 968 stereo rows, 457 frequency rows, ${Buffer.byteLength(generated)} runtime bytes; static source/data only${sourceArgument>=0?', source hashes verified':''}.`);
+console.log(`Selected PCM: 20 samples, 124 notes, ${levelCount} stereo rows, ${rateCount} frequency rows, ${Buffer.byteLength(generated)} runtime bytes; static source/data only${sourceArgument>=0?', source hashes verified':''}.`);

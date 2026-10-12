@@ -10,7 +10,7 @@ if(execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim()
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 const paths=['src/effect_data.c','src/effect_main.c','src/effect_sub_1.c','src/effect_anim_file.c','src/code_8040094_1.c','src/sprite.c','src/bg_palette_buffer.c','src/dungeon_8041AD0.c','src/dungeon_move.c','src/dungeon_move_util.c','src/dungeon_damage.c','src/move_orb_effects_1.c','src/math.c','src/data/math.h','include/structs/axdata.h','include/structs/sprite_oam.h','include/constants/direction.h','include/constants/move_id.h'];
 for(let index=0;index<14;index++)paths.push(`graphics/ax/pal/${index}.pal`);
-for(const id of [0,7,8,13,20,22,23,29,51,53,54,56,58,59,73,81,102,108,113,114,119,121,122,125,131,135,137]){const name=`efob${String(id).padStart(3,'0')}`;paths.push(`src/data/effects/${name}.c`,`data/effects/${name}.png`,`data/effects/${name}.pal`);}
+for(const id of [0,6,7,8,13,20,22,23,29,51,53,54,56,58,59,67,73,95,81,102,105,108,113,114,119,121,122,125,131,135,137]){const name=`efob${String(id).padStart(3,'0')}`;paths.push(`src/data/effects/${name}.c`,`data/effects/${name}.png`,`data/effects/${name}.pal`);}
 const files=new Map(),records=[];
 for(const path of paths){
   // Git's exact blob avoids checkout-specific CRLF conversion in palette files.

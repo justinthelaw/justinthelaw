@@ -8,8 +8,11 @@ add the bounded floor-timer and damage context. The current runtime also admits
 Squirtle's exact level-40 Skull Bash charge owner and
 [Cubone's level-37 Thrash](blue-thrash.md). Fire Spin and Whirlpool now share
 the source-qualified constriction owner. Solar Beam's two retained rows now use
-the bounded charge/release owner, leaving **11 rejected learned move IDs across
-14 learnset rows**. The checkpoint tables below are historical
+the bounded charge/release owner. [Pursuit](blue-counter.md) adds Treecko's
+Counter-class setup and physical rebound. [Light Screen](blue-light-screen.md)
+and [Protect](blue-protect.md) add their shared defensive-status and presentation
+owners. [Safeguard](blue-safeguard.md) adds room protection and per-status guards,
+leaving **7 rejected learned move IDs across 8 learnset rows**. The checkpoint tables below are historical
 evidence and retain their checkpoint-qualified counts.
 
 Static audit of checkpoint `049af6e219f10c54bb50fe648c34c6ff77eb6e64`,

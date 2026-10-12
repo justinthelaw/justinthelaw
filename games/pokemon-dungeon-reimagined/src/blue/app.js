@@ -14,7 +14,7 @@ import { loadOnboarding, createQuiz, currentQuestion, nextQuestion, answerQuesti
 import { NAMING_END_KEY, NAMING_KEYS, createNamingState, namingLabels, moveNamingSelection,
   moveNamingCaret, deleteNamingCharacter, activateNamingKey, replaceNamingText, namingError, sanitizeNamingText } from './naming.js';
 import { loadOpeningData, createDungeon, performAction, retryDungeon, validateDungeon,
-  getDungeonTurnPhase, prepareDungeonTurn, completeForcedTurn, updateVisibility, resetSecondaryGates } from './mechanics.js';
+  getDungeonTurnPhase, prepareDungeonTurn, completeForcedTurn, resumeDungeonContinuation, updateVisibility, resetSecondaryGates } from './mechanics.js';
 import { createSaveRepository, validateOpeningSave } from './save.js';
 import { createPreferencesRepository } from './preferences.js';
 import { STORY, STORY_TRANSITIONS, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolateStory } from './story.js';
@@ -40,7 +40,7 @@ const NATIVE_CAST_SOUNDS={
   'move-vine-whip:pokemon-001':'regularAttack',
   'move-tail-whip:pokemon-007':'se356','move-tail-whip:pokemon-025':'se356',
   'move-tail-whip:pokemon-054':'se356','move-tail-whip:pokemon-104':'se356',
-  'move-sand-attack:pokemon-133':'se356',
+  'move-sand-attack:pokemon-133':'se356','move-safeguard:pokemon-152':'se356',
   'move-tail-whip:pokemon-133':'se362','move-tail-whip:pokemon-300':'se362',
   'move-tackle:pokemon-001':'se344','move-tackle:pokemon-007':'se344','move-tackle:pokemon-133':'se344',
   'move-tackle:pokemon-152':'se344','move-tackle:pokemon-155':'se344','move-tackle:pokemon-258':'se344',
@@ -301,14 +301,19 @@ async function main() {
     const announcement=events.filter(event=>event.type==='message'&&event.text).map(event=>event.text).join(' ');
     if(announcement&&announcement!==lastNarration){narration.textContent=announcement;lastNarration=announcement;}
     if(silent)return;
-    let effectSounds=0,pickupSounds=0,throwSounds=0,moveSounds=0,preparationSounds=0,whifferSounds=0,sleepSounds=0,paralysisSounds=0,solarSounds=0;
+    let effectSounds=0,pickupSounds=0,throwSounds=0,moveSounds=0,preparationSounds=0,whifferSounds=0,sleepSounds=0,paralysisSounds=0,solarSounds=0,counterSounds=0,lightScreenApplicationSounds=0,screenDefenseSounds=0,protectSounds=0,guardedTargetSounds=0;
     for(const cue of cues){
       if('clearNotice' in cue||!cue.audible)continue;
       if('sound' in cue){
         // One result has at most 12 pickup opportunities: hero, partner, 10 wild.
         // Keep their source order and the existing four-cue limit for others.
         // Excess receipts are consumed without any delayed replay queue.
-        if(cue.sound==='se330'||cue.sound==='se331'||cue.sound==='se332'){
+        if(cue.guardedTarget){
+          // One Protect holder leaves eleven attackers; five passes per actor
+          // give 55 requests in the full result, so every published subset is
+          // within this local counter. SE2 still owns replacement timing.
+          if(guardedTargetSounds++<55)audio.effect(cue.sound);
+        }else if(cue.sound==='se330'||cue.sound==='se331'||cue.sound==='se332'){
           if(pickupSounds++<12)audio.effect(cue.sound);
         }else if(!cue.moveOwned&&(cue.sound==='se356'||cue.sound==='se711')){
           // One leader-only money throw emits at most one spin and one loss.
@@ -330,6 +335,21 @@ async function main() {
           // At most one Bulbasaur's 8 adjacent targets, one Skitty Sing target
           // and ten wild Hypnosis targets; duplicate Sleep emits once too.
           if(sleepSounds++<19)audio.effect(cue.sound);
+        }else if(cue.sound==='se853'){
+          // One admitted Treecko Counter holder can own at most thirteen
+          // effect-321 handles across a complete synchronous result.
+          if(counterSounds++<13)audio.effect(cue.sound);
+        }else if(cue.sound==='se851'){
+          // At most two retained party members can apply Light Screen.
+          if(lightScreenApplicationSounds++<2)audio.effect(cue.sound);
+        }else if(cue.sound==='se890'){
+          // Shared effect 369 belongs to each ordinary Reflect/Light Screen
+          // damage attempt; this is a request-rejection bound, not audibility.
+          if(screenDefenseSounds++<74)audio.effect(cue.sound);
+        }else if(cue.sound==='se708'){
+          // Squirtle and Mudkip are mutually exclusive opening choices; no
+          // admitted wild knows Protect, so one result owns at most one cast.
+          if(protectSounds++<1)audio.effect(cue.sound);
         }else if(cue.sound==='se768'||cue.sound==='se784'||cue.sound==='se785'){
           // The opening roster admits at most one Solar Beam learner. A fresh
           // charge emits one cue; its later release emits preparation+travel.
@@ -391,7 +411,7 @@ async function main() {
   }
 
   /** Completion changes UI surfaces only after all source waits have finished.
-   * The dungeon was already committed; this callback never advances gameplay.
+   * Settlement may dispatch one saved learning continuation after the committed result.
    * @param {boolean} [finish] */
   function advanceBattlePresentation(finish=false){
     if(finish)cancelFaintPublication();
@@ -1080,7 +1100,7 @@ async function main() {
           confirmContinue();
         } else if (selectedIndex === 1) showMenu({ title: 'Delete opening save?', detail: 'This deletes only this opening adventure. Your older campaign saves are preserved.', choices: [
           { label: 'No', run: () => showMenu(null) },
-          { label: 'Yes, delete', run() { if (repository.remove()) { state = null; hasStored = false; showMenu(null); } else setWarning('The saved adventure could not be deleted.'); } },
+          { label: 'Yes, delete', run() { if (repository.remove()) { state = null; hasStored = false; setWarning(null); showMenu(null); } else setWarning('The saved adventure could not be deleted.'); } },
         ] }); else adventureLog();
       } else if (selectedIndex === 0) {
         if (hasStored) showMenu({ title: 'Start a new adventure?', detail: 'An unreadable opening save is stored here. Starting anew will replace its recovery checkpoints.', choices: [
@@ -1164,7 +1184,7 @@ async function main() {
   function giveUpDungeon() {
     const dungeon = currentDungeon();
     if (!dungeon || mode !== 'play' || state?.phase !== 'dungeon' || disposed || paused || busy || faintPublication || battle?.busy()) return;
-    dungeon.status = 'defeated';
+    dungeon.status = 'defeated';delete dungeon.learningContinuation;
     // Giving up has no simulation turn to present. Save its terminal phase
     // together with the status and retire the current menu/presentation.
     void setPhase('defeated');
@@ -1248,6 +1268,12 @@ async function main() {
       void setPhase('defeated');return;
     }
     if (dungeon.pendingLearning.length) { dungeonMenus.learning(); return; }
+    if (dungeon.learningContinuation) {
+      const prepared=dungeon.learningContinuation.owner==='leader-prepared';
+      const before=captureWorld(dungeon),result=resumeDungeonContinuation(dungeon,data),phase=getDungeonTurnPhase(dungeon);
+      if(prepared&&phase==='forced')clearForcedInput();
+      presentDungeonResult(result,before,false,prepared&&(phase==='input'||phase==='forced')?phase:undefined);return;
+    }
     if (dungeon.status === 'stairs') {
       if (getDungeonTurnPhase(dungeon) === 'input') { audio.effect('open'); dungeonMenus.stairs(); }
       return;
