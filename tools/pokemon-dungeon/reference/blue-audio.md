@@ -106,10 +106,14 @@ into the authored score.
 `createOpeningAudio(document)` in `src/blue/audio.js` owns a local Web Audio
 transport and scoped bank, with no WebGL, network or game-state dependency.
 Construction is silent. A trusted native iframe input must activate audio;
-synthetic host-control events cannot unlock it. Hidden, blurred and removed
-pages stop audio. A new trusted gesture restores effect playback permission;
-old effects never replay. A resume promise retired by interruption cannot
-silence a newer trusted activation. Disposal invalidates pending callbacks and releases
+synthetic host-control events cannot unlock it. Hidden and removed pages, true
+browser/application backgrounding and focus outside the game or its same-origin
+host controls stop and suspend audio. While a same-origin host control briefly
+owns focus, an already activated running context remains silent but retains its
+activation; iframe refocus may restore that still-running context without a
+synthetic unlock. A full pause still requires a new trusted gesture. Old effects
+never replay, and a resume promise retired by interruption cannot silence a
+newer trusted activation. Disposal invalidates pending callbacks and releases
 nodes and listeners. Bounds are one context, 32 voices and four new effects per
 presentation. See [Web Audio autoplay guidance](https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Autoplay)
 and [audio scheduling guidance](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices).

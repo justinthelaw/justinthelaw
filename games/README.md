@@ -13,8 +13,8 @@
 - The 2026-10-10 scope and 2026-10-11 pruning instruction replace the historical
   3D/full-campaign target. Follow [the opening plan](pokemon-dungeon-reimagined/plan/BLUE-OPENING.md).
 - The new runtime uses two 256 × 192 Canvas 2D screens, an isolated save journal,
-  local native Rescue Team images/UI, an authored score, source-derived menu
-  effects and sourced game rules.
+  local native Rescue Team images/UI, gameplay and UI sound effects, and
+  source-qualified game rules. Background music is intentionally absent.
 - Exact audiovisual, script and cartridge-behavior parity remains unverified.
   Selected pixel comparisons and static checks do not establish exact replication.
 - PR #392 and the #396 startup repair were previously merged. PR #397 remains
@@ -51,8 +51,10 @@
   are retired; Git history and the local Trash ledger preserve recovery.
 - Authoring tools, dependencies, caches and captured review evidence stay in
   `tools/pokemon-dungeon/`, outside the game's exported resources.
-- Older campaign saves are left untouched. The opening uses a distinct key and
-  alternating verified checkpoints; no automatic migration or reset occurs.
+- Older campaign saves are left untouched. The opening's v2 journal uses
+  alternating verified checkpoints and copies a supported v1 opening save
+  without changing its original slots. Deleted or damaged v2 data never falls
+  back to v1.
 
 ## Validation
 

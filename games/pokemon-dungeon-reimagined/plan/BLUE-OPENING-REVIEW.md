@@ -13,9 +13,9 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 13
+## Current candidate 14
 
-The static export contains **152 files totaling 2,943,779 bytes**, below the
+The static export contains **152 files totaling 2,946,540 bytes**, below the
 unchanged 3 MiB distribution cap. The game uses local resources only and has no
 runtime CDN dependency.
 
@@ -52,7 +52,7 @@ and tail behavior; all seven prior sample/cue tuples remain byte-exact. Nine
 decoded buffers use 235,996 bytes, and both groups retain the shared 32-source
 ceiling. Reapplying Whiffer consumes the source's discarded duration draw and
 reports the existing status without replacing its timer or playing the helper
-sound again. Candidate 13's pinned native-source check passed for all 53 PCM
+sound again. Candidate 14's pinned native-source check passed for all 53 PCM
 input pins. The admitted source joins include Sleep helper 407, Vine Whip 745,
 Razor Leaf 825 and Leech Seed travel 807. Effect 807 adds one finite source wave;
 the earlier joins retain their existing decoded samples and playback bounds.
@@ -86,19 +86,19 @@ RNG call schedule and cartridge replay remain unproved.
 
 ## Static and hosted evidence
 
-The candidate 13 Node 24.21.0 authoring checks passed and cover lint, strict
+The candidate 14 Node 24.21.0 authoring checks passed and cover lint, strict
 static types, source facts, geometry, provenance, archive hashes, effect
 inventories, decoded and encoded limits, and distribution closure. They do not
 import or execute the game as a test.
 
-Exact published head `88bf7229dd512f0c6773b754f9b2c4c92789e30c`
-passed the hosted lint, Game Static Checks, Playwright and CodeQL workflows.
-Codex completed its exact-head review with no major findings and the review
-thread readback found no unresolved threads. The bundled watcher's exit status
-is **unknown** because its session became inaccessible; provider results were
-verified separately and are preserved in `tools/pokemon-dungeon/.work/ci-88bf722/`.
-Candidate 13 is later than that published head and still requires its own
-exact-head hosted checks after publication.
+Exact published head `a59d065807b078739f1210beb5e95b76a69d5061`
+passed hosted lint, Game Static Checks, Playwright and CodeQL. Its exact-head
+Codex review found two actionable issues. The current local candidate repairs
+both: stale README save/RNG wording and loss of an already trusted audio
+activation when same-origin website controls briefly own focus. Those repairs
+postdate the published head and await publication, hosted checks and exact-head
+re-review. The earlier `88bf722` evidence remains preserved under
+`tools/pokemon-dungeon/.work/ci-88bf722/`.
 
 Root's full local website lint/build/Playwright flight check remains blocked by
 Socket Security Policy E403 while installing recently published pinned website
@@ -127,6 +127,7 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 12, migration | Current build migrated the visible 454-turn v1 xoshiro save, advanced and saved 455; the cached `88bf722` build then saved 456 in v1; current reload retained 455 | PASS for namespace isolation; both console logs clean. Corruption, unsupported revisions, quota failure and other interleavings remain static-only |
 | Candidate 12, stale tab | Two current tabs loaded 455; the first saved 456 and the second received the visible changed-data warning; reload retained 456 | PASS for sequential stale-write rejection; not cross-process atomicity or exhaustive interleaving evidence |
 | Candidate 13 | Continued the migrated 456-turn B1F save through B2F/B3F and rescue at 556 turns; Exeggcute selected Hypnosis first for Cyndaquil and then for the awake hero while its partner slept; both recovered, partner reached level 7, berry tutorial, Quicksave/Continue, all rewards and completed Continue passed | PASS for frozen legacy-xoshiro continuation; browser log clean. Leech Seed/PCM 807 was not cast; no hidden RNG-state claim |
+| Candidate 14 | Reproduced the published loss of sound activation after host Show/Hide, then verified the local repair: pointer Show/Hide, host A, Return and Space toggles retained Sound On and continued play; explicit mute remained off; unrelated Back-button focus required a new trusted child click, after which host-control retention worked again | PASS for same-origin host-control focus ownership; browser log clean. OS/window backgrounding was not observed, and no physical audio output was auditioned |
 
 A separate fresh candidate 12 native-family adventure trial is active. It is
 not yet completion evidence and is not claimed by this table.
@@ -166,7 +167,9 @@ browser viewport evidence, not physical iOS or Android acceptance.
   order, and Blue binary parity remain qualified. The native-family core and
   sampled captures do not prove cartridge replay identity.
 - Candidate 13 has a complete legacy-xoshiro continuation through rescue and
-  visible two-recipient Hypnosis selection/recovery evidence. Leech Seed and
+  visible two-recipient Hypnosis selection/recovery evidence. Candidate 14 adds
+  focused host-control audio-activation evidence; true OS/window backgrounding
+  and physical audio output remain unobserved. Leech Seed and
   PCM 807 were not cast. Candidate 12's separate fresh native-family adventure
   trial remains active on B2F and is not completion evidence. Newly admitted
   first-attempt visual and audio routes are not each manually cast or auditioned.

@@ -28,13 +28,20 @@ export function createAudioBus({ document: doc }) {
   /** @type {string|null} */ let epoch = null;
   /** @type {Promise<boolean>|null} */ let pendingResume = null;
   /** @type {((result:boolean)=>void)|null} */ let resolveResume = null;
-  let resumeTimer = 0;
+  let resumeTimer = 0, blurTimer = 0, parentBlurTimer = 0;
   let pendingResumeGeneration = -1;
   let revision = -1, lastEvent = 0, generation = 0;
-  let armed = false, disposed = false;
+  let armed = false, disposed = false, hostControlsHeld = false;
   const listeners = new AbortController();
   function foreground() { return !doc.hidden && doc.hasFocus(); }
-  function audible() { return !disposed && armed && foreground() && !preferences.muted && preferences.master > 0 && context?.state === 'running'; }
+  function hostControlsFocused() {
+    if (!win || win.parent === win) return false;
+    try {
+      const active = win.parent.document.activeElement;
+      return win.frameElement?.isConnected === true && Boolean(active?.closest('[data-game-controls-overlay]'));
+    } catch { return false; }
+  }
+  function audible() { return !disposed && !hostControlsHeld && armed && foreground() && !preferences.muted && preferences.master > 0 && context?.state === 'running'; }
   /** Retire the current request before resolving its caller. A browser may keep
    * resume() pending until a later gesture; it must not hold the UI gate open.
    * @param {boolean} result
@@ -49,6 +56,11 @@ export function createAudioBus({ document: doc }) {
     synth?.stop(); menuEffects?.stop(); pcmEffects?.stop();
     if (context && graph) try { graph.master.gain.cancelScheduledValues(context.currentTime); graph.master.gain.setValueAtTime(0, context.currentTime); } catch { /* Closed/interrupted graph remains silent. */ }
   }
+  function clearBlurTimers() {
+    if (blurTimer) win?.clearTimeout(blurTimer);
+    if (parentBlurTimer) win?.clearTimeout(parentBlurTimer);
+    blurTimer = 0; parentBlurTimer = 0;
+  }
   function suspendContext() {
     if (!context || context.state === 'closed') return;
     try { void context.suspend().catch(() => { /* Denied suspension cannot reach game state. */ }); } catch { /* Closed concurrently. */ }
@@ -56,12 +68,12 @@ export function createAudioBus({ document: doc }) {
   /** All scheduled nodes are stopped/disconnected before any async suspension. */
   function pause() {
     if (disposed) return;
-    armed = false; generation++; settleResume(false); silence(); suspendContext();
+    clearBlurTimers(); hostControlsHeld = false; armed = false; generation++; settleResume(false); silence(); suspendContext();
     if (state !== 'unsupported' && state !== 'denied') state = 'paused';
   }
   /** @param {unknown} error */
   function deny(error) {
-    armed = false; generation++; settleResume(false); silence(); suspendContext();
+    clearBlurTimers(); hostControlsHeld = false; armed = false; generation++; settleResume(false); silence(); suspendContext();
     state = 'denied'; reason = error instanceof Error ? error.message.slice(0, 160) : 'Sound is unavailable. Try Enable sound again.';
   }
   function levels() {
@@ -78,6 +90,40 @@ export function createAudioBus({ document: doc }) {
   function startTransport() {
     if (!audible()) return;
     state = 'ready'; reason = null; levels();
+  }
+  /** Keep a previously gesture-unlocked running context silent while a same-origin
+   * host control briefly owns focus. This path never unlocks or resumes audio.
+   */
+  function holdForHostControls() {
+    if (!armed || context?.state !== 'running') { pause(); return; }
+    clearBlurTimers(); hostControlsHeld = true; generation++; settleResume(false); silence();
+    if (state !== 'unsupported' && state !== 'denied') state = 'paused';
+    // Focus events can observe an intermediate activeElement. Classify after the
+    // current focus transfer, while keeping every already scheduled node silent.
+    blurTimer = win?.setTimeout(() => {
+      blurTimer = 0;
+      if (foreground()) restoreHostControlsHold();
+      else if (!hostControlsFocused()) pause();
+    }, 0) ?? 0;
+  }
+  function restoreHostControlsHold() {
+    if (!hostControlsHeld) return;
+    clearBlurTimers(); hostControlsHeld = false;
+    if (disposed || !foreground() || preferences.muted || preferences.master === 0 || context?.state !== 'running' || !armed) { pause(); return; }
+    startTransport();
+  }
+  function classifyParentBlur() {
+    if (!win || win.parent === win) return;
+    if (parentBlurTimer) win.clearTimeout(parentBlurTimer);
+    // Some browsers blur the parent Window when focus enters its iframe. Wait
+    // for that transfer to settle and pause only for a true parent background.
+    parentBlurTimer = win.setTimeout(() => {
+      parentBlurTimer = 0;
+      try {
+        const parentDoc = win.parent.document;
+        if (parentDoc.hidden || !parentDoc.hasFocus()) pause();
+      } catch { pause(); }
+    }, 0);
   }
   function createContext() {
     if (!win) return false;
@@ -198,7 +244,7 @@ export function createAudioBus({ document: doc }) {
    */
   function dispose() {
     if (disposed) return;
-    disposed = true; armed = false; generation++; settleResume(false); silence(); listeners.abort();
+    disposed = true; clearBlurTimers(); hostControlsHeld = false; armed = false; generation++; settleResume(false); silence(); listeners.abort();
     if (graph) for (const node of Object.values(graph)) try { node.disconnect(); } catch { /* Already disconnected. */ }
     pcmEffects?.dispose();
     const retained = context; graph = null; synth = null; menuEffects = null; pcmEffects = null; context = null; pendingResume = null;
@@ -206,8 +252,10 @@ export function createAudioBus({ document: doc }) {
     state = 'disposed'; reason = null;
   }
   doc.addEventListener('visibilitychange', () => { if (!foreground()) pause(); }, { signal: listeners.signal });
-  win?.addEventListener('blur', pause, { signal: listeners.signal });
+  win?.addEventListener('blur', holdForHostControls, { signal: listeners.signal });
+  win?.addEventListener('focus', restoreHostControlsHold, { signal: listeners.signal });
   win?.addEventListener('pagehide', pause, { signal: listeners.signal });
+  try { if (win && win.parent !== win) win.parent.addEventListener('blur', classifyParentBlur, { signal: listeners.signal }); } catch { /* Cross-origin embedding keeps the normal child pause path. */ }
   /** @returns {AudioStatus} */
   const status = () => Object.freeze({ state, reason, epoch, voices: (synth?.count() ?? 0) + (menuEffects?.count() ?? 0) + (pcmEffects?.count() ?? 0) });
   return Object.freeze({ beginEpoch, present, setPreferences, activate, pause, dispose, status });

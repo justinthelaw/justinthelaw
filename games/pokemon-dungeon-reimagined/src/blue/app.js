@@ -495,7 +495,9 @@ async function main() {
     interrupt() {
       cancelFaintPublication();
       pendingCameraChoice=null;pendingCameraCancel=null;
-      paused = true; lastFrame = 0; audio.pause(); updateSoundButton(); commitNow();
+      // Audio owns browser blur/visibility/pagehide so it can distinguish a
+      // same-origin host-control focus handoff from a true background pause.
+      paused = true; lastFrame = 0; updateSoundButton(); commitNow();
       for (const button of touchControls.querySelectorAll('.held')) button.classList.remove('held');
     },
   });
