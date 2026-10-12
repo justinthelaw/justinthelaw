@@ -13,12 +13,19 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 29
+## Current candidate 30
 
-Candidate 29 contains **151 files totaling 2,984,291 bytes**, below the
+Candidate 30 contains **151 files totaling 2,983,615 bytes**, below the
 unchanged 3 MiB distribution cap. All resources remain local. It retains the
 reviewed Continue progress card, shared dungeon-menu clock, level-37 Cubone
 Thrash and the source-matching Bide release direction.
+
+Candidate 30 removes ten unreachable ability checks, including two duration
+modifiers, saving 676 runtime bytes. None of the 20
+admitted battle species has the corresponding abilities. Restored-save role
+validation and species-derived ability lookup preserve that boundary after
+retries. Reachable type immunities, abilities, messages and RNG ordering remain
+unchanged; no save key or admitted gameplay behavior is removed.
 
 Candidate 29 adds the retained Solar Beam charge/release path, its three
 artwork records and three source-qualified sound cues. The runtime loader and
@@ -251,6 +258,7 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 27, downstream continuation | A smaller-model tester continued Cinder/Fern from B2F into B3F, then verified Quicksave and Continue at `0:29:19`, Adventures 2, both level 5 at 30 HP | PASS for bounded traversal and persistence on the frozen pre-prune audio build; rescue was not reached and console logs were not inspected. Its resumed checkpoint subsequently reached `0:29:50` |
 | Candidate 28, rescue continuation | The optimized 58-effect build restored Cinder/Fern B3F at `0:29:50`, Adventures 2 and 30 HP each. Visible corridor movement reached B3F stairs, the separate Caterpie clearing, reunion and all three berry rewards. Adventure Log showed 95 dungeon turns. Completed Continue showed Tiny Woods cleared, `0:42:03`, Adventures 2, and Yes resumed the finished rescue | PASS for the new asset-loader build, B3F-to-rescue continuation, rewards, genuine numeric completed-save metadata, Help/download/Return and controls; warning/error logs empty. No fresh full run, Fire Spin/Whirlpool cast, combat-effect or physical-audio claim |
 | Candidate 29, bounded combat | Restored Sprout/Finn B1F with Tackle 21/22 and Growl 18/20, descended to B2F, defeated two visible Sunkern with Tackle, and verified PP 19/22. The final combat log showed 18 damage and 16 EXP each; Help/download/Return worked | PASS for runtime asset admission, old-save loading, stairs, combat, PP and controls; warning/error log empty. No Solar Beam cast, physical audio, full fresh run or new Quicksave/Continue claim |
+| Candidate 29, fresh rescue | A smaller-model tester completed boot/title, quiz, Squirtle/Treecko creation, all three floors, Caterpie reunion, all three berries and completed Continue in the website iframe. Root independently read the Adventure Log: 40 dungeon turns. Continue showed Tiny Woods cleared, 0:11:58 then 0:12:30, Adventures 1 | PASS for a fresh full run on signed `e8e641d`; both browser warning/error logs empty. Both partners stayed level 5, no new learned move or physical audio was exercised, and a B2F knockout was not confirmed. Candidate 30 changes only proven-unreachable ability branches |
 
 The separate candidate-12 fresh trial is retired as invalid acceptance evidence
 because it used hidden reads. Its preserved partial evidence does not extend the

@@ -331,20 +331,13 @@ function inflict(state,actor,target,status,data,events) {
     }
     return;
   }
-  if(status==='sleep'&&(ability(data,target,'Insomnia')||ability(data,target,'Vital Spirit')))return;
-  if(status==='paralysis'&&ability(data,target,'Limber'))return;
-  if(status==='infatuated'&&ability(data,target,'Oblivious'))return;
-  if(normalized==='confusion'&&ability(data,target,'Own Tempo'))return;
-  if(status==='burn'&&(types(data,target).includes('Fire')||ability(data,target,'Water Veil')))return;
-  if(status==='cringe'&&ability(data,target,'Inner Focus'))return;
+  if(status==='burn'&&types(data,target).includes('Fire'))return;
   if(status==='leech-seed'&&types(data,target).includes('Grass'))return;
-  if(status==='poisoned'&&(types(data,target).includes('Poison')||types(data,target).includes('Steel')||ability(data,target,'Immunity')))return;
+  if(status==='poisoned'&&(types(data,target).includes('Poison')||types(data,target).includes('Steel')))return;
   const timer=data.timers[status==='poisoned'?'poison':status==='confused'?'confusion':status];
   if(!timer){message(state,events,`${target.name} was unaffected.`);return;}
   const extra=status==='sleep'?0:1;
-  let duration=timer.min+(timer.max===timer.min?0:draw(state,timer.max-timer.min+1));
-  if(!timer.indefinite&&NEGATIVE_STATUSES.includes(normalized)&&ability(data,target,'Natural Cure'))duration=Math.min(duration,5);
-  if(status==='sleep'&&ability(data,target,'Early Bird'))duration=Math.max(1,Math.floor(duration/2));
+  const duration=timer.min+(timer.max===timer.min?0:draw(state,timer.max-timer.min+1));
   const turns=timer.indefinite?128:duration+extra;
   const before=captureActor(target);
   // The original stores one status per class. A fresh paralysis replaces a
