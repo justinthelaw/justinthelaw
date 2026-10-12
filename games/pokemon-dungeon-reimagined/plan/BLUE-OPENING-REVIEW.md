@@ -13,20 +13,19 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 23
+## Current candidate 24
 
-Candidate 23 contains **151 files totaling 2,793,229 bytes**, below the
-unchanged 3 MiB distribution cap. It builds on signed candidate 22 with two
-independently reviewed source-qualified additions: comparative target sight at
-four AI acquisition call sites and defense-down SE2 cue 906. The target helper
-uses the native room-plus-border rule and the short corridor floor/wall test;
-the existing `inSight` owner remains unchanged for actual sight, camera and
-other callers. Broader target selection, secondary terrain, fallback
-pathfinding and Blue behavior remain qualified.
+Candidate 24 contains **151 files totaling 2,797,841 bytes**, below the
+unchanged 3 MiB distribution cap. It adds the independently reviewed Skull Bash
+v7 charge owner, an up-front autonomous paralysis/cringe attack-selection gate,
+and the bounded nonleader confusion chooser/walk leaf. The combined change adds
+4,612 runtime bytes across four runtime files; the fifth changed source file is
+type-only. It preserves candidate 23's target-sight and defense-down owners.
 
-Candidate 22 supplies the latest complete static and bounded manual baseline.
-Candidate 23's pinned Node 24 static suite and bounded browser check passed. All
-resources remain local with no runtime CDN dependency.
+Candidate 23 supplies the latest complete static and bounded manual baseline.
+Candidate 24's full pinned Node 24.21.0 aggregate check and bounded browser
+review passed. All resources remain local with no
+runtime CDN dependency.
 
 The native battle presentation contains **56 distinct indexed effects in three
 banks**. Their decoded atlases use 3,948,544 bytes. Including the separately
@@ -103,6 +102,22 @@ the minimum stage. This adds no decoded PCM buffer and does not change player,
 quota, counter, phase or stat mechanics. Blue instrument identity, waveform
 phase, mixing and physical audition remain unverified.
 
+Candidate 24 admits Squirtle's exact level-40 Skull Bash row. The first use
+spends PP once, records the charge and exact slot, and applies the represented
+physical Defense stage; release uses the source-qualified second-turn route.
+Save validation, floor/faint/status/slot replacement and leader/autonomous
+action cleanup own the stored phase. Initial autonomous use follows the tuple-
+zero adjacent scan and fallback. This removes one factual late move from the
+unsupported inventory; 15 move IDs across 20 learnset rows remain.
+
+For autonomous actors, paralysis or cringe now rejects attack selection before
+weights or RNG and falls through to the existing movement owner. The bounded
+confusion leaf keeps item selection first, applies the comparative 70% chooser
+gate before charge/weights, randomizes admitted attack facing at execution, and
+uses native direction order for nonleader confused walking. Confused item use,
+leader walking, Bide release direction, unsupported no-foe resolvers and exact
+Blue RNG-stream identity remain outside this contract.
+
 New adventures use the source-qualified native-family dungeon LCG core and
 fresh-floor preseed progression. Historical xoshiro saves retain their exact
 payload and sequence. The version-two journal isolates current snapshots from
@@ -143,7 +158,8 @@ closure without importing or executing game source. Candidate 22's full pinned
 Node 24.21.0 static suite also passed at 151 files and 2,791,623 bytes.
 Candidate 23's full pinned Node 24.21.0 static suite passed at 151 files and
 2,793,229 bytes; the canonical SE2 exporter also verified all 45 native source
-pins. Candidate 15's
+pins. Candidate 24's full pinned Node 24.21.0 aggregate suite also passed at 151
+files and 2,797,841 bytes. Candidate 15's
 fresh browser run completed all three floors, rescue, reunion, all three berry
 rewards, Adventure Log at 227 turns, Return to top menu and completed Continue.
 Both party members reached level 6; warning/error logs were empty. Candidate 15's
@@ -157,12 +173,12 @@ Log, Continue and controls recovered with no warning/error logs. Only Bulbasaur
 of the nine source-reviewed bindings was cast, and no physical audio was
 auditioned.
 
-Exact published head `b188d60e7f6d7a64c03468112c92c9f58f3365f2`
+Exact published head `01f452283a95acbc2d6c1b1919ac4436dcdd7f88`
 passed hosted lint, Game Static Checks, Playwright and CodeQL. Its requested
 exact-head Codex review returned a qualifying thumbs-up, and its Pages artifact
-was verified against all 151 declared runtime files totaling 2,791,623 bytes.
-The watcher has no known exit result; three review threads remain unresolved
-pending the separate approval workflow.
+was verified against all 151 declared runtime files totaling 2,793,229 bytes.
+The watcher exited 1 only because three review threads remain unresolved pending
+the separate approval workflow.
 The earlier `88bf722` evidence remains preserved under
 `tools/pokemon-dungeon/.work/ci-88bf722/`.
 
@@ -208,6 +224,8 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 22 | Restored Flare/Bud B2F from 21 turns, played 22 ordinary room/corridor movement turns, recovered Flare from 26 to 30 HP, then Quicksave, 43-turn Adventure Log and Continue passed | PASS for bounded movement, following and save recovery; warning/error log empty. No visible wild pursuit occurred, so the new wild direct-step branch remains source-static-qualified rather than manually demonstrated. The downstream browser surface was unavailable; root performed this check |
 
 | Candidate 23 | Restored Psyduck/Charmander from the in-game B1F 12-turn log, descended to B2F and used Tail Whip on adjacent Wurmple: Defense fell and PP22→21. Help/Return, Quicksave, 19-turn Adventure Log and Continue passed | PASS for one Psyduck defense-down route and controls/save recovery; warning/error log empty. No physical audition, all-producer coverage, dedicated sight geometry measurement or full-rescue claim |
+
+| Candidate 24 | Restored Flint/Volt B1F at four turns. With partner moves temporarily disabled and Exclusive Move-User enabled, Sunkern attacked Volt, Static paralyzed it, and the enemy moved after the party withdrew without another attack or recovery message. Restored partner settings, Quicksaved at eight turns and verified Continue, moves and IQ selections | PASS for one naturally paralyzed enemy movement opportunity and save/settings recovery; warning/error log empty. No hidden RNG measurement, cringe/confusion gameplay, level-40 Skull Bash cast/saved charge, physical audio or full-rescue claim |
 
 The separate candidate-12 fresh trial is retired as invalid acceptance evidence
 because it used hidden reads. Its preserved partial evidence does not extend the
@@ -268,8 +286,9 @@ browser viewport evidence, not physical iOS or Android acceptance.
 - Heal Bell, Charm and Screech are later retry paths and have not been manually
   cast in the current candidate. Their source and save contracts are statically
   reviewed.
-- Repeated failed rescues retain EXP and can expose **16 later move IDs across 21
-  learnset rows**. Those unsupported late routes remain visibly unavailable
+- Repeated failed rescues retain EXP and can expose **15 later move IDs across 20
+  learnset rows** after admitting Squirtle's exact level-40 Skull Bash row. Those
+  unsupported late routes remain visibly unavailable
   without consuming a turn or PP. They are outside first-attempt acceptance.
 - Blue-specific title/menu layers and some exact pixels/timings remain
   comparative or unresolved. Asset provenance does not assert a rights-holder

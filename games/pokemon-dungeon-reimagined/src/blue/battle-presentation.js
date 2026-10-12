@@ -460,7 +460,8 @@ export class BattlePresentation {
       }
       if(record?.kind==='cast'){
         flushWalk();finishAttackTails();drainEffects();patchActors([record.actor],cursor);
-        const route=assets.moveEffects(record.moveId,record.actor.speciesId);
+        const selectedRoute=assets.moveEffects(record.moveId,record.actor.speciesId);
+        const route=record.moveId==='move-skull-bash'&&record.phase==='release'&&selectedRoute?{...selectedRoute,animation:1,cast:0,target:0,travel:0}:selectedRoute;
         if(route)moves.set(record.actor.id,route);
         const start=cursor;messageAt=start;
         const visible=displayedActor(record.actor);

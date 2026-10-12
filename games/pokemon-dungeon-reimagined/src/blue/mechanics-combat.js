@@ -61,6 +61,13 @@ function defeated(state) { return state.status==='defeated'; }
  * and the level-one Tiny Woods encounters have complete admitted handlers.
  * @param {MoveData} move */
 export function supportsMove(move) {
+  if(move.id==='move-skull-bash'){
+    const [charge,defense,damage]=move.effects;
+    return move.type==='normal'&&move.power===10&&move.pp===15&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===100&&
+      move.criticalPercent===12&&move.aiWeight===15&&move.chainedHitsRaw===1&&move.range===7&&move.target===4&&move.cutsCorners===false&&move.effects.length===3&&
+      charge?.op==='charge'&&Object.keys(charge).length===3&&charge.status==='skull-bash'&&charge.turns===1&&defense?.op==='stat-stage'&&Object.keys(defense).length===4&&defense.stat==='defense'&&defense.delta===1&&defense.recipient==='user'&&
+      damage?.op==='normal-damage'&&Object.keys(damage).length===2&&damage.multiplier===2;
+  }
   if(move.id==='move-mud-sport'){
     const effect=move.effects[0];
     return move.type==='ground'&&move.power===2&&move.pp===17&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===100&&
@@ -249,7 +256,7 @@ export function damage(state,target,amount,data,events,source=null,options={}) {
   if(target.status.bide)target.bideDamage=Math.min(999,target.bideDamage+amount);
   if(source&&target.hp>0&&target.status.enraged){const previous=captureActor(target);target.stages.attack=clamp((target.stages.attack??10)+1,0,20);recordEffect(events,previous,target,425);}
   if(target.hp>0)return;
-  events.push({type:'defeat',actorId:target.id,presentation:{kind:'faint',actor:captureActor(target)}});message(state,events,options.cause==='recoil'?`${target.name} fainted from recoil!`:`${target.name} fainted!`);
+  delete target.skullBashSlot;events.push({type:'defeat',actorId:target.id,presentation:{kind:'faint',actor:captureActor(target)}});message(state,events,options.cause==='recoil'?`${target.name} fainted from recoil!`:`${target.name} fainted!`);
   // The native drop precedes HandleFaint, including the original partner.
   // Only the leader retains its held slot for the dungeon-exit owner.
   if(target.id!=='hero'&&target.heldItem){dropItem(state,target.heldItem,target,events);target.heldItem=null;recordSync(state,events,[target],true);}
@@ -319,6 +326,7 @@ function inflict(state,actor,target,status,data,events) {
   // The original stores one status per class. A fresh paralysis replaces a
   // burn, and Smokescreen replaces Focus Energy rather than stacking with it.
   for(const group of STATUS_CLASSES)if(group.includes(normalized))for(const key of group)delete target.status[key];
+  if(normalized==='bide'||normalized==='enraged')delete target.skullBashSlot;
   target.status[normalized]=turns;
   if(status==='leech-seed'){target.leechSource=actor.id;target.periodic.leechSeed=0;}
   if(status==='poisoned')target.periodic.poison=0;
@@ -412,12 +420,12 @@ function initializeMultipliers(actor){
 /** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {MoveData} move @param {OpeningData} data @param {GameEvent[]} events @param {{effectiveness:0|1|2|3}} [visual] */
 function damageAmount(state,actor,target,move,data,events,visual) {
   const physical=isPhysicalType(element(move.type)),a=actor.stats,t=target.stats,regular=move.id==='regular-attack';
-  let multiplier=regular?128:256;
+  let multiplier=regular?128:move.id==='move-skull-bash'?512:256;
   if(move.id==='move-low-kick')multiplier=data.species[target.speciesId]?.lowKickMultiplier??256;
   const armored=ability(data,target,'Battle Armor')||ability(data,target,'Shell Armor');
   const result=calculateNormalDamage({
     type:{moveType:element(move.type),attackerTypes:types(data,actor),defenderTypes:types(data,target),defenderExposed:false,abilities:{wonderGuard:false,torrent:ability(data,actor,'Torrent'),overgrow:ability(data,actor,'Overgrow'),blaze:ability(data,actor,'Blaze')},attackerHp:actor.hp,attackerMaxHp:actor.maxHp,mudSport:(state.mudSport??0)>0,waterSport:state.waterSport>0,charging:false},
-    stats:{rawOffense:physical?a.attack:a.specialAttack,rawDefense:physical?t.defense:t.specialDefense,movePower:move.power,offenseStage:actor.stages[physical?'attack':'specialAttack']??10,defenseStage:target.stages[physical?'defense':'specialDefense']??10,offensiveMultiplierQ8:(physical?actor.physicalOffenseMultiplierQ8:actor.specialOffenseMultiplierQ8)??256,defensiveMultiplierQ8:(physical?target.physicalDefenseMultiplierQ8:target.specialDefenseMultiplierQ8)??256,flashFireBoost:0,skullBash:false,abilities:{guts:ability(data,actor,'Guts'),attackerNegativeStatus:NEGATIVE_STATUSES.some(key=>!!actor.status[key])}},
+    stats:{rawOffense:physical?a.attack:a.specialAttack,rawDefense:physical?t.defense:t.specialDefense,movePower:move.power,offenseStage:actor.stages[physical?'attack':'specialAttack']??10,defenseStage:target.stages[physical?'defense':'specialDefense']??10,offensiveMultiplierQ8:(physical?actor.physicalOffenseMultiplierQ8:actor.specialOffenseMultiplierQ8)??256,defensiveMultiplierQ8:(physical?target.physicalDefenseMultiplierQ8:target.specialDefenseMultiplierQ8)??256,flashFireBoost:0,skullBash:physical&&target.skullBashSlot!==undefined,abilities:{guts:ability(data,actor,'Guts'),attackerNegativeStatus:NEGATIVE_STATUSES.some(key=>!!actor.status[key])}},
     critical:{moveChance:move.criticalPercent,focusEnergy:!!actor.status.focusEnergy,typeAdvantageMaster:false,battleArmor:armored,shellArmor:false},teamMember:team(actor),leader:actor.id==='hero',integerBelly:Math.floor(actor.belly),level:actor.level,regularAttack:regular,targetEffectsApply:true,reflect:!!target.status.reflect,lightScreen:false,moveEffectMultiplierQ8:multiplier,
     rolls:actor.id!=='hero'&&Math.floor(actor.belly)===0?null:{sharedPowerRoll:draw(state,100),criticalRoll:armored?null:draw(state,100),varianceRoll:draw(state,16384)},
   });
@@ -532,15 +540,22 @@ function resolveDamagingHit(state,actor,target,move,data,events,execution) {
  * ordinary misses do not cancel later passes. PP/use text belong to the action.
  * @param {DungeonState} state @param {Actor} actor @param {number|'struggle'|null} slot @param {OpeningData} data @param {GameEvent[]} events */
 export function attack(state,actor,slot,data,events) {
+  // Action execution randomizes in native direction order before wrapper/PP checks.
+  if(actor.status.confusion)actor.direction=DIRECTIONS[(8-draw(state,8))&7]??'s';
   recordAction(events,actor.id,'other',actor);
   flushQueuedMovement(state,events);
-  if(actor.status.sleep||actor.status.paralysis||actor.status.cringe||actor.status.infatuated){message(state,events,`${actor.name} can't attack!`);return;}
   const learned=typeof slot==='number'?actor.moves[slot]:null,move=data.moves[slot==='struggle'?'move-struggle':learned?.id??'regular-attack'];if(!move)return;
+  const skullRelease=typeof slot==='number'&&actor.skullBashSlot===slot&&learned?.id==='move-skull-bash';
+  if(actor.status.sleep||actor.status.paralysis||actor.status.cringe||actor.status.infatuated){message(state,events,`${actor.name} can't attack!`);if(skullRelease){delete actor.skullBashSlot;recordSync(state,events,[actor]);}return;}
   if(!supportsMove(move)){message(state,events,`${move.name} is not yet available in this browser remake.`);return;}
-  if(learned){if(learned.pp<=0){message(state,events,`${move.name} has no PP left!`);return;}learned.pp--;actor.usedMove=true;}
-  if(actor.status.confusion)actor.direction=DIRECTIONS[draw(state,8)]??'s';
+  if(learned&&!skullRelease){if(learned.pp<=0){message(state,events,`${move.name} has no PP left!`);return;}learned.pp--;actor.usedMove=true;}
+  if(move.id==='move-skull-bash'&&!skullRelease){
+    events.push({type:'attack',actorId:actor.id,moveId:move.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:move.id,first:true}});
+    message(state,events,`${actor.name} used ${move.name}!`);delete actor.status.bide;delete actor.status.enraged;actor.bideDamage=0;actor.skullBashSlot=/** @type {number} */(slot);recordSync(state,events,[actor]);message(state,events,`${actor.name} lowered its head!`);return;
+  }
   const execution=createMoveExecution(),passes=move.chainedHitsRaw===0?2+draw(state,4):move.chainedHitsRaw;
-  const damaging=move.effects.some(effect=>effect.op==='normal-damage');
+  const activeMove=skullRelease?{...move,range:0,target:0,effects:[{op:'normal-damage',multiplier:2}]}:move;
+  const damaging=activeMove.effects.some(effect=>effect.op==='normal-damage');
   let foundTarget=false;
   for(let pass=0;pass<passes;pass++){
     // CannotAttack runs per pass, not between members of one area target list.
@@ -548,24 +563,24 @@ export function attack(state,actor,slot,data,events) {
     if(!moveEntityValid(actor)||moveFloorOver(state,execution)||actor.status.sleep||actor.status.paralysis||actor.status.cringe||actor.status.infatuated)break;
     /** @type {import('./mechanics-targets.js').MoveTrace} */
     const trace={};
-    const targets=moveTargets(state,actor,move,trace);
+    const targets=moveTargets(state,actor,activeMove,trace);
     // Native direct/front scans stop before a later empty cast. Line projectiles
     // trace after casting and can still execute their later empty pass.
-    if(pass>0&&!targets.length&&move.range!==5)break;
-    events.push({type:'attack',actorId:actor.id,targetId:targets[0]?.id,moveId:move.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:move.id,first:pass===0}});
+    if(pass>0&&!targets.length&&activeMove.range!==5)break;
+    events.push({type:'attack',actorId:actor.id,targetId:targets[0]?.id,moveId:move.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:move.id,first:pass===0,...(skullRelease?{phase:'release'}:{})}});
     if(pass===0)message(state,events,move.id!=='regular-attack'?`${actor.name} used ${move.name}!`:`${actor.name} attacked!`);
     // The native first-team request follows cast handling, before travel.
     // Line targeting has no pre-collected target at this source boundary.
-    if(move.range!==5&&trace.firstTeamTarget)recordCamera(events,trace.firstTeamTarget,'look');
+    if(activeMove.range!==5&&trace.firstTeamTarget)recordCamera(events,trace.firstTeamTarget,'look');
     if(!targets.length){
-      if(EMPTY_TARGET_PRESENTATION_MOVES.has(move.id)&&trace.to&&trace.stop)events.push({type:'presentation',presentation:{kind:'empty-target',actorId:actor.id,moveId:/** @type {import('./battle-events.js').EmptyTargetMoveId} */(move.id),from:{x:actor.x,y:actor.y},to:{...trace.to},stop:trace.stop,singleTile:move.range!==5}});
+      if(EMPTY_TARGET_PRESENTATION_MOVES.has(move.id)&&trace.to&&trace.stop)events.push({type:'presentation',presentation:{kind:'empty-target',actorId:actor.id,moveId:/** @type {import('./battle-events.js').EmptyTargetMoveId} */(move.id),from:{x:actor.x,y:actor.y},to:{...trace.to},stop:trace.stop,singleTile:activeMove.range!==5}});
       continue;
     }
     foundTarget=true;
     for(const target of targets){
       if(!moveEntityValid(actor)||moveFloorOver(state,execution))break;
       if(target.hp<=0)continue;
-      events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:move.id,target:captureActor(target),phase:'visit',singleTile:move.range!==5}});
+      events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:move.id,target:captureActor(target),phase:'visit',singleTile:activeMove.range!==5}});
       wakeInitialSleep(state,target,events);
       if(!hits(state,actor,target,move.accuracyBeforeEffect,data)){message(state,events,`${target.name} avoided the move!`,{kind:'miss',actorId:actor.id,accuracy:1,target:captureActor(target)});continue;}
       // Native unk158 is set after accuracy 1, before the handler.
@@ -582,7 +597,7 @@ export function attack(state,actor,slot,data,events) {
       // move is enabled. Reuse HealTargetHP's existing receipt and result owner.
       if(move.id==='move-synthesis'){heal(state,target,50,events);continue;}
       if(Object.hasOwn(DIRECT_HP_AMOUNTS,move.id)){resolveDirectHp(state,actor,target,move,data,events,execution);continue;}
-      if(damaging)resolveDamagingHit(state,actor,target,move,data,events,execution);
+      if(damaging)resolveDamagingHit(state,actor,target,activeMove,data,events,execution);
       else{
         // ACCURACY_2 belongs to damaging moves only. Native status handlers
         // return success even when an immunity or stat cap prevents a change.
@@ -632,7 +647,21 @@ export function attack(state,actor,slot,data,events) {
     recordSync(state,events,[actor]);
   }
   flushExperience(state,actor,execution,data,events);
+  if(skullRelease){delete actor.skullBashSlot;recordSync(state,events,[actor]);}
 }
+/** Resolve Skull Bash's bide-class status at one actor opportunity.
+ * Timed blockers preserve it; confusion interrupts it before selection.
+ * @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events
+ * @returns {'preserve'|'cancel'|number|null} */
+export function skullBashOpportunity(state,actor,events){
+  if(actor.skullBashSlot===undefined)return null;
+  const slot=actor.skullBashSlot;
+  if(!Number.isInteger(slot)||slot<0||slot>3||actor.moves[slot]?.id!=='move-skull-bash'){delete actor.skullBashSlot;recordSync(state,events,[actor]);return 'cancel';}
+  if(actor.status.sleep||actor.status.freeze||actor.status.infatuated)return 'preserve';
+  if(actor.status.confusion){delete actor.skullBashSlot;message(state,events,`${actor.name}'s move was interrupted!`);recordSync(state,events,[actor]);return 'cancel';}
+  return slot;
+}
+
 /** Native beginning-of-opportunity timers and HP accumulator, followed by source
  * blocking classes. Autonomous scheduler differences remain documented.
  * Swapping supplies its already-selected Walk and does not report an AI block.

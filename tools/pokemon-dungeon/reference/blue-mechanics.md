@@ -172,6 +172,16 @@ copied abilities, factual mutation or helper callers requires a new source revie
   adjacent and unreviewed move owners. The correction adds no random draw,
   although rejecting a formerly visible target can change downstream choices
   and RNG history. Secondary terrain and later-dungeon sight remain qualified.
+  Candidate 24 closes three further autonomous owners. Paralysis or cringe
+  rejects attack selection before charge lookup, move weights and RNG, then
+  leaves movement fallback available. For a non-Dedicated confused actor, held
+  items retain precedence; the comparative 70% attack-choice draw precedes
+  stored charge and weighted selection, while a rejected choice falls through
+  to confused walking in native direction order. Admitted attacks randomize
+  facing at action execution, including accepted zero-PP attempts. Dedicated
+  Traveler keeps its separate movement return. Confused Eat/Throw direction,
+  leader confused Walk, Bide release direction, unsupported no-foe resolvers
+  and Blue RNG-stream identity remain unowned.
   The scheduler implements the admitted normal/slowed speed rows and forced
   leader passes described below; the full native phase/speed repertoire and
   some status ordering remain incomplete. Learning choices are presented after the
@@ -478,6 +488,17 @@ per opportunity only while the integer part of Belly is nonzero; plain A remains
 edge-triggered and standalone Space waiting is unchanged. This follows
 `DungeonHandlePlayerInput` (`src/dungeon_main.c:176-191`) without admitting OS
 key-repeat as additional actions.
+
+Candidate 24 admits the exact Squirtle level-40 Skull Bash row as a dedicated
+charge owner. First phase spends one PP, records the charge and learned slot,
+and applies its represented effective physical Defense stage; release uses the
+source second-turn presentation route without another PP spend. Optional save
+state remains backward-compatible and is cleared on invalid slot/life/status,
+floor reset, class replacement and the source-qualified leader/autonomous
+action boundaries. Initial autonomous selection uses tuple-zero adjacent target
+order, candidate draw and regular fallback. A newly created charge survives its
+creating action; a charge present at autonomous action start clears after that
+action. This does not generalize to Solar Beam, Bide or other charge classes.
 
 Defense-down presentation remains separate from stat ownership. Comparative
 `LowerDefenseStageTarget` helpers request effect 399 before mutation and clamp

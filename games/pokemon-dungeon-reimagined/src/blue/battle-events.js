@@ -12,7 +12,7 @@
  * | {kind:'camera',actor:Actor,mode:'look'|'leader'|'input'}
  * | {kind:'flush'}
  * | {kind:'face',actor:Actor}
- * | {kind:'cast',actor:Actor,moveId:string,first:boolean}
+ * | {kind:'cast',actor:Actor,moveId:string,first:boolean,phase?:'release'}
  * | {kind:'target',actorId:string,moveId:string,target:Actor,phase?:'visit'|'repeat-hit',singleTile?:boolean}
  * | {kind:'empty-target',actorId:string,moveId:EmptyTargetMoveId,from:import('./mechanics-types.js').Point,to:import('./mechanics-types.js').Point,stop:'empty'|'wall'|'actor'|'outside',singleTile:boolean}
  * | {kind:'move',actor:Actor}
