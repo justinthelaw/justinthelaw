@@ -33,7 +33,7 @@ import { STORY, STORY_TRANSITIONS, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolat
 /** @typedef {{editor:NamingState,transition:number}} NameComposition */
 
 /** First-attempt native direct sounds; unreviewed species overrides stay unchanged.
- * @type {Readonly<Record<string,'regularAttack'|'se356'>>} */
+ * @type {Readonly<Record<string,'regularAttack'|'se356'|'se344'>>} */
 const NATIVE_CAST_SOUNDS={
   'move-scratch:pokemon-052':'regularAttack','move-scratch:pokemon-054':'regularAttack',
   'move-scratch:pokemon-158':'regularAttack','move-scratch:pokemon-255':'regularAttack',
@@ -41,6 +41,9 @@ const NATIVE_CAST_SOUNDS={
   'move-tail-whip:pokemon-007':'se356','move-tail-whip:pokemon-025':'se356',
   'move-tail-whip:pokemon-054':'se356','move-tail-whip:pokemon-104':'se356',
   'move-sand-attack:pokemon-133':'se356',
+  'move-tackle:pokemon-001':'se344','move-tackle:pokemon-007':'se344','move-tackle:pokemon-133':'se344',
+  'move-tackle:pokemon-152':'se344','move-tackle:pokemon-155':'se344','move-tackle:pokemon-258':'se344',
+  'move-tackle:pokemon-300':'se344','move-tackle:pokemon-016':'se344','move-tackle:pokemon-265':'se344',
 };
 
 /** @param {string} id */
