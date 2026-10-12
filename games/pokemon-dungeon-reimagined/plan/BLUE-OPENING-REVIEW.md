@@ -13,18 +13,19 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 22
+## Current candidate 23
 
-Candidate 22 contains **151 files totaling 2,791,623 bytes**, below the
-unchanged 3 MiB distribution cap. It builds on signed candidate 21 with the
-independently reviewed direct-step subset for Tiny Woods wild actors and removes
-four unused exports without changing their retained owners. The wild branch is
-limited to a unique closest visible team target and a legal, empty direct tile;
-every rejected guard falls through to the signed movement path. Broader target
-selection, visibility, fallback pathfinding and Blue behavior remain qualified.
+Candidate 23 contains **151 files totaling 2,793,229 bytes**, below the
+unchanged 3 MiB distribution cap. It builds on signed candidate 22 with two
+independently reviewed source-qualified additions: comparative target sight at
+four AI acquisition call sites and defense-down SE2 cue 906. The target helper
+uses the native room-plus-border rule and the short corridor floor/wall test;
+the existing `inSight` owner remains unchanged for actual sight, camera and
+other callers. Broader target selection, secondary terrain, fallback
+pathfinding and Blue behavior remain qualified.
 
-Candidate 21 supplies the current complete static, hosted and manual baseline.
-Candidate 22's full pinned Node 24.21.0 static check passed. All
+Candidate 22 supplies the latest complete static and bounded manual baseline.
+Candidate 23's pinned Node 24 static suite and bounded browser check passed. All
 resources remain local with no runtime CDN dependency.
 
 The native battle presentation contains **56 distinct indexed effects in three
@@ -94,8 +95,13 @@ batches, native/Blue mixing, phase, channel competition, resampling and physical
 audition remain qualified. Candidate 20 also admits comparative SE2 Tail Whip 362 only for
 Eevee and Skitty's source-overridden direct casts. It adds six bounded pulse
 notes and no decoded buffer; the other four retained Tail Whip learners keep
-their existing mapping. Defense-down 906 remains a separate unadmitted gap, and
-Blue instrument identity, waveform phase, mixing and audition remain unverified.
+their existing mapping. Candidate 23 admits comparative defense-down SE2 cue
+906 for the 15 reviewed species/level pairs using Leer, Tail Whip or Screech.
+The 15-note pulse cue joins the existing effect-399 receipt; native defense
+helpers request that effect before mutation and clamp reporting, including at
+the minimum stage. This adds no decoded PCM buffer and does not change player,
+quota, counter, phase or stat mechanics. Blue instrument identity, waveform
+phase, mixing and physical audition remain unverified.
 
 New adventures use the source-qualified native-family dungeon LCG core and
 fresh-floor preseed progression. Historical xoshiro saves retain their exact
@@ -133,8 +139,11 @@ Original Blue seed history, the complete RNG call schedule and cartridge replay 
 
 Candidate 21's full Node 24.21.0 authoring checks passed at 151 files and
 2,790,982 bytes. They cover the aggregate source, export and distribution
-closure without importing or executing game source. Candidate 22's full pinned Node 24.21.0 static suite also passed at 151 files
-and 2,791,623 bytes. Candidate 15's
+closure without importing or executing game source. Candidate 22's full pinned
+Node 24.21.0 static suite also passed at 151 files and 2,791,623 bytes.
+Candidate 23's full pinned Node 24.21.0 static suite passed at 151 files and
+2,793,229 bytes; the canonical SE2 exporter also verified all 45 native source
+pins. Candidate 15's
 fresh browser run completed all three floors, rescue, reunion, all three berry
 rewards, Adventure Log at 227 turns, Return to top menu and completed Continue.
 Both party members reached level 6; warning/error logs were empty. Candidate 15's
@@ -148,12 +157,12 @@ Log, Continue and controls recovered with no warning/error logs. Only Bulbasaur
 of the nine source-reviewed bindings was cast, and no physical audio was
 auditioned.
 
-Exact published head `901951e237aae66b79de6a1df86908b9a9ba1d89`
+Exact published head `b188d60e7f6d7a64c03468112c92c9f58f3365f2`
 passed hosted lint, Game Static Checks, Playwright and CodeQL. Its requested
 exact-head Codex review returned a qualifying thumbs-up, and its Pages artifact
-was verified against all 151 declared runtime files totaling 2,790,982 bytes.
-The watcher disconnected without a known exit result; three review threads
-remain unresolved pending the separate approval workflow.
+was verified against all 151 declared runtime files totaling 2,791,623 bytes.
+The watcher has no known exit result; three review threads remain unresolved
+pending the separate approval workflow.
 The earlier `88bf722` evidence remains preserved under
 `tools/pokemon-dungeon/.work/ci-88bf722/`.
 
@@ -197,6 +206,8 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 21, full continuation | Continued the preserved five-turn Mimi/Shell B1F save through all three floors, Caterpie clearing, reunion, all three berry rewards, a 91-turn Adventure Log, return to menu and completed Continue; Mimi remained level 5 at 30 HP and Shell reached level 6 at 33 HP | PASS for the current `901951e` runtime from B1F save through completion; warning/error log empty and no failure occurred. This standalone continuation is not one fresh immutable run from SHA onboarding through rescue |
 
 | Candidate 22 | Restored Flare/Bud B2F from 21 turns, played 22 ordinary room/corridor movement turns, recovered Flare from 26 to 30 HP, then Quicksave, 43-turn Adventure Log and Continue passed | PASS for bounded movement, following and save recovery; warning/error log empty. No visible wild pursuit occurred, so the new wild direct-step branch remains source-static-qualified rather than manually demonstrated. The downstream browser surface was unavailable; root performed this check |
+
+| Candidate 23 | Restored Psyduck/Charmander from the in-game B1F 12-turn log, descended to B2F and used Tail Whip on adjacent Wurmple: Defense fell and PP22→21. Help/Return, Quicksave, 19-turn Adventure Log and Continue passed | PASS for one Psyduck defense-down route and controls/save recovery; warning/error log empty. No physical audition, all-producer coverage, dedicated sight geometry measurement or full-rescue claim |
 
 The separate candidate-12 fresh trial is retired as invalid acceptance evidence
 because it used hidden reads. Its preserved partial evidence does not extend the

@@ -49,6 +49,21 @@ export function inSight(state,origin,target) {
   const room=state.rooms[id];
   return !!room&&target.x>=room.x-1&&target.y>=room.y-1&&target.x<room.x+room.width+1&&target.y<room.y+room.height+1;
 }
+/** Native IsPositionInSight for reviewed AI target acquisition. Unlike actual
+ * camera sight, room origins fall through to the terrain-checked radius-two path.
+ * Tiny Woods has ordinary floor/wall only. @param {DungeonState} state
+ * @param {Point} origin @param {Point} target */
+export function targetSight(state,origin,target){
+  const id=state.roomIds[index(state,origin.x,origin.y)]??-1,room=id>=0?state.rooms[id]:undefined;
+  if(room&&target.x>=room.x-1&&target.y>=room.y-1&&target.x<room.x+room.width+1&&target.y<room.y+room.height+1)return true;
+  const span=distance(origin,target);if(span<2)return true;if(span>2)return false;
+  let ax=origin.x,ay=origin.y,bx=target.x,by=target.y;
+  for(let step=0;step<2;step++){
+    ax+=Math.sign(target.x-ax);ay+=Math.sign(target.y-ay);if(!open(state,ax,ay))return false;
+    bx+=Math.sign(origin.x-bx);by+=Math.sign(origin.y-by);if(!open(state,bx,by))return false;
+  }
+  return true;
+}
 /** @param {DungeonState} state @param {Point} actor @param {number} dx @param {number} dy */
 export function canStep(state,actor,dx,dy) { return open(state,actor.x+dx,actor.y+dy) && (!(dx&&dy) || open(state,actor.x+dx,actor.y)&&open(state,actor.x,actor.y+dy)); }
 /** @param {DungeonState} state @param {GameEvent[]} events @param {string} text @param {import('./battle-events.js').BattleEvent} [presentation] */

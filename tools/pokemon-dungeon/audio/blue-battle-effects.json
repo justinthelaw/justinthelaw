@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "edition": "Red Rescue Team comparative",
   "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
-  "qualification": "Seven short SE2 PSG control sequences for raw zero, accuracy misses, regular attack, actual ground pickups, the thrower spin and selected Tail Whip casts. Blue playback, DS clock, waveform phase and mix are unverified. No commercial music, PCM samples or ROM are included.",
+  "qualification": "Eight short SE2 PSG control sequences for raw zero, accuracy misses, regular attack, actual ground pickups, the thrower spin, selected Tail Whip casts and defense-down helpers. Blue playback, DS clock, waveform phase and mix are unverified. No commercial music, PCM samples or ROM are included.",
   "sources": [
     {
       "path": "src/dungeon_damage.c",
@@ -165,6 +165,26 @@
     {
       "path": "sound/songs/seq_362.s",
       "sha256": "6d029a31168264fb5ed98add909098d77078183f50e67f728da258577b07ec71"
+    },
+    {
+      "path": "sound/songs/seq_906.s",
+      "sha256": "fbe975a280f7a355ad663ba946bd40699996b2b9714746a993134bc00979ae37"
+    },
+    {
+      "path": "src/move_orb_effects_1.c",
+      "sha256": "ecf90f999159169a903422a173035958ba448d0a9b9a908ab78e227fa5ddbeb3"
+    },
+    {
+      "path": "src/move_orb_actions_1.c",
+      "sha256": "c06151ffdf0febb81695621993a0dd5b788c697d4d9468ff31a289e77462948f"
+    },
+    {
+      "path": "src/move_orb_actions_3.c",
+      "sha256": "7c55ee066eb1d3c3eb30e0d5498841c8bf11143a3904b8417f193d5f33e1dbc0"
+    },
+    {
+      "path": "include/structs/str_stat_index.h",
+      "sha256": "72746df14032c1b51e085ce04fdefa9093a08899e037b4d7c42bb28cd47d7784"
     }
   ],
   "clock": {
@@ -947,6 +967,150 @@
       },
       {
         "tick": 0,
+        "command": "PAN",
+        "value": 0
+      }
+    ]
+  },
+  "defenseDown": {
+    "id": "effect-defense-down",
+    "sequence": 906,
+    "sourceName": "EFF_DEFENCE_DOWN",
+    "player": "SE2",
+    "voice": 64,
+    "duty": 0.25,
+    "pan": 0,
+    "envelope": [
+      0,
+      0,
+      15,
+      0
+    ],
+    "priority": 127,
+    "reverb": 0,
+    "tempoIncrement": 140,
+    "trackTicks": 24,
+    "volumeChanges": [
+      [
+        0,
+        80
+      ]
+    ],
+    "notes": [
+      [
+        1,
+        93,
+        1,
+        100
+      ],
+      [
+        2,
+        90,
+        1,
+        100
+      ],
+      [
+        3,
+        87,
+        1,
+        100
+      ],
+      [
+        4,
+        84,
+        1,
+        100
+      ],
+      [
+        5,
+        81,
+        1,
+        100
+      ],
+      [
+        6,
+        78,
+        1,
+        100
+      ],
+      [
+        7,
+        75,
+        1,
+        100
+      ],
+      [
+        8,
+        72,
+        1,
+        100
+      ],
+      [
+        9,
+        69,
+        1,
+        100
+      ],
+      [
+        10,
+        66,
+        1,
+        100
+      ],
+      [
+        11,
+        63,
+        1,
+        100
+      ],
+      [
+        12,
+        60,
+        1,
+        100
+      ],
+      [
+        13,
+        66,
+        1,
+        40
+      ],
+      [
+        14,
+        63,
+        1,
+        32
+      ],
+      [
+        15,
+        60,
+        1,
+        32
+      ]
+    ],
+    "controls": [
+      {
+        "tick": 0,
+        "command": "KEYSH",
+        "value": 0
+      },
+      {
+        "tick": 0,
+        "command": "TEMPO",
+        "value": 70
+      },
+      {
+        "tick": 0,
+        "command": "VOICE",
+        "value": 64
+      },
+      {
+        "tick": 0,
+        "command": "VOL",
+        "value": 80
+      },
+      {
+        "tick": 1,
         "command": "PAN",
         "value": 0
       }

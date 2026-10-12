@@ -29,7 +29,7 @@ import {nativeSin4096} from './battle-native-sine-data.js';
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
 /** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[],hidden?:boolean}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938',audible:boolean,moveOwned?:true}|{clearNotice:true}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906',audible:boolean,moveOwned?:true}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 /** @typedef {{start:number,end:number}} EndTrack */
@@ -165,7 +165,7 @@ export class BattlePresentation {
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
     /** Native sound receipts are private presentation evidence, never saves.
-     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] */
+     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'|'se628'|'se717'|'se680'|'se774'|'se927'|'se938'|'se906'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] */
     const sound=(name,at,order=ordinal++,moveOwned=false)=>{
       if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
       cueFrontier=Math.max(cueFrontier,at);
@@ -232,6 +232,7 @@ export class BattlePresentation {
       else if(id===29||id===150)sound(id===29?'se628':'se717',start,undefined,true);
       else if(id===85||id===236)sound(id===85?'se680':'se774',start);
       else if(id===423||id===434)sound(id===423?'se927':'se938',start);
+      else if(id===399)sound('se906',start,undefined,true);
       return info.blocksWait===false?at:Math.min(end,at+waitLimit);
     };
     const drainEffects=()=>{

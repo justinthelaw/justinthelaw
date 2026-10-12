@@ -162,6 +162,16 @@ copied abilities, factual mutation or helper callers requires a new source revie
   targets, decoys, special mobility, run-away/terrified behavior, blocked or
   occupied tiles, alternate-direction choice, the surrounding attack scheduler
   and broader native/Blue pathfinding remain qualified.
+  Candidate 23 replaces the browser visibility approximation at exactly four
+  reviewed AI acquisition sites: the two comparative `CanTargetEntity` routes
+  and the two wild direct-step guards. Its `targetSight` helper accepts the
+  source room plus one-tile border, then applies the native short-range
+  corridor test over the browser's binary normal-floor/wall topology; a target
+  two tiles away behind a wall is rejected. The existing `inSight` function is
+  unchanged for actual sight, camera/minimap, wake-facing, remembered-position,
+  adjacent and unreviewed move owners. The correction adds no random draw,
+  although rejecting a formerly visible target can change downstream choices
+  and RNG history. Secondary terrain and later-dungeon sight remain qualified.
   The scheduler implements the admitted normal/slowed speed rows and forced
   leader passes described below; the full native phase/speed repertoire and
   some status ordering remain incomplete. Learning choices are presented after the
@@ -468,6 +478,14 @@ per opportunity only while the integer part of Belly is nonzero; plain A remains
 edge-triggered and standalone Space waiting is unchanged. This follows
 `DungeonHandlePlayerInput` (`src/dungeon_main.c:176-191`) without admitting OS
 key-repeat as additional actions.
+
+Defense-down presentation remains separate from stat ownership. Comparative
+`LowerDefenseStageTarget` helpers request effect 399 before mutation and clamp
+reporting, including a valid attempt at the minimum stage. Candidate 23 maps
+that existing receipt to bounded SE2 cue 906 for the 15 reviewed Leer, Tail Whip
+and Screech species/level pairs. It changes no defense arithmetic, player,
+quota, counter or scheduler phase. The comparative Red cue does not establish
+Blue instrument identity, waveform phase, mixing or physical audibility.
 
 For Sing, Hypnosis and Sleep Powder, `BasicSleepMoveAction` calculates the sleep
 duration before `SleepStatusTarget` checks whether the target is already asleep.

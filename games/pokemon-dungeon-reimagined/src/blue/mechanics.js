@@ -8,7 +8,7 @@ import { dropItem, ITEM_NAMES, moneyPile } from './mechanics-items.js';
 import { captureActor } from './battle-events.js';
 import { DEFAULT_IQ, IQ_SKILLS, TACTICS, hasIq, tacticFor, considersLineMove, considersLineTarget, canTalk, talkToPartner } from './mechanics-policy.js';
 import { attack, damage, beginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, supportsMove, STATUS_KEYS, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
-import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, message, moveActor, nextStep, open, pickup, recordAction, recordCamera, recordSync, team, wakeInitialSleep, wakeNearbyWild, DIRECTIONS, VECTORS } from './mechanics-common.js';
+import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, targetSight, message, moveActor, nextStep, open, pickup, recordAction, recordCamera, recordSync, team, wakeInitialSleep, wakeNearbyWild, DIRECTIONS, VECTORS } from './mechanics-common.js';
 
 export { resetSecondaryGates } from './mechanics-combat.js';
 
@@ -233,7 +233,7 @@ function actAI(state,actor,data,events) {
       return;
     }
     if(tryAiItem(state,actor,events))return;
-    const foes=actors(state).filter(a=>team(a)!==team(actor)&&inSight(state,actor,a)).sort((a,b)=>distance(actor,a)-distance(actor,b));
+    const foes=actors(state).filter(a=>team(a)!==team(actor)&&targetSight(state,actor,a)).sort((a,b)=>distance(actor,a)-distance(actor,b));
     const target=foes[0];
     const travelFirst=hasIq(actor,'dedicated-traveler');
     if(travelFirst&&tryAiMovement(state,actor,target,events))return;
@@ -459,7 +459,7 @@ function tryAiMovement(state,actor,target,events){
   // Moved nonleaders separately interact when their queued walking flushes.
   if(!actor.heldItem&&state.items.some(item=>item.x===actor.x&&item.y===actor.y)&&pickup(state,actor,events))return true;
   const tactic=team(actor)?tacticFor(actor):'after-foes';
-  const leader=team(actor)&&inSight(state,actor,state.hero)?state.hero:undefined;
+  const leader=team(actor)&&targetSight(state,actor,state.hero)?state.hero:undefined;
   const current=tactic==='together'?leader:target??leader;
   if(current){actor.goal={x:current.x,y:current.y};
     if(tactic==='avoid-first-hit'&&current===target){
@@ -474,9 +474,9 @@ function tryAiMovement(state,actor,target,events){
       }
     }
   }
-  const wildDirect=!team(actor)&&target&&team(target)&&inSight(state,actor,target)&&
+  const wildDirect=!team(actor)&&target&&team(target)&&targetSight(state,actor,target)&&
     ['pokemon-016','pokemon-102','pokemon-191','pokemon-265'].includes(actor.speciesId)&&!actor.status.confusion&&distance(actor,target)>0&&
-    [state.hero,state.partner].filter(candidate=>candidate.hp>0&&inSight(state,actor,candidate)).every(candidate=>candidate.id===target.id||distance(actor,candidate)>distance(actor,target));
+    [state.hero,state.partner].filter(candidate=>candidate.hp>0&&targetSight(state,actor,candidate)).every(candidate=>candidate.id===target.id||distance(actor,candidate)>distance(actor,target));
   if(wildDirect){
     const direct=directionFor(target.x-actor.x,target.y-actor.y),[dx,dy]=VECTORS[direct];
     if(canStep(state,actor,dx,dy)&&!actorAt(state,actor.x+dx,actor.y+dy)){moveActor(state,actor,actor.x+dx,actor.y+dy,events);return true;}

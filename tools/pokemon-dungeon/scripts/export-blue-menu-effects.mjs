@@ -183,6 +183,17 @@ assert.deepEqual(tailWhipNotes, [[0,4,88,9],[4,3,78,9],[7,3,88,7],[10,3,78,7],[1
 assert(tailWhipNotes.every(note => note[1] <= 4 && 7 - note[1] - 1 > 0));
 battleCues[tailWhip.id] = {duty: tailWhip.duty, notes: tailWhipNotes};
 assert(Object.values(battleCues).every(cue => cue.notes.length <= 9));
+// Only the named defense-down cue admits 15 notes; every prior cue keeps <=9.
+const defenseDown = battle.defenseDown;
+assert.equal(createHash('sha256').update(JSON.stringify(defenseDown)).digest('hex'), '082d89ec8815b0d3d9d3df3b967177de296bbf8ef85acc9a37b6e89b40064ddf', 'Selected defense-down controls changed; review and repin them.');
+assert.equal(defenseDown.priority, 127);assert.equal(defenseDown.player, 'SE2');
+assert.equal(defenseDown.voice, 64);assert.deepEqual(defenseDown.envelope, [0,0,15,0]);
+const defenseDownNotes = shortPulseNotes(defenseDown);
+assert.deepEqual(defenseDownNotes, [[2,1,74,7],[3,1,88,7],[4,1,106,7],[5,1,126,7],[6,1,148,7],[7,1,178,7],[8,1,210,7],[9,1,250,7],[10,1,298,7],[11,1,354,7],[12,1,422,7],[13,1,500,7],[14,1,354,3],[15,2,422,2],[17,1,500,2]]);
+assert.equal(defenseDownNotes.length, 15);
+assert(defenseDownNotes.every(note => note[1] <= 2 && note[0] + note[1] <= 18));
+battleCues[defenseDown.id] = {duty: defenseDown.duty, notes: defenseDownNotes};
+
 
 const generated = `/** Generated from pinned comparative Rescue Team SE2 facts; no music or PCM samples. */\n` +
   `export const MENU_EFFECT_SOURCE_SHA256 = '${createHash('sha256').update(bytes).digest('hex')}';\n` +
@@ -198,4 +209,4 @@ const generated = `/** Generated from pinned comparative Rescue Team SE2 facts; 
   `export const BATTLE_EFFECTS = ${JSON.stringify(battleCues)};\n`;
 if (process.argv.includes('--check')) assert.equal(await readFile(output, 'utf8'), generated, 'Regenerate the menu-effect data.');
 else await writeFile(output, generated);
-console.log(`Comparative SE2 effects: four menu sequences, two miss/zero sequences, regular351, pickups330/331, spin356 and Tail Whip362, twelve data IDs, at most nine bounded pulse notes; static source/data only${sourceArgument >= 0 ? ', source hashes verified' : ''}.`);
+console.log(`Comparative SE2 effects: four menu sequences, two miss/zero sequences, regular351, pickups330/331, spin356, Tail Whip362 and defense-down906, thirteen data IDs; old cues retain nine notes, only 906 admits fifteen; static source/data only${sourceArgument >= 0 ? ', source hashes verified' : ''}.`);

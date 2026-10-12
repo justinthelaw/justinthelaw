@@ -10,7 +10,7 @@ const EFFECTS = Object.freeze({
   attack: 'effect-attack', regularAttack: 'effect-regular-attack', hit: 'effect-hit', heal: 'effect-heal', heart: 'effect-heart',
   berryResult: 'effect-pickup',
   se356: 'effect-throw-spin', se711: 'effect-item-loss',
-  se362: 'effect-tail-whip',
+  se362: 'effect-tail-whip', se906: 'effect-defense-down',
   se678: 'effect-rapid-spin', se809: 'effect-synthesis', se621: 'effect-move-preparation', se413: 'effect-whiffer',
   se407: 'effect-sleep-helper', se745: 'effect-vine-whip', se825: 'effect-razor-leaf',
   se807: 'effect-leech-seed-travel',

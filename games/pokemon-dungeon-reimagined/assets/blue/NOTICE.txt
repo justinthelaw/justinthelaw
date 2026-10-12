@@ -146,3 +146,8 @@ Tail Whip 362 uses public Red sequence controls and bank 027 voice 77,
 with no PCM sample. Source hashes remain in blue-menu-effects.json and
 blue-battle-effects.json. Blue identity, waveform phase and audition remain
 unverified; the comparative source clock and mix are qualified.
+
+Physical defense-down 906 adds finite public Red SE2 controls for the
+existing bank 027 voice 64, with no new sample. Original source hashes remain
+in blue-battle-effects.json. Blue waveform identity, phase, mix and audition
+remain unverified; the comparative clock and bounded playback are qualified.

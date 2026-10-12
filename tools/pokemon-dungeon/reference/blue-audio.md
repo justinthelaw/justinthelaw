@@ -993,3 +993,50 @@ Stalled/reduced-motion batches can still collapse audio timestamps; source-order
 replacement is not an audition or physical phase guarantee. This is comparative
 Red evidence, with Blue bank identity, native global competition, browser
 band-limiting/resampling, mix and audition still unverified. Music stays absent.
+
+## Physical defense-down 906
+
+A fresh displayed effect 399 requests `se906` / `effect-defense-down` at its
+first source update. The existing physical stage and multiplier helpers own
+that receipt before their result message, including an already-minimum stat.
+Failed accuracy, protection or offscreen admission creates no sound handle.
+The generic attachment/feet fallback, visual waits, carry and cancellation
+owners are unchanged; sampling and Continue cannot replay the request.
+
+Sequence 906 is numeric SE2, bank 027 voice 64, fixed square type 9, existing
+25% duty, envelope 0/0/15/0, priority 127 and tempo 140. Its fifteen distinct
+N01 notes end at frame 18, with a silent suffix to FINE 26. Existing integer
+frequency/PWM/volume arithmetic and constant-level pulse primitives suffice.
+The 22-tick blocking effect outlasts its audible notes, so a later missing cue
+does not need to cut a newly introduced tail under ordinary source pacing.
+
+This is a named finite-data admission only. The original `<=9` note assertion
+still checks every prior battle cue; 906 is appended afterward and separately
+asserted to have exactly 15 notes, gates no longer than two frames and audible
+end at 18. All old tuples and voice facts remain exact. No player function,
+waveform duty, sample, decoded buffer, scheduler, channel or phase owner changes.
+The shared source ceiling remains 32. The pulse data module grows by exactly
+231 bytes to 2,303 bytes; source evidence appends five pinned files.
+
+Current effect-399 producers are only Leer, Tail Whip and Screech: one target
+and one pass for each party action, covering 15 retained species/level entries
+and 10 audited first-attempt pairs. None coincides with another move-owned cue;
+level-one wild profiles, Bide and other status/item/residual paths select none.
+The request therefore uses `moveOwned:true` and the existing two-request bucket.
+The app and all private counters remain byte-identical. At most two requests
+can ask for 30 new sources across a result, never 30 concurrently live sources.
+A request denied by shared capacity is consumed without fallback or replay.
+
+Native player-table priority checking is disabled (`unk_A`/`unk_B` zero), so
+MPlayStart replaces the prior sequence regardless of song priority and TrackStop
+turns off its CGB channel. The silent suffix needs no new priority owner. The
+existing SE2 instance owns replacement; PCM groups remain separate. Global
+native competition and browser overload parity remain qualified.
+
+No authored cue becomes dead: this fills a previously silent helper. Existing
+Leer/Screech cast or travel gaps, generic SE3 impact and all prior fallback paths
+remain unchanged. The already-admitted Tail Whip direct cues and paralysis family
+are untouched. Red remains comparative; Blue bank identity, oscillator phase,
+band-limiting, mix/resampling and physical audition remain unverified. Stalled
+or reduced-motion batches can collapse timestamps, and the app still publishes
+batch messages before its audio loop. Music remains intentionally absent.
