@@ -39,12 +39,12 @@ not invented atlas mappings.
 | Family | Source selection |
 | --- | --- |
 | Immune/resisted/neutral/super hit | Effects8/9/10/11; efob000 animations3/15/16/4 |
-| Scratch |138, efob054 animation0 |
+| Scratch | 138, efob054 animation0 |
 | Thundershock | Preparation22, impact236/efob119 animation2 |
 | Ember | Launch144, travel137, impact317/efob053 animations0/3 |
 | Growl | Preparation22, directional274/efob121 animations0-7 |
-| Attack/Defense down |404/399, efob000 animation13, distinct palettes |
-| Rapid Spin |83, efob135 animation0, fixed OAM palette5 |
+| Attack/Defense down | 404/399, efob000 animation13, distinct palettes |
+| Rapid Spin | 83, efob135 animation0, fixed OAM palette5 |
 
 Native palettes/flips/offsets/ticks/depth remain. Stat-down layers at depth-5/0
 must interleave with actors. Four attachment sets for23 species retain set0 as
