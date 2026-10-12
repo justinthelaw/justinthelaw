@@ -95,6 +95,14 @@ copied abilities, factual mutation or helper callers requires a new source revie
   Failed selected-move targeting uses that captured regular fallback without
   another opportunity draw. Every nonempty target pool consumes its own draw,
   including a one-candidate pool.
+  Opportunity selection deliberately retains the native inclusive endpoint:
+  `ChooseAIMove` adds each positive weight and accepts `cumulative >= draw`,
+  with `DungeonRandInt(total)` in `[0,total)`. Subtracting each weight and
+  accepting `<= 0` is equivalent, including the first slot's extra endpoint.
+  Native target selection separately uses `< 0`; that boundary is not shared.
+  All retained factual AI weights are positive. See pinned
+  [opportunity source](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_ai_attack.c#L271-L292)
+  and [random bound](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_random.c#L42-L50).
   Front/self and two-tile candidates follow native South, Southeast, East,
   Northeast, North, Northwest, West, Southwest order. Front/self requires an
   attackable adjacent foe; Focus Energy, Rage and Withdraw still affect the

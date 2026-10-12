@@ -389,6 +389,8 @@ function tryAiAttack(state,actor,target,data,events){
   let total=!exhausted&&regularEligible?([100,20,30,40,50][actor.moves.filter(m=>m.enabled).length]??50):0;
   for(const candidate of eligible)total+=candidate.data?.aiWeight??0;
   if(total<=0)return false;
+  // Native ChooseAIMove uses cumulativeWeight >= draw, including roll zero.
+  // Preserve its inclusive endpoint; target-choice pools use a different bound.
   let selected=draw(state,total);
   for(const candidate of eligible){
     selected-=candidate.data?.aiWeight??0;

@@ -211,7 +211,7 @@ export class IntroArtwork {
     }
   }
 
-  /** @param {CanvasRenderingContext2D} context @param {import('./render-sprites.js').SpriteBank} sprites @param {string} client @param {number} elapsed @param {boolean} reducedMotion */
+  /** @param {CanvasRenderingContext2D} context @param {import('./render-native-sprites.js').SpriteBank} sprites @param {string} client @param {number} elapsed @param {boolean} reducedMotion */
   opening(context,sprites,client,elapsed,reducedMotion){
     if(elapsed<BOOT_DURATION_MS){this.boot(context,elapsed,reducedMotion);return;}
     const elapsedFrame=Math.max(0,Math.floor((elapsed-BOOT_DURATION_MS)/FRAME_MS));
@@ -247,7 +247,7 @@ export class IntroArtwork {
   }
 
   /** The title catches the dropped mail once; it does not loop a spare envelope.
-   * @param {CanvasRenderingContext2D} context @param {import('./render-sprites.js').SpriteBank} sprites @param {number} elapsed @param {boolean} reducedMotion */
+   * @param {CanvasRenderingContext2D} context @param {import('./render-native-sprites.js').SpriteBank} sprites @param {number} elapsed @param {boolean} reducedMotion */
   title(context,sprites,elapsed,reducedMotion){
     if(reducedMotion)return;
     const frame=Math.max(0,Math.floor(elapsed/FRAME_MS));

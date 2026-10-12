@@ -1,7 +1,7 @@
 import {PCM_EFFECTS,PCM_EFFECT_GROUPS,PCM_SAMPLES,PCM_FRAME_SECONDS,PCM_EFFECT_GAIN} from './audio-pcm-data.js';
 
 /** @typedef {{source:AudioBufferSourceNode,left:GainNode,right:GainNode,end:number,fine:number,group:5|6}} PcmVoice */
-const MAX_PCM_VOICES=15,MAX_GROUP6_VOICES=4;
+const MAX_PCM_VOICES=15,MAX_GROUP6_VOICES=5;
 /** Finite numeric group5/6 cues. No reverb, interpreter, timer or game callback.
  * The caller creates this owner only inside the existing trusted activation.
  * @param {AudioContext} context @param {GainNode} destination */

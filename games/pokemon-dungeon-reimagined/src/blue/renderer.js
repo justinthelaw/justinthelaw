@@ -1,7 +1,7 @@
 import { text, textWidth, wrapText, panel, cursor, dialogueArrow, nativeHud, nativeDamage, nativeTouchToolbar, touchToolbarBounds, nativeMenuFrame, disposeFont, disposeNativeUi } from './render-font.js';
 import { Terrain, TILE } from './render-terrain.js';
 import { AuraBackdrop } from './render-aura.js';
-import { SpriteBank } from './render-sprites.js';
+import { SpriteBank } from './render-native-sprites.js';
 import { StoryActors } from './render-story.js';
 import { IntroArtwork, INTRO_CLIENT_IDS, TITLE_PROMPT_MS } from './render-intro.js';
 import { TACTICS, tacticFor } from './mechanics-policy.js';
@@ -17,7 +17,7 @@ import { moveEffects } from './render-move-motion.js';
 import { BattleEffects } from './render-battle-effects.js';
 import { HypnosisBackground } from './render-hypnosis.js';
 import { drawBattleActors } from './render-battle.js';
-export { BOOT_DURATION_MS, OPENING_DURATION_MS, TITLE_READY_MS, TITLE_PROMPT_MS } from './render-intro.js';
+export { OPENING_DURATION_MS } from './render-intro.js';
 
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
 /** @typedef {import('./mechanics-types.js').Actor} Actor */

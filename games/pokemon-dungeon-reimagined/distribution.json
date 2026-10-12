@@ -138,7 +138,6 @@
     "src/blue/render-native-ui.js",
     "src/blue/render-notice.js",
     "src/blue/render-ornaments.js",
-    "src/blue/render-sprites.js",
     "src/blue/render-status.js",
     "src/blue/render-story.js",
     "src/blue/render-terrain.js",
@@ -155,6 +154,6 @@
     "src/domain/rules/type-context.js",
     "src/domain/state/plain.js"
   ],
-  "totalBytes": 2765483,
+  "totalBytes": 2788229,
   "scope": "Opening cinematic and menu through Tiny Woods and Caterpie rescue only"
 }

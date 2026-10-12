@@ -5,7 +5,7 @@ export const TILE = 24;
 
 /** Stable decoration must not consume the mechanics random stream.
  * @param {number} x @param {number} y @param {number} [salt] */
-export function terrainHash(x, y, salt = 0) {
+function terrainHash(x, y, salt = 0) {
   let value = Math.imul(x + 37, 374761393) ^ Math.imul(y + 71, 668265263) ^ Math.imul(salt + 1, 1274126177);
   value = Math.imul(value ^ (value >>> 13), 1274126177);
   return (value ^ (value >>> 16)) >>> 0;

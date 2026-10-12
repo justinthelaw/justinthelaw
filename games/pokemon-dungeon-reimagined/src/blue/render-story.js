@@ -2,7 +2,7 @@ import { text } from './render-font.js';
 import { STORY_TRANSITIONS } from './story.js';
 
 /** @typedef {import('./renderer.js').View} View */
-/** @typedef {import('./render-sprites.js').SpriteBank} SpriteBank */
+/** @typedef {import('./render-native-sprites.js').SpriteBank} SpriteBank */
 /** @typedef {import('./mechanics-types.js').Direction} Direction */
 /** @typedef {{speciesId:string,x:number,y:number,direction:Direction,clip?:string,time?:number,jump?:number,surprised?:boolean}} FieldActor */
 
