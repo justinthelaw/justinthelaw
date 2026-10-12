@@ -13,12 +13,21 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 30
+## Current candidate 31
 
-Candidate 30 contains **151 files totaling 2,983,615 bytes**, below the
+Candidate 31 contains **151 files totaling 2,983,801 bytes**, below the
 unchanged 3 MiB distribution cap. All resources remain local. It retains the
 reviewed Continue progress card, shared dungeon-menu clock, level-37 Cubone
 Thrash and the source-matching Bide release direction.
+
+Candidate 31 fixes the reviewed Quicksave failure path. A failed verified write
+keeps the current dungeon and confirmation open, preserves the storage warning,
+and restores the prior save kind. A successful write returns to the title once,
+without a second unchecked commit. The menu's redundant title adapter is removed;
+ordinary completed/loss-screen title returns retain their existing save attempt.
+This change preserves the journal schema and ownership checks. Independent source
+review covers success, storage failure, stale receipts and legacy metadata;
+manual save-failure reproduction remains pending explicit test-save approval.
 
 Candidate 30 removes ten unreachable ability checks, including two duration
 modifiers, saving 676 runtime bytes. None of the 20

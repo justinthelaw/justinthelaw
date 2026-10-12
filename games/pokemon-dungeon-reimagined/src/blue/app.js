@@ -264,11 +264,11 @@ async function main() {
   function setSaveKind(kind) { const progress = ensureProgress(); if (progress) progress.saveKind = kind; }
   function commitNow() {
     window.clearTimeout(saveTimer); saveTimer = 0;
-    if (!state) return;
+    if (!state) return false;
     ensureProgress();
     const result = repository.save(state);
-    if (result) { saveFailed = true; setWarning(result); }
-    else { hasStored = true; if (saveFailed) setWarning(null); saveFailed = false; }
+    if (result) { saveFailed = true; setWarning(result); return false; }
+    hasStored = true; if (saveFailed) setWarning(null); saveFailed = false; return true;
   }
   function commitSoon() {
     if (saveTimer) return;
@@ -448,7 +448,7 @@ async function main() {
 
   const dungeonMenus = createDungeonMenus({
     state: currentDungeon, data, show: showMenu, act: act, commit: commitNow,
-    quicksave() { setSaveKind('quicksave'); commitNow(); }, giveUp: giveUpDungeon, title: returnToMenu, help: showHelp, settings: settingsMenu,
+    quicksave() { const progress=ensureProgress(),previous=progress?.saveKind;setSaveKind('quicksave');if(!commitNow()){if(progress&&previous)progress.saveKind=previous;return false;}finishReturnToMenu();return true; }, giveUp: giveUpDungeon, help: showHelp, settings: settingsMenu,
   });
 
   /** The opening waits at frame zero until one deliberate game gesture. Its
@@ -668,14 +668,15 @@ async function main() {
       ] });
   }
 
-  function returnToMenu() {
+  function finishReturnToMenu() {
     storyTransitionStarted=null;
     resetBattlePresentation();
     resetDungeonCamera();
     clearLiveMessages();
-    commitNow(); mode = 'menu'; menu = null; notice = null; fieldDialogue = null; tutorials = [];
+    mode = 'menu'; menu = null; notice = null; fieldDialogue = null; tutorials = [];
     selectedIndex = 0; dialoguePage = 0; forcedReadyAt = null; input.clear(); audio.setDungeon(false); rebuild();
   }
+  function returnToMenu() { commitNow();finishReturnToMenu(); }
 
   function adventureLog() {
     const dungeon = state?.dungeon;
