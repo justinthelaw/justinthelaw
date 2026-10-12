@@ -1,32 +1,39 @@
 # Contributing
 
-Keep changes focused, update affected docs, and run local checks before opening
-a pull request. See [Development](DEVELOPMENT.md) for setup.
-
-## Toolchain
-
-Use Node.js 24 from `.nvmrc` and npm 12.2.0 from `package.json`.
-`@types/node` stays on Node 24; Dependabot excludes major type updates until the
-runtime changes. The npm engine minimum is 11.19.0 for Dependabot's bundled
-resolver; keep `engine-strict`. Use stable upstream pre-commit tags.
+Keep changes focused, preserve unrelated work, and follow the applicable
+[nested instructions](../AGENTS.md#work-by-area). See [Development](DEVELOPMENT.md)
+for the pinned toolchain and local setup.
 
 ## Validation
 
+Run commands from the repository root:
+
 | Command | Purpose |
 | --- | --- |
-| `npm run flight-check` | Required before pushing: clean, lint, build, test |
-| `npm run build && npm run test` | Standalone Playwright run; requires `out/` |
-| `pre-commit install --hook-type pre-commit --hook-type pre-push` | Install hooks once per clone |
-| `pre-commit run --all-files` | Run pre-commit checks |
-| `pre-commit run --all-files --hook-stage pre-push` | Run pre-push checks, including app lint |
+| `npm run flight-check` | Required clean, lint, static build, and Playwright checks |
+| `pre-commit install --hook-type pre-commit --hook-type pre-push` | Install configured hooks once per clone |
+| `pre-commit run --all-files` | Check Markdown, YAML, workflows, shell, whitespace, and conflicts |
+| `pre-commit run --all-files --hook-stage pre-push` | Also check large files, private keys, and applicable app lint |
 
-Playwright starts a fresh production preview in both local and CI runs. Stop any
-server on port 3000 first; `out/` must match the source being tested.
+Install pre-commit with `uv tool install pre-commit` or `pipx install pre-commit`.
+The configured minimum version and hook revisions live in
+`.pre-commit-config.yaml`. Keep `engine-strict` and stable upstream hook tags.
 
-Hooks check Markdown, YAML, workflows, shell scripts, whitespace, smart quotes,
-merge conflicts, private keys, and large files.
+Playwright uses a fresh production preview on port 3000. Build before standalone
+`npm run test` and stop any competing server. UI tests stub external profile,
+avatar, and resume requests; review screenshots still require a fresh live
+GitHub bio. Disclose paused animations or stubbed resume iframes.
 
-## Pull Requests
+Games are validated statically using the isolated authoring package. Do not
+execute game modules, test source inside `games/`, or automate playthroughs.
+Follow package-specific checks for changes under `llm/`, `tools/`, or `plugins/`.
 
-Use a short title, explain what changed and why, link applicable issues with
-`Fixes #<id>`, include UI screenshots, and record checks in the PR checklist.
+## Pull requests
+
+Use a short title and explain the problem, the change, and resulting behavior.
+Link applicable issues, include screenshots for UI changes, and list validation
+commands with their outcomes. State blockers, remaining risks, and breaking
+changes. Update affected instructions and human guides without duplicating them.
+
+Use signed commits. Merging, deploying, and changing issue/PR metadata require
+explicit authorization; preparing a change does not grant that authorization.

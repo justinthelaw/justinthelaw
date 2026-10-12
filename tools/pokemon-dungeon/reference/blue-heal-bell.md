@@ -18,8 +18,8 @@ that nothing happened. Unrepresented native classes are not invented.
 The native-qualified presentation route uses actor animation 12, preparation
 effect 22, and cast effect 50. The successful per-target cure uses effect 21
 with attachment set 3 and a fixed target anchor, starting from a fully post-cure
-snapshot so old status icons cannot return during the effect. Effect 50 is
-stored in the existing basic bank; no third runtime bank is added.
+snapshot so old status icons cannot return during the effect. Effect 50 uses
+the selected battle bank; current bank inventories live in [battle visuals](blue-battle-visuals.md).
 
 No AI branch is added. Skitty is hero-only in the selected partner table, Heal
 Bell occurs only in Skitty's selected learnset, and the hero is controlled by
@@ -27,8 +27,8 @@ the player. The implemented move is a late-retry route and has not been manually
 cast. Its mechanics and art admission are statically reviewed comparative-source
 translations, not proof of exact Blue-binary behavior.
 
-Heal Bell closes one rejected move ID and one learnset row. The current static
-late-retry gap is **17 distinct move IDs across 22 learnset rows**.
+Current unsupported retry totals belong to [move coverage](blue-move-coverage.md);
+this admission's former 17-ID/22-row count is superseded.
 
 ## Evidence
 

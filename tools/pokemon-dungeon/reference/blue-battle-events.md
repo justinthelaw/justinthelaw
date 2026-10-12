@@ -1,118 +1,48 @@
-# Opening battle event evidence
+# Battle event ownership
 
-Mechanics producers now attach detached actor/item snapshots to transient
-events. Saves, the random stream and gameplay decisions do not consume this
-metadata. The presentation owner receives explicit walk/action boundaries,
-casts, target visits, accuracy failures, HP changes, status/stat attempts,
-faints, held-item changes and actual wild arrivals. It does not infer those
-facts from final HP or message text.
+`src/blue/battle-events.js` captures detached actor/item snapshots from mechanics.
+The presentation compiler consumes committed action, movement, target, damage,
+status, faint and pickup facts. It never infers decisions from final HP/text,
+reruns targeting/RNG or serializes presentation evidence.
 
-The reviewed spawn implementation was preserved before instrumentation under
-the ignored `tools/pokemon-dungeon/.work/blue-spawn-baseline-20261011-0100/`.
-The static source comparison in `.work/blue-presentation-equivalence-20261011.mjs`
-parses both revisions without importing game modules. After removing only new
-metadata/capture statements and visual scratch values, all 78 existing functions
-match: 34 in mechanics, 19 in common and 25 in combat. The Bide miss receipt
-retains its original short-circuit condition and its single accuracy draw.
-The comparison also preserves the original semantic events and message text.
-The four producer files and comparison evidence were then frozen under
-`.work/blue-producer-baseline-20261011-0114/` before the separate damage-number
-correction below. Save validation and the actor/dungeon shapes are unchanged.
-Independent review accepted the producer instrumentation and equivalence proof.
+Walking groups close at `flushQueuedMovement`. Pickup receipts wait for their
+movement group; an actor snapshot waits only for that actor's queued walk.
+Comparative owners are `dungeon_entity_movement.c:DisplayActions_Async` and
+`dungeon_monster_house.c:TryWakeSleepingWildPokemon` at
+`013475aa04f5be3191e5527c186d9bfceae7cae0`.
+See [wild-slot/wake ownership](blue-wild-spawns.md).
 
-Walking is grouped at the existing `flushQueuedMovement` boundary. Movement
-pickup messages and item snapshots explicitly wait for that group. A full actor
-snapshot waits only if that actor has a move record since the last flush;
-another actor's pending walk does not defer its upkeep. This distinction keeps
-swapped actors' destination coordinates from appearing before their movement.
-The source references are `DisplayActions_Async` in
-`dungeon_entity_movement.c`, `TryWakeSleepingWildPokemon` in
-`dungeon_monster_house.c`, and the separately documented spawn lifecycle.
+## Capacity and sequencing
 
-Each actual target visit is recorded before accuracy 1. Initial instrumentation
-preserved the former ordinary multi-hit loop without adding an accuracy draw or
-rescanning targets. The later, separate `blue-move-execution.md` refactor corrects
-that numerical ordering and adds bounded empty-Ember endpoint evidence. Other
-no-target move travel remains unrepresented; no geometry is replayed by rendering.
-Missing effect artwork is skipped by its presentation owner, not replaced with
-an invented effect.
+- The compiler rejects more than 8,192 events; it never truncates.
+- One `performAction`, `prepareDungeonTurn` or `completeForcedTurn` result
+  supplies a compiler input. Zero-duration owners replace rather than concatenate.
+  Carry retains pose/effect/number tails, not extra gameplay opportunities.
+- Admission bounds two teammates and ten live wild slots. Swaps spend the
+  partner opportunity; forced Bide release replaces a blocked action.
+- Target visits precede accuracy 1. Repeated-hit and bounded empty-target
+  receipts follow [move execution](blue-move-execution.md); missing artwork is skipped.
+- Money flight is bounded by 60 flight and 25 landing samples, without a
+  per-frame event. New mechanics must re-review the event-cap proof.
+- The historical 5,361-event proof preceded later target/camera/guard additions.
+  [The immutable instrumentation record](https://github.com/justinthelaw/justinthelaw/blob/b5796bc4a0088f2fbee3939023511cb32304572e/tools/pokemon-dungeon/reference/blue-battle-events.md)
+  preserves that table and its assumptions; [Protect](blue-protect.md) records
+  the later guarded-target allowance. Do not treat the early total as current.
 
-## Event bound
+## Damage display
 
-The compiler's 8,192-event limit rejects excess evidence; it never truncates a
-valid result. The current admitted roster, save bounds and factual move catalog
-give this conservative upper bound. Counts include both original semantic events
-and new presentation records.
+[Comparative damage source](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_damage.c#L347)
+displays nominal damage before HP clamping. The browser follows that order;
+HP loss, fainting, Bide, EXP and RNG remain separately owned. Healing displays
+the actual capped restoration. False Swipe retains nominal damage and its
+survival message before the hit wait.
 
-Independent review confirmed one `performAction`, `prepareDungeonTurn` or
-`completeForcedTurn` result per compiler input. Consecutive zero-duration
-preparation/input owners are replaced, never concatenated. Visual carry contains
-only pose/effect/number tails, not events or additional gameplay opportunities.
+Zero damage records attacker/target evidence, emits its existing message once,
+then uses the native target-team sound when both actors display or a 30-frame
+wait otherwise (`dungeon_damage.c:313-329`). It creates no damage number,
+MISS, hit reaction or HP patch.
 
-| Bounded work | Count | Events each | Allowance |
-| --- | ---: | ---: | ---: |
-| Target/hit pieces | 74 | 32 | 2,368 |
-| Team level increases | 198 | 6 | 1,188 |
-| Actor upkeep/action/end wrappers | 13 | 32 | 416 |
-| Residual damage calls | 37 | 16 | 592 |
-| Item actions/pickups | 12 | 16 | 192 |
-| Initial-sleep wakes | 12 | 8 | 96 |
-| Setup, arrivals and floor messages | 1 | 64 | 64 |
-| Camera boundaries | | | 365 |
-| Leader money-throw route | 1 | 64 | 64 |
-| Seed-source faint unlink | 12 | 1 | 12 |
-| Party Rapid Spin cleanup | 2 | 2 | 4 |
-| **Total** | | | **5,361** |
-
-There are at most twelve actor opportunities: two team members and ten live
-wild slots. A swap spends the partner's opportunity; Bide release replaces a
-blocked normal action. The extra wrapper allowance covers preparation. Two
-team moves can each visit all twelve actors, while ten wild actions are
-conservatively allowed five hit pieces each. Current valid wild level-one
-learnsets are narrower. Multi-hit moves in the factual catalog are single-target;
-the area/room handlers use a single pass. No unbounded linked action is admitted.
-
-A hit's 32-record allowance covers its visit/repeat cast, ability announcements,
-damage/reaction/faint/drop messages, secondary effects, contact reactions and
-move-specific recoil/drain/item work. Recoil, drain, Pay Day and Covet are
-distinct move branches; fainting prevents the target's secondary/contact branch.
-An ordinary status effect emits at most its effect snapshot, message and status
-event; Helping Hand applies two stat effects. Each level emits at most a growth
-message/event plus one selected move's learning message/snapshot. No level can
-increase more than once toward the level-100 cap.
-
-An actor wrapper covers timer messages, action/cast boundaries, movement and
-the three upkeep/action/end sync records. Residual calls are bounded by one
-leader hunger call plus poison, burn and Leech Seed on twelve actors. Admission
-can retain both poison and burn, so both are counted. Initial sleep can end once
-per actor; the bound includes legacy admitted team sentinels as well as ten wild
-slots. Berry/pickup branches fit within sixteen records including any drop and
-item snapshots. These bounds must be revisited when activating more mechanics.
-
-Seed-source unlink adds one silent sync per actual KO, containing at most twelve
-changed actors. Successful Rapid Spin adds at most one cure message and one sync
-per party opportunity. Neither adds an effect track, random draw or frame wait.
-Money flight geometry remains separately bounded at sixty flight and twenty-five
-landing samples; samples do not allocate an event per frame.
-
-## Separate nominal damage display correction
-
-After the metadata comparison was frozen, shared damage numbers/messages were
-changed to use the passed nominal amount. Comparative
-[dungeon_damage.c:347-402](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_damage.c#L347)
-formats and displays `dmgStruct.dmg` before subtracting/clamping target HP.
-The browser's HP loss, fainting, Bide accumulation, EXP and random draws remain
-unchanged. Healing still displays the capped amount actually restored. A later
-reviewed correction retains False Swipe's nominal input and carries a survival
-message to the HP-patch boundary before the ten-frame hit wait.
-
-Raw zero damage now adds captured attacker/target evidence to its existing
-message. The presentation owner emits that message once, then plays the native
-target-team sound when both actors display or waits 30 frames otherwise
-(`dungeon_damage.c:313-329`). It does not allocate a number, MISS, hit reaction
-or HP patch. Current zero-capable callers all provide a real attacker; the
-positive source-less residual callers keep their existing behavior. The receipt
-reuses one message, so the conservative event bound is unchanged.
-
-Strict types and focused lint pass. These are source-only checks, not a browser
-playthrough or a claim of complete Nintendo DS binary/timing equivalence.
+Historical AST evidence froze 78 producer functions under
+`.work/blue-producer-baseline-20261011-0114/`; after removing instrumentation
+only, their semantics matched. That proof preceded separate numerical fixes
+and does not establish Blue binary/timing parity or manual acceptance.

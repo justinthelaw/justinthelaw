@@ -1,64 +1,32 @@
-# Original Blue ground-scene ordering
+# Ground-scene order
 
-Three transient movement gates preserve the visible order around the awakening
-and Tiny Woods rescue. They use the pause-aware foreground clock and do not add
-save fields. Reduced motion preserves each full interval while drawing actors at
-their settled positions.
+`story.js` and `render-story.js` reconstruct three transient movement gates
+from saved boundaries. They use the paused foreground clock and add no save
+fields. Reduced motion keeps full intervals with actors drawn at settled positions.
+Dialogue is authored; nominal frame counts do not prove exact Blue duration.
 
-The timing and waypoints come from pinned comparative Red commit
-`013475aa04f5be3191e5527c186d9bfceae7cae0`. They are not proof of exact Blue DS
-frame duration. Dialogue remains an authored adaptation.
+The comparative scripts below are pinned to Red revision
+`013475aa04f5be3191e5527c186d9bfceae7cae0`.
 
-## Butterfree arrival — `named:3`
+| Gate | Selected sequence | Comparative evidence |
+| --- | --- | --- |
+| `named:3` | Offscreen cry at `named:2`, then Butterfree's eight walks (152 ticks) and 20 settled ticks before partner reply: 172 total | [Player 195–221](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L195-L221), [Butterfree 327–348](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L327-L348), [links 0–7](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L812-L820) |
+| `enter:0` | 120-frame movement-only departure; separate westbound paths at speed 384, then create B1F; no rescue-choice menu | [Player 248–259](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L248-L259), [partner 316–324](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L316-L324), [links 8–13](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L821-L826) |
+| `clearing:1` | Caterpie cry, 30-frame wait, 88-frame rescuer walk, 30 settled frames, then reply: 148 total | [Player 39–68](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p02_station.h#L39-L68), [partner 79–85](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p02_station.h#L79-L85) |
 
-The offscreen cry remains `named:2`. Advancing saves `named:3`, clears input and
-withholds the partner's reply for 172 nominal frames: Butterfree's eight
-`WALK_GRID(256, ...)` commands take 152 ticks including their completion checks,
-followed by a 20-tick settled hold. The source admits Butterfree only after the
-cry and partner reaction, walks links 0–7, coordinates the actor cues, and waits
-before the partner asks what is wrong
-([player script lines 195–221](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L195-L221),
-[Butterfree lines 327–348](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L327-L348),
-[links 0–7](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L812-L820)).
+Continue reconstructs each gate. Historical `help-choice:0` and `enter:0/1`
+normalize to movement-only `enter:0`; named/clearing retain line indices.
+Input clears at both gate boundaries. Hidden, unfocused, loading and Help
+time does not advance the foreground clock.
 
-The original Blue video independently shows the cry at 6:20, an empty text box
-at 6:21, the approach at 6:22, both rescuers settled at 6:23, and the partner's
-reply at 6:24. These sparse observations establish order, not frame equivalence.
-
-## Tiny Woods departure — `enter:0`
-
-After the partner resolves to help, the browser uses a 120-frame movement-only
-entry. The two actors follow the separate westbound link sequences at comparative
-speed 384 before B1F is created. The native player path is links 8–10 and the
-partner path is links 11–13
-([player lines 248–259](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L248-L259),
-[partner lines 316–324](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L316-L324),
-[links 8–13](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p01_station.h#L821-L826)).
-The source proceeds directly to the dungeon without a rescue-choice menu.
-
-## Caterpie clearing — `clearing:1`
-
-After Caterpie's opening cry, the browser withholds line 1 for 148 frames: a
-30-frame wait, the existing 88-frame rescuers' walk, and a 30-frame settled
-wait. The comparative end-room script clears Caterpie's text, waits, cues both
-rescuers to walk, waits again, and only then begins the partner's reply
-([player lines 39–68](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p02_station.h#L39-L68),
-[partner lines 79–85](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground/ground_data_d01p02_station.h#L79-L85)).
-The Blue video shows the same cry, empty, walk, settle, reply order at 6:20–6:24.
-
-## Save and presentation boundaries
-
-The gates are reconstructed from their saved boundaries on Continue. Historical
-`help-choice:0` and `enter:0/1` checkpoints are admitted and normalized to the
-movement-only `enter:0`; `named:3` and `clearing:1` retain their existing line
-indices. Input ownership is cleared at each gate's start and end. Hidden,
-unfocused, loading and Help time does not advance the foreground clock.
-
-Hero naming and its confirmation retain the Tiny Woods ground/map backdrop,
-while pre-adventure partner naming and confirmation retain the personality-test
-aura. The Blue video directly shows the ground/map behind the hero keyboard at
-2:30. The recorded observations are preserved in
+Hero naming/confirmation uses the Tiny Woods ground/map; pre-adventure partner
+naming uses the personality aura. Historical sparse Blue video observations
+corroborate scene order and the hero keyboard's ground backdrop, not exact frames.
+The ignored record is
 `.work/blue-ready-20261011/source-video/root-observations.json`.
+[The immutable observation note](https://github.com/justinthelaw/justinthelaw/blob/b5796bc4a0088f2fbee3939023511cb32304572e/tools/pokemon-dungeon/reference/blue-ground-scenes.md)
+retains recorded timestamps; the repeated 6:20–6:24 attribution for two different
+scenes needs rechecking and is not used as a current timing proof.
 
-These source and video checks do not establish complete commercial-dialogue
-parity or manual acceptance of the current candidate gates.
+These are source/ordering qualifications, separate from complete commercial
+dialogue parity and manual acceptance of the current gates.

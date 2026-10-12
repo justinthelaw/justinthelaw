@@ -1,0 +1,8 @@
+"Hook repository","Before","Selected pin","Decision","Official source"
+"`pre-commit/pre-commit-hooks`","`v6.0.0`","`v6.0.0`","Retain existing pinned hook; no update selected","[upstream](https://github.com/pre-commit/pre-commit-hooks/releases/tag/v6.0.0)"
+"`sirosen/fix-smartquotes`","`0.2.0`","`0.2.0`","Retain existing pinned hook; no update selected","[upstream](https://github.com/sirosen/fix-smartquotes/releases/tag/0.2.0)"
+"`DavidAnson/markdownlint-cli2`","`v0.23.2`","`v0.23.3`","Advance markdown lint hook to reviewed v0.23.3","[upstream](https://github.com/DavidAnson/markdownlint-cli2/releases/tag/v0.23.3)"
+"`adrienverge/yamllint`","`v1.38.0`","`v1.38.0`","Retain existing pinned hook; no update selected","[upstream](https://github.com/adrienverge/yamllint/releases/tag/v1.38.0)"
+"`rhysd/actionlint`","`v1.7.12`","`v1.7.12`","Retain existing pinned hook; no update selected","[upstream](https://github.com/rhysd/actionlint/releases/tag/v1.7.12)"
+"`scop/pre-commit-shfmt`","`v3.14.1-1`","`v3.14.1-1`","Retain existing pinned hook; no update selected","[upstream](https://github.com/scop/pre-commit-shfmt/releases/tag/v3.14.1-1)"
+"`shellcheck-py/shellcheck-py`","`0.11.0.1`","`0.11.0.1`","Retain existing pinned hook; no update selected","[upstream](https://github.com/shellcheck-py/shellcheck-py/releases/tag/v0.11.0.1)"

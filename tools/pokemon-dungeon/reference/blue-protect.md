@@ -1,7 +1,8 @@
 # Protect
 
 Protect is admitted for Squirtle's level-28 and Mudkip's level-37 retry
-learnsets. Pinned comparative Red source routes the self move through
+learnsets. [Pinned comparative Red source](https://github.com/pret/pmd-red/tree/013475aa04f5be3191e5527c186d9bfceae7cae0)
+routes the self move through
 `ProtectStatusTarget`: a fresh application draws `2..5` and stores one more
 turn, while an existing Protect status reports the duplicate without drawing
 or refreshing its timer. Protect shares the Reflect/Light Screen/Counter class and expires in
@@ -35,3 +36,7 @@ attempt beyond the earlier protected message. Even the existing conservative
 74-attempt result bound adds only 148 events to the prior 5,777-event proof,
 remaining below `MAX_EVENTS=8192`; this is a capacity bound, not a claim that
 74 protected attempts are reachable.
+
+Protect's shield artwork is loaded but its active bit is absent from current
+`statusMask()`; [status indicators](blue-status-effects.md) records this gap.
+No natural high-level cast or Blue device/audio identity is claimed.

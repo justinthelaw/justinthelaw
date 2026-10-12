@@ -1,6 +1,6 @@
 # Opening portrait and thought presentation
 
-The browser story uses original wording and combines some original beats. This
+The browser story uses authored wording and combines some original beats. This
 mapping follows the nearest corresponding portrait instructions in the pinned
 [Red Rescue Team ground source](https://github.com/pret/pmd-red/tree/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ground).
 It establishes the intended emotions, not exact script or timing equivalence.
@@ -19,7 +19,6 @@ The arrays below correspond to the current browser story's zero-based lines.
 | Awakening | none, none, normal, normal, normal, normal, worried, shocked, worried |
 | Named | joyous, worried, none, normal |
 | Trouble | normal, normal, shocked, normal, normal, normal |
-| Enter | normal, normal |
 | Clearing | teary-eyed, normal, teary-eyed, normal, normal, normal |
 | Reunion | normal, normal, normal, special, normal, none, inspired, happy, normal, happy |
 
@@ -56,7 +55,8 @@ lookups preserve the sixteen-hero/ten-partner identities across retries.
 The exporter verifies and decodes the complete source inventory, including the
 omitted Pikachu-inspired image, before emitting the selected atlas. An independent
 checker requires the exact 89-key coverage and all nineteen normal fallbacks.
-All 142,400 retained crop pixels match the prior atlas. The new 320×480 atlas uses
-71,976 PNG bytes and 7,675 metadata bytes, saving 110,782 encoded bytes and
-768,000 decoded RGBA bytes. This is source and pixel-preservation evidence, not
-complete Blue script or timing parity.
+The selection proof preserved all 142,400 retained crop pixels in the 320x480
+atlas and reduced decoded RGBA by 768,000 bytes. Current encoded sizes belong
+to the asset manifest; later lossless PNG optimization superseded old byte counts.
+The movement-only Enter gate has no dialogue portrait row. Source/pixel proofs
+do not establish complete Blue script or timing parity.

@@ -1,15 +1,18 @@
 ## Summary
 
-Describe what changed and why.
+Explain the problem, the change, and resulting behavior. Link relevant issues.
 
 ## Validation
 
-- [ ] `pre-commit run --all-files`
-- [ ] Repo-specific tests and lint checks were run locally
-- [ ] Docs were updated for user-facing or contributor-facing changes
+List commands and outcomes, including any blockers or skipped checks.
 
-## Checklist
+- [ ] `npm run flight-check`
+- [ ] Applicable package checks and pre-commit hooks
+- [ ] UI screenshots, when relevant, with fixture/animation limitations disclosed
 
-- [ ] Scope is focused and reviewable
-- [ ] Security impact considered
-- [ ] Breaking changes are clearly documented
+## Review
+
+- [ ] Scope is focused; unrelated work is preserved
+- [ ] Affected instructions and human guides match current behavior
+- [ ] Security impact, risks, and breaking changes are documented
+- [ ] Game checks stayed static; website integration used inert fixtures

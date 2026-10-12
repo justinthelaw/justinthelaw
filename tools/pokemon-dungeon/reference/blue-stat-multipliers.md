@@ -39,9 +39,9 @@ join this owner before reusing the admission.
 
 Physical multiplier-down presentation calls effects 404 (offense) and 399
 (defense), both present in the shipped battle bank. Charm's move route also
-uses shipped preparation effect 15. Screech's motion record requests travel
-effect 52, which is absent from both shipped banks; coordinated presentation
-work is required before complete admission can be claimed.
+uses shipped preparation effect 15. Screech requests travel effect 52, now
+present in the selected battle banks. Source-backed admission does not establish
+manual casting or exact Blue presentation; see [battle visuals](blue-battle-visuals.md).
 
 ## Psych Up and persistence
 
