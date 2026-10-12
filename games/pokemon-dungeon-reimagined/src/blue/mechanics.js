@@ -1,4 +1,4 @@
-import { createRandomState, validateRandomState } from '../domain/rng.js';
+import { beginDungeonFloor, createDungeonRandomState, validateRandomState } from '../domain/rng.js';
 import { buildLayout, isTinyWoodsParameters } from '../domain/generation/layouts.js';
 import { addTinyWoodsHallways } from '../domain/generation/features.js';
 import { Draws, finalizeGeometry, positions, ordinary, reachable } from '../domain/generation/support.js';
@@ -45,12 +45,14 @@ function createActor(data,speciesId,id,name,level) {
   const learned=p.learnset.filter(([at])=>at<=level).slice(0,4).map(([,move])=>moveSlot(data,move));
   return {id,speciesId,name:Array.from(name).slice(0,10).join('')||p.name,x:0,y:0,direction:'s',level,hp:stats.hp,maxHp:stats.hp,belly:100,maxBelly:100,exp:p.growth[level-1]?.[0]??0,stats,moves:learned,status:{},periodic:{poison:0,burn:0,leechSeed:0},stages:{attack:10,specialAttack:10,defense:10,specialDefense:10,accuracy:10,evasion:10},heldItem:null,regen:0,usedMove:false,experienceMarked:false,goal:null,leechSource:null,bideDamage:0,skipAction:false,physicalOffenseMultiplierQ8:256,specialOffenseMultiplierQ8:256,physicalDefenseMultiplierQ8:256,specialDefenseMultiplierQ8:256,useHeldItem:false,tactic:'together',enabledIq:[...DEFAULT_IQ],abilityVisualFlags:0};
 }
-/** @param {number|[number,number,number,number]|undefined} seed @returns {[number,number,number,number]} */
-function seedWords(seed) {
-  if(Array.isArray(seed))return seed;
-  let value=(seed??Date.now())>>>0;
-  const next=()=>{value=(value+0x9e3779b9)>>>0;let z=value;z=Math.imul(z^(z>>>16),0x21f0aaad);z=Math.imul(z^(z>>>15),0x735a2d97);return(z^(z>>>15))>>>0;};
-  return [next(),next(),next(),next()];
+/** One browser-owned initial word, not Blue's frame/input global RNG.
+ * Four-word callers retain the historical tuple admission checks before using
+ * their documented first word. @param {number|[number,number,number,number]|undefined} seed */
+function dungeonPreseed(seed){
+  if(!Array.isArray(seed))return (seed??Date.now())>>>0;
+  const admitted=validateRandomState({algorithm:'xoshiro128ss-v1',words:seed,draws:0});
+  if(admitted.algorithm!=='xoshiro128ss-v1')throw new TypeError('Invalid or unsupported random state.');
+  return admitted.words[0];
 }
 /** @param {DungeonOptions} options @param {OpeningData} data @returns {DungeonState} */
 export function createDungeon(options,data) {
@@ -58,7 +60,7 @@ export function createDungeon(options,data) {
   const heroData=data.species[options.heroSpeciesId],partnerData=data.species[options.partnerSpeciesId];
   if(!heroData||!partnerData||!['pokemon-001','pokemon-004','pokemon-007','pokemon-025','pokemon-152','pokemon-155','pokemon-158','pokemon-252','pokemon-255','pokemon-258'].includes(options.partnerSpeciesId)||heroData.types.some(t=>t!=='None'&&partnerData.types.includes(t)))throw new Error("This partner shares the hero's type.");
   /** @type {DungeonState} */
-  const state={version:1,floor:1,width:WIDTH,height:HEIGHT,tiles:[],roomIds:[],explored:[],visible:[],rooms:[],stairs:{x:0,y:0},hero:createActor(data,options.heroSpeciesId,'hero',options.heroName??heroData.name,5),partner:createActor(data,options.partnerSpeciesId,'partner',options.partnerName??partnerData.name,5),enemies:[],items:[],money:0,turn:0,floorTurn:0,baseBeat:0,leaderPrepared:false,log:[],status:'playing',rng:createRandomState(seedWords(options.seed)),mudSport:0,waterSport:0,nextId:1,pendingLearning:[],tutorials:[],fidelityNotes:['Qualified original-game numerical facts; Blue binary parity is unverified.','Browser PRNG, bounded generation repair, autonomous movement and timing are adapted; cartridge replay parity is not claimed.']};
+  const state={version:1,floor:1,width:WIDTH,height:HEIGHT,tiles:[],roomIds:[],explored:[],visible:[],rooms:[],stairs:{x:0,y:0},hero:createActor(data,options.heroSpeciesId,'hero',options.heroName??heroData.name,5),partner:createActor(data,options.partnerSpeciesId,'partner',options.partnerName??partnerData.name,5),enemies:[],items:[],money:0,turn:0,floorTurn:0,baseBeat:0,leaderPrepared:false,log:[],status:'playing',rng:createDungeonRandomState(dungeonPreseed(options.seed)),mudSport:0,waterSport:0,nextId:1,pendingLearning:[],tutorials:[],fidelityNotes:['Qualified original-game numerical facts; Blue binary parity is unverified.','Native-family dungeon LCG core; browser initial seeding, bounded generation repair, call schedule, autonomous movement and timing remain adapted; cartridge replay parity is not claimed.']};
   generateFloor(state,data,[]);return state;
 }
 /** @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events */
@@ -66,6 +68,7 @@ function generateFloor(state,data,events) {
   const floor=data.floors[state.floor-1];if(!floor)throw new Error('Tiny Woods ends after B3F.');
   if(floor.number!==state.floor||!isTinyWoodsParameters(floor.generation,state.floor))throw new Error('Unsupported Tiny Woods floor profile.');
   clearQueuedMovement(state);resetSecondaryGates(state);
+  state.rng=beginDungeonFloor(state.rng);
   const rng=new Draws(state.rng);let geometry=buildLayout(floor.generation,rng);
   for(let attempt=0;attempt<12;attempt++) {
     if(attempt)geometry=buildLayout(floor.generation,rng);
@@ -264,20 +267,79 @@ function tryAiItem(state,actor,events){
   }
   return false;
 }
+/** Default opening actors lack Exp. Go-Getter and Efficiency Expert, so
+ * TargetRegularAttack returns the first attackable enemy from current facing
+ * in native increasing-direction order without a target-choice draw.
+ * @param {DungeonState} state @param {Actor} actor @returns {import('./mechanics-types.js').Direction|undefined} */
+function aiRegularDirection(state,actor){
+  const start=DIRECTIONS.indexOf(actor.direction);
+  for(let offset=0;offset<DIRECTIONS.length;offset++){
+    // Browser indices run opposite to native South, Southeast, East, ... .
+    const direction=DIRECTIONS[(start-offset+DIRECTIONS.length)%DIRECTIONS.length]??'s',[dx,dy]=VECTORS[direction];
+    const candidate=actorAt(state,actor.x+dx,actor.y+dy);
+    if(candidate&&team(candidate)!==team(actor)&&canStep(state,actor,dx,dy)&&(team(actor)||!candidate.status.freeze))return direction;
+  }
+  return undefined;
+}
+/** Native AI tuple 0x80 scans active actor slots after a move wins the
+ * opportunity draw, keeps at most one eligible adjacent target per direction,
+ * and consumes a target-choice draw even when there is only one candidate.
+ * Opening team actors lack Status Checker; Tiny Woods wild actors have it.
+ * @type {ReadonlySet<string>} */
+const AI_ADJACENT_MOVE_IDS=new Set(['move-attract','move-ember','move-hypnosis','move-leech-seed','move-mud-slap','move-sand-attack','move-smokescreen','move-water-gun']);
+/** Opening-represented CanUseOnTargetWithStatusChecker cases for this tuple.
+ * @param {Actor} target @param {string} moveId */
+function aiStatusCheckerRejects(target,moveId){
+  if(target.status.freeze&&moveId!=='move-ember')return true;
+  if(moveId==='move-attract')return !!target.status.infatuated;
+  if(moveId==='move-hypnosis')return !!target.status.sleep;
+  if(moveId==='move-leech-seed')return !!target.status.leechSeed;
+  if(moveId==='move-sand-attack')return (target.stages.accuracy??10)<=0;
+  return moveId==='move-smokescreen'&&!!target.status.whiffer;
+}
+/** @param {DungeonState} state @param {Actor} actor @param {string} moveId @returns {Actor|undefined} */
+function aiAdjacentMoveTarget(state,actor,moveId){
+  /** @type {Actor[]} */const candidates=[];const directions=new Set();
+  for(const candidate of actors(state)){
+    if(team(candidate)===team(actor)||distance(actor,candidate)!==1||!inSight(state,actor,candidate))continue;
+    const direction=directionFor(candidate.x-actor.x,candidate.y-actor.y);
+    if(directions.has(direction))continue;
+    // Status Checker belongs to every opening wild profile, but not to the
+    // default-IQ team. Ember is the sole scoped move that can hit Freeze.
+    if(!team(actor)&&aiStatusCheckerRejects(candidate,moveId))continue;
+    directions.add(direction);candidates.push(candidate);
+  }
+  return candidates.length?candidates[draw(state,candidates.length)]:undefined;
+}
 /** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {OpeningData} data @param {GameEvent[]} events */
 function tryAiAttack(state,actor,target,data,events){
+  const regularDirection=aiRegularDirection(state,actor);
   actor.direction=directionFor(target.x-actor.x,target.y-actor.y);
-    const struggle=data.moves['move-struggle'];
-    const exhausted=actor.moves.every(m=>m.pp===0);
-    if(exhausted&&struggle&&moveTargets(state,actor,struggle).some(a=>team(a)!==team(actor))){attack(state,actor,'struggle',data,events);return true;}
-    // Default party IQ has no PP Checker and may select an exhausted slot.
-    // Wild Tiny Woods profiles do have it, along with Status Checker.
-    const eligible=exhausted?[]:actor.moves.map((m,slot)=>({m,slot,data:data.moves[m.id]})).filter(x=>x.data&&supportsMove(x.data)&&x.m.enabled&&(team(actor)||x.m.pp>0)&&(team(actor)||x.m.id!=='move-hypnosis'||!target.status.sleep)&&((x.data.range===5||x.data.range===8)?considersLineMove(state,actor,target,x.data):moveTargets(state,actor,x.data).some(a=>team(a)!==team(actor)||x.data?.range===7&&distance(actor,target)<=2||x.data?.target===6)));
-    const regular=data.moves['regular-attack'];const regularEligible=!hasIq(actor,'exclusive-move-user')&&regular&&moveTargets(state,actor,regular).length>0;
-    let total=!exhausted&&regularEligible?([100,20,30,40,50][actor.moves.filter(m=>m.enabled).length]??50):0;
-    for(const candidate of eligible)total+=candidate.data?.aiWeight??0;
-    if(total>0){let selected=draw(state,total);for(const candidate of eligible){selected-=candidate.data?.aiWeight??0;if(selected<=0){attack(state,actor,candidate.slot,data,events);return true;}}attack(state,actor,null,data,events);return true;}
-  return false;
+  const struggle=data.moves['move-struggle'];
+  const exhausted=actor.moves.every(m=>m.pp===0);
+  if(exhausted&&struggle&&moveTargets(state,actor,struggle).some(a=>team(a)!==team(actor))){attack(state,actor,'struggle',data,events);return true;}
+  // Default party IQ has no PP Checker and may select an exhausted slot.
+  // Wild Tiny Woods profiles do have it, along with Status Checker.
+  const eligible=exhausted?[]:actor.moves.map((m,slot)=>({m,slot,data:data.moves[m.id]})).filter(x=>x.data&&supportsMove(x.data)&&x.m.enabled&&(team(actor)||x.m.pp>0)&&(AI_ADJACENT_MOVE_IDS.has(x.m.id)||((x.data.range===5||x.data.range===8)?considersLineMove(state,actor,target,x.data):moveTargets(state,actor,x.data).some(a=>team(a)!==team(actor)||x.data?.range===7&&distance(actor,target)<=2||x.data?.target===6))));
+  const regular=data.moves['regular-attack'],regularEligible=!hasIq(actor,'exclusive-move-user')&&!!regular;
+  const useRegular=()=>{if(!regularEligible||!regularDirection)return false;actor.direction=regularDirection;attack(state,actor,null,data,events);return true;};
+  let total=!exhausted&&regularEligible?([100,20,30,40,50][actor.moves.filter(m=>m.enabled).length]??50):0;
+  for(const candidate of eligible)total+=candidate.data?.aiWeight??0;
+  if(total<=0)return false;
+  let selected=draw(state,total);
+  for(const candidate of eligible){
+    selected-=candidate.data?.aiWeight??0;
+    if(selected<=0){
+      if(AI_ADJACENT_MOVE_IDS.has(candidate.m.id)){
+        const moveTarget=aiAdjacentMoveTarget(state,actor,candidate.m.id);
+        if(!moveTarget)return useRegular();
+        actor.direction=directionFor(moveTarget.x-actor.x,moveTarget.y-actor.y);
+      }
+      if(['move-focus-energy','move-rage','move-withdraw'].includes(candidate.m.id)&&(distance(actor,target)!==1||!canStep(state,actor,Math.sign(target.x-actor.x),Math.sign(target.y-actor.y))))return useRegular();
+      attack(state,actor,candidate.slot,data,events);return true;
+    }
+  }
+  return useRegular();
 }
 /** Tactics determine the actual movement target and distance policy. The
  * existing bounded path search/wandering is still not native route replay.

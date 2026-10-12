@@ -8,9 +8,13 @@ import { isNamingText, validateNamingState } from './naming.js';
 /** @typedef {{version:1,phase:Phase,line:number,quiz:QuizState,gender:'male'|'female',natureId:string,heroSpeciesId:string,partnerSpeciesId:string,heroName:string,partnerName:string,nameDraft:string,naming?:import('./naming.js').NamingState,dungeon:DungeonState|null,tutorialSeen:number[],rewarded:boolean}} OpeningSave */
 /** @typedef {{state:OpeningSave|null,warning:string|null,hasStored:boolean}} LoadResult */
 /** @typedef {{slot:0|1,revision:number,payload:string,state:OpeningSave}} SaveRecord */
-/** @typedef {[string|null,string|null]} SaveReceipt */
+/** @typedef {[string|null,string|null,string|null]} SaveReceipt */
 
-const SAVE_PREFIX = 'pokemon.blue-rescue-opening.v1';
+const LEGACY_SAVE_PREFIX = 'pokemon.blue-rescue-opening.v1';
+const SAVE_PREFIX = 'pokemon.blue-rescue-opening.v2';
+const MARKER_KEY = `${SAVE_PREFIX}.handled`;
+const ACTIVE_MARKER = JSON.stringify({ format: `${SAVE_PREFIX}.marker`, state: 'active' });
+const DELETED_MARKER = JSON.stringify({ format: `${SAVE_PREFIX}.marker`, state: 'deleted' });
 const MAX_SAVE_LENGTH = 500000;
 const CHANGED_SAVE = 'Saved data changed outside this tab. Reload before saving again.';
 const UNVERIFIED_SAVE = 'The saved data could not be verified. Reload before saving again.';
@@ -40,11 +44,14 @@ function integer(value, max) { return typeof value === 'number' && Number.isInte
  * these bounded checks do not serialize simultaneous writers.
  * @param {Storage} storage @returns {SaveReceipt}
  */
-function readReceipt(storage) {
-  return [storage.getItem(`${SAVE_PREFIX}.0`), storage.getItem(`${SAVE_PREFIX}.1`)];
+function readReceipt(storage, prefix = SAVE_PREFIX) {
+  return [storage.getItem(`${prefix}.0`), storage.getItem(`${prefix}.1`),
+    prefix === SAVE_PREFIX ? storage.getItem(MARKER_KEY) : null];
 }
 /** @param {SaveReceipt} left @param {SaveReceipt} right */
-function sameReceipt(left, right) { return left[0] === right[0] && left[1] === right[1]; }
+function sameReceipt(left, right) {
+  return left[0] === right[0] && left[1] === right[1] && left[2] === right[2];
+}
 
 /** Complete shallow shell validation; the mechanics owner validates its dungeon.
  * @param {unknown} value
@@ -90,6 +97,32 @@ export function createSaveRepository(validate) {
   /** @type {SaveReceipt|null} */ let observed = null;
   let ownershipWarning = UNVERIFIED_SAVE;
 
+  /** @param {SaveReceipt} receipt @param {string} prefix */
+  function inspect(receipt, prefix) {
+    /** @type {SaveRecord[]} */ const valid = [];
+    /** @type {{slot:0|1,revision:number}[]} */ const unsupported = [];
+    let damaged = false;
+    for (const slot of /** @type {const} */ ([0, 1])) {
+      try {
+        const raw = receipt[slot];
+        if (raw === null) continue;
+        if (raw.length > MAX_SAVE_LENGTH) throw new Error('Oversized save');
+        const envelope = JSON.parse(raw);
+        if (!object(envelope) || envelope.format !== prefix || !integer(envelope.revision, 1000000000) ||
+            typeof envelope.payload !== 'string' || envelope.checksum !== checksum(envelope.payload)) throw new Error('Invalid save');
+        const state = JSON.parse(envelope.payload);
+        if (!validate(state)) {
+          unsupported.push({ slot, revision: /** @type {number} */ (envelope.revision) });
+          continue;
+        }
+        valid.push({ slot, revision: /** @type {number} */ (envelope.revision), payload: envelope.payload, state });
+      } catch { damaged = true; }
+    }
+    valid.sort((a, b) => b.revision - a.revision);
+    unsupported.sort((a, b) => b.revision - a.revision);
+    return { valid, unsupported, damaged };
+  }
+
   /** A failed or divergent observation never adopts the other writer's state.
    * A fresh load is the only way to acquire ownership again.
    * @returns {SaveReceipt}
@@ -121,34 +154,87 @@ export function createSaveRepository(validate) {
         return { state: null, warning: ownershipWarning, hasStored: receipt.some(raw => raw !== null) };
       }
     } catch { return { state: null, warning: ownershipWarning, hasStored: false }; }
-    /** @type {SaveRecord[]} */ const valid = [];
-    const hasStored = receipt.some(raw => raw !== null);
-    let damaged = false;
-    for (const slot of /** @type {const} */ ([0, 1])) {
-      try {
-        const raw = receipt[slot];
-        if (raw === null) continue;
-        if (raw.length > MAX_SAVE_LENGTH) throw new Error('Oversized save');
-        const envelope = JSON.parse(raw);
-        if (!object(envelope) || envelope.format !== SAVE_PREFIX || !integer(envelope.revision, 1000000000) ||
-            typeof envelope.payload !== 'string' || envelope.checksum !== checksum(envelope.payload)) throw new Error('Invalid save');
-        const state = JSON.parse(envelope.payload);
-        if (!validate(state)) throw new Error('Invalid saved adventure');
-        valid.push({ slot, revision: /** @type {number} */ (envelope.revision), payload: envelope.payload, state });
-      } catch { damaged = true; }
+
+    // Any v2 slot or marker permanently selects v2. Damaged or partially deleted
+    // v2 bytes are preserved; this path never consults the legacy journal.
+    if (receipt.some(raw => raw !== null)) {
+      const review = inspect(receipt, SAVE_PREFIX);
+      const record = review.valid[0];
+      const unreadable = review.unsupported[0];
+      const newest = !record || unreadable && unreadable.revision >= record.revision ? unreadable : record;
+      if (newest) { revision = newest.revision; currentSlot = newest.slot; }
+      observed = receipt;
+      if (receipt[2] === DELETED_MARKER) {
+        return { state: null, warning: review.damaged ? 'An interrupted save deletion was preserved.' : null, hasStored: false };
+      }
+      if (unreadable && (!record || unreadable.revision >= record.revision)) {
+        return { state: null, warning: 'A newer opening save could not be read. Its data has been preserved.', hasStored: true };
+      }
+      const markerDamaged = receipt[2] !== null && receipt[2] !== ACTIVE_MARKER;
+      if (markerDamaged) {
+        return { state: null, warning: 'The opening save marker could not be read. Its data has been preserved.', hasStored: true };
+      }
+      if (record) lastPayload = record.payload;
+      return {
+        state: record?.state ?? null,
+        warning: !record || review.damaged || markerDamaged || receipt[2] === null
+          ? record ? 'An interrupted save was recovered from the previous checkpoint.'
+            : 'The opening save could not be read. Its data has been preserved.' : null,
+        hasStored: true,
+      };
     }
-    valid.sort((a, b) => b.revision - a.revision);
-    const record = valid[0];
-    if (record) { revision = record.revision; currentSlot = record.slot; lastPayload = record.payload; }
-    // Corrupt bytes are only a change detector; they never supply a revision or
-    // checkpoint. The app confirms replacing an observed unreadable journal.
-    observed = receipt;
-    return {
-      state: record?.state ?? null,
-      warning: damaged ? record ? 'An interrupted save was recovered from the previous checkpoint.'
-        : 'The opening save could not be read. Its data has been preserved.' : null,
-      hasStored,
-    };
+
+    // v2 is wholly absent. Observe v1 twice, then copy its newest valid bytes
+    // into v2 without changing either legacy slot.
+    /** @type {SaveReceipt} */ let legacy;
+    try {
+      legacy = readReceipt(storage, LEGACY_SAVE_PREFIX);
+      if (!sameReceipt(legacy, readReceipt(storage, LEGACY_SAVE_PREFIX)) ||
+          !sameReceipt(receipt, readReceipt(storage))) {
+        ownershipWarning = CHANGED_SAVE;
+        return { state: null, warning: ownershipWarning, hasStored: legacy.some(raw => raw !== null) };
+      }
+    } catch { return { state: null, warning: ownershipWarning, hasStored: false }; }
+    const review = inspect(legacy, LEGACY_SAVE_PREFIX);
+    const record = review.valid[0];
+    const unreadable = review.unsupported[0];
+    const legacyStored = legacy[0] !== null || legacy[1] !== null;
+    if (unreadable && (!record || unreadable.revision >= record.revision)) {
+      revision = unreadable.revision; currentSlot = unreadable.slot; observed = receipt;
+      return { state: null, warning: 'A newer opening save could not be read. Its data has been preserved.', hasStored: true };
+    }
+    if (!record) {
+      observed = receipt;
+      return {
+        state: null,
+        warning: review.damaged ? 'The opening save could not be read. Its data has been preserved.' : null,
+        hasStored: legacyStored,
+      };
+    }
+    try {
+      const nextRevision = record.revision + 1;
+      if (nextRevision > 1000000000) throw new Error('The save journal is full.');
+      const nextSlot = /** @type {0|1} */ (record.slot === 0 ? 1 : 0);
+      const raw = JSON.stringify({ format: SAVE_PREFIX, revision: nextRevision,
+        checksum: checksum(record.payload), payload: record.payload });
+      const expected = /** @type {SaveReceipt} */ ([...receipt]);
+      expected[nextSlot] = raw;
+      if (!sameReceipt(readReceipt(storage), receipt) ||
+          !sameReceipt(readReceipt(storage, LEGACY_SAVE_PREFIX), legacy)) throw new Error(CHANGED_SAVE);
+      storage.setItem(`${SAVE_PREFIX}.${nextSlot}`, raw);
+      if (!sameReceipt(readReceipt(storage), expected) ||
+          !sameReceipt(readReceipt(storage, LEGACY_SAVE_PREFIX), legacy)) throw new Error(UNVERIFIED_SAVE);
+      expected[2] = ACTIVE_MARKER;
+      storage.setItem(MARKER_KEY, ACTIVE_MARKER);
+      if (!sameReceipt(readReceipt(storage), expected) ||
+          !sameReceipt(readReceipt(storage, LEGACY_SAVE_PREFIX), legacy)) throw new Error(UNVERIFIED_SAVE);
+      revision = nextRevision; currentSlot = nextSlot; lastPayload = record.payload; observed = expected;
+      return { state: record.state, warning: review.damaged
+        ? 'An interrupted save was recovered from the previous checkpoint.' : null, hasStored: true };
+    } catch {
+      observed = null;
+      return { state: null, warning: UNVERIFIED_SAVE, hasStored: true };
+    }
   }
 
   /** @param {OpeningSave} state @returns {string|null} */
@@ -166,12 +252,31 @@ export function createSaveRepository(validate) {
       const raw = JSON.stringify({ format: SAVE_PREFIX, revision: nextRevision, checksum: checksum(payload), payload });
       const before = requireReceipt();
       /** @type {SaveReceipt} */ const expected = [...before];
+      if (expected[2] !== null && expected[2] !== ACTIVE_MARKER) {
+        // Complete deletion or replace an unknown handled marker before
+        // reopening the journal.
+        // ACTIVE with empty slots is intentionally visible as unreadable if a
+        // later payload write fails; no valid new checkpoint is hidden.
+        writing = true;
+        for (const slot of /** @type {const} */ ([0, 1])) {
+          if (expected[slot] === null) continue;
+          storage.removeItem(`${SAVE_PREFIX}.${slot}`);
+          expected[slot] = null;
+          if (!sameReceipt(readReceipt(storage), expected)) throw new Error(UNVERIFIED_SAVE);
+        }
+        expected[2] = ACTIVE_MARKER;
+        storage.setItem(MARKER_KEY, ACTIVE_MARKER);
+        if (!sameReceipt(readReceipt(storage), expected)) throw new Error(UNVERIFIED_SAVE);
+      }
       expected[nextSlot] = raw;
       writing = true;
       storage.setItem(`${SAVE_PREFIX}.${nextSlot}`, raw);
-      // Verify both slots, including the untouched recovery checkpoint. Never
-      // roll back an ambiguous write over bytes that another tab may now own.
       if (!sameReceipt(readReceipt(storage), expected)) throw new Error(UNVERIFIED_SAVE);
+      if (expected[2] !== ACTIVE_MARKER) {
+        expected[2] = ACTIVE_MARKER;
+        storage.setItem(MARKER_KEY, ACTIVE_MARKER);
+        if (!sameReceipt(readReceipt(storage), expected)) throw new Error(UNVERIFIED_SAVE);
+      }
       revision = nextRevision; currentSlot = nextSlot; lastPayload = payload; observed = expected;
       return null;
     } catch (error) {
@@ -190,11 +295,14 @@ export function createSaveRepository(validate) {
       try {
         const before = requireReceipt();
         /** @type {SaveReceipt} */ const expected = [...before];
-        // Retain the selected checkpoint until the other slot is removed and
-        // both exact observations have been checked again.
+        // Publish the handled tombstone before removing either checkpoint. A
+        // crash can leave v2 bytes behind, but can never re-enable v1 fallback.
+        writing = true;
+        expected[2] = DELETED_MARKER;
+        storage.setItem(MARKER_KEY, DELETED_MARKER);
+        if (!sameReceipt(readReceipt(storage), expected)) throw new Error(UNVERIFIED_SAVE);
         for (const slot of [currentSlot === 0 ? 1 : 0, currentSlot]) {
           if (expected[slot] === null) continue;
-          writing = true;
           storage.removeItem(`${SAVE_PREFIX}.${slot}`);
           expected[slot] = null;
           if (!sameReceipt(readReceipt(storage), expected)) throw new Error(UNVERIFIED_SAVE);

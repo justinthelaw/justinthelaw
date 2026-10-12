@@ -14,7 +14,7 @@ export const ITEM_NAMES={poke:'Poké','oran-berry':'Oran Berry','pecha-berry':'P
 /** Synchronous move groups never survive a public action/save boundary.
  * @type {WeakSet<DungeonState>} */
 const queuedMovement = new WeakSet();
-/** Source-style high-halfword scale. Browser PRNG sequence is explicitly adapted.
+/** Source-style high-halfword scale. Algorithm and call schedule are separate contracts.
  * @param {DungeonState} state @param {number} cap */
 export function draw(state, cap) {
   const next = nextRandom(state.rng); state.rng = next.state;

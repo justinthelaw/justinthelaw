@@ -116,3 +116,13 @@ Its complete nonlooping sample and finite controls are recorded in
 blue-pcm-effects.json; numeric song-table group6 has separate replacement
 ownership. Blue identity, native mix/reverb and listening remain unverified.
 Background music remains intentionally absent.
+
+Sleep helper 407, Vine Whip 745 and Razor Leaf 825 reuse the complete public
+wave 117/096 samples above, with three additional finite sequence records at
+the same pinned commit. Their source controls are in blue-pcm-effects.json;
+Blue identity, native phase/mix and audition remain unverified.
+
+Leech Seed travel 807 adds the full public wave 109 (1,646 signed-8 samples)
+and its finite source controls at the same comparative Red commit above.
+Original source paths/hashes remain in blue-pcm-effects.json; Blue identity,
+native phase/mix and browser audition remain unverified.

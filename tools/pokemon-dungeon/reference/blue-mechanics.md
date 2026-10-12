@@ -80,13 +80,27 @@ copied abilities, factual mutation or helper callers requires a new source revie
 
 ## Remaining fidelity gaps
 
-- Browser xoshiro randomness is independent of the DS generator and call
-  schedule. Geometry reuses the existing original-derived generator with its
-  bounded connectivity repairs. Population placement follows the source rules
-  documented below, but the full initialization draw schedule is adapted; no
-  cartridge seed replay or tile-for-tile dungeon claim is supported.
+- New adventures use the source-qualified dungeon LCG family and per-floor
+  preseed split documented in [blue-rng.md](blue-rng.md); historical saves keep
+  their xoshiro state and transitions. Browser initial seeding and the full
+  native call schedule remain adapted, so cartridge seed replay and tile-for-
+  tile dungeon claims are unsupported. The version-two save journal passed
+  independent review and the recorded browser migration and stale-write checks.
 - AI uses compact pathfinding, local foe selection, following and wandering.
-  This does not reproduce the full native movement/IQ/tactic decision tree.
+  Focus Energy, Rage and Withdraw retain player self-use, but autonomous use
+  requires an attackable adjacent foe because their native AI targeting tuple
+  is zero; a foe at distance two does not admit the buff. If a selected buff
+  fails that final check, native selection falls back to an already targeted
+  regular attack when permitted, without another draw. Regular attacks retain
+  their weighted opportunity even without a target and scan from current facing
+  in native direction order; wild Status Checker skips frozen targets. These
+  bounded corrections do not reproduce the full native movement/IQ decision tree.
+  The eight first-attempt adjacent corner-cut moves now resolve targets after
+  selection in persisted actor-slot order. They apply wild Status Checker and
+  consume a target-choice draw even for one candidate; no eligible candidate
+  takes the captured regular fallback. This lets Hypnosis consider an awake
+  adjacent partner when the nearer hero is already asleep. Front, line, room
+  and self targeting remain separately qualified.
   The scheduler implements the admitted normal/slowed speed rows and forced
   leader passes described below; the full native phase/speed repertoire and
   some status ordering remain incomplete. Learning choices are presented after the

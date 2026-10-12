@@ -13,9 +13,9 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 11
+## Current candidate 13
 
-The static export contains **152 files totaling 2,926,450 bytes**, below the
+The static export contains **152 files totaling 2,943,779 bytes**, below the
 unchanged 3 MiB distribution cap. The game uses local resources only and has no
 runtime CDN dependency.
 
@@ -48,11 +48,15 @@ specific route is manually exercised.
 
 Whiffer's sound-only helper now uses its pinned four-note PCM sequence in
 numeric replacement group 6. Existing group 5 cues retain their own replacement
-and tail behavior; all seven prior sample/cue tuples remain byte-exact. Eight
-decoded buffers use 229,412 bytes, and both groups retain the shared 32-source
+and tail behavior; all seven prior sample/cue tuples remain byte-exact. Nine
+decoded buffers use 235,996 bytes, and both groups retain the shared 32-source
 ceiling. Reapplying Whiffer consumes the source's discarded duration draw and
 reports the existing status without replacing its timer or playing the helper
-sound again. Source checks verify all 48 PCM input pins. A focused manual
+sound again. Candidate 13's pinned native-source check passed for all 53 PCM
+input pins. The admitted source joins include Sleep helper 407, Vine Whip 745,
+Razor Leaf 825 and Leech Seed travel 807. Effect 807 adds one finite source wave;
+the earlier joins retain their existing decoded samples and playback bounds.
+A focused manual
 Smokescreen trial verified fresh and duplicate applications, PP consumption and
 normal control recovery with no browser warnings or errors. Exact Blue audio
 and audition remain
@@ -65,19 +69,36 @@ old timer. Existing sound data is connected to reviewed direct move/species
 pairs, Ember casting and empty-adjacent Attract. An unreachable synthetic cast
 fallback was removed. Other sound routes remain qualified.
 
+New adventures use the source-qualified native-family dungeon LCG core and
+fresh-floor preseed progression. Historical xoshiro saves retain their exact
+payload and sequence. The version-two journal isolates current snapshots from
+cached v1 readers, migrates a verified v1 payload without altering its raw
+slots, and retains a handled marker so explicit deletion cannot resurrect v1.
+AI self-status choices that require a foe use their source-qualified adjacency
+gate. Regular attack retains its weighted opportunity before target resolution
+and scans from the actor's captured facing in native direction order. The eight
+first-attempt adjacent corner-cut moves resolve targets only after selection in
+persisted actor-slot order, apply wild Status Checker, and consume the native
+target-choice draw even for one candidate. A failed final admission takes the
+captured regular fallback without a redraw. These corrections postdate the
+immutable candidate 12 browser run. Original Blue seed history, the complete
+RNG call schedule and cartridge replay remain unproved.
+
 ## Static and hosted evidence
 
-The composed Node 24.21.0 authoring checks cover lint, strict static types,
-source facts, geometry, provenance, archive hashes, effect inventories, decoded
-and encoded limits, and distribution closure. They do not import or execute the
-game as a test.
+The candidate 13 Node 24.21.0 authoring checks passed and cover lint, strict
+static types, source facts, geometry, provenance, archive hashes, effect
+inventories, decoded and encoded limits, and distribution closure. They do not
+import or execute the game as a test.
 
-Exact published head `11008c638843b8957092e7c887f2fa4f38a42b84`
+Exact published head `88bf7229dd512f0c6773b754f9b2c4c92789e30c`
 passed the hosted lint, Game Static Checks, Playwright and CodeQL workflows.
-Codex completed its review and added a thumbs-up after the trigger and workflow
-creation timestamps. The normal watcher exited 2 on its false acknowledgment
-classification; independent provider checks established completion after late
-discovery, with no unresolved review threads. The current working tree is later than that published head and must be assessed with its own final exact-head checks after publication.
+Codex completed its exact-head review with no major findings and the review
+thread readback found no unresolved threads. The bundled watcher's exit status
+is **unknown** because its session became inaccessible; provider results were
+verified separately and are preserved in `tools/pokemon-dungeon/.work/ci-88bf722/`.
+Candidate 13 is later than that published head and still requires its own
+exact-head hosted checks after publication.
 
 Root's full local website lint/build/Playwright flight check remains blocked by
 Socket Security Policy E403 while installing recently published pinned website
@@ -103,6 +124,12 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 9 | Cyndaquil Smokescreen: duplicate Sunkern application, two fresh Wurmple applications, PP 9/10 to 6/10, control recovery and normal Quicksave | Warning/error log empty; no original-audio audition |
 | Candidate 10 / early 11 | Same-path preview holds advanced one turn; inert controls proved both keys and animation frames remained active | Stale preview-module reuse isolated with fresh URLs; no game-defect causality claimed |
 | Candidate 11, fresh module URLs | Held B+A for five seconds advanced 433 to 453 turns; held plain A for five seconds advanced 453 to 454; Quicksave and menus recovered | Browser log clean; standalone input check using unchanged runtime bytes |
+| Candidate 12, migration | Current build migrated the visible 454-turn v1 xoshiro save, advanced and saved 455; the cached `88bf722` build then saved 456 in v1; current reload retained 455 | PASS for namespace isolation; both console logs clean. Corruption, unsupported revisions, quota failure and other interleavings remain static-only |
+| Candidate 12, stale tab | Two current tabs loaded 455; the first saved 456 and the second received the visible changed-data warning; reload retained 456 | PASS for sequential stale-write rejection; not cross-process atomicity or exhaustive interleaving evidence |
+| Candidate 13 | Continued the migrated 456-turn B1F save through B2F/B3F and rescue at 556 turns; Exeggcute selected Hypnosis first for Cyndaquil and then for the awake hero while its partner slept; both recovered, partner reached level 7, berry tutorial, Quicksave/Continue, all rewards and completed Continue passed | PASS for frozen legacy-xoshiro continuation; browser log clean. Leech Seed/PCM 807 was not cast; no hidden RNG-state claim |
+
+A separate fresh candidate 12 native-family adventure trial is active. It is
+not yet completion evidence and is not claimed by this table.
 
 Prior portrait, native interface, touch layout, loss/retry, Give Up, item,
 status, PP, EXP and save observations remain in the preserved review history and
@@ -135,12 +162,14 @@ browser viewport evidence, not physical iOS or Android acceptance.
   effect, dialogue and sound timing is not established for every route.
 - Background music is intentionally absent at Justin's request from 2026-10-11.
   This is an explicit scope waiver rather than an unresolved implementation bug.
-- Native AI and speed scheduling, cartridge RNG and call order, and Blue binary
-  parity remain qualified. Source arithmetic and sampled captures do not prove
-  complete behavioral identity.
-- Candidate 8 has focused post-pruning browser acceptance, following the complete
-  candidate 7 rescue. Newly admitted first-attempt visual routes are source/static
-  reviewed and are not each manually cast.
+- Native AI and speed scheduling, original seed history, the complete RNG call
+  order, and Blue binary parity remain qualified. The native-family core and
+  sampled captures do not prove cartridge replay identity.
+- Candidate 13 has a complete legacy-xoshiro continuation through rescue and
+  visible two-recipient Hypnosis selection/recovery evidence. Leech Seed and
+  PCM 807 were not cast. Candidate 12's separate fresh native-family adventure
+  trial remains active on B2F and is not completion evidence. Newly admitted
+  first-attempt visual and audio routes are not each manually cast or auditioned.
 - Heal Bell, Charm and Screech are later retry paths and have not been manually
   cast in the current candidate. Their source and save contracts are statically
   reviewed.

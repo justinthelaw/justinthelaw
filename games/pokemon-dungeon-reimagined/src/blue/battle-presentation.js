@@ -29,7 +29,7 @@ import {nativeSin4096} from './battle-native-sine-data.js';
 /** @typedef {{x:number,y:number,depthY:number,depthAdd:0|1,visible:boolean}} TravelSample */
 /** @typedef {{id:number,actorId?:string,start:number,end:number,waitEnd?:number,direction:string,attachmentSet?:number,generic?:boolean,depthY?:number,depthAdd?:0|1,frameTicks?:number,elapsedOffset?:number,from?:{x:number,y:number},to?:{x:number,y:number},samples?:readonly TravelSample[],hidden?:boolean}} EffectTrack */
 /** @typedef {{actorId:string,amount:number,heal:boolean,miss:boolean,start:number,end:number}} NumberTrack */
-/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413',audible:boolean,moveOwned?:true}|{clearNotice:true}} PresentationCue */
+/** @typedef {{event:GameEvent,audible:boolean}|{sound:'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807',audible:boolean,moveOwned?:true}|{clearNotice:true}} PresentationCue */
 /** @typedef {PresentationCue & {at:number,ordinal:number}} BattleCue */
 /** @typedef {{poses:PoseTrack[],effects:EffectTrack[],number:BattleNumber|null}} BattleCarry */
 /** @typedef {{start:number,end:number}} EndTrack */
@@ -165,7 +165,7 @@ export class BattlePresentation {
       if(event.type==='message'&&event.text)addPatch({at,ordinal:order,message:event.text});
     };
     /** Native sound receipts are private presentation evidence, never saves.
-     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] */
+     * @param {'heal'|'heart'|'se330'|'se331'|'se332'|'se342'|'se343'|'se356'|'se711'|'se678'|'se809'|'se621'|'se413'|'se407'|'se745'|'se825'|'se807'} name @param {number} at @param {number} [order] @param {boolean} [moveOwned] */
     const sound=(name,at,order=ordinal++,moveOwned=false)=>{
       if(++soundCount>MAX_EVENTS)throw new RangeError('Native sound receipts exceed the opening bound.');
       cueFrontier=Math.max(cueFrontier,at);
@@ -228,6 +228,7 @@ export class BattlePresentation {
       else if(id===22)sound('se621',start);
       // The selected motion table routes144 only from Ember's cast.
       else if(id===144)sound('se711',start,undefined,true);
+      else if(id===194)sound('se745',start,undefined,true);
       return info.blocksWait===false?at:Math.min(end,at+waitLimit);
     };
     const drainEffects=()=>{
@@ -349,6 +350,8 @@ export class BattlePresentation {
         const previous={x:next.x-dx,y:next.y-dy};
         // The first loop RunFrame loads the new pose. Its last draw is at
         // +21px for these 3px projectiles; deletion follows that eighth frame.
+        // One native handle spans every cell; invisible cells do not update it.
+        if(info&&(route.travel===288||route.travel===269)&&elapsedOffset===0)sound(route.travel===288?'se825':'se807',cursor+1,undefined,true);
         if(info)this.effects.push({id:route.travel,start:cursor+1,end:cursor+duration+1,waitEnd:cursor+duration,direction:caster.direction,elapsedOffset,from:{x:previous.x*24+12,y:previous.y*24+16},to:{x:next.x*24+12,y:next.y*24+16},...(samples?{samples:samples[step-1]}:{})});
         cursor+=duration;elapsedOffset+=duration;
       }
@@ -458,7 +461,7 @@ export class BattlePresentation {
         const start=cursor;messageAt=start;
         const visible=displayedActor(record.actor);
         // Selected native effect sounds replace only the STOP direct-cast cue.
-        cue(event,start,order,visible&&!EFFECT22_SILENT_CASTS.has(record.moveId)&&record.moveId!=='move-synthesis'&&record.moveId!=='move-ember'&&record.moveId!=='move-attract');
+        cue(event,start,order,visible&&!EFFECT22_SILENT_CASTS.has(record.moveId)&&record.moveId!=='move-synthesis'&&record.moveId!=='move-ember'&&record.moveId!=='move-attract'&&record.moveId!=='move-leech-seed');
         if(!visible)continue;
         if(route?.preparation&&record.first){
           if(record.moveId==='move-hypnosis'){
@@ -622,6 +625,9 @@ export class BattlePresentation {
         if(record.effectId!==undefined){
           cursor=effect(record.effectId,record.before,cursor,record.effectId===21?3:undefined,record.before.direction,100,true,true,record.effectId===15||record.effectId===14);
         }
+        // Sleep's nonblocking effect 37 helper returns before its first draw. The
+        // separate 407 request follows creation, before result text/status sync.
+        if(record.effectId===37&&displayedActor(record.before))sound('se407',cursor);
         if(Boolean(record.before.status.sleep)!==Boolean(record.after.status.sleep))retirePose(record.after.id,cursor);
         patchActors([record.after],cursor);messageAt=cursor;cue(event,cursor,order);continue;
       }
