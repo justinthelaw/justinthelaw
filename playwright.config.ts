@@ -54,9 +54,9 @@ export default defineConfig({
 
   /* Run a local server before starting the tests. */
   webServer: {
-    // CI runs the exported Pages artifact after configure-pages applies its base path.
-    command: process.env.CI ? "npm run start" : "npm run dev",
+    // Test the same built Pages artifact locally and in CI; never reuse a dev server.
+    command: "npm run start",
     url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
   },
 });

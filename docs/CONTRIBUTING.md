@@ -20,6 +20,9 @@ resolver; keep `engine-strict`. Use stable upstream pre-commit tags.
 | `pre-commit run --all-files` | Run pre-commit checks |
 | `pre-commit run --all-files --hook-stage pre-push` | Run pre-push checks, including app lint |
 
+Playwright starts a fresh production preview in both local and CI runs. Stop any
+server on port 3000 first; `out/` must match the source being tested.
+
 Hooks check Markdown, YAML, workflows, shell scripts, whitespace, smart quotes,
 merge conflicts, private keys, and large files.
 

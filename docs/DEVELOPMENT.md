@@ -22,6 +22,9 @@ the [profile-QA environments](../ml/profile-qa/README.md#prerequisites).
 | `npm run flight-check` | Required before pushing: clean, lint, build, test |
 | `npm run build && npm run test` | Standalone Playwright run; build `out/` first |
 
+Playwright starts a fresh production preview in both local and CI runs. Stop any
+server on port 3000 first; `out/` must match the source being tested.
+
 Install and run the [contribution hooks](CONTRIBUTING.md#validation).
 
 ## Deferred Upgrades
