@@ -119,7 +119,8 @@ test("should keep the joystick still and animate both remaining pixel blobs", as
   expect(running).toBe(true);
   // WebKit may suspend offscreen animation painting on mobile. Measure the
   // visible character, as a user would see it after reaching its card.
-  await bodies.first().scrollIntoViewIfNeeded();
+  // Scroll its stable card because the SVG body itself is intentionally moving.
+  await bodies.first().locator("xpath=ancestor::article").scrollIntoViewIfNeeded();
   const firstY = await bodies.first().evaluate((element) => element.getBoundingClientRect().y);
   await expect.poll(() => bodies.first().evaluate((element) => element.getBoundingClientRect().y)).not.toBe(firstY);
 });
