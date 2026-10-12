@@ -36,6 +36,7 @@ export function LimitWarning({
 }: LimitWarningProps): React.ReactElement {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  const touchOpenAtPointerDownRef = useRef<boolean | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isTouchOpen, setIsTouchOpen] = useState(false);
@@ -73,7 +74,9 @@ export function LimitWarning({
 
     event.preventDefault();
     event.stopPropagation();
-    setIsTouchOpen((currentIsOpen) => !currentIsOpen);
+    const previousTouchOpen = event.detail > 0 ? touchOpenAtPointerDownRef.current : null;
+    touchOpenAtPointerDownRef.current = null;
+    setIsTouchOpen((currentIsOpen) => !(previousTouchOpen ?? currentIsOpen));
   }
 
   function handleOpenChange(nextIsOpen: boolean): void {
@@ -98,6 +101,11 @@ export function LimitWarning({
             data-testid={testId}
             onBlur={() => setIsFocused(false)}
             onClick={handleClick}
+            onPointerDown={() => {
+              // Radix can close on pointerdown before the touch click reaches us.
+              touchOpenAtPointerDownRef.current = isTouchLikeDevice() ? isTouchOpen : null;
+            }}
+            onPointerCancel={() => { touchOpenAtPointerDownRef.current = null; }}
             onFocus={() => {
               if (!isTouchLikeDevice()) {
                 setIsFocused(true);

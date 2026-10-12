@@ -600,6 +600,28 @@ test.describe("Chatbot UI Tests", () => {
       await page.touchscreen.tap(4, 4);
       await expect(inputTooltip).toBeHidden();
       await expect(page.getByTestId("chat-input")).toBeVisible();
+
+      await inputLimitWarning.tap();
+      await expect(inputTooltip).toBeVisible();
+      await page.keyboard.press("Escape");
+      await expect(inputTooltip).toBeHidden();
+      await inputLimitWarning.focus();
+      await expect(inputLimitWarning).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(inputTooltip).toBeVisible();
+      await page.keyboard.press("Space");
+      await expect(inputTooltip).toBeHidden();
+
+      await inputLimitWarning.tap();
+      await expect(inputTooltip).toBeVisible();
+      await inputLimitWarning.dispatchEvent("pointerdown", { pointerType: "touch", pointerId: 7 });
+      await inputLimitWarning.dispatchEvent("pointercancel", { pointerType: "touch", pointerId: 7 });
+      await expect(inputTooltip).toBeHidden();
+      await inputLimitWarning.focus();
+      await page.keyboard.press("Enter");
+      await expect(inputTooltip).toBeVisible();
+      await page.keyboard.press("Space");
+      await expect(inputTooltip).toBeHidden();
     });
   });
 

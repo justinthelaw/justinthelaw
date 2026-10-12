@@ -19,7 +19,7 @@
     "pretest": "playwright install",
     "test": "playwright test",
     "deploy": "npm run build && gh-pages -d out",
-    "clean": "rm -rf out test-results playwright-report .next test-results.json",
+    "clean": "node scripts/clean.mjs",
     "flight-check": "npm run clean && npm run lint && npm run build && npm run test"
   },
   "dependencies": {
