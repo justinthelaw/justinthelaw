@@ -13,11 +13,16 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 14
+## Current candidate 15
 
-The static export contains **152 files totaling 2,946,540 bytes**, below the
-unchanged 3 MiB distribution cap. The game uses local resources only and has no
-runtime CDN dependency.
+The verified pre-pruning candidate 15 export contains **152 files totaling
+2,959,061 bytes**, below the unchanged 3 MiB distribution cap. Its immutable
+snapshot manifest has SHA-256
+`c173c2b68747f70fd79d90cfd1c09efc9ad09752cb281fd1fc277e1aa2eba788`
+and uses 33 website-shell files from the `a59d065` Pages artifact. A later
+reviewed deletion-only AI prune produces a 2,958,889-byte distribution, and
+its full Node 24 static check passed. The game uses local
+resources only and has no runtime CDN dependency.
 
 The native battle presentation contains **56 distinct indexed effects in three
 banks**. Their decoded atlases use 3,948,544 bytes. Including the separately
@@ -52,8 +57,8 @@ and tail behavior; all seven prior sample/cue tuples remain byte-exact. Nine
 decoded buffers use 235,996 bytes, and both groups retain the shared 32-source
 ceiling. Reapplying Whiffer consumes the source's discarded duration draw and
 reports the existing status without replacing its timer or playing the helper
-sound again. Candidate 14's pinned native-source check passed for all 53 PCM
-input pins. The admitted source joins include Sleep helper 407, Vine Whip 745,
+sound again. Candidate 14's pinned native-source check passed for all 53 then-admitted
+PCM input pins. The admitted source joins include Sleep helper 407, Vine Whip 745,
 Razor Leaf 825 and Leech Seed travel 807. Effect 807 adds one finite source wave;
 the earlier joins retain their existing decoded samples and playback bounds.
 A focused manual
@@ -67,7 +72,11 @@ and requires nonzero integer Belly. Plain A remains edge-triggered. Duplicate
 Sleep consumes the source duration draw and entry effect without replacing its
 old timer. Existing sound data is connected to reviewed direct move/species
 pairs, Ember casting and empty-adjacent Attract. An unreachable synthetic cast
-fallback was removed. Other sound routes remain qualified.
+fallback was removed. Other sound routes remain qualified. Candidate 15 admits
+source-derived Bubble impact 628 and Water Sport 717 through the existing
+finite PCM player. The current catalog describes 11 buffers (255,596 decoded
+bytes), 53 notes and 57 pinned source records, and these additions passed the
+pre-pruning candidate's full static and 57-source PCM checks. They have not been manually auditioned.
 
 New adventures use the source-qualified native-family dungeon LCG core and
 fresh-floor preseed progression. Historical xoshiro saves retain their exact
@@ -80,24 +89,45 @@ and scans from the actor's captured facing in native direction order. The eight
 first-attempt adjacent corner-cut moves resolve targets only after selection in
 persisted actor-slot order, apply wild Status Checker, and consume the native
 target-choice draw even for one candidate. A failed final admission takes the
-captured regular fallback without a redraw. These corrections postdate the
-immutable candidate 12 browser run. Original Blue seed history, the complete
-RNG call schedule and cartridge replay remain unproved.
+captured regular fallback without a redraw. Candidate 15 extends the same
+post-selection contract to the reachable tuple-zero front/self, two-tile and
+line classes. It keeps native direction or actor-slot candidate order, the
+required target draw even for one candidate, Course Checker boundaries and the
+captured regular fallback. Independent deletion-only review then removed four
+unreachable hero-only AI branches: Attract, Disable, Low Kick and Bone Club.
+The current source retains 13 reachable tuple-zero front/self branches and seven
+reachable adjacent-class branches. The broader native movement/IQ tree and
+no-visible-foe scheduling remain qualified. The frozen manual candidate still
+uses pre-pruning mechanics SHA-256
+`120baa72eb96d1e0fa022cdc3fb5c81a0913c814904746e5f8ae02deee32c4d0`;
+current mechanics SHA-256 is
+`b03c629e0ef01d2c4661215e780713f688aacc26abc7c063a9e99cd78302dcfa`.
+These corrections postdate the immutable candidate 12 browser run. The
+post-pruning static suite passed; its manual continuation remains pending.
+Original Blue seed history, the complete RNG call schedule and cartridge replay remain unproved.
 
 ## Static and hosted evidence
 
-The candidate 14 Node 24.21.0 authoring checks passed and cover lint, strict
-static types, source facts, geometry, provenance, archive hashes, effect
-inventories, decoded and encoded limits, and distribution closure. They do not
-import or execute the game as a test.
+The pre-pruning candidate 15 Node 24.21.0 authoring checks passed and cover
+lint, strict static types, source facts, geometry, provenance, archive hashes,
+effect inventories, decoded and encoded limits, distribution closure and all
+57 PCM source pins. They do not import or execute the game as a test. Its fresh
+browser run is active on B1F. It has shown partner Tail Whip and Tackle, a wild
+actor choosing different adjacent team actors, and normal Scratch menu use. It
+has not reached rescue or cast Bubble or Water Sport. The current deletion-only
+prune passed the full static suite at 152 files/2,958,889 bytes; the active
+browser uses the frozen pre-pruning source and remains bounded ongoing evidence.
 
-Exact published head `a59d065807b078739f1210beb5e95b76a69d5061`
+Exact published head `61fc0b3758e20a989ea5670b26f3a7b56719d4ca`
 passed hosted lint, Game Static Checks, Playwright and CodeQL. Its exact-head
-Codex review found two actionable issues. The current local candidate repairs
-both: stale README save/RNG wording and loss of an already trusted audio
-activation when same-origin website controls briefly own focus. Those repairs
-postdate the published head and await publication, hosted checks and exact-head
-re-review. The earlier `88bf722` evidence remains preserved under
+Codex review completed with no new findings. That head repairs the two real
+findings from `a59d065`: stale README save/RNG wording and loss of an already
+trusted audio activation when same-origin website controls briefly own focus.
+The two repaired, outdated review threads remain unresolved pending the
+separately required publication workflow. Candidate 15 postdates `61fc0b3`;
+its current post-pruning source still requires publication, hosted checks and
+exact-head review.
+The earlier `88bf722` evidence remains preserved under
 `tools/pokemon-dungeon/.work/ci-88bf722/`.
 
 Root's full local website lint/build/Playwright flight check remains blocked by
@@ -128,6 +158,7 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 12, stale tab | Two current tabs loaded 455; the first saved 456 and the second received the visible changed-data warning; reload retained 456 | PASS for sequential stale-write rejection; not cross-process atomicity or exhaustive interleaving evidence |
 | Candidate 13 | Continued the migrated 456-turn B1F save through B2F/B3F and rescue at 556 turns; Exeggcute selected Hypnosis first for Cyndaquil and then for the awake hero while its partner slept; both recovered, partner reached level 7, berry tutorial, Quicksave/Continue, all rewards and completed Continue passed | PASS for frozen legacy-xoshiro continuation; browser log clean. Leech Seed/PCM 807 was not cast; no hidden RNG-state claim |
 | Candidate 14 | Reproduced the published loss of sound activation after host Show/Hide, then verified the local repair: pointer Show/Hide, host A, Return and Space toggles retained Sound On and continued play; explicit mute remained off; unrelated Back-button focus required a new trusted child click, after which host-control retention worked again | PASS for same-origin host-control focus ownership; browser log clean. OS/window backgrounding was not observed, and no physical audio output was auditioned |
+| Candidate 15, active | Fresh Charmander/Squirtle B1F run observed partner Tail Whip and Tackle, a Wurmple choosing different adjacent team actors, movement/recovery and normal Scratch menu use | Bounded ongoing evidence using frozen pre-pruning mechanics `120baa72…`; not rescue/completion evidence. Bubble and Water Sport were not cast, and no physical audio was auditioned |
 
 A separate fresh candidate 12 native-family adventure trial is active. It is
 not yet completion evidence and is not claimed by this table.
@@ -163,15 +194,19 @@ browser viewport evidence, not physical iOS or Android acceptance.
   effect, dialogue and sound timing is not established for every route.
 - Background music is intentionally absent at Justin's request from 2026-10-11.
   This is an explicit scope waiver rather than an unresolved implementation bug.
-- Native AI and speed scheduling, original seed history, the complete RNG call
-  order, and Blue binary parity remain qualified. The native-family core and
+- Candidate 15 expands reachable front/self, two-tile and line AI targeting
+  from pinned comparative source. Both pre-pruning and current deletion-only
+  static suites passed; the active fresh browser run remains incomplete and uses
+  the frozen pre-pruning mechanics. Native movement/IQ scheduling, original seed history, the complete
+  RNG call order, and Blue binary parity remain qualified. The native-family core and
   sampled captures do not prove cartridge replay identity.
 - Candidate 13 has a complete legacy-xoshiro continuation through rescue and
   visible two-recipient Hypnosis selection/recovery evidence. Candidate 14 adds
   focused host-control audio-activation evidence; true OS/window backgrounding
   and physical audio output remain unobserved. Leech Seed and
-  PCM 807 were not cast. Candidate 12's separate fresh native-family adventure
-  trial remains active on B2F and is not completion evidence. Newly admitted
+  PCM 807 were not cast. Candidate 12's separate fresh
+  native-family tester remains pending after corrected failed hidden-read attempts
+  and is not completion evidence. Newly admitted
   first-attempt visual and audio routes are not each manually cast or auditioned.
 - Heal Bell, Charm and Screech are later retry paths and have not been manually
   cast in the current candidate. Their source and save contracts are statically

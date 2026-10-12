@@ -86,21 +86,32 @@ copied abilities, factual mutation or helper callers requires a new source revie
   native call schedule remain adapted, so cartridge seed replay and tile-for-
   tile dungeon claims are unsupported. The version-two save journal passed
   independent review and the recorded browser migration and stale-write checks.
-- AI uses compact pathfinding, local foe selection, following and wandering.
-  Focus Energy, Rage and Withdraw retain player self-use, but autonomous use
-  requires an attackable adjacent foe because their native AI targeting tuple
-  is zero; a foe at distance two does not admit the buff. If a selected buff
-  fails that final check, native selection falls back to an already targeted
-  regular attack when permitted, without another draw. Regular attacks retain
-  their weighted opportunity even without a target and scan from current facing
-  in native direction order; wild Status Checker skips frozen targets. These
-  bounded corrections do not reproduce the full native movement/IQ decision tree.
-  The eight first-attempt adjacent corner-cut moves now resolve targets after
-  selection in persisted actor-slot order. They apply wild Status Checker and
-  consume a target-choice draw even for one candidate; no eligible candidate
-  takes the captured regular fallback. This lets Hypnosis consider an awake
-  adjacent partner when the nearer hero is already asleep. Front, line, room
-  and self targeting remain separately qualified.
+- AI still uses compact pathfinding, local foe selection, following and wandering.
+  Move opportunities are selected before resolving targets for the admitted
+  native AI classes: thirteen reachable front/self moves (`0x00`), Growl and Quick Attack
+  (`0x40`), Bubble and Razor Leaf (`0x50`), and seven reachable corner-cut adjacent moves
+  (`0x80`). Regular attacks retain their weighted opportunity without a target
+  and capture their direction from current facing before move selection.
+  Failed selected-move targeting uses that captured regular fallback without
+  another opportunity draw. Every nonempty target pool consumes its own draw,
+  including a one-candidate pool.
+  Front/self and two-tile candidates follow native South, Southeast, East,
+  Northeast, North, Northwest, West, Southwest order. Front/self requires an
+  attackable adjacent foe; Focus Energy, Rage and Withdraw still affect the
+  user after admission. Two-tile targeting prefers an eligible adjacent foe in
+  each direction before checking distance two, with only the first-step corner
+  check. Line and corner-cut adjacent candidates retain persisted actor-slot
+  order. Lines admit the first eligible target per direction and respect the
+  partner's Course Checker toggle; execution still hits the first actual actor
+  on that ray. Wild Status Checker uses the represented active status fields.
+  These are bounded comparative Red-source corrections, not proof of Blue
+  binary equivalence. No-visible-foe scheduling, Struggle, movement and the
+  full native IQ decision tree remain qualified. Water Sport and Helping Hand
+  belong only to hero species in this roster, so dormant room-target AI is
+  omitted; their player actions remain available. Hero-only Attract, Disable,
+  Low Kick and Bone Club are also absent from autonomous policy, and the dead
+  Helping Hand target fallback is removed. Save role/learnset validation and
+  the partner/wild-only turn loop preserve this boundary through retries.
   The scheduler implements the admitted normal/slowed speed rows and forced
   leader passes described below; the full native phase/speed repertoire and
   some status ordering remain incomplete. Learning choices are presented after the

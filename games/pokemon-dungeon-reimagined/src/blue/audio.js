@@ -13,6 +13,7 @@ const EFFECTS = Object.freeze({
   se678: 'effect-rapid-spin', se809: 'effect-synthesis', se621: 'effect-move-preparation', se413: 'effect-whiffer',
   se407: 'effect-sleep-helper', se745: 'effect-vine-whip', se825: 'effect-razor-leaf',
   se807: 'effect-leech-seed-travel',
+  se628: 'effect-bubble-impact', se717: 'effect-water-sport',
   se330: 'effect-pickup-team', se331: 'effect-pickup-other', se332: 'effect-pickup-money',
   stairs: 'effect-stairs', rescue: 'effect-rescue-found',
   reward: 'effect-reward', levelUp: 'effect-level-up', faint: 'effect-faint',

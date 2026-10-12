@@ -286,15 +286,26 @@ function aiRegularDirection(state,actor){
  * and consumes a target-choice draw even when there is only one candidate.
  * Opening team actors lack Status Checker; Tiny Woods wild actors have it.
  * @type {ReadonlySet<string>} */
-const AI_ADJACENT_MOVE_IDS=new Set(['move-attract','move-ember','move-hypnosis','move-leech-seed','move-mud-slap','move-sand-attack','move-smokescreen','move-water-gun']);
-/** Opening-represented CanUseOnTargetWithStatusChecker cases for this tuple.
+const AI_ADJACENT_MOVE_IDS=new Set(['move-ember','move-hypnosis','move-leech-seed','move-mud-slap','move-sand-attack','move-smokescreen','move-water-gun']);
+/** Native AI tuple zero uses adjacent enemy targeting even when the player
+ * range later applies Focus Energy, Rage or Withdraw to the user.
+ * @type {ReadonlySet<string>} */
+const AI_FRONT_MOVE_IDS=new Set(['move-tackle','move-vine-whip','move-scratch','move-tail-whip','move-thunder-shock','move-thunder-wave','move-bite','move-leer','move-pound','move-absorb','move-focus-energy','move-rage','move-withdraw']);
+/** @type {ReadonlySet<string>} */
+const AI_TWO_TILE_MOVE_IDS=new Set(['move-growl','move-quick-attack']);
+/** @type {ReadonlySet<string>} */
+const AI_LINE_MOVE_IDS=new Set(['move-bubble','move-razor-leaf']);
+/** @type {readonly import('./mechanics-types.js').Direction[]} */
+const AI_NATIVE_DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
+/** Opening-represented CanUseOnTargetWithStatusChecker cases for these tuples.
  * @param {Actor} target @param {string} moveId */
 function aiStatusCheckerRejects(target,moveId){
   if(target.status.freeze&&moveId!=='move-ember')return true;
-  if(moveId==='move-attract')return !!target.status.infatuated;
   if(moveId==='move-hypnosis')return !!target.status.sleep;
   if(moveId==='move-leech-seed')return !!target.status.leechSeed;
   if(moveId==='move-sand-attack')return (target.stages.accuracy??10)<=0;
+  if(moveId==='move-thunder-wave')return !!target.status.paralysis;
+  if(moveId==='move-leer'||moveId==='move-tail-whip')return (target.stages.defense??10)<=0;
   return moveId==='move-smokescreen'&&!!target.status.whiffer;
 }
 /** @param {DungeonState} state @param {Actor} actor @param {string} moveId @returns {Actor|undefined} */
@@ -311,6 +322,48 @@ function aiAdjacentMoveTarget(state,actor,moveId){
   }
   return candidates.length?candidates[draw(state,candidates.length)]:undefined;
 }
+/** Tuple zero scans fixed native direction order rather than actor-slot order.
+ * @param {DungeonState} state @param {Actor} actor @param {string} moveId
+ * @returns {Actor|undefined} */
+function aiFrontMoveTarget(state,actor,moveId){
+  /** @type {Actor[]} */const candidates=[];
+  for(const direction of AI_NATIVE_DIRECTIONS){
+    const [dx,dy]=VECTORS[direction],candidate=actorAt(state,actor.x+dx,actor.y+dy);
+    if(!candidate||team(candidate)===team(actor)||!canStep(state,actor,dx,dy))continue;
+    if(!team(actor)&&aiStatusCheckerRejects(candidate,moveId))continue;
+    candidates.push(candidate);
+  }
+  return candidates.length?candidates[draw(state,candidates.length)]:undefined;
+}
+/** Native AI tuple 0x40 checks the adjacent tile before distance two in each
+ * fixed-order direction. The first-step attack gate is not repeated at two.
+ * Both opening owners are partners and therefore lack Status Checker.
+ * @param {DungeonState} state @param {Actor} actor @returns {Actor|undefined} */
+function aiTwoTileMoveTarget(state,actor){
+  /** @type {Actor[]} */const candidates=[];
+  for(const direction of AI_NATIVE_DIRECTIONS){
+    const [dx,dy]=VECTORS[direction];if(!canStep(state,actor,dx,dy))continue;
+    const adjacent=actorAt(state,actor.x+dx,actor.y+dy);
+    if(adjacent&&team(adjacent)!==team(actor)){candidates.push(adjacent);continue;}
+    const distant=actorAt(state,actor.x+dx*2,actor.y+dy*2);
+    if(distant&&team(distant)!==team(actor))candidates.push(distant);
+  }
+  return candidates.length?candidates[draw(state,candidates.length)]:undefined;
+}
+/** Native AI tuple 0x50 scans active slots and retains the first eligible
+ * target in each aligned direction. Both opening owners are partners.
+ * @param {DungeonState} state @param {Actor} actor @returns {Actor|undefined} */
+function aiLineMoveTarget(state,actor){
+  /** @type {Actor[]} */const candidates=[];
+  /** @type {Set<import('./mechanics-types.js').Direction>} */const directions=new Set();
+  for(const candidate of actors(state)){
+    if(candidate.id===actor.id||team(candidate)===team(actor)||!considersLineTarget(state,actor,candidate,10))continue;
+    const direction=directionFor(candidate.x-actor.x,candidate.y-actor.y);
+    if(directions.has(direction))continue;
+    directions.add(direction);candidates.push(candidate);
+  }
+  return candidates.length?candidates[draw(state,candidates.length)]:undefined;
+}
 /** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {OpeningData} data @param {GameEvent[]} events */
 function tryAiAttack(state,actor,target,data,events){
   const regularDirection=aiRegularDirection(state,actor);
@@ -320,7 +373,7 @@ function tryAiAttack(state,actor,target,data,events){
   if(exhausted&&struggle&&moveTargets(state,actor,struggle).some(a=>team(a)!==team(actor))){attack(state,actor,'struggle',data,events);return true;}
   // Default party IQ has no PP Checker and may select an exhausted slot.
   // Wild Tiny Woods profiles do have it, along with Status Checker.
-  const eligible=exhausted?[]:actor.moves.map((m,slot)=>({m,slot,data:data.moves[m.id]})).filter(x=>x.data&&supportsMove(x.data)&&x.m.enabled&&(team(actor)||x.m.pp>0)&&(AI_ADJACENT_MOVE_IDS.has(x.m.id)||((x.data.range===5||x.data.range===8)?considersLineMove(state,actor,target,x.data):moveTargets(state,actor,x.data).some(a=>team(a)!==team(actor)||x.data?.range===7&&distance(actor,target)<=2||x.data?.target===6))));
+  const eligible=exhausted?[]:actor.moves.map((m,slot)=>({m,slot,data:data.moves[m.id]})).filter(x=>x.data&&supportsMove(x.data)&&x.m.enabled&&(team(actor)||x.m.pp>0)&&(AI_ADJACENT_MOVE_IDS.has(x.m.id)||AI_FRONT_MOVE_IDS.has(x.m.id)||AI_TWO_TILE_MOVE_IDS.has(x.m.id)||AI_LINE_MOVE_IDS.has(x.m.id)||((x.data.range===5||x.data.range===8)?considersLineMove(state,actor,target,x.data):moveTargets(state,actor,x.data).some(a=>team(a)!==team(actor)||x.data?.range===7&&distance(actor,target)<=2))));
   const regular=data.moves['regular-attack'],regularEligible=!hasIq(actor,'exclusive-move-user')&&!!regular;
   const useRegular=()=>{if(!regularEligible||!regularDirection)return false;actor.direction=regularDirection;attack(state,actor,null,data,events);return true;};
   let total=!exhausted&&regularEligible?([100,20,30,40,50][actor.moves.filter(m=>m.enabled).length]??50):0;
@@ -335,7 +388,21 @@ function tryAiAttack(state,actor,target,data,events){
         if(!moveTarget)return useRegular();
         actor.direction=directionFor(moveTarget.x-actor.x,moveTarget.y-actor.y);
       }
-      if(['move-focus-energy','move-rage','move-withdraw'].includes(candidate.m.id)&&(distance(actor,target)!==1||!canStep(state,actor,Math.sign(target.x-actor.x),Math.sign(target.y-actor.y))))return useRegular();
+      if(AI_FRONT_MOVE_IDS.has(candidate.m.id)){
+        const moveTarget=aiFrontMoveTarget(state,actor,candidate.m.id);
+        if(!moveTarget)return useRegular();
+        actor.direction=directionFor(moveTarget.x-actor.x,moveTarget.y-actor.y);
+      }
+      if(AI_TWO_TILE_MOVE_IDS.has(candidate.m.id)){
+        const moveTarget=aiTwoTileMoveTarget(state,actor);
+        if(!moveTarget)return useRegular();
+        actor.direction=directionFor(moveTarget.x-actor.x,moveTarget.y-actor.y);
+      }
+      if(AI_LINE_MOVE_IDS.has(candidate.m.id)){
+        const moveTarget=aiLineMoveTarget(state,actor);
+        if(!moveTarget)return useRegular();
+        actor.direction=directionFor(moveTarget.x-actor.x,moveTarget.y-actor.y);
+      }
       attack(state,actor,candidate.slot,data,events);return true;
     }
   }

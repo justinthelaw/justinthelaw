@@ -14,9 +14,9 @@ assert.equal(data.sourceCommit,'013475aa04f5be3191e5527c186d9bfceae7cae0');
 assert.deepEqual(data.clock,{cpuHz:16777216,cyclesPerFrame:280896,initialTempo:150,threshold:150});
 assert.equal(data.browserGain,.22);assert.equal(data.nativeMaster,14);
 const fixed=Object.fromEntries(['samples','cues','scale','frequencyBase','voices'].map(key=>[key,data[key]]));
-assert.equal(sha(JSON.stringify(fixed)),"03d8911566eea84d3858c44ef27d6a49d4c62660d07f6b5e6bc945c6a3158396",'Selected PCM source facts changed; review and repin them.');
-assert.equal(data.sources.length,53);
-assert.equal(sha(JSON.stringify(data.sources)),"6599b1c10b3a208ae9d922afe9abfd294cbf753d930e0874d2fb623d61e051f2",'Pinned PCM source ledger changed.');
+assert.equal(sha(JSON.stringify(fixed)),"d206c4e4983e65557366c4940161fcad8eede26cd1b2a8d7a7a7d86721f78462",'Selected PCM source facts changed; review and repin them.');
+assert.equal(data.sources.length,57);
+assert.equal(sha(JSON.stringify(data.sources)),"cd34e75e6498cc032f0298c164aa1a3c8b26f4b4fe6965ca911902303c2447f2",'Pinned PCM source ledger changed.');
 const sourceArgument=process.argv.indexOf('--source-root');
 if(sourceArgument>=0){
   const sourceRoot=process.argv[sourceArgument+1];assert(sourceRoot,'Provide --source-root PATH');
@@ -40,7 +40,7 @@ const samples=data.samples.map(sample=>{
   literalBytes+=raw.length;decodedBytes+=sample.sampleCount*4;
   return [sample.id,sample.sampleCount,sample.loopStart,Boolean(sample.status),sample.base64];
 });
-assert.equal(literalBytes,59002);assert.equal(decodedBytes,235996);
+assert.equal(literalBytes,63903);assert.equal(decodedBytes,255596);
 
 // MODT0 adds16*modM before signed coarse/fine pitch splitting.
 // The selected older cues have no pitch modulation, so their tuples stay exact.
@@ -94,7 +94,7 @@ for(const cue of data.cues){
   assert(notes.length<=13);if(group6)assert(notes.length<=4);
   cues[cue.id]=[fineFrame,notes];
 }
-assert.equal(noteCount,46);assert.equal(levelCount,534);assert.equal(rateCount,259);
+assert.equal(noteCount,53);assert.equal(levelCount,616);assert.equal(rateCount,299);
 assert.deepEqual(groups,{'effect-whiffer':6,'effect-sleep-helper':6});
 assert.deepEqual(cues['effect-whiffer'],[13,[[115,2,4,[[2,38473]],[[2,109,111],[3,108,110],[4,0,0]]],[115,5,7,[[5,30536]],[[5,109,111],[6,108,110],[7,0,0]]],[115,8,10,[[8,24236]],[[8,109,111],[9,108,110],[10,0,0]]],[115,11,13,[[11,19236]],[[11,90,92],[13,0,0]]]]]);
 assert.equal(cues['effect-heal'][0],72);assert.equal(cues['effect-heart'][0],43);
@@ -110,6 +110,8 @@ assert.equal(sha(JSON.stringify(cues['effect-sleep-helper'])),'3066198c45df0c846
 assert.equal(sha(JSON.stringify(cues['effect-vine-whip'])),'e1b9839cf2523a328079509a8e40ff72946151bc3334eed10e0e868fbba3c360','Pinned 745 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-razor-leaf'])),'a7845d0de5b051ed24bd77370fd727375581dcbd67c93ac1a7d75c5b8f02e4f0','Pinned 825 finite tuple changed.');
 assert.equal(sha(JSON.stringify(cues['effect-leech-seed-travel'])),'ebb7f9f3155ca1fead75c17c0df9604f825c96c5615e8a9d621d47e63d0e76fe','Pinned 807 finite tuple changed.');
+assert.equal(sha(JSON.stringify(cues['effect-bubble-impact'])),'d47d7b38e04e5329abd9d7d0565aec57c0871a5f54b27d34574c9509c5ef88c7','Pinned 628 finite tuple changed.');
+assert.equal(sha(JSON.stringify(cues['effect-water-sport'])),'99bc55e88f4eba3b77a5946f6dc1d8e1abeb6f6a232fd5fe12ac96e206f82e30','Pinned 717 finite tuple changed.');
 const generated=`/** Generated selected public Red PCM facts; Blue identity, resampling, global reverb and mix remain qualified. */\n`+
   `export const PCM_SOURCE_SHA256='${sha(bytes)}';\n`+
   `export const PCM_FRAME_SECONDS=280896/16777216;\nexport const PCM_EFFECT_GAIN=${data.browserGain};\n`+
@@ -122,8 +124,8 @@ const generated=`/** Generated selected public Red PCM facts; Blue identity, res
   `export const PCM_EFFECTS=${JSON.stringify(cues)};\n`+
   `/** Numeric song-table replacement domain; omitted legacy cues use group5. */\n`+
   `/** @type {Readonly<Record<string,5|6>>} */\nexport const PCM_EFFECT_GROUPS=${JSON.stringify(groups)};\n`;
-// Exact readmission for807 and its one full wave; all live/row/end limits stay fixed.
-assert.equal(Buffer.byteLength(generated),89283,'Selected PCM catalog byte admission changed.');
+// Exact readmission for two water cues/two full waves; live/row/end limits stay fixed.
+assert.equal(Buffer.byteLength(generated),97290,'Selected PCM catalog byte admission changed.');
 if(process.argv.includes('--check'))assert.equal(await readFile(output,'utf8'),generated,'Regenerate selected PCM data.');
 else await writeFile(output,generated);
-console.log(`Selected PCM: 9 samples, 46 notes, 534 stereo rows, 259 frequency rows, ${Buffer.byteLength(generated)} runtime bytes; static source/data only${sourceArgument>=0?', source hashes verified':''}.`);
+console.log(`Selected PCM: 11 samples, 53 notes, 616 stereo rows, 299 frequency rows, ${Buffer.byteLength(generated)} runtime bytes; static source/data only${sourceArgument>=0?', source hashes verified':''}.`);

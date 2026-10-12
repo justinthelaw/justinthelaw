@@ -739,7 +739,7 @@ bitmap attachment. Initial sleeping actors, saved statuses and repeated draws
 do not create this receipt.
 
 Vine Whip target 194 requests 745 once on the admitted handle's first update,
-including the native target phase before accuracy 1 resolves. Razor Leaf's 288
+including misses: native accuracy 1 is decided before this effect, then its result is presented afterward. Razor Leaf's 288
 travel handle requests 825 once at its first visible-cell source update. The
 existing elapsedOffset distinguishes that first update across all cells;
 entirely hidden travel emits no request. Carry and later cell draws do not
@@ -796,3 +796,52 @@ rate rows. The 3 MiB distribution limit, group-5 15/group-6 4/shared 32 live cap
 13 notes per cue, 59/45 rows per note and 82-frame end bound remain unchanged.
 Native Blue bank identity, global phase/channel competition/mix and browser
 audition remain qualified. Background music stays intentionally absent.
+
+## Two finite water-move cues
+
+Bubble impact 628 (`effect-bubble-impact`) and Water Sport 717
+(`effect-water-sport`) use numeric group 5 and the existing finite player.
+Bank 026 voice 14 uses complete nonlooping wave 108: 1,842 signed-8 samples.
+Voice 29 uses complete looping wave 120: 3,058 samples plus its one-byte native
+guard, loop start 44. The two buffers add 19,600 decoded bytes. All nine old
+sample strings and twelve cue tuples remain byte-exact; no source is truncated.
+
+At tempo 152, cue 628 has three notes at [2,8), [8,14), [14,20), FINE 20.
+At tempo 280, cue 717 has four at [2,9), [9,19), [20,44), [20,46), FINE 47.
+All use priority 127, instantaneous attack and existing integer pitch/envelope
+arithmetic, with no detached tails. Simultaneous notes remain separate sources.
+Wave 108 can naturally exhaust near the latter two gate ends, so the existing
+nonlooping buffer/onended owner remains authoritative. No padding, loop or
+exact browser/native exhaustion-time claim is added. Wave 120 keeps its loop.
+
+A fresh visible target-29 handle requests 628 on its first source update,
+after the native accuracy-1 decision and before presenting its result, including
+misses. The browser's existing committed target receipt owns this boundary.
+Bubble's line stops at its first actor; empty long-range flight creates no
+impact handle. Cast 150 requests 717 once on its first source update. Neither
+request depends on drawing a pixel after handle admission. No visual wait,
+numerical/RNG/save mutation, travel change or replay on carry/redraw is added.
+Only these two verified STOP direct-cast routes lose their authored fallback,
+including Squirtle's Bubble override. Water Gun's current route stays unchanged.
+
+The two receipts share the unchanged move-origin two-request bucket with the
+seven earlier families. Each party actor chooses one one-pass action, Bubble
+targets at most one actor, and Water Sport creates one cast. No level-1 wild
+learner qualifies. Full retained learners are Squirtle/Bubble 7 and
+Psyduck/Water Sport 1. Running, faint splits, retry growth and carried artwork
+do not multiply requests. Every other quota and all activation, pause/mute,
+shared-budget denial, detached-tail replacement and teardown stay unchanged.
+
+The fixed catalog admission is exactly 97,290 bytes: 11 buffers/255,596 decoded
+bytes, 53 notes, 616 stereo rows, 299 rate rows and 57 pinned source records.
+The original 53 records remain exact; only two sequences and two wave sources
+are appended. Group-5 15/group-6 4/shared 32 limits, 13 notes per cue, 59/45 rows
+per note, the 82-frame end bound and the 3 MiB distribution limit remain intact.
+
+Water Gun travel 859 is held because later visible impact 860 must replace its
+group-5 owner. Cue 860 has two tracks, MODT1 controls and a silent infinite wait
+loop, plus two more full samples; it does not fit this bounded addition. No
+new overlong 859 playback or silent replacement is introduced. Common 620,
+Bubble travel 627/slow 901 and remaining noise/PSG cues also stay unadmitted.
+This is partial move coverage, not Blue identity, mixing/phase or audition
+parity. Background music remains intentionally absent.

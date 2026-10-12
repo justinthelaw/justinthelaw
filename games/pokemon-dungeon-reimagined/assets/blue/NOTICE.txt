@@ -126,3 +126,8 @@ Leech Seed travel 807 adds the full public wave 109 (1,646 signed-8 samples)
 and its finite source controls at the same comparative Red commit above.
 Original source paths/hashes remain in blue-pcm-effects.json; Blue identity,
 native phase/mix and browser audition remain unverified.
+
+Bubble impact 628 and Water Sport 717 add full public wave 108/120 samples
+and finite controls at the same pinned Red commit. Source paths/hashes stay
+in blue-pcm-effects.json; Blue identity, native phase/mix, resampling and
+browser audition remain unverified.

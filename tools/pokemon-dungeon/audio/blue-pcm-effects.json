@@ -329,6 +329,30 @@
       "bytes": 19109,
       "sha256": "383c0e41cf512d80c8a4114e1f8d70b21326bff7695a672875c904c179fd7900",
       "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/wave/wave_109.s"
+    },
+    {
+      "path": "sound/songs/seq_628.s",
+      "bytes": 824,
+      "sha256": "70c8e456c2de1b9d7cc4a6a0dd36c9ffcd6ffbfc5cab52503e48386c9bce6ce7",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_628.s"
+    },
+    {
+      "path": "sound/songs/seq_717.s",
+      "bytes": 4296,
+      "sha256": "f5b18b4e67a1d3a619220ed5332e7043d030c3d36d7986f65f7065cb9fbfb913",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/songs/seq_717.s"
+    },
+    {
+      "path": "sound/wave/wave_108.s",
+      "bytes": 21385,
+      "sha256": "c8e112ee59c52f25bf28df80276985f5152bd301f22002054db43220e5b9a366",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/wave/wave_108.s"
+    },
+    {
+      "path": "sound/wave/wave_120.s",
+      "bytes": 35376,
+      "sha256": "fc4a8d1bd499495a7dec9c0e76ce43f1596c54c159dacdf32bde0ef73eb24fd0",
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/sound/wave/wave_120.s"
     }
   ],
   "samples": [
@@ -475,6 +499,38 @@
       "base64Characters": 2196,
       "float32Bytes": 6584,
       "base64": "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"
+    },
+    {
+      "id": 108,
+      "type": 0,
+      "status": 0,
+      "frequencyQ10": 18592768,
+      "baseSampleRate": 18157,
+      "loopStart": 0,
+      "sampleCount": 1842,
+      "literalBytes": 1842,
+      "interpolationGuardBytes": 0,
+      "sampleSha256": "8f4fd5eff98bbcf34dd0841965d6ec03aaa65f672823ce36b9b754bb09711ae8",
+      "literalSha256": "8f4fd5eff98bbcf34dd0841965d6ec03aaa65f672823ce36b9b754bb09711ae8",
+      "base64Characters": 2456,
+      "float32Bytes": 7368,
+      "base64": "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/////v7+/v7+/v///wAAAAAA////////////////AAAAAAAAAAAAAAAA"
+    },
+    {
+      "id": 120,
+      "type": 0,
+      "status": 16384,
+      "frequencyQ10": 18592768,
+      "baseSampleRate": 18157,
+      "loopStart": 44,
+      "sampleCount": 3058,
+      "literalBytes": 3059,
+      "interpolationGuardBytes": 1,
+      "sampleSha256": "1aa9abe780f5f40a4a5d3c7a26986b0cc3df8c4fe3a67dcee728198379758fd8",
+      "literalSha256": "cd31d3aef7d803522cdd3511def991f549bee3ac4119cf2556f8b1fb7f1665b3",
+      "base64Characters": 4080,
+      "float32Bytes": 12232,
+      "base64": "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"
     }
   ],
   "cues": [
@@ -2880,6 +2936,571 @@
       ],
       "priority": 127,
       "reverb": 0
+    },
+    {
+      "id": "effect-bubble-impact",
+      "sequence": 628,
+      "name": "EFF_BUBLE_BRK",
+      "player": "SE5",
+      "fineTick": 20,
+      "notes": [
+        {
+          "tick": 2,
+          "gate": 6,
+          "key": 60,
+          "velocity": 120,
+          "voice": 14
+        },
+        {
+          "tick": 8,
+          "gate": 6,
+          "key": 60,
+          "velocity": 120,
+          "voice": 14
+        },
+        {
+          "tick": 14,
+          "gate": 6,
+          "key": 60,
+          "velocity": 120,
+          "voice": 14
+        }
+      ],
+      "controls": [
+        {
+          "tick": 0,
+          "command": "KEYSH",
+          "value": 0
+        },
+        {
+          "tick": 0,
+          "command": "TEMPO",
+          "value": 76
+        },
+        {
+          "tick": 0,
+          "command": "VOICE",
+          "value": 14
+        },
+        {
+          "tick": 0,
+          "command": "VOL",
+          "value": 115
+        },
+        {
+          "tick": 0,
+          "command": "PAN",
+          "value": 0
+        },
+        {
+          "tick": 1,
+          "command": "MOD",
+          "value": 40
+        },
+        {
+          "tick": 1,
+          "command": "LFOS",
+          "value": 100
+        },
+        {
+          "tick": 1,
+          "command": "MODT",
+          "value": 0
+        }
+      ],
+      "priority": 127,
+      "reverb": 0
+    },
+    {
+      "id": "effect-water-sport",
+      "sequence": 717,
+      "name": "EFF_MIZUASOBI",
+      "player": "SE5",
+      "fineTick": 86,
+      "notes": [
+        {
+          "tick": 3,
+          "gate": 12,
+          "key": 69,
+          "velocity": 127,
+          "voice": 29
+        },
+        {
+          "tick": 16,
+          "gate": 19,
+          "key": 73,
+          "velocity": 80,
+          "voice": 29
+        },
+        {
+          "tick": 37,
+          "gate": 44,
+          "key": 58,
+          "velocity": 32,
+          "voice": 29
+        },
+        {
+          "tick": 37,
+          "gate": 48,
+          "key": 67,
+          "velocity": 60,
+          "voice": 29
+        }
+      ],
+      "controls": [
+        {
+          "tick": 0,
+          "command": "KEYSH",
+          "value": 0
+        },
+        {
+          "tick": 0,
+          "command": "TEMPO",
+          "value": 140
+        },
+        {
+          "tick": 0,
+          "command": "VOICE",
+          "value": 29
+        },
+        {
+          "tick": 0,
+          "command": "VOL",
+          "value": 127
+        },
+        {
+          "tick": 0,
+          "command": "PAN",
+          "value": 0
+        },
+        {
+          "tick": 1,
+          "command": "BEND",
+          "value": 0
+        },
+        {
+          "tick": 3,
+          "command": "VOL",
+          "value": 80
+        },
+        {
+          "tick": 4,
+          "command": "VOL",
+          "value": 82
+        },
+        {
+          "tick": 5,
+          "command": "VOL",
+          "value": 83
+        },
+        {
+          "tick": 6,
+          "command": "VOL",
+          "value": 85
+        },
+        {
+          "tick": 7,
+          "command": "VOL",
+          "value": 87
+        },
+        {
+          "tick": 8,
+          "command": "VOL",
+          "value": 89
+        },
+        {
+          "tick": 10,
+          "command": "VOL",
+          "value": 92
+        },
+        {
+          "tick": 12,
+          "command": "VOL",
+          "value": 94
+        },
+        {
+          "tick": 13,
+          "command": "VOL",
+          "value": 98
+        },
+        {
+          "tick": 14,
+          "command": "VOL",
+          "value": 103
+        },
+        {
+          "tick": 15,
+          "command": "VOL",
+          "value": 109
+        },
+        {
+          "tick": 16,
+          "command": "VOL",
+          "value": 117
+        },
+        {
+          "tick": 17,
+          "command": "VOL",
+          "value": 124
+        },
+        {
+          "tick": 18,
+          "command": "VOL",
+          "value": 123
+        },
+        {
+          "tick": 20,
+          "command": "VOL",
+          "value": 122
+        },
+        {
+          "tick": 21,
+          "command": "VOL",
+          "value": 121
+        },
+        {
+          "tick": 22,
+          "command": "VOL",
+          "value": 120
+        },
+        {
+          "tick": 23,
+          "command": "VOL",
+          "value": 119
+        },
+        {
+          "tick": 24,
+          "command": "VOL",
+          "value": 117
+        },
+        {
+          "tick": 24,
+          "command": "BEND",
+          "value": 1
+        },
+        {
+          "tick": 25,
+          "command": "VOL",
+          "value": 115
+        },
+        {
+          "tick": 25,
+          "command": "BEND",
+          "value": 1
+        },
+        {
+          "tick": 26,
+          "command": "VOL",
+          "value": 113
+        },
+        {
+          "tick": 26,
+          "command": "BEND",
+          "value": 2
+        },
+        {
+          "tick": 27,
+          "command": "VOL",
+          "value": 110
+        },
+        {
+          "tick": 27,
+          "command": "BEND",
+          "value": 3
+        },
+        {
+          "tick": 28,
+          "command": "VOL",
+          "value": 107
+        },
+        {
+          "tick": 28,
+          "command": "BEND",
+          "value": 4
+        },
+        {
+          "tick": 29,
+          "command": "VOL",
+          "value": 104
+        },
+        {
+          "tick": 29,
+          "command": "BEND",
+          "value": 6
+        },
+        {
+          "tick": 30,
+          "command": "VOL",
+          "value": 101
+        },
+        {
+          "tick": 30,
+          "command": "BEND",
+          "value": 8
+        },
+        {
+          "tick": 31,
+          "command": "BEND",
+          "value": 11
+        },
+        {
+          "tick": 32,
+          "command": "BEND",
+          "value": 14
+        },
+        {
+          "tick": 33,
+          "command": "BEND",
+          "value": 17
+        },
+        {
+          "tick": 34,
+          "command": "BEND",
+          "value": 23
+        },
+        {
+          "tick": 42,
+          "command": "BEND",
+          "value": 20
+        },
+        {
+          "tick": 43,
+          "command": "BEND",
+          "value": 20
+        },
+        {
+          "tick": 44,
+          "command": "BEND",
+          "value": 19
+        },
+        {
+          "tick": 45,
+          "command": "BEND",
+          "value": 18
+        },
+        {
+          "tick": 46,
+          "command": "BEND",
+          "value": 17
+        },
+        {
+          "tick": 47,
+          "command": "BEND",
+          "value": 15
+        },
+        {
+          "tick": 48,
+          "command": "BEND",
+          "value": 13
+        },
+        {
+          "tick": 49,
+          "command": "VOL",
+          "value": 96
+        },
+        {
+          "tick": 49,
+          "command": "BEND",
+          "value": 10
+        },
+        {
+          "tick": 50,
+          "command": "VOL",
+          "value": 80
+        },
+        {
+          "tick": 50,
+          "command": "BEND",
+          "value": 7
+        },
+        {
+          "tick": 51,
+          "command": "VOL",
+          "value": 73
+        },
+        {
+          "tick": 51,
+          "command": "BEND",
+          "value": -1
+        },
+        {
+          "tick": 52,
+          "command": "VOL",
+          "value": 69
+        },
+        {
+          "tick": 52,
+          "command": "BEND",
+          "value": 0
+        },
+        {
+          "tick": 53,
+          "command": "VOL",
+          "value": 64
+        },
+        {
+          "tick": 54,
+          "command": "VOL",
+          "value": 61
+        },
+        {
+          "tick": 55,
+          "command": "VOL",
+          "value": 57
+        },
+        {
+          "tick": 56,
+          "command": "VOL",
+          "value": 54
+        },
+        {
+          "tick": 57,
+          "command": "VOL",
+          "value": 51
+        },
+        {
+          "tick": 58,
+          "command": "VOL",
+          "value": 49
+        },
+        {
+          "tick": 59,
+          "command": "VOL",
+          "value": 46
+        },
+        {
+          "tick": 60,
+          "command": "VOL",
+          "value": 44
+        },
+        {
+          "tick": 61,
+          "command": "VOL",
+          "value": 42
+        },
+        {
+          "tick": 62,
+          "command": "VOL",
+          "value": 37
+        },
+        {
+          "tick": 63,
+          "command": "VOL",
+          "value": 35
+        },
+        {
+          "tick": 64,
+          "command": "VOL",
+          "value": 33
+        },
+        {
+          "tick": 65,
+          "command": "VOL",
+          "value": 31
+        },
+        {
+          "tick": 66,
+          "command": "VOL",
+          "value": 29
+        },
+        {
+          "tick": 67,
+          "command": "VOL",
+          "value": 28
+        },
+        {
+          "tick": 68,
+          "command": "VOL",
+          "value": 26
+        },
+        {
+          "tick": 69,
+          "command": "VOL",
+          "value": 24
+        },
+        {
+          "tick": 70,
+          "command": "VOL",
+          "value": 23
+        },
+        {
+          "tick": 71,
+          "command": "VOL",
+          "value": 21
+        },
+        {
+          "tick": 72,
+          "command": "VOL",
+          "value": 19
+        },
+        {
+          "tick": 73,
+          "command": "VOL",
+          "value": 18
+        },
+        {
+          "tick": 74,
+          "command": "VOL",
+          "value": 16
+        },
+        {
+          "tick": 75,
+          "command": "VOL",
+          "value": 15
+        },
+        {
+          "tick": 76,
+          "command": "VOL",
+          "value": 13
+        },
+        {
+          "tick": 77,
+          "command": "VOL",
+          "value": 12
+        },
+        {
+          "tick": 78,
+          "command": "VOL",
+          "value": 10
+        },
+        {
+          "tick": 79,
+          "command": "VOL",
+          "value": 9
+        },
+        {
+          "tick": 80,
+          "command": "VOL",
+          "value": 7
+        },
+        {
+          "tick": 81,
+          "command": "VOL",
+          "value": 5
+        },
+        {
+          "tick": 82,
+          "command": "VOL",
+          "value": 3
+        },
+        {
+          "tick": 83,
+          "command": "VOL",
+          "value": 2
+        },
+        {
+          "tick": 84,
+          "command": "VOL",
+          "value": 1
+        },
+        {
+          "tick": 85,
+          "command": "VOL",
+          "value": 0
+        }
+      ],
+      "priority": 127,
+      "reverb": 0
     }
   ],
   "scale": [
@@ -3129,6 +3750,16 @@
         165
       ]
     },
+    "14": {
+      "bank": 26,
+      "wave": 108,
+      "envelope": [
+        255,
+        249,
+        0,
+        0
+      ]
+    },
     "15": {
       "bank": 26,
       "wave": 109,
@@ -3165,6 +3796,16 @@
       "envelope": [
         255,
         255,
+        0,
+        0
+      ]
+    },
+    "29": {
+      "bank": 26,
+      "wave": 120,
+      "envelope": [
+        255,
+        249,
         0,
         0
       ]
