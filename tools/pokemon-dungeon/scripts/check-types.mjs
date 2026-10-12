@@ -1,27 +1,12 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-// Upgrade deferred: TypeScript 7.0.2 has no stable CompilerHost API; retain 6.0.3.
-// Revisit when custom module resolution is supported: https://github.com/microsoft/typescript-go#what-works-so-far
 import ts from 'typescript';
 
 const toolRoot = fileURLToPath(new URL('../', import.meta.url));
 const configFile = path.join(toolRoot, 'tsconfig.json');
-const vendorRoot = path.resolve(toolRoot, '../../games/pokemon-dungeon-reimagined/vendor/three');
-const declarations = new Map([
-  [path.join(vendorRoot, 'three.module.min.js'), path.join(toolRoot, 'node_modules/@types/three/index.d.ts')],
-  [path.join(vendorRoot, 'GLTFLoader.min.js'), path.join(toolRoot, 'node_modules/@types/three/examples/jsm/loaders/GLTFLoader.d.ts')],
-]);
 const raw = ts.readConfigFile(configFile, ts.sys.readFile);
 const config = ts.parseJsonConfigFileContent(raw.config ?? {}, ts.sys, toolRoot);
-const host = ts.createCompilerHost(config.options);
-// Source files remain directly served JS. Resolve only the exact pinned vendor
-// paths to their declarations; never type-check minified third-party internals.
-host.resolveModuleNames = (names, containingFile) => names.map(name => {
-  const declaration = declarations.get(path.resolve(path.dirname(containingFile), name));
-  if (declaration) return { resolvedFileName: declaration, extension: ts.Extension.Dts, isExternalLibraryImport: true };
-  return ts.resolveModuleName(name, containingFile, config.options, host).resolvedModule;
-});
-const program = ts.createProgram(config.fileNames, config.options, host);
+const program = ts.createProgram(config.fileNames, config.options);
 const diagnostics = [...(raw.error ? [raw.error] : []), ...config.errors, ...ts.getPreEmitDiagnostics(program)];
 if (diagnostics.length) {
   console.error(ts.formatDiagnosticsWithColorAndContext(diagnostics, {

@@ -4,24 +4,77 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="color-scheme" content="dark">
-    <title>Pokémon Dungeon Reimagined</title>
-    <link rel="stylesheet" href="./styles.css">
+    <meta name="theme-color" content="#080c16">
+    <title>Pokémon Mystery Dungeon: Blue Rescue Team</title>
+    <link rel="stylesheet" href="./blue.css">
   </head>
   <body>
     <main id="application" aria-busy="true">
-      <canvas id="scene" aria-label="Adventure scene" hidden></canvas>
       <section id="startup" class="startup" aria-labelledby="heading">
-        <p class="eyebrow">Pokémon Dungeon Reimagined</p>
-        <h1 id="heading">Preparing the adventure</h1>
-        <p id="status" role="status" aria-live="polite">Loading the application…</p>
+        <p class="eyebrow">Pokémon Mystery Dungeon</p>
+        <h1 id="heading">Blue Rescue Team</h1>
+        <p id="status" role="status" aria-live="polite">Preparing the adventure…</p>
         <progress id="progress" aria-label="Loading resources"></progress>
         <p id="failure" role="alert" hidden></p>
         <button id="retry" type="button" hidden>Try again</button>
         <noscript><p>JavaScript is required. Enable it, then reload this page.</p></noscript>
       </section>
-      <div id="game-ui" hidden></div>
+      <section id="game" hidden aria-label="Blue Rescue Team opening">
+        <div id="screens" tabindex="0" aria-label="Game screens. Use arrow keys and Z to play.">
+          <canvas id="top-screen" width="256" height="192" aria-label="Upper screen"></canvas>
+          <div class="screen-gap" aria-hidden="true"></div>
+          <div id="bottom-wrap">
+            <canvas id="bottom-screen" width="256" height="192" aria-label="Adventure screen"></canvas>
+            <div id="start-prompt" class="start-prompt" aria-label="Start adventure">
+              <button id="start-game" type="button">Start game</button>
+              <p id="start-instruction" aria-live="polite">Press Z or Enter, or tap to begin.</p>
+            </div>
+            <div id="choice-buttons" aria-label="Current choices"></div>
+            <button id="advance" class="advance" type="button" aria-label="Continue dialogue" hidden></button>
+            <div id="name-entry" class="sr-only" hidden>
+              <label id="name-label" for="name-input">Name</label>
+              <input id="name-input" type="text" maxlength="40" autocomplete="off" autocapitalize="off" spellcheck="false" data-game-controls-confirm="submit">
+            </div>
+          </div>
+        </div>
+        <p id="narration" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+        <nav id="browser-controls" aria-label="Browser controls">
+          <button id="sound-toggle" type="button" title="Enable game sound">Sound off</button>
+          <button id="controls-toggle" type="button" title="Show touch controls" aria-controls="touch-controls" aria-expanded="false" aria-pressed="false">Controls</button>
+          <button id="help-toggle" type="button" title="Show keyboard controls" aria-controls="help" aria-expanded="false">Help</button>
+        </nav>
+        <div id="touch-controls" hidden aria-label="Game controls">
+          <div class="dpad">
+            <button data-key="Numpad7" aria-label="Move northwest">↖</button>
+            <button data-key="ArrowUp" aria-label="Move north">↑</button>
+            <button data-key="Numpad9" aria-label="Move northeast">↗</button>
+            <button data-key="ArrowLeft" aria-label="Move west">←</button>
+            <span aria-hidden="true"></span>
+            <button data-key="ArrowRight" aria-label="Move east">→</button>
+            <button data-key="Numpad1" aria-label="Move southwest">↙</button>
+            <button data-key="ArrowDown" aria-label="Move south">↓</button>
+            <button data-key="Numpad3" aria-label="Move southeast">↘</button>
+          </div>
+          <div class="action-buttons">
+            <button data-key="b" class="round" aria-label="B cancel or hold to run">B</button>
+            <button data-key="a" class="round" aria-label="A confirm or attack">A</button>
+            <button data-key="menu" aria-label="Open game menu">Menu</button>
+            <button data-key="map" aria-label="Change upper screen">Map</button>
+          </div>
+        </div>
+        <aside id="help" role="dialog" aria-modal="true" aria-labelledby="help-heading" hidden>
+          <strong id="help-heading">Keyboard controls</strong>
+          <p>Arrows: move · Z/A: confirm or attack · X/B: cancel or menu · Enter/Esc: menu</p>
+          <p>Hold X/B + arrows: run · Hold C/Y + arrows: face · Shift: map · Space: wait · Q + Z/A: set move</p>
+          <p>Numpad 1–9: eight directions · Hold R + arrows: diagonals only</p>
+          <p>Progress saves in this browser. This adventure ends after Caterpie's rescue.</p>
+          <button id="save-screen" type="button">Save game screen</button>
+          <button id="help-close" type="button">Return to game</button>
+        </aside>
+        <p id="save-warning" role="status" hidden></p>
+      </section>
     </main>
-    <script type="module" src="./src/bootstrap.js"></script>
+    <script type="module" src="./src/blue/app.js"></script>
     <script>
       // Remains available if even the bootstrap module cannot be downloaded.
       window.setTimeout(function () {

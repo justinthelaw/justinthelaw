@@ -1,0 +1,165 @@
+Blue opening Rescue Team image package
+
+World sprites are original Rescue Team artwork preserved in the public
+pret/pmd-red project at commit 013475aa04f5be3191e5527c186d9bfceae7cae0.
+Native PNG tile fragments, palettes, composition offsets, flips and animation
+tables are assembled without resizing or discarding frames. The source edition
+is Red Rescue Team. Selected Pikachu, Charmander and Butterfree poses match
+original Blue press screenshots after the documented DS color conversion;
+unverified species, poses and timing are not claimed to be exact Blue data.
+Source: https://github.com/pret/pmd-red
+
+The 40x40 portraits are original Rescue Team artwork publicly hosted by Mystery
+Dungeon Franchise Wiki, under explicitly Rescue Team-specific file names.
+Per-image URLs, upload timestamps, SHA-256 hashes and native emotion names are
+preserved in tools/pokemon-dungeon/art/blue/native-sources.json.
+Source: https://mysterydungeonwiki.com/wiki/Rescue_Team:Portrait
+
+Pokemon, artwork and game assets remain the property of their respective rights
+holders, including Nintendo, The Pokemon Company and Chunsoft. These public
+reference hosts do not establish a rights-holder reuse license. No such grant,
+endorsement, or original repository authorship is asserted for native images.
+
+The font, window borders, cursors, HUD tiles, shadow silhouettes, team markers
+and floating numbers are source image data from the same pinned public project.
+Their exact source URLs and hashes are recorded in art/blue/native-ui-sources.json.
+The generated synchronous runtime data module preserves native masks, palettes
+and glyph advances. Selected pixels are checked against Blue press captures.
+
+The status indicators use nine original status sheets and the same pinned
+source's palette, pose-attachment and animation tables. Source hashes live in
+art/blue/native-status/sources.json. Their Blue appearance and timing remain
+comparative rather than independently pixel-corroborated.
+
+Move-specific actor animation numbers and species overrides are parsed from the
+same pinned public source. The selected native battle-effect artwork comes
+from explicitly selected indexed EFO image files, retaining original palettes,
+flips, per-part depth, frame data and attachment positions. Source hashes and
+URLs are recorded in art/blue/native-battle-sources.json; per-bank decoding
+evidence is retained beside it. The selected 61 effects occupy three banks and load with dungeon artwork
+under one aggregate 4 MiB decoded budget. Sparse, disjoint same-depth pieces preserve
+the original composited pixels and stable draw order. The effects follow the separate pause-aware
+battle timeline. Adjacent Ember retains the comparative source's post-launch
+attachment convergence and separate depth anchor. Effect-specific Blue pixels
+and complete driver timing remain unverified. Synthesis and Rapid Spin are
+included because they can be learned after repeated failed Tiny Woods rescues;
+their comparative sounds 809 and 678 are included as described below. Hypnosis alone
+adds the comparative efbg005 background plane from the same source pin, with
+its source manifest/archive in art/blue/native-hypnosis-sources.json. The
+screen-relative 256x192 crop at 0,0 is an explicit comparative assumption;
+Blue framing, travel 225 attachment and native sound 769 remain unverified or
+unselected. Its separate owner uses DS 6-bit 10/10 blending and source palette
+phases, without a Canvas opacity approximation.
+No game music or commercial script is copied.
+
+Each species retains statusOffsets as native attachment set0. The remaining
+sets1-3 are losslessly pooled by effectOffsetIndices into effectOffsetSets; their
+fixed order is checked in full offline authoring metadata. Runtime records omit
+only repeated direction, attachment-order and edition descriptors; all frame and
+attachment values, including source sentinel99, are retained.
+
+Field and dungeon sprite palettes remain separate: dungeon brightness uses the
+source31/256 conversion before DS channel expansion. Native scenery has separate
+per-image and map-data provenance in the offline authoring file
+art/blue/native-scenery-metadata.json. The runtime scenery manifest contains only
+the terrain lookup and personality-background playback data. The four historical
+original scene paintings remain recoverable locally but are excluded from the
+runtime manifest and release distribution.
+
+The four company/copyright cards are original Blue captures from Mystery
+Dungeon Franchise Wiki. Each is corroborated against pinned native logo data;
+Blue's copyright placement and the documented missing blank column are handled
+by the boot exporter. URLs, source hashes and pixel evidence are recorded in
+art/blue/native-scenery/boot-sources.json and
+art/blue/native-scenery-metadata.json.
+
+Reproduce offline using the repository's required Node 24.21.0 toolchain:
+  node tools/pokemon-dungeon/art/blue/export.mjs
+Check without writing:
+  node tools/pokemon-dungeon/art/blue/export.mjs --check
+
+Pinned input archives and readable URL/hash manifests live in art/blue.
+No ROM download, ROM extraction, runtime CDN or runtime network asset source is
+required. The repository build manifests record exact bytes, dimensions and
+metadata hashes; the unused main asset manifest is excluded from the browser
+distribution.
+
+The North American English Blue file-menu upper logo is reconstructed from the
+already-pinned title capture using the menu capture's foreground mask, solid
+backdrop and observed 64-color mapping. All 49,152 upper-screen pixels agree.
+The hosting wiki does not identify the original screenshot source; this is not
+a claim of verified retail binary extraction or publisher reuse permission.
+See native-reference/menu-blue-na.png and panel-pixel-corroboration.json in the
+offline authoring sources. The European English menu uses a different logo.
+
+Selected short audio effects use public pret/pmd-red source at commit
+013475aa04f5be3191e5527c186d9bfceae7cae0, including wave127 for Poké pickup.
+Source URLs, hashes and qualification remain in tools/pokemon-dungeon/audio/
+blue-pcm-effects.json and reference/blue-audio.md. These are comparative Red
+facts, not verified Blue playback or a publisher reuse grant.
+
+Item-loss audio additionally uses public source wave116 at the same commit.
+Its full sample hash and finite controls are pinned in blue-pcm-effects.json;
+Blue identity and playback remain unverified.
+
+Rapid Spin and Synthesis additionally use public source wave 096 at the same
+pinned commit, with the full loop and interpolation guard. Its sample hash and
+finite controls are retained in blue-pcm-effects.json. These remain comparative
+Red data; original Blue identity, playback and reuse permission are unverified.
+
+The common effect 22 preparation/cast sound additionally uses public source
+wave 117 at that same commit. Its complete nonlooping sample and finite controls
+are recorded in blue-pcm-effects.json. Original Blue playback, native mixing
+and a rights-holder reuse grant remain unverified.
+
+Whiffer sound 413 additionally uses public source wave 115 at the same pin.
+Its complete nonlooping sample and finite controls are recorded in
+blue-pcm-effects.json; numeric song-table group6 has separate replacement
+ownership. Blue identity, native mix/reverb and listening remain unverified.
+Background music remains intentionally absent.
+
+Sleep helper 407, Vine Whip 745 and Razor Leaf 825 reuse the complete public
+wave 117/096 samples above, with three additional finite sequence records at
+the same pinned commit. Their source controls are in blue-pcm-effects.json;
+Blue identity, native phase/mix and audition remain unverified.
+
+Leech Seed travel 807 adds the full public wave 109 (1,646 signed-8 samples)
+and its finite source controls at the same comparative Red commit above.
+Original source paths/hashes remain in blue-pcm-effects.json; Blue identity,
+native phase/mix and browser audition remain unverified.
+
+Bubble impact 628 and Water Sport 717 add full public wave 108/120 samples
+and finite controls at the same pinned Red commit. Source paths/hashes stay
+in blue-pcm-effects.json; Blue identity, native phase/mix, resampling and
+browser audition remain unverified.
+
+Tackle 344 adds the complete public wave 098 (3,286 signed-8 samples) and
+its finite controls at the same pinned Red commit. Source paths and hashes
+remain in blue-pcm-effects.json; Blue sound-bank identity, global phase/mix
+and browser audition remain unverified.
+
+Paralysis-family sounds 680/774/927/938 use the complete public Red waves
+100/101/130 and original finite controls at the same pinned commit. Their
+bank-qualified voice evidence and source hashes remain in blue-pcm-effects.json.
+Blue identity, global phase/mix and physical audition remain unverified.
+
+Tail Whip 362 uses public Red sequence controls and bank 027 voice 77,
+with no PCM sample. Source hashes remain in blue-menu-effects.json and
+blue-battle-effects.json. Blue identity, waveform phase and audition remain
+unverified; the comparative source clock and mix are qualified.
+
+Physical defense-down 906 adds finite public Red SE2 controls for the
+existing bank 027 voice 64, with no new sample. Original source hashes remain
+in blue-battle-effects.json. Blue waveform identity, phase, mix and audition
+remain unverified; the comparative clock and bounded playback are qualified.
+
+Native effect 6 sound 605 uses the complete public Red wave 095 and finite
+bank 028 voice 9 sequence controls at the same pinned source commit. The
+editable source/pins remain in tools/pokemon-dungeon/audio/blue-pcm-effects.json.
+Blue identity, global phase, browser resampling/mix and audition remain qualified.
+
+Solar Beam effects 221, 247 and 246 use the pinned efob105/source tables. Their
+comparative sounds 768, 785 and 784 add complete public Red waves 110 and 099
+and reuse retained waves 115 and 116. Exact controls and hashes are in the
+battle and PCM authoring catalogs. Blue identity, phase, browser resampling/mix
+and physical audition remain qualified.

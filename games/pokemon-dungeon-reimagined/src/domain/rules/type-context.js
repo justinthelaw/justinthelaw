@@ -2,9 +2,8 @@ import { mulQ, Q16, requireBooleans, requireInteger } from './fixed-point.js';
 
 /** @typedef {'None'|'Normal'|'Fire'|'Water'|'Grass'|'Electric'|'Ice'|'Fighting'|'Poison'|'Ground'|'Flying'|'Psychic'|'Bug'|'Rock'|'Ghost'|'Dragon'|'Dark'|'Steel'} ElementType */
 /** @typedef {'little'|'resist'|'neutral'|'super'} MatchupClass */
-/** @typedef {'clear'|'sunny'|'rain'|'cloudy'|'fog'|'snow'|'hail'|'sandstorm'} Weather */
-/** @typedef {Readonly<{wonderGuard:boolean,thickFat:boolean,flashFire:boolean,levitate:boolean,torrent:boolean,overgrow:boolean,swarm:boolean,blaze:boolean}>} TypeAbilities */
-/** @typedef {Readonly<{moveType:ElementType,attackerTypes:readonly [ElementType,ElementType],defenderTypes:readonly [ElementType,ElementType],defenderExposed:boolean,abilities:TypeAbilities,attackerHp:number,attackerMaxHp:number,weather:Weather,mudSport:boolean,waterSport:boolean,charging:boolean}>} TypeContext */
+/** @typedef {Readonly<{wonderGuard:boolean,torrent:boolean,overgrow:boolean,blaze:boolean}>} TypeAbilities */
+/** @typedef {Readonly<{moveType:ElementType,attackerTypes:readonly [ElementType,ElementType],defenderTypes:readonly [ElementType,ElementType],defenderExposed:boolean,abilities:TypeAbilities,attackerHp:number,attackerMaxHp:number,mudSport:boolean,waterSport:boolean,charging:boolean}>} TypeContext */
 /** @typedef {Readonly<{modifierQ16:number,typeFactorQ16:number,typeMatchup:MatchupClass,matchup:MatchupClass,slotMatchups:readonly [MatchupClass,MatchupClass],nullifiedBy:'wonderGuard'|'flashFire'|'levitate'|null}>} TypeModifier */
 
 /** @type {readonly ElementType[]} */
@@ -82,19 +81,16 @@ export function combineTypeMatchups(first, second) {
 /** @param {TypeContext} context @returns {void} */
 export function validateTypeContext(context) {
   const a = context.abilities;
-  requireBooleans([context.defenderExposed, context.mudSport, context.waterSport, context.charging, a.wonderGuard, a.thickFat, a.flashFire, a.levitate, a.torrent, a.overgrow, a.swarm, a.blaze]);
+  requireBooleans([context.defenderExposed, context.mudSport, context.waterSport, context.charging, a.wonderGuard, a.torrent, a.overgrow, a.blaze]);
   validateType(context.moveType);
   validateTypes(context.attackerTypes);
   validateTypes(context.defenderTypes);
   requireInteger(context.attackerMaxHp, 1, 32767, 'maximum HP');
   requireInteger(context.attackerHp, 1, context.attackerMaxHp, 'attacker HP');
-  if (!['clear', 'sunny', 'rain', 'cloudy', 'fog', 'snow', 'hail', 'sandstorm'].includes(context.weather)) {
-    throw new RangeError('Unknown apparent weather.');
-  }
 }
 
 /** Pure type/context pipeline. Ability predicates are resolved active-ability facts;
- * caller retains actor validation and Flash Fire once-per-turn mutation.
+ * caller retains actor validation and ability announcements.
  * @param {TypeContext} context @returns {TypeModifier} */
 export function buildTypeContextModifier(context) {
   validateTypeContext(context);
@@ -104,39 +100,19 @@ export function buildTypeContextModifier(context) {
   const typeMatchup = combineTypeMatchups(first, second);
   const typeFactorQ16 = mulQ(TYPE_FACTORS_Q16[first], TYPE_FACTORS_Q16[second], 16);
   let modifierQ16 = typeFactorQ16;
-  let matchup = typeMatchup;
+  const matchup = typeMatchup;
   /** @type {TypeModifier['nullifiedBy']} */
   let nullifiedBy = null;
   if (abilities.wonderGuard && moveType !== 'None' && matchup !== 'super') {
     modifierQ16 = 0;
     nullifiedBy = 'wonderGuard';
   }
-  if (abilities.thickFat && (moveType === 'Fire' || moveType === 'Ice')) modifierQ16 = mulQ(modifierQ16, 32768, 16);
-  if (abilities.flashFire && moveType === 'Fire') {
-    modifierQ16 = 0;
-    matchup = 'little';
-    nullifiedBy = 'flashFire';
-  }
-  if (abilities.levitate && moveType === 'Ground') {
-    modifierQ16 = 0;
-    matchup = 'little';
-    nullifiedBy = 'levitate';
-  }
   const lowHpAbility = (moveType === 'Water' && abilities.torrent) || (moveType === 'Grass' && abilities.overgrow)
-    || (moveType === 'Bug' && abilities.swarm) || (moveType === 'Fire' && abilities.blaze);
+    || (moveType === 'Fire' && abilities.blaze);
   if (lowHpAbility && context.attackerHp <= Math.floor(context.attackerMaxHp / 4)) modifierQ16 = mulQ(modifierQ16, 131072, 16);
   // None represents absence, so it must not itself create a same-type bonus.
   if (moveType !== 'None' && modifierQ16 !== 0 && context.attackerTypes.includes(moveType)) modifierQ16 = mulQ(modifierQ16, 98304, 16);
-  if (context.weather === 'sunny') {
-    if (moveType === 'Fire') modifierQ16 = mulQ(modifierQ16, 98304, 16);
-    if (moveType === 'Water') modifierQ16 = mulQ(modifierQ16, 32768, 16);
-  }
-  if (context.weather === 'rain') {
-    if (moveType === 'Water') modifierQ16 = mulQ(modifierQ16, 98304, 16);
-    if (moveType === 'Fire') modifierQ16 = mulQ(modifierQ16, 32768, 16);
-  }
-  if (context.weather === 'cloudy' && moveType !== 'Normal') modifierQ16 = mulQ(modifierQ16, 49152, 16);
-  if (moveType === 'Electric' && (context.mudSport || context.weather === 'fog')) modifierQ16 = mulQ(modifierQ16, 32768, 16);
+  if (moveType === 'Electric' && context.mudSport) modifierQ16 = mulQ(modifierQ16, 32768, 16);
   if (moveType === 'Fire' && context.waterSport) modifierQ16 = mulQ(modifierQ16, 32768, 16);
   if (moveType === 'Electric' && context.charging) modifierQ16 = mulQ(modifierQ16, 131072, 16);
   return { modifierQ16, typeFactorQ16, typeMatchup, matchup, slotMatchups: [first, second], nullifiedBy };

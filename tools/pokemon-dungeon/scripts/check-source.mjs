@@ -7,8 +7,8 @@ import * as acorn from 'acorn';
 const toolRoot = fileURLToPath(new URL('../', import.meta.url));
 const repositoryRoot = path.resolve(toolRoot, '../..');
 const gameRoot = path.join(repositoryRoot, 'games/pokemon-dungeon-reimagined');
-const roots = ['scripts', 'art', 'art-preview'].map(directory => path.join(toolRoot, directory));
-roots.push(path.join(gameRoot, 'src'), path.join(gameRoot, 'content'));
+const roots = ['scripts', 'art'].map(directory => path.join(toolRoot, directory));
+roots.push(path.join(gameRoot, 'src'));
 
 async function listSource(directory) {
   const entries = await readdir(directory, { withFileTypes: true }).catch(error => {

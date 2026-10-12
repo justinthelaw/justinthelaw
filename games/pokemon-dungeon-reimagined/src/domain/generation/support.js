@@ -22,7 +22,7 @@ export class Draws {
 }
 /** @returns {import('./types.js').Geometry} */
 export function blankGeometry() {
-    return { cells: Array.from({ length: 32 }, (_, z) => Array.from({ length: 56 }, (_, x) => ({ terrain: 'wall', impassable: x === 0 || z === 0 || x === 55 || z === 31, unbreakable: x === 0 || z === 0 || x === 55 || z === 31, door: false, sealed: false, room: null, junction: false, shop: false, house: false, cornerCuttable: false, special: false, required: false }))), rooms: [], entry: null, exit: null, fixedRoleAnchors: [], reward: null, keyDoor: null, forceHouse: false, externalSecondary: false, protectedBounds: null };
+    return { cells: Array.from({ length: 32 }, (_, z) => Array.from({ length: 56 }, (_, x) => ({ terrain: 'wall', impassable: x === 0 || z === 0 || x === 55 || z === 31, room: null, junction: false }))), rooms: [] };
 }
 /** @param {import('./types.js').Geometry} map @param {number} x @param {number} z */
 export function cell(map, x, z) { return map.cells[z]?.[x] ?? null; }
@@ -37,15 +37,13 @@ export function carve(map, bounds, room) {
             }
         }
 }
-/** @param {import('./types.js').Geometry} map @param {import('./types.js').Bounds} bounds @param {import('./types.js').Room['kind']} kind */
-export function addRoom(map, bounds, kind = 'ordinary') {
+/** @param {import('./types.js').Geometry} map @param {import('./types.js').Bounds} bounds */
+export function addRoom(map, bounds) {
     const index = map.rooms.length;
-    map.rooms.push({ index, bounds, kind, hidden: false, secondary: false, imperfect: false, maze: false, merged: false, gridPosition: null });
+    map.rooms.push({ index, bounds, merged: false });
     carve(map, bounds, index);
     return index;
 }
-/** @param {import('./types.js').Bounds} b */
-export function center(b) { return { x: b.x + Math.floor(b.width / 2), z: b.z + Math.floor(b.height / 2) }; }
 /** @param {import('./types.js').Geometry} map @param {import('./types.js').Position} start @param {import('./types.js').Position} end */
 export function corridor(map, start, end) {
     let x = start.x, z = start.z;
@@ -70,18 +68,18 @@ export function positions(map, predicate) { /** @type {import('./types.js').Posi
             result.push({ x, z });
     } return result; }
 /** @param {import('./types.js').Cell} t */
-export function ordinary(t) { return t.terrain === 'floor' && !t.impassable && !t.sealed; }
+export function ordinary(t) { return t.terrain === 'floor' && !t.impassable; }
 /** Bounded graph traversal; actor movement uses its own source-specific predicate.
- * @param {import('./types.js').Geometry} map @param {import('./types.js').Position} origin @param {boolean} generationCorners
+ * @param {import('./types.js').Geometry} map @param {import('./types.js').Position} origin
  */
-export function reachable(map, origin, generationCorners = false) {
+export function reachable(map, origin) {
     const start = cell(map, origin.x, origin.z);
     const seen = new Set();
     if (!start || !ordinary(start))
         return seen;
     const queue = [origin];
     seen.add(origin.z * 56 + origin.x);
-    const traversable = /** @param {number} x @param {number} z */ (x, z) => { const t = cell(map, x, z); return !!t && !t.impassable && !t.sealed && (ordinary(t) || (generationCorners && t.cornerCuttable)); };
+    const traversable = /** @param {number} x @param {number} z */ (x, z) => { const t = cell(map, x, z); return !!t && ordinary(t); };
     for (let i = 0; i < queue.length && i < 1792; i++) {
         const p = queue[i];
         if (!p)
@@ -106,7 +104,7 @@ export function finalizeGeometry(map) {
     for (let x = 0; x < 56; x++)
         for (const z of [1, 30]) {
             const t = cell(map, x, z);
-            if (t && !t.required) {
+            if (t) {
                 t.terrain = 'wall';
                 t.room = null;
             }
@@ -116,47 +114,9 @@ export function finalizeGeometry(map) {
             const t = cell(map, x, z);
             if (!t)
                 continue;
-            if (t.impassable && !t.door && !t.sealed && t.terrain !== 'void')
+            if (t.impassable)
                 t.terrain = 'wall';
             if (ordinary(t) && t.room !== null)
                 t.junction = [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dz]) => { const n = cell(map, x + (dx ?? 0), z + (dz ?? 0)); return !!n && ordinary(n) && n.room === null; });
         }
-}
-/** Engineering recovery corridor around a protected chamber. Plane outside an
- * inset rectangle is connected; BFS visits <=1792 cells and never enters its shell.
- * @param {import('./types.js').Geometry} map @param {import('./types.js').Position} start @param {import('./types.js').Position} end @param {import('./types.js').Bounds} barrier
- */
-export function routeAround(map, start, end, barrier) {
-    const key = /** @param {import('./types.js').Position} p */ /** @param {import('./types.js').Position} p */ p => p.z * 56 + p.x;
-    const queue = [start], parents = new Map([[key(start), -1]]), points = new Map([[key(start), start]]);
-    for (let cursor = 0; cursor < queue.length && cursor < 1792; cursor++) {
-        const p = queue[cursor];
-        if (!p)
-            break;
-        if (key(p) === key(end))
-            break;
-        for (const [dx, dz] of [[1, 0], [0, 1], [-1, 0], [0, -1]]) {
-            const x = p.x + (dx ?? 0), z = p.z + (dz ?? 0), t = cell(map, x, z), k = z * 56 + x;
-            if (x < 1 || z < 2 || x > 54 || z > 29 || !t || t.impassable || parents.has(k) || x >= barrier.x && x < barrier.x + barrier.width && z >= barrier.z && z < barrier.z + barrier.height)
-                continue;
-            parents.set(k, key(p));
-            points.set(k, { x, z });
-            queue.push({ x, z });
-        }
-    }
-    if (!parents.has(key(end)))
-        return false;
-    let next = key(end);
-    for (let steps = 0; steps < 1792; steps++) {
-        const p = points.get(next), parent = parents.get(next);
-        if (!p || parent === undefined)
-            return false;
-        const t = cell(map, p.x, p.z);
-        if (t)
-            t.terrain = 'floor';
-        if (parent === -1)
-            return true;
-        next = parent;
-    }
-    return false;
 }

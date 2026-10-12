@@ -1,0 +1,219 @@
+{
+  "comparison": "All opaque native sprite pixels, exact RGB after source dungeon brightness and DS display expansion.",
+  "channelConversion": "c = floor(sourceChannel * 31 / 256); (c << 3) | (c >> 3)",
+  "records": [
+    {
+      "capture": "ss01.png",
+      "speciesId": "pokemon-004",
+      "matches": [
+        {
+          "pose": 18,
+          "left": 143,
+          "top": 87,
+          "anchor": [
+            152,
+            105
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 42,
+          "left": 143,
+          "top": 87,
+          "anchor": [
+            152,
+            105
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 60,
+          "left": 143,
+          "top": 87,
+          "anchor": [
+            153,
+            105
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 174,
+          "left": 143,
+          "top": 87,
+          "anchor": [
+            152,
+            105
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 182,
+          "left": 143,
+          "top": 87,
+          "anchor": [
+            152,
+            105
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 194,
+          "left": 143,
+          "top": 87,
+          "anchor": [
+            152,
+            105
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 214,
+          "left": 143,
+          "top": 87,
+          "anchor": [
+            152,
+            105
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 230,
+          "left": 143,
+          "top": 87,
+          "anchor": [
+            152,
+            105
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 259,
+          "left": 143,
+          "top": 87,
+          "anchor": [
+            152,
+            105
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 268,
+          "left": 143,
+          "top": 87,
+          "anchor": [
+            152,
+            105
+          ],
+          "opaquePixels": 237
+        }
+      ]
+    },
+    {
+      "capture": "ss01.png",
+      "speciesId": "pokemon-025",
+      "matches": [
+        {
+          "pose": 18,
+          "left": 120,
+          "top": 86,
+          "anchor": [
+            128,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 48,
+          "left": 120,
+          "top": 86,
+          "anchor": [
+            128,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 80,
+          "left": 120,
+          "top": 86,
+          "anchor": [
+            128,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 100,
+          "left": 120,
+          "top": 86,
+          "anchor": [
+            128,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 140,
+          "left": 120,
+          "top": 86,
+          "anchor": [
+            128,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 164,
+          "left": 120,
+          "top": 86,
+          "anchor": [
+            128,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 218,
+          "left": 120,
+          "top": 86,
+          "anchor": [
+            128,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 236,
+          "left": 120,
+          "top": 86,
+          "anchor": [
+            128,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 265,
+          "left": 120,
+          "top": 86,
+          "anchor": [
+            128,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 274,
+          "left": 120,
+          "top": 86,
+          "anchor": [
+            128,
+            108
+          ],
+          "opaquePixels": 314
+        }
+      ]
+    }
+  ],
+  "notes": "Reported AX pose anchors precede per-animation-frame offsets. Charmander idle animation7 can use the matching pose with offset(0,-3), giving body(152,105) and shadow/base(152,108). Pikachu is centered at(128,108). No extra walking hop is inferred."
+}

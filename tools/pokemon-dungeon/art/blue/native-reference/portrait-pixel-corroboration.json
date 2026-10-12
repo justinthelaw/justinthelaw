@@ -1,0 +1,20 @@
+[
+  {
+    "capture": "ss02",
+    "speciesId": "pokemon-012",
+    "emotion": "normal",
+    "left": 64,
+    "top": 24,
+    "flip": false,
+    "matchedPixels": 1600
+  },
+  {
+    "capture": "ss04",
+    "speciesId": "pokemon-025",
+    "emotion": "inspired",
+    "left": 24,
+    "top": 80,
+    "flip": false,
+    "matchedPixels": 1600
+  }
+]

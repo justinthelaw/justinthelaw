@@ -1,0 +1,131 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  background: #080c16;
+  color: #ecf4ff;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-width: 240px; min-height: 100%; overscroll-behavior: none; }
+body { min-height: 100dvh; overflow-x: auto; }
+[hidden] { display: none !important; }
+button, input { font: inherit; }
+button { color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, #screens:focus-visible { outline: 2px solid #fff29a; outline-offset: 3px; }
+
+#application { width: 100%; min-height: 100dvh; display: grid; place-items: center; }
+
+/* Fit the original two 256 × 192 displays into the iframe's viewport. The
+   game reserves its own deck, or space for the arcade's external controls. */
+#game {
+  --safe-left: max(8px, env(safe-area-inset-left));
+  --safe-right: max(8px, env(safe-area-inset-right));
+  --rail-left: var(--safe-left);
+  --rail-right: var(--safe-right);
+  --toolbar-space: calc(max(8px, env(safe-area-inset-top)) + 52px);
+  --bottom-inset: max(8px, env(safe-area-inset-bottom));
+  --touch-space: 0px;
+  --host-control-size: clamp(44px, 5vw, 56px);
+  --available-width: calc(100vw - var(--rail-left) - var(--rail-right));
+  --available-height: calc(100dvh - var(--toolbar-space) - var(--bottom-inset) - var(--touch-space));
+  --screen-size: max(1px, min(768px, var(--available-width), calc((var(--available-height) - 8px) / 1.5)));
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--toolbar-space) var(--rail-right) var(--bottom-inset) var(--rail-left);
+  gap: 8px;
+}
+
+#game:has(#touch-controls:not([hidden])) { --touch-space: 152px; }
+#game[data-external-controls="true"] {
+  --touch-space: calc(var(--host-control-size) * 3 + 14px);
+  padding-bottom: calc(var(--bottom-inset) + var(--touch-space));
+}
+
+#screens { width: var(--screen-size); flex: 0 0 auto; box-shadow: 0 0 0 1px #1e2738, 0 6px 30px #0008; outline: none; }
+canvas { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; image-rendering: crisp-edges; image-rendering: pixelated; background: #000; }
+.screen-gap { height: 8px; background: #080c16; }
+#bottom-wrap { position: relative; touch-action: none; }
+.start-prompt { position: absolute; z-index: 4; inset: 0; display: grid; align-content: center; justify-items: center; gap: 8px; padding: 12px; background: #080c16e8; color: #ecf4ff; text-align: center; pointer-events: none; }
+.start-prompt button { min-width: 44px; min-height: 44px; padding: 10px 18px; border: 1px solid #bdd0e9; border-radius: 4px; background: #254566; pointer-events: auto; touch-action: manipulation; }
+.start-prompt p { margin: 0; max-width: 24ch; font-size: 12px; line-height: 1.4; }
+#choice-buttons { position: absolute; inset: 0; pointer-events: none; }
+.game-choice { position: absolute; padding: 0; border: 0; background: transparent; color: transparent; pointer-events: auto; overflow: hidden; forced-color-adjust: none; }
+.game-choice:focus-visible { outline-offset: -2px; outline: 2px solid #fff29a; background: #ffed8c18; }
+.advance { position: absolute; right: 3%; bottom: 3%; width: 18%; height: 20%; min-width: 44px; min-height: 44px; border: 0; background: transparent; forced-color-adjust: none; }
+
+#browser-controls { position: fixed; z-index: 5; top: max(8px, env(safe-area-inset-top)); right: max(8px, env(safe-area-inset-right)); display: flex; gap: 5px; }
+#browser-controls button { min-height: 44px; min-width: 44px; padding: 6px 10px; border: 1px solid #596985; border-radius: 4px; background: #111a2bee; color: #e2eafd; font-size: 12px; touch-action: manipulation; }
+#browser-controls button[aria-pressed="true"] { background: #273b5e; color: #fff; }
+/* The arcade's Show/Hide controls button occupies the top-right corner. */
+#game[data-embedded="true"] #browser-controls { left: var(--safe-left); right: auto; }
+
+#touch-controls { width: min(100%, 440px); height: 144px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex: 0 0 auto; user-select: none; -webkit-user-select: none; touch-action: none; }
+#touch-controls button { min-width: 44px; min-height: 44px; padding: 0; border: 1px solid #7b8cab; background: #344461cc; border-radius: 7px; touch-action: none; -webkit-touch-callout: none; font-weight: 700; }
+#touch-controls button:active, #touch-controls button.held { background: #6683bb; }
+.dpad { width: 138px; display: grid; grid-template-columns: repeat(3, 44px); grid-template-rows: repeat(3, 44px); gap: 3px; flex: 0 0 auto; }
+.dpad button { font-size: 22px; }
+.action-buttons { display: grid; grid-template-columns: repeat(2, 56px); gap: 10px 12px; flex: 0 0 auto; }
+.action-buttons .round { border-radius: 50%; width: 54px; height: 54px; font-size: 20px; background: #526785cc; }
+.action-buttons button:not(.round) { font-size: 11px; }
+
+#help { position: fixed; z-index: 10; inset: 50% auto auto 50%; transform: translate(-50%, -50%); width: min(calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right)), 460px); max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); overflow: auto; overscroll-behavior: contain; padding: 22px; border: 1px solid #8da5cd; border-radius: 8px; background: #10233a; box-shadow: 0 0 0 100vmax #0009, 0 20px 120px #000c; font-size: 14px; line-height: 1.55; }
+#help strong { color: #ffe89e; }
+#help button, .startup button { min-width: 44px; min-height: 44px; padding: 10px 16px; border: 1px solid #bdd0e9; border-radius: 4px; background: #254566; touch-action: manipulation; }
+#help button { margin: 4px 4px 0 0; }
+#save-warning { position: absolute; z-index: 6; left: var(--rail-left); right: var(--rail-right); bottom: calc(var(--bottom-inset) + var(--touch-space)); margin: 0 auto; width: fit-content; max-width: var(--available-width); padding: 8px 12px; border: 1px solid #b39b4c; border-radius: 5px; background: #302a18ee; color: #fff1c3; font-size: 12px; pointer-events: none; }
+.startup { width: min(90%, 430px); text-align: center; padding: 24px; }
+.startup h1 { color: #f3d788; font-size: 26px; }
+.eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 11px; color: #a9bddb; }
+.startup progress { width: 70%; accent-color: #78b8d5; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* The native input remains an accessible alternative to the original keypad.
+   Reveal it in place while it has focus, including for mobile keyboards. */
+#name-entry:focus-within { z-index: 3; left: 5%; top: 15%; width: 90%; height: auto; margin: 0; overflow: visible; clip: auto; white-space: normal; }
+#name-entry:focus-within label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+#name-input { width: 100%; min-height: 44px; padding: 6px 8px; border: 1px solid #b6dbad; border-radius: 3px; background: #10261d; color: #fff0a6; font-size: 16px; text-align: center; }
+
+@media (max-width: 300px) and (min-height: 521px), (max-width: 300px) and (orientation: portrait) {
+  #game:has(#touch-controls:not([hidden])) { --touch-space: 264px; }
+  #touch-controls { height: 256px; flex-direction: column; justify-content: center; gap: 10px; }
+}
+
+@media (max-width: 300px) {
+  #game[data-embedded="true"] { --toolbar-space: calc(max(8px, env(safe-area-inset-top)) + 104px); }
+  #game[data-embedded="true"] #browser-controls { top: calc(max(8px, env(safe-area-inset-top)) + 52px); }
+}
+
+@media (max-height: 480px) {
+  #game { --host-control-size: 44px; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  #game {
+    --touch-space: 0px;
+    --screen-size: max(1px, min(768px, calc((var(--available-width) - 8px) / 2), calc(var(--available-height) / .75)));
+  }
+  #game:has(#touch-controls:not([hidden])) { --touch-space: 0px; --rail-right: calc(var(--safe-right) + 146px); }
+  #game[data-external-controls="true"] {
+    --touch-space: 0px;
+    --rail-left: calc(var(--safe-left) + var(--host-control-size) * 3 + 14px);
+    --rail-right: calc(var(--safe-right) + var(--host-control-size) * 3 + 14px);
+    padding-bottom: var(--bottom-inset);
+  }
+  #screens { display: flex; width: calc(var(--screen-size) * 2 + 8px); }
+  #top-screen, #bottom-wrap { width: var(--screen-size); flex: 0 0 var(--screen-size); }
+  .screen-gap { width: 8px; height: auto; flex: 0 0 8px; }
+  #browser-controls { left: var(--safe-left); right: auto; }
+  #touch-controls { position: fixed; right: var(--safe-right); bottom: var(--bottom-inset); width: 138px; height: auto; flex-direction: column; gap: 8px; }
+}
+
+@media (max-height: 300px) and (orientation: landscape) {
+  #game:has(#touch-controls:not([hidden])) { --rail-right: calc(var(--safe-right) + 196px); }
+  #touch-controls { width: 188px; }
+  .action-buttons { grid-template-columns: repeat(4, 44px); gap: 4px; }
+  .action-buttons .round { width: 44px; height: 44px; }
+}

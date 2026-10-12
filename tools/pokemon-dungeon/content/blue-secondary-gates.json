@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+  "qualification": "Pinned comparative Rescue Team caller facts; Blue binary parity is unverified.",
+  "sources": {
+    "src/move_orb_actions_3.c": {
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/move_orb_actions_3.c",
+      "sha256": "7c55ee066eb1d3c3eb30e0d5498841c8bf11143a3904b8417f193d5f33e1dbc0"
+    },
+    "src/dungeon_move_util.c": {
+      "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_move_util.c",
+      "sha256": "0b69f36c9e8c497acdfef2c06566fe84ccb4549390d53293dc24347e57af9d53"
+    }
+  },
+  "records": [
+    {
+      "moveId": "move-mud-slap",
+      "internalId": 213,
+      "handler": "MudSlapMoveAction",
+      "source": "src/move_orb_actions_3.c",
+      "lines": [
+        254,
+        265
+      ],
+      "gate": "sub_805727C",
+      "chanceArgument": 0
+    },
+    {
+      "moveId": "move-dynamic-punch",
+      "internalId": 246,
+      "handler": "DynamicPunchMoveAction",
+      "source": "src/move_orb_actions_3.c",
+      "lines": [
+        485,
+        499
+      ],
+      "gate": "sub_805727C",
+      "chanceArgument": 0
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 1,
+  "sourceEdition": "Blue Rescue Team original PNG captures",
+  "rights": "Published original commercial game imagery. Attribution does not provide or claim a publisher reuse license. No ROM is read, downloaded or built.",
+  "records": [
+    {
+      "id": "EU_English",
+      "path": "title/eu_english.png",
+      "url": "https://mysterydungeonwiki.com/images/4/44/Rescue_Team_-_Blue_Startup_EU_English_logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_EU_English_logo.png",
+      "width": 255,
+      "height": 192,
+      "bytes": 11083,
+      "sha256": "ccf216cbb75e0baf304fda20f16614c4ecc7665f8562d7516c351b81b6efd230",
+      "crop": [
+        0,
+        0,
+        255,
+        192
+      ],
+      "relativePhase": -78,
+      "excludedRects": []
+    },
+    {
+      "id": "EU_French",
+      "path": "title/eu_french.png",
+      "url": "https://mysterydungeonwiki.com/images/5/5b/Rescue_Team_-_Blue_Startup_EU_French_logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_EU_French_logo.png",
+      "width": 255,
+      "height": 192,
+      "bytes": 31601,
+      "sha256": "bcb9ba1603849047c6096c664659f76d7231bf6153ad6a87a03a0068c10a3e79",
+      "crop": [
+        0,
+        0,
+        255,
+        192
+      ],
+      "relativePhase": -120,
+      "excludedRects": []
+    },
+    {
+      "id": "EU_German",
+      "path": "title/eu_german.png",
+      "url": "https://mysterydungeonwiki.com/images/4/45/Rescue_Team_-_Blue_Startup_EU_German_logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_EU_German_logo.png",
+      "width": 255,
+      "height": 192,
+      "bytes": 40988,
+      "sha256": "c384aaa92e9679e923fa9ab293e3f28b537bced49bee13dda66d622d3a4650fc",
+      "crop": [
+        0,
+        0,
+        255,
+        192
+      ],
+      "relativePhase": -120,
+      "excludedRects": [
+        [
+          87,
+          164,
+          90,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "EU_Italian",
+      "path": "title/eu_italian.png",
+      "url": "https://mysterydungeonwiki.com/images/f/f0/Rescue_Team_-_Blue_Startup_EU_Italian_logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_EU_Italian_logo.png",
+      "width": 255,
+      "height": 192,
+      "bytes": 41109,
+      "sha256": "dcfcfda88165b122296abe928039fc14c625437d02c38af512b2675b9c0daf04",
+      "crop": [
+        0,
+        0,
+        255,
+        192
+      ],
+      "relativePhase": -120,
+      "excludedRects": []
+    },
+    {
+      "id": "EU_Spanish",
+      "path": "title/eu_spanish.png",
+      "url": "https://mysterydungeonwiki.com/images/4/49/Rescue_Team_-_Blue_Startup_EU_Spanish_logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_EU_Spanish_logo.png",
+      "width": 255,
+      "height": 192,
+      "bytes": 42421,
+      "sha256": "49c609122b19fdb74e787d372ad2dde7296c9ec1b4bfd974fa88863862a47135",
+      "crop": [
+        0,
+        0,
+        255,
+        192
+      ],
+      "relativePhase": -117,
+      "excludedRects": []
+    },
+    {
+      "id": "Japanese",
+      "path": "title/japanese.png",
+      "url": "https://mysterydungeonwiki.com/images/4/4d/Rescue_Team_-_Blue_Startup_Japanese_logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_Japanese_logo.png",
+      "width": 255,
+      "height": 192,
+      "bytes": 9970,
+      "sha256": "0c3d348ab9be5ac1ad61821c52b467f31e7b7a4b8f039654263a2542c15a5454",
+      "crop": [
+        0,
+        0,
+        255,
+        192
+      ],
+      "relativePhase": -62,
+      "excludedRects": []
+    },
+    {
+      "id": "Korean",
+      "path": "title/korean.png",
+      "url": "https://mysterydungeonwiki.com/images/2/20/Rescue_Team_-_Blue_Startup_Korean_logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_Korean_logo.png",
+      "width": 255,
+      "height": 192,
+      "bytes": 8716,
+      "sha256": "377e02db79c83455a64fd74d78250b49301b70af73e6748e7c3d1c37f321ebe1",
+      "crop": [
+        0,
+        0,
+        255,
+        192
+      ],
+      "relativePhase": -181,
+      "excludedRects": []
+    },
+    {
+      "id": "NA_English",
+      "path": "sources/Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+      "url": "https://mysterydungeonwiki.com/images/4/45/Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+      "width": 255,
+      "height": 192,
+      "bytes": 12122,
+      "sha256": "0b91d5437ff548fe51e9f51ef92544277baa91ce893494f315b286dea40e35b3",
+      "crop": [
+        0,
+        0,
+        255,
+        192
+      ],
+      "relativePhase": 0,
+      "excludedRects": []
+    },
+    {
+      "id": "Moby",
+      "path": "sources/blue-title-public-preview.png",
+      "url": "https://cdn.mobygames.com/screenshots/15873909-pokemon-mystery-dungeon-blue-rescue-team-nintendo-ds-title-scree.png",
+      "sourcePage": "https://www.mobygames.com/game/24322/pokemon-mystery-dungeon-blue-rescue-team/screenshots/nintendo-ds/287133/",
+      "width": 256,
+      "height": 384,
+      "bytes": 22424,
+      "sha256": "e5c2d1abdad6c1a1de5aa050dd20348a34faa21f4e4f3009ae0f47548ef4ef6d",
+      "crop": [
+        1,
+        192,
+        255,
+        192
+      ],
+      "relativePhase": -185,
+      "excludedRects": []
+    }
+  ],
+  "water": {
+    "width": 312,
+    "height": 28,
+    "screenY": 164,
+    "destinationX": 0,
+    "visibleWidth": 256,
+    "initialPhase": 126,
+    "sourceTicksPerPixel": 8,
+    "verifiedPixels": 8736,
+    "verifiedObservations": 64080,
+    "minimumObservationsPerPixel": 4,
+    "excludedForeground": "Only the German localized PRESS START pixels occupying (87,164,90,2).",
+    "phaseBasis": "Exact cloud and ocean patch translations across captures repeat 312 pixels apart. Phases are relative to the NA wiki capture; the Moby crop at display x1 begins at texture phase 127 modulo 312.",
+    "firstColumnInference": "Display x1 through x255 exactly match texture columns 127 onward. Extending that same wrapped coordinate mapping places texture column 126 at display x0. All 28 colors in this column are directly observed in other Blue captures; their placement at x0 is inferred because the Moby capture has a black first column.",
+    "sourceRateQualification": "The comparative S02 scroll owner advances its wrapped background camera one pixel per eight nominal ticks; exact Blue rate, start phase and direction have not been frame-counted."
+  },
+  "comparativeSource": {
+    "commit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+    "files": [
+      {
+        "path": "data/map_bg/S02.bpl",
+        "sha256": "40c3ad30c71382f2d754cc34b6406ca51c1420b54f1dabfd53c9b282f3cbe6f8",
+        "bytes": 544,
+        "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S02.bpl"
+      },
+      {
+        "path": "data/map_bg/S02c.bpc",
+        "sha256": "87d31c36ae05f43c6b15b5969dee895803b24b2e55a92121bcefe2d4a6c4f74b",
+        "bytes": 20388,
+        "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S02c.bpc"
+      },
+      {
+        "path": "data/map_bg/S02m.bma",
+        "sha256": "dec0d37df4f6c781a7f88b23cbaa2457c03d01b7a1d653e53a0f564fa012c467",
+        "bytes": 560,
+        "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S02m.bma"
+      },
+      {
+        "path": "src/data/ornament/titlebg.h",
+        "sha256": "667c5d9660603ed5471924be04bfac7e2a2a1a8b4dfc490214e90b606fea2076",
+        "bytes": 24274,
+        "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/data/ornament/titlebg.h"
+      },
+      {
+        "path": "graphics/ornament/pal/titlebg.pal",
+        "sha256": "1ab4bfd95fa9463fe5ce770f7ff184d8e501df87eeb09f77be67473536400c58",
+        "bytes": 216,
+        "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/graphics/ornament/pal/titlebg.pal"
+      },
+      {
+        "path": "src/ground_map.c",
+        "sha256": "9e3573febc6cea78ebf6139378200c07046a534b86c3359e1c115a9ee220c9cb",
+        "bytes": 44037,
+        "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/ground_map.c"
+      },
+      {
+        "path": "src/ground_bg.c",
+        "sha256": "97938d59b46d9c90e0df3513f947f1904f68dfeed676df609e38e0a472c9f5f3",
+        "bytes": 48575,
+        "url": "https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/ground_bg.c"
+      }
+    ],
+    "redBackground": {
+      "width": 288,
+      "height": 432,
+      "layers": 2,
+      "palettes": 9,
+      "paletteAnimation": false,
+      "scrollLayer": 1,
+      "scrollTicksPerPixel": 8
+    },
+    "unselectedRedOrnament": {
+      "name": "Titlebg1",
+      "poses": 12,
+      "ticksPerPose": 6,
+      "loopTicks": 72,
+      "reason": "Contains a sunset sun/reflection absent from the original Blue captures. No Red ornament pixels or palette are selected."
+    }
+  },
+  "remainingGap": "Only the ocean band is fully reconstructed. The fixed Blue logo and upper sky/cloud image retain one observed phase; the entire moving 312-pixel cloud field is not yet exposed by the source captures."
+}

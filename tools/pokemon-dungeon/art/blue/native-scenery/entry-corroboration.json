@@ -1,0 +1,20 @@
+{
+  "source": "tiny-woods-exterior.png",
+  "sourceCrop": [
+    87,
+    80,
+    256,
+    192
+  ],
+  "reference": "Blue_Rescue_Team_Press_Release_-_ss02.png",
+  "referenceCrop": [
+    8,
+    208,
+    256,
+    192
+  ],
+  "exactMatchingPixels": 36684,
+  "totalPixels": 49152,
+  "colourExpansion": "c=source>>3; (c<<3)|(c>>3)",
+  "notes": "Other pixels include actors, portraits, dialogue and animation."
+}

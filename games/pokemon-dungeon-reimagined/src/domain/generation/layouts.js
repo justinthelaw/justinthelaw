@@ -3,18 +3,67 @@ import { blankGeometry, carve, addRoom, corridor } from './support.js';
 /** @typedef {import('./types.js').Geometry} Geometry */
 /** @typedef {import('./types.js').Bounds} Bounds */
 /** @typedef {import('./support.js').Draws} Draws */
-/** @param {number} raw */
-export function layoutFamily(raw) { const n = raw % 16; return n >= 12 ? 0 : n; }
+
+/** The only admitted generation profiles are the three pinned Tiny Woods floors. */
+const TINY_WOODS_PROFILE = Object.freeze({
+  "layout": 1,
+  "roomDensity": 5,
+  "tileset": 14,
+  "bgMusic": 1,
+  "weather": 0,
+  "floorConnectivity": 15,
+  "enemyDensity": 4,
+  "kecleonShopChance": 0,
+  "monsterHouseChance": 0,
+  "mazeRoomChance": 0,
+  "itemStickyChance": 0,
+  "allowDeadEnds": 0,
+  "secondaryStructuresBudget": 0,
+  "roomFlags": 0,
+  "unused0E": 0,
+  "itemDensity": 2,
+  "trapDensity": 0,
+  "storedFloorNumber": 1,
+  "fixedRoomNumber": 0,
+  "numExtraHallways": 5,
+  "buriedItemDensity": 0,
+  "standaloneLakeDensity": 0,
+  "visibilityRange": 0,
+  "moneyUpperBound": 1,
+  "kecleonShopLayout": 1,
+  "itemlessMonsterHouseChance": 0,
+  "unused1A": 0,
+  "unused1B": 0
+});
+/** Plain factual parameters only; admission performs no random draws or mutation.
+ * @param {unknown} value @param {number} [expectedFloor] @returns {value is import('./types.js').Parameters} */
+export function isTinyWoodsParameters(value, expectedFloor) {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+    const prototype = Object.getPrototypeOf(value);
+    if (prototype !== Object.prototype && prototype !== null) return false;
+    const descriptors = Object.getOwnPropertyDescriptors(value);
+    const floor = expectedFloor ?? descriptors.storedFloorNumber?.value;
+    if (![1, 2, 3].includes(floor) || Reflect.ownKeys(value).length !== Object.keys(TINY_WOODS_PROFILE).length) return false;
+    return Object.entries(TINY_WOODS_PROFILE).every(([key, base]) => {
+        const property = descriptors[key];
+        const expected = key === 'storedFloorNumber' ? floor : key === 'roomDensity' && floor > 1 ? 6 : base;
+        return property?.enumerable === true && Object.hasOwn(property, 'value') && Object.is(property.value, expected);
+    });
+}
+
 /** @param {number[]} xs @param {number[]} zs @returns {GridCell[]} */
 function makeGrid(xs, zs) { const out = []; for (let z = 0; z < zs.length - 1; z++)
     for (let x = 0; x < xs.length - 1; x++)
         out.push({ x, z, valid: true, room: true, bounds: null, roomIndex: null, edges: new Set(), absorbed: false }); return out; }
+
 /** @param {GridCell[]} grid @param {number} columns @param {number} x @param {number} z */
 function at(grid, columns, x, z) { if (x < 0 || z < 0 || x >= columns)
     return null; return grid[z * columns + x] ?? null; }
+
 /** @param {GridCell[]} grid @param {GridCell} a @param {GridCell|null} b */
 function link(grid, a, b) { if (!a.valid || !b?.valid)
     return; a.edges.add(grid.indexOf(b)); b.edges.add(grid.indexOf(a)); }
+
 /** @param {GridCell[]} grid @param {number} columns @param {number} rows @param {import('./types.js').Parameters|Readonly<import('./types.js').Parameters>} p @param {Draws} rng */
 function assignRooms(grid, columns, rows, p, rng) {
     const extra = rng.int(3), count = p.roomDensity < 0 ? -p.roomDensity : p.roomDensity + extra;
@@ -53,55 +102,42 @@ function assignRooms(grid, columns, rows, p, rng) {
                 break;
         }
 }
-/** @param {Geometry} map @param {GridCell[]} grid @param {number[]} xs @param {number[]} zs @param {Draws} rng @param {number} family @param {import('./types.js').Parameters|Readonly<import('./types.js').Parameters>} p @param {number} budget */
-function carveCells(map, grid, xs, zs, rng, family, p, budget) {
+
+/** Tiny Woods keeps the original per-room draws even with no secondary structures.
+ * @param {Geometry} map @param {GridCell[]} grid @param {number[]} xs @param {number[]} zs @param {Draws} rng */
+function carveCells(map, grid, xs, zs, rng) {
     const columns = xs.length - 1, rows = zs.length - 1;
     for (const g of grid) {
         if (!g.valid)
             continue;
         const left = xs[g.x] ?? 0, top = zs[g.z] ?? 0, cw = (xs[g.x + 1] ?? 56) - left, ch = (zs[g.z + 1] ?? 32) - top;
         if (g.room) {
-            const special = family === 3 || family === 4, two = family === 5;
-            const rw = cw - (special || two ? 3 : 4), rh = ch - 3;
-            let w = rng.range(two ? 10 : 5, rw), h = rng.range(two ? 16 : 4, rh);
-            if (!special && !two) {
-                if ((w | 1) < rw)
-                    w |= 1;
-                if ((h | 1) < rh)
-                    h |= 1;
-                if (w > Math.floor(h * 3 / 2))
-                    w = Math.floor(h * 3 / 2);
-                if (h > Math.floor(w * 3 / 2))
-                    h = Math.floor(w * 3 / 2);
-            }
-            g.bounds = { x: left + (two ? 1 : 2) + rng.int(Math.max(0, rw - w)), z: top + (two ? 1 : 2) + rng.int(Math.max(0, rh - h)), width: w, height: h };
+            const rw = cw - 4, rh = ch - 3;
+            let w = rng.range(5, rw), h = rng.range(4, rh);
+            if ((w | 1) < rw)
+                w |= 1;
+            if ((h | 1) < rh)
+                h |= 1;
+            if (w > Math.floor(h * 3 / 2))
+                w = Math.floor(h * 3 / 2);
+            if (h > Math.floor(w * 3 / 2))
+                h = Math.floor(w * 3 / 2);
+            g.bounds = { x: left + 2 + rng.int(Math.max(0, rw - w)), z: top + 2 + rng.int(Math.max(0, rh - h)), width: w, height: h };
             g.roomIndex = addRoom(map, g.bounds);
             const room = map.rooms[g.roomIndex];
-            if (room)
-                room.gridPosition = { x: g.x, z: g.z };
-            if (room && !special && !two) {
-                let secondary = rng.int(100) < 80;
-                secondary = secondary && budget > 0;
-                let imperfect = (p.roomFlags & 4) !== 0;
-                if (secondary && imperfect) {
-                    if (rng.int(100) < 50)
-                        imperfect = false;
-                    else
-                        secondary = false;
-                }
-                room.secondary = secondary;
-                room.imperfect = imperfect;
+            if (room) {
+                rng.int(100); // The rejected secondary-structure choice still consumes a draw.
             }
         }
         else {
-            const special = family === 3 || family === 4;
-            const x = special ? left + 1 + rng.int(Math.max(0, cw - 3)) : rng.range(left + 2 + (g.x === 0 ? 1 : 2), left + 2 + cw - 4 - (g.x === columns - 1 ? 2 : 4));
-            const z = special ? top + 1 + rng.int(Math.max(0, ch - 3)) : rng.range(top + 2 + (g.z === 0 ? 1 : 2), top + 2 + ch - 3 - (g.z === rows - 1 ? 2 : 4));
+            const x = rng.range(left + 2 + (g.x === 0 ? 1 : 2), left + 2 + cw - 4 - (g.x === columns - 1 ? 2 : 4));
+            const z = rng.range(top + 2 + (g.z === 0 ? 1 : 2), top + 2 + ch - 3 - (g.z === rows - 1 ? 2 : 4));
             g.bounds = { x, z, width: 1, height: 1 };
             carve(map, g.bounds, null);
         }
     }
 }
+
 /** Finite adaptation: actual selected neighbor replaces native erroneous right-neighbor read.
  * @param {GridCell[]} grid @param {number} columns @param {number} rows @param {number} iterations @param {boolean} deadEnds @param {Draws} rng
  */
@@ -147,6 +183,7 @@ function randomConnections(grid, columns, rows, iterations, deadEnds, rng) {
             break;
     }
 }
+
 /** @param {GridCell[]} grid @param {number} columns */
 function connectStranded(grid, columns) {
     const seed = grid.findIndex(g => g.valid && g.room);
@@ -186,6 +223,7 @@ function connectStranded(grid, columns) {
                 g.valid = false;
         }
 }
+
 /** @param {Geometry} map @param {GridCell[]} grid @param {number[]} xs @param {number[]} zs @param {Draws} rng @param {boolean} merge */
 function joinCells(map, grid, xs, zs, rng, merge) {
     for (let i = 0; i < grid.length; i++) {
@@ -230,15 +268,17 @@ function joinCells(map, grid, xs, zs, rng, merge) {
             b.absorbed = true;
         }
 }
-/** All12 family constructions, default aliases13/15 included. Shared feature stages are separate.
- * @param {Readonly<import('./types.js').Parameters>} p @param {Draws} rng @param {number} budget @returns {Geometry}
- */
-export function buildLayout(p, rng, budget) {
-    const family = layoutFamily(p.layout), map = blankGeometry();
+
+/** Scoped small-layout generation. Preserve the discarded dimension draws,
+ * zero-bound draws, per-room secondary draw, repairs and every merge attempt.
+ * @param {Readonly<import('./types.js').Parameters>} p @param {Draws} rng @returns {Geometry} */
+export function buildLayout(p, rng) {
+    if (!isTinyWoodsParameters(p)) throw new Error('Unsupported Tiny Woods generation profile.');
+    const map = blankGeometry();
     let columns = 4, rows = 4;
     for (let attempt = 0; attempt < 32; attempt++) {
-        columns = p.layout === 8 ? rng.range(2, 5) : rng.range(2, 9);
-        rows = p.layout === 8 ? rng.range(2, 4) : rng.range(2, 8);
+        columns = rng.range(2, 9);
+        rows = rng.range(2, 8);
         if (columns <= 6 && rows <= 4)
             break;
         if (attempt === 31) {
@@ -250,111 +290,19 @@ export function buildLayout(p, rng, budget) {
         columns = 1;
     if (Math.floor(32 / rows) < 8)
         rows = 1;
-    if (family === 1 || family === 11) {
-        columns = 4;
-        rows = 2 + rng.int(2);
-    }
-    let xs = Array.from({ length: columns + 1 }, (_, i) => i * Math.floor(56 / columns)), zs = Array.from({ length: rows + 1 }, (_, i) => i * Math.floor(32 / rows));
-    if (family === 2) {
-        addRoom(map, { x: 2, z: 2, width: 52, height: 28 });
-        map.forceHouse = true;
-        return map;
-    }
-    if (family === 3) {
-        xs = [0, 5, 16, 28, 39, 51, 56];
-        zs = [2, 7, 16, 25, 30];
-    }
-    if (family === 4) {
-        xs = [0, 11, 22, 33, 44, 56];
-        zs = [1, 9, 16, 23, 31];
-    }
-    if (family === 5) {
-        xs = [2, 28, 54];
-        zs = [2, 30];
-        map.forceHouse = true;
-    }
-    if (family === 6) {
-        xs = [0, 11, 22, 33, 44, 56];
-        zs = [4, 15];
-    }
-    if (family === 7) {
-        xs = [11, 22, 33, 44];
-        zs = [2, 11, 20, 30];
-    }
-    if (family === 9) {
-        xs = [5, 15, 35, 50];
-        zs = [2, 11, 20, 30];
-    }
+    columns = 4;
+    rows = 2 + rng.int(2);
+    const xs = Array.from({ length: columns + 1 }, (_, i) => i * Math.floor(56 / columns)), zs = Array.from({ length: rows + 1 }, (_, i) => i * Math.floor(32 / rows));
     columns = xs.length - 1;
     rows = zs.length - 1;
     const grid = makeGrid(xs, zs);
     for (const g of grid) {
-        const edge = g.x === 0 || g.z === 0 || g.x === columns - 1 || g.z === rows - 1, corner = (g.x === 0 || g.x === columns - 1) && (g.z === 0 || g.z === rows - 1);
-        if (family === 1 && g.x >= columns / 2)
-            g.valid = false;
-        if (family === 11 && g.x >= columns * 3 / 4)
-            g.valid = false;
-        if (family === 3)
-            g.room = !edge;
-        if (family === 4) {
-            g.valid = !corner;
-            g.room = edge;
-        }
-        if (family === 7)
-            g.valid = !corner;
-        if (family === 10)
-            g.valid = edge;
+        if (g.x >= columns / 2) g.valid = false;
     }
-    if ([0, 1, 6, 8, 11].includes(family))
-        assignRooms(grid, columns, rows, p, rng);
-    carveCells(map, grid, xs, zs, rng, family, p, budget);
-    for (const g of grid) {
-        if (!g.valid)
-            continue;
-        const right = at(grid, columns, g.x + 1, g.z), down = at(grid, columns, g.x, g.z + 1);
-        if (family === 3) {
-            if (g.z === 0 || g.z === rows - 1)
-                link(grid, g, right);
-            if (g.x === 0 || g.x === columns - 1)
-                link(grid, g, down);
-        }
-        if (family === 4) {
-            if (g.z > 0 && g.z < rows - 1)
-                link(grid, g, right);
-            if (g.x > 0 && g.x < columns - 1)
-                link(grid, g, down);
-        }
-        if (family === 5 || family === 9)
-            link(grid, g, right);
-        if (family === 7) {
-            link(grid, g, right);
-            link(grid, g, down);
-        }
-        if (family === 10) {
-            if ((g.z === 0 || g.z === rows - 1) && g.x > 0 && g.x < columns - 2)
-                link(grid, g, right);
-            if ((g.x === 0 || g.x === columns - 1) && g.z < rows - 1)
-                link(grid, g, down);
-        }
-    }
-    if ([0, 1, 3, 6, 8, 11].includes(family))
-        randomConnections(grid, columns, rows, p.floorConnectivity, p.allowDeadEnds !== 0, rng);
+    assignRooms(grid, columns, rows, p, rng);
+    carveCells(map, grid, xs, zs, rng);
+    randomConnections(grid, columns, rows, p.floorConnectivity, p.allowDeadEnds !== 0, rng);
     connectStranded(grid, columns);
-    joinCells(map, grid, xs, zs, rng, [0, 1, 3, 5, 8, 10, 11].includes(family));
-    if (family === 9) {
-        const spine = grid.filter(g => g.x === 1 && g.bounds);
-        const first = spine[0], last = spine.at(-1);
-        if (first?.bounds && last?.bounds && first.roomIndex !== null) {
-            const x = Math.min(...spine.map(g => g.bounds?.x ?? 56)), end = Math.max(...spine.map(g => (g.bounds?.x ?? 0) + (g.bounds?.width ?? 0)));
-            const bounds = { x, z: first.bounds.z, width: end - x, height: last.bounds.z + last.bounds.height - first.bounds.z };
-            carve(map, bounds, first.roomIndex);
-            const r = map.rooms[first.roomIndex];
-            if (r)
-                r.bounds = bounds;
-        }
-    }
-    map.externalSecondary = [0, 1, 3, 4, 6, 8, 10, 11].includes(family);
+    joinCells(map, grid, xs, zs, rng, true);
     return map;
 }
-/** Source fallback, never the normal implementation for another family. @returns {Geometry} */
-export function fallbackLayout() { const map = blankGeometry(); addRoom(map, { x: 2, z: 2, width: 52, height: 28 }); map.forceHouse = true; return map; }

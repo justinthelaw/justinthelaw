@@ -14,13 +14,21 @@ interface GamePlayerProps {
 
 export function GamePlayer({ game, onClose }: GamePlayerProps): React.ReactElement {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const loadedFrameRef = useRef<HTMLIFrameElement | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
 
   function focusGame(): void {
     const iframe = iframeRef.current;
-    iframe?.focus();
+    if (!iframe) return;
+    const firstLoad = loadedFrameRef.current !== iframe;
+    loadedFrameRef.current = iframe;
+    // Preserve deliberate overlay focus even during a slow first load, and
+    // all host focus during reloads. A pending host keyup must stay there.
+    const overlayFocused = document.activeElement?.closest("[data-game-controls-overlay]");
+    if (overlayFocused || !firstLoad && document.activeElement !== iframe) return;
+    iframe.focus();
     // Local games share the website origin, so native keys reach their window.
-    iframe?.contentWindow?.focus();
+    iframe.contentWindow?.focus();
   }
 
   return (

@@ -2,6 +2,16 @@
 
 Instructions for AI coding agents operating in this repository.
 
+## Current Pokémon task — 2026-10-10
+
+Justin has replaced the historical 3D/full-campaign goal with the original DS
+opening through Tiny Woods and Caterpie's rescue only, on PR #397. Follow
+`games/pokemon-dungeon-reimagined/plan/BLUE-OPENING.md` before the historical
+requirements below. The selected runtime uses two 256 × 192 Canvas 2D displays
+and a separate save namespace. Preserve existing saves and evidence; later
+campaign resources are excluded from the scoped distribution. Exact asset and
+behavior parity requires evidence, not a completion claim based on code volume.
+
 ## Project Overview
 
 Next.js static site for GitHub Pages with an in-browser AI chatbot powered by
@@ -12,7 +22,7 @@ with a resume viewer and an LLM-based chatbot that answers from personal context
 
 | Layer | Tooling |
 | --- | --- |
-| Framework | Next.js 16.4, static export, pages router, patched PostCSS line |
+| Framework | Next.js 16.3.8, static export, pages router, patched PostCSS line |
 | UI | React 19 and TypeScript 6 |
 | Styles | Tailwind CSS 4 |
 | State | Zustand 5 |
@@ -189,9 +199,10 @@ may pause animation and stub the external resume iframe; disclose that in the PR
 `/arcade/` is a separate page with a Home link and a single scrolling column of
 cards. Each card centers its preview with padding, places a short description
 below it, and puts Play at the bottom right. The first card launches the
-Pokémon development checkpoint and describes its implemented opening through
-Mt. Steel and escort jobs, with later chapters explicitly unfinished.
-Its picture is the existing P06 3D art study, not a gameplay capture. The other
+Pokémon development checkpoint and describes its opening through Tiny Woods
+and Caterpie's rescue, with later chapters outside the selected scope.
+Its picture is a native-resolution browser gameplay capture from Tiny Woods,
+displayed at its full 4:3 aspect ratio with crisp pixel scaling. The other
 two cards say "Coming soon" with lavender and apricot pixel characters.
 Placeholders animate; reduced-motion preferences keep them still.
 The sprites are original 32-pixel designs rendered with crisp SVG edges,
@@ -211,9 +222,10 @@ of bottom padding after the last card, including at mobile widths.
 
 To add a game later, put its static browser build in `games/my-game/`, including
 `index.html`, JavaScript, CSS, and assets. Use relative asset URLs inside the
-game. `npm run build` runs the export script after Next.js and copies the whole
-`games/` folder into `out/games/`; an absent folder is a no-op. Game-only changes
-also trigger the Pages deployment workflow.
+game. `npm run build` runs the export script after Next.js. Games with a
+`distribution.json` ship only their declared local files into `out/games/`;
+other game folders retain the complete-tree fallback. An absent games folder
+is a no-op. Game-only changes also trigger the Pages deployment workflow.
 
 Set the card's `entryPoint` to `/games/my-game/index.html` and update its title
 and description. Play loads the entire game in an iframe **inside this website**,
@@ -236,6 +248,13 @@ other typing surfaces and host-page typing retain protection. The game owns
 submission, validation and scene guards; the bridge only emits the bounded key
 pair to the captured input recipient. Website fixture tests cover this contract
 without importing or executing game source.
+
+Overlay input restores the exact captured iframe document before delivery.
+Enter/Space action activation waits for the host key release; interruption,
+navigation or recipient changes cancel it. A release arriving in the current
+child document clears host ownership without replaying the cancelled action.
+Initial loads preserve deliberate overlay focus, and subsequent iframe loads
+preserve host focus so a held activation cannot leak into a replacement game.
 
 For a screenshot or GIF, set
 `preview: { src: "/arcade/my-game.gif", alt: "Description of the game" }` and put
@@ -290,171 +309,19 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-## Pokémon Dungeon Reimagined execution and release gates
+## Blue Rescue Team opening execution
 
-Justin subsequently instructed "Push to main, delete all other branches" on
-2026-10-08, explicitly authorizing this opening MVP's merge and Pages publication.
-PR #392 merged as `7665c20`; all 42 non-main remote branches were deleted after
-recording their commit SHAs. This scoped publication does not complete the
-campaign or human acceptance gates below. Fix confirmed MVP startup blockers
-within this authorized release; keep canonical save schemas and D05 unchanged.
+The current task is PR #397, branch `feat/pokemon-campaign-recovery`, from the
+original Blue opening through Tiny Woods and Caterpie's reunion only. Justin
+explicitly requested pruning unused campaign and 3D code on 2026-10-11. Follow
+`games/pokemon-dungeon-reimagined/AGENTS.md` and its current Blue plan. Retired
+code and evidence remain recoverable in Git history and the recorded Trash
+ledger; they are not dependencies of the selected game.
 
-On 2026-10-08, Justin requested autonomous continuation of PR #392, parallel
-work, frequent verified pushes, and preparation of a playable Pages MVP.
-Prioritize the existing opening through MAIN(5,9), its controls, recovery and
-production export. Preserve the complete campaign goal and unpublished work.
-The scoped MVP is a development checkpoint with separate human play/device
-review; it does not complete P36/P37. Prepare a downloadable Pages artifact
-without merging or changing the live deployment until explicitly authorized.
-
-The first game lives under `games/pokemon-dungeon-reimagined/`; the user
-permitted a game folder instead of the original single-HTML limit. Planning
-PR #387 was merged on 2026-10-04. Later that day, Justin instructed:
-"Continue the @Codex implementation of the Pokemon Blue Rescue Team game in
-justinthelaw/justinthelaw. You probably have uncommitted changes, so start from
-there." This is the separate implementation-start authorization. Resume the
-first incomplete dependency-ready package recorded in `plan/PROGRESS.md`.
-Source-evidence gates and the P06/P10 visual reviews still apply. Arcade
-full-game release still requires P36/P37 acceptance. On 2026-10-05, Justin
-explicitly authorized the first-card development launcher, joystick and modal
-controls in a new PR after merging #390, then instructed autonomous planning
-and implementation and waived external Codex review. This overrides the older
-placeholder hold for that scoped launcher; it does not certify a playable
-campaign or authorize merging the new PR.
-
-The latest 2026-10-05 visual instruction rejects the primitive rigid-mesh
-character candidates and supersedes the earlier inferred P06 acceptance. Use
-faithful directional pixel characters in a textured, illuminated real 3D world,
-following the user-supplied EthrA reference. All character/device acceptance remains open. P02-A
-authoring inventories are not runtime catalogs, and P07-A ID/snapshot/RNG
-primitives do not complete the campaign state, save system or playable game.
-See `games/pokemon-dungeon-reimagined/plan/STATE-FOUNDATION.md` for the reviewed
-bounded interface; do not
-consume unresolved original mechanics through an invented default.
-
-On **2026-10-04**, the user approved all recommended decisions except D03,
-selecting **B: bold cel-shaded 3D**. D03 below reflects the newer 2026-10-05 pixel direction; the other choices
-remain binding. Do not repeat resolved decision questions. The later start instruction authorizes
-implementation; it does not authorize merge, deployment or arcade activation.
-
-| Decision | Binding selection |
-| --- | --- |
-| D03 | Directional pixel characters in textured real 3D environments, per the latest EthrA reference. Faithful silhouettes/proportions/markings are mandatory. Historical B illustration and rejected rigid models are evidence only; new pixel candidates need review. |
-| D04 | Browser rescue codes/file exchange and equivalents for Blue's extra modes/events; preserve content/progression. Original cartridge interoperability is not a completion gate; claim compatibility only where sourced and demonstrably verified. |
-| D05 | Human play and visual review are allowed after implementation; automated tests importing/executing game source remain prohibited. |
-| D06 | No separate Groudon practice mode; use the original campaign route and campaign gameplay capture. |
-| D08 | JavaScript ES modules with JSDoc and strict independent static type checks; authoring tools remain outside `games/`. |
-
-Keep both generated raster illustrations under
-`games/pokemon-dungeon-reimagined/plan/art-candidates/` with their provenance.
-B was formerly selected; both are retained historical references pending a new loading-art review. Neither
-is a 3D runtime model or a gameplay screenshot, and neither may replace the
-arcade's eventual real campaign capture.
-
-Read [the handoff plan](games/pokemon-dungeon-reimagined/plan/PLAN.md), then the nested
-[game instructions](games/pokemon-dungeon-reimagined/AGENTS.md). The plan routes
-smaller implementation models to one bounded task and its supporting appendix
-at a time. Record future decisions and progress in the linked ledger. Keep
-requirements current in these AGENTS files; the root README.md remains outside
-this work's scope. Keep the complete plan inside the game's `plan/` directory.
-Maintain [games/README.md](games/README.md) as the concise arcade guide and live/WIP
-game catalog, using headings, tables and lists; omit prose paragraphs. A section may use
-2–3 front-matter sentences only when absolutely necessary; none are needed now.
-
-The reference edition is the original **Pokémon Mystery Dungeon: Blue Rescue
-Team**; its campaign and postgame are the third-person 3D target. Red Rescue
-Team may inform comparative or cross-version research only: do not implement
-a Red campaign or edition selector, and verify shared findings against Blue.
-Research findings are not a completeness claim.
-Maintain explicit fidelity and asset-coverage inventories; never treat a list
-of dungeon names, generic creatures, or abbreviated story summaries as a
-finished recreation. All runtime resources must eventually be local static
-assets with relative URLs under the existing Pages base path.
-
-Keep all intermediate runtime-package PRs unmerged until P37, after full-scope
-acceptance and explicit release/merge/deployment approval. The exporter copies
-`games/**` and main deploys it at directly accessible URLs, so a disabled arcade
-card does not prevent an unfinished runtime from being published. Runtime work
-must remain on development branches until that release gate.
-
-The existing website testing boundary still applies: no tests execute or
-import game source. Website player/export tests use inert fixture HTML and
-temporary fixture files. Independent game syntax, lint, type, schema checks,
-code review, and user-directed visual capture are separate from gameplay tests.
-Do not add automated game tests. The user approved manual play and visual
-acceptance after implementation on 2026-10-04 and subsequently authorized
-implementation. Record actual manual evidence separately from static review.
-A future standalone-game persistence adapter may use localStorage/IndexedDB
-behind one validated interface; the website retains its Zustand convention.
-
-For the Blue game, require emulator-style semi-transparent controls across the
-lower half of the viewport, with accessible touch/keyboard handling. Follow the
-[asset pipeline](games/pokemon-dungeon-reimagined/plan/ASSET-PIPELINE.md) for consistent
-master prompts, reference assets, uniform sheets, verified cropping and provenance.
-Directional RGBA atlases now supply character animation on depth-tested billboards
-in actual 3D environments. Follow `tools/pokemon-dungeon/art/pixel/CONTRACT.md`;
-retain historical GLB validation separately. Do not pixelate unchanged rejected
-models, retry blocked ImageGen requests, or substitute paid API generation.
-
-Shared early recipient item effects and catching now route self ingestion and
-player Gravelerock impact through one owner. V17 admits only actual nonself
-Sleep Seed provenance over frozen v16. Broader trajectory modifiers and Item
-Master remain separate gates; all admitted inventories/learned slots remain intact.
-
-Finite Pokémon item throws use the existing command/turn transaction and inventory
-panel. All424 native capability positions have a separate parser-only source
-projection with419 exact profile joins; do not add guessed defaults or modify
-frozen species/effects resources. See the game plan/THROWING.md for T02 scope,
-legacy Gravelerock compatibility and remaining Item Master gates. Stun Seed now
-has development use/throw activation over its reviewed v18
-Petrified lifecycle and accepted v19 bounded continuation. Heal/Quick Seeds
-share real recipient ingestion/impact without a new save revision: Heal clears
-owned admitted classes/slow/seals with cache-only speed refresh; Quick samples
-before cap/full-array checks and uses the turn raise/attack-unlock owner. See
-game plan/HEAL-QUICK-SEEDS.md, STUN-SEED.md and TURN-CONTINUATION.md. Preserve
-the frozen v20 chapter-work bridge in game plan/CHAPTER-FIVE-WORK.md. Its v21
-successor in plan/STEEL-MEANIES.md independently owns original-pair ordinary
-Steel1–8/fixed9, the complete station batch/50-point endpoint and actual outside
-Meanies/Pelipper op6 through MAIN5,7. Preserve Steel postings and Magnemite
-selection; unrestricted later work stays held for real Bronze escorts/rewards. Preserve
-every earlier
-envelope boundary, live Leech link and Water Sport counter. Continuation checkpoints
-commit only the first completed opportunity, flush recipient or empty-completion
-phase; special leader after-work must yield before selecting its counterpart.
-Keep schema.js and historical pins frozen, exact original-envelope validation,
-all128 wild slots and co-located trap/money admission. New effects, propagation,
-entry policies or tile event patterns must revise the documented4096-event burst
-proof. Scoped counted tile notices deliberately change transient notification
-multiplicity; canonical pickups remain intact. One owned browser-frame pump
-resumes the exact saved PC; no player mutation may interleave. The accepted
-continuation review covers saved cursors and stale load, replacement and menu
-callbacks; future changes require scoped review. Human latency/device/save-
-interruption and broader acceptance remain
-separate full-release gates.
-
-The bounded Bronze generation/reward prerequisite is recorded in
-`games/pokemon-dungeon-reimagined/plan/BRONZE-JOBS.md`. Its exact v22 schema/policy
-adds prospective source metadata and station prefix/mission-area ownership while
-preserving original v2–v21 envelopes and every historical source pin. MAIN5,7
-outing/refresh remains held for genuine escort guest/second-work lifecycle;
-static source/type/admission checks do not establish gameplay or full-game gates.
-
-The escort [general RNG prerequisite](games/pokemon-dungeon-reimagined/plan/ESCORT-GUEST.md)
-keeps the native signed-halfword LCG separate from all four browser streams and
-dungeon RNG. Its explicit seed/state interfaces grant no old-save seed history
-or guest admission. Live v23/MAIN5,7 remains held until the exact saved guest,
-native movement/AI/loss/cleanup and second-work owner compose; future activation
-must reprove events under4096 and retain every v23 learning and v22 prefix/debt PC.
-
-Source-qualified escort preparation consumes this general stream for every actual
-supplied roster slot before guest admission. Its finite19 stats/moves/PP and
-fixed prospective boot seed are independently pinned; first-free-four/body6
-results do not authorize live actor/save/AI/lifecycle activation. Preserve the
-entire selected roster and conditional native draw schedule before the successor.
-
-Current v24 escort activation composes actual source guest/second-work through
-MAIN5,9 with direct raw heritage, original v2–v23 envelope admission, true saved
-native EXP return cursors and full station queues. See game plan/ESCORT-ACTIVATION.md.
-Earlier unselected prerequisite notes remain checkpoint history. Preserve the
-4096 cap, source qualification and independent scoped review; full campaign,
-human/device/visual/Blue parity and release acceptance remain open.
+Use the isolated `tools/pokemon-dungeon` package for strict types, lint and
+static factual/asset/export checks. D05 still prohibits tests that import or
+execute game source and automated playthroughs. Manual browser play is allowed;
+website tests use inert fixtures. Preserve all browser save namespaces and the
+selected two-slot save journal. Leave the root README unchanged. Signed commits
+and ordinary pushes to the PR branch are authorized; merging, deploying and
+issue/PR metadata changes require their own explicit authorization.

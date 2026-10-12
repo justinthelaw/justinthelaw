@@ -1,0 +1,34 @@
+{
+  "source": "Tile-24x24-PostOffice.png",
+  "sourceCrop": [
+    76,
+    78,
+    255,
+    192
+  ],
+  "reference": "Rescue_Team_-_Startup_Cutscene.png",
+  "exactMatchingPixels": 47952,
+  "totalPixels": 48960,
+  "comparisonColourExpansion": "source&248; reference uses RGB555 shifted3",
+  "blueRuntimeExpansion": "c=source>>3;(c<<3)|(c>>3)",
+  "sourceWorldOrigin": [
+    72,
+    90
+  ],
+  "blueDisplayCenter": [
+    129,
+    108
+  ],
+  "referenceNativePelipperAnchors": [
+    [
+      100,
+      92
+    ],
+    [
+      156,
+      92
+    ]
+  ],
+  "opaqueActorPixelsMatchedEach": 314,
+  "captureCaveat": "255px capture omits one display column; full display actors shift1px right."
+}

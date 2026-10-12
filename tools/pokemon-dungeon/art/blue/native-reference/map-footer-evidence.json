@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "path": "map-blue-manual.png",
+    "sha256": "41e1c636472b5754f6c7c629b4c3fe6f50d2af28a809435e55ed0425dbdbaadd",
+    "bytes": 11060,
+    "dimensions": [
+      128,
+      96
+    ],
+    "url": "https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_PokemonMysteryDungeonBlueRescueTeam_EN.pdf#page=13",
+    "printedPage": 25,
+    "pdfSha256": "31c88fb45a77815a628bcdb6c9d64eccf3be775caf672796bc5906507ca64351",
+    "extraction": "Original embedded 128x96 CMYK/JPEG map illustration converted to RGB PNG. It is half native display size and has compression/color-conversion losses; no pixel-byte equivalence is asserted."
+  },
+  "observed": {
+    "frameHalfSizeBounds": [
+      8,
+      64,
+      112,
+      32
+    ],
+    "memberRows": 2,
+    "content": [
+      "name",
+      "level",
+      "current HP / maximum HP"
+    ],
+    "absent": [
+      "Belly",
+      "Money",
+      "Weather",
+      "Play time"
+    ],
+    "namesYellow": true,
+    "frameBlueForShownMaleTeam": true
+  },
+  "implemented": {
+    "frameBounds": [
+      16,
+      128,
+      224,
+      64
+    ],
+    "nameOrigin": [
+      28,
+      136
+    ],
+    "rowAdvance": 12,
+    "levelX": 96,
+    "hpX": 160,
+    "hpFormat": "Three-character current/max fields separated by slash; spacing is inferred from the compressed image, not traced to the unavailable Blue text routine."
+  },
+  "qualifications": [
+    "Whole-pixel text origins and HP field padding remain measured approximations from a half-size illustration.",
+    "The comparative public Red source has stubs for DS upper-display drawing, so it does not independently certify this footer.",
+    "Female dungeon-map frame palette remains unverified; no pink palette is invented.",
+    "The upper map backdrop is unchanged by this scoped footer correction."
+  ],
+  "sourcePaths": [
+    "src/unk_ds_only_feature.c",
+    "src/sprite.c",
+    "src/dungeon_map.c"
+  ],
+  "rights": "Nintendo / The Pok\u00e9mon Company / Chunsoft manual imagery retained as reference evidence only. No rights-holder reuse grant is asserted."
+}

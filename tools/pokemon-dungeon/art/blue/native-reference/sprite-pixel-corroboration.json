@@ -1,0 +1,1480 @@
+{
+  "comparison": "All opaque sprite pixels, exact RGB after DS RGB555\u2192RGB666\u2192RGB888 bit expansion",
+  "channelConversion": "c = sourceChannel >> 3; (c << 3) | (c >> 3)",
+  "records": [
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss02.png",
+      "speciesId": "pokemon-004",
+      "matches": [
+        {
+          "pose": 12,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 36,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 84,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 168,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 184,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 192,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 208,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 232,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 245,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 262,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 272,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss02.png",
+      "speciesId": "pokemon-012",
+      "matches": [
+        {
+          "pose": 0,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 24,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 48,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 72,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 82,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 92,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 102,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 112,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 122,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 132,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 142,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 152,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 186,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 210,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 226,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        },
+        {
+          "pose": 258,
+          "left": 117,
+          "top": 66,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 392
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss02.png",
+      "speciesId": "pokemon-025",
+      "matches": [
+        {
+          "pose": 12,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 40,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 72,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 96,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 128,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 166,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 210,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 238,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 251,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 268,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 278,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss03.png",
+      "speciesId": "pokemon-004",
+      "matches": [
+        {
+          "pose": 8,
+          "left": 100,
+          "top": 94,
+          "anchor": [
+            113,
+            111
+          ],
+          "opaquePixels": 240
+        },
+        {
+          "pose": 32,
+          "left": 100,
+          "top": 94,
+          "anchor": [
+            113,
+            111
+          ],
+          "opaquePixels": 240
+        },
+        {
+          "pose": 83,
+          "left": 100,
+          "top": 94,
+          "anchor": [
+            112,
+            111
+          ],
+          "opaquePixels": 240
+        },
+        {
+          "pose": 91,
+          "left": 100,
+          "top": 94,
+          "anchor": [
+            105,
+            110
+          ],
+          "opaquePixels": 240
+        },
+        {
+          "pose": 97,
+          "left": 100,
+          "top": 94,
+          "anchor": [
+            110,
+            111
+          ],
+          "opaquePixels": 240
+        },
+        {
+          "pose": 164,
+          "left": 100,
+          "top": 94,
+          "anchor": [
+            113,
+            111
+          ],
+          "opaquePixels": 240
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss03.png",
+      "speciesId": "pokemon-025",
+      "matches": [
+        {
+          "pose": 12,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 40,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 72,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 96,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 128,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 166,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 210,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 238,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 251,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 268,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 278,
+          "left": 116,
+          "top": 87,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 311
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss04.png",
+      "speciesId": "pokemon-004",
+      "matches": [
+        {
+          "pose": 12,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 36,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 84,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 168,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 184,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 192,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 208,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 232,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 245,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 262,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 272,
+          "left": 145,
+          "top": 106,
+          "anchor": [
+            153,
+            124
+          ],
+          "opaquePixels": 230
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss04.png",
+      "speciesId": "pokemon-025",
+      "matches": [
+        {
+          "pose": 12,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 40,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 72,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 96,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 128,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 166,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 210,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 238,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 251,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 268,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 278,
+          "left": 116,
+          "top": 103,
+          "anchor": [
+            129,
+            124
+          ],
+          "opaquePixels": 311
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss05.png",
+      "speciesId": "pokemon-004",
+      "matches": [
+        {
+          "pose": 12,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 36,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 84,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 168,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 184,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 192,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 208,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 232,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 245,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 262,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 272,
+          "left": 137,
+          "top": 98,
+          "anchor": [
+            145,
+            116
+          ],
+          "opaquePixels": 230
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss05.png",
+      "speciesId": "pokemon-025",
+      "matches": [
+        {
+          "pose": 12,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 40,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 72,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 96,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 128,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 166,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 210,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 238,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 251,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 268,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        },
+        {
+          "pose": 278,
+          "left": 100,
+          "top": 95,
+          "anchor": [
+            113,
+            116
+          ],
+          "opaquePixels": 311
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss06.png",
+      "speciesId": "pokemon-004",
+      "matches": [
+        {
+          "pose": 7,
+          "left": 94,
+          "top": 91,
+          "anchor": [
+            106,
+            108
+          ],
+          "opaquePixels": 236
+        },
+        {
+          "pose": 31,
+          "left": 94,
+          "top": 91,
+          "anchor": [
+            106,
+            108
+          ],
+          "opaquePixels": 236
+        },
+        {
+          "pose": 125,
+          "left": 94,
+          "top": 91,
+          "anchor": [
+            107,
+            108
+          ],
+          "opaquePixels": 236
+        },
+        {
+          "pose": 163,
+          "left": 94,
+          "top": 91,
+          "anchor": [
+            106,
+            108
+          ],
+          "opaquePixels": 236
+        },
+        {
+          "pose": 203,
+          "left": 94,
+          "top": 91,
+          "anchor": [
+            105,
+            109
+          ],
+          "opaquePixels": 236
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss06.png",
+      "speciesId": "pokemon-025",
+      "matches": [
+        {
+          "pose": 6,
+          "left": 115,
+          "top": 86,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 32,
+          "left": 115,
+          "top": 86,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 64,
+          "left": 115,
+          "top": 86,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 92,
+          "left": 115,
+          "top": 86,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 116,
+          "left": 115,
+          "top": 86,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 168,
+          "left": 115,
+          "top": 86,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 202,
+          "left": 115,
+          "top": 86,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 240,
+          "left": 115,
+          "top": 86,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 250,
+          "left": 115,
+          "top": 86,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 314
+        },
+        {
+          "pose": 276,
+          "left": 115,
+          "top": 86,
+          "anchor": [
+            129,
+            108
+          ],
+          "opaquePixels": 314
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss07.png",
+      "speciesId": "pokemon-004",
+      "matches": [
+        {
+          "pose": 12,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 36,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 84,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 168,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 184,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 192,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 208,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 232,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 245,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 262,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        },
+        {
+          "pose": 272,
+          "left": 137,
+          "top": 114,
+          "anchor": [
+            145,
+            132
+          ],
+          "opaquePixels": 230
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss07.png",
+      "speciesId": "pokemon-025",
+      "matches": [
+        {
+          "pose": 13,
+          "left": 102,
+          "top": 111,
+          "anchor": [
+            113,
+            132
+          ],
+          "opaquePixels": 326
+        },
+        {
+          "pose": 41,
+          "left": 102,
+          "top": 111,
+          "anchor": [
+            113,
+            132
+          ],
+          "opaquePixels": 326
+        },
+        {
+          "pose": 73,
+          "left": 102,
+          "top": 111,
+          "anchor": [
+            113,
+            132
+          ],
+          "opaquePixels": 326
+        },
+        {
+          "pose": 211,
+          "left": 102,
+          "top": 111,
+          "anchor": [
+            113,
+            132
+          ],
+          "opaquePixels": 326
+        }
+      ]
+    },
+    {
+      "capture": "Blue_Rescue_Team_Press_Release_-_ss08.png",
+      "speciesId": "pokemon-004",
+      "matches": [
+        {
+          "pose": 18,
+          "left": 120,
+          "top": 74,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 42,
+          "left": 120,
+          "top": 74,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 60,
+          "left": 120,
+          "top": 74,
+          "anchor": [
+            130,
+            92
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 174,
+          "left": 120,
+          "top": 74,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 182,
+          "left": 120,
+          "top": 74,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 194,
+          "left": 120,
+          "top": 74,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 214,
+          "left": 120,
+          "top": 74,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 230,
+          "left": 120,
+          "top": 74,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 259,
+          "left": 120,
+          "top": 74,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 237
+        },
+        {
+          "pose": 268,
+          "left": 120,
+          "top": 74,
+          "anchor": [
+            129,
+            92
+          ],
+          "opaquePixels": 237
+        }
+      ]
+    }
+  ]
+}

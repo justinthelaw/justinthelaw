@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "sourceEdition": "Red Rescue Team",
+  "sourceCommit": "013475aa04f5be3191e5527c186d9bfceae7cae0",
+  "sourceFile": {
+    "path": "maps/S03.bpl",
+    "url": "https://raw.githubusercontent.com/pret/pmd-red/013475aa04f5be3191e5527c186d9bfceae7cae0/data/map_bg/S03.bpl",
+    "bytes": 46852,
+    "sha256": "5f3abbe1d30c36a1e61506b632205499be4d71743faa32018fdb144893e0be6a"
+  },
+  "paletteCount": 12,
+  "hasAnimation": true,
+  "animatedDataOffset": 772,
+  "specifications": [
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    },
+    {
+      "durationPerFrame": 6,
+      "frameCount": 64
+    }
+  ],
+  "firstFrameEqualsBase": true,
+  "firstChangedFrame": 20,
+  "lastDistinctFrame": 43,
+  "distinctCombinedFrames": 25,
+  "sourceBehavior": {
+    "initialSelectionFlags": [
+      0,
+      0
+    ],
+    "triggerFlags": [
+      0,
+      1
+    ],
+    "nominalTriggerTick": 94,
+    "repeats": false,
+    "retainsFinalColors": true,
+    "sourceFiles": [
+      "src/data/ground/ground_data_s03_station.h",
+      "src/ground_script.c",
+      "src/ground_map.c",
+      "src/ground_bg.c"
+    ]
+  },
+  "directBlueVideoLead": {
+    "url": "https://www.youtube.com/watch?v=4iTyZkVX9DI",
+    "title": "Pokemon Mystery Dungeon: Blue Rescue Team (DS) Opening / Intro",
+    "author": "Pokemon Dungeon",
+    "embeddedBy": "https://www.pokemondungeon.com/pokemon-mystery-dungeon-red-blue-rescue-team",
+    "oembedVerified": true,
+    "inspectionRequested": "Compare aerial shot at +4 seconds and +5.8 seconds; check whether cyan sky and blue water stay daytime rather than turning orange.",
+    "backupUrl": "https://www.youtube.com/watch?v=r3Ne6OE1K4A"
+  },
+  "secondaryEditionDifferenceLead": {
+    "url": "https://bulbapedia.bulbagarden.net/wiki/Game_intro#Pok\u00e9mon_Mystery_Dungeon:_Red_Rescue_Team_and_Blue_Rescue_Team",
+    "claim": "The Red aerial scene shifts to sunset, whereas Blue stays daytime.",
+    "status": "Its edition distinction agrees with the direct Blue manual video observation; runtime selection is grounded in the observed footage."
+  },
+  "runtimeDecision": "Keep the current daytime palette. Do not select the comparative Red sunset cycle for the Blue opening.",
+  "validation": "Pure asset bytes parsed without importing or executing game source; no ROM read, downloaded or built.",
+  "directBlueObservation": {
+    "url": "https://www.youtube.com/watch?v=4iTyZkVX9DI",
+    "method": "Manual inspection in the normal public browser video player by the root reviewer.",
+    "timestampsSeconds": [
+      24,
+      25,
+      27
+    ],
+    "observations": [
+      "At 0:24 and 0:25 the aerial sky and water remain cyan/blue and the forest remains green.",
+      "At 0:27 the white fade begins while the sky remains blue and the letter is in the foreground."
+    ],
+    "supports": "Blue retains the daytime palette rather than applying the Red sunset cycle.",
+    "limitations": "Compressed, horizontally stretched footage supports the visible edition distinction, not pixel equality, exact palette channels, margins or frame timing."
+  },
+  "timingQualification": "The video cinematic begins around 0:07 after logos and reaches its white fade around 0:27. Exact scene-start and fade boundaries were not frame-counted; the existing 19-second boundary remains qualified."
+}

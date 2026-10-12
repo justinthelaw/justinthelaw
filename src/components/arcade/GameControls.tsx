@@ -1,4 +1,4 @@
-import { useRef, type RefObject } from "react";
+import type { KeyboardEvent, RefObject } from "react";
 import { Button } from "@/components/ui/button";
 import { GAME_KEYS, useGameControls, type GameKey } from "./useGameControls";
 import styles from "./GameControls.module.css";
@@ -13,11 +13,6 @@ interface Control {
   keys: readonly GameKey[];
   tooltip: string;
   interruptsMovement?: boolean;
-}
-
-interface GameFocusTarget {
-  iframe: HTMLIFrameElement;
-  document: Document;
 }
 
 const directions: readonly Control[] = [
@@ -43,29 +38,18 @@ const systemActions: readonly Control[] = [
 ];
 
 export function GameControls({ iframeRef }: GameControlsProps): React.ReactElement {
-  const { visible, toggle, pressPointer, releasePointer, pulse } = useGameControls(iframeRef);
-  const activationKeyRef = useRef<string | null>(null);
-  const pendingFocusRef = useRef<GameFocusTarget | null>(null);
+  const { visible, toggle, pressPointer, releasePointer, pulse, beginKeyboard, beginToggleKeyboard, endKeyboard, cancelKeyboard } = useGameControls(iframeRef);
 
-  function captureGameFocus(): GameFocusTarget | null {
-    const iframe = iframeRef.current;
-    try {
-      const document = iframe?.contentDocument;
-      return iframe?.isConnected && document?.defaultView ? { iframe, document } : null;
-    } catch {
-      return null;
-    }
+  function activationKey(event: KeyboardEvent<HTMLButtonElement>): boolean {
+    if (event.key !== "Enter" && event.key !== " ") return false;
+    // Handle both keys explicitly so native zero-detail clicks cannot deliver
+    // a second action or move keyup into the embedded document.
+    event.preventDefault();
+    return true;
   }
 
-  function focusGame(target: GameFocusTarget | null): void {
-    if (!target || iframeRef.current !== target.iframe || !target.iframe.isConnected) return;
-    try {
-      if (target.iframe.contentDocument !== target.document) return;
-      target.iframe.focus();
-      target.document.defaultView?.focus();
-    } catch {
-      // A navigation may have replaced the same-origin focus recipient.
-    }
+  function releaseKeyboard(event: KeyboardEvent<HTMLButtonElement>): void {
+    if (activationKey(event)) endKeyboard(event.key, event.currentTarget);
   }
 
   function renderControl(control: Control, className: string): React.ReactElement {
@@ -86,9 +70,16 @@ export function GameControls({ iframeRef }: GameControlsProps): React.ReactEleme
         onPointerCancel={(event) => releasePointer(event.pointerId)}
         onLostPointerCapture={(event) => releasePointer(event.pointerId)}
         onContextMenu={(event) => event.preventDefault()}
+        onKeyDown={(event) => {
+          if (activationKey(event) && !event.repeat) {
+            beginKeyboard(event.key, event.currentTarget, control.keys, Boolean(control.interruptsMovement));
+          }
+        }}
+        onKeyUp={releaseKeyboard}
+        onBlur={cancelKeyboard}
         onClick={(event) => {
-          // Pointer down/up already emitted their keys; keyboard and assistive
-          // activation produce a zero-detail click and need a single pulse.
+          // Pointer and keyboard handlers already emit their keys. Assistive
+          // activation without key events still needs one pulse.
           if (event.detail === 0) pulse(control.keys, Boolean(control.interruptsMovement));
         }}
       >
@@ -98,7 +89,7 @@ export function GameControls({ iframeRef }: GameControlsProps): React.ReactEleme
   }
 
   return (
-    <div className={styles.overlay}>
+    <div className={styles.overlay} data-game-controls-overlay="">
       <Button
         type="button"
         variant="outline"
@@ -106,31 +97,13 @@ export function GameControls({ iframeRef }: GameControlsProps): React.ReactEleme
         aria-expanded={visible}
         aria-controls="arcade-game-controls"
         tooltip={visible ? "Hide game controls" : "Show game controls"}
-        onPointerDown={() => { activationKeyRef.current = null; pendingFocusRef.current = null; }}
+        onPointerDown={cancelKeyboard}
         onKeyDown={(event) => {
-          if (event.key === "Enter" || event.key === " ") activationKeyRef.current = event.key;
+          if (activationKey(event) && !event.repeat) beginToggleKeyboard(event.key, event.currentTarget);
         }}
-        onKeyUp={(event) => {
-          if (event.key !== activationKeyRef.current) return;
-          activationKeyRef.current = null;
-          if (pendingFocusRef.current) {
-            const target = pendingFocusRef.current;
-            pendingFocusRef.current = null;
-            focusGame(target);
-          }
-        }}
-        onBlur={() => {
-          activationKeyRef.current = null;
-          pendingFocusRef.current = null;
-        }}
-        onClick={() => {
-          toggle();
-          // Keep a keyboard activation's keyup in the host document. Pointer
-          // and assistive clicks can return native game focus immediately.
-          const target = captureGameFocus();
-          if (activationKeyRef.current) pendingFocusRef.current = target;
-          else focusGame(target);
-        }}
+        onKeyUp={releaseKeyboard}
+        onBlur={cancelKeyboard}
+        onClick={toggle}
       >
         {visible ? "Hide controls" : "Show controls"}
       </Button>

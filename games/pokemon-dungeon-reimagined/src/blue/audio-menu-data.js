@@ -1,0 +1,12 @@
+/** Generated from pinned comparative Rescue Team SE2 facts; no music or PCM samples. */
+export const MENU_EFFECT_SOURCE_SHA256 = '050e40613e0a8313c1e4eb9f5b5d56aa0f87b0f3bc8348de0c25204717037d7d';
+export const MENU_EFFECT_GAIN = 0.22;
+export const MENU_EFFECT_TICK_SECONDS = 280896 / 16777216;
+export const MENU_EFFECT_THROTTLE_SECONDS = 4 * MENU_EFFECT_TICK_SECONDS;
+/** Each note is [start tick, gate ticks, frequency divisor, four-bit envelope]. */
+/** @type {Readonly<Record<string,{duty:number,notes:[number,number,number,number][]}>>} */
+export const MENU_EFFECTS = {"effect-ui-cursor":{"duty":0.5,"notes":[[0,2,126,6]]},"effect-ui-confirm":{"duty":0.5,"notes":[[0,2,88,7]]},"effect-ui-cancel":{"duty":0.25,"notes":[[0,2,562,6],[3,2,668,6],[5,1,334,5],[6,1,334,1]]},"effect-ui-open":{"duty":0.5,"notes":[[0,1,100,7]]},"effect-ui-denied":{"duty":0.25,"notes":[[0,2,562,6],[3,2,668,6],[5,1,334,5],[6,1,334,1]]}};
+export const BATTLE_EFFECT_SOURCE_SHA256 = '4ede3d086c5186cafdaa8f569a0a89f52edb7d6f57cd71a909435b5580accade';
+/** Native SE2 battle/pickup notes are [start frame, gate frames, frequency divisor, envelope]. */
+/** @type {Readonly<Record<string,{duty:number,notes:[number,number,number,number][]}>>} */
+export const BATTLE_EFFECTS = {"effect-no-damage-team":{"duty":0.125,"notes":[[2,3,224,9],[5,3,282,9],[8,3,355,9],[11,3,447,9]]},"effect-no-damage-other":{"duty":0.125,"notes":[[2,3,376,9],[5,3,473,9],[8,3,596,9],[11,3,751,9]]},"effect-regular-attack":{"duty":0.5,"notes":[[2,1,158,7],[3,1,210,8],[4,1,354,9],[5,1,298,8],[6,1,198,6]]},"effect-pickup-team":{"duty":0.5,"notes":[[2,3,334,5],[5,2,224,5],[7,3,178,2],[10,2,148,8],[12,2,112,13],[15,1,112,3],[20,1,112,1]]},"effect-pickup-other":{"duty":0.5,"notes":[[3,3,210,5],[6,3,266,8],[9,3,298,2],[12,3,334,7],[15,3,316,14],[19,2,316,4]]},"effect-throw-spin":{"duty":0.5,"notes":[[1,1,250,4],[2,1,188,5],[3,1,118,7],[4,1,100,7],[5,1,88,8],[6,1,140,8],[7,1,178,6],[8,1,198,6],[9,1,298,3]]},"effect-tail-whip":{"duty":0.5,"notes":[[0,4,88,9],[4,3,78,9],[7,3,88,7],[10,3,78,7],[13,4,88,2],[17,3,78,2]]},"effect-defense-down":{"duty":0.25,"notes":[[2,1,74,7],[3,1,88,7],[4,1,106,7],[5,1,126,7],[6,1,148,7],[7,1,178,7],[8,1,210,7],[9,1,250,7],[10,1,298,7],[11,1,354,7],[12,1,422,7],[13,1,500,7],[14,1,354,3],[15,2,422,2],[17,1,500,2]]}};

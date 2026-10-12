@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "attemptedAt": "2026-10-10T23:38:00Z",
+  "url": "https://www.youtube.com/watch?v=4iTyZkVX9DI",
+  "tool": "yt-dlp through the standard uvx registry environment",
+  "scope": "One public video-only-preferred download for frame timing, under task .work.",
+  "result": "YouTube rejected the unauthenticated request with a sign-in/bot challenge. No reference video was downloaded.",
+  "retries": 0,
+  "browserCookiesUsed": false,
+  "authenticationExported": false,
+  "tlsWeakened": false,
+  "accessControlBypassed": false,
+  "timingConclusion": "No frame-based timing adjustment can be derived from this attempt; retain the explicit source/driver and initial capture-offset qualifications."
+}
