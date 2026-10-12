@@ -14,7 +14,7 @@ cartridge parity and the current local changes' full release checks are not
 complete. Background music is intentionally absent at Justin's request;
 gameplay and UI effects remain. No production deployment is claimed.
 
-## Current local candidate 39
+## Current checkpoint 39
 
 The distribution contains **151 local files / 2,997,009 bytes**, below the
 unchanged 3 MiB cap. Its **66 battle effects in three banks** occupy 2,553,856
@@ -23,7 +23,7 @@ is **2,607,104 bytes**, below 4 MiB. The PCM catalog contains **28 cues, 20
 buffers, 494,812 decoded bytes, 124 notes and 80 pinned source records**. Audio
 groups 5 and 6 retain limits of 15 and 5 sources, with a shared ceiling of 32.
 
-Changes held locally after published `6dc8466262bd475c865c441478364934ca7edd16`:
+Changes since `6dc8466262bd475c865c441478364934ca7edd16`:
 
 - [Safeguard](../../../tools/pokemon-dungeon/reference/blue-safeguard.md) adds
   Chikorita's level-43 room protection, shared-class duration and per-status
@@ -53,7 +53,8 @@ Changes held locally after published `6dc8466262bd475c865c441478364934ca7edd16`:
 - A successful verified save deletion clears its stale warning. Failure and
   stale-write safeguards are unchanged; testing has not deleted a browser save.
 - The website's Mobile Safari animation test scrolls the stable card ancestor
-  instead of its moving SVG body. Both animation assertions remain intact.
+  instead of its moving SVG body. Both animation assertions remain intact;
+  the complete local five-browser suite now passes this test.
 - Treecko's level-16 [Pursuit](../../../tools/pokemon-dungeon/reference/blue-counter.md)
   implements the Counter stance and physical rebound. EXP from an acting wild
   fainting to Counter waits until the next eligible actor's beginning upkeep
@@ -87,20 +88,23 @@ those choices remain visibly unavailable without consuming a turn or PP.
 | Requested Codex review of `6dc8466` | Exact-head response reported no new findings. Four older unresolved threads remain: audio focus, music documentation, inclusive AI weighting and Quicksave. Source review supports the inclusive weighting; the other three have published fixes. Thread resolution is pending authorization. |
 | Retained Pages artifact at `58929350e955171a10fe1f6bb6337bcb94b329cf` | All 151 declared runtime files, project-site base paths and iframe integration were verified. It predates the current local candidate; no `6dc8466` Pages artifact is available. |
 
-The full local website flight check and publication are blocked. The required
-pre-push app ESLint check could not run because root dependencies are absent;
-the normal pinned installation returned Socket Security Policy E403 for recently
-published packages. An approved dependency installation or policy exception is
-pending. No dependency versions, security policy, hooks or checks were weakened.
-The website repair has syntax-only local validation until those dependencies
-are available.
+The dependency installation blocker was resolved through Justin's authorized
+[stable-version adjustment](../../../docs/dependency-upgrades/2026-10-12-pokemon-checkpoint.md).
+Normal installation, website lint, static export and all pre-push checks passed.
+The first flight check's browser stage hit a macOS sandbox launch restriction;
+the complete suite then passed with host permission: **439 passed, 21 skipped**.
+No registry policy, hook or test was disabled. Hosted CI and Codex review for
+the new publication remain separate gates.
 
 No game or native module was executed by automated checks, and no automated
 playthrough was added. Manual browser observations and static source evidence
 are separate. The latest Counter, Light Screen, Protect, Safeguard and timer-order changes have not
 been manually exercised. Candidate 37 also reached its normal Start game screen in a separate loader
 smoke check with no browser warnings/errors. No adventure was created in that
-check, and its tab/server were closed. The new move-learning continuation has
+check, and its tab/server were closed. Checkpoint 39 also passed a manual
+inspection of the actual website export through title/menu and return-to-Play
+focus, with empty warning/error logs; no adventure or save was created.
+The new move-learning continuation has
 independent static review; its
 replacement-menu and resumed-turn behavior still need manual verification.
 
