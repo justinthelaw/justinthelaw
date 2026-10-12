@@ -1,7 +1,7 @@
 # Opening battle visuals
 
-The selected browser renderer uses native actor motions and two closed banks of
-27 sprite effects and the Hypnosis background from the pinned comparative Red
+The selected browser renderer uses native actor motions and three closed banks of
+56 sprite effects and the Hypnosis background from the pinned comparative Red
 tables. A separate timeline
 plays already committed presentation evidence; it never repeats gameplay,
 draws randomness, or writes visual state into saves. This is source-derived

@@ -61,6 +61,13 @@ function defeated(state) { return state.status==='defeated'; }
  * and the level-one Tiny Woods encounters have complete admitted handlers.
  * @param {MoveData} move */
 export function supportsMove(move) {
+  if(move.id==='move-thrash'){
+    const [facing,damage]=move.effects;
+    return move.type==='normal'&&move.power===18&&move.pp===12&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===78&&
+      move.criticalPercent===12&&move.aiWeight===15&&move.chainedHitsRaw===3&&move.range===0&&move.target===2&&move.cutsCorners===false&&
+      move.effects.length===2&&facing?.op==='choose-random-facing'&&Object.keys(facing).length===2&&facing.phase==='before-each-hit'&&
+      damage?.op==='normal-damage'&&Object.keys(damage).length===1;
+  }
   if(move.id==='move-skull-bash'){
     const [charge,defense,damage]=move.effects;
     return move.type==='normal'&&move.power===10&&move.pp===15&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===100&&
@@ -561,12 +568,15 @@ export function attack(state,actor,slot,data,events) {
     // CannotAttack runs per pass, not between members of one area target list.
     // The opening excludes frozen/wrapped/paused/runaway status classes.
     if(!moveEntityValid(actor)||moveFloorOver(state,execution)||actor.status.sleep||actor.status.paralysis||actor.status.cringe||actor.status.infatuated)break;
+    // Thrash rerolls native facing after each pass's blocker check, even when
+    // the new front tile is empty. The action-level confusion draw is separate.
+    if(move.id==='move-thrash')actor.direction=DIRECTIONS[(8-draw(state,8))&7]??'s';
     /** @type {import('./mechanics-targets.js').MoveTrace} */
     const trace={};
     const targets=moveTargets(state,actor,activeMove,trace);
     // Native direct/front scans stop before a later empty cast. Line projectiles
     // trace after casting and can still execute their later empty pass.
-    if(pass>0&&!targets.length&&activeMove.range!==5)break;
+    if(pass>0&&!targets.length&&activeMove.range!==5&&move.id!=='move-thrash')break;
     events.push({type:'attack',actorId:actor.id,targetId:targets[0]?.id,moveId:move.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:move.id,first:pass===0,...(skullRelease?{phase:'release'}:{})}});
     if(pass===0)message(state,events,move.id!=='regular-attack'?`${actor.name} used ${move.name}!`:`${actor.name} attacked!`);
     // The native first-team request follows cast handling, before travel.
@@ -714,7 +724,6 @@ export function finishTurn(state,actor,data,events) {
     const release=data.moves['bide-release'];if(!release)return;
     recordAction(events,actor.id,'other');
     flushQueuedMovement(state,events);
-    if(actor.status.confusion)actor.direction=DIRECTIONS[draw(state,8)]??'s';
     /** @type {import('./mechanics-targets.js').MoveTrace} */const trace={};
     const target=moveTargets(state,actor,release,trace)[0];
     events.push({type:'attack',actorId:actor.id,targetId:target?.id,moveId:release.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:release.id,first:true}});

@@ -23,15 +23,15 @@ the separate stop-on-miss flag belongs to rejected Rollout behavior.
 | Doubleslap | 0 | 2–5 once | Skitty level 15 |
 | Fury Swipes | 0 | 2–5 once | Meowth level 36; Psyduck level 40 |
 | Bonemerang | 2 | None | Cubone level 25 |
-| Thrash | 3 | None | Still rejected; random-facing effect is not activated |
+| Thrash | 3 | None | Cubone level37; fresh native-order facing before every pass, including empty scans |
 
 The shared pass owner replaces the former nested ordinary-hit loop and the
 separate Bonemerang loop. A pass's status blocker is not repeated between
 members of one area target list: contact paralysis can stop the next pass,
 while later targets in the current pass still resolve. An empty initial scan
 still follows the variable count draw and produces the first cast. Later empty
-front/corner-cut passes stop before casting. Line projectiles can still cast
-their later empty pass. PP is spent once and the use message appears once.
+front/corner-cut passes stop before casting. Line projectiles and the separately
+admitted [Thrash owner](blue-thrash.md) can still cast their later empty pass. PP is spent once and the use message appears once.
 
 The four variable IDs receive an explicit raw-zero admission check; their
 unchanged factual records already satisfy it. All other admission logic is
@@ -236,3 +236,20 @@ unavailable move IDs across 31 species/level entries. Its target artwork and
 terminator hold and sound 678 are separately reviewed. Native message visibility,
 original Blue audio identity and complete Blue handler/clock parity remain
 qualified. Higher-level casting has not been established by manual play.
+
+## Bide end-turn direction ownership
+
+The native end-turn owner expires Bide and calls `TryUseChosenMove` with
+`MOVE_BIDE_2` directly. It bypasses the action executor's confusion-direction
+hook; the chosen-move loop only adds a direction draw for Thrash. The browser
+therefore retains the Bide user's existing facing at release. Removing its
+extra confusion draw also removes that unsupported RNG advance. Targeting,
+accuracy, damage, contact, queued EXP and presentation keep their existing
+owners.
+
+This is a correction for an admitted saved-status combination and future move
+owners. Current ordinary Tiny Woods producers cannot confuse the hero or
+partner who knows Bide, so no normal-play demonstration is claimed. Source
+evidence is comparative Red at `013475aa04f5be3191e5527c186d9bfceae7cae0`:
+`dungeon_turn_effects.c:361–371`, `dungeon_action_execution.c:71–77` and
+`dungeon_move_util.c:392–426`. No save field or producer is added.

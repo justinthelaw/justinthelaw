@@ -459,7 +459,10 @@ export class BattlePresentation {
         patchActors([record.actor],cursor);pokePoses=[];pokeActorId=null;messageAt=cursor;continue;
       }
       if(record?.kind==='cast'){
-        flushWalk();finishAttackTails();drainEffects();patchActors([record.actor],cursor);
+        flushWalk();finishAttackTails();
+        // Later Thrash passes retain the first preparation's overlapping tail.
+        if(record.moveId!=='move-thrash'||record.first)drainEffects();
+        patchActors([record.actor],cursor);
         const selectedRoute=assets.moveEffects(record.moveId,record.actor.speciesId);
         const route=record.moveId==='move-skull-bash'&&record.phase==='release'&&selectedRoute?{...selectedRoute,animation:1,cast:0,target:0,travel:0}:selectedRoute;
         if(route)moves.set(record.actor.id,route);
