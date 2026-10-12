@@ -7,8 +7,8 @@ const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
 const SHAPES=[[[8,8],[16,16],[32,32],[64,64]],[[16,8],[32,8],[32,16],[64,32]],[[8,16],[8,32],[16,32],[32,64]]];
 export const BATTLE_BANKS=Object.freeze({
   basic:{path:'battle-effects',files:[23,51,54,56,59,81,102,114,125,131],effects:[15,28,29,52,65,128,138,194,215,225,271,299,323]},
-  initial:{path:'battle-effects-initial',files:[0,8,20,22,58,73,113,119],effects:[6,7,8,9,10,11,14,21,22,37,85,130,144,150,180,181,182,205,236,287,312,334,394,397,398,399,402,404,423,425,434]},
-  extra:{path:'battle-effects-extra',files:[7,13,29,53,108,121,122,135,137],effects:[50,76,83,96,137,269,270,274,288,296,317,333]},
+  initial:{path:'battle-effects-initial',files:[0,8,20,22,58,73,113,119],effects:[6,7,8,9,10,11,14,21,22,37,59,85,130,144,150,180,181,182,205,236,287,312,334,394,397,398,399,402,404,423,425,434]},
+  extra:{path:'battle-effects-extra',files:[7,13,29,53,108,121,122,135,137],effects:[50,76,83,96,137,269,270,274,288,296,316,317,333]},
 });
 const arrays=(source,kind)=>new Map([...source.matchAll(new RegExp(`(?:static )?const ${kind} (\\w+)\\[\\] = \\{([\\s\\S]*?)\\n\\};`,'g'))].map(match=>[match[1],match[2]]));
 const names=body=>body.match(/\bgUnknown_[A-Za-z0-9_]+\b/g)??[];
@@ -118,8 +118,26 @@ export function composeBattleEffects(inputs,bank='basic'){
     });
     return{id,name,file:file.name,sourceAnimation:fact.animId,directional,palette:fact.unk8,attachmentSet:fact.unk1c,loop:Boolean(fact.loop),sourceWaitFlag:fact.unk20,blocksWait:fact.unk20===0,sequences};
   });
+  function cropPiece(piece,x,y,width,height){
+    let left=width,top=height,right=-1,bottom=-1;
+    for(let row=0;row<height;row++)for(let column=0;column<width;column++)if(piece.art.data[((y+row)*piece.art.width+x+column)*4+3]){left=Math.min(left,column);top=Math.min(top,row);right=Math.max(right,column);bottom=Math.max(bottom,row);}
+    if(right<0)return null;const art=new Raster(right-left+1,bottom-top+1);
+    for(let row=0;row<art.height;row++)piece.art.data.copy(art.data,row*art.width*4,((y+top+row)*piece.art.width+x+left)*4,((y+top+row)*piece.art.width+x+right+1)*4);
+    return{art,dx:piece.dx+x+left,dy:piece.dy+y+top,depthOffset:piece.depthOffset};
+  }
+  function bestSplit(piece){
+    const original=piece.art.width*piece.art.height;let best=null;
+    for(let x=1;x<piece.art.width;x++){const parts=[cropPiece(piece,0,0,x,piece.art.height),cropPiece(piece,x,0,piece.art.width-x,piece.art.height)].filter(Boolean);if(parts.length!==2)continue;const area=parts.reduce((sum,part)=>sum+part.art.width*part.art.height,0);if(!best||area<best.area)best={area,parts};}
+    for(let y=1;y<piece.art.height;y++){const parts=[cropPiece(piece,0,0,piece.art.width,y),cropPiece(piece,0,y,piece.art.width,piece.art.height-y)].filter(Boolean);if(parts.length!==2)continue;const area=parts.reduce((sum,part)=>sum+part.art.width*part.art.height,0);if(!best||area<best.area)best={area,parts};}
+    return best&&best.area<original?{...best,saved:original-best.area}:null;
+  }
+  const renderLayers=variants.map(pose=>{
+    const pieces=pose.layers.map(layer=>({art:layer.art,dx:layer.dx,dy:layer.dy,depthOffset:layer.depthOffset}));
+    while(pieces.length<4){let chosen=null;for(let index=0;index<pieces.length;index++){const split=bestSplit(pieces[index]);if(split&&(!chosen||split.saved>chosen.split.saved))chosen={index,split};}if(!chosen)break;pieces.splice(chosen.index,1,...chosen.split.parts);}
+    return pieces.sort((a,b)=>a.depthOffset-b.depthOffset);
+  });
   const unique=new Map();
-  const poseLayers=variants.map(pose=>pose.layers.map(layer=>{
+  const poseLayers=renderLayers.map(layers=>layers.map(layer=>{
     const key=`${layer.art.width}:${layer.art.height}:${battleDigest(layer.art.data)}`;let rectangle=unique.get(key);
     if(!rectangle){rectangle={x:0,y:0,art:layer.art,key};unique.set(key,rectangle);}
     return{layer,rectangle};
@@ -132,6 +150,6 @@ export function composeBattleEffects(inputs,bank='basic'){
   const atlas=new Raster(512,shelves.reduce((sum,row)=>sum+row.height,0));if(atlas.height>1024)throw Error('Native battle atlas exceeds its decoded-image budget.');
   for(const record of unique.values())blit(atlas,record.art,record.x,record.y);
   const metadata={schemaVersion:2,width:atlas.width,height:atlas.height,sourceEdition:'Red Rescue Team comparative',qualification:'Selected opening-move native artwork. Blue effect pixels and complete driver timing remain unverified; the Hypnosis background plane is not included.',directions:DIRECTIONS,poses,effects};
-  const evidence={schemaVersion:1,sourceEdition:metadata.sourceEdition,uniqueImages:unique.size,paletteRule:'Brightness31 before Blue channel expansion; encoded OAM palette when flags2 bit0x400 is set, otherwise the selected effect palette. Bank14 is effect-owned, banks0–13 use native AX palettes.',layerRule:'Separate source depth offsets, with first source piece foremost within equal depth. The battle renderer interleaves each layer with actor depth.',waitFlags:effects.map(({id,sourceWaitFlag,blocksWait})=>({id,sourceWaitFlag,blocksWait})),waitRule:'Literal effect_data.unk20 becomes effect_main.unk54. A nonzero flag makes sub_800E9A8 return false immediately; TRUE global drains still include the artwork tail.',poses:variants.map(({art,layers,...rest})=>({...rest,width:art.width,height:art.height,rgbaSha256:battleDigest(art.data),layers:layers.map(({art,...layer})=>({...layer,width:art.width,height:art.height,rgbaSha256:battleDigest(art.data)}))}))};
+  const evidence={schemaVersion:1,sourceEdition:metadata.sourceEdition,uniqueImages:unique.size,paletteRule:'Brightness31 before Blue channel expansion; encoded OAM palette when flags2 bit0x400 is set, otherwise the selected effect palette. Bank14 is effect-owned, banks0–13 use native AX palettes.',layerRule:'Separate source depth offsets; equal-depth pieces are stable source-order partitions of one original layer. The battle renderer interleaves each layer with actor depth.',waitFlags:effects.map(({id,sourceWaitFlag,blocksWait})=>({id,sourceWaitFlag,blocksWait})),waitRule:'Literal effect_data.unk20 becomes effect_main.unk54. A nonzero flag makes sub_800E9A8 return false immediately; TRUE global drains still include the artwork tail.',poses:variants.map(({art,layers:_layers,...rest},index)=>({...rest,width:art.width,height:art.height,rgbaSha256:battleDigest(art.data),layers:renderLayers[index].map(({art,...layer})=>({...layer,width:art.width,height:art.height,rgbaSha256:battleDigest(art.data)}))}))};
   return{atlas,metadata,evidence};
 }

@@ -13,9 +13,9 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 27
+## Current candidate 28
 
-Candidate 27 contains **151 files totaling 2,811,766 bytes**, below the
+Candidate 28 contains **151 files totaling 2,946,992 bytes**, below the
 unchanged 3 MiB distribution cap. All resources remain local. It retains the
 reviewed Continue progress card, shared dungeon-menu clock, level-37 Cubone
 Thrash and the source-matching Bide release direction.
@@ -29,12 +29,13 @@ cinematic duration export and obsolete boot-music instructions are removed.
 The full pinned Node 24.21.0 static suite and both source-backed audio exporters
 passed; ordinary browser continuation is tracked below.
 
-The native battle presentation contains **56 distinct indexed effects in three
-banks**. Their decoded atlases use 3,948,544 bytes. Including the separately
-owned 53,248-byte Hypnosis background, aggregate decoded effect memory is
-**4,001,792 bytes**, leaving 192,512 bytes below the 4 MiB limit. Every one of
-the 33 previously shipped effects retains exact timing, geometry, depth and
-layer RGBA after repacking.
+The native battle presentation contains **58 distinct indexed effects in three
+banks**. Lossless sparse layer partitioning reduces their decoded atlases to
+1,974,272 bytes. Including the separately owned 53,248-byte Hypnosis background,
+aggregate decoded effect memory is **2,027,520 bytes**, leaving 2,166,784 bytes
+below the unchanged 4 MiB limit. All 56 prior effects retain exact reconstructed
+pixels, timing, geometry, depth and attachment routes; effects 59 and 316 add
+Whirlpool and Fire Spin.
 
 A conservative first-attempt bound allows at most 2,310 additional EXP and
 covers 30 distinct starting, wild and level 6–12 moves. Every nonzero native
@@ -86,8 +87,16 @@ zero adjacent scan and fallback. This removes one factual late move from the
 unsupported inventory. Candidate 26 additionally admits Cubone's exact
 level-37 Thrash row: three fixed passes each perform the blocker check, draw a
 new native-order facing and scan a fresh target, including an empty later pass;
-Thrash does not add Outrage's post-move confusion. **14 move IDs across 19
+Thrash does not add Outrage's post-move confusion. **12 move IDs across 16
 learnset rows remain unsupported.**
+
+Candidate 28 additionally admits the retained Fire Spin and Whirlpool rows as one
+constriction class. Fresh application replaces represented Freeze, stores the
+move-specific effect identity and a source-qualified timer, while duplicate
+application does not refresh it. The actor cannot walk or swap; residual effect
+59/316 replays with fixed five-point damage every second opportunity. Heal Bell,
+Rapid Spin, floor creation, fainting and timer expiry own atomic cleanup. This is
+static source-backed coverage; no new browser route was manually exercised.
 
 For autonomous actors, paralysis or cringe now rejects attack selection before
 weights or RNG and falls through to the existing movement owner. The bounded
@@ -146,8 +155,8 @@ Original Blue seed history, the complete RNG call schedule and cartridge replay 
 
 ## Static and hosted evidence
 
-Candidate 27's full pinned Node 24.21.0 static suite passed at 151 files and
-2,811,766 bytes. It covers syntax, lint, strict types, factual inputs, provenance,
+Candidate 28's full pinned Node 24.21.0 static suite passed at 151 files and
+2,946,992 bytes. It covers syntax, lint, strict types, factual inputs, provenance,
 asset geometry and export closure without importing or executing game source.
 The PCM and SE2 exporters also passed against the pinned native source checkout.
 Earlier checkpoint counts and detailed logs remain in Git and the local evidence
@@ -224,6 +233,10 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 25, fresh metadata | Fresh website iframe: Hardy-boy Charmander Cinder/Treecko Fern completed quiz, naming, awakening and Butterfree request through B1F. Reopen during departure showed Before Tiny Woods, `0:02:05`, Adventures 0; No/root/Continue preserved both. First-entry Quicksave showed `0:05:00`, count 1. Give Up/Yes, Try again and Quicksave showed `0:05:52`, count 2; both remained level 5 at 30 HP, Help/Sound and B1F zero-turn Adventure Log worked | PASS for fresh timing persistence, entry/retry increments, zero-turn independence, confirmation/reopen and controls; warning/error log empty. No full rescue, floor-transition count, precise Help-clock exclusion or physical-device claim |
 | Candidate 25, completed legacy save | Restored the preserved Mimi/Shell completed 91-turn save. The card showed `Tiny Woods cleared`, not the retained B3F dungeon location, with Unknown legacy history. Yes resumed the completed Caterpie state; Adventure Log retained all three berries and 91 turns. Return to top menu and Continue retained the cleared location; Help/Sound remained available | PASS for completed-location precedence, completed resume and repeated top-menu Continue; warning/error log empty. This reused an earlier completed save and does not establish a candidate-25 full rescue or fresh completed metadata |
 | Candidate 26 | Restored Cinder/Fern at B1F with Adventures 2. The dungeon menu visibly and accessibly reported Play time from `0:05:54`; one step, Quicksave and Continue retained B1F at one turn, `0:06:51` and count 2. A separate continuation retained those values, showed `0:07:08`, used Help download/Return, descended to B2F without incrementing Adventures, took 9 damage from Pidgey Tackle, then Scratch dealt 17 damage/KO, consumed PP 22→21 and awarded 12 EXP each. Quicksave showed B2F, `0:10:01`, count 2 and a five-turn Adventure Log | PASS for the shared in-dungeon clock presentation, accessibility value, persistence, floor-transition count, bounded combat and controls; warning/error logs empty. Thrash, confused Bide, a full rescue and physical audio were not exercised |
+
+| Candidate 27, fresh creation | Exact pruned build in the website iframe: boot/title/menu, eight-question Docile-boy Bulbasaur outcome, Totodile partner, Sprout/Finn naming and awakening. Help/download/Return worked. Reopening showed Before Tiny Woods, play time `0:13:03`, Adventures 0; No returned to the menu | PASS for fresh creation, naming, checkpoint persistence and controls; warning/error logs empty. No full rescue or precise cinematic timing claim |
+| Candidate 27, downstream continuation | A smaller-model tester continued Cinder/Fern from B2F into B3F, then verified Quicksave and Continue at `0:29:19`, Adventures 2, both level 5 at 30 HP | PASS for bounded traversal and persistence on the frozen pre-prune audio build; rescue was not reached and console logs were not inspected. Its resumed checkpoint subsequently reached `0:29:50` |
+| Candidate 28, rescue continuation | The optimized 58-effect build restored Cinder/Fern B3F at `0:29:50`, Adventures 2 and 30 HP each. Visible corridor movement reached B3F stairs, the separate Caterpie clearing, reunion and all three berry rewards. Adventure Log showed 95 dungeon turns. Completed Continue showed Tiny Woods cleared, `0:42:03`, Adventures 2, and Yes resumed the finished rescue | PASS for the new asset-loader build, B3F-to-rescue continuation, rewards, genuine numeric completed-save metadata, Help/download/Return and controls; warning/error logs empty. No fresh full run, Fire Spin/Whirlpool cast, combat-effect or physical-audio claim |
 
 The separate candidate-12 fresh trial is retired as invalid acceptance evidence
 because it used hidden reads. Its preserved partial evidence does not extend the

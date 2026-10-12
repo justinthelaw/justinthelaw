@@ -8,8 +8,8 @@ const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
  * @type {readonly BankSpec[]} */
 const BANKS=Object.freeze([
   {id:'basic',path:'battle-effects',ids:[15,28,29,52,65,128,138,194,215,225,271,299,323]},
-  {id:'initial',path:'battle-effects-initial',ids:[6,7,8,9,10,11,14,21,22,37,85,130,144,150,180,181,182,205,236,287,312,334,394,397,398,399,402,404,423,425,434]},
-  {id:'extra',path:'battle-effects-extra',ids:[50,76,83,96,137,269,270,274,288,296,317,333]},
+  {id:'initial',path:'battle-effects-initial',ids:[6,7,8,9,10,11,14,21,22,37,59,85,130,144,150,180,181,182,205,236,287,312,334,394,397,398,399,402,404,423,425,434]},
+  {id:'extra',path:'battle-effects-extra',ids:[50,76,83,96,137,269,270,274,288,296,316,317,333]},
 ]);
 const JSON_LIMIT=128*1024,PNG_LIMIT=256*1024,MAX_BANKS=3,MAX_DECODED_BYTES=4*1024*1024;
 
@@ -32,10 +32,14 @@ function metadata(value,bank){
   for(const pose of data.poses){
     if(!pose||!Array.isArray(pose.layers)||!integer(pose.layers.length,1,4))throw Error('Native effect pose geometry is invalid.');
     let previous=-129,left=Infinity,top=Infinity,right=-Infinity,bottom=-Infinity;
+    /** @type {[number,number,number,number,number,number][]} */
+    let sameDepth=[];
     for(const layer of pose.layers){
       const rect=layer?.rect;
-      if(!layer||!integer(layer.depthOffset,-128,127)||layer.depthOffset<=previous||!Array.isArray(rect)||rect.length!==6||!rect.every(Number.isInteger)||rect[0]<0||rect[1]<0||!integer(rect[2],1,256)||!integer(rect[3],1,256)||rect[0]+rect[2]>data.width||rect[1]+rect[3]>data.height||!rect.slice(4).every(value=>integer(value,-256,256)))throw Error('Native effect layer exceeds its atlas.');
-      previous=layer.depthOffset;
+      if(!layer||!integer(layer.depthOffset,-128,127)||layer.depthOffset<previous||!Array.isArray(rect)||rect.length!==6||!rect.every(Number.isInteger)||rect[0]<0||rect[1]<0||!integer(rect[2],1,256)||!integer(rect[3],1,256)||rect[0]+rect[2]>data.width||rect[1]+rect[3]>data.height||!rect.slice(4).every(value=>integer(value,-256,256)))throw Error('Native effect layer exceeds its atlas.');
+      if(layer.depthOffset!==previous)sameDepth=[];
+      else if(sameDepth.some(other=>rect[4]<other[4]+other[2]&&other[4]<rect[4]+rect[2]&&rect[5]<other[5]+other[3]&&other[5]<rect[5]+rect[3]))throw Error('Equal-depth native effect pieces overlap.');
+      sameDepth.push(/** @type {[number,number,number,number,number,number]} */(rect));previous=layer.depthOffset;
       left=Math.min(left,rect[4]);top=Math.min(top,rect[5]);
       right=Math.max(right,rect[4]+rect[2]);bottom=Math.max(bottom,rect[5]+rect[3]);
     }

@@ -41,17 +41,17 @@ contains 113 exact source files for 27 EFO groups, including their literal table
 palettes, and the native sine lookup owners. No ROM, game import, battle simulation
 or scripted playback is used.
 
-The deterministic exporter assigns all 56 effect records to three banks. `basic`
-is 512×275 (28,773 PNG bytes, 33,647 metadata bytes), `initial` is 512×1017
-(48,559 PNG bytes, 32,657 metadata bytes), and `extra` is 512×636 (55,654 PNG
-bytes, 23,111 metadata bytes). Height, width, and an ASCII SHA key give the stable
-packing order; images are neither rotated nor resampled. Static validation checks
-the complete source inventory, source hashes, palette domains, source OAM bounds,
-layer rectangles, attachment-set IDs, frame references, duration sums, and unique
-bank ownership. The three atlases use 3,948,544 decoded bytes. Including the
-separately owned 53,248-byte Hypnosis background, the aggregate is 4,001,792 bytes,
-192,512 bytes below the unchanged 4 MiB effect limit. Per-bank and distribution
-limits are unchanged.
+The deterministic exporter assigns all 58 effect records to three banks. `basic`
+is 512×200, `initial` is 512×409, and `extra` is 512×355. Lossless sparse layer
+partitioning retains at most four stable, nonoverlapping pieces per pose; pieces
+keep their original depth and cropped anchor offsets. Images are neither rotated
+nor resampled. Static validation checks the complete source inventory, source
+hashes, palette domains, source OAM bounds, layer rectangles, equal-depth
+disjointness, attachment-set IDs, frame references, duration sums and unique bank
+ownership. The three atlases use 1,974,272 decoded bytes. Including the separately
+owned 53,248-byte Hypnosis background, the aggregate is 2,027,520 bytes, leaving
+2,166,784 bytes below the unchanged 4 MiB effect limit. All 56 previous effects
+reconstruct byte-identical RGBA layers; 59 and 316 are the only additions.
 
 The admitted records include the opening and conservative first-attempt move
 routes, stat receipts, burn and cringe entry helpers, Heal Bell, Mud Sport,
@@ -240,7 +240,7 @@ separate from its existing travel sprite 225. The offline exporter retains 54
 pinned source files in a 148,746-byte authoring archive. Every source plane is
 exactly periodic: 22 two-tick phases reduce to 13 opaque 32x32 patterns in a
 2,963-byte 416x32 PNG. The background adds 53,248 decoded bytes; all selected
-effect atlases now total 4,001,792 bytes under the unchanged 4MiB aggregate bound.
+effect atlases now total 2,027,520 bytes under the unchanged 4MiB aggregate bound.
 Confusion and Psybeam share this source preparation ID but remain outside this
 background admission pending their separate timing review.
 

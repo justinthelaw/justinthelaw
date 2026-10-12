@@ -662,3 +662,19 @@ interruption cancels it without replay. This adds no native wait or save field.
 The shared global blink phase, physical display timing and exact Blue parity
 remain qualified. The projection and clock contract is described in
 [battle visual evidence](blue-battle-visuals.md#final-faint-publication).
+
+## Fire Spin and Whirlpool constriction
+
+Candidate 28 admits the exact retained Fire Spin and Whirlpool rows through their
+shared native frozen-class owner. Successful nonzero damage reaches the common
+10% secondary gate. Fresh application silently replaces represented Freeze,
+stores `4 + draw(3)` opportunities, countdown zero and effect 316 or 59; a
+duplicate preserves all three fields without another duration draw. Residual
+processing replays the stored effect and deals five damage immediately at the
+constrained actor's next completed action, then every second opportunity, before
+the class duration decrement. Walking and swapping are blocked, while attacks,
+items and waiting remain legal. Heal Bell, successful Rapid Spin, floor creation,
+fainting and expiry clear the optional all-or-none save fields. Old saves without
+them remain valid; partial or simultaneous represented Freeze records reject.
+The rules are comparative to pinned Red commit
+`013475aa04f5be3191e5527c186d9bfceae7cae0`; exact Blue timing is unclaimed.

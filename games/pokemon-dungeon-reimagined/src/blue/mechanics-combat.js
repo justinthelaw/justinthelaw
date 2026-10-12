@@ -17,7 +17,7 @@ export { moveTargets } from './mechanics-targets.js';
 /** @typedef {import('../domain/rules/type-context.js').ElementType} ElementType */
 /** One synchronous chosen move owns its awards and terminal evidence; no save fields.
  * @typedef {{awards:Map<string,number>,partnerFainted:boolean,leaderFainted:boolean,rapidSpinSucceeded?:boolean}} MoveExecution */
-/** @typedef {{giveExp?:boolean,falseSwipe?:boolean,execution?:MoveExecution,cause?:'move'|'residual'|'recoil'|'hunger'|'item',effectiveness?:0|1|2|3}} DamageOptions */
+/** @typedef {{giveExp?:boolean,falseSwipe?:boolean,execution?:MoveExecution,cause?:'move'|'residual'|'recoil'|'hunger'|'item'|'constriction',effectiveness?:0|1|2|3}} DamageOptions */
 const ACCURACY = [84,89,94,102,110,115,140,153,179,204,256,320,384,409,422,435,448,460,473,486,512];
 const EVASION = [512,486,473,460,448,435,422,409,384,345,256,204,179,153,128,102,89,76,64,51,38];
 /** Authored application messages; internal status keys are not prose.
@@ -120,6 +120,15 @@ export function supportsMove(move) {
       normal?.op==='normal-damage'&&Object.keys(normal).length===1&&cleanup?.op==='post-hit-rapid-spin'&&Object.keys(cleanup).length===5&&
       cleanup.phase==='after-chosen-move'&&cleanup.requires==='successful-nonzero-damage'&&cleanup.gate==='RollSecondaryEffect(user,0)'&&
       cleanup.cureStatusClasses?.length===2&&cleanup.cureStatusClasses[0]==='frozen'&&cleanup.cureStatusClasses[1]==='leech-seed';
+  }
+  if(move.id==='move-fire-spin'||move.id==='move-whirlpool'){
+    const [normal,secondary]=move.effects,fire=move.id==='move-fire-spin';
+    return move.type===(fire?'fire':'water')&&move.power===(fire?4:2)&&move.pp===(fire?19:17)&&move.accuracyBeforeEffect===125&&
+      move.accuracyAfterDamage===(fire?73:78)&&move.criticalPercent===12&&move.aiWeight===(fire?15:30)&&move.chainedHitsRaw===1&&
+      move.range===0&&move.target===0&&move.cutsCorners===false&&move.effects.length===2&&normal?.op==='normal-damage'&&
+      Object.keys(normal).length===(fire?1:2)&&(!fire&&normal.multiplierByTargetStatus?.diving===2&&normal.multiplierByTargetStatus?.otherwise===1||fire)&&
+      secondary?.op==='secondary'&&Object.keys(secondary).length===5&&secondary.chancePercent===10&&secondary.requires==='successful-nonzero-damage'&&secondary.gate==='secondary-effect-common'&&
+      secondary.effect?.op==='apply-status'&&Object.keys(secondary.effect).length===3&&secondary.effect.status==='constriction'&&secondary.effect.recipient==='target';
   }
   if(move.id==='move-synthesis'){
     const effect=move.effects[0];
@@ -263,7 +272,7 @@ export function damage(state,target,amount,data,events,source=null,options={}) {
   if(target.status.bide)target.bideDamage=Math.min(999,target.bideDamage+amount);
   if(source&&target.hp>0&&target.status.enraged){const previous=captureActor(target);target.stages.attack=clamp((target.stages.attack??10)+1,0,20);recordEffect(events,previous,target,425);}
   if(target.hp>0)return;
-  delete target.skullBashSlot;events.push({type:'defeat',actorId:target.id,presentation:{kind:'faint',actor:captureActor(target)}});message(state,events,options.cause==='recoil'?`${target.name} fainted from recoil!`:`${target.name} fainted!`);
+  delete target.skullBashSlot;clearConstriction(target);events.push({type:'defeat',actorId:target.id,presentation:{kind:'faint',actor:captureActor(target)}});message(state,events,options.cause==='recoil'?`${target.name} fainted from recoil!`:options.cause==='constriction'?`${target.name} fainted from constriction!`:`${target.name} fainted!`);
   // The native drop precedes HandleFaint, including the original partner.
   // Only the leader retains its held slot for the dungeon-exit owner.
   if(target.id!=='hero'&&target.heldItem){dropItem(state,target.heldItem,target,events);target.heldItem=null;recordSync(state,events,[target],true);}
@@ -363,18 +372,31 @@ const STAT_EFFECTS={attack:[404,425],specialAttack:[403,402],defense:[399,398],a
 function recordEffect(events,before,actor,effectId) {
   events.push({type:'presentation',presentation:{kind:'effect',before,after:captureActor(actor),...(effectId===undefined?{}:{effectId})}});
 }
+/** @param {Actor} actor */
+function clearConstriction(actor){delete actor.constrictionTurns;delete actor.constrictionCountdown;delete actor.constrictionEffectId;}
+/** @param {Actor} actor */
+function hasConstriction(actor){return actor.constrictionTurns!==undefined;}
+/** Apply the frozen-class constriction status after its common secondary gate.
+ * Duplicate application does not refresh the timer or consume its duration draw.
+ * @param {DungeonState} state @param {Actor} target @param {59|316} effectId @param {GameEvent[]} events */
+function inflictConstriction(state,target,effectId,events){
+  if(hasConstriction(target)){message(state,events,`${target.name} is already being squeezed!`);return;}
+  delete target.status.freeze;target.constrictionTurns=4+draw(state,3);target.constrictionCountdown=0;target.constrictionEffectId=effectId;
+  message(state,events,`${target.name} was squeezed!`);recordSync(state,events,[target]);events.push({type:'status',actorId:target.id,text:'constriction'});
+}
 /** Heal Bell's native status owner clears admitted negative classes first,
  * then the independent negative-speed counters. Sealed moves and unrepresented
  * status classes remain outside this opening state rather than being invented.
  * @param {DungeonState} state @param {Actor} target @param {GameEvent[]} events */
 function cureNegativeStatuses(state,target,events){
-  const hadNegative=NEGATIVE_STATUSES.some(key=>!!target.status[key]);
+  const hadNegative=NEGATIVE_STATUSES.some(key=>!!target.status[key])||hasConstriction(target);
   /** @type {string[]} */const cured=[];
   /** @param {string} key @param {string} text @param {()=>void} [cleanup] */
   const cure=(key,text,cleanup)=>{if(!target.status[key])return;delete target.status[key];cleanup?.();cured.push(key);message(state,events,text);recordSync(state,events,[target]);events.push({type:'status',actorId:target.id,text:`cured-${key}`});};
   cure('sleep',`${target.name} woke up!`);
   cure('poison',`${target.name} recovered from poison!`);
   cure('burn',`${target.name} recovered from a burn!`);
+  if(hasConstriction(target)){clearConstriction(target);cured.push('constriction');message(state,events,`${target.name} regained mobility!`);recordSync(state,events,[target]);events.push({type:'status',actorId:target.id,text:'cured-constriction'});}
   cure('paralysis',`${target.name} recovered from paralysis!`);
   cure('confusion',`${target.name} recovered from confusion!`);
   cure('infatuated',`${target.name} got over its infatuation!`);
@@ -523,7 +545,7 @@ function resolveDamagingHit(state,actor,target,move,data,events,execution) {
       if(effect.op!=='secondary'||!effect.effect)continue;
       // Only projected native chance-zero callers bypass the percentage draw.
       const succeeds=effect.secondaryChanceRaw===0||draw(state,100)<(effect.chancePercent??0);
-      if(succeeds&&!ability(data,target,'Shield Dust'))applyEffect(state,actor,target,effect.effect,data,events);
+      if(succeeds&&!ability(data,target,'Shield Dust')){if((move.id==='move-fire-spin'||move.id==='move-whirlpool')&&effect.effect.status==='constriction')inflictConstriction(state,target,move.id==='move-fire-spin'?316:59,events);else applyEffect(state,actor,target,effect.effect,data,events);}
     }
   }
   if(amount>0&&RECOIL_MOVES.has(move.id)&&moveEntityValid(actor)){
@@ -653,7 +675,8 @@ export function attack(state,actor,slot,data,events) {
   // Frozen/Destiny Bond classes are absent from the opening's saved statuses.
   if(execution.rapidSpinSucceeded&&moveEntityValid(actor)){
     if(actor.status.leechSeed)message(state,events,`${actor.name}'s Leech Seed wore off.`);
-    delete actor.status.leechSeed;actor.leechSource=null;
+    if(hasConstriction(actor))message(state,events,`${actor.name} regained mobility!`);
+    clearConstriction(actor);delete actor.status.leechSeed;actor.leechSource=null;
     recordSync(state,events,[actor]);
   }
   flushExperience(state,actor,execution,data,events);
@@ -716,6 +739,13 @@ export function finishTurn(state,actor,data,events) {
       else{damage(state,actor,10,data,events);if(!defeated(state))heal(state,source,10,events);}
     }
     if(actor.hp<=0||defeated(state))return;
+    if(hasConstriction(actor)){
+      actor.constrictionCountdown=(actor.constrictionCountdown??0)-1;
+      if(actor.constrictionCountdown<=0){actor.constrictionCountdown=2;const before=captureActor(actor);recordEffect(events,before,actor,actor.constrictionEffectId);damage(state,actor,5,data,events,null,{cause:'constriction'});}
+      if(actor.hp<=0||defeated(state))return;
+      actor.constrictionTurns=(actor.constrictionTurns??1)-1;
+      if(actor.constrictionTurns<=0){clearConstriction(actor);message(state,events,`${actor.name} regained mobility!`);events.push({type:'status',actorId:actor.id,text:'cured-constriction'});}
+    }
     if(actor.status.enraged&&--actor.status.enraged===0)delete actor.status.enraged;
     if(!actor.status.bide||--actor.status.bide>0)return;
     delete actor.status.bide;

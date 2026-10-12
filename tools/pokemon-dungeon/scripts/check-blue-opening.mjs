@@ -43,6 +43,9 @@ assert.deepEqual(data.moves['move-charm'], {id:'move-charm',name:'Charm',type:'n
 assert.deepEqual(data.moves['move-screech'], {id:'move-screech',name:'Screech',type:'normal',power:2,pp:22,accuracyBeforeEffect:100,accuracyAfterDamage:88,criticalPercent:12,chainedHitsRaw:1,range:8,target:0,cutsCorners:true,effects:[{op:'stat-multiplier',stat:'defense',factor:[1,4],minimum:[2,256],recipient:'target'}],aiWeight:15});
 assert.deepEqual(data.moves['move-heal-bell'], {id:'move-heal-bell',name:'Heal Bell',type:'normal',power:2,pp:12,accuracyBeforeEffect:125,accuracyAfterDamage:125,criticalPercent:12,chainedHitsRaw:1,range:3,target:1,cutsCorners:false,effects:[{op:'cure-negative-statuses'}],aiWeight:15});
 assert.deepEqual(data.moves['move-mud-sport'], {id:'move-mud-sport',name:'Mud Sport',type:'ground',power:2,pp:17,accuracyBeforeEffect:125,accuracyAfterDamage:100,criticalPercent:12,chainedHitsRaw:1,range:7,target:3,cutsCorners:false,effects:[{op:'floor-sport',sport:'move-dependent-mud-or-water',durationBounds:[10,12],damageMultiplier:[1,2],affectedType:'electric-for-mud-fire-for-water'}],aiWeight:10});
+assert.deepEqual(data.moves['move-fire-spin'], {id:'move-fire-spin',name:'Fire Spin',type:'fire',power:4,pp:19,accuracyBeforeEffect:125,accuracyAfterDamage:73,criticalPercent:12,chainedHitsRaw:1,range:0,target:0,cutsCorners:false,effects:[{op:'normal-damage'},{op:'secondary',chancePercent:10,requires:'successful-nonzero-damage',effect:{op:'apply-status',status:'constriction',recipient:'target'},gate:'secondary-effect-common'}],aiWeight:15});
+assert.deepEqual(data.moves['move-whirlpool'], {id:'move-whirlpool',name:'Whirlpool',type:'water',power:2,pp:17,accuracyBeforeEffect:125,accuracyAfterDamage:78,criticalPercent:12,chainedHitsRaw:1,range:0,target:0,cutsCorners:false,effects:[{op:'normal-damage',multiplierByTargetStatus:{diving:2,otherwise:1}},{op:'secondary',chancePercent:10,requires:'successful-nonzero-damage',effect:{op:'apply-status',status:'constriction',recipient:'target'},gate:'secondary-effect-common'}],aiWeight:30});
+assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-fire-spin'||move==='move-whirlpool').map(([level,move])=>[id,level,move])), [['pokemon-004',49,'move-fire-spin'],['pokemon-255',25,'move-fire-spin'],['pokemon-258',33,'move-whirlpool']]);
 assert.deepEqual(data.moves['move-thrash'], {id:'move-thrash',name:'Thrash',type:'normal',power:18,pp:12,accuracyBeforeEffect:125,accuracyAfterDamage:78,criticalPercent:12,chainedHitsRaw:3,range:0,target:2,cutsCorners:false,effects:[{op:'choose-random-facing',phase:'before-each-hit'},{op:'normal-damage'}],aiWeight:15});
 assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-thrash').map(([level])=>[id,level])), [['pokemon-104',37]]);
 const expectedSprites = new Set([...data.starterIds, ...data.floors.flatMap(floor => floor.encounters.map(row => row.speciesId)),
@@ -244,7 +247,7 @@ for (const bank of assets.battleEffects.banks) {
     assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
   }
 }
-assert.equal(battleIds.size, 56);
+assert.equal(battleIds.size, 58);
 const routeEffects = new Map();
 for (const moveId of firstAttemptMoves) {
   const route = motionFacts[moveId], required = ['preparation','cast','target','travel'].map(key => route[key]).filter(Boolean);
@@ -255,6 +258,7 @@ assert.deepEqual([...routeEffects.entries()].filter(([,ids]) => ids.includes(222
   'Hypnosis must be the sole first-attempt route using the dedicated background effect');
 assert(!battleIds.has(222), 'Hypnosis background effect 222 must remain outside the indexed EFO banks');
 for (const effectId of [15,37,76,323,423]) assert(battleIds.has(effectId), `Missing first-attempt status helper effect ${effectId}`);
+for (const effectId of [59,316]) assert(battleIds.has(effectId), `Missing admitted constriction effect ${effectId}`);
 for (const effectId of [394,397,398]) assert(battleIds.has(effectId), `Missing first-attempt stat effect ${effectId}`);
 const hypnosis = assets.battleEffects.hypnosis;
 assert.equal(hypnosis.activation, 'selected-hypnosis-only'); assert.equal(hypnosis.effectId, 222);

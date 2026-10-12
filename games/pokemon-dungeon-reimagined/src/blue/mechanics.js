@@ -83,7 +83,7 @@ function generateFloor(state,data,events) {
   state.explored=Array(WIDTH*HEIGHT).fill(false);state.visible=Array(WIDTH*HEIGHT).fill(false);state.enemies=[];state.items=[];state.floorTurn=0;state.baseBeat=0;state.leaderPrepared=false;state.mudSport=0;state.waterSport=0;state.status='playing';
   state.hero.x=spawns.hero.x;state.hero.y=spawns.hero.y;state.partner.x=spawns.partner.x;state.partner.y=spawns.partner.y;
   state.hero.direction=state.partner.direction='s';
-  for(const actor of [state.hero,state.partner]){delete actor.skullBashSlot;actor.status={};actor.periodic={poison:0,burn:0,leechSeed:0};actor.stages={attack:10,specialAttack:10,defense:10,specialDefense:10,accuracy:10,evasion:10};actor.physicalOffenseMultiplierQ8=256;actor.specialOffenseMultiplierQ8=256;actor.physicalDefenseMultiplierQ8=256;actor.specialDefenseMultiplierQ8=256;actor.goal=null;actor.leechSource=null;actor.bideDamage=0;actor.skipAction=false;actor.useHeldItem=false;actor.regen=0;actor.abilityVisualFlags=0;}
+  for(const actor of [state.hero,state.partner]){delete actor.skullBashSlot;delete actor.constrictionTurns;delete actor.constrictionCountdown;delete actor.constrictionEffectId;actor.status={};actor.periodic={poison:0,burn:0,leechSeed:0};actor.stages={attack:10,specialAttack:10,defense:10,specialDefense:10,accuracy:10,evasion:10};actor.physicalOffenseMultiplierQ8=256;actor.specialOffenseMultiplierQ8=256;actor.physicalDefenseMultiplierQ8=256;actor.specialDefenseMultiplierQ8=256;actor.goal=null;actor.leechSource=null;actor.bideDamage=0;actor.skipAction=false;actor.useHeldItem=false;actor.regen=0;actor.abilityVisualFlags=0;}
   state.stairs=spawns.stairs;
   // Native realization places the team, then wild actors, then actual items.
   // An enemy flag covered by the partner does not relocate to a different tile.
@@ -294,7 +294,7 @@ const AI_ADJACENT_MOVE_IDS=new Set(['move-ember','move-hypnosis','move-leech-see
 /** Native AI tuple zero uses adjacent enemy targeting even when the player
  * range later applies Focus Energy, Rage or Withdraw to the user.
  * @type {ReadonlySet<string>} */
-const AI_FRONT_MOVE_IDS=new Set(['move-tackle','move-vine-whip','move-scratch','move-tail-whip','move-thunder-shock','move-thunder-wave','move-bite','move-leer','move-pound','move-absorb','move-focus-energy','move-rage','move-withdraw','move-skull-bash']);
+const AI_FRONT_MOVE_IDS=new Set(['move-tackle','move-vine-whip','move-scratch','move-tail-whip','move-thunder-shock','move-thunder-wave','move-bite','move-leer','move-pound','move-absorb','move-focus-energy','move-rage','move-withdraw','move-skull-bash','move-fire-spin','move-whirlpool']);
 /** @type {ReadonlySet<string>} */
 const AI_TWO_TILE_MOVE_IDS=new Set(['move-growl','move-quick-attack']);
 /** @type {ReadonlySet<string>} */
@@ -462,6 +462,7 @@ function tryJunctionWander(state,actor,events){
  * existing bounded path search/wandering is still not native route replay.
  * @param {DungeonState} state @param {Actor} actor @param {Actor|undefined} target @param {GameEvent[]} events */
 function tryAiMovement(state,actor,target,events){
+  if(actor.constrictionTurns!==undefined)return false;
   if(actor.status.confusion){actor.direction=AI_NATIVE_DIRECTIONS[draw(state,8)]??'s';const [dx,dy]=VECTORS[actor.direction];if(canStep(state,actor,dx,dy)&&!actorAt(state,actor.x+dx,actor.y+dy)){moveActor(state,actor,actor.x+dx,actor.y+dy,events);return true;}return false;}
   if(Math.floor(actor.belly)===0)return false;
   // Standing AI pickup requires an empty held slot before movement selection.
@@ -508,7 +509,7 @@ function tryAiMovement(state,actor,target,events){
 /** Supported subset of the leader's native swap admission. Bide is not one
  * of IsChargingAnyTwoTurnMove's statuses and is not excluded here.
  * @param {Actor} actor @param {Actor} target */
-function canSwapOpening(actor,target){return team(target)&&!actor.status.sleep&&!target.status.sleep&&!actor.status.confusion&&!target.status.confusion;}
+function canSwapOpening(actor,target){return team(target)&&actor.constrictionTurns===undefined&&target.constrictionTurns===undefined&&!actor.status.sleep&&!target.status.sleep&&!actor.status.confusion&&!target.status.confusion;}
 /** All twenty admitted species have native base movement speed one. The only
  * implemented changes lower it: slow or paralysis clamps the stage to zero.
  * gSpeedTurns gives stage one every base beat, stage zero every second beat.
@@ -630,7 +631,7 @@ export function performAction(state,action,data) {
       if(!Number.isInteger(action.dx)||!Number.isInteger(action.dy)||Math.abs(action.dx)>1||Math.abs(action.dy)>1||action.dx===0&&action.dy===0)return result(false);
       if(action.type==='face'){state.hero.direction=directionFor(action.dx,action.dy);events.push({type:'presentation',presentation:{kind:'face',actor:captureActor(state.hero)}});return result(false);}
       const target=actorAt(state,state.hero.x+action.dx,state.hero.y+action.dy);
-      if(!state.hero.status.confusion&&(!canStep(state,state.hero,action.dx,action.dy)||target&&!canSwapOpening(state.hero,target))){
+      if(!state.hero.status.confusion&&(!canStep(state,state.hero,action.dx,action.dy)||state.hero.constrictionTurns===undefined&&target&&!canSwapOpening(state.hero,target))){
         const direction=directionFor(action.dx,action.dy),changed=state.hero.direction!==direction;state.hero.direction=direction;
         if(changed)events.push({type:'presentation',presentation:{kind:'face',actor:captureActor(state.hero)}});
         return result(false);
@@ -654,6 +655,9 @@ export function performAction(state,action,data) {
     if(!defeated(state)){
       if(action.type==='move'){
         const old={x:state.hero.x,y:state.hero.y};let dx=action.dx,dy=action.dy;
+        state.hero.direction=directionFor(dx,dy);
+        if(state.hero.constrictionTurns!==undefined)message(state,events,"You're being constricted!");
+        else{
         if(state.hero.status.confusion){const v=VECTORS[DIRECTIONS[draw(state,8)]??'s'];dx=v[0];dy=v[1];}
         const target=actorAt(state,state.hero.x+dx,state.hero.y+dy);
         if(canStep(state,state.hero,dx,dy)&&(!target||canSwapOpening(state.hero,target))){
@@ -666,6 +670,7 @@ export function performAction(state,action,data) {
           }
           if(action.skipPickup||action.runRequested&&target?.id==='partner'){const item=getGroundItem(state);if(item)message(state,events,`${state.hero.name} stepped on ${ITEM_NAMES[item.kind]}.`,{kind:'sync',actors:[],afterWalk:true});}
           else pickup(state,state.hero,events,true);
+        }
         }
       }else if(action.type==='attack'||action.type==='regularAttack')attack(state,state.hero,null,data,events);
       else if(action.type==='struggle')attack(state,state.hero,'struggle',data,events);
@@ -721,9 +726,12 @@ export function validateDungeon(value,data) {
     const actorKeys='id,speciesId,name,x,y,direction,level,hp,maxHp,belly,maxBelly,exp,stats,moves,status,periodic,stages,heldItem,regen,usedMove,experienceMarked,goal,leechSource,bideDamage,skipAction';
     const multiplierKeys=['physicalOffenseMultiplierQ8','specialOffenseMultiplierQ8','physicalDefenseMultiplierQ8','specialDefenseMultiplierQ8'];
     const multiplierCount=multiplierKeys.filter(key=>Object.hasOwn(a,key)).length;
-    const optionalKeys=['skullBashSlot','useHeldItem','tactic','enabledIq','abilityVisualFlags',...multiplierKeys].filter(key=>Object.hasOwn(a,key));
+    const constrictionKeys=['constrictionTurns','constrictionCountdown','constrictionEffectId'];
+    const constrictionCount=constrictionKeys.filter(key=>Object.hasOwn(a,key)).length;
+    const optionalKeys=['skullBashSlot',...constrictionKeys,'useHeldItem','tactic','enabledIq','abilityVisualFlags',...multiplierKeys].filter(key=>Object.hasOwn(a,key));
     if(!exactKeys(a,[actorKeys,...optionalKeys].join(','))||Object.hasOwn(a,'useHeldItem')&&typeof a.useHeldItem!=='boolean')return false;
-    if(multiplierCount!==0&&multiplierCount!==4)return false;
+    if(multiplierCount!==0&&multiplierCount!==4||constrictionCount!==0&&constrictionCount!==3)return false;
+    if(constrictionCount===3&&(a.hp<=0||!!a.status?.freeze||!integer(a.constrictionTurns,1,128)||!integer(a.constrictionCountdown,0,2)||![59,316].includes(a.constrictionEffectId??0)))return false;
     if(multiplierCount===4&&(!integer(a.physicalOffenseMultiplierQ8,2,25597)||!integer(a.specialOffenseMultiplierQ8,2,25597)||!integer(a.physicalDefenseMultiplierQ8,2,25597)||!integer(a.specialDefenseMultiplierQ8,2,25597)))return false;
     if(Object.hasOwn(a,'tactic')&&!TACTICS.some(tactic=>tactic.id===a.tactic))return false;
     if(Object.hasOwn(a,'enabledIq')&&(!Array.isArray(a.enabledIq)||a.enabledIq.length>IQ_SKILLS.length||new Set(a.enabledIq).size!==a.enabledIq.length||a.enabledIq.some(id=>!IQ_SKILLS.some(skill=>skill.id===id))))return false;

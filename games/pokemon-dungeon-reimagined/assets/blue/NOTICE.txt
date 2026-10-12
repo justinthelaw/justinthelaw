@@ -36,8 +36,9 @@ same pinned public source. The selected native battle-effect artwork comes
 from explicitly selected indexed EFO image files, retaining original palettes,
 flips, per-part depth, frame data and attachment positions. Source hashes and
 URLs are recorded in art/blue/native-battle-sources.json; per-bank decoding
-evidence is retained beside it. The selected 56 effects occupy three banks and load with dungeon artwork
-under one aggregate 4 MiB decoded budget and follow the separate pause-aware
+evidence is retained beside it. The selected 58 effects occupy three banks and load with dungeon artwork
+under one aggregate 4 MiB decoded budget. Sparse, disjoint same-depth pieces preserve
+the original composited pixels and stable draw order. The effects follow the separate pause-aware
 battle timeline. Adjacent Ember retains the comparative source's post-launch
 attachment convergence and separate depth anchor. Effect-specific Blue pixels
 and complete driver timing remain unverified. Synthesis and Rapid Spin are
