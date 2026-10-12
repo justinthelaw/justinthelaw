@@ -76,8 +76,9 @@ export function dungeonMenu(context,view){
     text(context,`Belly: ${Math.floor(state.hero.belly)}/${state.hero.maxBelly}`,139,120,{maxWidth:93});
     text(context,`Money: ${state.money}`,139,132,{maxWidth:93});
     text(context,'Weather: Clear',139,144,{maxWidth:93});
-    // Play time is not invented from turns or wall time. The save owner does
-    // not yet expose the native elapsed-play timer to this presentation.
+    // Native main-menu window2: label x115, value aligned to x147, row36.
+    text(context,'Play:',139,156);
+    text(context,view.playTime??'Unknown',171,156,{maxWidth:61});
     return rows(context,view,32,42,40,11);
   }
   if(view.menuTitle==='Team'){

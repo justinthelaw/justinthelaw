@@ -13,21 +13,25 @@ runtime, plans and art studies. Historical source and saves remain recoverable.
 This document describes the current review candidate and its qualifications; it
 does not claim perfect cartridge replication or production deployment.
 
-## Current candidate 25
+## Current candidate 26
 
-Candidate 25 contains **151 files totaling 2,803,390 bytes**, below the
-unchanged 3 MiB distribution cap. It adds the independently reviewed Continue
-progress card and confirmation owner. The dedicated card displays Team, leader
-Name, Location, Play time, Adventures and Helper, followed by a visible
-quicksave/ordinary prompt and Yes/No with No selected initially. It bypasses
-dialogue pagination and supplies the same prompt and six fields through a
-separate accessibility announcement.
+Candidate 26 contains **151 files totaling 2,804,438 bytes**, below the
+unchanged 3 MiB distribution cap. It retains candidate 25's independently
+reviewed Continue progress card and restores Play time to the in-dungeon main
+menu through the same formatter. The menu snapshots the live foreground clock
+when it is built, uses the native-aligned label and value positions, and exposes
+the value through its non-dialogue accessibility announcement. It adds no timer
+or scheduler; the owned clock continues while the menu is open, while the
+displayed snapshot remains fixed until the next menu build.
 
 New adventures persist genuine foreground play frames, fresh-entry adventure
 count and checkpoint/quicksave/completed kind. Legacy payload history remains
-explicitly Unknown rather than reconstructed. Candidate 24 supplies the latest
-complete mechanics baseline. Candidate 25's full pinned Node 24.21.0 aggregate
-suite and all three bounded Continue browser checks passed. All resources remain local with no runtime CDN dependency.
+explicitly Unknown rather than reconstructed. Candidate 26 also admits the
+reviewed level-37 Cubone Thrash route and removes an invented confused-facing
+draw from latent Bide release. Candidate 25's full pinned Node 24.21.0 aggregate
+suite and all three bounded Continue browser checks passed. Candidate 26's full
+pinned Node 24.21.0 aggregate suite and bounded menu-clock dungeon continuation
+also passed. All resources remain local with no runtime CDN dependency.
 
 The native battle presentation contains **56 distinct indexed effects in three
 banks**. Their decoded atlases use 3,948,544 bytes. Including the separately
@@ -105,20 +109,29 @@ quota, counter, phase or stat mechanics. Blue instrument identity, waveform
 phase, mixing and physical audition remain unverified.
 
 Candidate 24 admits Squirtle's exact level-40 Skull Bash row. The first use
-spends PP once, records the charge and exact slot, and applies the represented
-physical Defense stage; release uses the source-qualified second-turn route.
+spends PP once, records the charge and exact slot, and grants the effective
+physical Defense bonus; release uses the source-qualified second-turn route.
 Save validation, floor/faint/status/slot replacement and leader/autonomous
 action cleanup own the stored phase. Initial autonomous use follows the tuple-
 zero adjacent scan and fallback. This removes one factual late move from the
-unsupported inventory; 15 move IDs across 20 learnset rows remain.
+unsupported inventory. Candidate 26 additionally admits Cubone's exact
+level-37 Thrash row: three fixed passes each perform the blocker check, draw a
+new native-order facing and scan a fresh target, including an empty later pass;
+Thrash does not add Outrage's post-move confusion. **14 move IDs across 19
+learnset rows remain unsupported.**
 
 For autonomous actors, paralysis or cringe now rejects attack selection before
 weights or RNG and falls through to the existing movement owner. The bounded
 confusion leaf keeps item selection first, applies the comparative 70% chooser
 gate before charge/weights, randomizes admitted attack facing at execution, and
 uses native direction order for nonleader confused walking. Confused item use,
-leader walking, Bide release direction, unsupported no-foe resolvers and exact
-Blue RNG-stream identity remain outside this contract.
+leader walking, unsupported no-foe resolvers and exact Blue RNG-stream identity
+remain outside this contract. Candidate 26's Bide release now retains its
+existing facing instead of consuming an invented confused-direction draw, as
+the native end-turn release does not enter the action-table confusion helper.
+This is latent saved-state and future-producer correctness: the current opening
+cannot normally create a confused Bide user, and downstream RNG identity is not
+claimed.
 
 The Continue payload version is now 2 and requires exactly the three metadata
 keys; payload v1 remains readable only without them. First write promotes a
@@ -164,7 +177,8 @@ Original Blue seed history, the complete RNG call schedule and cartridge replay 
 
 ## Static and hosted evidence
 
-Candidate 21's full Node 24.21.0 authoring checks passed at 151 files and
+Candidate 26's full pinned Node 24.21.0 aggregate suite passed at 151 files
+totaling 2,804,438 bytes. Candidate 21's full Node 24.21.0 authoring checks passed at 151 files and
 2,790,982 bytes. They cover the aggregate source, export and distribution
 closure without importing or executing game source. Candidate 22's full pinned
 Node 24.21.0 static suite also passed at 151 files and 2,791,623 bytes.
@@ -186,12 +200,13 @@ Log, Continue and controls recovered with no warning/error logs. Only Bulbasaur
 of the nine source-reviewed bindings was cast, and no physical audio was
 auditioned.
 
-Exact published head `1d6e1bc4d87e31cf321ca4605fbbdf6bd71a56e6`
+Exact published head `b7600228c40b9b1c9e4960c36d37b9f8a83b07a9`
 passed hosted lint, Game Static Checks, Playwright and CodeQL. Its requested
 exact-head Codex review returned a qualifying thumbs-up, and its Pages artifact
-was verified against all 151 declared runtime files totaling 2,797,841 bytes.
-The watcher exited 1 only because three review threads remain unresolved pending
-the separate approval workflow.
+was verified against all 151 declared runtime files totaling 2,803,390 bytes.
+The watcher session was lost and had no remaining holder, so its terminal exit
+is unknown; the individual hosted checks, review and artifact verification are
+recorded independently.
 The earlier `88bf722` evidence remains preserved under
 `tools/pokemon-dungeon/.work/ci-88bf722/`.
 
@@ -242,6 +257,7 @@ source change does not retroactively expand what an earlier browser run proved.
 | Candidate 25, legacy Continue | Restored the preserved Flint/Volt B1F eight-turn quicksave. The card showed Unknown legacy history; default No plus Z returned to root, X cancelled, and explicit Up held 220 ms plus Z resumed. A new Quicksave selected its specific prompt, which persisted after reload; Help/Sound and the eight-turn Adventure Log remained available | PASS for bounded card visibility, default/cancel/Yes routing, legacy Unknown fallback, reload and controls; warning/error log empty. No fresh metadata accumulation, completed-card, exact Blue geometry/pixels or full-rescue claim |
 | Candidate 25, fresh metadata | Fresh website iframe: Hardy-boy Charmander Cinder/Treecko Fern completed quiz, naming, awakening and Butterfree request through B1F. Reopen during departure showed Before Tiny Woods, `0:02:05`, Adventures 0; No/root/Continue preserved both. First-entry Quicksave showed `0:05:00`, count 1. Give Up/Yes, Try again and Quicksave showed `0:05:52`, count 2; both remained level 5 at 30 HP, Help/Sound and B1F zero-turn Adventure Log worked | PASS for fresh timing persistence, entry/retry increments, zero-turn independence, confirmation/reopen and controls; warning/error log empty. No full rescue, floor-transition count, precise Help-clock exclusion or physical-device claim |
 | Candidate 25, completed legacy save | Restored the preserved Mimi/Shell completed 91-turn save. The card showed `Tiny Woods cleared`, not the retained B3F dungeon location, with Unknown legacy history. Yes resumed the completed Caterpie state; Adventure Log retained all three berries and 91 turns. Return to top menu and Continue retained the cleared location; Help/Sound remained available | PASS for completed-location precedence, completed resume and repeated top-menu Continue; warning/error log empty. This reused an earlier completed save and does not establish a candidate-25 full rescue or fresh completed metadata |
+| Candidate 26 | Restored Cinder/Fern at B1F with Adventures 2. The dungeon menu visibly and accessibly reported Play time from `0:05:54`; one step, Quicksave and Continue retained B1F at one turn, `0:06:51` and count 2. A separate continuation retained those values, showed `0:07:08`, used Help download/Return, descended to B2F without incrementing Adventures, took 9 damage from Pidgey Tackle, then Scratch dealt 17 damage/KO, consumed PP 22→21 and awarded 12 EXP each. Quicksave showed B2F, `0:10:01`, count 2 and a five-turn Adventure Log | PASS for the shared in-dungeon clock presentation, accessibility value, persistence, floor-transition count, bounded combat and controls; warning/error logs empty. Thrash, confused Bide, a full rescue and physical audio were not exercised |
 
 The separate candidate-12 fresh trial is retired as invalid acceptance evidence
 because it used hidden reads. Its preserved partial evidence does not extend the

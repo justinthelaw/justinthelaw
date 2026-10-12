@@ -628,16 +628,17 @@ async function main() {
     mode = 'play'; void setPhase('welcome');
   }
 
+  function playTimeText() {
+    const frames = state?.version === 2 ? state.progress?.playFrames : null;
+    if (typeof frames !== 'number') return 'Unknown';
+    return `${Math.floor(frames / 216000)}:${String(Math.floor(frames / 3600) % 60).padStart(2, '0')}:${String(Math.floor(frames / 60) % 60).padStart(2, '0')}`;
+  }
   function progressCard() {
     if (!state) return null;
     const progress = state.version === 2 ? state.progress : null;
-    const frames = progress?.playFrames;
-    const hours = typeof frames === 'number' ? Math.floor(frames / 216000) : null;
-    const minutes = typeof frames === 'number' ? Math.floor(frames / 3600) % 60 : null;
-    const seconds = typeof frames === 'number' ? Math.floor(frames / 60) % 60 : null;
     const location = state.phase === 'complete' ? 'Tiny Woods cleared' : state.dungeon ? `Tiny Woods B${state.dungeon.floor}F` : 'Before Tiny Woods';
     return { team: '？？？？', name: state.heroName || '???', location,
-      playTime: hours === null ? 'Unknown' : `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
+      playTime: playTimeText(),
       adventures: progress?.adventures === null || progress?.adventures === undefined ? 'Unknown' : String(progress.adventures),
       helper: '-----' };
   }
@@ -777,7 +778,7 @@ async function main() {
       scene: mode === 'play' ? 'quiz' : mode, reducedMotion, titleImmediate, gender: state?.gender,
       heroSpeciesId: state?.heroSpeciesId, partnerSpeciesId: state?.partnerSpeciesId,
       heroName: state?.heroName, partnerName: state?.partnerName,
-      dungeon: state?.dungeon, selectedIndex, ...mapPresentation(),
+      dungeon: state?.dungeon, playTime: menu?.title === 'Menu' ? playTimeText() : undefined, selectedIndex, ...mapPresentation(),
       cameraActorId:dungeonCamera.target,menuActorId:menu?.cameraMember,
       dungeonLightLevel:data.floors[(state?.dungeon?.floor??1)-1]?.generation.visibilityRange,
       battle:view.battle,
@@ -883,7 +884,8 @@ async function main() {
       `Team: ${next.savedProgress.team}`,`Name: ${next.savedProgress.name}`,
       `Location: ${next.savedProgress.location}`,`Play time: ${next.savedProgress.playTime}`,
       `Adventures: ${next.savedProgress.adventures}`,`Helper: ${next.savedProgress.helper}`].filter(Boolean).join('. '):'';
-    const announcement = savedProgressAnnouncement||[speaker, text].filter(Boolean).join(': ')||
+    const dungeonMenuAnnouncement=next.menuTitle==='Menu'&&next.playTime?`Play time: ${next.playTime}.`:'';
+    const announcement = savedProgressAnnouncement||[speaker, text].filter(Boolean).join(': ')||dungeonMenuAnnouncement||
       (next.scene==='dungeon'?(liveMessages.at(-1)??''):'');
     if (announcement !== lastNarration) { narration.textContent = announcement; lastNarration = announcement; }
   }

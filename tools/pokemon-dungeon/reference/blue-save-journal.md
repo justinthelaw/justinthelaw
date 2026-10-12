@@ -80,6 +80,14 @@ precedence over the retained dungeon object. Card geometry follows comparative
 Red `load_screen.c` window cells; direct Blue placement, pixels, wording and
 default-No identity remain qualified.
 
+The in-dungeon main menu uses the same `playTimeText` formatter as the Continue
+card. It snapshots the live foreground counter when the menu is built, places
+the native-aligned `Play:` label at `(139,156)` and value at `(171,156)`,
+and includes the value in the menu's non-dialogue accessibility announcement.
+The existing foreground clock continues while the menu is open, but the visible
+snapshot is intentionally not refreshed on every animation frame. This adds no
+state, timer or scheduler, and legacy missing history remains `Unknown`.
+
 Payload v2 also forms a forward-writer barrier: cached older code rejects its
 exact numeric version, and a tab that loaded v1 before promotion fails the
 existing exact-receipt check after v2 is written. Envelope revisions, opaque
@@ -107,6 +115,16 @@ cleared card through another top-menu Continue. Browser warning/error logs were
 empty. These checks did not measure Help clock exclusion precisely, establish a
 floor-transition count, produce fresh completed metadata or complete a
 candidate-25 rescue.
+
+Candidate 26's full pinned Node 24.21.0 aggregate suite passed at 151 files and
+2,804,438 bytes. A restored Cinder/Fern save exposed the same Play time through
+the visible dungeon menu and its accessibility announcement from `0:05:54`,
+then retained B1F, `0:06:51`, Adventures 2 and one turn through Quicksave and
+Continue. A separate continuation retained the metadata, observed `0:07:08`,
+used Help download/Return, descended to B2F, and Quicksaved at `0:10:01` with
+Adventures still 2 and five logged turns. Browser warning/error logs were
+empty. This verifies that a floor transition does not increment Adventures;
+it does not precisely measure Help clock exclusion or establish a full rescue.
 
 Candidate 12 passed syntax, strict types, lint and static flow review. An
 ordinary browser migration check copied a 454-turn legacy adventure, saved
