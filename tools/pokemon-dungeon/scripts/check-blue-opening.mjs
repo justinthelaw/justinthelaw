@@ -74,6 +74,7 @@ async function verifiedPng(prefix, record) {
   assert.equal(bytes.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
   assert(integer(record.width, 1, 4096) && integer(record.height, 1, 4096));
   assert.equal(bytes.readUInt32BE(16), record.width); assert.equal(bytes.readUInt32BE(20), record.height);
+  return bytes;
 }
 async function verifiedMetadata(record) {
   assert(/^[a-z][a-z0-9-]*\.json$/.test(record.metadataPath), 'Invalid metadata path');
@@ -235,6 +236,15 @@ assert(sineSource.includes('switch(x&0xc00)') && !sineSource.includes('Math.sin'
 assert.equal(assets.battleEffects.activation, 'selected');
 assert.equal(assets.battleEffects.maxDecodedBytes, 4 * 1024 * 1024);
 assert.deepEqual(assets.battleEffects.banks.map(bank => bank.id), ['basic', 'initial', 'extra']);
+// Check generated PNG headers against the loader's declared formats without
+// importing or executing the game. The banks are loaded only on dungeon entry.
+const battleLoaderAst=acorn.parse(await readFile(path.join(root,'src/blue/render-battle-effects.js'),'utf8'),{ecmaVersion:'latest',sourceType:'module'});
+const formatsNode=battleLoaderAst.body.filter(node=>node.type==='VariableDeclaration').flatMap(node=>node.declarations).find(node=>node.id.type==='Identifier'&&node.id.name==='PNG_FORMATS')?.init;
+assert.equal(formatsNode?.type,'CallExpression');assert.equal(formatsNode.arguments[0]?.type,'ArrayExpression');
+const battlePngFormats=formatsNode.arguments[0].elements.map(pair=>{
+  assert.equal(pair?.type,'ArrayExpression');assert.equal(pair.elements.length,2);
+  return pair.elements.map(value=>{assert.equal(value?.type,'Literal');assert(Number.isInteger(value.value));return value.value;});
+});
 let battleDecodedBytes = 0;
 const battleIds = new Set();
 const battleMetadataByBank = new Map();
@@ -242,7 +252,8 @@ for (const bank of assets.battleEffects.banks) {
   const stem = bank.id === 'basic' ? 'battle-effects' : `battle-effects-${bank.id}`;
   assert.equal(bank.activation, 'selected');
   assert.equal(bank.path, `${stem}.png`); assert.equal(bank.metadataPath, `${stem}.json`);
-  await verifiedPng('assets/blue', bank);
+  const png=await verifiedPng('assets/blue', bank);
+  assert(battlePngFormats.some(([color,depth])=>png[25]===color&&png[24]===depth),`Battle loader rejects generated PNG format: ${bank.path}`);
   assert(bank.bytes <= 256 * 1024 && bank.metadataBytes <= 128 * 1024, 'Battle bank exceeds its encoded byte budget');
   assert(bank.width * bank.height * 4 <= 2 * 1024 * 1024, 'Battle effect atlas exceeds its decoded-memory budget');
   battleDecodedBytes += bank.width * bank.height * 4;

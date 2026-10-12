@@ -2,21 +2,22 @@
 
 ## Scope and readiness
 
-PR #397 implements the original Blue Rescue Team opening through Caterpie's
+PR #397 adapts the original Blue Rescue Team opening through Caterpie's
 Tiny Woods rescue: title/save menus, personality quiz, partner and hero naming,
 awakening, Butterfree's request, three dungeon floors, reunion, three berry
 rewards, Adventure Log, loss/retry and completed-save Continue. Town, team
 formation, later dungeons and the historical Three.js runtime are excluded from
 the website export. Existing save namespaces and journal safeguards remain.
 
-The PR remains draft. The opening has completed manual browser runs, but exact
-cartridge parity and the current local changes' full release checks are not
-complete. Background music is intentionally absent at Justin's request;
-gameplay and UI effects remain. No production deployment is claimed.
+On 2026-10-12, Justin prioritized a viable opening release for review rather
+than waiting for exact cartridge parity. The opening has completed manual
+browser runs; remaining fidelity and retry-move limits are listed below.
+Background music is intentionally absent at Justin's request; gameplay and UI
+effects remain. No production deployment or merge is claimed.
 
-## Current checkpoint 39
+## Current checkpoint 40
 
-The distribution contains **151 local files / 2,997,009 bytes**, below the
+The distribution contains **151 local files / 2,997,221 bytes**, below the
 unchanged 3 MiB cap. Its **66 battle effects in three banks** occupy 2,553,856
 decoded bytes; including the separately owned Hypnosis background, effect memory
 is **2,607,104 bytes**, below 4 MiB. The PCM catalog contains **28 cues, 20
@@ -25,6 +26,11 @@ groups 5 and 6 retain limits of 15 and 5 sources, with a shared ceiling of 32.
 
 Changes since `6dc8466262bd475c865c441478364934ca7edd16`:
 
+- Dungeon entry exposed a lazy-loader regression after PNG optimization: the
+  battle loader accepted only RGBA. Its closed format table now admits the
+  encoder's indexed PNG formats while retaining all size, geometry and memory
+  checks. An AST-based contract compares actual bank headers with that table.
+  Ordinary Continue, B3F combat, rescue and completed Continue passed afterward.
 - [Safeguard](../../../tools/pokemon-dungeon/reference/blue-safeguard.md) adds
   Chikorita's level-43 room protection, shared-class duration and per-status
   guards, with its red shield, effect 238 and sequence 776. When all enabled
@@ -82,9 +88,9 @@ those choices remain visibly unavailable without consuming a turn or PP.
 
 | Evidence | Result and boundary |
 | --- | --- |
-| Local candidate 39 | Pinned Node 24.21.0 full static suite passed: syntax, lint, strict types, factual/provenance inputs, lossless PNG round trips, assets and distribution closure. Full pre-commit checks passed. |
+| Local checkpoint 40 | Pinned Node 24.21.0 full static suite passed: syntax, lint, strict types, factual/provenance inputs, PNG loader/encoder compatibility, assets and distribution closure. The complete website flight check passed with host browser permission: 439 passed, 21 skipped. |
 | Audio sources | PCM and SE2 exporter checks passed against pinned comparative source. This does not establish Blue waveform/driver identity or physical sound output. |
-| Published `6dc8466` | Game Static Checks, lint and CodeQL passed. Playwright failed in Mobile Safari while waiting for the moving SVG to stabilize; the local stable-ancestor repair above has not run in hosted CI. |
+| Published `1e3b3bb` | Game Static Checks, lint, Playwright and CodeQL passed. The stable-card Mobile Safari repair passed hosted CI. The subsequent manual Continue run caught the lazy PNG-loader failure fixed in checkpoint 40. |
 | Requested Codex review of `6dc8466` | Exact-head response reported no new findings. Four older unresolved threads remain: audio focus, music documentation, inclusive AI weighting and Quicksave. Source review supports the inclusive weighting; the other three have published fixes. Thread resolution is pending authorization. |
 | Retained Pages artifact at `58929350e955171a10fe1f6bb6337bcb94b329cf` | All 151 declared runtime files, project-site base paths and iframe integration were verified. It predates the current local candidate; no `6dc8466` Pages artifact is available. |
 
@@ -116,7 +122,7 @@ in the review history and local ledgers.
 
 | Checkpoint | Observed behavior | Limits |
 | --- | --- | --- |
-| Candidate 36, active Rook/Bolt run | Fresh quiz, Machop/Pikachu naming, awakening, B1F combat and B2F. Bolt reached level 6 and learned Tail Whip; the move list shows 22/22 PP. Low Kick shortcut, facing controls, Poké pickup tutorial and stairs worked. | Still active; no replacement choice or rescue yet. Its immutable runtime predates Protect, Safeguard and the PNG optimization. |
+| Candidate 36 → checkpoint 40, Rook/Bolt | Fresh quiz, Machop/Pikachu naming, awakening, B1F and early B2F on candidate 36. Normal Continue after the loader fix preserved levels/HP; checkpoint 40 completed B2F/B3F, Low Kick combat, Caterpie's reunion, all three berries and completed Continue. Adventure Log: 162 turns; Continue: Tiny Woods cleared, Adventures 1. Corrected-run warning/error logs were empty. | An explicit upgrade continuation, not one immutable fresh run. Bolt reached level 6 and learned Tail Whip before the upgrade. No replacement choice or high-level defensive move was exercised. |
 | Signed `e8e641dd9e5fbb0a37132beb6e96c9d6ef743d8d` | Fresh website-embedded boot/title, quiz, Squirtle/Treecko creation, all three floors, Caterpie reunion, all three berries and completed Continue. Root independently read the 40-turn Adventure Log; both warning/error logs were empty. | Both partners stayed level 5. No new learned move, physical audio audition or confirmed B2F knockout. |
 | Candidate 29, separate Sprout/Finn save | B1F save restored, B2F reached, two visible Sunkern defeated with Tackle; PP 21/22 to 19/22, final hit 18 damage and 16 EXP each. Help/download/Return worked; warning/error log empty. | No Solar Beam cast, full fresh run or new Quicksave/Continue claim. |
 | `901951e`, Mimi/Shell continuation | Preserved B1F save through all three floors, reunion, rewards, 91-turn Adventure Log and completed Continue; warning/error log empty. | A continuation, not a fresh immutable onboarding-to-rescue run. |
@@ -126,8 +132,8 @@ in the review history and local ledgers.
 
 Earlier 390×844 and 844×390 viewport checks showed both 256×192 screens and touch
 controls fitting portrait and landscape. This is browser viewport evidence,
-not physical iOS/Android acceptance. Completed runs' tabs and servers are closed;
-the active candidate 36 trial and its automatic checkpoint remain open. Quicksave
+not physical iOS/Android acceptance. Test-owned previews are retired after their
+evidence is retained; browser saves remain intact. Quicksave
 failure testing remains pending explicit test-save approval.
 
 ## Remaining fidelity gaps

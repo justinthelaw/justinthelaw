@@ -35,12 +35,12 @@ Website tests use inert game fixtures.
 - `art/blue/` holds pinned native image/data inputs, offline source archives,
   reconstruction tools and pixel evidence. `art/pixel/raster.mjs` is the sole
   shared raster writer. Source attribution does not assert a reuse license.
-- `audio/blue-original-score.json` owns the selected authored score.
+- `audio/blue-original-effects.json` owns the authored gameplay/UI effects.
   `audio/blue-menu-effects.json` and `audio/blue-battle-effects.json` own the
-  source-derived short PSG effects. `audio/blue-pcm-effects.json` owns only the
-  healing and heart sample/control facts; their offline exporter uses Node
+  source-derived short PSG effects. `audio/blue-pcm-effects.json` owns the selected
+  sample/control facts; their offline exporter uses Node
   built-ins. Red PCM is comparative, with global reverb, browser mixing and
-  exact Blue playback still qualified. No original soundtrack parity is claimed.
+  exact Blue playback still qualified. The opening contains no background music.
 - `scripts/` contains only the selected exporters and static checkers.
   `reference/blue-*.md` records source decisions and remaining fidelity gaps.
 - `.work/` holds ignored review packets, frozen browser builds and release

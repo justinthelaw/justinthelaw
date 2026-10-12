@@ -115,8 +115,8 @@ tempo changes gives a nominal 18.891713 seconds. The comparative GBA driver's
 frame accumulator and end detection put its end around 19 seconds; these are
 not verified DS driver timings. Before music removal, the browser's 19.0-second cinematic and 18.9-second
 authored cue were qualified timing approximations; only the cinematic remains. Only
-wait/tempo/control facts were inspected; no commercial note data is imported
-into the authored score.
+wait/tempo/control facts were inspected; no music note data was imported
+into that retired authored cue.
 
 ## Browser implementation and remaining parity
 
@@ -208,8 +208,8 @@ The two battle roles share the existing SE2 instance with menu sounds. A new
 request replaces its predecessor's scheduled notes. They add one cached duty
 shape and retain their four-note bound within SE2's nine-oscillator maximum and
 the shared 32-voice ceiling. All battle roles bypass the
-general menu throttle. Native IDs are admitted explicitly; they have no fake
-authored score entry or synthesized fallback when the voice budget is full.
+general menu throttle. Native IDs are admitted explicitly; they have no
+authored fallback when the voice budget is full.
 Existing pause, mute, interruption, epoch and disposal paths retire these notes.
 
 For raw zero damage, [the native owner](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/dungeon_damage.c#L313)

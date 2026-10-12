@@ -6,6 +6,13 @@ Tiny Woods floors through Caterpie's reunion with Butterfree. Stop after the
 rescue reward. Town, team formation and later dungeons are outside this version.
 Justin explicitly requested removing unused code and assets on 2026-10-11.
 
+On 2026-10-12, Justin prioritized a review-ready, viable opening release
+("at least a 95% viable product") over waiting for literal cartridge parity.
+Finish the playable rescue, required checks and blocking review fixes; document
+remaining fidelity and retry-move limits. Keep further weather/move expansion
+outside this checkpoint. The percentage is a release target, not a measured
+fidelity score. Mark the PR ready for the owner's review; do not merge it.
+
 - `index.html` selects `src/blue/`, using two 256 × 192 Canvas 2D displays.
   Keep code, data, images, fonts and audio local with relative URLs. Preserve
   the existing GitHub Pages iframe integration and browser controls.

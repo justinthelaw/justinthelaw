@@ -9,8 +9,8 @@ unselected runtime or validation dependency.
 
 - `src/blue/` owns the selected browser game. Eight small shared numerical,
   generation, random-state and validation modules remain in `src/domain/`,
-  with two scoped type files. The first retirement left 62 typed sources;
-  the current scoped package checks 67 typed sources.
+  with scoped local types. The first retirement left 62 typed sources;
+  later opening additions retain the same independent static-check boundary.
 - `distribution.json` defines the playable resource closure. Historical
   campaign assets, catalogs, Three.js and authoring code are excluded and removed.
 - Runtime facts retain complete growth and learnsets for all 16 playable
@@ -21,8 +21,8 @@ unselected runtime or validation dependency.
 - Native art inputs, reconstruction code, source hashes and pixel evidence
   remain under `tools/pokemon-dungeon/art/blue/`. The raster writer and RNG
   attribution notice are retained. Current Blue reference notes remain.
-- The selected authored score has 11 themes, 8 effects and 655 notes. Native
-  short-effect inputs remain separate. No soundtrack-equivalence claim is made.
+- Background music and its authored score were subsequently removed at Justin's
+  request. Authored and source-derived gameplay/UI effects remain.
 
 ## Removed work
 

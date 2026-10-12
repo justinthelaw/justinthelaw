@@ -12,6 +12,8 @@ const BANKS=Object.freeze([
   {id:'extra',path:'battle-effects-extra',ids:[50,76,83,96,137,246,247,269,270,274,288,296,316,317,333]},
 ]);
 const JSON_LIMIT=128*1024,PNG_LIMIT=256*1024,MAX_BANKS=3,MAX_DECODED_BYTES=4*1024*1024;
+// [PNG color type, bit depth], matching the lossless authoring encoder.
+const PNG_FORMATS=Object.freeze([[3,1],[3,2],[3,4],[3,8],[6,8]]);
 
 /** @typedef {[number,number,number,number]} EffectFrame */
 /** @typedef {{depthOffset:number,rect:[number,number,number,number,number,number]}} EffectLayer */
@@ -75,7 +77,8 @@ async function bytes(path,limit,signal){
 function pngHeader(data,expected){
   if(data.byteLength<33||[137,80,78,71,13,10,26,10].some((value,index)=>data[index]!==value)||String.fromCharCode(...data.subarray(12,16))!=='IHDR')throw Error('Native battle artwork is not a PNG.');
   const header=new DataView(data.buffer,data.byteOffset,data.byteLength);
-  if(header.getUint32(8)!==13||header.getUint32(16)!==expected.width||header.getUint32(20)!==expected.height||data[24]!==8||data[25]!==6||data[26]!==0||data[27]!==0||data[28]!==0)throw Error('Native battle PNG geometry or format changed.');
+  const supported=PNG_FORMATS.some(([color,depth])=>data[25]===color&&data[24]===depth);
+  if(header.getUint32(8)!==13||header.getUint32(16)!==expected.width||header.getUint32(20)!==expected.height||!supported||data[26]!==0||data[27]!==0||data[28]!==0)throw Error('Native battle PNG geometry or format changed.');
 }
 
 export class BattleEffects {
