@@ -11,15 +11,14 @@ Blue facts.
 
 Static authoring lint/types, factual pins, original-rule preservation,
 reproducible exports, source closure and asset budgets passed. The final declared
-distribution is 136 files / 2,869,304 bytes, below 3 MiB. Independent combat and
+distribution is 136 files / 2,876,693 bytes, below 3 MiB. Independent combat and
 whole-branch source reviews approved after fixing underground Bide/projectile
 receipts, removing an unrequested Protect entry and respecting reduced motion.
 The quiz portrait remains above the new choices and previews Roux when selected;
 the renamed menu preserves its helper text.
 
-Website lint and the final static build passed. All 470 inert-fixture browser
-cases have passing results: 466 passed in the parallel run and four WebKit
-controls/tooltip timeouts passed in a serial rerun. Local WebKit used existing
+Website lint and the static build passed. A fresh serial website flight check
+on the Dig follow-up passed all 470 inert-fixture browser cases. Local WebKit used existing
 workspace libraries; its host-cache validation was bypassed after an inert
 launch confirmed those libraries work. No game/native modules were executed,
 no automated playthrough ran, and no new manual gameplay acceptance is claimed.
@@ -34,6 +33,16 @@ the fix and passed afterward. Roux's small-body Low Kick coefficient also uses
 the admitted 153/Q8 size class instead of a unitless ordinal, with an independent
 static admission check. No game code was executed. The final follow-up
 verification and current-head CI/Codex outcomes are recorded with the PR.
+
+The Dig follow-up pipeline also passed all seven checks. Its Codex review found
+missing Special Defense presentation and a floor-entry Pickup narration gap.
+The next follow-up maps Special Defense changes to pinned effects 401/400 and
+packs their existing archive artwork; drops reuse the qualified defense-down
+cue as an authored adaptation. Pickup now waits for tutorials and other surface
+gates, then uses the shared message/narration owner. The previous timer already
+paused under tutorials; the deferred publication also closes the actual
+accessibility gap. Static stat-effect coverage failed before the mapping fix
+and passed after it. Pending notices remain transient and retire with the scene.
 
 ## Historical original-opening review
 

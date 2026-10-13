@@ -267,7 +267,8 @@ for (const bank of assets.battleEffects.banks) {
     assert(!battleIds.has(effect.id), 'Native effect ID occurs in multiple banks'); battleIds.add(effect.id);
   }
 }
-assert.equal(battleIds.size, 66);
+assert.equal(battleIds.size, 68);
+for (const effectId of [400,401]) assert(battleIds.has(effectId), 'Roux Special Defense presentation must ship');
 const routeEffects = new Map();
 for (const moveId of firstAttemptMoves) {
   const route = motionFacts[moveId], required = ['preparation','cast','target','travel'].map(key => route[key]).filter(Boolean);

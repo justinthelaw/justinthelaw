@@ -12,6 +12,9 @@ Keen Eye. Both ability names are shown by the existing summary UI; Keen Eye uses
 the existing accuracy-drop guard. His Pickup adaptation is deliberately Roux-only:
 one 20% roll after floor generation with an empty held slot, then 75% Oran Berry
 or 25% Pecha Berry. There is no turn-based farming, inventory expansion or overwrite.
+Floor-entry Pickup notices wait for the foreground dungeon surface after entry
+tutorials and use the shared live-message/narration path. The pending notice is
+transient and retires with its scene; it adds no saved state or audio replay.
 
 | Level | Move |
 | --- | --- |
@@ -34,6 +37,10 @@ Attack; Crunch can lower Special Defense; Earth Power reaches two forward tiles
 and can lower Special Defense. These four move definitions and clips are authored
 adaptations, not claims of original Blue numerical or animation parity. Other
 move definitions remain byte-equivalent to their reviewed projections.
+Special Defense changes use source-qualified native effect selectors 401/400,
+packed from the existing pinned effect archive. Roux's Special Defense drops
+reuse the admitted defense-down `se906` cue as an authored adaptation; this does
+not claim the original Special Defense sound 908 is reproduced.
 
 The authored [catalog](../content/roux-adventure.json) uses Eevee's reviewed
 experience thresholds and a distinct 100-level stat curve. At level 5 Roux has

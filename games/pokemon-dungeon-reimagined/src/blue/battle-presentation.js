@@ -227,7 +227,8 @@ export class BattlePresentation {
       else if(id===29||id===150)sound(id===29?'se628':'se717',start,undefined,true);
       else if(id===85||id===236)sound(id===85?'se680':'se774',start);
       else if(id===423||id===434)sound(id===423?'se927':'se938',start);
-      else if(id===399)sound('se906',start,undefined,true);
+      // Authored Roux stat drops reuse the qualified defense-down cue.
+      else if(id===399||id===401)sound('se906',start,undefined,true);
       else if(id===221)sound('se768',start);
       else if(id===247)sound('se785',start);
       else if(id===321)sound('se853',start);

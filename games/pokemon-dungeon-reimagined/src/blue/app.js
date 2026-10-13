@@ -171,6 +171,8 @@ async function main() {
   /** Live message presentation is independent of the persisted Message Log. */
   /** @type {string[]} */ let liveMessages = [];
   let liveMessageRemaining = 0;
+  /** Transient floor-entry notice; never serialized or timed under a tutorial. @type {string|null} */
+  let entryPickupNotice = null;
   let selectedIndex = 0, dialoguePage = 0, speechStarted = 0, clock = 0, lastFrame = 0, progressFrameRemainder = 0;
   /** A ground-scene movement gate; reconstructed at its saved dialogue boundary.
    * @type {number|null} */let storyTransitionStarted=null;
@@ -277,7 +279,13 @@ async function main() {
     saveTimer = window.setTimeout(commitNow, 220);
   }
 
-  function clearLiveMessages() { liveMessages = []; liveMessageRemaining = 0; }
+  function clearLiveMessages() { liveMessages = []; liveMessageRemaining = 0; entryPickupNotice = null; }
+  function publishEntryPickup() {
+    if (!entryPickupNotice || disposed || faintPublication || !foregroundEligible() || !isDungeonSurface() || battle?.busy()) return;
+    const text = entryPickupNotice; entryPickupNotice = null;
+    presentBattleCues([{event:{type:'message',text},audible:false}],true);
+    rebuild();
+  }
   /** @param {ActionResult} result */
   function enqueueLiveMessages(result) {
     if (result.events.some(event => event.type === 'floor')) clearLiveMessages();
@@ -613,8 +621,9 @@ async function main() {
       if (phase === 'dungeon') {
         const lastMessage = state.dungeon?.log.at(-1);
         const pickup = newFloor && lastMessage?.includes("'s Pickup found") ? lastMessage : null;
-        if (pickup) { liveMessages = [pickup]; liveMessageRemaining = 4000; }
+        if (pickup) entryPickupNotice = pickup;
         settleDungeon(newFloor);
+        publishEntryPickup();
       }
     } catch (error) { if (!disposed && token === transition) fail(error); }
     finally { window.clearTimeout(deadline); }
@@ -1060,7 +1069,7 @@ async function main() {
     if (speech && !revealed) { revealed = true; audio.effect('confirm'); return; }
     if (speech && dialoguePage < speechPages.length - 1) { dialoguePage += 1; rebuild(); audio.effect('confirm'); return; }
     if (notice) { notice = null; dialoguePage = 0; rebuild(); return; }
-    if (tutorials.length) { tutorials.shift(); dialoguePage = 0; rebuild(); return; }
+    if (tutorials.length) { tutorials.shift(); dialoguePage = 0; rebuild(); publishEntryPickup(); return; }
     if (fieldDialogue) { fieldDialogue = null; dialoguePage = 0; rebuild(); return; }
     if (isNaming() && !menu) { chooseNaming(); return; }
     if (state?.phase === 'dungeon' && clock < eventUntil) return;
@@ -1422,6 +1431,7 @@ async function main() {
     }
     advanceStoryTransition();
     if(disposed)return;
+    publishEntryPickup();
     if (liveMessageRemaining > 0 && !document.hidden && document.hasFocus() && isDungeonSurface()) {
       liveMessageRemaining = Math.max(0, liveMessageRemaining - elapsed);
       if (liveMessageRemaining === 0) clearLiveMessages();

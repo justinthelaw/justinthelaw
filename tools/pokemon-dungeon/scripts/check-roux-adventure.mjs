@@ -68,6 +68,27 @@ function doubledMoves(node) {
 }
 const doubled = new Set(doubledMoves(multiplier));
 for(const move of Object.values(data.moves).filter(move => move.effects.some(effect => effect.op === 'charge') && move.effects.some(effect => effect.op === 'normal-damage' && effect.multiplier === 2))) assert(doubled.has(move.id), `Declared charge multiplier is missing from damage consumer: ${move.id}`);
+const statTable = variables(combat).find(node => node.id.name === 'STAT_EFFECTS')?.init;
+assert.equal(statTable?.type, 'ObjectExpression');
+const statEffects = Object.fromEntries(statTable.properties.map(property => [property.key.name, property.value.elements.map(element => element.value)]));
+const effectIds = new Set();
+for(const stem of ['battle-effects','battle-effects-initial','battle-effects-extra']) for(const effect of (await json(`assets/blue/${stem}.json`)).effects) effectIds.add(effect.id);
+for(const move of authored.moves) for(const effect of move.effects.flatMap(effect => effect.op === 'secondary' ? [effect.effect] : [effect])) {
+  if(effect.op !== 'stat-stage')continue;
+  const id = statEffects[effect.stat]?.[effect.delta > 0 ? 1 : 0];
+  assert(effectIds.has(id), `Authored stat change lacks a shipped presentation: ${move.id}/${effect.stat}`);
+}
+// Floor-entry messages must reach the shared narration/message owner only on
+// the unobscured foreground dungeon surface, and be retired with that scene.
+const appFunctions = ast.body.find(node => node.type === 'FunctionDeclaration' && node.id.name === 'main').body.body.filter(node => node.type === 'FunctionDeclaration');
+const appFunction = name => appFunctions.find(node => node.id.name === name);
+const publisher = appFunction('publishEntryPickup');
+assert(publisher, 'Floor-entry Pickup must have a deferred message owner');
+const publishGuard = app.slice(publisher.body.body[0].start, publisher.body.body[0].end);
+assert(publishGuard.includes('!isDungeonSurface()') && publishGuard.includes('!foregroundEligible()'), 'Floor-entry Pickup must wait for the visible, unobscured dungeon');
+assert(app.slice(publisher.start,publisher.end).includes('presentBattleCues('), 'Floor-entry Pickup must use shared live-message narration');
+assert(app.slice(appFunction('clearLiveMessages').start,appFunction('clearLiveMessages').end).includes('entryPickupNotice = null'), 'Retiring live messages must retire pending floor-entry Pickup');
+assert(app.slice(appFunction('isDungeonSurface').start,appFunction('isDungeonSurface').end).includes('!tutorials.length'), 'Tutorials must block floor-entry notice publication');
 assert.equal(variables(ast).find(node => node.id.name === 'mode')?.init.value,'menu');
 assert(!/mode\s*=\s*['"](?:title|opening)['"]/.test(app)); assert(!app.includes('beginOpening'));
 assert(!render.includes('render-intro')); assert(!render.includes('INTRO_CLIENT')); assert(app.includes('Play as Roux'));

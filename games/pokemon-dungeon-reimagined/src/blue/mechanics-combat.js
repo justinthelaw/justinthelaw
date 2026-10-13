@@ -475,7 +475,7 @@ function inflict(state,actor,target,status,data,events,displayMessage=true) {
 }
 /** Native stat-effect selectors; missing exported artwork is left to presentation.
  * @type {Readonly<Record<string,readonly [number,number]>>} */
-const STAT_EFFECTS={attack:[404,425],specialAttack:[403,402],defense:[399,398],accuracy:[397,396],evasion:[14,13]};
+const STAT_EFFECTS={attack:[404,425],specialAttack:[403,402],defense:[399,398],specialDefense:[401,400],accuracy:[397,396],evasion:[14,13]};
 /** @param {GameEvent[]} events @param {Actor} before @param {Actor} actor @param {number} [effectId] @param {boolean} [waitForEffect] */
 function recordEffect(events,before,actor,effectId,waitForEffect) {
   events.push({type:'presentation',presentation:{kind:'effect',before,after:captureActor(actor),...(effectId===undefined?{}:{effectId}),...(waitForEffect===undefined?{}:{waitForEffect})}});
