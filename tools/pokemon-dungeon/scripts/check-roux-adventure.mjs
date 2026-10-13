@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import * as acorn from 'acorn';
+import { decodePng } from '../art/blue/native-format.mjs';
 const game = new URL('../../../games/pokemon-dungeon-reimagined/', import.meta.url);
 const json = async (file, root = game) => JSON.parse(await readFile(new URL(file, root), 'utf8'));
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -104,5 +105,75 @@ for (const record of art.records) { const bytes=await readFile(new URL(`assets/r
 for (const [x,y,width,height] of sprite.poses) assert(x>=0 && y>=0 && x+width<=sprite.width && y+height<=sprite.height);
 for (const animation of sprite.animations) { assert.equal(animation.length,8); for (const sequence of animation) for (const frame of sequence) { assert.equal(frame.length,7); assert(frame.every(Number.isInteger)); assert(frame[0]>=0 && frame[0]<48 && frame[1]>0 && frame[1]<=255); } }
 for (const [x,y,width,height] of Object.values(sprite.portraits)) assert(x>=0 && y>=0 && width===40 && height===40 && x+width<=sprite.width && y+height<=sprite.height);
+// Inspect the shipped pixels independently of the packing algorithm. Hash and
+// rectangle checks alone admitted the detached feet and cropped face regression.
+const texture = decodePng(await readFile(new URL('assets/roux/pokemon-roux.png',game)));
+assert.deepEqual([texture.width,texture.height],[256,232]);
+assert.deepEqual([sprite.width,sprite.height],[texture.width,texture.height]);
+const palette = new Set();
+function pixelGeometry([left,top,width,height],label) {
+  const mask = new Uint8Array(width*height);
+  let count=0,minX=width,minY=height,maxX=-1,maxY=-1,sumX=0,sumY=0;
+  for(let y=0;y<height;y++) for(let x=0;x<width;x++) {
+    const at=((top+y)*texture.width+left+x)*4,alpha=texture.data[at+3];
+    assert(alpha===0 || alpha===255,`${label}: partial alpha blurs the pixel edge`);
+    if(!alpha)continue;
+    palette.add(texture.data[at]*65536+texture.data[at+1]*256+texture.data[at+2]);
+    mask[y*width+x]=1;count++;sumX+=x;sumY+=y;
+    minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);maxY=Math.max(maxY,y);
+  }
+  assert(count>0,`${label}: empty artwork`);
+  const visited = new Uint8Array(mask.length);
+  let components=0;
+  for(let start=0;start<mask.length;start++) {
+    if(!mask[start] || visited[start])continue;
+    components++;visited[start]=1;
+    const pending=[start];
+    while(pending.length) {
+      const index=pending.pop(),x=index%width,y=Math.floor(index/width);
+      for(let dy=-1;dy<=1;dy++) for(let dx=-1;dx<=1;dx++) {
+        const nextX=x+dx,nextY=y+dy,next=nextY*width+nextX;
+        if(nextX<0 || nextY<0 || nextX>=width || nextY>=height || !mask[next] || visited[next])continue;
+        visited[next]=1;pending.push(next);
+      }
+    }
+  }
+  return {mask,count,components,minX,minY,maxX,maxY,width:maxX-minX+1,height:maxY-minY+1,centerX:sumX/count,centerY:sumY/count};
+}
+const bodyGeometry = sprite.poses.map((pose,index) => {
+  const label=`Roux body pose ${index}`;
+  assert.equal(pose.length,6);assert(pose.every(Number.isInteger));
+  assert.deepEqual(pose.slice(2,4),[32,32],`${label}: body cell dimensions changed`);
+  const geometry=pixelGeometry(pose,label);
+  assert.equal(geometry.components,1,`${label}: detached opaque pixel cluster`);
+  return geometry;
+});
+for(const [index,geometry] of bodyGeometry.entries()) {
+  const label=`Roux body pose ${index}`,pose=sprite.poses[index];
+  assert(geometry.minX>=1 && geometry.minY>=1 && geometry.maxX<=30 && geometry.maxY<=30,`${label}: artwork touches the cell edge`);
+  assert(Math.abs(geometry.maxY+pose[5])<=1,`${label}: feet drift from the ground anchor`);
+}
+for(const [direction,sequence] of sprite.animations[sprite.clips.idle.animation].entries()) {
+  assert(sequence.length>=2,`Roux idle direction ${direction}: missing breathing frame`);
+  const firstFrame=sequence[0],firstPose=sprite.poses[firstFrame[0]],first=bodyGeometry[firstFrame[0]];
+  for(const frame of sequence.slice(1)) {
+    const label=`Roux idle direction ${direction}`,pose=sprite.poses[frame[0]],next=bodyGeometry[frame[0]];
+    assert.deepEqual([pose[4]+frame[2],pose[5]+frame[3]],[firstPose[4]+firstFrame[2],firstPose[5]+firstFrame[3]],`${label}: frame anchor changes`);
+    assert(Math.abs(next.width-first.width)<=2 && Math.abs(next.height-first.height)<=2,`${label}: silhouette size jumps`);
+    assert(Math.abs(next.centerX-first.centerX)<=1.25 && Math.abs(next.centerY-first.centerY)<=1.25,`${label}: body center jumps`);
+    assert(next.count/first.count>=0.85 && next.count/first.count<=1.15,`${label}: body area jumps`);
+    let changed=0,union=0;
+    for(let index=0;index<first.mask.length;index++) { if(first.mask[index]!==next.mask[index])changed++;if(first.mask[index] || next.mask[index])union++; }
+    assert(changed/union<=0.2,`${label}: too much silhouette motion for a calm idle`);
+  }
+}
+assert(sprite.portraits.normal && sprite.portraits.happy && sprite.portraits.shocked,'Roux requires normal, happy and awakening shocked portrait expressions');
+for(const [emotion,rect] of Object.entries(sprite.portraits)) {
+  const label=`Roux ${emotion} portrait`,geometry=pixelGeometry(rect,label);
+  assert(geometry.minX>=2 && geometry.maxX<=37 && geometry.minY>=2,`${label}: ears or cheeks lack breathing room`);
+  assert(geometry.width>=28 && geometry.width<=36 && geometry.height>=32,`${label}: face scale does not match the portrait window`);
+  assert(Math.abs((geometry.minX+geometry.maxX)/2-19.5)<=1,`${label}: face is not horizontally centered`);
+}
+assert(palette.size<=16,`Roux artwork exceeds its compact 16-color palette: ${palette.size}`);
 const source = await readFile(new URL(art.source.path,new URL('../../../',import.meta.url))); assert.equal(hash(source),art.source.sha256);
-console.log('Roux brief verified: starter/quiz unlock, non-evolving growth, canine/Ground moves, original rule preservation, menu-first closure, directional art and budgets. Static only.');
+console.log('Roux brief verified: starter/quiz unlock, non-evolving growth, canine/Ground moves, original rule preservation, menu-first closure, connected sprites, stable idle, centered portraits, palette and budgets. Static only.');

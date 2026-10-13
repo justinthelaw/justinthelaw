@@ -1,5 +1,35 @@
 # Roux's Adventure review
 
+## Concept A artwork refinement, 2026-10-13
+
+The owner selected concept A and authorized its implementation on
+`law/roux-sprite-refinement`. The replacement retains Roux's chocolate coat,
+cream blaze/bib/paws and curled tail across eight directions and 48 body poses.
+Separate centered normal, happy and shocked portraits replace the off-center
+body crops. The awakening scene resolves its existing shocked expression.
+Source decisions and generation provenance are recorded in the
+[artwork brief](../../../tools/pokemon-dungeon/reference/roux-adventure.md#artwork-and-verification-boundary).
+
+Independent PNG checks reproduced the old idle defect: pose 8 contained three
+disconnected opaque components. The replacement passes the new connectedness,
+border, ground-anchor, idle-stability, portrait-framing and palette checks.
+Pinned Node 24.21.0 authoring lint/types and all reproducible exports/factual
+checks passed. The distribution remains 136 files, now 2,820,862 bytes; the
+Roux texture is 10,978 bytes with the same 237,568 decoded-byte footprint.
+An enlarged review of the exported atlas showed complete ears/cheeks, centered
+faces and no detached pixels. An offline animated asset preview uses the shipped
+idle frames and timings; it does not import or execute game code.
+
+Website lint and the static build passed. The initial sandboxed browser phase
+could not launch Chromium, Firefox or WebKit; macOS denied browser startup
+before any page loaded. With host launch permission, 468 of 470 inert-fixture
+website cases passed. WebKit closed during one homepage context startup and
+Mobile Safari failed one existing reduced-motion assertion; both passed on a
+targeted serial `npm run test -- --last-failed --workers=1` rerun (2/2).
+The exported website's Roux PNG, metadata and notice match the declared runtime
+assets byte-for-byte. No game modules or automated gameplay were executed,
+and no new manual gameplay acceptance is claimed.
+
 ## Roux candidate, 2026-10-13
 
 The owner-requested rebrand starts directly at an authored chocolate/cream menu

@@ -1,32 +1,165 @@
 {
-  "originalGeneratedSha256": "05745ac173fb80192cc3c8d9a16ae89330c7f1d0a0a25feb2e3fb4520d40cbce",
-  "decodedSha256": "43011c0140f0656c473eca6add062fdf620b6770aae47baaf9c1191ad0f01b13",
-  "width": 1448,
-  "height": 1086,
-  "strips": [
-    {
-      "path": "roux-pose-0.png",
-      "sha256": "9326770240fb0be9a71b73cf75a40443f46cd2d0efce2564fc778c9c7865bde5"
-    },
-    {
-      "path": "roux-pose-1.png",
-      "sha256": "ba558f91c66c8d65f2a68f94ed43e884e1f9f086bfe2da8c2b54e5ebf87cc187"
-    },
-    {
-      "path": "roux-pose-2.png",
-      "sha256": "fd6d904c62aea117999493da99049989ce4db2132477be88ecd626bf97801ff0"
-    },
-    {
-      "path": "roux-pose-3.png",
-      "sha256": "6253c419d20e1f0f31ebeb1f6ad41e50bcdb6828d1dac882795a35123424d8d6"
-    },
-    {
-      "path": "roux-pose-4.png",
-      "sha256": "10111f63ee3d01ea6042171e8d91800bea40690f69a9d0c88ccee065cffd705f"
-    },
-    {
-      "path": "roux-pose-5.png",
-      "sha256": "d804c56603acc0f06950df2444405b55ac5c40d1149bd0ef0cdff5e9639b33c3"
-    }
-  ]
+  "schemaVersion": 2,
+  "selectedConcept": "A - Classic Dungeon",
+  "created": "2026-10-13",
+  "generator": "image_gen built-in",
+  "conceptSha256": "d31e576e0b312a317bf5a7a542192c4e6e105a6f626c6fa157b737c14f8cf2d0",
+  "previousSource": {
+    "originalGeneratedSha256": "05745ac173fb80192cc3c8d9a16ae89330c7f1d0a0a25feb2e3fb4520d40cbce",
+    "decodedSha256": "43011c0140f0656c473eca6add062fdf620b6770aae47baaf9c1191ad0f01b13",
+    "width": 1448,
+    "height": 1086,
+    "strips": [
+      {
+        "path": "roux-pose-0.png",
+        "sha256": "9326770240fb0be9a71b73cf75a40443f46cd2d0efce2564fc778c9c7865bde5"
+      },
+      {
+        "path": "roux-pose-1.png",
+        "sha256": "ba558f91c66c8d65f2a68f94ed43e884e1f9f086bfe2da8c2b54e5ebf87cc187"
+      },
+      {
+        "path": "roux-pose-2.png",
+        "sha256": "fd6d904c62aea117999493da99049989ce4db2132477be88ecd626bf97801ff0"
+      },
+      {
+        "path": "roux-pose-3.png",
+        "sha256": "6253c419d20e1f0f31ebeb1f6ad41e50bcdb6828d1dac882795a35123424d8d6"
+      },
+      {
+        "path": "roux-pose-4.png",
+        "sha256": "10111f63ee3d01ea6042171e8d91800bea40690f69a9d0c88ccee065cffd705f"
+      },
+      {
+        "path": "roux-pose-5.png",
+        "sha256": "d804c56603acc0f06950df2444405b55ac5c40d1149bd0ef0cdff5e9639b33c3"
+      }
+    ]
+  },
+  "bodyRows": [
+    "rest",
+    "walk-a",
+    "walk-b",
+    "attack",
+    "sleep"
+  ],
+  "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+  ],
+  "portraitEmotions": [
+    "normal",
+    "happy",
+    "shocked"
+  ],
+  "body": {
+    "originalGeneratedSha256": "decaea5bb689e51036b0584519ddee6f910f24dbf2cd6f65675e049f4ee903a8",
+    "decodedSha256": "52d2ba684009b8a7392ce6bbd03271bead8c5a8a0f24c38b86fb161e0a2eb536",
+    "width": 1586,
+    "height": 992,
+    "records": [
+      {
+        "path": "concept-a-body-0.png",
+        "rect": [
+          0,
+          0,
+          1586,
+          222
+        ],
+        "sha256": "4f5d74d33178d48558e9b0594ea8e5d694b0cc0780bb321654e917ece81ff0b3",
+        "bytes": 410698
+      },
+      {
+        "path": "concept-a-body-1.png",
+        "rect": [
+          0,
+          222,
+          1586,
+          192
+        ],
+        "sha256": "85fab3baa676907634e837cfa536c6043011941de9c6c6da7edb7517d2c0f28f",
+        "bytes": 410017
+      },
+      {
+        "path": "concept-a-body-2.png",
+        "rect": [
+          0,
+          414,
+          1586,
+          194
+        ],
+        "sha256": "2353fc5f6301b7c41a298c296bf0505d34b784d477af62114db89a41086f5f79",
+        "bytes": 410679
+      },
+      {
+        "path": "concept-a-body-3.png",
+        "rect": [
+          0,
+          608,
+          1586,
+          195
+        ],
+        "sha256": "06924642d5a50644a30e74bee6da03543e5061261d524fb09dfeb6d22d75a6f1",
+        "bytes": 427094
+      },
+      {
+        "path": "concept-a-body-4.png",
+        "rect": [
+          0,
+          803,
+          1586,
+          189
+        ],
+        "sha256": "4ab3ecb7b8b226e7b69bbd3116052ab0f8ed1b9da87549f45729d143a8771eae",
+        "bytes": 350300
+      }
+    ]
+  },
+  "portraits": {
+    "originalGeneratedSha256": "de8ff0f1537fda71595d03495cd0d8b741a864aee069818bc4bd57a762a27fe5",
+    "decodedSha256": "1e3a28979dbb06827a464e4ebc91e4d9acf01a02083bb62c73fab2a69d15fbaf",
+    "width": 2172,
+    "height": 724,
+    "records": [
+      {
+        "path": "concept-a-portraits-0.png",
+        "rect": [
+          0,
+          0,
+          724,
+          724
+        ],
+        "sha256": "db730f41c4bffd6366dab3f6da15b63f42f657320b9e1f4b7018ac38ee8f74ab",
+        "bytes": 407489
+      },
+      {
+        "path": "concept-a-portraits-1.png",
+        "rect": [
+          724,
+          0,
+          724,
+          724
+        ],
+        "sha256": "b65a6366ef7e04484b373ca595c15c1507c28c725592175efc71a4ed09a9e3f9",
+        "bytes": 412858
+      },
+      {
+        "path": "concept-a-portraits-2.png",
+        "rect": [
+          1448,
+          0,
+          724,
+          724
+        ],
+        "sha256": "f9394ac91c6b68ed867ae8d4d4226c1f091b48a0c7bd2624748978e181060f65",
+        "bytes": 406596
+      }
+    ]
+  }
 }
