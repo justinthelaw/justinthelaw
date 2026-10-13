@@ -17,6 +17,8 @@ The packaged helpers are GitHub adapters. For GitLab, Bitbucket and Hugging Face
 
 Read applicable `AGENTS.md` files and identify branch, remote/upstream, full local/remote SHAs, initialized submodules, index and worktree changes. Derive identities from evidence; never assume `origin`, `main`, repository basenames or matching directory names. Fetch selected upstreams when authorized to refresh their ahead/behind state; inventory itself does not prove freshness.
 
+Missing or partial tracking blocks the helpers, even with one remote. For a new branch, gather inventory with native Git and verify the approved remote/ref from task and repository evidence. Follow the commit and publish steps below, using an explicit refspec and `--set-upstream` on the authorized first push; rerun the helpers once tracking exists. Never infer the destination from the sole remote or local branch name.
+
 Protect unrelated staged/unstaged/untracked work, stashes, unpublished commits and other worktrees. An ambiguous target, detached head, conflict, unexplained gitlink mismatch or unavailable provider access blocks that target. Do not initialize an unselected submodule or include its work implicitly. An intended child commit may temporarily differ from its parent's gitlink until the parent records it.
 
 ## Commit and publish

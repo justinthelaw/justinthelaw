@@ -162,22 +162,27 @@ class DiscoveryTests(unittest.TestCase):
                 with self.assertRaises(watcher.WatchError):
                     watcher.build_target(Path("/fixture"), Path("/fixture"), runner)
 
-    def test_only_absent_upstream_uses_the_existing_single_remote_fallback(self) -> None:
-        def runner(argv, cwd=None, optional=False):
-            watcher.ensure_read_only(argv)
-            if argv == ["git", "branch", "--show-current"]:
-                return "topic"
-            if argv == ["git", "rev-parse", "HEAD"]:
-                return "a" * 40
-            if argv[1] == "for-each-ref":
-                return "refs/heads/topic\0\0"
-            if argv == ["git", "remote"]:
-                return "origin"
-            if argv == ["git", "remote", "get-url", "origin"]:
-                return "https://github.com/correct/project.git"
-            raise AssertionError(argv)
-        selected = watcher.build_target(Path("/fixture"), Path("/fixture"), runner)
-        self.assertEqual((selected.remote, selected.upstream_branch), ("origin", "topic"))
+    def test_absent_upstream_blocks_without_remote_lookup(self) -> None:
+        for remotes in ("", "origin", "origin\nbackup"):
+            with self.subTest(remotes=remotes):
+                calls = []
+                def runner(argv, cwd=None, optional=False):
+                    watcher.ensure_read_only(argv)
+                    calls.append(argv)
+                    if argv == ["git", "branch", "--show-current"]:
+                        return "topic"
+                    if argv == ["git", "rev-parse", "HEAD"]:
+                        return "a" * 40
+                    if argv[1] == "for-each-ref":
+                        return "refs/heads/topic\0\0"
+                    if argv == ["git", "remote"]:
+                        return remotes
+                    if argv == ["git", "remote", "get-url", "origin"]:
+                        return "https://github.com/correct/project.git"
+                    raise AssertionError(argv)
+                with self.assertRaisesRegex(watcher.WatchError, "Missing upstream.*configure tracking"):
+                    watcher.build_target(Path("/fixture"), Path("/fixture"), runner)
+                self.assertFalse(any(call[:2] == ["git", "remote"] or call[0] == "gh" for call in calls))
 
 
 class SafetyTests(unittest.TestCase):

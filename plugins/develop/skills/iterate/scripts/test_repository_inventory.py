@@ -314,6 +314,27 @@ class LocalGitTests(unittest.TestCase):
         selected = build_target(self.repo, self.repo, run_command)
         self.assertEqual((selected.remote, selected.upstream_branch), ("team/origin", "release/next"))
 
+    def test_single_remote_does_not_supply_missing_or_partial_tracking(self) -> None:
+        self.git("remote", "add", "origin", "https://github.com/fixture/project.git")
+        for branch, facts in (
+            ("no-tracking", {}),
+            ("remote-only", {"remote": "origin"}),
+            ("ref-only", {"merge": "refs/heads/published-name"}),
+        ):
+            with self.subTest(branch=branch):
+                self.git("checkout", "-b", branch)
+                for key, value in facts.items():
+                    self.git("config", f"branch.{branch}.{key}", value)
+                config_before = (self.repo / ".git" / "config").read_bytes()
+                calls = []
+                def runner(argv, **kwargs):
+                    calls.append(argv)
+                    return run_command(argv, **kwargs)
+                with self.assertRaisesRegex(WatchError, "upstream"):
+                    build_target(self.repo, self.repo, runner)
+                self.assertFalse(any(call[:2] == ["git", "remote"] or call[0] == "gh" for call in calls))
+                self.assertEqual((self.repo / ".git" / "config").read_bytes(), config_before)
+
     def test_actual_git_rename_preserves_both_unusual_paths(self) -> None:
         # Windows forbids control characters in filenames. Synthetic protocol
         # tests retain newline coverage on every platform.

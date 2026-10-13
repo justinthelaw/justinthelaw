@@ -364,17 +364,13 @@ def build_target(path: Path, root: Path, runner: Runner, *, github_hosts: Sequen
     _, remote, remote_ref = fields
     if bool(remote) != bool(remote_ref):
         raise WatchError(f"Incomplete upstream remote/ref facts for {path}")
-    if remote:
-        if remote == "." or remote.startswith("-") or re.search(r"\s", remote):
-            raise WatchError(f"Unsupported upstream remote identity for {path}")
-        if not remote_ref.startswith("refs/heads/") or not remote_ref.removeprefix("refs/heads/"):
-            raise WatchError(f"Upstream is not a remote branch for {path}")
-        upstream_branch = remote_ref.removeprefix("refs/heads/")
-    else:
-        remotes = (runner(["git", "remote"], cwd=path) or "").splitlines()
-        if len(remotes) != 1:
-            raise WatchError(f"Ambiguous upstream remote for {path}; configure tracking first")
-        remote, upstream_branch = remotes[0], branch
+    if not remote:
+        raise WatchError(f"Missing upstream remote/ref facts for {path}; configure tracking first")
+    if remote == "." or remote.startswith("-") or re.search(r"\s", remote):
+        raise WatchError(f"Unsupported upstream remote identity for {path}")
+    if not remote_ref.startswith("refs/heads/") or not remote_ref.removeprefix("refs/heads/"):
+        raise WatchError(f"Upstream is not a remote branch for {path}")
+    upstream_branch = remote_ref.removeprefix("refs/heads/")
     remote_url = runner(["git", "remote", "get-url", remote], cwd=path)
     if not head or not remote_url:
         raise WatchError(f"Missing Git metadata for {path}")
