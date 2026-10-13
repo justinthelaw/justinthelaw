@@ -15,7 +15,8 @@ Read [the shared contract](references/contract.md). Preserve one invocation and 
 
 | Intent | Required skill | Handoff |
 | --- | --- | --- |
-| Implement, fix, maintain, review or publish repository work | [iterate](../iterate/SKILL.md) | Targets, outcome, constraints |
+| Implement, fix, maintain or review repository work | [iterate](../iterate/SKILL.md) | Targets, outcome, implementation constraints |
+| Publish existing changes or monitor/fix CI | [iterate](../iterate/SKILL.md) | Selected roots, delivery mode, existing authority, thread signing preference |
 | Upgrade dependencies or consolidate dependency PRs | [upgrade](../upgrade/SKILL.md) | Targets, dependency and PR scope |
 | Inspect or reclaim disk/RAM; investigate processes | [clean](../clean/SKILL.md) | Environment, exact scope, protected work |
 | Challenge facts, visuals, writing, plans or results | [adversarial-loop](../adversarial-loop/SKILL.md) | Intent, artifacts, evaluation criteria |

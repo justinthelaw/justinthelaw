@@ -5,11 +5,15 @@ Requires Python 3.10+. This repository deliberately uses two simple scalar YAML
 frontmatter fields and JSON-compatible quoted UI strings; no YAML dependency.
 """
 import argparse
+import ast
 import json
 from pathlib import Path
 import re
 import sys
 
+# Resolve the packaged sibling even when Python safe-path mode omits the
+# script directory. Never import from the caller's current working directory.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from generate_codex_manifest import codex_manifest
 
 SKILLS = {"develop", "iterate", "upgrade", "clean", "adversarial-loop"}
@@ -118,6 +122,31 @@ def validate(root, marketplace_root=None):
                            f"{ui_path.relative_to(root)}: {key}")
         except (OSError, ValueError) as exc:
             errors.append(f"{ui_path.relative_to(root)}: {exc}")
+
+    # Delivery helpers ship inside the owning skill. Check their local import
+    # closure without importing code or relying on the author's checkout.
+    helper_root = root / "skills/iterate/scripts"
+    pending = ["repository_inventory", "watch_pipelines"]
+    inspected = set()
+    while pending:
+        module = pending.pop()
+        if module in inspected:
+            continue
+        inspected.add(module)
+        path = helper_root / f"{module}.py"
+        if not path.resolve().is_relative_to(root) or path.is_symlink():
+            errors.append(f"delivery helper escapes package or is a symlink: {module}")
+            continue
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        except (OSError, SyntaxError, UnicodeError) as exc:
+            errors.append(f"delivery helper {module}: {exc}")
+            continue
+        for node in ast.walk(tree):
+            names = [alias.name for alias in node.names] if isinstance(node, ast.Import) else (
+                [node.module] if isinstance(node, ast.ImportFrom) and node.module else []
+            )
+            pending.extend(name for name in names if name.startswith("pipeline_") or name == "watch_pipelines")
 
     for path in [root / "INSTALL.md", *sorted((root / "skills").rglob("*.md"))]:
         if not path.is_file():

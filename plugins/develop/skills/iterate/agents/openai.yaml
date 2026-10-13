@@ -2,5 +2,5 @@ interface:
   icon_small: "./assets/icon.png"
   icon_large: "./assets/icon.png"
   display_name: "Develop: Iterate"
-  short_description: "Deliver repository changes through review"
-  default_prompt: "Use $iterate from the develop plugin to fix and verify this repository change."
+  short_description: "Implement, publish and verify repository work"
+  default_prompt: "Use $iterate from the develop plugin to deliver the selected repository work and verify its current commit."
