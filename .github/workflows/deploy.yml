@@ -72,6 +72,9 @@ jobs:
           static_site_generator: next
 
       - name: Install Dependencies
+        # Browser inference does not need optional native CUDA binaries.
+        env:
+          ONNXRUNTIME_NODE_INSTALL: skip
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
       - name: Lint Code

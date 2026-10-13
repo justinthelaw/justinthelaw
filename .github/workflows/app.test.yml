@@ -32,6 +32,9 @@ jobs:
         run: npm install --global npm@12.2.0
 
       - name: Install Dependencies
+        # Match Pages builds: browser inference needs no native CUDA download.
+        env:
+          ONNXRUNTIME_NODE_INSTALL: skip
         run: npm ci
 
       - name: Check Complete Lockfile Dependency Graph
