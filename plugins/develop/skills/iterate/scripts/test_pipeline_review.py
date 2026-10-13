@@ -6,6 +6,7 @@ import sys
 import unittest
 from dataclasses import replace
 from datetime import datetime, timezone
+from functools import partial
 from pathlib import Path
 from unittest.mock import patch
 
@@ -15,6 +16,7 @@ from pipeline_monitor import Watcher
 from pipeline_support import WatchError, ensure_read_only
 from pipeline_test_support import FakeClock, target
 from test_pipeline_checks import CoverageRunner
+import watch_pipelines
 
 
 BOT = {"login": "chatgpt-codex-connector[bot]", "type": "Bot", "__typename": "Bot"}
@@ -66,6 +68,70 @@ class ReviewRunner(CoverageRunner):
                 return json.dumps(self.request_reactions.get(int(argv[2].split("/")[-2]), []))
             return json.dumps(self.reactions)
         return super().__call__(argv, cwd, optional)
+
+
+class ReviewSelectionTests(unittest.TestCase):
+    def snapshot_cli(self, runner, *arguments):
+        events = []
+
+        def run(argv, cwd=None, optional=False):
+            if argv == ["git", "rev-parse", "--show-toplevel"]:
+                return str(runner.current.path)
+            if argv == ["git", "submodule", "status", "--recursive"]:
+                return ""
+            return runner(argv, cwd, optional)
+
+        with patch.object(watch_pipelines, "run_command", run), patch.object(
+            watch_pipelines, "Watcher", partial(Watcher, runner=run, emit=events.append)
+        ):
+            result = watch_pipelines.main(["--repo", str(runner.current.path), "--once", *arguments])
+        return result, events
+
+    def test_default_cli_completes_ci_without_reading_vendor_reviews(self):
+        runner = ReviewRunner(comments=[request()])
+        result, events = self.snapshot_cli(runner)
+        self.assertEqual(result, 0)
+        self.assertEqual(events[-1]["result"], "passed")
+        self.assertFalse(any(call[:3] == ["gh", "api", "graphql"] for call in runner.calls))
+        self.assertFalse(any(event["event"] == "review" for event in events))
+
+    def test_selected_codex_review_does_not_accept_an_old_sha(self):
+        runner = ReviewRunner(target(head="b" * 40), comments=[request()], reviews=[review(target())])
+        result, events = self.snapshot_cli(runner, "--review-provider", "codex")
+        self.assertEqual(result, 3)
+        self.assertEqual(events[-1]["result"], "pending")
+        self.assertTrue(any(event["event"] == "review" and event["status"] == "active" for event in events))
+
+    def test_selected_codex_review_accepts_current_sha_evidence(self):
+        for comments in ([], [request()]):
+            with self.subTest(comments=comments):
+                runner = ReviewRunner(comments=comments, reviews=[review(target())])
+                result, events = self.snapshot_cli(runner, "--review-provider", "codex")
+                self.assertEqual(result, 0)
+                self.assertEqual(events[-1]["result"], "passed")
+                self.assertTrue(any(event["event"] == "review" and event["status"] == "passed" for event in events))
+
+    def test_selected_codex_review_blocks_without_evidence_or_request(self):
+        with self.assertRaisesRegex(WatchError, "No current-head Codex review evidence"):
+            self.snapshot_cli(ReviewRunner(), "--review-provider", "codex")
+
+    def test_selected_codex_review_blocks_with_only_old_sha_evidence(self):
+        runner = ReviewRunner(target(head="b" * 40), reviews=[review(target())])
+        with self.assertRaisesRegex(WatchError, "No current-head Codex review evidence"):
+            self.snapshot_cli(runner, "--review-provider", "codex")
+
+    def test_selected_codex_review_blocks_without_an_open_pull_request(self):
+        runner = ReviewRunner()
+        runner.pr = None
+        with self.assertRaisesRegex(WatchError, "requires an open pull request"):
+            self.snapshot_cli(runner, "--review-provider", "codex")
+
+    def test_default_cli_can_complete_ci_without_a_pull_request(self):
+        runner = ReviewRunner()
+        runner.pr = None
+        result, events = self.snapshot_cli(runner)
+        self.assertEqual(result, 0)
+        self.assertEqual(events[-1]["result"], "passed")
 
 
 class ProductionReviewTests(unittest.TestCase):
@@ -150,10 +216,10 @@ class ProductionReviewTests(unittest.TestCase):
         self.assertFalse(monitor.review_states[runner.current.key].acknowledged)
         self.assertIn(runner.current.key, monitor.unacknowledged_reviews)
 
-    def test_unrequested_review_is_optional_and_untrusted_requests_are_ignored(self):
+    def test_selected_review_without_trusted_request_or_evidence_blocks(self):
         for comments in ([], [request(association="CONTRIBUTOR")], [request(body="Quoted example:\n@codex review")]):
-            with self.subTest(comments=comments):
-                self.assertEqual(self.snapshot(ReviewRunner(comments=comments))[0], 0)
+            with self.subTest(comments=comments), self.assertRaisesRegex(WatchError, "No current-head Codex review evidence"):
+                self.snapshot(ReviewRunner(comments=comments))
 
     def test_outdated_unresolved_codex_thread_remains_a_finding(self):
         current = target()

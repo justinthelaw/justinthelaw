@@ -1,7 +1,7 @@
 {
   "name": "develop",
-  "version": "0.2.0",
-  "description": "Repository delivery, dependency upgrades, cleanup, and independent review workflows for coding agents.",
+  "version": "0.3.0",
+  "description": "Repository delivery, dependency assessment and upgrades, cleanup, independent review, and scoped workflow improvement for coding agents.",
   "author": {
     "name": "justinthelaw",
     "url": "https://github.com/justinthelaw"
@@ -14,7 +14,7 @@
     "repositories",
     "upgrades",
     "review",
-    "superpowers"
+    "kaizen"
   ],
   "skills": "./skills/",
   "interface": {
@@ -22,8 +22,8 @@
     "logo": "./assets/logo.png",
     "composerIcon": "./assets/logo.png",
     "brandColor": "#C99554",
-    "shortDescription": "Build, upgrade, and review",
-    "longDescription": "Use reusable skills for repository changes, publication and CI repair, dependency upgrades, environment cleanup, and independent review. Commit signing is optional. Install Superpowers separately for implementation. Review completion requires fresh matching reviewer agents.",
+    "shortDescription": "Build, review, and improve",
+    "longDescription": "Use six portable skills for repository delivery, dependency and runtime assessment, upgrades, documentation maintenance, validation, cleanup, independent review, and scoped session improvement with Kaizen. Commit signing is nonblocking. Core workflows need no external skill framework.",
     "developerName": "justinthelaw",
     "category": "Developer Tools",
     "capabilities": [
@@ -32,9 +32,9 @@
     ],
     "websiteURL": "https://github.com/justinthelaw/justinthelaw/tree/main/plugins/develop",
     "defaultPrompt": [
-      "develop iterate: fix this repository's failing build.",
-      "develop upgrade: upgrade this repository's dependencies.",
-      "develop clean: inspect disk and memory usage."
+      "develop iterate: fix this repository\u2019s failing build.",
+      "develop upgrade: assess and upgrade this repository\u2019s dependencies.",
+      "develop kaizen: review these selected sessions and recommend workflow improvements."
     ]
   }
 }

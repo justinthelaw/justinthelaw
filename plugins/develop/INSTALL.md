@@ -1,53 +1,45 @@
 # Install Develop
 
-Source: [justinthelaw/justinthelaw, plugins/develop](https://github.com/justinthelaw/justinthelaw/tree/main/plugins/develop). The plugin uses portable root `plugin.json` and `skills/`, plus a generated `.codex-plugin/plugin.json` for Codex compatibility. Both manifests resolve assets from the plugin root. The repository catalog lives at `.agents/plugins/marketplace.json` and points to `./plugins/develop`. A checkout or Git push does not install or enable it elsewhere.
+Source: [justinthelaw/justinthelaw, plugins/develop](https://github.com/justinthelaw/justinthelaw/tree/main/plugins/develop). This skills-only package contains six entry points: `develop`, `iterate`, `upgrade`, `clean`, `adversarial-loop` and `kaizen`. Bundled implementation guidance needs no additional workflow plugin. Compatible installed guidance may supplement it.
 
-## Local client
+## Choose a host
 
-Choose a Git ref containing the plugin; replace `main` below when testing an unmerged branch.
+Use the host's supported marketplace/package installer. Repository checkout, publication, installation, enablement and runtime discovery are separate states. Verify the selected version and skill discovery in a fresh session on each intended device or environment. Local installation alone does not install a cloud or remote copy.
+
+The root `plugin.json` is portable metadata. Generated `.codex-plugin/plugin.json`, the `com.openai` metadata namespace and skill `agents/openai.yaml` files are compatibility adapters, not product-specific workflow requirements. Both manifests resolve assets from the package root. Keep these technical names accurate; do not edit installed caches.
+
+For Codex clients supporting the native plugin CLI:
 
 ```sh
 codex plugin marketplace add justinthelaw/justinthelaw --ref main
-codex plugin marketplace list
+codex plugin add develop@justinthelaw
+codex plugin list --marketplace justinthelaw --json
 ```
 
-In Codex CLI, open `/plugins` and install and enable Develop from the justinthelaw marketplace. In ChatGPT desktop, restart the app, open Plugins, select that marketplace, and install Develop. Start a new chat and verify the skills are available. For a local checkout, register the repository root with `codex plugin marketplace add /absolute/path/to/justinthelaw`.
+The repository catalog is `.agents/plugins/marketplace.json`. A local checkout can instead be registered by absolute repository path. Refresh a configured Git source with `codex plugin marketplace upgrade justinthelaw`, then use the client's supported update/install flow. Restart or refresh the host and begin a new chat to verify its active catalog. A downloaded bundle alone does not prove activation.
 
-Install and enable [Superpowers](https://github.com/obra/superpowers) separately for implementation through `iterate` and for `upgrade`. If unavailable, implementation routes perform read-only preparation and report the dependency blocker before changing code. Publishing already-prepared changes and read-only monitoring use the bundled delivery procedure without a new design/planning dependency; code repairs return to the implementation gates. This package does not automatically install dependencies or grant repository access.
+Other hosts use their documented skill/plugin loading and account/workspace distribution flows. Verify filesystem access, native provider tools and fresh independent reviewer capability there; do not assume another host's command names or permissions. Required reviewer matching that the runtime cannot establish must be reported as unverified.
 
-Ask directly, for example:
+## Use
 
-- `develop iterate: fix this repository's failing build. Preserve its public API.`
-- `develop iterate: publish the prepared changes in this checkout and monitor CI. Prefer signing when available; allow unsigned commits.`
-- `develop upgrade: upgrade dependencies in justinthelaw/example.`
+- `develop iterate: fix this checkout's failing build; preserve its public API.`
+- `develop iterate: review these documents against current code; report only.`
+- `develop iterate: publish these prepared changes; signing is optional.`
+- `develop upgrade: assess and upgrade dependencies in this repository.`
+- `develop upgrade: review this dependency PR only.`
 - `develop clean: inspect disk and memory usage; do not delete anything.`
-- `adversarial-loop: fact-check this draft and check its tone against my style guide; report findings only.`
+- `develop kaizen: analyze these two selected sessions and recommend workflow improvements; make no changes.`
+- `adversarial-loop: fact-check this draft; report findings only.`
 
-`adversarial-loop` also works independently on facts, visuals, writing, and other artifacts. It requires fresh matching reviewers, but no repository, router, or Superpowers.
+Dependency assessment is upgrade's first stage. A user may explicitly bypass the separate assessment after planning; factual prerequisites, validation and protections still apply. Scope stays with selected repositories and sessions; no author-account fleet or machine-wide history is implied. Repository-specific conventions and user preferences remain with their owners.
 
-Cleanup adapts to Windows, Linux, and macOS. Every invocation requires fresh independent adversarial review, including blocked and no-op outcomes. A runtime without fresh non-forked agents using the original model and effort cannot complete that gate; report it as blocked or unverified.
+Signing is nonblocking: use an existing noninteractive signer when available, otherwise fall back unsigned, preserving any thread preference. Do not change persistent Git configuration or set up keys to satisfy this workflow. Actual repository/server restrictions still apply.
 
-Commit signing is a thread-scoped preference, not a prerequisite: use an existing
-noninteractive signer when available and fall back unsigned when only signing
-is unavailable or fails. No key setup, persistent Git configuration changes or
-repeated prompts are required. Real repository/server restrictions remain in
-effect. See the [shared contract](skills/develop/references/contract.md#nonblocking-commit-signing).
+The bundled watcher supports GitHub CI. Its optional vendor-specific review adapter is selected explicitly; other required reviews use native evidence. A successful CI-only watcher does not certify all PR approvals. See [monitoring](skills/iterate/references/github-monitoring.md).
 
-## Dot and cloud
+## Verify and release
 
-| Surface | Required setup |
-| --- | --- |
-| Dot using your laptop | Connect the laptop in the dot's profile; keep it online with ChatGPT open. Verify the local task can load both plugins. |
-| Dot or ChatGPT Work in the cloud | Make the plugin available through a supported account/workspace distribution flow, then install, enable, and verify it in a new cloud task. Local installation alone is insufficient. |
-| Separate VM running Codex CLI | Install through that VM's own client; verify repository access, Superpowers, and reviewer-agent capability there. |
-
-For workspace distribution, an admin can select **Admin > Plugins > Add > Import marketplace**, use `https://github.com/justinthelaw/justinthelaw` as Source, leave Path empty, and select the intended branch/tag/commit. Review import results and configure role access. Workspace imports support daily sync and **Sync now**. Workspace policies apply independently of the repository catalog. This does not promise personal GitHub sync or automatic installation across devices.
-
-## Update and verify
-
-Refresh a configured Git marketplace with `codex plugin marketplace upgrade justinthelaw`. Update local checkouts through Git; use workspace sync for imported copies. Restart the desktop app, begin a new chat, and verify the active revision and skill contents. Do not edit installed caches.
-
-From the repository root, with Python 3.10 or newer:
+With Python 3.10 or newer, from the repository root:
 
 ```sh
 python plugins/develop/scripts/generate_codex_manifest.py
@@ -56,27 +48,12 @@ python -m unittest discover -s plugins/develop/tests -p test_validate.py
 python -m unittest discover -s plugins/develop/skills/iterate/scripts -p 'test_*.py'
 ```
 
-Regenerate the compatibility manifest after changing root `plugin.json` and commit both files. Validation checks the shipped manifest without rewriting it. These checks validate package structure, not runtime behavior. For a detached installed payload, run its `scripts/validate.py` without `--marketplace-root`. Run [agent scenarios](tests/scenarios.md) and verify installation, references, Superpowers, and fresh-agent review on each intended surface. See [AGENTS.md](AGENTS.md) for maintenance instructions. No installation or publication is implied by this guide.
+Commit both manifests after portable metadata changes. For a detached installed payload, omit `--marketplace-root`; run fixture-writing package tests on a disposable copy outside the installed cache. Exercise [fresh-context scenarios](tests/scenarios.md), packaged references/helpers from an unrelated working directory, and actual icon legibility. Structure checks and simulated decisions do not prove installation, live publication or deployment.
 
-## Migrating standalone skills
+## Migrate standalone skills
 
-Version 0.2.0 consolidates the Git publication/inventory/watcher behavior into
-`iterate` and the bounded lane-contract behavior into `adversarial-loop`.
-The five canonical entry points remain `develop`, `iterate`, `upgrade`, `clean`
-and `adversarial-loop`. Bundled Python helpers are explicitly invoked from their
-installed skill directory; they are not hooks, services or automatic actions.
+Version 0.2.0 consolidated Git publication and bounded adversarial review. Version 0.3.0 adds dependency assessment, runtime-contract review, documentation drift, validation evidence and Kaizen. Machine-specific scripts and native transcript parsers are not copied into generic workflows.
 
-Keep existing `git-commit-push-fix-loop` and `adversarial-review-loop` installations
-and their source repositories intact during qualification. Test the packaged
-payload from an unrelated working directory, then verify the intended installed
-plugin's version, source revision, helper paths and behavior in a fresh chat.
-Invoke the marketplace plugin explicitly during coexistence; do not assume
-duplicate-name precedence or edit installed caches. A local package test is not
-proof of installation or successful remote CI monitoring.
+During coexistence, invoke the intended marketplace skill explicitly and verify its source/version. Inventory each donor's live callers, helpers, active links and any functionality that remains repository-specific. Normally qualify the installed replacement before retirement. If the user explicitly chooses source-only qualification and later installation, verify the replacement package and disclose the installation gap before retiring the authorized donors.
 
-Only after the marketplace version has passed that verification should callers
-switch to `iterate` and `adversarial-loop`. Retiring old active links/copies is a
-separate authorized migration step; use Trash where supported and retain source
-history. No legacy aliases or local-installation changes are made by this release.
-
-Official references: [packaging and marketplaces](https://developers.openai.com/plugins/build/plugins), [installation](https://learn.chatgpt.com/docs/plugins), [workspace GitHub sync](https://learn.chatgpt.com/docs/enterprise/plugin-management), [Dot access](https://learn.chatgpt.com/docs/dots/computers-and-apps).
+Move retired sources and exact matching links to recoverable Trash where supported; preserve Git history, unrelated skills and work. Repair live callers and remove only obsolete grants/packaging entries. Retain repository-owned operations that were not consolidated under their proper owner. Source consolidation alone does not authorize installation, retirement, commits or publication.

@@ -11,7 +11,7 @@ Inspect first, remove verified disposable targets, and measure the result.
 
 Read [the shared contract](../develop/references/contract.md) and [platform guidance](references/platforms.md). Reuse the invocation; its coordinator reviews proposed targets before removal and evidence before completion.
 
-Identify the actual OS, shell, writable roots and tools. Laptop, Dot and cloud labels do not identify an OS or grant access to another device. Respect the requested scope; inspection-only means no deletion or process stopping.
+Identify the actual OS, shell, writable roots and tools. A local, remote or hosted runtime does not grant access to another device. Respect the requested scope; inspection-only means no deletion or process stopping.
 
 In upgrade **prepare mode**, remove only verified unused, rebuildable caches/build output within authorized workspace/scratch boundaries. Preserve checkouts, current directory, installed toolchains and active services; a measured no-op is valid.
 
