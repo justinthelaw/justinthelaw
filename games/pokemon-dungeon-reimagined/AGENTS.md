@@ -1,8 +1,10 @@
-# Blue Rescue Team opening
+# Roux's Adventure
 
-Follow [BLUE-OPENING.md](plan/BLUE-OPENING.md): original DS boot/title/menu,
-personality test, partner creation, awakening and three Tiny Woods floors
-through Caterpie's reunion/reward. Town, team formation, later dungeons and the
+Follow [BLUE-OPENING.md](plan/BLUE-OPENING.md): start directly at the authored
+Roux menu, then personality test, partner creation, awakening and three Tiny
+Woods floors through Caterpie's reunion/reward. The 2026-10-13 owner brief
+supersedes original boot/title fidelity: optional Normal/Ground Roux, a playful
+quiz route, brown/cream branding, canine/Ground moves and Pickup. Town, team formation, later dungeons and the
 former 3D campaign are excluded. PR #397 is merged.
 
 - `index.html` selects `src/blue/`: two 256x192 Canvas 2D displays, local assets
@@ -31,7 +33,8 @@ former 3D campaign are excluded. PR #397 is merged.
 - Record acceptance in [BLUE-OPENING-REVIEW.md](plan/BLUE-OPENING-REVIEW.md)
   and source decisions in `tools/pokemon-dungeon/reference/`.
   The owner's "95% viable product" goal is a review target, not a fidelity score.
-  Further weather/move expansion is outside that checkpoint.
+  Roux's explicitly authored learnset extends that historical checkpoint;
+  unrelated weather/move expansion stays outside this task.
 - Keep cleanup recoverable; the [pruning history](plan/BLUE-PRUNING.md) records
   the former campaign. Obsolete plans/validators are not current gates.
 - Use signed commits and preserve unrelated work. Root repository instructions

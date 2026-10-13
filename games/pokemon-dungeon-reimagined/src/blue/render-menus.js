@@ -36,7 +36,7 @@ export function fileMenu(context,view){
     panel(context,184,120,56,40,{pink});
     return rows(context,view,200,128,32,12);
   }
-  const rootMenu=view.menuTitle==='Blue Rescue Team'&&!view.dialogue,top=rootMenu?16:8;
+  const rootMenu=view.menuTitle==="Roux's Adventure"&&!view.dialogue,top=rootMenu?16:8;
   if(!labels.length)return[];
   const width=Math.min(224,8*Math.ceil(Math.max(80,...labels.map(label=>textWidth(label)+8))/8));
   const height=8*Math.ceil(labels.length*12/8);

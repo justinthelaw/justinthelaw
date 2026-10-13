@@ -22,7 +22,7 @@ const depth=(/** @type {number} */value)=>Math.max(0,Math.min(255,value));
  * @param {{fullyLit:boolean,reducedMotion:boolean}} options */
 export function drawBattleActors(context,sprites,terrain,statuses,effects,state,battle,cameraX,cameraY,time,options){
   /** @type {BattleActor[]} */
-  const tracks=battle?.actors??[state.hero,state.partner,...state.enemies].map(actor=>({actor,x:actor.x,y:actor.y,direction:actor.direction,clip:actor.status.sleep?'rest-sleep':actor.status.bide?'bide-hold':'idle',elapsedTicks:time*60/1000,visible:actor.hp>0}));
+  const tracks=battle?.actors??[state.hero,state.partner,...state.enemies].map(actor=>({actor,x:actor.x,y:actor.y,direction:actor.direction,clip:actor.status.sleep?'rest-sleep':actor.status.bide?'bide-hold':'idle',elapsedTicks:time*60/1000,visible:actor.hp>0&&actor.digSlot===undefined}));
   if(tracks.length>12||(battle?.effects.length??0)>24)throw new RangeError('Battle presentation exceeds the opening drawing bound.');
   /** @type {Map<string,number>} */const statusHp=new Map();
   for(const track of tracks)if(track.statusHp!==undefined)statusHp.set(track.actor.id,track.statusHp);

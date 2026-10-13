@@ -81,6 +81,19 @@ const output = {
   starterIds, species, moves: Object.fromEntries([...moves].sort(([a], [b]) => a.localeCompare(b))), floors,
   timers: Object.fromEntries(timerRows.map(row => [row.id, { min: row.drawDomain.minInclusive, max: row.drawDomain.maxInclusive, indefinite: row.indefinite }])),
 };
+// Keep the reviewed original catalogs immutable; Roux is an authored addition.
+const rouxBytes = await readFile(new URL('../content/roux-adventure.json', import.meta.url));
+const roux = JSON.parse(rouxBytes.toString('utf8'));
+if (roux.schemaVersion !== 1 || roux.speciesId !== 'pokemon-roux' || roux.evolves !== false) throw new Error('Unsupported Roux profile.');
+output.starterIds.push(roux.speciesId);
+output.species[roux.speciesId] = roux.species;
+for (const move of roux.moves) {
+  if (output.moves[move.id]) throw new Error(`Authored move replaces a Blue fact: ${move.id}`);
+  output.moves[move.id] = move;
+}
+output.edition = "Pokémon Mystery Dungeon: Roux's Adventure";
+output.qualification += ` ${roux.qualification} Roux-only Pickup is an authored floor-entry berry chance.`;
+output.sources['tools/pokemon-dungeon/content/roux-adventure.json'] = createHash('sha256').update(rouxBytes).digest('hex');
 const target = new URL('blue-opening.json', root);
 const bytes = `${JSON.stringify(output)}\n`;
 if (process.argv.includes('--check')) {

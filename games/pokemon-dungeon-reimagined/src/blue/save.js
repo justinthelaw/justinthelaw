@@ -69,7 +69,7 @@ export function validateOpeningSave(value, validateDungeon, speciesIds) {
       new Set(value.quiz.usedCategories).size !== value.quiz.usedCategories.length ||
       typeof value.quiz.followUp !== 'boolean' ||
       !(value.quiz.questionId === null || typeof value.quiz.questionId === 'string') ||
-      Object.keys(value.quiz.scores).length !== 13 ||
+      ![13, 14].includes(Object.keys(value.quiz.scores).length) ||
       Object.values(value.quiz.scores).some(score => !integer(score, 64)) ||
       !['male', 'female'].includes(String(value.gender)) || typeof value.natureId !== 'string' ||
       typeof value.rewarded !== 'boolean' || !Array.isArray(value.tutorialSeen) ||

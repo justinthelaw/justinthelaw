@@ -1,7 +1,7 @@
 import { test, expect, type Page } from "./fixtures";
 import { DERIVED_CONFIG } from "../src/config/site";
 
-const gameTitle = "Pokémon Mystery Dungeon: Blue Rescue Team";
+const gameTitle = "Pokémon Mystery Dungeon: Roux's Adventure";
 const portalName = `Open ${DERIVED_CONFIG.possessiveName} arcade`;
 
 interface RecordedKey {

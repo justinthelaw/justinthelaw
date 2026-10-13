@@ -16,10 +16,10 @@ const blueSource = JSON.parse(await readFile(new URL('../content/blue-source.jso
 const profiles = blueSource.starterProfiles;
 const expectedStarters = profiles.records.map(record => record.speciesId).sort();
 const excludedStatDropGuards = new Set(['Clear Body', 'White Smoke', 'Hyper Cutter']);
-assert.deepEqual([...data.starterIds].sort(), expectedStarters, 'All 16 original starter profiles must be retained');
+assert.deepEqual(data.starterIds.filter(id => id !== 'pokemon-roux').sort(), expectedStarters, 'All 16 original starter profiles must be retained');
 assert.equal(data.floors.length, 3, 'The playable dungeon has exactly three ordinary floors');
 const wildIds = ['pokemon-016', 'pokemon-102', 'pokemon-191', 'pokemon-265'];
-assert.deepEqual(Object.keys(data.species).sort(), [...expectedStarters, ...wildIds].sort());
+assert.deepEqual(Object.keys(data.species).sort(), [...expectedStarters, ...wildIds, 'pokemon-roux'].sort());
 assert(Object.values(data.species).every(species=>species.abilities.every(ability=>!excludedStatDropGuards.has(ability))),
   'Charm/Screech omit ability guards that must remain unreachable in the selected roster');
 assert(Object.values(data.species).every(species=>!species.types.includes('Ghost')),
@@ -39,7 +39,7 @@ for (const id of wildIds) {
   assert(data.species[id].learnset.every(([level]) => level === 1));
 }
 const admittedMoves = new Set(['regular-attack', 'move-struggle', 'bide-release', ...Object.values(data.species).flatMap(species => species.learnset.map(([, id]) => id))]);
-assert.equal(admittedMoves.size, 101); assert.deepEqual(Object.keys(data.moves).sort(), [...admittedMoves].sort());
+assert.equal(admittedMoves.size, 105); assert.deepEqual(Object.keys(data.moves).sort(), [...admittedMoves].sort());
 assert.deepEqual(data.moves['move-charm'], {id:'move-charm',name:'Charm',type:'normal',power:2,pp:22,accuracyBeforeEffect:75,accuracyAfterDamage:100,criticalPercent:12,chainedHitsRaw:1,range:0,target:0,cutsCorners:false,effects:[{op:'stat-multiplier',stat:'attack',factor:[1,2],minimum:[2,256],recipient:'target'}],aiWeight:15});
 assert.deepEqual(data.moves['move-screech'], {id:'move-screech',name:'Screech',type:'normal',power:2,pp:22,accuracyBeforeEffect:100,accuracyAfterDamage:88,criticalPercent:12,chainedHitsRaw:1,range:8,target:0,cutsCorners:true,effects:[{op:'stat-multiplier',stat:'defense',factor:[1,4],minimum:[2,256],recipient:'target'}],aiWeight:15});
 assert.deepEqual(data.moves['move-heal-bell'], {id:'move-heal-bell',name:'Heal Bell',type:'normal',power:2,pp:12,accuracyBeforeEffect:125,accuracyAfterDamage:125,criticalPercent:12,chainedHitsRaw:1,range:3,target:1,cutsCorners:false,effects:[{op:'cure-negative-statuses'}],aiWeight:15});
@@ -53,7 +53,7 @@ assert.deepEqual(data.moves['move-pursuit'], {id:'move-pursuit',name:'Pursuit',t
 assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-pursuit').map(([level])=>[id,level])), [['pokemon-252',16]]);
 assert.deepEqual(data.moves['move-thrash'], {id:'move-thrash',name:'Thrash',type:'normal',power:18,pp:12,accuracyBeforeEffect:125,accuracyAfterDamage:78,criticalPercent:12,chainedHitsRaw:3,range:0,target:2,cutsCorners:false,effects:[{op:'choose-random-facing',phase:'before-each-hit'},{op:'normal-damage'}],aiWeight:15});
 assert.deepEqual(Object.entries(data.species).flatMap(([id,species])=>species.learnset.filter(([,move])=>move==='move-thrash').map(([level])=>[id,level])), [['pokemon-104',37]]);
-const expectedSprites = new Set([...data.starterIds, ...data.floors.flatMap(floor => floor.encounters.map(row => row.speciesId)),
+const expectedSprites = new Set([...expectedStarters, ...data.floors.flatMap(floor => floor.encounters.map(row => row.speciesId)),
   'pokemon-010', 'pokemon-012', 'pokemon-279']);
 assert.deepEqual(new Set(assets.records.map(record => record.speciesId)), expectedSprites, 'Opening sprite coverage must match the selected roster');
 assert.equal(assets.schemaVersion, 2);
@@ -61,8 +61,9 @@ assert.equal(assets.profile, 'blue-opening-rescue-team-native-v2');
 const directions = ['s', 'se', 'e', 'ne', 'n', 'nw', 'w', 'sw'];
 const requiredClips = ['idle', 'walk', 'fly', 'attack-physical', 'hit-light', 'rest-sleep', 'bide-hold', 'story-sleep'];
 const integer = (value, minimum, maximum) => Number.isInteger(value) && value >= minimum && value <= maximum;
+const retiredAssets = /^(?:assets\/blue\/(?:pokemon-279\.(?:png|json)|title-(?:bird|letter)\.(?:png|json)|menu-(?:logo|mailbox|delivery)\.png)|assets\/blue\/scenery\/(?:post-interior|post-exterior|town-aerial|title|title-water|title-prompt|boot-cards)\.png)$/;
 async function verifiedBytes(filename, size, hash) {
-  assert(distribution.files.includes(filename), `Missing runtime resource: ${filename}`);
+  assert(retiredAssets.test(filename) ? !distribution.files.includes(filename) : distribution.files.includes(filename), `Missing runtime resource: ${filename}`);
   const bytes = await readFile(path.join(root, filename));
   assert.equal(bytes.length, size, `Resource size: ${filename}`);
   assert.equal(createHash('sha256').update(bytes).digest('hex'), hash, `Resource hash: ${filename}`);
@@ -154,10 +155,10 @@ if (assets.portraitAtlas) {
     assert.equal(record.width, 40); assert.equal(record.height, 40);
     assert(integer(record.x, 0, portrait.width - 40) && integer(record.y, 0, portrait.height - 40));
   }
-  for (const species of [...data.starterIds, 'pokemon-010', 'pokemon-012', 'pokemon-279']) assert(seen.has(`${species}:normal`));
+  for (const species of [...expectedStarters, 'pokemon-010', 'pokemon-012', 'pokemon-279']) assert(seen.has(`${species}:normal`));
   // Independent native opening/retry/rescue bound; source-only emotions stay
   // in the full authoring archive. Keep every existing normal fallback.
-  const openingPortraits = new Set(data.starterIds.flatMap(species =>
+  const openingPortraits = new Set(expectedStarters.flatMap(species =>
     ['normal', 'happy', 'worried', 'shocked'].map(emotion => `${species}:${emotion}`)));
   for (const dex of [1, 4, 7, 25, 152, 155, 158, 252, 255, 258]) {
     const species = `pokemon-${String(dex).padStart(3, '0')}`;
@@ -194,7 +195,8 @@ assert.deepEqual(scenery.mapLabel.bounds, [56, 152, 184, 32]);
 assert.deepEqual(scenery.mapLabel.textOrigin, [121, 162]); assert.equal(scenery.mapLabel.text, 'Tiny Woods');
 for (const record of scenery.records) await verifiedPng('assets/blue/scenery', record);
 const bootRecord = scenery.records.find(record => record.id === 'boot-cards');
-assert(bootRecord, 'The original company cards must be in the opening distribution.');
+assert(bootRecord, 'Keep the original boot-card evidence offline.');
+assert(!distribution.files.includes('assets/blue/scenery/boot-cards.png'), 'Company cards must not ship in Roux\'s Adventure.');
 assert.deepEqual([bootRecord.width, bootRecord.height], [256, 768]);
 assert.deepEqual(scenery.boot.cards.map(card => card.id), ['pokemon-company', 'nintendo', 'chunsoft', 'copyright']);
 for (const [index, card] of scenery.boot.cards.entries()) {

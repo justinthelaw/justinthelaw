@@ -104,6 +104,13 @@ export function supportsMove(move) {
       charge?.op==='charge'&&Object.keys(charge).length===4&&charge.status==='solarbeam'&&charge.turns===1&&charge.skipWeather==='sunny'&&
       damage?.op==='normal-damage'&&Object.keys(damage).length===3&&damage.multiplier===2&&weather?.hail===.5&&weather.rain===.5&&weather.sandstorm===.5&&weather.otherwise===1;
   }
+  if(move.id==='move-dig'){
+    const [charge,damage]=move.effects;
+    return move.type==='ground'&&move.power===12&&move.pp===12&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===100&&
+      move.criticalPercent===12&&move.aiWeight===20&&move.chainedHitsRaw===1&&move.range===7&&move.target===4&&move.cutsCorners===false&&move.effects.length===2&&
+      charge?.op==='charge'&&Object.keys(charge).length===3&&charge.status==='dig'&&charge.turns===1&&
+      damage?.op==='normal-damage'&&Object.keys(damage).length===2&&damage.multiplier===2;
+  }
   if(move.id==='move-thrash'){
     const [facing,damage]=move.effects;
     return move.type==='normal'&&move.power===18&&move.pp===12&&move.accuracyBeforeEffect===125&&move.accuracyAfterDamage===78&&
@@ -590,7 +597,7 @@ function triggerContactReactions(state,actor,target,reactions,data,events) {
  * @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {number} amount @param {ElementType} moveType @param {OpeningData} data @param {GameEvent[]} events @param {MoveExecution} execution @param {boolean} [giveExp] */
 function triggerCounter(state,actor,target,amount,moveType,data,events,execution,giveExp=true){
   if(amount<=0||target.hp<=0||actor.hp<=0||distance(actor,target)!==1||!target.status.counter||
-    target.status.sleep||target.status.bide||target.status.enraged||target.skullBashSlot!==undefined||target.solarBeamSlot!==undefined||!isPhysicalType(moveType))return;
+    target.status.sleep||target.status.bide||target.status.enraged||hasCharge(target)||!isPhysicalType(moveType))return;
   const before=captureActor(target);recordEffect(events,before,target,321);message(state,events,'Its power was rebounded back!');
   damage(state,actor,amount,data,events,target,{execution,cause:'counterattack',giveExp});
 }
@@ -693,19 +700,22 @@ export function attack(state,actor,slot,data,events) {
   flushQueuedMovement(state,events);
   const learned=typeof slot==='number'?actor.moves[slot]:null,move=data.moves[slot==='struggle'?'move-struggle':learned?.id??'regular-attack'];if(!move)return;
   const skullRelease=typeof slot==='number'&&actor.skullBashSlot===slot&&learned?.id==='move-skull-bash';
-  const solarRelease=typeof slot==='number'&&actor.solarBeamSlot===slot&&learned?.id==='move-solar-beam',chargeRelease=skullRelease||solarRelease;
+  const solarRelease=typeof slot==='number'&&actor.solarBeamSlot===slot&&learned?.id==='move-solar-beam';
+  const digRelease=typeof slot==='number'&&actor.digSlot===slot&&learned?.id==='move-dig',chargeRelease=skullRelease||solarRelease||digRelease;
   if(actor.status.sleep||actor.status.paralysis||actor.status.cringe||actor.status.infatuated){message(state,events,`${actor.name} can't attack!`);if(chargeRelease){clearCharge(actor);recordSync(state,events,[actor]);}return;}
   if(!supportsMove(move)){message(state,events,`${move.name} is not yet available in this browser remake.`);return;}
   if(learned&&!chargeRelease){if(learned.pp<=0){message(state,events,`${move.name} has no PP left!`);return;}learned.pp--;actor.usedMove=true;}
-  if((move.id==='move-skull-bash'&&!skullRelease)||(move.id==='move-solar-beam'&&!solarRelease)){
+  if((move.id==='move-skull-bash'&&!skullRelease)||(move.id==='move-solar-beam'&&!solarRelease)||(move.id==='move-dig'&&!digRelease)){
     // AccuracyCalc consumes accuracy 1 before the always-successful self charge.
     // Skull Bash's accepted path has no pre-handler draw; Solar Beam does.
     if(move.id==='move-solar-beam')draw(state,100);
     events.push({type:'attack',actorId:actor.id,moveId:move.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:move.id,first:true}});
     message(state,events,`${actor.name} used ${move.name}!`);delete actor.status.bide;delete actor.status.enraged;actor.bideDamage=0;clearCharge(actor);
-    if(move.id==='move-skull-bash')actor.skullBashSlot=/** @type {number} */(slot);else actor.solarBeamSlot=/** @type {number} */(slot);
-    recordSync(state,events,[actor]);message(state,events,move.id==='move-skull-bash'?`${actor.name} lowered its head!`:`${actor.name} is readying Solarbeam!`);return;
+    if(move.id==='move-skull-bash')actor.skullBashSlot=/** @type {number} */(slot);else if(move.id==='move-solar-beam')actor.solarBeamSlot=/** @type {number} */(slot);else actor.digSlot=/** @type {number} */(slot);
+    recordSync(state,events,[actor]);message(state,events,move.id==='move-skull-bash'?`${actor.name} lowered its head!`:move.id==='move-solar-beam'?`${actor.name} is readying Solarbeam!`:`${actor.name} dug underground!`);return;
   }
+  // Dig emerges before impact and its detached release cast; only the first turn uses PP.
+  if(digRelease){clearCharge(actor);recordSync(state,events,[actor]);}
   const execution=createMoveExecution(),passes=move.chainedHitsRaw===0?2+draw(state,4):move.chainedHitsRaw;
   const activeMove=chargeRelease?{...move,range:0,target:0,effects:[{op:'normal-damage',multiplier:2}]}:move;
   const damaging=activeMove.effects.some(effect=>effect.op==='normal-damage');
@@ -723,7 +733,7 @@ export function attack(state,actor,slot,data,events) {
     // Native direct/front scans stop before a later empty cast. Line projectiles
     // trace after casting and can still execute their later empty pass.
     if(pass>0&&!targets.length&&activeMove.range!==5&&move.id!=='move-thrash')break;
-    events.push({type:'attack',actorId:actor.id,targetId:targets[0]?.id,moveId:move.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:move.id,first:pass===0,...(skullRelease?{phase:'release'}:solarRelease?{phase:'solar-release'}:{})}});
+    events.push({type:'attack',actorId:actor.id,targetId:targets[0]?.id,moveId:move.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:move.id,first:pass===0,...(skullRelease||digRelease?{phase:'release'}:solarRelease?{phase:'solar-release'}:{})}});
     if(pass===0)message(state,events,move.id!=='regular-attack'?`${actor.name} used ${move.name}!`:`${actor.name} attacked!`);
     // The native first-team request follows cast handling, before travel.
     // Line targeting has no pre-collected target at this source boundary.
@@ -736,6 +746,11 @@ export function attack(state,actor,slot,data,events) {
     for(const target of targets){
       if(!moveEntityValid(actor)||moveFloorOver(state,execution))break;
       if(target.hp<=0)continue;
+      if(target.digSlot!==undefined){
+        // Retain the decided endpoint/travel, without any underground impact.
+        events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:move.id,target:captureActor(target),phase:'visit',singleTile:activeMove.range!==5}});
+        message(state,events,`${target.name} avoided the move underground!`,{kind:'miss',actorId:actor.id,target:captureActor(target)});continue;
+      }
       wakeInitialSleep(state,target,events);
       if(blockedByProtect(target,move)){
         message(state,events,`${target.name} protected itself!`);
@@ -814,17 +829,20 @@ export function attack(state,actor,slot,data,events) {
   if(experience)return {experience,...(chargeRelease?{moveTail:/** @type {const} */('clear-charge')}:{})};
   if(chargeRelease){clearCharge(actor);recordSync(state,events,[actor]);}
 }
-/** The retained two-turn moves share native's one Bide-class slot. */
+/** One charge may be active; Dig adds an authored underground state.
+ * @param {Actor} actor */
+export function hasCharge(actor){return actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined||actor.digSlot!==undefined;}
+/** The retained two-turn moves share one mutually exclusive charge slot. */
 /** @param {Actor} actor */
-export function clearCharge(actor){delete actor.skullBashSlot;delete actor.solarBeamSlot;}
+export function clearCharge(actor){delete actor.skullBashSlot;delete actor.solarBeamSlot;delete actor.digSlot;}
 /** Resolve the saved Bide-class charge at one actor opportunity.
  * @param {DungeonState} state @param {Actor} actor @param {GameEvent[]} events
- * @returns {'preserve'|'cancel'|{slot:number,moveId:'move-skull-bash'|'move-solar-beam'}|null} */
+ * @returns {'preserve'|'cancel'|{slot:number,moveId:'move-skull-bash'|'move-solar-beam'|'move-dig'}|null} */
 export function chargeOpportunity(state,actor,events){
-  const skull=actor.skullBashSlot,solar=actor.solarBeamSlot;
-  if(skull===undefined&&solar===undefined)return null;
-  const slot=/** @type {number} */(skull??solar),moveId=skull!==undefined?'move-skull-bash':'move-solar-beam';
-  if(skull!==undefined&&solar!==undefined||!Number.isInteger(slot)||slot<0||slot>3||actor.moves[slot]?.id!==moveId){clearCharge(actor);recordSync(state,events,[actor]);return 'cancel';}
+  const skull=actor.skullBashSlot,solar=actor.solarBeamSlot,dig=actor.digSlot;
+  if(!hasCharge(actor))return null;
+  const slot=/** @type {number} */(skull??solar??dig),moveId=skull!==undefined?'move-skull-bash':solar!==undefined?'move-solar-beam':'move-dig';
+  if([skull,solar,dig].filter(value=>value!==undefined).length!==1||!Number.isInteger(slot)||slot<0||slot>3||actor.moves[slot]?.id!==moveId){clearCharge(actor);recordSync(state,events,[actor]);return 'cancel';}
   if(actor.status.sleep||actor.status.infatuated)return 'preserve';
   if(actor.status.confusion){clearCharge(actor);message(state,events,`${actor.name}'s move was interrupted!`);recordSync(state,events,[actor]);return 'cancel';}
   return {slot,moveId};
@@ -906,7 +924,12 @@ export function finishTurn(state,actor,data,events) {
     events.push({type:'attack',actorId:actor.id,targetId:target?.id,moveId:release.id,presentation:{kind:'cast',actor:captureActor(actor),moveId:release.id,first:true}});
     message(state,events,`${actor.name} released its stored energy!`);
     if(release.range!==5&&trace.firstTeamTarget)recordCamera(events,trace.firstTeamTarget,'look');
-    if(target){events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:release.id,target:captureActor(target),phase:'visit'}});wakeInitialSleep(state,target,events);}
+    if(target){
+      events.push({type:'presentation',presentation:{kind:'target',actorId:actor.id,moveId:release.id,target:captureActor(target),phase:'visit'}});
+      // Bide owns a separate direct-damage release; Dig misses here too.
+      if(target.digSlot!==undefined){message(state,events,`${target.name} avoided the move underground!`,{kind:'miss',actorId:actor.id,target:captureActor(target)});return;}
+      wakeInitialSleep(state,target,events);
+    }
     let missed=false;
     if(!target||(missed=!hits(state,actor,target,release.accuracyBeforeEffect,data))){message(state,events,'But it had no effect.',missed&&target?{kind:'miss',actorId:actor.id,accuracy:1,target:captureActor(target)}:undefined);return;}
     secondaryGateReady.add(target);

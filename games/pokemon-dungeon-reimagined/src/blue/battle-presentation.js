@@ -189,7 +189,7 @@ export class BattlePresentation {
     };
     /** sub_8042768 checks native isVisible before viewport admission.
      * @param {Actor} actor */
-    const displayedActor=actor=>!hiddenActors.has(actor.id)&&displayed(actor);
+    const displayedActor=actor=>actor.digSlot===undefined&&!hiddenActors.has(actor.id)&&displayed(actor);
     /** @param {number} id @param {Actor} actor @param {number} at @param {number|undefined} [attachmentSet] @param {string} [direction] @param {number} [waitLimit] @param {boolean} [generic] @param {boolean} [fixed] @param {boolean} [terminalHold] */
     const effect=(id,actor,at,attachmentSet,direction=actor.direction,waitLimit=Infinity,generic=false,fixed=false,terminalHold=false)=>{
       if(!displayedActor(actor))return at;
@@ -467,7 +467,7 @@ export class BattlePresentation {
         if(record.moveId!=='move-thrash'||record.first)drainEffects();
         patchActors([record.actor],cursor);
         const selectedRoute=assets.moveEffects(record.moveId,record.actor.speciesId);
-        const route=record.moveId==='move-skull-bash'&&record.phase==='release'&&selectedRoute?{...selectedRoute,animation:1,cast:0,target:0,travel:0}:record.moveId==='move-solar-beam'&&record.phase==='solar-release'?{animation:11,preparation:247,cast:0,target:0,travel:246,attachmentSet:0,travelSpeed:2}:selectedRoute;
+        const route=record.moveId==='move-dig'&&record.phase==='release'?{animation:1,preparation:0,cast:0,target:0,travel:0,attachmentSet:0,travelSpeed:0}:record.moveId==='move-skull-bash'&&record.phase==='release'&&selectedRoute?{...selectedRoute,animation:1,cast:0,target:0,travel:0}:record.moveId==='move-solar-beam'&&record.phase==='solar-release'?{animation:11,preparation:247,cast:0,target:0,travel:246,attachmentSet:0,travelSpeed:2}:selectedRoute;
         if(route)moves.set(record.actor.id,route);
         const start=cursor;messageAt=start;
         const visible=displayedActor(record.actor);
@@ -913,7 +913,7 @@ function sampledActor(actor,poses,tick,globalTick,visible=true,terminalPose){
   // Native body blink uses the shared dungeon clock. Shadow suppression is
   // independent, and status sprites keep their pre-HP-change display snapshot.
   const fainting=track?.faintAt!==undefined&&tick>=track.faintAt;
-  return{actor,x,y,direction,animation,clip,elapsedTicks,visible,...(fainting?{bodyVisible:(globalTick&1)!==0,shadowVisible:false}:{})};
+  return{actor,x,y,direction,animation,clip,elapsedTicks,visible:visible&&actor.digSlot===undefined,...(fainting?{bodyVisible:(globalTick&1)!==0,shadowVisible:false}:{})};
 }
 
 /** Native projectile attachment recurrence and optional move wobble before

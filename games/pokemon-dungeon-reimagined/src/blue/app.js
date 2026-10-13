@@ -1,4 +1,4 @@
-import { createRenderer, OPENING_DURATION_MS } from './renderer.js';
+import { createRenderer } from './renderer.js';
 import { paginateDialogue, textWidth } from './render-font.js';
 import { createOpeningAudio } from './audio.js';
 import { createInput } from './input.js';
@@ -70,9 +70,6 @@ const topCanvas = canvas('top-screen');
 const bottomCanvas = canvas('bottom-screen');
 const choiceButtons = element('choice-buttons');
 const advanceButton = element('advance');
-const startPrompt = element('start-prompt');
-const startButton = /** @type {HTMLButtonElement} */ (element('start-game'));
-const startInstruction = element('start-instruction');
 const narration = element('narration');
 const nameEntry = element('name-entry');
 const nameInput = /** @type {HTMLInputElement} */ (element('name-input'));
@@ -97,7 +94,7 @@ function showFailure(error) {
   retry.onclick = () => window.location.reload();
   application.setAttribute('aria-busy', 'false');
   if (document.hasFocus()) retry.focus();
-  console.error('Blue Rescue Team opening', error);
+  console.error("Roux's Adventure", error);
 }
 
 async function loadRuntime() {
@@ -131,7 +128,11 @@ async function main() {
   /** @param {unknown} value @returns {value is OpeningSave} */
   function validSave(value) {
     if (!validateOpeningSave(value, state => validateDungeon(state, data), starterIds)) return false;
-    if (Object.keys(value.quiz.scores).sort().join('|') !== [...onboarding.natureOrder].sort().join('|')) return false;
+    const scoreKeys = Object.keys(value.quiz.scores).sort().join('|');
+    const currentKeys = [...onboarding.natureOrder].sort().join('|');
+    const legacyKeys = onboarding.natureOrder.filter(id => id !== 'playful').sort().join('|');
+    if (scoreKeys !== currentKeys && scoreKeys !== legacyKeys) return false;
+    if (value.natureId === 'playful' && scoreKeys !== currentKeys) return false;
     if (value.quiz.questionId !== null && !onboarding.questions.some(question => question.id === value.quiz.questionId)) return false;
     if (value.quiz.usedCategories.some(category => !onboarding.questions.some(question => question.categoryId === category))) return false;
     if (value.natureId && !onboarding.natureOrder.includes(value.natureId)) return false;
@@ -143,7 +144,7 @@ async function main() {
     if (!['welcome', 'quiz'].includes(value.phase) && value.quiz.answered !== 8) return false;
     if (!['welcome', 'quiz', 'gender'].includes(value.phase)) {
       const result = onboarding.results.find(record => record.natureId === value.natureId);
-      if (!result || value.heroSpeciesId !== (value.gender === 'male' ? result.maleSpeciesId : result.femaleSpeciesId)) return false;
+      if (!result || value.heroSpeciesId !== 'pokemon-roux' && value.heroSpeciesId !== (value.gender === 'male' ? result.maleSpeciesId : result.femaleSpeciesId)) return false;
     }
     if (!['welcome', 'quiz', 'gender', 'result', 'partner'].includes(value.phase) &&
         !eligiblePartners(onboarding, value.heroSpeciesId).includes(value.partnerSpeciesId)) return false;
@@ -156,9 +157,11 @@ async function main() {
   const repository = createSaveRepository(validSave);
   const stored = repository.load();
   /** @type {OpeningSave|null} */ let state = stored.state;
-  /** @type {'opening'|'title'|'menu'|'play'} */ let mode = 'opening';
+  // Legacy journals remain readable without changing their schemas or receipts.
+  if (state) state.quiz.scores.playful ??= 0;
+  /** @type {'menu'|'play'} */ let mode = 'menu';
   /** @type {Menu|null} */ let menu = null;
-  /** @type {View} */ let view = { scene: 'opening', reducedMotion };
+  /** @type {View} */ let view = { scene: 'menu', reducedMotion };
   /** @type {string[]} */ let labels = [];
   /** @type {string[]} */ let speechPages = [];
   /** @type {Dialogue|null} */ let speech = null;
@@ -171,10 +174,10 @@ async function main() {
   let selectedIndex = 0, dialoguePage = 0, speechStarted = 0, clock = 0, lastFrame = 0, progressFrameRemainder = 0;
   /** A ground-scene movement gate; reconstructed at its saved dialogue boundary.
    * @type {number|null} */let storyTransitionStarted=null;
-  let openingStarted = 0, textSpeed = preferences.textSpeed, revealed = false, uiSignature = '!unrendered', lastNarration = '';
+  let textSpeed = preferences.textSpeed, revealed = false, uiSignature = '!unrendered', lastNarration = '';
   let busy = false, paused = document.hidden || !document.hasFocus(), disposed = false, transition = 0, frameId = 0;
   let saveTimer = 0, hasStored = stored.hasStored, saveFailed = false;
-  let eventUntil = 0, presentationRevision = 0, lastRenderedRevision = -1, titleImmediate = false;
+  let eventUntil = 0, presentationRevision = 0, lastRenderedRevision = -1;
   /** @type {BattlePresentation|null} */let battle=null;
   let dungeonRawPauseMs=0,battleDungeonTime=0,frameSerial=0;
   let battleAtFaint=false;
@@ -191,7 +194,6 @@ async function main() {
   /** @type {NameComposition|null} */ let completedNameComposition = null;
   /** @type {number|null} */ let forcedReadyAt = null;
   let fastDungeon = preferences.fastDungeon, gridVisible = preferences.grids;
-  /** @type {'waiting'|'starting'|'running'} */ let startGate = 'waiting';
   /** @type {HTMLElement|null} */ let helpReturnFocus = null;
   let displayMode = preferences.displayMode, farOffPals = preferences.farOffPals;
   const floorMap=new FloorMap();
@@ -382,7 +384,7 @@ async function main() {
   function minimumDungeonTime(tiles){return faintClock&&faintClock.tiles===tiles?faintClock.time:-Infinity;}
   /** Normal advancement shares the foreground clock gate, even after a
    * cancelled publication has cleared its slot. Explicit finish bypasses it. */
-  function foregroundEligible(){return startGate==='running'&&!document.hidden&&document.hasFocus()&&!paused&&!busy&&helpPanel.hidden;}
+  function foregroundEligible(){return !document.hidden&&document.hasFocus()&&!paused&&!busy&&helpPanel.hidden;}
   /** @param {NonNullable<typeof faintPublication>} publication */
   function currentFaintPublication(publication){
     return !disposed&&battle===publication.owner&&currentDungeon()===publication.dungeon&&publication.dungeon.tiles===publication.tiles&&publication.dungeon.floor===publication.floor&&transition===publication.transition&&presentationRevision===publication.revision&&mode==='play'&&state?.phase==='dungeon';
@@ -471,28 +473,7 @@ async function main() {
     quicksave() { const progress=ensureProgress(),previous=progress?.saveKind;setSaveKind('quicksave');if(!commitNow()){if(progress&&previous)progress.saveKind=previous;return false;}finishReturnToMenu();return true; }, giveUp: giveUpDungeon, help: showHelp, settings: settingsMenu,
   });
 
-  /** The opening waits at frame zero until one deliberate game gesture. Its
-   * bounded sound attempt settles even when sound is unavailable or muted.
-   * @param {Event} event
-   */
-  function beginOpening(event) {
-    if (startGate !== 'waiting' || disposed) return;
-    startGate = 'starting'; input.clear(); lastFrame = 0;
-    startButton.disabled = true; startInstruction.textContent = 'Starting your adventure...';
-    startPrompt.setAttribute('aria-busy', 'true');
-    const ready = () => {
-      if (disposed) return;
-      startGate = 'running'; clock = 0; openingStarted = 0; lastFrame = 0;
-      paused = document.hidden || !document.hasFocus(); input.clear();
-      startPrompt.hidden = true; startPrompt.setAttribute('aria-busy', 'false');
-      lastRenderedRevision = -1; updateSoundButton();
-    };
-    void audio.activate(event).then(ready, ready);
-    updateSoundButton();
-  }
-
-  /** False consumes an activation while the opening is waiting or starting.
-   * Browser utility controls never start the game implicitly.
+  /** Unlock sound on a trusted interaction; the menu is already visible.
    * @param {Event} event @param {boolean} [gameInput] @returns {boolean}
    */
   function activate(event, gameInput = true) {
@@ -505,13 +486,6 @@ async function main() {
         hideHelp(event); return false;
       }
       return true;
-    }
-    if (startGate !== 'running') {
-      const target = event.target;
-      if (gameInput && !(target instanceof HTMLElement && target.closest('#browser-controls')) &&
-          (['keydown', 'pointerup', 'click', 'touchend'].includes(event.type) ||
-            event instanceof window.KeyboardEvent && event.type === 'keyup' && event.key === 'Shift')) beginOpening(event);
-      return false;
     }
     if (!document.hidden && document.hasFocus()) {
       if (paused) lastFrame = 0;
@@ -631,12 +605,17 @@ async function main() {
       if (!disposed && token === transition) fail(new Error('Character artwork took too long to load. Reload to continue from the saved checkpoint.'));
     }, 20000);
     try {
-      await Promise.all([renderer.loadSpecies(ids),...(phase==='dungeon'?[renderer.loadBattleAssets()]:[])]);
+      await Promise.all([renderer.loadSpecies(['pokemon-roux', ...ids]),...(phase==='dungeon'?[renderer.loadBattleAssets()]:[])]);
       if (disposed || token !== transition) return;
       busy = false; lastFrame = 0; input.clear();
       eventUntil = clock;
       audio.setDungeon(phase==='dungeon'); rebuild(); application.setAttribute('aria-busy', 'false');
-      if (phase === 'dungeon') settleDungeon(newFloor);
+      if (phase === 'dungeon') {
+        const lastMessage = state.dungeon?.log.at(-1);
+        const pickup = newFloor && lastMessage?.includes("'s Pickup found") ? lastMessage : null;
+        if (pickup) { liveMessages = [pickup]; liveMessageRemaining = 4000; }
+        settleDungeon(newFloor);
+      }
     } catch (error) { if (!disposed && token === transition) fail(error); }
     finally { window.clearTimeout(deadline); }
   }
@@ -800,7 +779,7 @@ async function main() {
   function rebuild() {
     if(faintPublication)return;
     /** @type {View} */ const next = {
-      scene: mode === 'play' ? 'quiz' : mode, reducedMotion, titleImmediate, gender: state?.gender,
+      scene: mode === 'play' ? 'quiz' : mode, reducedMotion, gender: state?.gender,
       heroSpeciesId: state?.heroSpeciesId, partnerSpeciesId: state?.partnerSpeciesId,
       heroName: state?.heroName, partnerName: state?.partnerName,
       dungeon: state?.dungeon, playTime: menu?.title === 'Menu' ? playTimeText() : undefined, selectedIndex, ...mapPresentation(),
@@ -811,7 +790,7 @@ async function main() {
     labels = []; speech = null; speechPages = [];
     let text = '', speaker = '', portraitSpeciesId = '', portraitEmotion = 'normal';
     if (mode === 'menu') {
-      next.menuTitle = 'Blue Rescue Team';
+      next.menuTitle = "Roux's Adventure";
       labels = state ? ['Continue', 'Delete Save Data', 'Adventure Log'] : ['New Game', 'Adventure Log'];
     }
     if (mode === 'play' && state) {
@@ -830,6 +809,10 @@ async function main() {
         const natureId = state.natureId;
         const result = onboarding.results.find(record => record.natureId === natureId);
         text = state.line === 0 ? `You seem to be the ${state.natureId} type.` : state.line === 1 ? result?.description ?? '' : `A Pokémon with your personality is... ${speciesName(state.heroSpeciesId)}!`;
+        if (state.line === 2 && result) {
+          const recommended = state.gender === 'male' ? result.maleSpeciesId : result.femaleSpeciesId;
+          labels = [`Play as ${speciesName(recommended)}`, ...(recommended === 'pokemon-roux' ? [] : ['Play as Roux'])];
+        }
       } else if (phase === 'partner') {
         next.scene = 'partner';
         next.partnerChoices = eligiblePartners(onboarding, state.heroSpeciesId);
@@ -992,7 +975,7 @@ async function main() {
   function handleInput(action, event) {
     if (disposed || document.hidden) return;
     if (!helpPanel.hidden) { if (action === 'cancel' || action === 'menu') hideHelp(event); return; }
-    if (faintPublication || busy || paused || storyTransitionStarted!==null || startGate !== 'running') return;
+    if (faintPublication || busy || paused || storyTransitionStarted!==null) return;
     if(floorMap.active){
       const result=floorMap.handle(action,clock);
       if(result==='closed'){input.clear();rebuild();}
@@ -1008,8 +991,6 @@ async function main() {
       if(isDungeonInput()&&(!dungeon||Math.floor(dungeon.hero.belly)===0))return;
       action='wait';
     }
-    if (mode === 'opening') { if (action === 'confirm' || action === 'menu' || action === 'cancel') { mode = 'title'; titleImmediate = true; rebuild(); input.clear(); } return; }
-    if (mode === 'title') { if (action === 'confirm' || action === 'menu') { mode = 'menu'; rebuild(); input.clear(); } return; }
     if (isNaming() && !notice && !menu) {
       const editor = namingState(); if (!editor) return;
       if (action === 'north' || action === 'south' || action === 'west' || action === 'east') {
@@ -1042,7 +1023,7 @@ async function main() {
     }
     if ((action === 'cancel' || action === 'menu') && mode === 'menu') {
       audio.effect('cancel');
-      if (menu) showMenu(null); else { mode = 'title'; rebuild(); }
+      if (menu) showMenu(null);
       return;
     }
     if ((action === 'cancel' || action === 'menu') && state?.phase === 'dungeon') {
@@ -1071,7 +1052,7 @@ async function main() {
 
   /** @param {Event} [event] */
   function choose(event) {
-    if (faintPublication || busy || paused || disposed || storyTransitionStarted!==null || !helpPanel.hidden || startGate !== 'running') return;
+    if (faintPublication || busy || paused || disposed || storyTransitionStarted!==null || !helpPanel.hidden) return;
     if(floorMap.blocks(clock))return;
     if(pendingCameraCancel)return;
     if(dungeonCamera.locked){if(menu)pendingCameraChoice={menu,index:selectedIndex,revision:presentationRevision,event};return;}
@@ -1124,7 +1105,14 @@ async function main() {
       state.heroName = speciesName(state.heroSpeciesId); void setPhase('result');
     } else if (phase === 'result') {
       if (state.line < 2) { state.line += 1; dialoguePage = 0; rebuild(); commitNow(); }
-      else void setPhase('partner');
+      else {
+        const natureId = state.natureId;
+        const result = onboarding.results.find(record => record.natureId === natureId);
+        if (!result) return;
+        state.heroSpeciesId = selectedIndex === 1 ? 'pokemon-roux' : state.gender === 'male' ? result.maleSpeciesId : result.femaleSpeciesId;
+        state.heroName = speciesName(state.heroSpeciesId);
+        void setPhase('partner');
+      }
     } else if (phase === 'partner') {
       const partner = eligiblePartners(onboarding, state.heroSpeciesId)[selectedIndex]; if (!partner) return;
       state.partnerSpeciesId = partner; state.partnerName = speciesName(partner); void setPhase('partner-confirm');
@@ -1227,7 +1215,7 @@ async function main() {
    * @returns {boolean} Whether this frame performed autonomous scheduler work.
    */
   function advanceDungeonClock() {
-    if (faintPublication || startGate !== 'running' || document.hidden || !document.hasFocus() || !isDungeonSurface() || battle?.busy() || clock < eventUntil) return false;
+    if (faintPublication || document.hidden || !document.hasFocus() || !isDungeonSurface() || battle?.busy() || clock < eventUntil) return false;
     const dungeon = currentDungeon(); if (!dungeon) return false;
     try {
       const phase = getDungeonTurnPhase(dungeon);
@@ -1287,13 +1275,12 @@ async function main() {
 
   function updateSoundButton() {
     const status = audio.status();
-    const enabled = !status.muted && (startGate !== 'running' || status.state === 'ready');
+    const enabled = !status.muted && status.state === 'ready';
     soundButton.textContent = status.muted ? 'Sound off' : enabled ? 'Sound on' : 'Enable sound';
     soundButton.setAttribute('aria-pressed', String(enabled));
     soundButton.title = enabled ? 'Mute game sound' : 'Enable game sound';
   }
 
-  startButton.addEventListener('click', event => { activate(event); });
   controlsToggle.addEventListener('click', event => {
     activate(event, false); touchControls.hidden = !touchControls.hidden;
     controlsToggle.setAttribute('aria-pressed', String(!touchControls.hidden));
@@ -1328,7 +1315,7 @@ async function main() {
   });
   soundButton.addEventListener('click', event => {
     const status = audio.status();
-    audio.setMuted(startGate !== 'running' ? !status.muted : status.state === 'ready' && !status.muted);
+    audio.setMuted(status.state === 'ready' && !status.muted);
     persistOptions();
     activate(event, false); updateSoundButton(); screens.focus();
   });
@@ -1439,15 +1426,12 @@ async function main() {
       liveMessageRemaining = Math.max(0, liveMessageRemaining - elapsed);
       if (liveMessageRemaining === 0) clearLiveMessages();
     }
-    if (mode === 'opening' && clock - openingStarted >= OPENING_DURATION_MS) {
-      mode = 'title'; titleImmediate = false; rebuild();
-    }
     advanceMenuCamera();
     advanceBattlePresentation();
     if(disposed)return;
     const schedulerWorked = advanceDungeonClock();
     if (disposed) return;
-    if (startGate === 'running' && !document.hidden && document.hasFocus() && !busy && !paused && helpPanel.hidden && !schedulerWorked && !dungeonTurnLocked()) {
+    if (!document.hidden && document.hasFocus() && !busy && !paused && helpPanel.hidden && !schedulerWorked && !dungeonTurnLocked()) {
       const dungeonInput=isDungeonInput(),dungeon=currentDungeon();
       const waitOpportunity=dungeonInput&&clock>=eventUntil&&dungeon&&Math.floor(dungeon.hero.belly)!==0?dungeon.turn:null;
       input.update(now,dungeonInput,waitOpportunity);
@@ -1466,7 +1450,7 @@ async function main() {
     view.gridLines = gridVisible;
     view.showToolbar = isDungeonInput() && clock >= eventUntil;
     view.fade = busy ? .5 : 0;
-    if (!document.hidden && (startGate === 'running' && !paused && !busy && helpPanel.hidden || lastRenderedRevision !== presentationRevision)) {
+    if (!document.hidden && (!paused && !busy && helpPanel.hidden || lastRenderedRevision !== presentationRevision)) {
       try {
         const publication=faintPublication;
         const source=publication?faintPublicationView(publication):view;
@@ -1501,7 +1485,7 @@ async function main() {
   controlsToggle.setAttribute('aria-pressed', String(!touchControls.hidden));
   controlsToggle.setAttribute('aria-expanded', String(!touchControls.hidden));
   startup.hidden = true; game.hidden = false; application.setAttribute('aria-busy', 'false');
-  openingStarted = clock; updateSoundButton(); rebuild();
+  updateSoundButton(); rebuild();
   // The host may deliberately own a pending overlay activation during loading.
   // Only refine focus already inside this document; never steal it from there.
   if (document.hasFocus()) screens.focus();
