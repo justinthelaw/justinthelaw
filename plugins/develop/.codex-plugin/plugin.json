@@ -1,6 +1,6 @@
 {
   "name": "develop",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Repository delivery, dependency upgrades, cleanup, and independent review workflows for coding agents.",
   "author": {
     "name": "justinthelaw",
@@ -23,7 +23,7 @@
     "composerIcon": "./assets/logo.png",
     "brandColor": "#C99554",
     "shortDescription": "Build, upgrade, and review",
-    "longDescription": "Use reusable skills for repository changes, dependency upgrades, Windows, Linux, and macOS cleanup, and independent review. Install Superpowers separately. Review completion requires a runtime that can create a fresh reviewer agent.",
+    "longDescription": "Use reusable skills for repository changes, publication and CI repair, dependency upgrades, environment cleanup, and independent review. Commit signing is optional. Install Superpowers separately for implementation. Review completion requires fresh matching reviewer agents.",
     "developerName": "justinthelaw",
     "category": "Developer Tools",
     "capabilities": [

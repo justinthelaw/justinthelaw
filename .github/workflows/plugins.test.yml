@@ -35,3 +35,5 @@ jobs:
         run: python plugins/develop/scripts/validate.py --marketplace-root .
       - name: Test package validation
         run: python -m unittest discover -s plugins/develop/tests -p test_validate.py
+      - name: Test bundled Git inventory and GitHub watcher
+        run: python -m unittest discover -s plugins/develop/skills/iterate/scripts -p 'test_*.py'

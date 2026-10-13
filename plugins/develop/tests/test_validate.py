@@ -1,5 +1,6 @@
 """Exercise release checks against isolated package copies, never installed skills."""
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -137,6 +138,34 @@ class PackageValidation(unittest.TestCase):
         self.package = installed
         result = self.validate(marketplace=False)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_missing_delivery_dependency_fails(self):
+        (self.package / "skills/iterate/scripts/pipeline_review.py").unlink()
+        result = self.validate()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("pipeline_review", result.stdout + result.stderr)
+
+    def test_invalid_delivery_dependency_fails(self):
+        (self.package / "skills/iterate/scripts/pipeline_review.py").write_text(
+            "def broken(:\n", encoding="utf-8",
+        )
+        result = self.validate()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("delivery helper pipeline_review", result.stdout + result.stderr)
+
+    def test_installed_helpers_load_from_an_unrelated_directory(self):
+        environment = {**os.environ, "PYTHONSAFEPATH": "1"}
+        environment.pop("PYTHONDONTWRITEBYTECODE", None)
+        for name in ("repository_inventory.py", "watch_pipelines.py"):
+            with self.subTest(helper=name):
+                result = subprocess.run(
+                    [sys.executable, str(self.package / "skills/iterate/scripts" / name), "--help"],
+                    cwd=self.temp.name, env=environment,
+                    capture_output=True, text=True, check=False,
+                )
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertIn("--repo", result.stdout)
+        self.assertEqual(list((self.package / "skills/iterate/scripts").rglob("__pycache__")), [])
 
     def test_skill_name_must_match_directory(self):
         path = self.package / "skills/clean/SKILL.md"
