@@ -36,16 +36,49 @@ class DiscoveryTests(unittest.TestCase):
 
     def test_initialized_submodule_paths(self) -> None:
         root = Path("/tmp/project")
-        status = f" {'a' * 40} ui (heads/main)\n {'b' * 40} dependencies/router (heads/main)"
-        self.assertEqual(
-            watcher.parse_submodules(status, root),
-            [(root / "ui").resolve(), (root / "dependencies/router").resolve()],
-        )
+        for length in (40, 64):
+            with self.subTest(length=length):
+                status = f" {'a' * length} ui (heads/main)\n {'b' * length} dependencies/router (heads/main)"
+                self.assertEqual(
+                    watcher.parse_submodules(status, root),
+                    [(root / "ui").resolve(), (root / "dependencies/router").resolve()],
+                )
+
+    def test_invalid_submodule_object_ids_are_rejected(self) -> None:
+        invalid = ["a" * length for length in (0, 39, 41, 52, 63, 65)]
+        invalid.extend(("g" * 40, "g" * 64))
+        for object_id in invalid:
+            with self.subTest(object_id=object_id), self.assertRaisesRegex(watcher.WatchError, "Cannot parse submodule status"):
+                watcher.parse_submodules(f" {object_id} ui", Path("/tmp/root"))
 
     def test_uninitialized_or_mismatched_submodule_blocks(self) -> None:
-        for marker in ("-", "+", "U"):
-            with self.subTest(marker=marker), self.assertRaises(watcher.WatchError):
-                watcher.parse_submodules(f"{marker}{'a' * 40} ui", Path("/tmp/root"))
+        for length in (40, 64):
+            for marker, error in (("-", "Uninitialized"), ("+", "pinned gitlink"), ("U", "unresolved conflicts")):
+                with self.subTest(length=length, marker=marker), self.assertRaisesRegex(watcher.WatchError, error):
+                    watcher.parse_submodules(f"{marker}{'a' * length} ui", Path("/tmp/root"))
+
+    def test_discovery_includes_sha1_and_sha256_submodules(self) -> None:
+        root = Path("/tmp/project").resolve()
+        child = root / "component with spaces"
+        for length in (40, 64):
+            with self.subTest(length=length):
+                heads = {root: "a" * length, child: "b" * length}
+
+                def runner(argv, cwd=None, optional=False):
+                    watcher.ensure_read_only(argv)
+                    responses = {
+                        ("git", "submodule", "status", "--recursive"): f" {heads[child]} {child.name} (heads/main)",
+                        ("git", "branch", "--show-current"): "main",
+                        ("git", "rev-parse", "HEAD"): heads[cwd],
+                        ("git", "for-each-ref", "--count=2", f"--format={UPSTREAM_FORMAT}", "refs/heads/main"):
+                            "refs/heads/main\0origin\0refs/heads/main",
+                        ("git", "remote", "get-url", "origin"): f"https://github.com/owner/{'project' if cwd == root else 'component'}.git",
+                    }
+                    return responses[tuple(argv)]
+
+                targets = watcher.discover_targets([root], runner)
+                self.assertEqual([(item.path, item.head) for item in targets], list(heads.items()))
+                self.assertTrue(all(item.root == root for item in targets))
 
     def test_current_root_is_default_and_paired_roots_require_opt_in(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

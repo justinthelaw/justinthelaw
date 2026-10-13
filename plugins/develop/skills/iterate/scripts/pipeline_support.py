@@ -331,7 +331,7 @@ def discover_roots(
 def parse_submodules(output: str, root: Path) -> list[Path]:
     paths: list[Path] = []
     for line in output.splitlines():
-        match = re.match(r"^([ +\-U])([0-9a-f]{40})\s+(.+?)(?:\s+\([^)]*\))?$", line)
+        match = re.match(r"^([ +\-U])([0-9a-f]{40}|[0-9a-f]{64})\s+(.+?)(?:\s+\([^)]*\))?$", line)
         if not match:
             raise WatchError(f"Cannot parse submodule status: {line[:160]}")
         state, _, relative = match.groups()
