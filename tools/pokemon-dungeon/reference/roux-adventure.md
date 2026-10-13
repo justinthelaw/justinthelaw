@@ -66,13 +66,32 @@ The inspected reference PNG was 1536x2288, SHA-256
 `ba2467027070cef0e9153bd11943c380c2dfcbe5262e4f664828613ef3389da5`.
 No pet record was modified.
 
-`image_gen` produced the directional sheet from that reference. Lossless strip
-packing keeps each source file under the repository's added-file budget; the
-original generated-image digest and decoded-pixel digest are preserved in
-[the source ledger](../art/roux/source.json). The exporter verifies each strip,
-reassembles identical pixels, downsamples by nearest neighbour with binary alpha,
-and emits a 256x232 atlas with 48 body poses, eight directions, bounded clips and
-two portraits with normal fallback. Roux has no claimed cartridge pixel parity.
+The owner selected refinement concept A on 2026-10-13. Built-in `image_gen`
+produced a new eight-direction sheet with rest, two walk strides, attack and
+sleep poses, plus dedicated normal, happy and shocked face portraits. The
+[prompt set](../art/roux/concept-a-prompts.json) records the generation requests;
+[the source ledger](../art/roux/source.json) preserves the approved concept hash,
+actual image dimensions, generated/decoded hashes, lossless strip rectangles
+and the previous source provenance. The earlier source strips remain retained
+as historical evidence and are no longer inputs to the exporter.
+
+The exporter verifies and reconstructs the source pixels, isolates the largest
+connected subject in each cell, then fits it to the game's pixel grid with
+binary alpha and a shared 16-color chocolate/cream palette. It checks connectivity
+again after resampling. This removes the neighboring-row feet that contaminated
+the previous second idle frame. One scale per direction preserves the relative
+height of standing and sleeping poses; all feet share the same ground anchor.
+The breathing frame derives from the resting sprite by a local one-pixel coat
+shift, keeping its silhouette and feet fixed. Idle uses 48/24-tick rest/breathe
+phases; other animation timings retain their previous values.
+
+The 256x232 atlas retains 48 body poses and eight directions. Dedicated 40x40
+portrait cells center the full face, with space around the ears and cheeks;
+they no longer crop the face from a body frame. The surprised expression uses
+the existing `shocked` key for the awakening dialogue. Unsupported emotions
+still fall back to normal. Independent static gates cover connected silhouettes,
+cell margins, ground anchors, idle stability, centered portrait proportions,
+required expressions and the 16-color limit. Roux has no claimed cartridge pixel parity.
 Original Blue asset notices and source qualifications remain separate. Attribution
 and removing the old logo do not establish a franchise rights grant.
 
