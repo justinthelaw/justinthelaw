@@ -128,7 +128,9 @@ def discover_pull_request(target: Target, runner: Runner) -> PullRequest | None:
     return PullRequest(number, url, base_branch)
 
 
-def api_arguments(target: Target, pull_request: PullRequest, *, graphql: bool) -> list[str]:
+def api_arguments(
+    target: Target, pull_request: PullRequest, *, graphql: bool, comment_id: int | None = None
+) -> list[str]:
     host, owner, name = github_location(target.repository)
     if graphql:
         command = [
@@ -138,13 +140,27 @@ def api_arguments(target: Target, pull_request: PullRequest, *, graphql: bool) -
             "-F", f"number={pull_request.number}",
         ]
     else:
+        subject = str(pull_request.number) if comment_id is None else f"comments/{comment_id}"
         command = [
             "gh", "api",
-            f"repos/{owner}/{name}/issues/{pull_request.number}/reactions?per_page=100",
+            f"repos/{owner}/{name}/issues/{subject}/reactions?per_page=100",
             "--method", "GET",
         ]
     command.extend(["--hostname", host])
     return command
+
+
+def read_reactions(
+    target: Target, pull_request: PullRequest, runner: Runner, *, comment_id: int | None = None
+) -> list[dict[str, Any]]:
+    reactions = parse_json(
+        runner(api_arguments(target, pull_request, graphql=False, comment_id=comment_id), cwd=target.path),
+        f"Codex review reactions for {target.label}",
+        expected=list,
+    )
+    if len(reactions) >= 100:
+        raise WatchError(f"Codex review reactions exceed bounded review coverage: {target.label}")
+    return reactions
 
 
 def connection_nodes(connection: Any, description: str) -> tuple[list[dict[str, Any]], bool]:
@@ -219,13 +235,7 @@ def inspect_pull_request(
     max_lines: int = 12,
     max_chars: int = 2000,
 ) -> ReviewState | None:
-    reactions = parse_json(
-        runner(api_arguments(target, pull_request, graphql=False), cwd=target.path),
-        f"pull-request reactions for {target.label}",
-        expected=list,
-    )
-    if len(reactions) >= 100:
-        raise WatchError(f"Pull-request reactions exceed bounded review coverage: {target.label}")
+    reactions = read_reactions(target, pull_request, runner)
     response = parse_json(
         runner(api_arguments(target, pull_request, graphql=True), cwd=target.path),
         f"pull-request review for {target.label}",
@@ -269,6 +279,24 @@ def inspect_pull_request(
     )
     findings = unresolved_findings(selected, max_lines=max_lines, max_chars=max_chars)
 
+    requests: list[tuple[datetime, int]] = []
+    for comment in comments:
+        if (
+            comment.get("authorAssociation") not in TRUSTED_AUTHORS
+            or not isinstance(comment.get("author"), dict)
+            or comment["author"].get("__typename") == "Bot"
+            or not REVIEW_REQUEST.search(str(comment.get("bodyText", "")))
+        ):
+            continue
+        comment_id = comment.get("databaseId")
+        if not isinstance(comment_id, int) or isinstance(comment_id, bool) or comment_id <= 0:
+            raise WatchError("GitHub omitted the Codex review request comment identifier")
+        requests.append((timestamp(comment.get("createdAt"), "Codex review request"), comment_id))
+    latest_request = max(requests, default=None)
+    if latest_request is not None:
+        # Manual requests are acknowledged on their comment, not the PR body.
+        reactions.extend(read_reactions(target, pull_request, runner, comment_id=latest_request[1]))
+
     eyes: list[tuple[datetime, int]] = []
     approvals: list[tuple[datetime, int]] = []
     for reaction in reactions:
@@ -283,14 +311,6 @@ def inspect_pull_request(
             raise WatchError("GitHub returned an invalid Codex reaction identifier")
         (eyes if content == "eyes" else approvals).append((created, reaction_id))
 
-    requests = [
-        timestamp(comment.get("createdAt"), "Codex review request")
-        for comment in comments
-        if comment.get("authorAssociation") in TRUSTED_AUTHORS
-        and isinstance(comment.get("author"), dict)
-        and comment["author"].get("__typename") != "Bot"
-        and REVIEW_REQUEST.search(str(comment.get("bodyText", "")))
-    ]
     current_reviews = []
     for review in reviews:
         if (
@@ -311,12 +331,11 @@ def inspect_pull_request(
         key=lambda review: timestamp(review.get("submittedAt"), "submitted Codex review"),
         default=None,
     )
-    trigger_candidates = [*(created for created, _ in eyes), *requests]
+    trigger_candidates = [*(created for created, _ in eyes), *(created for created, _ in requests)]
     if required_since is not None:
         trigger_candidates.append(required_since)
     latest_trigger = max(trigger_candidates, default=None)
     latest_eye = max(eyes, default=None)
-    latest_request = max(requests, default=None)
 
     if findings:
         return ReviewState(
@@ -352,8 +371,12 @@ def inspect_pull_request(
         # Reactions identify activity, never which revision was reviewed.
         latest_trigger = max(created for created, _ in approvals)
         return ReviewState(pull_request, "active", "unverified-reaction", latest_trigger, True)
-    acknowledged = latest_eye is not None and (
-        latest_request is None or latest_eye[0] >= latest_request
+    latest_activity = max([*eyes, *approvals], default=None)
+    acknowledged = latest_activity is not None and (
+        latest_request is None or latest_activity[0] >= latest_request[0]
     )
-    source = "eyes" if acknowledged else "request"
+    if latest_eye is not None and (latest_request is None or latest_eye[0] >= latest_request[0]):
+        source = "eyes"
+    else:
+        source = "unverified-reaction" if acknowledged else "request"
     return ReviewState(pull_request, "active", source, latest_trigger, acknowledged)

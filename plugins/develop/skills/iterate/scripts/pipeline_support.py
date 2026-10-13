@@ -46,7 +46,7 @@ REVIEW_QUERY = """query CodexPullRequestReview($owner: String!, $name: String!, 
       }
       comments(last: 50) {
         pageInfo { hasPreviousPage }
-        nodes { author { login __typename } authorAssociation createdAt bodyText url }
+        nodes { databaseId author { login __typename } authorAssociation createdAt bodyText url }
       }
       reviews(last: 50) {
         pageInfo { hasPreviousPage }
@@ -73,7 +73,7 @@ GITHUB_PART = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]*$")
 GITHUB_HOST = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.-]*$")
 REACTION_ENDPOINT = re.compile(
     r"^repos/[A-Za-z0-9][A-Za-z0-9_.-]*/[A-Za-z0-9][A-Za-z0-9_.-]*/"
-    r"issues/[1-9][0-9]*/reactions\?per_page=100$"
+    r"issues/(?:comments/)?[1-9][0-9]*/reactions\?per_page=100$"
 )
 CHECK_ENDPOINT = re.compile(
     r"^repos/[A-Za-z0-9][A-Za-z0-9_.-]*/[A-Za-z0-9][A-Za-z0-9_.-]*/(?:"

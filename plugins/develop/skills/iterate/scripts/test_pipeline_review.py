@@ -33,18 +33,19 @@ def review(current, *, hour=3, state="APPROVED", body=""):
             "body": body, "url": "https://github.com/owner/project/pull/7#review", "commit": {"oid": current.head}}
 
 
-def request(*, hour=2, association="OWNER", body="@codex review"):
-    return {"author": {"login": "person", "__typename": "User"}, "authorAssociation": association,
+def request(*, hour=2, association="OWNER", body="@codex review", identifier=77):
+    return {"databaseId": identifier, "author": {"login": "person", "__typename": "User"}, "authorAssociation": association,
             "createdAt": f"2026-01-01T0{hour}:00:00Z", "bodyText": body}
 
 
 class ReviewRunner(CoverageRunner):
-    def __init__(self, current=None, *, reactions=(), reviews=(), comments=(), threads=()):
+    def __init__(self, current=None, *, reactions=(), request_reactions=None, reviews=(), comments=(), threads=()):
         super().__init__(current or target())
         self.pr = {"number": 7, "url": "https://github.com/owner/project/pull/7", "headRefOid": self.current.head,
                    "headRefName": self.current.branch, "headRepositoryOwner": {"login": "owner"},
                    "isCrossRepository": False, "baseRefName": "main"}
         self.reactions = list(reactions)
+        self.request_reactions = request_reactions or {}
         self.selected = {
             "number": 7, "state": "OPEN", "url": self.pr["url"], "headRefName": self.current.branch,
             "headRefOid": self.current.head, "baseRefName": "main", "isCrossRepository": False,
@@ -61,6 +62,8 @@ class ReviewRunner(CoverageRunner):
             return json.dumps({"data": {"repository": {"pullRequest": self.selected}}, "errors": self.graph_errors})
         if argv[:2] == ["gh", "api"] and "/reactions?" in argv[2]:
             self.calls.append(argv)
+            if "/issues/comments/" in argv[2]:
+                return json.dumps(self.request_reactions.get(int(argv[2].split("/")[-2]), []))
             return json.dumps(self.reactions)
         return super().__call__(argv, cwd, optional)
 
@@ -213,6 +216,68 @@ class ProductionReviewTests(unittest.TestCase):
                           clock=clock.now, sleep=clock.sleep, discovery_grace=10, interval=5)
         self.assertEqual(monitor.watch(), 2)
         self.assertEqual(events[-1]["reason"], "Codex review request was not acknowledged")
+
+    def test_request_comment_acknowledgment_survives_grace_until_exact_review(self):
+        runner = ReviewRunner(comments=[request()], request_reactions={77: [reaction("eyes")]})
+        clock = FakeClock()
+        def sleep(seconds):
+            clock.sleep(seconds)
+            if clock.current > 10:
+                runner.selected["reviews"] = connection([review(runner.current, hour=4)])
+        monitor = Watcher([runner.current], runner=runner, emit=lambda event: None, monitor_reviews=True,
+                          clock=clock.now, sleep=sleep, discovery_grace=10, interval=5, settle=0)
+        self.assertEqual(monitor.watch(), 0)
+        self.assertGreater(clock.current, 10)
+
+    def test_request_comment_reactions_acknowledge_without_approving(self):
+        runner = ReviewRunner(comments=[request()], request_reactions={77: [
+            reaction("eyes"), reaction("+1", hour=3, identifier=2),
+        ]})
+        result, monitor, _ = self.snapshot(runner)
+        self.assertEqual(result, 3)
+        self.assertTrue(monitor.review_states[runner.current.key].acknowledged)
+        self.assertEqual(monitor.review_states[runner.current.key].status, "active")
+
+    def test_request_comment_thumb_after_eye_removal_only_acknowledges(self):
+        runner = ReviewRunner(comments=[request()], request_reactions={77: [reaction("+1", hour=3)]})
+        result, monitor, _ = self.snapshot(runner)
+        self.assertEqual(result, 3)
+        self.assertTrue(monitor.review_states[runner.current.key].acknowledged)
+        self.assertEqual(monitor.review_states[runner.current.key].source, "unverified-reaction")
+
+    def test_reaction_older_than_latest_request_does_not_acknowledge(self):
+        runner = ReviewRunner(comments=[request(hour=3)], reactions=[reaction("eyes"), reaction("+1")])
+        _, monitor, _ = self.snapshot(runner)
+        self.assertFalse(monitor.review_states[runner.current.key].acknowledged)
+
+    def test_request_acknowledgment_requires_codex_bot_identity(self):
+        for actor in ({"login": "person", "type": "User"}, {"login": "chatgpt-codex-connector", "type": "User"}):
+            with self.subTest(actor=actor):
+                eye = dict(reaction("eyes"), user=actor)
+                runner = ReviewRunner(comments=[request()], request_reactions={77: [eye]})
+                _, monitor, _ = self.snapshot(runner)
+                self.assertFalse(monitor.review_states[runner.current.key].acknowledged)
+
+    def test_only_latest_request_comment_can_acknowledge_request(self):
+        runner = ReviewRunner(comments=[request(), request(hour=3, identifier=88)],
+                              request_reactions={77: [reaction("eyes", hour=4)]})
+        _, monitor, _ = self.snapshot(runner)
+        self.assertFalse(monitor.review_states[runner.current.key].acknowledged)
+        self.assertTrue(any("/issues/comments/88/reactions?" in call[2] for call in runner.calls))
+        self.assertFalse(any("/issues/comments/77/reactions?" in call[2] for call in runner.calls))
+
+    def test_request_comment_reaction_coverage_is_bounded(self):
+        runner = ReviewRunner(comments=[request()], request_reactions={77: [
+            reaction("eyes", identifier=i + 1) for i in range(100)
+        ]})
+        with self.assertRaisesRegex(WatchError, "coverage"):
+            self.snapshot(runner)
+
+    def test_missing_or_invalid_request_comment_identifier_blocks(self):
+        for identifier in (None, False, -1, "77"):
+            with self.subTest(identifier=identifier):
+                with self.assertRaisesRegex(WatchError, "comment identifier"):
+                    self.snapshot(ReviewRunner(comments=[request(identifier=identifier)]))
 
     def test_passed_review_disappearing_during_settlement_cannot_complete(self):
         for disappear in ("deleted", "dismissed"):
