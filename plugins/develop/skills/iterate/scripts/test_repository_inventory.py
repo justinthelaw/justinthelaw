@@ -432,7 +432,7 @@ class PortableCLITests(unittest.TestCase):
                 shutil.copyfile(SCRIPT_DIRECTORY / name, copied / name)
             (unrelated / "pipeline_support.py").write_text("raise RuntimeError('cwd module imported')\n")
             for cli in ("repository_inventory.py", "watch_pipelines.py"):
-                for safe_flag in (False, True):
+                for safe_flag in ((False, True) if sys.version_info >= (3, 11) else (False,)):
                     with self.subTest(cli=cli, safe_flag=safe_flag):
                         env = isolated_environment(workspace)
                         env["PATH"] = str(unrelated)
