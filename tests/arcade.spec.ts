@@ -3,7 +3,7 @@ import { DERIVED_CONFIG } from "../src/config/site";
 
 const arcadeTitle = `${DERIVED_CONFIG.possessiveName} Arcade`;
 const portalName = `Open ${DERIVED_CONFIG.possessiveName} arcade`;
-const pokemonTitle = "Pokémon Mystery Dungeon: Blue Rescue Team";
+const pokemonTitle = "Pokémon Mystery Dungeon: Roux's Adventure";
 const gameFixture = "<!doctype html><html><body>Website game fixture</body></html>";
 
 test.beforeEach(async ({ page }) => {
@@ -25,7 +25,7 @@ test("should offer the Pokemon development game in the first arcade card", async
   await expect(firstCard.getByRole("heading", { name: pokemonTitle, exact: true })).toBeVisible({ timeout: 1500 });
   const play = firstCard.getByRole("button", { name: `Play ${pokemonTitle}`, exact: true });
   await expect(play).toBeEnabled({ timeout: 1500 });
-  await expect(firstCard).toContainText(/development/i);
+  await expect(firstCard).toContainText(/Play as Roux or another Pokémon/i);
   const picture = firstCard.getByRole("img", { name: /Psyduck and Charmander exploring Tiny Woods/i });
   await expect(picture).toBeVisible();
   await expect.poll(() => picture.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);

@@ -1,7 +1,8 @@
-/** Four bounded local images: native team rows, menu scenes and the NA logo. */
+/** Bounded native team rows and an authored chocolate/cream starting menu. */
+import { text } from './render-font.js';
 const ROOT=new URL('../../assets/blue/',import.meta.url),LIMIT=64*1024;
 /** @type {Readonly<Record<string,readonly [number,number]>>} */
-const IMAGES=Object.freeze({'team-panels.png':[256,144],'menu-delivery.png':[256,192],'menu-mailbox.png':[256,192],'menu-logo.png':[256,192]});
+const IMAGES=Object.freeze({'team-panels.png':[256,144]});
 
 export class UiArtwork {
   constructor(){
@@ -30,10 +31,23 @@ export class UiArtwork {
 
   /** @param {CanvasRenderingContext2D} context @param {number} y @param {boolean} occupied @param {boolean} pink */
   row(context,y,occupied,pink){const image=this.images.get('team-panels.png');if(image)context.drawImage(image,0,occupied?(pink?0:48):96,256,48,0,y,256,48);}
-  /** The default scene is corroborated in original English Blue footage.
-   * @param {CanvasRenderingContext2D} context @param {'mailbox'|'delivery'} [variant] */
-  menu(context,variant='mailbox'){const image=this.images.get(`menu-${variant}.png`);if(image)context.drawImage(image,0,0);}
   /** @param {CanvasRenderingContext2D} context */
-  menuLogo(context){const image=this.images.get('menu-logo.png');if(image)context.drawImage(image,0,0);}
+  menu(context){
+    context.fillStyle='#352318';context.fillRect(0,0,256,192);
+    context.fillStyle='#60412a';context.fillRect(8,8,240,176);
+    context.fillStyle='#443022';context.fillRect(12,12,232,168);
+    context.strokeStyle='#b78b58';context.strokeRect(12.5,12.5,231,167);
+  }
+  /** @param {CanvasRenderingContext2D} context @param {import('./render-native-sprites.js').SpriteBank} sprites @param {number} time */
+  menuLogo(context,sprites,time){
+    context.fillStyle='#291b14';context.fillRect(0,0,256,192);
+    context.fillStyle='#513625';context.fillRect(12,12,232,168);
+    context.strokeStyle='#b78b58';context.strokeRect(16.5,16.5,223,159);
+    text(context,'Pokémon Mystery Dungeon',128,30,{align:'center',color:'#f4ddb6'});
+    text(context,"Roux's Adventure",128,54,{align:'center',color:'#fff4dc'});
+    context.save();context.translate(128,146);context.scale(2,2);
+    sprites.draw(context,'pokemon-roux',0,0,{clip:'idle',time,shadow:false});context.restore();
+    text(context,'A playful rescue adventure',128,162,{align:'center',color:'#f4ddb6'});
+  }
   dispose(){if(this.disposed)return;this.disposed=true;this.controller.abort();for(const image of this.images.values())image.close();this.images.clear();}
 }

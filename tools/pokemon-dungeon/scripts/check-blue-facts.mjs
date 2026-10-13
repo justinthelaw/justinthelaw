@@ -252,10 +252,17 @@ const runtimeOnboarding = {
   })) },
   results: { records: results.records.map(result => pick(result, ['natureId', 'description', 'maleSpeciesId', 'femaleSpeciesId'])) },
 };
+const roux = (await read('content/roux-adventure.json')).data;
+assert.equal(roux.schemaVersion, 1); assert.equal(roux.speciesId, 'pokemon-roux');
+runtimeOnboarding.algorithm.natureOrder = [...algorithm.natureOrder, roux.quiz.natureId];
+runtimeOnboarding.algorithm.finalQuestionId = roux.quiz.finalQuestionId;
+runtimeOnboarding.questions.records.push(...roux.quiz.questions);
+runtimeOnboarding.results.records.push(roux.quiz.result);
+runtimeOnboarding.partners.pairs.push(...partners.orderedPool.map(partnerSpeciesId => ({heroSpeciesId:roux.speciesId,partnerSpeciesId})));
 for (const [name, body] of Object.entries(runtimeOnboarding)) {
   const bytes = await readFile(new URL(`../../games/pokemon-dungeon-reimagined/content/onboarding/${name}.json`, root));
   assert.deepEqual(JSON.parse(bytes.toString('utf8')),
-    { schemaVersion: 2, ...pick(documents[name], ['catalogId', 'edition', 'kind']), ...body },
+    { schemaVersion: 2, ...pick(documents[name], ['catalogId', 'edition', 'kind']), authoredAddition: 'roux-adventure', ...body },
     `Opening character projection differs from reviewed source: ${name}`);
 }
 console.log('Blue JSON facts checked: 56 questions, eight main questions with category exclusion, follow-up/tie policies, 26 gender outcomes, 129 partner pairs, 16 starting loadouts, 22 profiles, 115 actions, three floors and 324 type cells. No game execution.');

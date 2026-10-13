@@ -6,6 +6,7 @@ const input = new URL('../content/blue-onboarding/', import.meta.url);
 const output = new URL('../../../games/pokemon-dungeon-reimagined/content/onboarding/', import.meta.url);
 const check = process.argv.includes('--check');
 const pick = (record, keys) => Object.fromEntries(keys.map(key => [key, record[key]]));
+const roux = JSON.parse(await readFile(new URL('../content/roux-adventure.json', import.meta.url), 'utf8'));
 if (!check) await mkdir(output, { recursive: true });
 for (const name of ['algorithm', 'partners', 'questions', 'results']) {
   const source = JSON.parse(await readFile(new URL(`${name}.json`, input), 'utf8'));
@@ -19,7 +20,13 @@ for (const name of ['algorithm', 'partners', 'questions', 'results']) {
     options: question.options.map(option => pick(option, ['text', 'scores', 'followUp'])),
   })) };
   else body = { records: source.records.map(result => pick(result, ['natureId', 'description', 'maleSpeciesId', 'femaleSpeciesId'])) };
-  const bytes = Buffer.from(JSON.stringify({ ...header, ...body }) + '\n');
+  if (name === 'algorithm') {
+    body.natureOrder = [...body.natureOrder, roux.quiz.natureId];
+    body.finalQuestionId = roux.quiz.finalQuestionId;
+  } else if (name === 'questions') body.records.push(...roux.quiz.questions);
+  else if (name === 'results') body.records.push(roux.quiz.result);
+  else body.pairs.push(...body.orderedPool.map(partnerSpeciesId => ({ heroSpeciesId: roux.speciesId, partnerSpeciesId })));
+  const bytes = Buffer.from(JSON.stringify({ ...header, authoredAddition: 'roux-adventure', ...body }) + '\n');
   if (check) {
     if (!(await readFile(new URL(`${name}.json`, output))).equals(bytes)) throw new Error(`Stale opening character data: ${name}`);
   } else await writeFile(new URL(`${name}.json`, output), bytes);

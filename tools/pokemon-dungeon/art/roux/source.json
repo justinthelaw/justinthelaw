@@ -1,0 +1,32 @@
+{
+  "originalGeneratedSha256": "05745ac173fb80192cc3c8d9a16ae89330c7f1d0a0a25feb2e3fb4520d40cbce",
+  "decodedSha256": "43011c0140f0656c473eca6add062fdf620b6770aae47baaf9c1191ad0f01b13",
+  "width": 1448,
+  "height": 1086,
+  "strips": [
+    {
+      "path": "roux-pose-0.png",
+      "sha256": "9326770240fb0be9a71b73cf75a40443f46cd2d0efce2564fc778c9c7865bde5"
+    },
+    {
+      "path": "roux-pose-1.png",
+      "sha256": "ba558f91c66c8d65f2a68f94ed43e884e1f9f086bfe2da8c2b54e5ebf87cc187"
+    },
+    {
+      "path": "roux-pose-2.png",
+      "sha256": "fd6d904c62aea117999493da99049989ce4db2132477be88ecd626bf97801ff0"
+    },
+    {
+      "path": "roux-pose-3.png",
+      "sha256": "6253c419d20e1f0f31ebeb1f6ad41e50bcdb6828d1dac882795a35123424d8d6"
+    },
+    {
+      "path": "roux-pose-4.png",
+      "sha256": "10111f63ee3d01ea6042171e8d91800bea40690f69a9d0c88ccee065cffd705f"
+    },
+    {
+      "path": "roux-pose-5.png",
+      "sha256": "d804c56603acc0f06950df2444405b55ac5c40d1149bd0ef0cdff5e9639b33c3"
+    }
+  ]
+}

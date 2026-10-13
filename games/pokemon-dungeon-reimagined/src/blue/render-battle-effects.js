@@ -8,7 +8,7 @@ const DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
  * @type {readonly BankSpec[]} */
 const BANKS=Object.freeze([
   {id:'basic',path:'battle-effects',ids:[15,28,29,52,65,128,138,140,194,215,225,238,271,299,319,321,323]},
-  {id:'initial',path:'battle-effects-initial',ids:[6,7,8,9,10,11,14,21,22,37,59,85,130,144,150,180,181,182,205,221,236,287,312,334,369,394,397,398,399,402,404,423,425,434]},
+  {id:'initial',path:'battle-effects-initial',ids:[6,7,8,9,10,11,14,21,22,37,59,85,130,144,150,180,181,182,205,221,236,287,312,334,369,394,397,398,399,400,401,402,404,423,425,434]},
   {id:'extra',path:'battle-effects-extra',ids:[50,76,83,96,137,246,247,269,270,274,288,296,316,317,333]},
 ]);
 const JSON_LIMIT=128*1024,PNG_LIMIT=256*1024,MAX_BANKS=3,MAX_DECODED_BYTES=4*1024*1024;

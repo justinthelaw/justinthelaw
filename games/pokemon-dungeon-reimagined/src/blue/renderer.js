@@ -3,7 +3,6 @@ import { Terrain, TILE } from './render-terrain.js';
 import { AuraBackdrop } from './render-aura.js';
 import { SpriteBank } from './render-native-sprites.js';
 import { StoryActors } from './render-story.js';
-import { IntroArtwork, INTRO_CLIENT_IDS, TITLE_PROMPT_MS } from './render-intro.js';
 import { TACTICS, tacticFor } from './mechanics-policy.js';
 import { renderNaming } from './render-naming.js';
 import { UiArtwork } from './render-ui-art.js';
@@ -17,14 +16,13 @@ import { moveEffects } from './render-move-motion.js';
 import { BattleEffects } from './render-battle-effects.js';
 import { HypnosisBackground } from './render-hypnosis.js';
 import { drawBattleActors } from './render-battle.js';
-export { OPENING_DURATION_MS } from './render-intro.js';
 
 /** @typedef {import('./mechanics-types.js').DungeonState} DungeonState */
 /** @typedef {import('./mechanics-types.js').Actor} Actor */
-/** @typedef {'opening'|'title'|'menu'|'quiz'|'gender'|'result'|'partner'|'name'|'awakening'|'trouble'|'dungeon'|'clearing'|'reunion'|'complete'} Scene */
+/** @typedef {'menu'|'quiz'|'gender'|'result'|'partner'|'name'|'awakening'|'trouble'|'dungeon'|'clearing'|'reunion'|'complete'} Scene */
 /** @typedef {{speaker?:string,text:string,portraitSpeciesId?:string,portraitEmotion?:string,visibleChars?:number}} Dialogue */
 /** @typedef {{index:number,x:number,y:number,width:number,height:number}} ChoiceBounds */
-/** @typedef {{scene:Scene,gender?:'male'|'female',dialogue?:Dialogue|null,choices?:string[],disabledChoices?:boolean[],selectedIndex?:number,choiceColumns?:number,heroSpeciesId?:string,partnerSpeciesId?:string,heroName?:string,partnerName?:string,dungeonClock?:number,dungeon?:DungeonState|null,battle?:import('./battle-presentation.js').BattleFrame,cameraActorId?:'hero'|'partner',menuActorId?:'hero'|'partner',dungeonLightLevel?:number,menuTitle?:string,playTime?:string,notice?:string,titleSubtitle?:string,titleImmediate?:boolean,nameValue?:string,nameTarget?:'hero'|'partner',naming?:import('./naming.js').NamingState,quizProgress?:number,partnerChoices?:string[],storyPhase?:string,storyLine?:number,storyPose?:string,storyTransitionFrame?:number,topScreen?:'map'|'team'|'log',mapStyle?:import('./map-mode.js').MapStyle,floorMapOpen?:boolean,mapMonsterDots?:boolean,mapInputTurn?:number,showGrid?:boolean,gridLines?:boolean,showToolbar?:boolean,reducedMotion?:boolean,blackout?:boolean,fade?:number,openingProgress?:number,savedProgress?:import('./menus.js').SavedProgress}} View */
+/** @typedef {{scene:Scene,gender?:'male'|'female',dialogue?:Dialogue|null,choices?:string[],disabledChoices?:boolean[],selectedIndex?:number,choiceColumns?:number,heroSpeciesId?:string,partnerSpeciesId?:string,heroName?:string,partnerName?:string,dungeonClock?:number,dungeon?:DungeonState|null,battle?:import('./battle-presentation.js').BattleFrame,cameraActorId?:'hero'|'partner',menuActorId?:'hero'|'partner',dungeonLightLevel?:number,menuTitle?:string,playTime?:string,notice?:string,nameValue?:string,nameTarget?:'hero'|'partner',naming?:import('./naming.js').NamingState,quizProgress?:number,partnerChoices?:string[],storyPhase?:string,storyLine?:number,storyPose?:string,storyTransitionFrame?:number,topScreen?:'map'|'team'|'log',mapStyle?:import('./map-mode.js').MapStyle,floorMapOpen?:boolean,mapMonsterDots?:boolean,mapInputTurn?:number,showGrid?:boolean,gridLines?:boolean,showToolbar?:boolean,reducedMotion?:boolean,blackout?:boolean,fade?:number,savedProgress?:import('./menus.js').SavedProgress}} View */
 
 const WIDTH = 256, HEIGHT = 192;
 const AURA_SCENES = new Set(['quiz', 'gender', 'result', 'partner', 'name']);
@@ -207,13 +205,12 @@ function dungeon(context,sprites,terrain,statuses,notice,map,effects,hypnosis,vi
 
 /** Fixed two-screen presentation; the owner supplies state and advances time.
  * @param {HTMLCanvasElement} topCanvas @param {HTMLCanvasElement} bottomCanvas
- * @param {{reducedMotion?:boolean,introClientSpeciesId?:string,signal?:AbortSignal}} [options] */
+ * @param {{reducedMotion?:boolean,signal?:AbortSignal}} [options] */
 export async function createRenderer(topCanvas,bottomCanvas,options={}){
-  const top=contextFor(topCanvas),bottom=contextFor(bottomCanvas),sprites=new SpriteBank(),terrain=new Terrain(),intro=new IntroArtwork(),aura=new AuraBackdrop(),storyActors=new StoryActors(),artwork=new UiArtwork(),statuses=new StatusSprites(),notice=new DungeonNotice(),map=new NativeMap(),effects=new BattleEffects(),hypnosis=new HypnosisBackground();
-  const introClient=options.introClientSpeciesId??INTRO_CLIENT_IDS[Math.floor(Math.random()*INTRO_CLIENT_IDS.length)]??'pokemon-025';
+  const top=contextFor(topCanvas),bottom=contextFor(bottomCanvas),sprites=new SpriteBank(),terrain=new Terrain(),aura=new AuraBackdrop(),storyActors=new StoryActors(),artwork=new UiArtwork(),statuses=new StatusSprites(),notice=new DungeonNotice(),map=new NativeMap(),effects=new BattleEffects(),hypnosis=new HypnosisBackground();
   /** @type {ChoiceBounds[]} */let choiceBounds=[];
   let toolbarVisible=false;
-  /** @type {Scene|null} */let previousScene=null;let sceneStart=0,disposed=false,titleAnimated=false;
+  /** @type {Scene|null} */let previousScene=null;let sceneStart=0,disposed=false;
   let waitingDialogue='',waitingSince=0;
   /** @type {boolean[]} */let sight=[];
   /** @type {number[]|null} */let sightTiles=null;let sightKey='';
@@ -225,10 +222,10 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
     terrain.clearing(bottom,animationTime,{clearing:view.scene==='clearing',reducedMotion:view.reducedMotion});
     storyActors.draw(bottom,sprites,view,time);
   }
-  function dispose(){if(disposed)return;disposed=true;options.signal?.removeEventListener('abort',dispose);sprites.dispose();terrain.dispose();intro.dispose();aura.dispose();artwork.dispose();statuses.dispose();effects.dispose();hypnosis.dispose();notice.reset();map.reset();disposeFont();disposeNativeUi();choiceBounds=[];sight=[];sightTiles=null;toolbarVisible=false;fill(top,'#000000');fill(bottom,'#000000');}
+  function dispose(){if(disposed)return;disposed=true;options.signal?.removeEventListener('abort',dispose);sprites.dispose();terrain.dispose();aura.dispose();artwork.dispose();statuses.dispose();effects.dispose();hypnosis.dispose();notice.reset();map.reset();disposeFont();disposeNativeUi();choiceBounds=[];sight=[];sightTiles=null;toolbarVisible=false;fill(top,'#000000');fill(bottom,'#000000');}
   options.signal?.addEventListener('abort',dispose,{once:true});
   if(options.signal?.aborted){dispose();throw new DOMException('Loading was cancelled.','AbortError');}
-  try{await Promise.all([sprites.loadSpecies(['pokemon-279',introClient]),intro.load(),terrain.load(),aura.load(),artwork.load(),statuses.load()]);if(disposed)throw new DOMException('Loading was cancelled.','AbortError');}catch(error){dispose();throw error;}
+  try{await Promise.all([sprites.loadSpecies(['pokemon-roux']),terrain.load(),aura.load(),artwork.load(),statuses.load()]);if(disposed)throw new DOMException('Loading was cancelled.','AbortError');}catch(error){dispose();throw error;}
   return {
     /** @param {string[]} ids */loadSpecies(ids){return sprites.loadSpecies(ids);},
     async loadBattleAssets(){await Promise.all([effects.load(),hypnosis.load()]);},
@@ -254,25 +251,16 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
         view.dungeon={...state,visible:sight};
         map.beginFrame(state,view.dungeonClock??time,!view.floorMapOpen&&(view.topScreen==='map'||!view.menuTitle&&(view.mapStyle==='clear'||view.mapStyle==='shade')),view.mapInputTurn);
       }
-      if(previousScene!==view.scene){if(AURA_SCENES.has(view.scene)&&!AURA_SCENES.has(previousScene??''))aura.reset(time);titleAnimated=view.scene==='title'&&previousScene==='opening'&&!view.titleImmediate;previousScene=view.scene;sceneStart=time;}
+      if(previousScene!==view.scene){if(AURA_SCENES.has(view.scene)&&!AURA_SCENES.has(previousScene??''))aura.reset(time);previousScene=view.scene;sceneStart=time;}
       const elapsed=time-sceneStart,animationTime=view.reducedMotion?0:elapsed;
       const hero=view.heroSpeciesId??'pokemon-025',partner=view.partnerSpeciesId??'pokemon-004';
       fill(top,'#000000');fill(bottom,'#000000');choiceBounds=[];toolbarVisible=false;
-      if(view.scene==='opening'){
-        intro.opening(bottom,sprites,introClient,elapsed,view.reducedMotion);
-      }else if(view.scene==='title'){
-        intro.titleBackdrop(bottom,elapsed,view.reducedMotion);
-        const animated=titleAnimated&&!view.titleImmediate;
-        if(animated)intro.title(bottom,sprites,elapsed,view.reducedMotion);
-        const promptReady=!animated||elapsed>=TITLE_PROMPT_MS;
-        const promptTime=animated?elapsed-TITLE_PROMPT_MS:elapsed;
-        if(promptReady&&(view.reducedMotion||Math.floor(promptTime/(1000/6))%2===1))intro.titlePrompt(bottom);
-      }else if(view.scene==='menu'){
-        artwork.menuLogo(top);artwork.menu(bottom);
+      if(view.scene==='menu'){
+        artwork.menuLogo(top,sprites,animationTime);artwork.menu(bottom);
       }else if(['quiz','gender','result','partner','name'].includes(view.scene)){
         if(view.scene==='name'&&view.nameTarget==='hero')groundScene(view,time,animationTime);
         else aura.draw(bottom,time,{reducedMotion:view.reducedMotion,mode:'cycle'});
-        if(view.scene==='result'&&view.storyLine===2){panel(bottom,100,60,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,hero,104,64,{flip:true,emotion:'happy'});}
+        if(view.scene==='result'&&view.storyLine===2){panel(bottom,100,24,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,view.selectedIndex===1?'pokemon-roux':hero,104,28,{flip:true,emotion:'happy'});}
         if(view.scene==='partner'){
           const current=view.partnerChoices?.[view.selectedIndex??0]??partner;panel(bottom,116,44,48,48,{pink:view.gender==='female',kind:'portrait'});sprites.portrait(bottom,current,120,48,{flip:true,emotion:'normal'});
         }

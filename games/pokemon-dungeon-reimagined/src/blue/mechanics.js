@@ -7,7 +7,7 @@ import { cameraSight } from './mechanics-visibility.js';
 import { dropItem, ITEM_NAMES, moneyPile } from './mechanics-items.js';
 import { captureActor } from './battle-events.js';
 import { DEFAULT_IQ, IQ_SKILLS, TACTICS, hasIq, tacticFor, considersLineMove, considersLineTarget, canTalk, talkToPartner } from './mechanics-policy.js';
-import { attack, damage, beginTurn, finishBeginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, resumeExperience, supportsMove, chargeOpportunity, clearCharge, STATUS_KEYS, REFLECT_CLASS_STATUSES, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
+import { attack, damage, beginTurn, finishBeginTurn, finishTurn, heal, moveSlot, moveTargets, resetSecondaryGates, resumeExperience, supportsMove, chargeOpportunity, clearCharge, hasCharge, STATUS_KEYS, REFLECT_CLASS_STATUSES, ABILITY_VISUAL_FLAGS } from './mechanics-combat.js';
 import { actors, actorAt, canStep, clearQueuedMovement, directionFor, distance, draw, flushQueuedMovement, index, inSight, targetSight, message, moveActor, nextStep, open, pickup, recordAction, recordCamera, recordSync, team, wakeInitialSleep, wakeNearbyWild, DIRECTIONS, VECTORS } from './mechanics-common.js';
 
 export { resetSecondaryGates } from './mechanics-combat.js';
@@ -33,7 +33,7 @@ export async function loadOpeningData(signal) {
   if(!response.ok)throw new Error(`Opening data could not load (${response.status}).`);
   const text=await response.text();if(text.length>500000)throw new Error('Opening data is too large.');
   const data=/** @type {OpeningData} */(JSON.parse(text));
-  if(data.version!==1||data.starterIds.length!==16||data.floors.length!==3||!data.moves['regular-attack']||data.wildSpawn?.randomMovementChance!==0)throw new Error('Unsupported opening data.');
+  if(data.version!==1||data.starterIds.length!==17||new Set(data.starterIds).size!==17||!data.starterIds.includes('pokemon-roux')||data.floors.length!==3||!data.moves['regular-attack']||data.wildSpawn?.randomMovementChance!==0)throw new Error('Unsupported opening data.');
   for(const [index,floor] of data.floors.entries())if(floor.number!==index+1||!isTinyWoodsParameters(floor.generation,index+1))throw new Error('Unsupported Tiny Woods floor profile.');
   for(const floor of data.floors)for(const row of floor.encounters){const chance=data.species[row.speciesId]?.chanceAsleep;if(typeof chance!=='number'||!Number.isInteger(chance)||chance<0||chance>100)throw new Error('Missing opening wild sleep facts.');}
   return data;
@@ -57,7 +57,7 @@ function dungeonPreseed(seed){
 }
 /** @param {DungeonOptions} options @param {OpeningData} data @returns {DungeonState} */
 export function createDungeon(options,data) {
-  if(!data.starterIds.includes(options.heroSpeciesId)||!data.starterIds.includes(options.partnerSpeciesId))throw new Error('Choose an original starter pair.');
+  if(!data.starterIds.includes(options.heroSpeciesId)||!data.starterIds.includes(options.partnerSpeciesId))throw new Error('Choose an opening starter pair.');
   const heroData=data.species[options.heroSpeciesId],partnerData=data.species[options.partnerSpeciesId];
   if(!heroData||!partnerData||!['pokemon-001','pokemon-004','pokemon-007','pokemon-025','pokemon-152','pokemon-155','pokemon-158','pokemon-252','pokemon-255','pokemon-258'].includes(options.partnerSpeciesId)||heroData.types.some(t=>t!=='None'&&partnerData.types.includes(t)))throw new Error("This partner shares the hero's type.");
   /** @type {DungeonState} */
@@ -96,6 +96,19 @@ function generateFloor(state,data,events) {
     state.items.push({id:`item-${state.nextId++}`,kind,x:point.x,y:point.y,amount:kind==='poke'?moneyPile(state):1});
   }
   updateVisibility(state);events.push({type:'floor',amount:state.floor});message(state,events,`Tiny Woods B${state.floor}F`);
+  applyRouxPickup(state,data,events);
+}
+/** Authored Roux-only floor-entry adaptation, after all original spawns/draws.
+ * No counter or inventory: occupied/dead/non-Roux slots consume no draw.
+ * @param {DungeonState} state @param {OpeningData} data @param {GameEvent[]} events */
+function applyRouxPickup(state,data,events){
+  for(const actor of [state.hero,state.partner]){
+    if(actor.speciesId!=='pokemon-roux'||actor.hp<=0||actor.heldItem||!data.species[actor.speciesId]?.abilities.includes('Pickup'))continue;
+    if(draw(state,100)>=20)continue;
+    const kind=draw(state,100)<75?'oran-berry':'pecha-berry';
+    actor.heldItem={kind,amount:1};recordSync(state,events,[actor]);
+    message(state,events,`${actor.name}'s Pickup found ${kind==='oran-berry'?'an':'a'} ${ITEM_NAMES[kind]}!`);
+  }
 }
 /** @param {DungeonState} state @param {OpeningData} data @param {Point|null} [initialPosition] @param {GameEvent[]} [events] */
 function spawnEnemy(state,data,initialPosition=null,events=[]) {
@@ -167,7 +180,7 @@ function throwGroundPoke(state,item,data,events){
   try{
     if(stop==='outside'){message(state,events,'The item flew out of reach.');return;}
     if(target){
-      if(draw(state,100)<90){
+      if(target.digSlot===undefined&&draw(state,100)<90){
         message(state,events,`${item.amount} Poké hit ${target.name}.`);
         wakeInitialSleep(state,target,events);
         const catches=!target.heldItem&&(!team(target)||hasIq(target,'item-catcher'))&&!['sleep','infatuated','bide'].some(status=>!!target.status[status]);
@@ -214,7 +227,7 @@ function throwBerry(state,actor,item,events){
   }
   events.push({type:'throw',actorId:actor.id,text:item.kind,from:origin,to:endpoint});
   if(target){
-    if(draw(state,100)<90){
+    if(target.digSlot===undefined&&draw(state,100)<90){
       message(state,events,`${ITEM_NAMES[item.kind]} hit ${target.name}.`);
       wakeInitialSleep(state,target,events);
       berryEffect(state,target,item,events);return;
@@ -226,7 +239,7 @@ function throwBerry(state,actor,item,events){
 }
 /** @param {DungeonState} state @param {Actor} actor @param {OpeningData} data @param {GameEvent[]} events @returns {boolean|CombatPause|undefined} */
 function actAI(state,actor,data,events) {
-  const eventStart=events.length,chargedAtStart=actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined;
+  const eventStart=events.length,chargedAtStart=hasCharge(actor);
   let paused=null;
   try {
     if(actor.useHeldItem){
@@ -241,7 +254,7 @@ function actAI(state,actor,data,events) {
     const travelFirst=hasIq(actor,'dedicated-traveler');
     if(travelFirst&&(tryAiMovement(state,actor,target,events)||actor.status.confusion))return;
     const closedNoFoe=!target&&canChooseWithoutVisibleFoe(actor);
-    if(target||closedNoFoe||actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined){const result=tryAiAttack(state,actor,target,data,events);if(result){if(typeof result==='object')paused=result;return result;}}
+    if(target||closedNoFoe||hasCharge(actor)){const result=tryAiAttack(state,actor,target,data,events);if(result){if(typeof result==='object')paused=result;return result;}}
     if(!travelFirst)tryAiMovement(state,actor,target,events);
   } finally {
     // ExecuteEntityDungeonAction clears every pre-existing Skull Bash charge
@@ -293,16 +306,16 @@ function aiRegularDirection(state,actor){
  * and consumes a target-choice draw even when there is only one candidate.
  * Opening team actors lack Status Checker; Tiny Woods wild actors have it.
  * @type {ReadonlySet<string>} */
-const AI_SELF_MOVE_IDS=new Set(['move-solar-beam','move-protect']);
+const AI_SELF_MOVE_IDS=new Set(['move-solar-beam','move-protect','move-howl']);
 // Safeguard's source AI tuple is room enemies (0x30); its actual effect is allies (0x31).
 const AI_ROOM_INTENT_MOVE_IDS=new Set(['move-safeguard']);
 const AI_ADJACENT_MOVE_IDS=new Set(['move-ember','move-hypnosis','move-leech-seed','move-mud-slap','move-sand-attack','move-smokescreen','move-water-gun']);
 /** Native AI tuple zero uses adjacent enemy targeting even when the player
  * range later applies Focus Energy, Rage or Withdraw to the user.
  * @type {ReadonlySet<string>} */
-const AI_FRONT_MOVE_IDS=new Set(['move-tackle','move-vine-whip','move-scratch','move-tail-whip','move-thunder-shock','move-thunder-wave','move-bite','move-leer','move-pound','move-absorb','move-focus-energy','move-rage','move-withdraw','move-skull-bash','move-fire-spin','move-whirlpool','move-pursuit','move-light-screen']);
+const AI_FRONT_MOVE_IDS=new Set(['move-tackle','move-vine-whip','move-scratch','move-tail-whip','move-thunder-shock','move-thunder-wave','move-bite','move-leer','move-pound','move-absorb','move-focus-energy','move-rage','move-withdraw','move-skull-bash','move-dig','move-crunch','move-fire-spin','move-whirlpool','move-pursuit','move-light-screen']);
 /** @type {ReadonlySet<string>} */
-const AI_TWO_TILE_MOVE_IDS=new Set(['move-growl','move-quick-attack']);
+const AI_TWO_TILE_MOVE_IDS=new Set(['move-growl','move-quick-attack','move-earth-power']);
 /** @type {ReadonlySet<string>} */
 const AI_LINE_MOVE_IDS=new Set(['move-bubble','move-razor-leaf']);
 /** A no-visible-foe chooser call is closed only when every enabled slot uses
@@ -394,9 +407,9 @@ function tryAiAttack(state,actor,target,data,events){
   if(actor.status.paralysis||actor.status.cringe)return false;
   if(actor.status.confusion&&draw(state,100)<70)return false;
   const regularDirection=aiRegularDirection(state,actor);
-  if(actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined){
+  if(hasCharge(actor)){
     // The common chooser gates precede exact stored-slot forcing.
-    return attack(state,actor,actor.skullBashSlot??actor.solarBeamSlot??null,data,events)??true;
+    return attack(state,actor,actor.skullBashSlot??actor.solarBeamSlot??actor.digSlot??null,data,events)??true;
   }
   if(target)actor.direction=directionFor(target.x-actor.x,target.y-actor.y);
   const struggle=data.moves['move-struggle'];
@@ -542,7 +555,7 @@ function scheduledActors(state){return [state.partner,...state.enemies];}
 export function getDungeonTurnPhase(state){
   if(state.status==='rescued'||state.status==='defeated'||state.hero.hp<=0||state.pendingLearning.length||state.learningContinuation)return 'blocked';
   if(!state.leaderPrepared)return 'unprepared';
-  return state.hero.status.sleep||state.hero.status.infatuated||state.hero.status.bide||(state.hero.skullBashSlot!==undefined||state.hero.solarBeamSlot!==undefined)?'forced':'input';
+  return state.hero.status.sleep||state.hero.status.infatuated||state.hero.status.bide||hasCharge(state.hero)?'forced':'input';
 }
 /** Start at most one normal-speed base beat. A skipped leader has no upkeep,
  * input, hunger or wind; the other scheduled actors still receive their turn.
@@ -601,7 +614,7 @@ function advanceOtherActors(state,data,events,startIndex=0){
     // RunMonsterAI's early blockers select Pass Turn. The later universal
     // action-execution gate then clears a two-turn charge via CannotAttack.
     if(canAct&&!defeated(state)){const paused=actAI(state,actor,data,events);if(paused&&typeof paused==='object'){pauseLearning(state,'actor-after-action',paused.experience,{actorId:actor.id,actorIndex,nextActorIndex:actorIndex+1,...(paused.moveTail?{moveTail:paused.moveTail}:{})});return true;}}
-    else {recordAction(events,actor.id,'wait');if(actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined){clearCharge(actor);recordSync(state,events,[actor]);}}
+    else {recordAction(events,actor.id,'wait');if(hasCharge(actor)){clearCharge(actor);recordSync(state,events,[actor]);}}
     const finished=finishTurn(state,actor,data,events);if(finished){pauseLearning(state,'actor-after-finish',finished.experience,{actorId:actor.id,actorIndex,nextActorIndex:actorIndex+1});return true;}
   }
   return false;
@@ -676,7 +689,7 @@ export function resumeDungeonContinuation(state,data){
       if(canAct&&!defeated(state)){
         const paused=actAI(state,actor,data,events);
         if(paused&&typeof paused==='object'){pauseLearning(state,'actor-after-action',paused.experience,{actorId:actor.id,actorIndex:continuation.actorIndex,nextActorIndex:continuation.nextActorIndex,...(paused.moveTail?{moveTail:paused.moveTail}:{})});return {consumedTurn:false,events,status:state.status};}
-      }else {recordAction(events,actor.id,'wait');if(actor.skullBashSlot!==undefined||actor.solarBeamSlot!==undefined){clearCharge(actor);recordSync(state,events,[actor]);}}
+      }else {recordAction(events,actor.id,'wait');if(hasCharge(actor)){clearCharge(actor);recordSync(state,events,[actor]);}}
     }else if(continuation.owner==='actor-after-action'&&continuation.moveTail==='clear-charge'){
       clearCharge(actor);recordSync(state,events,[actor]);
     }
@@ -699,7 +712,7 @@ export function performAction(state,action,data) {
     if(action.type==='learnMove'){
       const request=state.pendingLearning[0],actor=actors(state).find(a=>a.id===action.actorId);
       if(!request||request.actorId!==action.actorId||!actor||action.slot!==null&&(!Number.isInteger(action.slot)||action.slot<0||action.slot>3))return result(false);
-      if(action.slot!==null){if(actor.skullBashSlot===action.slot&&request.moveId!=='move-skull-bash'||actor.solarBeamSlot===action.slot&&request.moveId!=='move-solar-beam')clearCharge(actor);actor.moves[action.slot]=moveSlot(data,request.moveId);message(state,events,`${actor.name} learned ${data.moves[request.moveId]?.name}!`);recordSync(state,events,[actor]);}state.pendingLearning.shift();return result(false);
+      if(action.slot!==null){if(actor.skullBashSlot===action.slot&&request.moveId!=='move-skull-bash'||actor.solarBeamSlot===action.slot&&request.moveId!=='move-solar-beam'||actor.digSlot===action.slot&&request.moveId!=='move-dig')clearCharge(actor);actor.moves[action.slot]=moveSlot(data,request.moveId);message(state,events,`${actor.name} learned ${data.moves[request.moveId]?.name}!`);recordSync(state,events,[actor]);}state.pendingLearning.shift();return result(false);
     }
     // A surviving partner can finish native queued EXP/learning after a later
     // hit removes the leader. Only the existing live first request is accepted.
@@ -822,7 +835,7 @@ export function validateDungeon(value,data) {
     const multiplierCount=multiplierKeys.filter(key=>Object.hasOwn(a,key)).length;
     const constrictionKeys=['constrictionTurns','constrictionCountdown','constrictionEffectId'];
     const constrictionCount=constrictionKeys.filter(key=>Object.hasOwn(a,key)).length;
-    const optionalKeys=['skullBashSlot','solarBeamSlot',...constrictionKeys,'useHeldItem','tactic','enabledIq','abilityVisualFlags',...multiplierKeys].filter(key=>Object.hasOwn(a,key));
+    const optionalKeys=['skullBashSlot','solarBeamSlot','digSlot',...constrictionKeys,'useHeldItem','tactic','enabledIq','abilityVisualFlags',...multiplierKeys].filter(key=>Object.hasOwn(a,key));
     if(!exactKeys(a,[actorKeys,...optionalKeys].join(','))||Object.hasOwn(a,'useHeldItem')&&typeof a.useHeldItem!=='boolean')return false;
     if(multiplierCount!==0&&multiplierCount!==4||constrictionCount!==0&&constrictionCount!==3)return false;
     if(constrictionCount===3&&(a.hp<=0||!integer(a.constrictionTurns,1,128)||!integer(a.constrictionCountdown,0,2)||![59,316].includes(a.constrictionEffectId??0)))return false;
@@ -842,8 +855,10 @@ export function validateDungeon(value,data) {
     if(!a.status||typeof a.status!=='object'||Array.isArray(a.status)||Object.keys(a.status).length>STATUS_KEYS.length||!Object.entries(a.status).every(([k,n])=>statusKeys.has(k)&&integer(n,0,128))||REFLECT_CLASS_STATUSES.filter(key=>!!a.status[key]).length>1||a.status.counter&&(a.speciesId!=='pokemon-252'||a.level<16)||a.status.lightScreen&&!((a.speciesId==='pokemon-025'&&a.level>=50)||(a.speciesId==='pokemon-152'&&a.level>=36))||a.status.protect&&!((a.speciesId==='pokemon-007'&&a.level>=28)||(a.speciesId==='pokemon-258'&&a.level>=37)))return false;
     if(!a.periodic||Object.keys(a.periodic).sort().join(',')!=='burn,leechSeed,poison'||!Object.values(a.periodic).every(n=>integer(n,0,20)))return false;
     if(!a.stages||Object.keys(a.stages).sort().join(',')!=='accuracy,attack,defense,evasion,specialAttack,specialDefense'||!Object.values(a.stages).every(n=>integer(n,0,20)))return false;
+    if(['skullBashSlot','solarBeamSlot','digSlot'].filter(key=>Object.hasOwn(a,key)).length>1)return false;
     if(Object.hasOwn(a,'skullBashSlot')&&(!Array.isArray(a.moves)||a.hp<=0||!!a.status?.bide||!!a.status?.enraged||!integer(a.skullBashSlot,0,3)||a.moves[/** @type {number} */(a.skullBashSlot)]?.id!=='move-skull-bash'))return false;
     if(Object.hasOwn(a,'solarBeamSlot')&&(!Array.isArray(a.moves)||Object.hasOwn(a,'skullBashSlot')||a.hp<=0||!!a.status?.bide||!!a.status?.enraged||!integer(a.solarBeamSlot,0,3)||a.moves[/** @type {number} */(a.solarBeamSlot)]?.id!=='move-solar-beam'))return false;
+    if(Object.hasOwn(a,'digSlot')&&(!Array.isArray(a.moves)||a.hp<=0||!!a.status?.bide||!!a.status?.enraged||!integer(a.digSlot,0,3)||a.moves[/** @type {number} */(a.digSlot)]?.id!=='move-dig'))return false;
     if(!Array.isArray(a.moves)||a.moves.length<1||a.moves.length>4||new Set(a.moves.map(m=>m?.id)).size!==a.moves.length||a.moves.filter(m=>m?.set).length>1||a.moves.some(m=>!m||!learned.has(m.id)||!data.moves[m.id]||m.name!==data.moves[m.id]?.name||m.maxPp!==data.moves[m.id]?.pp||!integer(m.pp,0,m.maxPp)||typeof m.enabled!=='boolean'||typeof m.set!=='boolean'))return false;
   }
   if(s.hero.id!=='hero'||s.partner.id!=='partner'||s.enemies.some(a=>!/^enemy-\d+$/.test(a.id)||a.level!==1||!['pokemon-016','pokemon-102','pokemon-191','pokemon-265'].includes(a.speciesId))||!data.starterIds.includes(s.hero.speciesId)||!['pokemon-001','pokemon-004','pokemon-007','pokemon-025','pokemon-152','pokemon-155','pokemon-158','pokemon-252','pokemon-255','pokemon-258'].includes(s.partner.speciesId))return false;

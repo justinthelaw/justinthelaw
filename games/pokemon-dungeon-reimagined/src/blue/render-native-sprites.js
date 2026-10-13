@@ -1,7 +1,7 @@
 /** Native Rescue Team image playback. All inputs are local, pinned PNG/JSON. */
 import {nativeShadow} from './render-native-ui.js';
 const SPECIES_IDS=[1,4,7,10,12,16,25,52,54,66,102,104,133,152,155,158,191,252,255,258,265,279,300].map(value=>`pokemon-${String(value).padStart(3,'0')}`);
-const SPECIES=new Set(SPECIES_IDS),DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
+const SPECIES=new Set([...SPECIES_IDS,'pokemon-roux']),DIRECTIONS=['s','se','e','ne','n','nw','w','sw'];
 // The 8 MiB atlas cap applies after a scene loads. Its previous scene remains
 // drawable during loading; all 23 pinned atlases bound that overlap at
 // 11,657,216 decoded pixel bytes, excluding the separate portrait/status sheets.
@@ -9,7 +9,7 @@ const ASSET_ROOT=new URL('../../assets/blue/',import.meta.url),MAX_ATLASES=12,MA
 /** @typedef {[number,number,number,number,number,number]} NativePose */
 /** @typedef {[number,number,number,number,number,number,number]} NativeFrame */
 /** @typedef {{animation:number,loop:boolean}} NativeClip */
-/** @typedef {{schemaVersion:3,speciesId:string,width:number,height:number,dungeonOffsetY?:number,poses:NativePose[],statusOffsets?:[number,number][],effectOffsetSets?:[number,number][][],effectOffsetIndices?:number[],animations:NativeFrame[][][],clips:Record<string,NativeClip>,shadowSize:number}} NativeMetadata */
+/** @typedef {{schemaVersion:3,speciesId:string,width:number,height:number,dungeonOffsetY?:number,portraits?:Record<string,[number,number,number,number]>,poses:NativePose[],statusOffsets?:[number,number][],effectOffsetSets?:[number,number][][],effectOffsetIndices?:number[],animations:NativeFrame[][][],clips:Record<string,NativeClip>,shadowSize:number}} NativeMetadata */
 /** @typedef {{speciesId:string,emotion:string,x:number,y:number,width:number,height:number}} Portrait */
 /** @typedef {{schemaVersion:2,width:number,height:number,cell:number,records:Portrait[]}} PortraitMetadata */
 /** @typedef {{image:ImageBitmap,metadata:NativeMetadata,used:number}} Atlas */
@@ -53,6 +53,10 @@ function validateMetadata(metadata,speciesId){
   }
   if(!metadata.clips?.idle||!metadata.clips.walk)throw Error('Native character is missing playback aliases.');
   for(const clip of Object.values(metadata.clips))if(!Number.isInteger(clip.animation)||clip.animation<0||clip.animation>=metadata.animations.length||typeof clip.loop!=='boolean')throw Error('Native playback alias is invalid.');
+  if(speciesId==='pokemon-roux'){
+    if(!metadata.portraits?.normal)throw Error('Roux is missing his portrait.');
+    for(const rect of Object.values(metadata.portraits))if(rect.length!==4||rect.some(value=>!Number.isInteger(value))||rect[0]<0||rect[1]<0||rect[2]!==40||rect[3]!==40||rect[0]+40>metadata.width||rect[1]+40>metadata.height)throw Error('Roux portrait escapes its atlas.');
+  }
 }
 
 export class SpriteBank {
@@ -81,7 +85,8 @@ export class SpriteBank {
   /** @param {string} path */
   async response(path){
     if(this.disposed)throw new DOMException('Renderer was disposed.','AbortError');
-    const response=await fetch(new URL(path,ASSET_ROOT),{signal:this.controller.signal});
+    const base=path.startsWith('pokemon-roux.')?new URL('../../assets/roux/',import.meta.url):ASSET_ROOT;
+    const response=await fetch(new URL(path,base),{signal:this.controller.signal});
     if(!response.ok)throw Error(`Could not load native artwork (${response.status}).`);
     return response;
   }
@@ -179,6 +184,12 @@ export class SpriteBank {
    * @param {{flip?:boolean,emotion?:string}} [options] */
   portrait(context,id,x,y,options={}){
     const emotion=options.emotion??'normal';
+    if(id==='pokemon-roux'){
+      const entry=this.images.get(id),rect=entry?.metadata.portraits?.[emotion]??entry?.metadata.portraits?.normal;
+      if(!entry||!rect)return;entry.used=++this.clock;
+      context.save();context.translate(Math.round(x)+(options.flip?40:0),Math.round(y));if(options.flip)context.scale(-1,1);
+      context.drawImage(entry.image,...rect,0,0,40,40);context.restore();return;
+    }
     const portrait=this.portraitRects.get(`${id}:${emotion}`)??this.portraitRects.get(`${id}:normal`);
     if(!this.portraits||!portrait)return;
     context.save();context.translate(Math.round(x)+(options.flip?40:0),Math.round(y));if(options.flip)context.scale(-1,1);

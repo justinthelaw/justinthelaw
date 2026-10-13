@@ -19,6 +19,11 @@ export async function exportNativeMotions({emit}){
   const moveIds=new Map(facts.identities.moves.map(record=>[record.id,record.originalId]));
   for(const[id,internalId]of[['regular-attack',355],['move-struggle',352],['bide-release',357]])moveIds.set(id,internalId);
   for(const move of Object.values(opening.moves)){
+    if(!moveIds.has(move.id)){
+      if(!['move-dig','move-howl','move-crunch','move-earth-power'].includes(move.id))throw Error(`Unknown authored motion ${move.id}.`);
+      records[move.id]={animation:1,overrides:{},preparation:0,cast:0,target:0,travel:0,attachmentSet:-1,attachmentOverrides:{},travelSpeed:0};
+      continue;
+    }
     const record=moves.get(moveIds.get(move.id));if(!record)throw Error(`Native motion is missing for ${move.id}.`);
     const selected={animation:record.unk10,overrides:{},preparation:record.unk0,cast:record.unk2,target:record.unk4,travel:record.unk6,attachmentSet:record.unk14,attachmentOverrides:{},travelSpeed:record.unk6===0?0:record.unkC===1?2:record.unkC===2?3:6};
     for(let index=0;index<record.unk1C;index++){
@@ -39,7 +44,7 @@ export async function exportNativeMotions({emit}){
     records[move.id]=selected;
   }
   const modulePath='src/blue/render-move-motion-data.js';
-  const data='/** Generated native move/species animation facts. Comparative Red source; no timing claim. */\n'+
+  const data='/** Generated original move facts plus authored Roux move clips. Red is comparative; Roux clips claim no native parity. */\n'+
     '/** @type {Readonly<Record<string,{animation:number,overrides:Record<string,number>,preparation:number,cast:number,target:number,travel:number,attachmentSet:number,attachmentOverrides:Record<string,number>,travelSpeed:number}>>} */\n'+
     `export const MOVE_MOTION_FACTS=${JSON.stringify(records)};\n`;
   await emit(new URL(`../../../../games/pokemon-dungeon-reimagined/${modulePath}`,import.meta.url),data);

@@ -1,4 +1,50 @@
-# Blue opening review
+# Roux's Adventure review
+
+## Roux candidate, 2026-10-13
+
+The owner-requested rebrand starts directly at an authored chocolate/cream menu
+and adds optional Normal/Ground Roux. The existing adventure ends at Caterpie's
+rescue, with all original heroes and partner choices retained. The authored
+[brief](../../../tools/pokemon-dungeon/reference/roux-adventure.md) records the
+quiz route, moves, growth, Pickup and pet/art provenance separately from original
+Blue facts.
+
+Static authoring lint/types, factual pins, original-rule preservation,
+reproducible exports, source closure and asset budgets passed. The final declared
+distribution is 136 files / 2,876,693 bytes, below 3 MiB. Independent combat and
+whole-branch source reviews approved after fixing underground Bide/projectile
+receipts, removing an unrequested Protect entry and respecting reduced motion.
+The quiz portrait remains above the new choices and previews Roux when selected;
+the renamed menu preserves its helper text.
+
+Website lint and the static build passed. A fresh serial website flight check
+on the Dig follow-up passed all 470 inert-fixture browser cases. Local WebKit used existing
+workspace libraries; its host-cache validation was bypassed after an inert
+launch confirmed those libraries work. No game/native modules were executed,
+no automated playthrough ran, and no new manual gameplay acceptance is claimed.
+Pre-push source/documentation/security/size hooks passed. CI and the PR's current
+Codex review are publication checks, distinct from these local results.
+
+The first PR #406 pipeline passed all seven checks. Codex then found that Dig's
+declared release multiplier was absent from the damage consumer. The follow-up
+adds Dig to the existing 512/Q8 charge branch and a source-only AST gate linking
+all declared charge multipliers to that consumer. The gate failed for Dig before
+the fix and passed afterward. Roux's small-body Low Kick coefficient also uses
+the admitted 153/Q8 size class instead of a unitless ordinal, with an independent
+static admission check. No game code was executed. The final follow-up
+verification and current-head CI/Codex outcomes are recorded with the PR.
+
+The Dig follow-up pipeline also passed all seven checks. Its Codex review found
+missing Special Defense presentation and a floor-entry Pickup narration gap.
+The next follow-up maps Special Defense changes to pinned effects 401/400 and
+packs their existing archive artwork; drops reuse the qualified defense-down
+cue as an authored adaptation. Pickup now waits for tutorials and other surface
+gates, then uses the shared message/narration owner. The previous timer already
+paused under tutorials; the deferred publication also closes the actual
+accessibility gap. Static stat-effect coverage failed before the mapping fix
+and passed after it. Pending notices remain transient and retire with the scene.
+
+## Historical original-opening review
 
 PR #397 is merged. This record separates the historical checkpoint-40 acceptance
 from the current documentation audit. The scope ends after Tiny Woods,
@@ -53,8 +99,9 @@ quota, corruption and deletion acceptance remain incomplete.
 
 ## Current limitations
 
-- Dialogue is authored. Exact animation/dialogue timing, the third file-menu
-  illustration and moving upper title clouds remain incomplete or qualified.
+- Dialogue is authored. Exact animation/dialogue timing and full manual
+  acceptance remain incomplete or qualified. The original file-menu illustration
+  and title-cloud parity gaps are historical; those scenes are now retired.
 - Blue waveform/driver identity, global audio phase/channel competition,
   resampling and physical output are unproved. Background music is intentionally absent.
 - Native-family RNG does not establish original seed history, full draw schedules,

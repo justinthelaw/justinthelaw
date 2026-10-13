@@ -1,0 +1,1100 @@
+{
+  "schemaVersion": 1,
+  "speciesId": "pokemon-roux",
+  "qualification": "Owner-authored fan character based on Justin Law's Roux Work Pet; not an official species, move table or evolution. Original Blue catalogs are unchanged.",
+  "evolves": false,
+  "experienceBasis": "pokemon-133 reviewed 100-level experience thresholds; stat increments are authored for a balanced non-evolving character.",
+  "species": {
+    "name": "Roux",
+    "types": [
+      "Normal",
+      "Ground"
+    ],
+    "abilities": [
+      "Pickup",
+      "Keen Eye"
+    ],
+    "regenerationRate": 100,
+    "experienceYield": 55,
+    "lowKickMultiplier": 153,
+    "baseStats": [
+      18,
+      2,
+      0,
+      3,
+      3
+    ],
+    "growth": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        3,
+        2,
+        2,
+        2,
+        2
+      ],
+      [
+        20,
+        3,
+        2,
+        2,
+        1,
+        1
+      ],
+      [
+        40,
+        3,
+        2,
+        2,
+        2,
+        2
+      ],
+      [
+        60,
+        3,
+        2,
+        2,
+        1,
+        1
+      ],
+      [
+        120,
+        3,
+        2,
+        2,
+        2,
+        2
+      ],
+      [
+        410,
+        3,
+        2,
+        2,
+        1,
+        1
+      ],
+      [
+        700,
+        3,
+        2,
+        2,
+        2,
+        2
+      ],
+      [
+        1250,
+        3,
+        2,
+        2,
+        1,
+        1
+      ],
+      [
+        2250,
+        3,
+        2,
+        2,
+        2,
+        2
+      ],
+      [
+        4150,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        7290,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        11890,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        17090,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        22490,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        28090,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        34090,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        40090,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        46090,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        52090,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        58090,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        64590,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        72290,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        81290,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        90290,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        99290,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        108290,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        118290,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        128290,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        138290,
+        2,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        148290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        158290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        178290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        198290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        218290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        238290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        258290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        288290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        318290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        348290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        378290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        408290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        438290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        468290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        498290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        528290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        558290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        588290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        618290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        648290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        678290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        708290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        738290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        768290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        798290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        828290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        858290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        888290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        918290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        948290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        978290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1008290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        1038290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        1068290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        1098290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1128290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1158290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1188290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        1218290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        1248290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        1308290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1368290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1428290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1488290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        1548290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        1608290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        1668290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1728290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1788290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1848290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        1908290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        1968290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        2028290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2088290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        2148290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2208290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        2268290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        2328290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        2388290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2448290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        2508290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2568290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        2628290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        2688290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        2748290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2808290,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        2868290,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2928290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        2988290,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        3048290,
+        1,
+        1,
+        0,
+        1,
+        0
+      ]
+    ],
+    "learnset": [
+      [
+        1,
+        "move-bite"
+      ],
+      [
+        1,
+        "move-growl"
+      ],
+      [
+        6,
+        "move-dig"
+      ],
+      [
+        9,
+        "move-sand-attack"
+      ],
+      [
+        12,
+        "move-howl"
+      ],
+      [
+        15,
+        "move-quick-attack"
+      ],
+      [
+        18,
+        "move-mud-slap"
+      ],
+      [
+        22,
+        "move-headbutt"
+      ],
+      [
+        26,
+        "move-crunch"
+      ],
+      [
+        30,
+        "move-mud-sport"
+      ],
+      [
+        36,
+        "move-take-down"
+      ],
+      [
+        42,
+        "move-earth-power"
+      ],
+      [
+        50,
+        "move-double-edge"
+      ]
+    ]
+  },
+  "moves": [
+    {
+      "id": "move-dig",
+      "name": "Dig",
+      "type": "ground",
+      "power": 12,
+      "pp": 12,
+      "accuracyBeforeEffect": 125,
+      "accuracyAfterDamage": 100,
+      "criticalPercent": 12,
+      "chainedHitsRaw": 1,
+      "range": 7,
+      "target": 4,
+      "cutsCorners": false,
+      "effects": [
+        {
+          "op": "charge",
+          "status": "dig",
+          "turns": 1
+        },
+        {
+          "op": "normal-damage",
+          "multiplier": 2
+        }
+      ],
+      "aiWeight": 20
+    },
+    {
+      "id": "move-howl",
+      "name": "Howl",
+      "type": "normal",
+      "power": 0,
+      "pp": 20,
+      "accuracyBeforeEffect": 125,
+      "accuracyAfterDamage": 100,
+      "criticalPercent": 12,
+      "chainedHitsRaw": 1,
+      "range": 7,
+      "target": 3,
+      "cutsCorners": false,
+      "effects": [
+        {
+          "op": "stat-stage",
+          "stat": "attack",
+          "delta": 1,
+          "recipient": "user"
+        }
+      ],
+      "aiWeight": 10
+    },
+    {
+      "id": "move-crunch",
+      "name": "Crunch",
+      "type": "dark",
+      "power": 12,
+      "pp": 12,
+      "accuracyBeforeEffect": 125,
+      "accuracyAfterDamage": 100,
+      "criticalPercent": 12,
+      "chainedHitsRaw": 1,
+      "range": 0,
+      "target": 0,
+      "cutsCorners": false,
+      "effects": [
+        {
+          "op": "normal-damage"
+        },
+        {
+          "op": "secondary",
+          "chancePercent": 20,
+          "requires": "successful-nonzero-damage",
+          "effect": {
+            "op": "stat-stage",
+            "stat": "specialDefense",
+            "delta": -1,
+            "recipient": "target"
+          },
+          "gate": "secondary-effect-common"
+        }
+      ],
+      "aiWeight": 20
+    },
+    {
+      "id": "move-earth-power",
+      "name": "Earth Power",
+      "type": "ground",
+      "power": 16,
+      "pp": 10,
+      "accuracyBeforeEffect": 125,
+      "accuracyAfterDamage": 100,
+      "criticalPercent": 12,
+      "chainedHitsRaw": 1,
+      "range": 4,
+      "target": 0,
+      "cutsCorners": true,
+      "effects": [
+        {
+          "op": "normal-damage"
+        },
+        {
+          "op": "secondary",
+          "chancePercent": 10,
+          "requires": "successful-nonzero-damage",
+          "effect": {
+            "op": "stat-stage",
+            "stat": "specialDefense",
+            "delta": -1,
+            "recipient": "target"
+          },
+          "gate": "secondary-effect-common"
+        }
+      ],
+      "aiWeight": 20
+    }
+  ],
+  "quiz": {
+    "natureId": "playful",
+    "finalQuestionId": "roux-treats",
+    "questions": [
+      {
+        "id": "roux-mischief",
+        "categoryId": "roux-mischief",
+        "selectable": true,
+        "prompt": "You spot a forbidden muddy puddle. What happens next?",
+        "options": [
+          {
+            "text": "A naughty splash and an innocent face!",
+            "scores": {
+              "playful": 6,
+              "impish": 2
+            },
+            "followUp": null
+          },
+          {
+            "text": "Ask before stepping in.",
+            "scores": {
+              "docile": 3
+            },
+            "followUp": null
+          },
+          {
+            "text": "Find a dry path around it.",
+            "scores": {
+              "calm": 3
+            },
+            "followUp": null
+          }
+        ]
+      },
+      {
+        "id": "roux-energy",
+        "categoryId": "roux-energy",
+        "selectable": true,
+        "prompt": "Your friends are ready to rest, but you still have energy. What do you do?",
+        "options": [
+          {
+            "text": "Zoomies! Let's play one more game!",
+            "scores": {
+              "playful": 6,
+              "jolly": 2
+            },
+            "followUp": null
+          },
+          {
+            "text": "Curl up beside them.",
+            "scores": {
+              "relaxed": 3
+            },
+            "followUp": null
+          },
+          {
+            "text": "Quietly explore on my own.",
+            "scores": {
+              "quirky": 3
+            },
+            "followUp": null
+          }
+        ]
+      },
+      {
+        "id": "roux-treats",
+        "categoryId": "roux-treats",
+        "selectable": true,
+        "prompt": "Which picnic treats would make you wag your tail the most?",
+        "options": [
+          {
+            "text": "Blueberries, chicken, and bananas!",
+            "scores": {
+              "playful": 40
+            },
+            "followUp": null
+          },
+          {
+            "text": "A crunchy apple and a quiet break.",
+            "scores": {
+              "calm": 3
+            },
+            "followUp": null
+          },
+          {
+            "text": "Anything I can share with my friends.",
+            "scores": {
+              "jolly": 3
+            },
+            "followUp": null
+          }
+        ]
+      }
+    ],
+    "result": {
+      "natureId": "playful",
+      "description": "Naughty, energetic, and always ready for a treat! You love a muddy adventure, a game with friends, and blueberries, chicken, and bananas. Roux shares your playful spirit.",
+      "maleSpeciesId": "pokemon-roux",
+      "femaleSpeciesId": "pokemon-roux"
+    }
+  }
+}

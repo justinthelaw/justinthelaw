@@ -3,8 +3,8 @@ import type { ArcadeGame } from "@/types";
 export const ARCADE_GAMES: readonly ArcadeGame[] = [
   {
     id: "pokemon-dungeon-reimagined",
-    title: "Pokémon Mystery Dungeon: Blue Rescue Team",
-    description: "Become a Pokémon, meet your partner, and rescue Caterpie in Tiny Woods. A browser adaptation of the original DS opening, in development.",
+    title: "Pokémon Mystery Dungeon: Roux's Adventure",
+    description: "Play as Roux or another Pokémon, choose your partner, and rescue Caterpie in Tiny Woods. A playful adventure with a chocolate-and-cream theme.",
     blobVariant: "blue",
     preview: {
       src: "/arcade/blue-rescue-team-preview.png",

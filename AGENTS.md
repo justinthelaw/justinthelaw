@@ -38,8 +38,8 @@ Read the applicable nested instructions before editing that area.
 | Development plugin | [plugins/develop/AGENTS.md](plugins/develop/AGENTS.md) |
 | Human guides and evidence records | [docs/AGENTS.md](docs/AGENTS.md) |
 
-The Pokémon adaptation covers the original DS opening through Tiny Woods and
-Caterpie's rescue. Follow its [instructions](games/pokemon-dungeon-reimagined/AGENTS.md)
+Roux's Adventure retains the personality test through Tiny Woods and Caterpie's
+rescue, starts directly at its authored menu and adds optional Normal/Ground Roux. Follow its [instructions](games/pokemon-dungeon-reimagined/AGENTS.md)
 and [opening plan](games/pokemon-dungeon-reimagined/plan/BLUE-OPENING.md).
 Retired full-campaign requirements and already merged branches are not active
 work; later-campaign resources stay outside the distribution.

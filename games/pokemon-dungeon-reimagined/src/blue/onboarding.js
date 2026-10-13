@@ -7,11 +7,12 @@
 /** @typedef {{text:string, scores:Record<string,number>, followUp:string|null}} QuizOption */
 /** @typedef {{id:string, categoryId:string, selectable:boolean, prompt:string, options:QuizOption[]}} QuizQuestion */
 /** @typedef {{natureId:string,description:string,maleSpeciesId:string,femaleSpeciesId:string}} NatureResult */
-/** @typedef {{questions:QuizQuestion[],results:NatureResult[],natureOrder:string[],partnerOrder:string[],pairs:{heroSpeciesId:string,partnerSpeciesId:string}[]}} OnboardingData */
+/** @typedef {{questions:QuizQuestion[],results:NatureResult[],natureOrder:string[],finalQuestionId:string,partnerOrder:string[],pairs:{heroSpeciesId:string,partnerSpeciesId:string}[]}} OnboardingData */
 /** @typedef {{scores:Record<string,number>,usedCategories:string[],answered:number,questionId:string|null,followUp:boolean}} QuizState */
 
 /** @type {Readonly<Record<string,string>>} */
 export const SPECIES_NAMES = Object.freeze({
+  'pokemon-roux': 'Roux',
   'pokemon-001': 'Bulbasaur', 'pokemon-004': 'Charmander',
   'pokemon-007': 'Squirtle', 'pokemon-025': 'Pikachu',
   'pokemon-052': 'Meowth', 'pokemon-054': 'Psyduck',
@@ -44,13 +45,14 @@ export async function loadOnboarding(signal) {
     readCatalog('questions', signal), readCatalog('results', signal),
     readCatalog('partners', signal), readCatalog('algorithm', signal),
   ]);
-  if (questions.records?.length !== 56 || results.records?.length !== 13 ||
-      partners.orderedPool?.length !== 10 || algorithm.natureOrder?.length !== 13) {
+  if (questions.records?.length !== 59 || results.records?.length !== 14 ||
+      partners.orderedPool?.length !== 10 || algorithm.natureOrder?.length !== 14 ||
+      algorithm.finalQuestionId !== 'roux-treats') {
     throw new Error('The opening personality catalog is incomplete.');
   }
   return {
     questions: questions.records, results: results.records,
-    natureOrder: algorithm.natureOrder, partnerOrder: partners.orderedPool,
+    natureOrder: algorithm.natureOrder, finalQuestionId: algorithm.finalQuestionId, partnerOrder: partners.orderedPool,
     pairs: partners.pairs,
   };
 }
@@ -80,14 +82,22 @@ export function currentQuestion(state, data) {
  */
 export function nextQuestion(state, data) {
   if (state.answered >= 8) { state.questionId = null; return null; }
-  const selectable = data.questions.filter(question => question.selectable);
+  // Keep eight questions. The last offers an obvious, reliable Roux route;
+  // the first seven retain category exclusion with two authored categories.
+  if (state.answered === 7) {
+    const treats = data.questions.find(question => question.id === data.finalQuestionId);
+    if (!treats || state.usedCategories.includes(treats.categoryId)) throw new Error('The final personality question is unavailable.');
+    state.usedCategories.push(treats.categoryId); state.questionId = treats.id; state.followUp = false;
+    return treats;
+  }
+  const selectable = data.questions.filter(question => question.selectable && question.id !== data.finalQuestionId);
   if (!selectable.some(question => !state.usedCategories.includes(question.categoryId))) {
     throw new Error('No unused personality category remains.');
   }
   // Each random rejection consumes another draw, not another question slot.
   // Yielding to the browser is unnecessary: eight of fourteen categories are used.
   for (let attempt = 0; attempt < 4096; attempt += 1) {
-    const question = selectable[draw(55)];
+    const question = selectable[draw(selectable.length)];
     if (!question || state.usedCategories.includes(question.categoryId)) continue;
     state.usedCategories.push(question.categoryId);
     state.questionId = question.id;

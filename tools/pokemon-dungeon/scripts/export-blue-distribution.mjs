@@ -40,6 +40,7 @@ if (!Array.isArray(spriteManifest.records) || spriteManifest.records.length > 64
 files.add('assets/blue/NOTICE.txt');
 for (const record of spriteManifest.records) {
   if (!/^pokemon-\d{3}\.png$/.test(record.path) || record.path !== `${record.speciesId}.png`) throw new Error('Invalid opening sprite path');
+  if (record.speciesId === 'pokemon-279') continue; // Retired pre-menu carrier.
   files.add(`assets/blue/${record.path}`);
   if (record.metadataPath !== undefined) {
     if (record.metadataPath !== `${record.speciesId}.json`) throw new Error('Invalid opening sprite metadata path');
@@ -50,13 +51,10 @@ for (const scene of spriteManifest.scenes ?? []) {
   if (!/^[a-z][a-z0-9-]+\.png$/.test(scene.path) || scene.path !== `${scene.id}.png`) throw new Error('Invalid opening scene path');
   files.add(`assets/blue/${scene.path}`);
 }
-for (const ornament of spriteManifest.ornaments ?? []) {
-  if (!/^[a-z][a-z0-9-]+$/.test(ornament.id) || ornament.path !== `${ornament.id}.png` || ornament.metadataPath !== `${ornament.id}.json`) throw new Error('Invalid opening ornament path');
-  files.add(`assets/blue/${ornament.path}`);
-  files.add(`assets/blue/${ornament.metadataPath}`);
-}
+// Cinematic/title ornaments remain in the offline native evidence inventory.
 for (const record of spriteManifest.nativeUi?.images ?? []) {
   if (!/^[a-z][a-z0-9-]+\.png$/.test(record.path)) throw new Error('Invalid native UI image path');
+  if (record.id !== 'team-panels') continue;
   files.add(`assets/blue/${record.path}`);
 }
 if (spriteManifest.statusAtlas) {
@@ -93,8 +91,16 @@ if (sceneryManifest.schemaVersion !== 2 || sceneryManifest.profile !== 'blue-nat
 files.add('assets/blue/scenery/manifest.json');
 for (const record of sceneryManifest.records) {
   if (!/^[a-z][a-z0-9-]+\.png$/.test(record.path) || record.path !== `${record.id}.png`) throw new Error('Invalid opening scenery path');
+  if (['post-interior','post-exterior','town-aerial','title','title-water','title-prompt','boot-cards'].includes(record.id)) continue;
   files.add(`assets/blue/scenery/${record.path}`);
 }
+const roux = JSON.parse(await readFile(path.join(game, 'assets/roux/manifest.json'), 'utf8'));
+if (roux.schemaVersion !== 1 || roux.speciesId !== 'pokemon-roux' || roux.records.length !== 2) throw new Error('Invalid authored Roux manifest');
+for (const record of roux.records) {
+  if (!['pokemon-roux.png','pokemon-roux.json'].includes(record.path)) throw new Error('Invalid Roux resource');
+  files.add(`assets/roux/${record.path}`);
+}
+files.add('assets/roux/NOTICE.txt');
 const ordered = [...files].sort();
 let totalBytes = 0;
 const canonicalRoot = await realpath(game);
@@ -104,7 +110,7 @@ for (const filename of ordered) {
   totalBytes += (await stat(input)).size;
 }
 const manifest = { version: 1, entry, files: ordered, totalBytes,
-  scope: 'Opening cinematic and menu through Tiny Woods and Caterpie rescue only' };
+  scope: "Roux's Adventure starting menu through Tiny Woods and Caterpie rescue only" };
 const output = `${JSON.stringify(manifest, null, 2)}\n`;
 const target = path.join(game, 'distribution.json');
 if (process.argv.includes('--check')) {
