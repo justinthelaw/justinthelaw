@@ -1,10 +1,14 @@
-# Justin Law 👋
+# Justin Law
 
-- 💼 Applied AI Engineer on the [OpenAI Codex](https://openai.com/codex/) team
-- 🚀 Veteran [United States Air and Space Force](https://www.spaceforce.com/) Officer
-- 🔥 Into videogames, hiking, running, and cooking
+💼 Applied AI Engineer on the [OpenAI Codex](https://openai.com/codex/) team
 
-[My website](https://justinthelaw.github.io/justinthelaw/) has my resume,
+🚀 Veteran [United States Air and Space Force](https://www.spaceforce.com/) Officer
+
+🔥 Into videogames, hiking, running, and cooking
+
+## Socials
+
+🌐 [My website](https://justinthelaw.github.io/justinthelaw/) has my resume,
 cover letter, browser-local LLM trained on my resume, and browser-game arcade.
 
-[Connect on LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)
+👋 [Connect on LinkedIn](https://www.linkedin.com/in/justinwingchunglaw/)
