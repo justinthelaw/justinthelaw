@@ -248,6 +248,35 @@ class ProductionReviewTests(unittest.TestCase):
         self.assertEqual(monitor.watch(), 2)
         self.assertEqual(events[-1]["reason"], "Codex review request was not acknowledged")
 
+    def test_later_pr_reactions_cannot_acknowledge_request_or_bypass_grace(self):
+        for content in ("eyes", "+1"):
+            with self.subTest(content=content):
+                runner = ReviewRunner(comments=[request()], reactions=[reaction(content, hour=3)])
+                clock = FakeClock()
+                events = []
+                monitor = Watcher([runner.current], runner=runner, emit=events.append, monitor_reviews=True,
+                                  clock=clock.now, sleep=clock.sleep, discovery_grace=10, interval=5, timeout=30)
+                self.assertEqual(monitor.watch(), 2)
+                self.assertEqual(events[-1]["reason"], "Codex review request was not acknowledged")
+                self.assertFalse(monitor.review_states[runner.current.key].acknowledged)
+                self.assertEqual(monitor.review_states[runner.current.key].required_since.hour, 2)
+
+    def test_pr_reactions_without_manual_request_keep_review_active_until_exact_review(self):
+        for content in ("eyes", "+1"):
+            with self.subTest(content=content):
+                runner = ReviewRunner(reactions=[reaction(content)])
+                clock = FakeClock()
+                def sleep(seconds):
+                    clock.sleep(seconds)
+                    self.assertTrue(monitor.review_states[runner.current.key].acknowledged)
+                    self.assertEqual(monitor.review_states[runner.current.key].status, "active")
+                    if clock.current > 10:
+                        runner.selected["reviews"] = connection([review(runner.current, hour=4)])
+                monitor = Watcher([runner.current], runner=runner, emit=lambda event: None, monitor_reviews=True,
+                                  clock=clock.now, sleep=sleep, discovery_grace=10, interval=5, settle=0, timeout=30)
+                self.assertEqual(monitor.watch(), 0)
+                self.assertGreater(clock.current, 10)
+
     def test_request_comment_acknowledgment_survives_grace_until_exact_review(self):
         runner = ReviewRunner(comments=[request()], request_reactions={77: [reaction("eyes")]})
         clock = FakeClock()
@@ -296,6 +325,65 @@ class ProductionReviewTests(unittest.TestCase):
         self.assertFalse(monitor.review_states[runner.current.key].acknowledged)
         self.assertTrue(any("/issues/comments/88/reactions?" in call[2] for call in runner.calls))
         self.assertFalse(any("/issues/comments/77/reactions?" in call[2] for call in runner.calls))
+
+    def test_new_same_second_request_cannot_reuse_previous_comment_acknowledgment(self):
+        runner = ReviewRunner(comments=[request()], request_reactions={77: [reaction("eyes", hour=3)]})
+        monitor = Watcher([runner.current], runner=runner, emit=lambda event: None, monitor_reviews=True)
+        self.assertEqual(monitor.watch(once=True), 3)
+        self.assertTrue(monitor.review_states[runner.current.key].acknowledged)
+        runner.selected["comments"] = connection([request(identifier=88), request()])
+        self.assertEqual(monitor.watch(once=True), 3)
+        state = monitor.review_states[runner.current.key]
+        self.assertFalse(state.acknowledged)
+        self.assertEqual(state.request.comment_id, 88)
+
+    def test_new_same_second_request_receives_its_own_acknowledgment_grace(self):
+        runner = ReviewRunner(comments=[request()])
+        clock = FakeClock()
+        monitor = Watcher([runner.current], runner=runner, emit=lambda event: None, monitor_reviews=True,
+                          clock=clock.now, sleep=clock.sleep, discovery_grace=10)
+        self.assertEqual(monitor.watch(once=True), 3)
+        clock.sleep(9)
+        runner.selected["comments"] = connection([request(identifier=88), request()])
+        self.assertEqual(monitor.watch(once=True), 3)
+        clock.sleep(2)
+        self.assertEqual(monitor.watch(once=True), 3)
+        clock.sleep(8)
+        self.assertEqual(monitor.watch(once=True), 2)
+
+    def test_deleted_request_does_not_accept_new_pr_or_older_comment_acknowledgment(self):
+        runner = ReviewRunner(comments=[request(), request(hour=3, identifier=88)],
+                              reactions=[reaction("eyes", hour=4), reaction("+1", hour=5, identifier=2)],
+                              request_reactions={77: [reaction("eyes", hour=4)]})
+        monitor = Watcher([runner.current], runner=runner, emit=lambda event: None, monitor_reviews=True)
+        self.assertEqual(monitor.watch(once=True), 3)
+        runner.selected["comments"] = connection([request()])
+        runner.calls.clear()
+        self.assertEqual(monitor.watch(once=True), 3)
+        state = monitor.review_states[runner.current.key]
+        self.assertFalse(state.acknowledged)
+        self.assertEqual(state.required_since.hour, 3)
+        self.assertEqual(state.request.comment_id, 88)
+        self.assertFalse(any(call[:2] == ["gh", "api"] and "/reactions?" in call[2] for call in runner.calls))
+        runner.selected["reviews"] = connection([review(runner.current, hour=4)])
+        self.assertEqual(monitor.watch(once=True), 0)
+
+    def test_deleted_request_retains_activity_floor_until_later_exact_review(self):
+        runner = ReviewRunner(comments=[request()], request_reactions={77: [reaction("eyes", hour=4)]})
+        monitor = Watcher([runner.current], runner=runner, emit=lambda event: None, monitor_reviews=True)
+        self.assertEqual(monitor.watch(once=True), 3)
+        runner.selected["comments"] = connection()
+        runner.reactions = [reaction("eyes", hour=5), reaction("+1", hour=5, identifier=2)]
+        runner.selected["reviews"] = connection([review(runner.current, hour=4)])
+        runner.calls.clear()
+        self.assertEqual(monitor.watch(once=True), 3)
+        state = monitor.review_states[runner.current.key]
+        self.assertFalse(state.acknowledged)
+        self.assertEqual(state.required_since.hour, 4)
+        self.assertEqual(state.request.comment_id, 77)
+        self.assertFalse(any(call[:2] == ["gh", "api"] and "/reactions?" in call[2] for call in runner.calls))
+        runner.selected["reviews"] = connection([review(runner.current, hour=5)])
+        self.assertEqual(monitor.watch(once=True), 0)
 
     def test_request_comment_reaction_coverage_is_bounded(self):
         runner = ReviewRunner(comments=[request()], request_reactions={77: [

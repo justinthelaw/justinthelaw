@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pipeline_checks import CheckPolicy, RequiredCheck, discover_policy, inspect_coverage
 from pipeline_monitor import Watcher
 from pipeline_support import Target, WatchError, ensure_read_only, github_repository
-from pipeline_test_support import FakeClock, default_ci_response, run_payload, target
+from pipeline_test_support import FakeClock, default_ci_response, local_metadata_response, run_payload, target
 
 
 def check(current, name="build", *, app_id=42, conclusion="success", status="completed", identifier=1):
@@ -23,6 +23,7 @@ def check(current, name="build", *, app_id=42, conclusion="success", status="com
 class CoverageRunner:
     def __init__(self, current, *, required=(), checks=(), statuses=(), runs=None, rules=(), pr=None):
         self.current = current
+        self.local_target = current
         self.required, self.checks, self.statuses = list(required), list(checks), list(statuses)
         self.runs = [run_payload(current)] if runs is None else runs
         self.rules, self.pr = list(rules), pr
@@ -32,6 +33,9 @@ class CoverageRunner:
     def __call__(self, argv, cwd=None, optional=False):
         ensure_read_only(argv)
         self.calls.append(argv)
+        local = local_metadata_response(argv, self.local_target)
+        if local is not None:
+            return local
         if argv[:3] == ["gh", "auth", "status"]:
             return ""
         if argv[:3] == ["gh", "run", "list"]:
@@ -241,6 +245,93 @@ class PaginationTests(unittest.TestCase):
 
 
 class IdentityTests(unittest.TestCase):
+    def assert_local_drift_blocks(self, *, once):
+        current = target()
+        changes = (
+            {"head": "b" * 40},
+            {"branch": "other-local-branch"},
+            {"upstream_branch": "release"},
+            {"remote": "backup"},
+            {"repository": "different/project"},
+            {"repository": "unverified.enterprise.example/owner/project"},
+            {"branch": ""},
+            {"remote": ""},
+        )
+        for change in changes:
+            with self.subTest(once=once, change=change):
+                runner = CoverageRunner(current)
+                events = []
+                clock = FakeClock()
+
+                def run(argv, cwd=None, optional=False):
+                    response = runner(argv, cwd, optional)
+                    if once and argv[:2] == ["gh", "api"] and "/status?" in argv[2]:
+                        runner.local_target = replace(current, **change)
+                    return response
+
+                def sleep(seconds):
+                    clock.sleep(seconds)
+                    runner.local_target = replace(current, **change)
+
+                monitor = Watcher(
+                    [current], runner=run, emit=events.append,
+                    clock=clock.now, sleep=sleep, interval=1, settle=2,
+                )
+                with self.assertRaises(WatchError):
+                    monitor.watch(once=once)
+                self.assertFalse(any(event.get("result") == "passed" for event in events))
+                self.assertIn(["git", "branch", "--show-current"], runner.calls)
+                self.assertEqual(runner.current, current)
+                self.assertEqual(runner.runs, [run_payload(current)])
+                if not once:
+                    self.assertGreaterEqual(clock.current, 2)
+
+    def test_local_drift_after_check_polling_blocks_terminal_snapshot(self):
+        self.assert_local_drift_blocks(once=True)
+
+    def test_local_drift_during_settlement_blocks_completion(self):
+        self.assert_local_drift_blocks(once=False)
+
+    def test_local_drift_during_final_network_readback_blocks_completion(self):
+        current = target()
+        runner = CoverageRunner(current)
+        events = []
+        reads = 0
+
+        def run(argv, cwd=None, optional=False):
+            nonlocal reads
+            response = runner(argv, cwd, optional)
+            if argv[:3] == ["gh", "pr", "list"]:
+                reads += 1
+                if reads > 1:
+                    runner.local_target = replace(current, head="b" * 40)
+            return response
+
+        with self.assertRaisesRegex(WatchError, "Local Git target changed before completion"):
+            Watcher([current], runner=run, emit=events.append).watch(once=True)
+        self.assertFalse(any(event.get("result") == "passed" for event in events))
+
+    def test_local_readback_preserves_distinct_branch_tracking_and_verified_host(self):
+        current = replace(
+            target(), branch="law/topic", remote="team/origin",
+            repository="verified.enterprise.example/owner/project",
+        )
+        runner = CoverageRunner(current)
+        self.assertEqual(Watcher([current], runner=runner, emit=lambda event: None).watch(once=True), 0)
+        self.assertIn(["git", "remote", "get-url", "team/origin"], runner.calls)
+
+    def test_equivalent_repository_transport_and_casing_keep_canonical_identity(self):
+        current = target()
+        runner = CoverageRunner(current)
+
+        def run(argv, cwd=None, optional=False):
+            response = runner(argv, cwd, optional)
+            if argv == ["git", "remote", "get-url", "origin"]:
+                return "git@github.com:OWNER/Project.git"
+            return response
+
+        self.assertEqual(Watcher([current], runner=run, emit=lambda event: None).watch(once=True), 0)
+
     def test_same_display_name_cannot_share_workflow_coverage(self):
         first = target()
         second = replace(first, path=Path("/other/project"), root=Path("/other/project"), repository="different/project")

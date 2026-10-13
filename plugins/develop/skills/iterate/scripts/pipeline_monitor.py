@@ -23,6 +23,7 @@ from pipeline_support import (
     Runner,
     Target,
     WatchError,
+    build_target,
     classify,
     redact,
     run_command,
@@ -198,6 +199,7 @@ class Watcher(FailureReportingMixin, RunStateMixin):
                 self.runner,
                 head_activated=activated,
                 required_since=previous.required_since if previous else None,
+                required_request=previous.request if previous else None,
                 max_lines=min(self.max_log_lines, 12),
                 max_chars=min(self.max_log_chars, 2000),
             )
@@ -215,7 +217,10 @@ class Watcher(FailureReportingMixin, RunStateMixin):
                 )
             self.review_states[target.key] = review
             if review.status == "active" and not review.acknowledged:
-                self.unacknowledged_reviews.setdefault(target.key, self.clock())
+                if previous is not None and review.request != previous.request:
+                    self.unacknowledged_reviews[target.key] = self.clock()
+                else:
+                    self.unacknowledged_reviews.setdefault(target.key, self.clock())
             else:
                 self.unacknowledged_reviews.pop(target.key, None)
             fingerprint = json.dumps(
@@ -225,6 +230,11 @@ class Watcher(FailureReportingMixin, RunStateMixin):
                     "required_since": (
                         review.required_since.isoformat() if review.required_since else None
                     ),
+                    "request": (
+                        [review.request.created_at.isoformat(), review.request.comment_id]
+                        if review.request else None
+                    ),
+                    "acknowledged": review.acknowledged,
                     "findings": review.findings,
                 },
                 sort_keys=True,
@@ -438,3 +448,12 @@ class Watcher(FailureReportingMixin, RunStateMixin):
             verify_published_head(target, self.runner)
             if discover_pull_request(target, self.runner) != self.pull_requests.get(target.key):
                 raise WatchError(f"Pull-request identity changed before completion: {target.label}")
+        for target in self.targets:
+            # Reuse discovery's bounded local reads after the network readback.
+            # Only the already-verified target host may remain an enterprise host.
+            current = build_target(
+                target.path, target.root, self.runner,
+                github_hosts=(github_location(target.repository)[0],),
+            )
+            if (current.key, current.branch, current.remote) != (target.key, target.branch, target.remote):
+                raise WatchError(f"Local Git target changed before completion: {target.label}; restart monitoring")

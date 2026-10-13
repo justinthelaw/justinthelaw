@@ -30,6 +30,12 @@ class PullRequest:
     base_branch: str
 
 
+@dataclass(frozen=True, order=True)
+class ReviewRequest:
+    created_at: datetime
+    comment_id: int
+
+
 @dataclass(frozen=True)
 class ReviewState:
     pull_request: PullRequest
@@ -38,6 +44,7 @@ class ReviewState:
     required_since: datetime | None
     acknowledged: bool
     findings: tuple[dict[str, Any], ...] = ()
+    request: ReviewRequest | None = None
 
 
 def github_location(repository: str) -> tuple[str, str, str]:
@@ -241,10 +248,10 @@ def inspect_pull_request(
     *,
     head_activated: datetime,
     required_since: datetime | None = None,
+    required_request: ReviewRequest | None = None,
     max_lines: int = 12,
     max_chars: int = 2000,
 ) -> ReviewState | None:
-    reactions = read_reactions(target, pull_request, runner)
     response = parse_json(
         runner(api_arguments(target, pull_request, graphql=True), cwd=target.path),
         f"pull-request review for {target.label}",
@@ -288,7 +295,7 @@ def inspect_pull_request(
     )
     findings = unresolved_findings(selected, max_lines=max_lines, max_chars=max_chars)
 
-    requests: list[tuple[datetime, int]] = []
+    requests: list[ReviewRequest] = []
     for comment in comments:
         if (
             comment.get("authorAssociation") not in TRUSTED_AUTHORS
@@ -300,11 +307,18 @@ def inspect_pull_request(
         comment_id = comment.get("databaseId")
         if not isinstance(comment_id, int) or isinstance(comment_id, bool) or comment_id <= 0:
             raise WatchError("GitHub omitted the Codex review request comment identifier")
-        requests.append((timestamp(comment.get("createdAt"), "Codex review request"), comment_id))
-    latest_request = max(requests, default=None)
+        requests.append(ReviewRequest(timestamp(comment.get("createdAt"), "Codex review request"), comment_id))
+    latest_request = max([*requests, *([required_request] if required_request else [])], default=None)
     if latest_request is not None:
-        # Manual requests are acknowledged on their comment, not the PR body.
-        reactions.extend(read_reactions(target, pull_request, runner, comment_id=latest_request[1]))
+        # Only the latest manual request can acknowledge its review cycle.
+        # Retain its identity after deletion, without fetching a missing comment
+        # or accepting acknowledgment from an older request or the PR body.
+        reactions = (
+            read_reactions(target, pull_request, runner, comment_id=latest_request.comment_id)
+            if latest_request in requests else []
+        )
+    else:
+        reactions = read_reactions(target, pull_request, runner)
 
     eyes: list[tuple[datetime, int]] = []
     approvals: list[tuple[datetime, int]] = []
@@ -344,7 +358,9 @@ def inspect_pull_request(
         ),
         default=None,
     )
-    trigger_candidates = [*(created for created, _ in eyes), *(created for created, _ in requests)]
+    trigger_candidates = [created for created, _ in eyes]
+    if latest_request is not None:
+        trigger_candidates.append(latest_request.created_at)
     if required_since is not None:
         trigger_candidates.append(required_since)
     latest_trigger = max(trigger_candidates, default=None)
@@ -352,7 +368,7 @@ def inspect_pull_request(
 
     if findings:
         return ReviewState(
-            pull_request, "failed", "finding", latest_trigger, True, findings
+            pull_request, "failed", "finding", latest_trigger, True, findings, latest_request
         )
     if latest_review is not None:
         submitted = timestamp(latest_review.get("submittedAt"), "submitted Codex review")
@@ -370,8 +386,9 @@ def inspect_pull_request(
                         "excerpt": bounded_log(review_body, max_lines, max_chars),
                         "url": latest_review.get("url"),
                     },),
+                    latest_request,
                 )
-            return ReviewState(pull_request, "passed", "submitted", latest_trigger, True)
+            return ReviewState(pull_request, "passed", "submitted", latest_trigger, True, request=latest_request)
     if latest_trigger is None:
         if not approvals:
             return None
@@ -384,4 +401,4 @@ def inspect_pull_request(
         source = "eyes"
     else:
         source = "unverified-reaction" if acknowledged else "request"
-    return ReviewState(pull_request, "active", source, latest_trigger, acknowledged)
+    return ReviewState(pull_request, "active", source, latest_trigger, acknowledged, request=latest_request)

@@ -162,7 +162,7 @@ class CompletionTests(unittest.TestCase):
         published = target(head="b" * 40)
         old_run = run_payload(previous, run_id=1)
         new_run = run_payload(published, run_id=2)
-        runner = FakeRunner([[old_run, new_run]])
+        runner = FakeRunner([[old_run, new_run]], local_target=published)
         monitor = watcher.Watcher([published], runner=runner, emit=lambda event: None)
         self.assertEqual(monitor.watch(once=True), 0)
         self.assertEqual(set(monitor.runs), {(published.key, 2)})

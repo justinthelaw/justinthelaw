@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import watch_pipelines as watcher
+from pipeline_support import UPSTREAM_FORMAT
 
 
 def target(
@@ -44,13 +45,20 @@ def run_payload(
 
 
 class FakeRunner:
-    def __init__(self, lists: list[list[dict[str, object]]], views: list[dict[str, object]] | None = None):
+    def __init__(
+        self, lists: list[list[dict[str, object]]], views: list[dict[str, object]] | None = None,
+        *, local_target: watcher.Target | None = None,
+    ):
         self.lists = lists
         self.views = views or []
+        self.local_target = local_target or target()
         self.calls: list[tuple[str, ...]] = []
 
     def __call__(self, argv: list[str], cwd: Path | None = None, optional: bool = False) -> str:
         self.calls.append(tuple(argv))
+        local = local_metadata_response(argv, self.local_target)
+        if local is not None:
+            return local
         if argv[:3] == ["gh", "auth", "status"]:
             return ""
         if argv[:3] == ["gh", "run", "list"]:
@@ -75,6 +83,24 @@ class FakeClock:
 
     def sleep(self, seconds: float) -> None:
         self.current += seconds
+
+
+def local_metadata_response(argv: list[str], current: watcher.Target) -> str | None:
+    """Read mutable local fixture facts independently of published CI evidence."""
+    if argv[0] != "git":
+        return None
+    watcher.ensure_read_only(argv)
+    selected_ref = f"refs/heads/{current.branch}"
+    responses = {
+        ("git", "branch", "--show-current"): current.branch,
+        ("git", "rev-parse", "HEAD"): current.head,
+        ("git", "for-each-ref", "--count=2", f"--format={UPSTREAM_FORMAT}", selected_ref):
+            f"{selected_ref}\0{current.remote}\0refs/heads/{current.upstream_branch}",
+        ("git", "remote", "get-url", current.remote): f"https://{current.qualified_repository}.git",
+    }
+    if tuple(argv) not in responses:
+        raise AssertionError(f"Unexpected local metadata command: {argv}")
+    return responses[tuple(argv)]
 
 
 def default_ci_response(argv: list[str], runs: list[dict[str, object]]) -> str:
