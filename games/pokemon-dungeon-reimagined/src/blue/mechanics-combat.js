@@ -559,7 +559,7 @@ function initializeMultipliers(actor){
 /** @param {DungeonState} state @param {Actor} actor @param {Actor} target @param {MoveData} move @param {OpeningData} data @param {GameEvent[]} events @param {{effectiveness:0|1|2|3}} [visual] */
 function damageAmount(state,actor,target,move,data,events,visual) {
   const physical=isPhysicalType(element(move.type)),a=actor.stats,t=target.stats,regular=move.id==='regular-attack';
-  let multiplier=regular?128:move.id==='move-skull-bash'||move.id==='move-solar-beam'?512:256;
+  let multiplier=regular?128:move.id==='move-skull-bash'||move.id==='move-solar-beam'||move.id==='move-dig'?512:256;
   if(move.id==='move-low-kick')multiplier=data.species[target.speciesId]?.lowKickMultiplier??256;
   const armored=ability(data,target,'Battle Armor')||ability(data,target,'Shell Armor');
   const result=calculateNormalDamage({

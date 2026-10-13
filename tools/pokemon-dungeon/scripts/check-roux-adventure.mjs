@@ -13,6 +13,8 @@ const roux = data.species['pokemon-roux'];
 assert.deepEqual(data.starterIds.slice(-1), ['pokemon-roux']); assert.equal(data.starterIds.length, 17);
 assert.deepEqual(roux.types, ['Normal', 'Ground']); assert.deepEqual(roux.abilities, ['Pickup', 'Keen Eye']);
 assert.equal(authored.evolves, false); assert.deepEqual(roux, authored.species);
+// Low Kick's body coefficient is Q8, not a unitless body-size ordinal.
+assert.equal(roux.lowKickMultiplier, data.species['pokemon-133'].lowKickMultiplier, 'Roux must use the admitted small-body Q8 coefficient');
 assert.deepEqual(roux.learnset.filter(([level]) => level <= 5), [[1,'move-bite'],[1,'move-growl']]);
 assert.deepEqual(roux.learnset[2], [6,'move-dig']);
 for (const id of ['move-sand-attack','move-mud-slap','move-mud-sport','move-earth-power','move-howl','move-quick-attack','move-headbutt','move-crunch','move-take-down','move-double-edge']) assert(roux.learnset.some(([,move]) => move === id), `Missing requested Ground/canine move: ${id}`);
@@ -50,6 +52,22 @@ assert.deepEqual(partners.pairs.filter(pair => pair.heroSpeciesId === 'pokemon-r
 const app = await readFile(new URL('src/blue/app.js',game),'utf8'), render = await readFile(new URL('src/blue/renderer.js',game),'utf8');
 const ast = acorn.parse(app,{ecmaVersion:'latest',sourceType:'module'});
 function variables(node) { if(!node || typeof node !== 'object')return [];return [...(node.type === 'VariableDeclarator' ? [node] : []),...Object.values(node).flatMap(value => Array.isArray(value) ? value.flatMap(variables) : value && typeof value === 'object' ? variables(value) : [])]; }
+// Inspect the actual damage consumer rather than accepting a declared effect
+// that never reaches fixed-point damage. This parses ASTs without execution.
+const combat = acorn.parse(await readFile(new URL('src/blue/mechanics-combat.js',game),'utf8'),{ecmaVersion:'latest',sourceType:'module'});
+const damageOwner = combat.body.find(node => node.type === 'FunctionDeclaration' && node.id.name === 'damageAmount');
+const multiplier = variables(damageOwner).find(node => node.id.name === 'multiplier')?.init;
+function moveIds(node) {
+  if(!node || typeof node !== 'object')return [];
+  if(node.type === 'BinaryExpression' && node.operator === '===' && node.left.type === 'MemberExpression' && node.left.object.name === 'move' && node.left.property.name === 'id' && node.right.type === 'Literal')return [node.right.value];
+  return Object.values(node).flatMap(value => Array.isArray(value) ? value.flatMap(moveIds) : value && typeof value === 'object' ? moveIds(value) : []);
+}
+function doubledMoves(node) {
+  if(!node || node.type !== 'ConditionalExpression')return [];
+  return [...(node.consequent.type === 'Literal' && node.consequent.value === 512 ? moveIds(node.test) : []),...doubledMoves(node.consequent),...doubledMoves(node.alternate)];
+}
+const doubled = new Set(doubledMoves(multiplier));
+for(const move of Object.values(data.moves).filter(move => move.effects.some(effect => effect.op === 'charge') && move.effects.some(effect => effect.op === 'normal-damage' && effect.multiplier === 2))) assert(doubled.has(move.id), `Declared charge multiplier is missing from damage consumer: ${move.id}`);
 assert.equal(variables(ast).find(node => node.id.name === 'mode')?.init.value,'menu');
 assert(!/mode\s*=\s*['"](?:title|opening)['"]/.test(app)); assert(!app.includes('beginOpening'));
 assert(!render.includes('render-intro')); assert(!render.includes('INTRO_CLIENT')); assert(app.includes('Play as Roux'));

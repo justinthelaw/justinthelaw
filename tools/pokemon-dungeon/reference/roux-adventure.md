@@ -38,7 +38,8 @@ move definitions remain byte-equivalent to their reviewed projections.
 The authored [catalog](../content/roux-adventure.json) uses Eevee's reviewed
 experience thresholds and a distinct 100-level stat curve. At level 5 Roux has
 30 HP, 10 Attack, 8 Special Attack, 9 Defense and 9 Special Defense; level 100
-has 155/75/61/72/60. Growth tapers without an evolution requirement. The engine
+has 155/75/61/72/60. Growth tapers without an evolution requirement. The small-body Low Kick coefficient is 153 in Q8, matching the admitted
+Eevee/Skitty size class rather than a unitless body-size ordinal. The engine
 retains four move slots and its existing move-learning/retry rules.
 
 The two new random quiz categories reward mischief and energy. The eighth main

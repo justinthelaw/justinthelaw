@@ -11,7 +11,7 @@ Blue facts.
 
 Static authoring lint/types, factual pins, original-rule preservation,
 reproducible exports, source closure and asset budgets passed. The final declared
-distribution is 136 files / 2,869,280 bytes, below 3 MiB. Independent combat and
+distribution is 136 files / 2,869,304 bytes, below 3 MiB. Independent combat and
 whole-branch source reviews approved after fixing underground Bide/projectile
 receipts, removing an unrequested Protect entry and respecting reduced motion.
 The quiz portrait remains above the new choices and previews Roux when selected;
@@ -25,6 +25,15 @@ launch confirmed those libraries work. No game/native modules were executed,
 no automated playthrough ran, and no new manual gameplay acceptance is claimed.
 Pre-push source/documentation/security/size hooks passed. CI and the PR's current
 Codex review are publication checks, distinct from these local results.
+
+The first PR #406 pipeline passed all seven checks. Codex then found that Dig's
+declared release multiplier was absent from the damage consumer. The follow-up
+adds Dig to the existing 512/Q8 charge branch and a source-only AST gate linking
+all declared charge multipliers to that consumer. The gate failed for Dig before
+the fix and passed afterward. Roux's small-body Low Kick coefficient also uses
+the admitted 153/Q8 size class instead of a unitless ordinal, with an independent
+static admission check. No game code was executed. The final follow-up
+verification and current-head CI/Codex outcomes are recorded with the PR.
 
 ## Historical original-opening review
 
