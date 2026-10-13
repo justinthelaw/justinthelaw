@@ -174,6 +174,12 @@ class PackageValidation(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("name", result.stdout + result.stderr)
 
+    def test_missing_kaizen_entrypoint_fails(self):
+        (self.package / "skills/kaizen/SKILL.md").unlink()
+        result = self.validate()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("six entry points", result.stdout + result.stderr)
+
     def test_missing_icon_fails(self):
         (self.package / "skills/clean/assets/icon.png").unlink()
         result = self.validate()

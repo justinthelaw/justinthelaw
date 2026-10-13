@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Watch exact-commit GitHub Actions and Codex pull-request reviews."""
+"""Watch exact-commit GitHub Actions with optional pull-request review monitoring."""
 
 from __future__ import annotations
 
@@ -46,6 +46,7 @@ def parser() -> argparse.ArgumentParser:
     argument_parser.add_argument("--cwd", type=Path, default=Path.cwd(), help="Repository or explicitly selected workspace")
     argument_parser.add_argument("--include-siblings", action="store_true", help="Explicitly include all immediate sibling Git roots")
     argument_parser.add_argument("--github-host", action="append", default=[], help="Explicitly verified GitHub Enterprise hostname (repeatable)")
+    argument_parser.add_argument("--review-provider", choices=("codex",), help="Also monitor this review adapter; default monitors CI only")
     argument_parser.add_argument("--once", action="store_true", help="Emit one compact current-state snapshot")
     argument_parser.add_argument("--interval", type=float, default=20, help="Seconds between active-workflow checks")
     argument_parser.add_argument("--max-interval", type=float, default=60, help="Maximum seconds between unchanged workflow checks")
@@ -89,7 +90,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         max_log_chars=options.max_log_chars,
         max_failed_jobs=options.max_failed_jobs,
         max_runs=options.max_runs,
-        monitor_reviews=True,
+        monitor_reviews=options.review_provider == "codex",
     )
     return watcher.watch(once=options.once)
 

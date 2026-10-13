@@ -190,8 +190,10 @@ class Watcher(FailureReportingMixin, RunStateMixin):
         for target in self.targets:
             pull_request = self.pull_requests.get(target.key)
             activated = self.review_activation.get(target.key)
-            if pull_request is None or activated is None:
-                continue
+            if pull_request is None:
+                raise WatchError(f"Codex review monitoring requires an open pull request: {target.label}")
+            if activated is None:
+                raise WatchError(f"Current-head review discovery is missing: {target.label}")
             previous = self.review_states.get(target.key)
             review = inspect_pull_request(
                 target,
@@ -205,9 +207,12 @@ class Watcher(FailureReportingMixin, RunStateMixin):
             )
             if review is None:
                 if previous is None:
-                    continue
+                    raise WatchError(
+                        f"No current-head Codex review evidence or active review request: {target.label}; "
+                        "request a review before restarting monitoring"
+                    )
                 # Once review activity has been observed, losing its evidence
-                # cannot make review optional or preserve an earlier verdict.
+                # cannot erase the review requirement or preserve an earlier verdict.
                 self.review_states.pop(target.key, None)
                 self.review_fingerprints.pop(target.key, None)
                 self.unacknowledged_reviews.pop(target.key, None)

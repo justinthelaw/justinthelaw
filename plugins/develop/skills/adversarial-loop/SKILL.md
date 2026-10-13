@@ -9,7 +9,7 @@ Challenge work against the user's actual request with fresh independent reviewer
 
 ## Start
 
-Invoke directly for any artifact; no repository, router or Superpowers is required. For standalone reviews, create a review ID and preserve original/ordered steering messages verbatim, with secrets and unrelated private content redacted, criteria, authorized actions, revisions and the original coordinator's model/effort. Keep packets private. Findings-only requests do not authorize edits.
+Invoke directly for any artifact; no repository, router or external workflow framework is required. For standalone reviews, create a review ID and preserve original/ordered steering messages verbatim, with secrets and unrelated private content redacted, criteria, authorized actions, revisions and the original coordinator's model/effort. Keep packets private. Findings-only requests do not authorize edits.
 
 Within develop workflows, reuse their invocation and checkpoints. Only the coordinator runs this protocol; review workers return findings without nested reviews.
 

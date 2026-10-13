@@ -1,6 +1,6 @@
 # Shared invocation contract
 
-Read once for develop workflows and direct `iterate`, `upgrade` or `clean` calls. Standalone `adversarial-loop` follows its own protocol: no repository discovery, Superpowers dependency or implementation gate.
+Read once for repository workflows and direct `iterate`, `upgrade` or `clean` calls. Standalone `kaizen` and `adversarial-loop` follow their own scoped protocols without repository discovery or implementation prerequisites.
 
 ## Intent and ownership
 
@@ -10,7 +10,7 @@ New steering supersedes conflicting requirements, preserves other goals and incr
 
 ## Targets
 
-For unspecified implementation and upgrade targets, preserve this package's default: discover **all repositories owned by `justinthelaw` on GitHub that are not archived** using complete authenticated pagination. Include owned forks; activity, stars, PR counts and remembered lists do not define active. Report discovered disabled/inaccessible targets as blocked. Explicit user/repository defaults can select a different owner or scope; helpers must never hardcode the package owner's identity.
+Use the explicitly selected repositories or an unambiguous current checkout. If repository scope is missing, ask one focused question before expanding discovery. Fleet work requires the user's selected or configured owner, provider and inclusion rules; never infer the package author's account. Enumerate authorized fleets with complete authenticated pagination. Unless narrowed, include owned non-archived repositories and forks; activity, stars and PR counts do not define active. Report disabled/inaccessible targets and incomplete coverage.
 
 Publication of existing changes and monitoring use the explicitly selected repository, or the current checkout and its initialized submodules when unambiguous. They do not expand to the account-wide default or sibling repositories. Record the selected roots once and preserve them across publication and repair handoffs.
 
@@ -20,9 +20,9 @@ Prefer connected provider tools, then permitted authenticated CLI/API and Git. S
 
 ## Dependencies and autonomy
 
-- Required implementation chain: `upgrade → iterate → superpowers`. Upgrade also calls `clean` in prepare mode. Publishing existing changes or read-only monitoring can use the bundled delivery procedure without Superpowers design/planning; implementation repairs return to the implementation requirements. Every workflow uses `adversarial-loop`.
-- Resolve qualified installed skills, or read their packaged sibling files. Do not substitute unrelated cloud skills, vendor Superpowers, reinterpret skills as APIs or invent MCP dependencies.
-- Use applicable Superpowers design, planning, isolation, debugging, testing and verification guidance. Under the owner's standing preference, replace skill-internal design/plan/execution approval prompts with adversarial checkpoints and proceed with scoped work.
+- `upgrade` owns assessment and migration decisions; `iterate` owns implementation and delivery. Use `clean` only when requested or when an identified resource constraint needs authorized cleanup. Review-only work does not enter cleanup or implementation.
+- Resolve qualified installed skills or their packaged sibling files. The bundled [implementation guidance](../../iterate/references/implementation.md) is sufficient without an external workflow plugin; use compatible installed guidance when useful. Do not invent tools, dependencies or capabilities.
+- Preserve explicit user/repository preferences for planning and execution. A scoped implementation request permits routine implementation decisions; honor an explicit plan-only boundary or requested approval. Do not introduce repeated internal permission prompts. Independent review cannot replace a required human decision or host approval.
 - Preserve repository instructions, contribution requirements, host approvals, access controls and explicit user stops. Review cannot supply missing authorization. Merges, destructive actions, production changes and person-directed messages require applicable authorization.
 - If a required dependency or fresh matching reviewer is unavailable, finish safe read-only discovery/preparation and report the exact gap before implementation. Try permitted existing access paths; do not install/connect integrations without authorization. Continue unaffected targets.
 - Publishing follows the requested delivery scope. Preserve unrelated work and never force-push over others' changes.

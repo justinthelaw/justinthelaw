@@ -16,7 +16,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from generate_codex_manifest import codex_manifest
 
-SKILLS = {"develop", "iterate", "upgrade", "clean", "adversarial-loop"}
+SKILLS = {"develop", "iterate", "upgrade", "clean", "adversarial-loop", "kaizen"}
 SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 
 
@@ -90,7 +90,7 @@ def validate(root, marketplace_root=None):
             errors.append("catalog: expected exactly one develop entry with a local source")
 
     skill_paths = sorted((root / "skills").glob("*/SKILL.md"))
-    check({p.parent.name for p in skill_paths} == SKILLS, "skills: expected exactly five entry points")
+    check({p.parent.name for p in skill_paths} == SKILLS, "skills: expected exactly six entry points")
     for path in skill_paths:
         text = path.read_text(encoding="utf-8")
         frontmatter = re.match(r"\A---\n(.*?)\n---\n", text, re.S)
@@ -175,7 +175,7 @@ def main():
         print("FAIL:", error, file=sys.stderr)
     if errors:
         return 1
-    print("PASS: package structure, five skills, references, and contextual marketplace checks")
+    print("PASS: package structure, six skills, references, and contextual marketplace checks")
     return 0
 
 
