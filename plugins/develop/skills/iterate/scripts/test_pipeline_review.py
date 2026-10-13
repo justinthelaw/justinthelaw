@@ -119,6 +119,37 @@ class ProductionReviewTests(unittest.TestCase):
         runner = ReviewRunner(current, comments=[request(hour=4)], reviews=[review(current, hour=3)])
         self.assertEqual(self.snapshot(runner)[0], 3)
 
+    def test_same_second_request_invalidates_observed_review_even_if_removed(self):
+        runner = ReviewRunner(reviews=[review(target(), hour=3)])
+        monitor = Watcher([runner.current], runner=runner, emit=lambda event: None, monitor_reviews=True)
+        self.assertEqual(monitor.watch(once=True), 0)
+        runner.selected["comments"] = connection([request(hour=3)])
+        self.assertEqual(monitor.watch(once=True), 3)
+        runner.selected["comments"] = connection()
+        self.assertEqual(monitor.watch(once=True), 3)
+        runner.selected["reviews"] = connection([review(runner.current, hour=4)])
+        self.assertEqual(monitor.watch(once=True), 0)
+
+    def test_conflicting_same_second_reviews_never_pass_by_list_order(self):
+        current = target()
+        for state in ("CHANGES_REQUESTED", "COMMENTED"):
+            finding = review(current, state=state, body="Fix the unsafe fallback")
+            approval = review(current)
+            for reviews in ([approval, finding], [finding, approval]):
+                with self.subTest(state=state, reviews=reviews):
+                    runner = ReviewRunner(current, comments=[request()], reviews=reviews)
+                    self.assertEqual(self.snapshot(runner)[0], 1)
+
+    def test_deleted_request_does_not_revive_older_acknowledgment(self):
+        runner = ReviewRunner(comments=[request(hour=4)], reactions=[reaction("eyes")])
+        monitor = Watcher([runner.current], runner=runner, emit=lambda event: None, monitor_reviews=True)
+        self.assertEqual(monitor.watch(once=True), 3)
+        self.assertFalse(monitor.review_states[runner.current.key].acknowledged)
+        runner.selected["comments"] = connection()
+        self.assertEqual(monitor.watch(once=True), 3)
+        self.assertFalse(monitor.review_states[runner.current.key].acknowledged)
+        self.assertIn(runner.current.key, monitor.unacknowledged_reviews)
+
     def test_unrequested_review_is_optional_and_untrusted_requests_are_ignored(self):
         for comments in ([], [request(association="CONTRIBUTOR")], [request(body="Quoted example:\n@codex review")]):
             with self.subTest(comments=comments):

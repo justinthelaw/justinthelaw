@@ -81,6 +81,15 @@ def is_codex_actor(actor: Any) -> bool:
     return actor_type == "Bot"
 
 
+def review_requires_changes(review: dict[str, Any]) -> bool:
+    body = str(review.get("body", "")).strip()
+    return review.get("state") == "CHANGES_REQUESTED" or (
+        review.get("state") == "COMMENTED"
+        and bool(body)
+        and not NEUTRAL_REVIEW.search(body)
+    )
+
+
 def discover_pull_request(target: Target, runner: Runner) -> PullRequest | None:
     _, owner, _ = github_location(target.repository)
     payload = parse_json(
@@ -326,9 +335,13 @@ def inspect_pull_request(
         if state not in {"APPROVED", "CHANGES_REQUESTED", "COMMENTED"}:
             raise WatchError(f"GitHub returned an unsupported Codex review state: {target.label}")
         current_reviews.append(review)
+    # A timestamp tie cannot prove that approval superseded an adverse review.
     latest_review = max(
         current_reviews,
-        key=lambda review: timestamp(review.get("submittedAt"), "submitted Codex review"),
+        key=lambda review: (
+            timestamp(review.get("submittedAt"), "submitted Codex review"),
+            review_requires_changes(review),
+        ),
         default=None,
     )
     trigger_candidates = [*(created for created, _ in eyes), *(created for created, _ in requests)]
@@ -343,16 +356,10 @@ def inspect_pull_request(
         )
     if latest_review is not None:
         submitted = timestamp(latest_review.get("submittedAt"), "submitted Codex review")
-        if latest_trigger is None or submitted >= latest_trigger:
+        # Equal provider timestamps cannot establish ordering within a second.
+        if latest_trigger is None or submitted > latest_trigger:
             review_body = str(latest_review.get("body", "")).strip()
-            if (
-                latest_review.get("state") == "CHANGES_REQUESTED"
-                or (
-                    latest_review.get("state") == "COMMENTED"
-                    and review_body
-                    and not NEUTRAL_REVIEW.search(review_body)
-                )
-            ):
+            if review_requires_changes(latest_review):
                 return ReviewState(
                     pull_request,
                     "failed",
@@ -372,10 +379,8 @@ def inspect_pull_request(
         latest_trigger = max(created for created, _ in approvals)
         return ReviewState(pull_request, "active", "unverified-reaction", latest_trigger, True)
     latest_activity = max([*eyes, *approvals], default=None)
-    acknowledged = latest_activity is not None and (
-        latest_request is None or latest_activity[0] >= latest_request[0]
-    )
-    if latest_eye is not None and (latest_request is None or latest_eye[0] >= latest_request[0]):
+    acknowledged = latest_activity is not None and latest_activity[0] >= latest_trigger
+    if latest_eye is not None and latest_eye[0] >= latest_trigger:
         source = "eyes"
     else:
         source = "unverified-reaction" if acknowledged else "request"
