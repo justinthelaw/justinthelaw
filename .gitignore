@@ -63,6 +63,19 @@ public/*.pdf
 /llm/reports/
 /llm/runs/
 /llm/*.log
+
+# Preserve local outputs from checkouts created before the llm relocation.
+/ml/profile-qa/.venv/
+/ml/profile-qa/.venv-export/
+/ml/profile-qa/data/
+/ml/profile-qa/checkpoints/
+/ml/profile-qa/hf/
+/ml/profile-qa/merged/
+/ml/profile-qa/onnx/
+/ml/profile-qa/reports/
+/ml/profile-qa/runs/
+/ml/profile-qa/*.log
+
 # Python tool caches and coverage output
 .pytest_cache/
 .ruff_cache/

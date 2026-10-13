@@ -1,6 +1,6 @@
 # Install Develop
 
-Source: [justinthelaw/justinthelaw, plugins/develop](https://github.com/justinthelaw/justinthelaw/tree/main/plugins/develop). The plugin uses root `plugin.json` and `skills/`; the repository catalog lives at `.agents/plugins/marketplace.json` and points to `./plugins/develop`. A checkout or Git push does not install or enable it elsewhere.
+Source: [justinthelaw/justinthelaw, plugins/develop](https://github.com/justinthelaw/justinthelaw/tree/main/plugins/develop). The plugin uses portable root `plugin.json` and `skills/`, plus a generated `.codex-plugin/plugin.json` for Codex compatibility. Both manifests resolve assets from the plugin root. The repository catalog lives at `.agents/plugins/marketplace.json` and points to `./plugins/develop`. A checkout or Git push does not install or enable it elsewhere.
 
 ## Local client
 
@@ -43,10 +43,11 @@ Refresh a configured Git marketplace with `codex plugin marketplace upgrade just
 From the repository root, with Python 3.10 or newer:
 
 ```sh
+python plugins/develop/scripts/generate_codex_manifest.py
 python plugins/develop/scripts/validate.py --marketplace-root .
 python -m unittest discover -s plugins/develop/tests -p test_validate.py
 ```
 
-These checks validate package structure, not runtime behavior. For a detached installed payload, run its `scripts/validate.py` without `--marketplace-root`. Run [agent scenarios](tests/scenarios.md) and verify installation, references, Superpowers, and fresh-agent review on each intended surface. See [AGENTS.md](AGENTS.md) for maintenance instructions. No installation or publication is implied by this guide.
+Regenerate the compatibility manifest after changing root `plugin.json` and commit both files. Validation checks the shipped manifest without rewriting it. These checks validate package structure, not runtime behavior. For a detached installed payload, run its `scripts/validate.py` without `--marketplace-root`. Run [agent scenarios](tests/scenarios.md) and verify installation, references, Superpowers, and fresh-agent review on each intended surface. See [AGENTS.md](AGENTS.md) for maintenance instructions. No installation or publication is implied by this guide.
 
 Official references: [packaging and marketplaces](https://developers.openai.com/plugins/build/plugins), [installation](https://learn.chatgpt.com/docs/plugins), [workspace GitHub sync](https://learn.chatgpt.com/docs/enterprise/plugin-management), [Dot access](https://learn.chatgpt.com/docs/dots/computers-and-apps).

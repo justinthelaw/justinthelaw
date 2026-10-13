@@ -10,6 +10,8 @@ from pathlib import Path
 import re
 import sys
 
+from generate_codex_manifest import codex_manifest
+
 SKILLS = {"develop", "iterate", "upgrade", "clean", "adversarial-loop"}
 SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 
@@ -60,6 +62,12 @@ def validate(root, marketplace_root=None):
     interface = manifest.get("extensions", {}).get("com.openai", {}).get("interface", {})
     for key in ("logo", "composerIcon"):
         check_icon(interface.get(key), root, f"plugin.json: {key}")
+
+    # Older Codex clients ingest this file, with paths relative to the package
+    # root. Validate the shipped artifact without regenerating it during lint.
+    codex = read_json(".codex-plugin/plugin.json")
+    check(codex == codex_manifest(manifest),
+          ".codex-plugin/plugin.json: regenerate from plugin.json; expected matching metadata, top-level interface and skills")
 
     # Repository catalogs are not part of the installed plugin payload.
     if marketplace_root is not None:

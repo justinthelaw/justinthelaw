@@ -9,9 +9,13 @@ The website currently targets Node 24 with npm 12.2.0. From the repository root:
 nvm install
 nvm use
 npm install --global npm@12.2.0
-npm ci
+ONNXRUNTIME_NODE_INSTALL=skip npm ci
 npm run dev
 ```
+
+`ONNXRUNTIME_NODE_INSTALL=skip` prevents the transitive native ONNX package from
+downloading optional CUDA binaries. The website runs inference in the browser
+with ONNX Runtime Web; website CI uses the same installation setting.
 
 The development server uses an empty base path. Production uses the configured
 GitHub Pages path; preview the built output when checking deployment behavior.

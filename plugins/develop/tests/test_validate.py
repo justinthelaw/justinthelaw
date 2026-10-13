@@ -41,6 +41,67 @@ class PackageValidation(unittest.TestCase):
         result = self.validate()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def write_codex_manifest(self, manifest):
+        path = self.package / '.codex-plugin/plugin.json'
+        path.parent.mkdir(exist_ok=True)
+        path.write_text(json.dumps(manifest), encoding='utf-8')
+
+    def portable_as_codex(self):
+        manifest = json.loads((self.package / 'plugin.json').read_text(encoding='utf-8'))
+        interface = manifest.pop('extensions')['com.openai']['interface']
+        manifest.pop('$schema')
+        return dict(manifest, skills='./skills/', interface=interface)
+
+    def test_missing_codex_ingestion_manifest_fails(self):
+        (self.package / '.codex-plugin/plugin.json').unlink(missing_ok=True)
+        result = self.validate()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('.codex-plugin/plugin.json', result.stdout + result.stderr)
+
+    def test_codex_manifest_rejects_portable_fields(self):
+        manifest = json.loads((self.package / 'plugin.json').read_text(encoding='utf-8'))
+        self.write_codex_manifest(manifest)
+        result = self.validate()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('.codex-plugin/plugin.json', result.stdout + result.stderr)
+
+    def test_codex_interface_must_be_top_level(self):
+        manifest = self.portable_as_codex()
+        manifest['extensions'] = {'com.openai': {'interface': manifest.pop('interface')}}
+        self.write_codex_manifest(manifest)
+        result = self.validate()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('.codex-plugin/plugin.json', result.stdout + result.stderr)
+
+    def test_codex_skills_must_resolve_from_package_root(self):
+        manifest = self.portable_as_codex()
+        manifest['skills'] = '../skills/'
+        self.write_codex_manifest(manifest)
+        result = self.validate()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('.codex-plugin/plugin.json', result.stdout + result.stderr)
+
+    def test_codex_metadata_must_match_portable_manifest(self):
+        manifest = self.portable_as_codex()
+        manifest['version'] = '0.0.0'
+        self.write_codex_manifest(manifest)
+        result = self.validate()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('.codex-plugin/plugin.json', result.stdout + result.stderr)
+
+    def test_generator_recreates_codex_manifest(self):
+        path = self.package / '.codex-plugin/plugin.json'
+        path.unlink(missing_ok=True)
+        result = subprocess.run(
+            [sys.executable, str(ROOT / 'scripts/generate_codex_manifest.py'),
+             '--root', str(self.package)],
+            capture_output=True, text=True, check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(json.loads(path.read_text(encoding='utf-8')), self.portable_as_codex())
+        result = self.validate()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_missing_skill_reference_fails(self):
         skill = self.package / "skills/develop/SKILL.md"
         skill.write_text(skill.read_text(encoding="utf-8") + "\n[required](references/missing.md)\n", encoding="utf-8")
