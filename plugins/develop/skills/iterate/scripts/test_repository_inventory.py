@@ -315,8 +315,11 @@ class LocalGitTests(unittest.TestCase):
         self.assertEqual((selected.remote, selected.upstream_branch), ("team/origin", "release/next"))
 
     def test_actual_git_rename_preserves_both_unusual_paths(self) -> None:
-        original = "old name\noriginal.txt"
-        renamed_path = "new name\nrenamed.txt"
+        # Windows forbids control characters in filenames. Synthetic protocol
+        # tests retain newline coverage on every platform.
+        separator = " " if os.name == "nt" else "\n"
+        original = f"old name{separator}original.txt"
+        renamed_path = f"new name{separator}renamed.txt"
         (self.repo / "tracked.txt").rename(self.repo / original)
         self.git("add", "--all")
         self.git("commit", "-m", "Unusual original path")

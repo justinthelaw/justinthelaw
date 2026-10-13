@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Callable, Sequence
 
 from pipeline_failure_reporting import FailureReportingMixin
@@ -147,7 +147,7 @@ class Watcher(FailureReportingMixin, RunStateMixin):
                     # This time is only a review-history bound, never completion evidence.
                     self.review_activation[target.key] = min(
                         (timestamp(run.get("createdAt"), f"exact-head workflow creation for {target.label}")
-                         for run in matching), default=datetime.fromtimestamp(0).astimezone(),
+                         for run in matching), default=datetime(1970, 1, 1, tzinfo=timezone.utc),
                     )
             policy = discover_policy(target, self.runner, pull_request.base_branch if pull_request else None)
             changed |= policy != self.check_policies.get(target.key)

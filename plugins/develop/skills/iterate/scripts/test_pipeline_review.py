@@ -5,7 +5,9 @@ import json
 import sys
 import unittest
 from dataclasses import replace
+from datetime import datetime, timezone
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -75,6 +77,19 @@ class ProductionReviewTests(unittest.TestCase):
         result, monitor, _ = self.snapshot(runner)
         self.assertEqual(result, 3)
         self.assertEqual(monitor.review_states[runner.current.key].status, "active")
+
+    def test_review_discovery_needs_no_local_epoch_conversion(self):
+        class WindowsEpochDateTime(datetime):
+            @classmethod
+            def fromtimestamp(cls, *args, **kwargs):
+                raise OSError(22, "Invalid argument")
+
+        runner = ReviewRunner()
+        runner.runs = []
+        monitor = Watcher([runner.current], runner=runner, emit=lambda event: None, monitor_reviews=True)
+        with patch("pipeline_monitor.datetime", WindowsEpochDateTime):
+            monitor.discover_runs(initial=True)
+        self.assertEqual(monitor.review_activation[runner.current.key], datetime(1970, 1, 1, tzinfo=timezone.utc))
 
     def test_thumb_without_eye_is_still_not_approval(self):
         runner = ReviewRunner(reactions=[reaction("+1", hour=3)])
