@@ -26,7 +26,7 @@ GitHub bio. Disclose paused animations or stubbed resume iframes.
 
 Games are validated statically using the isolated authoring package. Do not
 execute game modules, test source inside `games/`, or automate playthroughs.
-Follow package-specific checks for changes under `llm/`, `tools/`, or `plugins/`.
+Follow package-specific checks for changes under `llm/` or `tools/`.
 
 ## Pull requests
 
