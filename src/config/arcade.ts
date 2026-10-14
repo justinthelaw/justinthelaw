@@ -8,7 +8,7 @@ export const ARCADE_GAMES: readonly ArcadeGame[] = [
     blobVariant: "blue",
     preview: {
       src: "/arcade/blue-rescue-team-preview.png",
-      alt: "Psyduck and Charmander exploring Tiny Woods in the browser game.",
+      alt: "Roux exploring Tiny Woods with Torchic as his companion.",
     },
     entryPoint: "/games/pokemon-dungeon-reimagined/index.html",
   },

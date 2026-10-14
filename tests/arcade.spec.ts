@@ -26,7 +26,7 @@ test("should offer the Pokemon development game in the first arcade card", async
   const play = firstCard.getByRole("button", { name: `Play ${pokemonTitle}`, exact: true });
   await expect(play).toBeEnabled({ timeout: 1500 });
   await expect(firstCard).toContainText(/Play as Roux or another Pokémon/i);
-  const picture = firstCard.getByRole("img", { name: /Psyduck and Charmander exploring Tiny Woods/i });
+  const picture = firstCard.getByRole("img", { name: /Roux exploring Tiny Woods with Torchic as his companion/i });
   await expect(picture).toBeVisible();
   await expect.poll(() => picture.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   const previewPath = await picture.getAttribute("src");
