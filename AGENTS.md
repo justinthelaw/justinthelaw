@@ -1,7 +1,7 @@
 # Repository instructions
 
 This repository contains a static Next.js portfolio, browser-local chatbot,
-arcade games, a local language-model pipeline, and development plugins.
+arcade games, and a local language-model pipeline.
 Use package manifests and lockfiles for exact dependency versions.
 
 ## Boundaries
@@ -35,7 +35,6 @@ Read the applicable nested instructions before editing that area.
 | Browser games | [games/AGENTS.md](games/AGENTS.md) |
 | Game authoring and static validation | [tools/AGENTS.md](tools/AGENTS.md) |
 | Local training, evaluation, model publishing | [llm/AGENTS.md](llm/AGENTS.md) |
-| Development plugin | [plugins/develop/AGENTS.md](plugins/develop/AGENTS.md) |
 | Human guides and evidence records | [docs/AGENTS.md](docs/AGENTS.md) |
 
 Roux's Adventure retains the personality test through Tiny Woods and Caterpie's

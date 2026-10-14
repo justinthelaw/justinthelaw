@@ -42,7 +42,6 @@ running server. Stop any competing server first. See
 | Arcade controls | [Player guide](../games/PLAYER-GUIDE.md) |
 | Game authoring/static checks | [Tool instructions](../tools/pokemon-dungeon/AGENTS.md) |
 | Local model pipeline | [LLM instructions](../llm/AGENTS.md) |
-| Development skills/plugin | [Plugin instructions](../plugins/develop/AGENTS.md) |
 
 The Python pipeline lives directly in `llm/`; run its modules from the repository
 root as `python -m llm.persona.<module>`. Follow its instructions for isolated

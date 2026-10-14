@@ -14,7 +14,6 @@ Use [Development](DEVELOPMENT.md) for setup and [Diagrams](DIAGRAMS.md) for flow
 | `src/config/arcade.ts` | Game cards, previews, entry points |
 | `next.config.mjs` | Static export, trailing slashes, base path, asset prefix |
 | `llm/` | Optional local training, evaluation, ONNX export, model packaging/publishing |
-| `plugins/develop/` | Development skills distributed separately from the website |
 
 ## Identity, resume, and deployment
 

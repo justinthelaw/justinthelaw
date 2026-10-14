@@ -7,7 +7,6 @@
 | `workflows/game-static.yml` | Isolated game source/type/asset checks |
 | `workflows/llm.test.yml` | Profile-QA locks, unit tests, dependency smoke checks and audits |
 | `workflows/lint.yml` | Pre-commit checks |
-| `workflows/plugins.test.yml` | Plugin package/marketplace validation on Linux and Windows |
 
 - Keep the Node version aligned with `.nvmrc`, npm with `package.json`, and
   Python with the relevant lock/environment requirements. Preserve
