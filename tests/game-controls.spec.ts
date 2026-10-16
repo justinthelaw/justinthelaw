@@ -516,6 +516,9 @@ test("should bridge only A and Start to an explicitly opted-in editable text inp
 });
 
 test("should retain ordinary typing protection and require the exact confirm opt-in", async ({ page }) => {
+  // Decorative arcade motion has separate coverage. Keep this multi-field
+  // typing check independent of software-rendering speed in WebKit.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await openPlayer(page);
   await showControls(page);
   const controls = page.getByRole("region", { name: "Game controls", exact: true });
@@ -615,4 +618,93 @@ test("should keep host-page typing protected from overlay keys", async ({ page }
     await expect(field).toHaveValue("host text");
   }
   expect(await recordedKeys(page)).toEqual([]);
+});
+
+for (const surface of ["website", "iframe"] as const) {
+  test(`should remember ${surface} touch capability across player reopen without overriding manual visibility`, async ({ page }) => {
+    // Start with a fine pointer even on mobile projects so the first observed
+    // touch, rather than the browser's default media query, reveals controls.
+    await page.addInitScript(() => {
+      const matchMedia = window.matchMedia.bind(window);
+      window.matchMedia = (query) => matchMedia(query === "(pointer: coarse)" ? "(max-width: 0px)" : query);
+    });
+    await openPlayer(page);
+    const controls = page.getByRole("region", { name: "Game controls", exact: true });
+    const touchSurface = surface === "website"
+      ? page.locator("body")
+      : page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("body");
+    await expect(controls).toBeHidden();
+    await touchSurface.dispatchEvent("pointerdown", { pointerType: "mouse" });
+    await expect(controls).toBeHidden();
+    await touchSurface.dispatchEvent("pointerdown", { pointerType: "touch" });
+    await expect(controls).toBeVisible();
+
+    await page.getByRole("button", { name: "Hide controls", exact: true }).click();
+    await touchSurface.dispatchEvent("pointerdown", { pointerType: "touch" });
+    await expect(controls).toBeHidden();
+    await page.getByRole("button", { name: "Back to games", exact: true }).click();
+    await page.getByRole("button", { name: `Play ${gameTitle}`, exact: true }).click();
+    await expect(controls).toBeVisible();
+    expect(await recordedKeys(page)).toEqual([]);
+  });
+}
+
+test("should release an in-flight diagonal when the child interrupts key delivery", async ({ page }) => {
+  await openPlayer(page);
+  await showControls(page);
+  await page.frameLocator(`iframe[title="${gameTitle} game"]`).locator("body").evaluate(() => {
+    window.addEventListener("keydown", () => window.dispatchEvent(new Event("blur")), { once: true });
+  });
+  const diagonal = page.getByRole("button", { name: "Move up-right", exact: true });
+  await diagonal.dispatchEvent("pointerdown", { pointerId: 81, pointerType: "touch", button: 0, buttons: 1 });
+  const interrupted = [
+    { type: "keydown", code: "ArrowUp", key: "ArrowUp" },
+    { type: "keyup", code: "ArrowUp", key: "ArrowUp" },
+  ];
+  await expect.poll(() => recordedKeys(page)).toEqual(interrupted);
+  await diagonal.dispatchEvent("pointercancel", { pointerId: 81, pointerType: "touch" });
+  expect(await recordedKeys(page)).toEqual(interrupted);
+
+  await page.getByRole("button", { name: "Move right", exact: true }).click();
+  await expect.poll(() => recordedKeys(page)).toEqual([
+    ...interrupted,
+    { type: "keydown", code: "ArrowRight", key: "ArrowRight" },
+    { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
+  ]);
+});
+
+test("should keep external frames inert and reconnect controls after returning to the same origin", async ({ page }) => {
+  await page.addInitScript(() => {
+    const errors: string[] = [];
+    window.addEventListener("error", (event) => errors.push(event.message));
+    Object.assign(window, { uncaughtControlErrors: errors });
+  });
+  await page.route("**/external-controls.html", (route) => route.fulfill({ contentType: "text/html", body: inputFixture }));
+  await openPlayer(page);
+  await showControls(page);
+  const iframe = page.locator(`iframe[title="${gameTitle} game"]`);
+  const frame = page.frameLocator(`iframe[title="${gameTitle} game"]`);
+  const originalUrl = new URL((await iframe.getAttribute("src"))!, page.url()).href;
+  const externalUrl = new URL("/external-controls.html", page.url());
+  externalUrl.hostname = "127.0.0.1";
+  const externalLoad = page.waitForEvent("framenavigated", { predicate: (child) => child.url() === externalUrl.href });
+  await iframe.evaluate((element, url) => { (element as HTMLIFrameElement).src = url; }, externalUrl.href);
+  await externalLoad;
+  await expect(frame.locator("#key-events")).toHaveText("[]");
+  await page.getByRole("button", { name: "Move right", exact: true }).click();
+  expect(await recordedKeys(page)).toEqual([]);
+  await expect(frame.locator("html")).not.toHaveAttribute("data-arcade-controls-visible");
+
+  const localLoad = page.waitForEvent("framenavigated", { predicate: (child) => child.url() === originalUrl });
+  await iframe.evaluate((element, url) => { (element as HTMLIFrameElement).src = url; }, originalUrl);
+  await localLoad;
+  await expect(frame.locator("html")).toHaveAttribute("data-arcade-controls-visible", "true");
+  await page.getByRole("button", { name: "Move right", exact: true }).click();
+  await expect.poll(() => recordedKeys(page)).toEqual([
+    { type: "keydown", code: "ArrowRight", key: "ArrowRight" },
+    { type: "keyup", code: "ArrowRight", key: "ArrowRight" },
+  ]);
+  // WebKit reports a denied contentDocument lookup as a Playwright pageerror
+  // even when it returns null. Observe actual uncaught window errors instead.
+  expect(await page.evaluate(() => (window as unknown as { uncaughtControlErrors: string[] }).uncaughtControlErrors)).toEqual([]);
 });
