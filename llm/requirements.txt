@@ -10,4 +10,4 @@ pytest>=9.1.1
 safetensors>=0.8.0
 sentencepiece>=0.2.2
 torch>=2.14.1
-transformers>=5.19.0
+transformers>=5.20.1
