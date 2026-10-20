@@ -15,8 +15,6 @@ import {
 } from "@/components/arcade/gameFrame";
 import { subscribeTouch, touchSnapshot } from "@/components/arcade/touchCapability";
 
-export { GAME_KEYS, type GameKey } from "@/components/arcade/gameKeys";
-
 interface KeyboardActivationBase {
   element: HTMLButtonElement;
   key: string;

@@ -16,7 +16,8 @@ preserves dated audits, source addresses and detailed implementation evidence.
 
 - Three procedural floors B1F-B3F, then a rescue destination; choose B3F stairs
   to continue. No boss, recruits, traps, shop, Monster House or team formation.
-- Sixteen heroes/ten partner species, excluding shared types; both start at level
+- Sixteen original heroes plus optional Roux/ten original partner species,
+  excluding shared types; both start at level
   five with qualified stats, ordered moves, EXP threshold and full PP.
 - Level-one Pidgey/Sunkern/Wurmple throughout; Exeggcute/Hypnosis on B3F. Density
   four creates two or three flags; collisions can suppress realization. Arrivals

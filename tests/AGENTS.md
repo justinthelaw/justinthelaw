@@ -11,8 +11,8 @@ boundaries. They never execute game source or establish gameplay fidelity.
 - Retain Chromium, Firefox, WebKit, Pixel 5, and iPhone 12 coverage. Check
   navigation, accessibility, focus, mobile layout, error handling, animations,
   reduced motion, and game loading for affected UI.
-- UI specs import `test` from `fixtures.ts`, which stubs profile, avatar, and
-  resume requests. Profile-response tests explicitly override these routes.
+- UI specs import `test` from `fixtures.ts`, which stubs profile, avatar, resume,
+  and all game requests. Input and profile-response tests override these routes.
   Review screenshots separately require a freshly fetched live GitHub bio.
 - Use inert HTML and key-recording fixtures for iframe paths, export copying,
   typing protection, key ownership, cancellation, and focus restoration. Use
