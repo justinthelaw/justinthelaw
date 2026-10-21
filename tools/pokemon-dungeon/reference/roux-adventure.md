@@ -82,7 +82,7 @@ again after resampling. This removes the neighboring-row feet that contaminated
 the previous second idle frame. One scale per direction preserves the relative
 height of standing and sleeping poses; all feet share the same ground anchor.
 The breathing frame derives from the resting sprite by a local one-pixel coat
-shift, keeping its silhouette and feet fixed. Idle retains 48/24-tick rest/breathe
+shift within rows 22–24, keeping its face, silhouette and feet fixed. Idle retains 48/24-tick rest/breathe
 phases. Sleeping retains its single static pose; no extra breathing artwork or
 cartridge timing parity is claimed.
 
@@ -115,7 +115,8 @@ presentation path rather than being interpreted as sprite animation indices.
 The 256x232 atlas retains 48 body poses and eight directions. Dedicated 40x40
 portrait cells center the full face, with space around the ears and cheeks;
 they no longer crop the face from a body frame. The surprised expression uses
-the existing `shocked` key for the awakening dialogue. Unsupported emotions
+the existing `shocked` key for the awakening dialogue; the `worried` expression
+supports the dialogue after naming. Unsupported emotions
 still fall back to normal. Independent static gates cover connected silhouettes,
 cell margins, ground anchors, idle stability, centered portrait proportions,
 required expressions and the 16-color limit. Additional gates read move routes as
@@ -133,3 +134,37 @@ resource closure and memory budgets. They never import or execute game modules.
 Website checks use inert fixtures. No new automated or manual game playthrough
 is claimed by these checks; the historical opening observations remain in the
 [review record](../../../games/pokemon-dungeon-reimagined/plan/BLUE-OPENING-REVIEW.md).
+
+### Representation audit, 2026-10-21
+
+The title uses a separate uniformly scaled source cutout, drawn at its native
+64×56 size; see the [menu brief](roux-menu.md). Static source tracing confirmed
+that gameplay bodies and portraits also render at their native sizes, and the
+two game canvases retain their 4:3 proportions. All 48 poses, eight directions,
+and the quiz, dialogue, team and status presentation paths were reviewed.
+Nearest sampling preserves Roux's eye and muzzle detail better than the
+compared area-averaged alternative, so the approved source palette and sampling
+remain intact.
+
+The previous breathing shift crossed the front-facing muzzle at row 17. Restricting
+it to the lower coat at rows 22–24 leaves the upper 22 rows byte-identical to rest,
+and preserves the feet at rows 25–27. Exactly eight breathing poses change;
+the other 40 poses and three existing portraits retain their exported pixels.
+
+Per-pose head attachment metadata now follows the opaque body's top plus ten
+pixels. The status renderer already raises icons by 16 pixels; the previous
+fixed −30 offset compounded that lift and left icons floating far above Roux.
+The new anchors also follow sleeping poses. Offline composites of the shipped
+status artwork show no face overlap; full icon rectangles can overlap the top
+two silhouette rows. Static gates check both the head position and icon gap.
+
+The existing dialogue after naming requests `worried`, which previously fell back
+to the normal portrait. A source edit of the approved normal face supplies that
+expression in the atlas's unused fourth 40×40 cell without increasing its dimensions.
+The [additional source ledger](../art/roux/worried-source.json) records the edit
+prompt, original reference hash and immutable generated/decoded hashes. The
+original source ledger and image files remain pinned. The exporter and checks
+require normal, happy, shocked and worried portraits.
+
+These are source and static asset findings. Asset review sheets use shipped
+PNG/JSON data; no game module, playthrough or physical-device acceptance was run.

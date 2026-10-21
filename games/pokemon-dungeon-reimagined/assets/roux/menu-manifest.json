@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "profile": "roux-authored-menu-v1",
+  "qualification": "Authored fan adaptation inspired by Blue Rescue Team. Only the documented native logo crop retains source pixels; neither complete scene claims native pixel parity.",
+  "authoring": "Original integer-grid Raster scenery and banner composition, plus a dedicated uniformly reduced title avatar from approved concept A artwork. No game modules are loaded.",
+  "sources": [
+    {
+      "path": "games/pokemon-dungeon-reimagined/assets/blue/menu-logo.png",
+      "bytes": 11202,
+      "sha256": "9b17b2a15b2728a9748f0fcf7688da30fa155aed32cd296f91ee288f72c1fc27",
+      "role": "Reproducible native menu export; only the two upper logo tiers are composited."
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-reference/menu-blue-na.png",
+      "bytes": 30953,
+      "sha256": "39265e9904f19ab2239ce9382a160ec6f73f383b35cd9338a47882629147dad8",
+      "sourceUrl": "https://mysterydungeonwiki.com/images/2/26/Rescue_Team_-_Blue_NA_Menu_%26_Controls.png",
+      "sourcePage": "https://mysterydungeonwiki.com/wiki/File:Rescue_Team_-_Blue_NA_Menu_%26_Controls.png",
+      "role": "North American English Blue menu mask/palette evidence; original capture provenance is missing on the hosting wiki."
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-scenery/sources/Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+      "bytes": 12122,
+      "sha256": "0b91d5437ff548fe51e9f51ef92544277baa91ce893494f315b286dea40e35b3",
+      "sourceUrl": "https://mysterydungeonwiki.com/images/4/45/Rescue_Team_-_Blue_Startup_NA_English_logo.png",
+      "role": "North American English Blue title supplies native logo pixels through the observed menu palette mapping."
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/blue/native-reference/panel-pixel-corroboration.json",
+      "bytes": 8705,
+      "sha256": "2d58c11cd54ea29bfad29e2e7568dba9c5081a5c3953f9585f0c38fb6f7be335",
+      "role": "Existing native menu/logo pixel evidence; does not establish parity of these authored compositions."
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/roux/source.json",
+      "bytes": 4148,
+      "sha256": "4c58376cc7194ddeb8a91cb9e8a294343fcda34f38f0d3cdce3063a50aaa00ac",
+      "role": "Approved concept A source manifest; unchanged gameplay authoring inputs and original image_gen provenance."
+    },
+    {
+      "path": "tools/pokemon-dungeon/art/roux/concept-a-body-0.png",
+      "bytes": 410698,
+      "sha256": "4f5d74d33178d48558e9b0594ea8e5d694b0cc0780bb321654e917ece81ff0b3",
+      "role": "Approved concept A high-resolution rest row. Dedicated title avatar derives directly from the first front-facing cell, not the gameplay atlas."
+    }
+  ],
+  "logo": {
+    "crop": [
+      0,
+      0,
+      256,
+      109
+    ],
+    "backdropRemoved": [
+      0,
+      105,
+      219
+    ],
+    "destination": [
+      0,
+      0
+    ],
+    "bannerBounds": [
+      10,
+      109,
+      236,
+      29
+    ],
+    "text": "ROUX'S ADVENTURE",
+    "qualification": "The original Blue ribbon begins at y109 and is excluded. The authored banner covers the lowest Mystery Dungeon tips; this overlap is an adaptation, not an original logo reconstruction."
+  },
+  "titleAvatar": {
+    "sourceCell": [
+      0,
+      0,
+      198,
+      222
+    ],
+    "isolatedSourceBounds": [
+      31,
+      52,
+      145,
+      147
+    ],
+    "alphaThreshold": 192,
+    "connectedSubject": "Largest 8-connected component before and after reduction.",
+    "uniformScale": 0.3401360544217687,
+    "resampling": "Direct nearest sampling through one uniform scale, then nearest existing chocolate/cream palette color. Compared with covered-area averaging; nearest preserves clearer eyes, nose, cream blaze and paws.",
+    "palette": [
+      "#1c1210",
+      "#382017",
+      "#572c18",
+      "#713a1d",
+      "#8c4822",
+      "#a86231",
+      "#c4874b",
+      "#dca366",
+      "#eab983",
+      "#f8d4a3",
+      "#ffebc6",
+      "#fff8e3",
+      "#ffffff",
+      "#ac4444",
+      "#eb8b83",
+      "#f5b09a"
+    ],
+    "bodyBounds": [
+      7,
+      2,
+      49,
+      50
+    ],
+    "shadow": "Authored chocolate ellipses within y49..54, behind paws; no gameplay sprite or native shadow is enlarged.",
+    "qualification": "Dedicated title presentation asset derived directly from approved source artwork, separate from the gameplay atlas."
+  },
+  "composition": {
+    "titleHero": {
+      "x": 170,
+      "y": 136,
+      "width": 64,
+      "height": 56,
+      "scale": 1,
+      "clearRegion": [
+        170,
+        138,
+        64,
+        54
+      ]
+    },
+    "menuChoiceWindow": {
+      "x": 12,
+      "y": 27,
+      "width": 184,
+      "rowHeight": 22,
+      "verticalPadding": 16
+    },
+    "menuHelperWindow": [
+      12,
+      137,
+      232,
+      38
+    ],
+    "menuFooter": [
+      0,
+      178,
+      256,
+      14
+    ],
+    "qualification": "Window bounds and separate native-size Roux asset placement guide the runtime; UI and avatar are not baked into the backgrounds."
+  },
+  "records": [
+    {
+      "path": "menu-title.png",
+      "bytes": 10375,
+      "sha256": "ecc28acf3dcdecea4fb83254b18d7af6735a19eb9acf22bce725a237cef00d56",
+      "width": 256,
+      "height": 192,
+      "decodedSha256": "e356ea50e837b4d50645363615ff429522dfc86023bae5b2af059552a5ee4a22"
+    },
+    {
+      "path": "menu-landscape.png",
+      "bytes": 3994,
+      "sha256": "50b224621e51c1b85f3b3435422403528d228bcc08a0c4424c727ec20407c6ae",
+      "width": 256,
+      "height": 192,
+      "decodedSha256": "59d982b7ab623285644d989d416bdfba88b718a3a6e2c3dfcdbfe6df752e3cfb"
+    },
+    {
+      "path": "menu-roux.png",
+      "bytes": 1075,
+      "sha256": "66e2b90db1bd08d9155d5b3a7a7924e28506b2a44e45dfa9d5a2382f2b368283",
+      "width": 64,
+      "height": 56,
+      "decodedSha256": "762829db09d09587da44f67be338ccd334a732aca04722295827857948658eff"
+    }
+  ]
+}

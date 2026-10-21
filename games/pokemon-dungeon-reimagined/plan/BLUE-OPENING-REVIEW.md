@@ -1,5 +1,47 @@
 # Roux's Adventure review
 
+## Title/menu and complete Roux representation, 2026-10-21
+
+This revision starts from `c089ac58e3feda52ea2a909003c935fede294114`.
+The owner requested a Blue Rescue Team-inspired title/menu and proper Roux
+representation throughout the game. The new coastal title preserves the
+documented original Pokémon/Mystery Dungeon logo tiers, adds a chocolate/cream
+Roux banner, and pairs it with a rescue-trail landscape and larger menu rows.
+A dedicated 64×56 title avatar is uniformly reduced directly from approved
+concept A source artwork and drawn at native size. The
+[menu brief](../../../tools/pokemon-dungeon/reference/roux-menu.md) records
+the crop, scale, sampling comparison, authored scenery and attribution boundary.
+
+The [character audit](../../../tools/pokemon-dungeon/reference/roux-adventure.md#representation-audit-2026-10-21)
+covers all 48 body poses, eight directions, portraits and presentation paths.
+The breathing shift now stays below the face, pose-specific head anchors correct
+the extra status-icon lift, and a sourced worried expression fills the fourth
+portrait cell for dialogue after naming. The other 40 body poses and three
+existing portraits remain byte-identical; the 256×232 atlas size, palette,
+animation timings, gameplay rules and save schemas are preserved. Original
+sources remain pinned, with a separate source ledger for the worried portrait.
+
+The new head-position check failed against the previous metadata and passes
+after correction. Static PNG/JSON review sheets show all poses, four expressions,
+and representative status composites. Menu compositions cover new and existing
+saves, selected rows and helper wrapping. These are offline asset compositions,
+not browser screenshots or gameplay acceptance. Independent source and artwork
+review found no blocking issues. Disposable evidence is retained beneath
+`tools/pokemon-dungeon/.work/roux-menu/` and `.work/roux-art-audit/`.
+
+Pinned Node 24.21.0/npm 12.2.0 authoring `npm run check` passed, including strict
+JSDoc, source closure, PNG/provenance, reproducible exports and budgets. Final
+menu/export/Roux checks and `git diff --check` passed after the attribution
+wording update. The distribution is 140 files / 2,841,466 bytes, below 3 MiB.
+Website `npm run flight-check` passed lint and the static build/export; browser
+tests finished with 427 passing and 68 Firefox cases blocked by
+`browserContext.newPage: Target crashed` before test interaction. All Chromium,
+WebKit and mobile browser cases passed. Full local flight-check therefore did
+not pass; Firefox remains unverified in this environment. No game/native modules
+were executed, no automated playthrough ran, and no manual gameplay acceptance
+is claimed. The [before/after review images](../../../docs/reviews/roux-menu/evidence.md)
+are explicitly labeled static asset compositions.
+
 ## Story maintenance and Roux animation, 2026-10-20
 
 This revision starts from `1444a4f34788241e59963d789bc24c68b0259030`.

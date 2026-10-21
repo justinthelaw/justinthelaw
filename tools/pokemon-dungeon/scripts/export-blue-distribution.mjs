@@ -101,6 +101,20 @@ for (const record of roux.records) {
   files.add(`assets/roux/${record.path}`);
 }
 files.add('assets/roux/NOTICE.txt');
+// The reimagined menu ships two authored compositions and a dedicated avatar,
+// not the retired boot
+// sequence or its native title/menu resources. Provenance stays offline.
+const menu = JSON.parse(await readFile(path.join(game, 'assets/roux/menu-manifest.json'), 'utf8'));
+if (menu.schemaVersion !== 1 || menu.profile !== 'roux-authored-menu-v1' || menu.records.length !== 3) throw new Error('Invalid authored menu manifest');
+const menuPaths = new Map([['menu-title.png',[256,192]], ['menu-landscape.png',[256,192]], ['menu-roux.png',[64,56]]]);
+for (const record of menu.records) {
+  const dimensions = menuPaths.get(record.path);
+  if (!dimensions || record.width !== dimensions[0] || record.height !== dimensions[1]) throw new Error('Invalid authored menu resource');
+  menuPaths.delete(record.path);
+  files.add(`assets/roux/${record.path}`);
+}
+if (menuPaths.size) throw new Error('Incomplete authored menu resources');
+files.add('assets/roux/menu-NOTICE.txt');
 const ordered = [...files].sort();
 let totalBytes = 0;
 const canonicalRoot = await realpath(game);

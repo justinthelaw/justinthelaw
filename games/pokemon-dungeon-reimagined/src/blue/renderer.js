@@ -256,7 +256,7 @@ export async function createRenderer(topCanvas,bottomCanvas,options={}){
       const hero=view.heroSpeciesId??'pokemon-025',partner=view.partnerSpeciesId??'pokemon-004';
       fill(top,'#000000');fill(bottom,'#000000');choiceBounds=[];toolbarVisible=false;
       if(view.scene==='menu'){
-        artwork.menuLogo(top,sprites,animationTime);artwork.menu(bottom);
+        artwork.menuLogo(top);artwork.menu(bottom);
       }else if(['quiz','gender','result','partner','name'].includes(view.scene)){
         if(view.scene==='name'&&view.nameTarget==='hero')groundScene(view,time,animationTime);
         else aura.draw(bottom,time,{reducedMotion:view.reducedMotion,mode:'cycle'});
