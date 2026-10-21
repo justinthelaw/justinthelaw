@@ -1,7 +1,7 @@
 # Roux title and rescue-trail menu
 
 The owner-requested menu reimagining uses two authored 256×192 scenes: a bright
-coastal title with a cream/chocolate **ROUX’S ADVENTURE** ribbon, and a glade
+coastal title with a cream/chocolate **ROUX'S ADVENTURE** ribbon, and a glade
 overlooking the sea beside a rescue trail. The runtime adds Roux, choices and
 helper text; those are not baked into the backgrounds. Source pixels and
 composition instructions are recorded in the generated

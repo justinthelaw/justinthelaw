@@ -159,7 +159,7 @@ const alphabet = {
   U:['11011','11011','11011','11011','11011','11011','01110'],
   V:['11011','11011','11011','11011','11011','01010','00100'],
   X:['11011','11011','01010','00100','01010','11011','11011'],
-  '’':['11','11','10','00','00','00','00'],
+  "'":['11','11','10','00','00','00','00'],
   ' ':['000','000','000','000','000','000','000'],
 };
 function banner(image) {
@@ -170,7 +170,7 @@ function banner(image) {
   rect(image,26,111,204,2,'#fff7ce');
   rect(image,26,132,204,2,'#c69452');
   rect(image,28,134,200,1,'#a56b39');
-  const text='ROUX’S ADVENTURE', scale=2;
+  const text="ROUX'S ADVENTURE", scale=2;
   const total=[...text].reduce((sum,char)=>sum+alphabet[char][0].length*scale+1,0)-1;
   let x=Math.floor((256-total)/2);
   for(const character of text) {
@@ -372,7 +372,7 @@ const manifest={
   qualification:'Authored fan adaptation inspired by Blue Rescue Team. Only the documented native logo crop retains source pixels; neither complete scene claims native pixel parity.',
   authoring:'Original integer-grid Raster scenery and banner composition, plus a dedicated uniformly reduced title avatar from approved concept A artwork. No game modules are loaded.',
   sources:sources.map(source=>Object.fromEntries(Object.entries(source).filter(([key])=>key!=='url'))),
-  logo:{crop:[0,0,256,109],backdropRemoved:[0,105,219],destination:[0,0],bannerBounds:[10,109,236,29],text:'ROUX’S ADVENTURE',
+  logo:{crop:[0,0,256,109],backdropRemoved:[0,105,219],destination:[0,0],bannerBounds:[10,109,236,29],text:"ROUX'S ADVENTURE",
     qualification:'The original Blue ribbon begins at y109 and is excluded. The authored banner covers the lowest Mystery Dungeon tips; this overlap is an adaptation, not an original logo reconstruction.'},
   titleAvatar:{sourceCell:avatarCell,isolatedSourceBounds:avatarSubject.bounds,alphaThreshold:192,connectedSubject:'Largest 8-connected component before and after reduction.',uniformScale:avatarScale,
     resampling:'Direct nearest sampling through one uniform scale, then nearest existing chocolate/cream palette color. Compared with covered-area averaging; nearest preserves clearer eyes, nose, cream blaze and paws.',palette:avatarPalette.map(color=>`#${Buffer.from(color.slice(0,3)).toString('hex')}`),bodyBounds:avatar.bodyBounds,
