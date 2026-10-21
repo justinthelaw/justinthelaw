@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "emotion": "worried",
+  "created": "2026-10-21",
+  "generator": "image_gen built-in",
+  "transparentBackground": true,
+  "reference": {
+    "path": "concept-a-portraits-0.png",
+    "sha256": "db730f41c4bffd6366dab3f6da15b63f42f657320b9e1f4b7018ac38ee8f74ab",
+    "role": "Approved concept A normal portrait; identity and framing reference."
+  },
+  "source": {
+    "path": "concept-a-worried.png",
+    "bytes": 813856,
+    "width": 1254,
+    "height": 1254,
+    "sha256": "fc8dc5db48b8cb1acd8e8cf2ae61c5cd362f688ef24c0c7f4e08e69adddd0964",
+    "decodedSha256": "af285897f90c2711f270f718936a31b215600d94e24547603929ac907411f494"
+  },
+  "prompt": "Edit the supplied approved Roux portrait into the one missing WORRIED dialogue expression for the same game. Preserve this exact small chocolate-and-cream Pomeranian identity, head width, symmetrical centered face, short pointed ears, cream diamond forehead blaze, cream muzzle and bib, dark round eyes, dark brown outline, and existing blocky pixel-art style. Change only expression: subtle raised inner eyebrows, concerned eyes, small closed downturned mouth, ears slightly concerned but both fully visible. Warm and gentle, not angry or crying, no tears. Keep portrait camera, head-and-shoulders framing and apparent scale matching the reference. This will be uniformly reduced to a 40x40 pixel game portrait, so use bold clean connected pixel clusters with strong legible eyes/nose/mouth, 16 flat chocolate/cream colors, no microtexture, antialiasing, blur or smooth gradients. One single centered head-and-shoulders character on truly transparent background, generous transparent margins including both ears and cheeks; no text, border, floor, accessories, shadow or extra subjects. Output square PNG.",
+  "qualification": "Authored expression extension for the existing named-story worried dialogue. The exporter isolates the subject, uniformly fits it to the same 40px portrait framing and quantizes to the existing palette; no native Blue art parity is claimed. Original generation is retained losslessly."
+}

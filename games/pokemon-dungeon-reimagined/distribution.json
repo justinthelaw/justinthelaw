@@ -68,6 +68,10 @@
     "assets/blue/status-icons.png",
     "assets/blue/team-panels.png",
     "assets/roux/NOTICE.txt",
+    "assets/roux/menu-NOTICE.txt",
+    "assets/roux/menu-landscape.png",
+    "assets/roux/menu-roux.png",
+    "assets/roux/menu-title.png",
     "assets/roux/pokemon-roux.json",
     "assets/roux/pokemon-roux.png",
     "blue.css",
@@ -139,6 +143,6 @@
     "src/domain/rules/type-context.js",
     "src/domain/state/plain.js"
   ],
-  "totalBytes": 2823569,
+  "totalBytes": 2841466,
   "scope": "Roux's Adventure starting menu through Tiny Woods and Caterpie rescue only"
 }

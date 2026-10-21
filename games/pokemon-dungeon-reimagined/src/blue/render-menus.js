@@ -21,6 +21,51 @@ function rows(context,view,x,y,width,rowHeight=12,style={}){
   });
 }
 
+/** Authored cream/chocolate window; the native blue windows remain in-game.
+ * @param {CanvasRenderingContext2D} context @param {number} x @param {number} y
+ * @param {number} width @param {number} height */
+function rescueWindow(context,x,y,width,height){
+  context.fillStyle='#352318';context.fillRect(x+2,y+3,width,height);
+  context.fillStyle='#69432b';context.fillRect(x+2,y,width-4,height);context.fillRect(x,y+2,width,height-4);
+  context.fillStyle='#ffe8b2';context.fillRect(x+2,y+1,width-4,height-2);context.fillRect(x+1,y+2,width-2,height-4);
+  context.fillStyle='#ba8851';context.fillRect(x+4,y+3,width-8,height-6);
+  context.fillStyle='#fff0ce';context.fillRect(x+4,y+4,width-8,height-9);
+}
+
+/** The file-menu composition keeps a landscape visible beside generous rows.
+ * @param {CanvasRenderingContext2D} context @param {View} view @returns {ChoiceBounds[]} */
+function rescueMenu(context,view){
+  const labels=view.choices??[],selected=view.selectedIndex??0;
+  text(context,'RESCUE MENU',18,10,{color:'#fff4d7',shadowColor:'#352318'});
+  rescueWindow(context,12,27,184,labels.length*22+16);
+  const bounds=labels.map((label,index)=>{
+    const y=35+index*22,active=index===selected;
+    if(active){
+      context.fillStyle='#8b4d28';context.fillRect(20,y,168,21);
+      context.fillStyle='#c28547';context.fillRect(21,y+1,166,1);
+      context.fillStyle='#edbb6b';context.fillRect(21,y+19,166,1);
+      cursor(context,26,y+6);
+    }
+    text(context,label,40,y+5,{maxWidth:140,color:view.disabledChoices?.[index]?'#92765f':active?'#fff6df':'#4e3020',shadow:false});
+    return{index,x:20,y,width:168,height:22};
+  });
+  /** @type {Record<string,string>} */const help={
+    'New Game':'Start an entirely new adventure.',
+    'Continue':'Resume your saved rescue.',
+    'Adventure Log':'Review your rescue progress.',
+    'Delete Save Data':'Delete this opening adventure\'s save.',
+  };
+  const description=help[labels[selected]??''];
+  if(description){
+    rescueWindow(context,12,137,232,38);
+    wrapText(description,208).slice(0,2).forEach((line,index)=>text(context,line,24,146+index*12,{color:'#4e3020',shadow:false}));
+  }
+  context.fillStyle='#352318';context.fillRect(0,178,256,14);
+  context.fillStyle='#ba8851';context.fillRect(0,178,256,1);
+  text(context,'A / Start: Select',128,180,{align:'center',color:'#fff4d7',shadow:false});
+  return bounds;
+}
+
 /** @param {CanvasRenderingContext2D} context @param {View} view @returns {ChoiceBounds[]} */
 export function fileMenu(context,view){
   const labels=view.choices??[],pink=view.gender==='female';
@@ -36,27 +81,13 @@ export function fileMenu(context,view){
     panel(context,184,120,56,40,{pink});
     return rows(context,view,200,128,32,12);
   }
-  const rootMenu=view.menuTitle==="Roux's Adventure"&&!view.dialogue,top=rootMenu?16:8;
+  if(view.menuTitle==="Roux's Adventure"&&!view.dialogue)return rescueMenu(context,view);
+  const top=8;
   if(!labels.length)return[];
   const width=Math.min(224,8*Math.ceil(Math.max(80,...labels.map(label=>textWidth(label)+8))/8));
   const height=8*Math.ceil(labels.length*12/8);
   panel(context,16,top,width+16,height+16,{pink});
-  if(rootMenu){
-    /** @type {Record<string,string>} */const help={
-      'New Game':'Start an entirely new adventure.',
-      'Continue':'Resume your saved rescue.',
-      'Adventure Log':'Review your rescue progress.',
-      'Delete Save Data':'Delete this opening adventure\'s save.',
-    };
-    const description=help[labels[view.selectedIndex??0]??''];
-    if(description){
-      panel(context,16,128,224,40,{pink});
-      context.save();context.beginPath();context.rect(24,136,208,24);context.clip();
-      wrapText(description,200).slice(0,2).forEach((line,index)=>text(context,line,32,138+index*12,{shadowColor:'#414141'}));
-      context.restore();
-    }
-  }
-  return rows(context,view,32,top+10,width-8,12,rootMenu?{shadowColor:'#414141',clip:[24,top+8,width,height]}:{});
+  return rows(context,view,32,top+10,width-8);
 }
 
 /** @param {CanvasRenderingContext2D} context @param {View} view @returns {ChoiceBounds[]|null} */

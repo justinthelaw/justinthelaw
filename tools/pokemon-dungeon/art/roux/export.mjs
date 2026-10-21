@@ -23,6 +23,15 @@ async function readSheet(record) {
 }
 const source = await readSheet(sourceManifest.body);
 const portraitSource = await readSheet(sourceManifest.portraits);
+const worriedLedgerBytes = await readFile(new URL('worried-source.json', import.meta.url));
+const worriedLedger = JSON.parse(worriedLedgerBytes), worriedRecord = worriedLedger.source;
+assert.equal(worriedLedger.schemaVersion, 1); assert.equal(worriedLedger.emotion, 'worried');
+assert.equal(hash(await readFile(new URL(worriedLedger.reference.path, import.meta.url))), worriedLedger.reference.sha256);
+const worriedBytes = await readFile(new URL(worriedRecord.path, import.meta.url));
+assert.equal(worriedBytes.length, worriedRecord.bytes); assert.equal(hash(worriedBytes), worriedRecord.sha256);
+const worriedSource = decodePng(worriedBytes);
+assert.deepEqual([worriedSource.width, worriedSource.height], [worriedRecord.width, worriedRecord.height]);
+assert.equal(hash(worriedSource.data), worriedRecord.decodedSha256);
 const check = process.argv.includes('--check');
 if (!check) await mkdir(output, { recursive: true });
 async function emit(name, bytes) {
@@ -97,12 +106,12 @@ const bodyFrames = bodySubjects.map(row => row.map((subject, direction) => {
   cell.paste(fitted, Math.floor((32 - fitted.width) / 2), 28 - fitted.height);
   return cell;
 }));
-// A local one-pixel lift in the middle of the coat suggests breathing while
+// A local one-pixel lift in the lower coat suggests breathing while
 // keeping head, feet, silhouette and anchor identical to the resting pose.
 // Both frames come from the same artwork, not independently generated poses.
 function breathingFrame(rest) {
   const result = new Raster(32, 32); rest.data.copy(result.data);
-  for (let y = 17; y <= 21; y++) for (let x = 8; x <= 23; x++) {
+  for (let y = 22; y <= 24; y++) for (let x = 8; x <= 23; x++) {
     const at = (y * 32 + x) * 4, below = at + 32 * 4;
     if (rest.data[at + 3] && rest.data[below + 3]) rest.data.copy(result.data, at, below, below + 4);
   }
@@ -116,8 +125,9 @@ for (let row = 0; row < 6; row++) for (let direction = 0; direction < 8; directi
   poses.push([x, y, 32, 32, -16, -28]);
 }
 const portraits = {};
-for (const [index, emotion] of sourceManifest.portraitEmotions.entries()) {
-  const subject = connectedSubject(portraitSource, sourceManifest.portraits.records[index].rect);
+const portraitSubjects = sourceManifest.portraitEmotions.map((emotion,index) => [emotion,connectedSubject(portraitSource, sourceManifest.portraits.records[index].rect)]);
+portraitSubjects.push(['worried',connectedSubject(worriedSource)]);
+for (const [index, [emotion, subject]] of portraitSubjects.entries()) {
   const fitted = resizeSubject(subject, Math.min(36 / subject.width, 38 / subject.height));
   const x = index * 40, y = 192;
   atlas.paste(fitted, x + Math.floor((40 - fitted.width) / 2), y + 2);
@@ -150,13 +160,21 @@ const animations = Array.from({ length: 28 }, (_, animation) => Array.from({ len
   return animation === 7 ? [frame(0, direction, 48), frame(1, direction, 24)] : [frame(0, direction, 18), frame(1, direction, 18)];
 }));
 const alias = (animation, loop) => ({ animation, loop });
+// Set0 is a head anchor, not the final status-icon position: StatusSprites
+// adds its own16px lift. Keep the attachment inside each pose, including sleep.
+const statusOffsets = rows.flatMap(row => row.map(cell => {
+  let top=32;
+  for(let y=0;y<32;y++)for(let x=0;x<32;x++)if(cell.data[(y*32+x)*4+3])top=Math.min(top,y);
+  return [0,top-28+10];
+}));
 const metadata = { schemaVersion: 3, speciesId: 'pokemon-roux', width: atlas.width, height: atlas.height, poses,
-  statusOffsets: poses.map(() => [0, -30]), effectOffsetSets: [[[0, -14], [0, -22], [0, -8]]], effectOffsetIndices: poses.map(() => 0),
+  statusOffsets, effectOffsetSets: [[[0, -14], [0, -22], [0, -8]]], effectOffsetIndices: poses.map(() => 0),
   animations, clips: { idle: alias(7, true), walk: alias(0, true), fly: alias(0, true), 'attack-physical': alias(1, false), 'hit-light': alias(6, false), 'rest-sleep': alias(5, true), 'bide-hold': alias(11, true), 'story-sleep': alias(13, true) }, shadowSize: 1, portraits };
 const records = [await emit('pokemon-roux.png', atlas.png()), await emit('pokemon-roux.json', Buffer.from(JSON.stringify(metadata) + '\n'))];
 const manifest = { schemaVersion: 1, speciesId: 'pokemon-roux', qualification: 'Owner-authored fan addition. User-selected concept A, generated from Roux pet reference, then deterministically isolated, palette-reduced and packed; no original Blue sprite or timing parity claimed.',
   reference: { petId: 'pet_6acc6b6df5e48191b8f7acf7533d6f15', name: 'Roux', description: 'Chocolate-and-white Pomeranian', sha256: 'ba2467027070cef0e9153bd11943c380c2dfcbe5262e4f664828613ef3389da5' },
   source: { path: 'tools/pokemon-dungeon/art/roux/source.json', sha256: hash(sourceManifestBytes), originalGeneratedSha256: sourceManifest.body.originalGeneratedSha256, decodedSha256: sourceManifest.body.decodedSha256, width: source.width, height: source.height, creation: 'image_gen, 2026-10-13; selected concept A, 8 directions and 5 source poses plus dedicated normal/happy/shocked portraits; breathing derived from rest' },
+  additionalPortraits: [{ emotion: 'worried', source: 'tools/pokemon-dungeon/art/roux/worried-source.json', sourceSha256: hash(worriedLedgerBytes), generatedSha256: worriedRecord.sha256 }],
   directions, decodedBytes: atlas.width * atlas.height * 4, records };
 await emit('manifest.json', Buffer.from(JSON.stringify(manifest) + '\n'));
 await emit('NOTICE.txt', Buffer.from("Roux is an owner-authored fan character based on Justin Law's Roux Work Pet. Art generated with image_gen from the owner's pet reference. Original Blue asset attribution is recorded separately in assets/blue/NOTICE.txt. Rebranding does not establish franchise rights or a rights-holder reuse grant.\n"));

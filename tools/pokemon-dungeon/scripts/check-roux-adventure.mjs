@@ -95,8 +95,24 @@ assert(!/mode\s*=\s*['"](?:title|opening)['"]/.test(app)); assert(!app.includes(
 assert(!render.includes('render-intro')); assert(!render.includes('INTRO_CLIENT')); assert(app.includes('Play as Roux'));
 const html = await readFile(new URL('index.html',game),'utf8'); assert(html.includes("Pokémon Mystery Dungeon: Roux's Adventure")); assert(!html.includes('start-prompt'));
 const distribution = await json('distribution.json');
-for (const path of distribution.files) assert(!/(?:boot-cards|title(?:-bird|-letter|-prompt|-water)?\.(?:png|json)|post-interior|post-exterior|town-aerial|menu-(?:logo|delivery|mailbox)|render-intro)/.test(path), `Pre-menu resource still shipped: ${path}`);
+for (const path of distribution.files) assert(!/^(?:assets\/blue\/(?:title-(?:bird|letter)|menu-(?:logo|delivery|mailbox))\.|assets\/blue\/scenery\/(?:boot-cards|title(?:-prompt|-water)?|post-interior|post-exterior|town-aerial)\.|src\/blue\/render-intro)/.test(path), `Pre-menu resource still shipped: ${path}`);
 assert(distribution.files.includes('assets/roux/pokemon-roux.png')); assert(distribution.totalBytes < 3*1024*1024);
+const menuArt = await json('assets/roux/menu-manifest.json');
+assert.equal(menuArt.schemaVersion,1); assert.equal(menuArt.profile,'roux-authored-menu-v1');
+assert.deepEqual(menuArt.records.map(record=>record.path).sort(),['menu-landscape.png','menu-roux.png','menu-title.png']);
+assert(distribution.files.includes('assets/roux/menu-NOTICE.txt'));
+for(const record of menuArt.records){
+  const filename=`assets/roux/${record.path}`,bytes=await readFile(new URL(filename,game));
+  assert(distribution.files.includes(filename)); assert.equal(bytes.length,record.bytes); assert(bytes.length<64*1024);
+  assert.equal(hash(bytes),record.sha256);
+  const image=decodePng(bytes),avatar=record.path==='menu-roux.png';
+  assert.deepEqual([image.width,image.height],avatar?[64,56]:[256,192]);
+  assert.equal(hash(image.data),record.decodedSha256);
+  if(avatar){
+    assert(image.data.some((value,index)=>index%4===3&&value===255),'Title avatar must be visible');
+    for(let y=0;y<image.height;y++)for(let x=0;x<image.width;x++)if(x===0||y===0||x===image.width-1||y===image.height-1)assert.equal(image.data[(y*image.width+x)*4+3],0,'Title avatar needs unclipped transparent margins');
+  }else for(let offset=3;offset<image.data.length;offset+=4)assert.equal(image.data[offset],255,'Menu scenes must fully cover their canvas');
+}
 const art = await json('assets/roux/manifest.json'), sprite = await json('assets/roux/pokemon-roux.json');
 assert.equal(art.reference.petId,'pet_6acc6b6df5e48191b8f7acf7533d6f15'); assert.deepEqual(art.directions,['s','se','e','ne','n','nw','w','sw']);
 assert.equal(sprite.schemaVersion,3); assert.equal(sprite.speciesId,'pokemon-roux'); assert.equal(sprite.poses.length,48);
@@ -206,6 +222,12 @@ for(const [index,geometry] of bodyGeometry.entries()) {
   const label=`Roux body pose ${index}`,pose=sprite.poses[index];
   assert(geometry.minX>=1 && geometry.minY>=1 && geometry.maxX<=30 && geometry.maxY<=30,`${label}: artwork touches the cell edge`);
   assert(Math.abs(geometry.maxY+pose[5])<=1,`${label}: feet drift from the ground anchor`);
+  const head=sprite.statusOffsets[index],top=pose[5]+geometry.minY,bottom=pose[5]+geometry.maxY;
+  assert(head[1]>=top && head[1]<=bottom,`${label}: head attachment lies outside the body`);
+  // StatusSprites already lifts a 16px icon by16px above this head anchor.
+  // Its destination should meet the head, not float above a second large gap.
+  const iconBottom=head[1]-16+8,gap=top-iconBottom;
+  assert(gap>=-4 && gap<=3,`${label}: status icon is detached from the head (${gap}px)`);
 }
 for(const [direction,sequence] of sprite.animations[sprite.clips.idle.animation].entries()) {
   assert(sequence.length>=2,`Roux idle direction ${direction}: missing breathing frame`);
@@ -219,9 +241,13 @@ for(const [direction,sequence] of sprite.animations[sprite.clips.idle.animation]
     let changed=0,union=0;
     for(let index=0;index<first.mask.length;index++) { if(first.mask[index]!==next.mask[index])changed++;if(first.mask[index] || next.mask[index])union++; }
     assert(changed/union<=0.2,`${label}: too much silhouette motion for a calm idle`);
+    for(let y=0;y<22;y++)for(let x=0;x<32;x++){
+      const firstAt=((firstPose[1]+y)*texture.width+firstPose[0]+x)*4,nextAt=((pose[1]+y)*texture.width+pose[0]+x)*4;
+      assert(texture.data.subarray(firstAt,firstAt+4).equals(texture.data.subarray(nextAt,nextAt+4)),`${label}: breathing changes the face or upper silhouette`);
+    }
   }
 }
-assert(sprite.portraits.normal && sprite.portraits.happy && sprite.portraits.shocked,'Roux requires normal, happy and awakening shocked portrait expressions');
+assert(sprite.portraits.normal && sprite.portraits.happy && sprite.portraits.shocked && sprite.portraits.worried,'Roux requires all four hero story expressions: normal, happy, shocked and worried');
 for(const [emotion,rect] of Object.entries(sprite.portraits)) {
   const label=`Roux ${emotion} portrait`,geometry=pixelGeometry(rect,label);
   assert(geometry.minX>=2 && geometry.maxX<=37 && geometry.minY>=2,`${label}: ears or cheeks lack breathing room`);
