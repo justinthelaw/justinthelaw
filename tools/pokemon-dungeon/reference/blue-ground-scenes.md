@@ -1,6 +1,34 @@
-# Ground-scene order
+# Opening route and ground-scene order
 
-`story.js` and `render-story.js` reconstruct three transient movement gates
+The [current scope](../../../games/pokemon-dungeon-reimagined/plan/BLUE-OPENING.md)
+starts at the authored Roux menu and ends after the first rescue. Dialogue is
+the existing English adaptation, not a transcription of the commercial script.
+
+| Stage | Required sequence |
+| --- | --- |
+| Character creation | Welcome, eight main quiz questions, gender, result, partner choice/confirmation/naming, departure. Original category exclusion, Brave follow-up and cyclic ties remain; the final treat question and optional Roux result are authored additions. |
+| Awakening | Partner wakes the hero; human/Pokémon realization; hero naming/confirmation; Butterfree's offscreen cry and arrival; Caterpie's predicament; movement-only departure. No rescue-choice branch. |
+| Tiny Woods | A level-five pair enters B1F, then B2F and B3F; choosing B3F stairs reaches Caterpie. No boss, town or team formation follows. |
+| Rescue | Caterpie's cry, rescuers approach, reassurance, reunion with Butterfree, Oran/Pecha/Rawst Berry reward, farewell and completed adventure. |
+| Retry/Continue | Defeat offers retry from B1F with EXP/levels/moves and tutorial flags retained, HP/PP restored, and money/held items cleared. Continue resumes the saved phase/line; completed Continue stays at the scoped ending. |
+
+`story.js` owns dialogue, named `STORY_BEATS` offsets, movement durations and
+`storyMovementGate()`. The app owns transitions/reward publication; the renderer
+uses the same beat offsets for actor poses and movement. These numeric offsets
+are persisted meanings: inserting a line requires a deliberate save-compatibility
+review, not just renumbering constants. Rewards remain the existing saved
+completion record; there is no post-rescue Toolbox or later campaign inventory.
+
+`scripts/check-blue-story.mjs` parses source/ASTs without executing game modules.
+It pins the authored dialogue at `1444a4f34788`, saved beat positions and nominal
+durations, and checks the selected phase route, shared movement owner, reward beat
+and B3F rescue branch. The pin protects the adaptation from accidental edits; it
+does not establish commercial-dialogue parity. The independent onboarding/fact
+checks own quiz catalogs, original partner pairs and level-five facts.
+
+## Movement gates
+
+The app and `render-story.js` reconstruct three transient movement gates
 from saved boundaries. They use the paused foreground clock and add no save
 fields. Reduced motion keeps full intervals with actors drawn at settled positions.
 Dialogue is authored; nominal frame counts do not prove exact Blue duration.
@@ -30,3 +58,11 @@ scenes needs rechecking and is not used as a current timing proof.
 
 These are source/ordering qualifications, separate from complete commercial
 dialogue parity and manual acceptance of the current gates.
+
+## Manual acceptance boundary
+
+For a fresh acceptance run, record quiz/partner naming, awakening/hero naming,
+all three floors, reunion/rewards and completed Continue. Separately exercise
+defeat/retry, Continue at a movement gate, and reduced motion. Record the exact
+revision and observations in the [opening review](../../../games/pokemon-dungeon-reimagined/plan/BLUE-OPENING-REVIEW.md);
+static checks do not establish a successful playthrough or Blue timing parity.

@@ -1,23 +1,30 @@
-import { test, expect } from "./fixtures";
+import { test, expect, inertGameFixture } from "./fixtures";
 import { DERIVED_CONFIG } from "../src/config/site";
 
 const arcadeTitle = `${DERIVED_CONFIG.possessiveName} Arcade`;
 const portalName = `Open ${DERIVED_CONFIG.possessiveName} arcade`;
 const pokemonTitle = "Pokémon Mystery Dungeon: Roux's Adventure";
-const gameFixture = "<!doctype html><html><body>Website game fixture</body></html>";
 
-test.beforeEach(async ({ page }) => {
-  // Website integration only: never load or execute the real game source.
-  await page.route("**/games/pokemon-dungeon-reimagined/**", (route) =>
-    route.fulfill({ contentType: "text/html", body: gameFixture }),
-  );
+test("should intercept unconfigured game paths with the shared inert fixture", async ({ page, context }) => {
+  let reachedFallback = false;
+  // Context routes run only if the shared page fixture did not intercept.
+  // This inert fallback keeps the regression safe even before the guard exists.
+  await context.route("**/games/unconfigured-fixture/**", (route) => {
+    reachedFallback = true;
+    return route.fulfill({ contentType: "text/html", body: "<html><body>Fallback reached</body></html>" });
+  });
+
+  await page.goto(`${DERIVED_CONFIG.githubPagesBasePath}/games/unconfigured-fixture/index.html`);
+
+  await expect(page.locator("body")).toHaveText("Website game fixture");
+  expect(reachedFallback).toBe(false);
 });
 
 test("should offer the Pokemon development game in the first arcade card", async ({ page }) => {
   const gameRequests: string[] = [];
   await page.route("**/games/pokemon-dungeon-reimagined/**", (route) => {
     gameRequests.push(route.request().url());
-    return route.fulfill({ contentType: "text/html", body: gameFixture });
+    return route.fulfill({ contentType: "text/html", body: inertGameFixture });
   });
   await page.goto("/");
   await page.getByRole("link", { name: portalName }).click();

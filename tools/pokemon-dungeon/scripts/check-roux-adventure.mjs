@@ -105,6 +105,60 @@ for (const record of art.records) { const bytes=await readFile(new URL(`assets/r
 for (const [x,y,width,height] of sprite.poses) assert(x>=0 && y>=0 && x+width<=sprite.width && y+height<=sprite.height);
 for (const animation of sprite.animations) { assert.equal(animation.length,8); for (const sequence of animation) for (const frame of sequence) { assert.equal(frame.length,7); assert(frame.every(Number.isInteger)); assert(frame[0]>=0 && frame[0]<48 && frame[1]>0 && frame[1]<=255); } }
 for (const [x,y,width,height] of Object.values(sprite.portraits)) assert(x>=0 && y>=0 && width===40 && height===40 && x+width<=sprite.width && y+height<=sprite.height);
+// Read move routes as inert JSON. A valid atlas is not enough: the caller uses
+// flag2 to launch cast effects and flag1 to release the presentation wait.
+const motionSource = await readFile(new URL('src/blue/render-move-motion-data.js',game),'utf8');
+const motionMatch = motionSource.match(/export const MOVE_MOTION_FACTS=(\{[^\n]+\});/);
+assert(motionMatch,'Move routes must remain a static JSON literal');
+const motionFacts = JSON.parse(motionMatch[1]);
+const directions = [[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0],[-1,1]];
+const authoredActions = new Set([1,2,3,12]);
+for(const moveId of new Set(['regular-attack','move-struggle','bide-release',...roux.learnset.map(([,id])=>id)])) {
+  const route=motionFacts[moveId];assert(route,`Roux move ${moveId}: missing presentation route`);
+  const animation=route.overrides['pokemon-roux']??route.animation;
+  // These selectors rotate the walking pose in the presentation owner. They
+  // do not select a sprite animation or require a frame-triggered cast flag.
+  if(animation===98 || animation===99)continue;
+  assert(authoredActions.has(animation),`Roux move ${moveId}: unauthored action selector ${animation}`);
+  for(const [direction,sequence] of sprite.animations[animation].entries()) {
+    const label=`Roux ${moveId} direction ${direction}`;
+    assert(sequence.some(frame=>frame[0]===32+direction),`${label}: action never uses the attack artwork`);
+    let elapsed=1,castAt=null,releaseAt=null;
+    for(const frame of sequence) {
+      if(frame[6]&2 && castAt===null)castAt=elapsed;
+      if(frame[6]&1 && releaseAt===null)releaseAt=elapsed;
+      elapsed+=frame[1];
+    }
+    assert(releaseAt!==null && releaseAt<elapsed,`${label}: missing release marker before recovery`);
+    if(route.cast)assert(castAt!==null && castAt<releaseAt,`${label}: cast must launch before release`);
+  }
+}
+for(const animation of [...authoredActions,6])for(const [direction,sequence] of sprite.animations[animation].entries()) {
+  const label=`Roux animation ${animation} direction ${direction}`,[dx,dy]=directions[direction];
+  assert(sequence.reduce((sum,frame)=>sum+frame[1],0)<=36,`${label}: action is too slow`);
+  assert.deepEqual(sequence.at(-1).slice(2),[0,0,0,0,0],`${label}: recovery must restore the ground anchor without action flags`);
+  for(const frame of sequence) {
+    assert.equal(frame[0]%8,direction,`${label}: pose faces another direction`);
+    assert(frame.slice(2,6).every(offset=>Math.abs(offset)<=4),`${label}: body or shadow escapes its bounded action`);
+    assert(frame[2]*dy===frame[3]*dx,`${label}: body moves across its facing`);
+    assert.deepEqual(frame.slice(2,4),frame.slice(4,6),`${label}: shadow detaches from ground contact`);
+    assert(frame[6]>=0 && frame[6]<=3,`${label}: unsupported frame flags`);
+  }
+}
+for(const [direction,sequence] of sprite.animations[sprite.clips.walk.animation].entries()) {
+  const label=`Roux walk direction ${direction}`,rows=sequence.map(frame=>Math.floor(frame[0]/8));
+  assert(rows.includes(0) && rows.includes(2) && rows.includes(3),`${label}: missing contact or opposite stride`);
+  assert(sequence.every(frame=>frame[0]%8===direction && frame.slice(2).every(value=>value===0)),`${label}: ungrounded or misdirected walking frame`);
+  const ticks=sequence.reduce((sum,frame)=>sum+frame[1],0);
+  assert(ticks>=24 && ticks<=36,`${label}: cadence falls outside reviewed small-body references`);
+}
+for(const [direction,sequence] of sprite.animations[sprite.clips['hit-light'].animation].entries()) {
+  const [dx,dy]=directions[direction],label=`Roux recoil direction ${direction}`;
+  assert.equal(sequence.reduce((sum,frame)=>sum+frame[1],0),10,`${label}: hit reaction must remain brief`);
+  assert(sequence.some(frame=>frame[2]*dx+frame[3]*dy<0),`${label}: missing recoil away from facing`);
+  assert(sequence.every(frame=>frame[6]===0),`${label}: a hit reaction must not cast or release an action`);
+}
+assert.equal(sprite.shadowSize,1,'Roux uses the same small-body shadow as Eevee and Skitty');
 // Inspect the shipped pixels independently of the packing algorithm. Hash and
 // rectangle checks alone admitted the detached feet and cropped face regression.
 const texture = decodePng(await readFile(new URL('assets/roux/pokemon-roux.png',game)));

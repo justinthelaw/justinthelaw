@@ -1,6 +1,15 @@
-# Opening choreography
+# Historical boot/title choreography
 
-`src/blue/render-intro.js` follows comparative Red revision
+This is retained evidence for the retired boot/title implementation, including
+the former `src/blue/render-intro.js`; that module is absent from the current
+runtime. The [approved scope](../../../games/pokemon-dungeon-reimagined/plan/BLUE-OPENING.md)
+starts directly at the Roux menu. All implementation descriptions and open gaps
+below refer to the historical scenes, not current acceptance requirements.
+[The immutable pre-clarification note](https://github.com/justinthelaw/justinthelaw/blob/1444a4f34788241e59963d789bc24c68b0259030/tools/pokemon-dungeon/reference/blue-opening-choreography.md)
+preserves their original wording. Current story order is recorded in
+[ground-scene order](blue-ground-scenes.md).
+
+The former renderer followed comparative Red revision
 `013475aa04f5be3191e5527c186d9bfceae7cae0`. The
 [8.9-second boot prefix](blue-boot-cards.md) precedes these scene-relative ticks.
 Source calculations do not establish Blue frame parity or manual acceptance.
@@ -17,7 +26,7 @@ Source calculations do not establish Blue frame parity or manual acceptance.
 - [Cue delivery](https://github.com/pret/pmd-red/blob/013475aa04f5be3191e5527c186d9bfceae7cae0/src/ground_script.c#L4130)
   follows controller/actor/object/effect work; recipients resume next tick.
 
-Runtime retains bounded 24.8 trajectories and samples whole nominal ticks,
+That runtime retained bounded 24.8 trajectories and sampled whole nominal ticks,
 truncating coordinates before camera translation. No per-frame trajectory allocation.
 The title letter's first y4→52 movement at speed 51 lasts 240 ticks, ending at
 13260/256; the next lasts 221. From tick 60, deletion is 521, not the former 512.

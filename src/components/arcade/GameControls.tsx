@@ -1,6 +1,7 @@
 import type { KeyboardEvent, RefObject } from "react";
 import { Button } from "@/components/ui/button";
-import { GAME_KEYS, useGameControls, type GameKey } from "./useGameControls";
+import { GAME_KEYS, type GameKey } from "@/components/arcade/gameKeys";
+import { useGameControls } from "./useGameControls";
 import styles from "./GameControls.module.css";
 
 interface GameControlsProps {

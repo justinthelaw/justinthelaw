@@ -4,6 +4,15 @@
 /** @typedef {'narrator'|'hero'|'partner'|'butterfree'|'caterpie'} Speaker */
 /** @typedef {{speaker:Speaker,text:string,scene?:string,pose?:string,emotion?:string,quiet?:boolean,offscreen?:boolean}} StoryLine */
 
+/** Saved line positions shared by dialogue, choreography and reward publication.
+ * Keep their numeric meanings: historical checkpoints resume at these offsets. */
+export const STORY_BEATS = Object.freeze({
+  awakening: Object.freeze({ awake: 3 }),
+  named: Object.freeze({ cry: 2, arrival: 3 }),
+  clearing: Object.freeze({ approach: 1, turn: 2, thanks: 4 }),
+  reunion: Object.freeze({ greeting: 1, gift: 4, reward: 5, thanks: 6, departure: 8 }),
+});
+
 /** Comparative ground-script waits and coordinate walks, in nominal 60 Hz
  * frames. The browser keeps both departure walks visible before loading B1F.
  * These transient clocks never become save fields. */
@@ -12,6 +21,16 @@ export const STORY_TRANSITIONS=Object.freeze({
   enter:Object.freeze({wait:10,frames:120}),
   clearing:Object.freeze({wait:30,walk:88,frames:148}),
 });
+
+/** Transient movement gates reconstruct from existing saved phase/line values.
+ * Entry has no dialogue; the other gates precede the line at their saved beat.
+ * @param {string} phase @param {number} line */
+export function storyMovementGate(phase, line) {
+  if (phase === 'enter') return STORY_TRANSITIONS.enter;
+  if (phase === 'named' && line === STORY_BEATS.named.arrival) return STORY_TRANSITIONS.named;
+  if (phase === 'clearing' && line === STORY_BEATS.clearing.approach) return STORY_TRANSITIONS.clearing;
+  return null;
+}
 
 /** @type {Readonly<Record<string,readonly StoryLine[]>>} */
 export const STORY = Object.freeze({

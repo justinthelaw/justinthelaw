@@ -1,5 +1,33 @@
 # Roux's Adventure review
 
+## Story maintenance and Roux animation, 2026-10-20
+
+This revision starts from `1444a4f34788241e59963d789bc24c68b0259030`.
+The opening audit found the approved route intact: creation, awakening, Butterfree's
+request, three Tiny Woods floors, Caterpie's reunion and the three berry rewards.
+Named story beats and one movement-gate owner now replace duplicated offsets.
+Dialogue, saved phase/line meanings, durations, retry rules and schemas are unchanged.
+The [route guide](../../../tools/pokemon-dungeon/reference/blue-ground-scenes.md)
+records the extension and save-compatibility boundaries. A static AST checker
+pins the adaptation and rejects a fixture that skips the reunion.
+
+Comparison with the 23 retained native character sets found missing Roux cast
+markers and idle substitutions for Bite, Growl and Ground actions. The authored
+[animation correction](../../../tools/pokemon-dungeon/reference/roux-adventure.md#artwork-and-verification-boundary)
+adds action/recovery markers, a 24-tick contact/stride walk, ten-tick directional
+recoil and the Eevee/Skitty shadow size. Concept A's exported PNG is byte-identical;
+palette, source hashes, idle and sleep are preserved. Offline PNG/JSON comparisons
+show all directions and action frames; schematic preview shadows are not native
+renderer acceptance. The new animation checks fail against the old metadata.
+
+Node 24.19.0/npm 12.2.0 authoring `npm run check` passed, including strict types,
+facts, reproducible exports, the story contract and asset budgets. The distribution
+is 136 files / 2,823,569 bytes, below 3 MiB. Website `npm run flight-check` passed
+clean, lint and the static build/export, then stopped before browser tests:
+Playwright's Chrome download returned an invalid archive. No compatible local
+browser was installed. Browser execution, a new manual playthrough and physical
+device acceptance remain unverified. No game/native source was executed.
+
 ## Concept A artwork refinement, 2026-10-13
 
 The owner selected concept A and authorized its implementation on

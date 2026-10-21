@@ -17,7 +17,7 @@ import { loadOpeningData, createDungeon, performAction, retryDungeon, validateDu
   getDungeonTurnPhase, prepareDungeonTurn, completeForcedTurn, resumeDungeonContinuation, updateVisibility, resetSecondaryGates } from './mechanics.js';
 import { createSaveRepository, validateOpeningSave } from './save.js';
 import { createPreferencesRepository } from './preferences.js';
-import { STORY, STORY_TRANSITIONS, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolateStory } from './story.js';
+import { STORY, STORY_BEATS, storyMovementGate, GENERAL_TUTORIALS, ITEM_TUTORIALS, interpolateStory } from './story.js';
 
 /** @typedef {import('./save.js').OpeningSave} OpeningSave */
 /** @typedef {import('./save.js').Phase} Phase */
@@ -587,7 +587,7 @@ async function main() {
     // Accept former checkpoints without restoring the added rescue decision.
     if(phase==='help-choice'){phase='enter';line=0;}
     if(phase==='enter')line=0;
-    storyTransitionStarted=phase==='enter'||phase==='clearing'&&line===1||phase==='named'&&line===3?clock:null;
+    storyTransitionStarted=storyMovementGate(phase,line)?clock:null;
     resetBattlePresentation();
     // Native floor entry starts at99. A prepared browser checkpoint has already
     // crossed the input owner's reset; normalize that unsaved clock to0 only.
@@ -847,7 +847,7 @@ async function main() {
         next.scene = phase === 'welcome' || phase === 'departure' ? 'quiz' : phase === 'enter' || phase === 'trouble' ? 'trouble' :
           phase === 'clearing' ? 'clearing' : phase === 'reunion' ? 'reunion' : 'awakening';
         const line = STORY[phase]?.[state.line];
-        if (line && !((phase==='clearing'&&state.line===1||phase==='named'&&state.line===3)&&storyTransitionStarted!==null)) {
+        if (line && !(storyMovementGate(phase,state.line)&&storyTransitionStarted!==null)) {
           next.storyPose = line.pose;
           text = interpolateStory(line.text, { heroName: state.heroName, partnerName: state.partnerName, heroSpeciesName: speciesName(state.heroSpeciesId) });
           portraitEmotion = line.emotion ?? 'normal';
@@ -1148,8 +1148,8 @@ async function main() {
     if (!script) return;
     if (state.line < script.length - 1) {
       state.line += 1; dialoguePage = 0;
-      if(phase==='clearing'&&state.line===1||phase==='named'&&state.line===3){storyTransitionStarted=clock;input.clear();}
-      if (phase === 'reunion' && state.line === 5) { state.rewarded = true; audio.effect('reward'); }
+      if(storyMovementGate(phase,state.line)){storyTransitionStarted=clock;input.clear();}
+      if (phase === 'reunion' && state.line === STORY_BEATS.reunion.reward) { state.rewarded = true; audio.effect('reward'); }
       rebuild(); commitNow(); return;
     }
     if (phase === 'welcome') { nextQuestion(state.quiz, onboarding); void setPhase('quiz'); }
@@ -1164,10 +1164,10 @@ async function main() {
   function advanceStoryTransition() {
     if(storyTransitionStarted===null||!state||!foregroundEligible())return;
     const phase=state.phase;
-    if(phase!=='enter'&&phase!=='clearing'&&phase!=='named')return;
+    const gate=storyMovementGate(phase,state.line);if(!gate)return;
     const elapsed=Math.floor((clock-storyTransitionStarted)*60/1000);
     view.storyTransitionFrame=elapsed;
-    if(elapsed<STORY_TRANSITIONS[phase].frames)return;
+    if(elapsed<gate.frames)return;
     storyTransitionStarted=null;input.clear();
     if(phase!=='enter'){rebuild();return;}
     try {

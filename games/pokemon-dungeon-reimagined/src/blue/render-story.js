@@ -1,5 +1,5 @@
 import { text } from './render-font.js';
-import { STORY_TRANSITIONS } from './story.js';
+import { STORY_BEATS, STORY_TRANSITIONS } from './story.js';
 
 /** @typedef {import('./renderer.js').View} View */
 /** @typedef {import('./render-native-sprites.js').SpriteBank} SpriteBank */
@@ -62,14 +62,14 @@ export class StoryActors {
     /** @type {FieldActor} */const partner={speciesId:partnerId,x:144,y:clearing?116:104,direction:clearing||reunion?'n':'w'};
     /** @type {FieldActor[]} */const actors=[hero,partner];
 
-    if(awakening&&line<=2)hero.clip='story-sleep';
-    if(awakening&&line>=3){
+    if(awakening&&line<STORY_BEATS.awakening.awake)hero.clip='story-sleep';
+    if(awakening&&line>=STORY_BEATS.awakening.awake){
       this.wakeStart??=time;
       const awakeFor=time-this.wakeStart;
       hero.direction=!reduced&&awakeFor>=200&&awakeFor<400?'w':'e';
     }
 
-    if(named&&line>=3){
+    if(named&&line>=STORY_BEATS.named.arrival){
       const frames=reduced?STORY_TRANSITIONS.named.frames:view.storyTransitionFrame??STORY_TRANSITIONS.named.frames;
       const arrival=followPath(BUTTERFREE_APPROACH,frames*FRAME_MS);
       actors.push({speciesId:'pokemon-012',...arrival,clip:arrival.moving?'walk':'idle'});
@@ -96,25 +96,25 @@ export class StoryActors {
     }
 
     if(clearing){
-      const frames=line<1?0:reduced?STORY_TRANSITIONS.clearing.walk:
+      const frames=line<STORY_BEATS.clearing.approach?0:reduced?STORY_TRANSITIONS.clearing.walk:
         view.storyTransitionFrame===undefined?STORY_TRANSITIONS.clearing.walk:Math.max(0,view.storyTransitionFrame-STORY_TRANSITIONS.clearing.wait);
       const elapsed=frames*FRAME_MS,progress=Math.min(1,frames/STORY_TRANSITIONS.clearing.walk);
       hero.y=204-88*progress;partner.y=204-88*progress;
       hero.clip=partner.clip=progress>0&&progress<1?'walk':'idle';
       hero.time=partner.time=elapsed;
-      actors.push({speciesId:'pokemon-010',x:128,y:76,direction:line<2?'n':'s',jump:line===4&&!reduced?this.jump(beatElapsed):0});
+      actors.push({speciesId:'pokemon-010',x:128,y:76,direction:line<STORY_BEATS.clearing.turn?'n':'s',jump:line===STORY_BEATS.clearing.thanks&&!reduced?this.jump(beatElapsed):0});
     }
 
     if(reunion){
-      const leaving=view.scene==='complete'||line>=8;
+      const leaving=view.scene==='complete'||line>=STORY_BEATS.reunion.departure;
       if(leaving)this.departureStart??=time;
       const departed=this.departureStart!==null;
       const distance=this.departureStart===null?0:reduced?216:Math.max(0,time-this.departureStart)/FRAME_MS;
-      if(phase==='reunion'&&line>=4)this.giftStart??=time;
-      if(phase==='reunion'&&line>=6)this.giftReturnStart??=time;
+      if(phase==='reunion'&&line>=STORY_BEATS.reunion.gift)this.giftStart??=time;
+      if(phase==='reunion'&&line>=STORY_BEATS.reunion.thanks)this.giftReturnStart??=time;
       const giftStep=this.giftStart===null?0:this.giftReturnStart!==null?(reduced?0:Math.max(0,8-(time-this.giftReturnStart)/(2*FRAME_MS))):(reduced?8:Math.min(8,(time-this.giftStart)/(2*FRAME_MS)));
       actors.push({speciesId:'pokemon-012',x:144+Math.min(184,distance),y:76+giftStep,direction:departed?'e':'s',clip:departed?'walk':'idle'});
-      actors.push({speciesId:'pokemon-010',x:112+Math.min(192,distance),y:76,direction:departed?'e':'s',clip:departed?'walk':'idle',jump:!departed&&(line===1||line===6)&&!reduced?this.jump(beatElapsed):0});
+      actors.push({speciesId:'pokemon-010',x:112+Math.min(192,distance),y:76,direction:departed?'e':'s',clip:departed?'walk':'idle',jump:!departed&&(line===STORY_BEATS.reunion.greeting||line===STORY_BEATS.reunion.thanks)&&!reduced?this.jump(beatElapsed):0});
       if(departed){hero.direction='e';partner.direction=distance<144?'e':'w';}
     }
 

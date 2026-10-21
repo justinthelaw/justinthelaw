@@ -123,24 +123,41 @@ for (const [index, emotion] of sourceManifest.portraitEmotions.entries()) {
   atlas.paste(fitted, x + Math.floor((40 - fitted.width) / 2), y + 2);
   portraits[emotion] = [x, y, 40, 40];
 }
-const frame = (row, direction, ticks) => [row * 8 + direction, ticks, 0, 0, 0, 0, 0];
+const directions = ['s', 'se', 'e', 'ne', 'n', 'nw', 'w', 'sw'];
+const directionOffsets = [[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0],[-1,1]];
+// Each tuple is [art row, ticks, forward displacement, flags]. Body and shadow
+// move together on the ground. Flag2 launches a cast effect; flag1 releases the
+// presentation wait before displaying an already-decided result.
+// Separate marker frames let the existing presentation owner retain recovery.
+const actionFrames = {
+  1: [[0,4,-1,0],[4,4,1,2],[4,6,4,1],[4,4,2,0],[0,6,0,0]], // physical lunge
+  2: [[0,4,-1,0],[4,4,2,2],[4,6,3,1],[0,6,0,0]], // Bite
+  3: [[0,4,0,0],[4,6,0,2],[4,6,0,1],[0,8,0,0]], // Growl
+  6: [[0,2,-2,0],[0,6,-3,0],[0,2,0,0]], // recoil and settle
+  12: [[0,4,-1,0],[4,4,0,2],[4,6,1,1],[0,6,0,0]], // Ground actions
+};
+const frame = (row, direction, ticks, forward = 0, flags = 0) => {
+  const [dx,dy] = directionOffsets[direction], x = dx * forward, y = dy * forward;
+  return [row * 8 + direction, ticks, x, y, x, y, flags];
+};
 // Preserve the existing renderer's numeric selector interface. These are
-// authored clips, not native animation/timing facts.
+// authored clips, not native animation/timing facts. The contact poses slow
+// walking to a 24-tick cycle without repainting the approved two stride frames.
 const animations = Array.from({ length: 28 }, (_, animation) => Array.from({ length: 8 }, (_, direction) => {
-  if (animation === 0) return [frame(2, direction, 8), frame(3, direction, 8)];
-  if (animation === 1) return [frame(0, direction, 4), frame(4, direction, 8), frame(0, direction, 4)];
+  if (animation === 0) return [frame(0, direction, 4), frame(2, direction, 8), frame(0, direction, 4), frame(3, direction, 8)];
+  if (actionFrames[animation]) return actionFrames[animation].map(([row,ticks,forward,flags]) => frame(row,direction,ticks,forward,flags));
   if (animation === 5 || animation === 13) return [frame(5, direction, 24)];
   return animation === 7 ? [frame(0, direction, 48), frame(1, direction, 24)] : [frame(0, direction, 18), frame(1, direction, 18)];
 }));
 const alias = (animation, loop) => ({ animation, loop });
 const metadata = { schemaVersion: 3, speciesId: 'pokemon-roux', width: atlas.width, height: atlas.height, poses,
   statusOffsets: poses.map(() => [0, -30]), effectOffsetSets: [[[0, -14], [0, -22], [0, -8]]], effectOffsetIndices: poses.map(() => 0),
-  animations, clips: { idle: alias(7, true), walk: alias(0, true), fly: alias(0, true), 'attack-physical': alias(1, false), 'hit-light': alias(6, false), 'rest-sleep': alias(5, true), 'bide-hold': alias(11, true), 'story-sleep': alias(13, true) }, shadowSize: 0, portraits };
+  animations, clips: { idle: alias(7, true), walk: alias(0, true), fly: alias(0, true), 'attack-physical': alias(1, false), 'hit-light': alias(6, false), 'rest-sleep': alias(5, true), 'bide-hold': alias(11, true), 'story-sleep': alias(13, true) }, shadowSize: 1, portraits };
 const records = [await emit('pokemon-roux.png', atlas.png()), await emit('pokemon-roux.json', Buffer.from(JSON.stringify(metadata) + '\n'))];
 const manifest = { schemaVersion: 1, speciesId: 'pokemon-roux', qualification: 'Owner-authored fan addition. User-selected concept A, generated from Roux pet reference, then deterministically isolated, palette-reduced and packed; no original Blue sprite or timing parity claimed.',
   reference: { petId: 'pet_6acc6b6df5e48191b8f7acf7533d6f15', name: 'Roux', description: 'Chocolate-and-white Pomeranian', sha256: 'ba2467027070cef0e9153bd11943c380c2dfcbe5262e4f664828613ef3389da5' },
   source: { path: 'tools/pokemon-dungeon/art/roux/source.json', sha256: hash(sourceManifestBytes), originalGeneratedSha256: sourceManifest.body.originalGeneratedSha256, decodedSha256: sourceManifest.body.decodedSha256, width: source.width, height: source.height, creation: 'image_gen, 2026-10-13; selected concept A, 8 directions and 5 source poses plus dedicated normal/happy/shocked portraits; breathing derived from rest' },
-  directions: ['s', 'se', 'e', 'ne', 'n', 'nw', 'w', 'sw'], decodedBytes: atlas.width * atlas.height * 4, records };
+  directions, decodedBytes: atlas.width * atlas.height * 4, records };
 await emit('manifest.json', Buffer.from(JSON.stringify(manifest) + '\n'));
 await emit('NOTICE.txt', Buffer.from("Roux is an owner-authored fan character based on Justin Law's Roux Work Pet. Art generated with image_gen from the owner's pet reference. Original Blue asset attribution is recorded separately in assets/blue/NOTICE.txt. Rebranding does not establish franchise rights or a rights-holder reuse grant.\n"));
 console.log(`Roux authored atlas ${check ? 'verified' : 'exported'}; ${atlas.width}x${atlas.height}, ${manifest.decodedBytes} decoded bytes.`);

@@ -82,8 +82,35 @@ again after resampling. This removes the neighboring-row feet that contaminated
 the previous second idle frame. One scale per direction preserves the relative
 height of standing and sleeping poses; all feet share the same ground anchor.
 The breathing frame derives from the resting sprite by a local one-pixel coat
-shift, keeping its silhouette and feet fixed. Idle uses 48/24-tick rest/breathe
-phases; other animation timings retain their previous values.
+shift, keeping its silhouette and feet fixed. Idle retains 48/24-tick rest/breathe
+phases. Sleeping retains its single static pose; no extra breathing artwork or
+cartridge timing parity is claimed.
+
+The 2026-10-20 static comparison inspected the approved eight-direction atlas
+and all 23 retained native character metadata sets, including Eevee and Skitty
+at the same pixel scale. Roux's 16-tick two-stride walk was faster than every
+retained native cycle (22–96 ticks; median 32). The authored walk now uses both
+strides with resting contact phases in a 24-tick cycle. Roux uses the 16-pixel
+small-body shadow shared by Eevee and Skitty, replacing his 8-pixel shadow.
+These choices preserve the exported PNG bytes, source hashes, palette and poses.
+
+| Authored action | Selector | Ticks | Presentation |
+| --- | --- | --- | --- |
+| Physical lunge | 1 | 24 | Anticipation, forward attack and recovery |
+| Bite | 2 | 20 | Existing open-mouth attack with a short lunge |
+| Growl | 3 | 24 | Existing open-mouth attack held at the ground anchor |
+| Hit reaction | 6 | 10 | Brief backward recoil and return to rest |
+| Ground action | 12 | 20 | Short plant-and-release for Sand-Attack/Mud Sport |
+
+Action selectors 1, 2, 3 and 12 mark cast-effect launch with flag 2, then release
+the presentation wait with flag 1, and finish at the resting ground anchor.
+The renderer displays already-decided outcomes; these flags change no gameplay.
+This repairs the previous all-zero flags that prevented Bite, Growl and Mud Sport
+cast effects from launching. The three actions formerly also reused idle artwork. Body and shadow
+offsets follow the same facing vector, bounded to four pixels. Hit reaction
+matches the retained native ten-tick duration, but its authored recoil includes
+an explicit return to rest. Rotation selectors 98/99 remain owned by the existing
+presentation path rather than being interpreted as sprite animation indices.
 
 The 256x232 atlas retains 48 body poses and eight directions. Dedicated 40x40
 portrait cells center the full face, with space around the ears and cheeks;
@@ -91,7 +118,12 @@ they no longer crop the face from a body frame. The surprised expression uses
 the existing `shocked` key for the awakening dialogue. Unsupported emotions
 still fall back to normal. Independent static gates cover connected silhouettes,
 cell margins, ground anchors, idle stability, centered portrait proportions,
-required expressions and the 16-color limit. Roux has no claimed cartridge pixel parity.
+required expressions and the 16-color limit. Additional gates read move routes as
+inert JSON and check all of Roux's learned/action move selectors, ordered cast and
+release markers, opposite walk strides and contact poses, bounded directional
+offsets, ground recovery and recoil cadence. Asset-only comparison previews use
+PNG/JSON data without importing or executing any game module. Roux has no claimed
+cartridge pixel parity, and these checks do not establish a playthrough.
 Original Blue asset notices and source qualifications remain separate. Attribution
 and removing the old logo do not establish a franchise rights grant.
 

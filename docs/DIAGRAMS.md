@@ -62,7 +62,11 @@ generation parameters. Automatic model loading tries `int8`, then `uint8`.
 | --- | --- |
 | `src/config/arcade.ts` and `ArcadeGames.tsx` | Cards and selected game state |
 | `GamePlayer.tsx` | Full-viewport dialog, iframe lifecycle, return focus |
-| `GameControls.tsx` and `useGameControls.ts` | Touch overlay and bounded same-origin keyboard events |
+| `GameControls.tsx` | Touch overlay and control rendering |
+| `useGameControls.ts` | Input ownership, interruption cleanup, and overlay visibility |
+| `gameFrame.ts` | Same-origin recipients, exact-document focus, and keyboard event delivery |
+| `gameKeys.ts` | Shared keyboard definitions |
+| `touchCapability.ts` | Session touch capability and subscriptions |
 | Focused iframe | Native desktop keyboard input |
 | `games/<game>/` | Game simulation and its declared static distribution |
 
@@ -70,6 +74,14 @@ Cards remain mounted behind the player. The bridge preserves typing protection,
 key ownership, cancellation, and focus across loads. Website tests use inert
 HTML/key recorders; they do not execute game source or prove gameplay fidelity.
 See [website instructions](../src/AGENTS.md#input-bridge) for the input contract.
+
+The host publishes overlay visibility on the iframe root as
+`data-arcade-controls-visible="true"` or `"false"` and dispatches
+`arcade-controls-visibility` on the child window with `{ visible: boolean }`
+detail. Games can read the attribute at startup and listen for later changes;
+the host republishes on iframe loads. The website's shared test fixture
+intercepts every `/games/` URL with inert HTML by default; input tests override
+it with key recorders.
 
 ## Static build and deployment
 
