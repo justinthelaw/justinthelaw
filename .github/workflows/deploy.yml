@@ -63,7 +63,7 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: Install npm 12
-        run: npm install --global npm@12.2.0
+        run: npm install --global npm@12.2.1
 
       - name: Setup Pages
         # Bundled runtime fixes await upstream; see docs/dependency-upgrades/2026-10-12.md.

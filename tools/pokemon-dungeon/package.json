@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Static authoring and validation for the Blue Rescue Team opening through Tiny Woods",
-  "packageManager": "npm@12.2.0",
+  "packageManager": "npm@12.2.1",
   "engines": {
     "node": ">=24.19.0 <25",
     "npm": ">=12.1.0 <13"
