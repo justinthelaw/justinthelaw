@@ -49,7 +49,7 @@
     "eslint": "^10.13.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "gh-pages": "^6.3.0",
-    "postcss": "^8.5.30",
+    "postcss": "8.5.30",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "8.71.2"
