@@ -74,6 +74,12 @@ pin. The fixes on these package lines are undici 6.29.1 and ip-address 10.7.4.
 See the [undici decompression advisory], [undici EventSource advisory], and
 [ip-address parsing advisory].
 
+The [setup-python v7.1.0 action lock] also pins undici 6.29.0 for its Node 24
+runtime. Both undici advisories include that version. Check the next action
+release for a patched runtime before changing its five workflow pins. The
+website's npm lock cannot update the action bundle.
+
+[setup-python v7.1.0 action lock]: https://github.com/actions/setup-python/blob/6d4fd22b20465ccc0f7354476588e8df7c9ca0e0/package-lock.json
 [undici decompression advisory]: https://github.com/advisories/GHSA-xjj6-f33q-929c
 [undici EventSource advisory]: https://github.com/advisories/GHSA-4qv8-2p9j-2685
 [ip-address parsing advisory]: https://github.com/advisories/GHSA-rxp7-6hxx-x8q5
