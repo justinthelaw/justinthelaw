@@ -3,12 +3,12 @@
 ## Local website
 
 Use the versions pinned in `.nvmrc`, `package.json`, and `.python-version`.
-The website currently targets Node 24 with npm 12.2.0. From the repository root:
+The website currently targets Node 24 with npm 12.2.1. From the repository root:
 
 ```bash
 nvm install
 nvm use
-npm install --global npm@12.2.0
+npm install --global npm@12.2.1
 ONNXRUNTIME_NODE_INSTALL=skip npm ci
 npm run dev
 ```
@@ -49,8 +49,23 @@ training/export environments and the required validation commands.
 
 ## Dependency decisions
 
-Treat manifests, lockfiles, and CI as current configuration. Website and game
-TypeScript lanes are intentionally separate; Node types follow the website's
-Node major. Review the dated [dependency records](dependency-upgrades/) before
-changing retained constraints, and record fresh evidence rather than treating
-an old version recommendation as current.
+The website and game use separate TypeScript versions. Keep the website's Node
+types on its Node major version. Use the manifests and lockfiles for exact pins.
+
+On October 24, 2026, the configured registry blocked the PostCSS 8.5.31 archive
+and nine archives in the ESLint React 5.28.1 release because of their age. The
+website uses PostCSS 8.5.30 and ESLint React 5.28.0 until the registry serves
+every archive for the newer versions. Before restoring either pin, check the
+full dependency graph, regenerate the lockfile with the pinned npm version, and
+run a cold install. Run `npm run flight-check` at the root and `npm run check`
+in `tools/pokemon-dungeon/`.
+
+npm 12.2.1 still bundles undici 6.29.0 and ip-address 10.7.2. Check the next
+stable npm release against the published advisory ranges before updating the CLI
+pin. The fixes on these package lines are undici 6.29.1 and ip-address 10.7.4.
+See the [undici decompression advisory], [undici EventSource advisory], and
+[ip-address parsing advisory].
+
+[undici decompression advisory]: https://github.com/advisories/GHSA-xjj6-f33q-929c
+[undici EventSource advisory]: https://github.com/advisories/GHSA-4qv8-2p9j-2685
+[ip-address parsing advisory]: https://github.com/advisories/GHSA-rxp7-6hxx-x8q5

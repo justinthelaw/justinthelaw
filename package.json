@@ -5,7 +5,7 @@
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
-  "packageManager": "npm@12.2.0",
+  "packageManager": "npm@12.2.1",
   "engines": {
     "node": ">=24.19.0 <25",
     "npm": ">=11.19.0"
@@ -37,7 +37,7 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "5.28.1",
+    "@eslint-react/eslint-plugin": "5.28.0",
     "@eslint/compat": "^2.1.1",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "1.64.1",
@@ -49,7 +49,7 @@
     "eslint": "^10.13.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "gh-pages": "^6.3.0",
-    "postcss": "^8.5.31",
+    "postcss": "8.5.30",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "8.71.2"
