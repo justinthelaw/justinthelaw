@@ -52,21 +52,24 @@ training/export environments and the required validation commands.
 The website and game use separate TypeScript versions. Keep the website's Node
 types on its Node major version. Use the manifests and lockfiles for exact pins.
 
-On October 25, 2026, the registry served all 13 ESLint React 5.28.1 packages.
-It still blocked the archives for ESLint React 5.28.5, PostCSS 8.5.31 and
-markdownlint-cli2 0.24.0. Keep PostCSS at 8.5.30 and the Markdown hook at
-0.23.3 until the registry serves their complete dependency graphs. For a new
-website pin, regenerate the lockfile with the pinned npm version and test a
-cold install. Run `npm run flight-check` at the root and `npm run check` in
-`tools/pokemon-dungeon/`.
+The October 25 registry recheck and cold install resolved the earlier archive
+availability deferrals: ESLint React 5.28.8, PostCSS 8.5.31 and
+markdownlint-cli2 0.24.0 are now available. For a new website pin, regenerate
+the lockfile with the pinned npm version and test a cold install. Run
+`npm run flight-check` at the root and `npm run check` in
+`tools/pokemon-dungeon/`. Keep website TypeScript below 6.1 while the selected
+typescript-eslint peer contract requires it; the isolated game tools use
+TypeScript 7 independently.
 
 The training and export locks use setuptools 84.1.0, the first release with
 the [Windows installer fix](https://github.com/advisories/GHSA-xmj3-9gf7-h52w).
-The registry served HTTPX2 and HTTPCore2 2.13.1 but did not list either 2.14.0
-release or Transformers 5.20.2. Keep the two HTTP packages at 2.13.1 and
-Transformers at 5.20.1 until those releases are available. Regenerate both
-Python locks with the [pipeline commands](../llm/AGENTS.md) and run both
-dependency audits before updating these pins.
+HTTPX2 and HTTPCore2 2.14.0 and Transformers 5.20.2 are now available and
+installed from regenerated hash locks, together with Hugging Face Hub 2.3.0.
+The HTTP packages use the smallest previously deferred target; newer 2.16.0
+releases are not needed for this change. Regenerate both Python locks with
+the [pipeline commands](../llm/AGENTS.md), check reproducibility, and run both
+dependency audits before updating these pins. CUDA packages remain owned by
+the supported PyTorch graph; do not force newer GPU-library versions into it.
 
 npm 12.2.1 still bundles undici 6.29.0 and ip-address 10.7.2. Check the next
 stable npm release against the published advisory ranges before updating the CLI

@@ -89,17 +89,17 @@ hf-xet==1.7.0 \
     --hash=sha256:fa029678be1ba7f953c409b0b27bf15cc69cd1c9b3a674fbd78856ebefca1052 \
     --hash=sha256:fcfd6c22418e57dd5b3aea649e813b2e2cfb2aebf317b210d90f1fe4b3018b52
     # via huggingface-hub
-httpcore2==2.13.1 \
-    --hash=sha256:e0aa977abe17e69a3b820a24542a6fa88702676d83880b8d194dcd18408e5103 \
-    --hash=sha256:e1e05d4f25f7d7d496bfb96748f6f4b67657b03da069b3a68c36069f3db73d0a
+httpcore2==2.14.0 \
+    --hash=sha256:4c4f64f4b544afeb778c42c0ffb5941b29e671157e90ed3f6dc787c4bca90cd1 \
+    --hash=sha256:4f57a1a8249fe6af589d935cfd456f1d13bbdcb0f0fc72af9142368fc94811d7
     # via httpx2
-httpx2==2.13.1 \
-    --hash=sha256:6dff50fabc270ee5fd25d845d0b078ed20564579744d6d962850975996d2f9a4 \
-    --hash=sha256:e48744a19e3af5ee48313d0ce5fe941d5422fae5705ea922a4aabf94d7800dfa
+httpx2==2.14.0 \
+    --hash=sha256:47ad61a3c40282cd8d0dc96311531f00f5bfc71a066c6fe3b36d8f63fb9e4f6e \
+    --hash=sha256:9d20c13a10bae1773a0be3b0f1e5beeb4bdd549bc3a2ba18efa32897c65403e4
     # via huggingface-hub
-huggingface-hub==2.2.0 \
-    --hash=sha256:1667f145dc56dc210d60966069397df9ecfca9607a5d43db88b308c89dae56b3 \
-    --hash=sha256:5d1b47537394e4215cb858aa12fd493d0f7ef7f58990f5dcd24bc173107b2871
+huggingface-hub==2.3.0 \
+    --hash=sha256:0b783b37f200f1d25bef2344a997c7d410f4437fbe9d8fd965f958e75cec7aef \
+    --hash=sha256:5da369600233568a126eb5578754935b2add9446b42d9e2fc0927d56840ac1a5
     # via
     #   -r llm/requirements-export.txt
     #   tokenizers
@@ -938,9 +938,9 @@ tqdm==4.70.1 \
     # via
     #   huggingface-hub
     #   transformers
-transformers==5.20.1 \
-    --hash=sha256:25b30879e4c243f00630c1079171ede6d4f6bf76e68f978acd47628a640bc8a0 \
-    --hash=sha256:5f51ce444193e5d0a751e3fa489ddbc2224ff12f6675a5cfefd4044b09757c19
+transformers==5.20.2 \
+    --hash=sha256:080871e061546d720be57f5846fce426f46b44d61574907cc7404c2cba49d180 \
+    --hash=sha256:7ae75dbc1fb3922aff1b6c97b9e5479d6cf26fd86a8866bfb71324190479f807
     # via -r llm/requirements-export.txt
 triton==3.8.0 \
     --hash=sha256:1b84e7d512490ba529111260fa6f7cad8b254a6bb5fbdf41d5ef9a5e57f52d0a \
