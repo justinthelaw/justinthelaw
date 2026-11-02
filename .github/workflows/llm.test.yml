@@ -33,7 +33,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install uv
-        run: python -m pip install uv==0.13.1
+        run: python -m pip install uv==0.13.6
 
       - name: Verify Manifest-to-Lock Consistency
         run: |
@@ -60,7 +60,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install Test Runner
-        run: python -m pip install pytest==9.1.1
+        run: python -m pip install pytest==9.2.0
 
       - name: Run Profile-QA Unit Tests
         run: PYTHONPATH=. python -m pytest llm/tests
@@ -79,7 +79,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install uv
-        run: python -m pip install uv==0.13.1
+        run: python -m pip install uv==0.13.6
 
       - name: Recreate Locked Training Environment
         run: |
@@ -130,7 +130,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install uv
-        run: python -m pip install uv==0.13.1
+        run: python -m pip install uv==0.13.6
 
       - name: Recreate Locked Exporter Environment
         run: |
@@ -158,7 +158,7 @@ jobs:
         run: uvx pip-audit==2.10.1 -r llm/requirements-export.lock
 
       - name: Install Test Runner
-        run: uv pip install --python llm/.venv-export pytest==9.1.1
+        run: uv pip install --python llm/.venv-export pytest==9.2.0
 
       - name: Verify Native Exporter Contract Offline
         env:
